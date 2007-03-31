@@ -28,7 +28,7 @@
     </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -51,7 +51,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -93,24 +93,20 @@
     <Reference Include="UIAdapterInterfaces, Version=1.2.0.9, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\distfiles\UIAdapterInterfaces.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
-    <ProjectReference Include="..\..\common\AudioUtils\AudioUtils.csproj">
+    <ProjectReference Include="..\AudioUtils\AudioUtils.csproj">
       <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
       <Name>AudioUtils</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+    <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
+    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
@@ -127,6 +123,10 @@
       <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
       <Name>PaResources</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -266,7 +266,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PatternTextBox.Designer.cs">
       <DependentUpon>PatternTextBox.cs</DependentUpon>

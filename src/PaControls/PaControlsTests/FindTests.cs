@@ -26,8 +26,8 @@ using System.Windows.Forms;
 using NUnit.Framework;
 using SIL.SpeechTools.Utils;
 using SIL.SpeechTools.TestUtils;
-using SIL.SpeechTools.Database;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Data;
 
 namespace SIL.Pa.Controls
 {
@@ -58,7 +58,7 @@ namespace SIL.Pa.Controls
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DBUtils.LoadIPACharCache(null);
+			DataUtils.LoadIPACharCache(null);
 
 			PaProject proj = new PaProject(true);
 			proj.Language = "dummy";

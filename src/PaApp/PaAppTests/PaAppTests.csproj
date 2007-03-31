@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,13 +49,17 @@
     <Compile Include="WordCacheEntryTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\common\DataUtils\DataUtils.csproj">
-      <Project>{8B8416D0-F102-4C9B-B9FC-2914B5439256}</Project>
-      <Name>DataUtils</Name>
+    <ProjectReference Include="..\..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
+      <Name>SpeechToolsUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\common\TestUtils\TestUtils.csproj">
+    <ProjectReference Include="..\..\Common\TestUtils\TestUtils.csproj">
       <Project>{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}</Project>
       <Name>TestUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>

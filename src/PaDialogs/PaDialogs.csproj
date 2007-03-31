@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,7 +22,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,12 +31,12 @@
     <Reference Include="PaApp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Output\Debug\PaApp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PaResources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Output\Debug\PaResources.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -46,7 +46,7 @@
     <Reference Include="UIAdapterInterfaces, Version=1.2.0.9, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\UIAdapterInterfaces.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -254,17 +254,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+    <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
+    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
@@ -275,6 +271,10 @@
       <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>
       <Name>PaControls</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

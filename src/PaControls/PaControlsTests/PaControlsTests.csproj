@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,10 +30,6 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DBUtils, Version=1.0.2572.25469, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Output\Debug\DBUtils.dll</HintPath>
-    </Reference>
     <Reference Include="FFSearchEngine, Version=1.0.2572.25470, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Output\Debug\FFSearchEngine.dll</HintPath>
@@ -42,19 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\NUnit\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SpeechToolsUtils, Version=1.0.2600.19316, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestUtils, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Output\Debug\TestUtils.dll</HintPath>
-    </Reference>
-    <Reference Include="xCoreInterfaces, Version=1.2.0.9, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Output\Debug\xCoreInterfaces.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FindTests.cs" />
@@ -62,9 +49,25 @@
     <Compile Include="RawRecordViewTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
+      <Name>SpeechToolsUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\TestUtils\TestUtils.csproj">
+      <Project>{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}</Project>
+      <Name>TestUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\PaApp\PaApp.csproj">
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
       <Name>PaApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
     </ProjectReference>
     <ProjectReference Include="..\PaControls.csproj">
       <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>

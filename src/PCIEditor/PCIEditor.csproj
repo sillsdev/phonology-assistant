@@ -34,7 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,17 +51,17 @@
     <Reference Include="PaApp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Output\Debug\PaApp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PaDialogs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Output\Debug\PaDialogs.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SpeechToolsUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Output\Debug\SpeechToolsUtils.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -113,11 +113,11 @@
     <Content Include="PCIEditor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
+    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
+    <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
     </ProjectReference>

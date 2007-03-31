@@ -28,7 +28,7 @@
     </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -52,7 +52,7 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -89,11 +89,6 @@
     </Reference>
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
-    </Reference>
-    <Reference Include="UIAdapterInterfaces, Version=1.2.0.9, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\distfiles\UIAdapterInterfaces.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -150,22 +145,18 @@
     <Compile Include="WordListCacheEntry.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\AudioUtils\AudioUtils.csproj">
+    <ProjectReference Include="..\AudioUtils\AudioUtils.csproj">
       <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
       <Name>AudioUtils</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+    <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
+    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
@@ -176,6 +167,14 @@
       <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
       <Name>PaResources</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
+      <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
+      <Name>UIAdapterInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -213,30 +212,30 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(TargetDir)..\..\DistFiles\pa\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\FFSearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\PhoneticCharacterInventory.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DefaultAFeatures.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DefaultBFeatures.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\ChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\FwData-LexemeForm.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\FwData-PronunciationField.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\FwVernacularWs.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\pa\FwAnalysisWs.sql" "$(ProjectDir)$(OutDir)"
+    <PreBuildEvent>copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FFSearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultAFeatures.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultBFeatures.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\ChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwData-LexemeForm.sql" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwData-PronunciationField.sql" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwVernacularWs.sql" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwAnalysisWs.sql" "$(ProjectDir)$(OutDir)"
 md "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\pa\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\pa\Using_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\pa\PA Exercises.doc" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\pa\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\pa\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Helps"</PreBuildEvent>
+copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
+copy "$(TargetDir)..\..\DistFiles\Using_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
+copy "$(TargetDir)..\..\DistFiles\PA Exercises.doc" "$(ProjectDir)$(OutDir)\Helps"
+copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Helps"
+copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Helps"</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>

@@ -26,7 +26,7 @@
     </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -49,7 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <OutputPath>..\..\Output\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -99,18 +99,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+    <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
     </ProjectReference>
     <ProjectReference Include="..\PADll\PaDll.csproj">
       <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
       <Name>PaDll</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
