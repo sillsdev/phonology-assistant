@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAFeature>
+  <AFeature Bit="0" Name="Consonant">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="1" Name="Vowel">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="2" Name="Voiceless">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="3" Name="Voiced">
+    <MaskNumber>0</MaskNumber>
+    <Mask>8</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="4" Name="Bilabial">
+    <MaskNumber>0</MaskNumber>
+    <Mask>16</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="5" Name="Labiodental">
+    <MaskNumber>0</MaskNumber>
+    <Mask>32</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="6" Name="Dental">
+    <MaskNumber>0</MaskNumber>
+    <Mask>64</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="7" Name="Alveolar">
+    <MaskNumber>0</MaskNumber>
+    <Mask>128</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="8" Name="Postalveolar">
+    <MaskNumber>0</MaskNumber>
+    <Mask>256</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="9" Name="Retroflex">
+    <MaskNumber>0</MaskNumber>
+    <Mask>512</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="10" Name="Palatal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1024</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="11" Name="Velar">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2048</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="12" Name="Uvular">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4096</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="13" Name="Pharyngeal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>8192</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="14" Name="Glottal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>16384</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="15" Name="Plosive">
+    <MaskNumber>0</MaskNumber>
+    <Mask>32768</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="16" Name="Nasal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>65536</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="17" Name="Trill">
+    <MaskNumber>0</MaskNumber>
+    <Mask>131072</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="18" Name="Tap/Flap">
+    <MaskNumber>0</MaskNumber>
+    <Mask>262144</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="19" Name="Fricative">
+    <MaskNumber>0</MaskNumber>
+    <Mask>524288</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="20" Name="Lateral Fricative">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1048576</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="21" Name="Approximant">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2097152</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="22" Name="Lateral Approximant">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4194304</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="23" Name="Click">
+    <MaskNumber>0</MaskNumber>
+    <Mask>8388608</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="24" Name="Voiced Implosive">
+    <MaskNumber>0</MaskNumber>
+    <Mask>16777216</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="25" Name="Ejective">
+    <MaskNumber>0</MaskNumber>
+    <Mask>33554432</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="26" Name="Labial">
+    <MaskNumber>0</MaskNumber>
+    <Mask>67108864</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="27" Name="Epiglottal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>134217728</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="28" Name="Lateral">
+    <MaskNumber>0</MaskNumber>
+    <Mask>268435456</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="29" Name="Affricate">
+    <MaskNumber>0</MaskNumber>
+    <Mask>536870912</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="30" Name="Double Articulation">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1073741824</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="31" Name="Front">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2147483648</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="32" Name="Near Front">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4294967296</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="33" Name="Central">
+    <MaskNumber>0</MaskNumber>
+    <Mask>8589934592</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="34" Name="Near-back">
+    <MaskNumber>0</MaskNumber>
+    <Mask>17179869184</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="35" Name="Back">
+    <MaskNumber>0</MaskNumber>
+    <Mask>34359738368</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="36" Name="Close">
+    <MaskNumber>0</MaskNumber>
+    <Mask>68719476736</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="37" Name="Near-close">
+    <MaskNumber>0</MaskNumber>
+    <Mask>137438953472</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="38" Name="Close-mid">
+    <MaskNumber>0</MaskNumber>
+    <Mask>274877906944</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="39" Name="Mid">
+    <MaskNumber>0</MaskNumber>
+    <Mask>549755813888</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="40" Name="Open-mid">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1099511627776</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="41" Name="Near-open">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2199023255552</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="42" Name="Open">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4398046511104</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="43" Name="Aspirated">
+    <MaskNumber>0</MaskNumber>
+    <Mask>8796093022208</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="44" Name="More Rounded">
+    <MaskNumber>0</MaskNumber>
+    <Mask>17592186044416</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="45" Name="Less Rounded">
+    <MaskNumber>0</MaskNumber>
+    <Mask>35184372088832</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="46" Name="Advanced">
+    <MaskNumber>0</MaskNumber>
+    <Mask>70368744177664</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="47" Name="Retracted">
+    <MaskNumber>0</MaskNumber>
+    <Mask>140737488355328</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="48" Name="Centralized">
+    <MaskNumber>0</MaskNumber>
+    <Mask>281474976710656</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="49" Name="Mid-centralized">
+    <MaskNumber>0</MaskNumber>
+    <Mask>562949953421312</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="50" Name="Syllabic">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1125899906842624</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="51" Name="Non-syllabic">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2251799813685248</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="52" Name="Rhoticity">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4503599627370496</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="53" Name="Breathy Voiced">
+    <MaskNumber>0</MaskNumber>
+    <Mask>9007199254740992</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="54" Name="Creaky Voiced">
+    <MaskNumber>0</MaskNumber>
+    <Mask>18014398509481984</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="55" Name="Linguolabial">
+    <MaskNumber>0</MaskNumber>
+    <Mask>36028797018963968</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="56" Name="Raised">
+    <MaskNumber>0</MaskNumber>
+    <Mask>72057594037927936</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="57" Name="Lowered">
+    <MaskNumber>0</MaskNumber>
+    <Mask>144115188075855872</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="58" Name="Advanced Tongue Root">
+    <MaskNumber>0</MaskNumber>
+    <Mask>288230376151711744</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="59" Name="Retracted Tongue Root">
+    <MaskNumber>0</MaskNumber>
+    <Mask>576460752303423488</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="60" Name="Apical">
+    <MaskNumber>0</MaskNumber>
+    <Mask>1152921504606846976</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="61" Name="Laminal">
+    <MaskNumber>0</MaskNumber>
+    <Mask>2305843009213693952</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="62" Name="Release">
+    <MaskNumber>0</MaskNumber>
+    <Mask>4611686018427387904</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="63" Name="No Audible Release">
+    <MaskNumber>0</MaskNumber>
+    <Mask>9223372036854775808</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="64" Name="Extra High Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="65" Name="High Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="66" Name="Mid Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="67" Name="Low Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>8</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="68" Name="Extra Low Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>16</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="69" Name="High Falling Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>32</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="70" Name="High Rising Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>64</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="71" Name="Low Falling Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>128</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="72" Name="Low Rising Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>256</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="73" Name="Tone Falling">
+    <MaskNumber>1</MaskNumber>
+    <Mask>512</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="74" Name="Tone Rising">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1024</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="75" Name="Rising-Falling Tone">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2048</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="76" Name="Downstep">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4096</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="77" Name="Upstep">
+    <MaskNumber>1</MaskNumber>
+    <Mask>8192</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="78" Name="Global Rise">
+    <MaskNumber>1</MaskNumber>
+    <Mask>16384</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="79" Name="Global Fall">
+    <MaskNumber>1</MaskNumber>
+    <Mask>32768</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="80" Name="Primary Stress">
+    <MaskNumber>1</MaskNumber>
+    <Mask>65536</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="81" Name="Secondary Stress">
+    <MaskNumber>1</MaskNumber>
+    <Mask>131072</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="82" Name="Long">
+    <MaskNumber>1</MaskNumber>
+    <Mask>262144</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="83" Name="Half-long">
+    <MaskNumber>1</MaskNumber>
+    <Mask>524288</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="84" Name="Extra-short">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1048576</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="85" Name="Minor (foot) Group">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2097152</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="86" Name="Major (intonation) Group">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4194304</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="87" Name="Syllable Break">
+    <MaskNumber>1</MaskNumber>
+    <Mask>8388608</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="88" Name="Linking (absence of break)">
+    <MaskNumber>1</MaskNumber>
+    <Mask>16777216</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="89" Name="Rounded">
+    <MaskNumber>1</MaskNumber>
+    <Mask>33554432</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="90" Name="Unrounded">
+    <MaskNumber>1</MaskNumber>
+    <Mask>67108864</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="91" Name="Labialized">
+    <MaskNumber>1</MaskNumber>
+    <Mask>134217728</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="92" Name="Velarized">
+    <MaskNumber>1</MaskNumber>
+    <Mask>268435456</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="93" Name="Palatized">
+    <MaskNumber>1</MaskNumber>
+    <Mask>536870912</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="94" Name="Pharyngelized">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1073741824</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="95" Name="Base Consonant">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2147483648</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="96" Name="Base Vowel">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4294967296</Mask>
+    <IsCustomFeature>false</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="97" Name="_~blank0">
+    <MaskNumber>1</MaskNumber>
+    <Mask>8589934592</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="98" Name="_~blank1">
+    <MaskNumber>1</MaskNumber>
+    <Mask>17179869184</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="99" Name="_~blank2">
+    <MaskNumber>1</MaskNumber>
+    <Mask>34359738368</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="100" Name="_~blank3">
+    <MaskNumber>1</MaskNumber>
+    <Mask>68719476736</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="101" Name="_~blank4">
+    <MaskNumber>1</MaskNumber>
+    <Mask>137438953472</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="102" Name="_~blank5">
+    <MaskNumber>1</MaskNumber>
+    <Mask>274877906944</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="103" Name="_~blank6">
+    <MaskNumber>1</MaskNumber>
+    <Mask>549755813888</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="104" Name="_~blank7">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1099511627776</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="105" Name="_~blank8">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2199023255552</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="106" Name="_~blank9">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4398046511104</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="107" Name="_~blank10">
+    <MaskNumber>1</MaskNumber>
+    <Mask>8796093022208</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="108" Name="_~blank11">
+    <MaskNumber>1</MaskNumber>
+    <Mask>17592186044416</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="109" Name="_~blank12">
+    <MaskNumber>1</MaskNumber>
+    <Mask>35184372088832</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="110" Name="_~blank13">
+    <MaskNumber>1</MaskNumber>
+    <Mask>70368744177664</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="111" Name="_~blank14">
+    <MaskNumber>1</MaskNumber>
+    <Mask>140737488355328</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="112" Name="_~blank15">
+    <MaskNumber>1</MaskNumber>
+    <Mask>281474976710656</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="113" Name="_~blank16">
+    <MaskNumber>1</MaskNumber>
+    <Mask>562949953421312</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="114" Name="_~blank17">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1125899906842624</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="115" Name="_~blank18">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2251799813685248</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="116" Name="_~blank19">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4503599627370496</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="117" Name="_~blank20">
+    <MaskNumber>1</MaskNumber>
+    <Mask>9007199254740992</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="118" Name="_~blank21">
+    <MaskNumber>1</MaskNumber>
+    <Mask>18014398509481984</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="119" Name="_~blank22">
+    <MaskNumber>1</MaskNumber>
+    <Mask>36028797018963968</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="120" Name="_~blank23">
+    <MaskNumber>1</MaskNumber>
+    <Mask>72057594037927936</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="121" Name="_~blank24">
+    <MaskNumber>1</MaskNumber>
+    <Mask>144115188075855872</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="122" Name="_~blank25">
+    <MaskNumber>1</MaskNumber>
+    <Mask>288230376151711744</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="123" Name="_~blank26">
+    <MaskNumber>1</MaskNumber>
+    <Mask>576460752303423488</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="124" Name="_~blank27">
+    <MaskNumber>1</MaskNumber>
+    <Mask>1152921504606846976</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="125" Name="_~blank28">
+    <MaskNumber>1</MaskNumber>
+    <Mask>2305843009213693952</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="126" Name="_~blank29">
+    <MaskNumber>1</MaskNumber>
+    <Mask>4611686018427387904</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+  <AFeature Bit="127" Name="_~blank30">
+    <MaskNumber>1</MaskNumber>
+    <Mask>9223372036854775808</Mask>
+    <IsCustomFeature>true</IsCustomFeature>
+  </AFeature>
+</ArrayOfAFeature>
