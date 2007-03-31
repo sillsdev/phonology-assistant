@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildProcess ApplicationName="PA" MailServer="mail.jaars.org" MailSender="david_olson@sil.org">
+	<MailRecipients>
+		<MailAddress Address="david_olson@sil.org" />
+		<!-- MailAddress Address="todd_jones@sil.org" /-->
+	</MailRecipients>
+	<svninfo>
+		<executable>c:\program files\subversion\bin\svn.exe</executable>
+		<repositoryurl>https://svn.sil.org/langsw/speechtools/trunk/src/pa</repositoryurl>
+	</svninfo>
+	<MSBuildInfo exepath="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727">
+		<solutionfile>c:\speechtools\trunk\src\pa\pa.sln</solutionfile>
+		<projectfile></projectfile>
+		<targets></targets>
+		<properties>Configuration=Release</properties>
+		<loggerclass>DoBuilder.MSBuildLogger</loggerclass>
+		<loggerassembly>c:\speechtools\trunk\DoBuilder.exe</loggerassembly>
+		<loggerargs>logfile="c:\speechtools\trunk\Pa-MSBuild.log"</loggerargs>
+	</MSBuildInfo>
+	<PreBuildCommands>
+		<Commands>
+			<CommandItem Command="del">
+				<Arg>C:\speechtools\Installer Files\Phonology Assistant\*.*</Arg>
+				<Arg>C:\speechtools\Installer Files\Phonology Assistant\Helps\*.*</Arg>
+				<Arg>c:\speechtools\trunk\output\release\*.*</Arg>
+				<Arg>c:\speechtools\trunk\output\release\Helps\*.*</Arg>
+			</CommandItem>
+			<CommandItem Command="del">
+				<Arg>C:\speechtools\trunk\distfiles\pa\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\FFsearchengine\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\FFsearchengine\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\FFsearchengine\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaApp\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaApp\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaApp\resources\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaApp\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaControls\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaControls\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaControls\resources\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaControls\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDialogs\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDialogs\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDialogs\resources\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDialogs\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDll\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDll\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDll\resources\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaDll\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaExe\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaExe\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaResources\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaResources\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\PaResources\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\pcieditor\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\pcieditor\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\pa\pcieditor\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\audioutils\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\audioutils\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\audioutils\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\datautils\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\datautils\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\datautils\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\uiadapter (framework 2.0)\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\uiadapter (framework 2.0)\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\uiadapterinterfaces\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\uiadapterinterfaces\obj\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\xCoreMediator\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\xCoreMediator\properties\*.*</Arg>
+				<Arg>c:\speechtools\trunk\src\common\xCoreMediator\obj\*.*</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>update</Arg>
+				<Arg>https://svn.sil.org/langsw/speechtools/trunk/src</Arg>
+				<Arg>C:\speechtools\trunk\src</Arg>
+				<Arg>--non-interactive</Arg>
+				<Arg>--username david_olson</Arg>
+				<Arg>--password 1cecream</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>update</Arg>
+				<Arg>https://svn.sil.org/langsw/speechtools/trunk/distfiles/pa</Arg>
+				<Arg>C:\speechtools\trunk\distfiles\pa</Arg>
+				<Arg>--non-interactive</Arg>
+				<Arg>--username david_olson</Arg>
+				<Arg>--password 1cecream</Arg>
+			</CommandItem>
+		</Commands>
+	</PreBuildCommands>
+	<PostBuildCommands>
+		<Commands>
+			<CommandItem Command="del">
+				<Arg>C:\speechtools\trunk\output\release\*.tlb</Arg>
+				<Arg>C:\speechtools\trunk\output\release\pa.xml</Arg>
+				<Arg>C:\speechtools\trunk\output\release\speechtools.xml</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>update</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Phonology Assistant"</Arg>
+				<Arg>"C:\speechtools\Installer Files\Phonology Assistant"</Arg>
+				<Arg>--non-interactive</Arg>
+				<Arg>--username wenger</Arg>
+				<Arg>--password svnwenger</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\speechtools\trunk\output\release\*.*</Arg>
+				<Arg>C:\speechtools\Installer Files\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\speechtools\trunk\output\release\helps\*.*</Arg>
+				<Arg>C:\speechtools\Installer Files\Phonology Assistant\helps</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>commit</Arg>
+				<Arg>-m "Automatic PA Build"</Arg>
+				<Arg>"C:\speechtools\Installer Files\Phonology Assistant"</Arg>
+				<Arg>--non-interactive</Arg>
+				<Arg>--username wenger</Arg>
+				<Arg>--password svnwenger</Arg>
+			</CommandItem>
+		</Commands>
+	</PostBuildCommands>
+</BuildProcess>
