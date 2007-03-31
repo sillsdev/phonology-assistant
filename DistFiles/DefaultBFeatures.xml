@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfBFeature>
+  <BFeature Bit="0" Name="Consonantal">
+    <PlusMask>1</PlusMask>
+    <MinusMask>2</MinusMask>
+  </BFeature>
+  <BFeature Bit="2" Name="Syllabic">
+    <PlusMask>4</PlusMask>
+    <MinusMask>8</MinusMask>
+  </BFeature>
+  <BFeature Bit="4" Name="Sonorant">
+    <PlusMask>16</PlusMask>
+    <MinusMask>32</MinusMask>
+  </BFeature>
+  <BFeature Bit="6" Name="High">
+    <PlusMask>64</PlusMask>
+    <MinusMask>128</MinusMask>
+  </BFeature>
+  <BFeature Bit="8" Name="Back">
+    <PlusMask>256</PlusMask>
+    <MinusMask>512</MinusMask>
+  </BFeature>
+  <BFeature Bit="10" Name="Low">
+    <PlusMask>1024</PlusMask>
+    <MinusMask>2048</MinusMask>
+  </BFeature>
+  <BFeature Bit="12" Name="Anterior">
+    <PlusMask>4096</PlusMask>
+    <MinusMask>8192</MinusMask>
+  </BFeature>
+  <BFeature Bit="14" Name="Coronal">
+    <PlusMask>16384</PlusMask>
+    <MinusMask>32768</MinusMask>
+  </BFeature>
+  <BFeature Bit="16" Name="Voice">
+    <PlusMask>65536</PlusMask>
+    <MinusMask>131072</MinusMask>
+  </BFeature>
+  <BFeature Bit="18" Name="Continuant articulatory">
+    <PlusMask>262144</PlusMask>
+    <MinusMask>524288</MinusMask>
+  </BFeature>
+  <BFeature Bit="20" Name="Nasal">
+    <PlusMask>1048576</PlusMask>
+    <MinusMask>2097152</MinusMask>
+  </BFeature>
+  <BFeature Bit="22" Name="Strident">
+    <PlusMask>4194304</PlusMask>
+    <MinusMask>8388608</MinusMask>
+  </BFeature>
+  <BFeature Bit="24" Name="Lateral">
+    <PlusMask>16777216</PlusMask>
+    <MinusMask>33554432</MinusMask>
+  </BFeature>
+  <BFeature Bit="26" Name="Round">
+    <PlusMask>67108864</PlusMask>
+    <MinusMask>134217728</MinusMask>
+  </BFeature>
+  <BFeature Bit="28" Name="ATR">
+    <PlusMask>268435456</PlusMask>
+    <MinusMask>536870912</MinusMask>
+  </BFeature>
+  <BFeature Bit="30" Name="Delayed release">
+    <PlusMask>1073741824</PlusMask>
+    <MinusMask>2147483648</MinusMask>
+  </BFeature>
+  <BFeature Bit="32" Name="Hyper anterior">
+    <PlusMask>4294967296</PlusMask>
+    <MinusMask>8589934592</MinusMask>
+  </BFeature>
+  <BFeature Bit="34" Name="Labial">
+    <PlusMask>17179869184</PlusMask>
+    <MinusMask>34359738368</MinusMask>
+  </BFeature>
+  <BFeature Bit="36" Name="Epiglottal">
+    <PlusMask>68719476736</PlusMask>
+    <MinusMask>137438953472</MinusMask>
+  </BFeature>
+  <BFeature Bit="38" Name="Distributed">
+    <PlusMask>274877906944</PlusMask>
+    <MinusMask>549755813888</MinusMask>
+  </BFeature>
+  <BFeature Bit="40" Name="Dorsal">
+    <PlusMask>1099511627776</PlusMask>
+    <MinusMask>2199023255552</MinusMask>
+  </BFeature>
+  <BFeature Bit="42" Name="Spread glottis">
+    <PlusMask>4398046511104</PlusMask>
+    <MinusMask>8796093022208</MinusMask>
+  </BFeature>
+  <BFeature Bit="44" Name="Constricted glottis (pressure)">
+    <PlusMask>17592186044416</PlusMask>
+    <MinusMask>35184372088832</MinusMask>
+  </BFeature>
+  <BFeature Bit="46" Name="Front">
+    <PlusMask>70368744177664</PlusMask>
+    <MinusMask>140737488355328</MinusMask>
+  </BFeature>
+  <BFeature Bit="48" Name="Implosive">
+    <PlusMask>281474976710656</PlusMask>
+    <MinusMask>562949953421312</MinusMask>
+  </BFeature>
+  <BFeature Bit="50" Name="Trill">
+    <PlusMask>1125899906842624</PlusMask>
+    <MinusMask>2251799813685248</MinusMask>
+  </BFeature>
+  <BFeature Bit="52" Name="Continuant acoustic">
+    <PlusMask>4503599627370496</PlusMask>
+    <MinusMask>9007199254740992</MinusMask>
+  </BFeature>
+  <BFeature Bit="54" Name="Labio-dental">
+    <PlusMask>18014398509481984</PlusMask>
+    <MinusMask>36028797018963968</MinusMask>
+  </BFeature>
+  <BFeature Bit="56" Name="Click (glottal suction)">
+    <PlusMask>72057594037927936</PlusMask>
+    <MinusMask>144115188075855872</MinusMask>
+  </BFeature>
+  <BFeature Bit="58" Name="Flap">
+    <PlusMask>288230376151711744</PlusMask>
+    <MinusMask>576460752303423488</MinusMask>
+  </BFeature>
+  <BFeature Bit="60" Name="Tense">
+    <PlusMask>1152921504606846976</PlusMask>
+    <MinusMask>2305843009213693952</MinusMask>
+  </BFeature>
+  <BFeature Bit="62" Name="RTR">
+    <PlusMask>4611686018427387904</PlusMask>
+    <MinusMask>9223372036854775808</MinusMask>
+  </BFeature>
+</ArrayOfBFeature>
