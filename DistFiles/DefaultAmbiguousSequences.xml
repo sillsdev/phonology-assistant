@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAmbiguousSequence>
+	<AmbiguousSequence Convert="true" Unit="˩˥" BaseChar="˩"/>
+	<AmbiguousSequence Convert="true" Unit="˥˩" BaseChar="˥"/>
+	<AmbiguousSequence Convert="true" Unit="˦˥" BaseChar="˦"/>
+	<AmbiguousSequence Convert="true" Unit="˩˨" BaseChar="˩"/>
+	<AmbiguousSequence Convert="true" Unit="˦˥˦" BaseChar="˦"/>
+	<AmbiguousSequence Convert="true" Unit="˧˩" BaseChar="˧"/>
+	<AmbiguousSequence Convert="true" Unit="˥˧" BaseChar="˥"/>
+</ArrayOfAmbiguousSequence>
