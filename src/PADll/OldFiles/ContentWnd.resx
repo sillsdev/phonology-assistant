@@ -1,0 +1,1830 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="scTrans.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tvContents.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tvContents.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 30</value>
+  </data>
+  <data name="tvContents.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 435</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tvContents.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tvContents.Name" xml:space="preserve">
+    <value>tvContents</value>
+  </data>
+  <data name="&gt;&gt;tvContents.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tvContents.Parent" xml:space="preserve">
+    <value>scTrans.Panel1</value>
+  </data>
+  <data name="&gt;&gt;tvContents.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblContents.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblContents.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblContents.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblContents.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 38</value>
+  </data>
+  <data name="lblContents.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 15</value>
+  </data>
+  <data name="lblContents.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblContents.Text" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="&gt;&gt;lblContents.Name" xml:space="preserve">
+    <value>lblContents</value>
+  </data>
+  <data name="&gt;&gt;lblContents.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblContents.Parent" xml:space="preserve">
+    <value>scTrans.Panel1</value>
+  </data>
+  <data name="&gt;&gt;lblContents.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scTrans.Panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 30, 0, 6</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel1.Name" xml:space="preserve">
+    <value>scTrans.Panel1</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel1.Parent" xml:space="preserve">
+    <value>scTrans</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scTrans.Panel1MinSize" type="System.Int32, mscorlib">
+    <value>200</value>
+  </data>
+  <data name="ltbTransWnd3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ltbTransWnd3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 286</value>
+  </data>
+  <data name="ltbTransWnd3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ltbTransWnd3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="ltbTransWnd3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 139</value>
+  </data>
+  <data name="ltbTransWnd3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd3.Name" xml:space="preserve">
+    <value>ltbTransWnd3</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd3.Type" xml:space="preserve">
+    <value>SIL.Pa.LabelledTextBox, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd3.Parent" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitter2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="splitter2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="splitter2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 278</value>
+  </data>
+  <data name="splitter2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 8</value>
+  </data>
+  <data name="splitter2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;splitter2.Name" xml:space="preserve">
+    <value>splitter2</value>
+  </data>
+  <data name="&gt;&gt;splitter2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitter2.Parent" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;splitter2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ltbTransWnd2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ltbTransWnd2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 146</value>
+  </data>
+  <data name="ltbTransWnd2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ltbTransWnd2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="ltbTransWnd2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 132</value>
+  </data>
+  <data name="ltbTransWnd2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd2.Name" xml:space="preserve">
+    <value>ltbTransWnd2</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd2.Type" xml:space="preserve">
+    <value>SIL.Pa.LabelledTextBox, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd2.Parent" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="splitter1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="splitter1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="splitter1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 138</value>
+  </data>
+  <data name="splitter1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 8</value>
+  </data>
+  <data name="splitter1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Name" xml:space="preserve">
+    <value>splitter1</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitter1.Parent" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;splitter1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ltbTransWnd1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ltbTransWnd1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 6</value>
+  </data>
+  <data name="ltbTransWnd1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ltbTransWnd1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="ltbTransWnd1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 132</value>
+  </data>
+  <data name="ltbTransWnd1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd1.Name" xml:space="preserve">
+    <value>ltbTransWnd1</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd1.Type" xml:space="preserve">
+    <value>SIL.Pa.LabelledTextBox, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd1.Parent" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;ltbTransWnd1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tpgTrans.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tpgTrans.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 6, 6</value>
+  </data>
+  <data name="tpgTrans.Size" type="System.Drawing.Size, System.Drawing">
+    <value>372, 431</value>
+  </data>
+  <data name="tpgTrans.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tpgTrans.Text" xml:space="preserve">
+    <value>Transcription</value>
+  </data>
+  <data name="&gt;&gt;tpgTrans.Name" xml:space="preserve">
+    <value>tpgTrans</value>
+  </data>
+  <data name="&gt;&gt;tpgTrans.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgTrans.Parent" xml:space="preserve">
+    <value>tabDocViews</value>
+  </data>
+  <data name="&gt;&gt;tpgTrans.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgColView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tpgColView.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 6, 6</value>
+  </data>
+  <data name="tpgColView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>372, 431</value>
+  </data>
+  <data name="tpgColView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tpgColView.Text" xml:space="preserve">
+    <value>Column View</value>
+  </data>
+  <data name="&gt;&gt;tpgColView.Name" xml:space="preserve">
+    <value>tpgColView</value>
+  </data>
+  <data name="&gt;&gt;tpgColView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgColView.Parent" xml:space="preserve">
+    <value>tabDocViews</value>
+  </data>
+  <data name="&gt;&gt;tpgColView.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel4.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="grpSpeaker.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="rbMale.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="rbMale.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbMale.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMale.Location" type="System.Drawing.Point, System.Drawing">
+    <value>137, 18</value>
+  </data>
+  <data name="rbMale.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 19</value>
+  </data>
+  <data name="rbMale.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rbMale.Text" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="&gt;&gt;rbMale.Name" xml:space="preserve">
+    <value>rbMale</value>
+  </data>
+  <data name="&gt;&gt;rbMale.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMale.Parent" xml:space="preserve">
+    <value>grpSpeaker</value>
+  </data>
+  <data name="&gt;&gt;rbMale.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbFemale.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="rbFemale.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbFemale.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbFemale.Location" type="System.Drawing.Point, System.Drawing">
+    <value>137, 37</value>
+  </data>
+  <data name="rbFemale.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 19</value>
+  </data>
+  <data name="rbFemale.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rbFemale.Text" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="&gt;&gt;rbFemale.Name" xml:space="preserve">
+    <value>rbFemale</value>
+  </data>
+  <data name="&gt;&gt;rbFemale.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbFemale.Parent" xml:space="preserve">
+    <value>grpSpeaker</value>
+  </data>
+  <data name="&gt;&gt;rbFemale.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cboSpeaker.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboSpeaker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 27</value>
+  </data>
+  <data name="cboSpeaker.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="cboSpeaker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 23</value>
+  </data>
+  <data name="cboSpeaker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;cboSpeaker.Name" xml:space="preserve">
+    <value>cboSpeaker</value>
+  </data>
+  <data name="&gt;&gt;cboSpeaker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboSpeaker.Parent" xml:space="preserve">
+    <value>grpSpeaker</value>
+  </data>
+  <data name="&gt;&gt;cboSpeaker.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpSpeaker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="grpSpeaker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 64</value>
+  </data>
+  <data name="grpSpeaker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpSpeaker.Text" xml:space="preserve">
+    <value>&amp;Speaker</value>
+  </data>
+  <data name="&gt;&gt;grpSpeaker.Name" xml:space="preserve">
+    <value>grpSpeaker</value>
+  </data>
+  <data name="&gt;&gt;grpSpeaker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpSpeaker.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;grpSpeaker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlDialect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="cboDialect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboDialect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 18</value>
+  </data>
+  <data name="cboDialect.MaxDropDownItems" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="cboDialect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 23</value>
+  </data>
+  <data name="cboDialect.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;cboDialect.Name" xml:space="preserve">
+    <value>cboDialect</value>
+  </data>
+  <data name="&gt;&gt;cboDialect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboDialect.Parent" xml:space="preserve">
+    <value>pnlDialect</value>
+  </data>
+  <data name="&gt;&gt;cboDialect.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblDialect.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDialect.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblDialect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblDialect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lblDialect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 15</value>
+  </data>
+  <data name="lblDialect.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblDialect.Text" xml:space="preserve">
+    <value>&amp;Dialect</value>
+  </data>
+  <data name="&gt;&gt;lblDialect.Name" xml:space="preserve">
+    <value>lblDialect</value>
+  </data>
+  <data name="&gt;&gt;lblDialect.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblDialect.Parent" xml:space="preserve">
+    <value>pnlDialect</value>
+  </data>
+  <data name="&gt;&gt;lblDialect.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlDialect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>220, 14</value>
+  </data>
+  <data name="pnlDialect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 42</value>
+  </data>
+  <data name="pnlDialect.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pnlDialect.Name" xml:space="preserve">
+    <value>pnlDialect</value>
+  </data>
+  <data name="&gt;&gt;pnlDialect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlDialect.Parent" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;pnlDialect.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 358</value>
+  </data>
+  <data name="tableLayoutPanel4.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>364, 70</value>
+  </data>
+  <data name="tableLayoutPanel4.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Name" xml:space="preserve">
+    <value>tableLayoutPanel4</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.Parent" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel4.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="grpSpeaker" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pnlDialect" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,59.66851,Percent,40.33149" /&gt;&lt;Rows Styles="Percent,41.73913" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblTranscriber.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblTranscriber.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblTranscriber.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblTranscriber.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblTranscriber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>191, 2</value>
+  </data>
+  <data name="lblTranscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 0</value>
+  </data>
+  <data name="lblTranscriber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 24</value>
+  </data>
+  <data name="lblTranscriber.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblTranscriber.Text" xml:space="preserve">
+    <value>Tr&amp;anscriber:</value>
+  </data>
+  <data name="lblTranscriber.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lblTranscriber.Name" xml:space="preserve">
+    <value>lblTranscriber</value>
+  </data>
+  <data name="&gt;&gt;lblTranscriber.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblTranscriber.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblTranscriber.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="txtNBRef.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtNBRef.Location" type="System.Drawing.Point, System.Drawing">
+    <value>105, 3</value>
+  </data>
+  <data name="txtNBRef.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="txtNBRef.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtNBRef.Name" xml:space="preserve">
+    <value>txtNBRef</value>
+  </data>
+  <data name="&gt;&gt;txtNBRef.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtNBRef.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;txtNBRef.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="txtTranscriber.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtTranscriber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>282, 3</value>
+  </data>
+  <data name="txtTranscriber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="txtTranscriber.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Name" xml:space="preserve">
+    <value>txtTranscriber</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblNBRef.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblNBRef.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblNBRef.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblNBRef.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblNBRef.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 2</value>
+  </data>
+  <data name="lblNBRef.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 0</value>
+  </data>
+  <data name="lblNBRef.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 24</value>
+  </data>
+  <data name="lblNBRef.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblNBRef.Text" xml:space="preserve">
+    <value>Notebook &amp;Ref:</value>
+  </data>
+  <data name="lblNBRef.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblNBRef.Name" xml:space="preserve">
+    <value>lblNBRef</value>
+  </data>
+  <data name="&gt;&gt;lblNBRef.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblNBRef.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;lblNBRef.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 172</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 26</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblTranscriber" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtNBRef" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="txtTranscriber" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblNBRef" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,102,Percent,50,Absolute,91,Percent,50" /&gt;&lt;Rows Styles="Percent,100,Absolute,26" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="grpDates.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblLastUpdate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLastUpdate.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblLastUpdate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLastUpdate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblLastUpdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>169, 0</value>
+  </data>
+  <data name="lblLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 26</value>
+  </data>
+  <data name="lblLastUpdate.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="lblLastUpdate.Text" xml:space="preserve">
+    <value>Last Update:</value>
+  </data>
+  <data name="lblLastUpdate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdate.Name" xml:space="preserve">
+    <value>lblLastUpdate</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdate.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdate.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdate.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblLastUpdateVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLastUpdateVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblLastUpdateVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLastUpdateVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblLastUpdateVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 0</value>
+  </data>
+  <data name="lblLastUpdateVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 26</value>
+  </data>
+  <data name="lblLastUpdateVal.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="lblLastUpdateVal.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="lblLastUpdateVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdateVal.Name" xml:space="preserve">
+    <value>lblLastUpdateVal</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdateVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdateVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;lblLastUpdateVal.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblOrigDate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOrigDate.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblOrigDate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblOrigDate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOrigDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="lblOrigDate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 26</value>
+  </data>
+  <data name="lblOrigDate.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="lblOrigDate.Text" xml:space="preserve">
+    <value>Submitted:</value>
+  </data>
+  <data name="lblOrigDate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDate.Name" xml:space="preserve">
+    <value>lblOrigDate</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDate.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDate.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDate.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblOrigDateVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOrigDateVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblOrigDateVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblOrigDateVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOrigDateVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>82, 0</value>
+  </data>
+  <data name="lblOrigDateVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 26</value>
+  </data>
+  <data name="lblOrigDateVal.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="lblOrigDateVal.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="lblOrigDateVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDateVal.Name" xml:space="preserve">
+    <value>lblOrigDateVal</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDateVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDateVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;lblOrigDateVal.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 26</value>
+  </data>
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>grpDates</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblLastUpdate" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLastUpdateVal" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblOrigDate" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblOrigDateVal" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,79,Percent,50,Absolute,97,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="grpDates.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 204</value>
+  </data>
+  <data name="grpDates.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 53</value>
+  </data>
+  <data name="grpDates.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="grpDates.Text" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="&gt;&gt;grpDates.Name" xml:space="preserve">
+    <value>grpDates</value>
+  </data>
+  <data name="&gt;&gt;grpDates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpDates.Parent" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;grpDates.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpAudioFile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="tableLayoutPanel5.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblLengthVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLengthVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblLengthVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLengthVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblLengthVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>287, 42</value>
+  </data>
+  <data name="lblLengthVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 21</value>
+  </data>
+  <data name="lblLengthVal.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="lblLengthVal.Text" xml:space="preserve">
+    <value>1.23 sec.</value>
+  </data>
+  <data name="lblLengthVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblLengthVal.Name" xml:space="preserve">
+    <value>lblLengthVal</value>
+  </data>
+  <data name="&gt;&gt;lblLengthVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblLengthVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblLengthVal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblLength.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLength.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblLength.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblLength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>230, 42</value>
+  </data>
+  <data name="lblLength.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 0, 3, 0</value>
+  </data>
+  <data name="lblLength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="lblLength.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="lblLength.Text" xml:space="preserve">
+    <value>Length:</value>
+  </data>
+  <data name="lblLength.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblLength.Name" xml:space="preserve">
+    <value>lblLength</value>
+  </data>
+  <data name="&gt;&gt;lblLength.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblLength.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblLength.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblRecDateVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRecDateVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblRecDateVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblRecDateVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRecDateVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 42</value>
+  </data>
+  <data name="lblRecDateVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 21</value>
+  </data>
+  <data name="lblRecDateVal.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="lblRecDateVal.Text" xml:space="preserve">
+    <value>DD-MMM-YY</value>
+  </data>
+  <data name="lblRecDateVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblRecDateVal.Name" xml:space="preserve">
+    <value>lblRecDateVal</value>
+  </data>
+  <data name="&gt;&gt;lblRecDateVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblRecDateVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblRecDateVal.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblBitsVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBitsVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblBitsVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblBitsVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblBitsVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>287, 21</value>
+  </data>
+  <data name="lblBitsVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 21</value>
+  </data>
+  <data name="lblBitsVal.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="lblBitsVal.Text" xml:space="preserve">
+    <value>16 Mono</value>
+  </data>
+  <data name="lblBitsVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblBitsVal.Name" xml:space="preserve">
+    <value>lblBitsVal</value>
+  </data>
+  <data name="&gt;&gt;lblBitsVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblBitsVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblBitsVal.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblBits.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBits.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblBits.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblBits.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblBits.Location" type="System.Drawing.Point, System.Drawing">
+    <value>230, 21</value>
+  </data>
+  <data name="lblBits.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 0, 3, 0</value>
+  </data>
+  <data name="lblBits.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="lblBits.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lblBits.Text" xml:space="preserve">
+    <value>Bits:</value>
+  </data>
+  <data name="lblBits.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblBits.Name" xml:space="preserve">
+    <value>lblBits</value>
+  </data>
+  <data name="&gt;&gt;lblBits.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblBits.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblBits.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblRecDate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRecDate.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblRecDate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblRecDate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRecDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 42</value>
+  </data>
+  <data name="lblRecDate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 21</value>
+  </data>
+  <data name="lblRecDate.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblRecDate.Text" xml:space="preserve">
+    <value>Rec. Date:</value>
+  </data>
+  <data name="lblRecDate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblRecDate.Name" xml:space="preserve">
+    <value>lblRecDate</value>
+  </data>
+  <data name="&gt;&gt;lblRecDate.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblRecDate.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblRecDate.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblOrigFmtVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOrigFmtVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblOrigFmtVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblOrigFmtVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOrigFmtVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 21</value>
+  </data>
+  <data name="lblOrigFmtVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 21</value>
+  </data>
+  <data name="lblOrigFmtVal.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblOrigFmtVal.Text" xml:space="preserve">
+    <value>Wave (.WAV)</value>
+  </data>
+  <data name="lblOrigFmtVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmtVal.Name" xml:space="preserve">
+    <value>lblOrigFmtVal</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmtVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmtVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmtVal.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblOrigFmt.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOrigFmt.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblOrigFmt.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblOrigFmt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOrigFmt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 21</value>
+  </data>
+  <data name="lblOrigFmt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 21</value>
+  </data>
+  <data name="lblOrigFmt.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblOrigFmt.Text" xml:space="preserve">
+    <value>Orig. Format:</value>
+  </data>
+  <data name="lblOrigFmt.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmt.Name" xml:space="preserve">
+    <value>lblOrigFmt</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmt.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmt.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblOrigFmt.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblRateVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRateVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblRateVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblRateVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRateVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>287, 0</value>
+  </data>
+  <data name="lblRateVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 21</value>
+  </data>
+  <data name="lblRateVal.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblRateVal.Text" xml:space="preserve">
+    <value>00000 Hz</value>
+  </data>
+  <data name="lblRateVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblRateVal.Name" xml:space="preserve">
+    <value>lblRateVal</value>
+  </data>
+  <data name="&gt;&gt;lblRateVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblRateVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblRateVal.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="lblRate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRate.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblRate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblRate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblRate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>230, 0</value>
+  </data>
+  <data name="lblRate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>16, 0, 3, 0</value>
+  </data>
+  <data name="lblRate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 21</value>
+  </data>
+  <data name="lblRate.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblRate.Text" xml:space="preserve">
+    <value>Rate:</value>
+  </data>
+  <data name="lblRate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblRate.Name" xml:space="preserve">
+    <value>lblRate</value>
+  </data>
+  <data name="&gt;&gt;lblRate.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblRate.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblRate.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="lblFileNameVal.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblFileNameVal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblFileNameVal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblFileNameVal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFileNameVal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 0</value>
+  </data>
+  <data name="lblFileNameVal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 21</value>
+  </data>
+  <data name="lblFileNameVal.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblFileNameVal.Text" xml:space="preserve">
+    <value>filename.wav</value>
+  </data>
+  <data name="lblFileNameVal.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblFileNameVal.Name" xml:space="preserve">
+    <value>lblFileNameVal</value>
+  </data>
+  <data name="&gt;&gt;lblFileNameVal.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblFileNameVal.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblFileNameVal.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="lblFileName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblFileName.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblFileName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblFileName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFileName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
+  </data>
+  <data name="lblFileName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 21</value>
+  </data>
+  <data name="lblFileName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblFileName.Text" xml:space="preserve">
+    <value>FileName:</value>
+  </data>
+  <data name="lblFileName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblFileName.Name" xml:space="preserve">
+    <value>lblFileName</value>
+  </data>
+  <data name="&gt;&gt;lblFileName.Type" xml:space="preserve">
+    <value>SIL.Pa.PaLabel, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lblFileName.Parent" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;lblFileName.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="tableLayoutPanel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="tableLayoutPanel5.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tableLayoutPanel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 63</value>
+  </data>
+  <data name="tableLayoutPanel5.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Name" xml:space="preserve">
+    <value>tableLayoutPanel5</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.Parent" xml:space="preserve">
+    <value>grpAudioFile</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel5.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblLengthVal" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblLength" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="lblRecDateVal" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblBitsVal" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblBits" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="lblRecDate" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblOrigFmtVal" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblOrigFmt" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblRateVal" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblRate" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="lblFileNameVal" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblFileName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,90,Percent,65.78269,Absolute,70,Percent,34.21731" /&gt;&lt;Rows Styles="Percent,33.33333,Percent,33.33333,Percent,33.33333" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="grpAudioFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 264</value>
+  </data>
+  <data name="grpAudioFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 89</value>
+  </data>
+  <data name="grpAudioFile.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="grpAudioFile.Text" xml:space="preserve">
+    <value>Audio File</value>
+  </data>
+  <data name="&gt;&gt;grpAudioFile.Name" xml:space="preserve">
+    <value>grpAudioFile</value>
+  </data>
+  <data name="&gt;&gt;grpAudioFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpAudioFile.Parent" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;grpAudioFile.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="scDocInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="scDocInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 6</value>
+  </data>
+  <data name="scDocInfo.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ltbFreeform.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ltbFreeform.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ltbFreeform.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ltbFreeform.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="ltbFreeform.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 72</value>
+  </data>
+  <data name="ltbFreeform.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ltbFreeform.Name" xml:space="preserve">
+    <value>ltbFreeform</value>
+  </data>
+  <data name="&gt;&gt;ltbFreeform.Type" xml:space="preserve">
+    <value>SIL.Pa.LabelledTextBox, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ltbFreeform.Parent" xml:space="preserve">
+    <value>scDocInfo.Panel1</value>
+  </data>
+  <data name="&gt;&gt;ltbFreeform.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel1.Name" xml:space="preserve">
+    <value>scDocInfo.Panel1</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel1.Parent" xml:space="preserve">
+    <value>scDocInfo</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ltbComments.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ltbComments.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ltbComments.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ltbComments.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="ltbComments.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 80</value>
+  </data>
+  <data name="ltbComments.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ltbComments.Name" xml:space="preserve">
+    <value>ltbComments</value>
+  </data>
+  <data name="&gt;&gt;ltbComments.Type" xml:space="preserve">
+    <value>SIL.Pa.LabelledTextBox, PaControls, Version=1.0.2271.17812, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ltbComments.Parent" xml:space="preserve">
+    <value>scDocInfo.Panel2</value>
+  </data>
+  <data name="&gt;&gt;ltbComments.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel2.Name" xml:space="preserve">
+    <value>scDocInfo.Panel2</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel2.Parent" xml:space="preserve">
+    <value>scDocInfo</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scDocInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 160</value>
+  </data>
+  <data name="scDocInfo.SplitterDistance" type="System.Int32, mscorlib">
+    <value>72</value>
+  </data>
+  <data name="scDocInfo.SplitterWidth" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="scDocInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Name" xml:space="preserve">
+    <value>scDocInfo</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.Parent" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;scDocInfo.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="pnlDocInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlDocInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlDocInfo.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 6, 6</value>
+  </data>
+  <data name="pnlDocInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>372, 431</value>
+  </data>
+  <data name="pnlDocInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pnlDocInfo.Name" xml:space="preserve">
+    <value>pnlDocInfo</value>
+  </data>
+  <data name="&gt;&gt;pnlDocInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlDocInfo.Parent" xml:space="preserve">
+    <value>tpgDocInfo</value>
+  </data>
+  <data name="&gt;&gt;pnlDocInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgDocInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="tpgDocInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>372, 431</value>
+  </data>
+  <data name="tpgDocInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tpgDocInfo.Text" xml:space="preserve">
+    <value>Document Info.</value>
+  </data>
+  <data name="&gt;&gt;tpgDocInfo.Name" xml:space="preserve">
+    <value>tpgDocInfo</value>
+  </data>
+  <data name="&gt;&gt;tpgDocInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgDocInfo.Parent" xml:space="preserve">
+    <value>tabDocViews</value>
+  </data>
+  <data name="&gt;&gt;tpgDocInfo.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabDocViews.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabDocViews.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="tabDocViews.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 8</value>
+  </data>
+  <data name="tabDocViews.Padding" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabDocViews.Size" type="System.Drawing.Size, System.Drawing">
+    <value>380, 459</value>
+  </data>
+  <data name="tabDocViews.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabDocViews.Name" xml:space="preserve">
+    <value>tabDocViews</value>
+  </data>
+  <data name="&gt;&gt;tabDocViews.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabDocViews.Parent" xml:space="preserve">
+    <value>scTrans.Panel2</value>
+  </data>
+  <data name="&gt;&gt;tabDocViews.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="scTrans.Panel2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 8, 4, 4</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel2.Name" xml:space="preserve">
+    <value>scTrans.Panel2</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel2.Parent" xml:space="preserve">
+    <value>scTrans</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="scTrans.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 471</value>
+  </data>
+  <data name="scTrans.SplitterDistance" type="System.Int32, mscorlib">
+    <value>205</value>
+  </data>
+  <data name="scTrans.SplitterWidth" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="scTrans.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="scTrans.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Name" xml:space="preserve">
+    <value>scTrans</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scTrans.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;scTrans.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>260, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
+    <value>5, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>777, 471</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>605, 500</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>Manual</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ContentWnd</value>
+  </data>
+  <data name="&gt;&gt;m_toolTip.Name" xml:space="preserve">
+    <value>m_toolTip</value>
+  </data>
+  <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ContentWnd</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

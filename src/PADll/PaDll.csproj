@@ -1,0 +1,270 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00949C26-524B-4E59-8698-3304BC3AD83D}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>PaDll</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SIL.Pa</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Drawing.Design">
+      <Name>System.Drawing.Design</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
+      <Name>SpeechToolsUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
+      <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
+      <Name>UIAdapterInterfaces</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
+      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
+      <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaApp\PaApp.csproj">
+      <Name>PaApp</Name>
+      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaControls\PaControls.csproj">
+      <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>
+      <Name>PaControls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaDialogs\PaDialogs.csproj">
+      <Project>{693D71B7-FEF6-488E-B4F5-A2101011F9BE}</Project>
+      <Name>PaDialogs</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaResources\PaResources.csproj">
+      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
+      <Name>PaResources</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ChartWndBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartWndBase.Designer.cs">
+      <DependentUpon>ChartWndBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConsonantChartWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsonantChartWnd.designer.cs">
+      <DependentUpon>ConsonantChartWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataCorpusWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCorpusWnd.designer.cs">
+      <DependentUpon>DataCorpusWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindPhoneWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindPhoneWnd.Designer.cs">
+      <DependentUpon>FindPhoneWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaMainWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaMainWnd.Designer.cs">
+      <DependentUpon>PaMainWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaMainWnd.MsgHandlers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhoneInventoryWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhoneInventoryWnd.Designer.cs">
+      <DependentUpon>PhoneInventoryWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="VowelChartWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VowelChartWnd.Designer.cs">
+      <DependentUpon>VowelChartWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XYChartWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XYChartWnd.designer.cs">
+      <DependentUpon>XYChartWnd.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="FindPhoneWnd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FindPhoneWnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaMainWnd.resx">
+      <DependentUpon>PaMainWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ChartWndBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ChartWndBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsonantChartWnd.resx">
+      <DependentUpon>ConsonantChartWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCorpusWnd.resx">
+      <DependentUpon>DataCorpusWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhoneInventoryWnd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PhoneInventoryWnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VowelChartWnd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VowelChartWnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XYChartWnd.resx">
+      <DependentUpon>XYChartWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New_category_for_saved_patterns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clear_list.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
