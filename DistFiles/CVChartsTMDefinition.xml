@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================================================
+IMPORTANT NOTICE: command id's must all be unique within the application. That doesn't just mean
+unique within a particular XML definition file. It means unique among all the XML definition
+files used in a single application.
+
+Item "type" Values:
+	0 = Regular Button
+	1 = Button with popup arrow that pops-up subitems on a toolbar
+	2 = Button with popup arrow that pops-up subitems on a menu
+	3 = Button with popup arrow that pops-up a custom (application-defined) control.
+	4 = ComboBox
+	5 = Container for application-defined control (e.g. goto scripture passage control)
+
+Item "displaytype" Values (applies to item types 0 - 3):
+	0 = Image only (default)
+	1 = Text only
+	2 = Image and text
+
+	split - For button's of type 1, 2 and 3, an additional "split" attribute may be present indicating
+	whether or not the popup button is split or not. A split button has two portions (a normal
+	button portion and a smaller portion containing the drop-down arrow) and each can be
+	pressed independently.
+	
+	Item names with a "tbb" prefix are toolbar buttons.
+	Item names with a "mnu" prefix are menu items.
+	
+	Attributes beginning with dnb are DotNetBar specific.
+	
+	customizeitem - By default, only menu items are shown in the list of command items in the
+	toolbar customization dialog. However, there may be some toolbar items that aren't on the
+	menu but should be in the customization list. When applied to a toolbar item, this
+	attribute tells the adapter to put the toolbar item in the customization list even though
+	it isn't a menu item.
+
+	replacecustomizeitem - By default, only menu items are shown in the list of command items in the
+	toolbar customization dialog. However, sometimes the toolbar representation of a menu item
+	varies a little from the menu item. For example, when the undo and redo items appear on a
+	menu, they act like normal buttons. However, when they appear on a toolbar, the include a
+	drop-down arrow allowing the user to drop-down a list of actions to undo/redo. Therefore,
+	the toolbar implementation of the undo/redo command differs somewhat from the menu
+	implementation. In cases like these, it is desirable to only allow the drop-down version
+	of the buttons to be placed on toolbars. Applying this attribute to an item tells the
+	adapter to use the item to replace another one that has already been added to the
+	collection of customization items. This attribute should only be applied to toolbar items
+	and it's expected that the item being replaced is already in the customization collection.
+	
+	windowlist - This attribute should only be applied to one menu item. It tells the
+	adapter the item is the first item in the list of an application's open windows. The item
+	with this attribute set to true handle's it's update handler differently from other items.
+	When the update handler is called, an argument of type WindowListInfo is passed. The
+	update handler should fill-in the list property with the list of windows that should
+	be displayed in the menu.
+
+	morewindowsitem - This attribute flags an item as the "More Windows..." item. The
+	adapter will automatically make this item visible or hidden as necessary. When there are
+	more than 10 items in the window list, the adapter will make this item visible. Otherwise
+	it will be hidden.
+
+	allowcustomizing - This attribute for toolbars determines whether or not the last item
+	on the toolbar will be the little button that allows the user to customize the items
+	that are visible on the toolbar.
+	
+	settingFilesPrefix - This attribute for toolbars tells the adapter what prefix to use
+	when saving or restoring a toolbar's settings from a settings file. A settings file
+	saves all the information about a toolbar when the form it belongs to is closed. That
+	is how user customization information is saved. The file format for a toolbar's
+	settings format is: prefix.toolbarname.xml where toolbarname is replaced with the
+	toolbar's name (i.e. the name attribute of toolbar definition sections below).
+	
+	onmodalform - In the event the toolbar adapter allows toolbar's to be undocked, this
+	attribute for toolbars tells the adapter the toolbars will be placed on a modal form.
+	Therefore, the adapter will not allow toolbar's to be undocked. The reason being,
+	after toolbars are undocked, they cannot be docked again since the modal form doesn't
+	allow other windows (which undocked toolbars are) in the application to gain focus.
+
+	stretch - Toolbars with the stretch attribute set to true will cause the toolbar to
+	stretch across the entire width of the control hosting it.
+	
+	autoclose - For items of type 5, this tells the adapter whether or not the drop-down
+	that owns the custom control will close automatically after several seconds of the
+	mouse having left the bounds of the drop-down that hosts the custom control. The
+	default value is true.
+	
+============================================================================================ -->
+<TMDef>
+	<resources>
+		<!-- localizedstrings are for strings for toolbars, toolbar and menu items, tooltips,
+			and categories -->
+		<localizedstrings assemblyPath="PaResources.dll" class="SIL.Pa.Resources.ChartsTMStrings"/>
+
+		<imageList assemblyPath="PaResources.dll"
+			class="SIL.Pa.Resources.ResourceHelper"
+			field="TMImages"
+			labels="0, 1, 2, 3,	4, 5, 6, 7,	CmdShowHistogram, 9, 10, CmdChartTBAdd,
+				12, 13, 14,	15, 16, 17, 18,	19, 20, 21, 22, CmdCharChartEditLabel,
+				CmdCharChartSearchContextMenu, 25, 26, 27, 28, 29, 30, 31, CmdChartPhoneSearch,
+				33, 34,	35, 36, 37, 38,	CmdChartPhoneSearchAnywhere, CmdChartPhoneSearchInitial,
+				CmdChartPhoneSearchFinal, CmdChartPhoneSearchAlone,
+				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
+				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, 48, CmdChartTBRemove,
+				CmdChartTBMenuRestoreDefault, 51, 52">
+		</imageList>
+	</resources>
+
+	<commands>
+		<command id="CmdChartPhoneSearch" message="ChartPhoneSearch"/>
+		<command id="CmdChartPhoneSearchAnywhere" message="ChartPhoneSearchAnywhere"/>
+		<command id="CmdChartPhoneSearchInitial" message="ChartPhoneSearchInitial"/>
+		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial"/>
+		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal"/>
+		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone"/>
+		<command id="CmdChartTBRemove"/>
+		<command id="CmdChartTBMenuRemoveRow" message="RemoveChartRowTBMenu"/>
+		<command id="CmdChartTBMenuRemoveCol" message="RemoveChartColTBMenu"/>
+		<command id="CmdChartTBMenuRemoveRowHeading" message="RemoveChartRowHeadingTBMenu"/>
+		<command id="CmdChartTBMenuRemoveColHeading" message="RemoveChartColHeadingTBMenu"/>
+		<command id="CmdChartTBMenuRemoveEmptyRowsAndCols" message="RemoveAllEmptyChartRowsAndColsTBMenu"/>
+		<command id="CmdCharChartAddColHeadingBefore" message="AddCharChartColHeadingBefore"/>
+		<command id="CmdCharChartAddColHeadingAfter" message="AddCharChartColHeadingAfter"/>
+		<command id="CmdCharChartAddRowHeadingBefore" message="AddCharChartRowHeadingBefore"/>
+		<command id="CmdCharChartAddRowHeadingAfter" message="AddCharChartRowHeadingAfter"/>
+		<command id="CmdCharChartShowSubHeadings" message="ShowCharChartSubHeadings"/>
+		<command id="CmdCharChartEditLabel" message="EditCharChartLabel"/>
+		<command id="CmdCharChartAddRowBefore" message="AddCharChartRowBefore"/>
+		<command id="CmdCharChartAddRowAfter" message="AddCharChartRowAfter"/>
+		<command id="CmdCharChartAddColBefore" message="AddCharChartColBefore"/>
+		<command id="CmdCharChartAddColAfter" message="AddCharChartColAfter"/>
+		<command id="CmdCharChartRemoveRow" message="RemoveCharChartRow"/>
+		<command id="CmdCharChartRemoveCol" message="RemoveCharChartCol"/>
+		<command id="CmdCharChartRemoveRowHeading" message="RemoveCharChartRowHeading"/>
+		<command id="CmdCharChartRemoveColHeading" message="RemoveCharChartColHeading"/>
+		<command id="CmdCharChartSearchContextMenu" message="CharChartSearchContextMenu"/>
+		<command id="CmdCharChartMoveColLeft" message="MoveCharChartColLeft"/>
+		<command id="CmdCharChartMoveColRight" message="MoveCharChartColRight"/>
+		<command id="CmdMoveCharChartRowDown" message="MoveCharChartRowDown"/>
+		<command id="CmdMoveCharChartRowUp" message="MoveCharChartRowUp"/>
+		<command id="CmdChartTBAdd"/>
+		<command id="CmdChartTBMenuAddRowBefore" message="AddChartRowBeforeTBMenu"/>
+		<command id="CmdChartTBMenuAddRowAfter" message="AddChartRowAfterTBMenu"/>
+		<command id="CmdChartTBMenuAddColBefore" message="AddChartColBeforeTBMenu"/>
+		<command id="CmdChartTBMenuAddColAfter" message="AddChartColAfterTBMenu"/>
+		<command id="CmdChartTBMenuAddRowHeadingBefore" message="AddChartRowHeadingBeforeTBMenu"/>
+		<command id="CmdChartTBMenuAddRowHeadingAfter" message="AddChartRowHeadingAfterTBMenu"/>
+		<command id="CmdChartTBMenuAddColHeadingBefore" message="AddChartColHeadingBeforeTBMenu"/>
+		<command id="CmdChartTBMenuAddColHeadingAfter" message="AddChartColHeadingAfterTBMenu"/>
+		<command id="CmdChartTBView"/>
+		<command id="CmdChartTBMenuShowRowSubHeadings" message="ShowChartRowSubHeadingsTBMenu"/>
+		<command id="CmdChartTBMenuShowColSubHeadings" message="ShowChartColSubHeadingsTBMenu"/>
+		<command id="CmdChartTBMenuIgnoredCharsParent" />
+		<command id="CmdChartTBMenuIgnoredChars" message="ChooseIgnoredCharactersTBMenu"/>
+		<command id="CmdChartTBMenuRestoreDefault" message="RestoreDefaultLayoutTBMenu"/>
+		<command id="CmdShowHistogram" message="ShowHistogram"/>
+		
+	</commands>
+
+	<toolbars settingFilesPrefix="PA.Charts.TBDef">
+		<toolbar name="tbChartWnd" row="0" position="0" allowcustomizing="false" stretch="true">
+			<item name="tbbChartPhoneSearch" commandid="CmdChartPhoneSearch" type="2" displaytype="2" split="true" leftmargin="7">
+				<item name="tbbChartPhoneSearchAnywhere" commandid="CmdChartPhoneSearchAnywhere" type="0" displaytype="2"/>
+				<item name="tbbChartPhoneSearchInitial" commandid="CmdChartPhoneSearchInitial" type="0" displaytype="2"/>
+				<item name="tbbChartPhoneSearchMedial" commandid="CmdChartPhoneSearchMedial" type="0" displaytype="2"/>
+				<item name="tbbChartPhoneSearchFinal" commandid="CmdChartPhoneSearchFinal" type="0" displaytype="2"/>
+				<item name="tbbChartPhoneSearchAlone" commandid="CmdChartPhoneSearchAlone" type="0" displaytype="2"/>
+			</item>
+			<item name="tbbAdd" commandid="CmdChartTBAdd" type="2" displaytype="2" split="false" begingroup="true">
+				<item name="tbbAddChartRowBefore" commandid="CmdChartTBMenuAddRowBefore" type="0" displaytype="2"/>
+				<item name="tbbAddChartRowAfter" commandid="CmdChartTBMenuAddRowAfter" type="0" displaytype="2"/>
+				<item name="tbbAddChartColBefore" commandid="CmdChartTBMenuAddColBefore" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbAddChartColAfter" commandid="CmdChartTBMenuAddColAfter" type="0" displaytype="2"/>
+				<item name="tbbAddCharChartRowHeadingBefore" commandid="CmdChartTBMenuAddRowHeadingBefore" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbAddCharChartRowHeadingAfter" commandid="CmdChartTBMenuAddRowHeadingAfter" type="0" displaytype="2"/>
+				<item name="tbbAddCharChartColHeadingBefore" commandid="CmdChartTBMenuAddColHeadingBefore" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbAddCharChartColHeadingAfter" commandid="CmdChartTBMenuAddColHeadingAfter" type="0" displaytype="2"/>
+			</item>
+			<item name="tbbChartTBRemove" commandid="CmdChartTBRemove" type="2" displaytype="2" split="false">
+				<item name="tbbChartTBMenuRemoveRow" commandid="CmdChartTBMenuRemoveRow" type="0" displaytype="2"/>
+				<item name="tbbChartTBMenuRemoveCol" commandid="CmdChartTBMenuRemoveCol" type="0" displaytype="2"/>
+				<item name="tbbChartTBMenuRemoveRowHeading" commandid="CmdChartTBMenuRemoveRowHeading" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbChartTBMenuRemoveColHeading" commandid="CmdChartTBMenuRemoveColHeading" type="0" displaytype="2"/>
+				<item name="tbbChartTBMenuRemoveEmptyRowsAndCols" commandid="CmdChartTBMenuRemoveEmptyRowsAndCols" type="0" displaytype="2" begingroup="true"/>
+			</item>
+			<item name="tbbView" commandid="CmdChartTBView" type="2" displaytype="2" split="false" begingroup="true">
+				<item name="tbbShowRowSubHeadings" commandid="CmdChartTBMenuShowRowSubHeadings" type="0" displaytype="2"/>
+				<item name="tbbShowColSubHeadings" commandid="CmdChartTBMenuShowColSubHeadings" type="0" displaytype="2"/>
+				<item name="tbbShowHistogramOnMenu" commandid="CmdShowHistogram" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbIgnoredCharsParent" commandid="CmdChartTBMenuIgnoredCharsParent" type="0" displaytype="2" begingroup="true">
+					<item name="tbbIgnoredChars" commandid="CmdChartTBMenuIgnoredChars" type="5" autoclose="false"/>
+				</item>
+				<item name="tbbChartTBMenuRestoreDefault" commandid="CmdChartTBMenuRestoreDefault" type="0" displaytype="2" begingroup="true"/>
+			</item>
+			<item name="tbbShowHistogram" commandid="CmdShowHistogram" type="0" begingroup="true"/>
+		</toolbar>
+	</toolbars>
+	<contextmenus>
+		<contextmenu name="cmnuCharChartColHeader" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+			<item name="cmnuAddCharChartColHeadingBefore" commandid="CmdCharChartAddColHeadingBefore"/>
+			<item name="cmnuAddCharChartColHeadingAfter" commandid="CmdCharChartAddColHeadingAfter"/>
+			<item name="cmnuShowCharChartSubHeadings" commandid="CmdCharChartShowSubHeadings" begingroup="true"/>
+			<item name="cmnuRemoveCharChartColHeading" commandid="CmdCharChartRemoveColHeading" begingroup="true"/>
+			<item name="cmnuEditCharChartLabel" commandid="CmdCharChartEditLabel" begingroup="true"/>
+		</contextmenu>
+		<contextmenu name="cmnuCharChartRowHeader" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+			<item name="cmnuAddCharChartRowHeadingBefore" commandid="CmdCharChartAddRowHeadingBefore"/>
+			<item name="cmnuAddCharChartRowHeadingAfter" commandid="CmdCharChartAddRowHeadingAfter"/>
+			<item name="cmnuShowCharChartSubHeadings" commandid="CmdCharChartShowSubHeadings" begingroup="true"/>
+			<item name="cmnuRemoveCharChartRowHeading" commandid="CmdCharChartRemoveRowHeading" begingroup="true"/>
+			<item name="cmnuEditCharChartLabel" commandid="CmdCharChartEditLabel" begingroup="true"/>
+		</contextmenu>
+		<contextmenu name="cmnuCharChartGrid" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+			<item name="cmnuCharChartSearchContextMenu" commandid="CmdCharChartSearchContextMenu">
+				<item name="cmnuChartPhoneSearchAnywhere" commandid="CmdChartPhoneSearchAnywhere"/>
+				<item name="cmnuChartPhoneSearchInitial" commandid="CmdChartPhoneSearchInitial"/>
+				<item name="cmnuChartPhoneSearchMedial" commandid="CmdChartPhoneSearchMedial"/>
+				<item name="cmnuChartPhoneSearchFinal" commandid="CmdChartPhoneSearchFinal"/>
+				<item name="cmnuChartPhoneSearchAlone" commandid="CmdChartPhoneSearchAlone"/>
+			</item>
+			<item name="cmnuAddCharChartRowBefore" commandid="CmdCharChartAddRowBefore" begingroup="true"/>
+			<item name="cmnuAddCharChartRowAfter" commandid="CmdCharChartAddRowAfter"/>
+			<item name="cmnuAddCharChartColBefore" commandid="CmdCharChartAddColBefore" begingroup="true"/>
+			<item name="cmnuAddCharChartColAfter" commandid="CmdCharChartAddColAfter"/>
+			<item name="cmnuRemoveCharChartRow" commandid="CmdCharChartRemoveRow" begingroup="true"/>
+			<item name="cmnuRemoveCharChartCol" commandid="CmdCharChartRemoveCol"/>
+		</contextmenu>
+	</contextmenus>
+</TMDef>
