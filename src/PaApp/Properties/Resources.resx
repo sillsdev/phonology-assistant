@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidMarkerMapEqualRecID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarkerMapEqualRecID.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMarkerMapToSymbol" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarkerMapToSymbol.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSearchWatermark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search Watermark.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidAudioFileMissingMsg" xml:space="preserve">
+    <value>The audio file '{0}' is cannot be found.</value>
+  </data>
+  <data name="kstidDataSourceEditorMissingMsg" xml:space="preserve">
+    <value>The editor '{0}' cannot be found.</value>
+  </data>
+  <data name="kstidDefaultNewProjectName" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="kstidDropDownNoneEntry" xml:space="preserve">
+    <value>(none)</value>
+    <comment>Used for combo box drop-down lists from which no value may be chosen</comment>
+  </data>
+  <data name="kstidEditFWSourceRecUrlFormat" xml:space="preserve">
+    <value>silfw://{0}/link?app%3dLanguage+Explorer%26tool%3dlexiconEdit%26guid%3d{1}%26server%3d.%5cSILFW%26database%3d{2} </value>
+    <comment>Probably shouldn't edit this unless you absolutely know what you're doing.</comment>
+  </data>
+  <data name="kstidErrorLoadingCacheFiles" xml:space="preserve">
+    <value>Error loading cache files: {0}</value>
+    <comment>Parameter is the error message thrown by the system.</comment>
+  </data>
+  <data name="kstidErrorLoadingProject" xml:space="preserve">
+    <value>The followng error occurred loading project '{0}'.\n\n{1}</value>
+  </data>
+  <data name="kstidErrorLoadingProjectFieldInfo" xml:space="preserve">
+    <value>The following error occurred reading project {0}'s field information:\n\n{1}\n\nA default set will be used.</value>
+  </data>
+  <data name="kstidErrorProcessingDataSourceFile" xml:space="preserve">
+    <value>Error processing data source file '{0}'.</value>
+  </data>
+  <data name="kstidErrorProjectInvalidFormat" xml:space="preserve">
+    <value>Project File '{0}' has an Invalid Format</value>
+  </data>
+  <data name="kstidErrorReadingDataSourceFile" xml:space="preserve">
+    <value>The following error occurred reading data source file '{0}'.{1}{2}</value>
+    <comment>Parameter 0 is file name; parameter 1 is a line break; parameter 2 is error message.</comment>
+  </data>
+  <data name="kstidHelpFileMissingMsg" xml:space="preserve">
+    <value>The help file '{0}' cannot be found.</value>
+  </data>
+  <data name="kstidInvalidToolboxSortField" xml:space="preserve">
+    <value>The field '{0}' is invalid.</value>
+  </data>
+  <data name="kstidLoadingRecordCacheError" xml:space="preserve">
+    <value>The following error occurred while loading '{0}':{1}{2}</value>
+    <comment>Message displayed when failing to load a PAXML file. Parameter 0 is filename, paramter 1 is a line break, and parameter 2 is the error message.</comment>
+  </data>
+  <data name="kstidMissingClassMsg" xml:space="preserve">
+    <value>The class '{0}' is missing from this project. It may have been deleted.</value>
+  </data>
+  <data name="kstidMissingDataSourceOFDMsg" xml:space="preserve">
+    <value>Choose New Data Source Location</value>
+    <comment>Message displayed in the open file dialog when the user is pointing PA to the new location of a data source file.</comment>
+  </data>
+  <data name="kstidNoAudioField" xml:space="preserve">
+    <value>This project doesn't contain a field definition for audio files.</value>
+  </data>
+  <data name="kstidNoDataSourceEditorSpecifiedMsg" xml:space="preserve">
+    <value>No editor has been specified for the data source to which this record belongs.</value>
+  </data>
+  <data name="kstidNoToolboxSortFieldSpecified" xml:space="preserve">
+    <value>The first Toolbox sort field for this record's data source has not\nbeen specified. To specify the first Toolbox sort field, go to the\ndata source's properties from the project properties dialog.</value>
+  </data>
+  <data name="kstidParsingDataMsg" xml:space="preserve">
+    <value>Parsing Data...</value>
+    <comment>Progress bar text after SFM data source is read and the data is being parsed.</comment>
+  </data>
+  <data name="kstidProjectFileNonExistent" xml:space="preserve">
+    <value>Project file '{0}' doesn't exist.</value>
+  </data>
+  <data name="kstidReadingCacheFiles" xml:space="preserve">
+    <value>Reading Cache Files</value>
+    <comment>Progress bar text when reading cache files when loading a project</comment>
+  </data>
+  <data name="kstidReadingDataSourceProgressLabel" xml:space="preserve">
+    <value>Reading {0}</value>
+    <comment>Progress bar text when reading data source files.</comment>
+  </data>
+  <data name="kstidRecordMarkerFieldDisplayText" xml:space="preserve">
+    <value>Record Marker</value>
+    <comment>Text for the record marker field in the mappings dialog.</comment>
+  </data>
+  <data name="kstidRTFExportCaptionSFD" xml:space="preserve">
+    <value>Save RTF File</value>
+    <comment>Save file dialog caption for specifying the rtf file exported to under RTF export</comment>
+  </data>
+  <data name="kstidRtfGridAllWordsLabel" xml:space="preserve">
+    <value>All Words</value>
+    <comment>The value for the 'Word List' label when the exported list is not filtered or the result of a  search query.</comment>
+  </data>
+  <data name="kstidRtfGridHdrDateTimeName" xml:space="preserve">
+    <value>Date/Time: {0}{1}</value>
+    <comment>The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrLanguageName" xml:space="preserve">
+    <value>Language: {0}{1}</value>
+    <comment>The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrNbrOfRecords" xml:space="preserve">
+    <value>Number of Records: {0}{1}</value>
+    <comment>The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records.</comment>
+  </data>
+  <data name="kstidRtfGridHdrProjectName" xml:space="preserve">
+    <value>Project: {0}{1}</value>
+    <comment>The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrSearchPattern" xml:space="preserve">
+    <value>For Search Query: {0}{1}</value>
+    <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
+  <data name="kstidRtfGridHdrWordListName" xml:space="preserve">
+    <value>Word List: {0}{1}</value>
+    <comment>The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name.</comment>
+  </data>
+  <data name="kstidRtfInvalidEditor" xml:space="preserve">
+    <value>No editor exists at: {0}</value>
+  </data>
+  <data name="kstidSAMissingMsg" xml:space="preserve">
+    <value>Speech Analyzer cannot be found. Make sure it is installed.</value>
+  </data>
+  <data name="kstidSavingRecordCacheError" xml:space="preserve">
+    <value>Error saving records: {0}</value>
+    <comment>Message displayed if there was an error saving the records to an XML file.</comment>
+  </data>
+  <data name="kstidSplashScreenLoadingMsg" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="kstidToolboxNotRunningMsg" xml:space="preserve">
+    <value>Toolbox is not running. You must have Toolbox running for this feature to work.</value>
+  </data>
+  <data name="kstidUnableToEditSourceRecordMsg" xml:space="preserve">
+    <value>There is no source record editor associated with this record.</value>
+  </data>
+  <data name="kstidViewInitProgBarTemplate" xml:space="preserve">
+    <value>Initializing {0} View...</value>
+    <comment>Template for progress bar text text when a view is being initialized</comment>
+  </data>
+</root>
