@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ============================================================================================
+IMPORTANT NOTICE: command id's must all be unique within the application. That doesn't just mean
+unique within a particular XML definition file. It means unique among all the XML definition
+files used in a single application.
+
+Item "type" Values:
+	0 = Regular Button
+	1 = Button with popup arrow that pops-up subitems on a toolbar
+	2 = Button with popup arrow that pops-up subitems on a menu
+	3 = Button with popup arrow that pops-up a custom (application-defined) control.
+	4 = ComboBox
+	5 = Container for application-defined control (e.g. goto scripture passage control)
+
+Item "displaytype" Values (applies to item types 0 - 3):
+	0 = Image only (default)
+	1 = Text only
+	2 = Image and text
+
+	For button's of type 1, 2 and 3, an additional "split" attribute may be present indicating
+	whether or not the popup button is split or not. A split button has two portions (a normal
+	button portion and a smaller portion containing the drop-down arrow) and each can be
+	pressed independently.
+	
+	Item names with a "tbb" prefix are toolbar buttons.
+	Item names with a "mnu" prefix are menu items.
+	
+	Attributes beginning with dnb are DotNetBar specific.
+	
+	customizeitem - By default, only menu items are shown in the list of command items in the
+	toolbar customization dialog. However, there may be some toolbar items that aren't on the
+	menu but should be in the customization list. When applied to a toolbar item, this
+	attribute tells the adapter to put the toolbar item in the customization list even though
+	it isn't a menu item.
+
+	replacecustomizeitem - By default, only menu items are shown in the list of command items in the
+	toolbar customization dialog. However, sometimes the toolbar representation of a menu item
+	varies a little from the menu item. For example, when the undo and redo items appear on a
+	menu, they act like normal buttons. However, when they appear on a toolbar, the include a
+	drop-down arrow allowing the user to drop-down a list of actions to undo/redo. Therefore,
+	the toolbar implementation of the undo/redo command differs somewhat from the menu
+	implementation. In cases like these, it is desirable to only allow the drop-down version
+	of the buttons to be placed on toolbars. Applying this attribute to an item tells the
+	adapter to use the item to replace another one that has already been added to the
+	collection of customization items. This attribute should only be applied to toolbar items
+	and it's expected that the item being replaced is already in the customization collection.
+	
+	windowlist - This attribute should only be applied to one menu item. It tells the
+	adapter the item is the first item in the list of an application's open windows. The item
+	with this attribute set to true handle's it's update handler differently from other items.
+	When the update handler is called, an argument of type WindowListInfo is passed. The
+	update handler should fill-in the list property with the list of windows that should
+	be displayed in the menu.
+
+	morewindowsitem - This attribute flags an item as the "More Windows..." item. The
+	adapter will automatically make this item visible or hidden as necessary. When there are
+	more than 10 items in the window list, the adapter will make this item visible. Otherwise
+	it will be hidden.
+
+	recentlyusedlist - This attribute flags an item as the item, after which, recently used
+	files menu items will be added. The item marked with this attribute will be hidden, but
+	it will be used as marker by the adapter as the menu item preceeding the list.
+
+	allowcustomizing - This attribute for toolbars determines whether or not the last item
+	on the toolbar will be the little button that allows the user to customize the items
+	that are visible on the toolbar.
+	
+	settingFilesPrefix - This attribute for toolbars tells the adapter what prefix to use
+	when saving or restoring a toolbar's settings from a settings file. A settings file
+	saves all the information about a toolbar when the form it belongs to is closed. That
+	is how user customization information is saved. The file format for a toolbar's
+	settings format is: prefix.toolbarname.xml where toolbarname is replaced with the
+	toolbar's name (i.e. the name attribute of toolbar definition sections below).
+	
+	onmodalform - In the event the toolbar adapter allows toolbar's to be undocked, this
+	attribute for toolbars tells the adapter the toolbars will be placed on a modal form.
+	Therefore, the adapter will not allow toolbar's to be undocked. The reason being,
+	after toolbars are undocked, they cannot be docked again since the modal form doesn't
+	allow other windows (which undocked toolbars are) in the application to gain focus.
+
+	rightaligned - True if a toolbar item should appear aligned to the right side of the
+	toolbar it's on. The default is left.
+	
+	rightmargin - The amount of padding to add to the right side of a toolbar button to
+	give the button some space between it an the button to its right.
+
+	leftmargin - The amount of padding to add to the left side of a toolbar button to
+	give the button some space between it an the button to its left.
+
+============================================================================================ -->
+<TMDef>
+	<resources>
+		<!-- localizedstrings are for strings for toolbars, toolbar and menu items, tooltips,
+			and categories -->
+		<localizedstrings assemblyPath="PaResources.dll" class="SIL.Pa.Resources.PaTMStrings"/>
+
+		<imageList assemblyPath="PaResources.dll"
+			class="SIL.Pa.Resources.ResourceHelper"
+			field="TMImages"
+			labels="CmdConsonantChart, CmdVowelChart, CmdFind, CmdFindNext,
+				CmdGridLinesNone, CmdGridLinesBoth, CmdGridLinesHorizontal, CmdGridLinesVertical,
+				CmdHistogram, CmdShowGridColumns, CmdPhoneticSort, 11, 12, 13, 14, CmdPlayback,
+				CmdPlaybackRepeatedly, CmdStopPlayback, CmdDockView, CmdUnDockView, CmdOptions,
+				CmdAmbiguousItems, CmdCharChartEditLabel, 23, CmdFindPhones, 25, 26, 27, 28, 29,
+				30, 31, 32, 33,	34, 35, 36, 37, CmdShowRecordPane, CmdChartPhoneSearchAnywhere,
+				CmdChartPhoneSearchInitial,	CmdChartPhoneSearchFinal, CmdChartPhoneSearchAlone,
+				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
+				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, CmdFindPrevious, 49, 50,
+				CmdDataCorpus, CmdXYChart, 53, 54, 55, 56, CmdShowCIEResults,
+				CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
+				CmdPhoneInventory, CmdHelpPA, CmdHelpTraining, CmdHelpAbout">
+		</imageList>
+	</resources>
+
+	<commands>
+		<command id="CmdFile"/>
+		<command id="CmdEdit"/>
+		<command id="CmdView"/>
+		<command id="CmdTools"/>
+		<command id="CmdWindow"/>
+		<command id="CmdHelp"/>
+		<command id="CmdRecentlyUsedList"/>
+		<command id="CmdExit" message="FileExit" category="kstidFileCategory"/>
+		<command id="CmdNew" message="NewProject" category="kstidFileCategory" shortcutkey="CtrlN"/>
+		<command id="CmdOpen" message="OpenProject" category="kstidFileCategory" shortcutkey="CtrlO"/>
+		<command id="CmdProjectSettings" message="ProjectSettings" category="kstidFileCategory" shortcutkey="CtrlR"/>
+		<command id="CmdBackupRestore" message="BackupRestore" category="kstidFileCategory"/>
+		<command id="CmdExport" message="FileExport" category="kstidFileCategory"/>
+		<command id="CmdExportAs" message="FileExportAs" category="kstidFileCategory"/>
+		<command id="CmdExportAsPAXML" message="ExportAsPAXML" category="kstidFileCategory"/>
+		<command id="CmdExportAsHTML" message="ExportAsHTML" category="kstidFileCategory"/>
+		<command id="CmdExportAsRTF" message="ExportAsRTF" category="kstidFileCategory"/>
+		<command id="CmdExportAsBMP" message="FileExportAsBMP" category="kstidFileCategory"/>
+		<command id="CmdPlayback" message="Playback" category="kstidFileCategory" shortcutkey="F5"/>
+		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" category="kstidFileCategory" shortcutkey="CtrlF5"/>
+		<command id="CmdStopPlayback" message="StopPlayback" category="kstidFileCategory" shortcutkey="F8"/>
+		<command id="CmdPhoneticSort" message="PhoneticSort" category="kstidViewCategory"/>
+		<command id="CmdFind" message="EditFind" category="kstidEditCategory" shortcutkey="CtrlF"/>
+		<command id="CmdFindNext" message="EditFindNext" category="kstidEditCategory" shortcutkey="F3"/>
+		<command id="CmdFindPrevious" message="EditFindPrevious" category="kstidEditCategory" shortcutkey="ShiftF3"/>
+		<command id="CmdDataCorpus" message="ViewDataCorpus" category="kstidViewCategory" shortcutkey="CtrlAltD"/>
+		<command id="CmdFindPhones" message="ViewFindPhones" category="kstidViewCategory" shortcutkey="CtrlAltS"/>
+		<command id="CmdConsonantChart" message="ViewConsonantChart" category="kstidViewCategory" shortcutkey="CtrlAltC"/>
+		<command id="CmdVowelChart" message="ViewVowelChart" category="kstidViewCategory" shortcutkey="CtrlAltV"/>
+		<command id="CmdXYChart" message="ViewXYChart" category="kstidViewCategory" shortcutkey="CtrlAltX"/>
+		<command id="CmdPhoneInventory" message="ViewPhoneInventory" category="kstidViewCategory" shortcutkey="CtrlAltP"/>
+		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="CtrlM"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory"/>
+		<command id="CmdExpandAllGroups" message="ExpandAllGroups" category="kstidViewCategory"/>
+		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" category="kstidViewCategory"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane" category="kstidViewCategory"/>
+		<command id="CmdDefineClasses" message="DefineClasses" category="kstidToolsCategory"/>
+		<command id="CmdUndefinedCharacters" message="UndefinedCharacters" category="kstidToolsCategory"/>
+		<command id="CmdOptions" message="ToolsOptions" category="kstidToolsCategory"/>
+		<command id="CmdCascade" message="WindowCascade" category="kstidWindowCategory"/>
+		<command id="CmdTileHorz" message="WindowTileHorizontally" category="kstidWindowCategory"/>
+		<command id="CmdTileVert" message="WindowTileVertically" category="kstidWindowCategory"/>
+		<command id="CmdHelpPA" message="HelpPA" category="kstidHelpCategory" shortcutkey="F1"/>
+		<command id="CmdHelpTraining" message="HelpHelpTraining" category="kstidHelpCategory"/>
+		<command id="CmdHelpAbout" message="HelpAbout" category="kstidHelpCategory"/>
+		<command id="CmdStudentManual" message="StudentManual" category="kstidHelpCategory"/>
+		<command id="CmdExercises" message="Exercises" category="kstidHelpCategory"/>
+		<command id="CmdInstructorGuide" message="InstructorGuide" category="kstidHelpCategory"/>
+		<command id="CmdShowGridColumns" message="ShowGridColumns" category="kstidViewCategory"/>
+		<command id="CmdShowGridLines" message="ShowGridLines" category="kstidViewCategory"/>
+		<command id="CmdGridLinesNone" message="GridLinesNone" category="kstidViewCategory"/>
+		<command id="CmdGridLinesBoth" message="GridLinesBoth" category="kstidViewCategory"/>
+		<command id="CmdGridLinesHorizontal" message="GridLinesHorizontal" category="kstidViewCategory"/>
+		<command id="CmdGridLinesVertical" message="GridLinesVertical" category="kstidViewCategory"/>
+		<command id="CmdAmbiguousItems" message="DefineAmbiguousItems" category="kstidToolsCategory" shortcutkey="CtrlAltA"/>
+		<command id="CmdChartPhoneSearch" message="ChartPhoneSearch" category="kstidViewCategory"/>
+		<command id="CmdChartPhoneSearchAnywhere" message="ChartPhoneSearchAnywhere" category="kstidViewCategory"/>
+		<command id="CmdChartPhoneSearchInitial" message="ChartPhoneSearchInitial" category="kstidViewCategory"/>
+		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial" category="kstidViewCategory"/>
+		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal" category="kstidViewCategory"/>
+		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone" category="kstidViewCategory"/>
+		<command id="CmdEditSourceRecord" message="EditSourceRecord" category="kstidEditCategory" shortcutkey="ShiftF2"/>
+		<command id="CmdUnDockView" message="UnDockView"/>
+		<command id="CmdDockView" message="DockView"/>
+		<command id="CmdReloadProject" message="ReloadProject"/>
+
+		<command id="CmdWriteIPACache" message="WriteIPACache"/>
+		<command id="CmdWriteDefaultFieldInfo" message="WriteDefaultFieldInfo"/>
+	</commands>
+
+	<!-- **************** -->
+	<!-- MENU DEFINITIONS -->
+	<!-- **************** -->
+	<menus>
+		<!-- *************** -->
+		<!--    FILE MENU    -->
+		<!-- *************** -->
+		<item name="mnuFile" commandid="CmdFile">
+			<item name="mnuFileNew" commandid="CmdNew"/>
+			<item name="mnuFileOpen" commandid="CmdOpen"/>
+			<item name="mnuProjectSettings" commandid="CmdProjectSettings" begingroup="true"/>
+			<!-- item name="mnuBackupRestore" commandid="CmdBackupRestore"/ -->
+			<item name="mnuFileExportAs" commandid="CmdExportAs">
+				<item name="mnuFileExportHTML" commandid="CmdExportAsHTML"/>
+				<item name="mnuFileExportRTF" commandid="CmdExportAsRTF"/>
+				<item name="mnuExportAsPAXML" commandid="CmdExportAsPAXML"/>
+			</item>
+			<item name="mnuPlayback" commandid="CmdPlayback" begingroup="true"/>
+			<item name="mnuPlaybackRepeatedly" commandid="CmdPlaybackRepeatedly"/>
+			<item name="mnuStopPlayback" commandid="CmdStopPlayback"/>
+			<item name="mnuRecentlyUsedList" commandid="CmdRecentlyUsedList" begingroup="true" recentlyusedlist="true"/>
+			<item name="mnuFileExit" commandid="CmdExit" begingroup="true"/>
+		</item>
+
+		<!-- *************** -->
+		<!--    EDIT MENU    -->
+		<!-- *************** -->
+		<item name="mnuEdit" commandid="CmdEdit" >
+			<item name="mnuFind" commandid="CmdFind"/>
+			<item name="mnuFindNext" commandid="CmdFindNext"/>
+			<item name="mnuFindPrevious" commandid="CmdFindPrevious"/>
+			<item name="mnuEditSourceRecord" commandid="CmdEditSourceRecord" begingroup="true"/>
+			<item name="mnuReloadProject" commandid="CmdReloadProject" begingroup="true"/>
+		</item>
+
+		<!-- *************** -->
+		<!--    VIEW MENU    -->
+		<!-- *************** -->
+		<item name="mnuView" commandid="CmdView">
+			<item name="mnuDataCorpus" commandid="CmdDataCorpus"/>
+			<item name="mnuFindPhones" commandid="CmdFindPhones"/>
+			<item name="mnuConsonantChart" commandid="CmdConsonantChart"/>
+			<item name="mnuVowelChart" commandid="CmdVowelChart"/>
+			<item name="mnuXYChart" commandid="CmdXYChart"/>
+			<item name="mnuPhoneInventory" commandid="CmdPhoneInventory"/>
+			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" begingroup="true"/>
+			<item name="mnuGroupBySortedField" commandid="CmdGroupBySortedField" begingroup="true"/>
+			<item name="mnuCollapseAllGroups" commandid="CmdCollapseAllGroups"/>
+			<item name="mnuExpandAllGroups" commandid="CmdExpandAllGroups"/>
+			<item name="mnuShowRecordPane" commandid="CmdShowRecordPane" begingroup="true"/>
+		</item>
+
+		<!-- *************** -->
+		<!--   TOOLS MENU  -->
+		<!-- *************** -->
+		<item name="mnuTools" commandid="CmdTools">
+			<item name="mnuDefClasses" commandid="CmdDefineClasses" />
+			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
+			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
+		</item>
+
+		<!-- *************** -->
+		<!--    HELP MENU    -->
+		<!-- *************** -->
+		<item name="mnuHelp" commandid="CmdHelp">
+			<item name="mnuHelpPA" commandid="CmdHelpPA"/>
+			<item name="mnuHelpTraining" commandid="CmdHelpTraining">
+				<item name="mnuStudentManual" commandid="CmdStudentManual"/>
+				<item name="mnuExercises" commandid="CmdExercises"/>
+				<item name="mnuInstructorGuide" commandid="CmdInstructorGuide"/>
+			</item>
+			<item name="mnuHelpAbout" commandid="CmdHelpAbout" begingroup="true"/>
+		</item>
+		<item name="mnuUnDockView" commandid="CmdUnDockView" displaytype="0" rightaligned="true" rightmargin="10" visible="false"/>
+		<item name="mnuDockView" commandid="CmdDockView" displaytype="0" rightaligned="true" rightmargin="10"/>
+		<item name="mnuOptionsMain" commandid="CmdOptions" displaytype="0" rightaligned="true"/>
+		<!--item name="mnuAmbiguousItems" commandid="CmdAmbiguousItems" displaytype="0" rightaligned="true"/-->
+	</menus>
+</TMDef>
