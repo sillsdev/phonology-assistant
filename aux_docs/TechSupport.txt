@@ -1,0 +1,14 @@
+Phonology Assistant Technical Support
+
+Phonology Assistant 3.0
+
+1. Go to the Help menu
+
+2. Read the known issues in the ReadMe.rtf
+
+3. Read the service bulletins found in the "SILSoftwareSupport" folder on the SIL Freeware Disc
+
+4. Read the Phonology Assistant web site for the latest information, 
+   [TODO: change web address to correct one when it exists: https://www.sil.org/computing/catalog/show_software_support.asp?id=59]
+
+
