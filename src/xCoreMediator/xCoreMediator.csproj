@@ -1,0 +1,112 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>xCoreMediator</RootNamespace>
+    <AssemblyName>xCoreMediator</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Choice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ChoiceGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FwTempFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IFWDisposable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IUIAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IxCoreColleague.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="List.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mediator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MessageSequencer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Set.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SILExceptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StringTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Win32Wrappers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="xCoreInterfaces.Designer.cs" />
+    <Compile Include="XmlUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
