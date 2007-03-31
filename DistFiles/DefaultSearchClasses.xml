@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSearchClassGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<SearchClassGroup Name="Consonant - Manner of Articulation">
+		<Classes>
+			<SearchClass Name="plosives" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>1</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="nasal" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>2</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="trills" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>3</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="flaps" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>4</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="fricative" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>5</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="laterals" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>6</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="approximants" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>7</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+		</Classes>
+	</SearchClassGroup>
+	<SearchClassGroup Name="Consonant - Place of Articulation">
+		<Classes>
+			<SearchClass Name="bilabials" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>1</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="dentals" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>2</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="alveolars" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>3</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="palatals" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>4</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="velars" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>5</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="uvulars" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>6</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="glottal" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>7</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+		</Classes>
+	</SearchClassGroup>
+	<SearchClassGroup Name="User Defined">
+		<Classes>
+			<SearchClass Name="atr" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>1</SortOrder>
+				<SearchClassType>BinaryVowel</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="rtr" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>2</SortOrder>
+				<SearchClassType>BinaryVowel</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="stupid class" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>3</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="strident" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>4</SortOrder>
+				<SearchClassType>BinaryConsonant</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="voiced bilabial" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>5</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+		</Classes>
+	</SearchClassGroup>
+	<SearchClassGroup Name="Voicing">
+		<Classes>
+			<SearchClass Name="voiced" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>1</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="voiceless" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>2</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+		</Classes>
+	</SearchClassGroup>
+	<SearchClassGroup Name="Vowels">
+		<Classes>
+			<SearchClass Name="front vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>1</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="central vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>2</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="back vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>3</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="close vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>4</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="mid vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>5</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+			<SearchClass Name="open vowels" Pattern="TO BE FILLED-IN LATER">
+				<SortOrder>6</SortOrder>
+				<SearchClassType>Articulatory</SearchClassType>
+			</SearchClass>
+		</Classes>
+	</SearchClassGroup>
+</ArrayOfSearchClassGroup>
