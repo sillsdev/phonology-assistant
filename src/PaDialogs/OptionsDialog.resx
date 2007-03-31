@@ -1,0 +1,2211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="picSaveInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="picSaveInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 7</value>
+  </data>
+  <data name="picSaveInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>16, 16</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="picSaveInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="picSaveInfo.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;picSaveInfo.Name" xml:space="preserve">
+    <value>picSaveInfo</value>
+  </data>
+  <data name="&gt;&gt;picSaveInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;picSaveInfo.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;picSaveInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblSaveInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lblSaveInfo.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="lblSaveInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSaveInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>34, 5</value>
+  </data>
+  <data name="lblSaveInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>245, 33</value>
+  </data>
+  <data name="lblSaveInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblSaveInfo.Text" xml:space="preserve">
+    <value>The options for this tab will be saved only for the current project.</value>
+  </data>
+  <data name="lblSaveInfo.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblSaveInfo.Name" xml:space="preserve">
+    <value>lblSaveInfo</value>
+  </data>
+  <data name="&gt;&gt;lblSaveInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSaveInfo.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;lblSaveInfo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 422</value>
+  </data>
+  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>543, 41</value>
+  </data>
+  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>462, 7</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
+    <value>btnHelp</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>284, 7</value>
+  </data>
+  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 26</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>373, 7</value>
+  </data>
+  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 26</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
+    <value>btnCancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="fldSelGridWrdList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 57</value>
+  </data>
+  <data name="fldSelGridWrdList.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="fldSelGridWrdList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 225</value>
+  </data>
+  <data name="fldSelGridWrdList.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridWrdList.Name" xml:space="preserve">
+    <value>fldSelGridWrdList</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
+    <value>grpColSettings</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridWrdList.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnMoveColDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveColDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 84</value>
+  </data>
+  <data name="btnMoveColDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="btnMoveColDown.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="btnMoveColDown.ToolTip" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColDown.Name" xml:space="preserve">
+    <value>btnMoveColDown</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColDown.Parent" xml:space="preserve">
+    <value>grpColSettings</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColDown.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnMoveColUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveColUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 57</value>
+  </data>
+  <data name="btnMoveColUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="btnMoveColUp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnMoveColUp.ToolTip" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColUp.Name" xml:space="preserve">
+    <value>btnMoveColUp</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColUp.Parent" xml:space="preserve">
+    <value>grpColSettings</value>
+  </data>
+  <data name="&gt;&gt;btnMoveColUp.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblShowColumns.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblShowColumns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblShowColumns.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 18</value>
+  </data>
+  <data name="lblShowColumns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 37</value>
+  </data>
+  <data name="lblShowColumns.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblShowColumns.Text" xml:space="preserve">
+    <value>&amp;Specify the columns to display and their order.</value>
+  </data>
+  <data name="lblShowColumns.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblShowColumns.Name" xml:space="preserve">
+    <value>lblShowColumns</value>
+  </data>
+  <data name="&gt;&gt;lblShowColumns.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblShowColumns.Parent" xml:space="preserve">
+    <value>grpColSettings</value>
+  </data>
+  <data name="&gt;&gt;lblShowColumns.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpColSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="grpColSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>196, 290</value>
+  </data>
+  <data name="grpColSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpColSettings.Text" xml:space="preserve">
+    <value>Column Display Options</value>
+  </data>
+  <data name="&gt;&gt;grpColSettings.Name" xml:space="preserve">
+    <value>grpColSettings</value>
+  </data>
+  <data name="&gt;&gt;grpColSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpColSettings.Parent" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;grpColSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblExplanation.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblExplanation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 21</value>
+  </data>
+  <data name="lblExplanation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>295, 52</value>
+  </data>
+  <data name="lblExplanation.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblExplanation.Text" xml:space="preserve">
+    <value>Use the following to control how the last changes made to any existing word list will affect new word lists.</value>
+  </data>
+  <data name="&gt;&gt;lblExplanation.Name" xml:space="preserve">
+    <value>lblExplanation</value>
+  </data>
+  <data name="&gt;&gt;lblExplanation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExplanation.Parent" xml:space="preserve">
+    <value>grpColChanges</value>
+  </data>
+  <data name="&gt;&gt;lblExplanation.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chkSaveReorderedColumns.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkSaveReorderedColumns.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkSaveReorderedColumns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkSaveReorderedColumns.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 76</value>
+  </data>
+  <data name="chkSaveReorderedColumns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 35</value>
+  </data>
+  <data name="chkSaveReorderedColumns.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="chkSaveReorderedColumns.Text" xml:space="preserve">
+    <value>Save arrangement of &amp;reordered columns as default order</value>
+  </data>
+  <data name="chkSaveReorderedColumns.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkSaveReorderedColumns.Name" xml:space="preserve">
+    <value>chkSaveReorderedColumns</value>
+  </data>
+  <data name="&gt;&gt;chkSaveReorderedColumns.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSaveReorderedColumns.Parent" xml:space="preserve">
+    <value>grpColChanges</value>
+  </data>
+  <data name="&gt;&gt;chkSaveReorderedColumns.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chkSaveColHdrHeight.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkSaveColHdrHeight.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkSaveColHdrHeight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkSaveColHdrHeight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 152</value>
+  </data>
+  <data name="chkSaveColHdrHeight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 35</value>
+  </data>
+  <data name="chkSaveColHdrHeight.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chkSaveColHdrHeight.Text" xml:space="preserve">
+    <value>Save adjusted column heading &amp;height as default height</value>
+  </data>
+  <data name="chkSaveColHdrHeight.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColHdrHeight.Name" xml:space="preserve">
+    <value>chkSaveColHdrHeight</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColHdrHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColHdrHeight.Parent" xml:space="preserve">
+    <value>grpColChanges</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColHdrHeight.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chkSaveColWidths.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkSaveColWidths.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkSaveColWidths.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 114</value>
+  </data>
+  <data name="chkSaveColWidths.Size" type="System.Drawing.Size, System.Drawing">
+    <value>292, 35</value>
+  </data>
+  <data name="chkSaveColWidths.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="chkSaveColWidths.Text" xml:space="preserve">
+    <value>Save adjusted column &amp;widths as default widths</value>
+  </data>
+  <data name="chkSaveColWidths.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColWidths.Name" xml:space="preserve">
+    <value>chkSaveColWidths</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColWidths.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColWidths.Parent" xml:space="preserve">
+    <value>grpColChanges</value>
+  </data>
+  <data name="&gt;&gt;chkSaveColWidths.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpColChanges.Location" type="System.Drawing.Point, System.Drawing">
+    <value>211, 12</value>
+  </data>
+  <data name="grpColChanges.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 191</value>
+  </data>
+  <data name="grpColChanges.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="grpColChanges.Text" xml:space="preserve">
+    <value>Column Changes</value>
+  </data>
+  <data name="&gt;&gt;grpColChanges.Name" xml:space="preserve">
+    <value>grpColChanges</value>
+  </data>
+  <data name="&gt;&gt;grpColChanges.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpColChanges.Parent" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;grpColChanges.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="nudMaxEticColWidth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>462, 345</value>
+  </data>
+  <data name="nudMaxEticColWidth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 20</value>
+  </data>
+  <data name="nudMaxEticColWidth.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="nudMaxEticColWidth.ToolTip" xml:space="preserve">
+    <value>Maximum automatically calculated phonetic column width</value>
+  </data>
+  <data name="nudMaxEticColWidth.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;nudMaxEticColWidth.Name" xml:space="preserve">
+    <value>nudMaxEticColWidth</value>
+  </data>
+  <data name="&gt;&gt;nudMaxEticColWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nudMaxEticColWidth.Parent" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;nudMaxEticColWidth.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 9pt</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 316</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 54</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.Text" xml:space="preserve">
+    <value>&amp;For search results, automatically calculate the phonetic column width up to the limit specified at left. Not checking this will result in using the last known phonetic column width. (enter zero for no limit):</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkAutoAdjustPhoneticCol.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;chkAutoAdjustPhoneticCol.Name" xml:space="preserve">
+    <value>chkAutoAdjustPhoneticCol</value>
+  </data>
+  <data name="&gt;&gt;chkAutoAdjustPhoneticCol.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkAutoAdjustPhoneticCol.Parent" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;chkAutoAdjustPhoneticCol.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="rbGridLinesHorizontal.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbGridLinesHorizontal.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="rbGridLinesHorizontal.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbGridLinesHorizontal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 49</value>
+  </data>
+  <data name="rbGridLinesHorizontal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 24</value>
+  </data>
+  <data name="rbGridLinesHorizontal.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rbGridLinesHorizontal.Text" xml:space="preserve">
+    <value>  H&amp;orizontal only</value>
+  </data>
+  <data name="rbGridLinesHorizontal.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageBeforeText</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesHorizontal.Name" xml:space="preserve">
+    <value>rbGridLinesHorizontal</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesHorizontal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesHorizontal.Parent" xml:space="preserve">
+    <value>grpGridLines</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesHorizontal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbGridLinesVertical.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbGridLinesVertical.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="rbGridLinesVertical.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbGridLinesVertical.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 19</value>
+  </data>
+  <data name="rbGridLinesVertical.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 24</value>
+  </data>
+  <data name="rbGridLinesVertical.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbGridLinesVertical.Text" xml:space="preserve">
+    <value>  &amp;Vertical only</value>
+  </data>
+  <data name="rbGridLinesVertical.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageBeforeText</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesVertical.Name" xml:space="preserve">
+    <value>rbGridLinesVertical</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesVertical.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesVertical.Parent" xml:space="preserve">
+    <value>grpGridLines</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesVertical.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbGridLinesBoth.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbGridLinesBoth.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="rbGridLinesBoth.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbGridLinesBoth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 19</value>
+  </data>
+  <data name="rbGridLinesBoth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 24</value>
+  </data>
+  <data name="rbGridLinesBoth.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rbGridLinesBoth.Text" xml:space="preserve">
+    <value>  &amp;Both</value>
+  </data>
+  <data name="rbGridLinesBoth.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageBeforeText</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesBoth.Name" xml:space="preserve">
+    <value>rbGridLinesBoth</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesBoth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesBoth.Parent" xml:space="preserve">
+    <value>grpGridLines</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesBoth.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="rbGridLinesNone.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbGridLinesNone.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="rbGridLinesNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbGridLinesNone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 49</value>
+  </data>
+  <data name="rbGridLinesNone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 24</value>
+  </data>
+  <data name="rbGridLinesNone.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="rbGridLinesNone.Text" xml:space="preserve">
+    <value>  &amp;None</value>
+  </data>
+  <data name="rbGridLinesNone.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageBeforeText</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesNone.Name" xml:space="preserve">
+    <value>rbGridLinesNone</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesNone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesNone.Parent" xml:space="preserve">
+    <value>grpGridLines</value>
+  </data>
+  <data name="&gt;&gt;rbGridLinesNone.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpGridLines.Location" type="System.Drawing.Point, System.Drawing">
+    <value>211, 214</value>
+  </data>
+  <data name="grpGridLines.Size" type="System.Drawing.Size, System.Drawing">
+    <value>310, 88</value>
+  </data>
+  <data name="grpGridLines.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="grpGridLines.Text" xml:space="preserve">
+    <value>Grid Lines</value>
+  </data>
+  <data name="&gt;&gt;grpGridLines.Name" xml:space="preserve">
+    <value>grpGridLines</value>
+  </data>
+  <data name="&gt;&gt;grpGridLines.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpGridLines.Parent" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;grpGridLines.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tpgWordLists.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgWordLists.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgWordLists.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgWordLists.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tpgWordLists.Text" xml:space="preserve">
+    <value>Word Lists</value>
+  </data>
+  <data name="&gt;&gt;tpgWordLists.Name" xml:space="preserve">
+    <value>tpgWordLists</value>
+  </data>
+  <data name="&gt;&gt;tpgWordLists.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgWordLists.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgWordLists.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="fldSelGridRecView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 57</value>
+  </data>
+  <data name="fldSelGridRecView.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="fldSelGridRecView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 273</value>
+  </data>
+  <data name="fldSelGridRecView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridRecView.Name" xml:space="preserve">
+    <value>fldSelGridRecView</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
+    <value>grpFieldSettings</value>
+  </data>
+  <data name="&gt;&gt;fldSelGridRecView.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblShowFields.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblShowFields.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblShowFields.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 18</value>
+  </data>
+  <data name="lblShowFields.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 37</value>
+  </data>
+  <data name="lblShowFields.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblShowFields.Text" xml:space="preserve">
+    <value>&amp;Specify the fields to display and their order.</value>
+  </data>
+  <data name="lblShowFields.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblShowFields.Name" xml:space="preserve">
+    <value>lblShowFields</value>
+  </data>
+  <data name="&gt;&gt;lblShowFields.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblShowFields.Parent" xml:space="preserve">
+    <value>grpFieldSettings</value>
+  </data>
+  <data name="&gt;&gt;lblShowFields.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnMoveRecVwFldDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveRecVwFldDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 84</value>
+  </data>
+  <data name="btnMoveRecVwFldDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="btnMoveRecVwFldDown.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnMoveRecVwFldDown.ToolTip" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldDown.Name" xml:space="preserve">
+    <value>btnMoveRecVwFldDown</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldDown.Parent" xml:space="preserve">
+    <value>grpFieldSettings</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldDown.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnMoveRecVwFldUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveRecVwFldUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>190, 57</value>
+  </data>
+  <data name="btnMoveRecVwFldUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 24</value>
+  </data>
+  <data name="btnMoveRecVwFldUp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnMoveRecVwFldUp.ToolTip" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldUp.Name" xml:space="preserve">
+    <value>btnMoveRecVwFldUp</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldUp.Parent" xml:space="preserve">
+    <value>grpFieldSettings</value>
+  </data>
+  <data name="&gt;&gt;btnMoveRecVwFldUp.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpFieldSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 12</value>
+  </data>
+  <data name="grpFieldSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 341</value>
+  </data>
+  <data name="grpFieldSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpFieldSettings.Text" xml:space="preserve">
+    <value>Field Display Options</value>
+  </data>
+  <data name="&gt;&gt;grpFieldSettings.Name" xml:space="preserve">
+    <value>grpFieldSettings</value>
+  </data>
+  <data name="&gt;&gt;grpFieldSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpFieldSettings.Parent" xml:space="preserve">
+    <value>tpgRecView</value>
+  </data>
+  <data name="&gt;&gt;grpFieldSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgRecView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgRecView.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgRecView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgRecView.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tpgRecView.Text" xml:space="preserve">
+    <value>Record View</value>
+  </data>
+  <data name="&gt;&gt;tpgRecView.Name" xml:space="preserve">
+    <value>tpgRecView</value>
+  </data>
+  <data name="&gt;&gt;tpgRecView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgRecView.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgRecView.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblShowDiamondPattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 189</value>
+  </data>
+  <data name="lblShowDiamondPattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>261, 177</value>
+  </data>
+  <data name="lblShowDiamondPattern.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblShowDiamondPattern.Text" xml:space="preserve">
+    <value>Displays a diamond pattern (i.e. {0}) when the Current Search Pattern is empty in the Search view.</value>
+  </data>
+  <data name="&gt;&gt;lblShowDiamondPattern.Name" xml:space="preserve">
+    <value>lblShowDiamondPattern</value>
+  </data>
+  <data name="&gt;&gt;lblShowDiamondPattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblShowDiamondPattern.Parent" xml:space="preserve">
+    <value>tpgFindPhones</value>
+  </data>
+  <data name="&gt;&gt;lblShowDiamondPattern.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chkShowDiamondPattern.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkShowDiamondPattern.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkShowDiamondPattern.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkShowDiamondPattern.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 170</value>
+  </data>
+  <data name="chkShowDiamondPattern.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 19</value>
+  </data>
+  <data name="chkShowDiamondPattern.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chkShowDiamondPattern.Text" xml:space="preserve">
+    <value>&amp;Display diamond pattern</value>
+  </data>
+  <data name="chkShowDiamondPattern.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkShowDiamondPattern.Name" xml:space="preserve">
+    <value>chkShowDiamondPattern</value>
+  </data>
+  <data name="&gt;&gt;chkShowDiamondPattern.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkShowDiamondPattern.Parent" xml:space="preserve">
+    <value>tpgFindPhones</value>
+  </data>
+  <data name="&gt;&gt;chkShowDiamondPattern.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="grpClassSettings.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rdoClassMembers.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rdoClassMembers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 98</value>
+  </data>
+  <data name="rdoClassMembers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 17</value>
+  </data>
+  <data name="rdoClassMembers.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rdoClassMembers.Text" xml:space="preserve">
+    <value>Class &amp;members</value>
+  </data>
+  <data name="&gt;&gt;rdoClassMembers.Name" xml:space="preserve">
+    <value>rdoClassMembers</value>
+  </data>
+  <data name="&gt;&gt;rdoClassMembers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rdoClassMembers.Parent" xml:space="preserve">
+    <value>grpClassSettings</value>
+  </data>
+  <data name="&gt;&gt;rdoClassMembers.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rdoClassName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rdoClassName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 75</value>
+  </data>
+  <data name="rdoClassName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="rdoClassName.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rdoClassName.Text" xml:space="preserve">
+    <value>Class &amp;name</value>
+  </data>
+  <data name="&gt;&gt;rdoClassName.Name" xml:space="preserve">
+    <value>rdoClassName</value>
+  </data>
+  <data name="&gt;&gt;rdoClassName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rdoClassName.Parent" xml:space="preserve">
+    <value>grpClassSettings</value>
+  </data>
+  <data name="&gt;&gt;rdoClassName.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblClassDisplayBehavior.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 20</value>
+  </data>
+  <data name="lblClassDisplayBehavior.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 44</value>
+  </data>
+  <data name="lblClassDisplayBehavior.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblClassDisplayBehavior.Text" xml:space="preserve">
+    <value>When displaying classes in search patterns and nested class definitions, show:</value>
+  </data>
+  <data name="lblClassDisplayBehavior.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblClassDisplayBehavior.Name" xml:space="preserve">
+    <value>lblClassDisplayBehavior</value>
+  </data>
+  <data name="&gt;&gt;lblClassDisplayBehavior.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblClassDisplayBehavior.Parent" xml:space="preserve">
+    <value>grpClassSettings</value>
+  </data>
+  <data name="&gt;&gt;lblClassDisplayBehavior.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpClassSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 13</value>
+  </data>
+  <data name="grpClassSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>231, 134</value>
+  </data>
+  <data name="grpClassSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="grpClassSettings.Text" xml:space="preserve">
+    <value>Class Display Behavior</value>
+  </data>
+  <data name="&gt;&gt;grpClassSettings.Name" xml:space="preserve">
+    <value>grpClassSettings</value>
+  </data>
+  <data name="&gt;&gt;grpClassSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpClassSettings.Parent" xml:space="preserve">
+    <value>tpgFindPhones</value>
+  </data>
+  <data name="&gt;&gt;grpClassSettings.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tpgFindPhones.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgFindPhones.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgFindPhones.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tpgFindPhones.Text" xml:space="preserve">
+    <value>Search Patterns</value>
+  </data>
+  <data name="&gt;&gt;tpgFindPhones.Name" xml:space="preserve">
+    <value>tpgFindPhones</value>
+  </data>
+  <data name="&gt;&gt;tpgFindPhones.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgFindPhones.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgFindPhones.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpDisplayChars.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="lblExampleDesc2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExampleDesc2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 203</value>
+  </data>
+  <data name="lblExampleDesc2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 13</value>
+  </data>
+  <data name="lblExampleDesc2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="lblExampleDesc2.Text" xml:space="preserve">
+    <value>would yield:</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc2.Name" xml:space="preserve">
+    <value>lblExampleDesc2</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc2.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblExampleCV.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExampleCV.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="lblExampleCV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 227</value>
+  </data>
+  <data name="lblExampleCV.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 24</value>
+  </data>
+  <data name="lblExampleCV.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblExampleCV.Text" xml:space="preserve">
+    <value>CVʔ</value>
+  </data>
+  <data name="lblExampleCV.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCV.Name" xml:space="preserve">
+    <value>lblExampleCV</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCV.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCV.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="txtCustomChars.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="txtCustomChars.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 77</value>
+  </data>
+  <data name="txtCustomChars.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 29</value>
+  </data>
+  <data name="txtCustomChars.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txtCustomChars.Name" xml:space="preserve">
+    <value>txtCustomChars</value>
+  </data>
+  <data name="&gt;&gt;txtCustomChars.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtCustomChars.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;txtCustomChars.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblExampleCVCV.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExampleCVCV.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="lblExampleCVCV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblExampleCVCV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 227</value>
+  </data>
+  <data name="lblExampleCVCV.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 24</value>
+  </data>
+  <data name="lblExampleCVCV.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lblExampleCVCV.Text" xml:space="preserve">
+    <value>CṼCV</value>
+  </data>
+  <data name="lblExampleCVCV.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCVCV.Name" xml:space="preserve">
+    <value>lblExampleCVCV</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCVCV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCVCV.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;lblExampleCVCV.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblInstruction.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblInstruction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 23</value>
+  </data>
+  <data name="lblInstruction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 47</value>
+  </data>
+  <data name="lblInstruction.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblInstruction.Text" xml:space="preserve">
+    <value>To include characters not shown in the lists to the left, enter them below. Include a space between each character.</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.Name" xml:space="preserve">
+    <value>lblInstruction</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;lblInstruction.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="txtExampleInput.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="txtExampleInput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 157</value>
+  </data>
+  <data name="txtExampleInput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 29</value>
+  </data>
+  <data name="txtExampleInput.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="txtExampleInput.Text" xml:space="preserve">
+    <value>  ̃ ʔ</value>
+  </data>
+  <data name="&gt;&gt;txtExampleInput.Name" xml:space="preserve">
+    <value>txtExampleInput</value>
+  </data>
+  <data name="&gt;&gt;txtExampleInput.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtExampleInput.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;txtExampleInput.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblExampleDesc1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 111</value>
+  </data>
+  <data name="lblExampleDesc1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 38</value>
+  </data>
+  <data name="lblExampleDesc1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblExampleDesc1.Text" xml:space="preserve">
+    <value>Examples: Entering nasalization and a glottal stop like this above,</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc1.Name" xml:space="preserve">
+    <value>lblExampleDesc1</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc1.Parent" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;lblExampleDesc1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="grpDisplayChars.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 7</value>
+  </data>
+  <data name="grpDisplayChars.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpDisplayChars.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 362</value>
+  </data>
+  <data name="grpDisplayChars.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="grpDisplayChars.Text" xml:space="preserve">
+    <value>Display these characters</value>
+  </data>
+  <data name="&gt;&gt;grpDisplayChars.Name" xml:space="preserve">
+    <value>grpDisplayChars</value>
+  </data>
+  <data name="&gt;&gt;grpDisplayChars.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpDisplayChars.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;grpDisplayChars.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chkTone.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkTone.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkTone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkTone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 164</value>
+  </data>
+  <data name="chkTone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 17</value>
+  </data>
+  <data name="chkTone.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="chkTone.Text" xml:space="preserve">
+    <value>Display &amp;Tone</value>
+  </data>
+  <data name="chkTone.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkTone.Name" xml:space="preserve">
+    <value>chkTone</value>
+  </data>
+  <data name="&gt;&gt;chkTone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkTone.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;chkTone.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="tonePicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="tonePicker.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="tonePicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tonePicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
+  </data>
+  <data name="tonePicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tonePicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 175</value>
+  </data>
+  <data name="tonePicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tonePicker.Name" xml:space="preserve">
+    <value>tonePicker</value>
+  </data>
+  <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
+    <value>grpTone</value>
+  </data>
+  <data name="&gt;&gt;tonePicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpTone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 164</value>
+  </data>
+  <data name="grpTone.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpTone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 205</value>
+  </data>
+  <data name="grpTone.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;grpTone.Name" xml:space="preserve">
+    <value>grpTone</value>
+  </data>
+  <data name="&gt;&gt;grpTone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpTone.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;grpTone.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chkLength.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkLength.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkLength.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkLength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 86</value>
+  </data>
+  <data name="chkLength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 17</value>
+  </data>
+  <data name="chkLength.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="chkLength.Text" xml:space="preserve">
+    <value>Display &amp;Length</value>
+  </data>
+  <data name="chkLength.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkLength.Name" xml:space="preserve">
+    <value>chkLength</value>
+  </data>
+  <data name="&gt;&gt;chkLength.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkLength.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;chkLength.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="lengthPicker.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="lengthPicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lengthPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
+  </data>
+  <data name="lengthPicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lengthPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 40</value>
+  </data>
+  <data name="lengthPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lengthPicker.Text" xml:space="preserve">
+    <value>charPicker1</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Name" xml:space="preserve">
+    <value>lengthPicker</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
+    <value>grpLength</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpLength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 86</value>
+  </data>
+  <data name="grpLength.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpLength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 70</value>
+  </data>
+  <data name="grpLength.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Name" xml:space="preserve">
+    <value>grpLength</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;grpLength.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="chkStress.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkStress.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkStress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkStress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 8</value>
+  </data>
+  <data name="chkStress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 17</value>
+  </data>
+  <data name="chkStress.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkStress.Text" xml:space="preserve">
+    <value>Display &amp;Stress/Syllable</value>
+  </data>
+  <data name="chkStress.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkStress.Name" xml:space="preserve">
+    <value>chkStress</value>
+  </data>
+  <data name="&gt;&gt;chkStress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkStress.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;chkStress.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="stressPicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="stressPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
+  </data>
+  <data name="stressPicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="stressPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 40</value>
+  </data>
+  <data name="stressPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="stressPicker.Text" xml:space="preserve">
+    <value>charPicker1</value>
+  </data>
+  <data name="&gt;&gt;stressPicker.Name" xml:space="preserve">
+    <value>stressPicker</value>
+  </data>
+  <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
+    <value>grpStress</value>
+  </data>
+  <data name="&gt;&gt;stressPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpStress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 8</value>
+  </data>
+  <data name="grpStress.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpStress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 70</value>
+  </data>
+  <data name="grpStress.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;grpStress.Name" xml:space="preserve">
+    <value>grpStress</value>
+  </data>
+  <data name="&gt;&gt;grpStress.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpStress.Parent" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;grpStress.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tpgCVSyllables.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgCVSyllables.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgCVSyllables.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgCVSyllables.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="tpgCVSyllables.Text" xml:space="preserve">
+    <value>CV Syllables</value>
+  </data>
+  <data name="&gt;&gt;tpgCVSyllables.Name" xml:space="preserve">
+    <value>tpgCVSyllables</value>
+  </data>
+  <data name="&gt;&gt;tpgCVSyllables.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgCVSyllables.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgCVSyllables.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblSaveManual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblSaveManual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSaveManual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 343</value>
+  </data>
+  <data name="lblSaveManual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 32</value>
+  </data>
+  <data name="lblSaveManual.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblSaveManual.Text" xml:space="preserve">
+    <value>For example, clicking column headings in the Data Corpus view will change the default options set on this tab for that view.</value>
+  </data>
+  <data name="&gt;&gt;lblSaveManual.Name" xml:space="preserve">
+    <value>lblSaveManual</value>
+  </data>
+  <data name="&gt;&gt;lblSaveManual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSaveManual.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;lblSaveManual.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="m_sortingGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 57</value>
+  </data>
+  <data name="m_sortingGrid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="m_sortingGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 145</value>
+  </data>
+  <data name="m_sortingGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Name" xml:space="preserve">
+    <value>m_sortingGrid</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2636.30558, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnMoveSortFieldUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveSortFieldUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 57</value>
+  </data>
+  <data name="btnMoveSortFieldUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 25</value>
+  </data>
+  <data name="btnMoveSortFieldUp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnMoveSortFieldUp.ToolTip" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Name" xml:space="preserve">
+    <value>btnMoveSortFieldUp</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblSortFldsHdr.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblSortFldsHdr.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSortFldsHdr.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 18</value>
+  </data>
+  <data name="lblSortFldsHdr.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 37</value>
+  </data>
+  <data name="lblSortFldsHdr.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblSortFldsHdr.Text" xml:space="preserve">
+    <value>Specify the &amp;Columns to sort and in what order.</value>
+  </data>
+  <data name="lblSortFldsHdr.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Name" xml:space="preserve">
+    <value>lblSortFldsHdr</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnMoveSortFieldDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnMoveSortFieldDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 84</value>
+  </data>
+  <data name="btnMoveSortFieldDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 25</value>
+  </data>
+  <data name="btnMoveSortFieldDown.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnMoveSortFieldDown.ToolTip" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Name" xml:space="preserve">
+    <value>btnMoveSortFieldDown</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpColSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 96</value>
+  </data>
+  <data name="grpColSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>273, 210</value>
+  </data>
+  <data name="grpColSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="grpColSortOptions.Text" xml:space="preserve">
+    <value>Column Sort Options</value>
+  </data>
+  <data name="&gt;&gt;grpColSortOptions.Name" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;grpColSortOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpColSortOptions.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;grpColSortOptions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chkSaveManual.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkSaveManual.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkSaveManual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkSaveManual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 324</value>
+  </data>
+  <data name="chkSaveManual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 19</value>
+  </data>
+  <data name="chkSaveManual.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkSaveManual.Text" xml:space="preserve">
+    <value>&amp;Save last manually specified sort options as the default.</value>
+  </data>
+  <data name="chkSaveManual.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;chkSaveManual.Name" xml:space="preserve">
+    <value>chkSaveManual</value>
+  </data>
+  <data name="&gt;&gt;chkSaveManual.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSaveManual.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;chkSaveManual.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblSortInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="lblSortInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblSortInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 13</value>
+  </data>
+  <data name="lblSortInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>502, 33</value>
+  </data>
+  <data name="lblSortInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblSortInfo.Text" xml:space="preserve">
+    <value>To specify the default sort options for a specific type of list, choose one from the list and select the desired options.</value>
+  </data>
+  <data name="&gt;&gt;lblSortInfo.Name" xml:space="preserve">
+    <value>lblSortInfo</value>
+  </data>
+  <data name="&gt;&gt;lblSortInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSortInfo.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;lblSortInfo.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="phoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 17</value>
+  </data>
+  <data name="phoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 217</value>
+  </data>
+  <data name="phoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Name" xml:space="preserve">
+    <value>phoneticSortOptions</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.0.2637.27916, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
+    <value>grpPhoneticSortOptions</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 82</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 236</value>
+  </data>
+  <data name="grpPhoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Text" xml:space="preserve">
+    <value>Phonetic Sort Options</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticSortOptions.Name" xml:space="preserve">
+    <value>grpPhoneticSortOptions</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticSortOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticSortOptions.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticSortOptions.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblListType.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblListType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblListType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 58</value>
+  </data>
+  <data name="lblListType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 15</value>
+  </data>
+  <data name="lblListType.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblListType.Text" xml:space="preserve">
+    <value>&amp;Word List Type:</value>
+  </data>
+  <data name="&gt;&gt;lblListType.Name" xml:space="preserve">
+    <value>lblListType</value>
+  </data>
+  <data name="&gt;&gt;lblListType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblListType.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;lblListType.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="cboListType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="cboListType.Items" xml:space="preserve">
+    <value>Data Corpus</value>
+  </data>
+  <data name="cboListType.Items1" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="cboListType.Items2" xml:space="preserve">
+    <value>XY Chart Search Results</value>
+  </data>
+  <data name="cboListType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>121, 54</value>
+  </data>
+  <data name="cboListType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 23</value>
+  </data>
+  <data name="cboListType.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;cboListType.Name" xml:space="preserve">
+    <value>cboListType</value>
+  </data>
+  <data name="&gt;&gt;cboListType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboListType.Parent" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;cboListType.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tpgSorting.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgSorting.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 13, 15, 0</value>
+  </data>
+  <data name="tpgSorting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgSorting.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tpgSorting.Text" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="&gt;&gt;tpgSorting.Name" xml:space="preserve">
+    <value>tpgSorting</value>
+  </data>
+  <data name="&gt;&gt;tpgSorting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgSorting.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgSorting.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblErrMsg.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrMsg.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="lblErrMsg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 363</value>
+  </data>
+  <data name="lblErrMsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="lblErrMsg.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblErrMsg.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="lblErrMsg.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomLeft</value>
+  </data>
+  <data name="&gt;&gt;lblErrMsg.Name" xml:space="preserve">
+    <value>lblErrMsg</value>
+  </data>
+  <data name="&gt;&gt;lblErrMsg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrMsg.Parent" xml:space="preserve">
+    <value>tpgFonts</value>
+  </data>
+  <data name="&gt;&gt;lblErrMsg.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgFonts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgFonts.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 6, 6, 6</value>
+  </data>
+  <data name="tpgFonts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgFonts.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tpgFonts.Text" xml:space="preserve">
+    <value>Fonts</value>
+  </data>
+  <data name="&gt;&gt;tpgFonts.Name" xml:space="preserve">
+    <value>tpgFonts</value>
+  </data>
+  <data name="&gt;&gt;tpgFonts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgFonts.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgFonts.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tpgColors.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgColors.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgColors.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tpgColors.Text" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="&gt;&gt;tpgColors.Name" xml:space="preserve">
+    <value>tpgColors</value>
+  </data>
+  <data name="&gt;&gt;tpgColors.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgColors.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgColors.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="tabOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="tabOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>540, 408</value>
+  </data>
+  <data name="tabOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabOptions.Name" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tabOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabOptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabOptions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>563, 463</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="&gt;&gt;m_toolTip.Name" xml:space="preserve">
+    <value>m_toolTip</value>
+  </data>
+  <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>OptionsDlg</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2637.27813, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

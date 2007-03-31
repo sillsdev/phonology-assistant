@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="kstidDataSourceNoXSLT" xml:space="preserve">
+    <value>You must specify an XSLT file for '{0}'</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidSFMMissingRecMarkerMapping" xml:space="preserve">
+    <value>You must specify a marker for the 'Record Marker' in order for {0} to identify the beginning of each record.</value>
+    <comment>Message displayed when the record marker hasn't been mapped to  an SF marker.</comment>
+  </data>
+  <data name="kstidSFMMappingMissingError" xml:space="preserve">
+    <value>You must specify a marker for the field '{0}'. </value>
+    <comment>This message is used when verifying SFM import mappings</comment>
+  </data>
+  <data name="kstidFontGridSample" xml:space="preserve">
+    <value>Sample</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidSFMMappingGridInterlinear" xml:space="preserve">
+    <value>Interlinear Field?</value>
+    <comment>Column heading for interlinear column</comment>
+  </data>
+  <data name="kstidFindSelectAll" xml:space="preserve">
+    <value>Select All</value>
+    <comment>"Select All" caption in the CheckedListBox</comment>
+  </data>
+  <data name="kstidSFMNoFirstInterlinearField" xml:space="preserve">
+    <value>You must specify what is each record's first interlinear field.</value>
+    <comment>Message displayed when some interlinear fields have been specified but not the first interlinear field.</comment>
+  </data>
+  <data name="kstidFontGridFontName" xml:space="preserve">
+    <value>Font Name</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidCustomFieldGridHdgInterlinear" xml:space="preserve">
+    <value>Can Field be Interlinear?</value>
+    <comment>Column heading in custom fields dialog.</comment>
+  </data>
+  <data name="kstidDataSourceGridXSLT" xml:space="preserve">
+    <value>XSLT</value>
+    <comment>Column heading text for the source file XSLT column on the project setup dialog</comment>
+  </data>
+  <data name="kstidFontGridBold" xml:space="preserve">
+    <value>Bold</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidRestoreDefaultFeatureMsg" xml:space="preserve">
+    <value>Are you sure you want to restore the default feature names and default character features definitions? This operation cannot be undone.</value>
+    <comment>This message is displayed when the user chooses to restore the default articulatory or binary features.</comment>
+  </data>
+  <data name="kstidFontGridSize" xml:space="preserve">
+    <value>Size</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidSFMNoMappingsSpecified" xml:space="preserve">
+    <value>You must specify at least one mapping other than one for the 'Record Marker'.</value>
+    <comment>Message displayed when the user hasn't specified any SFM mappings</comment>
+  </data>
+  <data name="kstidSFMNomappingForInterlinearField" xml:space="preserve">
+    <value>The following field(s) have been specified as interlinear fields but need to be mapped to markers. {0}{1}</value>
+    <comment>The parameters are where line breaks are inserted.</comment>
+  </data>
+  <data name="kstidNewProjectSettingsDlgCaption" xml:space="preserve">
+    <value>New Project Settings</value>
+    <comment>Caption for project settings dialog when project is new.</comment>
+  </data>
+  <data name="kstidPAFilesCaptionSFD" xml:space="preserve">
+    <value>Save {0} Project File</value>
+    <comment>Caption for the save PA project dialog. The parameter is for the application name.</comment>
+  </data>
+  <data name="kstidSFMMappingsGridMarker" xml:space="preserve">
+    <value>Map this marker...</value>
+    <comment>Column heading for marker column in the import mappings grid</comment>
+  </data>
+  <data name="kstidSFMNoFirstInterlinearFieldItem" xml:space="preserve">
+    <value>(none)</value>
+    <comment>First item in the list of potential first interlinear fields on the mappings dialog</comment>
+  </data>
+  <data name="kstidDataSourceOpenFileCaption" xml:space="preserve">
+    <value>Choose Data Source File(s)</value>
+    <comment>Open file dialog caption when choosing data source files</comment>
+  </data>
+  <data name="kstidSFMMappingGridPaField" xml:space="preserve">
+    <value>To this Field</value>
+    <comment>Column heading for DB field column in the import mappings grid</comment>
+  </data>
+  <data name="kstidDataSourceDeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete the selected data source(s)?</value>
+  </data>
+  <data name="kstidDataSourceOpenFileXSLTCaption" xml:space="preserve">
+    <value>Choose XSLT to Transform Data Source</value>
+    <comment>Open file dialog caption when choosing an XSLT file</comment>
+  </data>
+  <data name="kstidFontGridDBField" xml:space="preserve">
+    <value>Data Field</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidCustomFieldGridHdgParsed" xml:space="preserve">
+    <value>Is Field Parsed?</value>
+    <comment>Column heading in custom fields dialog.</comment>
+  </data>
+  <data name="kstidDataSourceGridSourcFile" xml:space="preserve">
+    <value>Source</value>
+    <comment>Column heading text for the source file column on the project setup dialog</comment>
+  </data>
+  <data name="kstidDataSourceNoProjName" xml:space="preserve">
+    <value>You must specify a project name.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidSFMUnecessaryFirstInterlinearField" xml:space="preserve">
+    <value>Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped.</value>
+  </data>
+  <data name="kstidFontGridItalic" xml:space="preserve">
+    <value>Italic</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidProjectSettingsDlgCaption" xml:space="preserve">
+    <value>Project Settings</value>
+    <comment>Caption for project settings dialog when project is not new.</comment>
+  </data>
+  <data name="kstidDataSourceGridType" xml:space="preserve">
+    <value>Type</value>
+    <comment>Column heading text for the source file type column on the project setup dialog</comment>
+  </data>
+  <data name="kstidDataSourceNoMappings" xml:space="preserve">
+    <value>You must specify mappings for '{0}'.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidCustomFieldGridHdgName" xml:space="preserve">
+    <value>Custom Field Name</value>
+    <comment>Column heading in custom fields dialog.</comment>
+  </data>
+  <data name="kstidFileMissingMsg" xml:space="preserve">
+    <value>'{0}' is missing.</value>
+    <comment>The label text for "???" in RtfExportDlg</comment>
+  </data>
+  <data name="kstidInterlinearSampleInput" xml:space="preserve">
+    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
+\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
+\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}</value>
+    <comment>Used in the mappings dialog</comment>
+  </data>
+  <data name="kstidInterlinearSampleOutput" xml:space="preserve">
+    <value>mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidNoParseSampleOutput" xml:space="preserve">
+    <value>hi ni nini/this what</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidOneToOneSampleOutput" xml:space="preserve">
+    <value>hi/this#ni/what#nini/</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidParsePhoneticSampleOutput" xml:space="preserve">
+    <value>hi/this what#ni/this what#nini/this what</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidSampleInput" xml:space="preserve">
+    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</value>
+    <comment>Used in the mappings dialog</comment>
+  </data>
+  <data name="kstidOneToOneParsingToolTip" xml:space="preserve">
+    <value>This option causes parsing of phonetic,\nphonemic, tone, orthographic, part of speech\nand custom fields specified as being parsed.</value>
+  </data>
+  <data name="kstidDataSourcePropertiesButtonText" xml:space="preserve">
+    <value>...</value>
+    <comment>Text on the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidMappingsButtonToolTip" xml:space="preserve">
+    <value>Specify marker mappings</value>
+    <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidXSLTColButtonText" xml:space="preserve">
+    <value>...</value>
+    <comment>Text on the button in the XSLT column in the project settings dialog</comment>
+  </data>
+  <data name="kstidXSLTColButtonToolTip" xml:space="preserve">
+    <value>Specify XSLT</value>
+    <comment>Tooltip for the button in the XSLTe column in the project settings dialog</comment>
+  </data>
+  <data name="kstidNoSavedPatternCategoryMsg" xml:space="preserve">
+    <value>You must specify a category for your saved pattern.</value>
+  </data>
+  <data name="kstidNoSavedPatternNameMsg" xml:space="preserve">
+    <value>You must specify a name for your saved pattern.</value>
+  </data>
+  <data name="kstidFwWsNoneSpecified" xml:space="preserve">
+    <value>(none)</value>
+    <comment>Item for no writing system specified for a field in the FW data source properties dialog.</comment>
+  </data>
+  <data name="kstidFwDataSourceInfoIncompleteMsg" xml:space="preserve">
+    <value>The information for the FieldWorks data source '{0}'\nis incomplete. Click the properties button next to the source.</value>
+  </data>
+  <data name="kstidFwMissingWsMsg" xml:space="preserve">
+    <value>You must specify a writing system for the {0} field.</value>
+  </data>
+  <data name="kstidFwPropsButtonToolTip" xml:space="preserve">
+    <value>Specify Properties</value>
+    <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidDefClassPhoneHdrCon" xml:space="preserve">
+    <value>&amp;Consonants</value>
+  </data>
+  <data name="kstidDefClassPhoneHdrOther" xml:space="preserve">
+    <value>&amp;Other Phones</value>
+  </data>
+  <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
+    <value>&amp;Vowels</value>
+  </data>
+  <data name="kstidNoToolboxSortField" xml:space="preserve">
+    <value>(none)</value>
+    <comment>First item in the "First Toolbox Sort Field" drop-down list.</comment>
+  </data>
+  <data name="kstidInvalidToolboxSortFieldSpecified" xml:space="preserve">
+    <value>The first Toolbox sort field specified was\nnot mapped. It must have a mapping.</value>
+  </data>
+  <data name="kstidDataSourceNoLangName" xml:space="preserve">
+    <value>You must specify a language name.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidNoSavedChartNameMsg" xml:space="preserve">
+    <value>You must specify a name for your XY chart.</value>
+  </data>
+  <data name="kstidSavedChartNameAlreadyExistsOverwriteMsg" xml:space="preserve">
+    <value>There is already a saved chart with the name "{0}".\nDo you want it overwritten?</value>
+  </data>
+  <data name="kstidDefineSortOrderAscendingCol" xml:space="preserve">
+    <value>Ascending?</value>
+  </data>
+  <data name="kstidDefineSortOrderColumnCol" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="kstidCharHdg" xml:space="preserve">
+    <value>Character</value>
+    <comment>Heading for column in missing character dialog</comment>
+  </data>
+  <data name="kstidDataSourceHdg" xml:space="preserve">
+    <value>Data\nSource</value>
+    <comment>Heading for column in missing character dialog</comment>
+  </data>
+  <data name="kstidUnicodeNumHdg" xml:space="preserve">
+    <value>Unicode\nNumber</value>
+    <comment>Heading for column in missing character dialog</comment>
+  </data>
+  <data name="kstidWordHdg" xml:space="preserve">
+    <value>Word</value>
+    <comment>Heading for column in missing character dialog</comment>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidInformation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Info.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidCustomFieldGridHdgType" xml:space="preserve">
+    <value>Field Type</value>
+    <comment>Heading for custom fields grid in custom fields dialog</comment>
+  </data>
+  <data name="kstidCustomFieldGridTypeDate" xml:space="preserve">
+    <value>Date/Time</value>
+  </data>
+  <data name="kstidCustomFieldGridTypeNumeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="kstidCustomFieldGridTypeText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="kimidButtonDropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ButtonDropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidBothGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Vertical_and_Horizontal_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidHorizontalGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Horizontal_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KimidMoveDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Move_down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMoveUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Move_up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNoGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hide_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidVerticalGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Vertical_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidSFMEditorCaptionOFD" xml:space="preserve">
+    <value>Standard Format Data Source Editor</value>
+    <comment>Caption for common dialog used to specify the SFM data source editor.</comment>
+  </data>
+  <data name="kstidDefineClassDupClassName" xml:space="preserve">
+    <value>Duplicate Class name: '{0}'</value>
+    <comment>Error msg for creating class with duplicate name</comment>
+  </data>
+  <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
+    <value>You cannot have an empty Class Name</value>
+  </data>
+</root>

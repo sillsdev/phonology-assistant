@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 329</value>
+  </data>
+  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 40</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>123, 7</value>
+  </data>
+  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
+    <value>btnCancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 7</value>
+  </data>
+  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 7</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
+    <value>btnHelp</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblDatabase.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDatabase.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblDatabase.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 10</value>
+  </data>
+  <data name="lblDatabase.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="lblDatabase.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblDatabase.Text" xml:space="preserve">
+    <value>Database:</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Name" xml:space="preserve">
+    <value>lblDatabase</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblDatabase.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblDatabaseValue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblDatabaseValue.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblDatabaseValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>132, 10</value>
+  </data>
+  <data name="lblDatabaseValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 15</value>
+  </data>
+  <data name="lblDatabaseValue.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblDatabaseValue.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="&gt;&gt;lblDatabaseValue.Name" xml:space="preserve">
+    <value>lblDatabaseValue</value>
+  </data>
+  <data name="&gt;&gt;lblDatabaseValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblDatabaseValue.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblDatabaseValue.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblLangProjValue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLangProjValue.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLangProjValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>132, 34</value>
+  </data>
+  <data name="lblLangProjValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 15</value>
+  </data>
+  <data name="lblLangProjValue.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblLangProjValue.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="&gt;&gt;lblLangProjValue.Name" xml:space="preserve">
+    <value>lblLangProjValue</value>
+  </data>
+  <data name="&gt;&gt;lblLangProjValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLangProjValue.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblLangProjValue.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblLangProj.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblLangProj.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblLangProj.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 34</value>
+  </data>
+  <data name="lblLangProj.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 15</value>
+  </data>
+  <data name="lblLangProj.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblLangProj.Text" xml:space="preserve">
+    <value>Language Project:</value>
+  </data>
+  <data name="&gt;&gt;lblLangProj.Name" xml:space="preserve">
+    <value>lblLangProj</value>
+  </data>
+  <data name="&gt;&gt;lblLangProj.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblLangProj.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblLangProj.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="rbPronunField.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbPronunField.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbPronunField.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 53</value>
+  </data>
+  <data name="rbPronunField.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 19</value>
+  </data>
+  <data name="rbPronunField.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rbPronunField.Text" xml:space="preserve">
+    <value>In the p&amp;ronunciation field</value>
+  </data>
+  <data name="&gt;&gt;rbPronunField.Name" xml:space="preserve">
+    <value>rbPronunField</value>
+  </data>
+  <data name="&gt;&gt;rbPronunField.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbPronunField.Parent" xml:space="preserve">
+    <value>grpPhoneticDataStoreType</value>
+  </data>
+  <data name="&gt;&gt;rbPronunField.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbLexForm.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbLexForm.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbLexForm.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 28</value>
+  </data>
+  <data name="rbLexForm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 19</value>
+  </data>
+  <data name="rbLexForm.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbLexForm.Text" xml:space="preserve">
+    <value>In the le&amp;xeme form</value>
+  </data>
+  <data name="&gt;&gt;rbLexForm.Name" xml:space="preserve">
+    <value>rbLexForm</value>
+  </data>
+  <data name="&gt;&gt;rbLexForm.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbLexForm.Parent" xml:space="preserve">
+    <value>grpPhoneticDataStoreType</value>
+  </data>
+  <data name="&gt;&gt;rbLexForm.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="grpPhoneticDataStoreType.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="grpPhoneticDataStoreType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="grpPhoneticDataStoreType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="grpPhoneticDataStoreType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 90</value>
+  </data>
+  <data name="grpPhoneticDataStoreType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpPhoneticDataStoreType.Text" xml:space="preserve">
+    <value>Where is Phonetic Data Stored?</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticDataStoreType.Name" xml:space="preserve">
+    <value>grpPhoneticDataStoreType</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticDataStoreType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticDataStoreType.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;grpPhoneticDataStoreType.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 239</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 90</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>106</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="grpWritingSystems.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="cboNatGloss.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboNatGloss.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 137</value>
+  </data>
+  <data name="cboNatGloss.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
+  <data name="cboNatGloss.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;cboNatGloss.Name" xml:space="preserve">
+    <value>cboNatGloss</value>
+  </data>
+  <data name="&gt;&gt;cboNatGloss.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboNatGloss.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;cboNatGloss.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cboEngGloss.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboEngGloss.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 108</value>
+  </data>
+  <data name="cboEngGloss.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
+  <data name="cboEngGloss.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;cboEngGloss.Name" xml:space="preserve">
+    <value>cboEngGloss</value>
+  </data>
+  <data name="&gt;&gt;cboEngGloss.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboEngGloss.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;cboEngGloss.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cboOrtho.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboOrtho.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 79</value>
+  </data>
+  <data name="cboOrtho.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
+  <data name="cboOrtho.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;cboOrtho.Name" xml:space="preserve">
+    <value>cboOrtho</value>
+  </data>
+  <data name="&gt;&gt;cboOrtho.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboOrtho.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;cboOrtho.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="cboPhonemic.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboPhonemic.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 50</value>
+  </data>
+  <data name="cboPhonemic.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
+  <data name="cboPhonemic.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;cboPhonemic.Name" xml:space="preserve">
+    <value>cboPhonemic</value>
+  </data>
+  <data name="&gt;&gt;cboPhonemic.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboPhonemic.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;cboPhonemic.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="cboPhonetic.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="cboPhonetic.Location" type="System.Drawing.Point, System.Drawing">
+    <value>125, 21</value>
+  </data>
+  <data name="cboPhonetic.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 23</value>
+  </data>
+  <data name="cboPhonetic.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;cboPhonetic.Name" xml:space="preserve">
+    <value>cboPhonetic</value>
+  </data>
+  <data name="&gt;&gt;cboPhonetic.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboPhonetic.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;cboPhonetic.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblPhonemic.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblPhonemic.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblPhonemic.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 54</value>
+  </data>
+  <data name="lblPhonemic.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 15</value>
+  </data>
+  <data name="lblPhonemic.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblPhonemic.Text" xml:space="preserve">
+    <value>Phone&amp;mic:</value>
+  </data>
+  <data name="&gt;&gt;lblPhonemic.Name" xml:space="preserve">
+    <value>lblPhonemic</value>
+  </data>
+  <data name="&gt;&gt;lblPhonemic.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPhonemic.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;lblPhonemic.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblOrtho.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblOrtho.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblOrtho.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 83</value>
+  </data>
+  <data name="lblOrtho.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 15</value>
+  </data>
+  <data name="lblOrtho.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblOrtho.Text" xml:space="preserve">
+    <value>&amp;Orthographic:</value>
+  </data>
+  <data name="&gt;&gt;lblOrtho.Name" xml:space="preserve">
+    <value>lblOrtho</value>
+  </data>
+  <data name="&gt;&gt;lblOrtho.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOrtho.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;lblOrtho.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblEngGloss.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblEngGloss.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblEngGloss.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 112</value>
+  </data>
+  <data name="lblEngGloss.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 15</value>
+  </data>
+  <data name="lblEngGloss.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblEngGloss.Text" xml:space="preserve">
+    <value>&amp;English glosses:</value>
+  </data>
+  <data name="&gt;&gt;lblEngGloss.Name" xml:space="preserve">
+    <value>lblEngGloss</value>
+  </data>
+  <data name="&gt;&gt;lblEngGloss.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblEngGloss.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;lblEngGloss.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblNatGloss.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblNatGloss.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblNatGloss.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 141</value>
+  </data>
+  <data name="lblNatGloss.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 15</value>
+  </data>
+  <data name="lblNatGloss.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblNatGloss.Text" xml:space="preserve">
+    <value>&amp;National glosses:</value>
+  </data>
+  <data name="&gt;&gt;lblNatGloss.Name" xml:space="preserve">
+    <value>lblNatGloss</value>
+  </data>
+  <data name="&gt;&gt;lblNatGloss.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblNatGloss.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;lblNatGloss.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="lblPhonetic.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblPhonetic.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblPhonetic.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 25</value>
+  </data>
+  <data name="lblPhonetic.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 15</value>
+  </data>
+  <data name="lblPhonetic.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblPhonetic.Text" xml:space="preserve">
+    <value>Phone&amp;tic:</value>
+  </data>
+  <data name="&gt;&gt;lblPhonetic.Name" xml:space="preserve">
+    <value>lblPhonetic</value>
+  </data>
+  <data name="&gt;&gt;lblPhonetic.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblPhonetic.Parent" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;lblPhonetic.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="grpWritingSystems.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="grpWritingSystems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 61</value>
+  </data>
+  <data name="grpWritingSystems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>289, 169</value>
+  </data>
+  <data name="grpWritingSystems.TabIndex" type="System.Int32, mscorlib">
+    <value>107</value>
+  </data>
+  <data name="grpWritingSystems.Text" xml:space="preserve">
+    <value>&amp;Writing Systems</value>
+  </data>
+  <data name="&gt;&gt;grpWritingSystems.Name" xml:space="preserve">
+    <value>grpWritingSystems</value>
+  </data>
+  <data name="&gt;&gt;grpWritingSystems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpWritingSystems.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpWritingSystems.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>309, 369</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>FieldWorks Data Source Properties</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FwDataSourcePropertiesDlg</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2510.19471, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>
