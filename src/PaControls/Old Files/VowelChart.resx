@@ -1,0 +1,1275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblClose.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 40</value>
+  </data>
+  <data name="lblClose.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 24</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblClose.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblClose.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="lblClose.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblClose.Name" xml:space="preserve">
+    <value>lblClose</value>
+  </data>
+  <data name="&gt;&gt;lblClose.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblClose.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblClose.ZOrder" xml:space="preserve">
+    <value>33</value>
+  </data>
+  <data name="lblOpenMid.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOpenMid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 160</value>
+  </data>
+  <data name="lblOpenMid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 24</value>
+  </data>
+  <data name="lblOpenMid.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblOpenMid.Text" xml:space="preserve">
+    <value>Open-mid</value>
+  </data>
+  <data name="lblOpenMid.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOpenMid.Name" xml:space="preserve">
+    <value>lblOpenMid</value>
+  </data>
+  <data name="&gt;&gt;lblOpenMid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOpenMid.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblOpenMid.ZOrder" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="lblCloseMid.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblCloseMid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 100</value>
+  </data>
+  <data name="lblCloseMid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 24</value>
+  </data>
+  <data name="lblCloseMid.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblCloseMid.Text" xml:space="preserve">
+    <value>Close-mid</value>
+  </data>
+  <data name="lblCloseMid.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblCloseMid.Name" xml:space="preserve">
+    <value>lblCloseMid</value>
+  </data>
+  <data name="&gt;&gt;lblCloseMid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblCloseMid.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblCloseMid.ZOrder" xml:space="preserve">
+    <value>31</value>
+  </data>
+  <data name="lblFront.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblFront.Location" type="System.Drawing.Point, System.Drawing">
+    <value>71, 0</value>
+  </data>
+  <data name="lblFront.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 29</value>
+  </data>
+  <data name="lblFront.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblFront.Text" xml:space="preserve">
+    <value>Front</value>
+  </data>
+  <data name="lblFront.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="&gt;&gt;lblFront.Name" xml:space="preserve">
+    <value>lblFront</value>
+  </data>
+  <data name="&gt;&gt;lblFront.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblFront.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblFront.ZOrder" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="lblOpen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblOpen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 220</value>
+  </data>
+  <data name="lblOpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 24</value>
+  </data>
+  <data name="lblOpen.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblOpen.Text" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="lblOpen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblOpen.Name" xml:space="preserve">
+    <value>lblOpen</value>
+  </data>
+  <data name="&gt;&gt;lblOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblOpen.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblOpen.ZOrder" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="lblCentral.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblCentral.Location" type="System.Drawing.Point, System.Drawing">
+    <value>221, 0</value>
+  </data>
+  <data name="lblCentral.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 29</value>
+  </data>
+  <data name="lblCentral.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblCentral.Text" xml:space="preserve">
+    <value>Central</value>
+  </data>
+  <data name="lblCentral.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="&gt;&gt;lblCentral.Name" xml:space="preserve">
+    <value>lblCentral</value>
+  </data>
+  <data name="&gt;&gt;lblCentral.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblCentral.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblCentral.ZOrder" xml:space="preserve">
+    <value>28</value>
+  </data>
+  <data name="lblBack.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblBack.Location" type="System.Drawing.Point, System.Drawing">
+    <value>399, 0</value>
+  </data>
+  <data name="lblBack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 29</value>
+  </data>
+  <data name="lblBack.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lblBack.Text" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="lblBack.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="&gt;&gt;lblBack.Name" xml:space="preserve">
+    <value>lblBack</value>
+  </data>
+  <data name="&gt;&gt;lblBack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblBack.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblBack.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="chr22.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>191, 185</value>
+  </data>
+  <data name="chr22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr22.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="chr22.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr22.Name" xml:space="preserve">
+    <value>chr22</value>
+  </data>
+  <data name="&gt;&gt;chr22.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr22.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr22.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chr8.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>366, 65</value>
+  </data>
+  <data name="chr8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr8.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="chr8.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr8.Name" xml:space="preserve">
+    <value>chr8</value>
+  </data>
+  <data name="&gt;&gt;chr8.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr8.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chr23.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>314, 185</value>
+  </data>
+  <data name="chr23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr23.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="chr23.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr23.Name" xml:space="preserve">
+    <value>chr23</value>
+  </data>
+  <data name="&gt;&gt;chr23.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr23.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr23.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chr27.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr27.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 215</value>
+  </data>
+  <data name="chr27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr27.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="chr27.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr27.Name" xml:space="preserve">
+    <value>chr27</value>
+  </data>
+  <data name="&gt;&gt;chr27.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr27.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr27.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="chr26.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr26.Location" type="System.Drawing.Point, System.Drawing">
+    <value>408, 215</value>
+  </data>
+  <data name="chr26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr26.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="chr26.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr26.Name" xml:space="preserve">
+    <value>chr26</value>
+  </data>
+  <data name="&gt;&gt;chr26.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr26.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr26.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="chr21.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 155</value>
+  </data>
+  <data name="chr21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr21.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="chr21.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr21.Name" xml:space="preserve">
+    <value>chr21</value>
+  </data>
+  <data name="&gt;&gt;chr21.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr21.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr21.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="chr20.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>408, 155</value>
+  </data>
+  <data name="chr20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr20.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="chr20.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr20.Name" xml:space="preserve">
+    <value>chr20</value>
+  </data>
+  <data name="&gt;&gt;chr20.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr20.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr20.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="chr19.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>321, 155</value>
+  </data>
+  <data name="chr19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr19.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="chr19.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr19.Name" xml:space="preserve">
+    <value>chr19</value>
+  </data>
+  <data name="&gt;&gt;chr19.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr19.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr19.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="chr18.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>291, 155</value>
+  </data>
+  <data name="chr18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr18.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="chr18.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr18.Name" xml:space="preserve">
+    <value>chr18</value>
+  </data>
+  <data name="&gt;&gt;chr18.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr18.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr18.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="chr14.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 95</value>
+  </data>
+  <data name="chr14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr14.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="chr14.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr14.Name" xml:space="preserve">
+    <value>chr14</value>
+  </data>
+  <data name="&gt;&gt;chr14.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr14.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr14.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="chr13.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>408, 95</value>
+  </data>
+  <data name="chr13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr13.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="chr13.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr13.Name" xml:space="preserve">
+    <value>chr13</value>
+  </data>
+  <data name="&gt;&gt;chr13.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr13.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr13.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="chr12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>305, 95</value>
+  </data>
+  <data name="chr12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr12.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="chr12.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr12.Name" xml:space="preserve">
+    <value>chr12</value>
+  </data>
+  <data name="&gt;&gt;chr12.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr12.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr12.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="chr11.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 95</value>
+  </data>
+  <data name="chr11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr11.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="chr11.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr11.Name" xml:space="preserve">
+    <value>chr11</value>
+  </data>
+  <data name="&gt;&gt;chr11.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr11.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr11.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="chr15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>297, 125</value>
+  </data>
+  <data name="chr15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr15.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="chr15.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr15.Name" xml:space="preserve">
+    <value>chr15</value>
+  </data>
+  <data name="&gt;&gt;chr15.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr15.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr15.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="chr25.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>237, 215</value>
+  </data>
+  <data name="chr25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr25.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="chr25.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr25.Name" xml:space="preserve">
+    <value>chr25</value>
+  </data>
+  <data name="&gt;&gt;chr25.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr25.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr25.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="chr24.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>207, 215</value>
+  </data>
+  <data name="chr24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr24.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="chr24.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr24.Name" xml:space="preserve">
+    <value>chr24</value>
+  </data>
+  <data name="&gt;&gt;chr24.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr24.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr24.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="chr7.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>189, 65</value>
+  </data>
+  <data name="chr7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr7.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="chr7.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr7.Name" xml:space="preserve">
+    <value>chr7</value>
+  </data>
+  <data name="&gt;&gt;chr7.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr7.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr7.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="chr6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 65</value>
+  </data>
+  <data name="chr6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr6.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="chr6.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr6.Name" xml:space="preserve">
+    <value>chr6</value>
+  </data>
+  <data name="&gt;&gt;chr6.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr6.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="chr17.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 155</value>
+  </data>
+  <data name="chr17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr17.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="chr17.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr17.Name" xml:space="preserve">
+    <value>chr17</value>
+  </data>
+  <data name="&gt;&gt;chr17.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr17.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr17.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="chr16.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 155</value>
+  </data>
+  <data name="chr16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr16.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="chr16.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr16.Name" xml:space="preserve">
+    <value>chr16</value>
+  </data>
+  <data name="&gt;&gt;chr16.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr16.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr16.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="chr10.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>172, 95</value>
+  </data>
+  <data name="chr10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr10.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="chr10.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr10.Name" xml:space="preserve">
+    <value>chr10</value>
+  </data>
+  <data name="&gt;&gt;chr10.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr10.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr10.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="chr9.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 95</value>
+  </data>
+  <data name="chr9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr9.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="chr9.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr9.Name" xml:space="preserve">
+    <value>chr9</value>
+  </data>
+  <data name="&gt;&gt;chr9.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr9.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr9.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="chr4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>408, 35</value>
+  </data>
+  <data name="chr4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr4.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="chr4.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr4.Name" xml:space="preserve">
+    <value>chr4</value>
+  </data>
+  <data name="&gt;&gt;chr4.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr4.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="chr5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 35</value>
+  </data>
+  <data name="chr5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr5.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="chr5.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr5.Name" xml:space="preserve">
+    <value>chr5</value>
+  </data>
+  <data name="&gt;&gt;chr5.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr5.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="chr2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 35</value>
+  </data>
+  <data name="chr2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr2.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="chr2.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr2.Name" xml:space="preserve">
+    <value>chr2</value>
+  </data>
+  <data name="&gt;&gt;chr2.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr2.ZOrder" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="chr3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 35</value>
+  </data>
+  <data name="chr3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr3.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="chr3.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr3.Name" xml:space="preserve">
+    <value>chr3</value>
+  </data>
+  <data name="&gt;&gt;chr3.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr3.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="chr1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 35</value>
+  </data>
+  <data name="chr1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="chr1.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr1.Name" xml:space="preserve">
+    <value>chr1</value>
+  </data>
+  <data name="&gt;&gt;chr1.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr1.ZOrder" xml:space="preserve">
+    <value>26</value>
+  </data>
+  <data name="chr0.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans Unicode, 14.25pt</value>
+  </data>
+  <data name="chr0.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chr0.Location" type="System.Drawing.Point, System.Drawing">
+    <value>108, 35</value>
+  </data>
+  <data name="chr0.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 27</value>
+  </data>
+  <data name="chr0.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="chr0.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="&gt;&gt;chr0.Name" xml:space="preserve">
+    <value>chr0</value>
+  </data>
+  <data name="&gt;&gt;chr0.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;chr0.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chr0.ZOrder" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <metadata name="linBack.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>323, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>470, 248</value>
+  </data>
+  <data name="&gt;&gt;linBack.Name" xml:space="preserve">
+    <value>linBack</value>
+  </data>
+  <data name="&gt;&gt;linBack.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linCentral.Name" xml:space="preserve">
+    <value>linCentral</value>
+  </data>
+  <data name="&gt;&gt;linCentral.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linFront.Name" xml:space="preserve">
+    <value>linFront</value>
+  </data>
+  <data name="&gt;&gt;linFront.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linClose1.Name" xml:space="preserve">
+    <value>linClose1</value>
+  </data>
+  <data name="&gt;&gt;linClose1.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lineClose2.Name" xml:space="preserve">
+    <value>lineClose2</value>
+  </data>
+  <data name="&gt;&gt;lineClose2.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linCloseMid2.Name" xml:space="preserve">
+    <value>linCloseMid2</value>
+  </data>
+  <data name="&gt;&gt;linCloseMid2.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linCloseMid1.Name" xml:space="preserve">
+    <value>linCloseMid1</value>
+  </data>
+  <data name="&gt;&gt;linCloseMid1.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linOpenMid1.Name" xml:space="preserve">
+    <value>linOpenMid1</value>
+  </data>
+  <data name="&gt;&gt;linOpenMid1.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linOpenMid2.Name" xml:space="preserve">
+    <value>linOpenMid2</value>
+  </data>
+  <data name="&gt;&gt;linOpenMid2.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;linOpen.Name" xml:space="preserve">
+    <value>linOpen</value>
+  </data>
+  <data name="&gt;&gt;linOpen.Type" xml:space="preserve">
+    <value>SIL.Pa.ChartLine, PaControls, Version=1.0.2347.15957, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>VowelChart</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="linCentral.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>213, 17</value>
+  </metadata>
+  <metadata name="linFront.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>115, 17</value>
+  </metadata>
+  <metadata name="linClose1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>417, 17</value>
+  </metadata>
+  <metadata name="lineClose2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>524, 17</value>
+  </metadata>
+  <metadata name="linCloseMid2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>767, 17</value>
+  </metadata>
+  <metadata name="linCloseMid1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>638, 17</value>
+  </metadata>
+  <metadata name="linOpenMid1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>896, 17</value>
+  </metadata>
+  <metadata name="linOpenMid2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1024, 17</value>
+  </metadata>
+  <metadata name="linOpen.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+</root>

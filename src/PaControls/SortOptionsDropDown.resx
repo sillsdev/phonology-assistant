@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="rbUnicodeOrder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="rbUnicodeOrder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="rbUnicodeOrder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 61</value>
+  </data>
+  <data name="rbUnicodeOrder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 17</value>
+  </data>
+  <data name="rbUnicodeOrder.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rbUnicodeOrder.Text" xml:space="preserve">
+    <value>&amp;Unicode Order</value>
+  </data>
+  <data name="&gt;&gt;rbUnicodeOrder.Name" xml:space="preserve">
+    <value>rbUnicodeOrder</value>
+  </data>
+  <data name="&gt;&gt;rbUnicodeOrder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbUnicodeOrder.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rbUnicodeOrder.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="rbPlaceArticulation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="rbPlaceArticulation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbPlaceArticulation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 9</value>
+  </data>
+  <data name="rbPlaceArticulation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 17</value>
+  </data>
+  <data name="rbPlaceArticulation.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="rbPlaceArticulation.Text" xml:space="preserve">
+    <value>&amp;Place of Articulation</value>
+  </data>
+  <data name="&gt;&gt;rbPlaceArticulation.Name" xml:space="preserve">
+    <value>rbPlaceArticulation</value>
+  </data>
+  <data name="&gt;&gt;rbPlaceArticulation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbPlaceArticulation.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rbPlaceArticulation.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="rbMannerArticulation.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="rbMannerArticulation.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMannerArticulation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>20, 35</value>
+  </data>
+  <data name="rbMannerArticulation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 17</value>
+  </data>
+  <data name="rbMannerArticulation.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rbMannerArticulation.Text" xml:space="preserve">
+    <value>&amp;Manner of Articulation</value>
+  </data>
+  <data name="&gt;&gt;rbMannerArticulation.Name" xml:space="preserve">
+    <value>rbMannerArticulation</value>
+  </data>
+  <data name="&gt;&gt;rbMannerArticulation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMannerArticulation.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;rbMannerArticulation.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpAdvSortOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="rbItem3rd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbItem3rd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 35</value>
+  </data>
+  <data name="rbItem3rd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbItem3rd.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;rbItem3rd.Name" xml:space="preserve">
+    <value>rbItem3rd</value>
+  </data>
+  <data name="&gt;&gt;rbItem3rd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbItem3rd.Parent" xml:space="preserve">
+    <value>pnl2AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbItem3rd.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbAfter3rd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbAfter3rd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 64</value>
+  </data>
+  <data name="rbAfter3rd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbAfter3rd.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;rbAfter3rd.Name" xml:space="preserve">
+    <value>rbAfter3rd</value>
+  </data>
+  <data name="&gt;&gt;rbAfter3rd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbAfter3rd.Parent" xml:space="preserve">
+    <value>pnl2AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbAfter3rd.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbBefore3rd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbBefore3rd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 7</value>
+  </data>
+  <data name="rbBefore3rd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbBefore3rd.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;rbBefore3rd.Name" xml:space="preserve">
+    <value>rbBefore3rd</value>
+  </data>
+  <data name="&gt;&gt;rbBefore3rd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbBefore3rd.Parent" xml:space="preserve">
+    <value>pnl2AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbBefore3rd.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnl2AdvSort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 16</value>
+  </data>
+  <data name="pnl2AdvSort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 84</value>
+  </data>
+  <data name="pnl2AdvSort.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pnl2AdvSort.Name" xml:space="preserve">
+    <value>pnl2AdvSort</value>
+  </data>
+  <data name="&gt;&gt;pnl2AdvSort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnl2AdvSort.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;pnl2AdvSort.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblBefore.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblBefore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 22</value>
+  </data>
+  <data name="lblBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
+  </data>
+  <data name="lblBefore.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblBefore.Text" xml:space="preserve">
+    <value>Before:</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.Name" xml:space="preserve">
+    <value>lblBefore</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblAfter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 79</value>
+  </data>
+  <data name="lblAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 13</value>
+  </data>
+  <data name="lblAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="lblAfter.Text" xml:space="preserve">
+    <value>After:</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Name" xml:space="preserve">
+    <value>lblAfter</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblThird.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 0</value>
+  </data>
+  <data name="lblThird.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 16</value>
+  </data>
+  <data name="lblThird.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lblThird.Text" xml:space="preserve">
+    <value>3rd</value>
+  </data>
+  <data name="lblThird.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Name" xml:space="preserve">
+    <value>lblThird</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblThird.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="rbBefore1st.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbBefore1st.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 7</value>
+  </data>
+  <data name="rbBefore1st.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbBefore1st.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Name" xml:space="preserve">
+    <value>rbBefore1st</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Parent" xml:space="preserve">
+    <value>pnl0AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbAfter1st.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbAfter1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="rbAfter1st.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 64</value>
+  </data>
+  <data name="rbAfter1st.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbAfter1st.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Name" xml:space="preserve">
+    <value>rbAfter1st</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Parent" xml:space="preserve">
+    <value>pnl0AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbItem1st.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbItem1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="rbItem1st.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 35</value>
+  </data>
+  <data name="rbItem1st.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbItem1st.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;rbItem1st.Name" xml:space="preserve">
+    <value>rbItem1st</value>
+  </data>
+  <data name="&gt;&gt;rbItem1st.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbItem1st.Parent" xml:space="preserve">
+    <value>pnl0AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbItem1st.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnl0AdvSort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 16</value>
+  </data>
+  <data name="pnl0AdvSort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 84</value>
+  </data>
+  <data name="pnl0AdvSort.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pnl0AdvSort.Name" xml:space="preserve">
+    <value>pnl0AdvSort</value>
+  </data>
+  <data name="&gt;&gt;pnl0AdvSort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnl0AdvSort.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;pnl0AdvSort.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="rbAfter2nd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbAfter2nd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 64</value>
+  </data>
+  <data name="rbAfter2nd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbAfter2nd.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;rbAfter2nd.Name" xml:space="preserve">
+    <value>rbAfter2nd</value>
+  </data>
+  <data name="&gt;&gt;rbAfter2nd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbAfter2nd.Parent" xml:space="preserve">
+    <value>pnl1AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbAfter2nd.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbItem2nd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbItem2nd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 35</value>
+  </data>
+  <data name="rbItem2nd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbItem2nd.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Name" xml:space="preserve">
+    <value>rbItem2nd</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Parent" xml:space="preserve">
+    <value>pnl1AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbBefore2nd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbBefore2nd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 7</value>
+  </data>
+  <data name="rbBefore2nd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="rbBefore2nd.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;rbBefore2nd.Name" xml:space="preserve">
+    <value>rbBefore2nd</value>
+  </data>
+  <data name="&gt;&gt;rbBefore2nd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbBefore2nd.Parent" xml:space="preserve">
+    <value>pnl1AdvSort</value>
+  </data>
+  <data name="&gt;&gt;rbBefore2nd.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnl1AdvSort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>81, 16</value>
+  </data>
+  <data name="pnl1AdvSort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 84</value>
+  </data>
+  <data name="pnl1AdvSort.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;pnl1AdvSort.Name" xml:space="preserve">
+    <value>pnl1AdvSort</value>
+  </data>
+  <data name="&gt;&gt;pnl1AdvSort.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnl1AdvSort.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;pnl1AdvSort.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="cbItemRL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbItemRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 52</value>
+  </data>
+  <data name="cbItemRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 14</value>
+  </data>
+  <data name="cbItemRL.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.Name" xml:space="preserve">
+    <value>cbItemRL</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="cbBeforeRL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbBeforeRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 23</value>
+  </data>
+  <data name="cbBeforeRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 14</value>
+  </data>
+  <data name="cbBeforeRL.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Name" xml:space="preserve">
+    <value>cbBeforeRL</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblRL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>139, 0</value>
+  </data>
+  <data name="lblRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 13</value>
+  </data>
+  <data name="lblRL.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="lblRL.Text" xml:space="preserve">
+    <value>R/L</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Name" xml:space="preserve">
+    <value>lblRL</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblRL.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="lblSecond.Location" type="System.Drawing.Point, System.Drawing">
+    <value>78, 0</value>
+  </data>
+  <data name="lblSecond.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 16</value>
+  </data>
+  <data name="lblSecond.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="lblSecond.Text" xml:space="preserve">
+    <value>2nd</value>
+  </data>
+  <data name="lblSecond.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Name" xml:space="preserve">
+    <value>lblSecond</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="cbAfterRL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="cbAfterRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 81</value>
+  </data>
+  <data name="cbAfterRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>15, 14</value>
+  </data>
+  <data name="cbAfterRL.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;cbAfterRL.Name" xml:space="preserve">
+    <value>cbAfterRL</value>
+  </data>
+  <data name="&gt;&gt;cbAfterRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbAfterRL.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;cbAfterRL.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="lblFirst.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 0</value>
+  </data>
+  <data name="lblFirst.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 16</value>
+  </data>
+  <data name="lblFirst.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="lblFirst.Text" xml:space="preserve">
+    <value>1st</value>
+  </data>
+  <data name="lblFirst.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Name" xml:space="preserve">
+    <value>lblFirst</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="lblItem.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblItem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 50</value>
+  </data>
+  <data name="lblItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>30, 13</value>
+  </data>
+  <data name="lblItem.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="lblItem.Text" xml:space="preserve">
+    <value>Item:</value>
+  </data>
+  <data name="&gt;&gt;lblItem.Name" xml:space="preserve">
+    <value>lblItem</value>
+  </data>
+  <data name="&gt;&gt;lblItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblItem.Parent" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblItem.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="pnlAdvSorting.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 19</value>
+  </data>
+  <data name="pnlAdvSorting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 101</value>
+  </data>
+  <data name="pnlAdvSorting.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSorting.Name" xml:space="preserve">
+    <value>pnlAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSorting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSorting.Parent" xml:space="preserve">
+    <value>grpAdvSortOptions</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSorting.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpAdvSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 86</value>
+  </data>
+  <data name="grpAdvSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 125</value>
+  </data>
+  <data name="grpAdvSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;grpAdvSortOptions.Name" xml:space="preserve">
+    <value>grpAdvSortOptions</value>
+  </data>
+  <data name="&gt;&gt;grpAdvSortOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpAdvSortOptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpAdvSortOptions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lnkHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="lnkHelp.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lnkHelp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 219</value>
+  </data>
+  <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 15</value>
+  </data>
+  <data name="lnkHelp.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lnkHelp.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Name" xml:space="preserve">
+    <value>lnkHelp</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 244</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>SortOptionsDropDown</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

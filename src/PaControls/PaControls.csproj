@@ -1,0 +1,481 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>PaControls</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SIL.Pa.Controls</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UIAdapterInterfaces, Version=1.2.0.9, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\distfiles\UIAdapterInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <ProjectReference Include="..\..\common\AudioUtils\AudioUtils.csproj">
+      <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
+      <Name>AudioUtils</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
+      <Name>SpeechToolsUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\common\xCoreMediator\xCoreMediator.csproj">
+      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
+      <Name>xCoreMediator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
+      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
+      <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaApp\PaApp.csproj">
+      <Name>PaApp</Name>
+      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaResources\PaResources.csproj">
+      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
+      <Name>PaResources</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CharGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CharGrid.Designer.cs">
+      <DependentUpon>CharGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CharGrid.MsgHandlers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CharGridBuilder.cs" />
+    <Compile Include="CharGridHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CharGridHeaderCollectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CharGridPersistence.cs" />
+    <Compile Include="CharPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CharPickerRows.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CharPickerRows.Designer.cs">
+      <DependentUpon>CharPickerRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartOptionsDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartOptionsDropDown.designer.cs">
+      <DependentUpon>ChartOptionsDropDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CIEOptionsDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CIEOptionsDropDown.Designer.cs">
+      <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPickerDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorPickerMatrix.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorPickerMatrix.Designer.cs">
+      <DependentUpon>ColorPickerMatrix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorPickerStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColorPickerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="DockAndAutoHideButtons.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExperimentalTranscriptionControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FieldSelectorGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FindDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindDlg.designer.cs">
+      <DependentUpon>FindDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindInfo.cs" />
+    <Compile Include="GridCellInfoPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GridCellInfoPopup.Designer.cs">
+      <DependentUpon>GridCellInfoPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HeaderLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Histogram.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Histogram.Designer.cs">
+      <DependentUpon>Histogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HTMLChartWriter.cs" />
+    <Compile Include="HTMLGridWriter.cs" />
+    <Compile Include="HTMLWriterBase.cs" />
+    <Compile Include="PaTextPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PatternBuilderComponents.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PatternBuilderComponents.Designer.cs">
+      <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneInfoPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PhoneInfoPopupContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PhoneInfoPopupContent.Designer.cs">
+      <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PhonesInFeatureViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PhonesInFeatureViewer.Designer.cs">
+      <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlaybackSpeedAdjuster.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PlaybackSpeedAdjuster.Designer.cs">
+      <DependentUpon>PlaybackSpeedAdjuster.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchResultsViewManager.cs" />
+    <Compile Include="SearchResultTabPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SearchResultTabPopup.Designer.cs">
+      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SizingLine.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SlidingPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SearchResultTabGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PatternTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PatternTextBox.Designer.cs">
+      <DependentUpon>PatternTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaWordListGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ClassListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ClassListViewItem.cs">
+    </Compile>
+    <Compile Include="IPACharacterExplorer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ExplorerBarItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GridColumnVisibilitySetter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaGradientPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FeatureListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RawRecordView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SearchOptionsDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SearchOptionsDropDown.designer.cs">
+      <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchPatternTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SearchResultView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SearchResultView.Designer.cs">
+      <DependentUpon>SearchResultView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleExplorerBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SizableDropDownPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SortOptionsDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SortOptionsDropDown.designer.cs">
+      <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewTabGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WordListGroupingBuilder.cs" />
+    <Compile Include="XButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="XYChartCellInfoPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XYChartLayout.cs" />
+    <Compile Include="XYGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="CharGrid.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CharGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CharPickerRows.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CharPickerRows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartOptionsDropDown.resx">
+      <DependentUpon>ChartOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CIEOptionsDropDown.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorPickerDropDown.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ColorPickerDropDown.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorPickerMatrix.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ColorPickerMatrix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorPickerStrings.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ColorPickerStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindDlg.resx">
+      <DependentUpon>FindDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridCellInfoPopup.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GridCellInfoPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Histogram.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Histogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatternBuilderComponents.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatternTextBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PatternTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhoneInfoPopupContent.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhonesInFeatureViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlaybackSpeedAdjuster.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PlaybackSpeedAdjuster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchOptionsDropDown.resx">
+      <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchResultTabPopup.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchResultView.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SearchResultView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SortOptionsDropDown.resx">
+      <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DropDownButtonArrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SavedPatternCategoryClosed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SavedPatternCategoryOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XYChartError.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XYChartDirty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Speaker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DropDownArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pattern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Automatically_hide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Minimal_pair_options_drop_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExplorerBar_Collapse_Glyph.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ExplorerBar_Epand_Glyph.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

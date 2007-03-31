@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidAutomaticallyHide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Automatically_hide.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidCollapseGlyph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerBar_Collapse_Glyph.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Dock.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDropDownButtonArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownButtonArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidErrorInCell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\XYChartError.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidExpandGlyph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerBar_Epand_Glyph.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMinimalPairOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minimal_pair_options_drop_down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPlaybackSpkr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Speaker.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSavedPatternCategoryClosed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SavedPatternCategoryClosed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSavedPatternCategoryOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SavedPatternCategoryOpen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidWarningInCell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidXYChartDirtyIndicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\XYChartDirty.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidAddSearchCategoryBeforeSave" xml:space="preserve">
+    <value>Before saving a search pattern, you must first add a category to the saved pattern list.</value>
+  </data>
+  <data name="kstidAffricatesHeading" xml:space="preserve">
+    <value>Affricates</value>
+  </data>
+  <data name="kstidAlveolarHeading" xml:space="preserve">
+    <value>Alveolar</value>
+  </data>
+  <data name="kstidApproximantHeading" xml:space="preserve">
+    <value>Approximant</value>
+  </data>
+  <data name="kstidAutoHideToolTip" xml:space="preserve">
+    <value>Automatically Hide</value>
+    <comment>Tooltip for the sliding panel auto. hide button</comment>
+  </data>
+  <data name="kstidBackHeading" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="kstidBilabialHeading" xml:space="preserve">
+    <value>Bilabial</value>
+  </data>
+  <data name="kstidCellInfoExperimentalTransHdgText" xml:space="preserve">
+    <value>Experimental transcription(s){0}converted in this entry:</value>
+    <comment>Heading text for the experimental transcription popup. The parameter is for a line break.</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdExperimentalTransText" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Text for command link on the experimental transcription items cell popup</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdExperimentalTransToolTip" xml:space="preserve">
+    <value>Experimental Transcriptions</value>
+  </data>
+  <data name="kstidCellInfoLnkCmdUncertainText" xml:space="preserve">
+    <value>Edit</value>
+    <comment>Text for command link on the uncertainty possibilities cell popup</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdUncertainToolTip" xml:space="preserve">
+    <value>Edit source record</value>
+  </data>
+  <data name="kstidCentralHeading" xml:space="preserve">
+    <value>Central</value>
+  </data>
+  <data name="kstidCharPickerTooltip" xml:space="preserve">
+    <value>{0},\n{1}</value>
+    <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
+  </data>
+  <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
+    <value>Minimal pairs options (Ctrl+Alt+M)</value>
+  </data>
+  <data name="kstidClassGroupConMOA" xml:space="preserve">
+    <value>Consonant - Manner of Articulation</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassGroupConPOA" xml:space="preserve">
+    <value>Consonant - Place of Articulation</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassGroupGeneral" xml:space="preserve">
+    <value>General</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassGroupUserDefined" xml:space="preserve">
+    <value>User Defined</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassGroupVoicing" xml:space="preserve">
+    <value>Voicing</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassGroupVowel" xml:space="preserve">
+    <value>Vowels</value>
+    <comment>Group header text for class listview controls</comment>
+  </data>
+  <data name="kstidClassListViewBasedOnText" xml:space="preserve">
+    <value>Is Based On</value>
+    <comment>Header text for Class Listview controls</comment>
+  </data>
+  <data name="kstidClassListViewMembersText" xml:space="preserve">
+    <value>Members</value>
+    <comment>Header text for Class Listview controls</comment>
+  </data>
+  <data name="kstidClassListViewNameText" xml:space="preserve">
+    <value>Class Name</value>
+    <comment>Header text for Class Listview controls</comment>
+  </data>
+  <data name="kstidClicksHeading" xml:space="preserve">
+    <value>Clicks</value>
+  </data>
+  <data name="kstidCloseHeading" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="kstidClosemidHeading" xml:space="preserve">
+    <value>Close-mid</value>
+  </data>
+  <data name="kstidCollapsingGroups" xml:space="preserve">
+    <value>Collapsing groups...</value>
+  </data>
+  <data name="kstidDefaultNewCustomFeatureName" xml:space="preserve">
+    <value>New Custom Feature</value>
+    <comment>Default name given to new custom features when the user clicks add on the Define Articulatory dialog box.</comment>
+  </data>
+  <data name="kstidDeleteFFCategoryConfirmationMsg" xml:space="preserve">
+    <value>Are you sure you want to delete the find phone category '{0}'?</value>
+    <comment>Question asked when user wants to delete a find phone category in the find phone window.</comment>
+  </data>
+  <data name="kstidDeleteFFPatternConfirmationMsg" xml:space="preserve">
+    <value>Are you sure you want to delete the specified find phone search pattern?</value>
+    <comment>Question asked when the user wants to delete a find phone search pattern.</comment>
+  </data>
+  <data name="kstidDentalHeading" xml:space="preserve">
+    <value>Dental</value>
+  </data>
+  <data name="kstidDockToolTip" xml:space="preserve">
+    <value>Dock</value>
+    <comment>Tooktip for the sliding panel dock button</comment>
+  </data>
+  <data name="kstidEmptySearchPatternText" xml:space="preserve">
+    <value>Empty</value>
+    <comment>Text shown in empty search patterns in the Find Phone window</comment>
+  </data>
+  <data name="kstidEmptySearchPatternToolTip" xml:space="preserve">
+    <value>Double-click, press enter on, or drag{0}to insert a class or IPA characters{1}to the current search pattern</value>
+    <comment>Tooltip text for empty search patterns in Find Phone window. The parameters are where there will be line breaks. If the localized version does not require line breaks, omit the parameters in the localization</comment>
+  </data>
+  <data name="kstidEmptySrchResultTabText" xml:space="preserve">
+    <value>(empty tab)</value>
+  </data>
+  <data name="kstidEmtpyRawRecView" xml:space="preserve">
+    <value>(no data)</value>
+    <comment>What's displayed in the record view when there is no data.</comment>
+  </data>
+  <data name="kstidEmtpyTabInfoText" xml:space="preserve">
+    <value>Define a search pattern above and click Show Results.</value>
+  </data>
+  <data name="kstidErrorLoadingCharPickerRowsMsg" xml:space="preserve">
+    <value>{0} list failed to load.</value>
+  </data>
+  <data name="kstidExpandingGroups" xml:space="preserve">
+    <value>Expanding groups...</value>
+  </data>
+  <data name="kstidExperimentalTransGridDontConvertText" xml:space="preserve">
+    <value>None</value>
+    <comment>Text in the experimental transcriptions list indicating no conversion will take place for the item.</comment>
+  </data>
+  <data name="kstidExperimentalTransHdg1" xml:space="preserve">
+    <value>Transcribed in source as:</value>
+    <comment>Heading in experimental transcriptions control</comment>
+  </data>
+  <data name="kstidExperimentalTransHdg2" xml:space="preserve">
+    <value>Convert to one of these options:</value>
+    <comment>Heading in experimental transcriptions control</comment>
+  </data>
+  <data name="kstidFindDataNotFound" xml:space="preserve">
+    <value>The following specified text was not found: </value>
+    <comment>Message shown when all data has been searched without one match.</comment>
+  </data>
+  <data name="kstidFindDoneSearching" xml:space="preserve">
+    <value>Find reached the starting point of the search.</value>
+    <comment>Popup message when all records have been searched with the FindDlg</comment>
+  </data>
+  <data name="kstidFricativeHeading" xml:space="preserve">
+    <value>Fricative</value>
+  </data>
+  <data name="kstidFrontHeading" xml:space="preserve">
+    <value>Front</value>
+  </data>
+  <data name="kstidGlottalHeading" xml:space="preserve">
+    <value>Glottal</value>
+  </data>
+  <data name="kstidGridColumnSelectorAllItem" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="kstidHTMLExportFileMissingMsg" xml:space="preserve">
+    <value>The file {0} is missing. Exporting cannot be completed.</value>
+  </data>
+  <data name="kstidImplosivesHeading" xml:space="preserve">
+    <value>Implosives</value>
+  </data>
+  <data name="kstidIngoreTieBarToolTip" xml:space="preserve">
+    <value>Ignoring tie-bars is somewhat different from ignoring other\nsymbols since tie-bars are not phone modifiers. Normally\nthe searching process considers a tie-bar and whatever it\njoins to be a single phone. However, when ignoring tie-bars,\nthe single phone created by the tie-bar will be recognized\nas two, unique phones.</value>
+    <comment>Tooltip used displayed when hovering over the ignore tie bars check box on the search view's options drop-down list.</comment>
+  </data>
+  <data name="kstidIPAChooserGroupConsonants" xml:space="preserve">
+    <value>Consonants</value>
+  </data>
+  <data name="kstidIPAChooserGroupDiacritics" xml:space="preserve">
+    <value>Diacritics</value>
+  </data>
+  <data name="kstidIPAChooserGroupNonPulmonics" xml:space="preserve">
+    <value>Non Pulmonics</value>
+  </data>
+  <data name="kstidIPAChooserGroupOtherSymbols" xml:space="preserve">
+    <value>Other Symbols</value>
+  </data>
+  <data name="kstidIPAChooserGroupSuprasegmentals" xml:space="preserve">
+    <value>Stress and Length (Suprasegmentals)</value>
+  </data>
+  <data name="kstidIPAChooserGroupTone" xml:space="preserve">
+    <value>Tone and Accents</value>
+  </data>
+  <data name="kstidIPAChooserGroupVowels" xml:space="preserve">
+    <value>Vowels</value>
+  </data>
+  <data name="kstidLabiodentalHeading" xml:space="preserve">
+    <value>Labiodental</value>
+  </data>
+  <data name="kstidLateralApproximateHeading" xml:space="preserve">
+    <value>Lateral approximant</value>
+  </data>
+  <data name="kstidLateralFricativeHeading" xml:space="preserve">
+    <value>Lateral fricative</value>
+  </data>
+  <data name="kstidNasalHeading" xml:space="preserve">
+    <value>Nasal</value>
+  </data>
+  <data name="kstidNewClassName" xml:space="preserve">
+    <value>New Class</value>
+    <comment>Default name given to new classes</comment>
+  </data>
+  <data name="kstidNewSavedPatternCategoryName" xml:space="preserve">
+    <value>New Search Pattern Category</value>
+    <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
+  </data>
+  <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
+    <value>No minimal pairs to display.</value>
+  </data>
+  <data name="kstidNoSavedSearchPatternsMsg" xml:space="preserve">
+    <value>No Saved Search Patterns</value>
+    <comment>Message shown in the saved search pattern list when there are on saved patterns.</comment>
+  </data>
+  <data name="kstidNoSearchResultsFoundMsg" xml:space="preserve">
+    <value>No Results Found.</value>
+    <comment>Displayed in the search results area when no matches were found.</comment>
+  </data>
+  <data name="kstidOpenHeading" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="kstidOpenmidHeading" xml:space="preserve">
+    <value>Open-mid</value>
+  </data>
+  <data name="kstidOtherHeading" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="kstidPalatalHeading" xml:space="preserve">
+    <value>Palatal</value>
+  </data>
+  <data name="kstidPharyngealHeading" xml:space="preserve">
+    <value>Pharyngeal</value>
+  </data>
+  <data name="kstidPhonesInFeatureViewerText" xml:space="preserve">
+    <value>Phones in data matching...</value>
+  </data>
+  <data name="kstidPlosiveHeading" xml:space="preserve">
+    <value>Plosive</value>
+  </data>
+  <data name="kstidPostalveolarHeading" xml:space="preserve">
+    <value>Postalveolar</value>
+  </data>
+  <data name="kstidRemoveFeatureMsg" xml:space="preserve">
+    <value>Are you sure you want to remove the feature '{0}'?</value>
+    <comment>Question asked when the user clicks on the remove button on the Define Articulatory Features dialog box.</comment>
+  </data>
+  <data name="kstidRetroflexHeading" xml:space="preserve">
+    <value>Retroflex</value>
+  </data>
+  <data name="kstidSearchingForCIEResultsMsg" xml:space="preserve">
+    <value>Finding Minimal Pairs...</value>
+  </data>
+  <data name="kstidSearchResultHTMLFileName" xml:space="preserve">
+    <value>{0}{1}SearchResults.html</value>
+    <comment>First parameter is language name, second is query name</comment>
+  </data>
+  <data name="kstidSearchResultTabToolTip" xml:space="preserve">
+    <value>{0} Records</value>
+    <comment>Tooltip displayed when hovering over a search result tab in the search window.</comment>
+  </data>
+  <data name="kstidTapFlapHeading" xml:space="preserve">
+    <value>Tap or Flap</value>
+  </data>
+  <data name="kstidTrillHeading" xml:space="preserve">
+    <value>Trill</value>
+  </data>
+  <data name="kstidUndockedViewCaption" xml:space="preserve">
+    <value>{0} ({1}) - {2}</value>
+    <comment>Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.</comment>
+  </data>
+  <data name="kstidUndockViewToolTip" xml:space="preserve">
+    <value>Undock view</value>
+  </data>
+  <data name="kstidUvularHeading" xml:space="preserve">
+    <value>Uvular</value>
+  </data>
+  <data name="kstidVelarHeading" xml:space="preserve">
+    <value>Velar</value>
+  </data>
+  <data name="kstidWordListStatusBarText" xml:space="preserve">
+    <value>Record {0} of {1}</value>
+  </data>
+  <data name="kstidXYChartGeneralQuerySyntaxErrorMsg" xml:space="preserve">
+    <value>Syntax error.</value>
+  </data>
+  <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="kstidXYChartPopupInfoPluralMsg" xml:space="preserve">
+    <value>This query contains the following\nphones that are not found in the\ncurrent project's data source(s).</value>
+  </data>
+  <data name="kstidXYChartPopupInfoSingularMsg" xml:space="preserve">
+    <value>This query contains the following\nphone that is not found in the\ncurrent project's data source(s).</value>
+  </data>
+  <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
+    <value>The search query contains\nthe following error(s):</value>
+  </data>
+</root>
