@@ -82,7 +82,7 @@
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
 				<Arg>https://svn.sil.org/langsw/speechtools/trunk/src/common/SpeechToolsUtils</Arg>
-				<Arg>"C:\Phonology Assistant\Common\SpeechToolsUtils"</Arg>
+				<Arg>"C:\Phonology Assistant\src\Common\SpeechToolsUtils"</Arg>
 				<Arg>--non-interactive</Arg>
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
