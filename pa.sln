@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIAdapterInterfaces", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xCoreMediator", "src\xCoreMediator\xCoreMediator.csproj", "{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToolsUtils", "Common\SpeechToolsUtils\SpeechToolsUtils.csproj", "{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToolsUtils", "src\Common\SpeechToolsUtils\SpeechToolsUtils.csproj", "{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
