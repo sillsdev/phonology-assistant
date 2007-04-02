@@ -6,7 +6,7 @@
 	</MailRecipients>
 	<svninfo>
 		<executable>c:\program files\subversion\bin\svn.exe</executable>
-		<repositoryurl>https://svn.sil.org/langsw/Phonology Assistant</repositoryurl>
+		<repositoryurl>"https://svn.sil.org/langsw/Phonology Assistant"</repositoryurl>
 	</svninfo>
 	<MSBuildInfo exepath="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727">
 		<solutionfile>c:\Phonology Assistant\pa.sln</solutionfile>
@@ -73,8 +73,8 @@
 			</CommandItem>
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
-				<Arg>https://svn.sil.org/langsw/Phonology Assistant</Arg>
-				<Arg>C:\Phonology Assistant</Arg>
+				<Arg>"https://svn.sil.org/langsw/Phonology Assistant"</Arg>
+				<Arg>"C:\Phonology Assistant"</Arg>
 				<Arg>--non-interactive</Arg>
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
