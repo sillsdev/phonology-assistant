@@ -67,9 +67,9 @@
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\properties\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\obj\*.*</Arg>
-				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\*.*</Arg>
-				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\properties\*.*</Arg>
-				<Arg>c:\speechtools\trunk\src\common\speechtoolsutils\obj\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\properties\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\obj\*.*</Arg>
 			</CommandItem>
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
@@ -82,7 +82,7 @@
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
 				<Arg>https://svn.sil.org/langsw/speechtools/trunk/src/common/SpeechToolsUtils</Arg>
-				<Arg>C:\speechtools\trunk\src\common\SpeechToolsUtils</Arg>
+				<Arg>"C:\Phonology Assistant\Common\SpeechToolsUtils"</Arg>
 				<Arg>--non-interactive</Arg>
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
@@ -93,6 +93,7 @@
 		<Commands>
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\output\release\*.tlb</Arg>
+				<Arg>C:\Phonology Assistant\output\release\*.pdb</Arg>
 				<Arg>C:\Phonology Assistant\output\release\pa.xml</Arg>
 				<Arg>C:\Phonology Assistant\output\release\speechtools.xml</Arg>
 			</CommandItem>
