@@ -205,7 +205,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Show Sub-headings.
+        ///   Looks up a localized string similar to &amp;Show Subheadings.
         /// </summary>
         internal static string kstidCharChartShowSubHeadingsText {
             get {
@@ -475,7 +475,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Column Heading&apos;s Sub-headings.
+        ///   Looks up a localized string similar to &amp;Column Heading&apos;s Subheadings.
         /// </summary>
         internal static string kstidChartTBMenuShowColSubHeadingsText {
             get {
@@ -484,7 +484,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Row Heading&apos;s Sub-headings.
+        ///   Looks up a localized string similar to &amp;Row Heading&apos;s Subheadings.
         /// </summary>
         internal static string kstidChartTBMenuShowRowSubHeadingsText {
             get {

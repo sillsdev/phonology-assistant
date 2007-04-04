@@ -36,14 +36,15 @@ namespace SIL.Pa.Controls
 			// 
 			// lblSSegsToIgnore
 			// 
+			this.lblSSegsToIgnore.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.lblSSegsToIgnore.AutoEllipsis = true;
 			this.lblSSegsToIgnore.AutoSize = true;
 			this.lblSSegsToIgnore.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSSegsToIgnore.Location = new System.Drawing.Point(7, 12);
+			this.lblSSegsToIgnore.Location = new System.Drawing.Point(11, 12);
 			this.lblSSegsToIgnore.Name = "lblSSegsToIgnore";
-			this.lblSSegsToIgnore.Size = new System.Drawing.Size(161, 16);
+			this.lblSSegsToIgnore.Size = new System.Drawing.Size(154, 16);
 			this.lblSSegsToIgnore.TabIndex = 1;
-			this.lblSSegsToIgnore.Text = "Suprasegmentals to Ignore";
+			this.lblSSegsToIgnore.Text = "Ignored Suprasegmentals";
 			// 
 			// lnkRefresh
 			// 

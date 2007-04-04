@@ -87,8 +87,8 @@ namespace SIL.Pa
 						histogramPhones.Add(m_chrGrid.Grid[iCol, iRow].Value.ToString());
 				}
 			}
-			PaApp.IncProgressBar();
 
+			PaApp.IncProgressBar();
 			m_histogram.LoadPhones(histogramPhones);
 			PaApp.IncProgressBar();
 		}

@@ -181,7 +181,7 @@
     <comment>Context menu item for phone chart.</comment>
   </data>
   <data name="kstidCharChartShowSubHeadingsText" xml:space="preserve">
-    <value>&amp;Show Sub-headings</value>
+    <value>&amp;Show Subheadings</value>
     <comment>Context menu item for phone chart.</comment>
   </data>
   <data name="kstidChartPhoneSearchAloneText" xml:space="preserve">
@@ -272,10 +272,10 @@
     <value>Restore &amp;Default Layout</value>
   </data>
   <data name="kstidChartTBMenuShowColSubHeadingsText" xml:space="preserve">
-    <value>&amp;Column Heading's Sub-headings</value>
+    <value>&amp;Column Heading's Subheadings</value>
   </data>
   <data name="kstidChartTBMenuShowRowSubHeadingsText" xml:space="preserve">
-    <value>&amp;Row Heading's Sub-headings</value>
+    <value>&amp;Row Heading's Subheadings</value>
   </data>
   <data name="kstidChartTBMenuShowUncertainPhonesText" xml:space="preserve">
     <value>&amp;Uncertain Phones</value>
