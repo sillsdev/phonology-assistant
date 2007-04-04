@@ -230,5 +230,14 @@ namespace SIL.Pa.Resources {
                 return ResourceManager.GetString("hidWordListOptions", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm.
+        /// </summary>
+        internal static string kstidIgnoredSuprasegmentalsPopup {
+            get {
+                return ResourceManager.GetString("kstidIgnoredSuprasegmentalsPopup", resourceCulture);
+            }
+        }
     }
 }

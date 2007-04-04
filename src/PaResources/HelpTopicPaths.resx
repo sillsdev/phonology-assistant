@@ -193,4 +193,8 @@
     <value>User_Interface/Menus/Tools/Options/Word_Lists_options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="kstidIgnoredSuprasegmentalsPopup" xml:space="preserve">
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
 </root>

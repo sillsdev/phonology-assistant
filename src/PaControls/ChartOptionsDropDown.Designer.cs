@@ -67,6 +67,7 @@ namespace SIL.Pa.Controls
 			this.lnkHelp.TabIndex = 4;
 			this.lnkHelp.TabStop = true;
 			this.lnkHelp.Text = "Help";
+			this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHelp_LinkClicked);
 			// 
 			// pickerIgnore
 			// 

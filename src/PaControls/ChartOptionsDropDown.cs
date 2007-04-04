@@ -111,5 +111,15 @@ namespace SIL.Pa.Controls
 				item.Checked = (ignoreList != null && ignoreList.Contains(chr));
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			PaApp.ShowHelpTopic("kstidIgnoredSuprasegmentalsPopup");
+		}
 	}
 }
