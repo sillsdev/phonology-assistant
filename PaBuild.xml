@@ -70,6 +70,7 @@
 				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\properties\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\obj\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Common\SpeechToolsUtils\obj\release\*.*</Arg>
 			</CommandItem>
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
