@@ -99,7 +99,7 @@ namespace SIL.Pa
 		private static Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static string s_defaultProjFolder;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
-		private static UndefinedCodePointInfoList s_undefinedCodepoints;
+		private static UndefinedPhoneticCharactersInfoList s_undefinedPhoneticCharacters;
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -426,10 +426,10 @@ namespace SIL.Pa
 		/// in the IPA character cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static UndefinedCodePointInfoList UndefinedCodepoints
+		public static UndefinedPhoneticCharactersInfoList UndefinedPhoneticCharacters
 		{
-			get { return s_undefinedCodepoints; }
-			set { s_undefinedCodepoints = value; }
+			get { return s_undefinedPhoneticCharacters; }
+			set { s_undefinedPhoneticCharacters = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

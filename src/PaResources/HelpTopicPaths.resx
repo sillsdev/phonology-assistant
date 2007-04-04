@@ -162,7 +162,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidProjectSettingsDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Project_Management\Project_Settings.htm</value>
+    <value>User_Interface/Menus/File/Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidRecordViewOptions" xml:space="preserve">
@@ -185,8 +185,8 @@
     <value>Help_topic_does_not_exist.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidUndefinedCodepointsDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Project_Management\Undefined_Phonetic_Characters_Found.htm</value>
+  <data name="hidUndefinedPhoneticCharactersDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Undefined_Phonetic_Characters.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidWordListOptions" xml:space="preserve">

@@ -48,7 +48,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			UndefinedCodepointsDlg.Show(args as string);
+			UndefinedPhoneticCharactersDlg.Show(args as string);
 			return false;
 		}
 
@@ -356,7 +356,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedCodepointsDlg.Show(PaApp.Project.ProjectName, true);
+			UndefinedPhoneticCharactersDlg.Show(PaApp.Project.ProjectName, true);
 			return true;
 		}
 		
@@ -373,8 +373,8 @@ namespace SIL.Pa
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (PaApp.Project != null && PaApp.UndefinedCodepoints != null &&
-				PaApp.UndefinedCodepoints.Count > 0);
+			itemProps.Enabled = (PaApp.Project != null && PaApp.UndefinedPhoneticCharacters != null &&
+				PaApp.UndefinedPhoneticCharacters.Count > 0);
 
 			return true;
 		}

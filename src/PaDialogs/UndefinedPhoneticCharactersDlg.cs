@@ -10,7 +10,7 @@ using SIL.Pa.Data;
 
 namespace SIL.Pa.Dialogs
 {
-	public partial class UndefinedCodepointsDlg : Form
+	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
 		private string m_infoFmt;
 		/// ------------------------------------------------------------------------------------
@@ -33,10 +33,10 @@ namespace SIL.Pa.Dialogs
 			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (PaApp.UndefinedCodepoints != null && PaApp.UndefinedCodepoints.Count > 0)
+			if (PaApp.UndefinedPhoneticCharacters != null && PaApp.UndefinedPhoneticCharacters.Count > 0)
 			{
-				using (UndefinedCodepointsDlg dlg = new UndefinedCodepointsDlg(projectName,
-					PaApp.UndefinedCodepoints))
+				using (UndefinedPhoneticCharactersDlg dlg =
+					new UndefinedPhoneticCharactersDlg(projectName, PaApp.UndefinedPhoneticCharacters))
 				{
 					dlg.ShowDialog();
 				}
@@ -48,11 +48,11 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Show(string projectName, UndefinedCodePointInfoList list)
+		public static void Show(string projectName, UndefinedPhoneticCharactersInfoList list)
 		{
 			if (list != null && list.Count > 0)
 			{
-				using (UndefinedCodepointsDlg dlg = new UndefinedCodepointsDlg(projectName, list))
+				using (UndefinedPhoneticCharactersDlg dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
 					dlg.ShowDialog();
 			}
 		}
@@ -62,7 +62,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public UndefinedCodepointsDlg()
+		public UndefinedPhoneticCharactersDlg()
 		{
 			InitializeComponent();
 
@@ -85,7 +85,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public UndefinedCodepointsDlg(string projectName, UndefinedCodePointInfoList list) : this()
+		public UndefinedPhoneticCharactersDlg(string projectName, UndefinedPhoneticCharactersInfoList list) : this()
 		{
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
 			LoadGrid(list);
@@ -132,11 +132,11 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadGrid(UndefinedCodePointInfoList list)
+		private void LoadGrid(UndefinedPhoneticCharactersInfoList list)
 		{
 			m_grid.Rows.Clear();
 
-			foreach (KeyValuePair<char, UndefinedCodePointInfo> mcpInfo in list)
+			foreach (KeyValuePair<char, UndefinedPhoneticCharactersInfo> mcpInfo in list)
 			{
 				m_grid.Rows.Add(new object[] {
 					string.Format("U+{0:X4}", (int)mcpInfo.Key), mcpInfo.Key,

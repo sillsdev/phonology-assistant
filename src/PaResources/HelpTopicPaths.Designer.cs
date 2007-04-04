@@ -160,7 +160,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Project_Management\Project_Settings.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Settings.htm.
         /// </summary>
         internal static string hidProjectSettingsDlg {
             get {
@@ -214,11 +214,11 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Project_Management\Undefined_Phonetic_Characters_Found.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Undefined_Phonetic_Characters.htm.
         /// </summary>
-        internal static string hidUndefinedCodepointsDlg {
+        internal static string hidUndefinedPhoneticCharactersDlg {
             get {
-                return ResourceManager.GetString("hidUndefinedCodepointsDlg", resourceCulture);
+                return ResourceManager.GetString("hidUndefinedPhoneticCharactersDlg", resourceCulture);
             }
         }
         

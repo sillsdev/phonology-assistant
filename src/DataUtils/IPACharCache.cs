@@ -77,13 +77,13 @@ namespace SIL.Pa.Data
 	
 	#endregion
 
-	#region UndefinedCodePointInfoList and UndefinedCodePointInfo classes
+	#region UndefinedPhoneticCharactersInfoList and UndefinedPhoneticCharactersInfo classes
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class UndefinedCodePointInfoList : SortedDictionary<char, UndefinedCodePointInfo>
+	public class UndefinedPhoneticCharactersInfoList : SortedDictionary<char, UndefinedPhoneticCharactersInfo>
 	{
 		private string m_sourceName;
 
@@ -108,7 +108,7 @@ namespace SIL.Pa.Data
 		{
 			if (!string.IsNullOrEmpty(phoneticWord) && !ContainsKey(c))
 			{
-				UndefinedCodePointInfo ucpInfo = new UndefinedCodePointInfo();
+				UndefinedPhoneticCharactersInfo ucpInfo = new UndefinedPhoneticCharactersInfo();
 				ucpInfo.PhoneticWord = phoneticWord;
 				ucpInfo.SourceName = SourceName;
 				this[c] = ucpInfo;
@@ -122,7 +122,7 @@ namespace SIL.Pa.Data
 	/// in the IPA character cache.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class UndefinedCodePointInfo
+	public class UndefinedPhoneticCharactersInfo
 	{
 		public string PhoneticWord;
 		public string SourceName;
@@ -140,7 +140,7 @@ namespace SIL.Pa.Data
 	public class IPACharCache : Dictionary<int, IPACharInfo>
 	{
 		public const string kBreakChars = " ";
-		private static UndefinedCodePointInfoList s_undefinedCodepoints;
+		private static UndefinedPhoneticCharactersInfoList s_undefinedCodepoints;
 
 		public enum SortType
 		{
@@ -501,7 +501,7 @@ namespace SIL.Pa.Data
 		/// character cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static UndefinedCodePointInfoList UndefinedCodepoints
+		public static UndefinedPhoneticCharactersInfoList UndefinedCodepoints
 		{
 			get { return IPACharCache.s_undefinedCodepoints; }
 			set { IPACharCache.s_undefinedCodepoints = value; }

@@ -466,9 +466,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticValue()
 		{
-			if (PaApp.UndefinedCodepoints != null)
+			if (PaApp.UndefinedPhoneticCharacters != null)
 			{
-				PaApp.UndefinedCodepoints.SourceName =
+				PaApp.UndefinedPhoneticCharacters.SourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :

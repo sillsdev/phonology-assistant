@@ -165,12 +165,12 @@ namespace SIL.Pa
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			PaApp.UndefinedCodepoints = new UndefinedCodePointInfoList();
-			IPACharCache.UndefinedCodepoints = PaApp.UndefinedCodepoints;
+			PaApp.UndefinedPhoneticCharacters = new UndefinedPhoneticCharactersInfoList();
+			IPACharCache.UndefinedCodepoints = PaApp.UndefinedPhoneticCharacters;
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				PaApp.UndefinedCodepoints.SourceName = 
+				PaApp.UndefinedPhoneticCharacters.SourceName = 
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 

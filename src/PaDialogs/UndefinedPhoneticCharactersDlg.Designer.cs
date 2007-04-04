@@ -1,6 +1,6 @@
 namespace SIL.Pa.Dialogs
 {
-	partial class UndefinedCodepointsDlg
+	partial class UndefinedPhoneticCharactersDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedCodepointsDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.pnlButtons = new System.Windows.Forms.Panel();
@@ -117,7 +117,7 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblInfo, "lblInfo");
 			this.lblInfo.Name = "lblInfo";
 			// 
-			// UndefinedCodepointsDlg
+			// UndefinedPhoneticCharactersDlg
 			// 
 			this.AcceptButton = this.btnOK;
 			resources.ApplyResources(this, "$this");

@@ -256,7 +256,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2643.29000, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2650.26662, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>$this</value>
@@ -310,7 +310,7 @@
     <value>Manual</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Undefined Phonetic Characters Found</value>
+    <value>Undefined Phonetic Characters</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>UndefinedCodepointsDlg</value>
