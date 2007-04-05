@@ -89,7 +89,7 @@ namespace SIL.Pa.Dialogs
 			// Referencing FwDBUtils.FwDatabaseInfoList (done below) kicks of a chain
 			// reaction that may result in SQL server being started. If the settings file
 			// contains the undocumented flag to prevent this, we need to make sure, before
-			// deciding not to start SQL server, that no data sources in the project are FW
+			// deciding to accept the flag, that no data sources in the project are FW
 			// data sources.
 			if (!PaApp.AutoStartSQLServer)
 			{
