@@ -106,7 +106,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can Preceed\nBase Char?.
+        ///   Looks up a localized string similar to Is Linking\nCharacter?.
         /// </summary>
         internal static string kstidIpaGridCanPreceedBase {
             get {
@@ -196,7 +196,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Is Base?&apos; and &apos;Can Proceed Base Char?&apos; cannot both be true.
+        ///   Looks up a localized string similar to &apos;Is Base?&apos; and &apos;Is Linking Character?&apos; cannot both be true..
         /// </summary>
         internal static string kstidIpaGridErrBothTrue {
             get {
@@ -322,7 +322,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Xml File (*.xml)|*.XML.
+        ///   Looks up a localized string similar to xml File (*.xml)|*.XML.
         /// </summary>
         internal static string kstidIpaGridOpenFileFilter {
             get {

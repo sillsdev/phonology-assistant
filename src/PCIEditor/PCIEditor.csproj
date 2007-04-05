@@ -70,11 +70,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddCharactereDlg.cs">
+    <Compile Include="AddCharacterDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddCharactereDlg.Designer.cs">
-      <DependentUpon>AddCharactereDlg.cs</DependentUpon>
+    <Compile Include="AddCharacterDlg.designer.cs">
+      <DependentUpon>AddCharacterDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="PCIEditor.cs">
       <SubType>Form</SubType>
@@ -83,8 +83,8 @@
       <DependentUpon>PCIEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AddCharactereDlg.resx">
-      <DependentUpon>AddCharactereDlg.cs</DependentUpon>
+    <EmbeddedResource Include="AddCharacterDlg.resx">
+      <DependentUpon>AddCharacterDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PCIEditor.resx">

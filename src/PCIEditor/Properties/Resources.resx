@@ -133,7 +133,7 @@
     <value>The phonetic inventory file, '{0}' is missing.</value>
   </data>
   <data name="kstidIpaGridCanPreceedBase" xml:space="preserve">
-    <value>Can Preceed\nBase Char?</value>
+    <value>Is Linking\nCharacter?</value>
     <comment>Column heading for IPACharCacheEditor grid</comment>
   </data>
   <data name="kstidIpaGridCharIgnoreType" xml:space="preserve">
@@ -164,7 +164,7 @@
     <value>XML Has Invalid Format</value>
   </data>
   <data name="kstidIpaGridErrBothTrue" xml:space="preserve">
-    <value>'Is Base?' and 'Can Proceed Base Char?' cannot both be true</value>
+    <value>'Is Base?' and 'Is Linking Character?' cannot both be true.</value>
   </data>
   <data name="kstidIpaGridErrNeedUnknown" xml:space="preserve">
     <value>You must have a Sub Type of 'Unknown' for a Type of '{0}'</value>
@@ -208,7 +208,7 @@
     <value>Name</value>
   </data>
   <data name="kstidIpaGridOpenFileFilter" xml:space="preserve">
-    <value>Xml File (*.xml)|*.XML</value>
+    <value>xml File (*.xml)|*.XML</value>
   </data>
   <data name="kstidIpaGridOpenFileTitle" xml:space="preserve">
     <value>Open IPA Character Cache</value>
