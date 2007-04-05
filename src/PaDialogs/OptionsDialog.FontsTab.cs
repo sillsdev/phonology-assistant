@@ -49,8 +49,6 @@ namespace SIL.Pa.Dialogs
 			AddColumns();
 			LoadFonts();
 
-			// This indicates the tab is for project specific settings.
-			tpgFonts.Tag = true;
 			tpgFonts.Controls.Add(m_fontGrid);
 			m_fontGrid.BringToFront();
 			((DataGridViewComboBoxColumn)m_fontGrid.Columns["font"]).DropDownWidth = 250;

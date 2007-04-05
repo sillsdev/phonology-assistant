@@ -666,7 +666,8 @@ namespace SIL.Pa
 				ClassListViewItem item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					m_xyGrid.InsertTextInCell((item.Pattern == null || PaApp.ShowClassNames ?
+					m_xyGrid.InsertTextInCell((
+						item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
 						m_openClass + item.Text + m_closeClass : item.Pattern));
 				}
 			}
@@ -708,7 +709,7 @@ namespace SIL.Pa
 			else if (e.Item is ClassListViewItem)
 			{
 				ClassListViewItem item = e.Item as ClassListViewItem;
-				dragText = (item.Pattern == null || PaApp.ShowClassNames ?
+				dragText = (item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
 					m_openClass + item.Text + m_closeClass : item.Pattern);
 			}
 

@@ -57,8 +57,6 @@ namespace SIL.Pa.Dialogs
 			tonePicker.Tag = chkTone;
 			lengthPicker.Tag = chkLength;
 
-			tpgCVSyllables.Tag = true;
-
 			// Load the characters
 			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
 			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);

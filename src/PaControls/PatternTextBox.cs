@@ -150,7 +150,8 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				return (m_allowFullSearchPattern && PaApp.ShowEmptyDiamondSearchPattern ?
+				return (m_allowFullSearchPattern && (PaApp.Project == null ||
+					PaApp.Project.ShowClassNamesInSearchPatterns) ?
 					  DataUtils.kEmptyDiamondPattern : string.Empty);
 			}
 		}

@@ -354,6 +354,23 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateToolsOptions(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Update = true;
+			itemProps.Visible = true;
+			itemProps.Enabled = (PaApp.Project != null);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
 			UndefinedPhoneticCharactersDlg.Show(PaApp.Project.ProjectName, true);

@@ -35,10 +35,6 @@ namespace SIL.Pa.Dialogs
 
 			lblShowFields.Font = FontHelper.UIFont;
 			grpFieldSettings.Font = FontHelper.UIFont;
-
-			// This indicates the tab is for project specific settings.
-			tpgRecView.Tag = true;
-
 			fldSelGridRecView.Load(true, false);
 		}
 

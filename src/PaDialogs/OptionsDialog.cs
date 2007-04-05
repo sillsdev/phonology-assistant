@@ -97,11 +97,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void tabOptions_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			bool saveInfoVisible = (tabOptions.SelectedTab.Tag != null &&
-				(bool)tabOptions.SelectedTab.Tag);
+			//bool saveInfoVisible = (tabOptions.SelectedTab.Tag != null &&
+			//    (bool)tabOptions.SelectedTab.Tag);
 
-			picSaveInfo.Visible = saveInfoVisible;
-			lblSaveInfo.Visible = saveInfoVisible;
+			//picSaveInfo.Visible = saveInfoVisible;
+			//lblSaveInfo.Visible = saveInfoVisible;
 		}
 
 		/// ------------------------------------------------------------------------------------

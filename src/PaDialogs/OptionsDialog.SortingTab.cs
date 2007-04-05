@@ -45,9 +45,6 @@ namespace SIL.Pa.Dialogs
 			chkSaveManual.Font = FontHelper.UIFont;
 			lblSaveManual.Font = FontHelper.UIFont;
 
-			// This indicates the tab is for project specific settings.
-			tpgSorting.Tag = true;
-
 			SortOptionsTypeComboItem item;
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),

@@ -227,6 +227,17 @@ namespace SIL.Pa
 			get { return m_rsltVwMngr; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not class names should be shown in search
+		/// patterns. If false, then the class' members are shown.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ShowClassNames
+		{
+			get { return (PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns); }
+		}
+		
 		#endregion
 
 		#region ITabView Members
@@ -898,7 +909,7 @@ namespace SIL.Pa
 				ClassListViewItem item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					ptrnTextBox.Insert((item.Pattern == null || PaApp.ShowClassNames ?
+					ptrnTextBox.Insert((item.Pattern == null || ShowClassNames ?
 						PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket : item.Pattern));
 				}
 			}
@@ -941,7 +952,7 @@ namespace SIL.Pa
 			else if (e.Item is ClassListViewItem)
 			{
 				ClassListViewItem item = e.Item as ClassListViewItem;
-				dragText = (item.Pattern == null || PaApp.ShowClassNames ?
+				dragText = (item.Pattern == null || ShowClassNames ?
 					PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket : item.Pattern);
 			}
 
@@ -1266,7 +1277,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region Message mediator message handler and update handler methods
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Called when the Class Display Behavior has been changed by the user.
@@ -1292,50 +1302,29 @@ namespace SIL.Pa
 					// PaApp.ShowClassNames has not been set yet to the new value
 					// in OptionsDialog.FindPhonesTab>>SaveFindPhonesTabSettings()
 
-					if (!PaApp.ShowClassNames)
+					// Replace the member pattern with the class name
+					foreach (ClassListViewItem item in ptrnBldrComponent.ClassListView.Items)
 					{
-						// Replace the member pattern with the class name
-						foreach (ClassListViewItem item in ptrnBldrComponent.ClassListView.Items)
-						{
-							string className = PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket;
-							if (ptrnTextBox.TextBox.Text.Contains(item.Pattern))
-							{
-								ptrnTextBox.TextBox.Text =
-									  ptrnTextBox.TextBox.Text.Replace(item.Pattern, className);
+						string className = PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket;
+						string newText = (ShowClassNames ? className : item.Pattern);
+						string oldText = (ShowClassNames ? item.Pattern : className);
 
-								//tabGroup.CurrentTab = tab;
-								m_rsltVwMngr.CurrentTabGroup = tabGroup;
-								m_rsltVwMngr.CurrentTabGroup.CurrentTab = tab;
-								// Update the current tab with the modified, but essentially the same, search pattern
-								m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-									SearchResultLocation.CurrentTab);
-								break;
-							}
-						}
-					}
-					else if (PaApp.ShowClassNames)
-					{
-						// Replace the class name with the member pattern
-						foreach (ClassListViewItem item in ptrnBldrComponent.ClassListView.Items)
+						if (ptrnTextBox.TextBox.Text.Contains(oldText))
 						{
-							string className = PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket;
-							if (ptrnTextBox.TextBox.Text.Contains(item.Text))
-							{
-								ptrnTextBox.TextBox.Text =
-									  ptrnTextBox.TextBox.Text.Replace(className, item.Pattern);
+							ptrnTextBox.TextBox.Text =
+								  ptrnTextBox.TextBox.Text.Replace(oldText, newText);
 
-								//tabGroup.CurrentTab = tab;
-								m_rsltVwMngr.CurrentTabGroup = tabGroup;
-								m_rsltVwMngr.CurrentTabGroup.CurrentTab = tab;
-								// Update the current tab with the modified, but essentially the same, search pattern
-								m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-									SearchResultLocation.CurrentTab);
-								break;
-							}
+							// Update the current tab with the modified pattern text.
+							m_rsltVwMngr.CurrentTabGroup = tabGroup;
+							m_rsltVwMngr.CurrentTabGroup.CurrentTab = tab;
+							m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
+								SearchResultLocation.CurrentTab);
+							continue;
 						}
 					}
 				}
 			}
+
 			// Select the tab that was selected when this entire process began
 			m_rsltVwMngr.CurrentTabGroup = firstTabGroup;
 			m_rsltVwMngr.CurrentTabGroup.CurrentTab = firstTab;

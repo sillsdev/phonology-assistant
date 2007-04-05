@@ -39,6 +39,8 @@ namespace SIL.Pa
 		private SortOptions m_XYChartSortOptions;
 		private CIEOptions m_cieOptions;
 		private bool m_showUndefinedCharsDlg = true;
+		private bool m_showClassNamesInSearchPatterns = true;
+		private bool m_showDiamondsInEmptySearchPattern = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -563,6 +565,31 @@ namespace SIL.Pa
 		{
 			get { return m_comments; }
 			set { m_comments = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets an Options value indicating whether or not class names are shown in
+		/// search patterns and nested class definitions. If this value is false, then class
+		/// members are shown instead.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ShowClassNamesInSearchPatterns
+		{
+			get {return m_showClassNamesInSearchPatterns;}
+			set {m_showClassNamesInSearchPatterns = value;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to display the diamond
+		/// pattern when the find phones search pattern text box is empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ShowDiamondsInEmptySearchPattern
+		{
+			get {return m_showDiamondsInEmptySearchPattern;}
+			set {m_showDiamondsInEmptySearchPattern = value;}
 		}
 
 		/// ------------------------------------------------------------------------------------

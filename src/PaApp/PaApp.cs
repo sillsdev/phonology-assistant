@@ -70,6 +70,7 @@ namespace SIL.Pa
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
 		public const string kOptionsSettingsKey = "globaloptions";
+		public const string kAutoStartOptions = "autostart";
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
 
@@ -635,42 +636,16 @@ namespace SIL.Pa
 		#region Options Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets an Options value indicating whether or not class names are shown in
-		/// search patterns and nested class definitions. If this value is false, then class
-		/// members are shown instead.
+		/// This option is hidden and mainly used for development when I don't want SQL
+		/// server to be automatically started by just going to the project settings dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool ShowClassNames
+		public static bool AutoStartSQLServer
 		{
 			get
 			{
 				return PaApp.SettingsHandler.GetBoolSettingsValue(
-					kOptionsSettingsKey, "showclassname", true);
-			}
-			set
-			{
-				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "showclassname", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to display the diamond
-		/// pattern when the find phones search pattern text box is empty.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool ShowEmptyDiamondSearchPattern
-		{
-			get
-			{
-				return PaApp.SettingsHandler.GetBoolSettingsValue(
-					kOptionsSettingsKey, "showemptydiamondpattern", true);
-			}
-			set
-			{
-				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "showemptydiamondpattern", value);
+					kAutoStartOptions, "sqlserver", true);
 			}
 		}
 

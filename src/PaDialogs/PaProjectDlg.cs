@@ -84,7 +84,30 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
-			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDatabaseInfoList != null);
+			bool startsqlsvr = true;
+
+			// Referencing FwDBUtils.FwDatabaseInfoList (done below) kicks of a chain
+			// reaction that may result in SQL server being started. If the settings file
+			// contains the undocumented flag to prevent this, we need to make sure, before
+			// deciding not to start SQL server, that no data sources in the project are FW
+			// data sources.
+			if (!PaApp.AutoStartSQLServer)
+			{
+				startsqlsvr = false;
+				if (m_project.DataSources != null)
+				{
+					foreach (PaDataSource ds in m_project.DataSources)
+					{
+						if (ds.DataSourceType == DataSourceType.FW)
+						{
+							startsqlsvr = true;
+							break;
+						}
+					}
+				}
+			}
+
+			cmnuAddFwDataSource.Enabled = (startsqlsvr && FwDBUtils.FwDatabaseInfoList != null);
 			m_dirty = false;
 			Application.Idle += new EventHandler(Application_Idle);
 		}

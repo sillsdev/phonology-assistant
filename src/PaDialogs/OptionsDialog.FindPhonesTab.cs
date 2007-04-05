@@ -22,6 +22,13 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFindPhonesTab()
 		{
+			// This tab isn't valid if there is no project loaded.
+			if (PaApp.Project == null)
+			{
+				tabOptions.TabPages.Remove(tpgFindPhones);
+				return;
+			}
+			
 			lblClassDisplayBehavior.Font = FontHelper.UIFont;
 			rdoClassName.Font = FontHelper.UIFont;
 			rdoClassMembers.Font = FontHelper.UIFont;
@@ -41,10 +48,10 @@ namespace SIL.Pa.Dialogs
 
 			rdoClassName.Top = lblClassDisplayBehavior.Bottom + 6;
 			rdoClassMembers.Top = rdoClassName.Bottom + 4;
-			rdoClassName.Checked = PaApp.ShowClassNames;
+			rdoClassName.Checked = PaApp.Project.ShowClassNamesInSearchPatterns;
 			rdoClassMembers.Checked = !rdoClassName.Checked;
 
-			chkShowDiamondPattern.Checked = PaApp.ShowEmptyDiamondSearchPattern;
+			chkShowDiamondPattern.Checked = PaApp.Project.ShowDiamondsInEmptySearchPattern;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,8 +63,8 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
-				return rdoClassName.Checked != PaApp.ShowClassNames ||
-				  chkShowDiamondPattern.Checked != PaApp.ShowEmptyDiamondSearchPattern;
+				return rdoClassName.Checked != PaApp.Project.ShowClassNamesInSearchPatterns ||
+				  chkShowDiamondPattern.Checked != PaApp.Project.ShowDiamondsInEmptySearchPattern;
 			}
 		}
 
@@ -71,12 +78,14 @@ namespace SIL.Pa.Dialogs
 			if (!IsFindPhoneTabDirty)
 				return;
 
-			if (rdoClassName.Checked != PaApp.ShowClassNames)
+			if (rdoClassName.Checked != PaApp.Project.ShowClassNamesInSearchPatterns)
+			{
+				PaApp.Project.ShowClassNamesInSearchPatterns = rdoClassName.Checked;
 				PaApp.MsgMediator.SendMessage("ClassDisplayBehaviorChanged", null);
+			}
 
-			PaApp.ShowClassNames = rdoClassName.Checked;
-			PaApp.ShowEmptyDiamondSearchPattern = chkShowDiamondPattern.Checked;
-
+			PaApp.Project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
+			PaApp.Project.Save();
 			PaApp.MsgMediator.SendMessage("FindPhonesSettingsChanged", null);
 		}
 	}

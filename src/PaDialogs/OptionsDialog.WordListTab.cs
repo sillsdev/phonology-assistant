@@ -48,9 +48,6 @@ namespace SIL.Pa.Dialogs
 			chkAutoAdjustPhoneticCol.Font = FontHelper.UIFont;
 			nudMaxEticColWidth.Font = FontHelper.UIFont;
 
-			// This indicates the tab is for project specific settings.
-			tpgWordLists.Tag = true;
-
 			InitializeWordListValues();
 		}
 
