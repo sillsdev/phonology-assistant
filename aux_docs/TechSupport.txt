@@ -1,14 +1,12 @@
-Phonology Assistant Technical Support
+Phonology Assistant 3.0 Technical Support 
 
-Phonology Assistant 3.0
+Phonology Assistant is distributed as freeware. As such, no warranty or free personalized technical support from SIL International will be provided. We do provide you with the following sources for technical information. 
 
-1. Go to the Help menu
++ Go to the Help menu 
 
-2. Read the known issues in the ReadMe.rtf
++ Read the Known Issues section in the ReadMe.rtf 
 
-3. Read the service bulletins found in the "SILSoftwareSupport" folder on the SIL Freeware Disc
++ Read the service bulletins found in the "SILSoftwareSupport" folder on the SIL Freeware Disc 
 
-4. Read the Phonology Assistant web site for the latest information, 
-   http://phonologyassistant.sil.org
-
-
++ Read the Phonology Assistant web site for the latest information, 
+   http://phonologyassistant.sil.org 

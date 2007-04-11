@@ -114,16 +114,17 @@ namespace SIL.Pa.Controls
 			ShowCellToolTips = false;
 			Dock = DockStyle.Fill;
 			Font = FontHelper.UIFont;
-			ForeColor = SystemColors.WindowText;
-			BackgroundColor = SystemColors.Window;
+			//ForeColor = SystemColors.WindowText;
+			//BackgroundColor = SystemColors.Window;
 			BorderStyle = BorderStyle.Fixed3D;
 			SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			VirtualMode = true;
 			RowHeadersWidth = 25;
 			RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-			GridColor = ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100);
-			RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
-			RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
+			//GridColor = ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100);
+			//RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
+			//RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
+			OnSystemColorsChanged(null);
 			BuildColumns();
 			OnWordListOptionsChanged(null);
 			PaApp.AddMediatorColleague(this);
@@ -186,6 +187,20 @@ namespace SIL.Pa.Controls
 				m_phoneticColName = fieldInfo.FieldName;
 
 			return col;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSystemColorsChanged(EventArgs e)
+		{
+			ForeColor = SystemColors.WindowText;
+			BackgroundColor = SystemColors.Window;
+			GridColor = ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100);
+			RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
+			RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
 		}
 
 		/// ------------------------------------------------------------------------------------

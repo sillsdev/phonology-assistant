@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using SIL.SpeechTools.Utils;
 using SIL.Pa.FFSearchEngine;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -62,10 +63,11 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
 			m_pnlHdrBand.Paint += new PaintEventHandler(HandlePanelPaint);
 			m_pnlHdrBand.Resize += new EventHandler(m_pnlHdrBand_Resize);
+			m_pnlHdrBand.Click += new EventHandler(HandleClick);
 			using (Graphics g = CreateGraphics())
 			{
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					FontHelper.PhoneticFont, Size.Empty, flags).Height + 17;
+					FontHelper.PhoneticFont, Size.Empty, flags).Height + 19; //17
 			}
 
 			Controls.Add(m_pnlHdrBand);
@@ -76,6 +78,7 @@ namespace SIL.Pa.Controls
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Location = new Point(0, 0);
 			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
+			m_pnlTabs.Click += new EventHandler(HandleClick);
 			m_pnlHdrBand.Controls.Add(m_pnlTabs);
 
 			// Create the panel that will hold the close button
@@ -92,6 +95,9 @@ namespace SIL.Pa.Controls
 			m_btnClose.Click += new EventHandler(m_btnClose_Click);
 			m_btnClose.Location = new Point(m_pnlClose.Width - m_btnClose.Width,
 				(m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3);
+			m_tooltip.SetToolTip(m_btnClose,
+				Properties.Resources.kstidCloseActiveTabButtonToolTip);
+			
 			m_pnlClose.Controls.Add(m_btnClose);
 			m_pnlClose.BringToFront();
 
@@ -144,7 +150,7 @@ namespace SIL.Pa.Controls
 			m_btnLeft.Size = new Size(18, 18);
 			m_btnLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 			m_btnLeft.Click += new EventHandler(m_btnLeft_Click);
-			m_btnLeft.Location = new Point(4, 3);
+			m_btnLeft.Location = new Point(4, (m_pnlHdrBand.Height - m_btnLeft.Height) / 2 - 3);
 			m_pnlScroll.Controls.Add(m_btnLeft);
 
 			// Create a right scrolling button.
@@ -153,8 +159,11 @@ namespace SIL.Pa.Controls
 			m_btnRight.Size = new Size(18, 18);
 			m_btnRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 			m_btnRight.Click += new EventHandler(m_btnRight_Click);
-			m_btnRight.Location = new Point(22, 3);
+			m_btnRight.Location = new Point(22, (m_pnlHdrBand.Height - m_btnRight.Height) / 2 - 3);
 			m_pnlScroll.Controls.Add(m_btnRight);
+
+			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
+			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,6 +215,28 @@ namespace SIL.Pa.Controls
 			}
 
 			PaApp.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnClick(EventArgs e)
+		{
+			base.OnClick(e);
+			HandleClick(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleClick(object sender, EventArgs e)
+		{
+			if (m_currTab != null)
+				tab_Click(m_currTab, EventArgs.Empty);
 		}
 
 		#region Tab managment methods
@@ -286,6 +317,7 @@ namespace SIL.Pa.Controls
 			{
 				tab.ResultView = resultView;
 				tab.ResultView.Size = new Size(Width, Height - m_pnlHdrBand.Height);
+				tab.ResultView.Click += new EventHandler(HandleClick);
 				Controls.Add(resultView);
 				AdjustTabContainerWidth();
 				resultView.BringToFront();
@@ -358,6 +390,9 @@ namespace SIL.Pa.Controls
 			{
 				tab.Click -= tab_Click;
 				tab.MouseDown -= tab_MouseDown;
+
+				if (tab.ResultView != null)
+					tab.ResultView.Click -= HandleClick;
 
 				if (Controls.Contains(tab.ResultView))
 					Controls.Remove(tab.ResultView);
@@ -1087,6 +1122,13 @@ namespace SIL.Pa.Controls
 		internal XButton m_btnCIEOptions;
 		private CustomDropDown m_cieOptionsDropDownContainer;
 		private CIEOptionsDropDown m_cieOptionsDropDown;
+		private Color m_activeTabInactiveGroupBack1;
+		private Color m_activeTabInactiveGroupBack2;
+		private Color m_activeTabInactiveGroupFore;
+		private Color m_activeTabFore;
+		private Color m_activeTabBack;
+		private Color m_inactiveTabFore;
+		private Color m_inactiveTabBack;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1121,6 +1163,37 @@ namespace SIL.Pa.Controls
 
 			m_owningTabGroup.m_tooltip.SetToolTip(m_btnCIEOptions,
 				Properties.Resources.kstidCIEOptionsButtonToolTip);
+
+			GetTabColors();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void GetTabColors()
+		{
+			m_activeTabInactiveGroupBack1 = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "activeininactivegroup1", Color.White);
+
+			m_activeTabInactiveGroupBack2 = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "activeininactivegroup1", 0xFFD7D1C4);
+
+			m_activeTabInactiveGroupFore = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "activeininactivegroupfore", Color.Black);
+
+			m_activeTabBack = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "activetabback", Color.White);
+
+			m_activeTabFore = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "activetabfore", Color.Black);
+
+			m_inactiveTabBack = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "inactivetabback", SystemColors.Control);
+
+			m_inactiveTabFore = PaApp.SettingsHandler.GetColorSettingsValue(
+				"srchresulttabs", "inactivetabfore", SystemColors.ControlText);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1311,6 +1384,43 @@ namespace SIL.Pa.Controls
 		public bool TabTextClipped
 		{
 			get { return m_tabTextClipped; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color ForeColor
+		{
+			get
+			{
+				if (!m_selected)
+					return m_inactiveTabFore;
+
+				return (m_owningTabGroup.IsCurrent ?
+					m_activeTabFore : m_activeTabInactiveGroupFore);
+			}
+			set {}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color BackColor
+		{
+			get
+			{
+				if (!m_selected)
+					return m_inactiveTabBack;
+
+				return (m_owningTabGroup.IsCurrent ? m_activeTabBack : SystemColors.Control);
+			}
+			set
+			{
+			}
 		}
 
 		#endregion
@@ -1665,22 +1775,35 @@ namespace SIL.Pa.Controls
 			Rectangle rc = ClientRectangle;
 			e.Graphics.FillRectangle(SystemBrushes.Control, rc);
 
-			Point[] pts = new Point[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
-				new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
+			int topMargin = (m_selected ? 0 : 2);
+
+			// Establish the points that outline the region for the tab outline (which
+			// also marks off it's interior).
+			Point[] pts = new Point[] {
+				new Point(0, rc.Bottom), new Point(0, rc.Top + topMargin + 3),
+				new Point(3, topMargin), new Point(rc.Right - 4, topMargin),
+				new Point(rc.Right - 1, rc.Top + topMargin + 3),
 				new Point(rc.Right - 1, rc.Bottom)};
 
-			if (m_selected)
-			{
-				using (SolidBrush br = new SolidBrush(Color.White))
-					e.Graphics.FillPolygon(br, pts);
+			// First, clear the decks with an all white background.
+			using (SolidBrush br = new SolidBrush(Color.White))
+				e.Graphics.FillPolygon(br, pts);
 
-				if (!m_owningTabGroup.IsCurrent)
+			if (!m_selected || m_owningTabGroup.IsCurrent)
+			{
+				using (SolidBrush br = new SolidBrush(BackColor))
+					e.Graphics.FillPolygon(br, pts);
+			}
+			else
+			{
+				// The tab is the current tab but is not in the current
+				// tab group so paint with a gradient background.
+				//Color clr1 = Color.FromArgb(120, SystemColors.ControlDark);
+				//Color clr2 = Color.FromArgb(150, SystemColors.Control);
+				using (LinearGradientBrush br = new LinearGradientBrush(rc,
+					m_activeTabInactiveGroupBack1, m_activeTabInactiveGroupBack2, 70))
 				{
-					// The tab is the current tab but is not in the current tab group.
-					Color clr1 = Color.FromArgb(120, SystemColors.ControlDark);
-					Color clr2 = Color.FromArgb(150, SystemColors.Control);
-					using (LinearGradientBrush br = new LinearGradientBrush(rc, clr1, clr2, 90))
-						e.Graphics.FillPolygon(br, pts);
+					e.Graphics.FillPolygon(br, pts);
 				}
 			}
 
@@ -1739,15 +1862,16 @@ namespace SIL.Pa.Controls
 				flags |= TextFormatFlags.HorizontalCenter;
 
 			rc.Height -= 3;
-			TextRenderer.DrawText(g, Text, Font, rc, SystemColors.ControlText, flags);
+			TextRenderer.DrawText(g, Text, Font, rc, ForeColor, flags);
 
 			if (m_mouseOver)
 			{
 				// Draw the lines that only show when the mouse is over the tab.
 				using (Pen pen = new Pen(Color.DarkOrange))
 				{
-					g.DrawLine(pen, 3, 1, rc.Right - 4, 1);
-					g.DrawLine(pen, 2, 2, rc.Right - 3, 2);
+					int topLine = (m_selected ? 1 : 3);
+					g.DrawLine(pen, 3, topLine, rc.Right - 4, topLine);
+					g.DrawLine(pen, 2, topLine + 1, rc.Right - 3, topLine + 1);
 				}
 			}
 		}

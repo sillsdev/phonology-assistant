@@ -384,6 +384,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close Active Tab.
+        /// </summary>
+        internal static string kstidCloseActiveTabButtonToolTip {
+            get {
+                return ResourceManager.GetString("kstidCloseActiveTabButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string kstidCloseHeading {
@@ -857,6 +866,24 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidRetroflexHeading {
             get {
                 return ResourceManager.GetString("kstidRetroflexHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scroll Left.
+        /// </summary>
+        internal static string kstidScrollTabsLeftToolTip {
+            get {
+                return ResourceManager.GetString("kstidScrollTabsLeftToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scroll Right.
+        /// </summary>
+        internal static string kstidScrollTabsRightToolTip {
+            get {
+                return ResourceManager.GetString("kstidScrollTabsRightToolTip", resourceCulture);
             }
         }
         

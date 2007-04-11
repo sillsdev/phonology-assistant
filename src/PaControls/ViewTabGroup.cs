@@ -186,6 +186,9 @@ namespace SIL.Pa.Controls
 			m_btnRight.Click += new EventHandler(m_btnRight_Click);
 			m_btnRight.Location = new Point(22, top);
 			m_pnlScroll.Controls.Add(m_btnRight);
+
+			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
+			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------

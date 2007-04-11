@@ -678,15 +678,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "recordviewfieldlabelcolor", -1);
-
-				return (colorValue == -1 ? Color.DarkRed : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"recordviewcolors", "lable", Color.DarkRed);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "recordviewfieldlabelcolor", value.ToArgb());
+					"recordviewcolors", "label", value);
 			}
 		}
 
@@ -699,15 +697,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "uncertainphoneforecolor", -1);
-
-				return (colorValue == -1 ? Color.RoyalBlue : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"uncertainphonecolors", "foreground", Color.RoyalBlue);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "uncertainphoneforecolor", value.ToArgb());
+					"uncertainphonecolors", "foreground", value);
 			}
 		}
 
@@ -720,15 +716,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "querysearchitemforecolor", -1);
-
-				return (colorValue == -1 ? Color.Black : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"searchresultcolors", "srchitemforeground", Color.Black);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "querysearchitemforecolor", value.ToArgb());
+					"searchresultcolors", "srchitemforeground", value);
 			}
 		}
 
@@ -741,15 +735,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "querysearchitembackcolor", -1);
-
-				return (colorValue == -1 ? Color.Yellow : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"searchresultcolors", "srchitembackground", Color.Yellow);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "querysearchitembackcolor", value.ToArgb());
+					"searchresultcolors", "srchitembackground", value);
 			}
 		}
 
@@ -763,15 +755,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "xychartzerobackColor", -1);
-
-				return (colorValue == -1 ? Color.PaleGoldenrod : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"xychartcolors", "zerobackground", Color.PaleGoldenrod);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "xychartzerobackColor", value.ToArgb());
+					"xychartcolors", "zerobackground", value);
 			}
 		}
 
@@ -785,15 +775,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "xychartzeroforeColor", -1);
-
-				return (colorValue == -1 ? Color.Black : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"xychartcolors", "zeroforeground", Color.Black);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "xychartzeroforeColor", value.ToArgb());
+					"xychartcolors", "zeroforeground", value);
 			}
 		}
 
@@ -807,15 +795,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "xychartnonzerobackColor", -1);
-
-				return (colorValue == -1 ? Color.LightSteelBlue : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"xychartcolors", "nonzerobackground", Color.LightSteelBlue);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "xychartnonzerobackColor", value.ToArgb());
+					"xychartcolors", "nonzerobackground", value);
 			}
 		}
 
@@ -829,15 +815,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				int colorValue = PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "xychartnonzeroforeColor", -1);
-
-				return (colorValue == -1 ? Color.Black : Color.FromArgb(colorValue));
+				return PaApp.SettingsHandler.GetColorSettingsValue(
+					"xychartcolors", "nonzeroforeground", Color.Black);
 			}
 			set
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "xychartnonzeroforeColor", value.ToArgb());
+					"xychartcolors", "nonzeroforeground", value);
 			}
 		}
 		

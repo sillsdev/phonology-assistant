@@ -249,6 +249,9 @@
   <data name="kstidClicksHeading" xml:space="preserve">
     <value>Clicks</value>
   </data>
+  <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
+    <value>Close Active Tab</value>
+  </data>
   <data name="kstidCloseHeading" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -425,6 +428,12 @@
   </data>
   <data name="kstidRetroflexHeading" xml:space="preserve">
     <value>Retroflex</value>
+  </data>
+  <data name="kstidScrollTabsLeftToolTip" xml:space="preserve">
+    <value>Scroll Left</value>
+  </data>
+  <data name="kstidScrollTabsRightToolTip" xml:space="preserve">
+    <value>Scroll Right</value>
   </data>
   <data name="kstidSearchingForCIEResultsMsg" xml:space="preserve">
     <value>Finding Minimal Pairs...</value>
