@@ -714,9 +714,7 @@ namespace SIL.Pa
 			if (!PaApp.IsFormActive(this))
 				return false;
 
-			ShowSavePatternDlg(true);
-
-			return true;
+			return ShowSavePatternDlg(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -724,7 +722,7 @@ namespace SIL.Pa
 		/// Shows the query save as dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ShowSavePatternDlg(bool canChangeQuerysCategory)
+		private bool ShowSavePatternDlg(bool canChangeQuerysCategory)
 		{
 			using (SaveSearchQueryDlg dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
 				tvSavedPatterns, canChangeQuerysCategory))
@@ -733,8 +731,12 @@ namespace SIL.Pa
 				{
 					if (!string.IsNullOrEmpty(ptrnTextBox.SearchQuery.Name))
 						m_rsltVwMngr.CurrentTabGroup.UpdateCurrentTabsQueryName(ptrnTextBox.SearchQuery.Name);
+
+					return true;
 				}
 			}
+
+			return false;
 		}
 
 		#endregion

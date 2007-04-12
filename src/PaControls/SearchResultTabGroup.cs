@@ -28,7 +28,7 @@ namespace SIL.Pa.Controls
 		private bool m_isCurrentTabGroup = false;
 		private List<SearchResultTab> m_tabs;
 		private SearchResultTab m_currTab;
-		private Panel m_pnlHdrBand;
+		internal Panel m_pnlHdrBand;
 		private Panel m_pnlTabs;
 		private Panel m_pnlClose;
 		private Panel m_pnlScroll;
@@ -37,6 +37,7 @@ namespace SIL.Pa.Controls
 		private XButton m_btnRight;
 		private SearchResultsViewManager m_rsltVwMngr;
 		internal ToolTip m_tooltip;
+		private TabDropIndicator m_dropIndicator;
 
 		private static SearchResultTab s_lastTabRightClickedOn;
 
@@ -101,11 +102,14 @@ namespace SIL.Pa.Controls
 				(m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3);
 			m_tooltip.SetToolTip(m_btnClose,
 				Properties.Resources.kstidCloseActiveTabButtonToolTip);
-			
+
 			m_pnlClose.Controls.Add(m_btnClose);
 			m_pnlClose.BringToFront();
 
 			SetupScrollPanel();
+
+			m_dropIndicator = new TabDropIndicator(this, m_pnlTabs.Height, m_pnlHdrBand.BackColor);
+			Controls.Add(m_dropIndicator);
 
 			m_tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
@@ -898,6 +902,27 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Provides an accessor for a tab to call it's owning tab group's drag drop event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void InternalDragLeave(EventArgs e)
+		{
+			OnDragLeave(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnDragLeave(EventArgs e)
+		{
+			base.OnDragLeave(e);
+			m_dropIndicator.Visible = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -911,6 +936,7 @@ namespace SIL.Pa.Controls
 			if (query != null && !query.PatternOnly)
 			{
 				e.Effect = e.AllowedEffect;
+				m_dropIndicator.Locate();
 				return;
 			}
 
@@ -919,10 +945,12 @@ namespace SIL.Pa.Controls
 			if (tab != null && tab.OwningTabGroup != this)
 			{
 				e.Effect = DragDropEffects.Move;
+				m_dropIndicator.Locate();
 				return;
 			}
 
 			e.Effect = DragDropEffects.None;
+			m_dropIndicator.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -932,6 +960,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDragDrop(DragEventArgs e)
 		{
+			m_dropIndicator.Visible = false;
+
 			base.OnDragDrop(e);
 			SearchResultTab tab = e.Data.GetData(typeof(SearchResultTab)) as SearchResultTab;
 			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
@@ -1320,7 +1350,7 @@ namespace SIL.Pa.Controls
 							}
 						}
 					}
-	
+
 					HandleResultViewRowEnter(null, null);
 				}
 				else if (m_owningTabGroup.IsCurrent && m_resultView != null &&
@@ -1338,7 +1368,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public SearchResultView ResultView
 		{
-			get {return m_resultView;}
+			get { return m_resultView; }
 			set
 			{
 				if (m_resultView == value)
@@ -1405,7 +1435,7 @@ namespace SIL.Pa.Controls
 				return (m_owningTabGroup.IsCurrent ?
 					m_activeTabFore : m_activeTabInactiveGroupFore);
 			}
-			set {}
+			set { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1443,7 +1473,7 @@ namespace SIL.Pa.Controls
 
 			// Get the text's width.
 			using (Graphics g = CreateGraphics())
-				width = TextRenderer.MeasureText(g, Text, Font,	Size.Empty, flags).Width;
+				width = TextRenderer.MeasureText(g, Text, Font, Size.Empty, flags).Width;
 
 			// Add a little for good measure.
 			width += 6;
@@ -1529,6 +1559,7 @@ namespace SIL.Pa.Controls
 				m_resultView.Grid.AllowDrop = true;
 				m_resultView.Grid.DragOver += new DragEventHandler(HandleResultViewDragOver);
 				m_resultView.Grid.DragDrop += new DragEventHandler(HandleResultViewDragDrop);
+				m_resultView.Grid.DragLeave += new EventHandler(HandleResultViewDragLeave);
 				m_resultView.Grid.RowEnter += new DataGridViewCellEventHandler(HandleResultViewRowEnter);
 				m_resultView.Grid.Enter += new EventHandler(HandleResultViewEnter);
 				m_resultView.Grid.AllowDrop = true;
@@ -1547,6 +1578,7 @@ namespace SIL.Pa.Controls
 				m_resultView.Grid.AllowDrop = false;
 				m_resultView.Grid.DragOver -= HandleResultViewDragOver;
 				m_resultView.Grid.DragDrop -= HandleResultViewDragDrop;
+				m_resultView.Grid.DragLeave -= HandleResultViewDragLeave;
 				m_resultView.Grid.RowEnter -= HandleResultViewRowEnter;
 				m_resultView.Grid.Enter -= HandleResultViewEnter;
 			}
@@ -1583,7 +1615,7 @@ namespace SIL.Pa.Controls
 			{
 				RecordCacheEntry entry = (e == null ? m_resultView.Grid.GetRecord() :
 					m_resultView.Grid.GetRecord(e.RowIndex));
-				
+
 				m_owningTabGroup.RawRecordView.UpdateRecord(entry);
 			}
 		}
@@ -1609,7 +1641,7 @@ namespace SIL.Pa.Controls
 		{
 			return OnRecordViewOptionsChanged(args);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update the record view when the user changed the order or visibility of fields.
@@ -1619,7 +1651,7 @@ namespace SIL.Pa.Controls
 		{
 			if (m_selected && m_owningTabGroup.IsCurrent &&
 				m_owningTabGroup.RawRecordView != null &&
-			 	m_resultView != null && m_resultView.Grid != null)
+				m_resultView != null && m_resultView.Grid != null)
 			{
 				m_owningTabGroup.RawRecordView.UpdateRecord(
 					m_resultView.Grid.GetRecord(), true);
@@ -1650,6 +1682,16 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Treat dragging on a result view grid just like dragging on the tab.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleResultViewDragLeave(object sender, EventArgs e)
+		{
+			m_owningTabGroup.InternalDragLeave(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Treat dropping on a result view grid just like dropping on the tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1667,6 +1709,17 @@ namespace SIL.Pa.Controls
 		{
 			base.OnDragOver(e);
 			m_owningTabGroup.InternalDragOver(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reflects drag leave events to the tab's owning group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnDragLeave(EventArgs e)
+		{
+			base.OnDragLeave(e);
+			m_owningTabGroup.InternalDragLeave(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1706,7 +1759,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
-			m_mouseDownLocation = Point.Empty; 
+			m_mouseDownLocation = Point.Empty;
 			base.OnMouseUp(e);
 		}
 
@@ -1722,7 +1775,7 @@ namespace SIL.Pa.Controls
 			// This will be empty when the mouse button is not down.
 			if (m_mouseDownLocation.IsEmpty)
 				return;
-			
+
 			// Begin draging a tab when the mouse is held down
 			// and has moved 4 or more pixels in any direction.
 			int dx = Math.Abs(m_mouseDownLocation.X - e.X);
@@ -1812,7 +1865,7 @@ namespace SIL.Pa.Controls
 			}
 
 			e.Graphics.DrawLines(SystemPens.ControlDark, pts);
-			
+
 			if (!m_selected)
 			{
 				// The tab is not the selected tab, so draw a
@@ -1978,4 +2031,110 @@ namespace SIL.Pa.Controls
 
 		#endregion
 	}
+
+	#region TabDropIndicator class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class TabDropIndicator : Panel
+	{
+		SearchResultTabGroup m_tabGroup;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public TabDropIndicator(SearchResultTabGroup tabGroup, int height, Color backColor)
+		{
+			m_tabGroup = tabGroup;
+			BackColor = backColor;
+			Size = new Size(50, height);
+		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override CreateParams CreateParams
+		//{
+		//    get
+		//    {
+		//        CreateParams cp = base.CreateParams;
+		//        cp.ExStyle |= 0x20;
+		//        return cp;
+		//    }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnPaintBackground(PaintEventArgs e)
+		//{
+		//}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			Rectangle rc = ClientRectangle;
+
+			// Establish the points that outline the region for the tab outline (which
+			// also marks off it's interior).
+			Point[] pts = new Point[] {new Point(0, rc.Bottom),
+		        new Point(0, rc.Top + 3), new Point(3, 0),
+		        new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
+		        new Point(rc.Right - 1, rc.Bottom)};
+
+			// First, clear the decks with an all white background.
+			using (HatchBrush br = new HatchBrush(HatchStyle.Percent50, Color.Black, Color.Transparent))
+				e.Graphics.FillPolygon(br, pts);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Locate()
+		{
+			Point pt;
+
+			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
+				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);
+			else
+			{
+				SearchResultTab lasttab = m_tabGroup.Tabs[m_tabGroup.Tabs.Count - 1];
+				pt = lasttab.PointToScreen(new Point(lasttab.Width, 0));
+			}
+
+			pt = m_tabGroup.PointToClient(pt);
+
+			// If the point where we figured on placing the indicator
+			// is too far to the right, then bump it left so it just fits.
+			if (pt.X + Width > m_tabGroup.Width)
+				pt.X = m_tabGroup.Width - Width;
+
+			// Don't bother resetting this information if it's already set.
+			if (Location != pt || !Visible)
+			{
+				Location = pt;
+				Visible = true;
+				BringToFront();
+				Application.DoEvents();
+			}
+		}
+	}
+
+	#endregion
 }

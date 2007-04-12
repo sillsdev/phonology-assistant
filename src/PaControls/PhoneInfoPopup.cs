@@ -220,6 +220,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Show(Control ctrl, HistogramBar bar)
 		{
+			if (!Enabled)
+				return;
+
 			System.Diagnostics.Debug.Assert(ctrl != null);
 			System.Diagnostics.Debug.Assert(bar != null);
 
@@ -259,6 +262,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Show(Rectangle rcCell)
 		{
+			if (!Enabled)
+				return;
+
 			System.Diagnostics.Debug.Assert(m_associatedGrid != null);
 
 			m_popupTimer.Start();
@@ -312,10 +318,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_popupTimer_Tick(object sender, EventArgs e)
 		{
-			if (IsMouseOverCellOrPopup())
-				base.Show(m_showRelativeToScreen ? null : m_ctrl, m_popupLocation);
-	
-			m_popupTimer.Stop();
+			if (Enabled)
+			{
+				if (IsMouseOverCellOrPopup())
+					base.Show(m_showRelativeToScreen ? null : m_ctrl, m_popupLocation);
+
+				m_popupTimer.Stop();
+			}
 		}
 	}
 }

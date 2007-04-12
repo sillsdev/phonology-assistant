@@ -371,7 +371,23 @@ namespace SIL.Pa.Controls
 			if (!PaApp.DesignMode)
 			{
 				if (m_tmAdapter != null)
+				{
 					m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuCharChartGrid");
+					if (m_grid.ContextMenuStrip != null)
+					{
+						m_grid.ContextMenuStrip.Opening += delegate(object sender1,
+							CancelEventArgs ce)
+						{
+							m_phoneInfoPopup.Enabled = false;
+						};
+
+						m_grid.ContextMenuStrip.Closed += delegate(object sender2,
+							ToolStripDropDownClosedEventArgs te)
+						{
+							m_phoneInfoPopup.Enabled = true;
+						};
+					}
+				}
 
 				PaApp.AddMediatorColleague(this);
 				m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
