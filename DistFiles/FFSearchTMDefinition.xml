@@ -236,6 +236,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="cmnuCloseTabGroup" commandid="CmdCloseTabGroup"/>
 			<item name="cmnuCloseAllTabGroups" commandid="CmdCloseAllTabGroups"/>
 		</contextmenu>
+		<contextmenu name="cmnuSearchResultTabGroup" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+			<item name="cmnuCloseTabGroup" commandid="CmdCloseTabGroup"/>
+			<item name="cmnuCloseAllTabGroups" commandid="CmdCloseAllTabGroups"/>
+		</contextmenu>
 		<contextmenu name="cmnuRecentPatternsList" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
 			<item name="cmnuShowResultsInCurrentTabGroup-FromRecentList" commandid="CmdShowResultsInCurrentTabGroup"/>
 			<item name="cmnuShowResultsInNewSideBySideTabGroup-FromRecentList" commandid="CmdShowResultsInNewSideBySideTabGroup"/>

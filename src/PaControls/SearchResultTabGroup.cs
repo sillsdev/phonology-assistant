@@ -38,8 +38,8 @@ namespace SIL.Pa.Controls
 		private SearchResultsViewManager m_rsltVwMngr;
 		internal ToolTip m_tooltip;
 		private TabDropIndicator m_dropIndicator;
-
-		private static SearchResultTab s_lastTabRightClickedOn;
+		private SearchResultTab m_contextMenuTab = null;
+		private SearchResultTabGroup m_contextMenuTabGroup = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -114,6 +114,19 @@ namespace SIL.Pa.Controls
 			m_tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
 			PaApp.AddMediatorColleague(this);
+
+			if (TMAdapter != null)
+				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
+
+			if (m_pnlHdrBand.ContextMenuStrip != null)
+			{
+				m_pnlHdrBand.ContextMenuStrip.Opened += delegate(object sender, EventArgs e)
+				{
+					ContextMenuStrip cms = sender as ContextMenuStrip;
+					if (cms != null && cms.SourceControl != null)
+						m_contextMenuTabGroup = cms.SourceControl.Parent as SearchResultTabGroup;
+				};
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -531,10 +544,7 @@ namespace SIL.Pa.Controls
 		void tab_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
-			{
-				s_lastTabRightClickedOn = sender as SearchResultTab;
 				tab_Click(sender, null);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -561,15 +571,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnMoveToNewSideBySideTabGroup(object args)
 		{
-			if (s_lastTabRightClickedOn != null)
+			if (m_contextMenuTab != null)
 			{
 				PaApp.MsgMediator.SendMessage("ReflectMoveToNewSideBySideTabGroup",
-					s_lastTabRightClickedOn);
+					m_contextMenuTab);
 
-				s_lastTabRightClickedOn = null;
+				m_contextMenuTab = null;
+				return true;
 			}
 
-			return true;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -580,15 +591,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnMoveToNewStackedTabGroup(object args)
 		{
-			if (s_lastTabRightClickedOn != null)
+			if (m_contextMenuTab != null)
 			{
 				PaApp.MsgMediator.SendMessage("ReflectMoveToNewStackedTabGroup",
-					s_lastTabRightClickedOn);
+					m_contextMenuTab);
 
-				s_lastTabRightClickedOn = null;
+				m_contextMenuTab = null;
+				return true;
 			}
 
-			return true;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -598,10 +610,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseTab(object args)
 		{
-			if (s_lastTabRightClickedOn != null && s_lastTabRightClickedOn.OwningTabGroup == this)
+			if (m_contextMenuTab != null)
 			{
 				m_btnClose_Click(null, null);
-				s_lastTabRightClickedOn = null;
+				m_contextMenuTab = null;
 				return true;
 			}
 
@@ -615,11 +627,15 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseTabGroup(object args)
 		{
-			if (s_lastTabRightClickedOn == null || s_lastTabRightClickedOn.OwningTabGroup != this)
-				return false;
+			if (m_contextMenuTab != null || m_contextMenuTabGroup == this)
+			{
+				Close();
+				m_contextMenuTab = null;
+				m_contextMenuTabGroup = null;
+				return true;
+			}
 
-			Close();
-			return true;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -631,12 +647,11 @@ namespace SIL.Pa.Controls
 		{
 			while (m_tabs.Count > 0)
 			{
-				s_lastTabRightClickedOn = m_tabs[0];
+				m_contextMenuTab = m_tabs[0];
 				m_btnClose_Click(null, null);
 			}
 
 			PaApp.RemoveMediatorColleague(this);
-			s_lastTabRightClickedOn = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -648,7 +663,7 @@ namespace SIL.Pa.Controls
 		{
 			// If we're not the tab group that owns the tab that was
 			// clicked on, then we don't want to handle the message.
-			if (!m_tabs.Contains(s_lastTabRightClickedOn))
+			if (!m_tabs.Contains(m_contextMenuTab))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -670,7 +685,7 @@ namespace SIL.Pa.Controls
 		{
 			// If we're not the tab group that owns the tab that was
 			// clicked on, then we don't want to handle the message.
-			if (!m_tabs.Contains(s_lastTabRightClickedOn))
+			if (!m_tabs.Contains(m_contextMenuTab))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -986,6 +1001,17 @@ namespace SIL.Pa.Controls
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Used by the group's tabs to inform their owning group on what tab a context menu
+		/// was opened.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal SearchResultTab ContextMenuTab
+		{
+			set { m_contextMenuTab = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the current tab in the group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1182,6 +1208,9 @@ namespace SIL.Pa.Controls
 			if (m_owningTabGroup.TMAdapter != null)
 				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
 
+			if (ContextMenuStrip != null)
+				ContextMenuStrip.Opened += new EventHandler(ContextMenuStrip_Opened);
+
 			Disposed += new EventHandler(SearchResultTab_Disposed);
 
 			// Prepare the tab's minimal pair options button.
@@ -1258,6 +1287,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
+			if (ContextMenuStrip != null)
+				ContextMenuStrip.Opened -= ContextMenuStrip_Opened;
+			
 			PaApp.RemoveMediatorColleague(this);
 			m_btnCIEOptions.Dispose();
 
@@ -1265,6 +1297,23 @@ namespace SIL.Pa.Controls
 				m_image.Dispose();
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ContextMenuStrip_Opened(object sender, EventArgs e)
+		{
+			ContextMenuStrip cms = sender as ContextMenuStrip;
+
+			if (cms != null && m_owningTabGroup != null &&
+				(cms.SourceControl == this || cms.SourceControl == m_resultView ||
+				(m_resultView.Grid != null && cms.SourceControl == m_resultView.Grid)))
+			{
+				m_owningTabGroup.ContextMenuTab = this;
+			}
 		}
 
 		#region Properties
@@ -1554,8 +1603,23 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SubscribeToGridEvents()
 		{
-			if (m_resultView != null && m_resultView.Grid != null)
+			if (m_resultView == null)
+				return;
+
+			if (m_owningTabGroup.TMAdapter != null)
 			{
+				m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+					m_resultView, "cmnuSearchResultTab");
+			}
+
+			if (m_resultView.Grid != null)
+			{
+				if (m_owningTabGroup.TMAdapter != null)
+				{
+					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+						m_resultView.Grid, "cmnuSearchResultTab");
+				}
+
 				m_resultView.Grid.AllowDrop = true;
 				m_resultView.Grid.DragOver += new DragEventHandler(HandleResultViewDragOver);
 				m_resultView.Grid.DragDrop += new DragEventHandler(HandleResultViewDragDrop);

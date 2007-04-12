@@ -230,5 +230,9 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="cmnuCloseTabGroup" commandid="CmdCloseTabGroup"/>
 			<item name="cmnuCloseAllTabGroups" commandid="CmdCloseAllTabGroups"/>
 		</contextmenu>
+		<contextmenu name="cmnuSearchResultTabGroup" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+			<item name="cmnuCloseTabGroup" commandid="CmdCloseTabGroup"/>
+			<item name="cmnuCloseAllTabGroups" commandid="CmdCloseAllTabGroups"/>
+		</contextmenu>
 	</contextmenus>
 </TMDef>
