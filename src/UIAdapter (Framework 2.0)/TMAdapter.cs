@@ -1027,7 +1027,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					cmnu.ShowImageMargin = GetBoolFromAttribute(node, "showimagemargin", true);
 					cmnu.ShowCheckMargin = GetBoolFromAttribute(node, "showcheckmargin", !cmnu.ShowImageMargin);
 					cmnu.ShowItemToolTips = GetBoolFromAttribute(node, "showitemtooltips", false);
-					cmnu.Opening += new CancelEventHandler(HandleContextMenuOpening);
+					cmnu.Opened += new EventHandler(HandleContextMenuOpened);
 					
 					ReadMenuItems(node.FirstChild, cmnu, true);
 					
@@ -1974,10 +1974,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Call the update handlers for each menu item on the context menu.
+		/// Call the update handlers for each menu item on the context menu. I chose to do
+		/// this in the opened event rather than the opening event so applications would have
+		/// a chance to be notified of the menu being opened before the update handlers are
+		/// called.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleContextMenuOpening(object sender, CancelEventArgs e)
+		private void HandleContextMenuOpened(object sender, EventArgs e)
 		{
 			ContextMenuStrip cmnu = sender as ContextMenuStrip;
 

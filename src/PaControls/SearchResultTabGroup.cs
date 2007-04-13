@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing;
@@ -120,7 +121,7 @@ namespace SIL.Pa.Controls
 
 			if (m_pnlHdrBand.ContextMenuStrip != null)
 			{
-				m_pnlHdrBand.ContextMenuStrip.Opened += delegate(object sender, EventArgs e)
+				m_pnlHdrBand.ContextMenuStrip.Opening += delegate(object sender, CancelEventArgs e)
 				{
 					ContextMenuStrip cms = sender as ContextMenuStrip;
 					if (cms != null && cms.SourceControl != null)
@@ -947,20 +948,21 @@ namespace SIL.Pa.Controls
 			SearchResultTab tab = e.Data.GetData(typeof(SearchResultTab)) as SearchResultTab;
 			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 
-			// Dropping a query anywhere on the tab group is allowed.
+			// Check if a query from the saved pattern list or the recent pattern list is
+			// be dragged. If so, that is allowed to be dropping.
 			if (query != null && !query.PatternOnly)
 			{
 				e.Effect = e.AllowedEffect;
-				m_dropIndicator.Locate();
+				m_dropIndicator.Locate(false);
 				return;
 			}
 
-			// Don't allow a tab to be dragged over (or dropped as the
-			// case may be) the tab group that already owns it.
+			// Check if a search result tab is being dragged. If so, that is allowed to be
+			// dropped so long as it's not being dragged over the group it's already in.
 			if (tab != null && tab.OwningTabGroup != this)
 			{
 				e.Effect = DragDropEffects.Move;
-				m_dropIndicator.Locate();
+				m_dropIndicator.Locate(true);
 				return;
 			}
 
@@ -1209,7 +1211,7 @@ namespace SIL.Pa.Controls
 				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
 
 			if (ContextMenuStrip != null)
-				ContextMenuStrip.Opened += new EventHandler(ContextMenuStrip_Opened);
+				ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
 
 			Disposed += new EventHandler(SearchResultTab_Disposed);
 
@@ -1288,7 +1290,7 @@ namespace SIL.Pa.Controls
 		protected override void Dispose(bool disposing)
 		{
 			if (ContextMenuStrip != null)
-				ContextMenuStrip.Opened -= ContextMenuStrip_Opened;
+				ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 			
 			PaApp.RemoveMediatorColleague(this);
 			m_btnCIEOptions.Dispose();
@@ -1304,8 +1306,9 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ContextMenuStrip_Opened(object sender, EventArgs e)
+		void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			m_owningTabGroup.ContextMenuTab = null;
 			ContextMenuStrip cms = sender as ContextMenuStrip;
 
 			if (cms != null && m_owningTabGroup != null &&
@@ -2104,6 +2107,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class TabDropIndicator : Panel
 	{
+		private const int kDefaultIndicatorWidth = 50;
 		SearchResultTabGroup m_tabGroup;
 
 		/// ------------------------------------------------------------------------------------
@@ -2115,7 +2119,8 @@ namespace SIL.Pa.Controls
 		{
 			m_tabGroup = tabGroup;
 			BackColor = backColor;
-			Size = new Size(50, height);
+			Size = new Size(kDefaultIndicatorWidth, height);
+			Visible = false;
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -2170,19 +2175,24 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Locate()
+		protected override void OnVisibleChanged(EventArgs e)
 		{
-			Point pt;
+			base.OnVisibleChanged(e);
 
-			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
-				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);
-			else
-			{
-				SearchResultTab lasttab = m_tabGroup.Tabs[m_tabGroup.Tabs.Count - 1];
-				pt = lasttab.PointToScreen(new Point(lasttab.Width, 0));
-			}
+			if (!Visible)
+				Width = kDefaultIndicatorWidth;
+		}
 
-			pt = m_tabGroup.PointToClient(pt);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When draggingTab is true it means the indicator is used for a tab being dragged.
+		/// When draggingTab is false it means the indicator is used for a search pattern
+		/// being dragged (e.g. from the saved patterns list).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Locate(bool draggingTab)
+		{
+			Point pt = GetIndicatorLocation(draggingTab);
 
 			// If the point where we figured on placing the indicator
 			// is too far to the right, then bump it left so it just fits.
@@ -2197,6 +2207,44 @@ namespace SIL.Pa.Controls
 				BringToFront();
 				Application.DoEvents();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will determine where to place the indicator and how wide it should be.
+		/// In making that determination, consideration is made for what is being dragged and
+		/// whether or not the active tab in the target tab group is empty. When tabs are
+		/// being dragged, then the indicator will always show up at the end of all existing
+		/// tabs in the target tab group. If a pattern is being dragged and the active tab
+		/// in the target tab group is empty, the indicator will be placed over that tab.
+		/// Otherwise, the indicator will be shown at the end of all existing tabs in the
+		/// target tab group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Point GetIndicatorLocation(bool draggingTab)
+		{
+			Point pt = Point.Empty;
+
+			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
+				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);
+			else
+			{
+				SearchResultTab tab = (!draggingTab && m_tabGroup.CurrentTab.IsEmpty ?
+					m_tabGroup.CurrentTab : m_tabGroup.Tabs[m_tabGroup.Tabs.Count - 1]);
+
+				if (!draggingTab && tab.IsEmpty && tab.Selected)
+				{
+					pt = tab.PointToScreen(new Point(0, 0));
+					Width = tab.Width;
+				}
+				else
+				{
+					pt = tab.PointToScreen(new Point(tab.Width, 0));
+					Width = kDefaultIndicatorWidth;
+				}
+			}
+
+			return m_tabGroup.PointToClient(pt);
 		}
 	}
 
