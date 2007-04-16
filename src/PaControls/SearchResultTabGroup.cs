@@ -7,6 +7,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using SIL.SpeechTools.Utils;
 using SIL.Pa.FFSearchEngine;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -109,8 +110,7 @@ namespace SIL.Pa.Controls
 
 			SetupScrollPanel();
 
-			m_dropIndicator = new TabDropIndicator(this, m_pnlTabs.Height, m_pnlHdrBand.BackColor);
-			Controls.Add(m_dropIndicator);
+			m_dropIndicator = new TabDropIndicator(this, m_pnlTabs.Height);
 
 			m_tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
@@ -2099,88 +2099,45 @@ namespace SIL.Pa.Controls
 		#endregion
 	}
 
+
 	#region TabDropIndicator class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class TabDropIndicator : Panel
+	public class TabDropIndicator : TranslucentOverlay
 	{
 		private const int kDefaultIndicatorWidth = 50;
-		SearchResultTabGroup m_tabGroup;
+		private SearchResultTabGroup m_tabGroup;
+		private int m_height;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public TabDropIndicator(SearchResultTabGroup tabGroup, int height, Color backColor)
+		public TabDropIndicator(SearchResultTabGroup tabGroup, int height) : base(tabGroup)
 		{
 			m_tabGroup = tabGroup;
-			BackColor = backColor;
-			Size = new Size(kDefaultIndicatorWidth, height);
-			Visible = false;
+			m_height = height;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected override CreateParams CreateParams
-		//{
-		//    get
-		//    {
-		//        CreateParams cp = base.CreateParams;
-		//        cp.ExStyle |= 0x20;
-		//        return cp;
-		//    }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnPaintBackground(PaintEventArgs e)
-		//{
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
+		protected override void OnFillOverlay(Graphics g, Rectangle rc)
 		{
-			base.OnPaint(e);
-
-			Rectangle rc = ClientRectangle;
-
-			// Establish the points that outline the region for the tab outline (which
-			// also marks off it's interior).
-			Point[] pts = new Point[] {new Point(0, rc.Bottom),
-		        new Point(0, rc.Top + 3), new Point(3, 0),
-		        new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
+			Point[] pts = new Point[] {new Point(rc.X, rc.Bottom),
+		        new Point(rc.X, rc.Y + 3), new Point(rc.X + 3, rc.Y),
+		        new Point(rc.Right - 4, rc.Y), new Point(rc.Right - 1, rc.Y + 3),
 		        new Point(rc.Right - 1, rc.Bottom)};
 
 			// First, clear the decks with an all white background.
 			using (HatchBrush br = new HatchBrush(HatchStyle.Percent50, Color.Black, Color.Transparent))
-				e.Graphics.FillPolygon(br, pts);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnVisibleChanged(EventArgs e)
-		{
-			base.OnVisibleChanged(e);
-
-			if (!Visible)
-				Width = kDefaultIndicatorWidth;
+				g.FillPolygon(br, pts);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2197,16 +2154,10 @@ namespace SIL.Pa.Controls
 			// If the point where we figured on placing the indicator
 			// is too far to the right, then bump it left so it just fits.
 			if (pt.X + Width > m_tabGroup.Width)
-				pt.X = m_tabGroup.Width - Width;
+				pt.X = m_tabGroup.Width - Width + 1;
 
-			// Don't bother resetting this information if it's already set.
-			if (Location != pt || !Visible)
-			{
-				Location = pt;
-				Visible = true;
-				BringToFront();
-				Application.DoEvents();
-			}
+			Location = pt;
+			Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2235,12 +2186,12 @@ namespace SIL.Pa.Controls
 				if (!draggingTab && tab.IsEmpty && tab.Selected)
 				{
 					pt = tab.PointToScreen(new Point(0, 0));
-					Width = tab.Width;
+					Size = new Size(tab.Width, m_height);
 				}
 				else
 				{
 					pt = tab.PointToScreen(new Point(tab.Width, 0));
-					Width = kDefaultIndicatorWidth;
+					Size = new Size(kDefaultIndicatorWidth, m_height);
 				}
 			}
 

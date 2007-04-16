@@ -211,7 +211,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Histogram.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
@@ -238,7 +238,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
@@ -332,6 +332,7 @@
     <Compile Include="SortOptionsDropDown.designer.cs">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
     </Compile>
+    <Compile Include="TranslucentOverlay.cs" />
     <Compile Include="ViewTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
