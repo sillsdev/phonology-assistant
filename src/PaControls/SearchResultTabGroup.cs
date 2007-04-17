@@ -2123,21 +2123,22 @@ namespace SIL.Pa.Controls
 			m_height = height;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFillOverlay(Graphics g, Rectangle rc)
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
 		{
+			Rectangle rc = ClientRectangle;
+
 			Point[] pts = new Point[] {new Point(rc.X, rc.Bottom),
 		        new Point(rc.X, rc.Y + 3), new Point(rc.X + 3, rc.Y),
 		        new Point(rc.Right - 4, rc.Y), new Point(rc.Right - 1, rc.Y + 3),
 		        new Point(rc.Right - 1, rc.Bottom)};
 
-			// First, clear the decks with an all white background.
 			using (HatchBrush br = new HatchBrush(HatchStyle.Percent50, Color.Black, Color.Transparent))
-				g.FillPolygon(br, pts);
+				e.Graphics.FillPolygon(br, pts);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2157,7 +2158,7 @@ namespace SIL.Pa.Controls
 				pt.X = m_tabGroup.Width - Width + 1;
 
 			Location = pt;
-			Visible = true;
+			Show();
 		}
 
 		/// ------------------------------------------------------------------------------------

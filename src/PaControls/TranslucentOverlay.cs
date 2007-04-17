@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
@@ -13,25 +14,9 @@ namespace SIL.Pa.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class TranslucentOverlay
+	public class TranslucentOverlay : SIL.SpeechTools.Utils.NoActivateWnd
 	{
-		[DllImport("user32.dll", EntryPoint = "GetDesktopWindow")]
-		private static extern int GetDesktopWindow();
-
-		[DllImport("User32.dll")]
-		public static extern IntPtr GetDC(IntPtr hwnd);
-
-		[DllImport("user32.dll", EntryPoint = "ReleaseDC")]
-		public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
-
-		public delegate void FillOverlayHandler(Graphics g, Rectangle rc);
-		public event FillOverlayHandler FillOverlay;
-
 		private const int kDefaultSize = 50;
-
-		private bool m_visible = false;
-		private Point m_location = Point.Empty;
-		private Size m_size = Size.Empty;
 		private Control m_parent = null;
 
 		/// ------------------------------------------------------------------------------------
@@ -42,6 +27,12 @@ namespace SIL.Pa.Controls
 		public TranslucentOverlay()
 		{
 			Size = new Size(kDefaultSize, kDefaultSize);
+			TopLevel = true;
+			ShowInTaskbar = false;
+			FormBorderStyle = FormBorderStyle.None;
+			DoubleBuffered = true;
+			BackColor = Color.Magenta;
+			TransparencyKey = Color.Magenta;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,139 +50,36 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void FillOverlayInternal()
+		protected override void OnPaint(PaintEventArgs e)
 		{
-			if (m_visible && m_parent != null)
-			{
-				IntPtr hdc = GetDC(IntPtr.Zero);
-
-				using (Graphics g = Graphics.FromHdc(hdc))
-					OnFillOverlay(g, new Rectangle(m_parent.PointToScreen(m_location), m_size));
-
-				ReleaseDC(IntPtr.Zero, hdc);
-				Application.DoEvents();
-			}
+			using (HatchBrush br = new HatchBrush(HatchStyle.Percent50, Color.Black, Color.Transparent))
+				e.Graphics.FillRectangle(br, ClientRectangle);
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual void OnFillOverlay(Graphics g, Rectangle rc)
+		protected new Point Location
 		{
-			if (FillOverlay != null)
-				FillOverlay(g, rc);
-			else
-			{
-				using (SolidBrush br = new SolidBrush(Color.FromArgb(100, Color.Gray)))
-					g.FillRectangle(br, rc);
-			}
-		}
-
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual bool Visible
-		{
-			get { return m_visible; }
+			get { return base.Location; }
 			set
 			{
-				if (m_visible != value)
-				{
-					m_visible = value;
-					if (m_visible)
-						FillOverlayInternal();
-					else if (Parent != null)
-					{
-						Parent.Invalidate(new Rectangle(m_location, m_size), true);
-						Application.DoEvents();
-					}
-				}
+				if (base.Location != value)
+					base.Location = (m_parent != null ? m_parent.PointToScreen(value) : value);
 			}
 		}
-
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual Point Location
-		{
-			get { return m_location; }
-			set
-			{
-				if (m_location != value)
-				{
-					m_location = value;
-					FillOverlayInternal();
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual Size Size
-		{
-			get { return m_size; }
-			set 
-			{
-				if (m_size != value)
-				{
-					m_size = value;
-					//m_bmp = new Bitmap(m_size.Width, m_size.Height,	PixelFormat.Format32bppArgb);
-					FillOverlayInternal();
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int Width
-		{
-			get { return m_size.Width; }
-			set
-			{
-				if (m_size.Width != value && value > 0)
-					Size = new Size(value, m_size.Height);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int Height
-		{
-			get { return m_size.Height; }
-			set
-			{
-				if (m_size.Height != value && value > 0)
-					Size = new Size(m_size.Width, value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual Control Parent
+		public new Control Parent
 		{
 			get { return m_parent; }
 			set { m_parent = value; }
 		}
-
-		#endregion
 	}
 }

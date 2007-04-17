@@ -28,6 +28,7 @@ namespace SIL.Pa.Controls
 		public PaGradientPanel()
 		{
 			OnSystemColorsChanged(null);
+			SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

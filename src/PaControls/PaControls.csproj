@@ -332,7 +332,9 @@
     <Compile Include="SortOptionsDropDown.designer.cs">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="TranslucentOverlay.cs" />
+    <Compile Include="TranslucentOverlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ViewTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
