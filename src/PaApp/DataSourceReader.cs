@@ -106,6 +106,12 @@ namespace SIL.Pa
 			if (datasource == null)
 				return;
 
+			if (!FwDBUtils.IsSQLServerStarted)
+			{
+				if (!FwDBUtils.StartSQLServer(true))
+					return;
+			}
+
 			FwDataSourceInfo[] fwDBInfoList = FwDBUtils.FwDatabaseInfoList;
 			if (fwDBInfoList != null)
 			{

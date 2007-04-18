@@ -84,30 +84,30 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
-			bool startsqlsvr = true;
-
-			// Referencing FwDBUtils.FwDatabaseInfoList (done below) kicks of a chain
-			// reaction that may result in SQL server being started. If the settings file
-			// contains the undocumented flag to prevent this, we need to make sure, before
-			// deciding to accept the flag, that no data sources in the project are FW
-			// data sources.
-			if (!PaApp.AutoStartSQLServer)
+			// Check for any FW data sources in the project. If any are
+			// found, attempt to start SQL server if it isn't already.
+			if (m_project.DataSources != null)
 			{
-				startsqlsvr = false;
-				if (m_project.DataSources != null)
+				foreach (PaDataSource ds in m_project.DataSources)
 				{
-					foreach (PaDataSource ds in m_project.DataSources)
+					if (ds.DataSourceType == DataSourceType.FW)
 					{
-						if (ds.DataSourceType == DataSourceType.FW)
-						{
-							startsqlsvr = true;
-							break;
-						}
+						FwDBUtils.StartSQLServer(true);
+						break;
 					}
 				}
 			}
 
-			cmnuAddFwDataSource.Enabled = (startsqlsvr && FwDBUtils.FwDatabaseInfoList != null);
+			// If the project contains FW data sources, then an attempt must be made to start
+			// SQL server. If there are no FW data sources, then only attempt to start SQL
+			// server if the AutoStartSQLServer flag is true (which it is by default). The only
+			// way for the flag to be false is via an undocumented entry in the settings file
+			// (e.g. <setting id="autostart" sqlserver="False" />)
+			if (PaApp.AutoStartSQLServer && !FwDBUtils.IsSQLServerStarted)
+				FwDBUtils.StartSQLServer(false);
+
+			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDatabaseInfoList != null);
+			
 			m_dirty = false;
 			Application.Idle += new EventHandler(Application_Idle);
 		}

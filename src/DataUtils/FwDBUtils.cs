@@ -55,7 +55,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				// Make sure SQL server is running.
-				if (!StartSQLServer(false))
+				if (!IsSQLServerStarted)
 					return null;
 				
 				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
@@ -115,6 +115,26 @@ namespace SIL.Pa.Data
 			}
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if SQL server is started.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsSQLServerStarted
+		{
+			get
+			{
+				try
+				{
+					using (ServiceController svcController = new ServiceController("MSSQL$SILFW"))
+						return (svcController.Status == ServiceControllerStatus.Running);
+				}
+				catch { }
+
+				return false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
