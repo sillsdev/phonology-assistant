@@ -608,10 +608,10 @@
     <value>Record View</value>
   </data>
   <data name="kstidNewTabInCurrentTabGroupText" xml:space="preserve">
-    <value>In &amp;Current Tab Group</value>
+    <value>In &amp;Active Tab Group</value>
   </data>
   <data name="kstidNewTabInCurrentTabGroupToolTip" xml:space="preserve">
-    <value>Create New Tab in Current Tab Group</value>
+    <value>Create New Tab in Active Tab Group</value>
   </data>
   <data name="kstidNewTabInNewSideBySideTabGroupText" xml:space="preserve">
     <value>In Side-&amp;By-Side Tab Group</value>
@@ -755,19 +755,19 @@
     <value>Save Current Search Pattern</value>
   </data>
   <data name="kstidShowResultsInCurrentTabGroupText" xml:space="preserve">
-    <value>Show Results In &amp;Current Tab Group</value>
+    <value>Show Results in &amp;Active Tab Group</value>
   </data>
   <data name="kstidShowResultsInCurrentTabGroupToolTip" xml:space="preserve">
-    <value>Show results in current tab group</value>
+    <value>Show results in active tab group</value>
   </data>
   <data name="kstidShowResultsInInNewSideBySideTabGroupToolTip" xml:space="preserve">
     <value>Show Results in New Side-by-Side Tab group</value>
   </data>
   <data name="kstidShowResultsInNewSideBySideTabGroupText" xml:space="preserve">
-    <value>Show Results In New Side-&amp;By-Side Tab Group</value>
+    <value>Show Results in New Side-&amp;By-Side Tab Group</value>
   </data>
   <data name="kstidShowResultsInNewStackedTabGroupText" xml:space="preserve">
-    <value>Show Results In New Stac&amp;ked Tab Group</value>
+    <value>Show Results in New Stac&amp;ked Tab Group</value>
   </data>
   <data name="kstidShowResultsInNewStackedTabGroupToolTip" xml:space="preserve">
     <value>Show Results in New Stacked Tab Group</value>
@@ -818,13 +818,13 @@
     <value>&amp;Save</value>
   </data>
   <data name="kstidXYChartShowResultsToCurrentTabGroupText" xml:space="preserve">
-    <value>Show Results In &amp;Current Tab Group</value>
+    <value>Show Results in &amp;Active Tab Group</value>
   </data>
   <data name="kstidXYChartShowResultsToNewSideBySideTabGroupText" xml:space="preserve">
-    <value>Show Results In New Side-&amp;By-Side Tab Group</value>
+    <value>Show Results in New Side-&amp;By-Side Tab Group</value>
   </data>
   <data name="kstidXYChartShowResultsToNewStackedTabGroupText" xml:space="preserve">
-    <value>Show Results In New Stac&amp;ked Tab Group</value>
+    <value>Show Results in New Stac&amp;ked Tab Group</value>
   </data>
   <data name="kstidUndefinedCharactersText" xml:space="preserve">
     <value>&amp;Undefined Phonetic Characters...</value>

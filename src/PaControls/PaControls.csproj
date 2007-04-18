@@ -257,7 +257,7 @@
       <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="SizingLine.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="SlidingPanel.cs">
       <SubType>Component</SubType>

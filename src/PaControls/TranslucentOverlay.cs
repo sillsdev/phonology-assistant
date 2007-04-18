@@ -26,13 +26,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public TranslucentOverlay()
 		{
-			Size = new Size(kDefaultSize, kDefaultSize);
 			TopLevel = true;
 			ShowInTaskbar = false;
+			StartPosition = FormStartPosition.Manual;
 			FormBorderStyle = FormBorderStyle.None;
 			DoubleBuffered = true;
 			BackColor = Color.Magenta;
 			TransparencyKey = Color.Magenta;
+			Size = new Size(kDefaultSize, kDefaultSize);
+			Left = 0;
+			Top = Screen.PrimaryScreen.Bounds.Bottom + 10;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +64,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected new Point Location
+		public new Point Location
 		{
 			get { return base.Location; }
 			set

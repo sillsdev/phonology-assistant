@@ -64,7 +64,6 @@ namespace SIL.Pa.Data
 			this.Opacity = 0.8;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.TopMost = true;
 			this.UseWaitCursor = true;
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

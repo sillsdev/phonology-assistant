@@ -31,5 +31,15 @@ namespace SIL.Pa.Data
 			Opacity = maxOpacity;
 			Application.DoEvents();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ShowWithoutActivation
+		{
+			get {return true;}
+		}
 	}
 }
