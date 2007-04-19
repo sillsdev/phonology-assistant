@@ -377,8 +377,21 @@ namespace SIL.Pa.Controls
 			if (CurrentTab != null && CurrentTab.SearchQuery != null)
 			{
 				CurrentTab.SearchQuery.Name = newName;
-				CurrentTab.Text = newName;
-				CurrentTab.AdjustWidth();
+				UpdateTabsText(CurrentTab, newName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the text on the specified tab.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void UpdateTabsText(SearchResultTab tab, string text)
+		{
+			if (tab != null && tab.SearchQuery != null)
+			{
+				tab.Text = text;
+				tab.AdjustWidth();
 				AdjustTabContainerWidth();
 			}
 		}
