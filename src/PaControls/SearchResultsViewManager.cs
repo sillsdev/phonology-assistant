@@ -91,7 +91,6 @@ namespace SIL.Pa.Controls
 		private ITMAdapter m_tmAdapter;
 		private SplitContainer m_splitResults;
 		private RawRecordView m_rawRecView;
-		private List<SearchResultTabGroup> m_tabGroups;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -108,7 +107,6 @@ namespace SIL.Pa.Controls
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
 			m_rawRecView = rawRecView;
-			m_tabGroups = new List<SearchResultTabGroup>();
 			PaApp.AddMediatorColleague(this);
 
 			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
@@ -146,17 +144,6 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<SearchResultTabGroup> TabGroups
-		{
-			get { return m_tabGroups; }
-			set { m_tabGroups = value; }
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the view tabs manager's record view.
@@ -990,7 +977,6 @@ namespace SIL.Pa.Controls
 				tabGroup.Size = new Size(m_resultsPanel.Width, m_resultsPanel.Height);
 				tabGroup.Dock = DockStyle.Fill;
 				m_resultsPanel.Controls.Add(tabGroup);
-				TabGroups.Add(tabGroup);
 				m_resultsPanel.Tag = 0;
 			}
 			else if (resultLocation != SearchResultLocation.CurrentTab &&
@@ -1067,7 +1053,6 @@ namespace SIL.Pa.Controls
 			tabGroup.Dock = DockStyle.Fill;
 			tabGroup.Size = new Size(split.Panel2.Width, split.Panel2.Height);
 			split.Panel2.Controls.Add(tabGroup);
-			TabGroups.Add(tabGroup);
 
 			// Now, all tab groups that previously existed before creating the new one, need
 			// to be removed from their container and placed in the left or top pane of the

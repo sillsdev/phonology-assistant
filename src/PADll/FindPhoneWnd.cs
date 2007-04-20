@@ -45,7 +45,6 @@ namespace SIL.Pa
 		private SplitterPanel m_resultsPanel;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
-		private bool m_classDisplayBehaviorChanged = false;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -749,7 +748,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ptrnTextBox_SearchQueryChanged(object sender, EventArgs e)
 		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && !m_classDisplayBehaviorChanged)
+			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
 				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;
 		}
 
@@ -1278,64 +1277,6 @@ namespace SIL.Pa
 		
 		#endregion
 
-		#region Message mediator message handler and update handler methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Called when the Class Display Behavior has been changed by the user.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnClassDisplayBehaviorChanged(object args)
-		{
-			// Prevents AreResultsStale being set to true in ptrnTextBox_SearchQueryChanged()
-			m_classDisplayBehaviorChanged = true;
-
-			SearchResultTabGroup firstTabGroup = m_rsltVwMngr.CurrentTabGroup;
-			SearchResultTab firstTab = m_rsltVwMngr.CurrentTabGroup.CurrentTab;
-
-			foreach (SearchResultTabGroup tabGroup in m_rsltVwMngr.TabGroups)
-			{
-				foreach (SearchResultTab tab in tabGroup.Tabs)
-				{
-					if (tab.SearchQuery.Pattern == null)
-						continue;
-
-					ptrnTextBox.TextBox.Text = tab.SearchQuery.Pattern;
-
-					// PaApp.ShowClassNames has not been set yet to the new value
-					// in OptionsDialog.FindPhonesTab>>SaveFindPhonesTabSettings()
-
-					// Replace the member pattern with the class name
-					foreach (ClassListViewItem item in ptrnBldrComponent.ClassListView.Items)
-					{
-						string className = PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket;
-						string newText = (ShowClassNames ? className : item.Pattern);
-						string oldText = (ShowClassNames ? item.Pattern : className);
-
-						if (ptrnTextBox.TextBox.Text.Contains(oldText))
-						{
-							ptrnTextBox.TextBox.Text =
-								  ptrnTextBox.TextBox.Text.Replace(oldText, newText);
-
-							// Update the current tab with the modified pattern text.
-							m_rsltVwMngr.CurrentTabGroup = tabGroup;
-							m_rsltVwMngr.CurrentTabGroup.CurrentTab = tab;
-							m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-								SearchResultLocation.CurrentTab);
-							continue;
-						}
-					}
-				}
-			}
-
-			// Select the tab that was selected when this entire process began
-			m_rsltVwMngr.CurrentTabGroup = firstTabGroup;
-			m_rsltVwMngr.CurrentTabGroup.CurrentTab = firstTab;
-			m_rsltVwMngr.CurrentTabGroup.SelectTab(m_rsltVwMngr.CurrentTabGroup.CurrentTab, true);
-
-  	 	 	m_classDisplayBehaviorChanged = false;
-			return true;
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Compares the grid sent in args with the current result view grid.
@@ -1624,8 +1565,6 @@ namespace SIL.Pa
 
 			return true;
 		}
-
-		#endregion
 
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------

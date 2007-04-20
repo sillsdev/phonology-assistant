@@ -29,6 +29,7 @@ namespace SIL.Pa.Controls
 		private SearchOptionsDropDown m_searchOptionsDropDown;
 		private string m_srchQryCategory;
 		private Form m_owningForm;
+		private bool m_classDisplayBehaviorChanged = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -117,6 +118,17 @@ namespace SIL.Pa.Controls
 		{
 			get { return m_srchQryCategory; }
 			set { m_srchQryCategory = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ClassDisplayBehaviorChanged
+		{
+			get { return m_classDisplayBehaviorChanged; }
+			set { m_classDisplayBehaviorChanged = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -921,6 +933,24 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Update handlers
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when the Class Display Behavior has been changed by the user.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnClassDisplayBehaviorChanged(object args)
+		{
+			string replacedText = PaApp.Project.SearchClasses.ModifyPatternText(TextBox.Text);
+			if (replacedText != string.Empty)
+			{
+				
+				m_classDisplayBehaviorChanged = true;
+				TextBox.Text = replacedText;
+				m_classDisplayBehaviorChanged = false;
+			}
+			return false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

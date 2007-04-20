@@ -90,11 +90,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="UIAdapterInterfaces, Version=1.2.0.9, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\distfiles\UIAdapterInterfaces.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <ProjectReference Include="..\AudioUtils\AudioUtils.csproj">
       <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
       <Name>AudioUtils</Name>
@@ -123,6 +118,10 @@
       <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
       <Name>PaResources</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
+      <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
+      <Name>UIAdapterInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
       <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
@@ -238,7 +237,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
@@ -263,7 +262,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
       <SubType>Component</SubType>

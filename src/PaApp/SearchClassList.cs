@@ -95,6 +95,27 @@ namespace SIL.Pa
 				STUtils.SerializeData(filename, this);
 			}
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Modify the tab's pattern text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ModifyPatternText(string tabText)
+		{
+			foreach (SearchClass srchClass in this)
+			{
+				string className = PaApp.kOpenClassBracket + srchClass.Name + PaApp.kCloseClassBracket;
+				string oldText = (PaApp.Project.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
+
+				if (tabText.Contains(oldText))
+				{
+					string newText = (PaApp.Project.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
+					return tabText.Replace(oldText, newText);
+				}
+			}
+			return string.Empty;
+		}
 	}
 
 	#endregion

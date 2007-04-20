@@ -188,6 +188,32 @@ namespace SIL.Pa.Controls
 			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
 		}
 
+		#region Message mediator message handler and update handler methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when the Class Display Behavior has been changed by the user.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnClassDisplayBehaviorChanged(object args)
+		{
+			foreach (SearchResultTab tab in Tabs)
+			{
+				if (tab.SearchQuery.Pattern == null)
+					continue;
+
+				// PaApp.ShowClassNames has not been set yet to the new value
+				// in OptionsDialog.FindPhonesTab>>SaveFindPhonesTabSettings()
+
+				string replacedText = PaApp.Project.SearchClasses.ModifyPatternText(tab.Text);
+				if (replacedText != string.Empty)
+				{
+					UpdateTabsText(tab, replacedText);
+					tab.SearchQuery.Pattern = replacedText;
+				}
+			}
+			return false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -260,6 +286,7 @@ namespace SIL.Pa.Controls
 			if (m_currTab != null)
 				tab_Click(m_currTab, EventArgs.Empty);
 		}
+		#endregion
 
 		#region Tab managment methods
 		/// ------------------------------------------------------------------------------------
