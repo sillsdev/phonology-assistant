@@ -201,7 +201,7 @@ namespace SIL.Pa
 			string filename = args as string;
 
 			if (!string.IsNullOrEmpty(filename) && System.IO.File.Exists(filename) &&
-				(PaApp.Project == null || PaApp.Project.ProjectFileName == filename))
+				(PaApp.Project == null || PaApp.Project.ProjectFileName != filename))
 			{
 				LoadProject(filename);
 			}
