@@ -176,6 +176,10 @@
       <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
       <Name>xCoreMediator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZipUtils\ZipUtils.csproj">
+      <Project>{1F5778DC-6335-417F-B527-48582B81666D}</Project>
+      <Name>ZipUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EditFwUrlDlg.resx">
@@ -226,10 +230,8 @@ copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\ChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwData-LexemeForm.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwData-PronunciationField.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwVernacularWs.sql" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwAnalysisWs.sql" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 md "$(ProjectDir)$(OutDir)\Helps"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
 copy "$(TargetDir)..\..\DistFiles\Using_Help.chm" "$(ProjectDir)$(OutDir)\Helps"

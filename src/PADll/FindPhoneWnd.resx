@@ -151,7 +151,7 @@
     <value>ptrnBldrComponent</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PatternBuilderComponents, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PatternBuilderComponents, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
     <value>pnlTabClassDef</value>
@@ -216,7 +216,7 @@
     <value>btnDock</value>
   </data>
   <data name="&gt;&gt;btnDock.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.DockButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.DockButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDock.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -254,7 +254,7 @@
     <value>btnAutoHide</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.AutoHideButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.AutoHideButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -281,7 +281,7 @@
     <value>pnlSideBarCaption</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Parent" xml:space="preserve">
     <value>splitSideBarOuter.Panel1</value>
@@ -350,7 +350,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnClearRecentList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>169, 2</value>
+    <value>193, 2</value>
   </data>
   <data name="btnClearRecentList.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -368,7 +368,7 @@
     <value>btnClearRecentList</value>
   </data>
   <data name="&gt;&gt;btnClearRecentList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnClearRecentList.Parent" xml:space="preserve">
     <value>hlblRecentPatterns</value>
@@ -386,7 +386,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnRemoveFromRecentList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>193, 2</value>
+    <value>169, 2</value>
   </data>
   <data name="btnRemoveFromRecentList.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -401,7 +401,7 @@
     <value>btnRemoveFromRecentList</value>
   </data>
   <data name="&gt;&gt;btnRemoveFromRecentList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRemoveFromRecentList.Parent" xml:space="preserve">
     <value>hlblRecentPatterns</value>
@@ -431,7 +431,7 @@
     <value>hlblRecentPatterns</value>
   </data>
   <data name="&gt;&gt;hlblRecentPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblRecentPatterns.Parent" xml:space="preserve">
     <value>pnlRecentPatterns</value>
@@ -458,7 +458,7 @@
     <value>pnlRecentPatterns</value>
   </data>
   <data name="&gt;&gt;pnlRecentPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlRecentPatterns.Parent" xml:space="preserve">
     <value>splitSideBarInner.Panel1</value>
@@ -503,7 +503,7 @@
     <value>tvSavedPatterns</value>
   </data>
   <data name="&gt;&gt;tvSavedPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SearchPatternTreeView, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.SearchPatternTreeView, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tvSavedPatterns.Parent" xml:space="preserve">
     <value>pnlSavedPatterns</value>
@@ -536,7 +536,7 @@
     <value>btnCategoryNew</value>
   </data>
   <data name="&gt;&gt;btnCategoryNew.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryNew.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -569,7 +569,7 @@
     <value>btnCategoryCut</value>
   </data>
   <data name="&gt;&gt;btnCategoryCut.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryCut.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -602,7 +602,7 @@
     <value>btnCategoryPaste</value>
   </data>
   <data name="&gt;&gt;btnCategoryPaste.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryPaste.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -635,7 +635,7 @@
     <value>btnCategoryCopy</value>
   </data>
   <data name="&gt;&gt;btnCategoryCopy.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryCopy.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -665,7 +665,7 @@
     <value>hlblSavedPatterns</value>
   </data>
   <data name="&gt;&gt;hlblSavedPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblSavedPatterns.Parent" xml:space="preserve">
     <value>pnlSavedPatterns</value>
@@ -692,7 +692,7 @@
     <value>pnlSavedPatterns</value>
   </data>
   <data name="&gt;&gt;pnlSavedPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSavedPatterns.Parent" xml:space="preserve">
     <value>splitSideBarInner.Panel2</value>
@@ -833,7 +833,7 @@
     <value>rawRecVw</value>
   </data>
   <data name="&gt;&gt;rawRecVw.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.RawRecordView, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.RawRecordView, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rawRecVw.Parent" xml:space="preserve">
     <value>pnlRecView</value>
@@ -863,7 +863,7 @@
     <value>pnlRecView</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Parent" xml:space="preserve">
     <value>splitResults.Panel2</value>
@@ -1016,7 +1016,7 @@
     <value>ptrnTextBox</value>
   </data>
   <data name="&gt;&gt;ptrnTextBox.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PatternTextBox, PaControls, Version=1.0.2624.19128, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PatternTextBox, PaControls, Version=1.0.2679.26123, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnTextBox.Parent" xml:space="preserve">
     <value>pnlCurrPattern</value>
@@ -1169,7 +1169,7 @@
     <value>581, 24</value>
   </data>
   <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;statusStrip.Name" xml:space="preserve">
     <value>statusStrip</value>

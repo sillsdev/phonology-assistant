@@ -199,9 +199,13 @@ namespace SIL.Pa
 		protected bool OnRecentlyUsedProjectChosen(object args)
 		{
 			string filename = args as string;
-			if (filename != null && PaApp.Project != null && PaApp.Project.ProjectFileName != filename)
-				LoadProject(filename);
 
+			if (!string.IsNullOrEmpty(filename) && System.IO.File.Exists(filename) &&
+				(PaApp.Project == null || PaApp.Project.ProjectFileName == filename))
+			{
+				LoadProject(filename);
+			}
+			
 			return true;
 		}
 

@@ -530,7 +530,7 @@
     <value>Save</value>
   </data>
   <data name="kstidSavePatternToolTip" xml:space="preserve">
-    <value>Save Current Search Pattern</value>
+    <value>Save Search Pattern</value>
   </data>
   <data name="kstidSearchOptionsText" xml:space="preserve">
     <value>&amp;Options</value>

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("xCoreMediator")]
-[assembly: AssemblyDescription("This assembly contains the xCore mediator subset of FieldWork's xCoreInterfaces.")]
+[assembly: AssemblyTitle("ZipUtils")]
+[assembly: AssemblyDescription("Provides Zip file handling routines using ICSharpCode.SharpZipLib.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SIL International, Inc.")]
-[assembly: AssemblyProduct("xCoreMediator (FW subset)")]
-[assembly: AssemblyCopyright("Copyright © SIL International, Inc. 2007")]
+[assembly: AssemblyCompany("SIL International, Inc")]
+[assembly: AssemblyProduct("ZipUtils")]
+[assembly: AssemblyCopyright("(C) 2007, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2aa4a164-c633-43dd-9707-752bf8fb5f1c")]
+[assembly: Guid("e3535359-aaa8-4258-812d-068b90715a04")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

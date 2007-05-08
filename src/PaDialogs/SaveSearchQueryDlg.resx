@@ -337,13 +337,13 @@
     <value>3, 10, 3, 10</value>
   </data>
   <data name="lblCategories.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 15</value>
+    <value>245, 15</value>
   </data>
   <data name="lblCategories.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="lblCategories.Text" xml:space="preserve">
-    <value>&amp;Category in which\nto Save Pattern:</value>
+    <value>&amp;Category in which\nto save the pattern:</value>
   </data>
   <data name="&gt;&gt;lblCategories.Name" xml:space="preserve">
     <value>lblCategories</value>
@@ -418,6 +418,6 @@
     <value>SaveSearchQueryDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2511.559, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2673.29643, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

@@ -33,6 +33,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Resources;
 using SIL.Pa.FFSearchEngine;
 using XCore;
+using ZipUtils;
 
 namespace SIL.Pa
 {
@@ -73,6 +74,9 @@ namespace SIL.Pa
 		public const string kAutoStartOptions = "autostart";
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
+		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
+		public const string kPaSampleDataZipFile = "SamplePaData.zip";
+		public const string kPaSampleFolder = "Samples";
 
 		private static string s_helpFilePath = null;
 		private static string s_settingsFile;
@@ -117,6 +121,8 @@ namespace SIL.Pa
 			}
 
 			InitializePaRegKey();
+			UnpackSampleData();
+			
 			s_msgMediator = new Mediator();
 			s_settingsFile = Path.Combine(s_defaultProjFolder, "pa.xml");
 			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
@@ -140,17 +146,17 @@ namespace SIL.Pa
 		{
 			// Construct the default project path.
 			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			projPath = Path.Combine(projPath, @"SIL Software\Phonology Assistant");
+			projPath = Path.Combine(projPath, Application.ProductName);
 
-			// Check if an entry in the registry specifies the path. If not, create it.
-			string keyName = @"Software\SIL\Phonology Assistant";
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(keyName);
+			// Check if an entry in the registry specifies the default project path.
+			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
 
 			if (key != null)
 			{
 				string tmpProjPath = key.GetValue("DefaultProjectsLocation") as string;
 
-				// If the registry value was not found, then create it.
+				// If the registry value was not found, then create it. Otherwise, use
+				// the path found in the registry and not the one constructed above.
 				if (string.IsNullOrEmpty(tmpProjPath))
 					key.SetValue("DefaultProjectsLocation", projPath);
 				else
@@ -164,6 +170,44 @@ namespace SIL.Pa
 			// Create the folder if it doesn't exist.
 			if (!Directory.Exists(projPath))
 				Directory.CreateDirectory(projPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will unpack sample data into a sub-foldere of the user's default
+		/// project folder. This is only done once, the first time the current user has
+		/// run PA.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void UnpackSampleData()
+		{
+			// Don't bother unpacking if that's been done before.
+			RegistryKey key = Registry.CurrentUser.OpenSubKey(kPaRegKeyName);
+			if (key != null && (int)key.GetValue("SamplesUnpacked", 0) > 0)
+				return;
+			
+			// Can't unpack the samples if the samples zip file doesn't exist.
+			string sampleZipFile = Path.Combine(Application.StartupPath, kPaSampleDataZipFile);
+			if (!File.Exists(sampleZipFile))
+				return;
+
+			// Make sure the target folder for the samples exists.
+			string sampleFolder = Path.Combine(s_defaultProjFolder, kPaSampleFolder);
+			if (!Directory.Exists(sampleFolder))
+				Directory.CreateDirectory(sampleFolder);
+
+			try
+			{
+				ZipHelper.UncompressFilesInZip(sampleZipFile, sampleFolder);
+			}
+			catch {}
+
+			// Write a value to the registry so samples won't be unpacked again. I could
+			// write this to the settings file but I don't want to unpack if the user
+			// has deleted the samples and his settings file at some point after having
+			// already unpacked the samples.
+			key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
+			key.SetValue("SamplesUnpacked", 1);
 		}
 
 		/// ------------------------------------------------------------------------------------

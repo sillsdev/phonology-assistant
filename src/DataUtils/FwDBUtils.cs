@@ -31,7 +31,7 @@ namespace SIL.Pa.Data
 			PronunciationField
 		}
 
-		private static int s_secondsToWaitForSQLToStart = 15;
+		private static int s_secondsToWaitForSQLToStart = 20;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -65,8 +65,7 @@ namespace SIL.Pa.Data
 				{
 					if (connection != null)
 					{
-						string sql = @"exec sp_GetFWDBs";
-						SqlCommand command = new SqlCommand(sql, connection);
+						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
 							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
@@ -291,8 +290,7 @@ namespace SIL.Pa.Data
 						if (connection == null)
 							return "Error retrieving project name";
 
-						string sql = @"select TOP 1 txt from CmProject_Name (readuncommitted)";
-						SqlCommand command = new SqlCommand(sql, connection);
+						SqlCommand command = new SqlCommand(FwQueries.ProjectNameSQL, connection);
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
 							if (reader.HasRows)
@@ -325,13 +323,10 @@ namespace SIL.Pa.Data
 
 				using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
 				{
-					string sql = "select top 1 Updstmp from CmObject " +
-						"where class$ in (5002, 5016) order by Updstmp desc";
-
 					if (connection == null)
 						return null;
 
-					SqlCommand command = new SqlCommand(sql, connection);
+					SqlCommand command = new SqlCommand(FwQueries.LastModifiedStampSQL, connection);
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						if (reader.HasRows)
@@ -444,7 +439,11 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public Dictionary<int, string> VernacularWritingSystems
 		{
-			get {return GetWritingSystems("FwVernacularWs.sql", true);}
+			get
+			{
+				return GetWritingSystems(FwQueries.VernacularWsSQL,
+					Properties.Resources.kstidErrorRetrievingVernWsMsg);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -454,7 +453,11 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public Dictionary<int, string> AnalysisWritingSystems
 		{
-			get { return GetWritingSystems("FwAnalysisWs.sql", false); }
+			get
+			{
+				return GetWritingSystems(FwQueries.AnalysisWs,
+					Properties.Resources.kstidErrorRetrievingAnalWsMsg);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -462,28 +465,10 @@ namespace SIL.Pa.Data
 		/// Gets the writing systems returned by the SQL statement found in the specified file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Dictionary<int, string> GetWritingSystems(string sqlFile, bool forVernacularWs)
+		private Dictionary<int, string> GetWritingSystems(string sql, string errMsg)
 		{
-			string errMsg = (forVernacularWs ?
-				Properties.Resources.kstidErrorRetrievingVernWsMsg :
-				Properties.Resources.kstidErrorRetrievingAnalWsMsg);
-
-			// Find the file that contains the query used to get the writing systems.
-			string path = Path.GetDirectoryName(Application.ExecutablePath);
-			sqlFile = Path.Combine(path, sqlFile);
-			if (!File.Exists(sqlFile))
-			{
-				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(sqlFile), string.Empty),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				
-				return null;
-			}
-
 			Dictionary<int, string> wsCollection = new Dictionary<int, string>();
 
-			// Suck in all the contents of the file, which should be valid SQL.
-			string sql = File.ReadAllText(sqlFile);
 			try
 			{
 				using (SqlConnection connection = FwDBUtils.FwConnection(m_sourceInfo.DBName))
@@ -504,15 +489,15 @@ namespace SIL.Pa.Data
 				if (wsCollection.Count == 0)
 				{
 					STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-						Path.GetFileName(sqlFile), string.Empty),
+						Path.GetFileName(FwQueries.QueryFile), string.Empty),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 			catch (Exception e)
 			{
 				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(sqlFile), e.Message), MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation);
+					Path.GetFileName(FwQueries.QueryFile), e.Message),
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
 			return (wsCollection.Count == 0 ? null : wsCollection);
@@ -526,26 +511,10 @@ namespace SIL.Pa.Data
 		public bool GetData(DataRetrievedHandler dataRetrievedHdlr)
 		{
 			string errMsg = Properties.Resources.kstidErrorRetrievingFwDataMsg;
-
-			// Find the file that contains the query used to get the writing systems.
-			string path = Path.GetDirectoryName(Application.ExecutablePath);
-			
-			string sqlFile = Path.Combine(path,
+			string sql =
 				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
-				"FwData-LexemeForm.sql" : "FwData-PronunciationField.sql"));
+				FwQueries.LexemeFormSQL : FwQueries.PronunciationFieldSQL);
 			
-			if (!File.Exists(sqlFile))
-			{
-				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(sqlFile), string.Empty),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-				return false;
-			}
-
-			// Suck in all the contents of the file, which should be valid SQL and replace
-			// parameters with real writing system numbers.
-			string sql = File.ReadAllText(sqlFile);
 			sql = sql.Replace("$PhoneticWs", m_sourceInfo.PhoneticWs.ToString());
 			sql = sql.Replace("$PhonemicWs", m_sourceInfo.PhonemicWs.ToString());
 			sql = sql.Replace("$OrthographicWs", m_sourceInfo.OrthographicWs.ToString());
@@ -571,8 +540,8 @@ namespace SIL.Pa.Data
 			catch (Exception e)
 			{
 				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(sqlFile), e.Message), MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation);
+					Path.GetFileName(FwQueries.QueryFile), e.Message),
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				return false;
 			}
@@ -582,4 +551,167 @@ namespace SIL.Pa.Data
 	}
 
 	#endregion
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class FwQueries
+	{
+		private static FwQueries s_fwqueries;
+		private static string s_queryFile;
+
+		[XmlElement("mastertable")]
+		public string m_masterTable;
+
+		[XmlElement("databases")]
+		public string m_fwDatabasesSQL;
+
+		[XmlElement("projectname")]
+		public string m_projectNameSQL;
+
+		[XmlElement("lastmodifiedstamp")]
+		public string m_lastModifiedStampSQL;
+
+		[XmlElement("analysiswritingsystems")]
+		public string m_analysisWs;
+
+		[XmlElement("veracularwritingsystems")]
+		public string m_vernacularWsSQL;
+
+		[XmlElement("datafromlexemeform")]
+		public string m_lexemeFormSQL;
+
+		[XmlElement("datafrompronunciationfield")]
+		public string m_pronunciationFieldSQL;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void Load()
+		{
+			if (s_fwqueries == null)
+			{
+				// Find the file that contains the queries.
+				s_queryFile = Path.GetDirectoryName(Application.ExecutablePath);
+				s_queryFile = Path.Combine(s_queryFile, "FwSQLQueries.xml");
+				s_fwqueries = STUtils.DeserializeData(s_queryFile, typeof(FwQueries)) as FwQueries;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string QueryFile
+		{
+			get
+			{
+				Load();
+				return s_queryFile;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string FwDatabasesSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_fwDatabasesSQL;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ProjectNameSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_projectNameSQL;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string LastModifiedStampSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_lastModifiedStampSQL;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string AnalysisWs
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_analysisWs;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string VernacularWsSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_vernacularWsSQL;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string LexemeFormSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_lexemeFormSQL;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string PronunciationFieldSQL
+		{
+			get
+			{
+				Load();
+				return s_fwqueries.m_pronunciationFieldSQL;
+			}
+		}
+	}
 }
