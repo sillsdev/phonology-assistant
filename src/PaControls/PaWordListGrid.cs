@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Reflection;
 using System.IO;
+using System.ComponentModel;
 using SIL.Pa.Resources;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
@@ -812,6 +813,53 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// If the grid is assigned a context menu, then make sure to subscribe to its
+		/// opening event so we can override showing the context menu when the user clicks
+		/// on the phonetic column heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override ContextMenuStrip ContextMenuStrip
+		{
+			get { return base.ContextMenuStrip; }
+			set
+			{
+				if (base.ContextMenuStrip != null)
+					base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+
+				base.ContextMenuStrip = value;
+
+				if (base.ContextMenuStrip != null)
+					base.ContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If the context menu is popping up when the mouse is over the phonetic column
+		/// heading, then cancel popping up the context menu so it doesn't get in the way of
+		/// the phonetic sort options popup displaying.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+		{
+			Point pt = PointToClient(MousePosition);
+			Rectangle rc = GetCellDisplayRectangle(Columns[m_phoneticColName].Index, -1, false);
+
+			// Check if the mouse location is over the phonetic column heading. Normally, we
+			// will be in this code when the user right-clicks somewhere on the grid. However,
+			// we could also be here because he pressed the context menu button on the
+			// keyboard. In that case, it's a little strange showing the phonetic sort options
+			// just because the mouse happens to be resting over the phonetic column heading.
+			// But, oh well. Stranger things happen in the world.
+			if (rc.Contains(pt))
+			{
+				e.Cancel = true;
+				ShoePhoneticSortOptionsPopup();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Sort the cache based on the column clicked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -824,22 +872,29 @@ namespace SIL.Pa.Controls
 				if (e.Button == MouseButtons.Left)
 					Sort(colName, true); // Sort using the SortOptions and the column clicked
 				else if (colName == m_phoneticColName)
-				{
-					if (!Focused)
-					{
-						Focus();
-						Application.DoEvents();
-					}
-
-					// Display the phonetic sort popup at the bottom left of the column header.
-					Rectangle rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-					Point pt = new Point(rc.X, rc.Bottom);
-					pt = PointToScreen(pt);
-					m_tmAdapter.PopupMenu("tbbPhoneticSort", pt.X, pt.Y);
-				}
+					ShoePhoneticSortOptionsPopup();
 			}
 
 			base.OnColumnHeaderMouseClick(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Shows the phonetic sort popup at the bottom left of the phonetic column header.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ShoePhoneticSortOptionsPopup()
+		{
+			if (!Focused)
+			{
+				Focus();
+				Application.DoEvents();
+			}
+
+			Rectangle rc = GetCellDisplayRectangle(Columns[m_phoneticColName].Index, -1, false);
+			Point pt = new Point(rc.X, rc.Bottom);
+			pt = PointToScreen(pt);
+			m_tmAdapter.PopupMenu("tbbPhoneticSort", pt.X, pt.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2091,9 +2146,9 @@ namespace SIL.Pa.Controls
 			if (m_owningViewType.Name == "DataCorpusWnd")
 				sortOptions = PaApp.Project.DataCorpusSortOptions;
 			else if (m_owningViewType.Name == "FindPhoneWnd")
-				sortOptions = PaApp.Project.FindPhoneSortOptions;
+				sortOptions = PaApp.Project.FindPhoneSortOptions.Clone();
 			else if (m_owningViewType.Name == "XYChartWnd")
-				sortOptions = PaApp.Project.XYChartSortOptions;
+				sortOptions = PaApp.Project.XYChartSortOptions.Clone();
 
 			if (sortOptions == null)
 				sortOptions = new SortOptions(true);
@@ -2199,13 +2254,19 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// A hiddent feature is that when the user presses Ctrl+Shift+F2 on an entry that
+		/// A hidden feature is that when the user presses Ctrl+Shift+F2 on an entry that
 		/// came from a FW database, a dialog with the jump url will be shown before jumping
 		/// to Flex.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
+			// Ctrl+Up and Ctrl+Down inherently move the active cell to places that are
+			// useless to us in PA and can also be accomplished with other key combinations.
+			// Eat the sequence in case a menu accelerator wants to use this combination.
+			if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down))
+				return;
+			
 			base.OnKeyDown(e);
 			
 			if (e.Control && e.Shift && e.KeyCode == Keys.F2 && GetWordEntry() != null)
