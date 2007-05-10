@@ -869,7 +869,7 @@ namespace SIL.Pa.Controls
 			{
 				string colName = Columns[e.ColumnIndex].Name;
 
-				if (e.Button == MouseButtons.Left)
+				if (e.Button == MouseButtons.Left && Columns[colName].SortMode != DataGridViewColumnSortMode.NotSortable)
 					Sort(colName, true); // Sort using the SortOptions and the column clicked
 				else if (colName == m_phoneticColName)
 					ShoePhoneticSortOptionsPopup();

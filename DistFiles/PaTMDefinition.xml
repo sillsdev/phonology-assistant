@@ -145,7 +145,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdXYChart" message="ViewXYChart" category="kstidViewCategory" shortcutkey="CtrlAltX"/>
 		<command id="CmdPhoneInventory" message="ViewPhoneInventory" category="kstidViewCategory" shortcutkey="CtrlAltP"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="CtrlM"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory" shortcutkey="CtrlG"/>
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" category="kstidViewCategory" shortcutkey="CtrlDown"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" category="kstidViewCategory" shortcutkey="CtrlUp"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane" category="kstidViewCategory"/>
