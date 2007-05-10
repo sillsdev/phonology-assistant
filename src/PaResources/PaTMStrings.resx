@@ -614,7 +614,7 @@
     <value>Create New Tab in Active Tab Group</value>
   </data>
   <data name="kstidNewTabInNewSideBySideTabGroupText" xml:space="preserve">
-    <value>In Side-&amp;By-Side Tab Group</value>
+    <value>In New Side-&amp;By-Side Tab Group</value>
   </data>
   <data name="kstidNewTabInNewSideBySideTabGroupToolTip" xml:space="preserve">
     <value>Create Tab in New Side-by-Side Tab Group</value>

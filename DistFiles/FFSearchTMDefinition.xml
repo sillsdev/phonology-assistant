@@ -226,7 +226,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="cmnuShowResultsInCurrentTabGroup-FromSavedList" commandid="CmdShowResultsInCurrentTabGroup" begingroup="true"/>
 			<item name="cmnuShowResultsInNewSideBySideTabGroup-FromSavedList" commandid="CmdShowResultsInNewSideBySideTabGroup"/>
 			<item name="cmnuShowResultsInNewStackedTabGroup-FromSavedList" commandid="CmdShowResultsInNewStackedTabGroup"/>
-			<!-- item name="cmnuCopyToCurrentPattern-FromSavedList" commandid="CmdCopyToCurrentPattern"/ -->
+			<item name="cmnuCopyToCurrentPattern-FromSavedList" commandid="CmdCopyToCurrentPattern" begingroup="true"/>
 			<item name="cmnuRemovePattern-FromSavedList" commandid="CmdRemovePattern" begingroup="true"/>
 		</contextmenu>
 		<contextmenu name="cmnuSearchResultTab" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
