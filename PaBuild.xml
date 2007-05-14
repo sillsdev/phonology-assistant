@@ -60,6 +60,9 @@
 				<Arg>c:\Phonology Assistant\src\datautils\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\datautils\properties\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\datautils\obj\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\ziputils\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\ziputils\properties\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\ziputils\obj\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\uiadapter (framework 2.0)\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\uiadapter (framework 2.0)\obj\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\uiadapterinterfaces\*.*</Arg>
@@ -72,6 +75,7 @@
 				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\obj\*.*</Arg>
 				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\obj\release\*.*</Arg>
 			</CommandItem>
+			<!-- Update all the files from the PA Subversion repository -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
 				<Arg>"https://svn.sil.org/langsw/Phonology Assistant"</Arg>
@@ -80,6 +84,7 @@
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
 			</CommandItem>
+			<!-- Update all the files from the SpeechToolsUtils Subversion repository -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
 				<Arg>https://svn.sil.org/langsw/speechtools/trunk/src/common/SpeechToolsUtils</Arg>
@@ -92,6 +97,7 @@
 	</PreBuildCommands>
 	<PostBuildCommands>
 		<Commands>
+			<!-- Delete unecessary junk in the release build's folder -->
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\output\release\*.tlb</Arg>
 				<Arg>C:\Phonology Assistant\output\release\*.pdb</Arg>
@@ -106,14 +112,17 @@
 				<Arg>--username wenger</Arg>
 				<Arg>--password svnwenger</Arg>
 			</CommandItem>
+			<!-- Copy PA's assemblies, exe and xml files to the folder that's mapped to the installer file's Subversion repository -->
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\output\release\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files</Arg>
 			</CommandItem>
+			<!-- Copy help files to the folder that's mapped to the installer file's Subversion repository -->
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\output\release\helps\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\helps</Arg>
 			</CommandItem>
+			<!-- Commit to the installer file repository, all the files to be put in the installer -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
 				<Arg>-m "Automatic PA Build"</Arg>
