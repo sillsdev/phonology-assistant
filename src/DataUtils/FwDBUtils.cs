@@ -66,15 +66,21 @@ namespace SIL.Pa.Data
 					if (connection != null)
 					{
 						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
-						using (SqlDataReader reader = command.ExecuteReader())
+						if (command != null)
 						{
-							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-								fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string));
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								if (reader != null)
+								{
+									while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+										fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string));
 
-							reader.Close();
+									reader.Close();
+								}
+							}
+
+							connection.Close();
 						}
-
-						connection.Close();
 					}
 				}
 
