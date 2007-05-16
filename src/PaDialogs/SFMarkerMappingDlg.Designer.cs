@@ -117,6 +117,7 @@ namespace SIL.Pa.Dialogs
 			this.cboToolboxSortField.FormattingEnabled = true;
 			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
+			this.cboToolboxSortField.Sorted = true;
 			this.m_tooltip.SetToolTip(this.cboToolboxSortField, resources.GetString("cboToolboxSortField.ToolTip"));
 			// 
 			// txtEditor

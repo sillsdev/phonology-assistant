@@ -159,6 +159,12 @@
   <data name="kstidGloss" xml:space="preserve">
     <value>Gloss</value>
   </data>
+  <data name="kstidGlossOther1" xml:space="preserve">
+    <value>Secondary Gloss</value>
+  </data>
+  <data name="kstidGlossOther2" xml:space="preserve">
+    <value>Other Gloss</value>
+  </data>
   <data name="kstidGuid" xml:space="preserve">
     <value>GUID</value>
   </data>

@@ -117,20 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="kstidAudioFile" xml:space="preserve">
-    <value>Audio File</value>
-  </data>
-  <data name="kstidComment" xml:space="preserve">
-    <value>Comment</value>
-  </data>
-  <data name="kstidCountry" xml:space="preserve">
-    <value>Country</value>
-  </data>
-  <data name="kstidCVPattern" xml:space="preserve">
-    <value>CV Pattern</value>
-  </data>
-  <data name="kstidDialect" xml:space="preserve">
-    <value>Dialect</value>
+  <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
+    <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added.</value>
   </data>
   <data name="kstidErrorRetrievingAnalWsMsg" xml:space="preserve">
     <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
@@ -147,12 +135,6 @@
   <data name="kstidErrorStartingMSDE2" xml:space="preserve">
     <value>MSDE (SQL Server) cannot be started. It may not be installed.\nMake sure FieldWorks Language Explorer has been installed.</value>
   </data>
-  <data name="kstidEthnologueId" xml:space="preserve">
-    <value>Ethnologue Id</value>
-  </data>
-  <data name="kstidFamily" xml:space="preserve">
-    <value>Family</value>
-  </data>
   <data name="kstidFeatureCantBeDeletedMsg" xml:space="preserve">
     <value>Feature '{0}' is not a custom feature. It cannot be deleted.</value>
     <comment>Message displayed when the user is trying to delete a custom feature.</comment>
@@ -161,58 +143,13 @@
     <value>Feature '{0}' already exists.</value>
     <comment>Message displayed when user is trying to add a new feature that already exists.</comment>
   </data>
-  <data name="kstidFreeform" xml:space="preserve">
-    <value>Free Translation</value>
-  </data>
   <data name="kstidFWDataSourceInfo" xml:space="preserve">
     <value>{0} - ({1})</value>
   </data>
   <data name="kstidFwDBMissing" xml:space="preserve">
-    <value>FieldWorks database {0} is missing.</value>
+    <value>FieldWorks database '{0}' is missing.</value>
   </data>
-  <data name="kstidGender" xml:space="preserve">
-    <value>Gender</value>
-  </data>
-  <data name="kstidGloss" xml:space="preserve">
-    <value>Gloss</value>
-  </data>
-  <data name="kstidLanguageName" xml:space="preserve">
-    <value>Language Name</value>
-  </data>
-  <data name="kstidNotebookRef" xml:space="preserve">
-    <value>Notebook Ref.</value>
-  </data>
-  <data name="kstidOriginalDate" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="kstidOrtho" xml:space="preserve">
-    <value>Orthographic</value>
-  </data>
-  <data name="kstidPhonemic" xml:space="preserve">
-    <value>Phonemic</value>
-  </data>
-  <data name="kstidPhonetic" xml:space="preserve">
-    <value>Phonetic</value>
-  </data>
-  <data name="kstidPOS" xml:space="preserve">
-    <value>Part of Speech</value>
-  </data>
-  <data name="kstidRecMrkr" xml:space="preserve">
-    <value>Record Marker</value>
-  </data>
-  <data name="kstidReference" xml:space="preserve">
-    <value>Reference</value>
-  </data>
-  <data name="kstidRegion" xml:space="preserve">
-    <value>Region</value>
-  </data>
-  <data name="kstidSpeakerName" xml:space="preserve">
-    <value>Speaker</value>
-  </data>
-  <data name="kstidTone" xml:space="preserve">
-    <value>Tone</value>
-  </data>
-  <data name="kstidTranscriber" xml:space="preserve">
-    <value>Transcriber</value>
+  <data name="kstidMissingWsMsg" xml:space="preserve">
+    <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources.</value>
   </data>
 </root>

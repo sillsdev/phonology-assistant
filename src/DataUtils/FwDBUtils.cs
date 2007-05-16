@@ -20,6 +20,13 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwDBUtils
 	{
+		public enum FwWritingSystemType
+		{
+			None,
+			Analysis,
+			Vernacular
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Methods of storing phonetic data in FieldWorks Language Explorer.
@@ -63,7 +70,7 @@ namespace SIL.Pa.Data
 				// Read all the SQL databases from the server's master table.
 				using (SqlConnection connection = FwConnection("master"))
 				{
-					if (connection != null)
+					if (connection != null && FwQueries.FwDatabasesSQL != null)
 					{
 						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
 						if (command != null)
@@ -213,17 +220,16 @@ namespace SIL.Pa.Data
 		[XmlAttribute]
 		public string Server;
 		private string m_dbName;
-		public int PhoneticWs;
-		public int PhonemicWs;
-		public int OrthographicWs;
-		public int EnglishGlossWs;
-		public int NationalGlossWs;
+
 		public FwDBUtils.PhoneticStorageMethod PhoneticStorageMethod =
 			FwDBUtils.PhoneticStorageMethod.LexemeForm;
 
 		private string m_langProjName;
 		public bool IsMissing = false;
 		private byte[] m_lastModifiedStamp;
+
+		public List<FwDataSourceWsInfo> WritingSystemInfo;
+		private List<FwDataSourceWsInfo> m_backupWritingSystemInfo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -393,8 +399,8 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				return (PhoneticWs > 0 && PhonemicWs > 0 && OrthographicWs > 0 &&
-					EnglishGlossWs > 0 && !string.IsNullOrEmpty(m_dbName) &&
+				return (/* PhoneticWs > 0 && PhonemicWs > 0 && OrthographicWs > 0 &&
+					EnglishGlossWs > 0 && */ !string.IsNullOrEmpty(m_dbName) &&
 					!string.IsNullOrEmpty(Server));
 			}
 		}
@@ -411,6 +417,100 @@ namespace SIL.Pa.Data
 				string msg = string.Format(Properties.Resources.kstidFwDBMissing, DBName);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Copies the data sources writing system into a temporary list. This is used for
+		/// things like saving the original values before going to the FW data source
+		/// properties dialog to make changes to the field/writing system assignments.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void BackupWritingSystemInfo()
+		{
+			m_backupWritingSystemInfo = null;
+
+			if (WritingSystemInfo == null)
+				return;
+
+			m_backupWritingSystemInfo = new List<FwDataSourceWsInfo>();
+			foreach (FwDataSourceWsInfo ws in WritingSystemInfo)
+				m_backupWritingSystemInfo.Add(ws.Clone());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Moves the backed-up writing system information to the working collection.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RestoreBackedupWritingSystemInfo()
+		{
+			if (m_backupWritingSystemInfo == null || m_backupWritingSystemInfo.Count == 0)
+				return;
+
+			WritingSystemInfo = new List<FwDataSourceWsInfo>();
+			WritingSystemInfo.AddRange(m_backupWritingSystemInfo);
+			m_backupWritingSystemInfo = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clear's the backed-up writing system information.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ClearBackedupWritingSystemInfo()
+		{
+			m_backupWritingSystemInfo = null;
+		}
+	}
+
+	#endregion
+
+	#region FwDataSourceWsInfo
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Serialized with an FwDataSourceInfo class.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	[XmlType("FieldWsInfo")]
+	public class FwDataSourceWsInfo
+	{
+		[XmlAttribute]
+		public string FieldName;
+		[XmlAttribute]
+		public int Ws;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwDataSourceWsInfo()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwDataSourceWsInfo(string fieldname, int ws)
+		{
+			FieldName = fieldname;
+			Ws = ws;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes a deep copy of the FwDataSourceWsInfo object and returns it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwDataSourceWsInfo Clone()
+		{
+			FwDataSourceWsInfo clone = new FwDataSourceWsInfo();
+			clone.FieldName = FieldName;
+			clone.Ws = Ws;
+			return clone;
 		}
 	}
 
@@ -468,6 +568,35 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a list of all analysis and vernacular writing systems in the database.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<FwWritingSysInfo> AllWritingSystems
+		{
+			get
+			{
+				List<FwWritingSysInfo> wsInfoList = new List<FwWritingSysInfo>();
+			
+				// Add the analysis writing systems.
+				foreach (KeyValuePair<int, string> ws in AnalysisWritingSystems)
+				{
+					wsInfoList.Add(new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis,
+						ws.Key, ws.Value));
+				}
+
+				// Build a list of the analysis writing systems.
+				foreach (KeyValuePair<int, string> ws in VernacularWritingSystems)
+				{
+					wsInfoList.Add(new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular,
+						ws.Key, ws.Value));
+				}
+				
+				return wsInfoList;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the writing systems returned by the SQL statement found in the specified file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -479,16 +608,25 @@ namespace SIL.Pa.Data
 			{
 				using (SqlConnection connection = FwDBUtils.FwConnection(m_sourceInfo.DBName))
 				{
-					SqlCommand command = new SqlCommand(sql, connection);
-					using (SqlDataReader reader = command.ExecuteReader())
+					if (connection != null && !string.IsNullOrEmpty(sql))
 					{
-						while (reader.Read())
-							wsCollection[(int)reader["Obj"]] = reader["Txt"] as string;
+						SqlCommand command = new SqlCommand(sql, connection);
+						if (command != null)
+						{
+							using (SqlDataReader reader = command.ExecuteReader())
+							{
+								if (reader != null)
+								{
+									while (reader.Read())
+										wsCollection[(int)reader["Obj"]] = reader["Txt"] as string;
 
-						reader.Close();
+									reader.Close();
+								}
+							}
+						}
+
+						connection.Close();
 					}
-
-					connection.Close();
 				}
 
 				// There should be at least one writing system defined.
@@ -506,7 +644,7 @@ namespace SIL.Pa.Data
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
-			return (wsCollection.Count == 0 ? null : wsCollection);
+			return wsCollection;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -520,12 +658,21 @@ namespace SIL.Pa.Data
 			string sql =
 				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
 				FwQueries.LexemeFormSQL : FwQueries.PronunciationFieldSQL);
-			
-			sql = sql.Replace("$PhoneticWs", m_sourceInfo.PhoneticWs.ToString());
-			sql = sql.Replace("$PhonemicWs", m_sourceInfo.PhonemicWs.ToString());
-			sql = sql.Replace("$OrthographicWs", m_sourceInfo.OrthographicWs.ToString());
-			sql = sql.Replace("$EnglishGlossWs", m_sourceInfo.EnglishGlossWs.ToString());
-			sql = sql.Replace("$NationalGlossWs", m_sourceInfo.NationalGlossWs.ToString());
+
+			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
+			{
+				errMsg = string.Format(Properties.Resources.kstidMissingWsMsg,
+					m_sourceInfo.LangProjName);
+
+				STUtils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return true;
+			}
+
+			foreach (FwDataSourceWsInfo dswsi in m_sourceInfo.WritingSystemInfo)
+			{
+				string replace = string.Format("${0}Ws$", dswsi.FieldName);
+				sql = sql.Replace(replace, dswsi.Ws.ToString());
+			}
 			
 			try
 			{
@@ -558,6 +705,7 @@ namespace SIL.Pa.Data
 
 	#endregion
 
+	#region FwQueries class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -606,6 +754,14 @@ namespace SIL.Pa.Data
 				s_queryFile = Path.Combine(s_queryFile, "FwSQLQueries.xml");
 				s_fwqueries = STUtils.DeserializeData(s_queryFile, typeof(FwQueries)) as FwQueries;
 			}
+
+			if (s_fwqueries == null)
+			{
+				string msg = string.Format(
+					Properties.Resources.kstidErrorLoadingQueriesMsg, s_queryFile);
+
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -632,7 +788,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_fwDatabasesSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_fwDatabasesSQL : null);
 			}
 		}
 
@@ -646,7 +802,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_projectNameSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_projectNameSQL : null);
 			}
 		}
 
@@ -660,7 +816,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_lastModifiedStampSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_lastModifiedStampSQL : null);
 			}
 		}
 
@@ -674,7 +830,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_analysisWs;
+				return (s_fwqueries != null ? s_fwqueries.m_analysisWs : null);
 			}
 		}
 
@@ -688,7 +844,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_vernacularWsSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_vernacularWsSQL : null);
 			}
 		}
 
@@ -702,7 +858,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_lexemeFormSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_lexemeFormSQL : null);
 			}
 		}
 
@@ -716,8 +872,48 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return s_fwqueries.m_pronunciationFieldSQL;
+				return (s_fwqueries != null ? s_fwqueries.m_pronunciationFieldSQL : null);
 			}
 		}
 	}
+
+	#endregion
+
+	#region FwWritingSysInfo class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Encapsulates a single item in the writing system drop-downs in the grid.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class FwWritingSysInfo
+	{
+		public string WsName;
+		public int WsNumber;
+		public FwDBUtils.FwWritingSystemType WsType;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwWritingSysInfo(FwDBUtils.FwWritingSystemType wsType, int wsNumber,
+			string wsName)
+		{
+			WsType = wsType;
+			WsNumber = wsNumber;
+			WsName = wsName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return WsName;
+		}
+	}
+
+	#endregion
 }

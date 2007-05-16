@@ -321,7 +321,7 @@
     <comment>Message shown when all data has been searched without one match.</comment>
   </data>
   <data name="kstidFindDoneSearching" xml:space="preserve">
-    <value>Find reached the starting point of the search.</value>
+    <value>Find has finished searching.</value>
     <comment>Popup message when all records have been searched with the FindDlg</comment>
   </data>
   <data name="kstidFricativeHeading" xml:space="preserve">

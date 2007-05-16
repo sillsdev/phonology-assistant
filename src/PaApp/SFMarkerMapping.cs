@@ -61,13 +61,13 @@ namespace SIL.Pa
 		/// Makes a copies of the instance of SFMarkerMapping
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SFMarkerMapping Copy()
+		public SFMarkerMapping Clone()
 		{
-			SFMarkerMapping copy = new SFMarkerMapping(m_fieldInfo);
-			copy.m_fieldName = m_fieldName;
-			copy.m_marker = m_marker;
-			copy.m_isInterlinear = m_isInterlinear;
-			return copy;
+			SFMarkerMapping clone = new SFMarkerMapping(m_fieldInfo);
+			clone.m_fieldName = m_fieldName;
+			clone.m_marker = m_marker;
+			clone.m_isInterlinear = m_isInterlinear;
+			return clone;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the displayable value of the database field a marker is mapped to.
+		/// Gets the displayable value of the field a marker is mapped to.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]

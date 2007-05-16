@@ -387,7 +387,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Field.
+        ///   Looks up a localized string similar to Field.
         /// </summary>
         internal static string kstidFontGridDBField {
             get {
@@ -441,7 +441,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify a writing system for the {0} field..
+        ///   Looks up a localized string similar to You must specify a writing system for at least one field..
         /// </summary>
         internal static string kstidFwMissingWsMsg {
             get {
@@ -459,11 +459,29 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string kstidFwWsFieldHdg {
+            get {
+                return ResourceManager.GetString("kstidFwWsFieldHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (none).
         /// </summary>
         internal static string kstidFwWsNoneSpecified {
             get {
                 return ResourceManager.GetString("kstidFwWsNoneSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing System.
+        /// </summary>
+        internal static string kstidFwWsWsHdg {
+            get {
+                return ResourceManager.GetString("kstidFwWsWsHdg", resourceCulture);
             }
         }
         

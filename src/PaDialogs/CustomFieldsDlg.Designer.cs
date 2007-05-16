@@ -1,6 +1,6 @@
 namespace SIL.Pa.Dialogs
 {
-	partial class DefineCustomFieldsDlg
+	partial class CustomFieldsDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineCustomFieldsDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomFieldsDlg));
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -54,7 +54,7 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblInfo, "lblInfo");
 			this.lblInfo.Name = "lblInfo";
 			// 
-			// DefineCustomFieldsDlg
+			// CustomFieldsDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.lblInfo);

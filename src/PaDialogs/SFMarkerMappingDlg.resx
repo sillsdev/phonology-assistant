@@ -340,7 +340,7 @@
     <value>pnlMappingHdg</value>
   </data>
   <data name="&gt;&gt;pnlMappingHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2614.29401, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2692.25809, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingHdg.Parent" xml:space="preserve">
     <value>scImport.Panel1</value>
@@ -538,7 +538,7 @@
     <value>pnlSrcFile</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2614.29401, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2692.25809, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Parent" xml:space="preserve">
     <value>scImport.Panel2</value>
@@ -745,7 +745,7 @@
     <value>pnlSampleInput</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2614.29401, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2692.25809, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -1018,7 +1018,7 @@
     <value>pnlParseType</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2614.29401, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2692.25809, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -1057,7 +1057,7 @@
     <value>pnlParseHdg</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2614.29401, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2692.25809, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -1183,6 +1183,6 @@
     <value>SFMarkerMappingDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2614.29402, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2692.26801, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

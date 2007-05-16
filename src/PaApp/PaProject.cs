@@ -317,7 +317,7 @@ namespace SIL.Pa
 
 				if (source.LastModification < latestModification || reloadFWdb)
 				{
-					Reload();
+					ReloadDataSources();
 					break;
 				}
 			}
@@ -328,7 +328,7 @@ namespace SIL.Pa
 		/// Reloads the project's data sources.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Reload()
+		public void ReloadDataSources()
 		{
 			m_reloadingProjectInProcess = true;
 			LoadDataSources();
@@ -647,7 +647,7 @@ namespace SIL.Pa
 			{
 				m_experimentalTransList = value;
 
-				// The IPA char. cache keeps it's own copy of the experimental transcriptions
+				// The IPA char. cache keeps it's own clone of the experimental transcriptions
 				// since it needs to keep them in a sorted order that may not be the way
 				// the user entered them on the phone inventory tab.
 				DataUtils.IPACharCache.ExperimentalTranscriptions = value;

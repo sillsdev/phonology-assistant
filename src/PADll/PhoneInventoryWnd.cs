@@ -1067,7 +1067,7 @@ namespace SIL.Pa
 			}
 
 			if (reloadProject && changed)
-				PaApp.Project.Reload();
+				PaApp.Project.ReloadDataSources();
 		}
 
 		/// ------------------------------------------------------------------------------------

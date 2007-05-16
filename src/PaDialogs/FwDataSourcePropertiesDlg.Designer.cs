@@ -29,6 +29,7 @@ namespace SIL.Pa.Dialogs
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwDataSourcePropertiesDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblDatabase = new System.Windows.Forms.Label();
 			this.lblDatabaseValue = new System.Windows.Forms.Label();
 			this.lblLangProjValue = new System.Windows.Forms.Label();
@@ -38,20 +39,12 @@ namespace SIL.Pa.Dialogs
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
-			this.cboNatGloss = new System.Windows.Forms.ComboBox();
-			this.cboEngGloss = new System.Windows.Forms.ComboBox();
-			this.cboOrtho = new System.Windows.Forms.ComboBox();
-			this.cboPhonemic = new System.Windows.Forms.ComboBox();
-			this.cboPhonetic = new System.Windows.Forms.ComboBox();
-			this.lblPhonemic = new System.Windows.Forms.Label();
-			this.lblOrtho = new System.Windows.Forms.Label();
-			this.lblEngGloss = new System.Windows.Forms.Label();
-			this.lblNatGloss = new System.Windows.Forms.Label();
-			this.lblPhonetic = new System.Windows.Forms.Label();
+			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.pnlButtons.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.grpPhoneticDataStoreType.SuspendLayout();
 			this.grpWritingSystems.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -129,88 +122,39 @@ namespace SIL.Pa.Dialogs
 			// grpWritingSystems
 			// 
 			resources.ApplyResources(this.grpWritingSystems, "grpWritingSystems");
-			this.grpWritingSystems.Controls.Add(this.cboNatGloss);
-			this.grpWritingSystems.Controls.Add(this.cboEngGloss);
-			this.grpWritingSystems.Controls.Add(this.cboOrtho);
-			this.grpWritingSystems.Controls.Add(this.cboPhonemic);
-			this.grpWritingSystems.Controls.Add(this.cboPhonetic);
-			this.grpWritingSystems.Controls.Add(this.lblPhonemic);
-			this.grpWritingSystems.Controls.Add(this.lblOrtho);
-			this.grpWritingSystems.Controls.Add(this.lblEngGloss);
-			this.grpWritingSystems.Controls.Add(this.lblNatGloss);
-			this.grpWritingSystems.Controls.Add(this.lblPhonetic);
+			this.grpWritingSystems.Controls.Add(this.m_grid);
 			this.grpWritingSystems.Name = "grpWritingSystems";
 			this.grpWritingSystems.TabStop = false;
 			// 
-			// cboNatGloss
+			// m_grid
 			// 
-			resources.ApplyResources(this.cboNatGloss, "cboNatGloss");
-			this.cboNatGloss.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboNatGloss.FormattingEnabled = true;
-			this.cboNatGloss.Name = "cboNatGloss";
-			this.cboNatGloss.SelectionChangeCommitted += new System.EventHandler(this.HandleWsSelectionChangeCommitted);
-			// 
-			// cboEngGloss
-			// 
-			resources.ApplyResources(this.cboEngGloss, "cboEngGloss");
-			this.cboEngGloss.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboEngGloss.FormattingEnabled = true;
-			this.cboEngGloss.Name = "cboEngGloss";
-			this.cboEngGloss.SelectionChangeCommitted += new System.EventHandler(this.HandleWsSelectionChangeCommitted);
-			// 
-			// cboOrtho
-			// 
-			resources.ApplyResources(this.cboOrtho, "cboOrtho");
-			this.cboOrtho.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboOrtho.FormattingEnabled = true;
-			this.cboOrtho.Name = "cboOrtho";
-			this.cboOrtho.SelectionChangeCommitted += new System.EventHandler(this.HandleWsSelectionChangeCommitted);
-			// 
-			// cboPhonemic
-			// 
-			resources.ApplyResources(this.cboPhonemic, "cboPhonemic");
-			this.cboPhonemic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboPhonemic.FormattingEnabled = true;
-			this.cboPhonemic.Name = "cboPhonemic";
-			this.cboPhonemic.SelectionChangeCommitted += new System.EventHandler(this.HandleWsSelectionChangeCommitted);
-			// 
-			// cboPhonetic
-			// 
-			resources.ApplyResources(this.cboPhonetic, "cboPhonetic");
-			this.cboPhonetic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboPhonetic.FormattingEnabled = true;
-			this.cboPhonetic.Name = "cboPhonetic";
-			this.cboPhonetic.SelectionChangeCommitted += new System.EventHandler(this.HandleWsSelectionChangeCommitted);
-			// 
-			// lblPhonemic
-			// 
-			resources.ApplyResources(this.lblPhonemic, "lblPhonemic");
-			this.lblPhonemic.BackColor = System.Drawing.Color.Transparent;
-			this.lblPhonemic.Name = "lblPhonemic";
-			// 
-			// lblOrtho
-			// 
-			resources.ApplyResources(this.lblOrtho, "lblOrtho");
-			this.lblOrtho.BackColor = System.Drawing.Color.Transparent;
-			this.lblOrtho.Name = "lblOrtho";
-			// 
-			// lblEngGloss
-			// 
-			resources.ApplyResources(this.lblEngGloss, "lblEngGloss");
-			this.lblEngGloss.BackColor = System.Drawing.Color.Transparent;
-			this.lblEngGloss.Name = "lblEngGloss";
-			// 
-			// lblNatGloss
-			// 
-			resources.ApplyResources(this.lblNatGloss, "lblNatGloss");
-			this.lblNatGloss.BackColor = System.Drawing.Color.Transparent;
-			this.lblNatGloss.Name = "lblNatGloss";
-			// 
-			// lblPhonetic
-			// 
-			resources.ApplyResources(this.lblPhonetic, "lblPhonetic");
-			this.lblPhonetic.BackColor = System.Drawing.Color.Transparent;
-			this.lblPhonetic.Name = "lblPhonetic";
+			this.m_grid.AllowUserToAddRows = false;
+			this.m_grid.AllowUserToDeleteRows = false;
+			this.m_grid.AllowUserToOrderColumns = true;
+			this.m_grid.AllowUserToResizeRows = false;
+			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			resources.ApplyResources(this.m_grid, "m_grid");
+			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
+			this.m_grid.IsDirty = false;
+			this.m_grid.MultiSelect = false;
+			this.m_grid.Name = "m_grid";
+			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.m_grid.RowHeadersVisible = false;
+			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.m_grid.ShowWaterMarkWhenDirty = false;
+			this.m_grid.WaterMark = "";
 			// 
 			// FwDataSourcePropertiesDlg
 			// 
@@ -222,7 +166,6 @@ namespace SIL.Pa.Dialogs
 			this.Controls.Add(this.lblLangProjValue);
 			this.Controls.Add(this.lblDatabase);
 			this.Controls.Add(this.lblDatabaseValue);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "FwDataSourcePropertiesDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
 			this.Controls.SetChildIndex(this.lblDatabaseValue, 0);
@@ -237,7 +180,7 @@ namespace SIL.Pa.Dialogs
 			this.grpPhoneticDataStoreType.ResumeLayout(false);
 			this.grpPhoneticDataStoreType.PerformLayout();
 			this.grpWritingSystems.ResumeLayout(false);
-			this.grpWritingSystems.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -254,15 +197,6 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.RadioButton rbLexForm;
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
-		private System.Windows.Forms.ComboBox cboNatGloss;
-		private System.Windows.Forms.ComboBox cboEngGloss;
-		private System.Windows.Forms.ComboBox cboOrtho;
-		private System.Windows.Forms.ComboBox cboPhonemic;
-		private System.Windows.Forms.ComboBox cboPhonetic;
-		private System.Windows.Forms.Label lblPhonemic;
-		private System.Windows.Forms.Label lblOrtho;
-		private System.Windows.Forms.Label lblEngGloss;
-		private System.Windows.Forms.Label lblNatGloss;
-		private System.Windows.Forms.Label lblPhonetic;
+		private SIL.SpeechTools.Utils.SilGrid m_grid;
 	}
 }

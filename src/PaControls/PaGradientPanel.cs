@@ -93,7 +93,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			base.OnPaintBackground(e);
 			PaintingHelper.DrawGradientBackground(e.Graphics, ClientRectangle, m_dark);
 		}
 	}

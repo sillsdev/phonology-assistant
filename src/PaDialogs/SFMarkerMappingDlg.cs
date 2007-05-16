@@ -191,16 +191,16 @@ namespace SIL.Pa.Dialogs
 				// the time he was in here to modify the query source's mappings.
 				if (fieldInfo != null || mapping.FieldName == PaDataSource.kRecordMarker)
 				{
-					SFMarkerMapping copy = mapping.Copy();
-					m_mappings.Add(copy);
+					SFMarkerMapping clone = mapping.Clone();
+					m_mappings.Add(clone);
 
 					// Don't put the record marker field in the list of
 					// possible first interlinear fields.
-					if (copy.FieldName != PaDataSource.kRecordMarker &&	fieldInfo.CanBeInterlinear)
+					if (clone.FieldName != PaDataSource.kRecordMarker &&	fieldInfo.CanBeInterlinear)
 					{
-						cboFirstInterlinear.Items.Add(copy);
-						if (m_datasource.FirstInterlinearField == copy.FieldName)
-							cboFirstInterlinear.SelectedItem = copy;
+						cboFirstInterlinear.Items.Add(clone);
+						if (m_datasource.FirstInterlinearField == clone.FieldName)
+							cboFirstInterlinear.SelectedItem = clone;
 					}
 				}
 			}

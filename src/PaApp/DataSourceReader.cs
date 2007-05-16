@@ -482,7 +482,6 @@ namespace SIL.Pa
 
 					m_fieldsForMarkers[mapping.Marker].Add(mapping.FieldName);
 
-					// Save 
 					if (mapping.IsInterlinear)
 						m_interlinearFields.Add(mapping.FieldName);
 				}

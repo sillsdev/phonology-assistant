@@ -110,17 +110,18 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			base.OnPaintBackground(e);
-
-			if (PaApp.DesignMode || !m_paintExplorerBarBackground)
-				return;
-
-			VisualStyleElement element = VisualStyleElement.ExplorerBar.NormalGroupBackground.Normal;
-			if (PaintingHelper.CanPaintVisualStyle(element))
+			if (!PaApp.DesignMode && m_paintExplorerBarBackground)
 			{
-				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
-				renderer.DrawBackground(e.Graphics, ClientRectangle);
+				VisualStyleElement element = VisualStyleElement.ExplorerBar.NormalGroupBackground.Normal;
+				if (PaintingHelper.CanPaintVisualStyle(element))
+				{
+					VisualStyleRenderer renderer = new VisualStyleRenderer(element);
+					renderer.DrawBackground(e.Graphics, ClientRectangle);
+					return;
+				}
 			}
+
+			base.OnPaintBackground(e);
 		}
 	}
 }

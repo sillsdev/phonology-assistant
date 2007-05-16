@@ -8,6 +8,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -15,6 +16,7 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>0</DisplayIndexInGrid>
 		<DisplayIndexInRecView>0</DisplayIndexInRecView>
+		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
 	<Field Name="Phonemic">
 		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
@@ -25,6 +27,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -32,6 +35,7 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>1</DisplayIndexInGrid>
 		<DisplayIndexInRecView>1</DisplayIndexInRecView>
+		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
 	<Field Name="Tone">
 		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
@@ -42,6 +46,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -58,6 +63,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -65,6 +71,41 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>3</DisplayIndexInGrid>
 		<DisplayIndexInRecView>3</DisplayIndexInRecView>
+		<FwWritingSystemType>Analysis</FwWritingSystemType>
+	</Field>
+	<Field Name="GlossOther1">
+		<CanBeInterlinear>true</CanBeInterlinear>
+		<IsParsed>true</IsParsed>
+		<IsPhonetic>false</IsPhonetic>
+		<IsReference>false</IsReference>
+		<IsCVPattern>false</IsCVPattern>
+		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
+		<IsAudioFile>false</IsAudioFile>
+		<IsAudioOffset>false</IsAudioOffset>
+		<IsAudioLength>false</IsAudioLength>
+		<VisibleInGrid>false</VisibleInGrid>
+		<VisibleInRecView>true</VisibleInRecView>
+		<DisplayIndexInGrid>4</DisplayIndexInGrid>
+		<DisplayIndexInRecView>4</DisplayIndexInRecView>
+		<FwWritingSystemType>Analysis</FwWritingSystemType>
+	</Field>
+	<Field Name="GlossOther2">
+		<CanBeInterlinear>true</CanBeInterlinear>
+		<IsParsed>true</IsParsed>
+		<IsPhonetic>false</IsPhonetic>
+		<IsReference>false</IsReference>
+		<IsCVPattern>false</IsCVPattern>
+		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
+		<IsAudioFile>false</IsAudioFile>
+		<IsAudioOffset>false</IsAudioOffset>
+		<IsAudioLength>false</IsAudioLength>
+		<VisibleInGrid>false</VisibleInGrid>
+		<VisibleInRecView>true</VisibleInRecView>
+		<DisplayIndexInGrid>5</DisplayIndexInGrid>
+		<DisplayIndexInRecView>5</DisplayIndexInRecView>
+		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
 	<Field Name="Ortho">
 		<CanBeInterlinear>true</CanBeInterlinear>
@@ -74,13 +115,15 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>4</DisplayIndexInGrid>
-		<DisplayIndexInRecView>4</DisplayIndexInRecView>
+		<DisplayIndexInGrid>6</DisplayIndexInGrid>
+		<DisplayIndexInRecView>6</DisplayIndexInRecView>
+		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
 	<Field Name="POS">
 		<CanBeInterlinear>true</CanBeInterlinear>
@@ -89,13 +132,15 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>true</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>5</DisplayIndexInGrid>
-		<DisplayIndexInRecView>5</DisplayIndexInRecView>
+		<DisplayIndexInGrid>7</DisplayIndexInGrid>
+		<DisplayIndexInRecView>7</DisplayIndexInRecView>
+		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
 	<Field Name="CVPattern">
 		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
@@ -110,8 +155,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>6</DisplayIndexInGrid>
-		<DisplayIndexInRecView>6</DisplayIndexInRecView>
+		<DisplayIndexInGrid>8</DisplayIndexInGrid>
+		<DisplayIndexInRecView>8</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Freeform">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -126,8 +171,8 @@
 		<SaFieldName>FreeFormTranslation</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>7</DisplayIndexInGrid>
-		<DisplayIndexInRecView>7</DisplayIndexInRecView>
+		<DisplayIndexInGrid>9</DisplayIndexInGrid>
+		<DisplayIndexInRecView>9</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Reference">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -136,13 +181,14 @@
 		<IsReference>true</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>true</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>8</DisplayIndexInGrid>
-		<DisplayIndexInRecView>8</DisplayIndexInRecView>
+		<DisplayIndexInGrid>10</DisplayIndexInGrid>
+		<DisplayIndexInRecView>10</DisplayIndexInRecView>
 	</Field>
 	<Field Name="NotebookRef">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -157,8 +203,8 @@
 		<SaFieldName>NoteBookReference</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>9</DisplayIndexInGrid>
-		<DisplayIndexInRecView>9</DisplayIndexInRecView>
+		<DisplayIndexInGrid>11</DisplayIndexInGrid>
+		<DisplayIndexInRecView>11</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Dialect">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -173,8 +219,8 @@
 		<SaFieldName>Dialect</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>10</DisplayIndexInGrid>
-		<DisplayIndexInRecView>10</DisplayIndexInRecView>
+		<DisplayIndexInGrid>12</DisplayIndexInGrid>
+		<DisplayIndexInRecView>12</DisplayIndexInRecView>
 	</Field>
 	<Field Name="EthnologueId">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -189,8 +235,8 @@
 		<SaFieldName>EthnologueId</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>11</DisplayIndexInGrid>
-		<DisplayIndexInRecView>11</DisplayIndexInRecView>
+		<DisplayIndexInGrid>13</DisplayIndexInGrid>
+		<DisplayIndexInRecView>13</DisplayIndexInRecView>
 	</Field>
 	<Field Name="LanguageName">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -205,8 +251,8 @@
 		<SaFieldName>LanguageName</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>12</DisplayIndexInGrid>
-		<DisplayIndexInRecView>12</DisplayIndexInRecView>
+		<DisplayIndexInGrid>14</DisplayIndexInGrid>
+		<DisplayIndexInRecView>14</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Region">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -221,8 +267,8 @@
 		<SaFieldName>Region</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>13</DisplayIndexInGrid>
-		<DisplayIndexInRecView>13</DisplayIndexInRecView>
+		<DisplayIndexInGrid>15</DisplayIndexInGrid>
+		<DisplayIndexInRecView>15</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Country">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -237,8 +283,8 @@
 		<SaFieldName>Country</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>14</DisplayIndexInGrid>
-		<DisplayIndexInRecView>14</DisplayIndexInRecView>
+		<DisplayIndexInGrid>16</DisplayIndexInGrid>
+		<DisplayIndexInRecView>16</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Family">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -253,8 +299,8 @@
 		<SaFieldName>Family</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>15</DisplayIndexInGrid>
-		<DisplayIndexInRecView>15</DisplayIndexInRecView>
+		<DisplayIndexInGrid>17</DisplayIndexInGrid>
+		<DisplayIndexInRecView>17</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Transcriber">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -269,8 +315,8 @@
 		<SaFieldName>Transcriber</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>16</DisplayIndexInGrid>
-		<DisplayIndexInRecView>16</DisplayIndexInRecView>
+		<DisplayIndexInGrid>18</DisplayIndexInGrid>
+		<DisplayIndexInRecView>18</DisplayIndexInRecView>
 	</Field>
 	<Field Name="SpeakerName">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -285,8 +331,8 @@
 		<SaFieldName>SpeakerName</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>17</DisplayIndexInGrid>
-		<DisplayIndexInRecView>17</DisplayIndexInRecView>
+		<DisplayIndexInGrid>19</DisplayIndexInGrid>
+		<DisplayIndexInRecView>19</DisplayIndexInRecView>
 	</Field>
 	<Field Name="SpeakerGender">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -301,8 +347,8 @@
 		<SaFieldName>SpeakerGender</SaFieldName>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>18</DisplayIndexInGrid>
-		<DisplayIndexInRecView>18</DisplayIndexInRecView>
+		<DisplayIndexInGrid>20</DisplayIndexInGrid>
+		<DisplayIndexInRecView>20</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Comment">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -316,8 +362,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>19</DisplayIndexInGrid>
-		<DisplayIndexInRecView>19</DisplayIndexInRecView>
+		<DisplayIndexInGrid>21</DisplayIndexInGrid>
+		<DisplayIndexInRecView>21</DisplayIndexInRecView>
 	</Field>
 	<Field Name="Date">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -331,8 +377,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>20</DisplayIndexInGrid>
-		<DisplayIndexInRecView>20</DisplayIndexInRecView>
+		<DisplayIndexInGrid>22</DisplayIndexInGrid>
+		<DisplayIndexInRecView>22</DisplayIndexInRecView>
 	</Field>
 	<Field Name="DataSource">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -347,8 +393,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>false</VisibleInRecView>
-		<DisplayIndexInGrid>21</DisplayIndexInGrid>
-		<DisplayIndexInRecView>21</DisplayIndexInRecView>
+		<DisplayIndexInGrid>23</DisplayIndexInGrid>
+		<DisplayIndexInRecView>23</DisplayIndexInRecView>
 	</Field>
 	<Field Name="DataSourcePath">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -363,8 +409,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>false</VisibleInRecView>
-		<DisplayIndexInGrid>22</DisplayIndexInGrid>
-		<DisplayIndexInRecView>22</DisplayIndexInRecView>
+		<DisplayIndexInGrid>24</DisplayIndexInGrid>
+		<DisplayIndexInRecView>24</DisplayIndexInRecView>
 	</Field>
 	<Field Name="AudioFile">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -378,8 +424,8 @@
 		<IsAudioLength>false</IsAudioLength>
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>true</VisibleInRecView>
-		<DisplayIndexInGrid>23</DisplayIndexInGrid>
-		<DisplayIndexInRecView>23</DisplayIndexInRecView>
+		<DisplayIndexInGrid>25</DisplayIndexInGrid>
+		<DisplayIndexInRecView>25</DisplayIndexInRecView>
 	</Field>
 	<Field Name="AudioOffset">
 		<CanBeInterlinear>false</CanBeInterlinear>

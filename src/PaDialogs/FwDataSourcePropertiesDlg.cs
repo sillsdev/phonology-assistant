@@ -18,7 +18,13 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FwDataSourcePropertiesDlg : OKCancelDlgBase
 	{
+		private const string kFieldCol = "field";
+		private const string kWsNameCol = "wsname";
+		private const string kWsTypeCol = "wstype";
+
 		private FwDataSourceInfo m_fwSourceInfo;
+		private List<FwWritingSysInfo> m_wsInfo;
+		private List<string> m_allWsNames;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -44,13 +50,9 @@ namespace SIL.Pa.Dialogs
 			lblLangProjValue.Text = m_fwSourceInfo.LangProjName;
 
 			SetControlFonts();
-			LoadWsCombos();
-
-			InitWsCombo(cboPhonetic, m_fwSourceInfo.PhoneticWs);
-			InitWsCombo(cboPhonemic, m_fwSourceInfo.PhonemicWs);
-			InitWsCombo(cboOrtho, m_fwSourceInfo.OrthographicWs);
-			InitWsCombo(cboEngGloss, m_fwSourceInfo.EnglishGlossWs);
-			InitWsCombo(cboNatGloss, m_fwSourceInfo.NationalGlossWs);
+			GetWritingSystems();
+			BuildGrid();
+			LoadGrid();
 
 			rbLexForm.Checked = 
 				(m_fwSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm);
@@ -58,6 +60,7 @@ namespace SIL.Pa.Dialogs
 			rbPronunField.Checked =
 				(m_fwSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField);
 
+			PaApp.SettingsHandler.LoadFormProperties(this);
 			m_dirty = false;
 		}
 
@@ -73,19 +76,166 @@ namespace SIL.Pa.Dialogs
 			lblLangProj.Font = FontHelper.UIFont;
 			lblLangProjValue.Font = FontHelper.UIFont;
 			grpWritingSystems.Font = FontHelper.UIFont;
-			lblPhonetic.Font = FontHelper.UIFont;
-			lblPhonemic.Font = FontHelper.UIFont;
-			lblOrtho.Font = FontHelper.UIFont;
-			lblEngGloss.Font = FontHelper.UIFont;
-			lblNatGloss.Font = FontHelper.UIFont;
-			cboPhonetic.Font = FontHelper.UIFont;
-			cboPhonemic.Font = FontHelper.UIFont;
-			cboOrtho.Font = FontHelper.UIFont;
-			cboEngGloss.Font = FontHelper.UIFont;
-			cboNatGloss.Font = FontHelper.UIFont;
 			grpPhoneticDataStoreType.Font = FontHelper.UIFont;
 			rbLexForm.Font = FontHelper.UIFont;
 			rbPronunField.Font = FontHelper.UIFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void BuildGrid()
+		{
+			m_grid.Name = Name + "Grid";
+			m_grid.AutoGenerateColumns = false;
+			m_grid.Font = FontHelper.UIFont;
+			m_grid.EditingControlShowing +=
+				new DataGridViewEditingControlShowingEventHandler(m_grid_EditingControlShowing);
+
+			// Add a column for the field name.
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kFieldCol);
+			col.HeaderText = Properties.Resources.kstidFwWsFieldHdg;
+			col.ReadOnly = true;
+			col.Width = 150;
+			m_grid.Columns.Add(col);
+
+			// Add a column for the writing system name (or 'none').
+			col = SilGrid.CreateDropDownListComboBoxColumn(kWsNameCol, m_allWsNames);
+			col.HeaderText = Properties.Resources.kstidFwWsWsHdg;
+			col.Width = 110;
+			m_grid.Columns.Add(col);
+
+			// Add a hidden column to store the writing system
+			// type (i.e. vernacular or analysis) for the field.
+			col = SilGrid.CreateTextBoxColumn(kWsTypeCol);
+			col.Visible = false;
+			m_grid.Columns.Add(col);
+
+			m_grid.AutoResizeColumnHeadersHeight();
+			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load up the grid with PA field names and the FW writing systems assigned to them,
+		/// if any.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadGrid()
+		{
+			m_grid.Rows.Clear();
+
+			// Go through each PA field and find the fields marked as FW fields that
+			// are marked with either the vernacular or analysis writing system.
+			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo.SortedList)
+			{
+				if (fieldInfo.IsFwField &&
+					fieldInfo.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
+				{
+					// Add the field to the list and, for now, assume
+					// it has no writing system assigned.
+					m_grid.Rows.Add(new object[] { fieldInfo.DisplayText,
+						Properties.Resources.kstidFwWsNoneSpecified,
+						fieldInfo.FwWritingSystemType });
+
+					// Get the row just added. Each row's tag property references an object
+					// indicating what writing system is currently assigned to the row's field.
+					// For now, assign all new rows no writing system (i.e. 'none').
+					DataGridViewRow newRow = m_grid.Rows[m_grid.RowCount - 1];
+					newRow.Tag = new FwDataSourceWsInfo(fieldInfo.FieldName, 0);
+
+					if (m_fwSourceInfo.WritingSystemInfo == null)
+						continue;
+
+					// Now go through the list of fields that have been assigned
+					// writing systems and find the one corresponding to the row just
+					// added. Then change the row's tag property to reference that
+					// writing system.
+					foreach (FwDataSourceWsInfo dswsi in m_fwSourceInfo.WritingSystemInfo)
+					{
+						if (fieldInfo.FieldName == dswsi.FieldName)
+						{
+							newRow.Tag = dswsi.Clone();
+
+							foreach (FwWritingSysInfo wsi in m_wsInfo)
+							{
+								if (wsi.WsNumber == dswsi.Ws)
+									newRow.Cells[kWsNameCol].Value = wsi.WsName;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// We need to intercept things here so we can modify the contents of the combo. before
+		/// the user drops-down its list. When the grid's writing system column is created, the
+		/// entire list of analysis and vernacular writing systems are sent to its Items
+		/// collection so the grid will consider any of those writing systems as valid choices.
+		/// However, since some fields in the grid can only be assigned analysis writing
+		/// systems and others only vernacular, we need to modify the grid's combo's list just
+		/// before it's shown to only include the proper subset of writing systems for the
+		/// current row's field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+		{
+			ComboBox cbo = e.Control as ComboBox;
+			if (cbo == null || m_grid.CurrentRow == null)
+				return;
+
+			// Get the writing system type (analysis or vernacular) for the current row.
+			FwDBUtils.FwWritingSystemType wsType =
+				(FwDBUtils.FwWritingSystemType)m_grid.CurrentRow.Cells[kWsTypeCol].Value;
+			
+			// Get the writing system information to which the current row is set.
+			FwDataSourceWsInfo currWsInfo = m_grid.CurrentRow.Tag as FwDataSourceWsInfo;
+		
+			// Clear the combo list and add the '(none)' options first.
+			cbo.Items.Clear();
+			cbo.Items.Add(m_wsInfo[0]);
+
+			// Now iterate through the writing systems and only add ones to the list
+			// whose type is the same as the type of writing system for the current row.
+			foreach (FwWritingSysInfo wsInfo in m_wsInfo)
+			{
+				if (wsInfo.WsType == wsType)
+					cbo.Items.Add(wsInfo);
+
+				if (currWsInfo.Ws == wsInfo.WsNumber)
+					cbo.SelectedItem = wsInfo;
+			}
+
+			// This should never happend, but if, by this point, the combo's
+			// selected item hasn't been set, set it to the first item in the list.
+			if (cbo.SelectedIndex < 0)
+				cbo.SelectedIndex = 0;
+
+			cbo.SelectionChangeCommitted += new EventHandler(cbo_SelectionChangeCommitted);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// After the user has selected a writing system for the field, save the info.
+		/// for the selected one in the row's tag property so it can be retrieved when
+		/// the dialog's settings are saved when it's closed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cbo_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			ComboBox cbo = sender as ComboBox;
+			if (cbo == null || cbo.SelectedItem == null || m_grid.CurrentRow == null)
+				return;
+
+			FwDataSourceWsInfo currWsInfo = m_grid.CurrentRow.Tag as FwDataSourceWsInfo;
+			FwWritingSysInfo pickedWs = cbo.SelectedItem as FwWritingSysInfo;
+
+			if (currWsInfo != null && pickedWs != null)
+				currWsInfo.Ws = pickedWs.WsNumber;
 		}
 
 		#endregion
@@ -93,66 +243,44 @@ namespace SIL.Pa.Dialogs
 		#region Writing System Combos Setup
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the writing system combo boxes.
+		/// Loads the writing systems from the database into two lists. One contains objects
+		/// the represent all the necessary writing system information and the other contains
+		/// just a list of all the writing system names. Both lists contain all the analysis
+		/// and vernacular writing systems.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadWsCombos()
+		private void GetWritingSystems()
 		{
+			// Keep a list of all the writing system names, whether vernacular or analysis.
+			m_allWsNames = new List<string>();
 			FwDataReader reader = new FwDataReader(m_fwSourceInfo);
 
-			// Build a list of the analysis writing systems to use in analysis WS combos.
-			List<WritingSysInfo> wsAnalInfo = new List<WritingSysInfo>();
-			foreach (KeyValuePair<int, string> wsAnal in reader.AnalysisWritingSystems)
-				wsAnalInfo.Add(new WritingSysInfo(wsAnal.Value, wsAnal.Key));
+			m_wsInfo = reader.AllWritingSystems;
 
-			// Build a list of the analysis writing systems to use in analysis WS combos.
-			List<WritingSysInfo> wsVernInfo = new List<WritingSysInfo>();
-			foreach (KeyValuePair<int, string> wsVern in reader.VernacularWritingSystems)
-				wsVernInfo.Add(new WritingSysInfo(wsVern.Value, wsVern.Key));
+			// Add a (none) option.
+			m_wsInfo.Insert(0, new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.None, 0,
+				Properties.Resources.kstidFwWsNoneSpecified));
 
-			// Add a (none) option to each list.
-			wsAnalInfo.Insert(0, new WritingSysInfo(Properties.Resources.kstidFwWsNoneSpecified, 0));
-			wsVernInfo.Insert(0, new WritingSysInfo(Properties.Resources.kstidFwWsNoneSpecified, 0));
-
-			cboPhonetic.Items.AddRange(wsVernInfo.ToArray());
-			cboPhonemic.Items.AddRange(wsVernInfo.ToArray());
-			cboOrtho.Items.AddRange(wsVernInfo.ToArray());
-			cboEngGloss.Items.AddRange(wsAnalInfo.ToArray());
-			cboNatGloss.Items.AddRange(wsAnalInfo.ToArray());
+			foreach (FwWritingSysInfo wsInfo in m_wsInfo)
+				m_allWsNames.Add(wsInfo.WsName);
 		}
 
+		#endregion
+
+		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the writing system combo boxes.
+		/// Gets a value indicating whether or not values on the dialog changed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitWsCombo(ComboBox combo, int wsNumber)
+		protected override bool IsDirty
 		{
-			foreach (WritingSysInfo wsinfo in combo.Items)
-			{
-				if (wsinfo.WsNumber == wsNumber)
-				{
-					combo.SelectedItem = wsinfo;
-					return;
-				}
-			}
-
-			combo.SelectedIndex = 0;
+			get	{return base.IsDirty || m_grid.IsDirty;}
 		}
 
 		#endregion
 
 		#region Event Handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleWsSelectionChangeCommitted(object sender, EventArgs e)
-		{
-			m_dirty = true;
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -168,42 +296,31 @@ namespace SIL.Pa.Dialogs
 		#region Methods for verifying changes and saving them before closing
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure all the writing systems that should be specified, have been specified.
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void SaveSettings()
+		{
+			base.SaveSettings();
+			PaApp.SettingsHandler.SaveFormProperties(this);
+			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies that a writing system has been specified for at least one field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			if (!VerifyWritingSystem(cboPhonetic, lblPhonetic))
-				return false;
+			foreach (DataGridViewRow row in m_grid.Rows)
+			{
+				FwDataSourceWsInfo wsInfo = row.Tag as FwDataSourceWsInfo;
+				if (wsInfo != null && wsInfo.Ws > 0)
+					return true;
+			}
 
-			// Uncomment these if they should be mandatory.
-			//if (!VerifyWritingSystem(cboPhonemic, lblPhonemic))
-			//    return false;
-
-			//if (!VerifyWritingSystem(cboOrtho, lblOrtho))
-			//    return false;
-
-			if (!VerifyWritingSystem(cboEngGloss, lblEngGloss))
-				return false;
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Verifies that a writing system has been specified for the specified field.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool VerifyWritingSystem(ComboBox combo, Label lblField)
-		{
-			if (combo.SelectedIndex != 0)
-				return true;
-
-			string msg = string.Format(Properties.Resources.kstidFwMissingWsMsg,
-				lblField.Text.Replace("&", string.Empty));
-
-			STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			combo.Focus();
+			STUtils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg, MessageBoxButtons.OK);
 			return false;
 		}
 
@@ -216,11 +333,16 @@ namespace SIL.Pa.Dialogs
 		{
 			try
 			{
-				m_fwSourceInfo.PhoneticWs = (cboPhonetic.SelectedItem as WritingSysInfo).WsNumber;
-				m_fwSourceInfo.PhonemicWs = (cboPhonemic.SelectedItem as WritingSysInfo).WsNumber;
-				m_fwSourceInfo.OrthographicWs = (cboOrtho.SelectedItem as WritingSysInfo).WsNumber;
-				m_fwSourceInfo.EnglishGlossWs = (cboEngGloss.SelectedItem as WritingSysInfo).WsNumber;
-				m_fwSourceInfo.NationalGlossWs = (cboNatGloss.SelectedItem as WritingSysInfo).WsNumber;
+				List<FwDataSourceWsInfo> wsInfoList = new List<FwDataSourceWsInfo>();
+
+				foreach (DataGridViewRow row in m_grid.Rows)
+				{
+					FwDataSourceWsInfo wsInfo = row.Tag as FwDataSourceWsInfo;
+					if (wsInfo != null)
+						wsInfoList.Add(wsInfo);
+				}
+
+				m_fwSourceInfo.WritingSystemInfo = wsInfoList;
 
 				m_fwSourceInfo.PhoneticStorageMethod = (rbLexForm.Checked ?
 					FwDBUtils.PhoneticStorageMethod.LexemeForm :
@@ -235,41 +357,6 @@ namespace SIL.Pa.Dialogs
 		}
 
 		#endregion
-	}
-
-	#endregion
-
-	#region WritingSysInfo class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Encapsulates a single item in the writing system drop-downs in the grid.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	internal class WritingSysInfo
-	{
-		internal string WsName;
-		internal int WsNumber;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal WritingSysInfo(string wsName, int wsNumber)
-		{
-			WsName = wsName;
-			WsNumber = wsNumber;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return WsName;
-		}
 	}
 
 	#endregion

@@ -565,7 +565,7 @@ namespace SIL.Pa
 		public const string kCustomFieldPrefix = "CustomField";
 
 		private string m_fieldName;
-		private string m_customFieldDisplayText;
+		private string m_displayText;
 		private bool m_canBeInterlinear = false;
 		private bool m_isPhonetic = false;
 		private bool m_isPhonemic = false;
@@ -575,6 +575,7 @@ namespace SIL.Pa
 		private bool m_isReference = false;
 		private bool m_isCVPattern = false;
 		private bool m_isDate = false;
+		private bool m_isFwField = false;
 		private bool m_isDataSource = false;
 		private bool m_isDataSourcePath = false;
 		private bool m_isAudioFile = false;
@@ -584,6 +585,7 @@ namespace SIL.Pa
 		private bool m_isParsed = false;
 		private bool m_isNumeric = false;
 		private bool m_isGuid = false;
+		private FwDBUtils.FwWritingSystemType m_fwWs = FwDBUtils.FwWritingSystemType.None;
 		private Font m_font = FontHelper.UIFont;
 		private string m_saField;
 		private bool m_visibleInGrid = true;
@@ -604,7 +606,7 @@ namespace SIL.Pa
 
 			PaFieldInfo clone = new PaFieldInfo();
 			clone.m_fieldName = source.m_fieldName;
-			clone.m_customFieldDisplayText = source.m_customFieldDisplayText;
+			clone.m_displayText = source.m_displayText;
 			clone.m_canBeInterlinear = source.m_canBeInterlinear;
 			clone.m_isPhonetic = source.m_isPhonetic;
 			clone.m_isPhonemic = source.m_isPhonemic;
@@ -613,6 +615,7 @@ namespace SIL.Pa
 			clone.m_isGloss = source.m_isGloss;
 			clone.m_isReference = source.m_isReference;
 			clone.m_isDate = source.m_isDate;
+			clone.m_isFwField = source.m_isFwField;
 			clone.m_isDataSource = source.m_isDataSource;
 			clone.m_isDataSourcePath = source.m_isDataSourcePath;
 			clone.m_isAudioFile = source.m_isAudioFile;
@@ -628,6 +631,7 @@ namespace SIL.Pa
 			clone.m_displayIndexInGrid = source.m_displayIndexInGrid;
 			clone.m_displayIndexInRecVw = source.m_displayIndexInRecVw;
 			clone.m_widthInGrid = source.m_widthInGrid;
+			clone.m_fwWs = source.m_fwWs;
 			clone.Font = null;
 
 			if (source.m_font != null)
@@ -697,19 +701,19 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
 		public string DisplayText
 		{
 			get 
 			{
-				if (m_fieldName.StartsWith(kCustomFieldPrefix))
-					return CustomFieldDisplayText;
+				if (!string.IsNullOrEmpty(m_displayText))
+					return m_displayText;
 
 				string text = PaFieldsDisplayText.ResourceManager.GetString(
 					"kstid" + m_fieldName, PaFieldsDisplayText.Culture);
 
 				return (string.IsNullOrEmpty(text) ? m_fieldName : text);
 			}
+			set { m_displayText = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -726,6 +730,17 @@ namespace SIL.Pa
 					System.Windows.Forms.SystemInformation.MenuFont : m_font);
 			}
 			set { m_font = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwDBUtils.FwWritingSystemType FwWritingSystemType
+		{
+			get { return m_fwWs; }
+			set { m_fwWs = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -855,6 +870,17 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public bool IsFwField
+		{
+			get { return m_isFwField; }
+			set { m_isFwField = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public bool IsDataSource
 		{
 			get { return m_isDataSource; }
@@ -947,18 +973,6 @@ namespace SIL.Pa
 		{
 			get { return m_saField; }
 			set { m_saField = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// When the field info object is for a custom field, this is the user specified text
-		/// for that field. It is specified in the dialog where the user may add custom fields.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string CustomFieldDisplayText
-		{
-			get {return m_customFieldDisplayText;}
-			set { m_customFieldDisplayText = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -187,6 +187,24 @@ namespace SIL.Pa {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Secondary Gloss.
+        /// </summary>
+        internal static string kstidGlossOther1 {
+            get {
+                return ResourceManager.GetString("kstidGlossOther1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other Gloss.
+        /// </summary>
+        internal static string kstidGlossOther2 {
+            get {
+                return ResourceManager.GetString("kstidGlossOther2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to GUID.
         /// </summary>
         internal static string kstidGuid {

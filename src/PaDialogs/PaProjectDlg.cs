@@ -84,19 +84,7 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
-			// Check for any FW data sources in the project. If any are
-			// found, attempt to start SQL server if it isn't already.
-			if (m_project.DataSources != null)
-			{
-				foreach (PaDataSource ds in m_project.DataSources)
-				{
-					if (ds.DataSourceType == DataSourceType.FW)
-					{
-						FwDBUtils.StartSQLServer(true);
-						break;
-					}
-				}
-			}
+			FwDataSourcePrep();
 
 			// If the project contains FW data sources, then an attempt must be made to start
 			// SQL server. If there are no FW data sources, then only attempt to start SQL
@@ -110,6 +98,36 @@ namespace SIL.Pa.Dialogs
 			
 			m_dirty = false;
 			Application.Idle += new EventHandler(Application_Idle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Check for any FW data sources in the project. If any are found, attempt to start 
+		/// SQL server if it isn't already. Also backup the writing system information in case
+		/// the user goes to the FW data source properties dialog to make changes to the
+		/// writing system information.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FwDataSourcePrep()
+		{
+			if (m_project.DataSources == null)
+				return;
+
+			bool sqlSrvStarted = false;
+
+			foreach (PaDataSource ds in m_project.DataSources)
+			{
+				if (ds.DataSourceType == DataSourceType.FW)
+				{
+					ds.FwDataSourceInfo.BackupWritingSystemInfo();
+
+					if (!sqlSrvStarted)
+					{
+						FwDBUtils.StartSQLServer(true);
+						sqlSrvStarted = true;
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -244,7 +262,17 @@ namespace SIL.Pa.Dialogs
 				// If the project isn't new and the user is NOT saving the project
 				// settings then reload the original field info. for the project.
 				if (!m_newProject)
+				{
 					m_project.LoadFieldInfo();
+
+					// Throw out changes made to FW data source writing
+					// system information since the user has canceled.
+					foreach (PaDataSource ds in m_project.DataSources)
+					{
+						if (ds.DataSourceType == DataSourceType.FW)
+							ds.FwDataSourceInfo.RestoreBackedupWritingSystemInfo();
+					}
+				}
 
 				m_project = null;
 			}
@@ -371,6 +399,12 @@ namespace SIL.Pa.Dialogs
 				m_project.ProjectFileName = GetProjectFileName();
 				if (m_project.ProjectFileName == null)
 					return false;
+			}
+
+			foreach (PaDataSource ds in m_project.DataSources)
+			{
+				if (ds.DataSourceType == DataSourceType.FW)
+					ds.FwDataSourceInfo.ClearBackedupWritingSystemInfo();
 			}
 
 			m_project.ProjectName = txtProjName.Text.Trim();
@@ -616,13 +650,13 @@ namespace SIL.Pa.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					// If no default mappings yet exist for this project, then copy the ones
+					// If no default mappings yet exist for this project, then clone the ones
 					// from the query source whose mappings were just specified.
 					if (m_project.DefaultMappings == null || m_project.DefaultMappings.Count == 0)
 					{
 						m_project.DefaultMappings = new List<SFMarkerMapping>();
 						foreach (SFMarkerMapping mapping in dataSource.SFMappings)
-							m_project.DefaultMappings.Add(mapping.Copy());
+							m_project.DefaultMappings.Add(mapping.Clone());
 					}
 
 					if (((OKCancelDlgBase)dlg).ChangesWereMade)
@@ -687,7 +721,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnCustomFields_Click(object sender, EventArgs e)
 		{
-			using (DefineCustomFieldsDlg dlg = new DefineCustomFieldsDlg(m_project))
+			using (CustomFieldsDlg dlg = new CustomFieldsDlg(m_project))
 			{
 				dlg.ShowDialog(this);
 				if (((OKCancelDlgBase)dlg).ChangesWereMade)

@@ -209,7 +209,7 @@
     <comment>Open file dialog caption when choosing an XSLT file</comment>
   </data>
   <data name="kstidFontGridDBField" xml:space="preserve">
-    <value>Data Field</value>
+    <value>Field</value>
     <comment>Column heading for fonts grid under Tools/Options</comment>
   </data>
   <data name="kstidCustomFieldGridHdgParsed" xml:space="preserve">
@@ -311,7 +311,8 @@
     <value>The information for the FieldWorks data source '{0}'\nis incomplete. Click the properties button next to the source.</value>
   </data>
   <data name="kstidFwMissingWsMsg" xml:space="preserve">
-    <value>You must specify a writing system for the {0} field.</value>
+    <value>You must specify a writing system for at least one field.</value>
+    <comment>Message displayed in the FieldWorks data source dialog when the user clicks OK when no field has been assigned a writing system.</comment>
   </data>
   <data name="kstidFwPropsButtonToolTip" xml:space="preserve">
     <value>Specify Properties</value>
@@ -413,5 +414,13 @@
   </data>
   <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
     <value>You cannot have an empty Class Name</value>
+  </data>
+  <data name="kstidFwWsFieldHdg" xml:space="preserve">
+    <value>Field</value>
+    <comment>Heading for the field column of the writing system grid on FieldWorks data source properties dialog</comment>
+  </data>
+  <data name="kstidFwWsWsHdg" xml:space="preserve">
+    <value>Writing System</value>
+    <comment>Heading for the writing system column of the writing system grid on the FieldWorks data source properties dialog</comment>
   </data>
 </root>

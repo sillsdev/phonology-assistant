@@ -17,68 +17,65 @@
 		ON lp.Dst = lg.Obj
 	</analysiswritingsystems>
 	<datafromlexemeform>
-		SELECT DISTINCT
-			LexEntry.DateCreated,
-			LexEntry.DateModified As Date,
-			LexSense_Gloss.Txt As Gloss,
-			MoForm_Form.Txt As Phonetic,
-			CmPossibility_Abbreviation.Txt As POS,
-			CmObject.Guid$ As Guid,
-			MoForm_Form.Ws
-		FROM
-			LexEntry
-			Inner Join LexEntry_Senses (readuncommitted) On LexEntry_Senses.Src = LexEntry.id
-			Inner Join LexSense (readuncommitted) On LexEntry_Senses.Dst = LexSense.id
-			Inner Join LexSense_Gloss (readuncommitted) On LexSense_Gloss.Obj = LexSense.id
-			Inner Join LexEntry_LexemeForm (readuncommitted) On LexEntry_LexemeForm.Src = LexEntry.id
-			Inner Join MoForm (readuncommitted) On LexEntry_LexemeForm.Dst = MoForm.id
-			Inner Join MoForm_Form (readuncommitted) On MoForm_Form.Obj = MoForm.id
-			Inner Join LexEntry_MorphoSyntaxAnalyses (readuncommitted) On LexEntry_MorphoSyntaxAnalyses.Src = LexEntry.id
-			Inner Join MoStemMsa (readuncommitted) On MoStemMsa.id = LexEntry_MorphoSyntaxAnalyses.Dst
-			Inner Join PartOfSpeech (readuncommitted) On MoStemMsa.PartOfSpeech = PartOfSpeech.id
-			Inner Join CmPossibility (readuncommitted) On PartOfSpeech.id = CmPossibility.id
-			Inner Join CmPossibility_Name (readuncommitted) On CmPossibility_Name.Obj = CmPossibility.id
-			Inner Join CmPossibility_Abbreviation (readuncommitted) On CmPossibility_Abbreviation.Obj = CmPossibility.id
-			Inner Join CmObject (readuncommitted) On LexEntry.id = CmObject.Id
-		WHERE
-			LexEntry_Senses.Ord = 1 And
-			LexSense_Gloss.Ws = $EnglishGlossWs And
-			MoForm_Form.Ws = $PhoneticWs And
-			CmPossibility_Name.Ws = $EnglishGlossWs And
-			CmPossibility_Abbreviation.Ws = $EnglishGlossWs
+		SELECT
+			le.DateCreated,
+			le.DateModified,
+			mffEtic.Txt as Phonetic, mffEtic.Ws,
+			mffEmic.Txt as Phonemic, mffEmic.Ws,
+			mffOrtho.Txt as Ortho, mffOrtho.Ws,
+			lsGloss1.Txt AS Gloss,
+			lsGloss2.Txt AS GlossOther1,
+			lsGloss3.Txt AS GlossOther2,
+			lp.Tone As Tone,
+			ls.Source AS Reference,
+			cpaPOS.Txt AS POS,
+			leo.Guid$
+		FROM LexEntry le
+			LEFT OUTER JOIN LexEntry_LexemeForm lelf ON lelf.Src = le.Id
+			LEFT OUTER JOIN LexEntry_Senses les ON les.Src = le.Id AND les.Ord = 1
+			LEFT OUTER JOIN LexEntry_Pronunciations lep ON lep.Src = le.Id AND lep.Ord = 1
+			LEFT OUTER JOIN LexPronunciation lp ON lp.Id = lep.Dst
+			LEFT OUTER JOIN MoForm_Form mffEtic ON mffEtic.Obj = lelf.Dst And mffEtic.Ws = $PhoneticWs$
+			LEFT OUTER JOIN MoForm_Form mffEmic ON mffEmic.Obj = lelf.Dst And mffEmic.Ws = $PhonemicWs$
+			LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $OrthoWs$
+			LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
+			LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
+			LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst And lsGloss1.Ws = $GlossWs$
+			LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst AND lsGloss2.Ws = $GlossOther1Ws$
+			LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst AND lsGloss3.Ws = $GlossOther2Ws$
+			LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
+			LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
+			LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $POSWs$
 	</datafromlexemeform>
 	<datafrompronunciationfield>
-		SELECT DISTINCT
-			LexEntry.DateCreated,
-			LexEntry.DateModified As Date,
-			LexSense_Gloss.Txt As Gloss,
-			LexPronunciation_Form.Txt As Phonetic,
-			MoForm_Form.Txt As Phonemic,
-			CmPossibility_Abbreviation.Txt As POS,
-			CmObject.Guid$ As Guid,
-			MoForm_Form.Ws
-		FROM
-			LexEntry
-			Inner Join LexEntry_Senses (readuncommitted) On LexEntry_Senses.Src = LexEntry.id
-			Inner Join LexSense (readuncommitted) On LexEntry_Senses.Dst = LexSense.id
-			Inner Join LexSense_Gloss (readuncommitted) On LexSense_Gloss.Obj = LexSense.id
-			Inner Join LexEntry_Pronunciations (readuncommitted) On LexEntry_Pronunciations.Src = LexEntry.id
-			Inner Join LexPronunciation (readuncommitted) On LexEntry_Pronunciations.Dst = LexPronunciation.id
-			Inner Join LexPronunciation_Form (readuncommitted) On LexPronunciation_Form.Obj = LexPronunciation.id
-			Inner Join LexEntry_LexemeForm (readuncommitted) On LexEntry_LexemeForm.Src = LexEntry.id
-			Inner Join MoForm (readuncommitted) On dbo.LexEntry_LexemeForm.Dst = MoForm.id
-			Inner Join MoForm_Form (readuncommitted) On MoForm_Form.Obj = MoForm.id
-			Inner Join CmObject (readuncommitted) On LexEntry.id = CmObject.Id
-			Inner Join MoStemMsa_ (readuncommitted) On LexSense.MorphoSyntaxAnalysis = MoStemMsa_.Id
-			Inner Join PartOfSpeech_ (readuncommitted) On MoStemMsa_.PartOfSpeech = PartOfSpeech_.Id
-			Inner Join CmPossibility_Abbreviation (readuncommitted) On CmPossibility_Abbreviation.Obj =	PartOfSpeech_.Id
-			Inner Join CmPossibility_Name (readuncommitted) On CmPossibility_Name.Obj = PartOfSpeech_.Id
-		WHERE
-			LexEntry_Senses.Ord = 1 And
-			LexSense_Gloss.Ws = $EnglishGlossWs And
-			LexPronunciation_Form.Ws = $PhoneticWs And
-			MoForm_Form.Ws = $PhonemicWs And
-			CmPossibility_Name.Ws = $EnglishGlossWs And
-			CmPossibility_Abbreviation.Ws = $EnglishGlossWs
+		SELECT
+		lpfEtic.Txt As Phonetic, lpfEtic.Ws,
+		mffEmic.Txt As Phonemic, mffEmic.Ws,
+		mffOrtho.Txt As Ortho, mffOrtho.Ws,
+		lp.Tone As Tone,
+		le.DateCreated,
+		le.DateModified,
+		ls.Source As Reference,
+		lsGloss1.Txt As Gloss,
+		lsGloss2.Txt As GlossOther1,
+		lsGloss3.Txt As GlossOther2,
+		cpaPOS.Txt As POS,
+		leo.Guid$
+		FROM LexEntry le
+		LEFT OUTER JOIN LexEntry_LexemeForm lelf ON lelf.Src = le.Id
+		LEFT OUTER JOIN LexEntry_Senses les ON les.Src = le.Id AND les.Ord = 1
+		LEFT OUTER JOIN LexEntry_Pronunciations lep ON lep.Src = le.Id AND lep.Ord = 1
+		LEFT OUTER JOIN LexPronunciation lp ON lp.Id = lep.Dst
+		INNER JOIN LexPronunciation_Form lpfEtic ON lpfEtic.Obj = lp.Id AND lpfEtic.Ws = $PhoneticWs$
+		LEFT OUTER JOIN MoForm_Form mffEmic ON mffEmic.Obj = lelf.Dst And mffEmic.Ws = $PhonemicWs$
+		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $OrthoWs$
+		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
+		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
+		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst And lsGloss1.Ws = $GlossWs$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst AND lsGloss2.Ws = $GlossOther1Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst AND lsGloss3.Ws = $GlossOther2Ws$
+		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
+		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $POSWs$
 	</datafrompronunciationfield>
 </FwQueries>

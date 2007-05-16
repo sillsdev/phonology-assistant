@@ -15,7 +15,7 @@ namespace SIL.Pa.Dialogs
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DefineCustomFieldsDlg : OKCancelDlgBase
+	public partial class CustomFieldsDlg : OKCancelDlgBase
 	{
 		private const string kNameCol = "name";
 		private const string kTypeCol = "type";
@@ -30,7 +30,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DefineCustomFieldsDlg()
+		public CustomFieldsDlg()
 		{
 			InitializeComponent();
 		}
@@ -40,7 +40,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DefineCustomFieldsDlg(PaProject project) : this()
+		public CustomFieldsDlg(PaProject project) : this()
 		{
 			lblInfo.Font = FontHelper.UIFont;
 			BuildGrid();
@@ -56,7 +56,7 @@ namespace SIL.Pa.Dialogs
 					else if (fieldInfo.IsNumeric)
 						dataType = Properties.Resources.kstidCustomFieldGridTypeNumeric;
 
-					object[] row = new object[] { fieldInfo.CustomFieldDisplayText,
+					object[] row = new object[] { fieldInfo.DisplayText,
 						dataType, fieldInfo.IsParsed, fieldInfo.CanBeInterlinear};
 
 					m_grid.Rows.Add(row);
@@ -77,7 +77,6 @@ namespace SIL.Pa.Dialogs
 			m_grid.Name = Name + "Grid";
 			m_grid.Dock = DockStyle.Fill;
 			m_grid.AutoGenerateColumns = false;
-			m_grid.Dock = DockStyle.Fill;
 			m_grid.Font = FontHelper.UIFont;
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.ColumnHeadersHeight *= 2;
@@ -103,8 +102,6 @@ namespace SIL.Pa.Dialogs
 				Properties.Resources.kstidCustomFieldGridTypeDate};
 
 			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol, dataTypes);
-			//((DataGridViewComboBoxColumn)col).CellTemplate.DefaultNewRowValue =
-			//    Properties.Resources.kstidCustomFieldGridTypeText;
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgType;
 			col.Width = 90;
 			m_grid.Columns.Add(col);
@@ -332,7 +329,7 @@ namespace SIL.Pa.Dialogs
 				fieldInfo.CanBeInterlinear =
 					(m_grid[kILCol, i].Value != null && (bool)m_grid[kILCol, i].Value);
 
-				fieldInfo.CustomFieldDisplayText = m_grid[kNameCol, i].Value as string;
+				fieldInfo.DisplayText = m_grid[kNameCol, i].Value as string;
 				fieldInfo.DisplayIndexInGrid = m_project.FieldInfo.Count - 1;
 				fieldInfo.DisplayIndexInRecView = m_project.FieldInfo.Count - 1;
 				fieldInfo.MarkFieldAsCustom(i);

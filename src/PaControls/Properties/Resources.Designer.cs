@@ -564,7 +564,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find reached the starting point of the search..
+        ///   Looks up a localized string similar to Find has finished searching..
         /// </summary>
         internal static string kstidFindDoneSearching {
             get {

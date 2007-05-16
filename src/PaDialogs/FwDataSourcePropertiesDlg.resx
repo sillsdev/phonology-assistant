@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 329</value>
+    <value>10, 385</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 40</value>
+    <value>317, 40</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
@@ -141,7 +141,7 @@
     <value>2</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 7</value>
+    <value>151, 7</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -159,7 +159,7 @@
     <value>1</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 7</value>
+    <value>65, 7</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -177,7 +177,10 @@
     <value>2</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>209, 7</value>
+    <value>237, 7</value>
+  </data>
+  <data name="btnHelp.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
     <value>btnHelp</value>
@@ -382,7 +385,7 @@
     <value>0, 0</value>
   </data>
   <data name="grpPhoneticDataStoreType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 90</value>
+    <value>317, 90</value>
   </data>
   <data name="grpPhoneticDataStoreType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -406,13 +409,13 @@
     <value>Bottom</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 239</value>
+    <value>10, 295</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 90</value>
+    <value>317, 90</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>106</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;panel1.Name" xml:space="preserve">
     <value>panel1</value>
@@ -429,275 +432,32 @@
   <data name="grpWritingSystems.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="cboNatGloss.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="cboNatGloss.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 137</value>
+  <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 22</value>
   </data>
-  <data name="cboNatGloss.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
+  <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
   </data>
-  <data name="cboNatGloss.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+  <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>297, 193</value>
   </data>
-  <data name="&gt;&gt;cboNatGloss.Name" xml:space="preserve">
-    <value>cboNatGloss</value>
-  </data>
-  <data name="&gt;&gt;cboNatGloss.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboNatGloss.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;cboNatGloss.ZOrder" xml:space="preserve">
+  <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="cboEngGloss.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="&gt;&gt;m_grid.Name" xml:space="preserve">
+    <value>m_grid</value>
   </data>
-  <data name="cboEngGloss.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 108</value>
+  <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2691.27156, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="cboEngGloss.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
-  </data>
-  <data name="cboEngGloss.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;cboEngGloss.Name" xml:space="preserve">
-    <value>cboEngGloss</value>
-  </data>
-  <data name="&gt;&gt;cboEngGloss.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboEngGloss.Parent" xml:space="preserve">
+  <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>grpWritingSystems</value>
   </data>
-  <data name="&gt;&gt;cboEngGloss.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="cboOrtho.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="cboOrtho.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 79</value>
-  </data>
-  <data name="cboOrtho.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
-  </data>
-  <data name="cboOrtho.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;cboOrtho.Name" xml:space="preserve">
-    <value>cboOrtho</value>
-  </data>
-  <data name="&gt;&gt;cboOrtho.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboOrtho.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;cboOrtho.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="cboPhonemic.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="cboPhonemic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 50</value>
-  </data>
-  <data name="cboPhonemic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
-  </data>
-  <data name="cboPhonemic.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;cboPhonemic.Name" xml:space="preserve">
-    <value>cboPhonemic</value>
-  </data>
-  <data name="&gt;&gt;cboPhonemic.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboPhonemic.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;cboPhonemic.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="cboPhonetic.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="cboPhonetic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>125, 21</value>
-  </data>
-  <data name="cboPhonetic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 23</value>
-  </data>
-  <data name="cboPhonetic.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;cboPhonetic.Name" xml:space="preserve">
-    <value>cboPhonetic</value>
-  </data>
-  <data name="&gt;&gt;cboPhonetic.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboPhonetic.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;cboPhonetic.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lblPhonemic.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblPhonemic.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblPhonemic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 54</value>
-  </data>
-  <data name="lblPhonemic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 15</value>
-  </data>
-  <data name="lblPhonemic.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="lblPhonemic.Text" xml:space="preserve">
-    <value>Phone&amp;mic:</value>
-  </data>
-  <data name="&gt;&gt;lblPhonemic.Name" xml:space="preserve">
-    <value>lblPhonemic</value>
-  </data>
-  <data name="&gt;&gt;lblPhonemic.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPhonemic.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;lblPhonemic.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="lblOrtho.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblOrtho.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblOrtho.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 83</value>
-  </data>
-  <data name="lblOrtho.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 15</value>
-  </data>
-  <data name="lblOrtho.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="lblOrtho.Text" xml:space="preserve">
-    <value>&amp;Orthographic:</value>
-  </data>
-  <data name="&gt;&gt;lblOrtho.Name" xml:space="preserve">
-    <value>lblOrtho</value>
-  </data>
-  <data name="&gt;&gt;lblOrtho.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblOrtho.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;lblOrtho.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="lblEngGloss.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblEngGloss.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblEngGloss.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 112</value>
-  </data>
-  <data name="lblEngGloss.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 15</value>
-  </data>
-  <data name="lblEngGloss.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblEngGloss.Text" xml:space="preserve">
-    <value>&amp;English glosses:</value>
-  </data>
-  <data name="&gt;&gt;lblEngGloss.Name" xml:space="preserve">
-    <value>lblEngGloss</value>
-  </data>
-  <data name="&gt;&gt;lblEngGloss.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblEngGloss.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;lblEngGloss.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="lblNatGloss.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblNatGloss.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblNatGloss.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 141</value>
-  </data>
-  <data name="lblNatGloss.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 15</value>
-  </data>
-  <data name="lblNatGloss.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lblNatGloss.Text" xml:space="preserve">
-    <value>&amp;National glosses:</value>
-  </data>
-  <data name="&gt;&gt;lblNatGloss.Name" xml:space="preserve">
-    <value>lblNatGloss</value>
-  </data>
-  <data name="&gt;&gt;lblNatGloss.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblNatGloss.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;lblNatGloss.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="lblPhonetic.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblPhonetic.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblPhonetic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 25</value>
-  </data>
-  <data name="lblPhonetic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 15</value>
-  </data>
-  <data name="lblPhonetic.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblPhonetic.Text" xml:space="preserve">
-    <value>Phone&amp;tic:</value>
-  </data>
-  <data name="&gt;&gt;lblPhonetic.Name" xml:space="preserve">
-    <value>lblPhonetic</value>
-  </data>
-  <data name="&gt;&gt;lblPhonetic.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPhonetic.Parent" xml:space="preserve">
-    <value>grpWritingSystems</value>
-  </data>
-  <data name="&gt;&gt;lblPhonetic.ZOrder" xml:space="preserve">
-    <value>9</value>
+  <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="grpWritingSystems.Font" type="System.Drawing.Font, System.Drawing">
     <value>Lucida Sans, 9pt</value>
@@ -705,11 +465,14 @@
   <data name="grpWritingSystems.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 61</value>
   </data>
+  <data name="grpWritingSystems.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 7, 10, 10</value>
+  </data>
   <data name="grpWritingSystems.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 169</value>
+    <value>317, 225</value>
   </data>
   <data name="grpWritingSystems.TabIndex" type="System.Int32, mscorlib">
-    <value>107</value>
+    <value>4</value>
   </data>
   <data name="grpWritingSystems.Text" xml:space="preserve">
     <value>&amp;Writing Systems</value>
@@ -733,7 +496,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>309, 369</value>
+    <value>337, 425</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>FieldWorks Data Source Properties</value>
@@ -742,6 +505,6 @@
     <value>FwDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2510.19471, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2692.17627, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

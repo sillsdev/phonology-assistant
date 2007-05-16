@@ -403,7 +403,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
-			PaApp.Project.Reload();
+			PaApp.Project.ReloadDataSources();
 			return true;
 		}
 

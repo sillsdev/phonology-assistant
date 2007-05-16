@@ -61,47 +61,11 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Audio File.
+        ///   Looks up a localized string similar to The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added..
         /// </summary>
-        internal static string kstidAudioFile {
+        internal static string kstidErrorLoadingQueriesMsg {
             get {
-                return ResourceManager.GetString("kstidAudioFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Comment.
-        /// </summary>
-        internal static string kstidComment {
-            get {
-                return ResourceManager.GetString("kstidComment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Country.
-        /// </summary>
-        internal static string kstidCountry {
-            get {
-                return ResourceManager.GetString("kstidCountry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CV Pattern.
-        /// </summary>
-        internal static string kstidCVPattern {
-            get {
-                return ResourceManager.GetString("kstidCVPattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dialect.
-        /// </summary>
-        internal static string kstidDialect {
-            get {
-                return ResourceManager.GetString("kstidDialect", resourceCulture);
+                return ResourceManager.GetString("kstidErrorLoadingQueriesMsg", resourceCulture);
             }
         }
         
@@ -151,24 +115,6 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ethnologue Id.
-        /// </summary>
-        internal static string kstidEthnologueId {
-            get {
-                return ResourceManager.GetString("kstidEthnologueId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Family.
-        /// </summary>
-        internal static string kstidFamily {
-            get {
-                return ResourceManager.GetString("kstidFamily", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Feature &apos;{0}&apos; is not a custom feature. It cannot be deleted..
         /// </summary>
         internal static string kstidFeatureCantBeDeletedMsg {
@@ -187,15 +133,6 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Free Translation.
-        /// </summary>
-        internal static string kstidFreeform {
-            get {
-                return ResourceManager.GetString("kstidFreeform", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} - ({1}).
         /// </summary>
         internal static string kstidFWDataSourceInfo {
@@ -205,7 +142,7 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to FieldWorks database {0} is missing..
+        ///   Looks up a localized string similar to FieldWorks database &apos;{0}&apos; is missing..
         /// </summary>
         internal static string kstidFwDBMissing {
             get {
@@ -214,137 +151,11 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gender.
+        ///   Looks up a localized string similar to There are no writing system properties specified for the &apos;{0}&apos;\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting &apos;Project Settings&apos;\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources..
         /// </summary>
-        internal static string kstidGender {
+        internal static string kstidMissingWsMsg {
             get {
-                return ResourceManager.GetString("kstidGender", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gloss.
-        /// </summary>
-        internal static string kstidGloss {
-            get {
-                return ResourceManager.GetString("kstidGloss", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Language Name.
-        /// </summary>
-        internal static string kstidLanguageName {
-            get {
-                return ResourceManager.GetString("kstidLanguageName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Notebook Ref..
-        /// </summary>
-        internal static string kstidNotebookRef {
-            get {
-                return ResourceManager.GetString("kstidNotebookRef", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        internal static string kstidOriginalDate {
-            get {
-                return ResourceManager.GetString("kstidOriginalDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Orthographic.
-        /// </summary>
-        internal static string kstidOrtho {
-            get {
-                return ResourceManager.GetString("kstidOrtho", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phonemic.
-        /// </summary>
-        internal static string kstidPhonemic {
-            get {
-                return ResourceManager.GetString("kstidPhonemic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phonetic.
-        /// </summary>
-        internal static string kstidPhonetic {
-            get {
-                return ResourceManager.GetString("kstidPhonetic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Part of Speech.
-        /// </summary>
-        internal static string kstidPOS {
-            get {
-                return ResourceManager.GetString("kstidPOS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record Marker.
-        /// </summary>
-        internal static string kstidRecMrkr {
-            get {
-                return ResourceManager.GetString("kstidRecMrkr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reference.
-        /// </summary>
-        internal static string kstidReference {
-            get {
-                return ResourceManager.GetString("kstidReference", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Region.
-        /// </summary>
-        internal static string kstidRegion {
-            get {
-                return ResourceManager.GetString("kstidRegion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Speaker.
-        /// </summary>
-        internal static string kstidSpeakerName {
-            get {
-                return ResourceManager.GetString("kstidSpeakerName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tone.
-        /// </summary>
-        internal static string kstidTone {
-            get {
-                return ResourceManager.GetString("kstidTone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transcriber.
-        /// </summary>
-        internal static string kstidTranscriber {
-            get {
-                return ResourceManager.GetString("kstidTranscriber", resourceCulture);
+                return ResourceManager.GetString("kstidMissingWsMsg", resourceCulture);
             }
         }
     }
