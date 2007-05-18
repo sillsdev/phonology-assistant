@@ -20,7 +20,6 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class PaProjectDlg : OKCancelDlgBase
 	{
-		private SilGrid m_grid;
 		private PaProject m_project;
 		private bool m_newProject;
 
@@ -113,19 +112,12 @@ namespace SIL.Pa.Dialogs
 			if (m_project.DataSources == null)
 				return;
 
-			bool sqlSrvStarted = false;
-
 			foreach (PaDataSource ds in m_project.DataSources)
 			{
 				if (ds.DataSourceType == DataSourceType.FW)
 				{
-					ds.FwDataSourceInfo.BackupWritingSystemInfo();
-
-					if (!sqlSrvStarted)
-					{
-						FwDBUtils.StartSQLServer(true);
-						sqlSrvStarted = true;
-					}
+					FwDBUtils.StartSQLServer(true);
+					break;
 				}
 			}
 		}
@@ -149,14 +141,10 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
-		    m_grid = new SilGrid();
 		    m_grid.Name = Name + "Grid";
 		    m_grid.AutoGenerateColumns = false;
-		    m_grid.Dock = DockStyle.Fill;
-			m_grid.BorderStyle = BorderStyle.None;
+			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
-		    m_grid.AllowUserToOrderColumns = false;
-			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			m_grid.RowEnter += new DataGridViewCellEventHandler(m_grid_RowEnter);
 
 		    DataGridViewColumn col = SilGrid.CreateSilButtonColumn("sourcefiles");
@@ -263,17 +251,17 @@ namespace SIL.Pa.Dialogs
 				// settings then reload the original field info. for the project.
 				if (!m_newProject)
 				{
-					m_project.LoadFieldInfo();
-
-					// Throw out changes made to FW data source writing
-					// system information since the user has canceled.
-					foreach (PaDataSource ds in m_project.DataSources)
+					PaProject project = m_project.ReLoadProjectFileOnly();
+					if (project != null)
 					{
-						if (ds.DataSourceType == DataSourceType.FW)
-							ds.FwDataSourceInfo.RestoreBackedupWritingSystemInfo();
+						if (PaApp.Project != null)
+							PaApp.Project.Dispose();
+
+						PaApp.Project = project;
 					}
 				}
 
+				m_project.Dispose();
 				m_project = null;
 			}
 		}
@@ -401,12 +389,6 @@ namespace SIL.Pa.Dialogs
 					return false;
 			}
 
-			foreach (PaDataSource ds in m_project.DataSources)
-			{
-				if (ds.DataSourceType == DataSourceType.FW)
-					ds.FwDataSourceInfo.ClearBackedupWritingSystemInfo();
-			}
-
 			m_project.ProjectName = txtProjName.Text.Trim();
 			m_project.Language = txtLanguage.Text.Trim();
 			m_project.Transcriber = txtTranscriber.Text.Trim();
@@ -442,9 +424,10 @@ namespace SIL.Pa.Dialogs
 			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
 				m_project.ProjectName : txtProjName.Text.Trim()) + ".pap";
 
-		    dlg.ShowDialog();
+		    DialogResult result = dlg.ShowDialog();
 
-		    return (string.IsNullOrEmpty(dlg.FileName) ? null : dlg.FileName);
+		    return (string.IsNullOrEmpty(dlg.FileName) || result == DialogResult.Cancel ?
+				null : dlg.FileName);
 		}
 
 		#endregion

@@ -30,6 +30,7 @@ namespace SIL.Pa.Dialogs
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaProjectDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblProjName = new System.Windows.Forms.Label();
 			this.lblTranscriber = new System.Windows.Forms.Label();
 			this.lblSpeaker = new System.Windows.Forms.Label();
@@ -48,9 +49,12 @@ namespace SIL.Pa.Dialogs
 			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlGrid = new SIL.Pa.Controls.PaPanel();
+			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.pnlGridHdg = new SIL.Pa.Controls.PaGradientPanel();
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
+			this.pnlGrid.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -184,10 +188,39 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.pnlGrid, "pnlGrid");
 			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGrid.Controls.Add(this.m_grid);
 			this.pnlGrid.DoubleBuffered = false;
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
 			this.pnlGrid.PaintExplorerBarBackground = false;
+			// 
+			// m_grid
+			// 
+			this.m_grid.AllowUserToAddRows = false;
+			this.m_grid.AllowUserToDeleteRows = false;
+			this.m_grid.AllowUserToOrderColumns = true;
+			this.m_grid.AllowUserToResizeRows = false;
+			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			resources.ApplyResources(this.m_grid, "m_grid");
+			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
+			this.m_grid.IsDirty = false;
+			this.m_grid.Name = "m_grid";
+			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.m_grid.ShowWaterMarkWhenDirty = false;
+			this.m_grid.WaterMark = "!";
 			// 
 			// pnlGridHdg
 			// 
@@ -232,6 +265,8 @@ namespace SIL.Pa.Dialogs
 			this.Controls.SetChildIndex(this.pnlGridHdg, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
+			this.pnlGrid.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -258,5 +293,6 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
 		private SIL.Pa.Controls.PaPanel pnlGrid;
 		private SIL.Pa.Controls.PaGradientPanel pnlGridHdg;
+		private SIL.SpeechTools.Utils.SilGrid m_grid;
 	}
 }

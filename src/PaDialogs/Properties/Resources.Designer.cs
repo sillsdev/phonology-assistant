@@ -243,7 +243,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify mappings for &apos;{0}&apos;..
+        ///   Looks up a localized string similar to You must specify field mappings for\n\n&apos;{0}&apos;..
         /// </summary>
         internal static string kstidDataSourceNoMappings {
             get {
@@ -516,7 +516,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specify marker mappings.
+        ///   Looks up a localized string similar to Specify field mappings.
         /// </summary>
         internal static string kstidMappingsButtonToolTip {
             get {
@@ -732,7 +732,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify at least one mapping other than one for the &apos;Record Marker&apos;..
+        ///   Looks up a localized string similar to You must specify at least one field mapping other than one for the &apos;Record Marker&apos;..
         /// </summary>
         internal static string kstidSFMNoMappingsSpecified {
             get {

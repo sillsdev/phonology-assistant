@@ -478,7 +478,7 @@ namespace SIL.Pa.Data
 				if (m_toneLetters != null && m_toneLetters.TryGetValue(ipaCharStr, out charInfo))
 					return charInfo;
 				
-				return (ipaCharStr == null ? null : this[ipaCharStr[0]]);
+				return (ipaCharStr == null || ipaCharStr.Length < 1 ? null : this[ipaCharStr[0]]);
 			}
 		}
 

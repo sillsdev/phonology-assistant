@@ -582,6 +582,33 @@
   <data name="pnlGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>574, 115</value>
+  </data>
+  <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Name" xml:space="preserve">
+    <value>m_grid</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2693.18701, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
+    <value>pnlGrid</value>
+  </data>
+  <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="pnlGrid.Font" type="System.Drawing.Font, System.Drawing">
     <value>Lucida Sans, 12world</value>
   </data>
@@ -598,7 +625,7 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2614.25192, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2693.18703, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>$this</value>
@@ -628,7 +655,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2614.25192, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2693.18703, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>$this</value>
@@ -676,6 +703,6 @@
     <value>PaProjectDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2614.27702, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2693.23434, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

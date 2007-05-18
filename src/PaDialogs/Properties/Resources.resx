@@ -170,7 +170,7 @@
     <comment>Column heading for fonts grid under Tools/Options</comment>
   </data>
   <data name="kstidSFMNoMappingsSpecified" xml:space="preserve">
-    <value>You must specify at least one mapping other than one for the 'Record Marker'.</value>
+    <value>You must specify at least one field mapping other than one for the 'Record Marker'.</value>
     <comment>Message displayed when the user hasn't specified any SFM mappings</comment>
   </data>
   <data name="kstidSFMNomappingForInterlinearField" xml:space="preserve">
@@ -240,7 +240,7 @@
     <comment>Column heading text for the source file type column on the project setup dialog</comment>
   </data>
   <data name="kstidDataSourceNoMappings" xml:space="preserve">
-    <value>You must specify mappings for '{0}'.</value>
+    <value>You must specify field mappings for\n\n'{0}'.</value>
     <comment>Project properties dialog message.</comment>
   </data>
   <data name="kstidCustomFieldGridHdgName" xml:space="preserve">
@@ -286,7 +286,7 @@
     <comment>Text on the button in the data source column in the project settings dialog</comment>
   </data>
   <data name="kstidMappingsButtonToolTip" xml:space="preserve">
-    <value>Specify marker mappings</value>
+    <value>Specify field mappings</value>
     <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
   </data>
   <data name="kstidXSLTColButtonText" xml:space="preserve">

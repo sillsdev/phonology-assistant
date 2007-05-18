@@ -193,6 +193,7 @@ namespace SIL.SpeechTools.AudioUtils
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + saLoc + "\"";
 			prs.StartInfo.Arguments = "-l " + lstFile;
+			prs.StartInfo.CreateNoWindow = true;
 			prs.Start();
 			prs.WaitForExit();
 
@@ -207,8 +208,8 @@ namespace SIL.SpeechTools.AudioUtils
 		/// ------------------------------------------------------------------------------------
 		public static string GetSaPath()
 		{
-			string keyName = @"HKEY_CURRENT_USER\Software\SIL\Speech Analyzer";
-			string saLoc = (string)Registry.GetValue(keyName, "Location", string.Empty);
+			RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\SIL\Speech Analyzer");
+			string saLoc = regKey.GetValue("Location", null) as string;
 			return (string.IsNullOrEmpty(saLoc) || !File.Exists(saLoc) ? null : saLoc);
 		}
 

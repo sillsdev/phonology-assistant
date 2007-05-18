@@ -147,30 +147,7 @@ namespace SIL.Pa
 				errorMsg = LoadCacheFiles(tmpProjPathFilePrefix);
 
 			if (errorMsg == null)
-			{
-				try
-				{
-					// Suck in the data from the specified project file.
-					project = STUtils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
-					PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
-					project.m_fileName = projFileName;
-					project.LoadFieldInfo();
-					RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
-				}
-				catch (Exception e)
-				{
-					if (project == null)
-					{
-						errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-							projFileName);
-					}
-					else
-					{
-						errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-							projFileName, e.Message);
-					}
-				}
-			}
+				project = LoadProjectFileOnly(projFileName, false, ref errorMsg);
 
 			if (errorMsg == null)
 			{
@@ -190,6 +167,67 @@ namespace SIL.Pa
 			return project;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads only the project file for the specified file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
+			ref string errorMsg)
+		{
+			PaProject project = null;
+
+			try
+			{
+				project = STUtils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
+				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
+				project.m_fileName = projFileName;
+				project.LoadFieldInfo();
+				RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
+			}
+			catch (Exception e)
+			{
+				if (project == null)
+				{
+					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
+						projFileName);
+				}
+				else
+				{
+					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
+						projFileName, e.Message);
+				}
+
+				if (showErrors)
+					STUtils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+				project = null;
+			}
+
+			return project;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reloads the project without reloading the data sources and returns a
+		/// project object that represents the reloaded project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaProject ReLoadProjectFileOnly()
+		{
+			string errorMsg = null;
+			PaProject project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
+			
+			if (project != null && m_appWindow != null)
+			{
+				m_appWindow.Activated -= appWindow_Activated;
+				m_appWindow.Activated += new EventHandler(project.appWindow_Activated);
+				project.m_appWindow = m_appWindow;
+			}
+
+			return project;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the projects field information from its XML file.

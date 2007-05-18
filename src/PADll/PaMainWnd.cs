@@ -144,9 +144,11 @@ namespace SIL.Pa
 				PaApp.Project.EnsureSortOptionsSaved();
 
 			PaApp.ProjectLoadInProcess = true;
-			Cursor = Cursors.WaitCursor;
+			Application.UseWaitCursor = true;
+			Application.DoEvents();
 			PaProject project = PaProject.Load(projectFileName, this);
-			Cursor = Cursors.Default;
+			Application.UseWaitCursor = false;
+			Application.DoEvents();
 
 			if (project != null)
 			{

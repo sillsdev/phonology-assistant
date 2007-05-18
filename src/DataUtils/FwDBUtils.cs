@@ -226,10 +226,9 @@ namespace SIL.Pa.Data
 
 		private string m_langProjName;
 		public bool IsMissing = false;
-		private byte[] m_lastModifiedStamp;
+		private byte[] m_dateLastModified;
 
 		public List<FwDataSourceWsInfo> WritingSystemInfo;
-		private List<FwDataSourceWsInfo> m_backupWritingSystemInfo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -277,7 +276,7 @@ namespace SIL.Pa.Data
 				{
 					m_dbName = value;
 					if (m_dbName != null)
-						m_lastModifiedStamp = LastModifiedStamp;
+						m_dateLastModified = DateLastModified;
 				}
 			}
 		}
@@ -327,7 +326,7 @@ namespace SIL.Pa.Data
 		/// Looks into the database to determine when the last lexical entry was modified.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private byte[] LastModifiedStamp
+		private byte[] DateLastModified
 		{
 			get
 			{
@@ -366,17 +365,17 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public bool UpdateLastModifiedStamp()
 		{
-			byte[] newModifiedStamp = LastModifiedStamp;
+			byte[] newDateLastModified = DateLastModified;
 			bool changed = false;
 
-			if (m_lastModifiedStamp == null && newModifiedStamp != null)
+			if (m_dateLastModified == null || newDateLastModified == null)
 				changed = true;
 			else
 			{
 				// Loop throught the two byte arrays, comparing each byte.
-				for (int i = 0; i < newModifiedStamp.Length && m_lastModifiedStamp != null; i++)
+				for (int i = 0; i < newDateLastModified.Length; i++)
 				{
-					if (newModifiedStamp[i] != m_lastModifiedStamp[i])
+					if (newDateLastModified[i] != m_dateLastModified[i])
 					{
 						changed = true;
 						break;
@@ -384,7 +383,7 @@ namespace SIL.Pa.Data
 				}
 			}
 
-			m_lastModifiedStamp = newModifiedStamp;
+			m_dateLastModified = newDateLastModified;
 			return changed;
 		}
 
@@ -417,50 +416,6 @@ namespace SIL.Pa.Data
 				string msg = string.Format(Properties.Resources.kstidFwDBMissing, DBName);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Copies the data sources writing system into a temporary list. This is used for
-		/// things like saving the original values before going to the FW data source
-		/// properties dialog to make changes to the field/writing system assignments.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void BackupWritingSystemInfo()
-		{
-			m_backupWritingSystemInfo = null;
-
-			if (WritingSystemInfo == null)
-				return;
-
-			m_backupWritingSystemInfo = new List<FwDataSourceWsInfo>();
-			foreach (FwDataSourceWsInfo ws in WritingSystemInfo)
-				m_backupWritingSystemInfo.Add(ws.Clone());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Moves the backed-up writing system information to the working collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void RestoreBackedupWritingSystemInfo()
-		{
-			if (m_backupWritingSystemInfo == null || m_backupWritingSystemInfo.Count == 0)
-				return;
-
-			WritingSystemInfo = new List<FwDataSourceWsInfo>();
-			WritingSystemInfo.AddRange(m_backupWritingSystemInfo);
-			m_backupWritingSystemInfo = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clear's the backed-up writing system information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ClearBackedupWritingSystemInfo()
-		{
-			m_backupWritingSystemInfo = null;
 		}
 	}
 

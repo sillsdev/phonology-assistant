@@ -1098,8 +1098,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UninitializeProgressBar()
 		{
-			Application.UseWaitCursor = false;
-
 			if (s_progressBar != null)
 				s_progressBar.Visible = false;
 
@@ -1118,6 +1116,9 @@ namespace SIL.Pa
 				s_savProgressBarLabel = null;
 				s_statusBarHasBeenInitialized = false;
 			}
+
+			Application.UseWaitCursor = false;
+			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------
