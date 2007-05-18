@@ -251,7 +251,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				!CurrentViewsGrid.Cache.IsCIEList);
+				CurrentViewsGrid.RowCount > 0 && !CurrentViewsGrid.Cache.IsCIEList);
 			
 			bool check = (enable && CurrentViewsGrid.GroupOnSortedField);
 

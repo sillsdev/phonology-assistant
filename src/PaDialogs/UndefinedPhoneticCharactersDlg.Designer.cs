@@ -126,7 +126,7 @@ namespace SIL.Pa.Dialogs
 			this.Controls.Add(this.m_grid);
 			this.Controls.Add(this.pnlButtons);
 			this.Controls.Add(this.lblInfo);
-			this.Name = "UndefinedCodepointsDlg";
+			this.Name = "UndefinedPhoneticCharactersDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;

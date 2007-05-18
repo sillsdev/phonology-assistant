@@ -488,7 +488,17 @@ namespace SIL.Pa
 			if (!PaApp.IsFormActive(this) || itemProps == null)
 				return false;
 
-			if (itemProps.Checked != m_grid.GroupOnSortedField)
+			if (m_grid.RowCount == 0)
+			{
+				if (itemProps.Enabled)
+				{
+					itemProps.Visible = true;
+					itemProps.Checked = false;
+					itemProps.Enabled = false;
+					itemProps.Update = true;
+				}
+			}
+			else if (itemProps.Checked != m_grid.GroupOnSortedField)
 			{
 				itemProps.Visible = true;
 				itemProps.Checked = m_grid.GroupOnSortedField;
