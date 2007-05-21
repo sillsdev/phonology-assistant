@@ -1176,7 +1176,7 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
-			// Can't drop on a cell that already has query in it.
+			// Can't drop on a cell that already has data in it.
 			DataGridViewTextBoxCell cellOver = m_grid[hinfo.ColumnIndex, hinfo.RowIndex] as
 				DataGridViewTextBoxCell;
 

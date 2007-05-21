@@ -223,7 +223,7 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets all the phones of the specified type that are found in the query source(s)
+		/// Gets all the phones of the specified type that are found in the data source(s)
 		/// (i.e. phone cache) and figures out where their default locations are in the chart.
 		/// The return value is the list of phones.
 		/// </summary>
@@ -367,21 +367,30 @@ namespace SIL.Pa.Controls
 			int row = -1;
 			int col = -1;
 
-			// Find a row owned by the header that has an
-			// empty cell in the Phone's desired column.
-			foreach (DataGridViewRow ownedRow in hdr.OwnedRows)
+			// First, try the row and column contained in the cell object.
+			if (IsCellEmtpy(cgc.Row, cgc.Column))
 			{
-				if (IsCellEmtpy(ownedRow.Index, cgc.Column))
+				row = cgc.Row;
+				col = cgc.Column;
+			}
+			else
+			{
+				// Find a row owned by the header that has an
+				// empty cell in the Phone's desired column.
+				foreach (DataGridViewRow ownedRow in hdr.OwnedRows)
 				{
-					row = ownedRow.Index;
-					col = cgc.Column;
-					break;
-				}
-				else if (IsCellEmtpy(ownedRow.Index, cgc.DefaultColumn))
-				{
-					row = ownedRow.Index;
-					col = cgc.DefaultColumn;
-					break;
+					if (IsCellEmtpy(ownedRow.Index, cgc.Column))
+					{
+						row = ownedRow.Index;
+						col = cgc.Column;
+						break;
+					}
+					else if (IsCellEmtpy(ownedRow.Index, cgc.DefaultColumn))
+					{
+						row = ownedRow.Index;
+						col = cgc.DefaultColumn;
+						break;
+					}
 				}
 			}
 

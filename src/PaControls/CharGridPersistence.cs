@@ -273,7 +273,7 @@ namespace SIL.Pa.Controls
 		#region Methods for loading a CharGrid from persisted source
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Deserializes query for a character grid and initializes the grid based on that
+		/// Deserializes data for a character grid and initializes the grid based on that
 		/// information. Returns false if the file doesn't exist or deserialization fails.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -358,7 +358,7 @@ namespace SIL.Pa.Controls
 				}
 
 				// If the phone in the persisted object cannot be found in the list passed
-				// to us, it's likely the phone no longer exists in the query source. In that
+				// to us, it's likely the phone no longer exists in the data source. In that
 				// case, we'll still add the persisted phone to the list passed to us, but
 				// it won't be visible.
 				if (!found)
