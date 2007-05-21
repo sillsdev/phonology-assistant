@@ -67,9 +67,7 @@ namespace SIL.Pa.Dialogs
 			rbNoParse.Font = FontHelper.UIFont;
 
 			lblFilename.Font = FontHelper.UIFont;
-			//lblFilename.Width = lblFilename.Right - lblFile.Width - 14;
 			lblFilename.Text = string.Empty;
-			//lblFile.Top = lblFilename.Top + (lblFilename.Height - lblFile.Height) / 2;
 
 			m_datasource = datasource;
 			m_filename = m_datasource.DataSourceFile;
@@ -317,11 +315,13 @@ namespace SIL.Pa.Dialogs
 		private void BuildMappingGrid()
 		{
 			m_grid = new SilGrid();
-			m_grid.Name = "SFMarkerMappingsGrid";
+			m_grid.Name = Name + "Grid";
 			m_grid.Dock = DockStyle.Fill;
 			m_grid.AutoGenerateColumns = false;
-			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			m_grid.AllowUserToOrderColumns = false;
+			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+			m_grid.CellPainting += new DataGridViewCellPaintingEventHandler(m_grid_CellPainting);
+			m_grid.CellClick += new DataGridViewCellEventHandler(m_grid_CellClick);
 			m_grid.DataSource = m_mappings;
 
 			// Create the marker column and pass it the list of markers found in the files to
@@ -380,9 +380,6 @@ namespace SIL.Pa.Dialogs
 				m_grid.Columns["interlinear"].Width = 75;
 				m_grid.AutoResizeColumnHeadersHeight();
 			}
-
-			m_grid.CellPainting += new DataGridViewCellPaintingEventHandler(m_grid_CellPainting);
-			m_grid.CellClick += new DataGridViewCellEventHandler(m_grid_CellClick);
 		}
 
 		#endregion
