@@ -47,6 +47,7 @@ namespace SIL.Pa.Controls
 			// 
 			this.pnlWrapper.AutoScroll = true;
 			this.pnlWrapper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlWrapper.ControlReceivingFocusOnMnemonic = null;
 			this.pnlWrapper.Controls.Add(this.pnlGrid);
 			this.pnlWrapper.Controls.Add(this.m_vsplitter);
 			this.pnlWrapper.Controls.Add(this.pnlRowHeaderOuter);
@@ -54,7 +55,9 @@ namespace SIL.Pa.Controls
 			this.pnlWrapper.Controls.Add(this.pnlColHeaderOuter);
 			this.pnlWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlWrapper.DoubleBuffered = false;
+			this.pnlWrapper.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlWrapper.Location = new System.Drawing.Point(0, 0);
+			this.pnlWrapper.MnemonicGeneratesClick = false;
 			this.pnlWrapper.Name = "pnlWrapper";
 			this.pnlWrapper.PaintExplorerBarBackground = false;
 			this.pnlWrapper.Size = new System.Drawing.Size(456, 380);
@@ -85,7 +88,7 @@ namespace SIL.Pa.Controls
 			this.m_grid.ColumnHeadersVisible = false;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -106,6 +109,7 @@ namespace SIL.Pa.Controls
 			this.m_grid.Size = new System.Drawing.Size(135, 137);
 			this.m_grid.TabIndex = 0;
 			this.m_grid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDown);
+			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
 			this.m_grid.DragOver += new System.Windows.Forms.DragEventHandler(this.m_grid_DragOver);
 			this.m_grid.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseMove);
 			this.m_grid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.m_grid_CellPainting);

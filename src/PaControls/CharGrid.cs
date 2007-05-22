@@ -24,7 +24,7 @@ namespace SIL.Pa.Controls
 	{
 		private const string kDropTargetCell = "dtc";
 
-		internal static Color kGridColor = 
+		internal static Color kGridColor =
 				ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 70);
 
 		public event ItemDragEventHandler ItemDrag;
@@ -50,6 +50,7 @@ namespace SIL.Pa.Controls
 		private CharGridHeader m_currentColHeader = null;
 		private Type m_owningViewType = null;
 		private PhoneInfoPopup m_phoneInfoPopup;
+		private CellKBMovingCellHelper m_phoneMovingHelper;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -170,7 +171,7 @@ namespace SIL.Pa.Controls
 		public ITMAdapter TMAdapter
 		{
 			get { return m_tmAdapter; }
-			set {m_tmAdapter = value;}
+			set { m_tmAdapter = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -207,7 +208,7 @@ namespace SIL.Pa.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public string CurrentPhone
 		{
-			get 
+			get
 			{
 				CharGridCell cell = (m_grid.CurrentCell == null ?
 					null : m_grid.CurrentCell.Value as CharGridCell);
@@ -727,7 +728,7 @@ namespace SIL.Pa.Controls
 
 			int insertColIndex = (hdr.LastColumn == null ?
 				m_grid.Columns.Count : hdr.LastColumn.Index + 1);
-			
+
 			DataGridViewColumn newCol = CreateColumn();
 			hdr.AddColumn(newCol, subheadtext);
 			CalcWidths();
@@ -818,7 +819,7 @@ namespace SIL.Pa.Controls
 
 			m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
 			m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
-			
+
 			Point ptv = pnlWrapper.PointToScreen(new Point(m_vsplitter.SplitPosition, 0));
 			ptv = pnlGrid.PointToClient(ptv);
 
@@ -1001,7 +1002,7 @@ namespace SIL.Pa.Controls
 
 			// Draw a double vertical line to the left of the first column heading
 			// (which is the right edge of the top, left corner panel).
-			using (LinearGradientBrush br =	new LinearGradientBrush(pt1, pt2,
+			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
 				CharGrid.kGridColor, SystemColors.GrayText))
 			{
 				using (Pen pen = new Pen(br))
@@ -1041,7 +1042,7 @@ namespace SIL.Pa.Controls
 			e.Graphics.DrawLine(SystemPens.GrayText,
 				new Point(left + 3, rc.Bottom - 1), new Point(rc.Right - 1, rc.Bottom - 1));
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -1071,7 +1072,7 @@ namespace SIL.Pa.Controls
 		private void m_grid_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			// This will not be empty when the mouse button is down.
-			if (!m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 || 
+			if (!m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 ||
 				(m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null ||
 				!PaApp.IsFormActive(FindForm()))
 			{
@@ -1111,7 +1112,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			m_mouseDownGridLocation = Point.Empty; 
+			m_mouseDownGridLocation = Point.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1122,7 +1123,7 @@ namespace SIL.Pa.Controls
 		private void m_grid_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			// This will be empty when the mouse button is not down.
-			if (m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 || 
+			if (m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 ||
 				(m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null)
 			{
 				return;
@@ -1136,7 +1137,7 @@ namespace SIL.Pa.Controls
 			{
 				m_mouseDownGridLocation = Point.Empty;
 				DataGridViewCell cell = m_grid[e.ColumnIndex, e.RowIndex];
-			
+
 				// When someone has subscribed to the drag event (which is really more like
 				// a begin drag event) then call that. Otherwise, start a drag, drop event
 				// within the grid.
@@ -1248,6 +1249,57 @@ namespace SIL.Pa.Controls
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Check if the user wants to begin moving a phone using the keyboard. Check for an
+		/// Alt, plus up, down, left or right arrow on a cell that contains a phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (!e.Alt || m_grid.CurrentCell == null || (m_phoneMovingHelper != null &&
+				m_phoneMovingHelper.MovingInProgress))
+			{
+				return;
+			}
+
+			CharGridCell cgc = m_grid.CurrentCell.Value as CharGridCell;
+			if (cgc == null)
+				return;
+
+			bool beginMove = false;
+
+			switch (e.KeyCode)
+			{
+				case Keys.Up:
+					beginMove = (m_grid.CurrentCellAddress.Y > 0);
+					break;
+
+				case Keys.Down:
+					beginMove = (m_grid.CurrentCellAddress.Y < m_grid.RowCount - 1);
+					break;
+
+				case Keys.Left:
+					beginMove = (m_grid.CurrentCellAddress.X > 0);
+					break;
+
+				case Keys.Right:
+					beginMove = (m_grid.CurrentCellAddress.X < m_grid.ColumnCount - 1);
+					break;
+
+				default:
+					return;
+			}
+
+			if (beginMove)
+			{
+				if (m_phoneMovingHelper == null)
+					m_phoneMovingHelper = new CellKBMovingCellHelper(m_grid);
+
+				m_phoneMovingHelper.Reset(cgc, m_grid.CurrentCell as DataGridViewTextBoxCell);
+			}
+		}
+
 		#region Methods for grid panel's scrolling and resizing
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1273,6 +1325,257 @@ namespace SIL.Pa.Controls
 
 		#endregion
 	}
+	
+	#region CellKBMovingCellHelper class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	internal class CellKBMovingCellHelper
+	{
+		private bool m_movingInProgress = false;
+		private DataGridViewTextBoxCell m_originalCell;
+		private DataGridViewTextBoxCell m_previousCell;
+		private CharGridCell m_cgc;
+		private bool m_drawNoDropIcon = false;
+		private Rectangle m_rcNoDropIcon;
+		private DataGridView m_grid;
+		private Color m_defaultCellSelectedBackColor;
+		private Color m_defaultCellSelectedForeColor;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal CellKBMovingCellHelper(DataGridView grid)
+		{
+			m_grid = grid;
+
+			if (m_grid != null)
+			{
+				m_grid.Paint += new PaintEventHandler(m_grid_Paint);
+				m_grid.CellEnter += new DataGridViewCellEventHandler(m_grid_CellEnter);
+				m_grid.CellLeave += new DataGridViewCellEventHandler(m_grid_CellLeave);
+				m_grid.KeyUp += new KeyEventHandler(m_grid_KeyUp);
+				m_defaultCellSelectedBackColor = m_grid.DefaultCellStyle.SelectionBackColor;
+				m_defaultCellSelectedForeColor = m_grid.DefaultCellStyle.SelectionForeColor;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void Reset(CharGridCell cgc, DataGridViewTextBoxCell origCell)
+		{
+			m_cgc = cgc;
+			m_originalCell = origCell;
+			m_previousCell = origCell;
+			m_movingInProgress = true;
+		}
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool MovingInProgress
+		{
+			get { return m_movingInProgress; }
+			set { m_movingInProgress = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal DataGridViewTextBoxCell OriginalCell
+		{
+			get { return m_originalCell; }
+			set { m_originalCell = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal DataGridViewTextBoxCell PreviousCell
+		{
+			get { return m_previousCell; }
+			set { m_previousCell = value; }
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_KeyUp(object sender, KeyEventArgs e)
+		{
+			// When the Alt key goes up, the key data is (Keys.RButton | Keys.ShiftKey).
+			// I'm sure that should be obvious to me, but I'm dense enough to wonder why.
+			if (!m_movingInProgress || e.KeyData != (Keys.RButton | Keys.ShiftKey))
+				return;
+
+			m_movingInProgress = false;
+			HideNoDropIndicator(m_rcNoDropIcon);
+			DataGridViewTextBoxCell targetCell = m_grid.CurrentCell as DataGridViewTextBoxCell;
+
+			// If the target cell to which the user is moving a phone is not the same
+			// as the last one 
+			if (targetCell != null)
+			{
+				CharGridCell currentCellsCgc = targetCell.Value as CharGridCell;
+
+				// Can't leave moved phone on a cell that already contains
+				// a phone so put the phone back from whence it came.
+				if (currentCellsCgc != null && currentCellsCgc != m_cgc)
+				{
+					System.Media.SystemSounds.Beep.Play();
+					m_originalCell.Value = m_cgc;
+					m_grid.CurrentCell = m_originalCell;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_CellLeave(object sender, DataGridViewCellEventArgs e)
+		{
+			if (m_movingInProgress)
+			{
+				DataGridViewTextBoxCell cell = m_grid[e.ColumnIndex, e.RowIndex] as DataGridViewTextBoxCell;
+				HideNoDropIndicator(cell);
+
+				// We're leaving a cell so when that cell contains the phone we're moving
+				// clear it because the phone will be placed in the cell we're moving to.
+				if (m_previousCell != null && (cell != null && cell.Value == m_cgc))
+					m_previousCell.Value = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_CellEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			DataGridViewTextBoxCell cell = m_grid[e.ColumnIndex, e.RowIndex] as DataGridViewTextBoxCell;
+
+			// Do nothing if we're not in the progress of moving or if, for some odd reason,
+			// we cell we just entered is not a text box cell. The latter should never happen.
+			if (!m_movingInProgress || cell == null)
+				return;
+
+			CharGridCell currentCellsCgc = cell.Value as CharGridCell;
+
+			// If the cell just entered is already occupied by another phone then show
+			// an indicator in it, telling the user it's off limits. Otherwise, set the
+			// cell's value to the moving phone.
+			if (currentCellsCgc != null)
+				ShowNoDropIndicator(cell);
+			else
+				cell.Value = m_cgc;
+
+			// Keep track of the cell the phone current cell.
+			m_previousCell = cell;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ShowNoDropIndicator(DataGridViewCell cell)
+		{
+			if (m_grid == null || cell == null)
+				return;
+
+			m_drawNoDropIcon = true;
+			m_rcNoDropIcon = m_grid.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+			Image img = Properties.Resources.kimidPhoneDropNotAllowed;
+
+			// Force the rectangle to the degree that we know it's size is
+			// sufficient to hold the image without clipping. Inflating will
+			// maintain the original rectangle's center point.
+			m_rcNoDropIcon.Inflate(img.Width, img.Height);
+
+			// Now calculate the coordinate where the image would
+			// be if it is to be drawn in the center of the rectangle.
+			int x = m_rcNoDropIcon.X + (m_rcNoDropIcon.Width - img.Width) / 2;
+			int y = m_rcNoDropIcon.Y + (m_rcNoDropIcon.Height - img.Height) / 2;
+
+			// Now shrink the rectangle to the size of the image, while
+			// maintaining the drawing coordinate just calculated.
+			m_rcNoDropIcon = new Rectangle(x, y, img.Width, img.Height);
+
+			m_grid.DefaultCellStyle.SelectionBackColor = m_grid.BackgroundColor;
+			m_grid.DefaultCellStyle.SelectionForeColor = m_grid.ForeColor;
+			m_grid.Invalidate(m_rcNoDropIcon);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void HideNoDropIndicator(DataGridViewCell cell)
+		{
+			if (cell != null && m_grid != null)
+			{
+				Rectangle rc = m_grid.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+
+				// Inflate the rectangle just to make sure we get rid of all residue.
+				rc.Inflate(10, 10);
+				HideNoDropIndicator(rc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void HideNoDropIndicator(Rectangle rc)
+		{
+			m_drawNoDropIcon = false;
+
+			if (m_grid != null)
+			{
+				m_grid.DefaultCellStyle.SelectionBackColor = m_defaultCellSelectedBackColor;
+				m_grid.DefaultCellStyle.SelectionForeColor = m_defaultCellSelectedForeColor;
+				m_grid.Invalidate(rc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_Paint(object sender, PaintEventArgs e)
+		{
+			if (m_drawNoDropIcon && m_movingInProgress)
+			{
+				e.Graphics.DrawImageUnscaledAndClipped(Properties.Resources.kimidPhoneDropNotAllowed,
+					m_rcNoDropIcon);
+			}
+		}
+	}
+
+	#endregion
 
 	#region CharGridCell Class
 	/// ----------------------------------------------------------------------------------------

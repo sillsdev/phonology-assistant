@@ -473,6 +473,9 @@
   <ItemGroup>
     <None Include="Resources\ExplorerBar_Epand_Glyph.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PhoneDropNotAllowed.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

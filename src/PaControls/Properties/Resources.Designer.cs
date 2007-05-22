@@ -123,6 +123,13 @@ namespace SIL.Pa.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidPhoneDropNotAllowed {
+            get {
+                object obj = ResourceManager.GetObject("kimidPhoneDropNotAllowed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidPlaybackSpkr {
             get {
                 object obj = ResourceManager.GetObject("kimidPlaybackSpkr", resourceCulture);

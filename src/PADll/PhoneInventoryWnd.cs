@@ -104,7 +104,7 @@ namespace SIL.Pa
 
 			//    string[] defs = new string[1];
 			//    defs[0] = Path.Combine(Application.StartupPath, "DataCorpusTMDefinition.xml");
-			//    m_tmAdapter.Initialize(pnlMasterOuter,
+			//    m_tmAdapter.Reset(pnlMasterOuter,
 			//        PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 
 			//    m_tmAdapter.AllowUpdates = true;

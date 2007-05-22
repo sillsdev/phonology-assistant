@@ -182,7 +182,7 @@ namespace SIL.Pa.Controls
 			else
 				m_chrGrid.Reset();
 
-			// Clear the persisted file name so Initialize() will not succeed in deserializing
+			// Clear the persisted file name so Reset() will not succeed in deserializing
 			// the grid info. That will force an attempt to build a default grid.
 			m_persistedInfoFilename = null;
 

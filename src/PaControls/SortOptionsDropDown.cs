@@ -96,7 +96,7 @@ namespace SIL.Pa.Controls
 
 			m_tmAdapter = (tmAdapter == null ? PaApp.TMAdapter : tmAdapter);
 
-			// Initialize the SortOptions object
+			// Reset the SortOptions object
 			SortOptions = sortOptions;
 			ShowAdvancedOptions = showAdvancedOptions;
 		}

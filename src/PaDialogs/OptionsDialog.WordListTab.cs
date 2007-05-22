@@ -53,7 +53,7 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initialize the tab page's controls from the project settings.
+		/// Reset the tab page's controls from the project settings.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListValues()
