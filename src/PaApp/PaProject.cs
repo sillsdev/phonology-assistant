@@ -213,21 +213,60 @@ namespace SIL.Pa
 		/// project object that represents the reloaded project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaProject ReLoadProjectFileOnly()
+		public PaProject ReLoadProjectFileOnly(bool updateModfiedTimesInReloadedProject)
 		{
 			string errorMsg = null;
 			PaProject project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
-			
-			if (project != null && m_appWindow != null)
+
+			if (project != null)
 			{
-				m_appWindow.Activated -= appWindow_Activated;
-				m_appWindow.Activated += new EventHandler(project.appWindow_Activated);
-				project.m_appWindow = m_appWindow;
+				if (m_appWindow != null)
+				{
+					m_appWindow.Activated -= appWindow_Activated;
+					m_appWindow.Activated += new EventHandler(project.appWindow_Activated);
+					project.m_appWindow = m_appWindow;
+				}
+
+				if (updateModfiedTimesInReloadedProject)
+				{
+					// Reloading a project resets all the data source's last modified
+					// times to a default date a long, long time ago. Therefore, copy
+					// the last modified times from this project's data sources.
+					CopyLastModifiedTimes(project);
+				}
 			}
 
 			return project;
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Copies the last modified times of the data sources in the project to the data
+		/// sources in the specified target project. The data source names must match.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CopyLastModifiedTimes(PaProject targetProj)
+		{
+			// Go through each data source in this project.
+			foreach (PaDataSource ds in DataSources)
+			{
+				// Then to through the data sources in the target project. When a data
+				// source in the target project matches one in this project, then update
+				// its last modified time with the one found in this project's data source.
+				foreach (PaDataSource tgtDs in targetProj.DataSources)
+				{
+					if (tgtDs.DataSourceType != DataSourceType.FW ||
+						!tgtDs.FwSourceDirectFromDB)
+					{
+						if (tgtDs.DataSourceFile == ds.DataSourceFile)
+							tgtDs.LastModification = ds.LastModification;
+					}
+					else if (tgtDs.FwDataSourceInfo.LangProjName == ds.FwDataSourceInfo.LangProjName)
+						tgtDs.LastModification = ds.LastModification;
+				}
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the projects field information from its XML file.

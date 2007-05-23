@@ -66,6 +66,7 @@ namespace SIL.Pa.Dialogs
 			txtComments.Top = txtTranscriber.Bottom - txtComments.Height;
 
 			BuildGrid();
+			pnlGridHdg.BorderStyle = BorderStyle.None;
 			pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
@@ -129,9 +130,28 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void Application_Idle(object sender, EventArgs e)
 		{
-			bool enableDelButton = (m_grid.SelectedRows != null && m_grid.SelectedRows.Count > 0);
-			if (enableDelButton != btnRemove.Enabled)
-				btnRemove.Enabled = enableDelButton;
+			bool enableRemoveButton = (m_grid.SelectedRows != null && m_grid.SelectedRows.Count > 0);
+			if (enableRemoveButton != btnRemove.Enabled)
+				btnRemove.Enabled = enableRemoveButton;
+
+			bool enablePropertiesButton = false;
+
+			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < m_project.DataSources.Count)
+			{
+				if (m_grid.SelectedRows == null || m_grid.SelectedRows.Count == 1)
+				{
+					PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
+
+					enablePropertiesButton = 
+						(dataSource.DataSourceType == DataSourceType.SFM ||
+						dataSource.DataSourceType == DataSourceType.Toolbox ||
+						(dataSource.DataSourceType == DataSourceType.FW &&
+						dataSource.FwSourceDirectFromDB));
+				}
+			}
+
+			if (btnProperties.Enabled != enablePropertiesButton)
+				btnProperties.Enabled = enablePropertiesButton;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,15 +167,10 @@ namespace SIL.Pa.Dialogs
 		    m_grid.Font = FontHelper.UIFont;
 			m_grid.RowEnter += new DataGridViewCellEventHandler(m_grid_RowEnter);
 
-		    DataGridViewColumn col = SilGrid.CreateSilButtonColumn("sourcefiles");
+		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
 		    col.Width = 250;
 		    col.HeaderText = Properties.Resources.kstidDataSourceGridSourcFile;
-			((SilButtonColumn)col).ButtonWidth = 20;
-			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
-			((SilButtonColumn)col).ButtonText = Properties.Resources.kstidDataSourcePropertiesButtonText;
-			((SilButtonColumn)col).ButtonClicked +=
-				new DataGridViewCellMouseEventHandler(HandleDataSourceFilePropertiesClick);
 			m_grid.Columns.Add(col);
 
 		    col = SilGrid.CreateTextBoxColumn("type");
@@ -181,8 +196,6 @@ namespace SIL.Pa.Dialogs
 
 			// When xslt transforms are supported when reading data, then this should become visible.
 			m_grid.Columns["xslt"].Visible = false;
-
-			pnlGrid.Controls.Add(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -251,7 +264,7 @@ namespace SIL.Pa.Dialogs
 				// settings then reload the original field info. for the project.
 				if (!m_newProject)
 				{
-					PaProject project = m_project.ReLoadProjectFileOnly();
+					PaProject project = m_project.ReLoadProjectFileOnly(true);
 					if (project != null)
 					{
 						if (PaApp.Project != null)
@@ -454,18 +467,7 @@ namespace SIL.Pa.Dialogs
 			if (e.RowIndex >= 0 && row < m_project.DataSources.Count)
 			{
 				DataSourceType type = m_project.DataSources[row].DataSourceType;
-				SilButtonColumn col = m_grid.Columns["sourcefiles"] as SilButtonColumn;
-
 				((SilButtonColumn)m_grid.Columns["xslt"]).ShowButton = (type == DataSourceType.XML);
-				col.ShowButton = (type == DataSourceType.SFM || type == DataSourceType.Toolbox) ||
-					(type == DataSourceType.FW && m_project.DataSources[row].FwSourceDirectFromDB);
-
-				if (col.ShowButton)
-				{
-					col.ButtonToolTip = (type == DataSourceType.FW ?
-						Properties.Resources.kstidFwPropsButtonToolTip :
-						Properties.Resources.kstidMappingsButtonToolTip);
-				}
 			}
 		}
 
@@ -588,14 +590,38 @@ namespace SIL.Pa.Dialogs
 			}
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandleDataSourceFilePropertiesClick(object sender, DataGridViewCellMouseEventArgs e)
+		//{
+		//    PaDataSource dataSource = m_project.DataSources[e.RowIndex];
+
+		//    if (dataSource.DataSourceType == DataSourceType.SFM ||
+		//        dataSource.DataSourceType == DataSourceType.Toolbox)
+		//    {
+		//        ShowMappingsDialog(dataSource);
+		//    }
+		//    else if (dataSource.DataSourceType == DataSourceType.FW &&
+		//        dataSource.FwSourceDirectFromDB)
+		//    {
+		//        ShowFwDataSourcePropertiesDialog(dataSource);
+		//    }
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleDataSourceFilePropertiesClick(object sender, DataGridViewCellMouseEventArgs e)
+		private void btnProperties_Click(object sender, EventArgs e)
 		{
-			PaDataSource dataSource = m_project.DataSources[e.RowIndex];
+			if (m_grid.CurrentRow == null || m_grid.CurrentRow.Index >= m_project.DataSources.Count)
+				return;
+
+			PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
 
 			if (dataSource.DataSourceType == DataSourceType.SFM ||
 				dataSource.DataSourceType == DataSourceType.Toolbox)
@@ -778,5 +804,70 @@ namespace SIL.Pa.Dialogs
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		{
+			if (e.RowIndex < 0 || e.RowIndex >= m_grid.RowCount ||
+				e.ColumnIndex != m_grid.Columns["sourcefiles"].Index)
+			{
+				return;
+			}
+
+			// Draw default everything but text
+			DataGridViewPaintParts paintParts = DataGridViewPaintParts.All;
+			paintParts &= ~DataGridViewPaintParts.ContentForeground;
+			e.Paint(e.ClipBounds, paintParts);
+
+			Color clr = (m_grid.Rows[e.RowIndex].Selected ?
+				m_grid.DefaultCellStyle.SelectionForeColor : m_grid.DefaultCellStyle.ForeColor);
+
+			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+				TextFormatFlags.SingleLine | TextFormatFlags.PathEllipsis |
+				(m_grid.RightToLeft == RightToLeft.Yes ?
+				TextFormatFlags.RightToLeft : TextFormatFlags.Left);
+
+			TextRenderer.DrawText(e.Graphics,
+				m_grid.Rows[e.RowIndex].Cells["sourcefiles"].Value as string,
+				m_grid.Font, e.CellBounds, clr, flags);
+
+			e.Handled = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assume when the user double-clicks on a data source row, they want to go to the
+		/// properties dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (btnProperties.Enabled)
+				btnProperties.PerformClick();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assume when the user presses enter when the grid has focus that they want to go
+		/// to the properties dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (btnProperties.Enabled && e.KeyCode == Keys.Enter)
+			{
+				btnProperties.PerformClick();
+				e.Handled = true;
+			}
+		}
+
+		private void m_grid_KeyPress(object sender, KeyPressEventArgs e)
+		{
+
+		}
 	}
 }

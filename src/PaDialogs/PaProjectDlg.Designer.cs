@@ -43,6 +43,7 @@ namespace SIL.Pa.Dialogs
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnCustomFields = new System.Windows.Forms.Button();
+			this.btnProperties = new System.Windows.Forms.Button();
 			this.txtLanguage = new System.Windows.Forms.TextBox();
 			this.lblLanguage = new System.Windows.Forms.Label();
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -59,16 +60,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			// pnlButtons
 			// 
-			this.pnlButtons.Controls.Add(this.btnCustomFields);
-			this.pnlButtons.Controls.Add(this.btnAdd);
-			this.pnlButtons.Controls.Add(this.btnRemove);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnRemove, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnAdd, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCustomFields, 0);
 			// 
 			// btnCancel
 			// 
@@ -128,8 +120,8 @@ namespace SIL.Pa.Dialogs
 			// 
 			// btnAdd
 			// 
-			this.btnAdd.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidButtonDropDownArrow;
 			resources.ApplyResources(this.btnAdd, "btnAdd");
+			this.btnAdd.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidButtonDropDownArrow;
 			this.btnAdd.Name = "btnAdd";
 			this.m_toolTip.SetToolTip(this.btnAdd, resources.GetString("btnAdd.ToolTip"));
 			this.btnAdd.UseVisualStyleBackColor = true;
@@ -150,6 +142,14 @@ namespace SIL.Pa.Dialogs
 			this.m_toolTip.SetToolTip(this.btnCustomFields, resources.GetString("btnCustomFields.ToolTip"));
 			this.btnCustomFields.UseVisualStyleBackColor = true;
 			this.btnCustomFields.Click += new System.EventHandler(this.btnCustomFields_Click);
+			// 
+			// btnProperties
+			// 
+			resources.ApplyResources(this.btnProperties, "btnProperties");
+			this.btnProperties.Name = "btnProperties";
+			this.m_toolTip.SetToolTip(this.btnProperties, resources.GetString("btnProperties.ToolTip"));
+			this.btnProperties.UseVisualStyleBackColor = true;
+			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
 			// 
 			// txtLanguage
 			// 
@@ -189,6 +189,7 @@ namespace SIL.Pa.Dialogs
 			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
 			this.pnlGrid.Controls.Add(this.m_grid);
+			this.pnlGrid.Controls.Add(this.pnlGridHdg);
 			this.pnlGrid.DoubleBuffered = false;
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
@@ -203,7 +204,6 @@ namespace SIL.Pa.Dialogs
 			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -216,17 +216,21 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.m_grid, "m_grid");
 			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_grid.IsDirty = false;
+			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
 			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
 			this.m_grid.WaterMark = "!";
+			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
+			this.m_grid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.m_grid_CellPainting);
+			this.m_grid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDoubleClick);
 			// 
 			// pnlGridHdg
 			// 
-			resources.ApplyResources(this.pnlGridHdg, "pnlGridHdg");
 			this.pnlGridHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGridHdg.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlGridHdg, "pnlGridHdg");
 			this.pnlGridHdg.DoubleBuffered = true;
 			this.pnlGridHdg.MakeDark = false;
 			this.pnlGridHdg.MnemonicGeneratesClick = false;
@@ -237,10 +241,13 @@ namespace SIL.Pa.Dialogs
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlGridHdg);
+			this.Controls.Add(this.btnCustomFields);
+			this.Controls.Add(this.btnProperties);
 			this.Controls.Add(this.pnlGrid);
 			this.Controls.Add(this.txtLanguage);
 			this.Controls.Add(this.lblLanguage);
+			this.Controls.Add(this.btnRemove);
+			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.txtComments);
 			this.Controls.Add(this.txtSpeaker);
 			this.Controls.Add(this.txtTranscriber);
@@ -259,10 +266,13 @@ namespace SIL.Pa.Dialogs
 			this.Controls.SetChildIndex(this.txtTranscriber, 0);
 			this.Controls.SetChildIndex(this.txtSpeaker, 0);
 			this.Controls.SetChildIndex(this.txtComments, 0);
+			this.Controls.SetChildIndex(this.btnAdd, 0);
+			this.Controls.SetChildIndex(this.btnRemove, 0);
 			this.Controls.SetChildIndex(this.lblLanguage, 0);
 			this.Controls.SetChildIndex(this.txtLanguage, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			this.Controls.SetChildIndex(this.pnlGridHdg, 0);
+			this.Controls.SetChildIndex(this.btnProperties, 0);
+			this.Controls.SetChildIndex(this.btnCustomFields, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
@@ -294,5 +304,6 @@ namespace SIL.Pa.Dialogs
 		private SIL.Pa.Controls.PaPanel pnlGrid;
 		private SIL.Pa.Controls.PaGradientPanel pnlGridHdg;
 		private SIL.SpeechTools.Utils.SilGrid m_grid;
+		private System.Windows.Forms.Button btnProperties;
 	}
 }
