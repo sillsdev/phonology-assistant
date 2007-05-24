@@ -57,7 +57,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FwDataSourceInfo[] FwDatabaseInfoList
+		public static FwDataSourceInfo[] FwDataSourceInfoList
 		{
 			get
 			{
@@ -219,12 +219,12 @@ namespace SIL.Pa.Data
 	{
 		[XmlAttribute]
 		public string Server;
-		private string m_dbName;
 
 		public FwDBUtils.PhoneticStorageMethod PhoneticStorageMethod =
 			FwDBUtils.PhoneticStorageMethod.LexemeForm;
 
-		private string m_langProjName;
+		private string m_dbName;
+		private string m_projName;
 		public bool IsMissing = false;
 		private byte[] m_dateLastModified;
 
@@ -257,8 +257,15 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
+			// When the project name is the same as the DB name,
+			// then just return the project name.
+			if (ProjectName.ToLower() == m_dbName.ToLower())
+				return ProjectName;
+
+			// When they're different, return the project name,
+			// followed by the DB name in parentheses.
 			string text = Properties.Resources.kstidFWDataSourceInfo;
-			return string.Format(text, LangProjName, m_dbName);
+			return string.Format(text, ProjectName, m_dbName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -287,14 +294,14 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string LangProjName
+		public string ProjectName
 		{
 			get
 			{
 				if (IsMissing)
 					return string.Format(Properties.Resources.kstidFwDBMissing, DBName);
 
-				if (m_langProjName == null)
+				if (m_projName == null)
 				{
 					using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
 					{
@@ -307,7 +314,7 @@ namespace SIL.Pa.Data
 							if (reader.HasRows)
 							{
 								reader.Read();
-								m_langProjName = reader[0] as string;
+								m_projName = reader[0] as string;
 							}
 
 							reader.Close();
@@ -317,7 +324,7 @@ namespace SIL.Pa.Data
 					}
 				}
 
-				return m_langProjName;
+				return m_projName;
 			}
 		}
 
@@ -617,7 +624,7 @@ namespace SIL.Pa.Data
 			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
 			{
 				errMsg = string.Format(Properties.Resources.kstidMissingWsMsg,
-					m_sourceInfo.LangProjName);
+					m_sourceInfo.ProjectName);
 
 				STUtils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;

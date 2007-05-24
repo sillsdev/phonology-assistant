@@ -122,23 +122,23 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidDefineCustomFieldsDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Project_Management\Define_Custom_Fields.htm</value>
+    <value>User_Interface/Menus/File/Project_Management/Define_Custom_Fields.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">
-    <value>User_Interface\Menus\Edit\Find.htm</value>
+    <value>User_Interface/Menus/Edit/Find.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFontsOptions" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Options/Fonts_options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidFwDatabaseDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Project_Management\FieldWorks_Language_Projects.htm</value>
+  <data name="hidFwDataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Project_Management/FieldWorks_Data_Source_Properties.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidFwDataSourcePropertiesDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Project_Management\FieldWorks_Data_Source_Properties.htm</value>
+  <data name="hidFwProjectsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Project_Management/FieldWorks_Projects.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidGettingStarted" xml:space="preserve">
@@ -158,7 +158,7 @@
     <comment>Document name for PA training document</comment>
   </data>
   <data name="hidNewProjectSettingsDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\New_Project_Settings.htm</value>
+    <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidProjectSettingsDlg" xml:space="preserve">
@@ -170,7 +170,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidRtfExportDlg" xml:space="preserve">
-    <value>User_Interface\Menus\File\Export\Export_to_Rich_Text_Format_RTF.htm</value>
+    <value>User_Interface/Menus/File/Export/Export_to_Rich_Text_Format_RTF.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchPatternOptions" xml:space="preserve">

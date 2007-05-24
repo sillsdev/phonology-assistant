@@ -1,6 +1,6 @@
 namespace SIL.Pa.Dialogs
 {
-	partial class FwDatabaseDlg
+	partial class FwProjectsDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,8 +28,9 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwProjectsDlg));
 			this.lblMsg = new System.Windows.Forms.Label();
-			this.lstFwDatabases = new System.Windows.Forms.ListBox();
+			this.lstFwProjects = new System.Windows.Forms.ListBox();
 			this.btnProperties = new System.Windows.Forms.Button();
 			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -37,9 +38,7 @@ namespace SIL.Pa.Dialogs
 			// pnlButtons
 			// 
 			this.pnlButtons.Controls.Add(this.btnProperties);
-			this.pnlButtons.Location = new System.Drawing.Point(10, 163);
-			this.pnlButtons.Size = new System.Drawing.Size(360, 40);
-			this.pnlButtons.TabIndex = 2;
+			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
 			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
 			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
@@ -47,60 +46,43 @@ namespace SIL.Pa.Dialogs
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(194, 7);
+			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
-			this.btnOK.Location = new System.Drawing.Point(108, 7);
+			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
-			this.btnHelp.Location = new System.Drawing.Point(280, 7);
+			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lblMsg
 			// 
-			this.lblMsg.AutoSize = true;
-			this.lblMsg.Font = new System.Drawing.Font("Lucida Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblMsg.Location = new System.Drawing.Point(11, 10);
+			resources.ApplyResources(this.lblMsg, "lblMsg");
 			this.lblMsg.Name = "lblMsg";
-			this.lblMsg.Size = new System.Drawing.Size(325, 15);
-			this.lblMsg.TabIndex = 0;
-			this.lblMsg.Text = "&Choose the language project to use as a data source.";
 			// 
-			// lstFwDatabases
+			// lstFwProjects
 			// 
-			this.lstFwDatabases.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.lstFwDatabases.FormattingEnabled = true;
-			this.lstFwDatabases.IntegralHeight = false;
-			this.lstFwDatabases.Location = new System.Drawing.Point(10, 32);
-			this.lstFwDatabases.Name = "lstFwDatabases";
-			this.lstFwDatabases.Size = new System.Drawing.Size(361, 127);
-			this.lstFwDatabases.TabIndex = 1;
+			resources.ApplyResources(this.lstFwProjects, "lstFwProjects");
+			this.lstFwProjects.FormattingEnabled = true;
+			this.lstFwProjects.Name = "lstFwProjects";
 			// 
 			// btnProperties
 			// 
-			this.btnProperties.Location = new System.Drawing.Point(18, 7);
+			resources.ApplyResources(this.btnProperties, "btnProperties");
 			this.btnProperties.Name = "btnProperties";
-			this.btnProperties.Size = new System.Drawing.Size(86, 26);
-			this.btnProperties.TabIndex = 0;
-			this.btnProperties.Text = "&Properties...";
 			this.btnProperties.UseVisualStyleBackColor = true;
 			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
 			// 
-			// FwDatabaseDlg
+			// FwProjectsDlg
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.ClientSize = new System.Drawing.Size(380, 203);
+			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.lblMsg);
-			this.Controls.Add(this.lstFwDatabases);
+			this.Controls.Add(this.lstFwProjects);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Name = "FwDatabaseDlg";
+			this.Name = "FwProjectsDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "FieldWorks Language Projects";
-			this.Controls.SetChildIndex(this.lstFwDatabases, 0);
+			this.Controls.SetChildIndex(this.lstFwProjects, 0);
 			this.Controls.SetChildIndex(this.lblMsg, 0);
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.pnlButtons.ResumeLayout(false);
@@ -112,7 +94,7 @@ namespace SIL.Pa.Dialogs
 		#endregion
 
 		private System.Windows.Forms.Label lblMsg;
-		private System.Windows.Forms.ListBox lstFwDatabases;
+		private System.Windows.Forms.ListBox lstFwProjects;
 		private System.Windows.Forms.Button btnProperties;
 	}
 }

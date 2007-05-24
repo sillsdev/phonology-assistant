@@ -70,7 +70,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Project_Management\Define_Custom_Fields.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/Define_Custom_Fields.htm.
         /// </summary>
         internal static string hidDefineCustomFieldsDlg {
             get {
@@ -79,7 +79,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\Edit\Find.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Edit/Find.htm.
         /// </summary>
         internal static string hidFindDlg {
             get {
@@ -97,20 +97,20 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Project_Management\FieldWorks_Language_Projects.htm.
-        /// </summary>
-        internal static string hidFwDatabaseDlg {
-            get {
-                return ResourceManager.GetString("hidFwDatabaseDlg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Project_Management\FieldWorks_Data_Source_Properties.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/FieldWorks_Data_Source_Properties.htm.
         /// </summary>
         internal static string hidFwDataSourcePropertiesDlg {
             get {
                 return ResourceManager.GetString("hidFwDataSourcePropertiesDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/FieldWorks_Projects.htm.
+        /// </summary>
+        internal static string hidFwProjectsDlg {
+            get {
+                return ResourceManager.GetString("hidFwProjectsDlg", resourceCulture);
             }
         }
         
@@ -151,7 +151,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\New_Project_Settings.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/New_Project_Settings.htm.
         /// </summary>
         internal static string hidNewProjectSettingsDlg {
             get {
@@ -178,7 +178,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface\Menus\File\Export\Export_to_Rich_Text_Format_RTF.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Export/Export_to_Rich_Text_Format_RTF.htm.
         /// </summary>
         internal static string hidRtfExportDlg {
             get {

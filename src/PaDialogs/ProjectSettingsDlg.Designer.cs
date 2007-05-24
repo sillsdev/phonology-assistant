@@ -1,6 +1,6 @@
 namespace SIL.Pa.Dialogs
 {
-	partial class PaProjectDlg
+	partial class ProjectSettingsDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PaProjectDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectSettingsDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblProjName = new System.Windows.Forms.Label();
 			this.lblTranscriber = new System.Windows.Forms.Label();
@@ -204,6 +204,7 @@ namespace SIL.Pa.Dialogs
 			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -237,7 +238,7 @@ namespace SIL.Pa.Dialogs
 			this.pnlGridHdg.Name = "pnlGridHdg";
 			this.pnlGridHdg.PaintExplorerBarBackground = false;
 			// 
-			// PaProjectDlg
+			// ProjectSettingsDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -256,7 +257,7 @@ namespace SIL.Pa.Dialogs
 			this.Controls.Add(this.lblSpeaker);
 			this.Controls.Add(this.lblTranscriber);
 			this.Controls.Add(this.lblProjName);
-			this.Name = "PaProjectDlg";
+			this.Name = "ProjectSettingsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lblProjName, 0);
 			this.Controls.SetChildIndex(this.lblTranscriber, 0);

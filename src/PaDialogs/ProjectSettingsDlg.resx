@@ -673,7 +673,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2699.20310, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2700.21133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -697,7 +697,7 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2699.20310, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2700.21133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>$this</value>
@@ -742,9 +742,9 @@
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PaProjectDlg</value>
+    <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2699.20311, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2700.21133, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

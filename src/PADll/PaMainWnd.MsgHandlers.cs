@@ -153,7 +153,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNewProject(object args)
 		{
-			PaProjectDlg dlg = new PaProjectDlg();
+			ProjectSettingsDlg dlg = new ProjectSettingsDlg();
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
@@ -212,7 +212,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (PaProjectDlg dlg = new PaProjectDlg(PaApp.Project))
+			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(PaApp.Project))
 			{
 				dlg.ShowDialog(this);
 				if (((OKCancelDlgBase)dlg).ChangesWereMade)

@@ -75,17 +75,17 @@
     <Compile Include="DefineFeaturesDlgBase.designer.cs">
       <DependentUpon>DefineFeaturesDlgBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="FwDatabaseDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FwDatabaseDlg.Designer.cs">
-      <DependentUpon>FwDatabaseDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FwDataSourcePropertiesDlg.Designer.cs">
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FwProjectsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FwProjectsDlg.designer.cs">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="LaunchHTMLDlg.cs">
       <SubType>Form</SubType>
@@ -123,11 +123,11 @@
     <Compile Include="OptionsDialog.WordListTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaProjectDlg.cs">
+    <Compile Include="ProjectSettingsDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PaProjectDlg.Designer.cs">
-      <DependentUpon>PaProjectDlg.cs</DependentUpon>
+    <Compile Include="ProjectSettingsDlg.designer.cs">
+      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -188,13 +188,13 @@
       <DependentUpon>DefineFeaturesDlgBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FwDatabaseDlg.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FwDatabaseDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FwDataSourcePropertiesDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FwProjectsDlg.resx">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LaunchHTMLDlg.resx">
       <SubType>Designer</SubType>
@@ -208,9 +208,9 @@
       <DependentUpon>OptionsDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaProjectDlg.resx">
+    <EmbeddedResource Include="ProjectSettingsDlg.resx">
+      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>PaProjectDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

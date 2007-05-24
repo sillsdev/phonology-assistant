@@ -18,7 +18,7 @@ namespace SIL.Pa.Dialogs
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class PaProjectDlg : OKCancelDlgBase
+	public partial class ProjectSettingsDlg : OKCancelDlgBase
 	{
 		private PaProject m_project;
 		private bool m_newProject;
@@ -28,7 +28,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaProjectDlg() : this(null)
+		public ProjectSettingsDlg() : this(null)
 		{
 			Text = Properties.Resources.kstidNewProjectSettingsDlgCaption;
 		}
@@ -38,7 +38,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaProjectDlg(PaProject project) : base()
+		public ProjectSettingsDlg(PaProject project) : base()
 		{
 			// Make sure to save the project's field info. list because we may change it while working in
 			// this dialog or it's child dialogs (more specifically the custom fields dialog).
@@ -94,7 +94,7 @@ namespace SIL.Pa.Dialogs
 			if (PaApp.AutoStartSQLServer && !FwDBUtils.IsSQLServerStarted)
 				FwDBUtils.StartSQLServer(false);
 
-			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDatabaseInfoList != null);
+			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDataSourceInfoList != null);
 			
 			m_dirty = false;
 			Application.Idle += new EventHandler(Application_Idle);
@@ -538,7 +538,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddFwDataSource_Click(object sender, EventArgs e)
 		{
-			using (FwDatabaseDlg dlg = new FwDatabaseDlg())
+			using (FwProjectsDlg dlg = new FwProjectsDlg())
 			{
 				if (dlg.ShowDialog() == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
@@ -761,7 +761,10 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(m_newProject ? "hidNewProjectSettingsDlg" : "hidProjectSettingsDlg");
+			if (m_newProject)
+				PaApp.ShowHelpTopic("hidNewProjectSettingsDlg");
+			else
+				base.HandleHelpClick(sender, e);
 		}
 
 		#endregion

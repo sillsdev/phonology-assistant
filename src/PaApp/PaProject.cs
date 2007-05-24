@@ -261,7 +261,7 @@ namespace SIL.Pa
 						if (tgtDs.DataSourceFile == ds.DataSourceFile)
 							tgtDs.LastModification = ds.LastModification;
 					}
-					else if (tgtDs.FwDataSourceInfo.LangProjName == ds.FwDataSourceInfo.LangProjName)
+					else if (tgtDs.FwDataSourceInfo.ProjectName == ds.FwDataSourceInfo.ProjectName)
 						tgtDs.LastModification = ds.LastModification;
 				}
 			}

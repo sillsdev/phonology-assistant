@@ -46,8 +46,7 @@ namespace SIL.Pa.Dialogs
 		{
 			m_fwSourceInfo = fwSourceInfo;
 
-			lblDatabaseValue.Text = m_fwSourceInfo.DBName;
-			lblLangProjValue.Text = m_fwSourceInfo.LangProjName;
+			lblProjectValue.Text = m_fwSourceInfo.ToString();
 
 			SetControlFonts();
 			GetWritingSystems();
@@ -71,10 +70,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetControlFonts()
 		{
-			lblDatabase.Font = FontHelper.UIFont;
-			lblDatabaseValue.Font = FontHelper.UIFont;
-			lblLangProj.Font = FontHelper.UIFont;
-			lblLangProjValue.Font = FontHelper.UIFont;
+			lblProject.Font = FontHelper.UIFont;
+			lblProjectValue.Font = FontHelper.UIFont;
 			grpWritingSystems.Font = FontHelper.UIFont;
 			grpPhoneticDataStoreType.Font = FontHelper.UIFont;
 			rbLexForm.Font = FontHelper.UIFont;

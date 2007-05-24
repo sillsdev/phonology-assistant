@@ -15,21 +15,21 @@ namespace SIL.Pa.Dialogs
 	/// A dialog that allows the user to specify a FieldWorks database.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FwDatabaseDlg : SIL.Pa.Dialogs.OKCancelDlgBase
+	public partial class FwProjectsDlg : SIL.Pa.Dialogs.OKCancelDlgBase
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDatabaseDlg()
+		public FwProjectsDlg()
 		{
 			InitializeComponent();
 
 			lblMsg.Font = FontHelper.UIFont;
-			lstFwDatabases.Font = FontHelper.UIFont;
-			lstFwDatabases.Items.AddRange(FwDBUtils.FwDatabaseInfoList);
-			lstFwDatabases.SelectedIndex = 0;
+			lstFwProjects.Font = FontHelper.UIFont;
+			lstFwProjects.Items.AddRange(FwDBUtils.FwDataSourceInfoList);
+			lstFwProjects.SelectedIndex = 0;
 
 			Application.Idle += new EventHandler(Application_Idle);
 		}
@@ -62,7 +62,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public FwDataSourceInfo ChosenDatabase
 		{
-			get { return lstFwDatabases.SelectedItem as FwDataSourceInfo; }
+			get { return lstFwProjects.SelectedItem as FwDataSourceInfo; }
 		}
 
 		/// ------------------------------------------------------------------------------------

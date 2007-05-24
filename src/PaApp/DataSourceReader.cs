@@ -112,7 +112,7 @@ namespace SIL.Pa
 					return;
 			}
 
-			FwDataSourceInfo[] fwDBInfoList = FwDBUtils.FwDatabaseInfoList;
+			FwDataSourceInfo[] fwDBInfoList = FwDBUtils.FwDataSourceInfoList;
 			if (fwDBInfoList != null)
 			{
 				foreach (FwDataSourceInfo fwDBInfo in fwDBInfoList)

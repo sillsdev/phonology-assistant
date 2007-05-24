@@ -30,10 +30,8 @@ namespace SIL.Pa.Dialogs
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwDataSourcePropertiesDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.lblDatabase = new System.Windows.Forms.Label();
-			this.lblDatabaseValue = new System.Windows.Forms.Label();
-			this.lblLangProjValue = new System.Windows.Forms.Label();
-			this.lblLangProj = new System.Windows.Forms.Label();
+			this.lblProjectValue = new System.Windows.Forms.Label();
+			this.lblProject = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.grpPhoneticDataStoreType = new System.Windows.Forms.GroupBox();
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
@@ -63,31 +61,18 @@ namespace SIL.Pa.Dialogs
 			// 
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
-			// lblDatabase
+			// lblProjectValue
 			// 
-			resources.ApplyResources(this.lblDatabase, "lblDatabase");
-			this.lblDatabase.BackColor = System.Drawing.Color.Transparent;
-			this.lblDatabase.Name = "lblDatabase";
+			this.lblProjectValue.AutoEllipsis = true;
+			resources.ApplyResources(this.lblProjectValue, "lblProjectValue");
+			this.lblProjectValue.BackColor = System.Drawing.Color.Transparent;
+			this.lblProjectValue.Name = "lblProjectValue";
 			// 
-			// lblDatabaseValue
+			// lblProject
 			// 
-			this.lblDatabaseValue.AutoEllipsis = true;
-			resources.ApplyResources(this.lblDatabaseValue, "lblDatabaseValue");
-			this.lblDatabaseValue.BackColor = System.Drawing.Color.Transparent;
-			this.lblDatabaseValue.Name = "lblDatabaseValue";
-			// 
-			// lblLangProjValue
-			// 
-			this.lblLangProjValue.AutoEllipsis = true;
-			resources.ApplyResources(this.lblLangProjValue, "lblLangProjValue");
-			this.lblLangProjValue.BackColor = System.Drawing.Color.Transparent;
-			this.lblLangProjValue.Name = "lblLangProjValue";
-			// 
-			// lblLangProj
-			// 
-			resources.ApplyResources(this.lblLangProj, "lblLangProj");
-			this.lblLangProj.BackColor = System.Drawing.Color.Transparent;
-			this.lblLangProj.Name = "lblLangProj";
+			resources.ApplyResources(this.lblProject, "lblProject");
+			this.lblProject.BackColor = System.Drawing.Color.Transparent;
+			this.lblProject.Name = "lblProject";
 			// 
 			// panel1
 			// 
@@ -162,16 +147,12 @@ namespace SIL.Pa.Dialogs
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.grpWritingSystems);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.lblLangProj);
-			this.Controls.Add(this.lblLangProjValue);
-			this.Controls.Add(this.lblDatabase);
-			this.Controls.Add(this.lblDatabaseValue);
+			this.Controls.Add(this.lblProject);
+			this.Controls.Add(this.lblProjectValue);
 			this.Name = "FwDataSourcePropertiesDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
-			this.Controls.SetChildIndex(this.lblDatabaseValue, 0);
-			this.Controls.SetChildIndex(this.lblDatabase, 0);
-			this.Controls.SetChildIndex(this.lblLangProjValue, 0);
-			this.Controls.SetChildIndex(this.lblLangProj, 0);
+			this.Controls.SetChildIndex(this.lblProjectValue, 0);
+			this.Controls.SetChildIndex(this.lblProject, 0);
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.panel1, 0);
 			this.Controls.SetChildIndex(this.grpWritingSystems, 0);
@@ -188,10 +169,8 @@ namespace SIL.Pa.Dialogs
 
 		#endregion
 
-		private System.Windows.Forms.Label lblDatabase;
-		private System.Windows.Forms.Label lblDatabaseValue;
-		private System.Windows.Forms.Label lblLangProjValue;
-		private System.Windows.Forms.Label lblLangProj;
+		private System.Windows.Forms.Label lblProjectValue;
+		private System.Windows.Forms.Label lblProject;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.RadioButton rbPronunField;
 		private System.Windows.Forms.RadioButton rbLexForm;
