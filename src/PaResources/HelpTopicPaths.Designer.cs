@@ -70,7 +70,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/Define_Custom_Fields.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Define_Custom_Fields.htm.
         /// </summary>
         internal static string hidDefineCustomFieldsDlg {
             get {
@@ -97,7 +97,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/FieldWorks_Data_Source_Properties.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm.
         /// </summary>
         internal static string hidFwDataSourcePropertiesDlg {
             get {
@@ -106,7 +106,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/File/Project_Management/FieldWorks_Projects.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/File/FieldWorks_Projects.htm.
         /// </summary>
         internal static string hidFwProjectsDlg {
             get {

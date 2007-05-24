@@ -122,7 +122,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidDefineCustomFieldsDlg" xml:space="preserve">
-    <value>User_Interface/Menus/File/Project_Management/Define_Custom_Fields.htm</value>
+    <value>User_Interface/Menus/File/Define_Custom_Fields.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">
@@ -134,11 +134,11 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFwDataSourcePropertiesDlg" xml:space="preserve">
-    <value>User_Interface/Menus/File/Project_Management/FieldWorks_Data_Source_Properties.htm</value>
+    <value>User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFwProjectsDlg" xml:space="preserve">
-    <value>User_Interface/Menus/File/Project_Management/FieldWorks_Projects.htm</value>
+    <value>User_Interface/Menus/File/FieldWorks_Projects.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidGettingStarted" xml:space="preserve">
