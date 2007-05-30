@@ -182,7 +182,7 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.grpStress);
 			this.DoubleBuffered = true;
 			this.MaximumSize = new System.Drawing.Size(268, 500);
-			this.MinimumSize = new System.Drawing.Size(268, 458);
+			this.MinimumSize = new System.Drawing.Size(268, 450);
 			this.Name = "SearchOptionsDropDown";
 			this.grpStress.ResumeLayout(false);
 			this.grpTone.ResumeLayout(false);

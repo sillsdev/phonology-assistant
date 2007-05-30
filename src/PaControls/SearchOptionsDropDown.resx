@@ -133,7 +133,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkIgnoreDiacritics.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 62</value>
+    <value>24, 38</value>
   </data>
   <data name="chkIgnoreDiacritics.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 19</value>
@@ -175,7 +175,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkShowAllWords.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 14</value>
+    <value>15, 416</value>
   </data>
   <data name="chkShowAllWords.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 19</value>
@@ -188,6 +188,9 @@
   </data>
   <data name="chkShowAllWords.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>
+  </data>
+  <data name="chkShowAllWords.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;chkShowAllWords.Name" xml:space="preserve">
     <value>chkShowAllWords</value>
@@ -214,7 +217,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkStress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 86</value>
+    <value>24, 62</value>
   </data>
   <data name="chkStress.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 19</value>
@@ -268,7 +271,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2512.22199, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>grpStress</value>
@@ -277,7 +280,7 @@
     <value>0</value>
   </data>
   <data name="grpStress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 88</value>
+    <value>14, 64</value>
   </data>
   <data name="grpStress.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 10, 7, 7</value>
@@ -313,7 +316,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkTone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 163</value>
+    <value>24, 139</value>
   </data>
   <data name="chkTone.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 19</value>
@@ -367,7 +370,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2512.22199, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>grpTone</value>
@@ -376,7 +379,7 @@
     <value>0</value>
   </data>
   <data name="grpTone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 165</value>
+    <value>14, 141</value>
   </data>
   <data name="grpTone.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 10, 7, 7</value>
@@ -412,7 +415,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 375</value>
+    <value>24, 351</value>
   </data>
   <data name="chkLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 19</value>
@@ -466,7 +469,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2512.22199, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>grpLength</value>
@@ -475,7 +478,7 @@
     <value>0</value>
   </data>
   <data name="grpLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 377</value>
+    <value>14, 353</value>
   </data>
   <data name="grpLength.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 10, 7, 7</value>
@@ -511,7 +514,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkIncludeUncertain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 38</value>
+    <value>24, 14</value>
   </data>
   <data name="chkIncludeUncertain.Size" type="System.Drawing.Size, System.Drawing">
     <value>217, 19</value>
@@ -550,7 +553,7 @@
     <value>NoControl</value>
   </data>
   <data name="lnkApplyToAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 458</value>
+    <value>11, 428</value>
   </data>
   <data name="lnkApplyToAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 15</value>
@@ -586,7 +589,7 @@
     <value>NoControl</value>
   </data>
   <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 458</value>
+    <value>218, 428</value>
   </data>
   <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 15</value>
@@ -616,7 +619,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 476</value>
+    <value>266, 450</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SearchOptionsDropDown</value>
