@@ -307,4 +307,7 @@
   <data name="kstidMissingTrainingFileMsg" xml:space="preserve">
     <value>The training file '{0}' is missing.</value>
   </data>
+  <data name="kimidPaLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PA_Logo-Dim.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

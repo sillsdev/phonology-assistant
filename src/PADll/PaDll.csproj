@@ -260,6 +260,9 @@
   <ItemGroup>
     <None Include="Resources\Clear_list.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PA_Logo-Dim.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

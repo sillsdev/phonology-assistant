@@ -102,6 +102,13 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidPaLogo {
+            get {
+                object obj = ResourceManager.GetObject("kimidPaLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidPaste {
             get {
                 object obj = ResourceManager.GetObject("kimidPaste", resourceCulture);

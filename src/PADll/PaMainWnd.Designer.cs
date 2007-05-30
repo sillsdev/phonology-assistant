@@ -120,6 +120,7 @@ namespace SIL.Pa
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.Controls.Add(this.vwTabGroup);
 			this.Controls.Add(this.statusStrip);
+			this.DoubleBuffered = true;
 			this.Name = "PaMainWnd";
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();

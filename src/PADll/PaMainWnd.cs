@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -339,6 +340,50 @@ namespace SIL.Pa
 
 			vwTabGroup.CloseAllViews();
 			m_shuttingDown = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws a gradient fill in the application workspace when there is no project open.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			if (PaApp.Project != null)
+			{
+				base.OnPaintBackground(e);
+				return;
+			}
+
+			Color clr1 = ColorHelper.CalculateColor(Color.White,
+				SystemColors.AppWorkspace, 200);
+
+			using (LinearGradientBrush br = new LinearGradientBrush(ClientRectangle,
+				clr1, SystemColors.AppWorkspace, 45))
+			{
+				e.Graphics.FillRectangle(br, ClientRectangle);
+			}
+
+			// Draw the PA logo at the bottom right corner of the application workspace.
+			Image img = Properties.Resources.kimidPaLogo;
+			Rectangle rc = new Rectangle(0, 0, img.Width, img.Height);
+			rc.X = ClientRectangle.Right - img.Width - 20;
+			rc.Y = ClientRectangle.Bottom - img.Height - 20 - statusStrip.Height;
+			e.Graphics.DrawImageUnscaledAndClipped(img, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When there is no project open, this forces the gradient background to be repainted
+		/// on the application workspace.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			if (PaApp.Project == null)
+				Invalidate();
 		}
 
 		#endregion
