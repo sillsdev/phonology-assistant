@@ -173,8 +173,8 @@ namespace SIL.Pa.Controls
 			// 'Match Entire Word' option
 			if (chkMatchEntireWord.Checked)
 			{
-				findPattern.Insert(0, "^");
-				findPattern.Append("$");
+				findPattern.Insert(0, "\\b");
+				findPattern.Append("\\b");
 			}
 
 			// 'Match Case' option
