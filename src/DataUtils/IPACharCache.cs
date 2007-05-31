@@ -863,5 +863,15 @@ namespace SIL.Pa.Data
 		public ulong BinaryMask;
 		public int ChartColumn;
 		public int ChartGroup;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return string.Format("{0}: U+{1:X4}, {2}, {3}", IPAChar, Codepoint, Name, Description);
+		}
 	}
 }

@@ -502,8 +502,8 @@ namespace SIL.Pa
 
 			// Determine how many words will be returned.
 			int totalWords = 1;
-			foreach (KeyValuePair<int, string[]> uncertainties in m_uncertainPhones)
-				totalWords *= uncertainties.Value.Length;
+			foreach (string[] uncertainties in m_uncertainPhones.Values)
+				totalWords *= uncertainties.Length;
 
 			// Preallocate the a copy of all the words that will be returned. For now, each
 			// preallocated copy will contain the same phones (i.e. the phones already in
@@ -530,6 +530,7 @@ namespace SIL.Pa
 				int currWord = 0;
 				while (currWord < totalWords)
 				{
+					int currUncertainty = 0;
 					foreach (string uncertainPhone in uncertainties.Value)
 					{
 						for (int i = 0; i < consecutiveWords; i++)

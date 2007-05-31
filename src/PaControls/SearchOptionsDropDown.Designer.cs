@@ -33,19 +33,23 @@ namespace SIL.Pa.Controls
 			this.chkShowAllWords = new System.Windows.Forms.CheckBox();
 			this.chkStress = new System.Windows.Forms.CheckBox();
 			this.grpStress = new System.Windows.Forms.GroupBox();
-			this.stressPicker = new SIL.Pa.Controls.CharPicker();
 			this.chkTone = new System.Windows.Forms.CheckBox();
 			this.grpTone = new System.Windows.Forms.GroupBox();
-			this.tonePicker = new SIL.Pa.Controls.CharPicker();
 			this.chkLength = new System.Windows.Forms.CheckBox();
 			this.grpLength = new System.Windows.Forms.GroupBox();
-			this.lengthPicker = new SIL.Pa.Controls.CharPicker();
-			this.chkIncludeUncertain = new System.Windows.Forms.CheckBox();
 			this.lnkApplyToAll = new System.Windows.Forms.LinkLabel();
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
+			this.grpUncertainties = new System.Windows.Forms.GroupBox();
+			this.rbAllUncertainties = new System.Windows.Forms.RadioButton();
+			this.rbPrimaryOnly = new System.Windows.Forms.RadioButton();
+			this.lblUncertainties = new System.Windows.Forms.Label();
+			this.lengthPicker = new SIL.Pa.Controls.CharPicker();
+			this.tonePicker = new SIL.Pa.Controls.CharPicker();
+			this.stressPicker = new SIL.Pa.Controls.CharPicker();
 			this.grpStress.SuspendLayout();
 			this.grpTone.SuspendLayout();
 			this.grpLength.SuspendLayout();
+			this.grpUncertainties.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// chkIgnoreDiacritics
@@ -71,22 +75,10 @@ namespace SIL.Pa.Controls
 			// 
 			// grpStress
 			// 
-			this.grpStress.Controls.Add(this.stressPicker);
 			resources.ApplyResources(this.grpStress, "grpStress");
+			this.grpStress.Controls.Add(this.stressPicker);
 			this.grpStress.Name = "grpStress";
 			this.grpStress.TabStop = false;
-			// 
-			// stressPicker
-			// 
-			resources.ApplyResources(this.stressPicker, "stressPicker");
-			this.stressPicker.AutoSizeItems = false;
-			this.stressPicker.BackColor = System.Drawing.Color.Transparent;
-			this.stressPicker.CheckItemsOnClick = true;
-			this.stressPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.stressPicker.ItemSize = new System.Drawing.Size(30, 32);
-			this.stressPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.stressPicker.Name = "stressPicker";
-			this.stressPicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
 			// 
 			// chkTone
 			// 
@@ -99,22 +91,10 @@ namespace SIL.Pa.Controls
 			// 
 			// grpTone
 			// 
-			this.grpTone.Controls.Add(this.tonePicker);
 			resources.ApplyResources(this.grpTone, "grpTone");
+			this.grpTone.Controls.Add(this.tonePicker);
 			this.grpTone.Name = "grpTone";
 			this.grpTone.TabStop = false;
-			// 
-			// tonePicker
-			// 
-			resources.ApplyResources(this.tonePicker, "tonePicker");
-			this.tonePicker.AutoSizeItems = false;
-			this.tonePicker.BackColor = System.Drawing.Color.Transparent;
-			this.tonePicker.CheckItemsOnClick = true;
-			this.tonePicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.tonePicker.ItemSize = new System.Drawing.Size(30, 32);
-			this.tonePicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.tonePicker.Name = "tonePicker";
-			this.tonePicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
 			// 
 			// chkLength
 			// 
@@ -127,28 +107,10 @@ namespace SIL.Pa.Controls
 			// 
 			// grpLength
 			// 
-			this.grpLength.Controls.Add(this.lengthPicker);
 			resources.ApplyResources(this.grpLength, "grpLength");
+			this.grpLength.Controls.Add(this.lengthPicker);
 			this.grpLength.Name = "grpLength";
 			this.grpLength.TabStop = false;
-			// 
-			// lengthPicker
-			// 
-			resources.ApplyResources(this.lengthPicker, "lengthPicker");
-			this.lengthPicker.AutoSizeItems = false;
-			this.lengthPicker.BackColor = System.Drawing.Color.Transparent;
-			this.lengthPicker.CheckItemsOnClick = true;
-			this.lengthPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.lengthPicker.ItemSize = new System.Drawing.Size(30, 32);
-			this.lengthPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.lengthPicker.Name = "lengthPicker";
-			this.lengthPicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
-			// 
-			// chkIncludeUncertain
-			// 
-			resources.ApplyResources(this.chkIncludeUncertain, "chkIncludeUncertain");
-			this.chkIncludeUncertain.Name = "chkIncludeUncertain";
-			this.chkIncludeUncertain.UseVisualStyleBackColor = true;
 			// 
 			// lnkApplyToAll
 			// 
@@ -163,6 +125,75 @@ namespace SIL.Pa.Controls
 			this.lnkHelp.TabStop = true;
 			this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleHelpClicked);
 			// 
+			// grpUncertainties
+			// 
+			resources.ApplyResources(this.grpUncertainties, "grpUncertainties");
+			this.grpUncertainties.BackColor = System.Drawing.Color.Transparent;
+			this.grpUncertainties.Controls.Add(this.rbAllUncertainties);
+			this.grpUncertainties.Controls.Add(this.rbPrimaryOnly);
+			this.grpUncertainties.Controls.Add(this.lblUncertainties);
+			this.grpUncertainties.Name = "grpUncertainties";
+			this.grpUncertainties.TabStop = false;
+			// 
+			// rbAllUncertainties
+			// 
+			this.rbAllUncertainties.AutoEllipsis = true;
+			this.rbAllUncertainties.BackColor = System.Drawing.Color.Transparent;
+			resources.ApplyResources(this.rbAllUncertainties, "rbAllUncertainties");
+			this.rbAllUncertainties.Name = "rbAllUncertainties";
+			this.rbAllUncertainties.UseVisualStyleBackColor = false;
+			// 
+			// rbPrimaryOnly
+			// 
+			this.rbPrimaryOnly.AutoEllipsis = true;
+			resources.ApplyResources(this.rbPrimaryOnly, "rbPrimaryOnly");
+			this.rbPrimaryOnly.Checked = true;
+			this.rbPrimaryOnly.Name = "rbPrimaryOnly";
+			this.rbPrimaryOnly.TabStop = true;
+			this.rbPrimaryOnly.UseVisualStyleBackColor = true;
+			// 
+			// lblUncertainties
+			// 
+			resources.ApplyResources(this.lblUncertainties, "lblUncertainties");
+			this.lblUncertainties.BackColor = System.Drawing.Color.White;
+			this.lblUncertainties.Name = "lblUncertainties";
+			// 
+			// lengthPicker
+			// 
+			resources.ApplyResources(this.lengthPicker, "lengthPicker");
+			this.lengthPicker.AutoSizeItems = false;
+			this.lengthPicker.BackColor = System.Drawing.Color.Transparent;
+			this.lengthPicker.CheckItemsOnClick = true;
+			this.lengthPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.lengthPicker.ItemSize = new System.Drawing.Size(30, 32);
+			this.lengthPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+			this.lengthPicker.Name = "lengthPicker";
+			this.lengthPicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			// 
+			// tonePicker
+			// 
+			resources.ApplyResources(this.tonePicker, "tonePicker");
+			this.tonePicker.AutoSizeItems = false;
+			this.tonePicker.BackColor = System.Drawing.Color.Transparent;
+			this.tonePicker.CheckItemsOnClick = true;
+			this.tonePicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.tonePicker.ItemSize = new System.Drawing.Size(30, 32);
+			this.tonePicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+			this.tonePicker.Name = "tonePicker";
+			this.tonePicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			// 
+			// stressPicker
+			// 
+			resources.ApplyResources(this.stressPicker, "stressPicker");
+			this.stressPicker.AutoSizeItems = false;
+			this.stressPicker.BackColor = System.Drawing.Color.Transparent;
+			this.stressPicker.CheckItemsOnClick = true;
+			this.stressPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.stressPicker.ItemSize = new System.Drawing.Size(30, 32);
+			this.stressPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+			this.stressPicker.Name = "stressPicker";
+			this.stressPicker.CharPicked += new SIL.Pa.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			// 
 			// SearchOptionsDropDown
 			// 
 			resources.ApplyResources(this, "$this");
@@ -171,7 +202,6 @@ namespace SIL.Pa.Controls
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.lnkHelp);
 			this.Controls.Add(this.lnkApplyToAll);
-			this.Controls.Add(this.chkIncludeUncertain);
 			this.Controls.Add(this.chkLength);
 			this.Controls.Add(this.grpLength);
 			this.Controls.Add(this.chkTone);
@@ -180,13 +210,16 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.chkStress);
 			this.Controls.Add(this.chkIgnoreDiacritics);
 			this.Controls.Add(this.grpStress);
+			this.Controls.Add(this.grpUncertainties);
 			this.DoubleBuffered = true;
-			this.MaximumSize = new System.Drawing.Size(268, 500);
+			this.MaximumSize = new System.Drawing.Size(268, 542);
 			this.MinimumSize = new System.Drawing.Size(268, 450);
 			this.Name = "SearchOptionsDropDown";
 			this.grpStress.ResumeLayout(false);
 			this.grpTone.ResumeLayout(false);
 			this.grpLength.ResumeLayout(false);
+			this.grpUncertainties.ResumeLayout(false);
+			this.grpUncertainties.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -198,7 +231,6 @@ namespace SIL.Pa.Controls
 		private CharPicker stressPicker;
 		private CharPicker lengthPicker;
 		protected System.Windows.Forms.CheckBox chkShowAllWords;
-		protected System.Windows.Forms.CheckBox chkIncludeUncertain;
 		protected System.Windows.Forms.GroupBox grpStress;
 		protected System.Windows.Forms.GroupBox grpTone;
 		protected System.Windows.Forms.GroupBox grpLength;
@@ -208,5 +240,9 @@ namespace SIL.Pa.Controls
 		protected System.Windows.Forms.CheckBox chkLength;
 		private System.Windows.Forms.LinkLabel lnkApplyToAll;
 		public System.Windows.Forms.LinkLabel lnkHelp;
+		protected System.Windows.Forms.GroupBox grpUncertainties;
+		private System.Windows.Forms.RadioButton rbAllUncertainties;
+		private System.Windows.Forms.RadioButton rbPrimaryOnly;
+		protected System.Windows.Forms.Label lblUncertainties;
 	}
 }

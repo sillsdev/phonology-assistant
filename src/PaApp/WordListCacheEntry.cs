@@ -16,6 +16,7 @@ namespace SIL.Pa
 	public class WordListCacheEntry
 	{
 		private WordCacheEntry m_wordRec;
+		private string[] m_phones = null;
 		private string m_envBefore = null;
 		private string m_srchItem = null;
 		private string m_envAfter = null;
@@ -46,6 +47,19 @@ namespace SIL.Pa
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Normally, the phones for the WordListCacheEntry come from m_wordRec.Phones, but
+		/// when the entry needs to contain non primary uncertain phones, then this method
+		/// provides a way to give the entry its own collection of phones.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetPhones(string[] phones)
+		{
+			if (phones != null && phones.Length > 0)
+				m_phones = phones;
+		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -151,7 +165,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string[] Phones
 		{
-			get { return m_wordRec.Phones; }
+			get { return (m_phones == null ? m_wordRec.Phones : m_phones); }
 		}
 
 		/// ------------------------------------------------------------------------------------

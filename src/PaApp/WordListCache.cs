@@ -114,7 +114,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Add(WordCacheEntry entry)
 		{
-			Add(entry, null, 0, 0);
+			Add(entry, null, 0, 0, false);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -131,8 +131,13 @@ namespace SIL.Pa
 		/// <param name="offset">Offset in the phones array where a search item was found.
 		/// </param>
 		/// <param name="length">Length in phones of the matched search item.</param>
+		/// <param name="savePhones">When true, it forces the phones passed in the phones
+		/// parameter to be saved in the new WordListCacheEntry rather than the
+		/// new WordListCacheEntry deferring to the phones from its associated WordCacheEntry
+		/// (which is passed to in the entry parameter).</param>
 		/// ------------------------------------------------------------------------------------
-		public void Add(WordCacheEntry entry, string[] phones, int offset, int length)
+		public void Add(WordCacheEntry entry, string[] phones, int offset, int length,
+			bool savePhones)
 		{
 			WordListCacheEntry newEntry = new WordListCacheEntry();
 			newEntry.WordCacheEntry = entry;
@@ -150,7 +155,9 @@ namespace SIL.Pa
 			m_isForFindPhoneResults = true;
 			newEntry.SearchItemPhoneOffset = offset;
 			newEntry.SearchItemPhoneLength = length;
-			//newEntry.Phones = phones;
+
+			if (savePhones)
+				newEntry.SetPhones(phones);
 
 			// Build the environment before string.
 			if (offset > 0)

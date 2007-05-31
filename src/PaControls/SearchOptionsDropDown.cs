@@ -38,10 +38,12 @@ namespace SIL.Pa.Controls
 			lnkHelp.Font = FontHelper.UIFont;
 			chkIgnoreDiacritics.Font = FontHelper.UIFont;
 			chkShowAllWords.Font = FontHelper.UIFont;
-			chkIncludeUncertain.Font = FontHelper.UIFont;
 			chkLength.Font = FontHelper.UIFont;
 			chkTone.Font = FontHelper.UIFont;
 			chkStress.Font = FontHelper.UIFont;
+			lblUncertainties.Font = FontHelper.UIFont;
+			rbPrimaryOnly.Font = FontHelper.UIFont;
+			rbAllUncertainties.Font = FontHelper.UIFont;
 
 			chkStress.Tag = stressPicker;
 			chkTone.Tag = tonePicker;
@@ -60,7 +62,7 @@ namespace SIL.Pa.Controls
 			// Center the apply to all and help labels vertically between the bottom of the
 			// drop-down and the bottom of the picker.
 			lnkApplyToAll.Top = ClientSize.Height -
-				((ClientSize.Height - grpLength.Bottom) / 2) - (lnkApplyToAll.Height / 2);
+				((ClientSize.Height - grpUncertainties.Bottom) / 2) - (lnkApplyToAll.Height / 2);
 
 			lnkHelp.Top = lnkApplyToAll.Top;
 			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - lnkApplyToAll.Left;
@@ -132,7 +134,7 @@ namespace SIL.Pa.Controls
 			{
 				m_query.ShowAllOccurrences = chkShowAllWords.Checked;
 				m_query.IgnoreDiacritics = chkIgnoreDiacritics.Checked;
-				m_query.IncludeAllUncertainPossibilities = chkIncludeUncertain.Checked;
+				m_query.IncludeAllUncertainPossibilities = rbAllUncertainties.Checked;
 				m_query.IgnoredStressChars = GetIgnoredChars(stressPicker);
 				m_query.IgnoredToneChars = GetIgnoredChars(tonePicker);
 				m_query.IgnoredLengthChars = GetIgnoredChars(lengthPicker);
@@ -144,14 +146,16 @@ namespace SIL.Pa.Controls
 				m_query = value.Clone();
 				chkShowAllWords.Checked = m_query.ShowAllOccurrences;
 				chkIgnoreDiacritics.Checked = m_query.IgnoreDiacritics;
-				chkIncludeUncertain.Checked = m_query.IncludeAllUncertainPossibilities;
 				SetIgnoredChars(chkStress, stressPicker, m_query.IgnoredStressList);
 				SetIgnoredChars(chkTone, tonePicker, m_query.IgnoredToneList);
 				SetIgnoredChars(chkLength, lengthPicker, m_query.IgnoredLengthList);
 
+				rbAllUncertainties.Checked = m_query.IncludeAllUncertainPossibilities;
+				rbPrimaryOnly.Checked = !rbAllUncertainties.Checked;
+
 				chkShowAllWords.Tag = chkShowAllWords.Checked;
 				chkIgnoreDiacritics.Tag = chkIgnoreDiacritics.Checked;
-				chkIncludeUncertain.Tag = chkIncludeUncertain.Checked;
+				grpUncertainties.Tag = rbAllUncertainties.Checked;
 			}
 		}
 
@@ -169,7 +173,7 @@ namespace SIL.Pa.Controls
 			{
 				if ((bool)chkShowAllWords.Tag != chkShowAllWords.Checked ||
 					(bool)chkIgnoreDiacritics.Tag != chkIgnoreDiacritics.Checked ||
-					(bool)chkIncludeUncertain.Tag != chkIncludeUncertain.Checked)
+					(bool)grpUncertainties.Tag != rbAllUncertainties.Checked)
 				{
 					return true;
 				}

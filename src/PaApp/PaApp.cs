@@ -1412,9 +1412,11 @@ namespace SIL.Pa
 
 				if (query.IncludeAllUncertainPossibilities && wordEntry.ContiansUncertainties)
 				{
-					// All uncertain possibilities should be included in the search, so load
-					// up all the phones from each possible word the uncertain phones can make.
+					// Get a list of all the words (each word being in the form of
+					// an array of phones) that can be derived from all the primary
+					// and non primary uncertainties.
 					eticWords = wordEntry.GetAllPossibleUncertainWords(false);
+
 					if (eticWords == null)
 						continue;
 				}
@@ -1427,6 +1429,11 @@ namespace SIL.Pa
 						continue;
 				}
 
+				// If eticWords.Length = 1 then either the word we're searching doesn't contain
+				// uncertain phones or it does but they are only primary uncertain phones. When
+				// eticWords.Length > 1, we know the uncertain phones in the first word are only
+				// primary uncertainities while at least one phone in the remaining words is a
+				// non primary uncertainy.
 				for (int i = 0; i < eticWords.Length; i++)
 				{
 					// If the search pattern contains the word breaking character,
@@ -1447,8 +1454,16 @@ namespace SIL.Pa
 						if (returnCountOnly)
 							resultCount++;
 						else
-							resultCache.Add(wordEntry, eticWords[i], result[0], result[1]);
-						
+						{
+							// The last parameter sent to Add is true when the word contains
+							// non primary phones, which will be the case when the eticWords
+							// collection contains more than one word (I use the term 'word'
+							// loosely since it's really just a transcription that may contain
+							// spaces) and we're searching any word other than the first in
+							// the collection.
+							resultCache.Add(wordEntry, eticWords[i], result[0], result[1], i > 0);
+						}
+
 						matchFound = engine.SearchWord(out result);
 					}
 				}

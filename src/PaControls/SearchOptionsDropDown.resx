@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="chkIgnoreDiacritics.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chkIgnoreDiacritics.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -128,18 +132,17 @@
   <data name="chkIgnoreDiacritics.Font" type="System.Drawing.Font, System.Drawing">
     <value>Lucida Sans, 9pt</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chkIgnoreDiacritics.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkIgnoreDiacritics.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 38</value>
+    <value>24, 8</value>
   </data>
   <data name="chkIgnoreDiacritics.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 19</value>
   </data>
   <data name="chkIgnoreDiacritics.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="chkIgnoreDiacritics.Text" xml:space="preserve">
     <value>Ignore &amp;Diacritics</value>
@@ -157,7 +160,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chkIgnoreDiacritics.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>8</value>
+  </data>
+  <data name="chkShowAllWords.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="chkShowAllWords.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -175,13 +181,13 @@
     <value>NoControl</value>
   </data>
   <data name="chkShowAllWords.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 416</value>
+    <value>161, 11</value>
   </data>
   <data name="chkShowAllWords.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 19</value>
   </data>
   <data name="chkShowAllWords.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>10</value>
   </data>
   <data name="chkShowAllWords.Text" xml:space="preserve">
     <value>Show &amp;all occurances of each word</value>
@@ -202,7 +208,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chkShowAllWords.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
+  </data>
+  <data name="chkStress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="chkStress.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -217,13 +226,13 @@
     <value>NoControl</value>
   </data>
   <data name="chkStress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 62</value>
+    <value>24, 32</value>
   </data>
   <data name="chkStress.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 19</value>
   </data>
   <data name="chkStress.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="chkStress.Text" xml:space="preserve">
     <value>Ignore &amp;Stress/Syllable</value>
@@ -241,37 +250,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chkStress.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>7, 23</value>
   </metadata>
-  <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="stressPicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="stressPicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 23</value>
-  </data>
-  <data name="stressPicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="stressPicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 37</value>
-  </data>
-  <data name="stressPicker.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="stressPicker.Text" xml:space="preserve">
-    <value>charPicker1</value>
+  <data name="grpStress.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="&gt;&gt;stressPicker.Name" xml:space="preserve">
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>grpStress</value>
@@ -280,7 +271,7 @@
     <value>0</value>
   </data>
   <data name="grpStress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 64</value>
+    <value>14, 34</value>
   </data>
   <data name="grpStress.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 10, 7, 7</value>
@@ -289,7 +280,7 @@
     <value>238, 67</value>
   </data>
   <data name="grpStress.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;grpStress.Name" xml:space="preserve">
     <value>grpStress</value>
@@ -301,7 +292,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;grpStress.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>9</value>
+  </data>
+  <data name="chkTone.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="chkTone.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -316,13 +310,13 @@
     <value>NoControl</value>
   </data>
   <data name="chkTone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 139</value>
+    <value>24, 109</value>
   </data>
   <data name="chkTone.Size" type="System.Drawing.Size, System.Drawing">
     <value>96, 19</value>
   </data>
   <data name="chkTone.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="chkTone.Text" xml:space="preserve">
     <value>Ignore &amp;Tone</value>
@@ -340,37 +334,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chkTone.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <metadata name="tonePicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>7, 23</value>
   </metadata>
-  <data name="tonePicker.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="tonePicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tonePicker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 23</value>
-  </data>
-  <data name="tonePicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="tonePicker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 172</value>
-  </data>
-  <data name="tonePicker.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tonePicker.Text" xml:space="preserve">
-    <value>charPicker1</value>
+  <data name="grpTone.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="&gt;&gt;tonePicker.Name" xml:space="preserve">
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>grpTone</value>
@@ -379,7 +355,7 @@
     <value>0</value>
   </data>
   <data name="grpTone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 141</value>
+    <value>14, 111</value>
   </data>
   <data name="grpTone.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>7, 10, 7, 7</value>
@@ -388,7 +364,7 @@
     <value>238, 202</value>
   </data>
   <data name="grpTone.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;grpTone.Name" xml:space="preserve">
     <value>grpTone</value>
@@ -400,7 +376,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;grpTone.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
+  </data>
+  <data name="chkLength.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="chkLength.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -415,13 +394,13 @@
     <value>NoControl</value>
   </data>
   <data name="chkLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 351</value>
+    <value>24, 321</value>
   </data>
   <data name="chkLength.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 19</value>
   </data>
   <data name="chkLength.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="chkLength.Text" xml:space="preserve">
     <value>Ignore &amp;Length</value>
@@ -439,7 +418,256 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chkLength.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="grpLength.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Name" xml:space="preserve">
+    <value>lengthPicker</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
+    <value>grpLength</value>
+  </data>
+  <data name="&gt;&gt;lengthPicker.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpLength.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 323</value>
+  </data>
+  <data name="grpLength.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpLength.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 67</value>
+  </data>
+  <data name="grpLength.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Name" xml:space="preserve">
+    <value>grpLength</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpLength.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpLength.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="lnkApplyToAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lnkApplyToAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lnkApplyToAll.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lnkApplyToAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lnkApplyToAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>11, 522</value>
+  </data>
+  <data name="lnkApplyToAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 15</value>
+  </data>
+  <data name="lnkApplyToAll.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="lnkApplyToAll.Text" xml:space="preserve">
+    <value>Apply to all environments</value>
+  </data>
+  <data name="&gt;&gt;lnkApplyToAll.Name" xml:space="preserve">
+    <value>lnkApplyToAll</value>
+  </data>
+  <data name="&gt;&gt;lnkApplyToAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkApplyToAll.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lnkApplyToAll.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lnkHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="lnkHelp.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lnkHelp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lnkHelp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 522</value>
+  </data>
+  <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 15</value>
+  </data>
+  <data name="lnkHelp.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="lnkHelp.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Name" xml:space="preserve">
+    <value>lnkHelp</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lnkHelp.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpUncertainties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="rbAllUncertainties.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="rbAllUncertainties.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbAllUncertainties.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbAllUncertainties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 59</value>
+  </data>
+  <data name="rbAllUncertainties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 52</value>
+  </data>
+  <data name="rbAllUncertainties.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rbAllUncertainties.Text" xml:space="preserve">
+    <value>Search Transcriptions Derived from Primary and &amp;Non Primary Uncertainties</value>
+  </data>
+  <data name="rbAllUncertainties.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;rbAllUncertainties.Name" xml:space="preserve">
+    <value>rbAllUncertainties</value>
+  </data>
+  <data name="&gt;&gt;rbAllUncertainties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbAllUncertainties.Parent" xml:space="preserve">
+    <value>grpUncertainties</value>
+  </data>
+  <data name="&gt;&gt;rbAllUncertainties.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbPrimaryOnly.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="rbPrimaryOnly.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="rbPrimaryOnly.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbPrimaryOnly.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 21</value>
+  </data>
+  <data name="rbPrimaryOnly.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 39</value>
+  </data>
+  <data name="rbPrimaryOnly.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="rbPrimaryOnly.Text" xml:space="preserve">
+    <value>Search Transcriptions Derived Only from &amp;Primary Uncertainties</value>
+  </data>
+  <data name="rbPrimaryOnly.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="&gt;&gt;rbPrimaryOnly.Name" xml:space="preserve">
+    <value>rbPrimaryOnly</value>
+  </data>
+  <data name="&gt;&gt;rbPrimaryOnly.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbPrimaryOnly.Parent" xml:space="preserve">
+    <value>grpUncertainties</value>
+  </data>
+  <data name="&gt;&gt;rbPrimaryOnly.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblUncertainties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="lblUncertainties.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblUncertainties.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblUncertainties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 0</value>
+  </data>
+  <data name="lblUncertainties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 15</value>
+  </data>
+  <data name="lblUncertainties.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblUncertainties.Text" xml:space="preserve">
+    <value>Records with Uncertain Phones</value>
+  </data>
+  <data name="&gt;&gt;lblUncertainties.Name" xml:space="preserve">
+    <value>lblUncertainties</value>
+  </data>
+  <data name="&gt;&gt;lblUncertainties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblUncertainties.Parent" xml:space="preserve">
+    <value>grpUncertainties</value>
+  </data>
+  <data name="&gt;&gt;lblUncertainties.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpUncertainties.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="grpUncertainties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 399</value>
+  </data>
+  <data name="grpUncertainties.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 10, 7, 7</value>
+  </data>
+  <data name="grpUncertainties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 115</value>
+  </data>
+  <data name="grpUncertainties.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;grpUncertainties.Name" xml:space="preserve">
+    <value>grpUncertainties</value>
+  </data>
+  <data name="&gt;&gt;grpUncertainties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpUncertainties.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpUncertainties.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>7, 23</value>
@@ -469,7 +697,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2706.20807, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>grpLength</value>
@@ -477,139 +705,76 @@
   <data name="&gt;&gt;lengthPicker.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="grpLength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 353</value>
+  <metadata name="tonePicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="tonePicker.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="grpLength.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 10, 7, 7</value>
+  <data name="tonePicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="grpLength.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 67</value>
+  <data name="tonePicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
   </data>
-  <data name="grpLength.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="tonePicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
-  <data name="&gt;&gt;grpLength.Name" xml:space="preserve">
-    <value>grpLength</value>
+  <data name="tonePicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 172</value>
   </data>
-  <data name="&gt;&gt;grpLength.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tonePicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;grpLength.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="tonePicker.Text" xml:space="preserve">
+    <value>charPicker1</value>
   </data>
-  <data name="&gt;&gt;grpLength.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;tonePicker.Name" xml:space="preserve">
+    <value>tonePicker</value>
   </data>
-  <data name="chkIncludeUncertain.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="chkIncludeUncertain.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopLeft</value>
+  <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
+    <value>grpTone</value>
   </data>
-  <data name="chkIncludeUncertain.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+  <data name="&gt;&gt;tonePicker.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="chkIncludeUncertain.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>7, 23</value>
+  </metadata>
+  <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="chkIncludeUncertain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 14</value>
+  <data name="stressPicker.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="chkIncludeUncertain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 19</value>
+  <data name="stressPicker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
   </data>
-  <data name="chkIncludeUncertain.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="stressPicker.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
-  <data name="chkIncludeUncertain.Text" xml:space="preserve">
-    <value>Include All &amp;Uncertain Possibilities</value>
+  <data name="stressPicker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>224, 37</value>
   </data>
-  <data name="chkIncludeUncertain.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopLeft</value>
+  <data name="stressPicker.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;chkIncludeUncertain.Name" xml:space="preserve">
-    <value>chkIncludeUncertain</value>
+  <data name="stressPicker.Text" xml:space="preserve">
+    <value>charPicker1</value>
   </data>
-  <data name="&gt;&gt;chkIncludeUncertain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;stressPicker.Name" xml:space="preserve">
+    <value>stressPicker</value>
   </data>
-  <data name="&gt;&gt;chkIncludeUncertain.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2707.20126, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;chkIncludeUncertain.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
+    <value>grpStress</value>
   </data>
-  <data name="lnkApplyToAll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="lnkApplyToAll.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lnkApplyToAll.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lnkApplyToAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lnkApplyToAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 428</value>
-  </data>
-  <data name="lnkApplyToAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 15</value>
-  </data>
-  <data name="lnkApplyToAll.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="lnkApplyToAll.Text" xml:space="preserve">
-    <value>Apply to all environments</value>
-  </data>
-  <data name="&gt;&gt;lnkApplyToAll.Name" xml:space="preserve">
-    <value>lnkApplyToAll</value>
-  </data>
-  <data name="&gt;&gt;lnkApplyToAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkApplyToAll.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lnkApplyToAll.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lnkHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="lnkHelp.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lnkHelp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lnkHelp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 428</value>
-  </data>
-  <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 15</value>
-  </data>
-  <data name="lnkHelp.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="lnkHelp.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="&gt;&gt;lnkHelp.Name" xml:space="preserve">
-    <value>lnkHelp</value>
-  </data>
-  <data name="&gt;&gt;lnkHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkHelp.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lnkHelp.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;stressPicker.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -619,7 +784,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>266, 450</value>
+    <value>266, 540</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SearchOptionsDropDown</value>

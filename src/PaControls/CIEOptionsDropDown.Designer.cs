@@ -33,59 +33,45 @@ namespace SIL.Pa.Controls
 			this.rbBefore = new System.Windows.Forms.RadioButton();
 			this.lnkApply = new System.Windows.Forms.LinkLabel();
 			this.lnkCancel = new System.Windows.Forms.LinkLabel();
+			this.grpUncertainties.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// chkShowAllWords
 			// 
-			this.chkShowAllWords.Location = new System.Drawing.Point(235, 76);
-			this.chkShowAllWords.TabIndex = 10;
-			this.chkShowAllWords.Visible = false;
-			// 
-			// chkIncludeUncertain
-			// 
-			this.chkIncludeUncertain.Location = new System.Drawing.Point(235, 101);
-			this.chkIncludeUncertain.TabIndex = 11;
-			this.chkIncludeUncertain.Visible = false;
+			this.chkShowAllWords.Location = new System.Drawing.Point(205, 80);
 			// 
 			// grpStress
 			// 
-			this.grpStress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.grpStress.Location = new System.Drawing.Point(14, 122);
 			this.grpStress.TabIndex = 5;
 			// 
 			// grpTone
 			// 
-			this.grpTone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.grpTone.Location = new System.Drawing.Point(14, 199);
 			this.grpTone.TabIndex = 7;
 			// 
 			// grpLength
 			// 
-			this.grpLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.grpLength.Location = new System.Drawing.Point(14, 411);
 			this.grpLength.TabIndex = 9;
 			// 
 			// chkIgnoreDiacritics
 			// 
-			this.chkIgnoreDiacritics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkIgnoreDiacritics.Location = new System.Drawing.Point(24, 96);
 			this.chkIgnoreDiacritics.TabIndex = 3;
 			// 
 			// chkStress
 			// 
-			this.chkStress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkStress.Location = new System.Drawing.Point(24, 120);
 			this.chkStress.TabIndex = 4;
 			// 
 			// chkTone
 			// 
-			this.chkTone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkTone.Location = new System.Drawing.Point(24, 197);
 			this.chkTone.TabIndex = 6;
 			// 
 			// chkLength
 			// 
-			this.chkLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkLength.Location = new System.Drawing.Point(24, 409);
 			this.chkLength.TabIndex = 8;
 			// 
@@ -93,6 +79,14 @@ namespace SIL.Pa.Controls
 			// 
 			this.lnkHelp.Location = new System.Drawing.Point(218, 490);
 			this.lnkHelp.TabIndex = 12;
+			// 
+			// grpUncertainties
+			// 
+			this.grpUncertainties.Visible = false;
+			// 
+			// lblUncertainties
+			// 
+			this.lblUncertainties.Visible = false;
 			// 
 			// rbBoth
 			// 
@@ -170,10 +164,10 @@ namespace SIL.Pa.Controls
 			this.MinimumSize = new System.Drawing.Size(0, 0);
 			this.Name = "CIEOptionsDropDown";
 			this.Size = new System.Drawing.Size(266, 516);
+			this.Controls.SetChildIndex(this.grpUncertainties, 0);
 			this.Controls.SetChildIndex(this.lnkHelp, 0);
 			this.Controls.SetChildIndex(this.rbBoth, 0);
 			this.Controls.SetChildIndex(this.chkShowAllWords, 0);
-			this.Controls.SetChildIndex(this.chkIncludeUncertain, 0);
 			this.Controls.SetChildIndex(this.grpStress, 0);
 			this.Controls.SetChildIndex(this.chkIgnoreDiacritics, 0);
 			this.Controls.SetChildIndex(this.chkStress, 0);
@@ -185,6 +179,8 @@ namespace SIL.Pa.Controls
 			this.Controls.SetChildIndex(this.rbBefore, 0);
 			this.Controls.SetChildIndex(this.lnkApply, 0);
 			this.Controls.SetChildIndex(this.lnkCancel, 0);
+			this.grpUncertainties.ResumeLayout(false);
+			this.grpUncertainties.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
