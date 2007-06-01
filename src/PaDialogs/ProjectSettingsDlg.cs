@@ -165,6 +165,7 @@ namespace SIL.Pa.Dialogs
 		    m_grid.AutoGenerateColumns = false;
 			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
+			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			m_grid.RowEnter += new DataGridViewCellEventHandler(m_grid_RowEnter);
 
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
@@ -849,7 +850,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (btnProperties.Enabled)
+			if (e.RowIndex >= 0 && e.RowIndex < m_grid.RowCount && e.ColumnIndex >= 0 && btnProperties.Enabled)
 				btnProperties.PerformClick();
 		}
 

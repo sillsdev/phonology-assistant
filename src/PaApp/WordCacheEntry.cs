@@ -530,7 +530,6 @@ namespace SIL.Pa
 				int currWord = 0;
 				while (currWord < totalWords)
 				{
-					int currUncertainty = 0;
 					foreach (string uncertainPhone in uncertainties.Value)
 					{
 						for (int i = 0; i < consecutiveWords; i++)
