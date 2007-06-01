@@ -240,7 +240,7 @@
     <comment>Column heading text for the source file type column on the project setup dialog</comment>
   </data>
   <data name="kstidDataSourceNoMappings" xml:space="preserve">
-    <value>You must specify field mappings for\n\n'{0}'.</value>
+    <value>You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.</value>
     <comment>Project properties dialog message.</comment>
   </data>
   <data name="kstidCustomFieldGridHdgName" xml:space="preserve">

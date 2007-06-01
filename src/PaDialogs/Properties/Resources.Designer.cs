@@ -243,7 +243,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify field mappings for\n\n&apos;{0}&apos;..
+        ///   Looks up a localized string similar to You must specify field mappings for\n\n&apos;{0}&apos;.\n\nSelect it in the Data Sources list and click &apos;Properties&apos;..
         /// </summary>
         internal static string kstidDataSourceNoMappings {
             get {
