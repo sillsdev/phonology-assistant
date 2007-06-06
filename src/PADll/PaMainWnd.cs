@@ -83,6 +83,8 @@ namespace SIL.Pa
 
 			Application.DoEvents();
 
+			EnableOptionsUndockMenus(false);
+
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.
 			if (commandLineArgs != null && commandLineArgs.Length > 0)
@@ -129,6 +131,32 @@ namespace SIL.Pa
 			}
 
 			FontHelper.UIFont = FontHelper.MakeFont(name, size, style);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Enable/disable "mnuOptionsMain" & "mnuUnDockView".
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void EnableOptionsUndockMenus(bool enable)
+		{
+			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
+			if (itemProps != null)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+				itemProps.Update = true;
+				m_tmAdapter.SetItemProperties("mnuOptionsMain", itemProps);
+			}
+
+			itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			if (itemProps != null)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+				itemProps.Update = true;
+				m_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,6 +215,8 @@ namespace SIL.Pa
 				}
 
 				PaApp.AddProjectToRecentlyUsedProjectsList(projectFileName);
+				
+				EnableOptionsUndockMenus(true);
 			}
 
 			BackColor = vwTabGroup.BackColor;

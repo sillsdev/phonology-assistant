@@ -422,7 +422,8 @@ namespace SIL.Pa
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (PaApp.Project != null);
+			itemProps.Enabled =
+				(PaApp.Project != null && PaApp.Project.DataSources != null && PaApp.Project.DataSources.Count > 0);
 			itemProps.Update = true;
 			return true;
 		}
@@ -498,7 +499,7 @@ namespace SIL.Pa
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (grid != null && enabled && PaApp.WordCache.Count != 0);
+			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
 			return true;
 		}
 
@@ -535,7 +536,7 @@ namespace SIL.Pa
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (grid != null && enabled && PaApp.WordCache.Count != 0);
+			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
 			return true;
 		}
 
