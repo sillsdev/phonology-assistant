@@ -975,23 +975,6 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Enables or disables a TM item based on whether or not there is project loaded
-		/// and there are records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void EnableWhenProjectOpenHaveRecords(TMItemProperties itemProps)
-		{
-			bool enable = (PaApp.Project != null && PaApp.WordCache.Count != 0);
-			if (itemProps != null && itemProps.Enabled != enable)
-			{
-				itemProps.Visible = true;
-				itemProps.Enabled = enable;
-				itemProps.Update = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Enables or disables a TM item based on whether or not there is project loaded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

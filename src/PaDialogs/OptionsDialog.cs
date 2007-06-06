@@ -69,6 +69,8 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
+				if (PaApp.Project == null)
+					return false;
 				return (m_dirty || IsFontsTabDirty || IsFindPhoneTabDirty ||
 					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty);
 			}

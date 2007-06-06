@@ -463,6 +463,45 @@ namespace SIL.Pa
 		//    return true;
 		//}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Enable / disable the Edit Source Record menu selection and toolbar button.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditSourceRecord(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			bool enabled = true;
+
+			if (itemProps == null)
+				return false;
+
+			PaWordListGrid grid = null;
+
+			if (vwTabGroup != null && vwTabGroup.CurrentTab != null)
+			{
+				if (vwTabGroup.CurrentTab.View is DataCorpusWnd)
+					grid = (vwTabGroup.CurrentTab.View as DataCorpusWnd).WordListGrid;
+				else if (vwTabGroup.CurrentTab.View is FindPhoneWnd)
+				{
+					FindPhoneWnd view = vwTabGroup.CurrentTab.View as FindPhoneWnd;
+					grid = view.ResultViewManger.CurrentViewsGrid;
+				}
+				else if (vwTabGroup.CurrentTab.View is XYChartWnd)
+				{
+					XYChartWnd view = vwTabGroup.CurrentTab.View as XYChartWnd;
+					grid = view.ResultViewManger.CurrentViewsGrid;
+				}
+				else
+					enabled = false;
+			}
+
+			itemProps.Visible = true;
+			itemProps.Update = true;
+			itemProps.Enabled = (grid != null && enabled && PaApp.WordCache.Count != 0);
+			return true;
+		}
+
 		#region Message handlers for Find
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -496,7 +535,7 @@ namespace SIL.Pa
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (grid != null && enabled);
+			itemProps.Enabled = (grid != null && enabled && PaApp.WordCache.Count != 0);
 			return true;
 		}
 
