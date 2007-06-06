@@ -43,10 +43,10 @@ namespace SIL.Pa.Dialogs
 			lblInstruction.Font = FontHelper.UIFont;
 			lblExampleDesc1.Font = FontHelper.UIFont;
 			lblExampleDesc2.Font = FontHelper.UIFont;
-			txtCustomChars.Font = new Font(FontHelper.PhoneticFont.Name, txtCustomChars.Font.Size);
-			txtExampleInput.Font = new Font(FontHelper.PhoneticFont.Name, txtExampleInput.Font.Size);
-			lblExampleCV.Font = new Font(FontHelper.PhoneticFont.Name, lblExampleCV.Font.Size);
-			lblExampleCVCV.Font = new Font(FontHelper.PhoneticFont.Name, lblExampleCVCV.Font.Size);
+			txtCustomChars.Font = FontHelper.MakeEticRegFontDerivative(txtCustomChars.Font.Size);
+			txtExampleInput.Font = FontHelper.MakeEticRegFontDerivative(txtExampleInput.Font.Size);
+			lblExampleCV.Font = FontHelper.MakeEticRegFontDerivative(lblExampleCV.Font.Size);
+			lblExampleCVCV.Font = FontHelper.MakeEticRegFontDerivative(lblExampleCVCV.Font.Size);
 
 			AdjustExampleControls();
 

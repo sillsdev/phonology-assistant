@@ -54,13 +54,11 @@ namespace SIL.Pa.Controls
 			lblCountHeading.Left = m_origLeft;
 			
 			// Make the phone monogram label 15 point, regardless of the user's setting.
-			lblPhone.Font = new Font(FontHelper.PhoneticFont.FontFamily,
-				15, GraphicsUnit.Point);
+			lblPhone.Font = FontHelper.MakeEticRegFontDerivative(15);
 
 			// Limit the sibling uncertainty list's font size to 14 point.
 			lblSiblingPhones.Font = (FontHelper.PhoneticFont.SizeInPoints > 14 ?
-				new Font(FontHelper.PhoneticFont.FontFamily, 14, GraphicsUnit.Point) :
-				FontHelper.PhoneticFont);
+				FontHelper.MakeEticRegFontDerivative(14) : FontHelper.PhoneticFont);
 
 			// Now make sure the phone fully fits into the black box. If it doesn't,
 			// then make it wide enough to accomodate the phone. That also means the

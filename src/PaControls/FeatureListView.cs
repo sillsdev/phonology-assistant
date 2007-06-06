@@ -58,7 +58,7 @@ namespace SIL.Pa.Controls
 			colHdr.Width = 210;
 
 			Font = FontHelper.UIFont;
-			m_checkedItemFont = new Font(Font, FontStyle.Bold | FontStyle.Italic);
+			m_checkedItemFont = FontHelper.MakeFont(Font, FontStyle.Bold | FontStyle.Italic);
 			
 			CheckBoxes = true;
 			Columns.Add(colHdr);

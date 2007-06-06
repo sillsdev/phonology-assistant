@@ -28,8 +28,7 @@ namespace SIL.Pa.Controls
 			lnkHelp.Font = FontHelper.UIFont;
 
 			pickerIgnore.ItemSize = new Size(kItemSize, kItemSize);
-			pickerIgnore.Font =
-				new Font(FontHelper.PhoneticFont.FontFamily, 16, GraphicsUnit.Point);
+			pickerIgnore.Font = FontHelper.MakeEticRegFontDerivative(16);
 			pickerIgnore.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(pickerIgnore_ShouldLoadChar);
 			pickerIgnore.LoadCharacters();
 			SetIgnoredChars(ignoreList);

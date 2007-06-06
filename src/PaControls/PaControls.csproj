@@ -237,7 +237,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>

@@ -54,7 +54,7 @@ namespace SIL.Pa.Controls
 			DoubleBuffered = true;
 			AllowDrop = true;
 			BackColor = SystemColors.Control;
-			s_tabFont = new Font(SystemInformation.MenuFont.FontFamily, 9);
+			s_tabFont = FontHelper.MakeFont(SystemInformation.MenuFont, 9);
 			m_tooltip = new ToolTip();
 
 			SetupOuterTabCollectionContainer();
@@ -123,9 +123,7 @@ namespace SIL.Pa.Controls
 			m_pnlCaption.Dock = DockStyle.Top;
 			m_pnlCaption.MakeDark = true;
 			m_pnlCaption.Paint += new PaintEventHandler(m_pnlCaption_Paint);
-			m_pnlCaption.Font = new Font(SystemInformation.MenuFont.FontFamily, 11,
-				FontStyle.Bold, GraphicsUnit.Point);
-			
+			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
 			Controls.Add(m_pnlCaption);
 		}
 

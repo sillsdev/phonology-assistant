@@ -83,35 +83,26 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class UndefinedPhoneticCharactersInfoList : SortedDictionary<char, UndefinedPhoneticCharactersInfo>
+	public class UndefinedPhoneticCharactersInfoList : List<UndefinedPhoneticCharactersInfo>
 	{
-		private string m_sourceName;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list's current source name. This could be a data source or some
-		/// other string uniquely identifying the source of data to parse.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string SourceName
-		{
-			get { return m_sourceName; }
-			set { m_sourceName = value; }
-		}
+		public string CurrentDataSourceName = null;
+		public string CurrentReference = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds an individual code point that is not defined in the IPA character cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Add(char c, string phoneticWord)
+		public void Add(char c, string transcription)
 		{
-			if (!string.IsNullOrEmpty(phoneticWord) && !ContainsKey(c))
+			if (!string.IsNullOrEmpty(transcription))
 			{
 				UndefinedPhoneticCharactersInfo ucpInfo = new UndefinedPhoneticCharactersInfo();
-				ucpInfo.PhoneticWord = phoneticWord;
-				ucpInfo.SourceName = SourceName;
-				this[c] = ucpInfo;
+				Add(ucpInfo);
+				ucpInfo.Character = c;
+				ucpInfo.Transcription = transcription;
+				ucpInfo.SourceName = CurrentDataSourceName;
+				ucpInfo.Reference = CurrentReference;
 			}
 		}
 	}
@@ -124,8 +115,10 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class UndefinedPhoneticCharactersInfo
 	{
-		public string PhoneticWord;
+		public char Character;
+		public string Transcription;
 		public string SourceName;
+		public string Reference;
 	}
 
 	#endregion

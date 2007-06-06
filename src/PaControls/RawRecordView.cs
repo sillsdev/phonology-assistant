@@ -394,7 +394,7 @@ namespace SIL.Pa.Controls
 					info.fieldValue = fieldValue.Replace("\\", "\\\\");
 
 					// All headers are bold
-					Font headerFont = new Font(FontHelper.UIFont, FontStyle.Bold);
+					Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 					info.labelWidth = TextRenderer.MeasureText(g, field.DisplayText,
 						headerFont, Size.Empty, m_txtFmtFlags).Width;
 
@@ -444,7 +444,7 @@ namespace SIL.Pa.Controls
 				info.label = fieldInfo.DisplayText;
 				info.displayIndex = fieldInfo.DisplayIndexInRecView;
 				info.columnValues = colValues;
-				Font headerFont = new Font(FontHelper.UIFont, FontStyle.Bold);
+				Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 				info.labelWidth = TextRenderer.MeasureText(g, info.label,
 					headerFont, Size.Empty, m_txtFmtFlags).Width;
 

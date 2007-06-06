@@ -123,7 +123,7 @@ namespace SIL.Pa.Controls
 		{
 			WordListCache cache = m_grid.Cache;
 			PaFieldInfo fieldInfo = m_grid.SortOptions.SortInformationList[0].FieldInfo;
-			Font fnt = new Font(fieldInfo.Font, FontStyle.Bold);
+			Font fnt = FontHelper.MakeFont(fieldInfo.Font, FontStyle.Bold);
 			string prevFldValue = cache[cache.Count - 1][fieldInfo];
 			int childCount = 0;
 			int lastChild = cache.Count - 1;
@@ -163,7 +163,7 @@ namespace SIL.Pa.Controls
 		private void GroupMinimalPairs()
 		{
 			WordListCache cache = m_grid.Cache;
-			Font fnt = new Font(FontHelper.PhoneticFont, FontStyle.Bold);
+			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			int prevGroup = cache[cache.Count - 1].CIEGroupId;
 			int childCount = 0;
 			int lastChild = cache.Count - 1;

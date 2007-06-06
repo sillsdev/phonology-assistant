@@ -118,7 +118,7 @@ namespace SIL.Pa.Controls
 		private void InitializeLabels(int numberOfPhones, bool isForNonPhoneInfo)
 		{
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
-			m_lblPattern.Font = new Font(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_lblPattern.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 
 			string msg;
 

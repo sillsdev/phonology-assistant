@@ -200,6 +200,16 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Eat the double-click because it allows the state of the "Select All" to get out
+		/// of sync. with the rest of the items.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellContentDoubleClick(DataGridViewCellEventArgs e)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Handle the user clicking on check box. This will make sure the state of the select
 		/// all item is correct and that, if the select all item is the one clicked on, the
 		/// state of the rest of the items is correct.
@@ -218,6 +228,10 @@ namespace SIL.Pa.Controls
 
 			// Force commital of the click's change.
 			CommitEdit(DataGridViewDataErrorContexts.Commit);
+
+			System.Diagnostics.Debug.WriteLine(MousePosition.ToString() + "   Value: " + Rows[0].Cells[kCheckCol].Value); 
+
+
 
 			// When the new value of the Select All item is indeterminate, force it to
 			// false since the user clicking on it should never make it indeterminate.

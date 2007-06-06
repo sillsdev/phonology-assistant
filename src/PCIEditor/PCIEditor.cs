@@ -177,7 +177,7 @@ namespace SIL.Pa
 			Label lbl = new Label();
 			lbl.AutoSize = false;
 			lbl.Text = Properties.Resources.kstidAfeaturesHdg;
-			lbl.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			lbl.Dock = DockStyle.Top;
 			lbl.Height = lbl.PreferredHeight + 10;
 			lbl.TextAlign = ContentAlignment.MiddleLeft;
@@ -204,7 +204,7 @@ namespace SIL.Pa
 			lbl = new Label();
 			lbl.AutoSize = false;
 			lbl.Text = Properties.Resources.kstidBFeaturesHdg;
-			lbl.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			lbl.Dock = DockStyle.Top;
 			lbl.Height = lbl.PreferredHeight + 10;
 			lbl.TextAlign = ContentAlignment.MiddleLeft;

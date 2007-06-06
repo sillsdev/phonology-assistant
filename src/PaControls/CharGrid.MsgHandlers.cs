@@ -693,7 +693,7 @@ namespace SIL.Pa.Controls
 			// Check if any row headers have empty rows.
 			foreach (CharGridHeader hdr in m_rowHdrs)
 			{
-				if (hdr.AreOwnedRowsEmpty)
+				if (hdr.IsAnyOwnedRowEmpty)
 				{
 					itemProps.Enabled = true;
 					break;
@@ -706,7 +706,7 @@ namespace SIL.Pa.Controls
 			{
 				foreach (CharGridHeader hdr in m_colHdrs)
 				{
-					if (hdr.AreOwnedColumnsEmpty)
+					if (hdr.IsAnyOwnedColumnEmpty)
 					{
 						itemProps.Enabled = true;
 						break;
@@ -777,7 +777,7 @@ namespace SIL.Pa.Controls
 			}
 
 			itemProps.Visible = true;
-			itemProps.Enabled = m_currentHeader.AreOwnedRowsEmpty;
+			itemProps.Enabled = m_currentHeader.AreAllOwnedRowsEmpty;
 			itemProps.Update = true;
 			return true;
 		}
@@ -837,7 +837,7 @@ namespace SIL.Pa.Controls
 			}
 
 			itemProps.Visible = true;
-			itemProps.Enabled = m_currentHeader.AreOwnedColumnsEmpty;
+			itemProps.Enabled = m_currentHeader.AreAllOwnedColumnsEmpty;
 			itemProps.Update = true;
 			return true;
 		}

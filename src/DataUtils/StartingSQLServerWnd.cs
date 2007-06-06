@@ -8,11 +8,28 @@ using System.Windows.Forms;
 
 namespace SIL.Pa.Data
 {
-	public partial class StartingSQLServerWnd : Form
+	public partial class SQLServerMessageWnd : Form
 	{
-		public StartingSQLServerWnd()
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SQLServerMessageWnd() : this(null)
+		{
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SQLServerMessageWnd(string msg)
 		{
 			InitializeComponent();
+
+			if (!string.IsNullOrEmpty(msg))
+				lblMsg.Text = msg;
 
 			Location = new Point(Screen.PrimaryScreen.WorkingArea.Right - Width - 20,
 				Screen.PrimaryScreen.WorkingArea.Bottom - Height - 2);
@@ -30,6 +47,36 @@ namespace SIL.Pa.Data
 
 			Opacity = maxOpacity;
 			Application.DoEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string Message
+		{
+			get { return lblMsg.Text; }
+			set
+			{
+				lblMsg.Text = value;
+				Application.DoEvents();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CloseFade()
+		{
+			while (Opacity > 0)
+			{
+				Opacity -= 0.05f;
+				Application.DoEvents();
+				System.Threading.Thread.Sleep(50);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

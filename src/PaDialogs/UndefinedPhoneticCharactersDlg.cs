@@ -98,6 +98,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
+			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidUnicodeNumHdg);
@@ -118,13 +120,17 @@ namespace SIL.Pa.Dialogs
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			m_grid.Columns.Add(col);
 
-			// Add the sample column.
+			// Add the reference column.
+			col = SilGrid.CreateTextBoxColumn("reference");
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidReferenceHdg);
+			m_grid.Columns.Add(col);
+
+			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidDataSourceHdg);
 			m_grid.Columns.Add(col);
 
 			m_grid.Name = Name + "Grid";
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,15 +142,21 @@ namespace SIL.Pa.Dialogs
 		{
 			m_grid.Rows.Clear();
 
-			foreach (KeyValuePair<char, UndefinedPhoneticCharactersInfo> mcpInfo in list)
+			foreach (UndefinedPhoneticCharactersInfo upci in list)
 			{
 				m_grid.Rows.Add(new object[] {
-					string.Format("U+{0:X4}", (int)mcpInfo.Key), mcpInfo.Key,
-					mcpInfo.Value.PhoneticWord, mcpInfo.Value.SourceName});
+					string.Format("U+{0:X4}", (int)upci.Character), upci.Character,
+					upci.Transcription, upci.Reference, upci.SourceName});
 			}
 
 			m_grid.AutoResizeColumns();
 			m_grid.AutoResizeRows();
+			
+			// Add a couple of pixels because I observed the auto sizing comes up a couple
+			// pixels short when certain size fonts are used in the column headers.
+			m_grid.Columns[0].Width += 2;
+
+			PaApp.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

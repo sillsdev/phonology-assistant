@@ -67,6 +67,9 @@ namespace SIL.Pa.Data
 				
 				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
 
+				SQLServerMessageWnd msgWnd =
+					new SQLServerMessageWnd(Properties.Resources.kstidGettingFwProjInfoMsg);
+
 				// Read all the SQL databases from the server's master table.
 				using (SqlConnection connection = FwConnection("master"))
 				{
@@ -90,6 +93,9 @@ namespace SIL.Pa.Data
 						}
 					}
 				}
+
+				msgWnd.CloseFade();
+				msgWnd.Dispose();
 
 				return (fwDBInfoList.Count == 0 ? null : fwDBInfoList.ToArray());
 			}
@@ -166,7 +172,7 @@ namespace SIL.Pa.Data
 					if (svcController.Status == ServiceControllerStatus.Running)
 						return true;
 
-					using (StartingSQLServerWnd msgWnd = new StartingSQLServerWnd())
+					using (SQLServerMessageWnd msgWnd = new SQLServerMessageWnd())
 					{
 						msgWnd.Show();
 						Application.DoEvents();
@@ -180,6 +186,8 @@ namespace SIL.Pa.Data
 
 						svcController.WaitForStatus(ServiceControllerStatus.Running,
 							new TimeSpan((long)s_secondsToWaitForSQLToStart * (long)10000000));
+
+						msgWnd.CloseFade();
 					}
 
 					if (svcController.Status == ServiceControllerStatus.Running)

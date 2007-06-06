@@ -286,7 +286,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Double-click, press enter on, or drag to a class\nto insert it into the current search pattern.
+        ///   Looks up a localized string similar to Double-click, press enter when selected, or drag a\nclass to insert it into the current search pattern.
         /// </summary>
         internal static string kstidFFClassListToolTip {
             get {

@@ -151,6 +151,15 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gathering FieldWorks Project Information....
+        /// </summary>
+        internal static string kstidGettingFwProjInfoMsg {
+            get {
+                return ResourceManager.GetString("kstidGettingFwProjInfoMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no writing system properties specified for the &apos;{0}&apos;\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting &apos;Project Settings&apos;\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources..
         /// </summary>
         internal static string kstidMissingWsMsg {

@@ -37,9 +37,6 @@ namespace SIL.Pa.Dialogs
 				return;
 			}
 
-			lblErrMsg.Font = FontHelper.UIFont;
-			lblErrMsg.Text = string.Empty;
-			
 			m_fontGrid = new SilGrid();
 			m_fontGrid.Name = "OptionsFontsGrid";
 			m_fontGrid.Dock = DockStyle.Fill;
@@ -146,24 +143,21 @@ namespace SIL.Pa.Dialogs
 			DataGridViewRow row = m_fontGrid.CurrentRow;
 			Font prevFont = row.Tag as Font;
 
-			lblErrMsg.Text = string.Empty;
-
 			try
 			{
 				// Save the edit to the current cell.
 				m_fontGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
 				// Determine what the new font's style should be.
-				FontStyle style = FontStyle.Regular;
-
-				if ((bool)row.Cells["bold"].Value)
-					style |= FontStyle.Bold;
+				FontStyle style = ((bool)row.Cells["bold"].Value ?
+					FontStyle.Bold : FontStyle.Regular);
 
 				if ((bool)row.Cells["italic"].Value)
 					style |= FontStyle.Italic;
 
 				// Create a new font with the specified characteristics.
-				Font font = new Font((string)row.Cells["font"].Value, (int)row.Cells["size"].Value, style);
+				Font font = new Font((string)row.Cells["font"].Value,
+					(int)row.Cells["size"].Value, style, GraphicsUnit.Point);
 
 				// Update the sample cell to use the new font and save the new font.
 				row.Cells["sample"].Style.Font = font;
@@ -173,7 +167,7 @@ namespace SIL.Pa.Dialogs
 			}
 			catch (ArgumentException err)
 			{
-				lblErrMsg.Text = err.Message;
+				STUtils.STMsgBox(err.Message, MessageBoxButtons.OK);
 
 				if (prevFont == null)
 					return;
@@ -184,6 +178,7 @@ namespace SIL.Pa.Dialogs
 				row.Cells["italic"].Value = prevFont.Italic;
 				row.Cells["sample"].Style.Font = prevFont;
 				row.Tag = prevFont;
+				m_fontGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 			}
 
 			// Resize the current row so it adjusts to fit the new font.
@@ -199,6 +194,27 @@ namespace SIL.Pa.Dialogs
 		{
 			get { return m_fontChanged; }
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private bool VerifyFontInfo()
+		//{
+		//    foreach (DataGridViewRow row in m_fontGrid.Rows)
+		//    {
+		//        Font fnt = (Font)row.Tag;
+				
+		//        FontStyle style = (fnt.Bold ? FontStyle.Bold : FontStyle.Regular);
+		//        if (fnt.Italic)
+		//            style |= FontStyle.Italic;
+
+		//        Font fntTest = new Font(fnt.FontFamily, fnt.SizeInPoints, style, GraphicsUnit.Point);
+		//    }
+
+		//    return true;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

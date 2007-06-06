@@ -176,7 +176,7 @@ namespace SIL.Pa
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				PaApp.UndefinedPhoneticCharacters.SourceName = 
+				PaApp.UndefinedPhoneticCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 

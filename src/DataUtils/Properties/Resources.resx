@@ -149,6 +149,9 @@
   <data name="kstidFwDBMissing" xml:space="preserve">
     <value>FieldWorks database '{0}' is missing.</value>
   </data>
+  <data name="kstidGettingFwProjInfoMsg" xml:space="preserve">
+    <value>Gathering FieldWorks Project Information...</value>
+  </data>
   <data name="kstidMissingWsMsg" xml:space="preserve">
     <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources.</value>
   </data>

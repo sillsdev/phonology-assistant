@@ -40,6 +40,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public ProjectSettingsDlg(PaProject project) : base()
 		{
+			Application.DoEvents();
+
 			// Make sure to save the project's field info. list because we may change it while working in
 			// this dialog or it's child dialogs (more specifically the custom fields dialog).
 			if (project != null)
@@ -84,6 +86,7 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
+			Application.UseWaitCursor = true;
 			FwDataSourcePrep();
 
 			// If the project contains FW data sources, then an attempt must be made to start
@@ -95,9 +98,10 @@ namespace SIL.Pa.Dialogs
 				FwDBUtils.StartSQLServer(false);
 
 			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDataSourceInfoList != null);
-			
-			m_dirty = false;
+
+			m_dirty = m_newProject;
 			Application.Idle += new EventHandler(Application_Idle);
+			Application.UseWaitCursor = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -784,7 +788,7 @@ namespace SIL.Pa.Dialogs
 				return;
 
 			using (StringFormat sf = STUtils.GetStringFormat(true))
-			using (Font fnt = new Font(btn.Font.Name, 8, FontStyle.Regular, GraphicsUnit.Point))
+			using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
 			{
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 				Rectangle rc = btn.ClientRectangle;

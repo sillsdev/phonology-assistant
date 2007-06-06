@@ -256,7 +256,7 @@ namespace SIL.Pa.Controls
 			rc.Height -= m_pnlHdrBand.Height;
 			Color clr = (m_isCurrentTabGroup ? SystemColors.ControlText : SystemColors.GrayText);
 
-			using (Font fnt = new Font(FontHelper.UIFont, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
 				TextRenderer.DrawText(e.Graphics,
 					Properties.Resources.kstidEmtpyTabInfoText, fnt, rc, clr, flags);
@@ -2103,7 +2103,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		internal void CIEViewRefresh()
 		{
-			if (!m_resultView.Grid.CIEViewRefresh())
+			if (m_resultView.Grid == null || !m_resultView.Grid.CIEViewRefresh())
 			{
 				m_btnCIEOptions.Visible = false;
 				AdjustWidth();

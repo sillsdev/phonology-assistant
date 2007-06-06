@@ -24,18 +24,28 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
+			PaApp.InitializeProgressBar("Loading Options...", 8);
+			
+			Application.UseWaitCursor = true;
+			Application.DoEvents();
 			InitializeComponent();
 			
 			// Remove this until we implement it.
 			tabOptions.TabPages.Remove(tpgColors);
 
-			Application.UseWaitCursor = true;
+			PaApp.IncProgressBar();
 			InitializeFontTab();
+			PaApp.IncProgressBar();
 			InitializeFindPhonesTab();
+			PaApp.IncProgressBar();
 			InitializeWordListTab();
+			PaApp.IncProgressBar();
 			InitializeRecViewTab();
+			PaApp.IncProgressBar();
 			InitializeCVSyllablesTab();
+			PaApp.IncProgressBar();
 			InitializeSortingTab();
+			PaApp.IncProgressBar();
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
@@ -46,7 +56,19 @@ namespace SIL.Pa.Dialogs
 			picSaveInfo.Top = lblSaveInfo.Top;
 
 			m_dirty = false;
+			PaApp.IncProgressBar();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
 			Application.UseWaitCursor = false;
+			base.OnShown(e);
+			PaApp.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,12 +91,20 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
-				if (PaApp.Project == null)
-					return false;
 				return (m_dirty || IsFontsTabDirty || IsFindPhoneTabDirty ||
 					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty);
 			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override bool Verify()
+		//{
+		//    return VerifyFontInfo();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

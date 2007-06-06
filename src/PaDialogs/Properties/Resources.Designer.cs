@@ -624,6 +624,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reference.
+        /// </summary>
+        internal static string kstidReferenceHdg {
+            get {
+                return ResourceManager.GetString("kstidReferenceHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to restore the default feature names and default character features definitions? This operation cannot be undone..
         /// </summary>
         internal static string kstidRestoreDefaultFeatureMsg {
@@ -759,7 +768,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Word.
+        ///   Looks up a localized string similar to Transcription.
         /// </summary>
         internal static string kstidWordHdg {
             get {

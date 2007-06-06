@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SIL.Pa.Resources;
 using SIL.Pa.FFSearchEngine;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -180,7 +181,7 @@ namespace SIL.Pa.Controls
 				TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter;
 
-			using (Font fnt = new Font(SystemInformation.MenuFont.Name, 10, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{
 				TextRenderer.DrawText(e.Graphics,
 					Properties.Resources.kstidNoSearchResultsFoundMsg, fnt,	ClientRectangle,

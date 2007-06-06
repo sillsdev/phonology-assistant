@@ -83,7 +83,7 @@ namespace SIL.Pa.Controls
 
 				// Create phone labels that appear under the bar.
 				Label lblPhone = new Label();
-				lblPhone.Font = new Font(FontHelper.PhoneticFont.Name, 16);
+				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(16);
 				lblPhone.Size = new Size(40, 25);
 				lblPhone.Text = phone;
 				lblPhone.Paint += new PaintEventHandler(lbl_Paint);
@@ -136,7 +136,7 @@ namespace SIL.Pa.Controls
 		private void HandlePhoneToolTipPopup(object sender, PopupEventArgs e)
 		{
 			// Only use custom toolTips for phone labels
-			using (Font fnt = new Font(FontHelper.PhoneticFont.Name, kMagnifiedCharSize))
+			using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
 			{
 				e.ToolTipSize = TextRenderer.MeasureText(
 					m_phoneToolTip.GetToolTip(e.AssociatedControl), fnt);
@@ -157,7 +157,7 @@ namespace SIL.Pa.Controls
 			TextFormatFlags flags = TextFormatFlags.NoPrefix |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
 
-			using (Font fnt = new Font(FontHelper.PhoneticFont.Name, kMagnifiedCharSize))
+			using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
 			{
 				TextRenderer.DrawText(e.Graphics, e.ToolTipText, fnt, e.Bounds,
 					SystemColors.InfoText, flags);
@@ -301,7 +301,7 @@ namespace SIL.Pa.Controls
 				{
 					while (phoneWidth > lbl.Width)
 					{
-						fnt = new Font(fnt.Name, fnt.SizeInPoints - 1, fnt.Style);
+						fnt = FontHelper.MakeFont(fnt, fnt.SizeInPoints - 1);
 						phoneWidth = TextRenderer.MeasureText(e.Graphics, lbl.Text, fnt).Width;
 					}
 				}

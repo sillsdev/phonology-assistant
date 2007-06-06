@@ -56,9 +56,7 @@ namespace SIL.Pa.Controls
 			GripStyle = ToolStripGripStyle.Hidden;
 			DoubleBuffered = true;
 			SetStyle(ControlStyles.Selectable, true);
-			
-			if (!PaApp.DesignMode)
-				Font = new Font(FontHelper.PhoneticFont.Name, 14, GraphicsUnit.Point);
+			RefreshFont();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +78,7 @@ namespace SIL.Pa.Controls
 		public void RefreshFont()
 		{
 			if (!PaApp.DesignMode)
-				Font = new Font(FontHelper.PhoneticFont.Name, Font.Size, GraphicsUnit.Point);
+				Font = FontHelper.MakeEticRegFontDerivative(14);
 		}
 
 		/// ------------------------------------------------------------------------------------

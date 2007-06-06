@@ -1,6 +1,6 @@
 namespace SIL.Pa.Data
 {
-	partial class StartingSQLServerWnd
+	partial class SQLServerMessageWnd
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,29 +28,30 @@ namespace SIL.Pa.Data
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartingSQLServerWnd));
-			this.label1 = new System.Windows.Forms.Label();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SQLServerMessageWnd));
+			this.lblMsg = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// label1
+			// lblMsg
 			// 
-			resources.ApplyResources(this.label1, "label1");
-			this.label1.BackColor = System.Drawing.Color.Transparent;
-			this.label1.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-			this.label1.Name = "label1";
-			this.label1.UseWaitCursor = true;
+			resources.ApplyResources(this.lblMsg, "lblMsg");
+			this.lblMsg.AutoEllipsis = true;
+			this.lblMsg.BackColor = System.Drawing.Color.Transparent;
+			this.lblMsg.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+			this.lblMsg.Name = "lblMsg";
+			this.lblMsg.UseWaitCursor = true;
 			// 
 			// panel1
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.lblMsg);
 			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
 			this.panel1.UseWaitCursor = true;
 			// 
-			// StartingSQLServerWnd
+			// SQLServerMessageWnd
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -60,20 +61,19 @@ namespace SIL.Pa.Data
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "StartingSQLServerWnd";
+			this.Name = "SQLServerMessageWnd";
 			this.Opacity = 0.8;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.UseWaitCursor = true;
 			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label lblMsg;
 		private System.Windows.Forms.Panel panel1;
 	}
 }

@@ -65,7 +65,7 @@ namespace SIL.Pa.Controls
 			DoubleBuffered = true;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
-			m_chartFont = new Font(FontHelper.PhoneticFont.FontFamily, 14, GraphicsUnit.Point);
+			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
 			m_grid.Font = m_chartFont;
 			m_grid.GridColor = kGridColor;
 

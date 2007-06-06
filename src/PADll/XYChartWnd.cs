@@ -1050,7 +1050,7 @@ namespace SIL.Pa
 		{
 			lvSavedCharts.Font = FontHelper.PhoneticFont;
 			lblChartName.Font = FontHelper.UIFont;
-			lblChartNameValue.Font = new Font(FontHelper.PhoneticFont, FontStyle.Bold);
+			lblChartNameValue.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 
 			int lblHeight = Math.Max(lblChartName.Height, lblChartNameValue.Height);
 			int padding = lblHeight + 14;

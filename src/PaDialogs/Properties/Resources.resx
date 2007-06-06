@@ -352,7 +352,7 @@
   </data>
   <data name="kstidCharHdg" xml:space="preserve">
     <value>Character</value>
-    <comment>Heading for column in missing character dialog</comment>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
   <data name="kstidDataSourceHdg" xml:space="preserve">
     <value>Data\nSource</value>
@@ -360,11 +360,11 @@
   </data>
   <data name="kstidUnicodeNumHdg" xml:space="preserve">
     <value>Unicode\nNumber</value>
-    <comment>Heading for column in missing character dialog</comment>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
   <data name="kstidWordHdg" xml:space="preserve">
-    <value>Word</value>
-    <comment>Heading for column in missing character dialog</comment>
+    <value>Transcription</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="kimidInformation" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -422,5 +422,9 @@
   <data name="kstidFwWsWsHdg" xml:space="preserve">
     <value>Writing System</value>
     <comment>Heading for the writing system column of the writing system grid on the FieldWorks data source properties dialog</comment>
+  </data>
+  <data name="kstidReferenceHdg" xml:space="preserve">
+    <value>Reference</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
 </root>

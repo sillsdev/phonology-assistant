@@ -461,7 +461,7 @@ namespace SIL.Pa.Dialogs
 			
 			// Adjust properties of the members text box accordingly.
 			txtMembers.Font = (cboBasedOn.SelectedIndex > 0 ?
-				FontHelper.UIFont : new Font(FontHelper.PhoneticFont.Name, 16));
+				FontHelper.UIFont : FontHelper.MakeEticRegFontDerivative(16));
 
 			txtMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2 - 1;
 			txtMembers.Text = m_classInfo.FormattedMembersString;

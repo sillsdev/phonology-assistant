@@ -79,10 +79,7 @@ namespace SIL.Pa.Dialogs
 				PaApp.AddMediatorColleague(this);
 			}
 
-			lstIPAChar.Font = new Font(FontHelper.PhoneticFont.FontFamily, 20,
-				(FontHelper.PhoneticFont.Bold ? FontStyle.Bold : 0) |
-				(FontHelper.PhoneticFont.Italic ? FontStyle.Italic : 0));
-
+			lstIPAChar.Font = FontHelper.MakeEticRegFontDerivative(20);
 			sslCharDescription.Font = FontHelper.UIFont;
 			lblIPA.Font = FontHelper.UIFont;
 			lblFeatures.Font = FontHelper.UIFont;

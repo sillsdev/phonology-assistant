@@ -38,7 +38,7 @@ namespace SIL.Pa.Controls
 			m_button = new Button();
 			m_button.Text = text;
 			m_button.Dock = DockStyle.Top;
-			m_button.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			m_button.Height = (int)(1.7 * (double)m_button.Font.Height);
 			m_button.Cursor = Cursors.Hand;
 			m_button.Click += new EventHandler(m_button_Click);

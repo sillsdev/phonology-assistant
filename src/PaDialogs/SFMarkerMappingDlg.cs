@@ -194,7 +194,7 @@ namespace SIL.Pa.Dialogs
 
 					// Don't put the record marker field in the list of
 					// possible first interlinear fields.
-					if (clone.FieldName != PaDataSource.kRecordMarker &&	fieldInfo.CanBeInterlinear)
+					if (clone.FieldName != PaDataSource.kRecordMarker && fieldInfo.CanBeInterlinear)
 					{
 						cboFirstInterlinear.Items.Add(clone);
 						if (m_datasource.FirstInterlinearField == clone.FieldName)
@@ -286,12 +286,12 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets the proper parsing type. This is best done after the grid is visible.
+		/// Sets the proper parsing type. This is best done after the grid, handle is created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(EventArgs e)
+		protected override void OnHandleCreated(EventArgs e)
 		{
-			base.OnShown(e);
+			base.OnHandleCreated(e);
 
 			switch (m_datasource.ParseType)
 			{
@@ -363,9 +363,9 @@ namespace SIL.Pa.Dialogs
 			{
 				// Set the record Id row cells to bold.
 				Font fnt = m_grid.Rows[0].Cells["marker"].Style.Font;
-				m_grid.Rows[0].Cells["marker"].Style.Font = new Font(fnt, FontStyle.Bold);
+				m_grid.Rows[0].Cells["marker"].Style.Font = FontHelper.MakeFont(fnt, FontStyle.Bold);
 				fnt = m_grid.Rows[0].Cells["pafield"].Style.Font;
-				m_grid.Rows[0].Cells["pafield"].Style.Font = new Font(fnt, FontStyle.Bold);
+				m_grid.Rows[0].Cells["pafield"].Style.Font = FontHelper.MakeFont(fnt, FontStyle.Bold);
 			}
 			catch {}
 

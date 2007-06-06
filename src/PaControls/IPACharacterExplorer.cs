@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -204,7 +205,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupDiacritics, m_pickerDiacritics);
 
 			// Enlarge the font and cell size
-			m_pickerDiacritics.Font = new Font(m_pickerDiacritics.Font.Name, 22);
+			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, 22);
 			m_pickerDiacritics.ItemSize = new Size(40, 46);
 		}
 
@@ -226,7 +227,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupSuprasegmentals, m_pickerSSeg);
 
 			// Enlarge the font and cell size
-			m_pickerSSeg.Font = new Font(m_pickerSSeg.Font.Name, 22);
+			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, 22);
 			m_pickerSSeg.ItemSize = new Size(40, 46);
 		}
 
@@ -248,7 +249,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupTone, m_pickerTone);
 
 			// Enlarge the font and cell size
-			m_pickerTone.Font = new Font(m_pickerTone.Font.Name, 22);
+			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, 22);
 			m_pickerTone.ItemSize = new Size(40, 46);
 		}
 

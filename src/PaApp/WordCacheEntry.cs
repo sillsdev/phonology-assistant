@@ -468,7 +468,11 @@ namespace SIL.Pa
 		{
 			if (PaApp.UndefinedPhoneticCharacters != null)
 			{
-				PaApp.UndefinedPhoneticCharacters.SourceName =
+				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
+				if (fieldInfo != null)
+					PaApp.UndefinedPhoneticCharacters.CurrentReference = GetField(fieldInfo.FieldName, true);
+
+				PaApp.UndefinedPhoneticCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :

@@ -448,28 +448,39 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not all the cells in the owned columns are
-		/// empty.
+		/// Gets a value indicating whether or not any owned columns are empty.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AreOwnedColumnsEmpty
+		public bool IsAnyOwnedColumnEmpty
 		{
 			get
 			{
 				// Go through each owned column.
 				foreach (DataGridViewColumn col in m_ownedCols)
 				{
-					DataGridView grid = col.DataGridView;
-					if (grid == null || grid.Rows == null)
-						continue;
+					if (IsColumnEmpty(col))
+						return true;
+				}
 
-					// Go through each row, checking if the specified row and column are empty.
-					for (int r = 0; r < grid.Rows.Count; r++)
-					{
-						CharGridCell cgc = grid[col.Index, r].Value as CharGridCell;
-						if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
-							return false;
-					}
+				return false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not all the cells in the owned columns are
+		/// empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AreAllOwnedColumnsEmpty
+		{
+			get
+			{
+				// Go through each owned column.
+				foreach (DataGridViewColumn col in m_ownedCols)
+				{
+					if (!IsColumnEmpty(col))
+						return false;
 				}
 
 				return true;
@@ -478,31 +489,90 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not all the cells in the owned rows are empty.
+		/// Returns a value indicating whether or not all the cells in the specified column
+		/// are emtpy.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AreOwnedRowsEmpty
+		private bool IsColumnEmpty(DataGridViewColumn col)
+		{
+			DataGridView grid = col.DataGridView;
+			if (grid == null || grid.Rows == null)
+				return true;
+
+			// Go through each row, checking if the specified row and column are empty.
+			for (int r = 0; r < grid.Rows.Count; r++)
+			{
+				CharGridCell cgc = grid[col.Index, r].Value as CharGridCell;
+				if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not any owned rows are empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsAnyOwnedRowEmpty
 		{
 			get
 			{
 				// Go through each owned row.
 				foreach (DataGridViewRow row in m_ownedRows)
 				{
-					DataGridView grid = row.DataGridView;
-					if (grid == null || grid.Rows == null)
-						continue;
+					if (IsRowEmpty(row))
+						return true;
+				}
 
-					// Go through each column, checking if the specified row and column are empty.
-					for (int c = 0; c < grid.Columns.Count; c++)
-					{
-						CharGridCell cgc = grid[c, row.Index].Value as CharGridCell;
-						if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
-							return false;
-					}
+				return false;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not all the cells in the owned rows are empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AreAllOwnedRowsEmpty
+		{
+			get
+			{
+				// Go through each owned row.
+				foreach (DataGridViewRow row in m_ownedRows)
+				{
+					if (!IsRowEmpty(row))
+						return false;
 				}
 
 				return true;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether or not all the cells in the specified row are
+		/// emtpy.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool IsRowEmpty(DataGridViewRow row)
+		{
+			System.Diagnostics.Debug.Assert(row != null);
+
+			DataGridView grid = row.DataGridView;
+			if (grid == null || grid.Rows == null)
+				return true;
+
+			// Go through each column, checking if the specified row and column are empty.
+			for (int c = 0; c < grid.Columns.Count; c++)
+			{
+				CharGridCell cgc = grid[c, row.Index].Value as CharGridCell;
+				if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
+					return false;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -128,7 +128,7 @@ namespace SIL.Pa
 				style |= FontStyle.Italic;
 			}
 
-			FontHelper.UIFont = new Font(name, size, style, GraphicsUnit.Point);
+			FontHelper.UIFont = FontHelper.MakeFont(name, size, style);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -297,6 +297,17 @@ namespace SIL.Pa
 		#endregion
 
 		#region Overridden Methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Fix for PA-62.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnActivated(EventArgs e)
+		{
+			base.OnActivated(e);
+			Application.DoEvents();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

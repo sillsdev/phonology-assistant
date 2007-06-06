@@ -45,7 +45,7 @@ namespace SIL.Pa.Controls
 			m_lableRows = new SortedList<int, List<Label>>();
 
 			if (!PaApp.DesignMode)
-				Font = new Font(FontHelper.PhoneticFont.Name, 14, GraphicsUnit.Point);
+				Font = FontHelper.MakeEticRegFontDerivative(14);
 		}
 
 		/// ------------------------------------------------------------------------------------

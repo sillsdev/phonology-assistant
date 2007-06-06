@@ -134,7 +134,7 @@ namespace SIL.Pa.Controls
 			// list and the experimental transcriptions list.
 			m_cellInfoPopup = new GridCellInfoPopup();
 			m_cellInfoPopup.AssociatedGrid = this;
-			m_cellInfoPopup.HeadingPanel.Font = new Font(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			m_cellInfoPopup.Paint += new PaintEventHandler(m_cellInfoPopup_Paint);
 			m_cellInfoPopup.CommandLink.Click += new EventHandler(PopupsCommandLink_Click);
 		}
@@ -1155,7 +1155,7 @@ namespace SIL.Pa.Controls
 				return;
 			
 			int hdgWidth;
-			using (Font fnt = new Font(FontHelper.PhoneticFont, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(entry.PhoneticValue, fnt);
 
 			m_cellInfoPopup.PurposeIndicator = GridCellInfoPopup.Purpose.UncertainPossibilities;
@@ -1199,7 +1199,7 @@ namespace SIL.Pa.Controls
 
 			int hdgWidth;
 			string hdgText = string.Format(Properties.Resources.kstidCellInfoExperimentalTransHdgText, "\n");
-			using (Font fnt = new Font(FontHelper.UIFont, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(hdgText, fnt);
 
 			m_cellInfoPopup.CacheEntry = entry;
@@ -1491,7 +1491,7 @@ namespace SIL.Pa.Controls
 			// fits in the water mark rectangle.
 			for (int size = 256; size >= 0; size -= 2)
 			{
-				using (Font fnt = new Font(family, size, FontStyle.Bold))
+				using (Font fnt = FontHelper.MakeFont(family.Name, size, FontStyle.Bold))
 				{
 					int height = TextRenderer.MeasureText("!", fnt).Height;
 					if (height < rc.Height)
@@ -2197,8 +2197,14 @@ namespace SIL.Pa.Controls
 					col.Visible = false;
 				else
 				{
-					col.DisplayIndex = (fieldInfo.DisplayIndexInGrid < Columns.Count ?
-						fieldInfo.DisplayIndexInGrid : Columns.Count - 1);
+					try
+					{
+						col.DisplayIndex = fieldInfo.DisplayIndexInGrid;
+					}
+					catch
+					{
+						col.DisplayIndex = Columns.Count - 1;
+					}
 
 					col.Visible = fieldInfo.VisibleInGrid;
 				}
