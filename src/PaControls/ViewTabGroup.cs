@@ -890,7 +890,7 @@ namespace SIL.Pa.Controls
 		private Control m_viewsControl = null;
 		private Form m_viewsForm = null;
 		private Type m_viewType = null;
-		private bool m_viewDocked = false;
+		private bool m_viewDocked = true;
 		private bool m_ignoreTabSelection = false;
 		private Timer m_tmrFader;
 		private ToolTip m_dockedToolTip;

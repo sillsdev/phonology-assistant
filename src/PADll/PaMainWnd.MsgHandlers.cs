@@ -428,6 +428,18 @@ namespace SIL.Pa
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Disable the Undock Menu when there is only one docked view remaining in
+		/// the main window.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnEndViewChangingStatus(object args)
+		{
+			EnableUndockMenu(vwTabGroup.DockedTabCount != 1);
+			return false;
+		}
+
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// The drop-down portion of the button was clicked so show the list of saved patterns
