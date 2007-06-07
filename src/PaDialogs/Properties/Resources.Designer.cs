@@ -525,6 +525,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid phonetic character..
+        /// </summary>
+        internal static string kstidInvalidPhoneticCharMsg {
+            get {
+                return ResourceManager.GetString("kstidInvalidPhoneticCharMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The first Toolbox sort field specified was\nnot mapped. It must have a mapping..
         /// </summary>
         internal static string kstidInvalidToolboxSortFieldSpecified {

@@ -123,6 +123,7 @@ namespace SIL.Pa.Dialogs
 				case SearchClassType.PhoneticChars:
 					Text = string.Format(Text, Properties.Resources.kstidPhoneticCharClassDlgHdg);
 					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnPhoneticChars");
+					txtMembers.KeyPress += new KeyPressEventHandler(txtMembers_KeyPress);
 					break;
 				case SearchClassType.Articulatory:
 					Text = string.Format(Text, Properties.Resources.kstidArticulatoryFeatureClassDlgHdg);
@@ -148,7 +149,6 @@ namespace SIL.Pa.Dialogs
 			UpdateCharacterViewers();
 
 			m_classInfo.IsDirty = false;
-			btnOK.Enabled = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,7 +186,6 @@ namespace SIL.Pa.Dialogs
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
 			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
-			btnOK.Enabled = true;
 
 			splitOuter.ResumeLayout();
 		}
@@ -442,7 +441,31 @@ namespace SIL.Pa.Dialogs
 		{
 			m_classInfo.Text = txtClassName.Text.Trim();
 			m_classInfo.IsDirty = true;
-			btnOK.Enabled = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void txtMembers_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == '\b')
+				return;
+
+			if (e.KeyChar != ',' && e.KeyChar != ' ')
+			{
+				e.Handled = true;
+				
+				IPACharInfo charInfo = DataUtils.IPACharCache[e.KeyChar];
+				if (charInfo != null)
+					InsertText(e.KeyChar.ToString());
+				else
+				{
+					STUtils.STMsgBox(Properties.Resources.kstidInvalidPhoneticCharMsg,
+						MessageBoxButtons.OK);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -452,20 +475,37 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleIPACharPicked(CharPicker chooser, ToolStripButton item)
 		{
-			string itemText = item.Text.Replace(DataUtils.kDottedCircle, string.Empty);
+			InsertText(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
+		}
 
-			// Split the IPA string into what's before the IP and what's after.
-			string beforeIP = txtMembers.Text.Substring(0, txtMembers.SelectionStart);
-			string afterIP = txtMembers.Text.Substring(txtMembers.SelectionStart + txtMembers.SelectionLength);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InsertText(string itemText)
+		{
+			IPACharInfo charInfo = DataUtils.IPACharCache[itemText];
+			bool isBase = (charInfo == null || charInfo.IsBaseChar);
 
-			// Parse the string into individual phones.
-			string phones =
-				IPACharCache.PhoneticParser_CommaDelimited(beforeIP + itemText + afterIP, false);
+			int selStart = txtMembers.SelectionStart;
+			int selLen = txtMembers.SelectionLength;
 
-			txtMembers.Text = (string.IsNullOrEmpty(phones) ? string.Empty : phones);
-			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
+			// First, if there is a selection, get rid of the selected text.
+			if (selLen > 0)
+				txtMembers.Text = txtMembers.Text.Remove(selStart, selLen);
+
+			// Check if what's being inserted needs to be preceded by a comma.
+			if (selStart > 0 && txtMembers.Text[selStart - 1] != ',' && isBase)
+			{
+				txtMembers.Text = txtMembers.Text.Insert(selStart, ",");
+				selStart++;
+			}
+
+			txtMembers.Text = txtMembers.Text.Insert(selStart, itemText);
+			txtMembers.SelectionStart = selStart + itemText.Length;
+
 			m_classInfo.IsDirty = true;
-			btnOK.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -479,7 +519,6 @@ namespace SIL.Pa.Dialogs
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
 			UpdateCharacterViewers();
-			btnOK.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -499,7 +538,6 @@ namespace SIL.Pa.Dialogs
 
 			//txtMembers.Text = m_classInfo.FormattedMembersString;
 			//m_classInfo.IsDirty = true;
-			//btnOK.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -524,7 +562,6 @@ namespace SIL.Pa.Dialogs
 			m_classInfo.ANDFeatures = rdoAnd.Checked;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
-			btnOK.Enabled = true;
 			UpdateCharacterViewers();
 		}
 
@@ -560,19 +597,6 @@ namespace SIL.Pa.Dialogs
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			m_cancelButtonPressed = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// When class type is an IPA character class, handle (i.e. ignore) all keyboard entry
-		/// of characters that aren't found in the IPA cache (i.e. the IPACharacter table
-		/// from the database). 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtMembers_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (m_classInfo.ClassType == SearchClassType.PhoneticChars && e.KeyChar != (char)Keys.Back)
-				e.Handled = (DataUtils.IPACharCache[e.KeyChar] == null);
 		}
 
 		/// ------------------------------------------------------------------------------------

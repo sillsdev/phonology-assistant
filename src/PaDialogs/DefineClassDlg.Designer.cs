@@ -242,7 +242,6 @@ namespace SIL.Pa.Dialogs
 			// 
 			resources.ApplyResources(this.txtMembers, "txtMembers");
 			this.txtMembers.Name = "txtMembers";
-			this.txtMembers.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMembers_KeyPress);
 			this.txtMembers.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMembers_KeyDown);
 			// 
 			// lblMembers

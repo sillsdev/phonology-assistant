@@ -439,4 +439,8 @@
     <value>Phonetic Characters</value>
     <comment>Caption of class definition dialog for an phonetic character features class</comment>
   </data>
+  <data name="kstidInvalidPhoneticCharMsg" xml:space="preserve">
+    <value>Invalid phonetic character.</value>
+    <comment>Message displayed when defining a phonetic characters class and the user types, from the keyboard, a character not found in the phonetic character inventory.</comment>
+  </data>
 </root>
