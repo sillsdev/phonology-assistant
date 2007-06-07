@@ -272,6 +272,7 @@ namespace SIL.Pa
 			string tooltip = Properties.Resources.kstidDataCorpusViewToolTip;
 			Image img = (itemProps == null ? null : itemProps.Image);
 			vwTabGroup.AddTab(text, tooltip, img, typeof(DataCorpusWnd));
+			ViewTab tab = vwTabGroup.GetTab(typeof(DataCorpusWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
@@ -305,6 +306,12 @@ namespace SIL.Pa
 			
 			vwTabGroup.Visible = true;
 		}
+
+		void tab_ViewActivatedWhileDocked(object sender, EventArgs e)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

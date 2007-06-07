@@ -322,6 +322,17 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewActivatedWhileDocked()
+		{
+			if (m_rsltVwMngr.CurrentViewsGrid != null && m_rsltVwMngr.CurrentViewsGrid.Focused)
+				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the status bar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

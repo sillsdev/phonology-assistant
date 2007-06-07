@@ -47,6 +47,7 @@ namespace SIL.Pa
 		Control DockableContainer { get;}
 		void ViewDocked();
 		void ViewUndocking();
+		void ViewActivatedWhileDocked();
 		ToolStripProgressBar ProgressBar { get;}
 		ToolStripStatusLabel ProgressBarLabel { get;}
 		ToolStripStatusLabel StatusBarLabel { get;}

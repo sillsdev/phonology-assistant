@@ -202,18 +202,32 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the tab whose view is that specified by viewType.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ViewTab GetTab(Type viewType)
+		{
+			foreach (ViewTab tab in m_tabs)
+			{
+				if (tab.ViewType == viewType)
+					return tab;
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Activates the tab whose view is the specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Form ActivateView(Type viewType)
 		{
-			foreach (ViewTab tab in m_tabs)
+			ViewTab tab = GetTab(viewType);
+			if (tab != null)
 			{
-				if (tab.ViewType == viewType)
-				{
-					SelectTab(tab, true);
-					return tab.View;
-				}
+				SelectTab(tab, true);
+				return tab.View;
 			}
 
 			return null;
@@ -1354,6 +1368,9 @@ namespace SIL.Pa.Controls
 					{
 						OpenView(true);
 						GloballySetViewInformation();
+
+						if ((m_viewsForm is ITabView))
+							((ITabView)m_viewsForm).ViewActivatedWhileDocked();
 					}
 					else
 					{
