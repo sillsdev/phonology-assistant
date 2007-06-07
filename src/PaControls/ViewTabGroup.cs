@@ -743,6 +743,50 @@ namespace SIL.Pa.Controls
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the number of docked view tabs in the group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int DockedTabCount
+		{
+			get
+			{
+				int count = 0;
+				foreach (ViewTab tab in m_tabs)
+				{
+					if (tab.IsViewDocked)
+						count++;
+				}
+				
+				return count;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the number of undocked view tabs in the group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int UnDockedTabCount
+		{
+			get
+			{
+				int count = 0;
+				foreach (ViewTab tab in m_tabs)
+				{
+					if (!tab.IsViewDocked)
+						count++;
+				}
+
+				return count;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the view tab group's tooltip control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
