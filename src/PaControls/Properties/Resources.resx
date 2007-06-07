@@ -237,8 +237,8 @@
     <value>Vowels</value>
     <comment>Group header text for class listview controls</comment>
   </data>
-  <data name="kstidClassListViewBasedOnText" xml:space="preserve">
-    <value>Is Based On</value>
+  <data name="kstidClassListViewClassTypeText" xml:space="preserve">
+    <value>Class Type</value>
     <comment>Header text for Class Listview controls</comment>
   </data>
   <data name="kstidClassListViewMembersText" xml:space="preserve">

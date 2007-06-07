@@ -96,7 +96,7 @@ namespace SIL.Pa.Controls
 					SubItems[1].Text = Pattern;
 				}
 				else if (i == 2)
-					SubItems[2].Text = ClassBasedOnText;
+					SubItems[2].Text = ClassTypeText;
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		public string ClassBasedOnText
+		public string ClassTypeText
 		{
 			get
 			{
@@ -430,7 +430,7 @@ namespace SIL.Pa.Controls
 			item.Name = kClassNameSubitem;
 			item.ClassType = srchClass.SearchClassType;
 			item.SubItems.Add(srchClass.Pattern);
-			item.SubItems.Add(item.ClassBasedOnText);
+			item.SubItems.Add(item.ClassTypeText);
 
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');

@@ -355,11 +355,11 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is Based On.
+        ///   Looks up a localized string similar to Class Type.
         /// </summary>
-        internal static string kstidClassListViewBasedOnText {
+        internal static string kstidClassListViewClassTypeText {
             get {
-                return ResourceManager.GetString("kstidClassListViewBasedOnText", resourceCulture);
+                return ResourceManager.GetString("kstidClassListViewClassTypeText", resourceCulture);
             }
         }
         

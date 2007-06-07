@@ -409,7 +409,7 @@
     <comment>Caption for common dialog used to specify the SFM data source editor.</comment>
   </data>
   <data name="kstidDefineClassDupClassName" xml:space="preserve">
-    <value>Duplicate Class name: '{0}'</value>
+    <value>Class '{0}' already exists. Choose a different name.</value>
     <comment>Error msg for creating class with duplicate name</comment>
   </data>
   <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
@@ -426,5 +426,17 @@
   <data name="kstidReferenceHdg" xml:space="preserve">
     <value>Reference</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidArticulatoryFeatureClassDlgHdg" xml:space="preserve">
+    <value>Articulatory Features</value>
+    <comment>Caption of class definition dialog for an articulatory features class</comment>
+  </data>
+  <data name="kstidBinaryFeatureClassDlgHdg" xml:space="preserve">
+    <value>Binary Features</value>
+    <comment>Caption of class definition dialog for an binary features class</comment>
+  </data>
+  <data name="kstidPhoneticCharClassDlgHdg" xml:space="preserve">
+    <value>Phonetic Characters</value>
+    <comment>Caption of class definition dialog for an phonetic character features class</comment>
   </data>
 </root>

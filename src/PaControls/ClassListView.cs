@@ -91,7 +91,7 @@ namespace SIL.Pa.Controls
 				// Add a column for the text showing what the class is based on.
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kBasedOnSubitem;
-				hdr.Text = Properties.Resources.kstidClassListViewBasedOnText;
+				hdr.Text = Properties.Resources.kstidClassListViewClassTypeText;
 				hdr.Width = 175;
 				Columns.Add(hdr);
 			}

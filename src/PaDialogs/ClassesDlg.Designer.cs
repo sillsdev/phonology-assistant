@@ -28,13 +28,19 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClassesDlg));
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnModify = new System.Windows.Forms.Button();
 			this.lvClasses = new SIL.Pa.Controls.ClassListView();
+			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuAddBinFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlButtons.SuspendLayout();
+			this.cmnuAdd.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -79,6 +85,7 @@ namespace SIL.Pa.Dialogs
 			// btnAdd
 			// 
 			resources.ApplyResources(this.btnAdd, "btnAdd");
+			this.btnAdd.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidButtonDropDownArrow;
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
@@ -105,8 +112,37 @@ namespace SIL.Pa.Dialogs
 			this.lvClasses.SelectedIndexChanged += new System.EventHandler(this.lvClasses_SelectedIndexChanged);
 			this.lvClasses.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvClasses_KeyDown);
 			// 
+			// cmnuAdd
+			// 
+			this.cmnuAdd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuAddCharClass,
+            this.cmnuAddArtFeatureClass,
+            this.cmnuAddBinFeatureClass});
+			this.cmnuAdd.Name = "cmnuAdd";
+			this.cmnuAdd.ShowImageMargin = false;
+			resources.ApplyResources(this.cmnuAdd, "cmnuAdd");
+			// 
+			// cmnuAddCharClass
+			// 
+			this.cmnuAddCharClass.Name = "cmnuAddCharClass";
+			resources.ApplyResources(this.cmnuAddCharClass, "cmnuAddCharClass");
+			this.cmnuAddCharClass.Click += new System.EventHandler(this.cmnuAddCharClass_Click);
+			// 
+			// cmnuAddArtFeatureClass
+			// 
+			this.cmnuAddArtFeatureClass.Name = "cmnuAddArtFeatureClass";
+			resources.ApplyResources(this.cmnuAddArtFeatureClass, "cmnuAddArtFeatureClass");
+			this.cmnuAddArtFeatureClass.Click += new System.EventHandler(this.cmnuAddArtFeatureClass_Click);
+			// 
+			// cmnuAddBinFeatureClass
+			// 
+			this.cmnuAddBinFeatureClass.Name = "cmnuAddBinFeatureClass";
+			resources.ApplyResources(this.cmnuAddBinFeatureClass, "cmnuAddBinFeatureClass");
+			this.cmnuAddBinFeatureClass.Click += new System.EventHandler(this.cmnuAddBinFeatureClass_Click);
+			// 
 			// ClassesDlg
 			// 
+			this.AcceptButton = null;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lvClasses);
@@ -114,6 +150,7 @@ namespace SIL.Pa.Dialogs
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lvClasses, 0);
 			this.pnlButtons.ResumeLayout(false);
+			this.cmnuAdd.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -125,5 +162,9 @@ namespace SIL.Pa.Dialogs
 		protected System.Windows.Forms.Button btnAdd;
 		protected System.Windows.Forms.Button btnModify;
 		private SIL.Pa.Controls.ClassListView lvClasses;
+		private System.Windows.Forms.ContextMenuStrip cmnuAdd;
+		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
+		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
+		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
 	}
 }

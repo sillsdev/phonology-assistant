@@ -117,6 +117,24 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Articulatory Features.
+        /// </summary>
+        internal static string kstidArticulatoryFeatureClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidArticulatoryFeatureClassDlgHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Binary Features.
+        /// </summary>
+        internal static string kstidBinaryFeatureClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidBinaryFeatureClassDlgHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Character.
         /// </summary>
         internal static string kstidCharHdg {
@@ -324,7 +342,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate Class name: &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Class &apos;{0}&apos; already exists. Choose a different name..
         /// </summary>
         internal static string kstidDefineClassDupClassName {
             get {
@@ -611,6 +629,15 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static string kstidParsePhoneticSampleOutput {
             get {
                 return ResourceManager.GetString("kstidParsePhoneticSampleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phonetic Characters.
+        /// </summary>
+        internal static string kstidPhoneticCharClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidPhoneticCharClassDlgHdg", resourceCulture);
             }
         }
         

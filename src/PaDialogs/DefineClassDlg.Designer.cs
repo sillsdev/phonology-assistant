@@ -38,14 +38,14 @@ namespace SIL.Pa.Dialogs
 			this.charExplorer = new SIL.Pa.Controls.IPACharacterExplorer();
 			this.txtClassName = new System.Windows.Forms.TextBox();
 			this.lblClassName = new System.Windows.Forms.Label();
-			this.lblBasedOn = new System.Windows.Forms.Label();
-			this.cboBasedOn = new System.Windows.Forms.ComboBox();
+			this.lblClassType = new System.Windows.Forms.Label();
 			this.pnlMembers = new SIL.Pa.Controls.PaGradientPanel();
 			this.txtMembers = new System.Windows.Forms.TextBox();
 			this.lblMembers = new System.Windows.Forms.Label();
 			this.rdoOr = new System.Windows.Forms.RadioButton();
 			this.rdoAnd = new System.Windows.Forms.RadioButton();
 			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.lblClassTypeValue = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
 			this.pnlMemberPickingContainer.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
@@ -218,18 +218,10 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblClassName, "lblClassName");
 			this.lblClassName.Name = "lblClassName";
 			// 
-			// lblBasedOn
+			// lblClassType
 			// 
-			resources.ApplyResources(this.lblBasedOn, "lblBasedOn");
-			this.lblBasedOn.Name = "lblBasedOn";
-			// 
-			// cboBasedOn
-			// 
-			resources.ApplyResources(this.cboBasedOn, "cboBasedOn");
-			this.cboBasedOn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboBasedOn.FormattingEnabled = true;
-			this.cboBasedOn.Name = "cboBasedOn";
-			this.cboBasedOn.SelectedIndexChanged += new System.EventHandler(this.cboBasedOn_SelectedIndexChanged);
+			resources.ApplyResources(this.lblClassType, "lblClassType");
+			this.lblClassType.Name = "lblClassType";
 			// 
 			// pnlMembers
 			// 
@@ -279,24 +271,29 @@ namespace SIL.Pa.Dialogs
 			this.rdoAnd.UseVisualStyleBackColor = false;
 			this.rdoAnd.CheckedChanged += new System.EventHandler(this.HandleScopeClick);
 			// 
+			// lblClassTypeValue
+			// 
+			resources.ApplyResources(this.lblClassTypeValue, "lblClassTypeValue");
+			this.lblClassTypeValue.Name = "lblClassTypeValue";
+			// 
 			// DefineClassDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.lblClassTypeValue);
 			this.Controls.Add(this.pnlMembers);
 			this.Controls.Add(this.pnlMemberPickingContainer);
-			this.Controls.Add(this.cboBasedOn);
-			this.Controls.Add(this.lblBasedOn);
+			this.Controls.Add(this.lblClassType);
 			this.Controls.Add(this.lblClassName);
 			this.Controls.Add(this.txtClassName);
 			this.Name = "DefineClassDlg";
 			this.Controls.SetChildIndex(this.txtClassName, 0);
 			this.Controls.SetChildIndex(this.lblClassName, 0);
-			this.Controls.SetChildIndex(this.lblBasedOn, 0);
-			this.Controls.SetChildIndex(this.cboBasedOn, 0);
+			this.Controls.SetChildIndex(this.lblClassType, 0);
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlMemberPickingContainer, 0);
 			this.Controls.SetChildIndex(this.pnlMembers, 0);
+			this.Controls.SetChildIndex(this.lblClassTypeValue, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.pnlMemberPickingContainer.ResumeLayout(false);
 			this.splitOuter.Panel1.ResumeLayout(false);
@@ -316,8 +313,7 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.Panel pnlMemberPickingContainer;
 		private System.Windows.Forms.TextBox txtClassName;
 		private System.Windows.Forms.Label lblClassName;
-		private System.Windows.Forms.Label lblBasedOn;
-		private System.Windows.Forms.ComboBox cboBasedOn;
+		private System.Windows.Forms.Label lblClassType;
 		private SIL.Pa.Controls.IPACharacterExplorer charExplorer;
 		private SIL.Pa.Controls.PaGradientPanel pnlMembers;
 		private System.Windows.Forms.TextBox txtMembers;
@@ -329,5 +325,6 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.SplitContainer splitCV;
 		private System.Windows.Forms.SplitContainer splitPhoneViewers;
 		private System.Windows.Forms.ToolTip m_toolTip;
+		private System.Windows.Forms.Label lblClassTypeValue;
 	}
 }

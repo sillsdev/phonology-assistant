@@ -183,6 +183,9 @@
   <data name="btnAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
+  <data name="btnAdd.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
   <data name="btnAdd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -196,7 +199,10 @@
     <value>0</value>
   </data>
   <data name="btnAdd.Text" xml:space="preserve">
-    <value>&amp;Add...</value>
+    <value>&amp;Add</value>
+  </data>
+  <data name="btnAdd.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextBeforeImage</value>
   </data>
   <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
     <value>btnAdd</value>
@@ -334,13 +340,43 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2636.20062, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2714.18533, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lvClasses.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>19, 21</value>
+  </metadata>
+  <data name="cmnuAddCharClass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="cmnuAddCharClass.Text" xml:space="preserve">
+    <value>&amp;Phonetic Characters Class...</value>
+  </data>
+  <data name="cmnuAddArtFeatureClass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="cmnuAddArtFeatureClass.Text" xml:space="preserve">
+    <value>&amp;Articulatory Features Class...</value>
+  </data>
+  <data name="cmnuAddBinFeatureClass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 22</value>
+  </data>
+  <data name="cmnuAddBinFeatureClass.Text" xml:space="preserve">
+    <value>&amp;Binary Features Class...</value>
+  </data>
+  <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 70</value>
+  </data>
+  <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
+    <value>cmnuAdd</value>
+  </data>
+  <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -357,10 +393,28 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Classes</value>
   </data>
+  <data name="&gt;&gt;cmnuAddCharClass.Name" xml:space="preserve">
+    <value>cmnuAddCharClass</value>
+  </data>
+  <data name="&gt;&gt;cmnuAddCharClass.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmnuAddArtFeatureClass.Name" xml:space="preserve">
+    <value>cmnuAddArtFeatureClass</value>
+  </data>
+  <data name="&gt;&gt;cmnuAddArtFeatureClass.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cmnuAddBinFeatureClass.Name" xml:space="preserve">
+    <value>cmnuAddBinFeatureClass</value>
+  </data>
+  <data name="&gt;&gt;cmnuAddBinFeatureClass.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ClassesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2636.20063, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2714.18805, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

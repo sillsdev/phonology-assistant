@@ -148,11 +148,9 @@ namespace SIL.Pa.Dialogs
 
 			ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
 
-			using (DefineClassDlg dlg = new DefineClassDlg(item))
+			using (DefineClassDlg dlg = new DefineClassDlg(item, this))
 			{
-				dlg.TxtClassName.Enabled = false;
-				dlg.AddClass = false;
-				dlg.ClassesDlg = this;
+				//dlg.TxtClassName.Enabled = false;
 				DialogResult result = dlg.ShowDialog();
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{
@@ -170,10 +168,49 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (DefineClassDlg dlg = new DefineClassDlg(null))
+			Point pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
+			cmnuAdd.Show(pt);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuAddCharClass_Click(object sender, EventArgs e)
+		{
+			AddClass(SearchClassType.PhoneticChars);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuAddArtFeatureClass_Click(object sender, EventArgs e)
+		{
+			AddClass(SearchClassType.Articulatory);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuAddBinFeatureClass_Click(object sender, EventArgs e)
+		{
+			AddClass(SearchClassType.Binary);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddClass(SearchClassType type)
+		{
+			using (DefineClassDlg dlg = new DefineClassDlg(type, this))
 			{
-				dlg.AddClass = true;
-				dlg.ClassesDlg = this;
 				DialogResult result = dlg.ShowDialog();
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{

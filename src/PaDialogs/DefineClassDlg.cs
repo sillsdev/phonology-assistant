@@ -14,20 +14,22 @@ using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class DefineClassDlg : OKCancelDlgBase
 	{
-		private const string kWildcardDiacritic = "*";
-
 		private FeatureListView m_lvArticulatoryFeatures;
 		private FeatureListView m_lvBinaryFeatures;
-		private Control[] m_ctrls = new Control[4];
+		private Dictionary<SearchClassType, Control> m_ctrls = new Dictionary<SearchClassType, Control>();
 		private ClassListViewItem m_classInfo;
-		//private bool m_cancelButtonPressed = false;
+		private ClassListViewItem m_origClassInfo = null;
 		private PhonesInFeatureViewer m_conViewer;
 		private PhonesInFeatureViewer m_vowViewer;
 		private PhonesInFeatureViewer m_otherPhonesViewer;
 		private ClassesDlg m_classesDlg;
-		private bool m_addClass = false;
 		private bool m_splitterSettingsLoaded = false;
 
 		#region Construction and setup
@@ -36,8 +38,11 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DefineClassDlg(ClassListViewItem classInfo)
+		private DefineClassDlg()
 		{
+			Application.UseWaitCursor = true;
+			Application.DoEvents();
+
 			InitializeComponent();
 
 			lblClassName.Font = FontHelper.UIFont;
@@ -45,51 +50,145 @@ namespace SIL.Pa.Dialogs
 			lblMembers.Font = FontHelper.UIFont;
 			rdoAnd.Font = FontHelper.UIFont;
 			rdoOr.Font = FontHelper.UIFont;
-			lblBasedOn.Font = FontHelper.UIFont;
-			cboBasedOn.Font = FontHelper.UIFont;
+			lblClassType.Font = FontHelper.UIFont;
+			lblClassTypeValue.Font = FontHelper.UIFont;
 
 			lblMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2;
 			txtMembers.Left = lblMembers.Right + 6;
 
-			lvClasses.Dock = DockStyle.Fill;
-			lvClasses.LoadSettings(Name);
+			//lvClasses.Dock = DockStyle.Fill;
+			//lvClasses.LoadSettings(Name);
 
 			IinitializeCharExplorer();
 
 			m_lvArticulatoryFeatures = InitializeFeatureList(PaApp.FeatureType.Articulatory);
 			m_lvBinaryFeatures = InitializeFeatureList(PaApp.FeatureType.Binary);
 
-			cboBasedOn.Items.Add(ResourceHelper.GetString("kstidClassBasedOnPhoneticChars"));
-			cboBasedOn.Items.Add(ResourceHelper.GetString("kstidClassBasedOnArticulatoryFeatures"));
-			cboBasedOn.Items.Add(ResourceHelper.GetString("kstidClassBasedOnBinaryFeatures"));
-			//cboBasedOn.Items.Add(ResourceHelper.GetString("kstidClassBasedOnOtherClasses"));
-
-			m_ctrls[0] = charExplorer;
-			m_ctrls[1] = splitOuter;
-			m_ctrls[2] = splitOuter;
-			m_ctrls[3] = lvClasses;
+			m_ctrls[SearchClassType.PhoneticChars] = charExplorer;
+			m_ctrls[SearchClassType.Articulatory] = splitOuter;
+			m_ctrls[SearchClassType.Binary] = splitOuter;
+			//m_ctrls[SearchClassType.OtherClass] = lvClasses;
 
 			splitOuter.Dock = DockStyle.Fill;
 
 			SetupPhoneViewers();
 
-			m_classInfo = (classInfo == null ?
-				new ClassListViewItem() : new ClassListViewItem(classInfo));
-
 			rdoOr.Left = rdoAnd.Left;
-			rdoAnd.Checked = m_classInfo.ANDFeatures;
-			rdoOr.Checked = !rdoAnd.Checked;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private DefineClassDlg(ClassesDlg classDlg) : this()
+		{
+			m_classesDlg = classDlg;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DefineClassDlg(SearchClassType type, ClassesDlg classDlg) : this(classDlg)
+		{
+			m_classInfo = new ClassListViewItem();
+			m_classInfo.ClassType = type;
+			Setup();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DefineClassDlg(ClassListViewItem classInfo, ClassesDlg classDlg) : this(classDlg)
+		{
+			System.Diagnostics.Debug.Assert(classInfo != null);
+			m_origClassInfo = classInfo;
+			m_classInfo = new ClassListViewItem(classInfo);
+			Setup();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Setup()
+		{
+			switch (m_classInfo.ClassType)
+			{
+				case SearchClassType.PhoneticChars:
+					Text = string.Format(Text, Properties.Resources.kstidPhoneticCharClassDlgHdg);
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnPhoneticChars");
+					break;
+				case SearchClassType.Articulatory:
+					Text = string.Format(Text, Properties.Resources.kstidArticulatoryFeatureClassDlgHdg);
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnArticulatoryFeatures");
+					break;
+				case SearchClassType.Binary:
+					Text = string.Format(Text, Properties.Resources.kstidBinaryFeatureClassDlgHdg);
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnBinaryFeatures");
+					break;
+				case SearchClassType.OtherClass:
+					break;
+				default:
+					Text = string.Format(Text, string.Empty);
+					lblClassTypeValue.Text = string.Empty;
+					break;
+			}
+
 			txtClassName.Text = m_classInfo.Text;
-			cboBasedOn.SelectedIndex = (int)m_classInfo.ClassType;
 			m_lvArticulatoryFeatures.CurrentMasks = m_classInfo.Masks;
 			m_lvBinaryFeatures.CurrentMasks = m_classInfo.Masks;
 
+			SetupControlsForType();
 			UpdateCharacterViewers();
 
 			m_classInfo.IsDirty = false;
 			btnOK.Enabled = false;
+		}
 
-			LoadSettings();
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Change the resultView for the "Based on" class type that was chosen.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetupControlsForType()
+		{
+			rdoAnd.Checked = m_classInfo.ANDFeatures;
+			rdoOr.Checked = !rdoAnd.Checked;
+			
+			splitOuter.SuspendLayout();
+
+			foreach (Control ctrl in m_ctrls.Values)
+				ctrl.Visible = false;
+
+			m_ctrls[m_classInfo.ClassType].Visible = true;
+			m_ctrls[m_classInfo.ClassType].BringToFront();
+
+			m_lvArticulatoryFeatures.Visible = (m_classInfo.ClassType == SearchClassType.Articulatory);
+			m_lvBinaryFeatures.Visible = (m_classInfo.ClassType == SearchClassType.Binary);
+
+			// The scope button is irrelevant for IPA character classes.
+			// So hide it when that's the case.
+			rdoAnd.Visible = rdoOr.Visible = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
+
+			UpdateCharacterViewers();
+
+			// Adjust properties of the members text box accordingly.
+			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.PhoneticChars ?
+				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
+
+			txtMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2 - 1;
+			txtMembers.Text = m_classInfo.FormattedMembersString;
+			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
+			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
+			btnOK.Enabled = true;
+
+			splitOuter.ResumeLayout();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,7 +230,7 @@ namespace SIL.Pa.Dialogs
 			flv.Visible = true;
 			flv.LabelEdit = false;
 			flv.FeatureChanged += new FeatureListView.FeatureChangedHandler(HandleFeatureChanged);
-			flv.TabIndex = cboBasedOn.TabIndex + 1;
+			flv.TabIndex = txtClassName.TabIndex + 1;
 			splitOuter.Panel2.Controls.Add(flv);
 			return flv;
 		}
@@ -220,28 +319,6 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the information for the class being added or modified.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ClassesDlg ClassesDlg
-		{
-			get { return m_classesDlg; }
-			set { m_classesDlg = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets AddClass.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool AddClass
-		{
-			get { return m_addClass; }
-			set { m_addClass = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets TxtClassName.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -254,18 +331,25 @@ namespace SIL.Pa.Dialogs
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load the saved query for the IPA explorer bar after the form has shown the
-		/// first time.
+		/// These things are best done after handles are created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(EventArgs e)
+		protected override void OnHandleCreated(EventArgs e)
 		{
-			base.OnShown(e);
+			base.OnHandleCreated(e);
 
-			// This is best done after the form has become visible.
+			LoadSettings();
+
+			if (!m_splitterSettingsLoaded &&
+				(m_classInfo.ClassType == SearchClassType.Articulatory ||
+				m_classInfo.ClassType == SearchClassType.Binary))
+			{
+				LoadSplitterSettings();
+			}
+
 			charExplorer.LoadSettings(Name);
-
 			UpdateCharacterViewers();
+			Application.UseWaitCursor = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -321,20 +405,20 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			if (m_addClass)
+			// Ensure the new class doesn't have an empty class name
+			if (txtClassName.Text == string.Empty)
 			{
-				// Ensure the new class doesn't have an empty class name
-				if (txtClassName.Text == string.Empty)
-				{
-					STUtils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return false;
-				}
+				STUtils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return false;
+			}
 
+			if (m_classesDlg != null)
+			{
 				// Ensure the new class doesn't have a duplicate class name
-				foreach (ClassListViewItem item in ClassesDlg.ClassListView.Items)
+				foreach (ClassListViewItem item in m_classesDlg.ClassListView.Items)
 				{
-					if (item.Text == txtClassName.Text)
+					if (item.Text == txtClassName.Text && item != m_origClassInfo)
 					{
 						STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
 							txtClassName.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -342,6 +426,7 @@ namespace SIL.Pa.Dialogs
 					}
 				}
 			}
+
 			return true;
 		}
 
@@ -427,56 +512,6 @@ namespace SIL.Pa.Dialogs
 		{
 			if (e.KeyChar == (char)Keys.Enter)
 				lvClasses_DoubleClick(null, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Change the resultView for the "Based on" class type that was chosen.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void cboBasedOn_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (cboBasedOn.SelectedIndex < 0)
-				return;
-
-			splitOuter.SuspendLayout();
-
-			m_classInfo.ClassType = (SearchClassType)cboBasedOn.SelectedIndex;
-			m_classInfo.IsDirty = true;
-
-			for (int i = 0; i < m_ctrls.Length; i++)
-				m_ctrls[i].Visible = false;
-			
-			m_ctrls[cboBasedOn.SelectedIndex].Visible = true;
-			m_ctrls[cboBasedOn.SelectedIndex].BringToFront();
-
-			m_lvArticulatoryFeatures.Visible = (m_classInfo.ClassType == SearchClassType.Articulatory);
-			m_lvBinaryFeatures.Visible = (m_classInfo.ClassType == SearchClassType.Binary);
-			
-			// The scope button is irrelevant for IPA character classes.
-			// So hide it when that's the case.
-			rdoAnd.Visible = rdoOr.Visible = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
-
-			UpdateCharacterViewers();
-			
-			// Adjust properties of the members text box accordingly.
-			txtMembers.Font = (cboBasedOn.SelectedIndex > 0 ?
-				FontHelper.UIFont : FontHelper.MakeEticRegFontDerivative(16));
-
-			txtMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2 - 1;
-			txtMembers.Text = m_classInfo.FormattedMembersString;
-			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
-			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
-			btnOK.Enabled = true;
-
-			if (!m_splitterSettingsLoaded &&
-				(m_classInfo.ClassType == SearchClassType.Articulatory ||
-				m_classInfo.ClassType == SearchClassType.Binary))
-			{
-				LoadSplitterSettings();
-			}
-
-			splitOuter.ResumeLayout();
 		}
 
 		/// ------------------------------------------------------------------------------------
