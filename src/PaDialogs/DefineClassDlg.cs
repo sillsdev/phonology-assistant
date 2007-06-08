@@ -74,6 +74,22 @@ namespace SIL.Pa.Dialogs
 			SetupPhoneViewers();
 
 			rdoOr.Left = rdoAnd.Left;
+			Opacity = 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			// This will hide visible layout ugliness.
+			Opacity = 0;
+			Application.DoEvents();
+			Opacity = 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,21 +428,8 @@ namespace SIL.Pa.Dialogs
 				return false;
 			}
 
-			if (m_classesDlg != null)
-			{
-				// Ensure the new class doesn't have a duplicate class name
-				foreach (ClassListViewItem item in m_classesDlg.ClassListView.Items)
-				{
-					if (item.Text == txtClassName.Text && item != m_origClassInfo)
-					{
-						STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
-							txtClassName.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-						return false;
-					}
-				}
-			}
-
-			return true;
+			return (m_classesDlg == null ? true :
+				!m_classesDlg.ClassListView.DoesClassNameExist(txtClassName.Text, m_origClassInfo, true)); 
 		}
 
 		#endregion

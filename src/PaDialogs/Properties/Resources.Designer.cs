@@ -342,15 +342,6 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Class &apos;{0}&apos; already exists. Choose a different name..
-        /// </summary>
-        internal static string kstidDefineClassDupClassName {
-            get {
-                return ResourceManager.GetString("kstidDefineClassDupClassName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You cannot have an empty Class Name.
         /// </summary>
         internal static string kstidDefineClassEmptyClassName {

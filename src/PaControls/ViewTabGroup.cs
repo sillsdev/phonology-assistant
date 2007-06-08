@@ -1052,8 +1052,6 @@ namespace SIL.Pa.Controls
 				return;
 
 			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", this);
-			m_owningTabGroup.SuspendLayout();
-			m_viewsControl.SuspendLayout();
 
 			m_viewsForm.Visible = false;
 
@@ -1066,10 +1064,11 @@ namespace SIL.Pa.Controls
 			
 			m_viewsControl.Visible = false;
 			m_viewsControl.Size = m_owningTabGroup.ClientSize;
-			m_viewsControl.PerformLayout();
 			m_owningTabGroup.Controls.Add(m_viewsControl);
+			m_viewsControl.PerformLayout();
 			m_viewsControl.Visible = true;
 			m_viewsControl.BringToFront();
+			
 			((ITabView)m_viewsForm).ViewDocked();
 			m_viewDocked = true;
 			m_ignoreTabSelection = true;
@@ -1079,8 +1078,6 @@ namespace SIL.Pa.Controls
 			if (!s_undockingInProgress && activateViewsForm && m_viewsControl.FindForm() != null)
 				m_viewsControl.FindForm().Activate();
 
-			m_viewsControl.ResumeLayout(false);
-			m_owningTabGroup.ResumeLayout();
 			InitializeDockedToolTipControl();
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
 		}

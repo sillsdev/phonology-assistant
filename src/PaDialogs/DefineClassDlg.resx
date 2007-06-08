@@ -949,7 +949,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2713.23366, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -976,7 +976,7 @@
     <value>charExplorer</value>
   </data>
   <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.0.2713.23366, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -1162,7 +1162,7 @@
     <value>3</value>
   </data>
   <data name="rdoOr.Text" xml:space="preserve">
-    <value>O&amp;R</value>
+    <value>&amp;OR</value>
   </data>
   <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -1201,7 +1201,7 @@
     <value>2</value>
   </data>
   <data name="rdoAnd.Text" xml:space="preserve">
-    <value>AN&amp;D</value>
+    <value>&amp;AND</value>
   </data>
   <data name="rdoAnd.ToolTip" xml:space="preserve">
     <value>Phones must match all specified features</value>
@@ -1240,7 +1240,7 @@
     <value>pnlMembers</value>
   </data>
   <data name="&gt;&gt;pnlMembers.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2713.23366, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMembers.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1275,11 +1275,11 @@
   <data name="&gt;&gt;lblClassTypeValue.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>39</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -1306,6 +1306,6 @@
     <value>DefineClassDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2713.26944, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2715.22471, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

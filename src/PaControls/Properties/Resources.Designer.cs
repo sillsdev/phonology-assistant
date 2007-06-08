@@ -436,6 +436,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Class &apos;{0}&apos; already exists. Choose a different name..
+        /// </summary>
+        internal static string kstidDefineClassDupClassName {
+            get {
+                return ResourceManager.GetString("kstidDefineClassDupClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete the find phone category &apos;{0}&apos;?.
         /// </summary>
         internal static string kstidDeleteFFCategoryConfirmationMsg {

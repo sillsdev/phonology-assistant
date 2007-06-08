@@ -408,10 +408,6 @@
     <value>Standard Format Data Source Editor</value>
     <comment>Caption for common dialog used to specify the SFM data source editor.</comment>
   </data>
-  <data name="kstidDefineClassDupClassName" xml:space="preserve">
-    <value>Class '{0}' already exists. Choose a different name.</value>
-    <comment>Error msg for creating class with duplicate name</comment>
-  </data>
   <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
     <value>You cannot have an empty Class Name</value>
   </data>

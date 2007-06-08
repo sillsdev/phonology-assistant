@@ -200,9 +200,14 @@ namespace SIL.Pa.Controls
 			base.OnAfterLabelEdit(e);
 
 			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
+
 			if (item != null)
 			{
-				item.IsDirty = true;
+				if (DoesClassNameExist(e.Label, item, true))
+					e.CancelEdit = true;
+				else
+					item.IsDirty = true;
+
 				item.InEditMode = false;
 			}
 		}
@@ -297,6 +302,27 @@ namespace SIL.Pa.Controls
 
 				return false;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if the specified class name already exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool DoesClassNameExist(string className, ClassListViewItem origClassInfo, bool showMsg)
+		{
+			// Ensure the new class doesn't have a duplicate class name
+			foreach (ClassListViewItem item in Items)
+			{
+				if (item.Text == className && item != origClassInfo)
+				{
+					STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
+						className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		#region Drawing methods

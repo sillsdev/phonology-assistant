@@ -268,6 +268,10 @@
     <value>New Custom Feature</value>
     <comment>Default name given to new custom features when the user clicks add on the Define Articulatory dialog box.</comment>
   </data>
+  <data name="kstidDefineClassDupClassName" xml:space="preserve">
+    <value>Class '{0}' already exists. Choose a different name.</value>
+    <comment>Error msg for creating class with duplicate name</comment>
+  </data>
   <data name="kstidDeleteFFCategoryConfirmationMsg" xml:space="preserve">
     <value>Are you sure you want to delete the find phone category '{0}'?</value>
     <comment>Question asked when user wants to delete a find phone category in the find phone window.</comment>
