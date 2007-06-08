@@ -162,7 +162,7 @@ namespace SIL.Pa.Controls
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
 			this.lvClasses.OwnerDraw = true;
-			this.lvClasses.ShowMembersAndBasedOn = false;
+			this.lvClasses.ShowMembersAndTypeColumns = false;
 			this.lvClasses.Size = new System.Drawing.Size(198, 176);
 			this.lvClasses.TabIndex = 0;
 			this.lvClasses.UseCompatibleStateImageBehavior = false;

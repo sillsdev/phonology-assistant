@@ -32,7 +32,6 @@ namespace SIL.Pa.Dialogs
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			lvClasses.Load();
 			lvClasses.LoadSettings(Name);
-			lvClasses.Font = FontHelper.UIFont;
 		}
 
 		/// --------------------------------------------------------------------------------------------

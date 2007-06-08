@@ -190,7 +190,7 @@ namespace SIL.Pa.Dialogs
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
 			this.lvClasses.OwnerDraw = true;
-			this.lvClasses.ShowMembersAndBasedOn = true;
+			this.lvClasses.ShowMembersAndTypeColumns = true;
 			this.lvClasses.UseCompatibleStateImageBehavior = false;
 			this.lvClasses.View = System.Windows.Forms.View.Details;
 			this.lvClasses.DoubleClick += new System.EventHandler(this.lvClasses_DoubleClick);

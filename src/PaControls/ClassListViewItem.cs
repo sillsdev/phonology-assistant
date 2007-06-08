@@ -31,6 +31,7 @@ namespace SIL.Pa.Controls
 		public bool AllowEdit = true;
 		public bool ANDFeatures = true;
 		public bool IsDirty = false;
+		public bool InEditMode = false;
 		private ulong[] m_masks = new ulong[2];
 		private string m_plusSymbol = ResourceHelper.GetString("kstidPlusFeatureSymbol");
 		private string m_minusSymbol = ResourceHelper.GetString("kstidMinusFeatureSymbol");
@@ -369,49 +370,52 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool Draw(DrawListViewItemEventArgs e)
 		{
-			// We only care about custom drawing the members column for IPA character classes.
-			if (ClassType != SearchClassType.PhoneticChars || ListView == null)
-				return false;
-
 			// This seems more reliable than using e.State. I was having trouble with that.
-			bool selected = (ListView.SelectedItems.Contains(this as ListViewItem));
+			bool selected = (ListView.SelectedItems.Contains(this as ListViewItem) && !InEditMode);
 
-			Brush brFore;
+			Color clrFore = SystemColors.WindowText;
 
-			if (selected)
+			if (!selected)
+				e.DrawBackground();
+			else
 			{
-				brFore = (ListView.Focused ? SystemBrushes.HighlightText : SystemBrushes.ControlText);
+				clrFore = (ListView.Focused ? SystemColors.HighlightText : SystemColors.ControlText);
 				Rectangle rc = e.Bounds;
 				rc.X += 4;
 				rc.Width -= 4;
 				e.Graphics.FillRectangle((ListView.Focused ?
 					SystemBrushes.Highlight : SystemBrushes.Control), rc);
-
-				e.DrawFocusRectangle();
-			}
-			else
-			{
-				brFore = SystemBrushes.WindowText;
-				e.DrawBackground();
 			}
 
 			// Draw the item and subitem texts.
-			using (StringFormat sf = STUtils.GetStringFormat(false))
+			TextFormatFlags flags = TextFormatFlags.SingleLine |
+				TextFormatFlags.TextBoxControl | TextFormatFlags.EndEllipsis |
+				TextFormatFlags.VerticalCenter;
+
+			flags |= (ListView.RightToLeft == RightToLeft.Yes ?
+				TextFormatFlags.RightToLeft : TextFormatFlags.Left);
+
+			for (int i = 0; i < SubItems.Count; i++)
 			{
-				for (int i = 0; i < SubItems.Count; i++)
+				Rectangle rc = SubItems[i].Bounds;
+				rc.Inflate(-2, 2);
+
+				// If we're painting the class name, then bump its rectangle over 1 pixels;
+				if (i == 0)
+					rc.X++;
+
+				Font fnt = FontHelper.UIFont;
+				if (i == 1 && ClassType == SearchClassType.PhoneticChars)
 				{
-					Rectangle rc = SubItems[i].Bounds;
-					rc.Inflate(-2, 2);
-
-					// Bump the item's rectangle over 2 pixels and the subitem's over 1 pixel.
-					rc.X += (SubItems[i].Text == Text ? 2 : 1);
-
-					if (i == 1)
-						SubItems[1].Font = ClassMembersFont;
-
-					e.Graphics.DrawString(SubItems[i].Text, SubItems[i].Font, brFore, rc, sf);
+					fnt = (ListView is ClassListView ?
+						((ClassListView)ListView).PhoneticFont : FontHelper.PhoneticFont);
 				}
+
+				TextRenderer.DrawText(e.Graphics, SubItems[i].Text, fnt, rc, clrFore, flags);
 			}
+
+			if (ListView.Focused)
+				e.DrawFocusRectangle();
 
 			return true;
 		}

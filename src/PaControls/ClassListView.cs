@@ -39,8 +39,9 @@ namespace SIL.Pa.Controls
 		private bool m_deletedClass = false;
 
 		private ListApplicationType m_appliesTo = ListApplicationType.ClassesDialog;
-		private bool m_showMembersAndBasedOn = true;
-		
+		private bool m_showMembersAndClassTypeColumns = true;
+		internal Font PhoneticFont = null;
+
 		#region Construction and loading
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,7 +50,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public ClassListView() : base()
 		{
-			Font = FontHelper.UIFont;
 			DoubleBuffered = true;
 			Name = "lvClasses";
 			HeaderStyle = ColumnHeaderStyle.Nonclickable;
@@ -58,6 +58,9 @@ namespace SIL.Pa.Controls
 			View = View.Details;
 			FullRowSelect = true;
 			HideSelection = false;
+
+			// This will ensure the row height will accomodate the tallest font.
+			Font = FontHelper.UIFont;
 
 			AddColumns();
 			//AddGroups();
@@ -70,6 +73,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
+			SmallImageList = null;
 			Columns.Clear();
 
 			// Add the column for the class name.
@@ -79,8 +83,17 @@ namespace SIL.Pa.Controls
 			hdr.Width = 180;
 			Columns.Add(hdr);
 
-			if (m_showMembersAndBasedOn)
+			if (m_showMembersAndClassTypeColumns)
 			{
+				PhoneticFont = (FontHelper.PhoneticFont.SizeInPoints <= 10 ?
+					FontHelper.PhoneticFont : FontHelper.MakeFont(FontHelper.PhoneticFont, 10));
+
+				// This will force the height of items to fit the larger of the phonetic or
+				// UI fonts. I realize this is sort of a kludge, but it's a workable one.
+				int itemHeight = Math.Max(PhoneticFont.Height, FontHelper.UIFont.Height);
+				SmallImageList = new ImageList();
+				SmallImageList.ImageSize = new Size(1, itemHeight);
+
 				// Add a column for the pattern of the class.
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kMemberSubitem;
@@ -165,6 +178,20 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnBeforeLabelEdit(LabelEditEventArgs e)
+		{
+			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
+			if (item != null)
+				item.InEditMode = true;
+
+			base.OnBeforeLabelEdit(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Make sure to dirty the item after its class name changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -174,7 +201,10 @@ namespace SIL.Pa.Controls
 
 			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
 			if (item != null)
+			{
 				item.IsDirty = true;
+				item.InEditMode = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,16 +228,16 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the Members and Based On column
+		/// Gets or sets a value indicating whether or not the Members and class type columns
 		/// should be shown.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ShowMembersAndBasedOn
+		public bool ShowMembersAndTypeColumns
 		{
-			get { return m_showMembersAndBasedOn; }
+			get { return m_showMembersAndClassTypeColumns; }
 			set
 			{
-				m_showMembersAndBasedOn = value;
+				m_showMembersAndClassTypeColumns = value;
 				AddColumns();
 			}
 		}
@@ -278,7 +308,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDrawItem(DrawListViewItemEventArgs e)
 		{
-			e.DrawDefault = false;
+			e.DrawDefault = !m_showMembersAndClassTypeColumns;
 			base.OnDrawItem(e);
 		
 			if (!e.DrawDefault)
