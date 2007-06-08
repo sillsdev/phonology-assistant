@@ -237,7 +237,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
@@ -262,7 +262,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
       <SubType>Component</SubType>

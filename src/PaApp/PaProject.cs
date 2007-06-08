@@ -234,6 +234,12 @@ namespace SIL.Pa
 					// the last modified times from this project's data sources.
 					CopyLastModifiedTimes(project);
 				}
+
+				project.ExperimentalTranscriptions =
+					ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
+
+				project.AmbiguousSequences = PhoneCache.AmbiguousSequences =
+					AmbiguousSequences.Load(ProjectPathFilePrefix);
 			}
 
 			return project;

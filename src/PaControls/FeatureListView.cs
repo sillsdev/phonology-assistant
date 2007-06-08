@@ -78,6 +78,19 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && m_checkedItemFont != null)
+				m_checkedItemFont.Dispose();
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			m_ignoreCheckChanges = true;

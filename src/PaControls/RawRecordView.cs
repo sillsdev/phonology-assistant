@@ -394,9 +394,11 @@ namespace SIL.Pa.Controls
 					info.fieldValue = fieldValue.Replace("\\", "\\\\");
 
 					// All headers are bold
-					Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-					info.labelWidth = TextRenderer.MeasureText(g, field.DisplayText,
-						headerFont, Size.Empty, m_txtFmtFlags).Width;
+					using (Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+					{
+						info.labelWidth = TextRenderer.MeasureText(g, field.DisplayText,
+							headerFont, Size.Empty, m_txtFmtFlags).Width;
+					}
 
 					info.valueWidth = TextRenderer.MeasureText(g, fieldValue, field.Font,
 						Size.Empty, m_txtFmtFlags).Width;
@@ -444,9 +446,11 @@ namespace SIL.Pa.Controls
 				info.label = fieldInfo.DisplayText;
 				info.displayIndex = fieldInfo.DisplayIndexInRecView;
 				info.columnValues = colValues;
-				Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-				info.labelWidth = TextRenderer.MeasureText(g, info.label,
-					headerFont, Size.Empty, m_txtFmtFlags).Width;
+				using (Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+				{
+					info.labelWidth = TextRenderer.MeasureText(g, info.label,
+						headerFont, Size.Empty, m_txtFmtFlags).Width;
+				}
 
 				// Sort the info by their display order
 				sortedFieldInfo.Add(info.displayIndex, info);

@@ -136,6 +136,23 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
+			{
+				m_cellInfoPopup.Paint -= m_cellInfoPopup_Paint;
+				m_cellInfoPopup.CommandLink.Click -= PopupsCommandLink_Click;
+				m_cellInfoPopup.HeadingPanel.Font.Dispose();
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds the columns to the grid based on the collection of PA fields in the current
 		/// project.
 		/// </summary>

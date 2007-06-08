@@ -74,22 +74,6 @@ namespace SIL.Pa.Dialogs
 			SetupPhoneViewers();
 
 			rdoOr.Left = rdoAnd.Left;
-			Opacity = 0;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(EventArgs e)
-		{
-			base.OnShown(e);
-
-			// This will hide visible layout ugliness.
-			Opacity = 0;
-			Application.DoEvents();
-			Opacity = 1;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -175,6 +175,37 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (m_lblPattern != null && !m_lblPattern.IsDisposed)
+				{
+					m_lblPattern.Font.Dispose();
+					m_lblPattern.Dispose();
+				}
+
+				if (m_lblMsg != null && !m_lblMsg.IsDisposed)
+					m_lblMsg.Dispose();
+
+				if (m_lblInfo != null && !m_lblInfo.IsDisposed)
+					m_lblInfo.Dispose();
+
+				if (m_popupTimer != null)
+				{
+					m_popupTimer.Tick -= m_popupTimer_Tick;
+					m_popupTimer.Dispose();
+					m_popupTimer = null;
+				}
+			}
+
+			base.Dispose(disposing);
+		}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			base.OnPaintBackground(e);

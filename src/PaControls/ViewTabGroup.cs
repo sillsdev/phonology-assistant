@@ -71,6 +71,41 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (m_tabs != null)
+				{
+					for (int i = m_tabs.Count - 1; i >= 0; i--)
+					{
+						if (m_tabs[i] != null && !m_tabs[i].IsDisposed)
+							m_tabs[i].Dispose();
+					}
+				}
+
+				if (m_pnlCaption != null && !m_pnlCaption.IsDisposed)
+				{
+					m_pnlCaption.Paint -= m_pnlCaption_Paint;
+					m_pnlCaption.Font.Dispose();
+					m_pnlCaption.Dispose();
+				}
+
+				if (s_tabFont != null)
+				{
+					s_tabFont.Dispose();
+					s_tabFont = null;
+				}
+			}
+			
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Creates the panel that holds the tab collection's panel and in which the tab
 		/// collection's panel slides back and forth when it's not wide enough to see all
 		/// the tabs at once.
@@ -938,6 +973,30 @@ namespace SIL.Pa.Controls
 
 			if (PaApp.MainForm != null)
 				PaApp.MainForm.Activated += new EventHandler(MainForm_Activated);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (PaApp.MainForm != null)
+					PaApp.MainForm.Activated -= MainForm_Activated;
+
+				if (m_viewsForm != null && !m_viewsForm.IsDisposed)
+				{
+					m_viewsForm.FormClosing -= m_viewsForm_FormClosing;
+					m_viewsForm.FormClosed -= m_viewsForm_FormClosed;
+					m_viewsForm.Activated -= m_viewsForm_Activated;
+					m_viewsForm.Dispose();
+				}
+			}
+			
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------

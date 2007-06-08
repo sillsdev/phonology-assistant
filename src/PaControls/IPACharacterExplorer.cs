@@ -68,6 +68,78 @@ namespace SIL.Pa.Controls
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (m_pickerConsonant != null && !m_pickerConsonant.IsDisposed)
+				{
+					m_pickerConsonant.CharPicked -= HandleCharPicked;
+					m_pickerConsonant.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerConsonant.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerConsonant.Dispose();
+				}
+
+				if (m_pickerNonPulmonics != null && !m_pickerNonPulmonics.IsDisposed)
+				{
+					m_pickerNonPulmonics.CharPicked -= HandleCharPicked;
+					m_pickerNonPulmonics.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerNonPulmonics.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerNonPulmonics.Dispose();
+				}
+
+				if (m_pickerOther != null && !m_pickerOther.IsDisposed)
+				{
+					m_pickerOther.CharPicked -= HandleCharPicked;
+					m_pickerOther.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerOther.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerOther.Dispose();
+				}
+
+				if (m_pickerVowel != null && !m_pickerVowel.IsDisposed)
+				{
+					m_pickerVowel.CharPicked -= HandleCharPicked;
+					m_pickerVowel.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerVowel.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerVowel.Dispose();
+				}
+
+				if (m_pickerDiacritics != null && !m_pickerDiacritics.IsDisposed)
+				{
+					m_pickerDiacritics.CharPicked -= HandleCharPicked;
+					m_pickerDiacritics.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerDiacritics.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerDiacritics.Font.Dispose();
+					m_pickerDiacritics.Dispose();
+				}
+
+				if (m_pickerSSeg != null && !m_pickerSSeg.IsDisposed)
+				{
+					m_pickerSSeg.CharPicked -= HandleCharPicked;
+					m_pickerSSeg.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerSSeg.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerSSeg.Font.Dispose();
+					m_pickerSSeg.Dispose();
+				}
+
+				if (m_pickerTone != null && !m_pickerTone.IsDisposed)
+				{
+					m_pickerTone.CharPicked -= HandleCharPicked;
+					m_pickerTone.ShouldLoadChar -= HandleShouldLoadCharacter;
+					m_pickerTone.ItemDrag -= HandleCharacterItemDrag;
+					m_pickerTone.Font.Dispose();
+					m_pickerTone.Dispose();
+				}
+			}
+			
+			base.Dispose(disposing);
+		}
+
 		#region Methods for loading IPA character choosers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

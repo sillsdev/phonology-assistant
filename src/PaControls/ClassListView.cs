@@ -68,6 +68,22 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+			{
+				PhoneticFont.Dispose();
+				PhoneticFont = null;
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds the columns to the list
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -242,6 +258,12 @@ namespace SIL.Pa.Controls
 			get { return m_showMembersAndClassTypeColumns; }
 			set
 			{
+				if (PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+				{
+					PhoneticFont.Dispose();
+					PhoneticFont = null;
+				}
+				
 				m_showMembersAndClassTypeColumns = value;
 				AddColumns();
 			}

@@ -24,6 +24,10 @@ namespace SIL.Pa.Dialogs
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
+			
+			// This will hide visible layout ugliness.
+			// The opacity is set to 1 in the shown event.
+			Opacity = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,6 +48,19 @@ namespace SIL.Pa.Dialogs
 				Rectangle rc = (Parent != null ? Parent.Bounds : Screen.PrimaryScreen.WorkingArea);
 				Location = new Point((rc.Width - Width) / 2, (rc.Height - Height) / 2);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			Application.DoEvents();
+			Opacity = 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
