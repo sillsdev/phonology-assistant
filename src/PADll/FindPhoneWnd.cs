@@ -1309,6 +1309,7 @@ namespace SIL.Pa
 			rawRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			ptrnTextBox.TextBox.Font = FontHelper.PhoneticFont;
+			lstRecentPatterns.Font = FontHelper.PhoneticFont;
 			pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();
 

@@ -1274,6 +1274,19 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// This method gets called when the font(s) get changed in the options dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPaFontsChanged(object args)
+		{
+			Font = FontHelper.PhoneticFont;
+
+			// Return false to allow other windows to update their fonts.
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
