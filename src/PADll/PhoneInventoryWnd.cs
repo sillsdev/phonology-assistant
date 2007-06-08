@@ -58,14 +58,17 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 
 			m_experimentalTransCtrl = new ExperimentalTranscriptionControl();
+			m_experimentalTransCtrl.BorderStyle = BorderStyle.None;
 			m_experimentalTransCtrl.Dock = DockStyle.Fill;
 			m_experimentalTransCtrl.TabIndex = pgpExperimental.TabIndex;
 			m_experimentalTransCtrl.Grid.ShowWaterMarkWhenDirty = true;
 			m_experimentalTransCtrl.Grid.GetWaterMarkRect +=
 				new SilGrid.GetWaterMarkRectHandler(HandleGetWaterMarkRect);
-			splitChanges.Panel1.Controls.Add(m_experimentalTransCtrl);
+			pnlExperimental.Controls.Add(m_experimentalTransCtrl);
 			m_experimentalTransCtrl.BringToFront();
 			pgpExperimental.ControlReceivingFocusOnMnemonic = m_experimentalTransCtrl.Grid;
+			pgpExperimental.BorderStyle = BorderStyle.None;
+			pgpAmbiguous.BorderStyle = BorderStyle.None;
 
 			PaApp.IncProgressBar();
 			BuildPhoneGrid();

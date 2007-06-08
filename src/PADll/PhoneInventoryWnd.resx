@@ -148,7 +148,7 @@
     <value>gridPhones</value>
   </data>
   <data name="&gt;&gt;gridPhones.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2609.19840, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2715.16259, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridPhones.Parent" xml:space="preserve">
     <value>pnlPhones</value>
@@ -175,7 +175,7 @@
     <value>pnlPhones</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Parent" xml:space="preserve">
     <value>splitInventory.Panel1</value>
@@ -243,6 +243,9 @@
   <data name="&gt;&gt;txtAFeatures.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnADropDownArrow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -264,9 +267,6 @@
   <data name="btnADropDownArrow.Text" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="btnADropDownArrow.ToolTip" xml:space="preserve">
     <value>Change articulatory features for selected phone</value>
   </data>
@@ -274,7 +274,7 @@
     <value>btnADropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Parent" xml:space="preserve">
     <value>hlblAFeatures</value>
@@ -304,7 +304,7 @@
     <value>hlblAFeatures</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Parent" xml:space="preserve">
     <value>pnlAFeatures</value>
@@ -331,7 +331,7 @@
     <value>pnlAFeatures</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel1</value>
@@ -415,7 +415,7 @@
     <value>btnBDropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Parent" xml:space="preserve">
     <value>hlblBFeatures</value>
@@ -445,7 +445,7 @@
     <value>hlblBFeatures</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Parent" xml:space="preserve">
     <value>pnlBFeatures</value>
@@ -472,7 +472,7 @@
     <value>pnlBFeatures</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel2</value>
@@ -561,6 +561,9 @@
   <data name="splitChanges.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
+  <data name="pnlExperimental.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="pgpExperimental.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -568,13 +571,13 @@
     <value>Lucida Sans, 12world</value>
   </data>
   <data name="pgpExperimental.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 10</value>
+    <value>0, 0</value>
   </data>
   <data name="pgpExperimental.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 5, 0, 0</value>
   </data>
   <data name="pgpExperimental.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 25</value>
+    <value>436, 25</value>
   </data>
   <data name="pgpExperimental.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -586,12 +589,39 @@
     <value>pgpExperimental</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Parent" xml:space="preserve">
-    <value>splitChanges.Panel1</value>
+    <value>pnlExperimental</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlExperimental.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlExperimental.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlExperimental.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 10</value>
+  </data>
+  <data name="pnlExperimental.Size" type="System.Drawing.Size, System.Drawing">
+    <value>438, 214</value>
+  </data>
+  <data name="pnlExperimental.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pnlExperimental.Name" xml:space="preserve">
+    <value>pnlExperimental</value>
+  </data>
+  <data name="&gt;&gt;pnlExperimental.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlExperimental.Parent" xml:space="preserve">
+    <value>splitChanges.Panel1</value>
+  </data>
+  <data name="&gt;&gt;pnlExperimental.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="splitChanges.Panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -613,7 +643,7 @@
     <value>Fill</value>
   </data>
   <data name="gridAmbiguous.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 25</value>
   </data>
   <data name="gridAmbiguous.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>22</value>
@@ -628,39 +658,12 @@
     <value>gridAmbiguous</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2609.19840, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2715.16259, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Parent" xml:space="preserve">
     <value>pnlAmbiguous</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlAmbiguous.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="pnlAmbiguous.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
-  </data>
-  <data name="pnlAmbiguous.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="pnlAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 190</value>
-  </data>
-  <data name="pnlAmbiguous.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pnlAmbiguous.Name" xml:space="preserve">
-    <value>pnlAmbiguous</value>
-  </data>
-  <data name="&gt;&gt;pnlAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pnlAmbiguous.Parent" xml:space="preserve">
-    <value>splitChanges.Panel2</value>
-  </data>
-  <data name="&gt;&gt;pnlAmbiguous.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="chkShowDefaults.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -673,7 +676,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkShowDefaults.Location" type="System.Drawing.Point, System.Drawing">
-    <value>308, 3</value>
+    <value>306, 3</value>
   </data>
   <data name="chkShowDefaults.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 19</value>
@@ -712,7 +715,7 @@
     <value>3, 5, 0, 0</value>
   </data>
   <data name="pgpAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 25</value>
+    <value>436, 25</value>
   </data>
   <data name="pgpAmbiguous.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -724,13 +727,40 @@
     <value>pgpAmbiguous</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2609.19895, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Parent" xml:space="preserve">
-    <value>splitChanges.Panel2</value>
+    <value>pnlAmbiguous</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="pnlAmbiguous.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlAmbiguous.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlAmbiguous.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
+    <value>438, 215</value>
+  </data>
+  <data name="pnlAmbiguous.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pnlAmbiguous.Name" xml:space="preserve">
+    <value>pnlAmbiguous</value>
+  </data>
+  <data name="&gt;&gt;pnlAmbiguous.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2715.18358, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlAmbiguous.Parent" xml:space="preserve">
+    <value>splitChanges.Panel2</value>
+  </data>
+  <data name="&gt;&gt;pnlAmbiguous.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="splitChanges.Panel2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 30</value>
@@ -885,6 +915,9 @@
   <data name="&gt;&gt;pnlMasterOuter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
