@@ -427,6 +427,10 @@ namespace SIL.Pa.Controls
 						if (!cell.Displayed)
 						{
 							int middleDisplayRowIndex = (cell.RowIndex - (m_grid.DisplayedRowCount(true) / 2)) + 1;
+							// Don't set the FirstDisplayedScrollingRowIndex to an invisible row. This will
+							// happen when the row is in a collapsed group.
+							while (!m_grid.Rows[middleDisplayRowIndex].Visible)
+								middleDisplayRowIndex++;
 							// Don't set the FirstDisplayedScrollingRowIndex to a negative number
 							m_grid.FirstDisplayedScrollingRowIndex =
 								(middleDisplayRowIndex < 1) ? 0 : middleDisplayRowIndex;
