@@ -120,14 +120,7 @@ namespace SIL.Pa.Controls
 				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
 
 			if (m_pnlHdrBand.ContextMenuStrip != null)
-			{
-				m_pnlHdrBand.ContextMenuStrip.Opening += delegate(object sender, CancelEventArgs e)
-				{
-					ContextMenuStrip cms = sender as ContextMenuStrip;
-					if (cms != null && cms.SourceControl != null)
-						m_contextMenuTabGroup = cms.SourceControl.Parent as SearchResultTabGroup;
-				};
-			}
+				m_pnlHdrBand.ContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,6 +130,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
+			if (m_pnlHdrBand.ContextMenuStrip != null)
+				m_pnlHdrBand.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+			
 			m_btnClose.Dispose();
 			m_btnLeft.Dispose();
 			m_btnRight.Dispose();
@@ -186,6 +182,18 @@ namespace SIL.Pa.Controls
 
 			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
 			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+		{
+			ContextMenuStrip cms = sender as ContextMenuStrip;
+			if (cms != null && cms.SourceControl != null)
+				m_contextMenuTabGroup = cms.SourceControl.Parent as SearchResultTabGroup;
 		}
 
 		#region Message mediator message handler and update handler methods
@@ -1147,9 +1155,10 @@ namespace SIL.Pa.Controls
 			{
 				m_currTab.CieOptionsDropDownContainer = new CustomDropDown();
 				m_currTab.CieOptionsDropDownContainer.AddControl(m_currTab.CieOptionsDropDown);
-				m_currTab.CieOptionsDropDownContainer.Closed +=
-					new ToolStripDropDownClosedEventHandler(m_cieOptionsDropDownContainer_Closed);
 			}
+
+			m_currTab.CieOptionsDropDownContainer.Closed +=
+				new ToolStripDropDownClosedEventHandler(m_cieOptionsDropDownContainer_Closed);
 
 			Point pt = ctrl.PointToScreen(new Point(0, ctrl.Height));
 			m_currTab.CieOptionsDropDownContainer.Show(pt);
@@ -1173,6 +1182,8 @@ namespace SIL.Pa.Controls
 				m_currTab.ResultView.Grid.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
 				m_currTab.CIEViewRefresh();
 			}
+
+			m_currTab.CieOptionsDropDownContainer.Closed -= m_cieOptionsDropDownContainer_Closed;
 		}
 
 		#endregion
@@ -1253,8 +1264,6 @@ namespace SIL.Pa.Controls
 			if (ContextMenuStrip != null)
 				ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
 
-			Disposed += new EventHandler(SearchResultTab_Disposed);
-
 			// Prepare the tab's minimal pair options button.
 			Image img = Properties.Resources.kimidMinimalPairOptions;
 			m_btnCIEOptions = new XButton();
@@ -1316,40 +1325,38 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// For some reason, this is safer to do in a Disposed delegate than in an override
-		/// of the Dispose method. Putting this in an override of Dispose sometimes throws
-		/// a "Parameter is not valid" exception.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SearchResultTab_Disposed(object sender, EventArgs e)
-		{
-			Disposed -= SearchResultTab_Disposed;
-
-			if (m_resultView != null)
-			{
-				m_resultView.Dispose();
-				m_resultView = null;
-			}
-
-			if (m_query != null)
-				m_query = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Clean up a little.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (ContextMenuStrip != null)
-				ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
-			
-			PaApp.RemoveMediatorColleague(this);
-			m_btnCIEOptions.Dispose();
+			if (disposing)
+			{
+				UnsubscribeToGridEvents();
 
-			if (m_image != null)
-				m_image.Dispose();
+				if (ContextMenuStrip != null && !ContextMenuStrip.IsDisposed)
+					ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+
+				PaApp.RemoveMediatorColleague(this);
+				
+				if (!m_btnCIEOptions.IsDisposed)
+					m_btnCIEOptions.Dispose();
+
+				if (m_image != null)
+				{
+					m_image.Dispose();
+					m_image = null;
+				}
+
+				if (m_resultView != null)
+				{
+					m_resultView.Dispose();
+					m_resultView = null;
+				}
+
+				if (m_query != null)
+					m_query = null;
+			}
 
 			base.Dispose(disposing);
 		}
@@ -1366,7 +1373,8 @@ namespace SIL.Pa.Controls
 
 			if (cms != null && m_owningTabGroup != null &&
 				(cms.SourceControl == this || cms.SourceControl == m_resultView ||
-				(m_resultView.Grid != null && cms.SourceControl == m_resultView.Grid)))
+				(m_resultView != null && m_resultView.Grid != null &&
+				cms.SourceControl == m_resultView.Grid)))
 			{
 				m_owningTabGroup.ContextMenuTab = this;
 			}

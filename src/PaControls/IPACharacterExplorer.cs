@@ -114,7 +114,6 @@ namespace SIL.Pa.Controls
 					m_pickerDiacritics.CharPicked -= HandleCharPicked;
 					m_pickerDiacritics.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerDiacritics.ItemDrag -= HandleCharacterItemDrag;
-					m_pickerDiacritics.Font.Dispose();
 					m_pickerDiacritics.Dispose();
 				}
 
@@ -123,7 +122,6 @@ namespace SIL.Pa.Controls
 					m_pickerSSeg.CharPicked -= HandleCharPicked;
 					m_pickerSSeg.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerSSeg.ItemDrag -= HandleCharacterItemDrag;
-					m_pickerSSeg.Font.Dispose();
 					m_pickerSSeg.Dispose();
 				}
 
@@ -132,7 +130,6 @@ namespace SIL.Pa.Controls
 					m_pickerTone.CharPicked -= HandleCharPicked;
 					m_pickerTone.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerTone.ItemDrag -= HandleCharacterItemDrag;
-					m_pickerTone.Font.Dispose();
 					m_pickerTone.Dispose();
 				}
 			}

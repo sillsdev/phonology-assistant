@@ -2402,8 +2402,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public void SetContextMenuForControl(Control ctrl, string name)
 		{
-			if (m_cmenus.ContainsKey(name))
-				ctrl.ContextMenuStrip = m_cmenus[name];
+			ContextMenuStrip cmnu;
+			if (m_cmenus.TryGetValue(name, out cmnu))
+				ctrl.ContextMenuStrip = cmnu;
 		}
 
 		/// ------------------------------------------------------------------------------------

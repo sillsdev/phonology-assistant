@@ -180,10 +180,7 @@ namespace SIL.Pa.Controls
 			if (disposing)
 			{
 				if (m_lblPattern != null && !m_lblPattern.IsDisposed)
-				{
-					m_lblPattern.Font.Dispose();
 					m_lblPattern.Dispose();
-				}
 
 				if (m_lblMsg != null && !m_lblMsg.IsDisposed)
 					m_lblMsg.Dispose();

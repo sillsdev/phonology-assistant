@@ -136,23 +136,6 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
-			{
-				m_cellInfoPopup.Paint -= m_cellInfoPopup_Paint;
-				m_cellInfoPopup.CommandLink.Click -= PopupsCommandLink_Click;
-				m_cellInfoPopup.HeadingPanel.Font.Dispose();
-			}
-
-			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Adds the columns to the grid based on the collection of PA fields in the current
 		/// project.
 		/// </summary>
@@ -169,7 +152,6 @@ namespace SIL.Pa.Controls
 
 			RefreshColumnFonts(false);
 			m_suspendSavingColumnChanges = false;
-			Disposed += new EventHandler(PaWordListGrid_Disposed);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,6 +200,26 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
+			{
+				if (base.ContextMenuStrip != null)
+					base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+				
+				m_cellInfoPopup.Paint -= m_cellInfoPopup_Paint;
+				m_cellInfoPopup.CommandLink.Click -= PopupsCommandLink_Click;
+				m_cellInfoPopup.Dispose();
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// For some reason, this is safer to do in a Disposed delegate than in an override
 		/// of the Dispose method. Putting this in an override of Dispose sometimes throws
 		/// a "Parameter is not valid" exception.
@@ -227,8 +229,8 @@ namespace SIL.Pa.Controls
 		{
 			Disposed -= PaWordListGrid_Disposed;
 
-			if (m_cellInfoPopup != null)
-				m_cellInfoPopup.Dispose();
+			//if (m_cellInfoPopup != null)
+			//    m_cellInfoPopup.Dispose();
 		}
 
 		#endregion
@@ -866,7 +868,7 @@ namespace SIL.Pa.Controls
 			if (rc.Contains(pt))
 			{
 				e.Cancel = true;
-				ShoePhoneticSortOptionsPopup();
+				ShowPhoneticSortOptionsPopup();
 			}
 		}
 
@@ -884,7 +886,7 @@ namespace SIL.Pa.Controls
 				if (e.Button == MouseButtons.Left && Columns[colName].SortMode != DataGridViewColumnSortMode.NotSortable)
 					Sort(colName, true); // Sort using the SortOptions and the column clicked
 				else if (colName == m_phoneticColName)
-					ShoePhoneticSortOptionsPopup();
+					ShowPhoneticSortOptionsPopup();
 			}
 
 			base.OnColumnHeaderMouseClick(e);
@@ -895,7 +897,7 @@ namespace SIL.Pa.Controls
 		/// Shows the phonetic sort popup at the bottom left of the phonetic column header.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ShoePhoneticSortOptionsPopup()
+		private void ShowPhoneticSortOptionsPopup()
 		{
 			if (!Focused)
 			{

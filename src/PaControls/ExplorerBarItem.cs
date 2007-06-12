@@ -67,7 +67,6 @@ namespace SIL.Pa.Controls
 				m_button.Paint -= m_button_Paint;
 				m_button.MouseEnter -= m_button_MouseEnter;
 				m_button.MouseLeave -= m_button_MouseLeave;
-				m_button.Font.Dispose();
 				m_button.Dispose();
 			}
 

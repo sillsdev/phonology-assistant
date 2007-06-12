@@ -90,7 +90,6 @@ namespace SIL.Pa.Controls
 				if (m_pnlCaption != null && !m_pnlCaption.IsDisposed)
 				{
 					m_pnlCaption.Paint -= m_pnlCaption_Paint;
-					m_pnlCaption.Font.Dispose();
 					m_pnlCaption.Dispose();
 				}
 
