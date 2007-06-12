@@ -24,10 +24,6 @@ namespace SIL.Pa.Dialogs
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
-			
-			// This will hide visible layout ugliness.
-			// The opacity is set to 1 in the shown event.
-			Opacity = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,6 +37,10 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
+			// This will hide visible layout ugliness.
+			// The opacity is set to 1 in the shown event.
+			Opacity = 0;
+			
 			base.OnHandleCreated(e);
 
 			if (Location.X == 0 && Location.Y == 0)
@@ -60,7 +60,15 @@ namespace SIL.Pa.Dialogs
 			base.OnShown(e);
 
 			Application.DoEvents();
+			
+			// At this point, the opacity should be zero. Now that we're shown and the handles
+			// are all created, show the form at full opacity. This will avoid visible layout
+			// ugliness that happens on dialogs with lots of panels and splitters, etc.
 			Opacity = 1;
+
+			// This is needed because some dialogs have PaPanels whose border
+			// doesn't get fully painted properly when the opacity goes to full.
+			Invalidate(true);
 		}
 
 		/// ------------------------------------------------------------------------------------

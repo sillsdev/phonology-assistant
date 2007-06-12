@@ -150,11 +150,11 @@
     <Compile Include="SaveXYChartDlg.designer.cs">
       <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="SFMarkerMappingDlg.cs">
+    <Compile Include="SFDatasourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SFMarkerMappingDlg.designer.cs">
-      <DependentUpon>SFMarkerMappingDlg.cs</DependentUpon>
+    <Compile Include="SFDatasourcePropertiesDlg.designer.cs">
+      <DependentUpon>SFDatasourcePropertiesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UndefinedPhoneticCharactersDlg.cs">
       <SubType>Form</SubType>
@@ -229,8 +229,8 @@
       <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SFMarkerMappingDlg.resx">
-      <DependentUpon>SFMarkerMappingDlg.cs</DependentUpon>
+    <EmbeddedResource Include="SFDatasourcePropertiesDlg.resx">
+      <DependentUpon>SFDatasourcePropertiesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UndefinedPhoneticCharactersDlg.resx">

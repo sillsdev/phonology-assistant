@@ -660,7 +660,7 @@ namespace SIL.Pa.Dialogs
 			}
 
 			// Open the mappings dialog.
-			using (SFMarkerMappingDlg dlg = new SFMarkerMappingDlg(m_project.FieldInfo, dataSource))
+			using (SFDataSourcePropertiesDlg dlg = new SFDataSourcePropertiesDlg(m_project.FieldInfo, dataSource))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{

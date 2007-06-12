@@ -18,10 +18,10 @@ namespace SIL.Pa.Dialogs
 {
 	/// --------------------------------------------------------------------------------
 	/// <summary>
-	/// Summary description for SFMarkerMappingDlg.
+	/// Summary description for SFDataSourcePropertiesDlg.
 	/// </summary>
 	/// --------------------------------------------------------------------------------
-	public partial class SFMarkerMappingDlg : OKCancelDlgBase, IxCoreColleague
+	public partial class SFDataSourcePropertiesDlg : OKCancelDlgBase, IxCoreColleague
 	{
 		#region member variables
 
@@ -30,6 +30,7 @@ namespace SIL.Pa.Dialogs
 		private List<string> m_markersInFile = new List<string>();
 		private List<SFMarkerMapping> m_mappings;
 		private PaDataSource m_datasource;
+		private PaFieldInfoList m_fieldInfo;
 
 		#endregion
 
@@ -39,12 +40,26 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SFMarkerMappingDlg(PaFieldInfoList fieldInfo, PaDataSource datasource) : base()
+		public SFDataSourcePropertiesDlg(PaFieldInfoList fieldInfo, PaDataSource datasource) : base()
 		{
+			m_datasource = datasource;
+			m_fieldInfo = fieldInfo;
+
 			// Required for Windows Form Designer support
 			InitializeComponent();
 
-			if (PaApp.DesignMode)
+			Initialize();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Initialize()
+		{
+			// If the grid is not null, we've already been here.
+			if (PaApp.DesignMode || m_grid != null)
 				return;
 
 			// For some reason when I set these values in the designer, I can't open
@@ -53,9 +68,9 @@ namespace SIL.Pa.Dialogs
 			scImport.Panel2MinSize = 125;
 
 			txtFilePreview.Font = FontHelper.PhoneticFont;
-			pnlSrcFile.Font = FontHelper.UIFont;
+			pnlSrcFileHdg.Font = FontHelper.UIFont;
 			pnlParseHdg.Font = FontHelper.UIFont;
-			pnlMappingHdg.Font = FontHelper.UIFont;
+			pnlMappingsHdg.Font = FontHelper.UIFont;
 			lblFirstInterlinear.Font = FontHelper.UIFont;
 			cboFirstInterlinear.Font = FontHelper.UIFont;
 			lblSampleInput.Font = FontHelper.UIFont;
@@ -66,10 +81,13 @@ namespace SIL.Pa.Dialogs
 			rbParseOneToOne.Font = FontHelper.UIFont;
 			rbNoParse.Font = FontHelper.UIFont;
 
+			pnlParseHdg.BorderStyle = BorderStyle.None;
+			pnlMappingsHdg.BorderStyle = BorderStyle.None;
+			pnlSrcFileHdg.BorderStyle = BorderStyle.None;
+
 			lblFilename.Font = FontHelper.UIFont;
 			lblFilename.Text = string.Empty;
 
-			m_datasource = datasource;
 			m_filename = m_datasource.DataSourceFile;
 			txtFilePreview.Text = File.ReadAllText(m_filename);
 
@@ -89,11 +107,11 @@ namespace SIL.Pa.Dialogs
 			}
 
 			InitializeEditorSpecificationControls();
-			InitializeToolboxSortFieldControls(fieldInfo);
-			LoadMappings(fieldInfo);
+			InitializeToolboxSortFieldControls();
+			LoadMappings();
 			PrepareMarkerList();
 			BuildMappingGrid();
-			pnlMappingHdg.ControlReceivingFocusOnMnemonic = m_grid;
+			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
@@ -135,9 +153,9 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeToolboxSortFieldControls(PaFieldInfoList fieldInfoList)
+		private void InitializeToolboxSortFieldControls()
 		{
-			cboToolboxSortField.Items.AddRange(fieldInfoList.ToArray());
+			cboToolboxSortField.Items.AddRange(m_fieldInfo.ToArray());
 			cboToolboxSortField.Items.Insert(0, Properties.Resources.kstidNoToolboxSortField);
 			cboToolboxSortField.Font = FontHelper.UIFont;
 			lblToolboxSortField.Font = FontHelper.UIFont;
@@ -171,7 +189,7 @@ namespace SIL.Pa.Dialogs
 		/// have mappings are included.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadMappings(PaFieldInfoList fieldInfoList)
+		private void LoadMappings()
 		{
 			m_mappings = new List<SFMarkerMapping>();
 
@@ -179,7 +197,7 @@ namespace SIL.Pa.Dialogs
 			// list of possible first interlinear fields.
 			foreach (SFMarkerMapping mapping in m_datasource.SFMappings)
 			{
-				PaFieldInfo fieldInfo = fieldInfoList[mapping.FieldName];
+				PaFieldInfo fieldInfo = m_fieldInfo[mapping.FieldName];
 
 				// Data source and data source path cannot be mapped to.
 				if (fieldInfo != null && (fieldInfo.IsDataSource || fieldInfo.IsDataSourcePath))
@@ -206,15 +224,15 @@ namespace SIL.Pa.Dialogs
 			// Now make sure the mappings contain all the fields in the project. This may happen
 			// for two reasons. 1) The user has added some custom fields since coming here to
 			// modify mappings or 2) A new release of PA introduced some new intrinsic PA fields.
-			for (int i = 0; i < fieldInfoList.Count; i++)
+			for (int i = 0; i < m_fieldInfo.Count; i++)
 			{
 				// Data source and data source path cannot be mapped to.
-				if (!fieldInfoList[i].IsDataSource && !fieldInfoList[i].IsDataSourcePath)
+				if (!m_fieldInfo[i].IsDataSource && !m_fieldInfo[i].IsDataSourcePath)
 				{
 					SFMarkerMapping newMapping =
-						SFMarkerMapping.VerifyMappingForField(m_mappings, fieldInfoList[i]);
+						SFMarkerMapping.VerifyMappingForField(m_mappings, m_fieldInfo[i]);
 
-					if (newMapping != null && fieldInfoList[i].CanBeInterlinear)
+					if (newMapping != null && m_fieldInfo[i].CanBeInterlinear)
 						cboFirstInterlinear.Items.Add(newMapping);
 				}
 			}
@@ -293,6 +311,10 @@ namespace SIL.Pa.Dialogs
 		{
 			base.OnHandleCreated(e);
 
+			// This is called here because, for some reason, on some machines, resuming
+			// layout in the InitializeComponents method forces the handle to be created.
+			Initialize();
+
 			switch (m_datasource.ParseType)
 			{
 				case DataSourceParseType.None: rbNoParse.Checked = true; break;
@@ -316,6 +338,7 @@ namespace SIL.Pa.Dialogs
 		{
 			m_grid = new SilGrid();
 			m_grid.Name = Name + "Grid";
+			m_grid.BorderStyle = BorderStyle.None;
 			m_grid.Dock = DockStyle.Fill;
 			m_grid.AutoGenerateColumns = false;
 			m_grid.AllowUserToOrderColumns = false;
@@ -356,7 +379,7 @@ namespace SIL.Pa.Dialogs
 			col.Width = 85;
 			m_grid.Columns.Add(col);
 
-			scImport.Panel1.Controls.Add(m_grid);
+			pnlMappings.Controls.Add(m_grid);
 			m_grid.BringToFront();
 
 			try
@@ -791,7 +814,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
 		{
-			// TODO:  Add SFMarkerMappingDlg.Init implementation
+			// TODO:  Add SFDataSourcePropertiesDlg.Init implementation
 		}
 
 		public IxCoreColleague[] GetMessageTargets()

@@ -10,10 +10,10 @@ namespace SIL.Pa.Dialogs
 {
 	/// --------------------------------------------------------------------------------
 	/// <summary>
-	/// Summary description for SFMarkerMappingDlg.
+	/// Summary description for SFDataSourcePropertiesDlg.
 	/// </summary>
 	/// --------------------------------------------------------------------------------
-	public partial class SFMarkerMappingDlg
+	public partial class SFDataSourcePropertiesDlg
 	{
 		private System.ComponentModel.IContainer components;
 		private System.Windows.Forms.ToolTip m_tooltip;
@@ -35,18 +35,18 @@ namespace SIL.Pa.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFMarkerMappingDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFDataSourcePropertiesDlg));
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.scImport = new System.Windows.Forms.SplitContainer();
-			this.pnlMappingHdg = new SIL.Pa.Controls.PaGradientPanel();
+			this.pnlMappingsHdg = new SIL.Pa.Controls.PaGradientPanel();
 			this.pnlEditor = new System.Windows.Forms.Panel();
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.lblEditor = new System.Windows.Forms.Label();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
-			this.pnlSrcFile = new SIL.Pa.Controls.PaGradientPanel();
+			this.pnlSrcFileHdg = new SIL.Pa.Controls.PaGradientPanel();
 			this.lblFilename = new System.Windows.Forms.Label();
 			this.cboFirstInterlinear = new System.Windows.Forms.ComboBox();
 			this.lblFirstInterlinear = new System.Windows.Forms.Label();
@@ -71,12 +71,14 @@ namespace SIL.Pa.Dialogs
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.pnlToolboxSortField = new System.Windows.Forms.Panel();
 			this.lblToolboxSortField = new System.Windows.Forms.Label();
+			this.pnlMappings = new SIL.Pa.Controls.PaPanel();
+			this.pnlSrcFile = new SIL.Pa.Controls.PaPanel();
 			this.pnlButtons.SuspendLayout();
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
 			this.scImport.SuspendLayout();
 			this.pnlEditor.SuspendLayout();
-			this.pnlSrcFile.SuspendLayout();
+			this.pnlSrcFileHdg.SuspendLayout();
 			this.pnlParseType.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridSampleOutput)).BeginInit();
 			this.pnlSampleInput.SuspendLayout();
@@ -84,6 +86,8 @@ namespace SIL.Pa.Dialogs
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.pnlToolboxSortField.SuspendLayout();
+			this.pnlMappings.SuspendLayout();
+			this.pnlSrcFile.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -133,25 +137,23 @@ namespace SIL.Pa.Dialogs
 			// 
 			// scImport.Panel1
 			// 
-			this.scImport.Panel1.Controls.Add(this.pnlMappingHdg);
-			this.scImport.Panel1.Controls.Add(this.pnlEditor);
+			this.scImport.Panel1.Controls.Add(this.pnlMappings);
 			// 
 			// scImport.Panel2
 			// 
-			this.scImport.Panel2.Controls.Add(this.txtFilePreview);
 			this.scImport.Panel2.Controls.Add(this.pnlSrcFile);
 			this.scImport.TabStop = false;
 			// 
-			// pnlMappingHdg
+			// pnlMappingsHdg
 			// 
-			this.pnlMappingHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlMappingHdg.ControlReceivingFocusOnMnemonic = null;
-			resources.ApplyResources(this.pnlMappingHdg, "pnlMappingHdg");
-			this.pnlMappingHdg.DoubleBuffered = true;
-			this.pnlMappingHdg.MakeDark = false;
-			this.pnlMappingHdg.MnemonicGeneratesClick = false;
-			this.pnlMappingHdg.Name = "pnlMappingHdg";
-			this.pnlMappingHdg.PaintExplorerBarBackground = false;
+			this.pnlMappingsHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMappingsHdg.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlMappingsHdg, "pnlMappingsHdg");
+			this.pnlMappingsHdg.DoubleBuffered = true;
+			this.pnlMappingsHdg.MakeDark = false;
+			this.pnlMappingsHdg.MnemonicGeneratesClick = false;
+			this.pnlMappingsHdg.Name = "pnlMappingsHdg";
+			this.pnlMappingsHdg.PaintExplorerBarBackground = false;
 			// 
 			// pnlEditor
 			// 
@@ -181,17 +183,17 @@ namespace SIL.Pa.Dialogs
 			this.txtFilePreview.ReadOnly = true;
 			this.txtFilePreview.TabStop = false;
 			// 
-			// pnlSrcFile
+			// pnlSrcFileHdg
 			// 
-			this.pnlSrcFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlSrcFile.ControlReceivingFocusOnMnemonic = null;
-			this.pnlSrcFile.Controls.Add(this.lblFilename);
-			resources.ApplyResources(this.pnlSrcFile, "pnlSrcFile");
-			this.pnlSrcFile.DoubleBuffered = true;
-			this.pnlSrcFile.MakeDark = false;
-			this.pnlSrcFile.MnemonicGeneratesClick = false;
-			this.pnlSrcFile.Name = "pnlSrcFile";
-			this.pnlSrcFile.PaintExplorerBarBackground = false;
+			this.pnlSrcFileHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSrcFileHdg.ControlReceivingFocusOnMnemonic = null;
+			this.pnlSrcFileHdg.Controls.Add(this.lblFilename);
+			resources.ApplyResources(this.pnlSrcFileHdg, "pnlSrcFileHdg");
+			this.pnlSrcFileHdg.DoubleBuffered = true;
+			this.pnlSrcFileHdg.MakeDark = false;
+			this.pnlSrcFileHdg.MnemonicGeneratesClick = false;
+			this.pnlSrcFileHdg.Name = "pnlSrcFileHdg";
+			this.pnlSrcFileHdg.PaintExplorerBarBackground = false;
 			// 
 			// lblFilename
 			// 
@@ -220,6 +222,7 @@ namespace SIL.Pa.Dialogs
 			this.pnlParseType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlParseType.ControlReceivingFocusOnMnemonic = null;
 			this.pnlParseType.Controls.Add(this.gridSampleOutput);
+			this.pnlParseType.Controls.Add(this.pnlParseHdg);
 			this.pnlParseType.Controls.Add(this.pnlSampleInput);
 			this.pnlParseType.Controls.Add(this.cboFirstInterlinear);
 			this.pnlParseType.Controls.Add(this.rbParseOneToOne);
@@ -252,14 +255,14 @@ namespace SIL.Pa.Dialogs
             this.Phonetic,
             this.Gloss,
             this.POS});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle2;
 			this.gridSampleOutput.MultiSelect = false;
 			this.gridSampleOutput.Name = "gridSampleOutput";
 			this.gridSampleOutput.RowHeadersVisible = false;
@@ -375,7 +378,6 @@ namespace SIL.Pa.Dialogs
 			// splitOuter.Panel1
 			// 
 			this.splitOuter.Panel1.Controls.Add(this.pnlParseType);
-			this.splitOuter.Panel1.Controls.Add(this.pnlParseHdg);
 			// 
 			// splitOuter.Panel2
 			// 
@@ -383,7 +385,6 @@ namespace SIL.Pa.Dialogs
 			// 
 			// pnlParseHdg
 			// 
-			this.pnlParseHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlParseHdg.ControlReceivingFocusOnMnemonic = null;
 			resources.ApplyResources(this.pnlParseHdg, "pnlParseHdg");
 			this.pnlParseHdg.DoubleBuffered = true;
@@ -429,21 +430,45 @@ namespace SIL.Pa.Dialogs
 			this.lblToolboxSortField.BackColor = System.Drawing.Color.Transparent;
 			this.lblToolboxSortField.Name = "lblToolboxSortField";
 			// 
-			// SFMarkerMappingDlg
+			// pnlMappings
+			// 
+			this.pnlMappings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMappings.ControlReceivingFocusOnMnemonic = null;
+			this.pnlMappings.Controls.Add(this.pnlEditor);
+			this.pnlMappings.Controls.Add(this.pnlMappingsHdg);
+			resources.ApplyResources(this.pnlMappings, "pnlMappings");
+			this.pnlMappings.DoubleBuffered = false;
+			this.pnlMappings.MnemonicGeneratesClick = false;
+			this.pnlMappings.Name = "pnlMappings";
+			this.pnlMappings.PaintExplorerBarBackground = false;
+			// 
+			// pnlSrcFile
+			// 
+			this.pnlSrcFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSrcFile.ControlReceivingFocusOnMnemonic = null;
+			this.pnlSrcFile.Controls.Add(this.txtFilePreview);
+			this.pnlSrcFile.Controls.Add(this.pnlSrcFileHdg);
+			resources.ApplyResources(this.pnlSrcFile, "pnlSrcFile");
+			this.pnlSrcFile.DoubleBuffered = false;
+			this.pnlSrcFile.MnemonicGeneratesClick = false;
+			this.pnlSrcFile.Name = "pnlSrcFile";
+			this.pnlSrcFile.PaintExplorerBarBackground = false;
+			// 
+			// SFDataSourcePropertiesDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.splitOuter);
-			this.Name = "SFMarkerMappingDlg";
+			this.Name = "SFDataSourcePropertiesDlg";
+			this.Opacity = 1;
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.splitOuter, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.scImport.Panel1.ResumeLayout(false);
 			this.scImport.Panel2.ResumeLayout(false);
-			this.scImport.Panel2.PerformLayout();
 			this.scImport.ResumeLayout(false);
 			this.pnlEditor.ResumeLayout(false);
 			this.pnlEditor.PerformLayout();
-			this.pnlSrcFile.ResumeLayout(false);
+			this.pnlSrcFileHdg.ResumeLayout(false);
 			this.pnlParseType.ResumeLayout(false);
 			this.pnlParseType.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridSampleOutput)).EndInit();
@@ -453,6 +478,9 @@ namespace SIL.Pa.Dialogs
 			this.splitOuter.ResumeLayout(false);
 			this.pnlToolboxSortField.ResumeLayout(false);
 			this.pnlToolboxSortField.PerformLayout();
+			this.pnlMappings.ResumeLayout(false);
+			this.pnlSrcFile.ResumeLayout(false);
+			this.pnlSrcFile.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -487,7 +515,9 @@ namespace SIL.Pa.Dialogs
 		private TextBox txtEditor;
 		private Button btnBrowse;
 		private SIL.Pa.Controls.PaGradientPanel pnlParseHdg;
-		private SIL.Pa.Controls.PaGradientPanel pnlMappingHdg;
-		private SIL.Pa.Controls.PaGradientPanel pnlSrcFile;
+		private SIL.Pa.Controls.PaGradientPanel pnlMappingsHdg;
+		private SIL.Pa.Controls.PaGradientPanel pnlSrcFileHdg;
+		private SIL.Pa.Controls.PaPanel pnlMappings;
+		private SIL.Pa.Controls.PaPanel pnlSrcFile;
 	}
 }
