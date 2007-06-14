@@ -33,6 +33,7 @@ namespace SIL.Pa.Controls
 		private ITMAdapter m_tmAdapter;
 		private Label m_lblName;
 		private string m_preEditCellValue;
+		private ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -67,6 +68,9 @@ namespace SIL.Pa.Controls
 			Reset();
 			PaApp.AddMediatorColleague(this);
 			m_cellInfoPopup = new XYChartCellInfoPopup(this);
+
+			m_tooltip = new ToolTip();
+			m_tooltip.IsBalloon = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,7 +80,23 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			PaApp.RemoveMediatorColleague(this);
+			if (disposing)
+			{
+				if (m_tooltip != null)
+					m_tooltip.Dispose();
+
+				if (m_searchOptionsDropDown != null)
+					m_searchOptionsDropDown.Dispose();
+
+				if (m_cellInfoPopup != null)
+					m_cellInfoPopup.Dispose();
+
+				if (m_errorInCell != null)
+					m_errorInCell.Dispose();
+
+				PaApp.RemoveMediatorColleague(this);
+			}
+			
 			base.Dispose(disposing);
 		}
 
@@ -553,9 +573,21 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
+		{
+			m_tooltip.Hide(this);
+			base.OnCellMouseLeave(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
 		{
 			base.OnCellMouseEnter(e);
+
 
 			if (IsCurrentCellInEditMode)
 				return;
@@ -563,8 +595,31 @@ namespace SIL.Pa.Controls
 			int row = e.RowIndex;
 			int col = e.ColumnIndex;
 
-			if (col <= 0 || row <= 0)
+			if (col < 0 || row < 0 || (col == 0 && row == 0))
 				return;
+
+			// Show helpful information when the mouse is over an
+			// empty search item or environment cell.
+			if (col == 0 || row == 0)
+			{
+				if (this[col, row].Value == null)
+				{
+					m_tooltip.ToolTipTitle = (col == 0 ?
+						Properties.Resources.kstidXYChartAddSrchItemCellToolTipTitle :
+						Properties.Resources.kstidXYChartAddEnvCellToolTipTitle);
+
+					string text = (col == 0 ?
+						Properties.Resources.kstidXYChartAddSrchItemCellToolTip :
+						Properties.Resources.kstidXYChartAddEnvCellToolTip);
+
+					Rectangle rc = GetCellDisplayRectangle(col, row, false);
+					rc.X = rc.Right - 7;
+					rc.Y = rc.Bottom - 7;
+					m_tooltip.Show(STUtils.ConvertLiteralNewLines(text), this, rc.Location);
+				}
+
+				return;
+			}
 
 			SearchQuery query = GetCellsFullSearchQuery(row, col);
 			string pattern = (query == null ? "?" : query.Pattern);

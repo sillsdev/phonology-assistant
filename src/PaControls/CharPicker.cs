@@ -40,6 +40,7 @@ namespace SIL.Pa.Controls
 		private bool m_autoSizeItems = false;
 		private SortedDictionary<int, PickerItemInfo> m_charsToLoad;
 		private Point m_itemMouseDownPoint;
+		private float m_fontSize = 14;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -78,7 +79,7 @@ namespace SIL.Pa.Controls
 		public void RefreshFont()
 		{
 			if (!PaApp.DesignMode)
-				Font = FontHelper.MakeEticRegFontDerivative(14);
+				Font = FontHelper.MakeEticRegFontDerivative(m_fontSize);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,6 +94,7 @@ namespace SIL.Pa.Controls
 			get { return base.Font; }
 			set
 			{
+				m_fontSize = value.SizeInPoints;
 				base.Font = value;
 				foreach (ToolStripItem item in Items)
 					item.Font = value;

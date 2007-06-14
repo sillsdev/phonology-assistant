@@ -27,6 +27,9 @@ namespace SIL.Pa.Controls
 		private Control m_control;
 		private int m_controlsExpandedHeight;
 		private bool m_expanded = true;
+		private int m_glyphButtonWidth;
+		private Color m_buttonBackColor = Color.Empty;
+		private bool m_gradientButton = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -36,10 +39,11 @@ namespace SIL.Pa.Controls
 		public ExplorerBarItem(string text, Control hostedControl)
 		{
 			m_button = new Button();
-			m_button.Text = text;
+			m_button.Text = STUtils.ConvertLiteralNewLines(text);
+			string[] lines = m_button.Text.Split("\n".ToCharArray());
 			m_button.Dock = DockStyle.Top;
 			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-			m_button.Height = (int)(1.7 * (double)m_button.Font.Height);
+			m_button.Height = 13 + (m_button.Font.Height * lines.Length);
 			m_button.Cursor = Cursors.Hand;
 			m_button.Click += new EventHandler(m_button_Click);
 			m_button.Paint += new PaintEventHandler(m_button_Paint);
@@ -52,6 +56,10 @@ namespace SIL.Pa.Controls
 			m_control.Dock = DockStyle.Fill;
 			Controls.Add(m_control);
 			m_control.BringToFront();
+
+			// Make the expand/collapse glyph width the height of
+			// one line of button text plus the fudge factor.
+			m_glyphButtonWidth = 13 + m_button.Font.Height;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,6 +79,22 @@ namespace SIL.Pa.Controls
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override Color BackColor
+		{
+			get {return base.BackColor;}
+			set
+			{
+				base.BackColor = value;
+				if (ButtonBackColor == Color.Empty)
+					ButtonBackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 25);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,6 +164,32 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Color ButtonBackColor
+		{
+			get { return m_buttonBackColor; }
+			set { m_buttonBackColor = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool GradientButton
+		{
+			get { return m_gradientButton; }
+			set
+			{
+				m_gradientButton = value;
+				m_button.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Redraw button in normal state when mouse moves leaves it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -167,17 +217,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_button_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = m_button.ClientRectangle;
-
-			using (SolidBrush br = new SolidBrush(BackColor))
-				e.Graphics.FillRectangle(br, rc);
+			DrawButtonBackground(e.Graphics);
 
 			// Draw the item's glyph.
 			DrawExpandCollapseGlyph(e.Graphics);
 
+			Rectangle rc = m_button.ClientRectangle;
+
 			// Draw the item's text.
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
+				TextFormatFlags.EndEllipsis;
 
 			rc.Inflate(-2, 0);
 			TextRenderer.DrawText(e.Graphics, m_button.Text, m_button.Font,
@@ -201,14 +250,36 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Draws the background of the button.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void DrawButtonBackground(Graphics g)
+		{
+			Rectangle rc = m_button.ClientRectangle;
+			Brush br;
+
+			if (!m_gradientButton || m_buttonBackColor == Color.Empty ||
+				m_buttonBackColor == Color.Transparent)
+			{
+				br = new SolidBrush(BackColor);
+			}
+			else
+				br = new LinearGradientBrush(rc, BackColor, m_buttonBackColor, 91f);
+
+			g.FillRectangle(br, rc);
+			br.Dispose();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Draws the expand or collapse glyph. The glyph drawn depends on the visible state
 		/// of the hosted control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawExpandCollapseGlyph(Graphics graphics)
+		private void DrawExpandCollapseGlyph(Graphics g)
 		{
 			// Determine the rectangle in which the expanding/collapsing button will be drawn.
-			Rectangle rc = new Rectangle(0, 0, m_button.Height, m_button.Height);
+			Rectangle rc = new Rectangle(0, 0, m_glyphButtonWidth, m_button.Height);
 			if (RightToLeft == RightToLeft.No)
 				rc.X = (m_button.ClientRectangle.Right - rc.Width);
 
@@ -230,7 +301,7 @@ namespace SIL.Pa.Controls
 			if (PaintingHelper.CanPaintVisualStyle(element))
 			{
 				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
-				renderer.DrawBackground(graphics, rc);
+				renderer.DrawBackground(g, rc);
 			}
 			else
 			{
@@ -240,10 +311,10 @@ namespace SIL.Pa.Controls
 				if (RightToLeft == RightToLeft.No)
 					rc.X = rc.Right - (glyph.Width + 1);
 
-				rc.Y += (rc.Height - glyph.Height) / 2;
+				rc.Y += (m_button.Height - glyph.Height) / 2;
 				rc.Width = glyph.Width;
 				rc.Height = glyph.Height;
-				graphics.DrawImage(glyph, rc);
+				g.DrawImage(glyph, rc);
 			}
 		}
 

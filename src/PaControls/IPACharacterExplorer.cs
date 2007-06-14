@@ -31,6 +31,7 @@ namespace SIL.Pa.Controls
 		private CharPicker m_pickerDiacritics;
 		private CharPicker m_pickerTone;
 		private List<IPACharacterTypeInfo> m_typesToShow;
+		private int m_bigFontSize = 19;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -183,7 +184,7 @@ namespace SIL.Pa.Controls
 						break;
 				}
 			}
-			
+
 			Dock = DockStyle.Fill;
 			ResumeLayout(false);
 		}
@@ -274,7 +275,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupDiacritics, m_pickerDiacritics);
 
 			// Enlarge the font and cell size
-			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, 22);
+			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, m_bigFontSize);
 			m_pickerDiacritics.ItemSize = new Size(40, 46);
 		}
 
@@ -296,7 +297,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupSuprasegmentals, m_pickerSSeg);
 
 			// Enlarge the font and cell size
-			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, 22);
+			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, m_bigFontSize);
 			m_pickerSSeg.ItemSize = new Size(40, 46);
 		}
 
@@ -318,7 +319,7 @@ namespace SIL.Pa.Controls
 			Add(Properties.Resources.kstidIPAChooserGroupTone, m_pickerTone);
 
 			// Enlarge the font and cell size
-			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, 22);
+			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, m_bigFontSize);
 			m_pickerTone.ItemSize = new Size(40, 46);
 		}
 

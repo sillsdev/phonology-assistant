@@ -292,7 +292,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimal pairs options (Ctrl+Alt+M).
+        ///   Looks up a localized string similar to Minimal Pairs Options (Ctrl+Alt+M).
         /// </summary>
         internal static string kstidCIEOptionsButtonToolTip {
             get {
@@ -688,7 +688,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stress and Length (Suprasegmentals).
+        ///   Looks up a localized string similar to Stress and Length\n(Suprasegmentals).
         /// </summary>
         internal static string kstidIPAChooserGroupSuprasegmentals {
             get {
@@ -990,6 +990,42 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidWordListStatusBarText {
             get {
                 return ResourceManager.GetString("kstidWordListStatusBarText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a search environment\nin this cell.
+        /// </summary>
+        internal static string kstidXYChartAddEnvCellToolTip {
+            get {
+                return ResourceManager.GetString("kstidXYChartAddEnvCellToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment Row:.
+        /// </summary>
+        internal static string kstidXYChartAddEnvCellToolTipTitle {
+            get {
+                return ResourceManager.GetString("kstidXYChartAddEnvCellToolTipTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a search item in this cell.
+        /// </summary>
+        internal static string kstidXYChartAddSrchItemCellToolTip {
+            get {
+                return ResourceManager.GetString("kstidXYChartAddSrchItemCellToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Item Column:.
+        /// </summary>
+        internal static string kstidXYChartAddSrchItemCellToolTipTitle {
+            get {
+                return ResourceManager.GetString("kstidXYChartAddSrchItemCellToolTipTitle", resourceCulture);
             }
         }
         

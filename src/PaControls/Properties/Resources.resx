@@ -211,7 +211,7 @@
     <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
   </data>
   <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
-    <value>Minimal pairs options (Ctrl+Alt+M)</value>
+    <value>Minimal Pairs Options (Ctrl+Alt+M)</value>
   </data>
   <data name="kstidClassGroupConMOA" xml:space="preserve">
     <value>Consonant - Manner of Articulation</value>
@@ -366,7 +366,7 @@
     <value>Other Symbols</value>
   </data>
   <data name="kstidIPAChooserGroupSuprasegmentals" xml:space="preserve">
-    <value>Stress and Length (Suprasegmentals)</value>
+    <value>Stress and Length\n(Suprasegmentals)</value>
   </data>
   <data name="kstidIPAChooserGroupTone" xml:space="preserve">
     <value>Tone and Accents</value>
@@ -474,6 +474,18 @@
   </data>
   <data name="kstidWordListStatusBarText" xml:space="preserve">
     <value>Record {0} of {1}</value>
+  </data>
+  <data name="kstidXYChartAddEnvCellToolTip" xml:space="preserve">
+    <value>Add a search environment\nin this cell</value>
+  </data>
+  <data name="kstidXYChartAddEnvCellToolTipTitle" xml:space="preserve">
+    <value>Environment Row:</value>
+  </data>
+  <data name="kstidXYChartAddSrchItemCellToolTip" xml:space="preserve">
+    <value>Add a search item in this cell</value>
+  </data>
+  <data name="kstidXYChartAddSrchItemCellToolTipTitle" xml:space="preserve">
+    <value>Search Item Column:</value>
   </data>
   <data name="kstidXYChartGeneralQuerySyntaxErrorMsg" xml:space="preserve">
     <value>Syntax error.</value>
