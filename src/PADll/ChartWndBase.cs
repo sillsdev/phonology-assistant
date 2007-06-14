@@ -238,6 +238,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void ViewActivatedWhileDocked()
 		{
+			if (m_chrGrid != null && m_chrGrid.Grid != null)
+				m_chrGrid.Grid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------

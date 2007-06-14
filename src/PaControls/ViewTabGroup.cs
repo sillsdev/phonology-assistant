@@ -1136,6 +1136,8 @@ namespace SIL.Pa.Controls
 			if (!s_undockingInProgress && activateViewsForm && m_viewsControl.FindForm() != null)
 				m_viewsControl.FindForm().Activate();
 
+			m_viewsControl.Focus();
+
 			InitializeDockedToolTipControl();
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
 		}

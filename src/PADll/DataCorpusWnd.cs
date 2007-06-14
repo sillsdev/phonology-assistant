@@ -227,7 +227,10 @@ namespace SIL.Pa
 		public void ViewActivatedWhileDocked()
 		{
 			if (m_grid != null)
+			{
 				m_grid.SetStatusBarText();
+				m_grid.Focus();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
