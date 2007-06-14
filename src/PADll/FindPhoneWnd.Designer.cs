@@ -398,6 +398,7 @@ namespace SIL.Pa
 			resources.ApplyResources(this.pnlCurrPattern, "pnlCurrPattern");
 			this.pnlCurrPattern.Name = "pnlCurrPattern";
 			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
+			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
 			// 
 			// ptrnTextBox
 			// 

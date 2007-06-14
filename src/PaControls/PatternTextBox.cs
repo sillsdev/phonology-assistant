@@ -30,6 +30,10 @@ namespace SIL.Pa.Controls
 		private string m_srchQryCategory;
 		private Form m_owningForm;
 		private bool m_classDisplayBehaviorChanged = false;
+		private Image m_downArrow;
+		private Image m_upArrow;
+		private bool m_ignoreResize = false;
+		private bool m_showArrows = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -38,6 +42,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PatternTextBox()
 		{
+			m_downArrow = Properties.Resources.kimidPatternTextBoxDownArrow;
+			m_upArrow = Properties.Resources.kimidPatternTextBoxUpArrow;
+
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			InitializeComponent();
 
@@ -290,13 +297,79 @@ namespace SIL.Pa.Controls
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			Height = txtPattern.Height + 10;
-			LocateArrows();
+			txtPattern_SizeChanged(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paint the arrows.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			if (!m_showArrows)
+				return;
+
+			Point pt = InsertionPointLocation;
+			pt = txtPattern.PointToScreen(pt);
+			pt = PointToClient(pt);
+
+			// Calculate where the arrow labels should be
+			// so they're centered over and under the IP.
+			pt.X -= (m_downArrow.Width / 2);
+			pt.Y = 0;
+
+			Rectangle rc = new Rectangle(pt, new Size(m_upArrow.Width, m_upArrow.Height));
+
+			e.Graphics.DrawImageUnscaledAndClipped(m_downArrow, rc);
+
+			rc.Y = txtPattern.Bottom;
+			e.Graphics.DrawImageUnscaledAndClipped(m_upArrow, rc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The width of the text box should be a little less than the control's width.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			if (m_ignoreResize)
+				return;
+
+			txtPattern.Width = Width - (Padding.Left * 2);
 		}
 
 		#endregion
 
 		#region Text Box events
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This control should size itself to be a little larger than the text box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_SizeChanged(object sender, EventArgs e)
+		{
+			m_ignoreResize = true;
+			Height = txtPattern.Height + m_upArrow.Height + m_downArrow.Height;
+			m_ignoreResize = false;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void txtPattern_LocationChanged(object sender, System.EventArgs e)
+		{
+			Invalidate();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -348,8 +421,8 @@ namespace SIL.Pa.Controls
 				if (SearchQueryChanged != null)
 					SearchQueryChanged(this, EventArgs.Empty);
 			}
-			
-			LocateArrows();
+
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -447,7 +520,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void txtPattern_KeyUp(object sender, KeyEventArgs e)
 		{
-			LocateArrows();
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -469,12 +542,7 @@ namespace SIL.Pa.Controls
 			}
 
 			if (!txtPattern.Focused)
-			{
 				txtPattern.Focus();
-
-				// Make these visible during dragging.
-				lblDown.Visible = lblUp.Visible = true;
-			}
 
 			Point pt = txtPattern.PointToClient(new Point(e.X, e.Y));
 			if (pt.X >= 0)
@@ -483,7 +551,10 @@ namespace SIL.Pa.Controls
 					txtPattern.Text.Length : txtPattern.GetCharIndexFromPosition(pt));
 			}
 
-			LocateArrows();
+			// Make these visible during dragging.
+			m_showArrows = true;
+			Invalidate();
+
 			e.Effect = DragDropEffects.Copy;
 		}
 
@@ -511,7 +582,8 @@ namespace SIL.Pa.Controls
 
 			// After dropping, we know we have focus so make sure the arrows
 			// aren't visible now that dropping is done.
-			lblDown.Visible = lblUp.Visible = false;
+			m_showArrows = false;
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -521,7 +593,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void txtPattern_Click(object sender, EventArgs e)
 		{
-			LocateArrows();
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -531,8 +603,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void txtPattern_Enter(object sender, EventArgs e)
 		{
-			LocateArrows();
-			lblDown.Visible = lblUp.Visible = false;
+			m_showArrows = false;
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -542,49 +614,11 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void txtPattern_Leave(object sender, EventArgs e)
 		{
-			lblDown.Visible = lblUp.Visible = true;
+			m_showArrows = true;
+			Invalidate();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_SizeChanged(object sender, EventArgs e)
-		{
-			Height = txtPattern.Height + 10;
-			LocateArrows();
-		}
-		
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Aligns the arrows with where the insertion point.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LocateArrows()
-		{
-			// Get the IP's location and make it relative to the
-			// user control rather than relative to the text box.
-			Point pt = InsertionPointLocation;
-			pt = txtPattern.PointToScreen(pt);
-			pt = PointToClient(pt);
-
-			// Calculate where the arrow labels should be
-			// so they're centered over and under the IP.
-			pt.X -= (lblDown.Width / 2);
-
-			// Move the arrows if necessary.
-			if (lblDown.Left != pt.X)
-				lblUp.Left = lblDown.Left = pt.X;
-
-			if (lblUp.Top != txtPattern.Bottom - 5)
-				lblUp.Top = txtPattern.Bottom - 5;
-
-			if (lblDown.Top != -5)
-				lblDown.Top = -5;
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -612,11 +646,6 @@ namespace SIL.Pa.Controls
 
 			int selstart = txtPattern.SelectionStart;
 			string newText = txtPattern.Text.Trim();
-
-			// Make the arrows invisible if they're not already since changing the
-			// text in the text box will make them jump around. It's unsightly.
-			bool arrowsWereVisible = lblDown.Visible;
-			lblDown.Visible = lblUp.Visible = false;
 
 			// First, remove any selected text.
 			if (txtPattern.SelectionLength > 0)
@@ -664,9 +693,6 @@ namespace SIL.Pa.Controls
 				|| text == DataUtils.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
 
 			Application.DoEvents();
-			LocateArrows();
-
-			lblDown.Visible = lblUp.Visible = arrowsWereVisible;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -910,7 +936,7 @@ namespace SIL.Pa.Controls
 		protected bool OnPaFontsChanged(object args)
 		{
 			txtPattern.Font = FontHelper.PhoneticFont;
-			LocateArrows();
+			Invalidate();
 
 			// Return false to allow other windows to update their fonts.
 			return false;

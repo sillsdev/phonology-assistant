@@ -237,7 +237,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
@@ -475,6 +475,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PhoneDropNotAllowed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PatternTextBoxArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PatternTextBoxDownArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PatternTextBoxUpArrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

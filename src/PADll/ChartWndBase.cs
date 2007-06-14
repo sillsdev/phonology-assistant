@@ -54,8 +54,8 @@ namespace SIL.Pa
 			m_chrGrid.OwningViewType = this.GetType();
 			PaApp.IncProgressBar();
 
-			Initialize();
-			PaApp.UninitializeProgressBar();
+			//Initialize();
+			//PaApp.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -360,7 +360,11 @@ namespace SIL.Pa
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			HistogramOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
+
+			Initialize();
+			
 			ViewDocked();
+			PaApp.UninitializeProgressBar();
 			Application.DoEvents();
 		}
 

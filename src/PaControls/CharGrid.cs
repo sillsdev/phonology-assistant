@@ -59,24 +59,25 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
-			InitializeComponent();
-
-			SuspendLayout();
 			DoubleBuffered = true;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
+			m_pnlColHeaders = new CharGridHeaderCollectionPanel(true);
+			m_pnlRowHeaders = new CharGridHeaderCollectionPanel(false);
+			
+			InitializeComponent();
+
+			SuspendLayout();
 			m_grid.Font = m_chartFont;
 			m_grid.GridColor = kGridColor;
-
-			m_pnlColHeaders = new CharGridHeaderCollectionPanel(true);
 			pnlColHeaderOuter.Controls.Add(m_pnlColHeaders);
-
-			m_pnlRowHeaders = new CharGridHeaderCollectionPanel(false);
 			pnlRowHeaderOuter.Controls.Add(m_pnlRowHeaders);
-
 			m_phoneInfoPopup = new PhoneInfoPopup(m_grid);
-			ResumeLayout(false);
+			ResumeLayout(true);
+
+			AdjustRowHeadingLocation();
+			AdjustColumnHeadingLocation();
 		}
 
 		/// ------------------------------------------------------------------------------------

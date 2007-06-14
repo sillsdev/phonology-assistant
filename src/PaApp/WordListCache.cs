@@ -258,10 +258,19 @@ namespace SIL.Pa
 	/// The SortInformation struct holds sort information.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public struct SortInformation
+	public class SortInformation
 	{
 		public PaFieldInfo FieldInfo;
 		public bool ascending;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SortInformation()
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -365,6 +374,32 @@ namespace SIL.Pa
 			}
 
 			return clone;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializing a project brings in the field info. list for sort options from the
+		/// project file (i.e. .pap file) but the field info list for the sort options should
+		/// really just be references to the project's field info. list
+		/// (i.e. PaApp.Project.FieldInfo). This method will iterate through the sort option's
+		/// field info list, updating it's references to those found in the project's field
+		/// info. list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SyncFieldInfo(PaFieldInfoList fieldInfoList)
+		{
+			if (fieldInfoList == null)
+				return;
+
+			for (int i = 0; i < m_sortInfoList.Count; i++)
+			{
+				if (m_sortInfoList[i].FieldInfo != null)
+				{
+					PaFieldInfo fieldInfo = fieldInfoList[m_sortInfoList[i].FieldInfo.FieldName];
+					if (fieldInfo != null && fieldInfo != m_sortInfoList[i].FieldInfo)
+						m_sortInfoList[i].FieldInfo = fieldInfo;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

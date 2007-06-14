@@ -808,6 +808,18 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Make sure to center the refresh button vertically in it's owning panel.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void pnlCurrPattern_Resize(object sender, System.EventArgs e)
+		{
+			int refreshButtonTop = (pnlCurrPattern.Height - btnRefresh.Height) / 2;
+			if (refreshButtonTop != btnRefresh.Top)
+				btnRefresh.Top = refreshButtonTop;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Updates the results in the current tab in the current tab group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

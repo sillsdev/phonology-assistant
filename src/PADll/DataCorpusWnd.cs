@@ -674,6 +674,7 @@ namespace SIL.Pa
 		{
 			rawRecVw.UpdateFonts();
 
+
 			// Return false to allow other windows to update their fonts.
 			return false;
 		}

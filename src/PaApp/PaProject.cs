@@ -285,6 +285,9 @@ namespace SIL.Pa
 				m_fieldInfoList = PaFieldInfoList.Load(this);
 				PaApp.FieldInfo = m_fieldInfoList;
 				InitializeFontHelperFonts();
+				DataCorpusSortOptions.SyncFieldInfo(m_fieldInfoList);
+				FindPhoneSortOptions.SyncFieldInfo(m_fieldInfoList);
+				XYChartSortOptions.SyncFieldInfo(m_fieldInfoList);
 			}
 			catch (Exception e)
 			{

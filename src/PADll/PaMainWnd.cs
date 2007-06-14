@@ -362,8 +362,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			PaApp.SettingsHandler.LoadFormProperties(this);
 			base.OnLoad(e);
+			PaApp.SettingsHandler.LoadFormProperties(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

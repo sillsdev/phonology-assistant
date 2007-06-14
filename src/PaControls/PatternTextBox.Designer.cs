@@ -29,8 +29,6 @@ namespace SIL.Pa.Controls
 		private void InitializeComponent()
 		{
 			this.txtPattern = new InternalPatternTextBox();
-			this.lblDown = new System.Windows.Forms.Label();
-			this.lblUp = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// txtPattern
@@ -38,9 +36,8 @@ namespace SIL.Pa.Controls
 			this.txtPattern.AcceptsReturn = true;
 			this.txtPattern.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
 			this.txtPattern.AllowDrop = true;
-			this.txtPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top)
+						| System.Windows.Forms.AnchorStyles.Left))));
 			this.txtPattern.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtPattern.HideSelection = false;
 			this.txtPattern.Location = new System.Drawing.Point(3, 5);
@@ -56,28 +53,7 @@ namespace SIL.Pa.Controls
 			this.txtPattern.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPattern_KeyPress);
 			this.txtPattern.SizeChanged += new System.EventHandler(this.txtPattern_SizeChanged);
 			this.txtPattern.TextChanged += new System.EventHandler(this.txtPattern_TextChanged);
-			// 
-			// lblDown
-			// 
-			this.lblDown.AutoSize = true;
-			this.lblDown.BackColor = System.Drawing.Color.Transparent;
-			this.lblDown.Font = new System.Drawing.Font("Marlett", 11.25F);
-			this.lblDown.Location = new System.Drawing.Point(6, -5);
-			this.lblDown.Name = "lblDown";
-			this.lblDown.Size = new System.Drawing.Size(22, 15);
-			this.lblDown.TabIndex = 1;
-			this.lblDown.Text = "6";
-			// 
-			// lblUp
-			// 
-			this.lblUp.AutoSize = true;
-			this.lblUp.BackColor = System.Drawing.Color.Transparent;
-			this.lblUp.Font = new System.Drawing.Font("Marlett", 11.25F);
-			this.lblUp.Location = new System.Drawing.Point(6, 24);
-			this.lblUp.Name = "lblUp";
-			this.lblUp.Size = new System.Drawing.Size(22, 15);
-			this.lblUp.TabIndex = 2;
-			this.lblUp.Text = "5";
+			this.txtPattern.LocationChanged += new System.EventHandler(this.txtPattern_LocationChanged);
 			// 
 			// PatternTextBox
 			// 
@@ -85,20 +61,15 @@ namespace SIL.Pa.Controls
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.Controls.Add(this.txtPattern);
-			this.Controls.Add(this.lblDown);
-			this.Controls.Add(this.lblUp);
 			this.Name = "PatternTextBox";
 			this.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.Size = new System.Drawing.Size(299, 34);
 			this.ResumeLayout(false);
 			this.PerformLayout();
-
 		}
 
 		#endregion
 
 		private InternalPatternTextBox txtPattern;
-		private System.Windows.Forms.Label lblDown;
-		private System.Windows.Forms.Label lblUp;
 	}
 }
