@@ -509,6 +509,10 @@ namespace SIL.Pa
 					enabled = false;
 			}
 
+			// Disable Find if all the rows are collapsed
+			if (grid.AllGroupsCollapsed)
+				enabled = false;
+
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
@@ -545,6 +549,10 @@ namespace SIL.Pa
 				else
 					enabled = false;
 			}
+
+			// Disable Find if all the rows are collapsed
+			if (grid.AllGroupsCollapsed)
+				enabled = false;
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
