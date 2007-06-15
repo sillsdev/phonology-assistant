@@ -60,9 +60,6 @@ namespace SIL.Pa.Controls
 
 			m_tooltip = new ToolTip();
 
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
-
 			// Create the panel that holds everything that will be displayed
 			// above a result view (i.e. tabs, close button and scroll buttons).
 			m_pnlHdrBand = new Panel();
@@ -71,12 +68,6 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand.Paint += new PaintEventHandler(HandlePanelPaint);
 			m_pnlHdrBand.Resize += new EventHandler(m_pnlHdrBand_Resize);
 			m_pnlHdrBand.Click += new EventHandler(HandleClick);
-			using (Graphics g = CreateGraphics())
-			{
-				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					FontHelper.PhoneticFont, Size.Empty, flags).Height + kTabPanelHeightPadding;
-			}
-
 			Controls.Add(m_pnlHdrBand);
 
 			// Create the panel that holds all the tabs. 
@@ -84,9 +75,10 @@ namespace SIL.Pa.Controls
 			m_pnlTabs.Visible = true;
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Location = new Point(0, 0);
-			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
 			m_pnlTabs.Click += new EventHandler(HandleClick);
 			m_pnlHdrBand.Controls.Add(m_pnlTabs);
+
+			AdjustPanelHeights();
 
 			// Create the panel that will hold the close button
 			m_pnlClose = new Panel();
@@ -196,6 +188,36 @@ namespace SIL.Pa.Controls
 				m_contextMenuTabGroup = cms.SourceControl.Parent as SearchResultTabGroup;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AdjustPanelHeights()
+		{
+			using (Graphics g = CreateGraphics())
+			{
+				TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
+
+				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
+					FontHelper.PhoneticFont, Size.Empty, flags).Height + kTabPanelHeightPadding;
+			}
+
+			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
+
+			if (m_btnClose != null)
+				m_btnClose.Top = (m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3;
+
+			if (m_btnLeft != null)
+				m_btnLeft.Top = (m_pnlHdrBand.Height - m_btnLeft.Height) / 2 - 3;
+
+			if (m_btnRight != null)
+				m_btnRight.Top = (m_pnlHdrBand.Height - m_btnLeft.Height) / 2 - 3;
+
+			m_pnlHdrBand.Invalidate(true);
+		}
+
 		#region Message mediator message handler and update handler methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -222,6 +244,32 @@ namespace SIL.Pa.Controls
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method gets called when the font(s) get changed in the options dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPaFontsChanged(object args)
+		{
+			if (m_tabs != null)
+			{
+				foreach (SearchResultTab tab in m_tabs)
+				{
+					tab.Font = FontHelper.PhoneticFont;
+					tab.AdjustWidth();
+				}
+
+				AdjustTabContainerWidth();
+				AdjustPanelHeights();
+			}
+
+			// Return false to allow other windows to update their fonts.
+			return false;
+		}
+
+		#endregion
+
+		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -294,6 +342,7 @@ namespace SIL.Pa.Controls
 			if (m_currTab != null)
 				tab_Click(m_currTab, EventArgs.Empty);
 		}
+
 		#endregion
 
 		#region Tab managment methods
@@ -1279,19 +1328,6 @@ namespace SIL.Pa.Controls
 				Properties.Resources.kstidCIEOptionsButtonToolTip);
 
 			GetTabColors();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method gets called when the font(s) get changed in the options dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnPaFontsChanged(object args)
-		{
-			Font = FontHelper.PhoneticFont;
-
-			// Return false to allow other windows to update their fonts.
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
