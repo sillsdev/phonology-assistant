@@ -34,6 +34,7 @@ namespace SIL.Pa.Controls
 		private Label m_lblName;
 		private string m_preEditCellValue;
 		private ToolTip m_tooltip;
+		private int m_defaultRowHeight;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -42,6 +43,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public XYGrid()	: base()
 		{
+			OnPaFontsChanged(null);
+
 			m_searchOptionsDropDown = new SearchOptionsDropDown();
 			m_searchOptionsDropDown.ShowApplyToAll = true;
 			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click +=
@@ -57,7 +60,7 @@ namespace SIL.Pa.Controls
 			DefaultCellStyle.ForeColor = SystemColors.ControlText;
 			AllowUserToAddRows = true;
 			AllowUserToDeleteRows = true;
-			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 	 		BackgroundColor = SystemColors.Window;
 			SelectionMode = DataGridViewSelectionMode.CellSelect;
 			ColumnHeadersVisible = false;
@@ -1074,7 +1077,6 @@ namespace SIL.Pa.Controls
 			Columns.Add(col);
 			AddColumn(false);
 			Rows.Add(1);
-			Rows[0].Height = 24;
 			this[0, 0].ReadOnly = true;
 			CurrentCell = this[0, 1];
 
@@ -1172,6 +1174,29 @@ namespace SIL.Pa.Controls
 			}
 
 			cell.Tag = (phonesNotInData.Count == 0 ? null : phonesNotInData.ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method gets called when the font(s) get changed in the options dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPaFontsChanged(object args)
+		{
+			m_defaultRowHeight = FontHelper.PhoneticFont.Height + 10;
+			RowTemplate.MinimumHeight = m_defaultRowHeight;
+			RowTemplate.Height = m_defaultRowHeight;
+
+			foreach (DataGridViewRow row in Rows)
+			{
+				row.MinimumHeight = m_defaultRowHeight;
+				row.Height = m_defaultRowHeight;
+			}
+
+			Invalidate();
+
+			// Return false to allow other windows to update their fonts.
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
