@@ -59,7 +59,6 @@ namespace SIL.Pa.Controls
 		private bool m_isCurrentPlaybackGrid = false;
 		private string m_dataSourcePathFieldName;
 		private bool m_groupOnSortedField = false;
-		private bool m_allGroupsCollapsed = false;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -460,19 +459,6 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Properties
-		
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the AllGroupsCollapsed for the grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool AllGroupsCollapsed
-		{
-			get { return m_allGroupsCollapsed; }
-			set { m_allGroupsCollapsed = value; }
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the cache associated with the grid.
@@ -2086,12 +2072,7 @@ namespace SIL.Pa.Controls
 
 			// Force users to restart Find when collapsing all rows
 			if (!expand)
-			{
-				AllGroupsCollapsed = true;
 				FindInfo.CanFindAgain = false;
-			}
-			else
-				AllGroupsCollapsed = false;
 
 			CurrentCell = this[0, 0];
 			PaApp.IncProgressBar(RowCount);
