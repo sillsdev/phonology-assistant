@@ -67,7 +67,7 @@ namespace SIL.Pa.Dialogs
 			scImport.Panel1MinSize = 125;
 			scImport.Panel2MinSize = 125;
 
-			txtFilePreview.Font = FontHelper.PhoneticFont;
+			txtFilePreview.Font = FontHelper.DefaultPhoneticFont;
 			pnlSrcFileHdg.Font = FontHelper.UIFont;
 			pnlParseHdg.Font = FontHelper.UIFont;
 			pnlMappingsHdg.Font = FontHelper.UIFont;
