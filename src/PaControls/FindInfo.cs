@@ -32,11 +32,13 @@ namespace SIL.Pa.Controls
 		private static bool m_doneFinding = false;
 		private static bool m_performedFind = false;
 		private static bool m_firstLoop = true;
-		private static bool m_FindDlgIsOpen = false;
+		private static bool m_findDlgIsOpen = false;
 		private static bool m_searchedAllRowCols = false;
 		private static int m_numberOfFinds = 0;
 		private static bool m_changedFindDirection = false;
 		private static bool m_showMessages = true;
+		private static bool m_searchCollapsedGroups = true;
+
 		#endregion
 
 		#region Finding
@@ -636,8 +638,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool FindDlgIsOpen
 		{
-			get { return m_FindDlgIsOpen; }
-			set { m_FindDlgIsOpen = value; }
+			get { return m_findDlgIsOpen; }
+			set { m_findDlgIsOpen = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -671,6 +673,19 @@ namespace SIL.Pa.Controls
 		{
 			get { return m_firstMatchedRow; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to search in collapsed groups for
+		/// a match.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SearchCollapsedGroups
+		{
+			get { return m_searchCollapsedGroups; }
+			set { m_searchCollapsedGroups = value; }
+		}
+
 		#endregion
 	}
 
