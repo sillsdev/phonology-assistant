@@ -58,11 +58,12 @@ namespace SIL.Pa
 		private string m_hexIpa = string.Empty;
 		private string m_name = string.Empty;
 		private int invalidCodePoint = 31;
-		private Dictionary<string, DataGridViewRow> m_gridDictionary = new Dictionary<string, DataGridViewRow>();
+		private SortedDictionary<int, DataGridViewRow> m_gridDictionary =
+			new SortedDictionary<int, DataGridViewRow>();
 
 		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
-		private SortedList<float, string> m_MOA = new SortedList<float, string>();
-		private SortedList<float, string> m_POA = new SortedList<float, string>();
+		private SortedList<float, int> m_MOA = new SortedList<float, int>();
+		private SortedList<float, int> m_POA = new SortedList<float, int>();
 
 		private DataGridViewColumn m_lastSortedCol;
 		private ListSortDirection m_lastSortDirection = ListSortDirection.Ascending;
@@ -239,7 +240,7 @@ namespace SIL.Pa
 			// If this form doesn't have focus, it probably means the drop-down was used
 			// and closed on the AddCharacterDlg.
 			if (!Focused)
-				return;
+				m_grid.Focus();
 
 			FeatureListView lv = null;
 			if (sender == m_aFeatureDropdown)
@@ -262,6 +263,7 @@ namespace SIL.Pa
 			{
 				changed = (charInfo.BinaryMask != lv.CurrentMasks[0]);
 				charInfo.BinaryMask = lv.CurrentMasks[0];
+				m_grid.CurrentRow.Cells[kBinaryMask].Value = lv.CurrentMasks[0];
 				m_grid.CurrentRow.Cells[kBFeatures].Value =
 					DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
 			}
@@ -270,6 +272,8 @@ namespace SIL.Pa
 				changed = (charInfo.Mask0 != lv.CurrentMasks[0] || charInfo.Mask1 != lv.CurrentMasks[1]);
 				charInfo.Mask0 = lv.CurrentMasks[0];
 				charInfo.Mask1 = lv.CurrentMasks[1];
+				m_grid.CurrentRow.Cells[kMask0].Value = lv.CurrentMasks[0];
+				m_grid.CurrentRow.Cells[kMask1].Value = lv.CurrentMasks[1];
 				m_grid.CurrentRow.Cells[kAFeatures].Value =
 					DataUtils.AFeatureCache.GetFeaturesText(lv.CurrentMasks);
 			}
@@ -464,24 +468,23 @@ namespace SIL.Pa
 				if (row.Cells[kHexIPAChar].Value == null || row.Cells[kCodePoint].Value == null)
 					continue;
 
-				m_name = (string)row.Cells[kName].Value.ToString().Trim();
-				m_hexIpa = (string)row.Cells[kHexIPAChar].Value.ToString().Trim();
-				m_gridDictionary.Add((m_name + m_hexIpa), row);
+				int codepoint = (int)row.Cells[kCodePoint].Value;
+				m_gridDictionary[codepoint] = row;
 
-				if ((int)row.Cells[kCodePoint].Value <= invalidCodePoint ||
-					row.Cells[kCharType].Value.ToString() == kUnknown)
+				if (codepoint <= invalidCodePoint || row.Cells[kCharType].Value.ToString() == kUnknown)
 				{
 					// Make the MOA & POA negative
 					newValue -= 5;
-					m_gridDictionary[(m_name + m_hexIpa)].Cells[kMOA].Value = newValue;
-					m_gridDictionary[(m_name + m_hexIpa)].Cells[kPOA].Value = newValue;
+					row.Cells[kMOA].Value = newValue;
+					row.Cells[kPOA].Value = newValue;
 				}
 				else
 				{
-					LoadArticulators(row, kMOA, m_MOA);
-					LoadArticulators(row, kPOA, m_POA);
+					LoadArticulators(float.Parse(row.Cells[kMOA].Value.ToString()), codepoint, m_MOA);
+					LoadArticulators(float.Parse(row.Cells[kPOA].Value.ToString()), codepoint, m_POA);
 				}
 			}
+
 			UpdateArticulators();
 		}
 
@@ -490,21 +493,17 @@ namespace SIL.Pa
 		/// Load the articulation (moa & poa) values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadArticulators(DataGridViewRow row, string cellName,
-			SortedList<float, string> articulators)
+		private void LoadArticulators(float val, int codepoint, SortedList<float, int> articulators)
 		{
-			float articulationVal = float.Parse(row.Cells[cellName].Value.ToString());
-			bool finished = false;
-
-			while (!finished)
+			while (true)
 			{
-				if (articulators.ContainsKey(articulationVal))
-					articulationVal += 0.1F; // Fix any duplicate articulators
+				if (articulators.ContainsKey(val))
+					val += 0.1F; // Fix any duplicate articulators
 				else
 				{
 					// Key is articulationVal (moa or poa) and Value is "Name + HexIpa"
-					articulators.Add(articulationVal, (m_name + m_hexIpa));
-					finished = true;
+					articulators[val] = codepoint;
+					return;
 				}
 			}
 		}
@@ -517,17 +516,17 @@ namespace SIL.Pa
 		private void UpdateArticulators()
 		{
 			int newValue = 0;
-			foreach (KeyValuePair<float, string> moaRow in m_MOA)
+			foreach (int codepoint in m_MOA.Values)
 			{
 				newValue += 5;
-				m_gridDictionary[moaRow.Value].Cells[kMOA].Value = newValue;
+				m_gridDictionary[codepoint].Cells[kMOA].Value = newValue;
 			}
 
 			newValue = 0;
-			foreach (KeyValuePair<float, string> poaRow in m_POA)
+			foreach (int codepoint in m_POA.Values)
 			{
 				newValue += 5;
-				m_gridDictionary[poaRow.Value].Cells[kPOA].Value = newValue;
+				m_gridDictionary[codepoint].Cells[kPOA].Value = newValue;
 			}
 		}
 
@@ -596,6 +595,8 @@ namespace SIL.Pa
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ReadOnly = true;
 			col.Frozen = true;
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
 			m_grid.Columns.Add(col);
 
 			// Add the IpaChar field column.
@@ -604,6 +605,7 @@ namespace SIL.Pa
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -800,7 +802,7 @@ namespace SIL.Pa
 		private void LoadRows()
 		{
 			foreach (IPACharInfo charInfo in m_charInventory)
-				CreateGridRow(charInfo);
+				LoadRowWithCharInfo(null, charInfo);
 
 			// Hide all rows with a CharType of "Unknown" OR a CodePoint that is below 32
 			foreach (DataGridViewRow row in m_grid.Rows)
@@ -813,8 +815,6 @@ namespace SIL.Pa
 				{
 					row.Visible = false;
 				}
-
-
 			}
 		}
 
@@ -823,37 +823,82 @@ namespace SIL.Pa
 		/// Create a grid row.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int CreateGridRow(IPACharInfo charInfo)
+		private int LoadRowWithCharInfo(DataGridViewRow row, IPACharInfo charInfo)
 		{
-			int rowIndex = m_grid.AddRow(new object[] {
-					FormatHexIPAChar(charInfo.HexIPAChar),
-					charInfo.IPAChar,
-					charInfo.Codepoint,
-					charInfo.Name,
-					charInfo.Description,
-					Enum.GetName(typeof(IPACharacterType),charInfo.CharType),
-					Enum.GetName(typeof(IPACharacterSubType),charInfo.CharSubType),
-					Enum.GetName(typeof(IPACharIgnoreTypes),charInfo.IgnoreType),
-					charInfo.IsBaseChar,
-					charInfo.CanPreceedBaseChar,
-					charInfo.DisplayWDottedCircle,
-					charInfo.DisplayOrder,
-					charInfo.MOArticulation,
-					charInfo.POArticulation,
-					charInfo.Mask0,
-					charInfo.Mask1,
-					charInfo.BinaryMask,
-					charInfo.ChartColumn,
-					charInfo.ChartGroup});
+			int rowIndex;
+			
+			if (row != null)
+				rowIndex = row.Index;
+			else
+			{
+				m_grid.Rows.Add();
+				rowIndex = m_grid.RowCount - 1;
+				row = m_grid.Rows[rowIndex];
+			}
+			
+			//rowIndex = m_grid.AddRow(new object[] {
+			//        FormatHexIPAChar(charInfo.HexIPAChar),
+			//        charInfo.IPAChar,
+			//        charInfo.Codepoint,
+			//        charInfo.Name,
+			//        charInfo.Description,
+			//        Enum.GetName(typeof(IPACharacterType), charInfo.CharType),
+			//        Enum.GetName(typeof(IPACharacterSubType), charInfo.CharSubType),
+			//        Enum.GetName(typeof(IPACharIgnoreTypes), charInfo.IgnoreType),
+			//        charInfo.IsBaseChar,
+			//        charInfo.CanPreceedBaseChar,
+			//        charInfo.DisplayWDottedCircle,
+			//        charInfo.DisplayOrder,
+			//        charInfo.MOArticulation,
+			//        charInfo.POArticulation,
+			//        charInfo.Mask0,
+			//        charInfo.Mask1,
+			//        charInfo.BinaryMask,
+			//        charInfo.ChartColumn,
+			//        charInfo.ChartGroup});
 
-			ulong[] features = new ulong[] {charInfo.Mask0, charInfo.Mask1};
-			m_grid[kAFeatures, rowIndex].Value = DataUtils.AFeatureCache.GetFeaturesText(features);
-			m_grid[kBFeatures, rowIndex].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
-			m_grid.Rows[rowIndex].Tag = charInfo;
-			
-			if (charInfo.Codepoint > 0 && charInfo.DisplayWDottedCircle)
-				m_grid[kIpaChar, rowIndex].Value = DataUtils.kDottedCircle + charInfo.IPAChar;
-			
+			//ulong[] features = new ulong[] {charInfo.Mask0, charInfo.Mask1};
+			//m_grid[kAFeatures, rowIndex].Value = DataUtils.AFeatureCache.GetFeaturesText(features);
+			//m_grid[kBFeatures, rowIndex].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
+
+			row.Cells[kHexIPAChar].Value = FormatHexIPAChar(charInfo.HexIPAChar);
+			row.Cells[kCodePoint].Value = charInfo.Codepoint;
+			row.Cells[kIpaChar].Value = (charInfo.DisplayWDottedCircle ?
+				DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;
+
+			// Identity
+			row.Cells[kName].Value = charInfo.Name;
+			row.Cells[kDescription].Value = charInfo.Description;
+
+			// Type
+			row.Cells[kCharType].Value = charInfo.CharType.ToString();
+			row.Cells[kCharSubType].Value = charInfo.CharSubType.ToString();
+			row.Cells[kIgnoreType].Value = charInfo.IgnoreType.ToString();
+
+			// Base Character
+			row.Cells[kIsBaseChar].Value = charInfo.IsBaseChar;
+			row.Cells[kCanPreceedBaseChar].Value = charInfo.CanPreceedBaseChar;
+			row.Cells[kDisplayWDottedCircle].Value = charInfo.DisplayWDottedCircle;
+			row.Cells[kDisplayOrder].Value = charInfo.DisplayOrder;
+
+			// Articulation
+			row.Cells[kMOA].Value = charInfo.MOArticulation;
+			row.Cells[kPOA].Value = charInfo.POArticulation;
+
+			// Chart Position
+			row.Cells[kChartColumn].Value = charInfo.ChartColumn;
+			row.Cells[kChartGroup].Value = charInfo.ChartGroup;
+
+			// Features
+			ulong[] features = new ulong[] { charInfo.Mask0, charInfo.Mask1 };
+			row.Cells[kAFeatures].Value = DataUtils.AFeatureCache.GetFeaturesText(features);
+			row.Cells[kBFeatures].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
+			row.Cells[kMask0].Value = charInfo.Mask0;
+			row.Cells[kMask1].Value = charInfo.Mask1;
+			row.Cells[kBinaryMask].Value = charInfo.BinaryMask;
+
+			row.Tag = charInfo;
+
 			return rowIndex;
 		}
 
@@ -958,7 +1003,7 @@ namespace SIL.Pa
 			m_grid.CurrentCellDirtyStateChanged +=
 				new EventHandler(m_grid_CurrentCellDirtyStateChanged);
 
-			m_grid.DoubleClick += new EventHandler(m_grid_DoubleClick);
+			m_grid.MouseDoubleClick += new MouseEventHandler(m_grid_MouseDoubleClick);
 			m_grid.ColumnHeaderMouseClick +=
 				new DataGridViewCellMouseEventHandler(m_grid_ColumnHeaderMouseClick);
 
@@ -1158,9 +1203,10 @@ namespace SIL.Pa
 		/// Open AddCharacterDlg on the row double clicked on.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_DoubleClick(object sender, EventArgs e)
+		void m_grid_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			btnModify_Click(null, null);
+			if (e.Button == MouseButtons.Left && m_grid.CurrentRow != null)
+				btnModify_Click(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1174,7 +1220,7 @@ namespace SIL.Pa
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CharInfo != null)
 				{
-					int newRowIndex = CreateGridRow(dlg.CharInfo);
+					int newRowIndex = LoadRowWithCharInfo(null, dlg.CharInfo);
 					m_grid.CurrentCell = (m_grid.Rows[newRowIndex]).Cells[kHexIPAChar];
 					m_dirty = true;
 				}
@@ -1193,35 +1239,8 @@ namespace SIL.Pa
 				if (dlg.ShowDialog(this) != DialogResult.OK || dlg.CharInfo == null)
 					return;
 
-				// Identity
-				m_grid.CurrentRow.Cells[kName].Value = dlg.CharInfo.Name;
-				m_grid.CurrentRow.Cells[kDescription].Value = dlg.CharInfo.Description;
+				LoadRowWithCharInfo(m_grid.CurrentRow, dlg.CharInfo);
 
-				// Type
-				m_grid.CurrentRow.Cells[kCharType].Value = dlg.CharInfo.CharType.ToString();
-				m_grid.CurrentRow.Cells[kCharSubType].Value = dlg.CharInfo.CharSubType.ToString();
-				m_grid.CurrentRow.Cells[kIgnoreType].Value = dlg.CharInfo.IgnoreType.ToString();
-
-				// Base Character
-				m_grid.CurrentRow.Cells[kIsBaseChar].Value = dlg.CharInfo.IsBaseChar;
-				m_grid.CurrentRow.Cells[kCanPreceedBaseChar].Value = dlg.CharInfo.CanPreceedBaseChar;
-				m_grid.CurrentRow.Cells[kDisplayWDottedCircle].Value = dlg.CharInfo.DisplayWDottedCircle;
-
-				// Articulation
-				m_grid.CurrentRow.Cells[kMOA].Value = dlg.CharInfo.MOArticulation;
-				m_grid.CurrentRow.Cells[kPOA].Value = dlg.CharInfo.POArticulation;
-
-				// Chart Position
-				m_grid.CurrentRow.Cells[kChartColumn].Value = dlg.CharInfo.ChartColumn;
-				m_grid.CurrentRow.Cells[kChartGroup].Value = dlg.CharInfo.ChartGroup;
-
-				// Features
-				ulong[] features = new ulong[] { dlg.CharInfo.Mask0, dlg.CharInfo.Mask1 };
-				m_grid.CurrentRow.Cells[kAFeatures].Value =
-					DataUtils.AFeatureCache.GetFeaturesText(features);
-				m_grid.CurrentRow.Cells[kBFeatures].Value =
-					DataUtils.BFeatureCache.GetFeaturesText(dlg.CharInfo.BinaryMask);
-				m_grid.CurrentRow.Tag = dlg.CharInfo;
 				
 				m_dirty = true;
 			}

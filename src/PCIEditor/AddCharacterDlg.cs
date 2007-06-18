@@ -675,7 +675,9 @@ namespace SIL.Pa
 		{
 			m_charInfo = new IPACharInfo();
 
-			// Identity
+			m_charInfo.Codepoint = int.Parse((m_addingChar ?
+				txtHexValue.Text : lblUnicodeValue.Text), NumberStyles.HexNumber);
+				
 			m_charInfo.HexIPAChar = txtHexValue.Text;
 			m_charInfo.IPAChar = lblChar.Text;
 			m_charInfo.Name = txtCharName.Text;

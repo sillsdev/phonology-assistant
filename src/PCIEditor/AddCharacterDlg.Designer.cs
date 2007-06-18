@@ -344,17 +344,18 @@ namespace SIL.Pa
 			// 
 			// hlblBinary
 			// 
-			this.hlblBinary.ControlReceivingFocusOnMnemonic = this.btnBinary;
+			this.hlblBinary.ControlReceivingFocusOnMnemonic = null;
 			this.hlblBinary.Controls.Add(this.btnBinary);
 			resources.ApplyResources(this.hlblBinary, "hlblBinary");
-			this.hlblBinary.MnemonicGeneratesClick = false;
+			this.hlblBinary.MnemonicGeneratesClick = true;
 			this.hlblBinary.Name = "hlblBinary";
 			this.hlblBinary.ShowWindowBackgroudOnTopAndRightEdge = true;
+			this.hlblBinary.Click += new System.EventHandler(this.btnBinary_Click);
 			// 
 			// btnBinary
 			// 
 			resources.ApplyResources(this.btnBinary, "btnBinary");
-			this.btnBinary.BackColor = System.Drawing.SystemColors.Control;
+			this.btnBinary.BackColor = System.Drawing.Color.Transparent;
 			this.btnBinary.CanBeChecked = false;
 			this.btnBinary.Checked = false;
 			this.btnBinary.DrawEmpty = false;
@@ -384,17 +385,18 @@ namespace SIL.Pa
 			// 
 			// hlblArticulatory
 			// 
-			this.hlblArticulatory.ControlReceivingFocusOnMnemonic = this.btnArticulatory;
+			this.hlblArticulatory.ControlReceivingFocusOnMnemonic = null;
 			this.hlblArticulatory.Controls.Add(this.btnArticulatory);
 			resources.ApplyResources(this.hlblArticulatory, "hlblArticulatory");
-			this.hlblArticulatory.MnemonicGeneratesClick = false;
+			this.hlblArticulatory.MnemonicGeneratesClick = true;
 			this.hlblArticulatory.Name = "hlblArticulatory";
 			this.hlblArticulatory.ShowWindowBackgroudOnTopAndRightEdge = true;
+			this.hlblArticulatory.Click += new System.EventHandler(this.btnArticulatory_Click);
 			// 
 			// btnArticulatory
 			// 
 			resources.ApplyResources(this.btnArticulatory, "btnArticulatory");
-			this.btnArticulatory.BackColor = System.Drawing.SystemColors.Control;
+			this.btnArticulatory.BackColor = System.Drawing.Color.Transparent;
 			this.btnArticulatory.CanBeChecked = false;
 			this.btnArticulatory.Checked = false;
 			this.btnArticulatory.DrawEmpty = false;
