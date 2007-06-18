@@ -22,7 +22,6 @@ namespace SIL.Pa.Controls
 		private static int m_matchedColumn = 0;
 		private static string m_findPattern = string.Empty;
 		private static string m_findText = string.Empty;
-		private static ArrayList m_checkedItems = new ArrayList();
 		private static FindDlgColItem[] m_colsToSearch = new FindDlgColItem[] { };
 		private static int m_startRow = 0;
 		private static int m_iPreviousRow = 0;

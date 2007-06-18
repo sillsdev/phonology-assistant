@@ -136,7 +136,7 @@
     <value>68, 16</value>
   </data>
   <data name="lblFindWhat.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblFindWhat.Text" xml:space="preserve">
     <value>Fi&amp;nd What:</value>
@@ -193,7 +193,7 @@
     <value>12, 22</value>
   </data>
   <data name="chkMatchCase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 20</value>
+    <value>93, 20</value>
   </data>
   <data name="chkMatchCase.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -211,7 +211,7 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkMatchCase.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnFind1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -256,7 +256,7 @@
     <value>409, 21</value>
   </data>
   <data name="cboFindWhat.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;cboFindWhat.Name" xml:space="preserve">
     <value>cboFindWhat</value>
@@ -280,7 +280,7 @@
     <value>12, 75</value>
   </data>
   <data name="chkMatchEntireWord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 20</value>
+    <value>154, 20</value>
   </data>
   <data name="chkMatchEntireWord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -298,7 +298,7 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkMatchEntireWord.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chkRegEx.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -307,13 +307,13 @@
     <value>NoControl</value>
   </data>
   <data name="chkRegEx.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 127</value>
+    <value>12, 153</value>
   </data>
   <data name="chkRegEx.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 20</value>
+    <value>169, 20</value>
   </data>
   <data name="chkRegEx.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="chkRegEx.Text" xml:space="preserve">
     <value>&amp;Use Regular Expressions</value>
@@ -331,7 +331,7 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkRegEx.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="chkStartsWith.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -343,7 +343,7 @@
     <value>12, 49</value>
   </data>
   <data name="chkStartsWith.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 20</value>
+    <value>87, 20</value>
   </data>
   <data name="chkStartsWith.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -361,10 +361,43 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkStartsWith.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="gbOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 127</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 20</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.Text" xml:space="preserve">
+    <value>Search &amp;Collapsed Groups</value>
+  </data>
+  <data name="chkSrchCollapsedGrps.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="&gt;&gt;chkSrchCollapsedGrps.Name" xml:space="preserve">
+    <value>chkSrchCollapsedGrps</value>
+  </data>
+  <data name="&gt;&gt;chkSrchCollapsedGrps.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSrchCollapsedGrps.Parent" xml:space="preserve">
+    <value>gbOptions</value>
+  </data>
+  <data name="&gt;&gt;chkSrchCollapsedGrps.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="chkReverseSearch.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -376,7 +409,7 @@
     <value>12, 101</value>
   </data>
   <data name="chkReverseSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 20</value>
+    <value>115, 20</value>
   </data>
   <data name="chkReverseSearch.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -397,7 +430,7 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkReverseSearch.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="gbOptions.Font" type="System.Drawing.Font, System.Drawing">
     <value>Lucida Sans Unicode, 9pt</value>
@@ -409,7 +442,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="gbOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 154</value>
+    <value>228, 181</value>
   </data>
   <data name="gbOptions.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -496,7 +529,7 @@
     <value>Bottom</value>
   </data>
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 209</value>
+    <value>0, 236</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
     <value>431, 40</value>
@@ -556,7 +589,7 @@
     <value>22</value>
   </data>
   <data name="fldSelGridSrchCols.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 133</value>
+    <value>171, 160</value>
   </data>
   <data name="fldSelGridSrchCols.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -565,7 +598,7 @@
     <value>fldSelGridSrchCols</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2510.18650, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2725.26457, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Parent" xml:space="preserve">
     <value>pnlColumnOptions</value>
@@ -580,7 +613,7 @@
     <value>0, 52</value>
   </data>
   <data name="pnlColumnOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 157</value>
+    <value>431, 184</value>
   </data>
   <data name="pnlColumnOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -601,10 +634,13 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>431, 249</value>
+    <value>431, 276</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>

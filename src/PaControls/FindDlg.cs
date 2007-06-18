@@ -37,9 +37,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public FindDlg(PaWordListGrid grid)
 		{
-			InitializeComponent();
-
+			System.Diagnostics.Debug.Assert(grid != null);
 			m_grid = grid;
+
+			InitializeComponent();
 			SetUiFonts();
 
 			// Select previous selected columns
@@ -50,8 +51,9 @@ namespace SIL.Pa.Controls
 				cboFindWhat.Items.Add(searchPattern);
 
 			LoadSettings();
-			btnFind1.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0); 
-			
+			btnFind1.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
+			chkSrchCollapsedGrps.Enabled = grid.GroupOnSortedField;
+
 			// Will prevent opening more than one FindDlg instance.
 			FindInfo.FindDlgIsOpen = true;
 		}
@@ -90,6 +92,7 @@ namespace SIL.Pa.Controls
 			chkStartsWith.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "startswith", false);
 			chkRegEx.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "regex", false);
 			chkReverseSearch.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "reverse", false);
+			chkSrchCollapsedGrps.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "srchcollapsedgrps", true);
 
 			// Save the height of the form minus the caption bar.
 			m_optionsPanelHeight = pnlColumnOptions.Height;
@@ -135,6 +138,7 @@ namespace SIL.Pa.Controls
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "startswith", chkStartsWith.Checked);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "regex", chkRegEx.Checked);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "reverse", chkReverseSearch.Checked);
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "srchcollapsedgrps", chkSrchCollapsedGrps.Checked);
 		}
 
 		#endregion
@@ -202,6 +206,7 @@ namespace SIL.Pa.Controls
 			FindInfo.Grid = m_grid;
 			FindInfo.FindPattern = formatFindPattern(cboFindWhat.Text);
 			FindInfo.FindText = cboFindWhat.Text;
+			FindInfo.SearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 
 			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
 
@@ -368,6 +373,19 @@ namespace SIL.Pa.Controls
 			get { return chkRegEx.Checked; }
 			set { chkRegEx.Checked = value; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to search collapsed groups (only
+		/// applies when the grid being searched is in grouped mode).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Search
+		{
+			get { return chkSrchCollapsedGrps.Checked; }
+			set { chkSrchCollapsedGrps.Checked = value; }
+		}
+
 		#endregion
 	}
 }

@@ -30,6 +30,7 @@ namespace SIL.Pa.Controls
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblFindWhat = new System.Windows.Forms.Label();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.chkMatchCase = new System.Windows.Forms.CheckBox();
@@ -39,13 +40,14 @@ namespace SIL.Pa.Controls
 			this.chkRegEx = new System.Windows.Forms.CheckBox();
 			this.chkStartsWith = new System.Windows.Forms.CheckBox();
 			this.gbOptions = new System.Windows.Forms.GroupBox();
+			this.chkSrchCollapsedGrps = new System.Windows.Forms.CheckBox();
 			this.chkReverseSearch = new System.Windows.Forms.CheckBox();
 			this.lblSearchColumns = new System.Windows.Forms.Label();
 			this.pnlButtons = new System.Windows.Forms.Panel();
+			this.btnHelp = new System.Windows.Forms.Button();
 			this.pnlFindWhat = new System.Windows.Forms.Panel();
 			this.pnlColumnOptions = new System.Windows.Forms.Panel();
 			this.fldSelGridSrchCols = new SIL.Pa.Controls.FieldSelectorGrid();
-			this.btnHelp = new System.Windows.Forms.Button();
 			this.gbOptions.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
 			this.pnlFindWhat.SuspendLayout();
@@ -110,6 +112,7 @@ namespace SIL.Pa.Controls
 			// gbOptions
 			// 
 			resources.ApplyResources(this.gbOptions, "gbOptions");
+			this.gbOptions.Controls.Add(this.chkSrchCollapsedGrps);
 			this.gbOptions.Controls.Add(this.chkReverseSearch);
 			this.gbOptions.Controls.Add(this.chkMatchCase);
 			this.gbOptions.Controls.Add(this.chkStartsWith);
@@ -117,6 +120,12 @@ namespace SIL.Pa.Controls
 			this.gbOptions.Controls.Add(this.chkRegEx);
 			this.gbOptions.Name = "gbOptions";
 			this.gbOptions.TabStop = false;
+			// 
+			// chkSrchCollapsedGrps
+			// 
+			resources.ApplyResources(this.chkSrchCollapsedGrps, "chkSrchCollapsedGrps");
+			this.chkSrchCollapsedGrps.Name = "chkSrchCollapsedGrps";
+			this.chkSrchCollapsedGrps.UseVisualStyleBackColor = true;
 			// 
 			// chkReverseSearch
 			// 
@@ -137,6 +146,13 @@ namespace SIL.Pa.Controls
 			this.pnlButtons.Controls.Add(this.btnCancel);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Name = "pnlButtons";
+			// 
+			// btnHelp
+			// 
+			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.UseVisualStyleBackColor = true;
+			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// pnlFindWhat
 			// 
@@ -175,6 +191,14 @@ namespace SIL.Pa.Controls
 			this.fldSelGridSrchCols.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.fldSelGridSrchCols.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridSrchCols.ColumnHeadersVisible = false;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.fldSelGridSrchCols.DefaultCellStyle = dataGridViewCellStyle2;
 			this.fldSelGridSrchCols.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridSrchCols.IsDirty = false;
 			this.fldSelGridSrchCols.MultiSelect = false;
@@ -182,20 +206,15 @@ namespace SIL.Pa.Controls
 			this.fldSelGridSrchCols.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridSrchCols.RowHeadersVisible = false;
 			this.fldSelGridSrchCols.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.fldSelGridSrchCols.ShowWaterMarkWhenDirty = false;
+			this.fldSelGridSrchCols.WaterMark = "!";
 			this.fldSelGridSrchCols.AfterUserChangedValue += new SIL.Pa.Controls.FieldSelectorGrid.AfterUserChangedValueHandler(this.fldSelGridSrchCols_AfterUserChangedValue);
-			// 
-			// btnHelp
-			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			this.btnHelp.Name = "btnHelp";
-			this.btnHelp.UseVisualStyleBackColor = true;
-			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// FindDlg
 			// 
 			this.AcceptButton = this.btnFind1;
 			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.CancelButton = this.btnCancel;
 			this.Controls.Add(this.pnlColumnOptions);
 			this.Controls.Add(this.pnlFindWhat);
@@ -240,5 +259,6 @@ namespace SIL.Pa.Controls
 		private System.Windows.Forms.Panel pnlColumnOptions;
 		private SIL.Pa.Controls.FieldSelectorGrid fldSelGridSrchCols;
 		private System.Windows.Forms.Button btnHelp;
+		private System.Windows.Forms.CheckBox chkSrchCollapsedGrps;
 	}
 }
