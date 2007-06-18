@@ -59,6 +59,8 @@ namespace SIL.Pa.Controls
 		private bool m_isCurrentPlaybackGrid = false;
 		private string m_dataSourcePathFieldName;
 		private bool m_groupOnSortedField = false;
+		//private bool m_allGroupsCollapsed = false;
+		//private bool m_ToggleGroupExpansion = false;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -459,6 +461,18 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Properties
+		
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets or sets the AllGroupsCollapsed for the grid.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool AllGroupsCollapsed
+		//{
+		//    get { return m_allGroupsCollapsed; }
+		//    set { m_allGroupsCollapsed = value; }
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the cache associated with the grid.
@@ -2057,6 +2071,7 @@ namespace SIL.Pa.Controls
 			if (!m_groupOnSortedField && !m_cache.IsCIEList)
 				return;
 
+			//m_ToggleGroupExpansion = true;
 			Application.UseWaitCursor = true;
 			PaApp.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
 				Properties.Resources.kstidCollapsingGroups, RowCount);
@@ -2078,6 +2093,7 @@ namespace SIL.Pa.Controls
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			Application.UseWaitCursor = false;
+			//m_ToggleGroupExpansion = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2618,6 +2634,45 @@ namespace SIL.Pa.Controls
 
 				FindInfo.ResetStartSearchCell();
 			}
+
+			// THIS CODE IS BEING KEPT SO IT CAN BE POSSIBLE USED FOR THE
+			// ENABLING/DISABLING OF THE 'COLLAPSE ALL GROUPS' AND 'EXPAND
+			// ALL GROUPS' TOOLBAR BUTTONS AND MENU SELECTIONS.
+
+			//// All the Sorted row groups were either expanded or collapsed 
+			//if (m_ToggleGroupExpansion)
+			//{
+			//    if (row.Expanded)
+			//        AllGroupsCollapsed = false;
+			//    else
+			//        AllGroupsCollapsed = true;
+			//    return;
+			//}
+
+			//// Single hierarchical row expanded
+			//if (row.Expanded)
+			//{
+			//    if (AllGroupsCollapsed)
+			//        AllGroupsCollapsed = false;
+			//    return;
+			//}
+
+			//// Single hierarchical row collapsed
+
+			//// Loop through all the SilHierarchicalGridRow's and see if any
+			//// of them are expanded. If so, set AllGroupsCollapsed to false.
+			//foreach (DataGridViewRow dgvRow in Rows)
+			//{
+			//    if (dgvRow is SilHierarchicalGridRow)
+			//    {
+			//        if ((dgvRow as SilHierarchicalGridRow).Expanded)
+			//        {
+			//            AllGroupsCollapsed = false;
+			//            return;
+			//        }
+			//    }
+			//}
+			//AllGroupsCollapsed = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

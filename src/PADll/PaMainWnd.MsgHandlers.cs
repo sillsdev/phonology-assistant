@@ -509,6 +509,10 @@ namespace SIL.Pa
 					enabled = false;
 			}
 
+			// Disable UpdateEditSourceRecord if the current row is a hierarchical group row
+			if (grid != null && grid.CurrentRow is SilHierarchicalGridRow)
+				enabled = false;
+
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
