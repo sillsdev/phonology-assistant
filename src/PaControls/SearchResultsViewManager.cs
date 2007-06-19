@@ -236,6 +236,9 @@ namespace SIL.Pa.Controls
 			if (CurrentViewsGrid != null)
 				CurrentViewsGrid.GroupOnSortedField = !CurrentViewsGrid.GroupOnSortedField;
 
+			if (!CurrentViewsGrid.CurrentCell.Displayed)
+				CurrentViewsGrid.MoveCellsRowToScreenMiddle(CurrentViewsGrid.CurrentCell);
+
 			return true;
 		}
 

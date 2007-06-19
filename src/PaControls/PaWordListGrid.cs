@@ -2155,6 +2155,30 @@ namespace SIL.Pa.Controls
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Moves the specified cell's row to the middle of the screen.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void MoveCellsRowToScreenMiddle(DataGridViewCell cell)
+		{
+			// Number of visible rows that will be displayed above the row with the matched cell
+			int backupRowCount = DisplayedRowCount(true) / 2;
+			int firstDisplayRowIndex = cell.RowIndex - 1;
+
+			while (firstDisplayRowIndex > 0)
+			{
+				if (Rows[firstDisplayRowIndex].Visible)
+					backupRowCount--;
+
+				if (backupRowCount == 0)
+					break;
+
+				firstDisplayRowIndex--;
+			}
+			FirstDisplayedScrollingRowIndex = firstDisplayRowIndex;
+		}
+
 		#endregion
 
 		#region Message handlers

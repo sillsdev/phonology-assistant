@@ -488,6 +488,11 @@ namespace SIL.Pa
 				return false;
 
 			m_grid.GroupOnSortedField = !m_grid.GroupOnSortedField;
+
+			if (!m_grid.CurrentCell.Displayed)
+				m_grid.MoveCellsRowToScreenMiddle(m_grid.CurrentCell);
+			//FindInfo.ResetStartSearchCell();
+			//FindInfo.CanFindAgain = true;
 			return true;
 		}
 

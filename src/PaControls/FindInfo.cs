@@ -36,7 +36,9 @@ namespace SIL.Pa.Controls
 		private static int m_numberOfFinds = 0;
 		private static bool m_changedFindDirection = false;
 		private static bool m_showMessages = true;
-		private static bool m_searchCollapsedGroups = true;
+		private static bool m_searchCollapsedGroups = false;
+		private static bool m_findBackwards = false;
+		private static SilHierarchicalGridRow m_silHierarchicalGridRow;
 
 		#endregion
 
@@ -271,6 +273,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool FindForward()
 		{
+			m_findBackwards = false;
+
 			// Start the Find over with the first record when reach the bottom.
 			if (m_iRow == m_grid.Rows.Count)
 				m_matchedRow = 0;
@@ -283,9 +287,13 @@ namespace SIL.Pa.Controls
 					return false;
 				}
 
-				// Don't search Hierarchical Row's
+				// Don't search Hierarchical Row's if m_searchCollapsedGroups is false
 				if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
-					continue;
+				{
+					m_silHierarchicalGridRow = m_grid.Rows[m_iRow] as SilHierarchicalGridRow;
+					if (!m_searchCollapsedGroups && !m_grid.GroupOnSortedField)
+						continue;
+				}
 
 				m_iPreviousRow = m_iRow;
 				for (m_iColumn = m_matchedColumn; m_iColumn < m_colsToSearch.Length; m_iColumn++)
@@ -316,6 +324,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool FindBackward()
 		{
+			m_findBackwards = true;
+
 			// Start the Find over with the last record when reach the top.
 			if (m_iRow < 0)
 				m_matchedRow = m_grid.Rows.Count - 1;
@@ -330,7 +340,7 @@ namespace SIL.Pa.Controls
 
 				// Don't search Hierarchical Row's
 				if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
-					continue;
+						continue;
 
 				m_iPreviousRow = m_iRow;
 				for ( m_iColumn = m_matchedColumn; m_iColumn >= 0; m_iColumn--)
@@ -396,6 +406,25 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Searches backwards for the previous HierarchicalGridRow and expands it.
+		/// </summary>
+		/// <returns>true if a hierarchial grid row was expanded</returns>
+		/// ------------------------------------------------------------------------------------
+		private static bool ExpandPreviousHierarchicalGridRow()
+		{
+			for (int rowIndex = m_iRow; rowIndex >= 0; rowIndex--)
+			{
+				if (m_grid.Rows[rowIndex] is SilHierarchicalGridRow)
+				{
+					(m_grid.Rows[rowIndex] as SilHierarchicalGridRow).Expanded = true;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Find the cell query for a match and reposition the matching cell's row to the middle.
 		/// </summary>
 		/// <param name="cell">DataGridViewCell</param>
@@ -404,8 +433,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool SearchCellDataForMatch(DataGridViewCell cell, string findPattern)
 		{
-			// There is NOT a match if the cell is NOT visible (i.e. group(s) collapsed)
-			if (!cell.Visible)
+			// There is NOT a match if the cell is NOT visible (i.e. group(s) collapsed) AND
+			// the grid is grouped on a sorted field.
+			if (!cell.Visible && !m_grid.GroupOnSortedField && !m_grid.Cache.IsCIEList)
 				return false;
 
 			string cellValue = cell.Value as string;
@@ -423,20 +453,32 @@ namespace SIL.Pa.Controls
 				{
 					if (!DoneSearching(cell))
 					{
-						m_numberOfFinds++;
-						// Move the cell's row to the screen's middle if it is not on the screen
-						if (!cell.Displayed)
+						//if (m_searchCollapsedGroups && m_grid.GroupOnSortedField)
+						if (m_searchCollapsedGroups && (m_grid.GroupOnSortedField || m_grid.Cache.IsCIEList))
 						{
-							int middleDisplayRowIndex = (cell.RowIndex - (m_grid.DisplayedRowCount(true) / 2)) + 1;
-							// Don't set the FirstDisplayedScrollingRowIndex to an invisible row. This will
-							// happen when the row is in a collapsed group.
-							while (!m_grid.Rows[middleDisplayRowIndex].Visible)
-								middleDisplayRowIndex++;
-							// Don't set the FirstDisplayedScrollingRowIndex to a negative number
-							m_grid.FirstDisplayedScrollingRowIndex =
-								(middleDisplayRowIndex < 1) ? 0 : middleDisplayRowIndex;
+							if (m_findBackwards)
+								ExpandPreviousHierarchicalGridRow();
+							else
+							{
+								// m_silHierarchicalGridRow will only be NULL when the user Groups by Sorted Field
+								// in the middle of a Find and then does a Find Next
+								if (m_silHierarchicalGridRow == null)
+									ExpandPreviousHierarchicalGridRow();
+								else
+								{
+									if (!m_silHierarchicalGridRow.Expanded)
+										m_silHierarchicalGridRow.Expanded = true;
+								}
+							}
 						}
-						m_grid.CurrentCell = cell;
+						m_numberOfFinds++;
+
+						// If the cell is off the screen, move the cell's row to the screen's middle.
+						if (!cell.Displayed)
+							m_grid.MoveCellsRowToScreenMiddle(cell);
+
+						if (cell.Visible)
+							m_grid.CurrentCell = cell;
 						return true;
 					}
 					return true; // done searching
