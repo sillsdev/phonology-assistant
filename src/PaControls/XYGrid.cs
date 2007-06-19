@@ -74,6 +74,7 @@ namespace SIL.Pa.Controls
 
 			m_tooltip = new ToolTip();
 			m_tooltip.IsBalloon = true;
+			m_tooltip.UseFading = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -591,7 +592,6 @@ namespace SIL.Pa.Controls
 		{
 			base.OnCellMouseEnter(e);
 
-
 			if (IsCurrentCellInEditMode)
 				return;
 
@@ -635,10 +635,13 @@ namespace SIL.Pa.Controls
 				m_cellInfoPopup.Initialize(pattern, this[col, row], exception.QueryErrorMessage);
 				m_cellInfoPopup.Show();
 			}
-			else if (this[col, row].Tag is string[])
+			else if (this[col, row].Tag is string[] || this[col, row].Tag is char[])
 			{
-				// When the tag has query in it, it will be the phones
-				// found in the query but not in the phone cache.
+				// When cell's tag is an array of strings it must contain a list of phones
+				// found in the query that are not found in the project's phone inventory.
+				// When the cell's tag is an array of characters it must contain a list of
+				// characters found in the query that are not in PA's phonetic character
+				// inventory (i.e. undefined phonetic characters).
 				m_cellInfoPopup.Initialize(pattern, this[col, row]);
 				m_cellInfoPopup.Show();
 			}
@@ -966,7 +969,8 @@ namespace SIL.Pa.Controls
 				e.Graphics.DrawImageUnscaledAndClipped(m_errorInCell, rc);
 			}
 
-			if (this[e.ColumnIndex, e.RowIndex].Tag is string[])
+			if (this[e.ColumnIndex, e.RowIndex].Tag is string[] ||
+				this[e.ColumnIndex, e.RowIndex].Tag is char[])
 				DrawInfoCornerGlyph(e.Graphics, e.CellBounds);
 
 			e.Handled = true;
@@ -1139,6 +1143,9 @@ namespace SIL.Pa.Controls
 					PaApp.Search(query, false, true, 0, out count);
 					cell.Value = count;
 					VerifyPatternPhonesAreInCache(cell, query);
+
+					if (cell.Tag == null)
+						VerifyCharactersAreInInventory(cell, query);
 				}
 			}
 			catch (Exception e)
@@ -1174,6 +1181,23 @@ namespace SIL.Pa.Controls
 			}
 
 			cell.Tag = (phonesNotInData.Count == 0 ? null : phonesNotInData.ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks each character in the query to see if they are in the phonetic character
+		/// inventory. If there are some that are invalid, then a list of them is made and is
+		/// used for a cell popup with that information.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void VerifyCharactersAreInInventory(DataGridViewCell cell, SearchQuery query)
+		{
+			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, true);
+			if (modifiedQuery != null)
+			{
+				SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+				cell.Tag = engine.InvalidCharactersInPattern;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

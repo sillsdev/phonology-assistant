@@ -231,6 +231,34 @@ namespace SIL.Pa.FFSearchEngine
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets an array of undefined phonetic characters found in all the IPA character and
+		/// IPA character run members of all the pattern pieces (i.e. search item and before
+		/// and after environments). 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public char[] InvalidCharactersInPattern
+		{
+			get
+			{
+				List<char> badChars = new List<char>();
+
+				StringBuilder bldrPhones = new StringBuilder();
+				bldrPhones.Append(GetPhonesFromMember(m_srchItem));
+				bldrPhones.Append(GetPhonesFromMember(m_envBefore));
+				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
+
+				foreach (char c in bldrPhones.ToString())
+				{
+					if (DataUtils.IPACharCache == null || DataUtils.IPACharCache[c] == null)
+						badChars.Add(c);
+				}
+
+				return (badChars.Count == 0 ? null : badChars.ToArray());
+			}
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

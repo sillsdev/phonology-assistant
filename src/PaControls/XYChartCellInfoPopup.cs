@@ -13,6 +13,13 @@ namespace SIL.Pa.Controls
 {
 	public class XYChartCellInfoPopup : SilPopup
 	{
+		private enum MsgType
+		{
+			NonExistentPhones,
+			BadCharacters,
+			Other
+		}
+
 		private Label m_lblMsg;
 		private Label m_lblPattern;
 		private Label m_lblInfo;
@@ -76,6 +83,8 @@ namespace SIL.Pa.Controls
 		public void Initialize(string pattern, DataGridViewCell associatedCell,
 			string informationMsg)
 		{
+			System.Diagnostics.Debug.Assert(associatedCell != null);
+
 			Padding = new Padding(10);
 			BorderStyle = BorderStyle.FixedSingle;
 
@@ -84,21 +93,35 @@ namespace SIL.Pa.Controls
 
 			if (informationMsg != null)
 			{
-				InitializeLabels(0, true);
+				InitializeLabels(0, MsgType.Other);
 				m_lblInfo.Text = STUtils.ConvertLiteralNewLines(informationMsg);
 			}
 			else
 			{
+				System.Diagnostics.Debug.Assert(m_associatedCell.Tag != null);
+
+				List<string> invalidItems = null;
+				MsgType msgType = MsgType.NonExistentPhones;
+
 				// Assume the information to display is a string
-				// of phones stored in the cell's tag property.
-				string[] phones = associatedCell.Tag as string[];
-				InitializeLabels(phones.Length, false);
+				// of invalidItems stored in the cell's tag property.
+				if (associatedCell.Tag is string[])
+					invalidItems = new List<string>(associatedCell.Tag as string[]);
+				else if (associatedCell.Tag is char[])
+				{
+					msgType = MsgType.BadCharacters;
+					invalidItems = new List<string>();
+					foreach (char c in (associatedCell.Tag as char[]))
+						invalidItems.Add(c.ToString());
+				}
+				
+				InitializeLabels(invalidItems.Count, msgType);
 
 				StringBuilder bldr = new StringBuilder();
-				for (int i = 0; i < phones.Length; i++)
+				for (int i = 0; i < invalidItems.Count; i++)
 				{
-					bldr.Append(phones[i]);
-					if (i < phones.Length - 1)
+					bldr.Append(invalidItems[i]);
+					if (i < invalidItems.Count - 1)
 						bldr.Append(", ");
 				}
 
@@ -115,23 +138,23 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeLabels(int numberOfPhones, bool isForNonPhoneInfo)
+		private void InitializeLabels(int numberOfInvalidItems, MsgType msgType)
 		{
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
 			m_lblPattern.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 
 			string msg;
 
-			if (isForNonPhoneInfo)
+			if (msgType == MsgType.Other)
 			{
 				msg = Properties.Resources.kstidXYChartPopupInfoSyntaxErrorsMsg;
 				m_lblInfo.Font = FontHelper.UIFont;
 			}
 			else
 			{
-				msg = (numberOfPhones > 1 ?
-					Properties.Resources.kstidXYChartPopupInfoPluralMsg :
-					Properties.Resources.kstidXYChartPopupInfoSingularMsg);
+				msg = (msgType == MsgType.BadCharacters ?
+					Properties.Resources.kstidXYChartPopupInfoBadCharsMsg :
+					Properties.Resources.kstidXYChartPopupInfoInvalidPhonesMsg);
 
 				m_lblMsg.Text = STUtils.ConvertLiteralNewLines(msg);
 				m_lblInfo.Font = FontHelper.PhoneticFont;
@@ -143,7 +166,7 @@ namespace SIL.Pa.Controls
 			m_lblMsg.Size = m_lblMsg.PreferredSize;
 
 			m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
-				(isForNonPhoneInfo ? 13 : 10));
+				(msgType == MsgType.Other ? 13 : 10));
 		}
 
 		/// ------------------------------------------------------------------------------------

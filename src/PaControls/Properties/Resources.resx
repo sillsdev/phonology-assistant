@@ -499,11 +499,11 @@
   <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
     <value>(none)</value>
   </data>
-  <data name="kstidXYChartPopupInfoPluralMsg" xml:space="preserve">
-    <value>This query contains the following\nphones that are not found in the\ncurrent project's data source(s).</value>
+  <data name="kstidXYChartPopupInfoBadCharsMsg" xml:space="preserve">
+    <value>This query contains the following\nundefined phonetic character(s).</value>
   </data>
-  <data name="kstidXYChartPopupInfoSingularMsg" xml:space="preserve">
-    <value>This query contains the following\nphone that is not found in the\ncurrent project's data source(s).</value>
+  <data name="kstidXYChartPopupInfoInvalidPhonesMsg" xml:space="preserve">
+    <value>This query contains the following\nphone(s) not found in the current\nproject's data source(s).</value>
   </data>
   <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
     <value>The search query contains\nthe following error(s):</value>

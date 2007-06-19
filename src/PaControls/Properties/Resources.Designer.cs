@@ -1062,20 +1062,20 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This query contains the following\nphones that are not found in the\ncurrent project&apos;s data source(s)..
+        ///   Looks up a localized string similar to This query contains the following\nundefined phonetic character(s)..
         /// </summary>
-        internal static string kstidXYChartPopupInfoPluralMsg {
+        internal static string kstidXYChartPopupInfoBadCharsMsg {
             get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoPluralMsg", resourceCulture);
+                return ResourceManager.GetString("kstidXYChartPopupInfoBadCharsMsg", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This query contains the following\nphone that is not found in the\ncurrent project&apos;s data source(s)..
+        ///   Looks up a localized string similar to This query contains the following\nphone(s) not found in the current\nproject&apos;s data source(s)..
         /// </summary>
-        internal static string kstidXYChartPopupInfoSingularMsg {
+        internal static string kstidXYChartPopupInfoInvalidPhonesMsg {
             get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoSingularMsg", resourceCulture);
+                return ResourceManager.GetString("kstidXYChartPopupInfoInvalidPhonesMsg", resourceCulture);
             }
         }
         
