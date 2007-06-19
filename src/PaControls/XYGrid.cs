@@ -630,8 +630,8 @@ namespace SIL.Pa.Controls
 
 			if (exception != null)
 			{
-				// When the cell's value is an exception, it will be because
-				// its query generated an error when searching took place.
+				// When the cell's value is an exception, it is because the
+				// query generated an error when searching took place.
 				m_cellInfoPopup.Initialize(pattern, this[col, row], exception.QueryErrorMessage);
 				m_cellInfoPopup.Show();
 			}
