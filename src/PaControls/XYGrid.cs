@@ -1102,6 +1102,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Search()
 		{
+			if (this.IsCurrentCellInEditMode)
+			{
+				// Force any changes that may be pending.
+				CommitEdit(DataGridViewDataErrorContexts.Commit);
+				EndEdit();
+			}
+
 			if (RowCount <= 1 || ColumnCount <= 1)
 				return;
 
@@ -1124,6 +1131,7 @@ namespace SIL.Pa.Controls
 			}
 
 			PaApp.UninitializeProgressBar();
+			Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------

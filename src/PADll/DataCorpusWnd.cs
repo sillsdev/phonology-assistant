@@ -131,6 +131,8 @@ namespace SIL.Pa
 				m_grid.Focus();
 				m_grid.SortOptions = PaApp.Project.DataCorpusSortOptions;
 				m_grid.IsCurrentPlaybackGrid = true;
+				m_grid.UseWaitCursor = false;
+				m_grid.Cursor = Cursors.Default;
 			}
 
 			// This will enforce an update of the record pane.

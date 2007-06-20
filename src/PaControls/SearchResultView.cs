@@ -81,6 +81,8 @@ namespace SIL.Pa.Controls
 			}
 
 			Disposed += new EventHandler(SearchResultView_Disposed);
+			m_grid.UseWaitCursor = false;
+			m_grid.Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------
