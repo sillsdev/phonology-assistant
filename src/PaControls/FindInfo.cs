@@ -87,7 +87,7 @@ namespace SIL.Pa.Controls
 		{
 			int currCellDisplayIndex = m_grid.Columns[m_grid.CurrentCell.ColumnIndex].DisplayIndex;
 
-			if (m_grid.Cache.IsCIEList || m_grid.GroupOnSortedField) // IsCIEList -> Minimal Pairs
+			if (m_grid.Cache.IsCIEList || m_grid.IsGroupedByField) // IsCIEList -> Minimal Pairs
 			{
 				// Covert currCellDisplayIndex to 0 based array for comparison
 				currCellDisplayIndex--;
@@ -291,7 +291,7 @@ namespace SIL.Pa.Controls
 				if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
 				{
 					m_silHierarchicalGridRow = m_grid.Rows[m_iRow] as SilHierarchicalGridRow;
-					if (!m_searchCollapsedGroups && !m_grid.GroupOnSortedField)
+					if (!m_searchCollapsedGroups && !m_grid.IsGroupedByField)
 						continue;
 				}
 
@@ -435,7 +435,7 @@ namespace SIL.Pa.Controls
 		{
 			// There is NOT a match if the cell is NOT visible (i.e. group(s) collapsed) AND
 			// the grid is grouped on a sorted field.
-			if (!cell.Visible && !m_grid.GroupOnSortedField && !m_grid.Cache.IsCIEList)
+			if (!cell.Visible && !m_grid.IsGroupedByField && !m_grid.Cache.IsCIEList)
 				return false;
 
 			string cellValue = cell.Value as string;
@@ -453,8 +453,8 @@ namespace SIL.Pa.Controls
 				{
 					if (!DoneSearching(cell))
 					{
-						//if (m_searchCollapsedGroups && m_grid.GroupOnSortedField)
-						if (m_searchCollapsedGroups && (m_grid.GroupOnSortedField || m_grid.Cache.IsCIEList))
+						//if (m_searchCollapsedGroups && m_grid.IsGroupedByField)
+						if (m_searchCollapsedGroups && (m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
 						{
 							if (m_findBackwards)
 								ExpandPreviousHierarchicalGridRow();

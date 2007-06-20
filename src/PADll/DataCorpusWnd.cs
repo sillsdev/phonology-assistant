@@ -482,15 +482,52 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnDropDownGroupByFieldParent(object args)
+		{
+			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			if (itemProps == null || !PaApp.IsFormActive(this))
+				return false;
+
+			m_grid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateGroupByFieldParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!PaApp.IsFormActive(this) || itemProps == null || itemProps.Name.StartsWith("tbb"))
+				return false;
+
+			m_grid.BuildGroupByMenu(itemProps.Name, PaApp.TMAdapter);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupBySortedField(object args)
 		{
 			if (!PaApp.IsFormActive(this))
 				return false;
 
-			m_grid.GroupOnSortedField = !m_grid.GroupOnSortedField;
+			if (m_grid.IsGroupedByField)
+				m_grid.GroupByField = null;
+			else if (m_grid.SortOptions.SortInformationList != null &&
+				m_grid.SortOptions.SortInformationList.Count > 0)
+			{
+				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
+			}
 
 			if (!m_grid.CurrentCell.Displayed)
 				m_grid.MoveCellsRowToScreenMiddle(m_grid.CurrentCell);
+			
 			//FindInfo.ResetStartSearchCell();
 			//FindInfo.CanFindAgain = true;
 			return true;
@@ -517,10 +554,10 @@ namespace SIL.Pa
 					itemProps.Update = true;
 				}
 			}
-			else if (itemProps.Checked != m_grid.GroupOnSortedField)
+			else if (itemProps.Checked != m_grid.IsGroupedByField)
 			{
 				itemProps.Visible = true;
-				itemProps.Checked = m_grid.GroupOnSortedField;
+				itemProps.Checked = m_grid.IsGroupedByField;
 				itemProps.Update = true;
 			}
 
@@ -552,10 +589,10 @@ namespace SIL.Pa
 			if (!PaApp.IsFormActive(this) || itemProps == null)
 				return false;
 
-			if (itemProps.Enabled != m_grid.GroupOnSortedField)
+			if (itemProps.Enabled != m_grid.IsGroupedByField)
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = m_grid.GroupOnSortedField;
+				itemProps.Enabled = m_grid.IsGroupedByField;
 				itemProps.Update = true;
 			}
 

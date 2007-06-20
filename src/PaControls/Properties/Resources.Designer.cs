@@ -639,6 +639,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string kstidGroupByNoneFieldName {
+            get {
+                return ResourceManager.GetString("kstidGroupByNoneFieldName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file {0} is missing. Exporting cannot be completed..
         /// </summary>
         internal static string kstidHTMLExportFileMissingMsg {

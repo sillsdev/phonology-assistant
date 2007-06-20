@@ -349,6 +349,10 @@
   <data name="kstidGridColumnSelectorAllItem" xml:space="preserve">
     <value>Select All</value>
   </data>
+  <data name="kstidGroupByNoneFieldName" xml:space="preserve">
+    <value>None</value>
+    <comment>The item in the group by fields menu (and toolbar menu) indicating no field is being grouped on.</comment>
+  </data>
   <data name="kstidHTMLExportFileMissingMsg" xml:space="preserve">
     <value>The file {0} is missing. Exporting cannot be completed.</value>
   </data>

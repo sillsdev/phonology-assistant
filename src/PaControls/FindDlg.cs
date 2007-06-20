@@ -52,7 +52,7 @@ namespace SIL.Pa.Controls
 
 			LoadSettings();
 			btnFind1.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
-			chkSrchCollapsedGrps.Enabled = grid.GroupOnSortedField || grid.Cache.IsCIEList;
+			chkSrchCollapsedGrps.Enabled = grid.IsGroupedByField || grid.Cache.IsCIEList;
 
 			// Will prevent opening more than one FindDlg instance.
 			FindInfo.FindDlgIsOpen = true;

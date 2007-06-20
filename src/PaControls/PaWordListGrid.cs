@@ -59,6 +59,8 @@ namespace SIL.Pa.Controls
 		private bool m_isCurrentPlaybackGrid = false;
 		private string m_dataSourcePathFieldName;
 		private bool m_groupOnSortedField = false;
+		private PaFieldInfo m_groupByField = null;
+
 		//private bool m_allGroupsCollapsed = false;
 		//private bool m_ToggleGroupExpansion = false;
 
@@ -460,8 +462,65 @@ namespace SIL.Pa.Controls
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds a list of menu items to be put on a menu drop-down. The items are added to
+		/// the specified parentItem's drop down list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void BuildGroupByMenu(string parentItem, ITMAdapter tmAdapter)
+		{
+			// Clear all the previous items in case the grid's columns have changed.
+			tmAdapter.RemoveMenuSubItems(parentItem);
+
+			// Add the "None" item first.
+			TMItemProperties itemProps = new TMItemProperties();
+			itemProps.CommandId = "CmdGroupByField";
+			itemProps.Text = Properties.Resources.kstidGroupByNoneFieldName;
+			itemProps.Name = null;
+			itemProps.Checked = !IsGroupedByField;
+			tmAdapter.AddMenuItem(itemProps, parentItem, null);
+
+			SortedList<int, DataGridViewColumn> sortedCols = new SortedList<int, DataGridViewColumn>();
+
+			// Sort the items in column display order.
+			foreach (DataGridViewColumn col in Columns)
+			{
+				if (col.Visible && !string.IsNullOrEmpty(col.HeaderText))
+					sortedCols[col.DisplayIndex] = col;
+			}
+
+			// Add them to the specified parent menu's drop-down list.
+			foreach (DataGridViewColumn col in sortedCols.Values)
+			{
+				itemProps = new TMItemProperties();
+				itemProps.CommandId = "CmdGroupByField";
+				itemProps.Text = col.HeaderText;
+				itemProps.Name = col.Name;
+				itemProps.Checked = (GroupByField != null && GroupByField.FieldName == col.Name);
+				tmAdapter.AddMenuItem(itemProps, parentItem, null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnGroupByField(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !Focused ||
+				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			{
+				return false;
+			}
+
+			GroupByField = PaApp.FieldInfo[itemProps.Name];
+			return true;
+		}
+
 		#region Properties
-		
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// Gets or sets the AllGroupsCollapsed for the grid.
@@ -593,30 +652,41 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the word list grid is grouped
-		/// by the primary sort field.
+		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool GroupOnSortedField
+		public PaFieldInfo GroupByField
 		{
-			get { return m_groupOnSortedField; }
+			get	{return m_groupByField;}
 			set
 			{
-				if (m_groupOnSortedField == value)
+				if (m_groupByField == value)
 					return;
 
-				// Make sure all groups are expanded before ungrouping. This will prevent
-				// rows in collapsed groups from remaining invisible after the ungrouping
-				// process.
-				if (!value)
-					ToggleGroupExpansion(true);
+				m_groupByField = value;
 				
-				m_groupOnSortedField = value;
-				if (m_groupOnSortedField)
+				if (value != null)
 					WordListGroupingBuilder.Group(this);
 				else
+				{
+					// Make sure all groups are expanded before ungrouping. This will prevent
+					// rows in collapsed groups from remaining invisible after the ungrouping
+					// process.
+					ToggleGroupExpansion(true);
 					WordListGroupingBuilder.UnGroup(this);
+					return;
+				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the word list grid is grouped by a field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsGroupedByField
+		{
+			get { return m_groupByField != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------

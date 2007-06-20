@@ -1160,13 +1160,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Finds the item specified by refItemName and inserts the specified item before
-		/// it in the collection to which refItemName belongs.
+		/// Finds the item specified by parentItem and inserts the specified item before
+		/// it in the collection to which parentItem belongs.
 		/// </summary>
 		/// <param name="item"></param>
-		/// <param name="refItemName"></param>
+		/// <param name="parentItem"></param>
 		/// <param name="beginGroup">True if item should begin a new group.</param>
-		/// <param name="cancelBeginGroupOnFollowing">True if refItemName should no longer
+		/// <param name="cancelBeginGroupOnFollowing">True if parentItem should no longer
 		/// begin a group.</param>
 		/// ------------------------------------------------------------------------------------
 		private void InsertMenuItem(ToolStripMenuItem item, string refItemName, bool beginGroup,
@@ -1213,28 +1213,32 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Finds the item specified by refItemName and Adds the specified item to the ref.
-		/// item's collection of sub items.
+		/// Finds the parentItem and Adds the specified item to its collection of sub items.
+		/// If the parent item cannot be found and there is a menu bar, then the item is
+		/// added to the menu bar.
 		/// </summary>
 		/// <param name="item"></param>
-		/// <param name="refItemName"></param>
+		/// <param name="parentItem"></param>
 		/// <param name="beginGroup"></param>
 		/// ------------------------------------------------------------------------------------
-		private void AddMenuItem(ToolStripMenuItem item, string refItemName, bool beginGroup)
+		private void AddMenuItem(ToolStripMenuItem item, string parentItem, bool beginGroup)
 		{
-			if (m_menuBar == null || item == null || refItemName == null)
+			if (item == null)
 				return;
 
-			ToolStripMenuItem refItem = m_items[refItemName] as ToolStripMenuItem;
+			ToolStripDropDownItem tsddiParent = null;
+			
+			if (m_items.ContainsKey(parentItem))
+				tsddiParent = m_items[parentItem] as ToolStripDropDownItem;
 
-			if (refItem != null)
+			if (tsddiParent != null)
 			{
 				if (beginGroup)
-					refItem.DropDownItems.Add(new ToolStripSeparator());
-				
-				refItem.DropDownItems.Add(item);
+					tsddiParent.DropDownItems.Add(new ToolStripSeparator());
+
+				tsddiParent.DropDownItems.Add(item);
 			}
-			else
+			else if (m_menuBar != null)
 				m_menuBar.Items.Add(item);
 		}
 
@@ -2364,6 +2368,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		public void AddMenuItem(TMItemProperties itemProps, string parentItemName, string insertBeforeItem)
 		{
 			ToolStripMenuItem item = new ToolStripMenuItem();
+			item.Click += new EventHandler(HandleItemClicks);
+			item.DropDownOpening += new EventHandler(HandleMenuPopups);
+			item.DropDownClosed += new EventHandler(HandleDropDownClosed);
 			item.Name = itemProps.Name;
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
@@ -2385,9 +2392,26 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public void RemoveMenuSubItems(string parentItemName)
 		{
-			ToolStripMenuItem item = m_items[parentItemName] as ToolStripMenuItem;
+			if (!m_items.ContainsKey(parentItemName))
+				return;
+
+			ToolStripDropDownItem item = m_items[parentItemName] as ToolStripDropDownItem;
+
 			if (item != null)
+			{
+				for (int i = 0; i < item.DropDownItems.Count; i++)
+				{
+					item.DropDownItems[i].Click -= HandleItemClicks;
+
+					if (item.DropDownItems[i] is ToolStripDropDownItem)
+					{
+						((ToolStripDropDownItem)item.DropDownItems[i]).DropDownOpened -= HandleMenuPopups;
+						((ToolStripDropDownItem)item.DropDownItems[i]).DropDownClosed -= HandleDropDownClosed;
+					}
+				}
+
 				item.DropDownItems.Clear();
+			}
 		}
 
 		#endregion

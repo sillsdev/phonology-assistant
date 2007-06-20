@@ -895,4 +895,11 @@
   <data name="kstidStudentManualToolTip" xml:space="preserve">
     <value>Student Manual</value>
   </data>
+  <data name="kstidGroupByFieldParentText" xml:space="preserve">
+    <value>&amp;Group by Field</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidGroupByFieldParentToolTip" xml:space="preserve">
+    <value>Group By Field</value>
+  </data>
 </root>

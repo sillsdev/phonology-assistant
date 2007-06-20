@@ -107,12 +107,13 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, CmdFindPrevious, 49, 50,
 				CmdDataCorpus, CmdXYChart, 53, 54, 55, 56, CmdShowCIEResults,
-				CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
+				CmdGroupByFieldParent, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
 				CmdPhoneInventory, CmdHelpPA, CmdHelpTraining, CmdHelpAbout">
 		</imageList>
 	</resources>
 
 	<commands>
+		<command id="CmdDoNothing"/>
 		<command id="CmdFile"/>
 		<command id="CmdEdit"/>
 		<command id="CmdView"/>
@@ -145,7 +146,9 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdXYChart" message="ViewXYChart" category="kstidViewCategory" shortcutkey="CtrlAltX"/>
 		<command id="CmdPhoneInventory" message="ViewPhoneInventory" category="kstidViewCategory" shortcutkey="CtrlAltP"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="CtrlM"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory" shortcutkey="CtrlG"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory" shortcutkey="CtrlG" image="CmdGroupByFieldParent"/>
+		<command id="CmdGroupByFieldParent" message="GroupByFieldParent" category="kstidViewCategory"/>
+		<command id="CmdGroupByField" message="GroupByField" category="kstidViewCategory" image="GroupBySortedField"/>
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" category="kstidViewCategory" shortcutkey="CtrlDown"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" category="kstidViewCategory" shortcutkey="CtrlUp"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane" category="kstidViewCategory"/>
@@ -178,7 +181,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdUnDockView" message="UnDockView"/>
 		<command id="CmdDockView" message="DockView"/>
 		<command id="CmdReloadProject" message="ReloadProject"/>
-
 		<command id="CmdWriteIPACache" message="WriteIPACache"/>
 		<command id="CmdWriteDefaultFieldInfo" message="WriteDefaultFieldInfo"/>
 	</commands>
@@ -230,6 +232,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuPhoneInventory" commandid="CmdPhoneInventory"/>
 			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" begingroup="true"/>
 			<item name="mnuGroupBySortedField" commandid="CmdGroupBySortedField" begingroup="true"/>
+
+			<!-- item name="mnuGroupByFieldParent" commandid="CmdGroupByFieldParent" begingroup="true">
+				<item name="placeholder" commandid="CmdDoNothing"/>
+			</item -->
+
 			<item name="mnuCollapseAllGroups" commandid="CmdCollapseAllGroups"/>
 			<item name="mnuExpandAllGroups" commandid="CmdExpandAllGroups"/>
 			<item name="mnuShowRecordPane" commandid="CmdShowRecordPane" begingroup="true"/>

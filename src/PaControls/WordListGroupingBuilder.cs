@@ -19,7 +19,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates (or refreshes) groups in the specified grid. (This method will also
-		/// ungroup if the grid's GroupOnSortedField property is false).
+		/// ungroup if the grid's GroupByField property is not null).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void Group(PaWordListGrid grid)
@@ -106,23 +106,21 @@ namespace SIL.Pa.Controls
 
 			if (m_grid.Cache.IsCIEList)
 				GroupMinimalPairs();
-			else if (m_grid.GroupOnSortedField &&
-				m_grid.SortOptions.SortInformationList != null &&
-				m_grid.SortOptions.SortInformationList.Count > 0)
-			{
-				GroupOnPrimiarySortField();
-			}
+			else if (m_grid.GroupByField != null)
+				GroupOnField(m_grid.GroupByField);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Groups rows according to the grid's primary sort field.
+		/// Groups rows according to the grid's group on field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GroupOnPrimiarySortField()
+		private void GroupOnField(PaFieldInfo fieldInfo)
 		{
+			if (fieldInfo == null)
+				return;
+
 			WordListCache cache = m_grid.Cache;
-			PaFieldInfo fieldInfo = m_grid.SortOptions.SortInformationList[0].FieldInfo;
 			Font fnt = FontHelper.MakeFont(fieldInfo.Font, FontStyle.Bold);
 			string prevFldValue = cache[cache.Count - 1][fieldInfo];
 			int childCount = 0;

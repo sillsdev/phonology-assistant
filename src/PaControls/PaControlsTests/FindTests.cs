@@ -564,7 +564,7 @@ namespace SIL.Pa.Controls
 			Assert.AreEqual(true, FindInfo.Find(false));
 			Assert.AreEqual(true, IsCurrCellLocation(1, 6));
 
-			// WordListGroupingBuilder>GroupOnPrimiarySortField() inserted a hierarchical
+			// WordListGroupingBuilder>GroupByField() inserted a hierarchical
 			// column for the + and - glpyhs, so we also have to increment our columns' index value by 1.
 			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
 			FindDlgColItem item;
@@ -579,7 +579,7 @@ namespace SIL.Pa.Controls
 			m_grid.Sort("Gloss", false);
 
 			// Adds 5 new SilHierarchicalGridRow's & 1 new column
-			m_grid.GroupOnSortedField = true;
+			m_grid.GroupByField = PaApp.FieldInfo["Gloss"];
 
 			ResetStartCell();
 			SetSearchString("cvc");

@@ -228,16 +228,67 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnDropDownGroupByFieldParent(object args)
+		{
+			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			if (itemProps == null || !PaApp.IsFormActive(m_form) || CurrentViewsGrid != null)
+				return false;
+
+			CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateGroupByFieldParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+				return false;
+
+			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+				CurrentViewsGrid.RowCount > 0 && !CurrentViewsGrid.Cache.IsCIEList);
+			
+			if (itemProps.Enabled != enable)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+				itemProps.Update = true;
+			}
+
+			if (enable && itemProps.Name.StartsWith("mnu"))
+				CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, PaApp.TMAdapter);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupBySortedField(object args)
 		{
 			if (!PaApp.IsFormActive(m_form))
 				return false;
 
 			if (CurrentViewsGrid != null)
-				CurrentViewsGrid.GroupOnSortedField = !CurrentViewsGrid.GroupOnSortedField;
+			{
+				if (CurrentViewsGrid.IsGroupedByField)
+					CurrentViewsGrid.GroupByField = null;
+				else if (CurrentViewsGrid.SortOptions.SortInformationList != null &&
+					CurrentViewsGrid.SortOptions.SortInformationList.Count > 0)
+				{
+					CurrentViewsGrid.GroupByField =
+						CurrentViewsGrid.SortOptions.SortInformationList[0].FieldInfo;
+				}
 
-			if (!CurrentViewsGrid.CurrentCell.Displayed)
-				CurrentViewsGrid.MoveCellsRowToScreenMiddle(CurrentViewsGrid.CurrentCell);
+				if (!CurrentViewsGrid.CurrentCell.Displayed)
+					CurrentViewsGrid.MoveCellsRowToScreenMiddle(CurrentViewsGrid.CurrentCell);
+			}
 
 			return true;
 		}
@@ -256,7 +307,7 @@ namespace SIL.Pa.Controls
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
 				CurrentViewsGrid.RowCount > 0 && !CurrentViewsGrid.Cache.IsCIEList);
 			
-			bool check = (enable && CurrentViewsGrid.GroupOnSortedField);
+			bool check = (enable && CurrentViewsGrid.IsGroupedByField);
 
 			if (itemProps.Checked != check || itemProps.Enabled != enable)
 			{
@@ -296,7 +347,7 @@ namespace SIL.Pa.Controls
 			if (!PaApp.IsFormActive(m_form) || itemProps == null)
 				return false;
 
-			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.GroupOnSortedField ||
+			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
 				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList)));
 
 			if (itemProps.Enabled != enable)

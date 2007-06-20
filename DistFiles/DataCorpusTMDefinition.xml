@@ -103,12 +103,13 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdCopyToCurrentPattern, CmdDeleteSavedPattern, CmdAddResultsToCurrentTabGroup,
 				CmdAddResultsToNewSideBySideTabGroup, CmdAddResultsToNewStackedTabGroup,
 				CmdShowRecordPane, 39, 40, 41, 42, 43, 44, 45, 46, 47, CmdFindPrevious, 49,
-				50, 51, 52, 53, 54, 55, 56, 57, CmdGroupBySortedField, CmdExpandAllGroups,
+				50, 51, 52, 53, 54, 55, 56, 57, CmdGroupByFieldParent, CmdExpandAllGroups,
 				CmdCollapseAllGroups">
 		</imageList>
 	</resources>
 
 	<commands>
+		<command id="CmdDoNothing"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
 		<command id="CmdFind" message="EditFind"/>
 		<command id="CmdFindNext" message="EditFindNext"/>
@@ -119,7 +120,9 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
 		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" image="CmdGroupByFieldParent"/>
+		<command id="CmdGroupByFieldParent" message="GroupByFieldParent"/>
+		<command id="CmdGroupByField" message="GroupByField"/>
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups"/>
 		<command id="CmdPhoneticSort" message="DataCorpusPhoneticSort"/>
@@ -128,6 +131,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 	<toolbars settingFilesPrefix="PA.DataCorpus.TBDef">
 		<toolbar name="tbDataCorpusWnd" text="" row="0" position="0" allowcustomizing="false" stretch="true">
 			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" leftmargin="7"/>
+
+			<!-- item name="tbbGroupByFieldParent" commandid="CmdGroupByFieldParent" type="2" split="false">
+				<item name="placeholder" commandid="CmdDoNothing" type="1" />
+			</item -->
+			
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>
 			<item name="tbbShowRecordPane" commandid="CmdShowRecordPane" type="0" begingroup="true"/>
