@@ -287,13 +287,9 @@ namespace SIL.Pa.Controls
 					return false;
 				}
 
-				// Don't search Hierarchical Row's if m_searchCollapsedGroups is false
+				// Save the hierarchical row for later expansion if needed (when searching collapsed recs)
 				if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
-				{
 					m_silHierarchicalGridRow = m_grid.Rows[m_iRow] as SilHierarchicalGridRow;
-					if (!m_searchCollapsedGroups && !m_grid.IsGroupedByField)
-						continue;
-				}
 
 				m_iPreviousRow = m_iRow;
 				for (m_iColumn = m_matchedColumn; m_iColumn < m_colsToSearch.Length; m_iColumn++)
@@ -338,9 +334,9 @@ namespace SIL.Pa.Controls
 					return false;
 				}
 
-				// Don't search Hierarchical Row's
-				if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
-						continue;
+				//// Don't search Hierarchical Row's
+				//if (m_grid.Rows[m_iRow] is SilHierarchicalGridRow)
+				//        continue;
 
 				m_iPreviousRow = m_iRow;
 				for ( m_iColumn = m_matchedColumn; m_iColumn >= 0; m_iColumn--)
@@ -434,8 +430,8 @@ namespace SIL.Pa.Controls
 		private static bool SearchCellDataForMatch(DataGridViewCell cell, string findPattern)
 		{
 			// There is NOT a match if the cell is NOT visible (i.e. group(s) collapsed) AND
-			// the grid is grouped on a sorted field.
-			if (!cell.Visible && !m_grid.IsGroupedByField && !m_grid.Cache.IsCIEList)
+			// searching collapsed groups AND (the grid is grouped on a sorted field OR minimal pairs).
+			if (!cell.Visible && !m_searchCollapsedGroups && (m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
 				return false;
 
 			string cellValue = cell.Value as string;
@@ -453,7 +449,6 @@ namespace SIL.Pa.Controls
 				{
 					if (!DoneSearching(cell))
 					{
-						//if (m_searchCollapsedGroups && m_grid.IsGroupedByField)
 						if (m_searchCollapsedGroups && (m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
 						{
 							if (m_findBackwards)
