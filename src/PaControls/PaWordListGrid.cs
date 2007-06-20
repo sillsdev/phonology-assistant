@@ -58,7 +58,6 @@ namespace SIL.Pa.Controls
 		private int m_playbackSpeed;
 		private bool m_isCurrentPlaybackGrid = false;
 		private string m_dataSourcePathFieldName;
-		private bool m_groupOnSortedField = false;
 		private PaFieldInfo m_groupByField = null;
 
 		//private bool m_allGroupsCollapsed = false;
@@ -2077,7 +2076,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RefreshRows()
 		{
-			RefreshRows(m_groupOnSortedField);
+			RefreshRows(IsGroupedByField);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2138,7 +2137,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ToggleGroupExpansion(bool expand)
 		{
-			if (!m_groupOnSortedField && !m_cache.IsCIEList)
+			if (!IsGroupedByField && !m_cache.IsCIEList)
 				return;
 
 			//m_ToggleGroupExpansion = true;
