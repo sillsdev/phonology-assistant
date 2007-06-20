@@ -662,16 +662,18 @@ namespace SIL.Pa.Controls
 				if (m_groupByField == value)
 					return;
 
-				m_groupByField = value;
-				
 				if (value != null)
+				{
+					m_groupByField = value;
 					WordListGroupingBuilder.Group(this);
+				}
 				else
 				{
 					// Make sure all groups are expanded before ungrouping. This will prevent
 					// rows in collapsed groups from remaining invisible after the ungrouping
 					// process.
 					ToggleGroupExpansion(true);
+					m_groupByField = value;
 					WordListGroupingBuilder.UnGroup(this);
 					return;
 				}
