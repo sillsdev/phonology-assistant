@@ -146,6 +146,10 @@ namespace SIL.Pa.Controls
 
 			IsDirty = false;
 			m_loadedLayout = true;
+
+			// Go ahead and fill the chart after loading it.
+			if (!IsEmpty)
+				Search();
 		}
 
 		/// ------------------------------------------------------------------------------------
