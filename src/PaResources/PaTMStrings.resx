@@ -509,7 +509,7 @@
     <value>Insert Element into Current Search Pattern</value>
   </data>
   <data name="kstidInsertOneOrMoreText" xml:space="preserve">
-    <value>+ &amp;One or More Characters or Diacritics</value>
+    <value>+ &amp;One or More Phones or Diacritics</value>
   </data>
   <data name="kstidInsertORGroupText" xml:space="preserve">
     <value>{  } O&amp;R Group</value>
@@ -524,7 +524,7 @@
     <value># Space/&amp;Word Boundary</value>
   </data>
   <data name="kstidInsertZeroOrMoreText" xml:space="preserve">
-    <value>* &amp;Zero or More Characters or Diacritics</value>
+    <value>* &amp;Zero or More Phones or Diacritics</value>
   </data>
   <data name="kstidSavePatternText" xml:space="preserve">
     <value>Save</value>
