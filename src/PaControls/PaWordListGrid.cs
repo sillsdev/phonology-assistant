@@ -2504,7 +2504,8 @@ namespace SIL.Pa.Controls
 			m_suspendSavingColumnChanges = true;
 			PaApp.Project.GridLayoutInfo.Load(this);
 			m_suspendSavingColumnChanges = false;
-			FindInfo.ResetStartSearchCell();
+			// Force users to restart Find when adding or removing columns
+			FindInfo.CanFindAgain = false;
 
 			// Return false so everyone who cares gets a crack at handling the message.
 			return false;
