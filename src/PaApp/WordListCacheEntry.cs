@@ -24,7 +24,6 @@ namespace SIL.Pa
 		private int m_srchItemPhonesLength;
 		private bool m_showInList = true;
 		private int m_cieGroupId = -1;
-		private int m_groupId = -1;
 
 		#region Indexer overloads
 		/// ------------------------------------------------------------------------------------
