@@ -96,7 +96,7 @@ namespace SIL.Pa
 			    entry.CIEGroupId = -1;
 
 			Dictionary<string, List<WordListCacheEntry>> cieGroups =
-				new Dictionary<string,List<WordListCacheEntry>>();
+				new Dictionary<string, List<WordListCacheEntry>>();
 
 			foreach (WordListCacheEntry entry in m_cache)
 			{

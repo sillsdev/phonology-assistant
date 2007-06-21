@@ -132,9 +132,12 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<toolbar name="tbDataCorpusWnd" text="" row="0" position="0" allowcustomizing="false" stretch="true">
 			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" leftmargin="7"/>
 
-			<!-- item name="tbbGroupByFieldParent" commandid="CmdGroupByFieldParent" type="2" split="false">
+	<!-- This is for grouping by any field, not just the primary sort field.
+				 However, this is not fully implemented yet.
+			<item name="tbbGroupByFieldParent" commandid="CmdGroupByFieldParent" type="2" split="false">
 				<item name="placeholder" commandid="CmdDoNothing" type="1" />
-			</item -->
+			</item>
+	-->
 			
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>

@@ -24,11 +24,12 @@ namespace SIL.Pa
 		private int m_srchItemPhonesLength;
 		private bool m_showInList = true;
 		private int m_cieGroupId = -1;
+		private int m_groupId = -1;
 
 		#region Indexer overloads
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the value for the specified field name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string this[string field]
@@ -38,7 +39,7 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the value for the field specified by fieldInfo
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string this[PaFieldInfo fieldInfo]
@@ -138,26 +139,6 @@ namespace SIL.Pa
 			set { m_srchItemPhonesLength = value; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the manner of articulation key for the entry.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public string MOAKey
-		//{
-		//    get	{return m_wordRec.MOAKey;}
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the place of articulation key for the entry.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public string POAKey
-		//{
-		//    get	{return m_wordRec.POAKey;}
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the array of phones that make up the phonetic word.
@@ -182,8 +163,8 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a value indicating an entry's group. The id is arbitrary but must be
-		/// the same as all other entries in the same group and Ids must be unique by group.
+		/// Gets or sets a value indicating an entry's CIE group. The id is arbitrary but must
+		/// be the same as all other entries in the same group and Ids must be unique by group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public int CIEGroupId

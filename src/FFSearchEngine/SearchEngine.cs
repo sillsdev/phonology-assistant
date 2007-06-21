@@ -582,7 +582,7 @@ namespace SIL.Pa.FFSearchEngine
 					tmpPhones[i] = kIgnoredPhone;
 				else
 				{
-					for (int c = tmpPhones[i].Length - 1; c >= 0; c--)
+					for (int c = tmpPhones[i].Length - 1; c >= 0 && c < tmpPhones[i].Length; c--)
 					{
 						string chr = tmpPhones[i][c].ToString();
 						if (s_ignoredList.Contains(chr))
