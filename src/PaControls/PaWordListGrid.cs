@@ -2291,7 +2291,7 @@ namespace SIL.Pa.Controls
 			else
 				m_sortOptions = sortOptions;
 
-			FindInfo.ResetStartSearchCell();
+			FindInfo.ResetStartSearchCell(false);
 			return false;
 		}
 
@@ -2728,7 +2728,7 @@ namespace SIL.Pa.Controls
 				if (!CurrentCell.Displayed)
 					FirstDisplayedScrollingRowIndex = (row.Index < 1) ? 0 : row.Index;
 
-				FindInfo.ResetStartSearchCell();
+				FindInfo.ResetStartSearchCell(false);
 			}
 
 			// THIS CODE IS BEING KEPT SO IT CAN BE POSSIBLE USED FOR THE

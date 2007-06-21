@@ -529,9 +529,9 @@ namespace SIL.Pa
 
 			if (!m_grid.CurrentCell.Displayed)
 				m_grid.MoveCellsRowToScreenMiddle(m_grid.CurrentCell);
-			
-			//FindInfo.ResetStartSearchCell();
-			//FindInfo.CanFindAgain = true;
+
+			FindInfo.ResetStartSearchCell(true);
+			FindInfo.CanFindAgain = true;
 			return true;
 		}
 

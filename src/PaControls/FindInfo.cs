@@ -45,11 +45,37 @@ namespace SIL.Pa.Controls
 		#region Finding
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Update the column indexes, because Group by Sorted Field and Minimal Pairs
+		/// have an extra column at the beginning.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UpdateColumnIndexes()
+		{
+			// Update the column indexes
+			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
+			foreach (FindDlgColItem dlgColItem in ColumnsToSearch)
+			{
+				FindDlgColItem item = new FindDlgColItem(
+					m_grid.Columns[dlgColItem.FieldName].Index,
+					dlgColItem.DisplayIndex,
+					dlgColItem.ToString(), dlgColItem.FieldName);
+
+				if (item != null)
+					columnsToSearch.Add(item);
+			}
+			ColumnsToSearch = columnsToSearch.ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Resets the current cell information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void ResetStartSearchCell()
+		public static void ResetStartSearchCell(bool updateColIndexes)
 		{
+			if (updateColIndexes)
+				UpdateColumnIndexes();
+
 			m_firstMatch = false;
 			m_firstLoop = true;
 			m_doneFinding = false;
@@ -202,7 +228,7 @@ namespace SIL.Pa.Controls
 			m_performedFind = true;
 
 			m_numberOfFinds = 0;
-			ResetStartSearchCell();
+			ResetStartSearchCell(false);
 			return Find(findPrevious);
 		}
 
@@ -449,7 +475,8 @@ namespace SIL.Pa.Controls
 				{
 					if (!DoneSearching(cell))
 					{
-						if (m_searchCollapsedGroups && (m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
+						if (!cell.Visible && m_searchCollapsedGroups && 
+							(m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
 						{
 							if (m_findBackwards)
 								ExpandPreviousHierarchicalGridRow();
@@ -590,7 +617,7 @@ namespace SIL.Pa.Controls
 			// Unsubscribe
 			m_grid.CellClick -= HandleCellClick;
 			m_grid.HandleDestroyed -= HandleGridDestroyed;
-			ResetStartSearchCell();
+			ResetStartSearchCell(false);
 			m_grid = null;
 		}
 
@@ -601,7 +628,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void HandleCellClick(object sender, DataGridViewCellEventArgs e)
 		{
-			ResetStartSearchCell();
+			ResetStartSearchCell(false);
 		}
 		#endregion
 
@@ -630,7 +657,7 @@ namespace SIL.Pa.Controls
 						m_grid.HandleDestroyed += new EventHandler(HandleGridDestroyed);
 						m_grid.CellClick += new DataGridViewCellEventHandler(HandleCellClick);
 					}
-					ResetStartSearchCell();
+					ResetStartSearchCell(false);
 				}
 			}
 		}

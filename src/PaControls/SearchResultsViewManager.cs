@@ -288,6 +288,9 @@ namespace SIL.Pa.Controls
 
 				if (!CurrentViewsGrid.CurrentCell.Displayed)
 					CurrentViewsGrid.MoveCellsRowToScreenMiddle(CurrentViewsGrid.CurrentCell);
+
+				FindInfo.ResetStartSearchCell(true);
+				FindInfo.CanFindAgain = true;
 			}
 
 			return true;
@@ -1321,6 +1324,9 @@ namespace SIL.Pa.Controls
 			}
 
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
+			FindInfo.ResetStartSearchCell(true);
+			FindInfo.CanFindAgain = true;
+
 			return true;
 		}
 
