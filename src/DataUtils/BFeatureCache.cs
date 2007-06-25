@@ -81,7 +81,7 @@ namespace SIL.Pa.Data
 			foreach (BFeature feature in tmpList)
 			{
 				if (feature.Name != null)
-					cache[feature.Name.ToLower()] = feature;
+					cache[feature.Name] = feature;
 			}
 
 			tmpList.Clear();
@@ -123,6 +123,45 @@ namespace SIL.Pa.Data
 			tmpSortedList = null;
 			tmpList.Clear();
 			tmpList = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new BFeature this[string featureName]
+		{
+			get
+			{
+				featureName = CleanUpFeatureName(featureName);
+				BFeature feature;
+				return (TryGetValue(featureName, out feature) ? feature : null);
+			}
+			set
+			{
+				System.Diagnostics.Debug.Assert(value != null);
+				featureName = CleanUpFeatureName(featureName);
+				base[featureName] = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string CleanUpFeatureName(string featureName)
+		{
+			System.Diagnostics.Debug.Assert(featureName != null);
+			featureName = featureName.Trim().ToLower();
+			featureName = featureName.Replace("[", string.Empty);
+			featureName = featureName.Replace("]", string.Empty);
+			System.Diagnostics.Debug.Assert(featureName.Length > 0);
+			if (featureName[0] == '+' || featureName[0] == '-')
+				featureName = featureName.Substring(1);
+
+			return featureName;
 		}
 
 		/// ------------------------------------------------------------------------------------

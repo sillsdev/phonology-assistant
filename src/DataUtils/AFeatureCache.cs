@@ -172,6 +172,24 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public new AFeature this[string featureName]
+		{
+			get
+			{
+				System.Diagnostics.Debug.Assert(featureName != null);
+				featureName = featureName.Trim();
+				System.Diagnostics.Debug.Assert(featureName.Length > 0);
+				AFeature feature;
+				return (TryGetValue(featureName, out feature) ? feature : null);
+			}
+			set {base[featureName] = value;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void Delete(string name, bool showMsgWhenCantDelete)
 		{
 			string key = (name == null ? null : name.ToLower());

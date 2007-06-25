@@ -10,7 +10,9 @@ namespace SIL.Pa.FFSearchEngine
 	{
 		public const string kIgnoredPhone = "\uFFFC";
 		private static SearchQuery s_currQuery = new SearchQuery();
-		private static List<string> s_ignoredList = new List<string>();
+		private static List<string> s_ignoredPhones = new List<string>();
+		private static List<char> s_ignoredChars = new List<char>();
+
 		private static bool s_ignoreDiacritics = true;
 		private static Dictionary<string, IPhoneInfo> s_phoneCache;
 
@@ -156,8 +158,36 @@ namespace SIL.Pa.FFSearchEngine
 			{
 				s_currQuery = value;
 				s_ignoreDiacritics = value.IgnoreDiacritics;
-				s_ignoredList = value.CompleteIgnoredList;
+
+				s_ignoredPhones.Clear();
+				s_ignoredChars.Clear();
+
+				// Go through the ignored items and move those that are base characters
+				// (e.g. tone stick figures) to one collection and those that aren't to
+				// another. It's assumed that ignored items that are not base characters
+				// are only one codepoint in length.
+				foreach (string ignoredItem in value.CompleteIgnoredList)
+				{
+					IPACharInfo charInfo = DataUtils.IPACharCache[ignoredItem];
+					if (charInfo != null)
+					{
+						if (charInfo.IsBaseChar)
+							s_ignoredPhones.Add(ignoredItem);
+						else
+							s_ignoredChars.Add(ignoredItem[0]);
+					}
+				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static List<char> IgnoredChars
+		{
+			get { return s_ignoredChars; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,9 +195,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// Gets a collection of all the characters to ignore when searching.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<string> IgnoredList
+		public static List<string> IgnoredPhones
 		{
-			get { return s_ignoredList; }
+			get { return s_ignoredPhones; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -366,6 +396,8 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			if (patternDiacritics == "*")
 				return true;
+			else if (patternDiacritics == null)
+				patternDiacritics = string.Empty;
 
 			string phonesDiacritics = text;
 
@@ -377,19 +409,6 @@ namespace SIL.Pa.FFSearchEngine
 				string basePhone;
 				ParsePhone(text, out basePhone, out phonesDiacritics);
 			}
-			
-			// Check if there are any diacritics found in the pattern
-			// to compare to those in the phone.
-			if (string.IsNullOrEmpty(patternDiacritics))
-				return (IgnoreDiacritics || string.IsNullOrEmpty(phonesDiacritics));
-
-			// At this point, we know the pattern is expecting the
-			// phone to contain one or more diacritics.
-			if (string.IsNullOrEmpty(phonesDiacritics))
-				return false;
-
-			// At this point, we know we're looking at a phone with diacritics and the
-			// pattern is expecting a phone with diacritics.
 
 			// Check for zero or more diacritics, plus the one(s) specified in the pattern.
 			if (patternDiacritics.Contains("*"))
@@ -399,9 +418,55 @@ namespace SIL.Pa.FFSearchEngine
 			if (patternDiacritics.Contains("+"))
 				return DiacriticsMatchOneOrMore(patternDiacritics, phonesDiacritics);
 
+			// Stip off the ignored diacritics from the phone.
+			phonesDiacritics = RemoveIgnoredDiacritics(patternDiacritics, phonesDiacritics);
+
 			// At this point, we know the diacritics specified in the pattern
 			// must match exactly those modifying the vowel or consonant.
 			return (phonesDiacritics == patternDiacritics);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes all ignored diacritics and suprasegmentals from the specifiec string of
+		/// diacritics that were stripped from a phone and that are not in the pattern's
+		/// diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string RemoveIgnoredDiacritics(string patternDiacritics, string phonesDiacritics)
+		{
+			if (phonesDiacritics == null)
+				return string.Empty;
+
+			// If non suprasegmental diacritics are ignored, then first remove them from the
+			// phone's diacritics if they are not found in the pattern's diacritics.
+			if (IgnoreDiacritics)
+			{
+				for (int i = 0; i < phonesDiacritics.Length; i++)
+				{
+					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
+					{
+						IPACharInfo charInfo = DataUtils.IPACharCache[phonesDiacritics[i]];
+						if (charInfo != null && charInfo.CharType == IPACharacterType.Diacritics)
+							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], DataUtils.kOrc);
+					}
+				}
+
+				phonesDiacritics = phonesDiacritics.Replace(DataUtils.kOrc.ToString(), string.Empty);
+			}
+
+			// Now remove all ignored, non base char. suprasegmentals
+			// that are not explicitly in the pattern's diacritics.
+			foreach (char sseg in s_ignoredChars)
+			{
+				if (patternDiacritics.IndexOf(sseg) < 0)
+					phonesDiacritics = phonesDiacritics.Replace(sseg.ToString(), string.Empty);
+
+				if (phonesDiacritics.Length == 0)
+					break;
+			}
+
+			return phonesDiacritics;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -416,6 +481,9 @@ namespace SIL.Pa.FFSearchEngine
 			// the phone is modified by any diacritics.
 			if (patternDiacritics == "*")
 				return true;
+
+			if (phoneDiacritics == null)
+				return false;
 
 			// Split the diacritic pattern at the + or * symbol.
 			string[] pieces = patternDiacritics.Split("*".ToCharArray());
@@ -441,6 +509,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private static bool DiacriticsMatchOneOrMore(string patternDiacritics, string phoneDiacritics)
 		{
+			if (phoneDiacritics == null)
+				return false;
+
 			// If the pattern is just *, then we have a match, regardless of whether or not
 			// the phone is modified by any diacritics.
 			if (patternDiacritics == "+")
@@ -469,46 +540,7 @@ namespace SIL.Pa.FFSearchEngine
 				phoneDiacritics.Length > (pieces[0].Length + pieces[1].Length));
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Checks if a phone's diacritics match when the member contains a * or + following
-		///// a base character, V or C.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static bool DiacriticsMatchZeroOneOrMore(string zeroOrMoreSymbol,
-		//    string patternDiacritics, string phoneDiacritics)
-		//{
-		//    // Strip off the * or +
-		//    string mustMatchDiacritics = patternDiacritics.Replace(zeroOrMoreSymbol, string.Empty);
-
-		//    // Go through the diacritics in the member and make sure each one can be found in
-		//    // the phone. The first time one in the member cannot be found, we're outta here.
-		//    foreach (char c in mustMatchDiacritics)
-		//    {
-		//        if (phoneDiacritics.IndexOf(c) < 0)
-		//            return false;
-		//    }
-
-		//    // At this point, all the diacritics in the target must have matched.
-		//    // If there must be at least one more modifying diacritic in the phone
-		//    // than those specified in the target, then make sure that's true.
-		//    if (zeroOrMoreSymbol == "+")
-		//        return (phoneDiacritics.Length > mustMatchDiacritics.Length);
-
-		//    return true;
-		//}
-
 		#endregion
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Searches the specified phonetic word, starting at the specified index, for
-		///// pattern matches.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public int[] SearchWord(string eticWord, int startIndex)
-		//{
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -536,7 +568,8 @@ namespace SIL.Pa.FFSearchEngine
 				return false;
 
 			// Mark all ignored phones and get rid of ignored diacritics.
-			string[] modifiedPhones = ConvertIgnoredChars(m_phones);
+			//string[] modifiedPhones = ConvertIgnoredChars(m_phones);
+			string[] modifiedPhones = m_phones;
 
 			while (m_matchIndex < modifiedPhones.Length)
 			{
@@ -564,34 +597,6 @@ namespace SIL.Pa.FFSearchEngine
 			}
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Goes through the specified collection of phones and replaces each ignored phone
-		/// with an object replacement character and for those phones that are not ignored,
-		/// each character in each phone that is ignored is removed from the phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string[] ConvertIgnoredChars(string[] unconvertedPhones)
-		{
-			List<string> tmpPhones = new List<string>(unconvertedPhones);
-			for (int i = tmpPhones.Count - 1; i >= 0; i--)
-			{
-				if (s_ignoredList.Contains(tmpPhones[i]))
-					tmpPhones[i] = kIgnoredPhone;
-				else
-				{
-					for (int c = tmpPhones[i].Length - 1; c >= 0 && c < tmpPhones[i].Length; c--)
-					{
-						string chr = tmpPhones[i][c].ToString();
-						if (s_ignoredList.Contains(chr))
-							tmpPhones[i] = tmpPhones[i].Replace(chr, string.Empty);
-					}
-				}
-			}
-
-			return tmpPhones.ToArray();
 		}
 	}
 }

@@ -161,6 +161,88 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] Consonants
+		{
+			get {return GetTypeOfPhones(IPACharacterType.Consonant);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string CommaDelimitedConsonants
+		{
+			get {return GetCommaDelimitedPhones(IPACharacterType.Consonant);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] Vowels
+		{
+			get { return GetTypeOfPhones(IPACharacterType.Vowel); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string CommaDelimitedVowels
+		{
+			get { return GetCommaDelimitedPhones(IPACharacterType.Vowel); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a collection of phones in the cache of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string[] GetTypeOfPhones(IPACharacterType type)
+		{
+			List<string> phones = new List<string>();
+
+			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+			{
+				if (kvp.Value.CharType == type)
+					phones.Add(kvp.Key);
+			}
+
+			return phones.ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a collection of phones in the form of a comma delimited list that are found in
+		/// the cache and are of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string GetCommaDelimitedPhones(IPACharacterType type)
+		{
+			string[] phones = GetTypeOfPhones(type);
+
+			StringBuilder bldr = new StringBuilder();
+			foreach (string phone in phones)
+			{
+				bldr.Append(phone);
+				bldr.Append(",");
+			}
+
+			// Get rid of the last comma.
+			if (bldr.Length > 0)
+				bldr.Length--;
+
+			return bldr.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Sets the CVPatternInfoList for the phone cache. This list should be set to the
 		/// list owned by a PA project when the project is opened.
 		/// </summary>

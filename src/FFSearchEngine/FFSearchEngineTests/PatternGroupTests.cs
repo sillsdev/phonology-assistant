@@ -589,7 +589,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void TestDiacriticPattern(string pattern, string phone, bool expectedBoolResult)
+		private void TestDiacriticPattern(string pattern, string phone, bool expectedResult)
 		{
 			int[] results;
 			m_query = new SearchQuery();
@@ -597,9 +597,9 @@ namespace SIL.Pa.FFSearchEngine
 			m_query.Pattern = string.Format(pattern, DataUtils.kDottedCircle);
 			SearchEngine engine = new SearchEngine(m_query);
 			string[] word = IPACharCache.PhoneticParser("ae" + phone + "io", false);
-			Assert.AreEqual(expectedBoolResult, engine.SearchWord(word, out results));
+			Assert.AreEqual(expectedResult, engine.SearchWord(word, out results));
 
-			if (expectedBoolResult)
+			if (expectedResult)
 			{
 				Assert.AreEqual(2, results[0]);
 				Assert.AreEqual(1, results[1]);
@@ -1093,7 +1093,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SearchWithIgnoreFoundAtWordInitial_OneOrMore()
+		public void SearchWithIgnorePhoneFoundAtWordInitial_OneOrMore()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
@@ -1108,7 +1108,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.IsFalse(
 				engine.SearchWord(IPACharCache.PhoneticParser(".xawadambo", true), out results));
 
-			Assert.IsFalse(
+			Assert.IsTrue(
 				engine.SearchWord(IPACharCache.PhoneticParser(".hawadambta", true), out results));
 
 			Assert.IsTrue(
@@ -1121,7 +1121,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SearchWithIgnoreFoundAtWordFinal_OneOrMore()
+		public void SearchWithIgnoredPhoneFoundAtWordFinal_OneOrMore()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
@@ -1136,7 +1136,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.IsFalse(
 				engine.SearchWord(IPACharCache.PhoneticParser("hawadambt.a", true), out results));
 
-			Assert.IsFalse(
+			Assert.IsTrue(
 				engine.SearchWord(IPACharCache.PhoneticParser("hawadambta.", true), out results));
 
 			Assert.IsFalse(
@@ -1152,7 +1152,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void SearchWithIgnoreDiacritics()
+		public void SearchWithIgnoringDiacritics()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
@@ -1377,7 +1377,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			int[] results;
 			SearchEngine engine = new SearchEngine(query);
-			Assert.IsFalse(
+			Assert.IsTrue(
 				engine.SearchWord(IPACharCache.PhoneticParser("'tub", true), out results));
 		}
 
@@ -1493,7 +1493,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void ExplicitDiacriticSearchWhenInIgnoreListTest()
+		public void SearchWhenDiacriticInPatternAndIgnoredTest()
 		{
 			int[] results;
 
@@ -1536,6 +1536,37 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(2, results[0]);
 			Assert.AreEqual(1, results[1]);
 
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("o~^/*_*", DataUtils.kDottedCircle);
+			engine = new SearchEngine(m_query);
+			Assert.IsFalse(
+				engine.SearchWord(IPACharCache.PhoneticParser("abo^cd", false), out results));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the results for patterns containing phones to search for when those
+		/// phones are in one of the ignore lists. When a phone is explicitly part
+		/// of a search pattern, then it doesn't matter whether or not it is ignored.
+		/// It should always be treated as not ignored when explicitly entered into a pattern.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWhenPhoneInPatternAndIgnoredTest()
+		{
+			MakeMockCacheEntries();
+			SearchQuery query = new SearchQuery();
+			query.IgnoredLengthChars = "b";
+			query.IgnoredStressChars = string.Empty;
+			query.IgnoredToneChars = string.Empty;
+			query.IgnoreDiacritics = false;
+			SearchEngine.CurrentSearchQuery = query;
+
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			int[] results;
+
+			group.Parse("[V]b[V]");
+			Assert.IsFalse(group.Search("xaax", 0, out results));
 		}
 
 		/// ------------------------------------------------------------------------------------

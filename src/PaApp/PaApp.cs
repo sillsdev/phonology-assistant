@@ -250,6 +250,7 @@ namespace SIL.Pa
 					s_phoneCacheIndex = 0;
 					s_wordCache = value;
 					s_phoneCache = new PhoneCache();
+					SearchEngine.PhoneCache = s_phoneCache;
 					BuildPhoneCache(true);
 					Application.Idle += new EventHandler(Application_Idle);
 				}

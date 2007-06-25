@@ -350,8 +350,8 @@ namespace SIL.Pa.FFSearchEngine
 			}
 
 			// When the environment is before, we begin searching from the end of the run
-			// of phones in the member as well as step backward in the word starting at
-			// startIndex. Otherwise, start from the beginning of the run as well as step
+			// of phones in the member as and step backward in the word starting at
+			// startIndex. Otherwise, start from the beginning of the run and step
 			// forward through the word starting at startIndex.
 			int ridx = (envType != EnvironmentType.Before ? 0 : runLen);
 			int pidx = startIndex;
@@ -401,7 +401,7 @@ namespace SIL.Pa.FFSearchEngine
 		private CompareResultType ContainsMatch(string phone,
 			Dictionary<string, IPhoneInfo> phoneCache)
 		{
-			if (phone == SearchEngine.kIgnoredPhone)
+			if (SearchEngine.IgnoredPhones.Contains(phone))
 				return CompareResultType.Ignored;
 
 			if (m_type == MemberType.SinglePhone)
@@ -518,7 +518,7 @@ namespace SIL.Pa.FFSearchEngine
 			// check if the base character is ignored.
 			if (patternPhone != basePhone)
 			{
-				return (SearchEngine.IgnoredList.Contains(basePhone) ?
+				return (SearchEngine.IgnoredPhones.Contains(basePhone) ?
 					CompareResultType.Ignored : CompareResultType.NoMatch);
 			}
 

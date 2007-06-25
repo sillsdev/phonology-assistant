@@ -741,9 +741,7 @@ namespace SIL.Pa.Controls
 
 			// Did we find a dotted circle. If not, then surround the
 			// dotted circle and its diacritic in square brackets.
-			if (dottedCircle < 0)
-				text = "[" + text + "]";
-			else
+			if (dottedCircle >= 0)
 			{
 				// Remove the dotted circle.
 				int i = text.IndexOf(DataUtils.kDottedCircleC);
