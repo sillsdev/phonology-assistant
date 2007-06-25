@@ -496,7 +496,7 @@ namespace SIL.Pa.Controls
 						m_numberOfFinds++;
 
 						// If the cell is off the screen, move the cell's row to the screen's middle.
-						if (!cell.Displayed)
+						if (!cell.Displayed && m_showMessages) // m_showMessages will only be false if running tests
 							m_grid.MoveCellsRowToScreenMiddle(cell);
 
 						if (cell.Visible)
