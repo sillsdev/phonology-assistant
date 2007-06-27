@@ -835,31 +835,6 @@ namespace SIL.Pa
 				rowIndex = m_grid.RowCount - 1;
 				row = m_grid.Rows[rowIndex];
 			}
-			
-			//rowIndex = m_grid.AddRow(new object[] {
-			//        FormatHexIPAChar(charInfo.HexIPAChar),
-			//        charInfo.IPAChar,
-			//        charInfo.Codepoint,
-			//        charInfo.Name,
-			//        charInfo.Description,
-			//        Enum.GetName(typeof(IPACharacterType), charInfo.CharType),
-			//        Enum.GetName(typeof(IPACharacterSubType), charInfo.CharSubType),
-			//        Enum.GetName(typeof(IPACharIgnoreTypes), charInfo.IgnoreType),
-			//        charInfo.IsBaseChar,
-			//        charInfo.CanPreceedBaseChar,
-			//        charInfo.DisplayWDottedCircle,
-			//        charInfo.DisplayOrder,
-			//        charInfo.MOArticulation,
-			//        charInfo.POArticulation,
-			//        charInfo.Mask0,
-			//        charInfo.Mask1,
-			//        charInfo.BinaryMask,
-			//        charInfo.ChartColumn,
-			//        charInfo.ChartGroup});
-
-			//ulong[] features = new ulong[] {charInfo.Mask0, charInfo.Mask1};
-			//m_grid[kAFeatures, rowIndex].Value = DataUtils.AFeatureCache.GetFeaturesText(features);
-			//m_grid[kBFeatures, rowIndex].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
 
 			row.Cells[kHexIPAChar].Value = FormatHexIPAChar(charInfo.HexIPAChar);
 			row.Cells[kCodePoint].Value = charInfo.Codepoint;
@@ -1240,8 +1215,6 @@ namespace SIL.Pa
 					return;
 
 				LoadRowWithCharInfo(m_grid.CurrentRow, dlg.CharInfo);
-
-				
 				m_dirty = true;
 			}
 		}
