@@ -1404,15 +1404,15 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			m_owningTabGroup.ContextMenuTab = null;
 			ContextMenuStrip cms = sender as ContextMenuStrip;
 
-			if (cms != null && m_owningTabGroup != null &&
-				(cms.SourceControl == this || cms.SourceControl == m_resultView ||
-				(m_resultView != null && m_resultView.Grid != null &&
-				cms.SourceControl == m_resultView.Grid)))
+			if (cms != null && m_resultView != null)
 			{
-				m_owningTabGroup.ContextMenuTab = this;
+				if (cms.SourceControl == this || cms.SourceControl == m_resultView ||
+					(m_resultView.Grid != null && cms.SourceControl == m_resultView.Grid))
+				{
+					m_owningTabGroup.ContextMenuTab = this;
+				}
 			}
 		}
 
@@ -2101,6 +2101,16 @@ namespace SIL.Pa.Controls
 					g.DrawLine(pen, 2, topLine + 1, rc.Right - 3, topLine + 1);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Text;
 		}
 
 		#endregion
