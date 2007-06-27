@@ -450,12 +450,7 @@ namespace SIL.Pa.FFSearchEngine
 			}
 
 			if (compareResult == CompareResultType.NoMatch)
-			{
 				return compareResult;
-
-				////////return (SearchEngine.IgnoredList.Contains(phone) ?
-				////////    CompareResultType.Ignored : CompareResultType.NoMatch);
-			}
 
 			if ((m_type == MemberType.AnyConsonant || m_type == MemberType.AnyVowel ||
 				m_type == MemberType.Articulatory || m_type == MemberType.Binary) &&
@@ -505,9 +500,6 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private CompareResultType ComparePhones(string patternPhone, string phone)
 		{
-			if (phone == SearchEngine.kIgnoredPhone)
-				return CompareResultType.Ignored;
-
 			// Take the phone from the word we're searching and
 			// separate it into its base character and its diacritics.
 			string basePhone;

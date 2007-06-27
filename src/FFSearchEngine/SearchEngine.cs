@@ -567,16 +567,12 @@ namespace SIL.Pa.FFSearchEngine
 			if (m_phones == null)
 				return false;
 
-			// Mark all ignored phones and get rid of ignored diacritics.
-			//string[] modifiedPhones = ConvertIgnoredChars(m_phones);
-			string[] modifiedPhones = m_phones;
-
-			while (m_matchIndex < modifiedPhones.Length)
+			while (m_matchIndex < m_phones.Length)
 			{
 				result = new int[] { -1, -1 };
 
 				// First, look for the search item.
-				if (m_srchItem == null || !m_srchItem.Search(modifiedPhones, m_matchIndex, out result))
+				if (m_srchItem == null || !m_srchItem.Search(m_phones, m_matchIndex, out result))
 					return false;
 
 				// Save where the match was found.
@@ -584,9 +580,9 @@ namespace SIL.Pa.FFSearchEngine
 
 				// Now search before the match and after the match to
 				// see if we match on the environment before and after.
-				if (m_envBefore.Search(modifiedPhones, m_matchIndex - 1))
+				if (m_envBefore.Search(m_phones, m_matchIndex - 1))
 				{
-					if (m_envAfter.Search(modifiedPhones, m_matchIndex + result[1]))
+					if (m_envAfter.Search(m_phones, m_matchIndex + result[1]))
 					{
 						m_matchIndex++;
 						return true;

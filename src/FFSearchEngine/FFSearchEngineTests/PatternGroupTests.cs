@@ -1571,6 +1571,148 @@ namespace SIL.Pa.FFSearchEngine
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Tests searching results when a diacritic place holder is AND'd with an OR group
+		/// containing phones without diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderFollowingOrGroupTest1()
+		{
+			int[] results;
+
+			MakeMockCacheEntries();
+
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("[{{t,o}}[{0}~]]/*_*", DataUtils.kDottedCircleC);
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct~de", false), out results));
+
+			Assert.AreEqual(1, results[0]);
+			Assert.AreEqual(1, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a diacritic place holder is AND'd with an OR group
+		/// containing phones with diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderFollowingOrGroupTest2()
+		{
+			int[] results;
+
+			MakeMockCacheEntries();
+
+			// Test when ignored diacritics in search item
+			string pattern = "{t^,e}[0~]/*_*";
+			m_query.Pattern = pattern.Replace('0', DataUtils.kDottedCircleC);
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct^~de", false), out results));
+
+			Assert.AreEqual(4, results[0]);
+			Assert.AreEqual(1, results[1]);
+
+			// Test when ignored diacritics in search item
+			pattern = "[{t^,e}[0~]]/*_*";
+			m_query.Pattern = pattern.Replace('0', DataUtils.kDottedCircleC);
+			engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct^~de", false), out results));
+
+			Assert.AreEqual(4, results[0]);
+			Assert.AreEqual(1, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a diacritic place holder is AND'd with an OR group
+		/// containing phones with diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderFollowingOrGroupTest3()
+		{
+			int[] results;
+
+			MakeMockCacheEntries();
+
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("{{{{t^,e}}{{o,a}}}}[{0}~]/*_*", DataUtils.kDottedCircleC);
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct^~de", false), out results));
+
+			Assert.AreEqual(1, results[0]);
+			Assert.AreEqual(1, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test diacritic placeholder following a feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderFollowingFeature()
+		{
+			int[] results;
+
+			MakeMockCacheEntries();
+
+			// Put mock data in the articulatory and binary feature caches.
+			DataUtils.BFeatureCache["high"].PlusMask = 4;
+			DataUtils.BFeatureCache["voice"].MinusMask = 8;
+
+			DataUtils.AFeatureCache["nasal"].Mask = 16;
+			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
+			m_phoneCache["a"].Masks = new ulong[] { 0, 16 };
+			m_phoneCache["o~"].Masks = new ulong[] { 0, 16 };
+
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("[nasal][{0}~]/*_*", DataUtils.kDottedCircleC);
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct^~de", false), out results));
+
+			Assert.AreEqual(1, results[0]);
+			Assert.AreEqual(1, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test diacritic placeholder following an And group containing two features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderFollowingFeatureAndGroup()
+		{
+			int[] results;
+
+			MakeMockCacheEntries();
+
+			// Put mock data in the articulatory and binary feature caches.
+			DataUtils.BFeatureCache["high"].PlusMask = 4;
+			DataUtils.AFeatureCache["nasal"].Mask = 16;
+			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
+			m_phoneCache["a"].BinaryMask = 4;
+			m_phoneCache["a"].Masks = new ulong[] { 0, 16 };
+			m_phoneCache["o~"].BinaryMask = 4;
+			m_phoneCache["o~"].Masks = new ulong[] { 0, 16 };
+
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("[[+high][nasal]][{0}~]/*_*", DataUtils.kDottedCircleC);
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("ao~bct^~de", false), out results));
+
+			Assert.AreEqual(1, results[0]);
+			Assert.AreEqual(1, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

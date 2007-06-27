@@ -110,11 +110,11 @@ namespace SIL.Pa.FFSearchEngine
 
 			pattern = string.Format("[+con][[C][{0}~+]]", DataUtils.kDottedCircle);
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual(string.Format("|+con$[|C$({0}~+)]", DataUtils.kDottedCircle), result);
+			Assert.AreEqual(string.Format("|+con$[|C$[{0}~+]]", DataUtils.kDottedCircle), result);
 
 			pattern = string.Format("[+con][[C][{0}~*]]", DataUtils.kDottedCircle);
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual(string.Format("|+con$[|C$({0}~*)]", DataUtils.kDottedCircle), result);
+			Assert.AreEqual(string.Format("|+con$[|C$[{0}~*]]", DataUtils.kDottedCircle), result);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -562,6 +562,238 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual("a", ((PatternGroupMember)group.Members[0]).Member);
 			Assert.AreEqual("b", ((PatternGroupMember)group.Members[1]).Member);
 			Assert.AreEqual("\u02B0+", ((PatternGroupMember)group.Members[1]).DiacriticPattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that parsing of 2 OR groups nested in another OR group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void PatternGroupTest_NestedOrGroup()
+		{
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			group.Parse("{{a,b}{c,d}}");
+			Assert.AreEqual(2, group.Members.Count);
+			Assert.AreEqual(GroupType.Or, group.GroupType);
+
+			// group {a,b}
+			PatternGroup grp = group.Members[0] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			PatternGroupMember member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("a", member.Member);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("b", member.Member);
+
+			// group {c,d}
+			grp = group.Members[1] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("c", member.Member);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("d", member.Member);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that parsing of 2 OR groups nested in an AND group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void PatternGroupTest_NestedAndGroup()
+		{
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			group.Parse("[{a,b}{[+high][nasal]}]");
+			Assert.AreEqual(2, group.Members.Count);
+			Assert.AreEqual(GroupType.And, group.GroupType);
+
+			// group {a,b}
+			PatternGroup grp = group.Members[0] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			PatternGroupMember member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("a", member.Member);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("b", member.Member);
+
+			// group {+high,nasal}
+			grp = group.Members[1] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("+high", member.Member);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("nasal", member.Member);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests parsing 2 OR groups nested in another OR group, followed by a
+		/// diacritic placeholder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void PatternGroupTest_NestedOrGroupWithDiacriticPlaceholder1()
+		{
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			string pattern = "{{a,b}{c,d}}[0~]";
+			pattern = pattern.Replace('0', DataUtils.kDottedCircleC);
+			group.Parse(pattern);
+			Assert.AreEqual(2, group.Members.Count);
+			Assert.AreEqual(GroupType.Or, group.GroupType);
+
+			// group {a,b}
+			PatternGroup grp = group.Members[0] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			PatternGroupMember member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("a", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("b", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+
+			// group {c,d}
+			grp = group.Members[1] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("c", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("d", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests parsing 2 OR groups nested in another OR group (with one of the OR groups
+		/// having a diacritic placeholder), followed by a diacritic placeholder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void PatternGroupTest_NestedOrGroupWithDiacriticPlaceholder2()
+		{
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			string pattern = "{{a,b}[0^]{c,d}}[0~]";
+			pattern = pattern.Replace('0', DataUtils.kDottedCircleC);
+			group.Parse(pattern);
+			Assert.AreEqual(2, group.Members.Count);
+			Assert.AreEqual(GroupType.Or, group.GroupType);
+
+			// group {a,b}
+			PatternGroup grp = group.Members[0] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			PatternGroupMember member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("a", member.Member);
+			Assert.AreEqual("^~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("b", member.Member);
+			Assert.AreEqual("^~", member.DiacriticPattern);
+
+			// group {c,d}
+			grp = group.Members[1] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("c", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("d", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests parsing 2 groups nested in another OR group (with one of the OR groups
+		/// having a diacritic placeholder and one of the members in the OR group having
+		/// a diacritic placeholder), followed by a diacritic placeholder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void PatternGroupTest_NestedOrGroupWithDiacriticPlaceholder3()
+		{
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			string pattern = "{{a[0'],b}[0^]{c,d}}[0~]";
+			pattern = pattern.Replace('0', DataUtils.kDottedCircleC);
+			group.Parse(pattern);
+			Assert.AreEqual(2, group.Members.Count);
+			Assert.AreEqual(GroupType.Or, group.GroupType);
+
+			// group {a,b}
+			PatternGroup grp = group.Members[0] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			PatternGroupMember member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("a", member.Member);
+			Assert.AreEqual("'^~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("b", member.Member);
+			Assert.AreEqual("^~", member.DiacriticPattern);
+
+			// group {c,d}
+			grp = group.Members[1] as PatternGroup;
+			Assert.IsNotNull(grp);
+			Assert.AreEqual(2, grp.Members.Count);
+			Assert.AreEqual(GroupType.Or, grp.GroupType);
+
+			member = grp.Members[0] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("c", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
+
+			member = grp.Members[1] as PatternGroupMember;
+			Assert.IsNotNull(member);
+			Assert.AreEqual("d", member.Member);
+			Assert.AreEqual("~", member.DiacriticPattern);
 		}
 	}
 }
