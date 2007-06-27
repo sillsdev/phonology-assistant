@@ -117,12 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="hidCVSyllablesOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/CV_Syllables_options.htm</value>
+  <data name="hidCustomFieldsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Custom_Fields.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidDefineCustomFieldsDlg" xml:space="preserve">
-    <value>User_Interface/Menus/File/Define_Custom_Fields.htm</value>
+  <data name="hidCVSyllablesOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/CV_Syllables_options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">

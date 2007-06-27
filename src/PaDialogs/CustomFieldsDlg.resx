@@ -216,9 +216,9 @@
   <data name="&gt;&gt;lblInfo.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
@@ -235,7 +235,7 @@
     <value>Custom Fields</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>DefineCustomFieldsDlg</value>
+    <value>CustomFieldsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2690.29257, Culture=neutral, PublicKeyToken=null</value>

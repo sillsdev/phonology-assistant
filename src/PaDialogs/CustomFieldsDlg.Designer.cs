@@ -58,7 +58,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.lblInfo);
-			this.Name = "DefineCustomFieldsDlg";
+			this.Name = "CustomFieldsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lblInfo, 0);
 			this.pnlButtons.ResumeLayout(false);

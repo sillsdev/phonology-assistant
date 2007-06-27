@@ -61,20 +61,20 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Custom_Fields.htm.
+        /// </summary>
+        internal static string hidCustomFieldsDlg {
+            get {
+                return ResourceManager.GetString("hidCustomFieldsDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/CV_Syllables_options.htm.
         /// </summary>
         internal static string hidCVSyllablesOptions {
             get {
                 return ResourceManager.GetString("hidCVSyllablesOptions", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/File/Define_Custom_Fields.htm.
-        /// </summary>
-        internal static string hidDefineCustomFieldsDlg {
-            get {
-                return ResourceManager.GetString("hidDefineCustomFieldsDlg", resourceCulture);
             }
         }
         
