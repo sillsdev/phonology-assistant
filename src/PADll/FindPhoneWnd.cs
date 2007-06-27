@@ -76,10 +76,12 @@ namespace SIL.Pa
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 			m_resultsPanel = splitResults.Panel1;
-			
+
 			LoadSettings();
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
+
+			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------

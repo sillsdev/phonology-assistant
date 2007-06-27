@@ -74,6 +74,7 @@ namespace SIL.Pa
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
 
+			MinimumSize = PaApp.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
 			SetUIFont();
 			Show();
@@ -98,7 +99,6 @@ namespace SIL.Pa
 			if (PaApp.Project != null)
 				OnDataSourcesModified(PaApp.Project.ProjectName);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

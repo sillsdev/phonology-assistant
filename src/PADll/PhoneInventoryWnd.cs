@@ -86,6 +86,8 @@ namespace SIL.Pa
 			InitializeFeatureDropDowns();
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
+
+			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		#region Misc. setup

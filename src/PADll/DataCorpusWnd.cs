@@ -60,6 +60,8 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			LoadWindow();
 			PaApp.UninitializeProgressBar();
+
+			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------

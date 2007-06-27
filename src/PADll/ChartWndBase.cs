@@ -53,9 +53,6 @@ namespace SIL.Pa
 			m_chrGrid.TMAdapter = m_tmAdapter;
 			m_chrGrid.OwningViewType = this.GetType();
 			PaApp.IncProgressBar();
-
-			//Initialize();
-			//PaApp.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -368,6 +365,8 @@ namespace SIL.Pa
 			ViewDocked();
 			PaApp.UninitializeProgressBar();
 			Application.DoEvents();
+
+			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------

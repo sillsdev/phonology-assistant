@@ -106,6 +106,7 @@ namespace SIL.Pa
 		private static string s_defaultProjFolder;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static UndefinedPhoneticCharactersInfoList s_undefinedPhoneticCharacters;
+		private static Size s_minViewWindowSize;
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -136,6 +137,10 @@ namespace SIL.Pa
 			// to start, then use that value rather than the default of 15 seconds.
 			FwDBUtils.SecondsToWaitForSQLToStart = s_settingsHndlr.GetIntSettingsValue(
 				"sqlserverwaittime", "seconds", FwDBUtils.SecondsToWaitForSQLToStart);
+
+			s_minViewWindowSize = new Size(
+				s_settingsHndlr.GetIntSettingsValue("minviewwindow", "width", 550),
+				s_settingsHndlr.GetIntSettingsValue("minviewwindow", "height", 450));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -465,6 +470,17 @@ namespace SIL.Pa
 		public static Mediator MsgMediator
 		{
 			get { return s_msgMediator; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the minimum allowed size of a view's window, including the main window that
+		/// can hold all the views.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Size MinimumViewWindowSize
+		{
+			get { return PaApp.s_minViewWindowSize; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -83,6 +83,8 @@ namespace SIL.Pa
 
 			UpdateButtons();
 			PaApp.UninitializeProgressBar();
+
+			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
