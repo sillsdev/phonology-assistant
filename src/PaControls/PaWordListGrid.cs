@@ -2206,8 +2206,8 @@ namespace SIL.Pa.Controls
 		/// Restores the current row, sort options and first visible row to those specified.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PostDataSourceModifiedRestore(int savedRowIndex, int savedFirstRowIndex,
-			SortOptions savedSortOptions)
+		public void PostDataSourceModifiedRestore(int savedRowIndex, int savedColIndex, 
+			int savedFirstRowIndex, SortOptions savedSortOptions)
 		{
 			// Restore and apply the saved sort options
 			if (savedSortOptions != null)
@@ -2220,7 +2220,7 @@ namespace SIL.Pa.Controls
 			// Restore the selected row.
 			if (Rows.Count > savedRowIndex)
 			{
-				CurrentCell = this[0, savedRowIndex];
+				CurrentCell = this[savedColIndex, savedRowIndex];
 				CurrentRow.Selected = true;
 				InvalidateRow(savedRowIndex);
 			}
@@ -2307,6 +2307,11 @@ namespace SIL.Pa.Controls
 			
 			m_suspendSavingColumnChanges = true;
 
+			// Hide the first column (collapse/expand group) so it won't mess up
+			// the calculations for the other columns
+			if (IsGroupedByField)
+				Columns[0].Visible = false;
+
 			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
 			{
 				DataGridViewColumn col = Columns[fieldInfo.FieldName];
@@ -2333,6 +2338,14 @@ namespace SIL.Pa.Controls
 
 					col.Visible = fieldInfo.VisibleInGrid;
 				}
+			}
+
+			// Restore the first column's (collapse/expand group) visibility 
+			// and reset its display index to 0.
+			if (IsGroupedByField)
+			{
+				Columns[0].DisplayIndex = 0;
+				Columns[0].Visible = true;
 			}
 
 			m_suspendSavingColumnChanges = false;

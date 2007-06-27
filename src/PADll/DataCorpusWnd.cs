@@ -689,13 +689,15 @@ namespace SIL.Pa
 		protected bool OnDataSourcesModified(object args)
 		{
 			int savCurrRowIndex = 0;
+			int savCurrColIndex = 0;
 			int savFirstRowIndex = 0;
 			SortOptions savSortOptions = null;
 
 			if (m_grid != null)
 			{
 				// Save the index of the row that's current and the index of the first visible row.
-				savCurrRowIndex = (m_grid.CurrentRow != null ?	m_grid.CurrentRow.Index : 0);
+				savCurrRowIndex = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : 0);
+				savCurrColIndex = (m_grid.CurrentCell != null ? m_grid.CurrentCell.ColumnIndex : 0);
 				savFirstRowIndex = m_grid.FirstDisplayedScrollingRowIndex;
 				// Save the current sort options
 				savSortOptions = m_grid.SortOptions;
@@ -707,7 +709,8 @@ namespace SIL.Pa
 			// Restore the current row to what it was before rebuilding.
 			// Then make sure the row is visible.
 			if (m_grid != null)
-				m_grid.PostDataSourceModifiedRestore(savCurrRowIndex, savFirstRowIndex, savSortOptions);
+				m_grid.PostDataSourceModifiedRestore(
+					savCurrRowIndex, savCurrColIndex, savFirstRowIndex, savSortOptions);
 
 			return false;
 		}
