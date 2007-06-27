@@ -1245,6 +1245,13 @@ namespace SIL.Pa.FFSearchEngine
 				engine.SearchWord(IPACharCache.PhoneticParser("taoub", false), out results));
 			Assert.AreEqual(2, results[0]);
 			Assert.AreEqual(1, results[1]);
+
+			m_query.Pattern = "t/*u_*";
+			engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("tatoutb", false), out results));
+			Assert.AreEqual(5, results[0]);
+			Assert.AreEqual(1, results[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1268,6 +1275,11 @@ namespace SIL.Pa.FFSearchEngine
 				engine.SearchWord(IPACharCache.PhoneticParser("taoub", false), out results));
 
 			m_query.Pattern = "o/*x_x*";
+			engine = new SearchEngine(m_query);
+			Assert.IsFalse(
+				engine.SearchWord(IPACharCache.PhoneticParser("taoub", false), out results));
+
+			m_query.Pattern = "t/*u_*";
 			engine = new SearchEngine(m_query);
 			Assert.IsFalse(
 				engine.SearchWord(IPACharCache.PhoneticParser("taoub", false), out results));

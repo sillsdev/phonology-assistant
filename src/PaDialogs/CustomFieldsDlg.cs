@@ -19,6 +19,7 @@ namespace SIL.Pa.Dialogs
 	{
 		private const string kNameCol = "name";
 		private const string kTypeCol = "type";
+		private const string kRTLCol = "rtl";
 		private const string kILCol = "interlinear";
 		private const string kParsedCol = "parsed";
 
@@ -57,7 +58,8 @@ namespace SIL.Pa.Dialogs
 						dataType = Properties.Resources.kstidCustomFieldGridTypeNumeric;
 
 					object[] row = new object[] { fieldInfo.DisplayText,
-						dataType, fieldInfo.IsParsed, fieldInfo.CanBeInterlinear};
+						dataType, fieldInfo.RightToLeft, fieldInfo.IsParsed,
+						fieldInfo.CanBeInterlinear};
 
 					m_grid.Rows.Add(row);
 				}
@@ -93,7 +95,7 @@ namespace SIL.Pa.Dialogs
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kNameCol);
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgName;
-			col.Width = 175;
+			col.Width = 135;
 			m_grid.Columns.Add(col);
 
 			// Create the data type column.
@@ -103,13 +105,19 @@ namespace SIL.Pa.Dialogs
 
 			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol, dataTypes);
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgType;
-			col.Width = 90;
+			col.Width = 80;
+			m_grid.Columns.Add(col);
+
+			// Create the column for the right-to-left check box.
+			col = SilGrid.CreateCheckBoxColumn(kRTLCol);
+			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgRTL;
+			col.Width = 55;
 			m_grid.Columns.Add(col);
 
 			// Create the column for the interlinear check box.
 			col = SilGrid.CreateCheckBoxColumn(kParsedCol);
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgParsed;
-			col.Width = 60;
+			col.Width = 55;
 			m_grid.Columns.Add(col);
 
 			// Create the column for the interlinear check box.
@@ -121,6 +129,7 @@ namespace SIL.Pa.Dialogs
 			Controls.Add(m_grid);
 			m_grid.BringToFront();
 			PaApp.SettingsHandler.LoadFormProperties(this);
+			PaApp.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,6 +302,7 @@ namespace SIL.Pa.Dialogs
 		protected override void SaveSettings()
 		{
 			PaApp.SettingsHandler.SaveFormProperties(this);
+			PaApp.SettingsHandler.SaveGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -322,6 +332,9 @@ namespace SIL.Pa.Dialogs
 
 				fieldInfo.IsDate = ((m_grid[kTypeCol, i].Value as string) ==
 					Properties.Resources.kstidCustomFieldGridTypeDate);
+
+				fieldInfo.RightToLeft =
+					(m_grid[kRTLCol, i].Value != null && (bool)m_grid[kRTLCol, i].Value);
 
 				fieldInfo.IsParsed =
 					(m_grid[kParsedCol, i].Value != null && (bool)m_grid[kParsedCol, i].Value);

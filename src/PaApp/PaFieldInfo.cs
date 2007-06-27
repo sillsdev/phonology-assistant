@@ -566,6 +566,7 @@ namespace SIL.Pa
 
 		private string m_fieldName;
 		private string m_displayText;
+		private bool m_isRightToLeft = false;
 		private bool m_canBeInterlinear = false;
 		private bool m_isPhonetic = false;
 		private bool m_isPhonemic = false;
@@ -607,6 +608,7 @@ namespace SIL.Pa
 			PaFieldInfo clone = new PaFieldInfo();
 			clone.m_fieldName = source.m_fieldName;
 			clone.m_displayText = source.m_displayText;
+			clone.m_isRightToLeft = source.m_isRightToLeft;
 			clone.m_canBeInterlinear = source.m_canBeInterlinear;
 			clone.m_isPhonetic = source.m_isPhonetic;
 			clone.m_isPhonemic = source.m_isPhonemic;
@@ -753,6 +755,17 @@ namespace SIL.Pa
 		{
 			get { return (m_font == null ? null : new SerializableFont(m_font)); }
 			set { if (value != null) m_font = value.Font; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool RightToLeft
+		{
+			get { return m_isRightToLeft; }
+			set { m_isRightToLeft = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

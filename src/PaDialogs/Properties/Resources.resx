@@ -439,4 +439,8 @@
     <value>Invalid phonetic character.</value>
     <comment>Message displayed when defining a phonetic characters class and the user types, from the keyboard, a character not found in the phonetic character inventory.</comment>
   </data>
+  <data name="kstidCustomFieldGridHdgRTL" xml:space="preserve">
+    <value>Right to Left</value>
+    <comment>Heading for right-to-left column on the custom fields dialog.</comment>
+  </data>
 </root>

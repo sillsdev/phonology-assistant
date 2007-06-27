@@ -169,6 +169,14 @@ namespace SIL.Pa.Controls
 			col.HeaderText = fieldInfo.DisplayText;
 			col.DataPropertyName = fieldInfo.FieldName;
 			col.DefaultCellStyle.Font = fieldInfo.Font;
+
+			// Allow left to right display for any field but phonetic and phonemic.
+			if (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic)
+			{
+				col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+				col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+			}
+
 			col.SortMode = (fieldInfo.IsPhonetic ?
 				DataGridViewColumnSortMode.Programmatic :
 				DataGridViewColumnSortMode.Automatic);
@@ -2323,6 +2331,16 @@ namespace SIL.Pa.Controls
 					col = AddNewColumn(fieldInfo);
 				}
 
+				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft &&
+					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
+					DataGridViewContentAlignment.MiddleRight :
+					DataGridViewContentAlignment.MiddleLeft);
+
+				col.HeaderCell.Style.Alignment = (fieldInfo.RightToLeft &&
+					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
+					DataGridViewContentAlignment.MiddleRight :
+					DataGridViewContentAlignment.MiddleLeft);
+				
 				if (fieldInfo.DisplayIndexInGrid < 0)
 					col.Visible = false;
 				else

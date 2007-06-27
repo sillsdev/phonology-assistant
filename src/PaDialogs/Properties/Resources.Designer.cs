@@ -171,6 +171,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Right to Left.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgRTL {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgRTL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field Type.
         /// </summary>
         internal static string kstidCustomFieldGridHdgType {
