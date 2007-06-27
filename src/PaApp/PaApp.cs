@@ -139,8 +139,8 @@ namespace SIL.Pa
 				"sqlserverwaittime", "seconds", FwDBUtils.SecondsToWaitForSQLToStart);
 
 			s_minViewWindowSize = new Size(
-				s_settingsHndlr.GetIntSettingsValue("minviewwindow", "width", 550),
-				s_settingsHndlr.GetIntSettingsValue("minviewwindow", "height", 450));
+				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
+				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
 		}
 
 		/// ------------------------------------------------------------------------------------
