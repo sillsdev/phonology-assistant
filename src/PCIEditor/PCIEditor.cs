@@ -1049,53 +1049,6 @@ namespace SIL.Pa
 			OpenFile(string.Empty);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Set the new Code Point & IPA Character based on the edited IPA Hex Character.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public void UpdateIpaCharAndCodePnt(string hexIpaChar)
-		//{
-		//    if (!validHexNumber(hexIpaChar, m_grid.CurrentRow))
-		//        return;
-
-		//    // Make sure the computed Code Point is valid
-		//    int codePoint = int.Parse(hexIpaChar, NumberStyles.HexNumber);
-		//    if (codePoint <= invalidCodePoint)
-		//    {
-		//        m_grid.CurrentRow.Selected = true;
-		//        // Scroll error row to the top
-		//        m_grid.FirstDisplayedScrollingRowIndex = m_grid.CurrentRow.Index - 1;
-
-		//        warningMessage(Properties.Resources.kstidInvalidUnicodeValueMsg,
-		//            Properties.Resources.kstidUnicodeValueTooSmallMsg);
-		//        return;
-		//    }
-
-		//    // Add leading zeros if needed
-		//    m_grid.CurrentRow.Cells[kHexIPAChar].Value = FormatHexIPAChar(hexIpaChar);
-
-		//    // Set the new CodePoint
-		//    m_grid.CurrentRow.Cells[kCodePoint].Value = codePoint;
-		//    // Set the new IpaChar
-		//    m_grid.CurrentRow.Cells[kIpaChar].Value = ((char)codePoint).ToString();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Process the edited IPA Hex Character.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//void m_grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-		//{
-		//    if (m_grid.Columns[e.ColumnIndex].Name == kHexIPAChar &&
-		//        m_grid.CurrentCell.Value != null)
-		//    {
-		//        string hexIpaChar = m_grid.CurrentCell.Value.ToString().Trim();
-		//        UpdateIpaCharAndCodePnt(hexIpaChar);
-		//    }
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clicked "Save" in the File menu.
@@ -1172,7 +1125,37 @@ namespace SIL.Pa
 			m_dirty = false;
 			Close();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleHelpClick(object sender, EventArgs e)
+		{
+			ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Characters_Inventory_Editor_overview.htm");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void ShowHelpTopic(string topicPath)
+		{
+			string helpFilePath = Path.GetDirectoryName(Application.ExecutablePath);
+			helpFilePath = Path.Combine(helpFilePath, "Helps");
+			helpFilePath = Path.Combine(helpFilePath, "Phonology_Assistant_Help.chm");
+
+			if (File.Exists(helpFilePath))
+				Help.ShowHelp(new Label(), helpFilePath, topicPath);
+			else
+			{
+				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg, helpFilePath);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Open AddCharacterDlg on the row double clicked on.

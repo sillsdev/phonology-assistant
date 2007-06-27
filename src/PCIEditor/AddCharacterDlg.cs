@@ -872,7 +872,21 @@ namespace SIL.Pa
 			Close();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleHelpClick(object sender, EventArgs e)
+		{
+			PCIEditor.ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Add_or_Modify_a_Phonetic_Character.htm");
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if ((int)e.KeyChar >= (int)'a' && (int)e.KeyChar <= (int)'f')

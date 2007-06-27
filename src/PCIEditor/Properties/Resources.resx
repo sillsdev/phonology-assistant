@@ -126,6 +126,9 @@
   <data name="kstidDuplicateCharMsg" xml:space="preserve">
     <value>A record for character {0} already exists.</value>
   </data>
+  <data name="kstidHelpFileMissingMsg" xml:space="preserve">
+    <value>The help file '{0}' cannot be found.</value>
+  </data>
   <data name="kstidInvalidUnicodeValueMsg" xml:space="preserve">
     <value>Invalid Unicode Value.\nValid Unicode digits are 0-9 and A-F.</value>
   </data>

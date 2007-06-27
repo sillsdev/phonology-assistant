@@ -88,6 +88,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The help file &apos;{0}&apos; cannot be found..
+        /// </summary>
+        internal static string kstidHelpFileMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidHelpFileMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Unicode Value.\nValid Unicode digits are 0-9 and A-F..
         /// </summary>
         internal static string kstidInvalidUnicodeValueMsg {
