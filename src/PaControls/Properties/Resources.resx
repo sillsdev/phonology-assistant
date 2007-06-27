@@ -279,11 +279,11 @@
     <comment>Error msg for creating class with duplicate name</comment>
   </data>
   <data name="kstidDeleteFFCategoryConfirmationMsg" xml:space="preserve">
-    <value>Are you sure you want to delete the find phone category '{0}'?</value>
+    <value>Are you sure you want to remove the search category '{0}'?</value>
     <comment>Question asked when user wants to delete a find phone category in the find phone window.</comment>
   </data>
   <data name="kstidDeleteFFPatternConfirmationMsg" xml:space="preserve">
-    <value>Are you sure you want to delete the specified find phone search pattern?</value>
+    <value>Are you sure you want to remove the search pattern '{0}'?</value>
     <comment>Question asked when the user wants to delete a find phone search pattern.</comment>
   </data>
   <data name="kstidDentalHeading" xml:space="preserve">

@@ -646,7 +646,9 @@ namespace SIL.Pa.Controls
 
 			if (showQuestion)
 			{
-				string msg = Properties.Resources.kstidDeleteFFPatternConfirmationMsg;
+				string msg = string.Format(
+					Properties.Resources.kstidDeleteFFPatternConfirmationMsg, node.Text);
+
 				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 			}

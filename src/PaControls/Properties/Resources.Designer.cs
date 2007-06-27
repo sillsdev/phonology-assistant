@@ -459,7 +459,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the find phone category &apos;{0}&apos;?.
+        ///   Looks up a localized string similar to Are you sure you want to remove the search category &apos;{0}&apos;?.
         /// </summary>
         internal static string kstidDeleteFFCategoryConfirmationMsg {
             get {
@@ -468,7 +468,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the specified find phone search pattern?.
+        ///   Looks up a localized string similar to Are you sure you want to remove the search pattern &apos;{0}&apos;?.
         /// </summary>
         internal static string kstidDeleteFFPatternConfirmationMsg {
             get {
