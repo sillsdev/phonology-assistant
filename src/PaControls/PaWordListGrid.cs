@@ -2228,7 +2228,8 @@ namespace SIL.Pa.Controls
 			// Restore the selected row.
 			if (Rows.Count > savedRowIndex)
 			{
-				CurrentCell = this[savedColIndex, savedRowIndex];
+				if (this[savedColIndex, savedRowIndex].Visible)
+					CurrentCell = this[savedColIndex, savedRowIndex];
 				CurrentRow.Selected = true;
 				InvalidateRow(savedRowIndex);
 			}
