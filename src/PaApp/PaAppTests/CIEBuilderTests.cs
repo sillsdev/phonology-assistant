@@ -116,7 +116,7 @@ namespace SIL.Pa
 			entry.DataSource = m_dataSource;
 			m_recCache.Add(entry);
 			m_recCache.BuildWordCache(null);
-			PaApp.BuildPhoneCache(false);
+			PaApp.BuildPhoneCache();
 
 			SearchQuery query = new SearchQuery();
 			query.IgnoreDiacritics = false;

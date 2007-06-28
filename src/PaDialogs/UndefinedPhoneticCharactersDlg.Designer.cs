@@ -28,15 +28,16 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.chkShowUndefinedCharDlg = new System.Windows.Forms.CheckBox();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.lblInfo = new System.Windows.Forms.Label();
+			this.chkIgnoreInSearches = new System.Windows.Forms.CheckBox();
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.SuspendLayout();
@@ -44,6 +45,7 @@ namespace SIL.Pa.Dialogs
 			// pnlButtons
 			// 
 			this.pnlButtons.BackColor = System.Drawing.Color.Transparent;
+			this.pnlButtons.Controls.Add(this.chkIgnoreInSearches);
 			this.pnlButtons.Controls.Add(this.chkShowUndefinedCharDlg);
 			this.pnlButtons.Controls.Add(this.btnHelp);
 			this.pnlButtons.Controls.Add(this.btnOK);
@@ -53,7 +55,6 @@ namespace SIL.Pa.Dialogs
 			// chkShowUndefinedCharDlg
 			// 
 			resources.ApplyResources(this.chkShowUndefinedCharDlg, "chkShowUndefinedCharDlg");
-			this.chkShowUndefinedCharDlg.AutoEllipsis = true;
 			this.chkShowUndefinedCharDlg.Name = "chkShowUndefinedCharDlg";
 			this.chkShowUndefinedCharDlg.UseVisualStyleBackColor = true;
 			// 
@@ -117,6 +118,13 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblInfo, "lblInfo");
 			this.lblInfo.Name = "lblInfo";
 			// 
+			// chkIgnoreInSearches
+			// 
+			resources.ApplyResources(this.chkIgnoreInSearches, "chkIgnoreInSearches");
+			this.chkIgnoreInSearches.AutoEllipsis = true;
+			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
+			this.chkIgnoreInSearches.UseVisualStyleBackColor = true;
+			// 
 			// UndefinedPhoneticCharactersDlg
 			// 
 			this.AcceptButton = this.btnOK;
@@ -131,6 +139,7 @@ namespace SIL.Pa.Dialogs
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.pnlButtons.ResumeLayout(false);
+			this.pnlButtons.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.ResumeLayout(false);
 
@@ -144,6 +153,7 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.Label lblInfo;
 		protected System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.CheckBox chkShowUndefinedCharDlg;
+		private System.Windows.Forms.CheckBox chkIgnoreInSearches;
 
 
 	}

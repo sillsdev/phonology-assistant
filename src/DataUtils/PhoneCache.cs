@@ -51,6 +51,17 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddUndefinedPhone(string phone)
+		{
+			if (!ContainsKey(phone))
+				this[phone] = new PhoneInfo(phone, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Process the CV pattern base character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -295,8 +306,9 @@ namespace SIL.Pa.Data
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
-		private string m_phone;
 		private char m_baseChar = '\0';
+		private string m_phone;
+		private bool m_isUndefined = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -306,15 +318,25 @@ namespace SIL.Pa.Data
 		public PhoneInfo()
 		{
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Constructs a new phone information object for the specified phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PhoneInfo(string phone) : this(phone, false) 
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(string phone)
+		internal PhoneInfo(string phone, bool isUndefined)
 		{
 			m_phone = phone;
+			m_isUndefined = IsUndefined;
 
 			if (string.IsNullOrEmpty(phone))
 				return;
@@ -425,6 +447,7 @@ namespace SIL.Pa.Data
 			clone.m_poaKey = m_poaKey;
 			clone.m_baseChar = m_baseChar;
 			clone.m_siblingUncertainties = new List<string>(m_siblingUncertainties);
+			clone.m_isUndefined = m_isUndefined;
 
 			return clone;
 		}
@@ -465,7 +488,7 @@ namespace SIL.Pa.Data
 		public char BaseCharacter
 		{
 		    get { return m_baseChar; }
-		    set { /* m_baseChar = value; */ }
+		    set { ; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -563,6 +586,9 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
+				if (m_isUndefined)
+					return "0";
+
 				if (m_moaKey == null)
 				{
 					m_moaKey = DataUtils.GetMOAKey(m_phone);
@@ -589,6 +615,9 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
+				if (m_isUndefined)
+					return "0";
+
 				if (m_poaKey == null)
 				{
 					m_poaKey = DataUtils.GetPOAKey(m_phone);
@@ -603,6 +632,19 @@ namespace SIL.Pa.Data
 
 				return (m_poaKey == string.Empty ? null : m_poaKey);
 			}
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the phone is a character that isn't found
+		/// in the phonetic character inventory.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool IsUndefined
+		{
+			get { return m_isUndefined; }
 		}
 	}
 

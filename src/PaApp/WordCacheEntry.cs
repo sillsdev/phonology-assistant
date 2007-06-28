@@ -466,13 +466,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticValue()
 		{
-			if (PaApp.UndefinedPhoneticCharacters != null)
+			if (IPACharCache.UndefinedCharacters != null)
 			{
 				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
 				if (fieldInfo != null)
-					PaApp.UndefinedPhoneticCharacters.CurrentReference = GetField(fieldInfo.FieldName, true);
+					IPACharCache.UndefinedCharacters.CurrentReference = GetField(fieldInfo.FieldName, true);
 
-				PaApp.UndefinedPhoneticCharacters.CurrentDataSourceName =
+				IPACharCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :

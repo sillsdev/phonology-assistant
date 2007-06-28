@@ -373,7 +373,7 @@ namespace SIL.Pa.FFSearchEngine
 					ridx += incAmount;
 					newStartIndex = pidx;
 				}
-
+				
 				// Move to the next phone in the word we're checking.
 				pidx += incAmount;
 			}
@@ -500,19 +500,19 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private CompareResultType ComparePhones(string patternPhone, string phone)
 		{
+			// First check if phone is ignored.
+			if (SearchEngine.IgnoredPhones.Contains(phone))
+				return CompareResultType.Ignored;
+
 			// Take the phone from the word we're searching and
 			// separate it into its base character and its diacritics.
 			string basePhone;
 			string phonesDiacritics;
 			SearchEngine.ParsePhone(phone, out basePhone, out phonesDiacritics);
 
-			// Check if the base characters match. If not,
-			// check if the base character is ignored.
+			// Check if the base characters match.
 			if (patternPhone != basePhone)
-			{
-				return (SearchEngine.IgnoredPhones.Contains(basePhone) ?
-					CompareResultType.Ignored : CompareResultType.NoMatch);
-			}
+				return CompareResultType.NoMatch;
 
 			bool match = SearchEngine.CompareDiacritics(m_diacriticPattern,
 				phonesDiacritics == null ? null : phonesDiacritics, false);

@@ -171,12 +171,11 @@ namespace SIL.Pa
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			PaApp.UndefinedPhoneticCharacters = new UndefinedPhoneticCharactersInfoList();
-			IPACharCache.UndefinedCodepoints = PaApp.UndefinedPhoneticCharacters;
+			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				PaApp.UndefinedPhoneticCharacters.CurrentDataSourceName =
+				IPACharCache.UndefinedCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
@@ -252,7 +251,6 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			TempRecordCache.Save();
 			PaApp.UninitializeProgressBar();
-			IPACharCache.UndefinedCodepoints = null;
 
 			return (m_recCache.WordCache.Count == 0 ? null : m_recCache.WordCache);
 		}

@@ -39,6 +39,7 @@ namespace SIL.Pa
 		private SortOptions m_XYChartSortOptions;
 		private CIEOptions m_cieOptions;
 		private bool m_showUndefinedCharsDlg = true;
+		private bool m_ignoreUndefinedCharsInSearches = true;
 		private bool m_showClassNamesInSearchPatterns = true;
 		private bool m_showDiamondsInEmptySearchPattern = true;
 
@@ -676,6 +677,19 @@ namespace SIL.Pa
 		{
 			get {return m_showDiamondsInEmptySearchPattern;}
 			set {m_showDiamondsInEmptySearchPattern = value;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to ignore in phonetic searches
+		/// (i.e. on the Search view and XY Charts views) undefined phonetic characters found
+		/// in data sources.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IgnoreUndefinedCharsInSearches
+		{
+			get { return m_ignoreUndefinedCharsInSearches; }
+			set { m_ignoreUndefinedCharsInSearches = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

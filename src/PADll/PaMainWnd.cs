@@ -239,24 +239,6 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnRecentlyUsedProjectChosen(object args)
-		{
-			string filename = args as string;
-
-			if (!string.IsNullOrEmpty(filename) && System.IO.File.Exists(filename) &&
-				(PaApp.Project == null || PaApp.Project.ProjectFileName != filename))
-			{
-				LoadProject(filename);
-			}
-			
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadViewTabs()
 		{
 			if (vwTabGroup.Visible)

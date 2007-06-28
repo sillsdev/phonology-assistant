@@ -532,23 +532,6 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Format the Hex IPA Character.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string FormatHexIPAChar(string hexIpaChar)
-		{
-			int extraLength = 0;
-			if (hexIpaChar.Length < 4)
-			{
-				// Insert leading zeros
-				extraLength = 4 - hexIpaChar.Length;
-				hexIpaChar = hexIpaChar.PadLeft(hexIpaChar.Length + extraLength, '0');
-			}
-			return hexIpaChar;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Open the DefaultIPACharCache file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -836,7 +819,7 @@ namespace SIL.Pa
 				row = m_grid.Rows[rowIndex];
 			}
 
-			row.Cells[kHexIPAChar].Value = FormatHexIPAChar(charInfo.HexIPAChar);
+			row.Cells[kHexIPAChar].Value = charInfo.Codepoint.ToString("X4");
 			row.Cells[kCodePoint].Value = charInfo.Codepoint;
 			row.Cells[kIpaChar].Value = (charInfo.DisplayWDottedCircle ?
 				DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;

@@ -10,7 +10,7 @@ namespace SIL.Pa.FFSearchEngine
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PhoneCache : Dictionary<string, IPhoneInfo>
+	public class PhoneCache : SIL.Pa.Data.PhoneCache
 	{
 	}
 

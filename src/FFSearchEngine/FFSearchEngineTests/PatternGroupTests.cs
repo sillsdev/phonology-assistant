@@ -1725,6 +1725,72 @@ namespace SIL.Pa.FFSearchEngine
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Test ignoring undefined characters in a search.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void IgnoreUndefinedCharacters()
+		{
+			int[] results;
+
+			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			IPACharCache.UndefinedCharacters.Add('X', "XYZ");
+			IPACharCache.UndefinedCharacters.Add('Y', "XYZ");
+			IPACharCache.UndefinedCharacters.Add('Z', "XYZ");
+			SearchEngine.IgnoreUndefinedCharacters = true;
+
+			m_phoneCache.AddUndefinedPhone("X");
+			m_phoneCache.AddUndefinedPhone("Y");
+			m_phoneCache.AddUndefinedPhone("Z");
+
+			m_query.Pattern = "ab/#_*";
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser(" XYaZbeiou", false), out results));
+
+			Assert.AreEqual(3, results[0]);
+			Assert.AreEqual(3, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test not ignoring undefined characters in a search.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void UnignoreUndefinedCharacters()
+		{
+			int[] results;
+
+			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			IPACharCache.UndefinedCharacters.Add('X', "XYZ");
+			IPACharCache.UndefinedCharacters.Add('Y', "XYZ");
+			IPACharCache.UndefinedCharacters.Add('Z', "XYZ");
+			SearchEngine.IgnoreUndefinedCharacters = false;
+
+			DataUtils.IPACharCache.AddUndefinedCharacter('X');
+			DataUtils.IPACharCache.AddUndefinedCharacter('Y');
+			DataUtils.IPACharCache.AddUndefinedCharacter('Z');
+			m_phoneCache.AddUndefinedPhone("X");
+			m_phoneCache.AddUndefinedPhone("Y");
+			m_phoneCache.AddUndefinedPhone("Z");
+
+			m_query.Pattern = "ab/*_*";
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsFalse(
+				engine.SearchWord(IPACharCache.PhoneticParser("XYaZbeiou", false), out results));
+
+			m_query.Pattern = "aZb/*_*";
+			engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("XYaZbeiou", false), out results));
+
+			Assert.AreEqual(2, results[0]);
+			Assert.AreEqual(3, results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

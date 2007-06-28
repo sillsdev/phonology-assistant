@@ -46,6 +46,26 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnRecentlyUsedProjectChosen(object args)
+		{
+			string filename = args as string;
+
+			if (!string.IsNullOrEmpty(filename) && System.IO.File.Exists(filename) &&
+				(PaApp.Project == null || PaApp.Project.ProjectFileName != filename))
+			{
+				LoadProject(filename);
+				UndefinedPhoneticCharactersDlg.Show(PaApp.Project == null ?
+					string.Empty : PaApp.Project.ProjectName);
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
 			UndefinedPhoneticCharactersDlg.Show(args as string);
@@ -393,8 +413,9 @@ namespace SIL.Pa
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (PaApp.Project != null && PaApp.UndefinedPhoneticCharacters != null &&
-				PaApp.UndefinedPhoneticCharacters.Count > 0);
+			itemProps.Enabled = (PaApp.Project != null &&
+				IPACharCache.UndefinedCharacters != null &&
+				IPACharCache.UndefinedCharacters.Count > 0);
 
 			return true;
 		}

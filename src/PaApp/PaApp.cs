@@ -98,14 +98,11 @@ namespace SIL.Pa
 		private static RecordCache s_recCache;
 		private static WordCache s_wordCache;
 		private static PhoneCache s_phoneCache;
-		private static bool	s_phoneCacheBuilt = false;
-		private static int s_phoneCacheIndex = 0;
 		private static PaFieldInfoList s_fieldInfo;
 		private static ISplashScreen s_splashScreen;
 		private static Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static string s_defaultProjFolder;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
-		private static UndefinedPhoneticCharactersInfoList s_undefinedPhoneticCharacters;
 		private static Size s_minViewWindowSize;
 
 		/// --------------------------------------------------------------------------------
@@ -251,95 +248,68 @@ namespace SIL.Pa
 			{
 				if (value != null && s_wordCache != value)
 				{
-					s_phoneCacheBuilt = false;
-					s_phoneCacheIndex = 0;
 					s_wordCache = value;
-					s_phoneCache = new PhoneCache();
-					SearchEngine.PhoneCache = s_phoneCache;
-					BuildPhoneCache(true);
-					Application.Idle += new EventHandler(Application_Idle);
+					BuildPhoneCache();
 				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Progressively build the phone cache during idle cycles.
+		/// Builds the cache of phones from the data corpus.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void Application_Idle(object sender, EventArgs e)
+		public static void BuildPhoneCache()
 		{
-			BuildPhoneCache(true);
-			if (s_phoneCacheBuilt)
-				Application.Idle -= Application_Idle;
-		}
+			s_phoneCache = new PhoneCache();
+			SearchEngine.PhoneCache = s_phoneCache;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds the cache of phones from the data corpus. When interuptable is true, it
-		/// means the cache is being built when the program is idle. When the cache is
-		/// accessed the first time and it hasn't been fully built, this method will be called
-		/// and not interuptable in order to force completion of cache building.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void BuildPhoneCache(bool interuptable)
-		{
-			if (s_phoneCacheBuilt)
-				return;
-
-			int interuptCount = 0;
-
-			while (s_phoneCacheIndex < s_wordCache.Count)
+			foreach (WordCacheEntry entry in s_wordCache)
 			{
-				string[] phones = s_wordCache[s_phoneCacheIndex].Phones;
-				if (phones != null)
+				string[] phones = entry.Phones;
+
+				if (phones == null)
+					continue;
+
+				for (int i = 0; i < phones.Length; i++)
 				{
-					for (int i = 0; i < phones.Length; i++)
+					// Don't bother adding break characters.
+					if (IPACharCache.kBreakChars.Contains(phones[i]))
+						continue;
+
+					if (!s_phoneCache.ContainsKey(phones[i]))
+						s_phoneCache.AddPhone(phones[i]);
+
+					// Determine if the current phone is the primary
+					// phone in an uncertain group.
+					bool isPrimaryUncertainPhone = (entry.ContiansUncertainties &&
+						entry.UncertainPhones.ContainsKey(i));
+
+					// When the phone is the primary phone in an uncertain group, we
+					// don't add it to the total count but to the counter that keeps
+					// track of the primary	uncertain phones. Then we also add to the
+					// cache the non primary uncertain phones.
+					if (!isPrimaryUncertainPhone)
+						s_phoneCache[phones[i]].TotalCount++;
+					else
 					{
-						// Don't bother adding break characters.
-						if (IPACharCache.kBreakChars.Contains(phones[i]))
-							continue;
+						s_phoneCache[phones[i]].CountAsPrimaryUncertainty++;
 
-						if (!s_phoneCache.ContainsKey(phones[i]))
-							s_phoneCache.AddPhone(phones[i]);
-
-						// Determine if the current phone is the primary
-						// phone in an uncertain group.
-						bool isPrimaryUncertainPhone =
-							s_wordCache[s_phoneCacheIndex].ContiansUncertainties &&
-							s_wordCache[s_phoneCacheIndex].UncertainPhones.ContainsKey(i);
-
-						// When the phone is the primary phone in an uncertain group, we
-						// don't add it to the total count but to the counter that keeps
-						// track of the primary	uncertain phones. Then we also add to the
-						// cache the non primary uncertain phones.
-						if (!isPrimaryUncertainPhone)
-							s_phoneCache[phones[i]].TotalCount++;
-						else
+						// Go through the uncertain phones and add them to the cache.
+						if (entry.ContiansUncertainties)
 						{
-							s_phoneCache[phones[i]].CountAsPrimaryUncertainty++;
-
-							// Go through the uncertain phones and add them to the cache.
-							if (s_wordCache[s_phoneCacheIndex].ContiansUncertainties)
-							{
-								AddUncertainPhonesToCache(s_wordCache[s_phoneCacheIndex].UncertainPhones);
-								UpdateSiblingUncertaintys(s_wordCache[s_phoneCacheIndex].UncertainPhones);
-							}
+							AddUncertainPhonesToCache(entry.UncertainPhones);
+							UpdateSiblingUncertaintys(entry.UncertainPhones);
 						}
 					}
 				}
-
-				s_phoneCacheIndex++;
-
-				// Process 20 words, then leave if the process is
-				// being performed during idle cycles.
-				if (interuptable && ++interuptCount == 20)
-					return;
 			}
 
-			s_phoneCacheBuilt = true;
 			if (PhoneCache.FeatureOverrides != null)
 				PhoneCache.FeatureOverrides.MergeWithPhoneCache(s_phoneCache);
+
+			if (IPACharCache.UndefinedCharacters != null && IPACharCache.UndefinedCharacters.Count > 0)
+				AddUndefinedCharsToCaches();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -407,6 +377,22 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Goes through all the undefined phonetic characters found in data sources and adds
+		/// temporary (i.e. as long as this session of PA is running) records for them in the
+		/// IPA character cache and the phone cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void AddUndefinedCharsToCaches()
+		{
+			foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+			{
+				DataUtils.IPACharCache.AddUndefinedCharacter(upci.Character);
+				s_phoneCache.AddUndefinedPhone(upci.Character.ToString());
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the cache of phones in the current project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -414,8 +400,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (!s_phoneCacheBuilt)
-					BuildPhoneCache(false);
+				if (s_phoneCache == null)
+					BuildPhoneCache();
 
 				return s_phoneCache;
 			}
@@ -481,18 +467,6 @@ namespace SIL.Pa
 		public static Size MinimumViewWindowSize
 		{
 			get { return PaApp.s_minViewWindowSize; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of code points found in the data that could not be found
-		/// in the IPA character cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static UndefinedPhoneticCharactersInfoList UndefinedPhoneticCharacters
-		{
-			get { return s_undefinedPhoneticCharacters; }
-			set { s_undefinedPhoneticCharacters = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1400,7 +1374,11 @@ namespace SIL.Pa
 			if (modifiedQuery == null)
 				return null;
 
+			if (PaApp.Project != null)
+				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
+	
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
 				if (incProgressBar && (incCounter++) == incAmount)

@@ -185,7 +185,7 @@ namespace SIL.Pa.Controls
 			m_recCache.Add(entry);
 			m_wordCache = m_recCache.BuildWordCache(null);
 
-			PaApp.BuildPhoneCache(false);
+			PaApp.BuildPhoneCache();
 
 			m_cache.Clear();
 			foreach (WordCacheEntry wcEntry in m_wordCache)

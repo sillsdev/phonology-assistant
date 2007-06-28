@@ -33,10 +33,10 @@ namespace SIL.Pa.Dialogs
 			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (PaApp.UndefinedPhoneticCharacters != null && PaApp.UndefinedPhoneticCharacters.Count > 0)
+			if (IPACharCache.UndefinedCharacters != null && IPACharCache.UndefinedCharacters.Count > 0)
 			{
 				using (UndefinedPhoneticCharactersDlg dlg =
-					new UndefinedPhoneticCharactersDlg(projectName, PaApp.UndefinedPhoneticCharacters))
+					new UndefinedPhoneticCharactersDlg(projectName, IPACharCache.UndefinedCharacters))
 				{
 					dlg.ShowDialog();
 				}
@@ -69,6 +69,7 @@ namespace SIL.Pa.Dialogs
 			m_infoFmt = lblInfo.Text;
 			lblInfo.Font = FontHelper.UIFont;
 			chkShowUndefinedCharDlg.Font = FontHelper.UIFont;
+			chkIgnoreInSearches.Font = FontHelper.UIFont;
 
 			Left = (Screen.PrimaryScreen.WorkingArea.Width - Width) / 2;
 			Top = (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2;
@@ -77,7 +78,10 @@ namespace SIL.Pa.Dialogs
 			AddColumns();
 
 			if (PaApp.Project != null)
+			{
 				chkShowUndefinedCharDlg.Checked = PaApp.Project.ShowUndefinedCharsDlg;
+				chkIgnoreInSearches.Checked = PaApp.Project.IgnoreUndefinedCharsInSearches;
+			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -169,11 +173,15 @@ namespace SIL.Pa.Dialogs
 			PaApp.SettingsHandler.SaveFormProperties(this);
 			PaApp.SettingsHandler.SaveGridProperties(m_grid);
 
-			if (PaApp.Project != null &&
-				PaApp.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked)
+			if (PaApp.Project != null)
 			{
-				PaApp.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
-				PaApp.Project.Save();
+				if (PaApp.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
+					PaApp.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
+				{
+					PaApp.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
+					PaApp.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
+					PaApp.Project.Save();
+				}
 			}
 			
 			base.OnFormClosing(e);

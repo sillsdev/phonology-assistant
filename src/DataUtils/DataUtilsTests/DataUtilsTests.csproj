@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,7 +42,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TestUtils\TestUtils.csproj">
+    <ProjectReference Include="..\..\Common\TestUtils\TestUtils.csproj">
       <Project>{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}</Project>
       <Name>TestUtils</Name>
     </ProjectReference>

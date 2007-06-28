@@ -133,7 +133,7 @@ namespace SIL.Pa.Data
 	public class IPACharCache : Dictionary<int, IPACharInfo>
 	{
 		public const string kBreakChars = " ";
-		private static UndefinedPhoneticCharactersInfoList s_undefinedCodepoints;
+		private static UndefinedPhoneticCharactersInfoList s_undefinedCharacters;
 
 		public enum SortType
 		{
@@ -352,7 +352,7 @@ namespace SIL.Pa.Data
 		public void Save()
 		{
 			// Copy the items into a temp list because Dictionaries cannot be serialized.
-			List<IPACharInfo> tmpCache = ToList();
+			List<IPACharInfo> tmpCache = ToList(false);
 			STUtils.SerializeData(m_cacheFileName, tmpCache);
 			tmpCache = null;
 		}
@@ -393,6 +393,29 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds a temporary (i.e. as long as this instance of PA is running) entry in the
+		/// cache for the specified undefined phonetic character. Undefined means it cannot
+		/// be found in the phonetic character inventory loaded from the XML file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddUndefinedCharacter(char c)
+		{
+			if (!ContainsKey(c))
+			{
+				IPACharInfo charInfo = new IPACharInfo();
+				charInfo.IPAChar = c.ToString();
+				charInfo.Codepoint = (int)c;
+				charInfo.HexIPAChar = charInfo.Codepoint.ToString("X4");
+				charInfo.CharType = IPACharacterType.Unknown;
+				charInfo.CharSubType = IPACharacterSubType.Unknown;
+				charInfo.IsBaseChar = true;
+				charInfo.IsUndefined = true;
+				this[(int)c] = charInfo;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Determines whether or not the specified phone is one of the tone letters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -411,9 +434,23 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public List<IPACharInfo> ToList()
 		{
+			return ToList(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the cache in a collection of IPACharInfo objects in the form of a generic
+		/// List (i.e. List<IPACharInfo>).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<IPACharInfo> ToList(bool includeUndefined)
+		{
 			List<IPACharInfo> tmpCache = new List<IPACharInfo>();
 			foreach (KeyValuePair<int, IPACharInfo> info in this)
-				tmpCache.Add(info.Value);
+			{
+				if (!info.Value.IsUndefined || includeUndefined)
+					tmpCache.Add(info.Value);
+			}
 
 			return tmpCache;
 		}
@@ -485,21 +522,21 @@ namespace SIL.Pa.Data
 			get	{return this[Convert.ToInt32(ipaChar)];}
 		}
 
-		#endregion
-
-		#region Phonetic string parser
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the list of code points found in the data but not found in the IPA
 		/// character cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static UndefinedPhoneticCharactersInfoList UndefinedCodepoints
+		public static UndefinedPhoneticCharactersInfoList UndefinedCharacters
 		{
-			get { return IPACharCache.s_undefinedCodepoints; }
-			set { IPACharCache.s_undefinedCodepoints = value; }
+			get { return s_undefinedCharacters; }
+			set { s_undefinedCharacters = value; }
 		}
 
+		#endregion
+
+		#region Phonetic string parser
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Parses the specified phonetic string into a new string of phones delimited
@@ -586,8 +623,7 @@ namespace SIL.Pa.Data
 				// If there's no information for a code point or there is but there isn't
 				// any for the previous character and the current character isn't a base
 				// character, then treat the character as it's own phone.
-				if (ciCurr == null || (ciPrev == null && !ciCurr.IsBaseChar) ||
-					ciCurr.CharType == IPACharacterType.Unknown)
+				if (ciCurr == null || ciCurr.CharType == IPACharacterType.Unknown)
 				{
 					if (i > phoneStart)
 						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
@@ -622,15 +658,23 @@ namespace SIL.Pa.Data
 					ciPrev = null;
 
 					// Log the undefined character.
-					if (badChar != '\0' && s_undefinedCodepoints != null)
-						s_undefinedCodepoints.Add(c, phonetic);
+					if (badChar != '\0' && s_undefinedCharacters != null)
+					{
+						s_undefinedCharacters.Add(c, phonetic);
 
-					// Uncomment the following line if it's desired to save the
-					// junk character in the list of phones.
-					// phones.Add(phonetic.Substring(i, 1));
+						// Add the undefined phonetic character to the list of phones. Later,
+						// the character will be added to the IPA character cache.
+						phones.Add(c.ToString());
+					}
 
 					continue;
 				}
+
+				// If we've encountered a non base character but nothing precedes it,
+				// then it must be a diacritic at the beginning of the phonetic
+				// transcription so just put it with the following characters.
+				if (ciPrev == null && ciCurr != null && !ciCurr.IsBaseChar)
+					continue;
 
 				// Is the previous codepoint special in that it's not a base character
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
@@ -643,8 +687,14 @@ namespace SIL.Pa.Data
 				}
 
 				// At this point, if the current codepoint is a base character and
-				// it's not the first in the string, close the previous phone.
-				if (ciCurr.IsBaseChar && i > phoneStart)
+				// it's not the first in the string, close the previous phone. If
+				// ciCurr.IsBaseChar && i > phoneStart but ciPrev == null then it means
+				// we've run across some non base characters at the beginning of the
+				// transcription that aren't attached to a base character. Therefore,
+				// attach them to the first base character that's found. In that case,
+				// we don't want to add the phone to the collection yet. We'll wait
+				// until we come across the beginning of the next phone.
+				if (ciCurr.IsBaseChar && i > phoneStart && ciPrev != null)
 				{
 					phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 					phoneStart = i;
@@ -708,8 +758,8 @@ namespace SIL.Pa.Data
 		/// phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddPhoneFromBetweenDelimiters(string phonetic,
-			List<string> phones, ref int i)
+		private static void AddPhoneFromBetweenDelimiters(string phonetic, List<string> phones,
+			ref int i)
 		{
 			int end = phonetic.IndexOf(kForcedPhoneDelimiter, i + 1);
 			if (end < 0)
@@ -778,7 +828,7 @@ namespace SIL.Pa.Data
 			}
 
 			// When the following is true, it's a special case (i.e. when a
-			// parentheses group was found but didn't contain any slashes.
+			// parentheses group was found but didn't contain any slashes).
 			// If that happens, then assume it isn't a uncertain group.
 			if (phones.Count == 0)
 			{
@@ -799,10 +849,10 @@ namespace SIL.Pa.Data
 			phones.Add(tmpPhone);
 			uncertainPhones[phoneNumber] = phones.ToArray();
 
-			if (s_undefinedCodepoints != null)
+			if (s_undefinedCharacters != null)
 				ValidateCodepointsInUncertainPhones(phonetic, phones);
 
-			return phones[0];		
+			return phones[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -819,7 +869,7 @@ namespace SIL.Pa.Data
 				{
 					// Get the information for the current codepoint.
 					if (!s_cache.ContainsKey((int)c))
-						s_undefinedCodepoints.Add(c, phonetic);
+						s_undefinedCharacters.Add(c, phonetic);
 				}
 			}
 		}
@@ -856,6 +906,9 @@ namespace SIL.Pa.Data
 		public ulong BinaryMask;
 		public int ChartColumn;
 		public int ChartGroup;
+
+		[XmlIgnore]
+		public bool IsUndefined = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

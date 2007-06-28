@@ -15,6 +15,7 @@ namespace SIL.Pa.FFSearchEngine
 
 		private static bool s_ignoreDiacritics = true;
 		private static Dictionary<string, IPhoneInfo> s_phoneCache;
+		private static bool s_ignoreUndefinedChars = true;
 
 		private PatternGroup m_envBefore;
 		private PatternGroup m_envAfter;
@@ -163,9 +164,9 @@ namespace SIL.Pa.FFSearchEngine
 				s_ignoredChars.Clear();
 
 				// Go through the ignored items and move those that are base characters
-				// (e.g. tone stick figures) to one collection and those that aren't to
-				// another. It's assumed that ignored items that are not base characters
-				// are only one codepoint in length.
+				// or complete phones (e.g. tone stick figures) to one collection and
+				// those that aren't to another. It's assumed that ignored items that
+				// are not base characters are only one codepoint in length.
 				foreach (string ignoredItem in value.CompleteIgnoredList)
 				{
 					IPACharInfo charInfo = DataUtils.IPACharCache[ignoredItem];
@@ -176,6 +177,43 @@ namespace SIL.Pa.FFSearchEngine
 						else
 							s_ignoredChars.Add(ignoredItem[0]);
 					}
+				}
+
+				if (s_ignoreUndefinedChars)
+					MergeInUndefinedIgnoredPhones();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Merges the undefined list of ignored phones with the main list of ignored phones.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void MergeInUndefinedIgnoredPhones()
+		{
+			if (IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			{
+				foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+				{
+					if (!s_ignoredPhones.Contains(upci.Character.ToString()))
+						s_ignoredPhones.Add(upci.Character.ToString());
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes the undefined list of ignored phones from the main list of ignored phones.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void UnMergeInUndefinedIgnoredPhones()
+		{
+			if (IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			{
+				foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+				{
+					if (s_ignoredPhones.Contains(upci.Character.ToString()))
+						s_ignoredPhones.Remove(upci.Character.ToString());
 				}
 			}
 		}
@@ -208,6 +246,25 @@ namespace SIL.Pa.FFSearchEngine
 		public static bool IgnoreDiacritics
 		{
 			get { return s_ignoreDiacritics; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IgnoreUndefinedCharacters
+		{
+			get { return s_ignoreUndefinedChars; }
+			set
+			{
+				s_ignoreUndefinedChars = value;
+
+				if (value)
+					MergeInUndefinedIgnoredPhones();
+				else
+					UnMergeInUndefinedIgnoredPhones();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

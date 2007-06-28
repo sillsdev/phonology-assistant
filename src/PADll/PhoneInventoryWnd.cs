@@ -28,8 +28,8 @@ namespace SIL.Pa
 		private SizableDropDownPanel m_sddpBFeatures;
 		private CustomDropDown m_bFeatureDropdown;
 		private FeatureListView m_lvBFeatures;
-		private ITMAdapter m_tmAdapter;
 		private ITMAdapter m_mainMenuAdapter;
+		private ITMAdapter m_tmAdapter;
 		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
 		private ToolTip m_phoneToolTip;
 
@@ -54,7 +54,9 @@ namespace SIL.Pa
 			m_phoneToolTip = new ToolTip();
 
 			PaApp.IncProgressBar();
-			LoadToolbar();
+			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
+			m_mainMenuAdapter.AllowUpdates = false;
+			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 			PaApp.IncProgressBar();
 
 			m_experimentalTransCtrl = new ExperimentalTranscriptionControl();
@@ -91,31 +93,6 @@ namespace SIL.Pa
 		}
 
 		#region Misc. setup
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadToolbar()
-		{
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
-			m_tmAdapter = AdapterHelper.CreateTMAdapter();
-
-			//if (m_tmAdapter != null)
-			//{
-			//    m_tmAdapter.LoadControlContainerItem +=
-			//        new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
-
-			//    string[] defs = new string[1];
-			//    defs[0] = Path.Combine(Application.StartupPath, "DataCorpusTMDefinition.xml");
-			//    m_tmAdapter.Reset(pnlMasterOuter,
-			//        PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
-
-			//    m_tmAdapter.AllowUpdates = true;
-			//}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -216,8 +193,11 @@ namespace SIL.Pa
 			// Create a sorted list of phones by place of articulation.
 			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in PaApp.PhoneCache)
 			{
+				if (phoneInfo.Value is PhoneInfo && ((PhoneInfo)phoneInfo.Value).IsUndefined)
+					continue;
+
 				KeyValuePair<string, IPhoneInfo> kvpPhoneInfo =
-					new KeyValuePair<string, IPhoneInfo>(phoneInfo.Key, phoneInfo.Value.Clone());
+					   new KeyValuePair<string, IPhoneInfo>(phoneInfo.Key, phoneInfo.Value.Clone());
 
 				if (phoneInfo.Key.Trim() != string.Empty)
 					sortedPhones[phoneInfo.Value.POAKey] = kvpPhoneInfo;
@@ -574,23 +554,6 @@ namespace SIL.Pa
 			get { return m_tmAdapter; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// This message is received when the current view tab changed.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnViewTabChanged(object args)
-		//{
-		//    //ViewTabGroup vwTabGrp = args as ViewTabGroup;
-		//    //if (vwTabGrp != null && vwTabGrp != null && vwTabGrp.CurrentTab != null &&
-		//    //    vwTabGrp.CurrentTab.View == this)
-		//    //{
-		//    //    FindInfo.Grid = m_grid;
-		//    //}
-
-		//    return false;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets called any time any view is about to be opened, docked or undocked.
@@ -598,7 +561,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewChangingStatus(object args)
 		{
-			//m_tmAdapter.AllowUpdates = false;
 			return false;
 		}
 
@@ -609,7 +571,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEndViewChangingStatus(object args)
 		{
-			//m_tmAdapter.AllowUpdates = true;
 			return false;
 		}
 

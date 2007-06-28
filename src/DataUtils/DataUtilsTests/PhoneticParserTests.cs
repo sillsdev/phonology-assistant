@@ -33,7 +33,7 @@ namespace SIL.Pa.Data
     /// </summary>
     /// --------------------------------------------------------------------------------
     [TestFixture]
-    public class PhoneticParserTests
+    public class PhoneticParserTests : TestBase
 	{
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
@@ -63,10 +63,11 @@ namespace SIL.Pa.Data
         /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
-        public void TestSetup()
-        {
+		public void TestSetup()
+		{
 			DataUtils.IPACharCache.ExperimentalTranscriptions.Clear();
-        }
+			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -100,32 +101,6 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the phonetic parser with strings containinig wildcard characters.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void PhoneticParserTest_Wildcard()
-		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = IPACharCache.PhoneticParser("ab*", false, out uncertainties);
-			Assert.AreEqual(2, result.Length);
-			Assert.AreEqual("a", result[0]);
-			Assert.AreEqual("b", result[1]);
-
-			result = IPACharCache.PhoneticParser("a+b", false, out uncertainties);
-			Assert.AreEqual(2, result.Length);
-			Assert.AreEqual("a", result[0]);
-			Assert.AreEqual("b", result[1]);
-
-			result = IPACharCache.PhoneticParser("+a*+", false, out uncertainties);
-			Assert.AreEqual(1, result.Length);
-			Assert.AreEqual("a", result[0]);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Tests the phonetic parser with strings containinig invalid characters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -135,19 +110,29 @@ namespace SIL.Pa.Data
 			string[] result;
 			Dictionary<int, string[]> uncertainties;
 
-			result = IPACharCache.PhoneticParser("ab!", false, out uncertainties);
-			Assert.AreEqual(2, result.Length);
+			result = IPACharCache.PhoneticParser("abX", false, out uncertainties);
+			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
+			Assert.AreEqual("X", result[2]);
+			Assert.AreEqual(1, IPACharCache.UndefinedCharacters.Count);
+			IPACharCache.UndefinedCharacters.Clear();
 
-			result = IPACharCache.PhoneticParser("a$b", false, out uncertainties);
-			Assert.AreEqual(2, result.Length);
+			result = IPACharCache.PhoneticParser("aXb", false, out uncertainties);
+			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("a", result[0]);
-			Assert.AreEqual("b", result[1]);
+			Assert.AreEqual("X", result[1]);
+			Assert.AreEqual("b", result[2]);
+			Assert.AreEqual(1, IPACharCache.UndefinedCharacters.Count);
+			IPACharCache.UndefinedCharacters.Clear();
 
-			result = IPACharCache.PhoneticParser("$a!$", false, out uncertainties);
-			Assert.AreEqual(1, result.Length);
-			Assert.AreEqual("a", result[0]);
+			result = IPACharCache.PhoneticParser("XaXX", false, out uncertainties);
+			Assert.AreEqual(4, result.Length);
+			Assert.AreEqual("X", result[0]);
+			Assert.AreEqual("a", result[1]);
+			Assert.AreEqual("X", result[2]);
+			Assert.AreEqual("X", result[3]);
+			Assert.AreEqual(3, IPACharCache.UndefinedCharacters.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,17 +151,22 @@ namespace SIL.Pa.Data
 			Assert.AreEqual("x", result[0]);
 			Assert.AreEqual("\u0061\u0306\u0301", result[1]);
 			Assert.AreEqual("x", result[2]);
+			Assert.AreEqual(0, IPACharCache.UndefinedCharacters.Count);
 
 			result = IPACharCache.PhoneticParser("x\u1EAFx", true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("x", result[0]);
 			Assert.AreEqual("\u0061\u0306\u0301", result[1]);
 			Assert.AreEqual("x", result[2]);
+			Assert.AreEqual(0, IPACharCache.UndefinedCharacters.Count);
 
-			result = IPACharCache.PhoneticParser("x!\u0103\u0301*", true, out uncertainties);
-			Assert.AreEqual(2, result.Length);
+			result = IPACharCache.PhoneticParser("xX\u0103\u0301X", true, out uncertainties);
+			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("x", result[0]);
-			Assert.AreEqual("\u0061\u0306\u0301", result[1]);
+			Assert.AreEqual("X", result[1]);
+			Assert.AreEqual("\u0061\u0306\u0301", result[2]);
+			Assert.AreEqual("X", result[3]);
+			Assert.AreEqual(2, IPACharCache.UndefinedCharacters.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,7 +183,7 @@ namespace SIL.Pa.Data
 
 			result = IPACharCache.PhoneticParser("\u0301\u0061\u0306\u0301", false, out uncertainties);
 			Assert.AreEqual(1, result.Length);
-			Assert.AreEqual("\u0061\u0306\u0301", result[0]);
+			Assert.AreEqual("\u0301\u0061\u0306\u0301", result[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,13 +461,16 @@ namespace SIL.Pa.Data
 			Dictionary<int, string[]> uncertainties;
 
 			result = IPACharCache.PhoneticParser("p(ai)t", false, out uncertainties);
-			Assert.AreEqual(4, result.Length);
+			Assert.AreEqual(6, result.Length);
 			Assert.AreEqual("p", result[0]);
-			Assert.AreEqual("a", result[1]);
-			Assert.AreEqual("i", result[2]);
-			Assert.AreEqual("t", result[3]);
+			Assert.AreEqual("(", result[1]);
+			Assert.AreEqual("a", result[2]);
+			Assert.AreEqual("i", result[3]);
+			Assert.AreEqual(")", result[4]);
+			Assert.AreEqual("t", result[5]);
 
 			Assert.AreEqual(0, uncertainties.Count);
+			Assert.AreEqual(2, IPACharCache.UndefinedCharacters.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
