@@ -33,6 +33,7 @@ namespace SIL.Pa.FFSearchEngine
 		private List<string> m_ignoredStressList;
 		private List<string> m_ignoredToneList;
 		private List<string> m_ignoredLengthList;
+		private bool m_isPatternRegExp = false;
 
 		#region Public methods
 		/// ------------------------------------------------------------------------------------
@@ -69,6 +70,7 @@ namespace SIL.Pa.FFSearchEngine
 			clone.IgnoredStressChars = IgnoredStressChars;
 			clone.IgnoredToneChars = IgnoredToneChars;
 			clone.IgnoredLengthChars = IgnoredLengthChars;
+			clone.IsPatternRegExpression = IsPatternRegExpression;
 			return clone;
 		}
 
@@ -121,7 +123,18 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return (string.IsNullOrEmpty(m_name) ? m_pattern : m_name);
+			if (!string.IsNullOrEmpty(m_name))
+				return m_name;
+
+			if (m_isPatternRegExp)
+			{
+				string[] patternParts = m_pattern.Split(new char[] { DataUtils.kOrc });
+
+				if (patternParts.Length == 3)
+					return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
+			}
+
+			return m_pattern;
 		}
 
 		#endregion
@@ -175,6 +188,17 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			get { return m_pattern; }
 			set { m_pattern = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the pattern is a regular expression.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsPatternRegExpression
+		{
+			get { return m_isPatternRegExp; }
+			set { m_isPatternRegExp = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -956,9 +956,6 @@ namespace SIL.Pa.Controls
 			if (m_rawRecViewOn && m_splitResults.Panel2Collapsed)
 				m_splitResults.Panel2Collapsed = false;
 
-			SearchResultView resultView = new SearchResultView(m_form.GetType(), m_tmAdapter);
-			resultView.Initialize(resultCache);
-
 			// When the results should be shown in the current tab group, then check if the
 			// current tab is empty. If so, then use that tab instead of creating a new tab
 			// in which to display the results.
@@ -968,7 +965,36 @@ namespace SIL.Pa.Controls
 				resultLocation = SearchResultLocation.CurrentTab;
 			}
 
+			if (resultLocation == SearchResultLocation.CurrentTab && ReuseExistingTab(resultCache))
+				return;
+
+			SearchResultView resultView = new SearchResultView(m_form.GetType(), m_tmAdapter);
+			resultView.Initialize(resultCache);
 			CreateTab(resultLocation, resultView);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Try to reuse an exisiting tab's result view, just updating it using the specified
+		/// word result cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ReuseExistingTab(WordListCache resultCache)
+		{
+			if (m_currTabGroup != null && m_currTabGroup.CurrentTab != null &&
+				m_currTabGroup.CurrentTab.ResultView != null)
+			{
+				m_currTabGroup.CurrentTab.Text = (resultCache == null ||
+					resultCache.SearchQuery == null ? string.Empty :
+					resultCache.SearchQuery.ToString());
+
+				m_currTabGroup.CurrentTab.AdjustWidth();
+				m_currTabGroup.AdjustTabContainerWidth();
+				m_currTabGroup.CurrentTab.ResultView.Initialize(resultCache);
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

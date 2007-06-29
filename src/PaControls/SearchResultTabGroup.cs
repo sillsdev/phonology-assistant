@@ -1406,13 +1406,13 @@ namespace SIL.Pa.Controls
 		{
 			ContextMenuStrip cms = sender as ContextMenuStrip;
 
-			if (cms != null && m_resultView != null)
+			if (cms == null)
+				return;
+
+			if (cms.SourceControl == this && Selected && m_owningTabGroup.IsCurrent ||
+				cms.SourceControl == m_resultView || cms.SourceControl == Grid)
 			{
-				if (cms.SourceControl == this || cms.SourceControl == m_resultView ||
-					(m_resultView.Grid != null && cms.SourceControl == m_resultView.Grid))
-				{
-					m_owningTabGroup.ContextMenuTab = this;
-				}
+				m_owningTabGroup.ContextMenuTab = this;
 			}
 		}
 
@@ -1535,6 +1535,16 @@ namespace SIL.Pa.Controls
 					HandleResultViewRowEnter(null, null);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the tab's grid control from it's result view control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaWordListGrid Grid
+		{
+			get	{return (m_resultView == null ? null : m_resultView.Grid);}
 		}
 
 		/// ------------------------------------------------------------------------------------
