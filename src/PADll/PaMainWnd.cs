@@ -376,10 +376,15 @@ namespace SIL.Pa
 				vwTabGroup.Tabs.IndexOf(vwTabGroup.CurrentTab));
 
 			TempRecordCache.Dispose();
-			base.OnClosing(e);
-
 			vwTabGroup.CloseAllViews();
 			m_shuttingDown = false;
+			base.OnClosing(e);
+			
+			// This shouldn't be necessary but is in order to fix PA-431, which is
+			// a little disconcerting. I have no clue how PA could get into a state
+			// where it can get this far without the app. window going away and
+			// PA being unloaded from memory.
+			Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
