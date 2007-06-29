@@ -68,6 +68,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			PaProject project = args as PaProject;
+			if (project != null)
+			{
+				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
+					project.ProjectName, Application.ProductName);
+				Invalidate();
+			}
+
 			UndefinedPhoneticCharactersDlg.Show(args as string);
 			return false;
 		}
