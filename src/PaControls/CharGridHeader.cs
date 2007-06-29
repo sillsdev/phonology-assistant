@@ -238,7 +238,7 @@ namespace SIL.Pa.Controls
 			}
 			else
 			{
-				// Make sure there's a sub heading for each column.
+				// Make sure there's a sub heading for each row.
 				while (m_subHeadings.Count < m_ownedRows.Count)
 					CreateLabel(text, true);
 			}

@@ -495,6 +495,33 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is already a category named &apos;{0}&apos;..
+        /// </summary>
+        internal static string kstidDuplicateSearchCategoryMsg {
+            get {
+                return ResourceManager.GetString("kstidDuplicateSearchCategoryMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a search query named &apos;{0}&apos; in the same category..
+        /// </summary>
+        internal static string kstidDuplicateSearchQueryMsg {
+            get {
+                return ResourceManager.GetString("kstidDuplicateSearchQueryMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a search query named &apos;{0}&apos; in the same category. Would you like it overwritten?.
+        /// </summary>
+        internal static string kstidDuplicateSearchQueryQuestion {
+            get {
+                return ResourceManager.GetString("kstidDuplicateSearchQueryQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty.
         /// </summary>
         internal static string kstidEmptySearchPatternText {
@@ -783,7 +810,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Search Pattern Category.
+        ///   Looks up a localized string similar to New Category.
         /// </summary>
         internal static string kstidNewSavedPatternCategoryName {
             get {

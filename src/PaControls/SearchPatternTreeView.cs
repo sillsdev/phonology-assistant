@@ -38,6 +38,7 @@ namespace SIL.Pa.Controls
 		private XButton m_btnCopy;
 		private XButton m_btnCut;
 		private XButton m_btnPaste;
+		//private ToolTip m_tooltip;
 
 		#region Construction and saving query and loading
 		/// ------------------------------------------------------------------------------------
@@ -70,6 +71,11 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(m_lblNoPatternsMsg);
 
 			PaApp.AddMediatorColleague(this);
+
+			//m_tooltip = new ToolTip();
+			//m_tooltip.OwnerDraw = true;
+			//m_tooltip.Popup += new PopupEventHandler(m_tooltip_Popup);
+			//m_tooltip.Draw += new DrawToolTipEventHandler(m_tooltip_Draw);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -199,6 +205,22 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Determines whether or not the specified category exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool CategoryExists(string categoryName)
+		{
+			foreach (TreeNode node in Nodes)
+			{
+				if (node.Tag is SearchQueryGroup && node.Text == categoryName)
+					return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Checks to see if the specified query already exists in the tree. The query's name
 		/// and category are what's compared to those in the tree.
 		/// </summary>
@@ -206,6 +228,46 @@ namespace SIL.Pa.Controls
 		public bool PatternExists(SearchQuery query)
 		{
 			return (GetPatternsNode(query) != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks to see if the specified query name exists in the specified category.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool PatternExists(string categoryName, string queryName)
+		{
+			return (GetPatternsNode(categoryName, queryName) != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the node whose query namd and category matches that of the one specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public TreeNode GetPatternsNode(string categoryName, string queryName)
+		{
+			if (string.IsNullOrEmpty(categoryName) || string.IsNullOrEmpty(queryName))
+				return null;
+
+			foreach (TreeNode categoryNode in Nodes)
+			{
+				// First find the category.
+				if (categoryNode.Text == categoryName)
+				{
+					if (categoryNode.Nodes == null || categoryNode.Nodes.Count == 0)
+						return null;
+
+					// Next, find the query name.
+					foreach (TreeNode patternNode in categoryNode.Nodes)
+					{
+						if (patternNode.Text == queryName)
+							return patternNode;
+					}
+				}
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,27 +287,8 @@ namespace SIL.Pa.Controls
 					return nodes[0];
 			}
 
-			if (string.IsNullOrEmpty(query.Name) ||	string.IsNullOrEmpty(query.Category))
-				return null;
-
-			foreach (TreeNode categoryNode in Nodes)
-			{
-				// First find the query's category.
-				if (categoryNode.Text == query.Category)
-				{
-					if (categoryNode.Nodes == null || categoryNode.Nodes.Count == 0)
-						return null;
-
-					// Next, find the query's name.
-					foreach (TreeNode patternNode in categoryNode.Nodes)
-					{
-						if (patternNode.Text == query.Name)
-							return patternNode;
-					}
-				}
-			}
-
-			return null;
+			SearchQueryGroup group = PaApp.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
+			return GetPatternsNode(group != null ? group.Name : query.Category, query.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -381,10 +424,16 @@ namespace SIL.Pa.Controls
 			// There's nothing to do if the node's text didn't change.
 			if (e.Label != null && e.Node.Text != e.Label)
 			{
-				if (e.Node.Tag is SearchQueryGroup)
-					AfterCategoryEdited(e.Node, e.Label);
-				else if (e.Node.Tag is SearchQuery)
-					AfterQueryNameEdited(e.Node.Tag as SearchQuery, e.Label);
+				e.CancelEdit = !(e.Node.Level == 0 ?
+					VerifyCategoryRename(e.Node, e.Label) :	VerifyQueryRename(e.Node, e.Label));
+
+				if (!e.CancelEdit)
+				{
+					if (e.Node.Tag is SearchQueryGroup)
+						AfterCategoryEdited(e.Node, e.Label);
+					else if (e.Node.Tag is SearchQuery)
+						AfterQueryNameEdited(e.Node.Tag as SearchQuery, e.Label);
+				}
 			}
 
 			if (m_slidingPanel != null)
@@ -398,6 +447,66 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Determines whether or not a renamed cateogory conflicts with an exisiting one.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyCategoryRename(TreeNode renamedNode, string newName)
+		{
+			if (newName == null || newName.Trim() == string.Empty)
+			{
+				System.Media.SystemSounds.Beep.Play();
+				return false;
+			}
+
+			foreach (TreeNode node in Nodes)
+			{
+				if (node.Tag is SearchQueryGroup && node != renamedNode && node.Text == newName)
+				{
+					STUtils.STMsgBox(
+						string.Format(Properties.Resources.kstidDuplicateSearchCategoryMsg,
+						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not a renamed search query conflicts with an exisiting one
+		/// in the same category.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyQueryRename(TreeNode renamedNode, string newName)
+		{
+			if (newName == null || newName.Trim() == string.Empty)
+			{
+				System.Media.SystemSounds.Beep.Play();
+				return false;
+			}
+
+			if (renamedNode.Parent == null)
+				return true;
+
+			foreach (TreeNode node in renamedNode.Parent.Nodes)
+			{
+				if (node.Tag is SearchQuery && node != renamedNode && node.Text == newName)
+				{
+					STUtils.STMsgBox(
+						string.Format(Properties.Resources.kstidDuplicateSearchQueryMsg,
+						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Handles the processing after renaming of a search query category (i.e. group).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -407,15 +516,18 @@ namespace SIL.Pa.Controls
 			UpdateEachPatternsCategory();
 			PaApp.Project.SearchQueryGroups.Save();
 
-			// Remove the node whose label just changed.
+			// Remove the node whose label just changed and give the system a moment to
+			// process the message before moving on to re-add the node in alphabetical
+			// order. Otherwise, I've seen some strange things happen.
 			Nodes.Remove(editedNode);
+			Application.DoEvents();
 
 			int insertIndex = Nodes.Count;
 
 			// Now reinsert the node in the proper alphabetic order.
 			foreach (TreeNode node in Nodes)
 			{
-				if (string.Compare(node.Text, newName) > 0)
+				if ( string.Compare(node.Text, newName) > 0)
 				{
 					insertIndex = node.Index;
 					break;
@@ -459,6 +571,83 @@ namespace SIL.Pa.Controls
 			Application.Idle -= Application_Idle;
 			UpdateButtons();
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnNodeMouseHover(TreeNodeMouseHoverEventArgs e)
+		//{
+		//    base.OnNodeMouseHover(e);
+
+		//    if (e.Node != null && e.Node.Tag is SearchQuery)
+		//    {
+		//        SearchQuery query = e.Node.Tag as SearchQuery;
+		//        if (query.Name != null)
+		//        {
+		//            m_tooltip.Tag = e.Node;
+		//            m_tooltip.Show(query.Pattern, this);
+		//            System.Diagnostics.Debug.WriteLine("Showing: " + query.Pattern);
+
+		//        }
+		//    }
+		//    else
+		//    {
+		//        m_tooltip.Hide(this);
+		//        m_tooltip.Tag = null;
+		//    }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnMouseMove(MouseEventArgs e)
+		//{
+		//    base.OnMouseMove(e);
+
+		//    TreeViewHitTestInfo tvhti = HitTest(e.Location);
+		//    if (tvhti.Node == null || tvhti.Node != m_tooltip.Tag)
+		//    {
+		//        m_tooltip.Tag = null;
+		//        m_tooltip.Hide(this);
+		//    }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//void m_tooltip_Popup(object sender, PopupEventArgs e)
+		//{
+		//    TreeNode node = m_tooltip.Tag as TreeNode;
+			
+		//    if (node == null || !(node.Tag is SearchQuery))
+		//    {
+		//        e.Cancel = true;
+		//        return;
+		//    }
+
+		//    e.ToolTipSize =	TextRenderer.MeasureText(
+		//        (node.Tag as SearchQuery).Pattern,	FontHelper.PhoneticFont);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//void m_tooltip_Draw(object sender, DrawToolTipEventArgs e)
+		//{
+		//    e.DrawBackground();
+		//    e.DrawBorder();
+
+		//    TextRenderer.DrawText(e.Graphics, e.ToolTipText, FontHelper.PhoneticFont,
+		//        e.Bounds, SystemColors.InfoText);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -527,7 +716,7 @@ namespace SIL.Pa.Controls
 			{
 				// Handle pasting a pattern from the clipboard
 				m_pasteCommand = false;
-				AddPattern(m_patternClipboard);
+				AddPattern(m_patternClipboard, true);
 				e.Handled = true;
 			}
 			else if ((m_copyCommand || m_cutCommand) && CurrentQuery != null)
@@ -703,6 +892,14 @@ namespace SIL.Pa.Controls
 		public void AddCategory(string newCategoryName, SlidingPanel slidingPanel,
 			bool beginEditAfterAdding)
 		{
+			// Make sure the category name is unique.
+			int i = 0;
+			string newName = newCategoryName;
+			while (CategoryExists(newName))
+				newName = string.Format("{0} ({1})", newCategoryName, ++i);
+
+			newCategoryName = newName;
+			
 			SearchQueryGroup group = new SearchQueryGroup();
 			group.Name = newCategoryName;
 			PaApp.Project.SearchQueryGroups.Add(group);
@@ -749,8 +946,19 @@ namespace SIL.Pa.Controls
 
 			if (!categoryExists)
 				AddCategory(category, null, false);
+			else if (PatternExists(category, query.ToString()))
+			{
+				// Pattern exisits so ask user if he wants to overwrite.
+				string msg = Properties.Resources.kstidDuplicateSearchQueryQuestion;
+				msg = string.Format(msg, query.ToString());
+				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+					return;
 
-			AddPattern(query);
+				// User wants to overwrite so delete existing one first.
+				DeletePattern(GetPatternsNode(category, query.ToString()), false);
+			}
+
+			AddPattern(query, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -758,7 +966,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void AddPattern(SearchQuery query)
+		public void AddPattern(SearchQuery query, bool forceUniqueName)
 		{
 			if (query == null)
 				return;
@@ -777,6 +985,20 @@ namespace SIL.Pa.Controls
 			// Make sure we're adding the new node to the correct parent.
 			TreeNode categoryNode = (SelectedNode.Level == 0 ? SelectedNode : SelectedNode.Parent);
 			newquery.Category = categoryNode.Text;
+
+			if (forceUniqueName)
+			{
+				// Make sure the name of the query being added is unique within its group.
+				int i = 0;
+				string newName = newquery.ToString();
+
+				while (PatternExists(newquery.Category, newName))
+					newName = string.Format("{0} ({1})", newquery.ToString(), ++i);
+
+				if (newquery.ToString() != newName)
+					newquery.Name = newName;
+			}
+
 			SearchQueryGroup group = PaApp.Project.SearchQueryGroups[categoryNode.Index];
 
 			// Make sure we have a list to add to.

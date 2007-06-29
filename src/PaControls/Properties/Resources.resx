@@ -293,6 +293,15 @@
     <value>Dock</value>
     <comment>Tooktip for the sliding panel dock button</comment>
   </data>
+  <data name="kstidDuplicateSearchCategoryMsg" xml:space="preserve">
+    <value>There is already a category named '{0}'.</value>
+  </data>
+  <data name="kstidDuplicateSearchQueryMsg" xml:space="preserve">
+    <value>There is already a search query named '{0}' in the same category.</value>
+  </data>
+  <data name="kstidDuplicateSearchQueryQuestion" xml:space="preserve">
+    <value>There is already a search query named '{0}' in the same category. Would you like it overwritten?</value>
+  </data>
   <data name="kstidEmptySearchPatternText" xml:space="preserve">
     <value>Empty</value>
     <comment>Text shown in empty search patterns in the Find Phone window</comment>
@@ -401,7 +410,7 @@
     <comment>Default name given to new classes</comment>
   </data>
   <data name="kstidNewSavedPatternCategoryName" xml:space="preserve">
-    <value>New Search Pattern Category</value>
+    <value>New Category</value>
     <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
   </data>
   <data name="kstidNoMinimalPairsMsg" xml:space="preserve">

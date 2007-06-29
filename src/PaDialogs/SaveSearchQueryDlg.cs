@@ -71,7 +71,15 @@ namespace SIL.Pa.Dialogs
 			cboCategories.Enabled = canChangeQuerysCategory;
 
 			if (m_query.Category != null)
-				cboCategories.Text = m_query.Category;
+			{
+				// Get the category name from the query's "owning" rather than from the
+				// query itself, just in case the user just renamed the category in the
+				// saved pattern's tree view control. When that happens queries belonging
+				// to that category that are already loaded into search result views
+				// no longer have the correct category name but their Id is still good.
+				SearchQueryGroup group = PaApp.Project.SearchQueryGroups.GetGroupFromQueryId(m_query.Id);
+				cboCategories.Text = (group != null ? group.Name : m_query.Category);
+			}
 			else
 			{
 				if (m_tvSrchPatterns.SelectedNode == null)
@@ -130,21 +138,21 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			string text = txtName.Text.Trim();
-			if (string.IsNullOrEmpty(text))
+			string queryName = txtName.Text.Trim();
+			if (string.IsNullOrEmpty(queryName))
 			{
-				text = Properties.Resources.kstidNoSavedPatternNameMsg;
-				STUtils.STMsgBox(text, MessageBoxButtons.OK);
+				string msg = Properties.Resources.kstidNoSavedPatternNameMsg;
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
 			}
 
-			text = cboCategories.Text.Trim();
-			if (string.IsNullOrEmpty(text))
+			string categoryName = cboCategories.Text.Trim();
+			if (string.IsNullOrEmpty(categoryName))
 			{
-				text = Properties.Resources.kstidNoSavedPatternCategoryMsg;
-				STUtils.STMsgBox(text, MessageBoxButtons.OK);
+				string msg = Properties.Resources.kstidNoSavedPatternCategoryMsg;
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;

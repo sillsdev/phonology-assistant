@@ -114,6 +114,28 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the group that "owns" the search query whose Id is that of the one specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchQueryGroup GetGroupFromQueryId(int id)
+		{
+			foreach (SearchQueryGroup grp in this)
+			{
+				if (grp.Queries == null)
+					continue;
+
+				foreach (SearchQuery query in grp.Queries)
+				{
+					if (query.Id == id)
+						return grp;
+				}
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Updates the query in the project's collection with the specified query. The query
 		/// updated is the one whose id is the same as the one in the specified query.
 		/// </summary>
@@ -185,6 +207,11 @@ namespace SIL.Pa
 		private List<SearchQuery> m_queries;
 		private bool m_expanded = false;
 		private bool m_expandedInPopup = false;
+
+		public override string ToString()
+		{
+			return m_name;
+		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
