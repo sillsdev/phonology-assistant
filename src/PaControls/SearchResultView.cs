@@ -115,15 +115,17 @@ namespace SIL.Pa.Controls
 			int savCurrColIndex = 0;
 			int savFirstRowIndex = 0;
 			SortOptions savSortOptions = null;
+			CIEOptions savCIEOptions = null;
 
 			if (m_grid != null)
 			{
-				// Save the index of the row that's current and the index of the first visible row.
+				// Save the index of the row and column that's current, the
+				// index of the first visible row, and the current sort options.
 				savCurrRowIndex = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : 0);
 				savCurrColIndex = (m_grid.CurrentCell != null ? m_grid.CurrentCell.ColumnIndex : 0);
 				savFirstRowIndex = m_grid.FirstDisplayedScrollingRowIndex;
-				// Save the current sort options
 				savSortOptions = m_grid.SortOptions;
+				savCIEOptions = m_grid.CIEOptions;
 			}
 
 			PaApp.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
@@ -134,11 +136,13 @@ namespace SIL.Pa.Controls
 				Initialize(resultCache);
 			}
 			
-			// Restore the current row to what it was before rebuilding.
-			// Then make sure the row is visible.
+			// Restore the current row to what it was before
+			// rebuilding. Then make sure the row is visible.
 			if (m_grid != null)
-				m_grid.PostDataSourceModifiedRestore(
-					savCurrRowIndex, savCurrColIndex, savFirstRowIndex, savSortOptions);
+			{
+				m_grid.PostDataSourceModifiedRestore(savCurrRowIndex,
+					savCurrColIndex, savFirstRowIndex, savSortOptions, savCIEOptions);
+			}
 
 			PaApp.UninitializeProgressBar();
 		}

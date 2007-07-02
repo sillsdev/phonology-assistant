@@ -1364,6 +1364,13 @@ namespace SIL.Pa
 			bool returnCountOnly, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
+
+			if (query.IsPatternRegExpression)
+			{
+				RegExpressionSearch regExpSrch = new RegExpressionSearch(query);
+				return regExpSrch.Search();
+			}
+			
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 
 			int incCounter = 0;

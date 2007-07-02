@@ -1670,7 +1670,7 @@ namespace SIL.Pa.Controls
 
 			if (Columns[e.ColumnIndex].Name == m_phoneticColName)
 			{
-				if (m_cache.IsForFindPhoneResults)
+				if (m_cache.IsForSearchResults)
 				{
 					DrawPhoneticFindPhoneResult(e);
 					e.Handled = true;
@@ -1802,8 +1802,8 @@ namespace SIL.Pa.Controls
 			parts &= ~DataGridViewPaintParts.ContentForeground;
 			e.Paint(rc, parts);
 
-			int srchItemOffset = wlentry.SearchItemPhoneOffset;
-			int srchItemLength = wlentry.SearchItemPhoneLength;
+			int srchItemOffset = wlentry.SearchItemOffset;
+			int srchItemLength = wlentry.SearchItemLength;
 			int envAfterOffset = srchItemOffset + srchItemLength;
 
 			// Get the text that makes up the search item.
@@ -2029,7 +2029,7 @@ namespace SIL.Pa.Controls
 
 			return true;
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Turns on showing minimal pairs from the grid's cache.
@@ -2214,24 +2214,42 @@ namespace SIL.Pa.Controls
 		/// Restores the current row, sort options and first visible row to those specified.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PostDataSourceModifiedRestore(int savedRowIndex, int savedColIndex, 
-			int savedFirstRowIndex, SortOptions savedSortOptions)
+		public void PostDataSourceModifiedRestore(int row, int column,
+			int firstRow, SortOptions savedSortOptions)
+		{
+			PostDataSourceModifiedRestore(row, column, firstRow, savedSortOptions, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Restores the current row, sort options and first visible row to those specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void PostDataSourceModifiedRestore(int row, int column, 
+			int firstRow, SortOptions savedSortOptions, CIEOptions cieOptions)
 		{
 			// Restore and apply the saved sort options
 			if (savedSortOptions != null)
 				SortOptions = savedSortOptions;
 
-			// Restore the first visible row.
-			if (Rows.Count > savedFirstRowIndex && savedFirstRowIndex >= 0)
-				FirstDisplayedScrollingRowIndex = savedFirstRowIndex;
-			
-			// Restore the selected row.
-			if (Rows.Count > savedRowIndex)
+			if (cieOptions != null)
 			{
-				if (this[savedColIndex, savedRowIndex].Visible)
-					CurrentCell = this[savedColIndex, savedRowIndex];
+				CIEOptions = cieOptions;
+				CIEViewOn();
+			}
+
+			// Restore the first visible row.
+			if (Rows.Count > firstRow && firstRow >= 0)
+				FirstDisplayedScrollingRowIndex = firstRow;
+			
+			// Restore the selected row and column.
+			if (Rows.Count > row)
+			{
+				if (this[column, row].Visible)
+					CurrentCell = this[column, row];
+
 				CurrentRow.Selected = true;
-				InvalidateRow(savedRowIndex);
+				InvalidateRow(row);
 			}
 		}
 

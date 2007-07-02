@@ -82,6 +82,8 @@ namespace SIL.Pa
 			PaApp.UninitializeProgressBar();
 
 			MinimumSize = PaApp.MinimumViewWindowSize;
+
+			//new RegExpressionSearchDlg().Show();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -88,11 +88,11 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SetSiblingUncertainties(IPhoneInfo phoneInfo)
+		public bool SetSiblingUncertainties(List<string> siblingUncertainties)
 		{
 			lblSiblingPhones.Text = string.Empty;
 
-			if (phoneInfo.SiblingUncertainties.Count == 0)
+			if (siblingUncertainties == null || siblingUncertainties.Count == 0)
 			{
 				// If there's no sibling uncertain phones, then shrink the popup to show
 				// only the count values.
@@ -101,18 +101,17 @@ namespace SIL.Pa.Controls
 			}
 
 			StringBuilder bldr = new StringBuilder();
-			for (int i = 0; i < phoneInfo.SiblingUncertainties.Count; i++)
+			for (int i = 0; i < siblingUncertainties.Count; i++)
 			{
 				string comma = (i > 0 ? ", " : string.Empty);
-				lblSiblingPhones.Text = bldr.ToString() + comma +
-					phoneInfo.SiblingUncertainties[i];
+				lblSiblingPhones.Text = bldr.ToString() + comma + siblingUncertainties[i];
 
 				// Determine whether or not to insert a new line or if there's room to
 				// continue adding phones on the current line.
 				bldr.Append(
 					lblSiblingPhones.PreferredWidth <= lblSiblingPhones.Width ?	comma : ",\n");
-				
-				bldr.Append(phoneInfo.SiblingUncertainties[i]);
+
+				bldr.Append(siblingUncertainties[i]);
 			}
 
 			// Set the desired height of the sibling phones list and then set the

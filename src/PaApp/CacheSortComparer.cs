@@ -49,12 +49,12 @@ namespace SIL.Pa
 
 			if (cacheEntry.Phones != null)
 			{
-				int firstAfterPhone = cacheEntry.SearchItemPhoneOffset +
-					cacheEntry.SearchItemPhoneLength;
+				int firstAfterPhone = cacheEntry.SearchItemOffset +
+					cacheEntry.SearchItemLength;
 
 				for (int i = 0; i < cacheEntry.Phones.Length; i++)
 				{
-					if (i < cacheEntry.SearchItemPhoneOffset)
+					if (i < cacheEntry.SearchItemOffset)
 					{
 						if (m_sortOptions.AdvRlOptions[0])
 							bldrBefore.Insert(0, cacheEntry.Phones[i]);
@@ -199,8 +199,8 @@ namespace SIL.Pa
 			item = new List<string>();
 			after = new List<string>();
 
-			int srchItemOffset = cacheEntry.SearchItemPhoneOffset;
-			int afterEnvOffset = srchItemOffset + cacheEntry.SearchItemPhoneLength;
+			int srchItemOffset = cacheEntry.SearchItemOffset;
+			int afterEnvOffset = srchItemOffset + cacheEntry.SearchItemLength;
 
 			// Loop through the phones and assemble a hex key for the phones in the entry
 			// according to the current sort options (i.e. MOA or POA, R/L or L/R).
@@ -329,7 +329,7 @@ namespace SIL.Pa
 			int compareResult = x.WordCacheEntry.WordIndex - y.WordCacheEntry.WordIndex;
 			
 			return (compareResult != 0 ? compareResult :
-				x.SearchItemPhoneOffset - y.SearchItemPhoneOffset);
+				x.SearchItemOffset - y.SearchItemOffset);
 		}
 
 		/// ------------------------------------------------------------------------------------

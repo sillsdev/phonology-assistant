@@ -1081,8 +1081,7 @@ namespace SIL.Pa.Controls
 			}
 
 			Rectangle rc = m_grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-			CharGridCell cgc = m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell;
-			if (m_phoneInfoPopup.Initialize(cgc.Phone, m_grid[e.ColumnIndex, e.RowIndex]))
+			if (m_phoneInfoPopup.Initialize(m_grid[e.ColumnIndex, e.RowIndex]))
 				m_phoneInfoPopup.Show(rc);
 		}
 
@@ -1596,6 +1595,10 @@ namespace SIL.Pa.Controls
 		private int m_row = -1;
 		private int m_col = -1;
 		private int m_group = -1;
+		private int m_totalCount = 0;
+		private int m_countAsPrimaryUncertainty = 0;
+		private int m_countAsNonPrimaryUncertainty = 0;
+		private List<string> m_siblingUncertainties = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1695,6 +1698,54 @@ namespace SIL.Pa.Controls
 		{
 			get { return m_group; }
 			set { m_group = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The number of times the phone occurs when it's neither a primary nor non primary
+		/// uncertainty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int TotalCount
+		{
+			get { return m_totalCount; }
+			set { m_totalCount = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The number of times the phone occurs as a primary uncertain phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int CountAsPrimaryUncertainty
+		{
+			get { return m_countAsPrimaryUncertainty; }
+			set { m_countAsPrimaryUncertainty = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The number of times the phone occurs as a non primary uncertain phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int CountAsNonPrimaryUncertainty
+		{
+			get { return m_countAsNonPrimaryUncertainty; }
+			set { m_countAsNonPrimaryUncertainty = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The list of uncertain phones found together with the cell's phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<string> SiblingUncertainties
+		{
+			get { return m_siblingUncertainties; }
+			set { m_siblingUncertainties = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

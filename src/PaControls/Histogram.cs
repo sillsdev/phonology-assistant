@@ -62,7 +62,7 @@ namespace SIL.Pa.Controls
 		/// <param name="phoneList">List<string></param>
 		/// <returns>bool</returns>
 		/// ------------------------------------------------------------------------------------
-		public bool LoadPhones(List<string> phoneList)
+		public bool LoadPhones(List<CharGridCell> phoneList)
 		{
 			pnlScroller.AutoScrollPosition = new Point(0, 0);
 			pnlBars.Left = 0;
@@ -74,18 +74,18 @@ namespace SIL.Pa.Controls
 			int xLocationOffset = 0;
 			m_maxTotalCount = 0;
 
-			foreach (string phone in phoneList)
+			foreach (CharGridCell cgc in phoneList)
 			{
-				if (!PaApp.PhoneCache.ContainsKey(phone))
-					continue;
+				//if (!PaApp.PhoneCache.ContainsKey(phone))
+				//    continue;
 
-				IPhoneInfo info = PaApp.PhoneCache[phone];
+				//IPhoneInfo info = PaApp.PhoneCache[phone];
 
 				// Create phone labels that appear under the bar.
 				Label lblPhone = new Label();
 				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(16);
 				lblPhone.Size = new Size(40, 25);
-				lblPhone.Text = phone;
+				lblPhone.Text = cgc.Phone;
 				lblPhone.Paint += new PaintEventHandler(lbl_Paint);
 				lblPhone.MouseEnter += new EventHandler(HandleMouseEnter);
 				lblPhone.MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
@@ -98,7 +98,7 @@ namespace SIL.Pa.Controls
 
 				// Create the bars.
 				HistogramBar histBar = new HistogramBar();
-				histBar.SetBarValues(phone, info);
+				histBar.InitializeBar(cgc);
 				histBar.MouseEnter += new EventHandler(HandleMouseEnter);
 				histBar.MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
 				pnlBars.Controls.Add(histBar);
@@ -203,10 +203,8 @@ namespace SIL.Pa.Controls
 				m_phoneToolTip.Show(lbl.Text, this);
 			}
 
-			if (bar != null && m_phoneInfoPopup.Initialize(bar.Phone))
-			{
+			if (bar != null && m_phoneInfoPopup.Initialize(bar.CharGridCellPhoneInfo))
 				m_phoneInfoPopup.Show(useLabelForInfoPopup ? lbl : bar, bar);
-			}
 		}
 
 		#endregion
@@ -442,8 +440,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class HistogramBar : Label
 	{
-		private int m_barValue = 0;
-		private string m_phone;
+		private CharGridCell m_cgcPhoneInfo;
 
 		private Color m_clrRight = ColorHelper.CalculateColor(Color.White,
 			SystemColors.GradientActiveCaption, 110);
@@ -463,14 +460,12 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets the count values for the bar.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SetBarValues(string phone, IPhoneInfo info)
+		public void InitializeBar(CharGridCell cgc)
 		{
-			m_phone = phone;
-			m_barValue = info.TotalCount + info.CountAsPrimaryUncertainty +
-				info.CountAsNonPrimaryUncertainty;
+			m_cgcPhoneInfo = cgc;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -505,7 +500,12 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public int BarValue
 		{
-			get { return m_barValue; }
+			get
+			{
+				return m_cgcPhoneInfo.TotalCount +
+					m_cgcPhoneInfo.CountAsPrimaryUncertainty +
+					m_cgcPhoneInfo.CountAsNonPrimaryUncertainty;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -515,7 +515,17 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public string Phone
 		{
-			get { return m_phone; }
+			get { return m_cgcPhoneInfo.Phone; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public CharGridCell CharGridCellPhoneInfo
+		{
+			get { return m_cgcPhoneInfo; }
 		}
 
 		#endregion

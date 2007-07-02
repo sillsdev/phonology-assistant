@@ -33,7 +33,7 @@ namespace SIL.Pa
 			{
 				m_regExBefore = new Regex(regEx[0]);
 				m_regExItem = new Regex(regEx[1]);
-				m_regExAfter = new Regex(regEx[2]);
+				m_regExAfter = new Regex(regEx[1] + regEx[2]);
 			}
 		}
 
@@ -50,39 +50,48 @@ namespace SIL.Pa
 				return null;
 			}
 
-			int index = 0;
+			WordListCache resultCache = new WordListCache();
+			int offset;
 			int length;
 
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
-				index = 0;
+				offset = 0;
 				string phonetic = wordEntry.PhoneticValue;
 
-				while (index < phonetic.Length)
+				while (offset < phonetic.Length)
 				{
-					Match match = m_regExItem.Match(phonetic, index);
+					// Find the search item starting at offset.
+					Match match = m_regExItem.Match(phonetic, offset);
 					if (!match.Success)
 						break;
 
-					index = match.Index;
+					offset = match.Index;
 					length = match.Length;
 
 					// Search for the environment before.
 					match = m_regExBefore.Match(phonetic);
-					if (!match.Success || match.Index + match.Length != index)
+					while (match.Success && match.Index + match.Length < offset)
+						match = m_regExBefore.Match(phonetic, match.Index + 1);
+
+					if (!match.Success || match.Index + match.Length != offset)
 						break;
 
+					// TODO: This won't work when offset + length goes beyond the end and the pattern is '.'
 					// Search for the environment after.
-					match = m_regExAfter.Match(phonetic, index + length);
-					if (!match.Success || match.Index != index + length)
+					match = m_regExAfter.Match(phonetic, offset);
+					if (!match.Success || match.Index != offset)
 						break;
 
-					// Add result cache entry.
-					index++;
+					resultCache.AddEntryFromRegExpSearch(wordEntry, null, offset, length, false);
+					offset++;
 				}
 			}
 
-			return null;
+			resultCache.ExtendRegExpMatchesToPhoneBoundaries();
+			resultCache.IsForSearchResults = true;
+			resultCache.IsForRegExpSearchResults = true;
+			return resultCache;
 		}
 	}
 }

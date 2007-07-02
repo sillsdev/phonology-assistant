@@ -256,13 +256,23 @@ namespace SIL.Pa.Controls
 
 				// Find the Phone's base character in the IPA character cache
 				// in order to find it's default placement in the chart.
-				IPACharInfo info = GetBaseCharInfoForPhone(phone);
+				IPACharInfo info = GetBaseCharInfoForPhone(phoneInfo.Key);
 
 				if (info != null)
 				{
 					CharGridCell cgc = new CharGridCell(phone);
 					cgc.DefaultColumn = (info == null ? -1 : info.ChartColumn);
 					cgc.DefaultGroup = (info == null ? -1 : info.ChartGroup);
+					cgc.TotalCount = phoneInfo.Value.TotalCount;
+					cgc.CountAsPrimaryUncertainty = phoneInfo.Value.CountAsPrimaryUncertainty;
+					cgc.CountAsNonPrimaryUncertainty = phoneInfo.Value.CountAsNonPrimaryUncertainty;
+					if (phoneInfo.Value.SiblingUncertainties != null &&
+						phoneInfo.Value.SiblingUncertainties.Count > 0)
+					{
+						cgc.SiblingUncertainties =
+							new List<string>(phoneInfo.Value.SiblingUncertainties);
+					}
+					
 					string key = DataUtils.GetMOAKey(phone);
 					tmpPhoneList[key] = cgc;
 
@@ -286,7 +296,7 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// Determines whether or not a phoneInfo contains a phone that qualifies to be shown
 		/// in the chart. The criteria for determining whether or not a phone qualifies is
-		/// its type and whether or not it's already int the list. If the phone qualifies, its
+		/// its type and whether or not it's already in the list. If the phone qualifies, its
 		/// phoneInfo is returned. When the phoneInfo contains some suprasegmentals that are
 		/// found in the list of ones to ignore, then a modified version of the phoneInfo is
 		/// returned. One without those suprasegmentals.
@@ -313,13 +323,44 @@ namespace SIL.Pa.Controls
 				return null;
 
 			// Make sure the phone isn't already in the list of qualifying phones.
+			return (PhoneExistsInList(newPhone, phoneInfo, phoneList) ? null : newPhone);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks to see if the specified phone already exists in the specified collection of
+		/// CharGridCell objects.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool PhoneExistsInList(string phone, IPhoneInfo phoneInfo,
+			SortedList<string, CharGridCell> phoneList)
+		{
 			foreach (CharGridCell cgc in phoneList.Values)
 			{
-				if (cgc.Phone == newPhone)
-					return null;
+				// If the phone is already in the list, then increment the counts and
+				// the list of sibling uncertainties stored in the grid cell object.
+				// This should only happen when suprasegmentals modifying phones were
+				// found and are also being ignored.
+				if (cgc.Phone == phone)
+				{
+					cgc.TotalCount += phoneInfo.TotalCount;
+					cgc.CountAsPrimaryUncertainty += phoneInfo.CountAsPrimaryUncertainty;
+					cgc.CountAsNonPrimaryUncertainty += phoneInfo.CountAsNonPrimaryUncertainty;
+
+					if (phoneInfo.SiblingUncertainties != null)
+					{
+						foreach (string siblingPhone in phoneInfo.SiblingUncertainties)
+						{
+							if (!cgc.SiblingUncertainties.Contains(siblingPhone))
+								cgc.SiblingUncertainties.Add(siblingPhone);
+						}
+					}
+
+					return true;
+				}
 			}
 
-			return newPhone;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

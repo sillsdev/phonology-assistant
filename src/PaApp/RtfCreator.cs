@@ -164,7 +164,7 @@ namespace SIL.Pa
 			m_cellTextWidth = TextRenderer.MeasureText(m_graphics, column.HeaderText,
 				column.DefaultCellStyle.Font, Size.Empty, m_flags).Width;
 
-			if (m_cache.IsForFindPhoneResults && fieldInfo.IsPhonetic)
+			if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
 			{
 				m_phoneticColumnFont = column.DefaultCellStyle.Font;
 				foreach (WordListCacheEntry cacheEntry in m_cache)
@@ -274,7 +274,7 @@ namespace SIL.Pa
 			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_fontNumbers, ref m_uiFontSize));
 			
 			// Add color support
-			if (m_cache.IsForFindPhoneResults)
+			if (m_cache.IsForSearchResults)
 			{
 				Dictionary<int, int> colorReferences;
 				m_rtfBldr.AppendLine(RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences));
@@ -284,7 +284,7 @@ namespace SIL.Pa
 			m_rtfBldr.AppendLine("\\pard\\plain ");
 			m_rtfBldr.AppendLine(string.Format(ktxcell, 2160));
 			m_rtfBldr.AppendLine("\\f0 \\fs18 {\\b");
-			if (m_cache.IsForFindPhoneResults)
+			if (m_cache.IsForSearchResults)
 				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrSearchPattern,
 					ktab, m_cache.SearchQuery.Pattern);
 			else
@@ -366,7 +366,7 @@ namespace SIL.Pa
 		{
 			m_numberOfColumns++;
 			if (m_cache != null) // for testing
-				if (!m_cache.IsForFindPhoneResults)
+				if (!m_cache.IsForSearchResults)
 					columnTwipWidth += 30; // Fudge Factor
 
 			// Make sure the Phonetic column width is always just long enough so there is NO wrapping
@@ -463,7 +463,7 @@ namespace SIL.Pa
 					
 						// This fixes the placement of the columnHeader following 'Phonetic', because
 						// it takes into consideration the extra 2 tab stops for Search Item alignment.
-						if (fieldInfo.IsPhonetic && m_cache.IsForFindPhoneResults)
+						if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
 						{
 							m_rtfBldr.Append(ktab);
 							m_rtfBldr.Append(ktab);
@@ -491,7 +491,7 @@ namespace SIL.Pa
 		{
 			// Get the columnTwipWidth of the Phonetic column
 			float phoneticTwipWidth = ((float)m_maxColumnWidths[0] / m_pixelsPerInch) * kTwipsPerInch;
-			if (!m_cache.IsForFindPhoneResults)
+			if (!m_cache.IsForSearchResults)
 				phoneticTwipWidth += 30; // Fudge Factor
 			m_MaxColWidth = (kMaxPageWidth - (int)phoneticTwipWidth) / (m_maxColumnWidths.Count - 1);
 		}
@@ -536,7 +536,7 @@ namespace SIL.Pa
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[maxColumnWidth.Key].Name];
 
 			// Create the 2 tabs for the aligning the Phonetic column's search item
-			if (fieldInfo.IsPhonetic && m_cache.IsForFindPhoneResults)
+			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
 				m_tabFormatBldr = FormatSearchItemTabString(m_tabFormatBldr, m_columnStartPoint);
 
 			// Only shorten columns width if the total columns width is greater than kMaxPageWidth
@@ -598,7 +598,7 @@ namespace SIL.Pa
 
 			CreateColumnHeaders();
 
-			if (m_cache.IsForFindPhoneResults)
+			if (m_cache.IsForSearchResults)
 				m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
 
 			m_rtfBldr.AppendLine(m_cellFormatBldr.ToString());
@@ -624,7 +624,7 @@ namespace SIL.Pa
 				int fontSize = m_fontSizes[colName];
 				string colValue = col.Value.Replace("\\", "\\\\");
 
-				if (m_cache.IsForFindPhoneResults && fieldInfo.IsPhonetic)
+				if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
 				{
 					m_rtfBldr.Append(string.Format(
 						(m_exportFormat == ExportFormat.Table ?	kcellValues : ktxValues),

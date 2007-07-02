@@ -89,7 +89,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public WordListCache FindMinimalPairs()
 		{
-			if (m_cache == null || !m_cache.IsForFindPhoneResults)
+			if (m_cache == null || !m_cache.IsForSearchResults)
 				return null;
 
 			foreach (WordListCacheEntry entry in m_cache)
@@ -132,7 +132,7 @@ namespace SIL.Pa
 
 			cieCache.IsCIEList = true;
 			cieCache.CIEGroupTexts = cieGroupTexts;
-			cieCache.IsForFindPhoneResults = true;
+			cieCache.IsForSearchResults = true;
 			cieCache.Sort(m_sortOptions);
 			return cieCache;
 		}

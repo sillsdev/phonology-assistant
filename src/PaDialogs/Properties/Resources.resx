@@ -443,4 +443,16 @@
     <value>Right to Left</value>
     <comment>Heading for right-to-left column on the custom fields dialog.</comment>
   </data>
+  <data name="kimidClearPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clear_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidInsertElementIntoPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Insert_into_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSearchOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search_options.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidShowResults" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_results.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

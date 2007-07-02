@@ -75,13 +75,14 @@ namespace SIL.Pa
 
 			// Create a list of phones for a histogram based on the order of the
 			// phones as they appear in the grid (from left to right, top to bottom).
-			List<string> histogramPhones = new List<string>();
+			List<CharGridCell> histogramPhones = new List<CharGridCell>();
 			for (int iCol = 0; iCol < m_chrGrid.Grid.Columns.Count; iCol++)
 			{
 				for (int iRow = 0; iRow < m_chrGrid.Grid.Rows.Count; iRow++)
 				{
-					if (m_chrGrid.Grid[iCol, iRow].Value != null)
-						histogramPhones.Add(m_chrGrid.Grid[iCol, iRow].Value.ToString());
+					CharGridCell cgc = m_chrGrid.Grid[iCol, iRow].Value as CharGridCell;
+					if (cgc != null)
+						histogramPhones.Add(cgc);
 				}
 			}
 

@@ -20,8 +20,8 @@ namespace SIL.Pa
 		private string m_envBefore = null;
 		private string m_srchItem = null;
 		private string m_envAfter = null;
-		private int m_srchItemPhoneOffset;
-		private int m_srchItemPhonesLength;
+		private int m_srchItemOffset;
+		private int m_srchItemLength;
 		private bool m_showInList = true;
 		private int m_cieGroupId = -1;
 
@@ -121,10 +121,10 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int SearchItemPhoneOffset
+		public int SearchItemOffset
 		{
-			get { return m_srchItemPhoneOffset; }
-			set { m_srchItemPhoneOffset = value; }
+			get { return m_srchItemOffset; }
+			set { m_srchItemOffset = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,10 +132,10 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int SearchItemPhoneLength
+		public int SearchItemLength
 		{
-			get { return m_srchItemPhonesLength; }
-			set { m_srchItemPhonesLength = value; }
+			get { return m_srchItemLength; }
+			set { m_srchItemLength = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

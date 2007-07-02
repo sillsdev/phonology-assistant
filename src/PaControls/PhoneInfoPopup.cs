@@ -59,43 +59,34 @@ namespace SIL.Pa.Controls
 		/// <param name="phone">Phone whose information is being shown.</param>
 		/// <param name="associatedCell">Cell associated with the popup.</param>
 		/// ------------------------------------------------------------------------------------
-		public bool Initialize(string phone, DataGridViewCell associatedCell)
+		public bool Initialize(DataGridViewCell associatedCell)
 		{
-			if (!InternalInit(phone))
+			if (associatedCell == null)
 				return false;
 
-			m_associatedCell = associatedCell;
-			return true;
+			CharGridCell cgc = associatedCell.Value as CharGridCell;
+			if (cgc != null)
+			{
+				Initialize(cgc);
+				m_associatedCell = associatedCell;
+			}
+			
+			return (cgc != null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="phone">Phone whose information is being shown.</param>
 		/// ------------------------------------------------------------------------------------
-		public bool Initialize(string phone)
+		public bool Initialize(CharGridCell cgc)
 		{
-			return InternalInit(phone);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool InternalInit(string phone)
-		{
-			IPhoneInfo phoneInfo = null;
-			if (!PaApp.PhoneCache.TryGetValue(phone, out phoneInfo) || phoneInfo == null)
-				return false;
-
-			m_content.lblPhone.Text = phone;
-			m_content.lblNormallyCount.Text = phoneInfo.TotalCount.ToString();
-			m_content.lblPrimaryCount.Text = phoneInfo.CountAsPrimaryUncertainty.ToString();
-			m_content.lblNonPrimaryCount.Text = phoneInfo.CountAsNonPrimaryUncertainty.ToString();
+			m_content.lblPhone.Text = cgc.Phone;
+			m_content.lblNormallyCount.Text = cgc.TotalCount.ToString();
+			m_content.lblPrimaryCount.Text = cgc.CountAsPrimaryUncertainty.ToString();
+			m_content.lblNonPrimaryCount.Text = cgc.CountAsNonPrimaryUncertainty.ToString();
 			m_content.RefreshFonts();
-			m_siblingUncertaintiesExist = m_content.SetSiblingUncertainties(phoneInfo);
+			m_siblingUncertaintiesExist = m_content.SetSiblingUncertainties(cgc.SiblingUncertainties);
 			Size = m_content.Size;
 			m_drawLeftArrow = true;
 			m_drawArrow = true;

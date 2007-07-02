@@ -43,7 +43,7 @@ namespace SIL.Pa.Controls
 			if (!m_error)
 			{
 				m_grid = grid;
-				m_isForSearchResult = m_grid.Cache.IsForFindPhoneResults;
+				m_isForSearchResult = m_grid.Cache.IsForSearchResults;
 				WriteColumnHeadings();
 				WriteBody();
 				WriteHTMLFile();
@@ -159,8 +159,8 @@ namespace SIL.Pa.Controls
 				else
 				{
 					WordListCacheEntry entry = m_grid.Cache[row.Index];
-					int itemOffset = entry.SearchItemPhoneOffset;
-					int itemLength = entry.SearchItemPhoneLength;
+					int itemOffset = entry.SearchItemOffset;
+					int itemLength = entry.SearchItemLength;
 
 					StringBuilder bldr = new StringBuilder();
 					for (int i = 0; i < itemOffset; i++)

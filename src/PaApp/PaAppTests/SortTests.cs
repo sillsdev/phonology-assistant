@@ -417,13 +417,13 @@ namespace SIL.Pa
 
 			Assert.AreEqual(4, cache.Count);
 			Assert.AreEqual("sippu", cache[0].PhoneticValue);
-			Assert.AreEqual(3, cache[0].SearchItemPhoneOffset);
+			Assert.AreEqual(3, cache[0].SearchItemOffset);
 			Assert.AreEqual("mappu", cache[1].PhoneticValue);
-			Assert.AreEqual(3, cache[1].SearchItemPhoneOffset);
+			Assert.AreEqual(3, cache[1].SearchItemOffset);
 			Assert.AreEqual("sippu", cache[2].PhoneticValue);
-			Assert.AreEqual(2, cache[2].SearchItemPhoneOffset);
+			Assert.AreEqual(2, cache[2].SearchItemOffset);
 			Assert.AreEqual("mappu", cache[3].PhoneticValue);
-			Assert.AreEqual(2, cache[3].SearchItemPhoneOffset);
+			Assert.AreEqual(2, cache[3].SearchItemOffset);
 		}
 		#endregion
 

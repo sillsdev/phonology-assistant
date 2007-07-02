@@ -1700,7 +1700,6 @@ namespace SIL.Pa.Controls
 				UnsubscribeToGridEvents();
 				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
-				CIEViewRefresh();
 			}
 
 			return false;

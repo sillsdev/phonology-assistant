@@ -74,6 +74,13 @@ namespace SIL.Pa.Dialogs.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidClearPattern {
+            get {
+                object obj = ResourceManager.GetObject("kimidClearPattern", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidHorizontalGridLines {
             get {
                 object obj = ResourceManager.GetObject("kimidHorizontalGridLines", resourceCulture);
@@ -84,6 +91,13 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static System.Drawing.Bitmap kimidInformation {
             get {
                 object obj = ResourceManager.GetObject("kimidInformation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidInsertElementIntoPattern {
+            get {
+                object obj = ResourceManager.GetObject("kimidInsertElementIntoPattern", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,6 +119,20 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static System.Drawing.Bitmap kimidNoGridLines {
             get {
                 object obj = ResourceManager.GetObject("kimidNoGridLines", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidSearchOptions {
+            get {
+                object obj = ResourceManager.GetObject("kimidSearchOptions", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidShowResults {
+            get {
+                object obj = ResourceManager.GetObject("kimidShowResults", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
