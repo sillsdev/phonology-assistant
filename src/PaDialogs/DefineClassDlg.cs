@@ -330,14 +330,16 @@ namespace SIL.Pa.Dialogs
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// These things are best done after handles are created.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		protected override void OnShown(EventArgs e)
 		{
-			base.OnHandleCreated(e);
-
 			LoadSettings();
+
+			System.Diagnostics.Debug.Assert(m_classesDlg != null);
+			System.Diagnostics.Debug.Assert(m_classInfo != null);
+			System.Diagnostics.Debug.Assert(charExplorer != null);
 
 			if (!m_splitterSettingsLoaded &&
 				(m_classInfo.ClassType == SearchClassType.Articulatory ||
@@ -349,6 +351,8 @@ namespace SIL.Pa.Dialogs
 			charExplorer.LoadSettings(Name);
 			UpdateCharacterViewers();
 			Application.UseWaitCursor = false;
+
+			base.OnShown(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
