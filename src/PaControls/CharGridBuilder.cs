@@ -448,6 +448,9 @@ namespace SIL.Pa.Controls
 				// to add a new row to the header to accomodate the phoneInfo.
 				m_chrGrid.AddRowToHeading(hdr);
 				int desiredCol = (cgc.Column > -1 ? cgc.Column : cgc.DefaultColumn);
+				if (desiredCol >= hdr.LastRow.Cells.Count)
+					desiredCol = hdr.LastRow.Cells.Count - 1;
+				
 				DataGridViewCell cell = hdr.LastRow.Cells[desiredCol];
 				cell.Value = cgc;
 				cgc.Row = hdr.LastRow.Index;

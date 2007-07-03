@@ -408,15 +408,29 @@ namespace SIL.Pa.Data
 		/// complete.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool IsInfoComplete
+		public bool HasNameAndServer
 		{
-			get
+			get { return (!string.IsNullOrEmpty(m_dbName) && !string.IsNullOrEmpty(Server)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not, at least, the phonetic writing system
+		/// was specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool HasWritingSystemInfo(string phoneticFieldName)
+		{
+			if (WritingSystemInfo != null)
 			{
-				return (/* PhoneticWs > 0 && PhonemicWs > 0 && OrthographicWs > 0 &&
-					EnglishGlossWs > 0 && */ !string.IsNullOrEmpty(m_dbName) &&
-					!string.IsNullOrEmpty(Server));
+				foreach (FwDataSourceWsInfo wsInfo in WritingSystemInfo)
+				{
+					if (wsInfo.FieldName == phoneticFieldName)
+						return true;
+				}
 			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------

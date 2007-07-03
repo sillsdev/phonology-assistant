@@ -478,11 +478,11 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The information for the FieldWorks data source &apos;{0}&apos;\nis incomplete. Click the properties button next to the source..
+        ///   Looks up a localized string similar to The writing system for the phonetic field hsa not been specified for the FieldWorks data\n source &apos;{0}&apos;. Select the FieldWorks data source and click the properties button..
         /// </summary>
-        internal static string kstidFwDataSourceInfoIncompleteMsg {
+        internal static string kstidFwDataSourceWsMissingMsg {
             get {
-                return ResourceManager.GetString("kstidFwDataSourceInfoIncompleteMsg", resourceCulture);
+                return ResourceManager.GetString("kstidFwDataSourceWsMissingMsg", resourceCulture);
             }
         }
         

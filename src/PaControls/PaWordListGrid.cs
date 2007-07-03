@@ -2251,6 +2251,8 @@ namespace SIL.Pa.Controls
 				CurrentRow.Selected = true;
 				InvalidateRow(row);
 			}
+
+			Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------

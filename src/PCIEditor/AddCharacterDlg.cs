@@ -254,16 +254,24 @@ namespace SIL.Pa
 			// Chart Position
 			if (cboType.SelectedItem.ToString() == kConsonant)
 			{
-				m_origChartGroup = m_ConsChartPulmonicGroups[(int)row.Cells[kChartGroup].Value];
+				if (!m_ConsChartPulmonicGroups.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
+					m_origChartGroup = m_ConsChartPulmonicGroups[0];
+
 				if (m_origChartGroup == kOtherSymbols)
 					m_origChartColumnOtherSymbol = (int)row.Cells[kChartColumn].Value;
-				else
-					m_origChartColumn = m_ConsChartPulmonicColumns[(int)row.Cells[kChartColumn].Value];
+				else if (!m_ConsChartPulmonicColumns.TryGetValue(
+					(int)row.Cells[kChartColumn].Value, out m_origChartColumn))
+				{
+					m_origChartColumn = m_ConsChartPulmonicColumns[0];
+				}
 			}
 			else if (cboType.SelectedItem.ToString() == kVowel)
 			{
-				m_origChartGroup = m_VowelChartGroups[(int)row.Cells[kChartGroup].Value];
-				m_origChartColumn = m_VowelChartColumns[(int)row.Cells[kChartColumn].Value];
+				if (!m_VowelChartGroups.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
+					m_origChartGroup = m_VowelChartGroups[0];
+
+				if (!m_VowelChartColumns.TryGetValue((int)row.Cells[kChartColumn].Value, out m_origChartColumn))
+					m_origChartColumn = m_VowelChartColumns[0];
 			}
 
 			if (m_origChartGroup != string.Empty)

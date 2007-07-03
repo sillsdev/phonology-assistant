@@ -307,8 +307,8 @@
     <value>(none)</value>
     <comment>Item for no writing system specified for a field in the FW data source properties dialog.</comment>
   </data>
-  <data name="kstidFwDataSourceInfoIncompleteMsg" xml:space="preserve">
-    <value>The information for the FieldWorks data source '{0}'\nis incomplete. Click the properties button next to the source.</value>
+  <data name="kstidFwDataSourceWsMissingMsg" xml:space="preserve">
+    <value>The writing system for the phonetic field hsa not been specified for the FieldWorks data\n source '{0}'. Select the FieldWorks data source and click the properties button.</value>
   </data>
   <data name="kstidFwMissingWsMsg" xml:space="preserve">
     <value>You must specify a writing system for at least one field.</value>
