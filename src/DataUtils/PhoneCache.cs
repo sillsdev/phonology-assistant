@@ -254,6 +254,66 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a collection of phones having the specified feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetCommaDelimitedPhonesInFeature(string featureName)
+		{
+			System.Diagnostics.Debug.Assert(featureName != null);
+
+			featureName = featureName.Trim().ToLower();
+			featureName = featureName.Replace("[", string.Empty);
+			featureName = featureName.Replace("]", string.Empty);
+
+			if (featureName.Length == 0)
+				return string.Empty;
+
+			StringBuilder bldr = new StringBuilder();
+
+			bool isPlus = (featureName[0] == '+');
+			bool isMinus = (featureName[0] == '-');
+
+			if (isPlus || isMinus)
+			{
+				BFeature bfeature = DataUtils.BFeatureCache[featureName];
+				if (bfeature != null)
+				{
+					foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+					{
+						if ((isPlus && (bfeature.PlusMask & kvp.Value.BinaryMask) > 0) ||
+							(isMinus && (bfeature.MinusMask & kvp.Value.BinaryMask) > 0))
+						{
+							bldr.Append(kvp.Key);
+							bldr.Append(',');
+						}
+					}
+				}
+			}
+			else
+			{
+				AFeature afeature = DataUtils.AFeatureCache[featureName];
+				if (afeature != null)
+				{
+					foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+					{
+						if ((kvp.Value.Masks[afeature.MaskNumber] & afeature.Mask) > 0)
+						{
+							bldr.Append(kvp.Key);
+							bldr.Append(',');
+						}
+					}
+				}
+			}
+
+			// Get rid of the last comma.
+			if (bldr.Length > 0)
+				bldr.Length--;
+
+			return bldr.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Sets the CVPatternInfoList for the phone cache. This list should be set to the
 		/// list owned by a PA project when the project is opened.
 		/// </summary>

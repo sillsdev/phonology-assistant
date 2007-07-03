@@ -28,10 +28,19 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegExpressionSearchDlg));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.tbShowResults = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tbInsert = new System.Windows.Forms.ToolStripDropDownButton();
+			this.matchOnZeroOrMoreCharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.oneOrMoreCharactersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.wordBoundaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.consonantPhoneGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.vowelPhoneGroupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPhonesInAFeature = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuPhonesInBFeature = new System.Windows.Forms.ToolStripMenuItem();
 			this.tbSearchOptions = new System.Windows.Forms.ToolStripDropDownButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tbClear = new System.Windows.Forms.ToolStripButton();
@@ -40,11 +49,11 @@ namespace SIL.Pa.Dialogs
 			this.btnClose = new System.Windows.Forms.Button();
 			this.txtEnvBefore = new System.Windows.Forms.TextBox();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.splitInner = new System.Windows.Forms.SplitContainer();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.pnlEvnBefore = new SIL.Pa.Controls.PaTextPanel();
+			this.splitInner = new System.Windows.Forms.SplitContainer();
 			this.pnlSrchItem = new SIL.Pa.Controls.PaTextPanel();
 			this.pnlEnvAfter = new SIL.Pa.Controls.PaTextPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.toolStrip1.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
@@ -65,110 +74,131 @@ namespace SIL.Pa.Dialogs
             this.tbSearchOptions,
             this.toolStripSeparator2,
             this.tbClear});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+			resources.ApplyResources(this.toolStrip1, "toolStrip1");
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(363, 25);
-			this.toolStrip1.TabIndex = 0;
-			this.toolStrip1.Text = "toolStrip1";
 			// 
 			// tbShowResults
 			// 
 			this.tbShowResults.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidShowResults;
-			this.tbShowResults.ImageTransparentColor = System.Drawing.Color.Magenta;
+			resources.ApplyResources(this.tbShowResults, "tbShowResults");
 			this.tbShowResults.Margin = new System.Windows.Forms.Padding(5, 1, 0, 2);
 			this.tbShowResults.Name = "tbShowResults";
-			this.tbShowResults.Size = new System.Drawing.Size(106, 22);
-			this.tbShowResults.Text = "&Show Results";
-			this.tbShowResults.ToolTipText = "Show Search Results";
 			this.tbShowResults.Click += new System.EventHandler(this.tbShowResults_Click);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// tbInsert
 			// 
 			this.tbInsert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tbInsert.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.matchOnZeroOrMoreCharactersToolStripMenuItem,
+            this.oneOrMoreCharactersToolStripMenuItem,
+            this.wordBoundaryToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.consonantPhoneGroupToolStripMenuItem,
+            this.vowelPhoneGroupToolStripMenuItem,
+            this.mnuPhonesInAFeature,
+            this.mnuPhonesInBFeature});
 			this.tbInsert.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidInsertElementIntoPattern;
-			this.tbInsert.ImageTransparentColor = System.Drawing.Color.Magenta;
+			resources.ApplyResources(this.tbInsert, "tbInsert");
 			this.tbInsert.Name = "tbInsert";
-			this.tbInsert.Size = new System.Drawing.Size(29, 22);
-			this.tbInsert.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-			this.tbInsert.ToolTipText = "Insert Element";
+			// 
+			// matchOnZeroOrMoreCharactersToolStripMenuItem
+			// 
+			this.matchOnZeroOrMoreCharactersToolStripMenuItem.Name = "matchOnZeroOrMoreCharactersToolStripMenuItem";
+			resources.ApplyResources(this.matchOnZeroOrMoreCharactersToolStripMenuItem, "matchOnZeroOrMoreCharactersToolStripMenuItem");
+			this.matchOnZeroOrMoreCharactersToolStripMenuItem.Click += new System.EventHandler(this.matchOnZeroOrMoreCharactersToolStripMenuItem_Click);
+			// 
+			// oneOrMoreCharactersToolStripMenuItem
+			// 
+			this.oneOrMoreCharactersToolStripMenuItem.Name = "oneOrMoreCharactersToolStripMenuItem";
+			resources.ApplyResources(this.oneOrMoreCharactersToolStripMenuItem, "oneOrMoreCharactersToolStripMenuItem");
+			this.oneOrMoreCharactersToolStripMenuItem.Click += new System.EventHandler(this.oneOrMoreCharactersToolStripMenuItem_Click);
+			// 
+			// wordBoundaryToolStripMenuItem
+			// 
+			this.wordBoundaryToolStripMenuItem.Name = "wordBoundaryToolStripMenuItem";
+			resources.ApplyResources(this.wordBoundaryToolStripMenuItem, "wordBoundaryToolStripMenuItem");
+			this.wordBoundaryToolStripMenuItem.Click += new System.EventHandler(this.wordBoundaryToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			resources.ApplyResources(this.toolStripMenuItem1, "toolStripMenuItem1");
+			// 
+			// consonantPhoneGroupToolStripMenuItem
+			// 
+			this.consonantPhoneGroupToolStripMenuItem.Name = "consonantPhoneGroupToolStripMenuItem";
+			resources.ApplyResources(this.consonantPhoneGroupToolStripMenuItem, "consonantPhoneGroupToolStripMenuItem");
+			this.consonantPhoneGroupToolStripMenuItem.Click += new System.EventHandler(this.consonantPhoneGroupToolStripMenuItem_Click);
+			// 
+			// vowelPhoneGroupToolStripMenuItem
+			// 
+			this.vowelPhoneGroupToolStripMenuItem.Name = "vowelPhoneGroupToolStripMenuItem";
+			resources.ApplyResources(this.vowelPhoneGroupToolStripMenuItem, "vowelPhoneGroupToolStripMenuItem");
+			this.vowelPhoneGroupToolStripMenuItem.Click += new System.EventHandler(this.vowelPhoneGroupToolStripMenuItem_Click);
+			// 
+			// mnuPhonesInAFeature
+			// 
+			this.mnuPhonesInAFeature.Name = "mnuPhonesInAFeature";
+			resources.ApplyResources(this.mnuPhonesInAFeature, "mnuPhonesInAFeature");
+			// 
+			// mnuPhonesInBFeature
+			// 
+			this.mnuPhonesInBFeature.Name = "mnuPhonesInBFeature";
+			resources.ApplyResources(this.mnuPhonesInBFeature, "mnuPhonesInBFeature");
 			// 
 			// tbSearchOptions
 			// 
 			this.tbSearchOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.tbSearchOptions.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidSearchOptions;
-			this.tbSearchOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+			resources.ApplyResources(this.tbSearchOptions, "tbSearchOptions");
 			this.tbSearchOptions.Name = "tbSearchOptions";
-			this.tbSearchOptions.Size = new System.Drawing.Size(29, 22);
-			this.tbSearchOptions.ToolTipText = "Search Options";
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
 			// 
 			// tbClear
 			// 
 			this.tbClear.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidClearPattern;
-			this.tbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+			resources.ApplyResources(this.tbClear, "tbClear");
 			this.tbClear.Name = "tbClear";
-			this.tbClear.Size = new System.Drawing.Size(56, 22);
-			this.tbClear.Text = "&Clear";
-			this.tbClear.ToolTipText = "Clear Patterns";
 			this.tbClear.Click += new System.EventHandler(this.tbClear_Click);
 			// 
 			// txtSrchItem
 			// 
-			this.txtSrchItem.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtSrchItem.Location = new System.Drawing.Point(0, 26);
-			this.txtSrchItem.Multiline = true;
+			resources.ApplyResources(this.txtSrchItem, "txtSrchItem");
 			this.txtSrchItem.Name = "txtSrchItem";
-			this.txtSrchItem.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtSrchItem.Size = new System.Drawing.Size(349, 66);
-			this.txtSrchItem.TabIndex = 4;
+			this.txtSrchItem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleTextBoxKeyPress);
 			// 
 			// txtEnvAfter
 			// 
-			this.txtEnvAfter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtEnvAfter.Location = new System.Drawing.Point(0, 26);
-			this.txtEnvAfter.Multiline = true;
+			resources.ApplyResources(this.txtEnvAfter, "txtEnvAfter");
 			this.txtEnvAfter.Name = "txtEnvAfter";
-			this.txtEnvAfter.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtEnvAfter.Size = new System.Drawing.Size(349, 66);
-			this.txtEnvAfter.TabIndex = 6;
+			this.txtEnvAfter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleTextBoxKeyPress);
 			// 
 			// btnClose
 			// 
-			this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnClose.Location = new System.Drawing.Point(276, 325);
+			resources.ApplyResources(this.btnClose, "btnClose");
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(80, 26);
-			this.btnClose.TabIndex = 7;
-			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = true;
 			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
 			// 
 			// txtEnvBefore
 			// 
-			this.txtEnvBefore.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtEnvBefore.Location = new System.Drawing.Point(0, 26);
-			this.txtEnvBefore.Multiline = true;
+			resources.ApplyResources(this.txtEnvBefore, "txtEnvBefore");
 			this.txtEnvBefore.Name = "txtEnvBefore";
-			this.txtEnvBefore.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtEnvBefore.Size = new System.Drawing.Size(349, 66);
-			this.txtEnvBefore.TabIndex = 2;
+			this.txtEnvBefore.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleTextBoxKeyPress);
 			// 
 			// splitOuter
 			// 
-			this.splitOuter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitOuter.IsSplitterFixed = true;
-			this.splitOuter.Location = new System.Drawing.Point(7, 6);
+			resources.ApplyResources(this.splitOuter, "splitOuter");
 			this.splitOuter.Name = "splitOuter";
-			this.splitOuter.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
 			// splitOuter.Panel1
 			// 
@@ -178,17 +208,19 @@ namespace SIL.Pa.Dialogs
 			// splitOuter.Panel2
 			// 
 			this.splitOuter.Panel2.Controls.Add(this.splitInner);
-			this.splitOuter.Size = new System.Drawing.Size(349, 284);
-			this.splitOuter.SplitterDistance = 92;
-			this.splitOuter.TabIndex = 9;
+			// 
+			// pnlEvnBefore
+			// 
+			this.pnlEvnBefore.BackColor = System.Drawing.Color.Transparent;
+			this.pnlEvnBefore.ControlReceivingFocusOnMnemonic = this.pnlEvnBefore;
+			resources.ApplyResources(this.pnlEvnBefore, "pnlEvnBefore");
+			this.pnlEvnBefore.MnemonicGeneratesClick = false;
+			this.pnlEvnBefore.Name = "pnlEvnBefore";
 			// 
 			// splitInner
 			// 
-			this.splitInner.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitInner.IsSplitterFixed = true;
-			this.splitInner.Location = new System.Drawing.Point(0, 0);
+			resources.ApplyResources(this.splitInner, "splitInner");
 			this.splitInner.Name = "splitInner";
-			this.splitInner.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
 			// splitInner.Panel1
 			// 
@@ -199,72 +231,38 @@ namespace SIL.Pa.Dialogs
 			// 
 			this.splitInner.Panel2.Controls.Add(this.txtEnvAfter);
 			this.splitInner.Panel2.Controls.Add(this.pnlEnvAfter);
-			this.splitInner.Size = new System.Drawing.Size(349, 188);
-			this.splitInner.SplitterDistance = 92;
-			this.splitInner.TabIndex = 0;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.splitOuter);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(0, 25);
-			this.panel1.Name = "panel1";
-			this.panel1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 10);
-			this.panel1.Size = new System.Drawing.Size(363, 300);
-			this.panel1.TabIndex = 10;
-			// 
-			// pnlEvnBefore
-			// 
-			this.pnlEvnBefore.BackColor = System.Drawing.Color.Transparent;
-			this.pnlEvnBefore.ControlReceivingFocusOnMnemonic = this.pnlEvnBefore;
-			this.pnlEvnBefore.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlEvnBefore.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlEvnBefore.Location = new System.Drawing.Point(0, 0);
-			this.pnlEvnBefore.MnemonicGeneratesClick = false;
-			this.pnlEvnBefore.Name = "pnlEvnBefore";
-			this.pnlEvnBefore.Size = new System.Drawing.Size(349, 26);
-			this.pnlEvnBefore.TabIndex = 3;
-			this.pnlEvnBefore.Text = "Environment &Before";
 			// 
 			// pnlSrchItem
 			// 
 			this.pnlSrchItem.BackColor = System.Drawing.Color.Transparent;
 			this.pnlSrchItem.ControlReceivingFocusOnMnemonic = this.txtSrchItem;
-			this.pnlSrchItem.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlSrchItem.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlSrchItem.Location = new System.Drawing.Point(0, 0);
+			resources.ApplyResources(this.pnlSrchItem, "pnlSrchItem");
 			this.pnlSrchItem.MnemonicGeneratesClick = false;
 			this.pnlSrchItem.Name = "pnlSrchItem";
-			this.pnlSrchItem.Size = new System.Drawing.Size(349, 26);
-			this.pnlSrchItem.TabIndex = 4;
-			this.pnlSrchItem.Text = "Search &Item";
 			// 
 			// pnlEnvAfter
 			// 
 			this.pnlEnvAfter.BackColor = System.Drawing.Color.Transparent;
 			this.pnlEnvAfter.ControlReceivingFocusOnMnemonic = this.txtEnvAfter;
-			this.pnlEnvAfter.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlEnvAfter.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlEnvAfter.Location = new System.Drawing.Point(0, 0);
+			resources.ApplyResources(this.pnlEnvAfter, "pnlEnvAfter");
 			this.pnlEnvAfter.MnemonicGeneratesClick = false;
 			this.pnlEnvAfter.Name = "pnlEnvAfter";
-			this.pnlEnvAfter.Size = new System.Drawing.Size(349, 26);
-			this.pnlEnvAfter.TabIndex = 4;
-			this.pnlEnvAfter.Text = "Environment &After";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.splitOuter);
+			resources.ApplyResources(this.panel1, "panel1");
+			this.panel1.Name = "panel1";
 			// 
 			// RegExpressionSearchDlg
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(363, 360);
 			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "RegExpressionSearchDlg";
-			this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 35);
 			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.Text = "Regular Expression Search";
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.splitOuter.Panel1.ResumeLayout(false);
@@ -301,5 +299,13 @@ namespace SIL.Pa.Dialogs
 		private SIL.Pa.Controls.PaTextPanel pnlSrchItem;
 		private SIL.Pa.Controls.PaTextPanel pnlEnvAfter;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.ToolStripMenuItem matchOnZeroOrMoreCharactersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem oneOrMoreCharactersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem wordBoundaryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem consonantPhoneGroupToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem vowelPhoneGroupToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mnuPhonesInAFeature;
+		private System.Windows.Forms.ToolStripMenuItem mnuPhonesInBFeature;
 	}
 }

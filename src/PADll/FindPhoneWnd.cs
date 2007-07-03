@@ -45,6 +45,8 @@ namespace SIL.Pa
 		private SplitterPanel m_resultsPanel;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
+		private RegExpressionSearchDlg m_regExDlg;
+		private bool m_showRegExDlgButton = false;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -82,8 +84,8 @@ namespace SIL.Pa
 			PaApp.UninitializeProgressBar();
 
 			MinimumSize = PaApp.MinimumViewWindowSize;
-
-			//new RegExpressionSearchDlg().Show();
+			m_showRegExDlgButton =
+				PaApp.SettingsHandler.GetBoolSettingsValue("regexpsearchmode", "allow", false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -753,6 +755,53 @@ namespace SIL.Pa
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is a hidden feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRegularExpressionSearchDialog(object args)
+		{
+			if (m_regExDlg != null)
+				m_regExDlg.Close();
+			else
+			{
+				m_regExDlg = new RegExpressionSearchDlg();
+				m_regExDlg.Show();
+				m_regExDlg.FormClosed += delegate
+				{
+					m_regExDlg.Dispose();
+					m_regExDlg = null;
+				};
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRegularExpressionSearchDialog(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			bool shouldBeVisible = m_showRegExDlgButton;
+			bool shouldBeChecked = (m_regExDlg != null);
+
+			if (shouldBeChecked != itemProps.Checked || shouldBeVisible != itemProps.Visible)
+			{
+				itemProps.Checked = shouldBeChecked;
+				itemProps.Visible = shouldBeVisible;
+				itemProps.Update = true;
+			}
+
+			return true;
+		}
+
 		#endregion
 
 		#region Misc. methods
@@ -1043,7 +1092,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void AddQueryToRecentlyUsedList(SearchQuery query)
 		{
-			if (query == null)
+			if (query == null || query.IsPatternRegExpression)
 				return;
 
 			// TODO: should we consider more than just the pattern (i.e. query options)?

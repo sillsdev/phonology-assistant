@@ -241,6 +241,29 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the entry's phonetic value.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string PhoneticValueWithPrimaryUncertainty
+		{
+			get
+			{
+				if (ContiansUncertainties && m_phones != null)
+				{
+					StringBuilder bldr = new StringBuilder();
+					foreach (string phone in m_phones)
+						bldr.Append(phone);
+
+					return bldr.ToString();
+				}
+
+				return m_phoneticValue == null ? null : m_phoneticValue.Value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a value indicating whether or not the entry's phonetic word contains
 		/// uncertain phones.
 		/// </summary>

@@ -265,7 +265,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PatternTextBox.Designer.cs">
       <DependentUpon>PatternTextBox.cs</DependentUpon>

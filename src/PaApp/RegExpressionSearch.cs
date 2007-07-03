@@ -57,7 +57,10 @@ namespace SIL.Pa
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
 				offset = 0;
-				string phonetic = wordEntry.PhoneticValue;
+				string phonetic = wordEntry.PhoneticValueWithPrimaryUncertainty;
+
+				//if (phonetic == "inaweza")
+				//    offset = 0;
 
 				while (offset < phonetic.Length)
 				{
@@ -69,21 +72,20 @@ namespace SIL.Pa
 					offset = match.Index;
 					length = match.Length;
 
-					// Search for the environment before.
+					// Search for the environment before, looking for a match that
+					// butts up against the match on the search item.
 					match = m_regExBefore.Match(phonetic);
 					while (match.Success && match.Index + match.Length < offset)
-						match = m_regExBefore.Match(phonetic, match.Index + 1);
+					    match = m_regExBefore.Match(phonetic, match.Index + 1);
 
-					if (!match.Success || match.Index + match.Length != offset)
-						break;
-
-					// TODO: This won't work when offset + length goes beyond the end and the pattern is '.'
-					// Search for the environment after.
-					match = m_regExAfter.Match(phonetic, offset);
-					if (!match.Success || match.Index != offset)
-						break;
-
-					resultCache.AddEntryFromRegExpSearch(wordEntry, null, offset, length, false);
+					if (match.Success && match.Index + match.Length == offset)
+					{
+						// Search for the environment after.
+						match = m_regExAfter.Match(phonetic, offset);
+						if (match.Success && match.Index == offset)
+							resultCache.AddEntryFromRegExpSearch(wordEntry, null, offset, length, false);
+					}
+					
 					offset++;
 				}
 			}

@@ -902,4 +902,12 @@
   <data name="kstidGroupByFieldParentToolTip" xml:space="preserve">
     <value>Group By Field</value>
   </data>
+  <data name="kstidRegExpressionSrchDlgText" xml:space="preserve">
+    <value>RegEx</value>
+    <comment>Hidden feature</comment>
+  </data>
+  <data name="kstidRegExpressionSrchDlgToolTip" xml:space="preserve">
+    <value>Regular Expression Search Dialog</value>
+    <comment>Hidden feature</comment>
+  </data>
 </root>

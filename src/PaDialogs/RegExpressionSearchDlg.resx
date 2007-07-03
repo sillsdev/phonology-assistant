@@ -118,6 +118,582 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>0, 0</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="tbShowResults.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tbShowResults.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 22</value>
+  </data>
+  <data name="tbShowResults.Text" xml:space="preserve">
+    <value>&amp;Show Results</value>
+  </data>
+  <data name="tbShowResults.ToolTipText" xml:space="preserve">
+    <value>Show Search Results</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="matchOnZeroOrMoreCharactersToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="matchOnZeroOrMoreCharactersToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Zero or More Characters</value>
+  </data>
+  <data name="oneOrMoreCharactersToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="oneOrMoreCharactersToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;One or More Characters</value>
+  </data>
+  <data name="wordBoundaryToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="wordBoundaryToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Word Boundary</value>
+  </data>
+  <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 6</value>
+  </data>
+  <data name="consonantPhoneGroupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="consonantPhoneGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Consonant Phone Group</value>
+  </data>
+  <data name="vowelPhoneGroupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="vowelPhoneGroupToolStripMenuItem.Text" xml:space="preserve">
+    <value>&amp;Vowel Phone Group</value>
+  </data>
+  <data name="mnuPhonesInAFeature.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="mnuPhonesInAFeature.Text" xml:space="preserve">
+    <value>Phones in Articulatory Feature</value>
+  </data>
+  <data name="mnuPhonesInBFeature.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 22</value>
+  </data>
+  <data name="mnuPhonesInBFeature.Text" xml:space="preserve">
+    <value>Phones in Binary Feature</value>
+  </data>
+  <data name="tbInsert.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tbInsert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 22</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tbInsert.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextBeforeImage</value>
+  </data>
+  <data name="tbInsert.ToolTipText" xml:space="preserve">
+    <value>Insert Element</value>
+  </data>
+  <data name="tbSearchOptions.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tbSearchOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 22</value>
+  </data>
+  <data name="tbSearchOptions.ToolTipText" xml:space="preserve">
+    <value>Search Options</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>6, 25</value>
+  </data>
+  <data name="tbClear.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="tbClear.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 22</value>
+  </data>
+  <data name="tbClear.Text" xml:space="preserve">
+    <value>&amp;Clear</value>
+  </data>
+  <data name="tbClear.ToolTipText" xml:space="preserve">
+    <value>Clear Patterns</value>
+  </data>
+  <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="toolStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 25</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="toolStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="toolStrip1.Text" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Name" xml:space="preserve">
+    <value>toolStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txtSrchItem.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtSrchItem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="txtSrchItem.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtSrchItem.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="txtSrchItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 59</value>
+  </data>
+  <data name="txtSrchItem.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;txtSrchItem.Name" xml:space="preserve">
+    <value>txtSrchItem</value>
+  </data>
+  <data name="&gt;&gt;txtSrchItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtSrchItem.Parent" xml:space="preserve">
+    <value>splitInner.Panel1</value>
+  </data>
+  <data name="&gt;&gt;txtSrchItem.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="txtEnvAfter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtEnvAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="txtEnvAfter.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtEnvAfter.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="txtEnvAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 59</value>
+  </data>
+  <data name="txtEnvAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;txtEnvAfter.Name" xml:space="preserve">
+    <value>txtEnvAfter</value>
+  </data>
+  <data name="&gt;&gt;txtEnvAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtEnvAfter.Parent" xml:space="preserve">
+    <value>splitInner.Panel2</value>
+  </data>
+  <data name="&gt;&gt;txtEnvAfter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnClose.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnClose.Location" type="System.Drawing.Point, System.Drawing">
+    <value>276, 303</value>
+  </data>
+  <data name="btnClose.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 26</value>
+  </data>
+  <data name="btnClose.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btnClose.Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Name" xml:space="preserve">
+    <value>btnClose</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnClose.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="txtEnvBefore.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="txtEnvBefore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 26</value>
+  </data>
+  <data name="txtEnvBefore.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtEnvBefore.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="txtEnvBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 58</value>
+  </data>
+  <data name="txtEnvBefore.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;txtEnvBefore.Name" xml:space="preserve">
+    <value>txtEnvBefore</value>
+  </data>
+  <data name="&gt;&gt;txtEnvBefore.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtEnvBefore.Parent" xml:space="preserve">
+    <value>splitOuter.Panel1</value>
+  </data>
+  <data name="&gt;&gt;txtEnvBefore.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitOuter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitOuter.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitOuter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 6</value>
+  </data>
+  <data name="splitOuter.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="pnlEvnBefore.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlEvnBefore.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlEvnBefore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlEvnBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 26</value>
+  </data>
+  <data name="pnlEvnBefore.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="pnlEvnBefore.Text" xml:space="preserve">
+    <value>Environment &amp;Before</value>
+  </data>
+  <data name="&gt;&gt;pnlEvnBefore.Name" xml:space="preserve">
+    <value>pnlEvnBefore</value>
+  </data>
+  <data name="&gt;&gt;pnlEvnBefore.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlEvnBefore.Parent" xml:space="preserve">
+    <value>splitOuter.Panel1</value>
+  </data>
+  <data name="&gt;&gt;pnlEvnBefore.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel1.Name" xml:space="preserve">
+    <value>splitOuter.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel1.Parent" xml:space="preserve">
+    <value>splitOuter</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitInner.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitInner.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitInner.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="splitInner.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="pnlSrchItem.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlSrchItem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlSrchItem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlSrchItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 26</value>
+  </data>
+  <data name="pnlSrchItem.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="pnlSrchItem.Text" xml:space="preserve">
+    <value>Search &amp;Item</value>
+  </data>
+  <data name="&gt;&gt;pnlSrchItem.Name" xml:space="preserve">
+    <value>pnlSrchItem</value>
+  </data>
+  <data name="&gt;&gt;pnlSrchItem.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlSrchItem.Parent" xml:space="preserve">
+    <value>splitInner.Panel1</value>
+  </data>
+  <data name="&gt;&gt;pnlSrchItem.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel1.Name" xml:space="preserve">
+    <value>splitInner.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel1.Parent" xml:space="preserve">
+    <value>splitInner</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlEnvAfter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlEnvAfter.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlEnvAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlEnvAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 26</value>
+  </data>
+  <data name="pnlEnvAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="pnlEnvAfter.Text" xml:space="preserve">
+    <value>Environment &amp;After</value>
+  </data>
+  <data name="&gt;&gt;pnlEnvAfter.Name" xml:space="preserve">
+    <value>pnlEnvAfter</value>
+  </data>
+  <data name="&gt;&gt;pnlEnvAfter.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlEnvAfter.Parent" xml:space="preserve">
+    <value>splitInner.Panel2</value>
+  </data>
+  <data name="&gt;&gt;pnlEnvAfter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel2.Name" xml:space="preserve">
+    <value>splitInner.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel2.Parent" xml:space="preserve">
+    <value>splitInner</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitInner.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 174</value>
+  </data>
+  <data name="splitInner.SplitterDistance" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="splitInner.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Name" xml:space="preserve">
+    <value>splitInner</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitInner.Parent" xml:space="preserve">
+    <value>splitOuter.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitInner.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel2.Name" xml:space="preserve">
+    <value>splitOuter.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel2.Parent" xml:space="preserve">
+    <value>splitOuter</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitOuter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>349, 262</value>
+  </data>
+  <data name="splitOuter.SplitterDistance" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="splitOuter.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Name" xml:space="preserve">
+    <value>splitOuter</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 6, 7, 10</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 278</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>363, 338</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 35</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Regular Expression Search</value>
+  </data>
+  <data name="&gt;&gt;tbShowResults.Name" xml:space="preserve">
+    <value>tbShowResults</value>
+  </data>
+  <data name="&gt;&gt;tbShowResults.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbInsert.Name" xml:space="preserve">
+    <value>tbInsert</value>
+  </data>
+  <data name="&gt;&gt;tbInsert.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;matchOnZeroOrMoreCharactersToolStripMenuItem.Name" xml:space="preserve">
+    <value>matchOnZeroOrMoreCharactersToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;matchOnZeroOrMoreCharactersToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;oneOrMoreCharactersToolStripMenuItem.Name" xml:space="preserve">
+    <value>oneOrMoreCharactersToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;oneOrMoreCharactersToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;wordBoundaryToolStripMenuItem.Name" xml:space="preserve">
+    <value>wordBoundaryToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;wordBoundaryToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Name" xml:space="preserve">
+    <value>toolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;toolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;consonantPhoneGroupToolStripMenuItem.Name" xml:space="preserve">
+    <value>consonantPhoneGroupToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;consonantPhoneGroupToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;vowelPhoneGroupToolStripMenuItem.Name" xml:space="preserve">
+    <value>vowelPhoneGroupToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;vowelPhoneGroupToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mnuPhonesInAFeature.Name" xml:space="preserve">
+    <value>mnuPhonesInAFeature</value>
+  </data>
+  <data name="&gt;&gt;mnuPhonesInAFeature.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mnuPhonesInBFeature.Name" xml:space="preserve">
+    <value>mnuPhonesInBFeature</value>
+  </data>
+  <data name="&gt;&gt;mnuPhonesInBFeature.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbSearchOptions.Name" xml:space="preserve">
+    <value>tbSearchOptions</value>
+  </data>
+  <data name="&gt;&gt;tbSearchOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tbClear.Name" xml:space="preserve">
+    <value>tbClear</value>
+  </data>
+  <data name="&gt;&gt;tbClear.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>RegExpressionSearchDlg</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

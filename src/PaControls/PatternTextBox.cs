@@ -67,7 +67,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetSearchQuery(SearchQuery query)
 		{
-			if (query == m_searchQuery)
+			if (query == m_searchQuery || query.IsPatternRegExpression)
 				return;
 
 			if (query == null)
@@ -501,15 +501,29 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
-			// Automatically insert a closing brace or bracket
-			// when the user enters an opening counterpart.
-			if (e.KeyChar == '[' || e.KeyChar == '{')
+			// When 'C' is entered then automatically insert "[C]".
+			// When 'V' is entered then automatically insert "[V]".
+			// But only when the previous character is not '['.
+			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
 			{
 				m_ignoreTextChange = true;
-				txtPattern.Text = txtPattern.Text.Insert(selStart, (e.KeyChar == '[' ? "]" : "}"));
-				txtPattern.SelectionStart = selStart;
+				txtPattern.Text = txtPattern.Text.Insert(selStart, ("[" + e.KeyChar.ToString() + "]"));
 				m_ignoreTextChange = false;
+				e.KeyChar = (char)0;
+				e.Handled = true;
+				txtPattern.SelectionStart = selStart + 3;
+				return;
 			}
+
+			//// Uncomment to automatically insert a closing brace or
+			//// bracket when the user enters an opening counterpart.
+			//if (e.KeyChar == '[' || e.KeyChar == '{')
+			//{
+			//    m_ignoreTextChange = true;
+			//    txtPattern.Text = txtPattern.Text.Insert(selStart, (e.KeyChar == '[' ? "]" : "}"));
+			//    txtPattern.SelectionStart = selStart;
+			//    m_ignoreTextChange = false;
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
