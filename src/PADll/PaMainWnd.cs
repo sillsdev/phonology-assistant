@@ -375,6 +375,9 @@ namespace SIL.Pa
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
 				vwTabGroup.Tabs.IndexOf(vwTabGroup.CurrentTab));
 
+			// Close all the instances of SA that we started, if there are any.
+			DataSourceEditor.CloseSAInstances();
+			
 			TempRecordCache.Dispose();
 			vwTabGroup.CloseAllViews();
 			m_shuttingDown = false;

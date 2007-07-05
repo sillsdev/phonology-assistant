@@ -17,6 +17,9 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class DataSourceEditor
 	{
+		private static List<Process> s_saProcesses;
+		private static bool s_appExitEventHooked = false;
+		
 		private bool m_showFwJumpUrlDlg = false;
 		private string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
 			"[AudioFiles]\nFile0={1}\n[BeginningWAVOffsets]\nOffset0={2}\n" +
@@ -270,7 +273,53 @@ namespace SIL.Pa
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + saPath + "\"";
 			prs.StartInfo.Arguments = "-l " + lstFile;
+			prs.EnableRaisingEvents = true;
+			prs.Exited += new EventHandler(SA_Exited);
+
+			// Create a new collection to hold the new process.
+			if (s_saProcesses == null)
+				s_saProcesses = new List<Process>();
+
+			// Save the process so PA has a record of it. (See CloseSAInstances, below)
+			s_saProcesses.Add(prs);
+			
 			prs.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When an SA process quites, then remove it from our collection of SA process PA
+		/// started.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void SA_Exited(object sender, EventArgs e)
+		{
+			Process prs = sender as Process;
+			if (prs != null)
+			{
+				prs.Exited -= SA_Exited;
+				s_saProcesses.Remove(prs);
+
+				if (s_saProcesses.Count == 0)
+					s_saProcesses = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes all instances of SA that PA started.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CloseSAInstances()
+		{
+			if (s_saProcesses != null)
+			{
+				foreach (Process prs in s_saProcesses)
+				{
+					prs.Exited -= SA_Exited;
+					prs.CloseMainWindow();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
