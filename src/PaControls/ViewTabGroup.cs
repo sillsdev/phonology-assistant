@@ -1018,11 +1018,8 @@ namespace SIL.Pa.Controls
 
 			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", this);
 
-			// Create an instance of the view's form and monitor the form's closing events.
+			// Create an instance of the view's form
 			m_viewsForm = (Form)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
-			m_viewsForm.FormClosing += new FormClosingEventHandler(m_viewsForm_FormClosing);
-			m_viewsForm.FormClosed += new FormClosedEventHandler(m_viewsForm_FormClosed);
-			m_viewsForm.Activated += new EventHandler(m_viewsForm_Activated);
 
 			if (!(m_viewsForm is ITabView))
 			{
@@ -1054,10 +1051,16 @@ namespace SIL.Pa.Controls
 			else
 			{
 				m_viewsForm.Opacity = 0;
+
 				// Form must be shown or we don't get any closing events.
 				m_viewsForm.Show();
 				DockView();
 			}
+
+			// Monitor the form's closing and activation events.
+			m_viewsForm.FormClosing += new FormClosingEventHandler(m_viewsForm_FormClosing);
+			m_viewsForm.FormClosed += new FormClosedEventHandler(m_viewsForm_FormClosed);
+			m_viewsForm.Activated += new EventHandler(m_viewsForm_Activated);
 
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
 			return m_viewsForm;
@@ -1111,6 +1114,11 @@ namespace SIL.Pa.Controls
 
 			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", this);
 
+			// When a view is being docked for the first time, this sometimes causes, what
+			// looks like, a break in the message processing. The effect is that PA looks
+			// like it has stopped responding. The way to cause it to break free is to move
+			// the mouse over PA's main window or click on the desktop or another application.
+			// I haven't been able to find a successful solution.
 			m_viewsForm.Visible = false;
 
 			if (m_viewsForm.Controls.Contains(m_viewsControl))
@@ -1119,14 +1127,14 @@ namespace SIL.Pa.Controls
 			Visible = true;
 			m_owningTabGroup.ViewWasDocked(this);
 			m_viewsForm.ShowInTaskbar = false;
-			
+
 			m_viewsControl.Visible = false;
 			m_viewsControl.Size = m_owningTabGroup.ClientSize;
 			m_owningTabGroup.Controls.Add(m_viewsControl);
 			m_viewsControl.PerformLayout();
 			m_viewsControl.Visible = true;
 			m_viewsControl.BringToFront();
-			
+
 			((ITabView)m_viewsForm).ViewDocked();
 			m_viewDocked = true;
 			m_ignoreTabSelection = true;
@@ -1137,7 +1145,6 @@ namespace SIL.Pa.Controls
 				m_viewsControl.FindForm().Activate();
 
 			m_viewsControl.Focus();
-
 			InitializeDockedToolTipControl();
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
 		}

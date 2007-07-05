@@ -365,8 +365,6 @@ namespace SIL.Pa
 			
 			ViewDocked();
 			PaApp.UninitializeProgressBar();
-			Application.DoEvents();
-
 			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 

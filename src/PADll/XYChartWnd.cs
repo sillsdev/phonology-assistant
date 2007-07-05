@@ -904,7 +904,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void lvSavedCharts_Resize(object sender, EventArgs e)
 		{
-			Application.DoEvents();
 			hdrSavedCharts.Width = lvSavedCharts.ClientSize.Width - 3;
 		}
 

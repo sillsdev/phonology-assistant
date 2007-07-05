@@ -617,20 +617,17 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void m_grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex != 3 || e.RowIndex < 0)
-				return;
-
-			SFMarkerMapping mapping = m_mappings[e.RowIndex];
-			PaFieldInfo fieldInfo = PaApp.FieldInfo[mapping.FieldName];
-			
-			if (fieldInfo == null || !fieldInfo.CanBeInterlinear)
+			if (e.ColumnIndex == 3 && e.RowIndex >= 0)
 			{
-				if (!m_grid[e.ColumnIndex, e.RowIndex].ReadOnly)
-					m_grid[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+				SFMarkerMapping mapping = m_mappings[e.RowIndex];
+				PaFieldInfo fieldInfo = PaApp.FieldInfo[mapping.FieldName];
 
-				bool selected = (e.State & DataGridViewElementStates.Selected) > 0;
-				e.PaintBackground(e.ClipBounds, selected);
-				e.Handled = true;
+				if (fieldInfo == null || !fieldInfo.CanBeInterlinear)
+				{
+					bool selected = (e.State & DataGridViewElementStates.Selected) > 0;
+					e.PaintBackground(e.ClipBounds, selected);
+					e.Handled = true;
+				}
 			}
 		}
 
@@ -774,10 +771,16 @@ namespace SIL.Pa.Dialogs
 					if (mapping.IsInterlinear)
 						mapping.IsInterlinear = false;
 				}
-				if (m_grid != null)
-					m_grid.Refresh();
 			}
 
+			if (m_grid != null)
+			{
+				m_grid.Columns[3].ReadOnly = !rbInterlinearize.Checked;
+				m_grid.Refresh();
+			}
+
+			// The rest of the code in this method deals with building
+			// the appropriate sample portion of the panel.
 			rtfSampleInput.Rtf = (rbInterlinearize.Checked ?
 				Properties.Resources.kstidInterlinearSampleInput :
 				Properties.Resources.kstidSampleInput);

@@ -528,7 +528,7 @@ namespace SIL.Pa.Dialogs
 				foreach (string file in filenames)
 				{
 					if (!ProjectContainsDataSource(file))
-						m_project.DataSources.Add(new PaDataSource(file, m_project.DefaultMappings));
+						m_project.DataSources.Add(new PaDataSource(file));
 				}
 
 				LoadGrid(m_grid.Rows.Count);
@@ -666,15 +666,6 @@ namespace SIL.Pa.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					// If no default mappings yet exist for this project, then clone the ones
-					// from the query source whose mappings were just specified.
-					if (m_project.DefaultMappings == null || m_project.DefaultMappings.Count == 0)
-					{
-						m_project.DefaultMappings = new List<SFMarkerMapping>();
-						foreach (SFMarkerMapping mapping in dataSource.SFMappings)
-							m_project.DefaultMappings.Add(mapping.Clone());
-					}
-
 					if (((OKCancelDlgBase)dlg).ChangesWereMade)
 						m_dirty = true;
 				}

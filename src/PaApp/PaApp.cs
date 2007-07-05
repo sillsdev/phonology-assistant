@@ -1093,7 +1093,6 @@ namespace SIL.Pa
 			}
 
 			Application.UseWaitCursor = false;
-			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------

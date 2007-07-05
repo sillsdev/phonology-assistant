@@ -88,7 +88,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(string filename, List<SFMarkerMapping> defaultMappings)
+		public PaDataSource(string filename)
 		{
 			m_file = filename.Trim();
 
@@ -108,17 +108,15 @@ namespace SIL.Pa
 				m_lastModification = File.GetLastWriteTimeUtc(filename);
 			
 			if (m_sourceType == DataSourceType.SFM || m_sourceType == DataSourceType.Toolbox)
-				MakeNewMappingsList(defaultMappings);
+				MakeNewMappingsList();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Builds a list of mappings for an SFM or Toolbox datasource.
+		/// Builds a list of mappings for an SFM or Toolbox data source.
 		/// </summary>
-		/// <param name="defaultMappings"></param>
-		/// <param name="fieldInfoList"></param>
 		/// ------------------------------------------------------------------------------------
-		private void MakeNewMappingsList(List<SFMarkerMapping> defaultMappings)
+		private void MakeNewMappingsList()
 		{
 			m_mappings = new List<SFMarkerMapping>();
 			m_mappings.Add(new SFMarkerMapping(PaDataSource.kRecordMarker));
@@ -131,19 +129,6 @@ namespace SIL.Pa
 			{
 				SFMarkerMapping newMapping = new SFMarkerMapping(fieldInfo);
 				m_mappings.Add(newMapping);
-
-				if (defaultMappings == null)
-					continue;
-
-				foreach (SFMarkerMapping mapping in defaultMappings)
-				{
-					if (mapping.FieldName == fieldInfo.FieldName)
-					{
-						newMapping.Marker = mapping.Marker;
-						newMapping.IsInterlinear = mapping.IsInterlinear;
-						break;
-					}
-				}
 			}
 		}
 

@@ -210,7 +210,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Histogram.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
@@ -262,7 +262,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
       <SubType>UserControl</SubType>

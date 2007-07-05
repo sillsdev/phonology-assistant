@@ -26,7 +26,6 @@ namespace SIL.Pa
 		private string m_speakerName = null;
 		private string m_comments = null;
 		private List<PaDataSource> m_dataSources = new List<PaDataSource>();
-		private List<SFMarkerMapping> m_defaultMappings;
 		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
 		private PaFieldInfoList m_fieldInfoList;
@@ -81,9 +80,6 @@ namespace SIL.Pa
 			if (m_dataSources != null)
 				m_dataSources.Clear();
 
-			if (m_defaultMappings != null)
-				m_defaultMappings.Clear();
-
 			if (m_classes != null)
 			    m_classes.Clear();
 
@@ -100,7 +96,6 @@ namespace SIL.Pa
 				m_ambiguousSeqList.Clear();
 
 			m_dataSources = null;
-			m_defaultMappings = null;
 			m_classes = null;
 			m_queryGroups = null;
 			m_fieldInfoList = null;
@@ -784,18 +779,6 @@ namespace SIL.Pa
 		public PaFieldInfoList FieldInfo
 		{
 			get { return m_fieldInfoList; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a list of default mappings for the project to be applied to new
-		/// SFM files as they're added to the project's list of data sources.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<SFMarkerMapping> DefaultMappings
-		{
-			get { return m_defaultMappings; }
-			set { m_defaultMappings = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

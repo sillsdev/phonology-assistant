@@ -189,7 +189,7 @@ namespace SIL.Pa.Controls
 
 			// Insert the first group heading row.
 			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				GetCIEGroupText(cache[0]), fnt, 0, lastChild));
+				CIEBuilder.GetCIEPattern(cache[0], m_grid.CIEOptions), fnt, 0, lastChild));
 			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
 				new SilHierarchicalGridRow.ExpandedStateChangedHandler(m_grid.GroupExpandedChangedHandler);
 			
@@ -197,29 +197,6 @@ namespace SIL.Pa.Controls
 			m_grid.m_suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds the text for the group heading row for a minimal pair group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string GetCIEGroupText(WordListCacheEntry entry)
-		{
-			string before = "*";
-			string after = "*";
-
-			if (m_grid.CIEOptions.Type == CIEOptions.IdenticalType.After)
-				after = (string.IsNullOrEmpty(entry.EnvironmentAfter) ? "#" : entry.EnvironmentAfter);
-			else if (m_grid.CIEOptions.Type == CIEOptions.IdenticalType.Before)
-				before = (string.IsNullOrEmpty(entry.EnvironmentBefore) ? "#" : entry.EnvironmentBefore);
-			else
-			{
-				before = (string.IsNullOrEmpty(entry.EnvironmentBefore) ? "#" : entry.EnvironmentBefore);
-				after = (string.IsNullOrEmpty(entry.EnvironmentAfter) ? "#" : entry.EnvironmentAfter);
-			}
-
-			return before + "__" + after;
 		}
 	}
 }

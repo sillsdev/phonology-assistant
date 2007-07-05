@@ -19,7 +19,6 @@ namespace SIL.Pa
 		private SortOptions m_sortOptions;
 		private CIEOptions m_cieOptions;
 		private WordListCache m_cache;
-		private List<string> m_ignoredList;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -75,11 +74,7 @@ namespace SIL.Pa
 		public CIEOptions CIEOptions
 		{
 			get { return m_cieOptions; }
-			set
-			{
-				m_cieOptions = (value == null ? new CIEOptions() : value);
-				m_ignoredList = m_cieOptions.SearchQuery.CompleteIgnoredList;
-			}
+			set {m_cieOptions = (value == null ? new CIEOptions() : value);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,7 +95,7 @@ namespace SIL.Pa
 
 			foreach (WordListCacheEntry entry in m_cache)
 			{
-				string pattern = GetCIEPattern(entry);
+				string pattern = GetCIEPattern(entry, m_cieOptions);
 
 				List<WordListCacheEntry> entryList;
 				if (!cieGroups.TryGetValue(pattern, out entryList))
@@ -143,22 +138,22 @@ namespace SIL.Pa
 		/// appropriate to the CIE options.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetCIEPattern(WordListCacheEntry entry)
+		public static string GetCIEPattern(WordListCacheEntry entry, CIEOptions cieOptions)
 		{
-			if (m_cieOptions.Type == CIEOptions.IdenticalType.After)
+			if (cieOptions.Type == CIEOptions.IdenticalType.After)
 			{
-				string env = RemoveIgnoredCharacters(entry.EnvironmentAfter);
+				string env = RemoveIgnoredCharacters(entry.EnvironmentAfter, cieOptions);
 				return ("*__" + (string.IsNullOrEmpty(env) ? "#" : env));
 			}
 
-			if (m_cieOptions.Type == CIEOptions.IdenticalType.Before)
+			if (cieOptions.Type == CIEOptions.IdenticalType.Before)
 			{
-				string env = RemoveIgnoredCharacters(entry.EnvironmentBefore);
+				string env = RemoveIgnoredCharacters(entry.EnvironmentBefore, cieOptions);
 				return ((string.IsNullOrEmpty(env) ? "#" : env) + "__*");
 			}
 
-			string before = RemoveIgnoredCharacters(entry.EnvironmentBefore);
-			string after = RemoveIgnoredCharacters(entry.EnvironmentAfter);
+			string before = RemoveIgnoredCharacters(entry.EnvironmentBefore, cieOptions);
+			string after = RemoveIgnoredCharacters(entry.EnvironmentAfter, cieOptions);
 
 			return ((string.IsNullOrEmpty(before) ? "#" : before) + "__" +
 				(string.IsNullOrEmpty(after) ? "#" : after));
@@ -169,19 +164,20 @@ namespace SIL.Pa
 		/// Removes ignored characters from the specified environment string.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string RemoveIgnoredCharacters(string environment)
+		private static string RemoveIgnoredCharacters(string environment, CIEOptions cieOptions)
 		{
 			if (string.IsNullOrEmpty(environment))
 				return null;
 
+			List<string> ignoredList = cieOptions.SearchQuery.CompleteIgnoredList; 
 			StringBuilder bldrEnv = new StringBuilder(environment);
 
 			// Get rid of all explicitly ignored characters (as opposed to
 			// getting rid of all characters that are considered diacritics).
-			foreach (string ignoredChar in m_ignoredList)
+			foreach (string ignoredChar in ignoredList)
 				bldrEnv = bldrEnv.Replace(ignoredChar, string.Empty);
 
-			if (m_cieOptions.SearchQuery.IgnoreDiacritics)
+			if (cieOptions.SearchQuery.IgnoreDiacritics)
 			{
 				// Loop through the characters in the environment string,
 				// getting rid of diacritics.
