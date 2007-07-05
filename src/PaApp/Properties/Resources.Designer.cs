@@ -235,7 +235,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No editor has been specified for the data source to which this record belongs..
+        ///   Looks up a localized string similar to No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information..
         /// </summary>
         internal static string kstidNoDataSourceEditorSpecifiedMsg {
             get {
@@ -406,7 +406,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Toolbox is not running. You must have Toolbox running for this feature to work..
+        ///   Looks up a localized string similar to For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information..
         /// </summary>
         internal static string kstidToolboxNotRunningMsg {
             get {

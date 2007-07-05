@@ -427,6 +427,20 @@ namespace SIL.Pa.Controls
 		{
 			Hide();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the popup has focus, using the up, down or esc will allow the user to get
+		/// back to scrolling through the word list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Down || keyData == Keys.Up || keyData == Keys.Escape)
+				Hide();
+		
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
 	}
 }
 
