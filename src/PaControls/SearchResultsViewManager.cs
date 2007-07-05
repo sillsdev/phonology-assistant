@@ -353,10 +353,10 @@ namespace SIL.Pa.Controls
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
 				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList)));
 
-			if (itemProps.Enabled != enable)
+			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsExpanded))
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = enable;
+				itemProps.Enabled = (enable && !CurrentViewsGrid.AllGroupsExpanded);
 				itemProps.Update = true;
 			}
 
@@ -386,7 +386,21 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			return OnUpdateExpandAllGroups(args);
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+				return false;
+
+			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
+				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList)));
+
+			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsCollapsed))
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = (enable && !CurrentViewsGrid.AllGroupsCollapsed);
+				itemProps.Update = true;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

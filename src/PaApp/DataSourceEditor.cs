@@ -18,7 +18,6 @@ namespace SIL.Pa
 	public class DataSourceEditor
 	{
 		private static List<Process> s_saProcesses;
-		private static bool s_appExitEventHooked = false;
 		
 		private bool m_showFwJumpUrlDlg = false;
 		private string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +

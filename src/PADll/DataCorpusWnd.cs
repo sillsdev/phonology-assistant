@@ -593,10 +593,10 @@ namespace SIL.Pa
 			if (!PaApp.IsFormActive(this) || itemProps == null)
 				return false;
 
-			if (itemProps.Enabled != m_grid.IsGroupedByField)
+			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsExpanded))
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = m_grid.IsGroupedByField;
+				itemProps.Enabled = (m_grid.IsGroupedByField && !m_grid.AllGroupsExpanded);
 				itemProps.Update = true;
 			}
 
@@ -624,7 +624,18 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			return OnUpdateExpandAllGroups(args);
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!PaApp.IsFormActive(this) || itemProps == null)
+				return false;
+
+			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsCollapsed))
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = (m_grid.IsGroupedByField && !m_grid.AllGroupsCollapsed);
+				itemProps.Update = true;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

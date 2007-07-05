@@ -60,8 +60,9 @@ namespace SIL.Pa.Controls
 		private string m_dataSourcePathFieldName;
 		private PaFieldInfo m_groupByField = null;
 
-		//private bool m_allGroupsCollapsed = false;
-		//private bool m_ToggleGroupExpansion = false;
+		private bool m_allGroupsCollapsed = false;
+		private bool m_allGroupsExpanded = true;
+		private bool m_ToggleGroupExpansion = false;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -528,16 +529,27 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Properties
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets or sets the AllGroupsCollapsed for the grid.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public bool AllGroupsCollapsed
-		//{
-		//    get { return m_allGroupsCollapsed; }
-		//    set { m_allGroupsCollapsed = value; }
-		//}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the AllGroupsCollapsed for the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AllGroupsCollapsed
+		{
+			get { return m_allGroupsCollapsed; }
+			set { m_allGroupsCollapsed = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the AllGroupsCollapsed for the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AllGroupsExpanded
+		{
+			get { return m_allGroupsExpanded; }
+			set { m_allGroupsExpanded = value; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -2132,7 +2144,32 @@ namespace SIL.Pa.Controls
 			Columns[colName].HeaderCell.SortGlyphDirection =
 				(ascending ? SortOrder.Ascending : SortOrder.Descending);
 
-			WordListGroupingBuilder.Group(this);
+			// UnGroup and ReGroup by new sort column
+			bool allGroupCollapsed = false;
+			if (IsGroupedByField && !Cache.IsCIEList)
+			{
+				allGroupCollapsed = AllGroupsCollapsed;
+				PaFieldInfo groupByField = m_groupByField;
+				//ToggleGroupExpansion(true);
+				m_groupByField = null;
+				WordListGroupingBuilder.UnGroup(this);
+				m_groupByField = groupByField;
+
+				// This code is necessary for correctly changing the Group Headings
+				if (SortOptions.SortInformationList != null &&
+					SortOptions.SortInformationList.Count > 0)
+				{
+					m_groupByField = SortOptions.SortInformationList[0].FieldInfo;
+				}
+			}
+
+			// Can't be Grouped By Field and Minimal Pairs at the same time.
+			if (IsGroupedByField && !Cache.IsCIEList)
+				WordListGroupingBuilder.Group(this);
+
+			// Recollapse all groups if needed
+			if (allGroupCollapsed)
+				ToggleGroupExpansion(false);
 			
 			// Make the grid update its display
 			Invalidate();
@@ -2150,7 +2187,11 @@ namespace SIL.Pa.Controls
 			if (!IsGroupedByField && !m_cache.IsCIEList)
 				return;
 
-			//m_ToggleGroupExpansion = true;
+			// All the Sorted row groups were either expanded or collapsed
+			m_ToggleGroupExpansion = true;
+			AllGroupsCollapsed = !expand;
+			AllGroupsExpanded = expand;
+
 			Application.UseWaitCursor = true;
 			PaApp.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
 				Properties.Resources.kstidCollapsingGroups, RowCount);
@@ -2172,7 +2213,7 @@ namespace SIL.Pa.Controls
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			Application.UseWaitCursor = false;
-			//m_ToggleGroupExpansion = false;
+			m_ToggleGroupExpansion = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2784,44 +2825,50 @@ namespace SIL.Pa.Controls
 				FindInfo.ResetStartSearchCell(false);
 			}
 
-			// THIS CODE IS BEING KEPT SO IT CAN BE POSSIBLE USED FOR THE
-			// ENABLING/DISABLING OF THE 'COLLAPSE ALL GROUPS' AND 'EXPAND
-			// ALL GROUPS' TOOLBAR BUTTONS AND MENU SELECTIONS.
+			// Enable/disable the 'Collapse all groups' and 'Expand all groups' toolbar 
+			// buttons and menu selections.
 
-			//// All the Sorted row groups were either expanded or collapsed 
-			//if (m_ToggleGroupExpansion)
-			//{
-			//    if (row.Expanded)
-			//        AllGroupsCollapsed = false;
-			//    else
-			//        AllGroupsCollapsed = true;
-			//    return;
-			//}
+			// All the Sorted row groups were either expanded or collapsed.
+			// This logic is handled in the method ToggleGroupExpansion()
+			if (m_ToggleGroupExpansion)
+				return;
 
-			//// Single hierarchical row expanded
-			//if (row.Expanded)
-			//{
-			//    if (AllGroupsCollapsed)
-			//        AllGroupsCollapsed = false;
-			//    return;
-			//}
+			// Single hierarchical row expanded
+			if (row.Expanded && AllGroupsCollapsed)
+			{
+				AllGroupsCollapsed = false;
+				return;
+			}
 
-			//// Single hierarchical row collapsed
+			// Single hierarchical row collapsed
+			if (!row.Expanded && AllGroupsExpanded)
+			{
+				AllGroupsExpanded = false;
+				return;
+			}
 
-			//// Loop through all the SilHierarchicalGridRow's and see if any
-			//// of them are expanded. If so, set AllGroupsCollapsed to false.
-			//foreach (DataGridViewRow dgvRow in Rows)
-			//{
-			//    if (dgvRow is SilHierarchicalGridRow)
-			//    {
-			//        if ((dgvRow as SilHierarchicalGridRow).Expanded)
-			//        {
-			//            AllGroupsCollapsed = false;
-			//            return;
-			//        }
-			//    }
-			//}
-			//AllGroupsCollapsed = true;
+			// Loop through all the SilHierarchicalGridRow's and see if any
+			// of them are expanded. If so, set AllGroupsCollapsed to false.
+			AllGroupsCollapsed = true;
+			AllGroupsExpanded = true;
+			foreach (DataGridViewRow dgvRow in Rows)
+			{
+				if (dgvRow is SilHierarchicalGridRow)
+				{
+					if ((dgvRow as SilHierarchicalGridRow).Expanded)
+					{
+						AllGroupsCollapsed = false;
+						if (!AllGroupsExpanded)
+							return;
+					}
+					else
+					{
+						AllGroupsExpanded = false;
+						if (!AllGroupsCollapsed)
+							return;
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
