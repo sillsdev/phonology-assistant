@@ -94,7 +94,10 @@ namespace SIL.Pa
 
 			// Make sure an editor has been specified.
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
-				msg = Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg;
+			{
+				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
+					recEntry.DataSource.DataSourceFile);
+			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
@@ -126,8 +129,9 @@ namespace SIL.Pa
 		{
 			if (!IsToolboxRunning)
 			{
-			    string msg = Properties.Resources.kstidToolboxNotRunningMsg;
-			    STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
+					recEntry.DataSource.DataSourceFile);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 			    return;
 			}
 

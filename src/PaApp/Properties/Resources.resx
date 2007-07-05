@@ -185,7 +185,7 @@
     <value>This project doesn't contain a field definition for audio files.</value>
   </data>
   <data name="kstidNoDataSourceEditorSpecifiedMsg" xml:space="preserve">
-    <value>No editor has been specified for the data source to which this record belongs.</value>
+    <value>No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.</value>
   </data>
   <data name="kstidNoToolboxSortFieldSpecified" xml:space="preserve">
     <value>The first Toolbox sort field for this record's data source has not\nbeen specified. To specify the first Toolbox sort field, go to the\ndata source's properties from the project properties dialog.</value>
@@ -255,7 +255,7 @@
     <value>Loading...</value>
   </data>
   <data name="kstidToolboxNotRunningMsg" xml:space="preserve">
-    <value>Toolbox is not running. You must have Toolbox running for this feature to work.</value>
+    <value>For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.</value>
   </data>
   <data name="kstidUnableToEditSourceRecordMsg" xml:space="preserve">
     <value>There is no source record editor associated with this record.</value>
