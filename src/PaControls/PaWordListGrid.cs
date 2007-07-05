@@ -2392,6 +2392,7 @@ namespace SIL.Pa.Controls
 			if (CurrentRow != null)
 				InvalidateRow(CurrentRow.Index);
 
+			Cursor = Cursors.Default;
 			return false;
 		}
 
