@@ -19,6 +19,7 @@ namespace SIL.Pa.Controls
 		public delegate void SortOptionsChangedHandler(SortOptions sortOptions);
 		public event SortOptionsChangedHandler SortOptionsChanged;
 		
+		// These values may be adjusted when the system's dpi setting is greater than 96.
 		private const int kHeightWithoutAdvacedOpts = 110;
 		private const int kFullHeightWithoutHelp = 217;
 		private const int kFullHeightWithHelp = 242;
@@ -28,13 +29,13 @@ namespace SIL.Pa.Controls
 		private RadioButton[] m_rbAdvSort1;
 		private RadioButton[] m_rbAdvSort2;
 		private CheckBox[] m_cbRL;
-		private Panel[] m_pnlAdvSort;
 		private int[] m_checkedIndexes;
 		private SortOptions m_sortOptions;
 		private ITMAdapter m_tmAdapter;
 		private bool m_makePhoneticPrimarySortFieldOnChange = true;
 		private bool m_showHelpLink = true;
 		private bool m_showAdvancedOptions = false;
+		private int m_widestSortTypeRadioButton;
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +59,6 @@ namespace SIL.Pa.Controls
 			m_rbAdvSort0 = new RadioButton[] { rbBefore1st, rbItem1st, rbAfter1st };
 			m_rbAdvSort1 = new RadioButton[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
 			m_rbAdvSort2 = new RadioButton[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
-			m_pnlAdvSort = new Panel[] { pnl0AdvSort, pnl1AdvSort, pnl2AdvSort };
 			m_cbRL = new CheckBox[] { cbBeforeRL, cbItemRL, cbAfterRL };
 
 			// Keeps track of selected advanced sorting radio buttons
@@ -66,12 +66,8 @@ namespace SIL.Pa.Controls
 			m_checkedIndexes[0] = m_sortOptions.AdvSortOrder[0];
 			m_checkedIndexes[1] = m_sortOptions.AdvSortOrder[1];
 			m_checkedIndexes[2] = m_sortOptions.AdvSortOrder[2];
-			
-			// Assign EventHandlers
-			AssignEventHandlers();
 
-			lnkHelp.Top = ClientRectangle.Bottom - lnkHelp.Height - 10;
-			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;
+			AdjustControls();
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -121,6 +117,73 @@ namespace SIL.Pa.Controls
 			lnkHelp.Font = FontHelper.UIFont;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adjusts the size of controls on the drop-down and the drop-down itself. Because
+		/// things get sort of out of wack when the system's dpi is changed from 96, we need
+		/// to adjust these things manually.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AdjustControls()
+		{
+			// Find the widest of the 3 upper radio buttons.
+			m_widestSortTypeRadioButton = rbPlaceArticulation.Width;
+			m_widestSortTypeRadioButton =
+				Math.Max(m_widestSortTypeRadioButton, rbMannerArticulation.Width);
+			m_widestSortTypeRadioButton =
+				Math.Max(m_widestSortTypeRadioButton, rbUnicodeOrder.Width);
+
+			int addToWidth = 0;
+
+			if (lblBefore.Width < lblBefore.PreferredWidth)
+				addToWidth += (lblBefore.PreferredWidth - lblBefore.Width);
+
+			if (lblItem.Width < lblItem.PreferredWidth)
+				addToWidth += (lblItem.PreferredWidth - lblItem.Width);
+
+			if (lblAfter.Width < lblAfter.PreferredWidth)
+				addToWidth += (lblAfter.PreferredWidth - lblAfter.Width);
+
+			if (lblFirst.Width < lblFirst.PreferredWidth)
+				addToWidth += (lblFirst.PreferredWidth - lblFirst.Width);
+
+			if (lblSecond.Width < lblSecond.PreferredWidth)
+				addToWidth += (lblSecond.PreferredWidth - lblSecond.Width);
+
+			if (lblThird.Width < lblThird.PreferredWidth)
+				addToWidth += (lblThird.PreferredWidth - lblThird.Width);
+
+			if (lblRL.Width < lblRL.PreferredWidth)
+				addToWidth += (lblRL.PreferredWidth - lblRL.Width);
+
+			// Add 10 more for good measure and set the width of the drop-down.
+			grpAdvSortOptions.Width += (addToWidth + 15);
+			Width = Math.Max(grpAdvSortOptions.Width + 12,
+				m_widestSortTypeRadioButton + 12);
+
+			lnkHelp.Top = ClientRectangle.Bottom - lnkHelp.Height - 8;
+			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+
+			// Center the advanced sort options group box.
+			grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
+			
+			// Center the advanced sort options group box and the sort type radio buttons.
+			grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
+			rbPlaceArticulation.Left = (Width - m_widestSortTypeRadioButton) / 2;
+			rbMannerArticulation.Left = (Width - m_widestSortTypeRadioButton) / 2;
+			rbUnicodeOrder.Left = (Width - m_widestSortTypeRadioButton) / 2;
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -136,8 +199,6 @@ namespace SIL.Pa.Controls
 			{
 				m_sortOptions = (value == null ? new SortOptions(true) : value);
 
-				UnassignEventHandlers();
-				
 				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
 					(m_sortOptions.SortType == PhoneticSortType.Unicode);
 				m_rbSort[(int)PhoneticSortType.MOA].Checked =
@@ -156,15 +217,13 @@ namespace SIL.Pa.Controls
 				m_cbRL[2].Checked = m_sortOptions.AdvRlOptions[2];
 
 				AdvancedOptionsEnabled = m_sortOptions.AdvancedEnabled;
-				pnlAdvSorting.Enabled = m_sortOptions.AdvancedEnabled;
+				tblAdvSorting.Enabled = m_sortOptions.AdvancedEnabled;
 
 				if (grpAdvSortOptions.Visible != m_showAdvancedOptions)
 				{
 					grpAdvSortOptions.Visible = m_showAdvancedOptions;
 					SetHeight();
 				}
-
-				AssignEventHandlers();
 			}
 		}
 
@@ -241,80 +300,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetHeight()
 		{
-			if (!m_showAdvancedOptions)
-				Height = kHeightWithoutAdvacedOpts;
-			else
-				Height = (m_showHelpLink ? kFullHeightWithHelp : kFullHeightWithoutHelp);
-		}
+			int	height = (m_showAdvancedOptions ?
+				grpAdvSortOptions.Bottom + 7 : grpAdvSortOptions.Top);
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Assign EventHandlers.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void AssignEventHandlers()
-		{
-			foreach (RadioButton rb in m_rbSort)
-				rb.Click += new EventHandler(HandleSortTypeChecked);
+			if (m_showHelpLink)
+				height += (lnkHelp.Height + 8);
 
-			foreach (RadioButton rb in m_rbAdvSort0)
-				rb.Click += new EventHandler(HandleCheckedColumn0);
-
-			foreach (RadioButton rb in m_rbAdvSort1)
-				rb.Click += new EventHandler(HandleCheckedColumn1);
-
-			foreach (RadioButton rb in m_rbAdvSort2)
-				rb.Click += new EventHandler(HandleCheckedColumn2);
-
-			foreach (CheckBox cb in m_cbRL)
-			{
-				cb.Click += new EventHandler(HandleRightLeftCbChecked);
-				cb.Enter += new EventHandler(HandleRightLeftCbEnter);
-				cb.Leave += new EventHandler(HandleRightLeftCbLeave);
-				cb.Paint += new PaintEventHandler(HandleRightLeftCbPaint);
-			}
-
-			foreach (Panel pnl in m_pnlAdvSort)
-			{
-				pnl.Enter += new EventHandler(HandleAdvSortRbEnter);
-				pnl.Leave += new EventHandler(HandleAdvSortRbLeave);
-				pnl.Paint += new PaintEventHandler(HandleAdvSortRbPaint);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Unassign EventHandlers.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void UnassignEventHandlers()
-		{
-			foreach (RadioButton rb in m_rbSort)
-				rb.Click -= HandleSortTypeChecked;
-
-			foreach (RadioButton rb in m_rbAdvSort0)
-				rb.Click -= HandleCheckedColumn0;
-
-			foreach (RadioButton rb in m_rbAdvSort1)
-				rb.Click -= HandleCheckedColumn1;
-
-			foreach (RadioButton rb in m_rbAdvSort2)
-				rb.Click -= HandleCheckedColumn2;
-
-			foreach (CheckBox cb in m_cbRL)
-			{
-				cb.Click -= HandleRightLeftCbChecked;
-				cb.Enter -= HandleRightLeftCbEnter;
-				cb.Leave -= HandleRightLeftCbLeave;
-				cb.Paint -= HandleRightLeftCbPaint;
-			}
-
-			foreach (Panel pnl in m_pnlAdvSort)
-			{
-				pnl.Enter -= HandleAdvSortRbEnter;
-				pnl.Leave -= HandleAdvSortRbLeave;
-				pnl.Paint -= HandleAdvSortRbPaint;
-			}
+			Height = height;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -543,7 +535,7 @@ namespace SIL.Pa.Controls
 		/// Update AdvRlOptions with the checked/unchecked state.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleRightLeftCbChecked(object sender, EventArgs e)
+		private void HandleRightToLeftCheckBoxChecked(object sender, EventArgs e)
 		{
 			for (int i = 0; i < 3; i++)
 				m_sortOptions.AdvRlOptions[i] = m_cbRL[i].Checked;
@@ -553,75 +545,32 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handle the 'enter' event for the advanced sort radio buttons.
+		/// Redraw the advanced radio buttons and R/L checkboxes so they don't have a focus
+		/// rectangle drawn around them..
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvSortRbEnter(object sender, EventArgs e)
+		private void HandleAdvancedOptionItemLeave(object sender, EventArgs e)
 		{
-			Panel panel = sender as Panel;
-			if (panel != null)
+			Control ctrl = sender as Control;
+
+			if (ctrl is RadioButton)
 			{
-				panel.Tag = 0;
-				panel.Invalidate();
+				ctrl.Tag = 0;
+				ctrl.Parent.Invalidate();
 			}
+			else
+				ctrl.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Handle the 'leave' event for the advanced sort radio buttons.
+		/// Redraw the advanced radio buttons and R/L checkboxes so they either have a focus
+		/// rectangle drawn around them or they have it erased.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvSortRbLeave(object sender, EventArgs e)
+		private void HandleAdvancedOptionItemEnter(object sender, EventArgs e)
 		{
-			Panel panel = sender as Panel;
-			if (panel != null)
-			{
-				panel.Tag = null;
-				panel.Invalidate();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the 'paint' event for the advanced sort radio buttons.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleAdvSortRbPaint(object sender, PaintEventArgs e)
-		{
-			Panel panel = sender as Panel;
-			// Draw a 'selection' rectangle around the radio button with focus.
-			if (panel.Tag != null)
-				ControlPaint.DrawFocusRectangle(e.Graphics, panel.ClientRectangle);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the 'enter' event for the Right/Left checkboxes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleRightLeftCbEnter(object sender, EventArgs e)
-		{
-			CheckBox cb = sender as CheckBox;
-			if (cb != null)
-			{
-				cb.Tag = 0;
-				cb.Invalidate();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the 'leave' event for the Right/Left checkboxes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleRightLeftCbLeave(object sender, EventArgs e)
-		{
-			CheckBox cb = sender as CheckBox;
-			if (cb != null)
-			{
-				cb.Tag = null;
-				cb.Invalidate();
-			}
+			(sender as Control).Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -629,29 +578,39 @@ namespace SIL.Pa.Controls
 		/// Handle the 'paint' event for the Right/Left checkboxes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleRightLeftCbPaint(object sender, PaintEventArgs e)
+		private void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
 		{
-			CheckBox cb = sender as CheckBox;
-			Rectangle rc = cb.Bounds;
-			rc.Inflate(3, 3);
-			rc.X--;
-			rc.Y--;
-			rc.Height++;
+			Control ctrl = sender as Control;
 
-			using (Graphics g = pnlAdvSorting.CreateGraphics())
+			if (!ctrl.Focused || ctrl.Tag != null)
 			{
-				// Draw a 'selection' rectangle around the checkbox with focus.
-				if (cb.Tag != null)
-					ControlPaint.DrawFocusRectangle(g, rc);
-				else
-				{
-					// Must decrease the size by 1 to erase the rectangle
-					rc.Height--;
-					rc.Width--;
-					using (Pen pen = new Pen(BackColor))
-						g.DrawRectangle(pen, rc);
-				}
+				ctrl.Tag = null;
+				return;
 			}
+
+			Rectangle rc;
+			Graphics g = e.Graphics;
+
+			if (ctrl is RadioButton)
+			{
+				rc = ctrl.Bounds;
+				rc.Inflate(3, 3);
+				g = ctrl.Parent.CreateGraphics();
+			}
+			else if (ctrl is CheckBox)
+			{
+				rc = ctrl.ClientRectangle;
+				rc.Inflate(-5, 0);
+				rc.Width -= 1;
+				rc.Height -= 2;
+			}
+			else
+				return;
+
+			ControlPaint.DrawFocusRectangle(g, rc);
+
+			if (ctrl is RadioButton)
+				g.Dispose();
 		}
 
 		#endregion

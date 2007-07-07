@@ -56,7 +56,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public FindPhoneWnd()
 		{
-			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 5);
+			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
 			InitializeComponent();
 			PaApp.IncProgressBar();
 
@@ -65,7 +65,6 @@ namespace SIL.Pa
 			LoadToolbarAndContextMenus();
 
 			lblCurrPattern.Text = STUtils.ConvertLiteralNewLines(lblCurrPattern.Text);
-			InitializeControlFonts();
 			PaApp.IncProgressBar();
 
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
@@ -74,6 +73,8 @@ namespace SIL.Pa
 			SetupSidePanelContents();
 			PaApp.IncProgressBar();
 			SetupSlidingPanel();
+			PaApp.IncProgressBar();
+			OnPaFontsChanged(null);
 			PaApp.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
@@ -148,20 +149,6 @@ namespace SIL.Pa
 				return m_rsltVwMngr.PlaybackSpeedAdjuster;
 
 			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InitializeControlFonts()
-		{
-			lstRecentPatterns.Font = FontHelper.PhoneticFont;
-			tvSavedPatterns.Font = FontHelper.PhoneticFont;
-			lblCurrPattern.Font = FontHelper.UIFont;
-
-			lblCurrPattern.Size = lblCurrPattern.PreferredSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -866,9 +853,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void pnlCurrPattern_Resize(object sender, System.EventArgs e)
 		{
-			int refreshButtonTop = (pnlCurrPattern.Height - btnRefresh.Height) / 2;
-			if (refreshButtonTop != btnRefresh.Top)
-				btnRefresh.Top = refreshButtonTop;
+			int top = (pnlCurrPattern.Height - btnRefresh.Height) / 2;
+			if (top != btnRefresh.Top)
+				btnRefresh.Top = top;
+
+			top = (pnlCurrPattern.Height - ptrnTextBox.Height) / 2;
+			if (top != ptrnTextBox.Top)
+				ptrnTextBox.Top = top;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1375,6 +1366,13 @@ namespace SIL.Pa
 			ptrnBldrComponent.RefreshFonts();
 			ptrnTextBox.TextBox.Font = FontHelper.PhoneticFont;
 			lstRecentPatterns.Font = FontHelper.PhoneticFont;
+			hlblRecentPatterns.Font = FontHelper.UIFont;
+			hlblSavedPatterns.Font = FontHelper.UIFont;
+			lstRecentPatterns.Font = FontHelper.PhoneticFont;
+			tvSavedPatterns.Font = FontHelper.PhoneticFont;
+			lblCurrPattern.Font = FontHelper.UIFont;
+
+			lblCurrPattern.Size = lblCurrPattern.PreferredSize;
 			pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();
 

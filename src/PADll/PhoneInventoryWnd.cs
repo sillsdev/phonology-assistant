@@ -1234,6 +1234,8 @@ namespace SIL.Pa
 			txtBFeatures.Font = FontHelper.UIFont;
 			pnlAmbiguous.Font = FontHelper.UIFont;
 			chkShowDefaults.Font = FontHelper.UIFont;
+			pgpAmbiguous.Font = FontHelper.UIFont;
+			pgpExperimental.Font = FontHelper.UIFont;
 
 			int y = (pgpAmbiguous.Height - chkShowDefaults.Height) / 2;
 			chkShowDefaults.Location = new Point(pgpAmbiguous.Width - chkShowDefaults.Width - 3, y);

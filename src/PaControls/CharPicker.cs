@@ -29,6 +29,8 @@ namespace SIL.Pa.Controls
 			}
 		}
 
+		private const int kDefaultItemMargin = 1;
+
 		public delegate bool ShouldLoadCharHandler(CharPicker picker, IPACharInfo charInfo);
 		public delegate void CharPickedHandler(CharPicker picker, ToolStripButton item);
 
@@ -49,6 +51,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharPicker() : base()
 		{
+			Padding = new Padding(0);
 			BackColor = Color.Transparent;
 			AutoSize = false;
 			LayoutStyle = ToolStripLayoutStyle.Flow;
@@ -80,6 +83,30 @@ namespace SIL.Pa.Controls
 		{
 			if (!PaApp.DesignMode)
 				Font = FontHelper.MakeEticRegFontDerivative(m_fontSize);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the preferred height of a single char picker item based on the font. This
+		/// does not include margins.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public int PreferredItemHeight
+		{
+			get { return Font.Height; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int GetPreferredWidth(int numberOfColumns)
+		{
+			// Add two for the borders.
+			return (m_itemSize.Width + (kDefaultItemMargin * 2)) * numberOfColumns + 2;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,6 +182,35 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the number of rows currently in the picker.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public int NumberOfRows
+		{
+			get
+			{
+				// Start with top and bottom borders.
+				int count = 0;
+
+				if (Items.Count > 0)
+				{
+					int left = Items[0].Bounds.Left;
+
+					foreach (ToolStripButton item in Items)
+					{
+						if (item.Bounds.Left == left)
+							count++;
+					}
+				}
+
+				return count;
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a collection of the checked items in the picker.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -177,7 +233,8 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the minimum height allowed so all IPA characters are visible in chooser.
+		/// Gets the minimum height allowed (given the picker's current width) so all 
+		/// characters are visible in the picker.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -195,7 +252,7 @@ namespace SIL.Pa.Controls
 					foreach (ToolStripButton item in Items)
 					{
 						if (item.Bounds.Left == left)
-							height = item.Bounds.Bottom + 1;
+							height = item.Bounds.Bottom + 3 + item.Margin.Bottom;
 					}
 				}
 
@@ -292,7 +349,7 @@ namespace SIL.Pa.Controls
 			e.Item.AutoSize = m_autoSizeItems;
 			e.Item.Size = m_itemSize;
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
-			e.Item.Margin = new Padding(1);
+			e.Item.Margin = new Padding(kDefaultItemMargin);
 			e.Item.MouseMove += new MouseEventHandler(Item_MouseMove);
 
 			// Save the point at which the mouse went down over the item.

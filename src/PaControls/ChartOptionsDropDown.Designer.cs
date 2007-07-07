@@ -40,9 +40,10 @@ namespace SIL.Pa.Controls
 			this.lblSSegsToIgnore.AutoEllipsis = true;
 			this.lblSSegsToIgnore.AutoSize = true;
 			this.lblSSegsToIgnore.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSSegsToIgnore.Location = new System.Drawing.Point(11, 12);
+			this.lblSSegsToIgnore.Location = new System.Drawing.Point(13, 10);
+			this.lblSSegsToIgnore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lblSSegsToIgnore.Name = "lblSSegsToIgnore";
-			this.lblSSegsToIgnore.Size = new System.Drawing.Size(154, 16);
+			this.lblSSegsToIgnore.Size = new System.Drawing.Size(195, 18);
 			this.lblSSegsToIgnore.TabIndex = 1;
 			this.lblSSegsToIgnore.Text = "Ignored Suprasegmentals";
 			// 
@@ -50,9 +51,10 @@ namespace SIL.Pa.Controls
 			// 
 			this.lnkRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lnkRefresh.AutoSize = true;
-			this.lnkRefresh.Location = new System.Drawing.Point(13, 141);
+			this.lnkRefresh.Location = new System.Drawing.Point(17, 98);
+			this.lnkRefresh.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lnkRefresh.Name = "lnkRefresh";
-			this.lnkRefresh.Size = new System.Drawing.Size(72, 13);
+			this.lnkRefresh.Size = new System.Drawing.Size(96, 17);
 			this.lnkRefresh.TabIndex = 3;
 			this.lnkRefresh.TabStop = true;
 			this.lnkRefresh.Text = "Refresh Chart";
@@ -61,9 +63,10 @@ namespace SIL.Pa.Controls
 			// 
 			this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkHelp.AutoSize = true;
-			this.lnkHelp.Location = new System.Drawing.Point(135, 141);
+			this.lnkHelp.Location = new System.Drawing.Point(164, 98);
+			this.lnkHelp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lnkHelp.Name = "lnkHelp";
-			this.lnkHelp.Size = new System.Drawing.Size(29, 13);
+			this.lnkHelp.Size = new System.Drawing.Size(37, 17);
 			this.lnkHelp.TabIndex = 4;
 			this.lnkHelp.TabStop = true;
 			this.lnkHelp.Text = "Help";
@@ -79,15 +82,16 @@ namespace SIL.Pa.Controls
 			this.pickerIgnore.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.pickerIgnore.ItemSize = new System.Drawing.Size(30, 30);
 			this.pickerIgnore.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.pickerIgnore.Location = new System.Drawing.Point(10, 40);
+			this.pickerIgnore.Location = new System.Drawing.Point(13, 40);
 			this.pickerIgnore.Name = "pickerIgnore";
-			this.pickerIgnore.Size = new System.Drawing.Size(157, 94);
+			this.pickerIgnore.Padding = new System.Windows.Forms.Padding(0);
+			this.pickerIgnore.Size = new System.Drawing.Size(194, 49);
 			this.pickerIgnore.TabIndex = 2;
 			this.pickerIgnore.Text = "charPicker1";
 			// 
 			// ChartOptionsDropDown
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -95,9 +99,10 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.lnkRefresh);
 			this.Controls.Add(this.pickerIgnore);
 			this.Controls.Add(this.lblSSegsToIgnore);
+			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.Name = "ChartOptionsDropDown";
-			this.Padding = new System.Windows.Forms.Padding(10, 40, 10, 30);
-			this.Size = new System.Drawing.Size(177, 164);
+			this.Padding = new System.Windows.Forms.Padding(13, 40, 13, 37);
+			this.Size = new System.Drawing.Size(220, 126);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -127,7 +127,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="rbUnicodeOrder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 61</value>
+    <value>30, 51</value>
+  </data>
+  <data name="rbUnicodeOrder.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbUnicodeOrder.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 17</value>
@@ -157,7 +160,10 @@
     <value>True</value>
   </data>
   <data name="rbPlaceArticulation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 9</value>
+    <value>30, 7</value>
+  </data>
+  <data name="rbPlaceArticulation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbPlaceArticulation.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 17</value>
@@ -187,7 +193,10 @@
     <value>True</value>
   </data>
   <data name="rbMannerArticulation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 35</value>
+    <value>30, 29</value>
+  </data>
+  <data name="rbMannerArticulation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbMannerArticulation.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 17</value>
@@ -213,17 +222,26 @@
   <data name="grpAdvSortOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="rbItem3rd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="tblAdvSorting.ColumnCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="rbItem3rd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="rbItem3rd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="rbItem3rd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 35</value>
+    <value>8, 29</value>
+  </data>
+  <data name="rbItem3rd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbItem3rd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+    <value>13, 13</value>
   </data>
   <data name="rbItem3rd.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;rbItem3rd.Name" xml:space="preserve">
     <value>rbItem3rd</value>
@@ -232,46 +250,28 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbItem3rd.Parent" xml:space="preserve">
-    <value>pnl2AdvSort</value>
+    <value>pnlAdvSort2</value>
   </data>
   <data name="&gt;&gt;rbItem3rd.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="rbAfter3rd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbBefore3rd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="rbAfter3rd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 64</value>
-  </data>
-  <data name="rbAfter3rd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
-  </data>
-  <data name="rbAfter3rd.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;rbAfter3rd.Name" xml:space="preserve">
-    <value>rbAfter3rd</value>
-  </data>
-  <data name="&gt;&gt;rbAfter3rd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbAfter3rd.Parent" xml:space="preserve">
-    <value>pnl2AdvSort</value>
-  </data>
-  <data name="&gt;&gt;rbAfter3rd.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="rbBefore3rd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbBefore3rd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="rbBefore3rd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 7</value>
+    <value>8, 5</value>
+  </data>
+  <data name="rbBefore3rd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbBefore3rd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+    <value>13, 13</value>
   </data>
   <data name="rbBefore3rd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;rbBefore3rd.Name" xml:space="preserve">
     <value>rbBefore3rd</value>
@@ -280,178 +280,85 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbBefore3rd.Parent" xml:space="preserve">
-    <value>pnl2AdvSort</value>
+    <value>pnlAdvSort2</value>
   </data>
   <data name="&gt;&gt;rbBefore3rd.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pnl2AdvSort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>112, 16</value>
-  </data>
-  <data name="pnl2AdvSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 84</value>
-  </data>
-  <data name="pnl2AdvSort.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;pnl2AdvSort.Name" xml:space="preserve">
-    <value>pnl2AdvSort</value>
-  </data>
-  <data name="&gt;&gt;pnl2AdvSort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnl2AdvSort.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;pnl2AdvSort.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblBefore.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblBefore.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 22</value>
-  </data>
-  <data name="lblBefore.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
-  </data>
-  <data name="lblBefore.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="lblBefore.Text" xml:space="preserve">
-    <value>Before:</value>
-  </data>
-  <data name="&gt;&gt;lblBefore.Name" xml:space="preserve">
-    <value>lblBefore</value>
-  </data>
-  <data name="&gt;&gt;lblBefore.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblBefore.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;lblBefore.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblAfter.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbAfter3rd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="lblAfter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 79</value>
-  </data>
-  <data name="lblAfter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 13</value>
-  </data>
-  <data name="lblAfter.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="lblAfter.Text" xml:space="preserve">
-    <value>After:</value>
-  </data>
-  <data name="&gt;&gt;lblAfter.Name" xml:space="preserve">
-    <value>lblAfter</value>
-  </data>
-  <data name="&gt;&gt;lblAfter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblAfter.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;lblAfter.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblThird.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 0</value>
-  </data>
-  <data name="lblThird.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 16</value>
-  </data>
-  <data name="lblThird.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="lblThird.Text" xml:space="preserve">
-    <value>3rd</value>
-  </data>
-  <data name="lblThird.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
-  </data>
-  <data name="&gt;&gt;lblThird.Name" xml:space="preserve">
-    <value>lblThird</value>
-  </data>
-  <data name="&gt;&gt;lblThird.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblThird.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;lblThird.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="rbBefore1st.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbBefore1st.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 7</value>
-  </data>
-  <data name="rbBefore1st.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
-  </data>
-  <data name="rbBefore1st.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;rbBefore1st.Name" xml:space="preserve">
-    <value>rbBefore1st</value>
-  </data>
-  <data name="&gt;&gt;rbBefore1st.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbBefore1st.Parent" xml:space="preserve">
-    <value>pnl0AdvSort</value>
-  </data>
-  <data name="&gt;&gt;rbBefore1st.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="rbAfter1st.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbAfter1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="rbAfter3rd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
   </data>
-  <data name="rbAfter1st.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 64</value>
+  <data name="rbAfter3rd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 53</value>
   </data>
-  <data name="rbAfter1st.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+  <data name="rbAfter3rd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
-  <data name="rbAfter1st.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="rbAfter3rd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
   </data>
-  <data name="&gt;&gt;rbAfter1st.Name" xml:space="preserve">
-    <value>rbAfter1st</value>
+  <data name="rbAfter3rd.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
   </data>
-  <data name="&gt;&gt;rbAfter1st.Type" xml:space="preserve">
+  <data name="&gt;&gt;rbAfter3rd.Name" xml:space="preserve">
+    <value>rbAfter3rd</value>
+  </data>
+  <data name="&gt;&gt;rbAfter3rd.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;rbAfter1st.Parent" xml:space="preserve">
-    <value>pnl0AdvSort</value>
+  <data name="&gt;&gt;rbAfter3rd.Parent" xml:space="preserve">
+    <value>pnlAdvSort2</value>
   </data>
-  <data name="&gt;&gt;rbAfter1st.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;rbAfter3rd.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="rbItem1st.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="pnlAdvSort2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlAdvSort2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="pnlAdvSort2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="pnlAdvSort2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 72</value>
+  </data>
+  <data name="pnlAdvSort2.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort2.Name" xml:space="preserve">
+    <value>pnlAdvSort2</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort2.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbItem1st.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
   <data name="rbItem1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
   </data>
   <data name="rbItem1st.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 35</value>
+    <value>8, 29</value>
+  </data>
+  <data name="rbItem1st.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbItem1st.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+    <value>13, 13</value>
   </data>
   <data name="rbItem1st.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;rbItem1st.Name" xml:space="preserve">
     <value>rbItem1st</value>
@@ -460,43 +367,115 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbItem1st.Parent" xml:space="preserve">
-    <value>pnl0AdvSort</value>
+    <value>pnlAdvSort0</value>
   </data>
   <data name="&gt;&gt;rbItem1st.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="rbBefore1st.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="rbBefore1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="rbBefore1st.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 5</value>
+  </data>
+  <data name="rbBefore1st.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="rbBefore1st.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="rbBefore1st.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Name" xml:space="preserve">
+    <value>rbBefore1st</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.Parent" xml:space="preserve">
+    <value>pnlAdvSort0</value>
+  </data>
+  <data name="&gt;&gt;rbBefore1st.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbAfter1st.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="rbAfter1st.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="rbAfter1st.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 53</value>
+  </data>
+  <data name="rbAfter1st.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="rbAfter1st.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="rbAfter1st.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Name" xml:space="preserve">
+    <value>rbAfter1st</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.Parent" xml:space="preserve">
+    <value>pnlAdvSort0</value>
+  </data>
+  <data name="&gt;&gt;rbAfter1st.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="pnl0AdvSort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 16</value>
+  <data name="pnlAdvSort0.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="pnl0AdvSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 84</value>
+  <data name="pnlAdvSort0.Location" type="System.Drawing.Point, System.Drawing">
+    <value>45, 24</value>
   </data>
-  <data name="pnl0AdvSort.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="pnlAdvSort0.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
-  <data name="&gt;&gt;pnl0AdvSort.Name" xml:space="preserve">
-    <value>pnl0AdvSort</value>
+  <data name="pnlAdvSort0.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 72</value>
   </data>
-  <data name="&gt;&gt;pnl0AdvSort.Type" xml:space="preserve">
+  <data name="pnlAdvSort0.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort0.Name" xml:space="preserve">
+    <value>pnlAdvSort0</value>
+  </data>
+  <data name="&gt;&gt;pnlAdvSort0.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pnl0AdvSort.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+  <data name="&gt;&gt;pnlAdvSort0.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
   </data>
-  <data name="&gt;&gt;pnl0AdvSort.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;pnlAdvSort0.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="rbAfter2nd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbAfter2nd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="rbAfter2nd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="rbAfter2nd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 64</value>
+    <value>8, 53</value>
+  </data>
+  <data name="rbAfter2nd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbAfter2nd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+    <value>13, 13</value>
   </data>
   <data name="rbAfter2nd.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;rbAfter2nd.Name" xml:space="preserve">
     <value>rbAfter2nd</value>
@@ -505,46 +484,28 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbAfter2nd.Parent" xml:space="preserve">
-    <value>pnl1AdvSort</value>
+    <value>pnlAdvSort1</value>
   </data>
   <data name="&gt;&gt;rbAfter2nd.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="rbItem2nd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbBefore2nd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="rbItem2nd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 35</value>
-  </data>
-  <data name="rbItem2nd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
-  </data>
-  <data name="rbItem2nd.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;rbItem2nd.Name" xml:space="preserve">
-    <value>rbItem2nd</value>
-  </data>
-  <data name="&gt;&gt;rbItem2nd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbItem2nd.Parent" xml:space="preserve">
-    <value>pnl1AdvSort</value>
-  </data>
-  <data name="&gt;&gt;rbItem2nd.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="rbBefore2nd.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="rbBefore2nd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="rbBefore2nd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 7</value>
+    <value>8, 5</value>
+  </data>
+  <data name="rbBefore2nd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
   </data>
   <data name="rbBefore2nd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
+    <value>13, 13</value>
   </data>
   <data name="rbBefore2nd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;rbBefore2nd.Name" xml:space="preserve">
     <value>rbBefore2nd</value>
@@ -553,145 +514,85 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbBefore2nd.Parent" xml:space="preserve">
-    <value>pnl1AdvSort</value>
+    <value>pnlAdvSort1</value>
   </data>
   <data name="&gt;&gt;rbBefore2nd.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="rbItem2nd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="rbItem2nd.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="rbItem2nd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 29</value>
+  </data>
+  <data name="rbItem2nd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="rbItem2nd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="rbItem2nd.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Name" xml:space="preserve">
+    <value>rbItem2nd</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.Parent" xml:space="preserve">
+    <value>pnlAdvSort1</value>
+  </data>
+  <data name="&gt;&gt;rbItem2nd.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="pnl1AdvSort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 16</value>
+  <data name="pnlAdvSort1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="pnl1AdvSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>25, 84</value>
+  <data name="pnlAdvSort1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>74, 24</value>
   </data>
-  <data name="pnl1AdvSort.TabIndex" type="System.Int32, mscorlib">
+  <data name="pnlAdvSort1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="pnlAdvSort1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 72</value>
+  </data>
+  <data name="pnlAdvSort1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;pnl1AdvSort.Name" xml:space="preserve">
-    <value>pnl1AdvSort</value>
+  <data name="&gt;&gt;pnlAdvSort1.Name" xml:space="preserve">
+    <value>pnlAdvSort1</value>
   </data>
-  <data name="&gt;&gt;pnl1AdvSort.Type" xml:space="preserve">
+  <data name="&gt;&gt;pnlAdvSort1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;pnl1AdvSort.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+  <data name="&gt;&gt;pnlAdvSort1.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
   </data>
-  <data name="&gt;&gt;pnl1AdvSort.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;pnlAdvSort1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="cbItemRL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="cbAfterRL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="cbItemRL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 52</value>
-  </data>
-  <data name="cbItemRL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 14</value>
-  </data>
-  <data name="cbItemRL.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;cbItemRL.Name" xml:space="preserve">
-    <value>cbItemRL</value>
-  </data>
-  <data name="&gt;&gt;cbItemRL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbItemRL.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;cbItemRL.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="cbBeforeRL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="cbBeforeRL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 23</value>
-  </data>
-  <data name="cbBeforeRL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 14</value>
-  </data>
-  <data name="cbBeforeRL.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;cbBeforeRL.Name" xml:space="preserve">
-    <value>cbBeforeRL</value>
-  </data>
-  <data name="&gt;&gt;cbBeforeRL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbBeforeRL.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;cbBeforeRL.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="lblRL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblRL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 0</value>
-  </data>
-  <data name="lblRL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 13</value>
-  </data>
-  <data name="lblRL.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="lblRL.Text" xml:space="preserve">
-    <value>R/L</value>
-  </data>
-  <data name="&gt;&gt;lblRL.Name" xml:space="preserve">
-    <value>lblRL</value>
-  </data>
-  <data name="&gt;&gt;lblRL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblRL.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;lblRL.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="lblSecond.Location" type="System.Drawing.Point, System.Drawing">
-    <value>78, 0</value>
-  </data>
-  <data name="lblSecond.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 16</value>
-  </data>
-  <data name="lblSecond.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="lblSecond.Text" xml:space="preserve">
-    <value>2nd</value>
-  </data>
-  <data name="lblSecond.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
-  </data>
-  <data name="&gt;&gt;lblSecond.Name" xml:space="preserve">
-    <value>lblSecond</value>
-  </data>
-  <data name="&gt;&gt;lblSecond.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSecond.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
-  </data>
-  <data name="&gt;&gt;lblSecond.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="cbAfterRL.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="cbAfterRL.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="cbAfterRL.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 81</value>
+    <value>132, 73</value>
+  </data>
+  <data name="cbAfterRL.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 0</value>
   </data>
   <data name="cbAfterRL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 14</value>
+    <value>32, 23</value>
   </data>
   <data name="cbAfterRL.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>18</value>
   </data>
   <data name="&gt;&gt;cbAfterRL.Name" xml:space="preserve">
     <value>cbAfterRL</value>
@@ -700,52 +601,190 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cbAfterRL.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+    <value>tblAdvSorting</value>
   </data>
   <data name="&gt;&gt;cbAfterRL.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>3</value>
   </data>
-  <data name="lblFirst.Location" type="System.Drawing.Point, System.Drawing">
-    <value>47, 0</value>
+  <data name="cbItemRL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="lblFirst.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 16</value>
+  <data name="cbItemRL.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
-  <data name="lblFirst.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+  <data name="cbItemRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>132, 49</value>
   </data>
-  <data name="lblFirst.Text" xml:space="preserve">
-    <value>1st</value>
+  <data name="cbItemRL.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 0</value>
   </data>
-  <data name="lblFirst.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+  <data name="cbItemRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
   </data>
-  <data name="&gt;&gt;lblFirst.Name" xml:space="preserve">
-    <value>lblFirst</value>
+  <data name="cbItemRL.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
   </data>
-  <data name="&gt;&gt;lblFirst.Type" xml:space="preserve">
+  <data name="&gt;&gt;cbItemRL.Name" xml:space="preserve">
+    <value>cbItemRL</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;cbItemRL.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="cbBeforeRL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="cbBeforeRL.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="cbBeforeRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>132, 25</value>
+  </data>
+  <data name="cbBeforeRL.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 0</value>
+  </data>
+  <data name="cbBeforeRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 23</value>
+  </data>
+  <data name="cbBeforeRL.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Name" xml:space="preserve">
+    <value>cbBeforeRL</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;cbBeforeRL.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblBefore.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblBefore.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 24</value>
+  </data>
+  <data name="lblBefore.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblBefore.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 24</value>
+  </data>
+  <data name="lblBefore.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblBefore.Text" xml:space="preserve">
+    <value>Before:</value>
+  </data>
+  <data name="lblBefore.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.Name" xml:space="preserve">
+    <value>lblBefore</value>
+  </data>
+  <data name="&gt;&gt;lblBefore.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lblFirst.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+  <data name="&gt;&gt;lblBefore.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
   </data>
-  <data name="&gt;&gt;lblFirst.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblBefore.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lblThird.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblThird.Location" type="System.Drawing.Point, System.Drawing">
+    <value>105, 0</value>
+  </data>
+  <data name="lblThird.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblThird.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 24</value>
+  </data>
+  <data name="lblThird.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="lblItem.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="lblThird.Text" xml:space="preserve">
+    <value>3rd</value>
+  </data>
+  <data name="lblThird.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Name" xml:space="preserve">
+    <value>lblThird</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblThird.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblThird.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="lblAfter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblAfter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 72</value>
+  </data>
+  <data name="lblAfter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblAfter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 24</value>
+  </data>
+  <data name="lblAfter.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblAfter.Text" xml:space="preserve">
+    <value>After:</value>
+  </data>
+  <data name="lblAfter.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Name" xml:space="preserve">
+    <value>lblAfter</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblAfter.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="lblItem.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="lblItem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 50</value>
+    <value>2, 48</value>
+  </data>
+  <data name="lblItem.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="lblItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 13</value>
+    <value>41, 24</value>
   </data>
   <data name="lblItem.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>1</value>
   </data>
   <data name="lblItem.Text" xml:space="preserve">
     <value>Item:</value>
+  </data>
+  <data name="lblItem.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;lblItem.Name" xml:space="preserve">
     <value>lblItem</value>
@@ -754,40 +793,157 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblItem.Parent" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+    <value>tblAdvSorting</value>
   </data>
   <data name="&gt;&gt;lblItem.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="lblFirst.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblFirst.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 0</value>
+  </data>
+  <data name="lblFirst.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblFirst.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 24</value>
+  </data>
+  <data name="lblFirst.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblFirst.Text" xml:space="preserve">
+    <value>1st</value>
+  </data>
+  <data name="lblFirst.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Name" xml:space="preserve">
+    <value>lblFirst</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblFirst.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="lblRL.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblRL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 0</value>
+  </data>
+  <data name="lblRL.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblRL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 24</value>
+  </data>
+  <data name="lblRL.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="lblRL.Text" xml:space="preserve">
+    <value>R/L</value>
+  </data>
+  <data name="lblRL.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Name" xml:space="preserve">
+    <value>lblRL</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblRL.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblRL.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="lblSecond.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblSecond.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 0</value>
+  </data>
+  <data name="lblSecond.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="lblSecond.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 24</value>
+  </data>
+  <data name="lblSecond.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="lblSecond.Text" xml:space="preserve">
+    <value>2nd</value>
+  </data>
+  <data name="lblSecond.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Name" xml:space="preserve">
+    <value>lblSecond</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.Parent" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;lblSecond.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="pnlAdvSorting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
+  <data name="tblAdvSorting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="pnlAdvSorting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 101</value>
+  <data name="tblAdvSorting.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 13</value>
   </data>
-  <data name="pnlAdvSorting.TabIndex" type="System.Int32, mscorlib">
+  <data name="tblAdvSorting.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tblAdvSorting.RowCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;pnlAdvSorting.Name" xml:space="preserve">
-    <value>pnlAdvSorting</value>
+  <data name="tblAdvSorting.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 96</value>
   </data>
-  <data name="&gt;&gt;pnlAdvSorting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlAdvSorting.Parent" xml:space="preserve">
-    <value>grpAdvSortOptions</value>
-  </data>
-  <data name="&gt;&gt;pnlAdvSorting.ZOrder" xml:space="preserve">
+  <data name="tblAdvSorting.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;tblAdvSorting.Name" xml:space="preserve">
+    <value>tblAdvSorting</value>
+  </data>
+  <data name="&gt;&gt;tblAdvSorting.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tblAdvSorting.Parent" xml:space="preserve">
+    <value>grpAdvSortOptions</value>
+  </data>
+  <data name="&gt;&gt;tblAdvSorting.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tblAdvSorting.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlAdvSort2" Row="1" RowSpan="3" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="pnlAdvSort0" Row="1" RowSpan="3" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="pnlAdvSort1" Row="1" RowSpan="3" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="cbAfterRL" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="cbItemRL" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="cbBeforeRL" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="lblBefore" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblThird" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblAfter" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblItem" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblFirst" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblRL" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="lblSecond" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,28,Percent,18,Percent,18,Percent,18,Percent,18" /&gt;&lt;Rows Styles="Percent,25,Percent,25,Percent,25,Percent,25,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
   <data name="grpAdvSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 86</value>
+    <value>5, 71</value>
+  </data>
+  <data name="grpAdvSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="grpAdvSortOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 6</value>
   </data>
   <data name="grpAdvSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 125</value>
+    <value>168, 115</value>
   </data>
   <data name="grpAdvSortOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;grpAdvSortOptions.Name" xml:space="preserve">
     <value>grpAdvSortOptions</value>
@@ -811,13 +967,16 @@
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 219</value>
+    <value>155, 187</value>
+  </data>
+  <data name="lnkHelp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
   </data>
   <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>33, 15</value>
   </data>
   <data name="lnkHelp.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="lnkHelp.Text" xml:space="preserve">
     <value>Help</value>
@@ -837,8 +996,14 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 244</value>
+    <value>189, 207</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SortOptionsDropDown</value>

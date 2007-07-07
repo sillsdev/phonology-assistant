@@ -579,6 +579,24 @@
   <data name="&gt;&gt;tpgCVSyllables.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="lblSaveManual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblSaveManual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSaveManual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 343</value>
+  </data>
+  <data name="lblSaveManual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>480, 32</value>
+  </data>
+  <data name="lblSaveManual.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lblSaveManual.Text" xml:space="preserve">
+    <value>For example, clicking column headings in the Data Corpus view will change the default options set on this tab for that view.</value>
+  </data>
   <data name="&gt;&gt;lblSaveManual.Name" xml:space="preserve">
     <value>lblSaveManual</value>
   </data>
@@ -590,6 +608,66 @@
   </data>
   <data name="&gt;&gt;lblSaveManual.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Name" xml:space="preserve">
+    <value>m_sortingGrid</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2743.17618, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;m_sortingGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Name" xml:space="preserve">
+    <value>btnMoveSortFieldUp</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldUp.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Name" xml:space="preserve">
+    <value>lblSortFldsHdr</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;lblSortFldsHdr.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Name" xml:space="preserve">
+    <value>btnMoveSortFieldDown</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.Parent" xml:space="preserve">
+    <value>grpColSortOptions</value>
+  </data>
+  <data name="&gt;&gt;btnMoveSortFieldDown.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="grpColSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 96</value>
+  </data>
+  <data name="grpColSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>273, 210</value>
+  </data>
+  <data name="grpColSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="grpColSortOptions.Text" xml:space="preserve">
+    <value>Column Sort Options</value>
   </data>
   <data name="&gt;&gt;grpColSortOptions.Name" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -603,6 +681,30 @@
   <data name="&gt;&gt;grpColSortOptions.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="chkSaveManual.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkSaveManual.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
+  <data name="chkSaveManual.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="chkSaveManual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 324</value>
+  </data>
+  <data name="chkSaveManual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>356, 19</value>
+  </data>
+  <data name="chkSaveManual.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkSaveManual.Text" xml:space="preserve">
+    <value>&amp;Save last manually specified sort options as the default.</value>
+  </data>
+  <data name="chkSaveManual.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
+  </data>
   <data name="&gt;&gt;chkSaveManual.Name" xml:space="preserve">
     <value>chkSaveManual</value>
   </data>
@@ -614,6 +716,24 @@
   </data>
   <data name="&gt;&gt;chkSaveManual.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="lblSortInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="lblSortInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblSortInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 13</value>
+  </data>
+  <data name="lblSortInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>502, 33</value>
+  </data>
+  <data name="lblSortInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblSortInfo.Text" xml:space="preserve">
+    <value>To specify the default sort options for a specific type of list, choose one from the list and select the desired options.</value>
   </data>
   <data name="&gt;&gt;lblSortInfo.Name" xml:space="preserve">
     <value>lblSortInfo</value>
@@ -627,6 +747,51 @@
   <data name="&gt;&gt;lblSortInfo.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="phoneticSortOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="phoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 19</value>
+  </data>
+  <data name="phoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="phoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 191</value>
+  </data>
+  <data name="phoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Name" xml:space="preserve">
+    <value>phoneticSortOptions</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
+    <value>grpPhoneticSortOptions</value>
+  </data>
+  <data name="&gt;&gt;phoneticSortOptions.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>306, 96</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 210</value>
+  </data>
+  <data name="grpPhoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="grpPhoneticSortOptions.Text" xml:space="preserve">
+    <value>Phonetic Sort Options</value>
+  </data>
   <data name="&gt;&gt;grpPhoneticSortOptions.Name" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
   </data>
@@ -639,6 +804,24 @@
   <data name="&gt;&gt;grpPhoneticSortOptions.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="lblListType.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblListType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 9pt</value>
+  </data>
+  <data name="lblListType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 58</value>
+  </data>
+  <data name="lblListType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 15</value>
+  </data>
+  <data name="lblListType.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblListType.Text" xml:space="preserve">
+    <value>&amp;Word List Type:</value>
+  </data>
   <data name="&gt;&gt;lblListType.Name" xml:space="preserve">
     <value>lblListType</value>
   </data>
@@ -650,6 +833,27 @@
   </data>
   <data name="&gt;&gt;lblListType.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="cboListType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="cboListType.Items" xml:space="preserve">
+    <value>Data Corpus</value>
+  </data>
+  <data name="cboListType.Items1" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="cboListType.Items2" xml:space="preserve">
+    <value>XY Chart Search Results</value>
+  </data>
+  <data name="cboListType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>121, 54</value>
+  </data>
+  <data name="cboListType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 23</value>
+  </data>
+  <data name="cboListType.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;cboListType.Name" xml:space="preserve">
     <value>cboListType</value>
@@ -766,7 +970,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -850,7 +1054,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -1438,7 +1642,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1522,7 +1726,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -2176,7 +2380,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>grpTone</value>
@@ -2233,7 +2437,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>grpTone</value>
@@ -2284,7 +2488,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>grpLength</value>
@@ -2344,7 +2548,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>grpLength</value>
@@ -2395,7 +2599,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>grpStress</value>
@@ -2455,115 +2659,13 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2743.24724, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>grpStress</value>
   </data>
   <data name="&gt;&gt;stressPicker.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="lblSaveManual.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblSaveManual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblSaveManual.Location" type="System.Drawing.Point, System.Drawing">
-    <value>42, 343</value>
-  </data>
-  <data name="lblSaveManual.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 32</value>
-  </data>
-  <data name="lblSaveManual.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lblSaveManual.Text" xml:space="preserve">
-    <value>For example, clicking column headings in the Data Corpus view will change the default options set on this tab for that view.</value>
-  </data>
-  <data name="&gt;&gt;lblSaveManual.Name" xml:space="preserve">
-    <value>lblSaveManual</value>
-  </data>
-  <data name="&gt;&gt;lblSaveManual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSaveManual.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;lblSaveManual.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;m_sortingGrid.Name" xml:space="preserve">
-    <value>m_sortingGrid</value>
-  </data>
-  <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2712.28731, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
-    <value>grpColSortOptions</value>
-  </data>
-  <data name="&gt;&gt;m_sortingGrid.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldUp.Name" xml:space="preserve">
-    <value>btnMoveSortFieldUp</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldUp.Parent" xml:space="preserve">
-    <value>grpColSortOptions</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldUp.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lblSortFldsHdr.Name" xml:space="preserve">
-    <value>lblSortFldsHdr</value>
-  </data>
-  <data name="&gt;&gt;lblSortFldsHdr.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSortFldsHdr.Parent" xml:space="preserve">
-    <value>grpColSortOptions</value>
-  </data>
-  <data name="&gt;&gt;lblSortFldsHdr.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldDown.Name" xml:space="preserve">
-    <value>btnMoveSortFieldDown</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldDown.Parent" xml:space="preserve">
-    <value>grpColSortOptions</value>
-  </data>
-  <data name="&gt;&gt;btnMoveSortFieldDown.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="grpColSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 96</value>
-  </data>
-  <data name="grpColSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>273, 210</value>
-  </data>
-  <data name="grpColSortOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="grpColSortOptions.Text" xml:space="preserve">
-    <value>Column Sort Options</value>
-  </data>
-  <data name="&gt;&gt;grpColSortOptions.Name" xml:space="preserve">
-    <value>grpColSortOptions</value>
-  </data>
-  <data name="&gt;&gt;grpColSortOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpColSortOptions.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;grpColSortOptions.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="m_sortingGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 57</value>
@@ -2581,7 +2683,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2712.28731, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2743.17618, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -2676,198 +2778,6 @@
   <data name="&gt;&gt;btnMoveSortFieldDown.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="chkSaveManual.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkSaveManual.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopLeft</value>
-  </data>
-  <data name="chkSaveManual.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="chkSaveManual.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 324</value>
-  </data>
-  <data name="chkSaveManual.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 19</value>
-  </data>
-  <data name="chkSaveManual.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="chkSaveManual.Text" xml:space="preserve">
-    <value>&amp;Save last manually specified sort options as the default.</value>
-  </data>
-  <data name="chkSaveManual.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopLeft</value>
-  </data>
-  <data name="&gt;&gt;chkSaveManual.Name" xml:space="preserve">
-    <value>chkSaveManual</value>
-  </data>
-  <data name="&gt;&gt;chkSaveManual.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkSaveManual.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;chkSaveManual.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblSortInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="lblSortInfo.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblSortInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 13</value>
-  </data>
-  <data name="lblSortInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>502, 33</value>
-  </data>
-  <data name="lblSortInfo.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblSortInfo.Text" xml:space="preserve">
-    <value>To specify the default sort options for a specific type of list, choose one from the list and select the desired options.</value>
-  </data>
-  <data name="&gt;&gt;lblSortInfo.Name" xml:space="preserve">
-    <value>lblSortInfo</value>
-  </data>
-  <data name="&gt;&gt;lblSortInfo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblSortInfo.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;lblSortInfo.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Name" xml:space="preserve">
-    <value>phoneticSortOptions</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
-    <value>grpPhoneticSortOptions</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="grpPhoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>313, 82</value>
-  </data>
-  <data name="grpPhoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="grpPhoneticSortOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="grpPhoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 236</value>
-  </data>
-  <data name="grpPhoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="grpPhoneticSortOptions.Text" xml:space="preserve">
-    <value>Phonetic Sort Options</value>
-  </data>
-  <data name="&gt;&gt;grpPhoneticSortOptions.Name" xml:space="preserve">
-    <value>grpPhoneticSortOptions</value>
-  </data>
-  <data name="&gt;&gt;grpPhoneticSortOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpPhoneticSortOptions.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;grpPhoneticSortOptions.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="phoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 17</value>
-  </data>
-  <data name="phoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 217</value>
-  </data>
-  <data name="phoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Name" xml:space="preserve">
-    <value>phoneticSortOptions</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.0.2712.28732, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
-    <value>grpPhoneticSortOptions</value>
-  </data>
-  <data name="&gt;&gt;phoneticSortOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblListType.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblListType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
-  </data>
-  <data name="lblListType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 58</value>
-  </data>
-  <data name="lblListType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 15</value>
-  </data>
-  <data name="lblListType.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblListType.Text" xml:space="preserve">
-    <value>&amp;Word List Type:</value>
-  </data>
-  <data name="&gt;&gt;lblListType.Name" xml:space="preserve">
-    <value>lblListType</value>
-  </data>
-  <data name="&gt;&gt;lblListType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblListType.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;lblListType.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="cboListType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9pt</value>
-  </data>
-  <data name="cboListType.Items" xml:space="preserve">
-    <value>Data Corpus</value>
-  </data>
-  <data name="cboListType.Items1" xml:space="preserve">
-    <value>Search Results</value>
-  </data>
-  <data name="cboListType.Items2" xml:space="preserve">
-    <value>XY Chart Search Results</value>
-  </data>
-  <data name="cboListType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 54</value>
-  </data>
-  <data name="cboListType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 23</value>
-  </data>
-  <data name="cboListType.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;cboListType.Name" xml:space="preserve">
-    <value>cboListType</value>
-  </data>
-  <data name="&gt;&gt;cboListType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboListType.Parent" xml:space="preserve">
-    <value>tpgSorting</value>
-  </data>
-  <data name="&gt;&gt;cboListType.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -2893,6 +2803,6 @@
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2712.29275, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2743.24379, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

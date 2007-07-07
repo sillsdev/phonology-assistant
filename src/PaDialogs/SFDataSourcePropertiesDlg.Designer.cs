@@ -180,6 +180,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			resources.ApplyResources(this.txtFilePreview, "txtFilePreview");
 			this.txtFilePreview.Name = "txtFilePreview";
+			this.txtFilePreview.BorderStyle = BorderStyle.None;
 			this.txtFilePreview.ReadOnly = true;
 			this.txtFilePreview.TabStop = false;
 			// 

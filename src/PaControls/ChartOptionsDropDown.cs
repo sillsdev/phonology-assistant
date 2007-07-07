@@ -13,8 +13,6 @@ namespace SIL.Pa.Controls
 {
 	public partial class ChartOptionsDropDown : UserControl
 	{
-		private const int kItemSize = 36;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -27,35 +25,18 @@ namespace SIL.Pa.Controls
 			lnkRefresh.Font = FontHelper.UIFont;
 			lnkHelp.Font = FontHelper.UIFont;
 
-			pickerIgnore.ItemSize = new Size(kItemSize, kItemSize);
-			pickerIgnore.Font = FontHelper.MakeEticRegFontDerivative(16);
+			float fontSize = Math.Min(17, SystemInformation.MenuFont.SizeInPoints * 2);
+
+			pickerIgnore.Font =	FontHelper.MakeEticRegFontDerivative(fontSize);
+			pickerIgnore.ItemSize = new Size(pickerIgnore.PreferredItemHeight,
+				pickerIgnore.PreferredItemHeight);
 			pickerIgnore.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(pickerIgnore_ShouldLoadChar);
 			pickerIgnore.LoadCharacters();
 			SetIgnoredChars(ignoreList);
 
-			Padding itemMargin = (pickerIgnore.Items.Count == 0 ?
-				new Padding(0) : pickerIgnore.Items[0].Margin);
-
-			int itemWidth = kItemSize + itemMargin.Left + itemMargin.Right;
-			int itemHeight = kItemSize + itemMargin.Top + itemMargin.Bottom;
-
-			// Adjust the size of the drop-down to fit nicely.
-			int charCount = pickerIgnore.Items.Count;
-			int colsPerRow = (int)Math.Ceiling((float)charCount / 3f);
-			int propsedWidth = (itemWidth * colsPerRow) + 23;
-
-			if (Width < propsedWidth)
-			{
-				Width = propsedWidth;
-				Height = (itemHeight * 3) + 72;
-			}
-			else
-			{
-				colsPerRow = (int)Math.Ceiling((float)(Width - 23) / (float)itemWidth);
-				Width = (itemWidth * colsPerRow) + 23;
-				int rows = (int)Math.Ceiling((float)charCount / (float)colsPerRow);
-				Height = (itemHeight * rows) + 72;
-			}
+			// Adjust the size of the drop-down to fit 5 columns.
+			Width = pickerIgnore.GetPreferredWidth(5) +	Padding.Left + Padding.Right;
+			Height = pickerIgnore.PreferredHeight + Padding.Top + Padding.Bottom;
 
 			// Center the refresh and help labels vertically between the bottom of the
 			// drop-down and the bottom of the picker.

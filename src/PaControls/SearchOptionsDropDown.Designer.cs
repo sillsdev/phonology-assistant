@@ -75,8 +75,8 @@ namespace SIL.Pa.Controls
 			// 
 			// grpStress
 			// 
-			resources.ApplyResources(this.grpStress, "grpStress");
 			this.grpStress.Controls.Add(this.stressPicker);
+			resources.ApplyResources(this.grpStress, "grpStress");
 			this.grpStress.Name = "grpStress";
 			this.grpStress.TabStop = false;
 			// 
@@ -91,8 +91,8 @@ namespace SIL.Pa.Controls
 			// 
 			// grpTone
 			// 
-			resources.ApplyResources(this.grpTone, "grpTone");
 			this.grpTone.Controls.Add(this.tonePicker);
+			resources.ApplyResources(this.grpTone, "grpTone");
 			this.grpTone.Name = "grpTone";
 			this.grpTone.TabStop = false;
 			// 
@@ -107,8 +107,8 @@ namespace SIL.Pa.Controls
 			// 
 			// grpLength
 			// 
-			resources.ApplyResources(this.grpLength, "grpLength");
 			this.grpLength.Controls.Add(this.lengthPicker);
+			resources.ApplyResources(this.grpLength, "grpLength");
 			this.grpLength.Name = "grpLength";
 			this.grpLength.TabStop = false;
 			// 
@@ -127,26 +127,26 @@ namespace SIL.Pa.Controls
 			// 
 			// grpUncertainties
 			// 
-			resources.ApplyResources(this.grpUncertainties, "grpUncertainties");
 			this.grpUncertainties.BackColor = System.Drawing.Color.Transparent;
 			this.grpUncertainties.Controls.Add(this.rbAllUncertainties);
 			this.grpUncertainties.Controls.Add(this.rbPrimaryOnly);
 			this.grpUncertainties.Controls.Add(this.lblUncertainties);
+			resources.ApplyResources(this.grpUncertainties, "grpUncertainties");
 			this.grpUncertainties.Name = "grpUncertainties";
 			this.grpUncertainties.TabStop = false;
 			// 
 			// rbAllUncertainties
 			// 
+			resources.ApplyResources(this.rbAllUncertainties, "rbAllUncertainties");
 			this.rbAllUncertainties.AutoEllipsis = true;
 			this.rbAllUncertainties.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.rbAllUncertainties, "rbAllUncertainties");
 			this.rbAllUncertainties.Name = "rbAllUncertainties";
 			this.rbAllUncertainties.UseVisualStyleBackColor = false;
 			// 
 			// rbPrimaryOnly
 			// 
-			this.rbPrimaryOnly.AutoEllipsis = true;
 			resources.ApplyResources(this.rbPrimaryOnly, "rbPrimaryOnly");
+			this.rbPrimaryOnly.AutoEllipsis = true;
 			this.rbPrimaryOnly.Checked = true;
 			this.rbPrimaryOnly.Name = "rbPrimaryOnly";
 			this.rbPrimaryOnly.TabStop = true;
@@ -212,8 +212,7 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.grpStress);
 			this.Controls.Add(this.grpUncertainties);
 			this.DoubleBuffered = true;
-			this.MaximumSize = new System.Drawing.Size(268, 542);
-			this.MinimumSize = new System.Drawing.Size(268, 450);
+			this.MinimumSize = new System.Drawing.Size(250, 2);
 			this.Name = "SearchOptionsDropDown";
 			this.grpStress.ResumeLayout(false);
 			this.grpTone.ResumeLayout(false);

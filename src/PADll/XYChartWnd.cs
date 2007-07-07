@@ -1061,6 +1061,7 @@ namespace SIL.Pa
 		protected bool OnPaFontsChanged(object args)
 		{
 			lvSavedCharts.Font = FontHelper.PhoneticFont;
+			hlblSavedCharts.Font = FontHelper.UIFont;
 			lblChartName.Font = FontHelper.UIFont;
 			lblChartNameValue.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 

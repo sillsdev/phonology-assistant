@@ -52,9 +52,7 @@ namespace SIL.Pa.Controls
 			tonePicker.Tag = chkTone;
 			lengthPicker.Tag = chkLength;
 
-			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
-			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
-			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
+			SetupPickers();
 
 			ShowApplyToAll = false;
 			m_query = new SearchQuery();
@@ -78,6 +76,55 @@ namespace SIL.Pa.Controls
 			SearchQuery = query;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetupPickers()
+		{
+			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
+			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
+			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
+
+			int dyGrpPickerDiff = grpTone.Height - tonePicker.Height;
+			int dxGrpPickerDiff = grpTone.Width - tonePicker.Width;
+
+			stressPicker.ItemSize = new Size(stressPicker.PreferredItemHeight,
+				stressPicker.PreferredItemHeight);
+
+			tonePicker.ItemSize = new Size(tonePicker.PreferredItemHeight,
+				tonePicker.PreferredItemHeight);
+
+			lengthPicker.ItemSize = new Size(lengthPicker.PreferredItemHeight,
+				lengthPicker.PreferredItemHeight);
+
+			// Set widths of groups.
+			int newWidth =  tonePicker.GetPreferredWidth(7) + dxGrpPickerDiff;
+			if (newWidth > grpTone.Width)
+			{
+				grpStress.Width = newWidth;
+				grpTone.Width = newWidth;
+				grpLength.Width = newWidth;
+				grpUncertainties.Width = newWidth;
+				Width = (grpTone.Left * 2) + newWidth;
+			}
+
+			// Set heights of groups.
+			grpStress.Height = stressPicker.PreferredHeight + dyGrpPickerDiff;
+			grpTone.Height = tonePicker.PreferredHeight + dyGrpPickerDiff;
+			grpLength.Height = lengthPicker.PreferredHeight + dyGrpPickerDiff;
+
+			// Set tops of groups.
+			grpTone.Top = grpStress.Bottom + 15;
+			grpLength.Top = grpTone.Bottom + 15;
+			grpUncertainties.Top = grpLength.Bottom + 15;
+			chkTone.Top = grpTone.Top - 3;
+			chkLength.Top = grpLength.Top - 3;
+			
+			Height = grpUncertainties.Bottom + lnkHelp.Height + 15;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

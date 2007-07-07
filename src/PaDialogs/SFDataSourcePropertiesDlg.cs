@@ -115,6 +115,12 @@ namespace SIL.Pa.Dialogs
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
+			if (cboFirstInterlinear.Right > (pnlParseType.Width - 10))
+			{
+				splitOuter.SplitterDistance +=
+					(cboFirstInterlinear.Right + 10 - pnlParseType.Width);
+			}
+
 			try
 			{
 				int splitterDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
