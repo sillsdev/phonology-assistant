@@ -391,7 +391,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2693.29235, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2743.17618, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>grpWritingSystems</value>
@@ -438,6 +438,9 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>337, 395</value>
   </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>280, 300</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>FieldWorks Data Source Properties</value>
   </data>
@@ -445,6 +448,6 @@
     <value>FwDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2700.23964, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2743.40251, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
