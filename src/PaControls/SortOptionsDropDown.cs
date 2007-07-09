@@ -341,6 +341,9 @@ namespace SIL.Pa.Controls
 		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Close();
+			
+			PaApp.ShowHelpTopic((m_showAdvancedOptions ?
+				"hidAdvancedPhoneticSortOptions" : "hidBasicPhoneticSortOptions"));
 		}
 		
 		/// ------------------------------------------------------------------------------------

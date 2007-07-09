@@ -61,6 +61,24 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Phonetic_Sort_Options.htm.
+        /// </summary>
+        internal static string hidAdvancedPhoneticSortOptions {
+            get {
+                return ResourceManager.GetString("hidAdvancedPhoneticSortOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Sorting_Word_Lists.htm.
+        /// </summary>
+        internal static string hidBasicPhoneticSortOptions {
+            get {
+                return ResourceManager.GetString("hidBasicPhoneticSortOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm.
         /// </summary>
         internal static string hidConsonantChartView {

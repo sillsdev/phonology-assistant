@@ -99,7 +99,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			PaApp.ShowHelpTopic("kstidIgnoredSuprasegmentalsPopup");
+			PaApp.ShowHelpTopic("hidIgnoredSuprasegmentalsPopup");
 		}
 	}
 }

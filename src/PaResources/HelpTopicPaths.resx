@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="hidAdvancedPhoneticSortOptions" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Sorting_Word_Lists.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidConsonantChartView" xml:space="preserve">
     <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidCustomFieldsDlg" xml:space="preserve">
     <value>User_Interface/Menus/File/Custom_Fields.htm</value>
@@ -130,6 +139,7 @@
   </data>
   <data name="hidDataCorpusView" xml:space="preserve">
     <value>User_Interface/Views/Data_Corpus/Data_Corpus_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">
     <value>User_Interface/Menus/Edit/Find.htm</value>
@@ -173,6 +183,7 @@
   </data>
   <data name="hidPhoneInventoryView" xml:space="preserve">
     <value>User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidProjectSettingsDlg" xml:space="preserve">
     <value>User_Interface/Menus/File/Project_Settings.htm</value>
@@ -192,6 +203,7 @@
   </data>
   <data name="hidSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSortingOptions" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Options/Sorting_options.htm</value>
@@ -207,6 +219,7 @@
   </data>
   <data name="hidVowelChartView" xml:space="preserve">
     <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidWordListOptions" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Options/Word_Lists_options.htm</value>
@@ -214,5 +227,6 @@
   </data>
   <data name="hidXYChartsView" xml:space="preserve">
     <value>User_Interface/Views/XY_Charts/XY_Charts_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
 </root>
