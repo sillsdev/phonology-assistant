@@ -115,6 +115,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_Transcription_Word_Lists.htm.
+        /// </summary>
+        internal static string hidExperimentalTranscriptionsPopup {
+            get {
+                return ResourceManager.GetString("hidExperimentalTranscriptionsPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Edit/Find.htm.
         /// </summary>
         internal static string hidFindDlg {
@@ -241,6 +250,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Search/Save_Search_Pattern.htm.
+        /// </summary>
+        internal static string hidSaveSearchQueryDlg {
+            get {
+                return ResourceManager.GetString("hidSaveSearchQueryDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Search_Patterns_options.htm.
         /// </summary>
         internal static string hidSearchPatternOptions {
@@ -273,6 +291,15 @@ namespace SIL.Pa.Resources {
         internal static string hidTopicDoesNotExist {
             get {
                 return ResourceManager.GetString("hidTopicDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Uncertain_Phones_Word_Lists.htm.
+        /// </summary>
+        internal static string hidUncertainPhonesPopup {
+            get {
+                return ResourceManager.GetString("hidUncertainPhonesPopup", resourceCulture);
             }
         }
         
