@@ -38,7 +38,7 @@ namespace SIL.Pa.Data
 			PronunciationField
 		}
 
-		private static int s_secondsToWaitForSQLToStart = 20;
+		private static int s_secondsToWaitForSQLToStart = 25;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -198,7 +198,7 @@ namespace SIL.Pa.Data
 			{
 				if (showErrMessages)
 				{
-					msg = Properties.Resources.kstidErrorStartingMSDE1;
+					msg = Properties.Resources.kstidErrorStartingSQLServer1;
 					STUtils.STMsgBox(string.Format(msg, e.Message), MessageBoxButtons.OK);
 				}
 				
@@ -207,7 +207,9 @@ namespace SIL.Pa.Data
 
 			if (showErrMessages)
 			{
-				msg = Properties.Resources.kstidErrorStartingMSDE2;
+				msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer2,
+					s_secondsToWaitForSQLToStart);
+
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 			}
 			

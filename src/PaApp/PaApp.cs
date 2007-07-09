@@ -72,7 +72,7 @@ namespace SIL.Pa
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
 		public const string kOptionsSettingsKey = "globaloptions";
-		public const string kAutoStartOptions = "autostart";
+		public const string kSQLServerOptions = "sqlserver";
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
@@ -130,10 +130,10 @@ namespace SIL.Pa
 			// custom fields belonging to the project will be added to this list.
 			s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
 
-			// If there's a setting in the settings file for the time to wait for SQL server
-			// to start, then use that value rather than the default of 15 seconds.
+			// If there's a setting in the settings file for the time to wait
+			// for SQL server to start, then use that value rather than the default.
 			FwDBUtils.SecondsToWaitForSQLToStart = s_settingsHndlr.GetIntSettingsValue(
-				"sqlserverwaittime", "seconds", FwDBUtils.SecondsToWaitForSQLToStart);
+				kSQLServerOptions, "secondstowaitforstartup", FwDBUtils.SecondsToWaitForSQLToStart);
 
 			s_minViewWindowSize = new Size(
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
@@ -681,7 +681,7 @@ namespace SIL.Pa
 			get
 			{
 				return PaApp.SettingsHandler.GetBoolSettingsValue(
-					kAutoStartOptions, "sqlserver", true);
+					kSQLServerOptions, "autostart", true);
 			}
 		}
 

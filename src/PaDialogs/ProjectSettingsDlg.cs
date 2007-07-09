@@ -93,7 +93,7 @@ namespace SIL.Pa.Dialogs
 			// SQL server. If there are no FW data sources, then only attempt to start SQL
 			// server if the AutoStartSQLServer flag is true (which it is by default). The only
 			// way for the flag to be false is via an undocumented entry in the settings file
-			// (e.g. <setting id="autostart" sqlserver="False" />)
+			// (e.g. <setting id="sqlserver" autostart="False" />)
 			if (PaApp.AutoStartSQLServer && !FwDBUtils.IsSQLServerStarted)
 				FwDBUtils.StartSQLServer(false);
 

@@ -97,20 +97,20 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MSDE (SQL Server) cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed..
+        ///   Looks up a localized string similar to SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again..
         /// </summary>
-        internal static string kstidErrorStartingMSDE1 {
+        internal static string kstidErrorStartingSQLServer1 {
             get {
-                return ResourceManager.GetString("kstidErrorStartingMSDE1", resourceCulture);
+                return ResourceManager.GetString("kstidErrorStartingSQLServer1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MSDE (SQL Server) cannot be started. It may not be installed.\nMake sure FieldWorks Language Explorer has been installed..
+        ///   Looks up a localized string similar to Phonology Assistant waited 25 seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. If it has, try\nrestarting Phonology Assistant..
         /// </summary>
-        internal static string kstidErrorStartingMSDE2 {
+        internal static string kstidErrorStartingSQLServer2 {
             get {
-                return ResourceManager.GetString("kstidErrorStartingMSDE2", resourceCulture);
+                return ResourceManager.GetString("kstidErrorStartingSQLServer2", resourceCulture);
             }
         }
         

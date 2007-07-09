@@ -477,9 +477,6 @@
     <None Include="Resources\PhoneDropNotAllowed.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PatternTextBoxArrowDown.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PatternTextBoxDownArrow.png" />
   </ItemGroup>
   <ItemGroup>
