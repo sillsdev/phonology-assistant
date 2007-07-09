@@ -141,6 +141,10 @@
     <value>User_Interface/Views/Data_Corpus/Data_Corpus_view.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidExperimentalTranscriptionsPopup" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Experimental_Transcription_Word_Lists.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidFindDlg" xml:space="preserve">
     <value>User_Interface/Menus/Edit/Find.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -197,6 +201,10 @@
     <value>User_Interface/Menus/File/Export/Export_to_Rich_Text_Format_RTF.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidSaveSearchQueryDlg" xml:space="preserve">
+    <value>User_Interface/Views/Search/Save_Search_Pattern.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidSearchPatternOptions" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Options/Search_Patterns_options.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -211,6 +219,10 @@
   </data>
   <data name="hidTopicDoesNotExist" xml:space="preserve">
     <value>Help_topic_does_not_exist.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidUncertainPhonesPopup" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Uncertain_Phones_Word_Lists.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedPhoneticCharactersDlg" xml:space="preserve">

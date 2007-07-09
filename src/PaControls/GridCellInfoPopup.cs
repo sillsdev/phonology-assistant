@@ -426,6 +426,12 @@ namespace SIL.Pa.Controls
 		private void HandleLinkClick(object sender, EventArgs e)
 		{
 			Hide();
+
+			if (sender == lnkHelp)
+			{
+				PaApp.ShowHelpTopic(m_purposeIndicator == Purpose.ExperimentalTranscription ?
+					"hidExperimentalTranscriptionsPopup" : "hidUncertainPhonesPopup");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
