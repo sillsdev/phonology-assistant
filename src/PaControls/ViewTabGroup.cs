@@ -36,6 +36,7 @@ namespace SIL.Pa.Controls
 		private XButton m_btnLeft;
 		private XButton m_btnRight;
 		private ToolTip m_tooltip;
+		private XButton m_btnHelp;
 
 		internal static Font s_tabFont;
 
@@ -159,6 +160,15 @@ namespace SIL.Pa.Controls
 			m_pnlCaption.Paint += new PaintEventHandler(m_pnlCaption_Paint);
 			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
 			Controls.Add(m_pnlCaption);
+
+			m_btnHelp = new XButton();
+			m_btnHelp.Size = new Size(20, 20);
+			m_btnHelp.Anchor = AnchorStyles.Right;
+			m_btnHelp.Image = Properties.Resources.kimidHelp;
+			int gap = (m_pnlCaption.Height - m_btnHelp.Height) / 2;
+			m_btnHelp.Location = new Point(m_pnlCaption.Width - (gap * 2) - m_btnHelp.Width, gap);
+			m_btnHelp.Click += new EventHandler(m_btnHelp_Click);
+			m_pnlCaption.Controls.Add(m_btnHelp);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,6 +246,17 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_btnHelp_Click(object sender, EventArgs e)
+		{
+			if (m_currTab != null)
+				PaApp.ShowHelpTopic(m_currTab.HelpTopicId);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the tab whose view is that specified by viewType.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -286,7 +307,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public ViewTab AddTab(string text, Type viewType)
 		{
-			return AddTab(text, null, null, viewType);
+			return AddTab(text, null, null, null, null, viewType);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -294,13 +315,16 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, string tooltip, Image img, Type viewType)
+		public ViewTab AddTab(string text, string tooltip, string helptootip,
+			string helptopicid, Image img, Type viewType)
 		{
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
 			ViewTab tab = new ViewTab(this, img, viewType);
 			tab.Text = STUtils.RemoveAcceleratorPrefix(text);
+			tab.HelpToolTipText = helptootip;
+			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
 			tab.Click += new EventHandler(tab_Click);
 
@@ -396,7 +420,8 @@ namespace SIL.Pa.Controls
 			// Make sure the main form is active
 			if (activateTabsViewForm && makeCurrentTabControl && FindForm() != null)
 				FindForm().Activate();
-		
+
+			m_tooltip.SetToolTip(m_btnHelp, newSelectedTab.HelpToolTipText);
 			PaApp.MsgMediator.SendMessage("ViewTabChanged", this);
 		}
 
@@ -571,7 +596,7 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This message is received when the current tab control changes.
+		/// This message is received when the current view tab changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewTabChanging(object args)
@@ -943,7 +968,9 @@ namespace SIL.Pa.Controls
 		private Timer m_tmrFader;
 		private ToolTip m_dockedToolTip;
 		private bool m_undockingInProgress = false;
-		
+		private string m_helpToolTipText = string.Empty;
+		private string m_helpTopicId;
+
 		/// <summary>
 		/// This flag gets set when a view is undocking. Suppose view A is being undocked.
 		/// That means  another view in the main application window has to become active within
@@ -1362,6 +1389,29 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the tab's tool tip for displaying over the tab group's help button
+		/// (i.e. the button to the far right of the view tab group's caption bar).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string HelpToolTipText
+		{
+			get { return m_helpToolTipText; }
+			set { m_helpToolTipText = value; }
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the help topic ID for the view's overview topic.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string HelpTopicId
+		{
+			get { return m_helpTopicId; }
+			set { m_helpTopicId = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the tab's view type.

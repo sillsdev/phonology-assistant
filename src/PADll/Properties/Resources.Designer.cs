@@ -214,6 +214,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Consonant Chart View Help.
+        /// </summary>
+        internal static string kstidConsonantChartViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidConsonantChartViewHelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consonant Chart.
         /// </summary>
         internal static string kstidConsonantChartViewText {
@@ -246,6 +255,15 @@ namespace SIL.Pa.Properties {
         internal static string kstidDataCorpusHTMLFileName {
             get {
                 return ResourceManager.GetString("kstidDataCorpusHTMLFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Corpus View Help.
+        /// </summary>
+        internal static string kstidDataCorpusViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidDataCorpusViewHelpToolTip", resourceCulture);
             }
         }
         
@@ -367,6 +385,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phone Inventory View Help.
+        /// </summary>
+        internal static string kstidPhoneInventoryViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidPhoneInventoryViewHelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone Inventory.
         /// </summary>
         internal static string kstidPhoneInventoryViewText {
@@ -417,6 +444,15 @@ namespace SIL.Pa.Properties {
         internal static string kstidSearchResultWordListWindowCaption {
             get {
                 return ResourceManager.GetString("kstidSearchResultWordListWindowCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search View Help.
+        /// </summary>
+        internal static string kstidSearchViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidSearchViewHelpToolTip", resourceCulture);
             }
         }
         
@@ -475,6 +511,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vowel Chart View Help.
+        /// </summary>
+        internal static string kstidVowelChartViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidVowelChartViewHelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vowel Chart.
         /// </summary>
         internal static string kstidVowelChartViewText {
@@ -520,6 +565,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to XY Charts View Help.
+        /// </summary>
+        internal static string kstidXYChartsViewHelpToolTip {
+            get {
+                return ResourceManager.GetString("kstidXYChartsViewHelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to XY Charts.
         /// </summary>
         internal static string kstidXYChartsViewText {
@@ -529,7 +583,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XY Charts View (Ctrl+Alt+X).
+        ///   Looks up a localized string similar to XY Charts View Help.
         /// </summary>
         internal static string kstidXYChartsViewToolTip {
             get {

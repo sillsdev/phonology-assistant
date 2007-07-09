@@ -252,46 +252,52 @@ namespace SIL.Pa
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			string text = (itemProps == null ? "Error!" : itemProps.Text);
 			string tooltip = Properties.Resources.kstidDataCorpusViewToolTip;
+			string helptooltip = Properties.Resources.kstidDataCorpusViewHelpToolTip;
 			Image img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(DataCorpusWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusWnd));
 			ViewTab tab = vwTabGroup.GetTab(typeof(DataCorpusWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidSearchViewToolTip;
+			helptooltip = Properties.Resources.kstidSearchViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(FindPhoneWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView",
+				img, typeof(FindPhoneWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidConsonantChartViewToolTip;
+			helptooltip = Properties.Resources.kstidConsonantChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(ConsonantChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView",
+				img, typeof(ConsonantChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidVowelChartViewToolTip;
+			helptooltip = Properties.Resources.kstidVowelChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(VowelChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView",
+				img, typeof(VowelChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidXYChartsViewToolTip;
+			helptooltip = Properties.Resources.kstidXYChartsViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(XYChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView",
+				img, typeof(XYChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuPhoneInventory");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidPhoneInventoryViewToolTip;
+			helptooltip = Properties.Resources.kstidPhoneInventoryViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, img, typeof(PhoneInventoryWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidPhoneInventoryView",
+				img, typeof(PhoneInventoryWnd));
 			
 			vwTabGroup.Visible = true;
-		}
-
-		void tab_ViewActivatedWhileDocked(object sender, EventArgs e)
-		{
-			throw new Exception("The method or operation is not implemented.");
 		}
 
 		/// ------------------------------------------------------------------------------------

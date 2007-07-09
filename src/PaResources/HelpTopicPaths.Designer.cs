@@ -61,6 +61,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm.
+        /// </summary>
+        internal static string hidConsonantChartView {
+            get {
+                return ResourceManager.GetString("hidConsonantChartView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/File/Custom_Fields.htm.
         /// </summary>
         internal static string hidCustomFieldsDlg {
@@ -75,6 +84,15 @@ namespace SIL.Pa.Resources {
         internal static string hidCVSyllablesOptions {
             get {
                 return ResourceManager.GetString("hidCVSyllablesOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Data_Corpus/Data_Corpus_view.htm.
+        /// </summary>
+        internal static string hidDataCorpusView {
+            get {
+                return ResourceManager.GetString("hidDataCorpusView", resourceCulture);
             }
         }
         
@@ -151,11 +169,29 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm.
+        /// </summary>
+        internal static string hidIgnoredSuprasegmentalsPopup {
+            get {
+                return ResourceManager.GetString("hidIgnoredSuprasegmentalsPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/File/New_Project_Settings.htm.
         /// </summary>
         internal static string hidNewProjectSettingsDlg {
             get {
                 return ResourceManager.GetString("hidNewProjectSettingsDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm.
+        /// </summary>
+        internal static string hidPhoneInventoryView {
+            get {
+                return ResourceManager.GetString("hidPhoneInventoryView", resourceCulture);
             }
         }
         
@@ -196,6 +232,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Search/Search_view.htm.
+        /// </summary>
+        internal static string hidSearchView {
+            get {
+                return ResourceManager.GetString("hidSearchView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Sorting_options.htm.
         /// </summary>
         internal static string hidSortingOptions {
@@ -223,6 +268,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm.
+        /// </summary>
+        internal static string hidVowelChartView {
+            get {
+                return ResourceManager.GetString("hidVowelChartView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Word_Lists_options.htm.
         /// </summary>
         internal static string hidWordListOptions {
@@ -232,11 +286,11 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm.
+        ///   Looks up a localized string similar to User_Interface/Views/XY_Charts/XY_Charts_view.htm.
         /// </summary>
-        internal static string kstidIgnoredSuprasegmentalsPopup {
+        internal static string hidXYChartsView {
             get {
-                return ResourceManager.GetString("kstidIgnoredSuprasegmentalsPopup", resourceCulture);
+                return ResourceManager.GetString("hidXYChartsView", resourceCulture);
             }
         }
     }

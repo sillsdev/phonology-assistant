@@ -109,6 +109,13 @@ namespace SIL.Pa.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidHelp {
+            get {
+                object obj = ResourceManager.GetObject("kimidHelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidMinimalPairOptions {
             get {
                 object obj = ResourceManager.GetObject("kimidMinimalPairOptions", resourceCulture);
