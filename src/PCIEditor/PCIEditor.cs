@@ -172,6 +172,7 @@ namespace SIL.Pa
 			// Build the articulatory features drop-down.
 			m_sddpAFeatures = new SizableDropDownPanel(s_settingsHndlr, Name + "AFeatureDropDown",
 				new Size((int)((double)kDefaultFeatureColWidth * 2.5), 175));
+			m_sddpAFeatures.MinimumSize = new Size(200, 100);
 			m_sddpAFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpAFeatures.Padding = new Padding(7, 0, 7, m_sddpAFeatures.Padding.Bottom);
 
@@ -199,6 +200,7 @@ namespace SIL.Pa
 			// Build the binary features drop-down.
 			m_sddpBFeatures = new SizableDropDownPanel(s_settingsHndlr, Name + "BFeatureDropDown",
 				new Size((int)((double)kDefaultFeatureColWidth * 2.5), 175));
+			m_sddpBFeatures.MinimumSize = new Size(200, 100);
 			m_sddpBFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpBFeatures.Padding = new Padding(7, 0, 7, m_sddpBFeatures.Padding.Bottom);
 

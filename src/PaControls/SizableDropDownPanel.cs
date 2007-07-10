@@ -20,6 +20,7 @@ namespace SIL.Pa.Controls
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
 		private bool m_resizeDoEvents = false;
+		private bool m_sizeChangeFromSizeChangeEvent = false;
 		private SettingsHandler m_settingsHndlr = null;
 
 		/// ------------------------------------------------------------------------------------
@@ -74,7 +75,34 @@ namespace SIL.Pa.Controls
 			get { return m_savedSettingsName; }
 			set { m_savedSettingsName = value; }
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnVisibleChanged(EventArgs e)
+		{
+			base.OnVisibleChanged(e);
+
+			if (!Visible)
+				return;
+
+			// Make sure the bottom right corner (i.e. the resizing gripper thing) of
+			// the drop-down is visible on the screen. It won't do for the drop-down
+			// to be too large for the screen and the user unable to shrink it.
+			Point pt = PointToScreen(new Point(m_hotArea.Right, m_hotArea.Bottom));
+			Screen scn = Screen.FromControl(this);
+			if (!scn.WorkingArea.Contains(pt))
+			{
+				// Shrink the drop-down so it's bottom, right corner is just inside the screen.
+				int dx = (pt.X - scn.WorkingArea.Right);
+				int dy = (pt.Y - scn.WorkingArea.Bottom);
+				Width -= dx;
+				Height -= dy;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -107,7 +135,7 @@ namespace SIL.Pa.Controls
 			// events from getting into an infinite loop.
 			if (m_resizeDoEvents)
 				return;
-			
+
 			if (m_leftMouseDown)
 			{
 				Point pt = PointToScreen(e.Location);
@@ -115,7 +143,16 @@ namespace SIL.Pa.Controls
 				int dy = (pt.Y - m_anchor.Y);
 				m_anchor = pt;
 
-				Size = new Size(Width + dx, Height + dy);
+				int newWidth = Width + dx;
+				int newHeight = Height + dy;
+
+				if (newWidth < MinimumSize.Width)
+					newWidth = MinimumSize.Width;
+
+				if (newHeight < MinimumSize.Height)
+					newHeight = MinimumSize.Height;
+
+				Size = new Size(newWidth, newHeight);
 
 				if (Cursor != Cursors.SizeNWSE)
 					Cursor = Cursors.SizeNWSE;
