@@ -1384,7 +1384,9 @@ namespace SIL.Pa
 				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
 	
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
-			
+			if (!VerifyMiscPatternConditions(engine))
+				return null;
+
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
 				if (incProgressBar && (incCounter++) == incAmount)
@@ -1527,6 +1529,31 @@ namespace SIL.Pa
 			}
 
 			return newQuery;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool VerifyMiscPatternConditions(SearchEngine engine)
+		{
+			if (engine == null)
+				return false;
+
+			string msg = null;
+
+			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
+				msg = Properties.Resources.kstidSrchPatternWordBoundaryError;
+			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
+				msg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
+			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
+				msg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+
+			if (msg != null)
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+
+			return (msg == null);
 		}
 
 		/// ------------------------------------------------------------------------------------

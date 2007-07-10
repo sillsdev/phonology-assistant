@@ -8,6 +8,33 @@ namespace SIL.Pa.FFSearchEngine
 {
 	public class SearchEngine
 	{
+		public enum WordBoundaryCondition
+		{
+			NoCondition,
+			BeginningOfSearchItem,
+			EndOfSearchItem
+		}
+
+		public enum ZeroOrMoreCondition
+		{
+			NoCondition,
+			InSearchItem,
+			MoreThanOneInEnvBefore,
+			MoreThanOneInEnvAfter,
+			NotBeginningOfEnvBefore,
+			NotEndOfEnvAfter,
+		}
+
+		public enum OneOrMoreCondition
+		{
+			NoCondition,
+			InSearchItem,
+			MoreThanOneInEnvBefore,
+			MoreThanOneInEnvAfter,
+			NotBeginningOfEnvBefore,
+			NotEndOfEnvAfter,
+		}
+		
 		public const string kIgnoredPhone = "\uFFFC";
 		private static SearchQuery s_currQuery = new SearchQuery();
 		private static List<string> s_ignoredPhones = new List<string>();
@@ -20,6 +47,9 @@ namespace SIL.Pa.FFSearchEngine
 		private PatternGroup m_envBefore;
 		private PatternGroup m_envAfter;
 		private PatternGroup m_srchItem;
+		private string m_envBeforeStr = string.Empty;
+		private string m_envAfterStr = string.Empty;
+		private string m_srchItemStr = string.Empty;
 		private string[] m_phones = null;
 		int m_matchIndex = 0;
 
@@ -133,6 +163,10 @@ namespace SIL.Pa.FFSearchEngine
 				m_errorMessages.Add(string.Format(
 					Properties.Resources.kstidPatternSyntaxError, DataUtils.kEmptyDiamondPattern));
 			}
+
+			m_srchItemStr = patterns[0];
+			m_envBeforeStr = patterns[1];
+			m_envAfterStr = patterns[2];
 		}
 
 		#region Properties
@@ -344,6 +378,90 @@ namespace SIL.Pa.FFSearchEngine
 
 				return (badChars.Count == 0 ? null : badChars.ToArray());
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not there is an invalid word boundary symbol
+		/// found in the search pattern, and where it is.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public WordBoundaryCondition GetWordBoundaryCondition()
+		{
+			string srchItemPattern = m_srchItem.ToString();
+			if (srchItemPattern.StartsWith("#"))
+				return WordBoundaryCondition.BeginningOfSearchItem;
+
+			if (srchItemPattern.EndsWith("#"))
+				return WordBoundaryCondition.EndOfSearchItem;
+
+			return WordBoundaryCondition.NoCondition;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not there is an invalid word boundary symbol
+		/// found in the search pattern, and where it is.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ZeroOrMoreCondition GetZeroOrMoreCondition()
+		{
+			// Check search item
+			if (m_srchItemStr.Contains("*"))
+				return ZeroOrMoreCondition.InSearchItem;
+
+			// Check environment before
+			string[] pieces = m_envBeforeStr.Split("*".ToCharArray());
+
+			if (pieces.Length > 2)
+			    return ZeroOrMoreCondition.MoreThanOneInEnvBefore;
+
+			if (pieces.Length > 1 && !m_envBeforeStr.StartsWith("*"))
+				return ZeroOrMoreCondition.NotBeginningOfEnvBefore;
+
+			// Check environment after
+			pieces = m_envAfterStr.Split("*".ToCharArray());
+
+			if (pieces.Length > 2)
+				return ZeroOrMoreCondition.MoreThanOneInEnvAfter;
+
+			if (pieces.Length > 1 && !m_envAfterStr.EndsWith("*"))
+				return ZeroOrMoreCondition.NotEndOfEnvAfter;
+
+			return ZeroOrMoreCondition.NoCondition;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not there is an invalid word boundary symbol
+		/// found in the search pattern, and where it is.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public OneOrMoreCondition GetOneOrMoreCondition()
+		{
+			// Check search item
+			if (m_srchItemStr.Contains("+"))
+				return OneOrMoreCondition.InSearchItem;
+
+			// Check environment before
+			string[] pieces = m_envBeforeStr.Split("+".ToCharArray());
+
+			if (pieces.Length > 2)
+				return OneOrMoreCondition.MoreThanOneInEnvBefore;
+
+			if (pieces.Length > 1 && !m_envBeforeStr.StartsWith("+"))
+				return OneOrMoreCondition.NotBeginningOfEnvBefore;
+
+			// Check environment after
+			pieces = m_envAfterStr.Split("+".ToCharArray());
+
+			if (pieces.Length > 2)
+				return OneOrMoreCondition.MoreThanOneInEnvAfter;
+
+			if (pieces.Length > 1 && !m_envAfterStr.EndsWith("+"))
+				return OneOrMoreCondition.NotEndOfEnvAfter;
+
+			return OneOrMoreCondition.NoCondition;
 		}
 
 		#endregion

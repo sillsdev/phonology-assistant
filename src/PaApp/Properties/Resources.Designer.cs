@@ -406,6 +406,33 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in an invalid location within\nthe search pattern. The one-or-more symbol may only be the first\nitem in the environment before and/or the last item in the environment\nafter. Please correct this and try your search again..
+        /// </summary>
+        internal static string kstidSrchPatternOneOrMoreError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternOneOrMoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The space/word boundary symbol (#) may not be the first or last\nitem in the search item portion (what precedes the slash) of the\nsearch pattern. Please correct this and try your search again..
+        /// </summary>
+        internal static string kstidSrchPatternWordBoundaryError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternWordBoundaryError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The zero-or-more symbol (*) was found in an invalid location within\nthe search pattern. The zero-or-more symbol may only be the first\nitem in the environment before and/or the last item in the environment\nafter. Please correct this and try your search again..
+        /// </summary>
+        internal static string kstidSrchPatternZeroOrMoreError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternZeroOrMoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information..
         /// </summary>
         internal static string kstidToolboxNotRunningMsg {
