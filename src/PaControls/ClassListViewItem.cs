@@ -397,12 +397,17 @@ namespace SIL.Pa.Controls
 
 			for (int i = 0; i < SubItems.Count; i++)
 			{
-				Rectangle rc = SubItems[i].Bounds;
-				rc.Inflate(-2, 2);
+				Rectangle rc;
 
-				// If we're painting the class name, then bump its rectangle over 1 pixels;
+				// If we're painting the class name, then get the bounds this way because
+				// SubItems[0].Bounds gives the entire width of the list view.
 				if (i == 0)
-					rc.X++;
+					rc = GetBounds(ItemBoundsPortion.Label);
+				else
+				{
+					rc = SubItems[i].Bounds;
+					rc.Inflate(-2, 2);
+				}
 
 				Font fnt = FontHelper.UIFont;
 				if (i == 1 && ClassType == SearchClassType.PhoneticChars)
