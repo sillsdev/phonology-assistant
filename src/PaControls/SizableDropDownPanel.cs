@@ -20,7 +20,6 @@ namespace SIL.Pa.Controls
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
 		private bool m_resizeDoEvents = false;
-		private bool m_sizeChangeFromSizeChangeEvent = false;
 		private SettingsHandler m_settingsHndlr = null;
 
 		/// ------------------------------------------------------------------------------------
