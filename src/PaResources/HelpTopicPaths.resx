@@ -121,8 +121,20 @@
     <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidArticulatoryFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Articulatory_Feature_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
     <value>User_Interface/Word_Lists/Sorting_Word_Lists.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidBinaryFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Binary_Feature_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidClassesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Classes_overview.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidConsonantChartView" xml:space="preserve">
@@ -187,6 +199,10 @@
   </data>
   <data name="hidPhoneInventoryView" xml:space="preserve">
     <value>User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidPhoneticCharacterClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Phonetic_Character_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidProjectSettingsDlg" xml:space="preserve">

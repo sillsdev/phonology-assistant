@@ -425,6 +425,27 @@ namespace SIL.Pa.Dialogs
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleHelpClick(object sender, EventArgs e)
+		{
+			switch (m_classInfo.ClassType)
+			{
+				case SearchClassType.PhoneticChars:
+					PaApp.ShowHelpTopic("hidPhoneticCharacterClassDlg");
+					break;
+				case SearchClassType.Articulatory:
+					PaApp.ShowHelpTopic("hidArticulatoryFeatureClassDlg");
+					break;
+				case SearchClassType.Binary:
+					PaApp.ShowHelpTopic("hidBinaryFeatureClassDlg");
+					break;
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Handle the class name changing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

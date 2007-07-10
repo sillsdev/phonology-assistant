@@ -70,11 +70,38 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Articulatory_Feature_Class.htm.
+        /// </summary>
+        internal static string hidArticulatoryFeatureClassDlg {
+            get {
+                return ResourceManager.GetString("hidArticulatoryFeatureClassDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Word_Lists/Sorting_Word_Lists.htm.
         /// </summary>
         internal static string hidBasicPhoneticSortOptions {
             get {
                 return ResourceManager.GetString("hidBasicPhoneticSortOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Binary_Feature_Class.htm.
+        /// </summary>
+        internal static string hidBinaryFeatureClassDlg {
+            get {
+                return ResourceManager.GetString("hidBinaryFeatureClassDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Classes_overview.htm.
+        /// </summary>
+        internal static string hidClassesDlg {
+            get {
+                return ResourceManager.GetString("hidClassesDlg", resourceCulture);
             }
         }
         
@@ -219,6 +246,15 @@ namespace SIL.Pa.Resources {
         internal static string hidPhoneInventoryView {
             get {
                 return ResourceManager.GetString("hidPhoneInventoryView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Phonetic_Character_Class.htm.
+        /// </summary>
+        internal static string hidPhoneticCharacterClassDlg {
+            get {
+                return ResourceManager.GetString("hidPhoneticCharacterClassDlg", resourceCulture);
             }
         }
         
