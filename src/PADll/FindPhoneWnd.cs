@@ -1508,25 +1508,29 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateRemovePattern(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !PaApp.IsFormActive(this))
 				return false;
 
 			bool enable = false;
 
-			// For some reason, referencing the SelectedItem property occasionally throws
-			// and error and I have no clue why. Since I cannot find the problem, I'll
-			// solve it this way for now.
-			try
+			if (itemProps.Name.EndsWith("-FromSavedList"))
+				enable = (tvSavedPatterns.SelectedNode != null);
+			else if (itemProps.Name.EndsWith("-FromRecentList"))
 			{
-				enable = (lstRecentPatterns.SelectedItem != null);
+				// For some reason, referencing the SelectedItem property occasionally throws
+				// and error and I have no clue why. Since I cannot find the problem, I'll
+				// solve it this way for now.
+				try
+				{
+					enable = (lstRecentPatterns.SelectedItem != null);
+				}
+				catch { }
+			
+				if (btnRemoveFromRecentList.Enabled != enable)
+					btnRemoveFromRecentList.Enabled = enable;
 			}
-			catch { }
-
-			if (btnRemoveFromRecentList.Enabled != enable)
-				btnRemoveFromRecentList.Enabled = enable;
-
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !itemProps.Name.EndsWith("-FromRecentList"))
+			else
 				return false;
 
 			if (itemProps.Enabled != enable)
