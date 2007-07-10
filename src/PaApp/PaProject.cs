@@ -426,16 +426,11 @@ namespace SIL.Pa
 		private void LoadDataSources()
 		{
 			ExperimentalTranscriptions = ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
-
-			WordCacheEntry.ExperimentalTranscriptionList =
-				DataUtils.IPACharCache.ExperimentalTranscriptions.ConversionList;
-
 			AmbiguousSequences = AmbiguousSequences.Load(ProjectPathFilePrefix);
 			PhoneCache.AmbiguousSequences = AmbiguousSequences;
 			PhoneCache.FeatureOverrides = PhoneFeatureOverrides.Load(ProjectPathFilePrefix);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();
-			WordCacheEntry.ExperimentalTranscriptionList = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

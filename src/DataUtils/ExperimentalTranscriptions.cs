@@ -41,7 +41,7 @@ namespace SIL.Pa.Data
 			{
 				for (int i = experimentalTrans.Count - 1; i >= 0; i--)
 				{
-					if (experimentalTrans[i].Item == null)
+					if (experimentalTrans[i].ConvertFromItem == null)
 						experimentalTrans.RemoveAt(i);
 				}
 			}
@@ -87,7 +87,7 @@ namespace SIL.Pa.Data
 				foreach (ExperimentalTrans info in this)
 				{
 					if (info.Convert && !info.TreatAsSinglePhone &&
-						info.CurrentTransToConvert != null)
+						info.CurrentConvertToItem != null)
 					{
 						return true;
 					}
@@ -99,8 +99,8 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a list of the items to convert. The returned list's key is the ambiguous item
-		/// and the key's value is what the item should be converted to.
+		/// Gets a list of the items to convert. The returned list's key is what to convert
+		/// from and the key's value is what the item should be converted to.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Dictionary<string, string> ConversionList
@@ -110,17 +110,45 @@ namespace SIL.Pa.Data
 				if (!AnyExperimentalTransToConvert)
 					return null;
 
-				Dictionary<string, string> list = new Dictionary<string, string>();
-				foreach (ExperimentalTrans item in this)
+				// First, sort the list of items to convert on the length of the item
+				// to convert to -- longest to shortest.
+				List<ExperimentalTrans> tmpList = new List<ExperimentalTrans>();
+
+				// Copy the ExperimentalTrans references.
+				foreach (ExperimentalTrans experimentalTrans in this)
+					tmpList.Add(experimentalTrans);
+
+				// Now order the items.
+				for (int i = tmpList.Count - 1; i >= 0; i--)
 				{
-					string convertToItem = item.CurrentTransToConvert;
-					if (item.Item != null && convertToItem != null &&
-						item.Convert && !item.TreatAsSinglePhone)
+					int length = (tmpList[i].ConvertFromItem == null ? 0 :
+						tmpList[i].ConvertFromItem.Length);
+
+					int lenFirst = (tmpList[0].ConvertFromItem == null ? 0 :
+						tmpList[0].ConvertFromItem.Length);
+
+					// If the current phone is longer than the first phone in the list,
+					// then move the current phone to the beginning of the list.
+					if (length > lenFirst)
 					{
-						list[item.Item] = convertToItem;
+						tmpList.Insert(0, tmpList[i]);
+						tmpList.RemoveAt(i + 1);
 					}
 				}
 
+				// Now put the sorted items in a list whose keys are what
+				// to convert from and whose values are what to convert to.
+				Dictionary<string, string> list = new Dictionary<string, string>();
+				foreach (ExperimentalTrans item in tmpList)
+				{
+					string convertToItem = item.CurrentConvertToItem;
+					if (item.ConvertFromItem != null && convertToItem != null &&
+						item.Convert && !item.TreatAsSinglePhone)
+					{
+						list[item.ConvertFromItem] = convertToItem;
+					}
+				}
+				
 				return (list.Count > 0 ? list : null);
 			}
 		}
@@ -137,7 +165,7 @@ namespace SIL.Pa.Data
 		{
 			foreach (ExperimentalTrans experimentalTrans in this)
 			{
-				if (experimentalTrans.Item == item)
+				if (experimentalTrans.ConvertFromItem == item)
 				{
 					return (itemMustBeTreatedAsSinglePhone ?
 						experimentalTrans.TreatAsSinglePhone : true);
@@ -145,6 +173,64 @@ namespace SIL.Pa.Data
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Converts all the specified text to contain the experimental transcriptions that
+		/// are marked for converting.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string Convert(string text)
+		{
+			Dictionary<string, string> actualConversions;
+			return Convert(text, out actualConversions);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Converts all the specified text to contain the experimental transcriptions that
+		/// are marked for converting.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string Convert(string text, out Dictionary<string, string> actualConversions)
+		{
+			char token = (char)1;
+			Dictionary<char, KeyValuePair<string, string>> transAndMarkerInfo =
+				new Dictionary<char, KeyValuePair<string, string>>();
+
+			// This loop will go through the phonetic string and replace each occurance of
+			// an experimental transcription with a single character token. Each experimental
+			// transcription receives a unique token which is later replaced by the experimantal
+			// transcription itself.
+			foreach (KeyValuePair<string, string> kvp in ConversionList)
+			{
+				if (kvp.Key != null && kvp.Value != null)
+				{
+					text = text.Replace(kvp.Key, token.ToString());
+					transAndMarkerInfo[token] = kvp;
+					token++;
+				}
+			}
+
+			actualConversions = new Dictionary<string, string>();
+
+			// Now replace each token with it's experimental transcription
+			// and build a list of the conversions that were actually made.
+			foreach (KeyValuePair<char, KeyValuePair<string, string>> kvp in transAndMarkerInfo)
+			{
+				if (text.IndexOf(kvp.Key) >= 0)
+				{
+					string convertTo = kvp.Value.Value;
+					text = text.Replace(kvp.Key.ToString(), convertTo);
+					actualConversions[kvp.Value.Key] = convertTo;
+				}
+			}
+
+			if (actualConversions.Count == 0)
+				actualConversions = null;
+
+			return text;
 		}
 	}
 
@@ -156,7 +242,7 @@ namespace SIL.Pa.Data
 	[XmlType("ExperimentalTranscription")]
 	public class ExperimentalTrans
 	{
-		private string m_item;
+		private string m_convertFromItem;
 		private List<string> m_convertToItems;
 		private string m_currentConvertToItem;
 		private bool m_convert = true;
@@ -181,7 +267,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public ExperimentalTrans(string item) : this()
 		{
-			m_item = item;
+			m_convertFromItem = item;
 			m_treatAsSinglePhone = true;
 		}
 
@@ -191,10 +277,10 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Item
+		public string ConvertFromItem
 		{
-			get { return m_item; }
-			set { m_item = value; }
+			get { return m_convertFromItem; }
+			set { m_convertFromItem = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,7 +290,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string CurrentTransToConvert
+		public string CurrentConvertToItem
 		{
 			get
 			{
@@ -212,7 +298,7 @@ namespace SIL.Pa.Data
 					return null;
 
 				if (m_treatAsSinglePhone)
-					return m_item;
+					return m_convertFromItem;
 
 				return (m_convertToItems.Contains(m_currentConvertToItem) ?
 					m_currentConvertToItem : null);
@@ -257,7 +343,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("TranscriptionToConvert")]
-		public List<string> TranscriptionsToConvert
+		public List<string> TranscriptionsToConvertTo
 		{
 			get { return m_convertToItems; }
 			set { m_convertToItems = value; }

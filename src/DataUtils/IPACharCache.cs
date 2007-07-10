@@ -251,7 +251,7 @@ namespace SIL.Pa.Data
 				}
 			}
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -262,33 +262,34 @@ namespace SIL.Pa.Data
 			get { return s_experimentalTransList; }
 			set
 			{
-				s_experimentalTransList.Clear();
+				s_experimentalTransList = value;
+				//s_experimentalTransList.Clear();
 
-				// Copy the references from the specified list to our own.
-				if (value != null)
-				{
-					foreach (ExperimentalTrans experimentalTrans in value)
-						s_experimentalTransList.Add(experimentalTrans);
-				}
+				//// Copy the references from the specified list to our own.
+				//if (value != null)
+				//{
+				//    foreach (ExperimentalTrans experimentalTrans in value)
+				//        s_experimentalTransList.Add(experimentalTrans);
+				//}
 
-				// Now order the items in the list on the "convert to"
-				// lengths -- longest to shortest.
-				for (int i = s_experimentalTransList.Count - 1; i >= 0; i--)
-				{
-					int lenLast = (s_experimentalTransList[i].CurrentTransToConvert == null ? 0 :
-						s_experimentalTransList[i].CurrentTransToConvert.Length);
+				//// Now order the items in the list on the "convert to"
+				//// lengths -- longest to shortest.
+				//for (int i = s_experimentalTransList.Count - 1; i >= 0; i--)
+				//{
+				//    int length = (s_experimentalTransList[i].ConvertFromItem == null ? 0 :
+				//        s_experimentalTransList[i].ConvertFromItem.Length);
 
-					int lenFirst = (s_experimentalTransList[0].CurrentTransToConvert == null ? 0 :
-						s_experimentalTransList[0].CurrentTransToConvert.Length);
-					
-					// If the current phone is longer than the first phone in the list,
-					// then move the current phone to the beginning of the list.
-					if (lenLast > lenFirst)
-					{
-						s_experimentalTransList.Insert(0, s_experimentalTransList[i]);
-						s_experimentalTransList.RemoveAt(i + 1);
-					}
-				}
+				//    int lenFirst = (s_experimentalTransList[0].ConvertFromItem == null ? 0 :
+				//        s_experimentalTransList[0].ConvertFromItem.Length);
+
+				//    // If the current phone is longer than the first phone in the list,
+				//    // then move the current phone to the beginning of the list.
+				//    if (length > lenFirst)
+				//    {
+				//        s_experimentalTransList.Insert(0, s_experimentalTransList[i]);
+				//        s_experimentalTransList.RemoveAt(i + 1);
+				//    }
+				//}
 			}
 		}
 		
@@ -595,7 +596,7 @@ namespace SIL.Pa.Data
 			if (normalize)
 			    phonetic = FFNormalizer.Normalize(phonetic);
 
-			phonetic = DelimitExperimentalTranscriptions(phonetic);
+			phonetic = s_experimentalTransList.Convert(phonetic);
 			phonetic = DelimitAmbiguousSequences(phonetic);
 
 			int phoneStart = 0;
@@ -724,27 +725,6 @@ namespace SIL.Pa.Data
 				{
 					phonetic = phonetic.Replace(ambigSeq.Unit,
 						string.Format(s_forcedPhoneDelimiterFmt, ambigSeq.Unit));
-				}
-			}
-
-			return phonetic;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Put delimiters around all experimental transcriptions so they're sure to be
-		/// parsed into their own phones.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string DelimitExperimentalTranscriptions(string phonetic)
-		{
-			foreach (ExperimentalTrans experimentalTrans in s_experimentalTransList)
-			{
-				if (experimentalTrans.CurrentTransToConvert != null)
-				{
-					phonetic = phonetic.Replace(experimentalTrans.Item,
-						string.Format(s_forcedPhoneDelimiterFmt,
-						experimentalTrans.CurrentTransToConvert));
 				}
 			}
 

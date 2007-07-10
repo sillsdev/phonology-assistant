@@ -43,24 +43,6 @@ namespace SIL.Pa
 		// popup for the user.
 		private Dictionary<string, string> m_experimentalTranscriptionList = null;
 
-		// This is the conversion list specified by the user in the experimental transcription
-		// list of the phone inventory view. It is set before data sources for a project are
-		// loaded and cleared after loading. This list is global for all WordCacheEntry objects.
-		private static Dictionary<string, string> s_experimentalTranscriptionList = null;
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a list of the from -> to experimental transcription conversions.
-		/// This list should only be non null while data sources are being read during
-		/// project loading. After project loading, the value is set to null.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Dictionary<string, string> ExperimentalTranscriptionList
-		{
-			get { return s_experimentalTranscriptionList; }
-			set { s_experimentalTranscriptionList = value; }
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -122,7 +104,9 @@ namespace SIL.Pa
 				{
 					// We're setting the phonetic value so normalize
 					// the string and convert any experimental transcriptions.
-					fieldValue.Value = ConvertExperimentalTranscriptions(FFNormalizer.Normalize(value));
+					fieldValue.Value =
+						DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
+						FFNormalizer.Normalize(value), out m_experimentalTranscriptionList);
 
 					// Check if it contains uncertain phones. If so, then force immediate
 					// parsing to make sure the list of uncertain phones is ready when
@@ -434,9 +418,14 @@ namespace SIL.Pa
 
 						if (m_phoneticValue.Value != null)
 						{
-							// Normalize the phonetic string and convert experimental transcriptions.
-							m_phoneticValue.Value = ConvertExperimentalTranscriptions(
-								FFNormalizer.Normalize(fieldValue.Value));
+							if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
+							{
+								// Normalize the phonetic string and convert experimental transcriptions.
+								m_phoneticValue.Value =
+									DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
+										FFNormalizer.Normalize(fieldValue.Value),
+										out m_experimentalTranscriptionList);
+							}
 
 							// Check if the phonetic value contains uncertain phones. If so,
 							// then parse into phones to make sure the list of uncertain phones
@@ -451,35 +440,35 @@ namespace SIL.Pa
 			m_fieldValuesList = null;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Converts all experimental transcriptions in the specified word and returns the
-		/// word with all the conversions applied.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string ConvertExperimentalTranscriptions(string phonetic)
-		{
-			if (s_experimentalTranscriptionList != null)
-			{
-				foreach (KeyValuePair<string, string> convertItem in s_experimentalTranscriptionList)
-				{
-					// Does the phonetic string contain the item to be converted?
-					if (phonetic.IndexOf(convertItem.Key) >= 0)
-					{
-						// At this point, we know we need to make a conversion. So make sure
-						// we have a list to store this conversion.
-						if (m_experimentalTranscriptionList == null)
-							m_experimentalTranscriptionList = new Dictionary<string, string>();
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Converts all experimental transcriptions in the specified word and returns the
+		///// word with all the conversions applied.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private string ConvertExperimentalTranscriptions(string phonetic)
+		//{
+		//    if (s_experimentalTranscriptionList != null)
+		//    {
+		//        foreach (KeyValuePair<string, string> convertItem in s_experimentalTranscriptionList)
+		//        {
+		//            // Does the phonetic string contain the item to be converted?
+		//            if (phonetic.IndexOf(convertItem.Key) >= 0)
+		//            {
+		//                // At this point, we know we need to make a conversion. So make sure
+		//                // we have a list to store this conversion.
+		//                if (m_experimentalTranscriptionList == null)
+		//                    m_experimentalTranscriptionList = new Dictionary<string, string>();
 
-						// Save the information for this conversion and do the conversion.
-						m_experimentalTranscriptionList[convertItem.Key] = convertItem.Value;
-						phonetic = phonetic.Replace(convertItem.Key, convertItem.Value);
-					}
-				}
-			}
+		//                // Save the information for this conversion and do the conversion.
+		//                m_experimentalTranscriptionList[convertItem.Key] = convertItem.Value;
+		//                phonetic = phonetic.Replace(convertItem.Key, convertItem.Value);
+		//            }
+		//        }
+		//    }
 
-			return phonetic;
-		}
+		//    return phonetic;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -173,7 +173,7 @@ namespace SIL.Pa.Controls
 			int i = 0;
 			foreach (ExperimentalTrans info in PaApp.Project.ExperimentalTranscriptions)
 			{
-				m_grid[0, i].Value = info.Item;
+				m_grid[0, i].Value = info.ConvertFromItem;
 
 				// Load the cell indicating whether or not a
 				// conversion will take place for this item.
@@ -181,11 +181,11 @@ namespace SIL.Pa.Controls
 				if (cell != null)
 					cell.Checked = !info.Convert;
 
-				if (info.TranscriptionsToConvert != null)
+				if (info.TranscriptionsToConvertTo != null)
 				{
 					// Now add the possible experimentaTransList to which the ambiguous item may be converted.
 					int col = kFirstCnvrtToCol;
-					foreach (string cnvrtToItem in info.TranscriptionsToConvert)
+					foreach (string cnvrtToItem in info.TranscriptionsToConvertTo)
 					{
 						// If there aren't enough columns to accomodate the
 						// next convert to item, then add a new one.
@@ -195,7 +195,7 @@ namespace SIL.Pa.Controls
 						m_grid[col, i].Value = cnvrtToItem;
 						cell = m_grid[col, i] as RadioButtonCell;
 						if (cell != null)
-							cell.Checked = (cnvrtToItem == info.CurrentTransToConvert);
+							cell.Checked = (cnvrtToItem == info.CurrentConvertToItem);
 
 						col++;
 					}
@@ -638,7 +638,7 @@ namespace SIL.Pa.Controls
 					continue;
 
 				ExperimentalTrans experimentalTrans = new ExperimentalTrans();
-				experimentalTrans.Item = (row.Cells[0].Value as string);
+				experimentalTrans.ConvertFromItem = (row.Cells[0].Value as string);
 				experimentalTrans.Convert = GetRowsConvertValue(row.Index);
 
 				List<string> convertToItems = new List<string>();
@@ -649,12 +649,12 @@ namespace SIL.Pa.Controls
 					{
 						convertToItems.Add(cell.Value as string);
 						if (cell.Checked)
-							experimentalTrans.CurrentTransToConvert = cell.Value as string;
+							experimentalTrans.CurrentConvertToItem = cell.Value as string;
 					}
 				}
 
 				if (convertToItems.Count > 0)
-					experimentalTrans.TranscriptionsToConvert = convertToItems;
+					experimentalTrans.TranscriptionsToConvertTo = convertToItems;
 
 				experimentaTransList.Add(experimentalTrans);
 			}
