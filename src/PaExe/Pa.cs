@@ -1,6 +1,9 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Threading;
+using System.Globalization;
+using System.Collections.Generic;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
@@ -16,9 +19,32 @@ namespace SIL.Pa
 		{
 			try
 			{
+				List<string> args = new List<string>(commandLineArgs);
+
+				for (int i = 0; i < args.Count; i++)
+				{
+					if (args[i].ToLower().StartsWith("/uilang:"))
+					{
+						string lang = args[i].Substring(8);
+						try
+						{
+							CultureInfo ci = CultureInfo.GetCultureInfo(lang);
+							Thread.CurrentThread.CurrentUICulture = ci;
+						}
+						catch (Exception e)
+						{
+							string msg = e.Message + "\n\nUsing default culture.";
+							STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+						}
+
+						args.RemoveAt(i);
+						break;
+					}
+				}
+
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new PaMainWnd(commandLineArgs));
+				Application.Run(new PaMainWnd(args.ToArray()));
 			}
 			catch (Exception e)
 			{
