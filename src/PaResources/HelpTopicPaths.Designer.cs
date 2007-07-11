@@ -340,6 +340,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Undefined_Characters_In_Class.htm.
+        /// </summary>
+        internal static string hidUndefinedCharactersInClassDlg {
+            get {
+                return ResourceManager.GetString("hidUndefinedCharactersInClassDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Undefined_Phonetic_Characters.htm.
         /// </summary>
         internal static string hidUndefinedPhoneticCharactersDlg {

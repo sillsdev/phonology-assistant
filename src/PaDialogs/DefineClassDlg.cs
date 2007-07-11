@@ -123,7 +123,6 @@ namespace SIL.Pa.Dialogs
 				case SearchClassType.PhoneticChars:
 					Text = string.Format(Text, Properties.Resources.kstidPhoneticCharClassDlgHdg);
 					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnPhoneticChars");
-					txtMembers.KeyPress += new KeyPressEventHandler(txtMembers_KeyPress);
 					break;
 				case SearchClassType.Articulatory:
 					Text = string.Format(Text, Properties.Resources.kstidArticulatoryFeatureClassDlgHdg);
@@ -364,6 +363,9 @@ namespace SIL.Pa.Dialogs
 		{
 			get	
 			{
+				if (m_origClassInfo == null)
+					return true;
+
 				return (CurrentPattern != m_origClassInfo.Pattern ||
 					m_classInfo.Text != m_origClassInfo.Text);
 			}
@@ -393,6 +395,23 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
+			// Check if any of the characters entered are invalid.
+			List<char> undefinedChars = new List<char>();
+			foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
+			{
+				if (DataUtils.IPACharCache[c] == null || DataUtils.IPACharCache[c].IsUndefined)
+					undefinedChars.Add(c);
+			}
+
+			if (undefinedChars.Count > 0)
+			{
+				using (UndefinedCharactersInClassDlg dlg =
+					new UndefinedCharactersInClassDlg(undefinedChars.ToArray()))
+				{
+					dlg.ShowDialog(this);
+				}
+			}
+
 			m_classInfo.Pattern = CurrentPattern;
 			return true;
 		}
@@ -430,9 +449,10 @@ namespace SIL.Pa.Dialogs
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
 				phones = IPACharCache.PhoneticParser_CommaDelimited(phones, true);
-				return "{" + phones + "}";
+				return "{" + (phones == null ? string.Empty : phones) + "}";
 			}
 		}
+
 		#endregion
 
 		#region Event handlers
@@ -466,31 +486,6 @@ namespace SIL.Pa.Dialogs
 		{
 			m_classInfo.Text = txtClassName.Text.Trim();
 			m_classInfo.IsDirty = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void txtMembers_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == '\b')
-				return;
-
-			if (e.KeyChar != ',' && e.KeyChar != ' ')
-			{
-				e.Handled = true;
-				
-				IPACharInfo charInfo = DataUtils.IPACharCache[e.KeyChar];
-				if (charInfo != null)
-					InsertText(e.KeyChar.ToString());
-				else
-				{
-					STUtils.STMsgBox(Properties.Resources.kstidInvalidPhoneticCharMsg,
-						MessageBoxButtons.OK);
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
