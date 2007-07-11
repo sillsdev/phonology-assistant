@@ -8,6 +8,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Reflection;
 using System.IO;
 using System.ComponentModel;
+using System.Diagnostics;
 using SIL.Pa.Resources;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
@@ -64,6 +65,9 @@ namespace SIL.Pa.Controls
 		private bool m_allGroupsExpanded = true;
 		private bool m_ToggleGroupExpansion = false;
 
+		private LocalWindowsHook m_kbHook;
+		private Keys m_stopPlaybackKey = Keys.None;
+
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -108,7 +112,8 @@ namespace SIL.Pa.Controls
 		/// Constructs a new DataGridView used for find phone results.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid()	: base()
+		public PaWordListGrid()
+			: base()
 		{
 			DoubleBuffered = true;
 			ReadOnly = true;
@@ -136,6 +141,13 @@ namespace SIL.Pa.Controls
 			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			m_cellInfoPopup.Paint += new PaintEventHandler(m_cellInfoPopup_Paint);
 			m_cellInfoPopup.CommandLink.Click += new EventHandler(PopupsCommandLink_Click);
+
+			if (PaApp.TMAdapter != null)
+			{
+				TMItemProperties itemProps = PaApp.TMAdapter.GetItemProperties("mnuStopPlayback");
+				if (itemProps != null)
+					m_stopPlaybackKey = itemProps.ShortcutKey;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -3089,15 +3101,48 @@ namespace SIL.Pa.Controls
 				length = AudioPlayer.MillisecondValueToBytes(length, audioFile);
 			}
 
-			// If AlteredSpeedPlayback returns false it means SA couldn't be found.
+			// If AlteredSpeedPlayback returns null it means SA couldn't be found.
 			// Therefore, abort trying to playback anymore utterances.
-			if (!m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
-				audioFile, offset, offset + length, m_playbackSpeed))
+			Process saPrs = m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
+				audioFile, offset, offset + length, m_playbackSpeed);
+
+			if (saPrs == null)
 			{
 				m_playbackAborted = true;
+				return;
 			}
 
-			return;
+			if (m_stopPlaybackKey != Keys.None)
+			{
+				// Create a global hook for the key that stops playback.
+				m_kbHook = new LocalWindowsHook(HookType.WH_KEYBOARD);
+				m_kbHook.HookInvoked += new LocalWindowsHook.HookEventHandler(m_kbHook_HookInvoked);
+				m_kbHook.Install();
+			}
+
+			while (!saPrs.HasExited)
+			{
+				Application.DoEvents();
+				if (m_playbackAborted && !saPrs.HasExited)
+					saPrs.Kill();
+			}
+
+			if (m_kbHook != null)
+			{
+				m_kbHook.Uninstall();
+				m_kbHook = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_kbHook_HookInvoked(object sender, HookEventArgs e)
+		{
+			if (e.wParam.ToInt32() == (int)m_stopPlaybackKey)
+				m_playbackAborted = true;
 		}
 
 		#endregion

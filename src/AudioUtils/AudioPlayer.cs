@@ -28,6 +28,7 @@ namespace SIL.SpeechTools.AudioUtils
 		private const string kDeviceName = "SILAudio";
 		private static bool s_playbackInProgress = false;
 
+		private string m_lstFile;
 		private string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\nShowWindow=Hide\n" +
 			"[AudioFiles]\nFile0={1}\n[Commands]\nCommand0=SelectFile(0)\n" +
 			"Command1=Playback({2},,{3},{4})\nCommand2=Return(1)";
@@ -160,20 +161,20 @@ namespace SIL.SpeechTools.AudioUtils
 		/// Plays back an utterance at slowed or increased speed using Speech Analyzer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AlteredSpeedPlayback(string callingApp, string soundFile, long from,
+		public Process AlteredSpeedPlayback(string callingApp, string soundFile, long from,
 			long to, int speed)
 		{
 			// Make sure the wave file exists. If not, don't return false since
 			// returning false is reserved for the condition when SA cannot be found.
 			if (!File.Exists(soundFile))
-				return true;
+				return null;
 
 			// Make sure SA can be found.
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
 				STUtils.STMsgBox(Properties.Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
-				return false;
+				return null;
 			}
 
 			// Create the contents for the SA list file.
@@ -185,20 +186,29 @@ namespace SIL.SpeechTools.AudioUtils
 			saListFileContent = STUtils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
-			string lstFile = Path.GetTempFileName();
-			File.AppendAllText(lstFile, saListFileContent);
+			m_lstFile = Path.GetTempFileName();
+			File.AppendAllText(m_lstFile, saListFileContent);
 			
 			// Start SA.
 			Process prs = new Process();
-			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + saLoc + "\"";
-			prs.StartInfo.Arguments = "-l " + lstFile;
-			prs.StartInfo.CreateNoWindow = true;
+			prs.StartInfo.Arguments = "-l " + m_lstFile;
+			prs.EnableRaisingEvents = true;
+			prs.Exited += new EventHandler(SA_Exited);
 			prs.Start();
-			prs.WaitForExit();
 
-			File.Delete(lstFile);
-			return true;
+			return prs;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the list file gets deleted when the SA process exits.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void SA_Exited(object sender, EventArgs e)
+		{
+			if (File.Exists(m_lstFile))
+				File.Delete(m_lstFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

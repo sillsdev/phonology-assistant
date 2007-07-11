@@ -1678,9 +1678,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				itemProps.Category = cmdInfo.Category;
 				itemProps.Tooltip = cmdInfo.ToolTip;
 				itemProps.Image = cmdInfo.Image;
-				
+
 				if (cmdInfo.ShortcutKey != Keys.None && item is ToolStripMenuItem)
+				{
+					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
 					((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
+				}
 			}
 
 			if (GetBoolFromAttribute(node, "toolbarlist"))
@@ -2136,7 +2139,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (item is ToolStripButton)
 				itemProps.Checked = ((ToolStripButton)item).Checked;
 			else if (item is ToolStripMenuItem)
+			{
 				itemProps.Checked = ((ToolStripMenuItem)item).Checked;
+				itemProps.ShortcutKey = ((ToolStripMenuItem)item).ShortcutKeys;
+			}
 			else if (item is ToolStripComboBox)
 			{
 				ToolStripComboBox cboItem = item as ToolStripComboBox;
@@ -2230,8 +2236,16 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (item is ToolStripButton && ((ToolStripButton)item).Checked != itemProps.Checked)
 				((ToolStripButton)item).Checked = itemProps.Checked;
-			else if (item is ToolStripMenuItem && ((ToolStripMenuItem)item).Checked != itemProps.Checked)
-				((ToolStripMenuItem)item).Checked = itemProps.Checked;
+			else if (item is ToolStripMenuItem)
+			{
+				ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+				
+				if (menuItem.Checked != itemProps.Checked)
+					menuItem.Checked = itemProps.Checked;
+		
+				if (menuItem.ShortcutKeys != itemProps.ShortcutKey)
+					menuItem.ShortcutKeys = itemProps.ShortcutKey;
+			}
 
 			if (item.Enabled != itemProps.Enabled)
 				item.Enabled = itemProps.Enabled;
@@ -2372,6 +2386,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			item.DropDownOpening += new EventHandler(HandleMenuPopups);
 			item.DropDownClosed += new EventHandler(HandleDropDownClosed);
 			item.Name = itemProps.Name;
+			item.ShortcutKeys = itemProps.ShortcutKey;
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
 
@@ -2723,7 +2738,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			Application.Idle -= new EventHandler(HandleItemUpdates);
+			Application.Idle -= HandleItemUpdates;
 			
 			m_parentControl.Controls.Remove(m_tspLeft);
 			m_parentControl.Controls.Remove(m_tspRight);

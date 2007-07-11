@@ -64,6 +64,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		private string m_commandId = string.Empty;
 		private string m_message = string.Empty;
 		private string m_originalText = string.Empty;
+		private Keys m_shortcutKey = Keys.None;
 		//private string m_statusMsg = string.Empty;
 		//private string m_shortcut = "None";
 		private bool m_enabled = true;
@@ -262,6 +263,17 @@ namespace SIL.FieldWorks.Common.UIAdapters
 //			get {return m_shortcut;}
 //			set {m_shortcut = value;}
 //		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the shortcut key for a menu/toolbar item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Keys ShortcutKey
+		{
+			get { return m_shortcutKey; }
+			set { m_shortcutKey = value; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

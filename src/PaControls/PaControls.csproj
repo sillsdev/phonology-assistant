@@ -218,6 +218,7 @@
     <Compile Include="HTMLChartWriter.cs" />
     <Compile Include="HTMLGridWriter.cs" />
     <Compile Include="HTMLWriterBase.cs" />
+    <Compile Include="LocalWindowsHook.cs" />
     <Compile Include="PaTextPanel.cs">
       <SubType>Component</SubType>
     </Compile>
