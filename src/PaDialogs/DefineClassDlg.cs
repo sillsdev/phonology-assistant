@@ -395,20 +395,23 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			// Check if any of the characters entered are invalid.
-			List<char> undefinedChars = new List<char>();
-			foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
+			if (m_classInfo.ClassType == SearchClassType.PhoneticChars)
 			{
-				if (DataUtils.IPACharCache[c] == null || DataUtils.IPACharCache[c].IsUndefined)
-					undefinedChars.Add(c);
-			}
-
-			if (undefinedChars.Count > 0)
-			{
-				using (UndefinedCharactersInClassDlg dlg =
-					new UndefinedCharactersInClassDlg(undefinedChars.ToArray()))
+				// Check if any of the characters entered are invalid.
+				List<char> undefinedChars = new List<char>();
+				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
-					dlg.ShowDialog(this);
+					if (DataUtils.IPACharCache[c] == null || DataUtils.IPACharCache[c].IsUndefined)
+						undefinedChars.Add(c);
+				}
+
+				if (undefinedChars.Count > 0)
+				{
+					using (UndefinedCharactersInClassDlg dlg =
+						new UndefinedCharactersInClassDlg(undefinedChars.ToArray()))
+					{
+						dlg.ShowDialog(this);
+					}
 				}
 			}
 
