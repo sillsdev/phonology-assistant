@@ -365,7 +365,7 @@ namespace SIL.Pa.Dialogs
 			get	
 			{
 				return (CurrentPattern != m_origClassInfo.Pattern ||
-					m_classInfo.Name != m_origClassInfo.Name);
+					m_classInfo.Text != m_origClassInfo.Text);
 			}
 		}
 
