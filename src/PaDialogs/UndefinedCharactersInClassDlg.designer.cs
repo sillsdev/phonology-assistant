@@ -69,8 +69,10 @@ namespace SIL.Pa.Dialogs
 			// 
 			// txtChars
 			// 
+			this.txtChars.BackColor = System.Drawing.SystemColors.Window;
 			resources.ApplyResources(this.txtChars, "txtChars");
 			this.txtChars.Name = "txtChars";
+			this.txtChars.ReadOnly = true;
 			// 
 			// tableLayoutPanel1
 			// 
