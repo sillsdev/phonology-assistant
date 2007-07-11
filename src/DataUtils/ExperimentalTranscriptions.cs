@@ -195,6 +195,12 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string Convert(string text, out Dictionary<string, string> actualConversions)
 		{
+			if (ConversionList == null || ConversionList.Count == 0)
+			{
+				actualConversions = null;
+				return text;
+			}
+
 			char token = (char)1;
 			Dictionary<char, KeyValuePair<string, string>> transAndMarkerInfo =
 				new Dictionary<char, KeyValuePair<string, string>>();
@@ -214,7 +220,7 @@ namespace SIL.Pa.Data
 			}
 
 			actualConversions = new Dictionary<string, string>();
-
+			
 			// Now replace each token with it's experimental transcription
 			// and build a list of the conversions that were actually made.
 			foreach (KeyValuePair<char, KeyValuePair<string, string>> kvp in transAndMarkerInfo)

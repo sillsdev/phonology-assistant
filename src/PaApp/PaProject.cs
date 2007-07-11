@@ -313,8 +313,12 @@ namespace SIL.Pa
 					BindingFlags flags = BindingFlags.SetProperty | BindingFlags.Static |
 						BindingFlags.Public;
 
-					typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
-							flags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
+					MemberInfo[] mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
+					if (mi != null && mi.Length > 0)
+					{
+						typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
+								flags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
+					}
 				}
 				catch { }
 			}
