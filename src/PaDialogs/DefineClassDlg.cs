@@ -362,7 +362,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get	{return (m_classInfo.IsDirty || base.IsDirty);}
+			get	
+			{
+				return (CurrentPattern != m_origClassInfo.Pattern ||
+					m_classInfo.Name != m_origClassInfo.Name);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -389,15 +393,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (m_classInfo.ClassType != SearchClassType.PhoneticChars)
-				m_classInfo.Pattern = txtMembers.Text.Trim();
-			else
-			{
-				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = IPACharCache.PhoneticParser_CommaDelimited(phones, true);
-				m_classInfo.Pattern = "{" + phones + "}";
-			}
-
+			m_classInfo.Pattern = CurrentPattern;
 			return true;
 		}
 
@@ -420,6 +416,23 @@ namespace SIL.Pa.Dialogs
 				!m_classesDlg.ClassListView.DoesClassNameExist(txtClassName.Text, m_origClassInfo, true)); 
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the pattern that would be built from the contents of the members text box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string CurrentPattern
+		{
+			get
+			{
+				if (m_classInfo.ClassType != SearchClassType.PhoneticChars)
+					return txtMembers.Text.Trim();
+
+				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
+				phones = IPACharCache.PhoneticParser_CommaDelimited(phones, true);
+				return "{" + phones + "}";
+			}
+		}
 		#endregion
 
 		#region Event handlers
