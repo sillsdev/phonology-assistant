@@ -573,6 +573,28 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateShowCIEResults(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !PaApp.IsFormActive(this))
+				return false;
+
+			if (itemProps.Enabled || itemProps.Checked)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = false;
+				itemProps.Checked = false;
+				itemProps.Update = true;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnExpandAllGroups(object args)
 		{
 			if (!PaApp.IsFormActive(this))
