@@ -242,7 +242,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedCharactersInClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Undefined_Characters_In_Class.htm</value>
+    <value>User_Interface/Menus/Tools/Undefined_Characters_in_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedPhoneticCharactersDlg" xml:space="preserve">
