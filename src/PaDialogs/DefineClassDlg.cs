@@ -148,6 +148,7 @@ namespace SIL.Pa.Dialogs
 			UpdateCharacterViewers();
 
 			m_classInfo.IsDirty = false;
+			PaApp.SettingsHandler.LoadFormProperties(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -262,17 +263,6 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadSettings()
-		{
-			// Restore query from setting file.
-			PaApp.SettingsHandler.LoadFormProperties(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Load the splitter locations from the settings file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -334,8 +324,6 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			LoadSettings();
-
 			System.Diagnostics.Debug.Assert(m_classesDlg != null);
 			System.Diagnostics.Debug.Assert(m_classInfo != null);
 			System.Diagnostics.Debug.Assert(charExplorer != null);

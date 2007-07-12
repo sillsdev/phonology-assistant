@@ -152,7 +152,7 @@ namespace SIL.Pa.Dialogs
 			using (DefineClassDlg dlg = new DefineClassDlg(item, this))
 			{
 				//dlg.TxtClassName.Enabled = false;
-				DialogResult result = dlg.ShowDialog();
+				DialogResult result = dlg.ShowDialog(this);
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{
 					item.Copy(dlg.ClassInfo);
@@ -212,7 +212,7 @@ namespace SIL.Pa.Dialogs
 		{
 			using (DefineClassDlg dlg = new DefineClassDlg(type, this))
 			{
-				DialogResult result = dlg.ShowDialog();
+				DialogResult result = dlg.ShowDialog(this);
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{
 					ClassListViewItem item = dlg.ClassInfo;

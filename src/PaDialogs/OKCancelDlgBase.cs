@@ -60,7 +60,7 @@ namespace SIL.Pa.Dialogs
 			base.OnShown(e);
 
 			Application.DoEvents();
-			
+
 			// At this point, the opacity should be zero. Now that we're shown and the handles
 			// are all created, show the form at full opacity. This will avoid visible layout
 			// ugliness that happens on dialogs with lots of panels and splitters, etc.
@@ -69,6 +69,7 @@ namespace SIL.Pa.Dialogs
 			// This is needed because some dialogs have PaPanels whose border
 			// doesn't get fully painted properly when the opacity goes to full.
 			Invalidate(true);
+			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------

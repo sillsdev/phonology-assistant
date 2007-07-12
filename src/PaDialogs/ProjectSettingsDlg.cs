@@ -443,7 +443,7 @@ namespace SIL.Pa.Dialogs
 			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
 				m_project.ProjectName : txtProjName.Text.Trim()) + ".pap";
 
-		    DialogResult result = dlg.ShowDialog();
+		    DialogResult result = dlg.ShowDialog(this);
 
 		    return (string.IsNullOrEmpty(dlg.FileName) || result == DialogResult.Cancel ?
 				null : dlg.FileName);
