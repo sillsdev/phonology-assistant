@@ -151,7 +151,6 @@ namespace SIL.Pa.Controls
 
 				while (AreLastTwoColumnsEmpty)
 					OnRemoveLastColumn(m_grid.CurrentRow.Index);
-
 			}
 		}
 
@@ -307,10 +306,14 @@ namespace SIL.Pa.Controls
 				if (e.ColumnIndex != 0)
 					e.Cancel = true;
 
-				// When a new row is beginning to be edited, then check the "None" column.
+				// When a new row is beginning to be edited, then check the
+				// "None" column. But don't consider it dirty yet.
 				RadioButtonCell cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
 				if (cell != null)
+				{
 					cell.Checked = true;
+					m_grid.IsDirty = false;
+				}
 			}
 		}
 
