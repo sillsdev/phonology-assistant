@@ -78,7 +78,8 @@ namespace SIL.Pa.Data
 						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
 						if (command != null)
 						{
-							using (SqlDataReader reader = command.ExecuteReader())
+							// Get all the database names.
+							using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
 							{
 								if (reader != null)
 								{
@@ -258,6 +259,9 @@ namespace SIL.Pa.Data
 		{
 			DBName = dbName;
 			Server = FwDBUtils.FwServer;
+
+			// As of the Summer 2007 release of FW, projects names are now just the DB name.
+			m_projName = dbName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -308,31 +312,36 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (IsMissing)
-					return string.Format(Properties.Resources.kstidFwDBMissing, DBName);
-
 				if (m_projName == null)
-				{
-					using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
-					{
-						if (connection == null)
-							return "Error retrieving project name";
+					m_projName = DBName;
 
-						SqlCommand command = new SqlCommand(FwQueries.ProjectNameSQL, connection);
-						using (SqlDataReader reader = command.ExecuteReader())
-						{
-							if (reader.HasRows)
-							{
-								reader.Read();
-								m_projName = reader[0] as string;
-							}
+				// This commented out code was used to get the FW project's internal name
+				// but FW now just uses the database name as the project name.
+				//if (IsMissing)
+				//    return string.Format(Properties.Resources.kstidFwDBMissing, DBName);
 
-							reader.Close();
-						}
+				//if (m_projName == null)
+				//{
+				//    using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
+				//    {
+				//        if (connection == null)
+				//            return "Error retrieving project name";
 
-						connection.Close();
-					}
-				}
+				//        SqlCommand command = new SqlCommand(FwQueries.ProjectNameSQL, connection);
+				//        using (SqlDataReader reader = command.ExecuteReader())
+				//        {
+				//            if (reader.HasRows)
+				//            {
+				//                reader.Read();
+				//                m_projName = reader[0] as string;
+				//            }
+
+				//            reader.Close();
+				//        }
+
+				//        connection.Close();
+				//    }
+				//}
 
 				return m_projName;
 			}

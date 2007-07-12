@@ -100,9 +100,10 @@ namespace SIL.Pa.Data
 				UndefinedPhoneticCharactersInfo ucpInfo = new UndefinedPhoneticCharactersInfo();
 				Add(ucpInfo);
 				ucpInfo.Character = c;
-				ucpInfo.Transcription = transcription;
 				ucpInfo.SourceName = CurrentDataSourceName;
 				ucpInfo.Reference = CurrentReference;
+				ucpInfo.Transcription =
+					transcription.Replace(IPACharCache.kForcedPhoneDelimiterStr, string.Empty);
 			}
 		}
 	}
@@ -143,8 +144,10 @@ namespace SIL.Pa.Data
 		}
 
 		private const string kEmptySetChars = "0\u2205";
-		private const string kForcedPhoneDelimiterStr = "$";
-		private const char kForcedPhoneDelimiter = '$';
+
+		// Use object replacement character.
+		internal const string kForcedPhoneDelimiterStr = "\uFFFC";
+		private const char kForcedPhoneDelimiter = '\uFFFC';
 		
 		private static IPACharCache s_cache = null;
 		private static ExperimentalTranscriptions s_experimentalTransList = null;

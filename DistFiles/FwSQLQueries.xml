@@ -2,6 +2,7 @@
 <FwQueries>
 	<mastertable>master</mastertable>
 	<databases>exec sp_GetFWDBs</databases>
+	<!-- The following query is obsolete since DB names are used as project names. -->
 	<projectname>select TOP 1 txt from CmProject_Name</projectname>
 	<lastmodifiedstamp>select top 1 Updstmp from CmObject where class$ in (5002, 5016) order by Updstmp desc</lastmodifiedstamp>
 	<veracularwritingsystems>
