@@ -288,7 +288,10 @@ namespace SIL.Pa
 			AmbiguousSequences ambigSeqList = PaApp.Project.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
+			{
+				gridAmbiguous.IsDirty = false;
 				return;
+			}
 
 			bool hasDefaultSequences = false;
 			gridAmbiguous.Rows.Add(ambigSeqList.Count);

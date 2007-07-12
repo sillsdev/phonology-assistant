@@ -22,6 +22,7 @@ namespace SIL.Pa.Dialogs
 		private const string kWsNameCol = "wsname";
 		private const string kWsTypeCol = "wstype";
 
+		private PaProject m_project;
 		private FwDataSourceInfo m_fwSourceInfo;
 		private List<FwWritingSysInfo> m_wsInfo;
 		private List<string> m_allWsNames;
@@ -42,8 +43,13 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourcePropertiesDlg(FwDataSourceInfo fwSourceInfo) : this()
+		public FwDataSourcePropertiesDlg(PaProject project, FwDataSourceInfo fwSourceInfo) : this()
 		{
+			System.Diagnostics.Debug.Assert(project != null);
+			System.Diagnostics.Debug.Assert(project.FieldInfo != null);
+			System.Diagnostics.Debug.Assert(fwSourceInfo != null);
+
+			m_project = project;
 			m_fwSourceInfo = fwSourceInfo;
 
 			lblProjectValue.Text = m_fwSourceInfo.ToString();
@@ -61,6 +67,14 @@ namespace SIL.Pa.Dialogs
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			m_dirty = false;
+
+			// This is annoying to have to do this, but setting the tab order in the
+			// designer doesn't seem to work. Therefore, I am forcing the inherited
+			// stuff to be last in the tab order.
+			pnlButtons.TabIndex = 100;
+			btnOK.TabIndex = 101;
+			btnCancel.TabIndex = 102;
+			btnHelp.TabIndex = 103;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,7 +140,7 @@ namespace SIL.Pa.Dialogs
 
 			// Go through each PA field and find the fields marked as FW fields that
 			// are marked with either the vernacular or analysis writing system.
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo.SortedList)
+			foreach (PaFieldInfo fieldInfo in m_project.FieldInfo.SortedList)
 			{
 				if (fieldInfo.IsFwField &&
 					fieldInfo.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
@@ -235,6 +249,19 @@ namespace SIL.Pa.Dialogs
 				currWsInfo.Ws = pickedWs.WsNumber;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will make sure that only writing system cells gets focus since they are the
+		/// only one the user may change. I hate using SendKeys, but setting CurrentCell
+		/// causing a reentrant error.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+				SendKeys.Send("{TAB}");
+		}
+
 		#endregion
 
 		#region Writing System Combos Setup
@@ -273,6 +300,20 @@ namespace SIL.Pa.Dialogs
 		protected override bool IsDirty
 		{
 			get	{return base.IsDirty || m_grid.IsDirty;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// For some reason, this needs to be done here or we end up in the second row as
+		/// a result of code in the m_grid_CellEnter event.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			if (m_grid.Rows.Count > 0)
+				m_grid.CurrentCell = m_grid[kWsNameCol, 0];
 		}
 
 		#endregion

@@ -164,6 +164,7 @@ namespace SIL.Pa.Controls
 			if (PaApp.Project.ExperimentalTranscriptions.Count == 0)
 			{
 				m_grid.Columns.Add(new RadioButtonColumn());
+				m_grid.IsDirty = false;
 				return;
 			}
 

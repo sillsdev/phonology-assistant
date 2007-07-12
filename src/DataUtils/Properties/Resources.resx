@@ -133,7 +133,7 @@
     <value>SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again.</value>
   </data>
   <data name="kstidErrorStartingSQLServer2" xml:space="preserve">
-    <value>Phonology Assistant waited 25 seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. If it has, try\nrestarting Phonology Assistant.</value>
+    <value>Phonology Assistant waited {0} seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. If it has, try\nrestarting Phonology Assistant.</value>
   </data>
   <data name="kstidFeatureCantBeDeletedMsg" xml:space="preserve">
     <value>Feature '{0}' is not a custom feature. It cannot be deleted.</value>

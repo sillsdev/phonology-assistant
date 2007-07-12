@@ -544,7 +544,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddFwDataSource_Click(object sender, EventArgs e)
 		{
-			using (FwProjectsDlg dlg = new FwProjectsDlg())
+			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project))
 			{
 				if (dlg.ShowDialog() == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
@@ -688,7 +688,7 @@ namespace SIL.Pa.Dialogs
 			}
 
 			using (FwDataSourcePropertiesDlg dlg =
-				new FwDataSourcePropertiesDlg(dataSource.FwDataSourceInfo))
+				new FwDataSourcePropertiesDlg(m_project, dataSource.FwDataSourceInfo))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{

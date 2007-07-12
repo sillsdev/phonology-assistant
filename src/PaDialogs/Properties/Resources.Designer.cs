@@ -478,7 +478,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The writing system for the phonetic field hsa not been specified for the FieldWorks data\n source &apos;{0}&apos;. Select the FieldWorks data source and click the properties button..
+        ///   Looks up a localized string similar to The writing system for the phonetic field has not been specified for the FieldWorks data source &apos;{0}&apos;.\n\nSelect the FieldWorks data source and click the properties button..
         /// </summary>
         internal static string kstidFwDataSourceWsMissingMsg {
             get {

@@ -126,7 +126,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
     <value>pnlButtons</value>
@@ -207,7 +207,7 @@
     <value>15, 15</value>
   </data>
   <data name="lblProjectValue.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="lblProjectValue.Text" xml:space="preserve">
     <value>#</value>
@@ -237,7 +237,7 @@
     <value>52, 15</value>
   </data>
   <data name="lblProject.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="lblProject.Text" xml:space="preserve">
     <value>Project:</value>
@@ -328,7 +328,7 @@
     <value>317, 90</value>
   </data>
   <data name="grpPhoneticDataStoreType.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="grpPhoneticDataStoreType.Text" xml:space="preserve">
     <value>Where is Phonetic Data Stored?</value>
@@ -391,7 +391,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2743.17618, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2749.17425, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>grpWritingSystems</value>
@@ -412,7 +412,7 @@
     <value>317, 218</value>
   </data>
   <data name="grpWritingSystems.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="grpWritingSystems.Text" xml:space="preserve">
     <value>&amp;Writing Systems</value>
@@ -448,6 +448,6 @@
     <value>FwDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2743.40251, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2749.19961, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

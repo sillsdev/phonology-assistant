@@ -210,7 +210,7 @@ namespace SIL.Pa.Dialogs
 					continue;
 
 				// This should only happen if the user removed a custom field since
-				// the time he was in here to modify the query source's mappings.
+				// the time he was in here to modify the data source's mappings.
 				if (fieldInfo != null || mapping.FieldName == PaDataSource.kRecordMarker)
 				{
 					SFMarkerMapping clone = mapping.Clone();
@@ -227,9 +227,10 @@ namespace SIL.Pa.Dialogs
 				}
 			}
 
-			// Now make sure the mappings contain all the fields in the project. This may happen
-			// for two reasons. 1) The user has added some custom fields since coming here to
-			// modify mappings or 2) A new release of PA introduced some new intrinsic PA fields.
+			// Now make sure the mappings contain all the fields in the project. It may be that the
+			// mappings list doesn't for for two reasons. 1) The user has added some custom fields
+			// since coming here to modify mappings or 2) A new release of PA introduced some new
+			// intrinsic PA fields.
 			for (int i = 0; i < m_fieldInfo.Count; i++)
 			{
 				// Data source and data source path cannot be mapped to.
@@ -626,7 +627,7 @@ namespace SIL.Pa.Dialogs
 			if (e.ColumnIndex == 3 && e.RowIndex >= 0)
 			{
 				SFMarkerMapping mapping = m_mappings[e.RowIndex];
-				PaFieldInfo fieldInfo = PaApp.FieldInfo[mapping.FieldName];
+				PaFieldInfo fieldInfo = m_fieldInfo[mapping.FieldName];
 
 				if (fieldInfo == null || !fieldInfo.CanBeInterlinear)
 				{

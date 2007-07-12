@@ -140,6 +140,7 @@ namespace SIL.Pa.Dialogs
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
 			this.m_grid.WaterMark = "";
+			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEnter);
 			// 
 			// FwDataSourcePropertiesDlg
 			// 

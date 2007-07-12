@@ -317,9 +317,6 @@ namespace SIL.Pa.Dialogs
 			if (m_grid.Rows.Count == 0)
 				return true;
 
-			// Create a new list of custom fields based on the contents of the grid.
-			PaFieldInfoList fieldList = new PaFieldInfoList();
-
 			for (int i = 0; i < m_grid.Rows.Count; i++)
 			{
 				if (i == m_grid.NewRowIndex)

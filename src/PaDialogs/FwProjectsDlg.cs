@@ -17,6 +17,8 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FwProjectsDlg : SIL.Pa.Dialogs.OKCancelDlgBase
 	{
+		private PaProject m_project;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -32,6 +34,17 @@ namespace SIL.Pa.Dialogs
 			lstFwProjects.SelectedIndex = 0;
 
 			Application.Idle += new EventHandler(Application_Idle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwProjectsDlg(PaProject project) : this()
+		{
+			System.Diagnostics.Debug.Assert(project != null);
+			m_project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,8 +85,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnProperties_Click(object sender, EventArgs e)
 		{
-			using (FwDataSourcePropertiesDlg dlg = new FwDataSourcePropertiesDlg(ChosenDatabase))
+			using (FwDataSourcePropertiesDlg dlg =
+				new FwDataSourcePropertiesDlg(m_project, ChosenDatabase))
+			{
 				dlg.ShowDialog(this);
+			}
 		}
 	}
 }
