@@ -219,6 +219,8 @@ namespace SIL.Pa
 						gridPhones.Rows[0].Selected = true;
 				}
 			}
+
+			gridPhones.IsDirty = false;
 		}
 
 		#endregion
