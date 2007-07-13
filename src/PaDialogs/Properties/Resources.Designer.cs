@@ -823,6 +823,42 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ({0} occurrences).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtLong {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0} occur.).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtMed {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtMed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtShort {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - ({1}).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgFmt {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgFmt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unicode\nNumber.
         /// </summary>
         internal static string kstidUnicodeNumHdg {

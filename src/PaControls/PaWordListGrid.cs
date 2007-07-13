@@ -2816,9 +2816,9 @@ namespace SIL.Pa.Controls
 			itemProps.Update = true;
 			return true;
 		}
+		
 		#endregion
 
-		#region Find Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Display the FindDlg form.
@@ -2883,6 +2883,7 @@ namespace SIL.Pa.Controls
 			}
 		}
 
+		#region Find Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Display the FindDlg form.

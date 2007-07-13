@@ -107,6 +107,7 @@ namespace SIL.Pa.Dialogs
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidUnicodeNumHdg);
+			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the sample column.
@@ -161,8 +162,59 @@ namespace SIL.Pa.Dialogs
 			m_grid.Columns[0].Width += 2;
 
 			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			m_grid.Sort(m_grid.Columns[0], ListSortDirection.Ascending);
+			Group();
+			m_grid.CurrentCell = m_grid[0, 0];
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Groups rows according to the unicode value.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Group()
+		{
+			SilHierarchicalGridRow row;
+			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			int childCount = 0;
+			int lastChild = m_grid.RowCount - 1;
+			string prevCodepoint = m_grid[0, lastChild].Value as string;
+			char prevChar = (char)(m_grid[1, lastChild].Value);
+			string fmt = Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgFmt;
+			string[] countFmt = new string[] {
+				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtLong,
+				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtMed,
+				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtShort};
+			
+			for (int i = m_grid.RowCount - 1; i >= 0; i--)
+			{
+				if (prevCodepoint != (m_grid[0, i].Value as string))
+				{
+					row = new SilHierarchicalGridRow(m_grid,
+						string.Format(fmt, prevChar, prevCodepoint), fnt, i + 1, lastChild);
+
+					row.CountFormatStrings = countFmt;
+					m_grid.Rows.Insert(i + 1, row);
+					prevCodepoint = m_grid[0, i].Value as string;
+					prevChar = (char)(m_grid[1, i].Value);
+					lastChild = i;
+					childCount = 0;
+				}
+
+				childCount++;
+			}
+
+			// Insert the first group heading row and insert a hierarchical column for the
+			// + and - glpyhs.
+			row = new SilHierarchicalGridRow(m_grid,
+				string.Format(fmt, prevChar, prevCodepoint), fnt, 0, lastChild);
+
+			row.CountFormatStrings = countFmt;
+			m_grid.Rows.Insert(0, row);
+			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
+		}
+
+		#region Event handlers and overrides
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -224,5 +276,7 @@ namespace SIL.Pa.Dialogs
 		{
 			PaApp.ShowHelpTopic(this);
 		}
+
+		#endregion
 	}
 }
