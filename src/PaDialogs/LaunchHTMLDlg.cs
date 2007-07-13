@@ -37,8 +37,21 @@ namespace SIL.Pa.Dialogs
 					"autolaunch", false);
 			}
 
-			if (autoLaunch && !string.IsNullOrEmpty(filename))
-				Process.Start("\"" + filename + "\"");
+			// Putting this is a try/catch is probably not necessary for most users, but
+			// at some point (the one at which I write this) opening files on my computer
+			// with my browser (which is what opens html files) throws an error before the
+			// file is opened. It happens just when clicking on an html file in Windows
+			// Explorer so I know it's not PA's problem. So, I might as well pass on the
+			// error just in case there is a legitimate problem.
+			try
+			{
+				if (autoLaunch && !string.IsNullOrEmpty(filename))
+					Process.Start("\"" + filename + "\"");
+			}
+			catch (Exception e)
+			{
+				STUtils.STMsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
 		}
 		
 		/// ------------------------------------------------------------------------------------

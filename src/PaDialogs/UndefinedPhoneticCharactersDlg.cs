@@ -179,13 +179,15 @@ namespace SIL.Pa.Dialogs
 			int childCount = 0;
 			int lastChild = m_grid.RowCount - 1;
 			string prevCodepoint = m_grid[0, lastChild].Value as string;
-			char prevChar = (char)(m_grid[1, lastChild].Value);
+			object prevChar = m_grid[1, lastChild].Value;
 			string fmt = Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgFmt;
 			string[] countFmt = new string[] {
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtLong,
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtMed,
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtShort};
 			
+			// Go from the bottom of the grid up, finding where the values differ from
+			// one row to the next. At those boundaries, a hierarchical row is inserted.
 			for (int i = m_grid.RowCount - 1; i >= 0; i--)
 			{
 				if (prevCodepoint != (m_grid[0, i].Value as string))
@@ -196,7 +198,7 @@ namespace SIL.Pa.Dialogs
 					row.CountFormatStrings = countFmt;
 					m_grid.Rows.Insert(i + 1, row);
 					prevCodepoint = m_grid[0, i].Value as string;
-					prevChar = (char)(m_grid[1, i].Value);
+					prevChar = m_grid[1, i].Value;
 					lastChild = i;
 					childCount = 0;
 				}
@@ -204,13 +206,14 @@ namespace SIL.Pa.Dialogs
 				childCount++;
 			}
 
-			// Insert the first group heading row and insert a hierarchical column for the
-			// + and - glpyhs.
+			// Insert the first group heading row.
 			row = new SilHierarchicalGridRow(m_grid,
 				string.Format(fmt, prevChar, prevCodepoint), fnt, 0, lastChild);
 
 			row.CountFormatStrings = countFmt;
 			m_grid.Rows.Insert(0, row);
+
+			// Insert a hierarchical column for the + and - glpyhs.
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 		}
 
