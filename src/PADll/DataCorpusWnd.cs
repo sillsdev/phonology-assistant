@@ -824,7 +824,7 @@ namespace SIL.Pa
 				PaApp.Project.Language);
 
 			string outputFileName = HTMLGridWriter.Export(m_grid, defaultHTMLFileName,
-				new string[] { Properties.Resources.kstidDataCorpusHTMLChartName });
+				new string[] { Properties.Resources.kstidDataCorpusHTMLChartType });
 
 			if (File.Exists(outputFileName))
 				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);

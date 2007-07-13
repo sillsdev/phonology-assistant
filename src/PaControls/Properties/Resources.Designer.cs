@@ -970,7 +970,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}{1}SearchResults.html.
+        ///   Looks up a localized string similar to {0}-{1}SearchResults.html.
         /// </summary>
         internal static string kstidSearchResultHTMLFileName {
             get {

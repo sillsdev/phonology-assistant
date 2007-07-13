@@ -48,10 +48,13 @@ min width
 			/*square brackets as desired or put nothing between them to use the phonetic font */
 			/*size specified in Phonology Assistant. */
 			/*Do not delete the following line*/
-			/*Alternate-Font-Size [1.5]*/
+			/*Alternate-Phonetic-Font-Size [1.5]*/
 
-			/*Do not delete the following line*/
-			/*Phonetic-Font-Settings-Go-Here*/
+			/*The following is where PA inserts phonetic font information. */
+			/*Do not delete or edit the following 3 lines. */
+			/*~~|td.d{Phonetic-Font-Name-Goes-Here}|~~*/
+			/*~~|td.d{Phonetic-Font-Size-Goes-Here}|~~*/
+			/*--|td.d{font-weight: bold;}|--*/
 		</style>
 	</head>
 	<body>

@@ -127,8 +127,9 @@
     <value>{0} ({1} Records)</value>
     <comment>word list window caption for non search results. Parameter 0 is langauge name, parameter 1 is for the number of records in the list</comment>
   </data>
-  <data name="kstidVowChartHTMLChartName" xml:space="preserve">
+  <data name="kstidVowChartHTMLChartType" xml:space="preserve">
     <value>Vowels</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
   </data>
   <data name="kstidVowelChartViewToolTip" xml:space="preserve">
     <value>Vowel Chart View (Ctrl+Alt+V)</value>
@@ -146,8 +147,9 @@
   <data name="kimidDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kstidConChartHTMLChartName" xml:space="preserve">
+  <data name="kstidConChartHTMLChartType" xml:space="preserve">
     <value>Consonants</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
   </data>
   <data name="kimidNewPatternCategory" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\New_category_for_saved_patterns.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -173,7 +175,7 @@
     <comment>Caption for save file dialog for PA XML export</comment>
   </data>
   <data name="kstidDataCorpusHTMLFileName" xml:space="preserve">
-    <value>{0}DataCorpus.html</value>
+    <value>{0}-DataCorpus.html</value>
     <comment>Default name for the HTML export file for HTML output of a data corpus view. The user may change this on the save file dialog.</comment>
   </data>
   <data name="kimidPaste" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -193,7 +195,7 @@
     <value>Are you sure you want to remove the saved chart?</value>
   </data>
   <data name="kstidConChartHTMLFileName" xml:space="preserve">
-    <value>{0}ConsonantChart.html</value>
+    <value>{0}-ConsonantChart.html</value>
     <comment>Default name for the HTML export file for HTML output of a consonant chart. The user may change this on the save file dialog.</comment>
   </data>
   <data name="kstidLoadNewProjectQuestion" xml:space="preserve">
@@ -203,8 +205,9 @@
   <data name="kimidFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Filter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kstidDataCorpusHTMLChartName" xml:space="preserve">
+  <data name="kstidDataCorpusHTMLChartType" xml:space="preserve">
     <value>Data Corpus</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
   </data>
   <data name="kstidDataCorpusViewToolTip" xml:space="preserve">
     <value>Data Corpus View (Ctrl+Alt+D)</value>
@@ -218,7 +221,7 @@
     <comment>Tooltip for search pattern text box in the find phone window.</comment>
   </data>
   <data name="kstidVowChartHTMLFileName" xml:space="preserve">
-    <value>{0}VowelChart.html</value>
+    <value>{0}-VowelChart.html</value>
     <comment>Default name for the HTML export file for HTML output of a vowel chart. The user may change this on the save file dialog.</comment>
   </data>
   <data name="kstidShowRecPaneToolTip" xml:space="preserve">
@@ -327,5 +330,13 @@
   </data>
   <data name="kstidXYChartsViewHelpToolTip" xml:space="preserve">
     <value>XY Charts View Help</value>
+  </data>
+  <data name="kstidXYChartHTMLChartType" xml:space="preserve">
+    <value>XY Chart</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidXYChartHTMLFileName" xml:space="preserve">
+    <value>{0}-{1}XYChart.html</value>
+    <comment>First parameter is language name, second is XY chart name</comment>
   </data>
 </root>

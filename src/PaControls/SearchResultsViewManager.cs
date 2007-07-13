@@ -1418,11 +1418,11 @@ namespace SIL.Pa.Controls
 		/// file the html file exported to.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string HTMLExport(Form frm)
+		public string HTMLExport()
 		{
 			PaWordListGrid grid = CurrentViewsGrid;
 
-			if (!PaApp.IsFormActive(frm) || grid == null)
+			if (grid == null)
 				return null;
 
 			string queryName = (string.IsNullOrEmpty(grid.Cache.SearchQuery.Name) ?

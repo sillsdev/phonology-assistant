@@ -215,9 +215,10 @@
     <Compile Include="Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
     </Compile>
-    <Compile Include="HTMLChartWriter.cs" />
+    <Compile Include="HTMLCVChartWriter.cs" />
     <Compile Include="HTMLGridWriter.cs" />
     <Compile Include="HTMLWriterBase.cs" />
+    <Compile Include="HTMLXYChartWriter.cs" />
     <Compile Include="LocalWindowsHook.cs" />
     <Compile Include="PaTextPanel.cs">
       <SubType>Component</SubType>

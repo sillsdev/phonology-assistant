@@ -1604,7 +1604,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			string outputFileName = m_rsltVwMngr.HTMLExport(this);
+			if (!PaApp.IsFormActive(this))
+				return false;
+
+			string outputFileName = m_rsltVwMngr.HTMLExport();
 
 			if (outputFileName == null)
 				return false;

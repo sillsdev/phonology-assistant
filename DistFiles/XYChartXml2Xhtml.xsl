@@ -20,21 +20,25 @@ min width
 			td {border-style:solid; border-width:thin; border-color:black;font-family: Arial,sans-serif;}
 			tr {min-height:20px;}
 			.colheadp, .colheadc, .colheads {
-			font-family: Arial,sans-serif;
-			font-size: 0.8em;
-			font-weight: bold;
 			text-align: center;
-			padding: 3px;
+			padding: 3px 15px 5px 15px;
 			background-color: rgb(230,230,230);
+			/*The following is where PA inserts phonetic font information. */
+			/*Do not delete or edit the following 3 lines. */
+			/*~~|Phonetic-Font-Name-Goes-Here|~~*/
+			/*~~|Phonetic-Font-Size-Goes-Here|~~*/
+			/*--|font-weight: bold;|--*/
 			}
 
 			.rowheadp, .rowheads, .rowheadc {
-			font-family: Arial,sans-serif;
-			font-size: 0.8em;
-			font-weight: bold;
-			text-align: right;
-			padding: 3px;
+			text-align: center;
+			padding: 3px 10px 5px 10px;
 			background-color: rgb(245, 245, 245);
+			/*The following is where PA inserts phonetic font information. */
+			/*Do not delete or edit the following 3 lines. */
+			/*~~|Phonetic-Font-Name-Goes-Here|~~*/
+			/*~~|Phonetic-Font-Size-Goes-Here|~~*/
+			/*--|font-weight: bold;|--*/
 			}
 
 			td.d {text-align: center;}
@@ -42,16 +46,15 @@ min width
 			td.d {height: 1.5em;}
 			td.d {border-width: 1px;}
 			td.d {border-color: rgb(153, 153, 153);}
+			td.d {font-family: Arial,sans-serif;}
+			td.d {font-size: 0.8em;}
 
 			/*The value in square brackets is the 'em' value used for the phonetic font size  */
 			/*for the phonetic data in the chart. Increase or decrease the number between the */
 			/*square brackets as desired or put nothing between them to use the phonetic font */
 			/*size specified in Phonology Assistant. */
 			/*Do not delete the following line*/
-			/*Alternate-Font-Size [1.5]*/
-
-			/*Do not delete the following line*/
-			/*Phonetic-Font-Settings-Go-Here*/
+			/*Alternate-Phonetic-Font-Size [1.5]*/
 		</style>
 	</head>
 	<body>

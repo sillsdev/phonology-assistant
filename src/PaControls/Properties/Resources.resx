@@ -468,7 +468,7 @@
     <value>Finding Minimal Pairs...</value>
   </data>
   <data name="kstidSearchResultHTMLFileName" xml:space="preserve">
-    <value>{0}{1}SearchResults.html</value>
+    <value>{0}-{1}SearchResults.html</value>
     <comment>First parameter is language name, second is query name</comment>
   </data>
   <data name="kstidSearchResultTabToolTip" xml:space="preserve">

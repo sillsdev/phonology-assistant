@@ -77,7 +77,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override string XSLFileName
 		{
-			get	{return "ChartXml2Xhtml.xsl";}
+			get	{return "CVChartXml2Xhtml.xsl";}
 		}
 
 		#region Methods for writing the header nodes

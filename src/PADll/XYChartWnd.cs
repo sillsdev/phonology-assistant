@@ -1308,7 +1308,21 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{
-			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !PaApp.IsFormActive(this))
+				return false;
+
+			bool enable = (m_rsltVwMngr.CurrentViewsGrid != null &&
+				m_rsltVwMngr.CurrentViewsGrid.Focused);
+
+			if (itemProps.Enabled != enable)
+			{
+				itemProps.Update = true;
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1318,7 +1332,24 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			string outputFileName = m_rsltVwMngr.HTMLExport(this);
+			if (!PaApp.IsFormActive(this))
+				return false;
+
+			string outputFileName;
+			object objForExport = ObjectForHTMLExport;
+
+			// Determine whether to export the XY Chart or a search result word list.
+			if (!(objForExport is XYGrid))
+				outputFileName = m_rsltVwMngr.HTMLExport();
+			else
+			{
+				string defaultHTMLFileName = string.Format(
+					Properties.Resources.kstidXYChartHTMLFileName,
+					PaApp.Project.Language, m_xyGrid.ChartName);
+
+				outputFileName = HTMLXYChartWriter.Export(m_xyGrid, defaultHTMLFileName,
+					Properties.Resources.kstidXYChartHTMLChartType, m_xyGrid.ChartName);
+			}
 
 			if (outputFileName == null)
 				return false;
@@ -1336,32 +1367,34 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
-			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !PaApp.IsFormActive(this))
+				return false;
+
+			bool enable = (ObjectForHTMLExport != null);
+			itemProps.Enabled = enable;
+			itemProps.Visible = true;
+			itemProps.Update = true;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns false when the specified TM item properties are null or when this form
-		/// is not the active view. Returns true otherwise. When returning true, the enabled
-		/// state of the item properties is set to true when there is a current search result
-		/// grid.
+		/// Determines which object in the view should be exported to HTML, the XY chart grid,
+		/// or one of the search result word lists, if there are any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool EnableItemWhenFocusedAndHaveCurrentGrid(TMItemProperties itemProps)
+		private object ObjectForHTMLExport
 		{
-			if (itemProps == null || !PaApp.IsFormActive(this))
-				return false;
-
-			bool enable = (m_rsltVwMngr.CurrentViewsGrid != null);
-
-			if (itemProps.Enabled != enable)
+			get
 			{
-				itemProps.Update = true;
-				itemProps.Visible = true;
-				itemProps.Enabled = enable;
-			}
+				// If a search result grid has focus, it wins the contest.
+				if (m_rsltVwMngr.CurrentViewsGrid != null && m_rsltVwMngr.CurrentViewsGrid.Focused)
+					return m_rsltVwMngr.CurrentViewsGrid;
 
-			return true;
+				// Otherwise the grid does if it's not empty.
+				return (!m_xyGrid.IsEmpty ? m_xyGrid : null);
+			}
 		}
 
 		#endregion

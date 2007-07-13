@@ -17,6 +17,8 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLWriterBase
 	{
+		private const string kXSLPhoneticFontInfoMarker = "Phonetic-Font-Name-Goes-Here";
+
 		protected XmlDocument m_xmlDoc;
 		protected XmlNode m_currNode;
 		private string m_htmlOutputFile;
@@ -173,7 +175,7 @@ namespace SIL.Pa.Controls
 					string xmlFile = Path.GetFileNameWithoutExtension(m_htmlOutputFile);
 					xmlFile += (m_htmlOutputFile.ToLower().EndsWith(".xml") ? "1.xml" : ".xml");
 					xmlFile = Path.Combine(Path.GetDirectoryName(m_htmlOutputFile), xmlFile);
-					File.Copy(m_tmpXMLFile, xmlFile);
+					File.Copy(m_tmpXMLFile, xmlFile, true);
 				}
 				catch { }
 			}
@@ -202,39 +204,28 @@ namespace SIL.Pa.Controls
 			// Read the content of the entire XSL file.
 			string xslContent = File.ReadAllText(m_xslFileBase);
 
-			// Determine whether or not the file contains a an override for the font size.
+			// Determine whether or not the file contains an override for the font size.
 			float altSize = 0;
-			int i = xslContent.IndexOf("/*Alternate-Font-Size [");
+			int i = xslContent.IndexOf("/*Alternate-Phonetic-Font-Size [");
 			if (i >= 0)
 			{
-				int open = i + 23;
+				int open = i + 32;
 				int closed = xslContent.IndexOf("]", open);
 				if (closed > open)
 				{
 					System.Globalization.CultureInfo ci =
 						System.Globalization.CultureInfo.CreateSpecificCulture("en");
-					STUtils.TryFloatParse(xslContent.Substring(open, closed - open), ci, out altSize);
+					STUtils.TryFloatParse(
+						xslContent.Substring(open, closed - open), ci, out altSize);
 				}
 			}
 
-			StringBuilder fontInfo = new StringBuilder();
-			string replacementText = "/*Phonetic-Font-Settings-Go-Here*/";
+			xslContent = ((xslContent.IndexOf(kXSLPhoneticFontInfoMarker) >= 0) ?
+				WriteFontInfoForPhonetic(xslContent, altSize) :
+				WriteFontInfoForAllFields(xslContent, altSize));
 
-			if (xslContent.IndexOf(replacementText) >= 0)
-				GetPhoneticFontInfo(fontInfo, altSize);
-			else
-			{
-				replacementText = "/*Font-Settings-Go-Here*/";
-
-				// Write all the field's font information to the XSLT file.
-				foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
-				{
-					if (fieldInfo.Font != null && fieldInfo.VisibleInGrid)
-						AddFontInfoForField(fieldInfo, fontInfo, altSize);
-				}
-			}
-
-			xslContent = xslContent.Replace(replacementText, fontInfo.ToString());
+			xslContent = xslContent.Replace("/*~~|", string.Empty);
+			xslContent = xslContent.Replace("|~~*/", string.Empty);
 			string tmpXSLFile = Path.GetTempFileName();
 			File.WriteAllText(tmpXSLFile, xslContent);
 			return tmpXSLFile;
@@ -246,7 +237,7 @@ namespace SIL.Pa.Controls
 		/// td.d class in the XSL's cascading style sheet.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GetPhoneticFontInfo(StringBuilder fontInfo, float fontSize)
+		private string WriteFontInfoForPhonetic(string xslContent, float fontSize)
 		{
 			// If an alternate size was found in the XSL file, then assume it's in 'em'
 			// units. Otherwise, use the phonetic field's font size in points.
@@ -255,20 +246,41 @@ namespace SIL.Pa.Controls
 			if (fontSize == 0)
 				fontSize = PaApp.Project.FieldInfo.PhoneticField.Font.SizeInPoints;
 
-			string className = "\t\t\ttd.d ";
-			
-			fontInfo.Append(className);
-			fontInfo.AppendFormat("{{font-family: \"{0}\";}}\r\n",
+			string replacementText = string.Format("font-family: \"{0}\";",
 				PaApp.Project.FieldInfo.PhoneticField.Font.Name);
-			
-			fontInfo.Append(className);
-			fontInfo.AppendFormat("{{font-size: {0}{1};}}\r\n", fontSize, units);
+
+			xslContent = xslContent.Replace(kXSLPhoneticFontInfoMarker, replacementText);
+
+			replacementText = string.Format("font-size: {0}{1};", fontSize, units);
+			xslContent = xslContent.Replace("Phonetic-Font-Size-Goes-Here", replacementText);
 
 			if (PaApp.Project.FieldInfo.PhoneticField.Font.Bold)
 			{
-				fontInfo.Append(className);
-				fontInfo.Append("{{font-weight: bold;}}\r\n");
+				xslContent = xslContent.Replace("/*--|", string.Empty);
+				xslContent = xslContent.Replace("|--*/", string.Empty);
 			}
+
+			return xslContent;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Writes the font information to the xsl file for all the fields visible in a grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string WriteFontInfoForAllFields(string xslContent, float fontSize)
+		{
+			StringBuilder fontInfo = new StringBuilder();
+			string replacementText = "/*Font-Settings-Go-Here*/";
+
+			// Write all the field's font information to the XSLT file.
+			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			{
+				if (fieldInfo.Font != null && fieldInfo.VisibleInGrid)
+					AddFontInfoForField(fieldInfo, fontInfo, fontSize);
+			}
+
+			return xslContent.Replace(replacementText, fontInfo.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------

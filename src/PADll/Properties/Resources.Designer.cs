@@ -189,14 +189,14 @@ namespace SIL.Pa.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Consonants.
         /// </summary>
-        internal static string kstidConChartHTMLChartName {
+        internal static string kstidConChartHTMLChartType {
             get {
-                return ResourceManager.GetString("kstidConChartHTMLChartName", resourceCulture);
+                return ResourceManager.GetString("kstidConChartHTMLChartType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}ConsonantChart.html.
+        ///   Looks up a localized string similar to {0}-ConsonantChart.html.
         /// </summary>
         internal static string kstidConChartHTMLFileName {
             get {
@@ -243,14 +243,14 @@ namespace SIL.Pa.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Data Corpus.
         /// </summary>
-        internal static string kstidDataCorpusHTMLChartName {
+        internal static string kstidDataCorpusHTMLChartType {
             get {
-                return ResourceManager.GetString("kstidDataCorpusHTMLChartName", resourceCulture);
+                return ResourceManager.GetString("kstidDataCorpusHTMLChartType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}DataCorpus.html.
+        ///   Looks up a localized string similar to {0}-DataCorpus.html.
         /// </summary>
         internal static string kstidDataCorpusHTMLFileName {
             get {
@@ -495,14 +495,14 @@ namespace SIL.Pa.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Vowels.
         /// </summary>
-        internal static string kstidVowChartHTMLChartName {
+        internal static string kstidVowChartHTMLChartType {
             get {
-                return ResourceManager.GetString("kstidVowChartHTMLChartName", resourceCulture);
+                return ResourceManager.GetString("kstidVowChartHTMLChartType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}VowelChart.html.
+        ///   Looks up a localized string similar to {0}-VowelChart.html.
         /// </summary>
         internal static string kstidVowChartHTMLFileName {
             get {
@@ -552,6 +552,24 @@ namespace SIL.Pa.Properties {
         internal static string kstidXYChartFillChartMsg {
             get {
                 return ResourceManager.GetString("kstidXYChartFillChartMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XY Chart.
+        /// </summary>
+        internal static string kstidXYChartHTMLChartType {
+            get {
+                return ResourceManager.GetString("kstidXYChartHTMLChartType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}-{1}XYChart.html.
+        /// </summary>
+        internal static string kstidXYChartHTMLFileName {
+            get {
+                return ResourceManager.GetString("kstidXYChartHTMLFileName", resourceCulture);
             }
         }
         

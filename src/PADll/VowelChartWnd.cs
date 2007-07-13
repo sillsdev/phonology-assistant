@@ -31,7 +31,7 @@ namespace SIL.Pa
 			InitializeComponent();
 			Name = "vowelChartWnd";
 			m_defaultHTMLOutputFile = Properties.Resources.kstidVowChartHTMLFileName;
-			m_htmlChartName = Properties.Resources.kstidVowChartHTMLChartName;
+			m_htmlChartName = Properties.Resources.kstidVowChartHTMLChartType;
 		}
 
 		/// ------------------------------------------------------------------------------------
