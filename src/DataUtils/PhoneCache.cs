@@ -56,8 +56,14 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void AddUndefinedPhone(string phone)
 		{
-			if (!ContainsKey(phone))
+			IPhoneInfo phoneInfo;
+			if (!TryGetValue(phone, out phoneInfo))
 				this[phone] = new PhoneInfo(phone, true);
+			else
+			{
+				if (phoneInfo is PhoneInfo)
+					(phoneInfo as PhoneInfo).IsUndefined = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -705,6 +711,7 @@ namespace SIL.Pa.Data
 		public bool IsUndefined
 		{
 			get { return m_isUndefined; }
+			internal set { m_isUndefined = true; }
 		}
 	}
 
