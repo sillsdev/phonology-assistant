@@ -129,6 +129,7 @@ namespace SIL.Pa
 			cieCache.CIEGroupTexts = cieGroupTexts;
 			cieCache.IsForSearchResults = true;
 			cieCache.Sort(m_sortOptions);
+			cieCache.SearchQuery = m_cache.SearchQuery.Clone();
 			return cieCache;
 		}
 

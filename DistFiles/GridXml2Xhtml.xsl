@@ -26,7 +26,24 @@ min width
 				td.colhead {font-weight: bold;}
 				td.colhead {text-align: left;}
 				td.colhead {padding: 3px;}
-				td.colhead {background-color: rgb(230,230,230);}
+
+				tr {min-height:20px;}
+
+				td.groupheadtext {padding: 3px;}
+				td.groupheadtext {background-color: rgb(230,230,230);}
+				td.groupheadtext {border-color: rgb(153, 153, 153);}
+				td.groupheadtext {font-weight: bold;}
+				/*~~|td.groupheadtext {Group-Head-Font-Name-Goes-Here}|~~*/
+				/*~~|td.groupheadtext {Group-Head-Font-Size-Goes-Here}|~~*/
+
+				td.groupheadcount {font-family: Arial,sans-serif;}
+				td.groupheadcount {font-size: .8em;}
+				td.groupheadcount {font-weight: bold;}
+				td.groupheadcount {text-align: right;}
+				td.groupheadcount {padding: 3px;}
+				td.groupheadcount {background-color: rgb(230,230,230);}
+				td.groupheadcount {border-color: rgb(153, 153, 153);}
+				td.groupheadcount {border-left-style: hidden;}
 
 				td.d {font-family: Arial,sans-serif;}
 				td.d {font-size: 1.0em;}
@@ -36,7 +53,6 @@ min width
 				td.d {border-width: 1px;}
 				td.d {border-color: rgb(153, 153, 153);}
 
-				tr {min-height:20px;}
 				td.d.phbefore {border-right: none;}
 				td.d.phbefore {text-align: right;}
 				td.d.phtarget {text-align: center;}

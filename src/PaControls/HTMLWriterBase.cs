@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -22,6 +23,7 @@ namespace SIL.Pa.Controls
 		protected XmlDocument m_xmlDoc;
 		protected XmlNode m_currNode;
 		private string m_htmlOutputFile;
+		protected Font m_groupHeadingFont = null;
 		protected string m_tmpXMLFile;
 		protected string m_xslFileBase;
 		protected bool m_error = false;
@@ -220,6 +222,9 @@ namespace SIL.Pa.Controls
 				}
 			}
 
+			if (m_groupHeadingFont != null)
+				xslContent = WriteFontInfoForGroupHeading(xslContent, altSize);
+
 			xslContent = ((xslContent.IndexOf(kXSLPhoneticFontInfoMarker) >= 0) ?
 				WriteFontInfoForPhonetic(xslContent, altSize) :
 				WriteFontInfoForAllFields(xslContent, altSize));
@@ -233,8 +238,28 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Add the phonetic font info. to the specified string builder for output to the
-		/// td.d class in the XSL's cascading style sheet.
+		/// Add the font information to the XSL style sheet for the grid's group by field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string WriteFontInfoForGroupHeading(string xslContent, float fontSize)
+		{
+			// If an alternate size was found in the XSL file, then assume it's in 'em'
+			// units. Otherwise, use the phonetic field's font size in points.
+			string units = (fontSize == 0 ? "pt" : "em");
+
+			if (fontSize == 0)
+				fontSize = m_groupHeadingFont.SizeInPoints;
+
+			string replacementText = string.Format("font-family: \"{0}\";", m_groupHeadingFont.Name);
+			xslContent = xslContent.Replace("Group-Head-Font-Name-Goes-Here", replacementText);
+
+			replacementText = string.Format("font-size: {0}{1};", fontSize, units);
+			return xslContent.Replace("Group-Head-Font-Size-Goes-Here", replacementText);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add the phonetic font info. to the XSL style sheet.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private string WriteFontInfoForPhonetic(string xslContent, float fontSize)
@@ -309,7 +334,13 @@ namespace SIL.Pa.Controls
 			if (fieldInfo.Font.Bold)
 			{
 				fontInfo.Append(className);
-				fontInfo.Append("{{font-weight: bold;}}\r\n");
+				fontInfo.Append("{font-weight: bold;}\r\n");
+			}
+
+			if (fieldInfo.RightToLeft)
+			{
+				fontInfo.Append(className);
+				fontInfo.Append("{text-align: right;}\r\n");
 			}
 
 			// Add special fields for the phonetic's before, after

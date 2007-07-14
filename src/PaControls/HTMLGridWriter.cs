@@ -42,6 +42,11 @@ namespace SIL.Pa.Controls
 		{
 			if (!m_error)
 			{
+				if (grid.GroupByField != null)
+					m_groupHeadingFont = grid.GroupByField.Font;
+				else if (grid.Cache.IsCIEList)
+					m_groupHeadingFont = FontHelper.PhoneticFont;
+
 				m_grid = grid;
 				m_isForSearchResult = m_grid.Cache.IsForSearchResults;
 				WriteColumnHeadings();
@@ -103,7 +108,7 @@ namespace SIL.Pa.Controls
 			// First, make a collection of visible columns in display order.
 			foreach (DataGridViewColumn col in m_grid.Columns)
 			{
-				if (col.Visible)
+				if (col.Visible && !(col is SilHierarchicalGridColumn))
 					m_sortedColList[col.DisplayIndex] = col;
 			}
 
@@ -137,10 +142,14 @@ namespace SIL.Pa.Controls
 			XmlElement element = m_xmlDoc.CreateElement("tbody");
 			m_currNode = m_currNode.AppendChild(element);
 
-			for (int i = 0; i < m_grid.Rows.Count; i++)
+			for (int i = 0; i < m_grid.RowCount; i++)
 			{
 				OpenRow(false);
-				WriteRowData(m_grid.Rows[i]);
+
+				if (m_grid.Rows[i] is SilHierarchicalGridRow)
+					WriteGroupHeadingRow(m_grid.Rows[i] as SilHierarchicalGridRow);
+				else
+					WriteRowData(m_grid.Rows[i]);
 			}
 		}
 
@@ -158,7 +167,10 @@ namespace SIL.Pa.Controls
 					WriteRowDataValue(col.Name, row.Cells[col.Index].Value as string);
 				else
 				{
-					WordListCacheEntry entry = m_grid.Cache[row.Index];
+					int cacheRow = ((row is PaCacheGridRow) ?
+						((PaCacheGridRow)row).CacheEntryIndex : row.Index);
+
+					WordListCacheEntry entry = m_grid.Cache[cacheRow];
 					int itemOffset = entry.SearchItemOffset;
 					int itemLength = entry.SearchItemLength;
 
@@ -175,6 +187,40 @@ namespace SIL.Pa.Controls
 
 					WriteRowDataValue("phafter", bldr.ToString());
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Write a single grid row's worth of query.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void WriteGroupHeadingRow(SilHierarchicalGridRow row)
+		{
+			// Span all the columns in the table.
+			int colspan = m_sortedColList.Count + (m_isForSearchResult ? 2 : 0);
+			
+			// If there is more than 1 column (or 3 in case where the phonetic column is
+			// displaying search results) then show the number of child records in the
+			// group. When that happens, then we need to adjust the colspan for the
+			// group heading text so it spans all but the last column in the table. The
+			// last column is reserved for the child count.
+			bool writeCount = !(colspan == 1 || (m_isForSearchResult && colspan == 3));
+			if (writeCount)
+				colspan--;
+
+			XmlElement element = m_xmlDoc.CreateElement("td");
+			element.SetAttribute("class", "groupheadtext");
+			element.SetAttribute("colspan", colspan.ToString());
+			XmlNode node = m_currNode.AppendChild(element);
+			SetNodesText(node, row.Text);
+
+			if (writeCount)
+			{
+				element = m_xmlDoc.CreateElement("td");
+				element.SetAttribute("class", "groupheadcount");
+				node = m_currNode.AppendChild(element);
+				SetNodesText(node, string.Format(row.CountFormatStrings[0], row.ChildCount));
 			}
 		}
 
