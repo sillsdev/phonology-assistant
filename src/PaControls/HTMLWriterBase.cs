@@ -157,7 +157,7 @@ namespace SIL.Pa.Controls
 			m_xmlDoc.Save(m_tmpXMLFile);
 		
 			// Get a temporary XSL file that is modified to contain font information.
-			string tmpXSLFile = AddFontInfoToXSL();
+			string tmpXSLFile = InternalModifyCSS();
 
 			try
 			{
@@ -198,14 +198,31 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Modifies the xslt file to include the field's font names and sizes in the  
+		/// Returns a temporary XSL file after modifications have been made to it's CSS.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string AddFontInfoToXSL()
+		private string InternalModifyCSS()
 		{
 			// Read the content of the entire XSL file.
 			string xslContent = File.ReadAllText(m_xslFileBase);
 
+			// Modify it.
+			xslContent = ModifyCSS(xslContent);
+			
+			// Write it all to a temporary file and return the path to the file.
+			string tmpXSLFile = Path.GetTempFileName();
+			File.WriteAllText(tmpXSLFile, xslContent);
+			return tmpXSLFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Modifies the CSS portion of the xslt file to include the field's font names and
+		/// sizes and other class specific settings.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string ModifyCSS(string xslContent)
+		{
 			// Determine whether or not the file contains an override for the font size.
 			float altSize = 0;
 			int i = xslContent.IndexOf("/*Alternate-Phonetic-Font-Size [");
@@ -227,13 +244,12 @@ namespace SIL.Pa.Controls
 
 			xslContent = ((xslContent.IndexOf(kXSLPhoneticFontInfoMarker) >= 0) ?
 				WriteFontInfoForPhonetic(xslContent, altSize) :
-				WriteFontInfoForAllFields(xslContent, altSize));
+				WriteFieldInfoForGridColumns(xslContent, altSize));
 
 			xslContent = xslContent.Replace("/*~~|", string.Empty);
 			xslContent = xslContent.Replace("|~~*/", string.Empty);
-			string tmpXSLFile = Path.GetTempFileName();
-			File.WriteAllText(tmpXSLFile, xslContent);
-			return tmpXSLFile;
+
+			return xslContent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,22 +306,79 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Writes the font information to the xsl file for all the fields visible in a grid.
+		/// Writes the font information to the xsl file for all the fields visible in a
+		/// word list grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string WriteFontInfoForAllFields(string xslContent, float fontSize)
+		private string WriteFieldInfoForGridColumns(string xslContent, float fontSize)
 		{
-			StringBuilder fontInfo = new StringBuilder();
-			string replacementText = "/*Font-Settings-Go-Here*/";
+			string bdrWidth = GetCSSSettingForDefaultCell(xslContent, "border-width");
+			string bdrColor = GetCSSSettingForDefaultCell(xslContent, "border-color");
+
+			StringBuilder info = new StringBuilder();
+			string replacementText = "/*Field-Settings-Go-Here*/";
 
 			// Write all the field's font information to the XSLT file.
 			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
 			{
 				if (fieldInfo.Font != null && fieldInfo.VisibleInGrid)
-					AddFontInfoForField(fieldInfo, fontInfo, fontSize);
+				{
+					WriteFieldInfoForSingleColumn(fieldInfo, info, fontSize,
+						bdrWidth, bdrColor);
+				}
 			}
 
-			return xslContent.Replace(replacementText, fontInfo.ToString());
+			return xslContent.Replace(replacementText, info.ToString());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Searches for the specified setting for the default table cell in the body of text
+		/// specified by xslContent.
+		/// </summary>
+		/// <remarks>
+		/// For example, if xslContent contains the following two
+		/// settings for border-width and color:
+		/// 
+		/// td.d {border-width: 1px;}
+		/// td.d {border-color: rgb(153, 153, 153);}
+		/// 
+		/// Then the call to this method
+		///	
+		///		GetCSSSettingForDefaultCell(xslContent, "border-width")
+		///
+		/// would return "1px" and the call
+		/// 
+		///		GetCSSSettingForDefaultCell(xslContent, "border-color")
+		/// 
+		/// would return "rgb(153, 153, 153)"
+		/// 
+		/// </remarks>
+		/// ------------------------------------------------------------------------------------
+		private string GetCSSSettingForDefaultCell(string xslContent, string setting)
+		{
+			if (string.IsNullOrEmpty(setting))
+				return null;
+
+			string[] findVariations = new string[] { "td.d {" + setting, "td.d{" + setting };
+
+			foreach (string find in findVariations)
+			{
+				int start = xslContent.IndexOf(find);
+				if (start >= 0)
+				{
+					start += find.Length;
+					int end = xslContent.IndexOf(';', start);
+					if (end > start)
+					{
+						string match = xslContent.Substring(start, end - start);
+						match = match.Replace(":", string.Empty);
+						return match.Trim();
+					}
+				}
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -315,8 +388,8 @@ namespace SIL.Pa.Controls
 		/// XSL's cascading style sheet.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddFontInfoForField(PaFieldInfo fieldInfo, StringBuilder fontInfo,
-			float fontSize)
+		private void WriteFieldInfoForSingleColumn(PaFieldInfo fieldInfo, StringBuilder info,
+			float fontSize, string bdrWidth, string bdrColor)
 		{
 			// If an alternate size was found in the XSL file, then assume it's in 'em'
 			// units. Otherwise, use the PaFieldInfo's font size in points.
@@ -325,44 +398,56 @@ namespace SIL.Pa.Controls
 			if (fontSize == 0)
 				fontSize = fieldInfo.Font.SizeInPoints;
 
-			string className = string.Format("\t\t\t\ttd.d.{0} ", fieldInfo.FieldName);
-			fontInfo.Append(className);
-			fontInfo.AppendFormat("{{font-family: \"{0}\";}}\r\n", fieldInfo.Font.Name);
-			fontInfo.Append(className);
-			fontInfo.AppendFormat("{{font-size: {0}{1};}}\r\n", fontSize, units);
+			string className = string.Format("\t\t\t\ttd.{0} ", fieldInfo.FieldName);
+			info.Append(className);
+			info.AppendFormat("{{font-family: \"{0}\";}}\r\n", fieldInfo.Font.Name);
+			info.Append(className);
+			info.AppendFormat("{{font-size: {0}{1};}}\r\n", fontSize, units);
+
+			if (!string.IsNullOrEmpty(bdrWidth))
+			{
+				info.Append(className);
+				info.AppendFormat("{{border-width: {0};}}\r\n", bdrWidth);
+			}
+
+			if (!string.IsNullOrEmpty(bdrColor))
+			{
+				info.Append(className);
+				info.AppendFormat("{{border-color: {0};}}\r\n", bdrColor);
+			}
 
 			if (fieldInfo.Font.Bold)
 			{
-				fontInfo.Append(className);
-				fontInfo.Append("{font-weight: bold;}\r\n");
+				info.Append(className);
+				info.Append("{font-weight: bold;}\r\n");
 			}
 
 			if (fieldInfo.RightToLeft)
 			{
-				fontInfo.Append(className);
-				fontInfo.Append("{text-align: right;}\r\n");
+				info.Append(className);
+				info.Append("{text-align: right;}\r\n");
 			}
 
 			// Add special fields for the phonetic's before, after
 			// and target fields for search result word lists.
 			if (fieldInfo.IsPhonetic)
 			{
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phbefore {{font-family: \"{0}\";}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phbefore {{font-family: \"{0}\";}}\r\n",
 					fieldInfo.Font.Name);
 
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phbefore {{font-size: {0}{1};}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phbefore {{font-size: {0}{1};}}\r\n",
 					fontSize, units);
 
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phtarget {{font-family: \"{0}\";}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phtarget {{font-family: \"{0}\";}}\r\n",
 					fieldInfo.Font.Name);
 
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phtarget {{font-size: {0}{1};}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phtarget {{font-size: {0}{1};}}\r\n",
 					fontSize, units);
 
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phafter {{font-family: \"{0}\";}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phafter {{font-family: \"{0}\";}}\r\n",
 					fieldInfo.Font.Name);
 
-				fontInfo.AppendFormat("\t\t\t\ttd.d.phafter {{font-size: {0}{1};}}\r\n",
+				info.AppendFormat("\t\t\t\ttd.phafter {{font-size: {0}{1};}}\r\n",
 					fontSize, units);
 			}
 		}

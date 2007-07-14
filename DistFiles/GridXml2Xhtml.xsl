@@ -30,11 +30,27 @@ min width
 				tr {min-height:20px;}
 
 				td.groupheadtext {padding: 3px;}
-				td.groupheadtext {background-color: rgb(230,230,230);}
+				td.groupheadtext {border-width: 1px;}
+				td.groupheadtext {background-color: rgb(230, 230, 230);}
 				td.groupheadtext {border-color: rgb(153, 153, 153);}
 				td.groupheadtext {font-weight: bold;}
+				
+				/* These two lines will be replaced by the font information for the field */
+				/* on which a word list is grouped. If the word list is showing minimal   */
+				/* pairs, then this will be the phonetic font information. Otherwise it   */
+				/* will be the font information for the field on which the word list is   */
+				/* sort primarily, since it is the primary sort field on which word lists */
+				/* are grouped.                                                           */
 				/*~~|td.groupheadtext {Group-Head-Font-Name-Goes-Here}|~~*/
 				/*~~|td.groupheadtext {Group-Head-Font-Size-Goes-Here}|~~*/
+
+				/* The following line is uncommented by the program when group heading   */
+				/* rows are written with group child counts (i.e. elements whose class   */
+				/* is groupheadcount) to the html files. If group headings don't include */
+				/* counts (which is only the case if one column is written to the table) */
+				/* then the groupheadertext element spans the entire table width and,    */
+				/* therefore, it's right border is fine to be turned on.                 */
+				/*==|td.groupheadtext {border-right-style: none;}|==*/
 
 				td.groupheadcount {font-family: Arial,sans-serif;}
 				td.groupheadcount {font-size: .8em;}
@@ -43,7 +59,8 @@ min width
 				td.groupheadcount {padding: 3px;}
 				td.groupheadcount {background-color: rgb(230,230,230);}
 				td.groupheadcount {border-color: rgb(153, 153, 153);}
-				td.groupheadcount {border-left-style: hidden;}
+				td.groupheadcount {border-width: 1px;}
+				td.groupheadcount {border-left-style: none;}
 
 				td.d {font-family: Arial,sans-serif;}
 				td.d {font-size: 1.0em;}
@@ -53,23 +70,35 @@ min width
 				td.d {border-width: 1px;}
 				td.d {border-color: rgb(153, 153, 153);}
 
-				td.d.phbefore {border-right: none;}
-				td.d.phbefore {text-align: right;}
-				td.d.phtarget {text-align: center;}
-				td.d.phtarget {background-color: rgb(230,230,230);}
-				td.d.phtarget {border-left: none;}
-				td.d.phtarget {border-right: none;}
-				td.d.phtarget {width: 1.0em;}
-				td.d.phafter {border-left:none;}
+				td.phbefore {border-right: none;}
+				td.phbefore {text-align: right;}
+				td.phbefore {border-width: 1px;}
+				td.phbefore {border-color: rgb(153, 153, 153);}
+				
+				td.phtarget {text-align: center;}
+				td.phtarget {background-color: rgb(230,230,230);}
+				td.phtarget {border-left: none;}
+				td.phtarget {border-right: none;}
+				td.phtarget {border-width: 1px;}
+				td.phtarget {border-color: rgb(153, 153, 153);}
+				td.phtarget {width: 1.0em;}
+				
+				td.phafter {border-left: none;}
+				td.phafter {border-width: 1px;}
+				td.phafter {border-color: rgb(153, 153, 153);}
 
-				/*To override the font sizes used in Phonology Assistant, replace the # between*/
-				/*square brackets with a numeric value which will be treated as an 'em' value. */
-				/*All the non heading data in the HTML output will use that 'em' value.        */
+				/* To override the font sizes used by Phonology Assistant when exporting */
+				/* word lists to HTML, replace the # between the square brackets with a  */
+				/* numeric value which will be treated as an 'em' value. All the data,   */
+				/* other than column and group heading data in the HTML output will use  */
+				/* the 'em' value instead of the sizes specified in PA.                  */
 				/*Do not delete the following line*/
 				/*Alternate-Font-Size [#]*/
 
+				/* The following is where Phonology Assistant will insert the style    */
+				/* information for each table field in the HTML output of a word list. */
 				/*Do not delete the following line*/
-				/*Font-Settings-Go-Here*/
+				/*Field-Settings-Go-Here*/
 			</style>
 		</head>
 		<body>

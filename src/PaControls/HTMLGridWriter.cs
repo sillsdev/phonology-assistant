@@ -19,6 +19,8 @@ namespace SIL.Pa.Controls
 		private PaWordListGrid m_grid;
 		private SortedList<int, DataGridViewColumn> m_sortedColList;
 		private bool m_isForSearchResult;
+		private bool m_writeGrpHdgCount = false;
+		private int m_grpHdgRowColSpan = 0;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -42,14 +44,30 @@ namespace SIL.Pa.Controls
 		{
 			if (!m_error)
 			{
-				if (grid.GroupByField != null)
-					m_groupHeadingFont = grid.GroupByField.Font;
-				else if (grid.Cache.IsCIEList)
-					m_groupHeadingFont = FontHelper.PhoneticFont;
-
 				m_grid = grid;
 				m_isForSearchResult = m_grid.Cache.IsForSearchResults;
 				WriteColumnHeadings();
+
+				if (m_grid.GroupByField != null || m_grid.Cache.IsCIEList)
+				{
+					m_groupHeadingFont = (m_grid.Cache.IsCIEList ?
+						FontHelper.PhoneticFont : m_grid.GroupByField.Font);
+
+					// Span all the columns in the table.
+					m_grpHdgRowColSpan = m_sortedColList.Count + (m_isForSearchResult ? 2 : 0);
+
+					// If there is more than 1 column (or 3 in case where the phonetic column is
+					// displaying search results) then show the number of child records in the
+					// group. When that happens, then we need to adjust the colspan for the
+					// group heading text so it spans all but the last column in the table. The
+					// last column is reserved for the child count.
+					m_writeGrpHdgCount =
+						!(m_grpHdgRowColSpan == 1 || (m_isForSearchResult && m_grpHdgRowColSpan == 3));
+
+					if (m_writeGrpHdgCount)
+						m_grpHdgRowColSpan--;
+				}
+
 				WriteBody();
 				WriteHTMLFile();
 			}
@@ -79,6 +97,27 @@ namespace SIL.Pa.Controls
 			writer.WriteStartElement("table");
 			writer.WriteEndElement();
 			writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string ModifyCSS(string xslContent)
+		{
+			xslContent = base.ModifyCSS(xslContent);
+		
+			// Make sure the right border of the text portion (not the count portion)
+			// of group headings is turned off, which is just uncommenting the CSS
+			// setting that's already in the xsl file.
+			if (m_writeGrpHdgCount)
+			{
+				xslContent = xslContent.Replace("/*==|", string.Empty);
+				xslContent = xslContent.Replace("|==*/", string.Empty);
+			}
+
+			return xslContent;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,25 +236,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void WriteGroupHeadingRow(SilHierarchicalGridRow row)
 		{
-			// Span all the columns in the table.
-			int colspan = m_sortedColList.Count + (m_isForSearchResult ? 2 : 0);
-			
-			// If there is more than 1 column (or 3 in case where the phonetic column is
-			// displaying search results) then show the number of child records in the
-			// group. When that happens, then we need to adjust the colspan for the
-			// group heading text so it spans all but the last column in the table. The
-			// last column is reserved for the child count.
-			bool writeCount = !(colspan == 1 || (m_isForSearchResult && colspan == 3));
-			if (writeCount)
-				colspan--;
-
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "groupheadtext");
-			element.SetAttribute("colspan", colspan.ToString());
+			element.SetAttribute("colspan", m_grpHdgRowColSpan.ToString());
 			XmlNode node = m_currNode.AppendChild(element);
 			SetNodesText(node, row.Text);
 
-			if (writeCount)
+			if (m_writeGrpHdgCount)
 			{
 				element = m_xmlDoc.CreateElement("td");
 				element.SetAttribute("class", "groupheadcount");
@@ -232,7 +259,7 @@ namespace SIL.Pa.Controls
 		private void WriteRowDataValue(string field, string value)
 		{
 			XmlElement element = m_xmlDoc.CreateElement("td");
-			element.SetAttribute("class", "d " + field);
+			element.SetAttribute("class", field);
 			XmlNode node = m_currNode.AppendChild(element);
 			string text = value;
 			SetNodesText(node, text);
