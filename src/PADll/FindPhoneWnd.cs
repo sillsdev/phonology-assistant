@@ -652,7 +652,7 @@ namespace SIL.Pa
 
 			// Use this update opportunity to update the enabled state of the refresh button.
 			btnRefresh.Enabled = (m_rsltVwMngr.CurrentViewsGrid != null &&
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale);
+				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale && ptrnTextBox.IsPatternFull);
 
 			return true;
 		}
