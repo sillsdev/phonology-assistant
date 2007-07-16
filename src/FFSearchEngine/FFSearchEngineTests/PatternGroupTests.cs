@@ -1365,6 +1365,56 @@ namespace SIL.Pa.FFSearchEngine
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Tests that searching fails when a match is found all the way to the end of the
+		/// transcription but there is more pattern to match but no more phones on which to
+		/// match.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWithMatchUntilPhonesRunOutAtEnd()
+		{
+			m_query.Pattern = "x/*_[V][V]";
+			int[] results;
+
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("abxio", false), out results));
+
+			Assert.AreEqual(2, results[0]);
+			Assert.AreEqual(1, results[1]);
+
+			engine = new SearchEngine(m_query);
+			Assert.IsFalse(
+				engine.SearchWord(IPACharCache.PhoneticParser("abxi", false), out results));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that searching fails when a match is found all the way to the beginning of
+		/// the transcription but there is more pattern to match but no more phones on which
+		/// to match.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWithMatchUntilPhonesRunOutAtBeginning()
+		{
+			m_query.Pattern = "x/[V][V]_*";
+			int[] results;
+
+			SearchEngine engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				engine.SearchWord(IPACharCache.PhoneticParser("aixio", false), out results));
+
+			Assert.AreEqual(2, results[0]);
+			Assert.AreEqual(1, results[1]);
+
+			engine = new SearchEngine(m_query);
+			Assert.IsFalse(
+				engine.SearchWord(IPACharCache.PhoneticParser("ixio", false), out results));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Tests that when the first char. in a word is ignored, it's not matched to '+'
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

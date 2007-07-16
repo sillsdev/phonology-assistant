@@ -106,7 +106,7 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phonology Assistant waited {0} seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. If it has, try\nrestarting Phonology Assistant..
+        ///   Looks up a localized string similar to Phonology Assistant waited {0} seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?.
         /// </summary>
         internal static string kstidErrorStartingSQLServer2 {
             get {

@@ -121,13 +121,16 @@ namespace SIL.Pa.Data
 		{
 			try
 			{
-				string connectionFmt = @"server={0}; Database={1}; User ID=FWDeveloper;" +
-					@"Password=careful; Connect Timeout = 2; Pooling=false;";
+				if (StartSQLServer(true))
+				{
+					string connectionFmt = @"server={0}; Database={1}; User ID=FWDeveloper;" +
+						@"Password=careful; Connect Timeout = 10; Pooling=false;";
 
-				string connectionStr = string.Format(connectionFmt, FwServer, dbName);
-				SqlConnection connection = new SqlConnection(connectionStr);
-				connection.Open();
-				return connection;
+					string connectionStr = string.Format(connectionFmt, FwServer, dbName);
+					SqlConnection connection = new SqlConnection(connectionStr);
+					connection.Open();
+					return connection;
+				}
 			}
 			catch
 			{
@@ -163,58 +166,65 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static bool StartSQLServer(bool showErrMessages)
 		{
-			string msg;
+			string msg = null;
 
-			try
+			while (true)
 			{
-				using (ServiceController svcController = new ServiceController("MSSQL$SILFW"))
+				try
 				{
-					// If the server instance is already running, we're good.
-					if (svcController.Status == ServiceControllerStatus.Running)
-						return true;
-
-					using (SQLServerMessageWnd msgWnd = new SQLServerMessageWnd())
+					using (ServiceController svcController = new ServiceController("MSSQL$SILFW"))
 					{
-						msgWnd.Show();
-						Application.DoEvents();
-						
-						// Start the server instance and wait 15
-						// seconds for it to finish starting.
-						if (svcController.Status == ServiceControllerStatus.Paused)
-							svcController.Continue();
-						else
-							svcController.Start();
+						// If the server instance is already running, we're good.
+						if (svcController.Status == ServiceControllerStatus.Running)
+							return true;
 
-						svcController.WaitForStatus(ServiceControllerStatus.Running,
-							new TimeSpan((long)s_secondsToWaitForSQLToStart * (long)10000000));
+						using (SQLServerMessageWnd msgWnd = new SQLServerMessageWnd())
+						{
+							msgWnd.Show();
+							Application.DoEvents();
 
-						msgWnd.CloseFade();
+							// Start the server instance and wait 15
+							// seconds for it to finish starting.
+							if (svcController.Status == ServiceControllerStatus.Paused)
+								svcController.Continue();
+							else
+								svcController.Start();
+
+							svcController.WaitForStatus(ServiceControllerStatus.Running,
+								new TimeSpan((long)s_secondsToWaitForSQLToStart * (long)10000000));
+
+							msgWnd.CloseFade();
+						}
+
+						if (svcController.Status == ServiceControllerStatus.Running)
+							return true;
 					}
-
-					if (svcController.Status == ServiceControllerStatus.Running)
-						return true;
 				}
-			}
-			catch (Exception e)
-			{
+				catch (Exception e)
+				{
+					msg = e.Message;
+				}
+
 				if (showErrMessages)
 				{
-					msg = Properties.Resources.kstidErrorStartingSQLServer1;
-					STUtils.STMsgBox(string.Format(msg, e.Message), MessageBoxButtons.OK);
+					// Check if we've timed out.
+					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
+					{
+						msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer1, msg);
+						STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+						return false;
+					}
+
+					msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer2,
+						s_secondsToWaitForSQLToStart);
+
+					if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question) != DialogResult.Yes)
+					{
+						return false;
+					}
 				}
-				
-				return false;
 			}
-
-			if (showErrMessages)
-			{
-				msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer2,
-					s_secondsToWaitForSQLToStart);
-
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
-			}
-			
-			return false;
 		}
 	}
 

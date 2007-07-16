@@ -388,7 +388,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public WordBoundaryCondition GetWordBoundaryCondition()
 		{
-			string srchItemPattern = m_srchItem.ToString();
+			string srchItemPattern = (m_srchItem == null ? string.Empty : m_srchItem.ToString());
 			if (srchItemPattern.StartsWith("#"))
 				return WordBoundaryCondition.BeginningOfSearchItem;
 

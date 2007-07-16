@@ -491,6 +491,13 @@ namespace SIL.Pa.Controls
 		
 				if (value == "*")
 					this[col, row].Value = "*_*";
+				else if (value == "+")
+					this[col, row].Value = "+_+";
+
+				if (value.EndsWith("_"))
+					this[col, row].Value += "*";
+				else if (value.IndexOf('_') < 0)
+					this[col, row].Value += "_*";
 			}
 
 			// When an edited search item or environment is different from the previous value

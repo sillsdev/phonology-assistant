@@ -271,6 +271,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following error(s) occurred when parsing the search pattern:\n\n{0}.
+        /// </summary>
+        internal static string kstidPatternParsingErrorMsg {
+            get {
+                return ResourceManager.GetString("kstidPatternParsingErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project file &apos;{0}&apos; doesn&apos;t exist..
         /// </summary>
         internal static string kstidProjectFileNonExistent {

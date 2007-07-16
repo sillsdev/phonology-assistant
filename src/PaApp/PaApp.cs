@@ -1371,12 +1371,10 @@ namespace SIL.Pa
 			}
 			
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
-
 			int incCounter = 0;
 			int[] result;
-			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
+
 			SearchQuery modifiedQuery = ConvertClassesToPatterns(query, true);
-			
 			if (modifiedQuery == null)
 				return null;
 
@@ -1386,6 +1384,8 @@ namespace SIL.Pa
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
 			if (!VerifyMiscPatternConditions(engine))
 				return null;
+
+			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
 
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
@@ -1549,6 +1549,20 @@ namespace SIL.Pa
 				msg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
 			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
 				msg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+
+			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
+			{
+				StringBuilder errors = new StringBuilder();
+				for (int i = 0; i < engine.ErrorMessages.Length; i++)
+				{
+					errors.Append(engine.ErrorMessages[i]);
+					if (i < engine.ErrorMessages.Length - 1)
+						errors.Append('\n');
+				}
+
+				msg = string.Format(Properties.Resources.kstidPatternParsingErrorMsg,
+					errors.ToString());
+			}
 
 			if (msg != null)
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
