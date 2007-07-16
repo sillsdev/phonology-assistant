@@ -943,6 +943,87 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save RTF File.
+        /// </summary>
+        internal static string kstidRTFExportCaptionSFD {
+            get {
+                return ResourceManager.GetString("kstidRTFExportCaptionSFD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Words.
+        /// </summary>
+        internal static string kstidRtfGridAllWordsLabel {
+            get {
+                return ResourceManager.GetString("kstidRtfGridAllWordsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date/Time: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrDateTimeName {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrDateTimeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrLanguageName {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrLanguageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Records: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrNbrOfRecords {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrNbrOfRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrProjectName {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For Search Query: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrSearchPattern {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrSearchPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Word List: {0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrWordListName {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrWordListName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No editor exists at: {0}.
+        /// </summary>
+        internal static string kstidRtfInvalidEditor {
+            get {
+                return ResourceManager.GetString("kstidRtfInvalidEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scroll Left.
         /// </summary>
         internal static string kstidScrollTabsLeftToolTip {

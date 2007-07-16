@@ -11,7 +11,7 @@ using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
 
-namespace SIL.Pa
+namespace SIL.Pa.Controls
 {
 	public class RtfCreator
 	{
@@ -41,10 +41,14 @@ namespace SIL.Pa
 		private const int kMaxPageWidth = 9360; // 6.5 inches in twips
 		private const int kDistBetweenCols = 360; // 0.25 inch in twips between columns
 		private const int kTwipsPerInch = 1440;
+		private const int kSilHierGridRowKey = 9999;
+		private const int kGroupingFieldName = 0;
+		private const int kRecordIndex = 1;
 		private const string kInvalidEditor = "Invalid Editor";
 
 		// Member Variables
 		private int m_numberOfColumns = 0;
+		private int m_numberOfRecords = 0;
 		private int m_MaxColWidth = 2160; // 1.5 inches in twips
 		private int m_uiFontSize;
 		private float m_pixelsPerInch;
@@ -52,11 +56,11 @@ namespace SIL.Pa
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
 		private Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
 		// Each dict represents a row. The key is the column index & the value is the cell's value
-		private List<Dictionary<int, string>> m_wordListRows = new List<Dictionary<int, string>>();
-		private List<string> m_alignedSearchItems = new List<string>();
+		private List<Dictionary<int, object[]>> m_wordListRows = new List<Dictionary<int, object[]>>();
+		private Dictionary<int, string> m_alignedSearchItems = new Dictionary<int, string>();
 		// The key is the column index and the value is the column width
 		private Dictionary<int, int> m_maxColumnWidths = new Dictionary<int, int>();
-		private Dictionary<int, String> m_rowValues;
+		private Dictionary<int, object[]> m_rowValues;
 		private int m_cellTextWidth = 0;
 		private string m_rtfEditor = string.Empty;
 		private StringBuilder m_rtfBldr;
@@ -100,8 +104,9 @@ namespace SIL.Pa
 			m_createSearchItemTabs = CreateSearchItemTabs.FirstTab;
 			m_rtfBldr = new StringBuilder();
 
-			CreateReportHeadings();
+			//CreateReportHeadings();
 			CalculateMaxColumnWidths();
+			CreateReportHeadings();
 
 			// This is only for running tests
 			if (m_maxColumnWidths.Count == 0)
@@ -120,11 +125,11 @@ namespace SIL.Pa
 		/// </summary>
 		/// <param name="cacheEntry">WordListCacheEntry</param>
 		/// ------------------------------------------------------------------------------------
-		private void FormatAlignSearchIteamString(WordListCacheEntry cacheEntry)
+		private void FormatAlignSearchIteamString(int rowIndex, WordListCacheEntry entry)
 		{
 			string colorRef = string.Format(khighlight, m_searchItemColorRefNumber);
-			m_alignedSearchItems.Add(ktab + cacheEntry.EnvironmentBefore + ktab.Trim() + colorRef +
-				cacheEntry.SearchItem + string.Format(khighlight, 0) + cacheEntry.EnvironmentAfter);
+			m_alignedSearchItems[rowIndex] = ktab + entry.EnvironmentBefore + ktab.Trim() + colorRef +
+				entry.SearchItem + string.Format(khighlight, 0) + entry.EnvironmentAfter;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,10 +172,14 @@ namespace SIL.Pa
 			if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
 			{
 				m_phoneticColumnFont = column.DefaultCellStyle.Font;
-				foreach (WordListCacheEntry cacheEntry in m_cache)
+				foreach (DataGridViewRow row in m_grid.Rows)
 				{
-					FormatAlignSearchIteamString(cacheEntry);
-					CalcMaxPhoneticEnvWidths(cacheEntry);
+					if (row is PaCacheGridRow)
+					{
+						int cacheIndex = ((PaCacheGridRow)row).CacheEntryIndex;
+						FormatAlignSearchIteamString(row.Index, m_cache[cacheIndex]);
+						CalcMaxPhoneticEnvWidths(m_cache[cacheIndex]);
+					}
 				}
 
 				m_beforeEnvTwipWidth = 
@@ -178,7 +187,9 @@ namespace SIL.Pa
 				m_cellTextWidth = (m_maxBeforeEnvTextWidth + m_maxSrchItemAftEnvTextWidth);
 			}
 
-			m_maxColumnWidths.Add(column.Index, m_cellTextWidth);
+			// "Grouping By Field"
+			if (m_cellTextWidth > 0)
+				m_maxColumnWidths.Add(column.Index, m_cellTextWidth);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -205,7 +216,7 @@ namespace SIL.Pa
 			if (m_cellTextWidth > m_maxColumnWidths[cell.ColumnIndex])
 				m_maxColumnWidths[cell.ColumnIndex] = m_cellTextWidth;
 
-			m_rowValues.Add(cell.ColumnIndex, cell.Value.ToString());
+			m_rowValues.Add(cell.ColumnIndex, new object[2] { cell.Value.ToString(), cell.RowIndex });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -235,22 +246,46 @@ namespace SIL.Pa
 
 			// Calculate the maximum width of the header columns
 			foreach (DataGridViewColumn column in sortedColumns.Values)
+			{
+				// True when showing "Minimal Pairs"
+				if (column.Name == string.Empty && column.Index == 0)
+					continue;
 				CalcMaxHdrColWidths(column);
+			}
 
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
+				m_rowValues = new Dictionary<int, object[]>();
+
+				// "Grouping By Field"
+				if (row is SilHierarchicalGridRow)
+				{
+					if (!(row as SilHierarchicalGridRow).Expanded)
+						continue;
+
+					m_rowValues.Add(
+						kSilHierGridRowKey, new object[2] { (row as SilHierarchicalGridRow).Text, row.Index });
+
+					m_wordListRows.Add(m_rowValues);
+					continue;
+				}
+
+				if (!row.Visible)
+					continue;
+
+				m_numberOfRecords++;
+
 				// Sort the cells by their display order
 				SortedList sortedCellColumns = new SortedList();
 				foreach (DataGridViewCell cell in row.Cells)
 					if (cell.Visible)
 						sortedCellColumns.Add(m_grid.Columns[cell.ColumnIndex].DisplayIndex, cell);
 
-				m_rowValues = new Dictionary<int, String>();
 				// Calculate the maximum width of the cell columns
 				foreach (DataGridViewCell cell in sortedCellColumns.Values)
 				{
 					if (cell.Value == null)
-						m_rowValues.Add(cell.ColumnIndex, string.Empty);
+						m_rowValues.Add(cell.ColumnIndex, new object[2] { string.Empty, cell.RowIndex });
 					else
 						CalcMaxCellColWidths(cell);
 				}
@@ -284,7 +319,8 @@ namespace SIL.Pa
 			m_rtfBldr.AppendLine("\\pard\\plain ");
 			m_rtfBldr.AppendLine(string.Format(ktxcell, 2160));
 			m_rtfBldr.AppendLine("\\f0 \\fs18 {\\b");
-			if (m_cache.IsForSearchResults)
+			// SearchQuery is null when showing "Minimal Pairs"
+			if (m_cache.IsForSearchResults && m_cache.SearchQuery != null)
 				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrSearchPattern,
 					ktab, m_cache.SearchQuery.Pattern);
 			else
@@ -292,7 +328,7 @@ namespace SIL.Pa
 					ktab, Properties.Resources.kstidRtfGridAllWordsLabel);
 			m_rtfBldr.AppendLine(kline);
 			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrNbrOfRecords,
-				ktab, m_cache.Count);
+				ktab, m_numberOfRecords);
 			m_rtfBldr.AppendLine(kline);
 			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,
 				ktab, PaApp.Project.ProjectName);
@@ -445,6 +481,10 @@ namespace SIL.Pa
 
 			foreach (KeyValuePair<string, string> colHdr in m_columnHeaders)
 			{
+				// "Grouping By Field"
+				if (colHdr.Key == string.Empty && colHdr.Value == string.Empty)
+					continue;
+
 				if (m_exportFormat == ExportFormat.Table)
 					m_rtfBldr.Append(string.Format(kcellHdr, colHdr.Value));
 				else
@@ -611,24 +651,44 @@ namespace SIL.Pa
 		/// <param name="row">Dictionary</param>
 		/// <param name="rowIndex">int</param>
 		/// ------------------------------------------------------------------------------------
-		private void FormatCellValues(Dictionary<int, String> row, int rowIndex)
+		private void FormatCellValues(Dictionary<int, object[]> row, int rowIndex)
 		{
 			if (m_exportFormat == ExportFormat.Table)
 				m_rtfBldr.Append("\\intbl");
 
-			foreach (KeyValuePair<int,string> col in row)
+			foreach (KeyValuePair<int, object[]> col in row)
 			{
+				// "Grouping By Field"
+				if (col.Key == kSilHierGridRowKey)	
+				{
+					if (m_exportFormat == ExportFormat.Table)
+						m_rtfBldr.Remove((m_rtfBldr.Length - "\\intbl".Length), "\\intbl".Length);
+					m_rtfBldr.AppendLine("\\trowd" + string.Format(kcell, (int)m_columnStartPoint));
+					m_rtfBldr.Append("\\intbl\\f0 \\fs20 {\\b ");
+					m_rtfBldr.AppendLine(col.Value[kGroupingFieldName] + "\\cell } \\row");
+					m_rtfBldr.Append("\\trowd");
+					if (m_cache.IsForSearchResults)
+						m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
+
+					m_rtfBldr.AppendLine(m_cellFormatBldr.ToString());
+					continue;
+				}
 				string colName = m_grid.Columns[col.Key].Name;
+
+				// "Grouping By Field"
+				if (colName == string.Empty)
+					continue;
+
 				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colName];
 				int fontNumber = m_fontNumbers[colName];
 				int fontSize = m_fontSizes[colName];
-				string colValue = col.Value.Replace("\\", "\\\\");
+				string colValue = col.Value[kGroupingFieldName].ToString().Replace("\\", "\\\\");
 
 				if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
 				{
 					m_rtfBldr.Append(string.Format(
 						(m_exportFormat == ExportFormat.Table ?	kcellValues : ktxValues),
-						fontNumber,	fontSize, m_alignedSearchItems[rowIndex]));
+						fontNumber, fontSize, m_alignedSearchItems[(int)col.Value[kRecordIndex]]));
 				}
 				else
 				{
@@ -648,8 +708,10 @@ namespace SIL.Pa
 			// Removes the last "\\tab "
 			if (m_exportFormat == ExportFormat.TabDelimited)
 				m_rtfBldr.Remove((m_rtfBldr.Length - 5), 4);
-			
-			m_rtfBldr.AppendLine(m_exportFormat == ExportFormat.Table ? "\\row" : kline);
+
+			// "Grouping By Field"
+			if (!row.ContainsKey(kSilHierGridRowKey))
+				m_rtfBldr.AppendLine(m_exportFormat == ExportFormat.Table ? "\\row" : kline);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -668,7 +730,7 @@ namespace SIL.Pa
 			}
 
 			int rowIndex = 0;
-			foreach (Dictionary<int, String> row in m_wordListRows)
+			foreach (Dictionary<int, object[]> row in m_wordListRows)
 			{
 				FormatCellValues(row, rowIndex);
 				rowIndex++;
@@ -702,8 +764,17 @@ namespace SIL.Pa
 
 			if (filename != string.Empty)
 			{
-				using (StreamWriter sw = new StreamWriter(filename))
-					sw.Write(rtf);
+				try
+				{
+					using (StreamWriter sw = new StreamWriter(filename))
+						sw.Write(rtf);
+				}
+				catch (Exception ex)
+				{
+					// Display the error message
+					STUtils.STMsgBox(ex.Message, MessageBoxButtons.OK);
+					return false;
+				}
 			}
 
 			// Open the file with the specified RTF editor
@@ -718,6 +789,7 @@ namespace SIL.Pa
 				string errorMsg =
 					string.Format(Properties.Resources.kstidRtfInvalidEditor, m_rtfEditor);
 				MessageBox.Show(errorMsg, kInvalidEditor, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
 			}
 
 			return true;

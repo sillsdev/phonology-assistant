@@ -4,7 +4,7 @@ using System.Text;
 using System.Drawing;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa
+namespace SIL.Pa.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

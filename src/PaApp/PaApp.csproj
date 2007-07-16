@@ -124,8 +124,6 @@
     <Compile Include="RecordCache.cs" />
     <Compile Include="RecordCacheEntry.cs" />
     <Compile Include="RegExpressionSearch.cs" />
-    <Compile Include="RtfCreator.cs" />
-    <Compile Include="RtfHelper.cs" />
     <Compile Include="PaApp.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -30,10 +30,6 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FFSearchEngine, Version=1.0.2572.25470, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Output\Debug\FFSearchEngine.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.2.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\NUnit\nunit.framework.dll</HintPath>
@@ -60,6 +56,10 @@
     <ProjectReference Include="..\..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FFSearchEngine\FFSearchEngine.csproj">
+      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
+      <Name>FFSearchEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\PaApp\PaApp.csproj">
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>

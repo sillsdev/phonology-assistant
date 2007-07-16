@@ -164,6 +164,9 @@
     <value>The following error occurred reading data source file '{0}'.{1}</value>
     <comment>Parameter 0 is file name; parameter 1 is error message.</comment>
   </data>
+  <data name="kstidExpSilHierarchicalGridRowKey" xml:space="preserve">
+    <value>9999</value>
+  </data>
   <data name="kstidHelpFileMissingMsg" xml:space="preserve">
     <value>The help file '{0}' cannot be found.</value>
   </data>
@@ -208,41 +211,6 @@
   <data name="kstidRecordMarkerFieldDisplayText" xml:space="preserve">
     <value>Record Marker</value>
     <comment>Text for the record marker field in the mappings dialog.</comment>
-  </data>
-  <data name="kstidRTFExportCaptionSFD" xml:space="preserve">
-    <value>Save RTF File</value>
-    <comment>Save file dialog caption for specifying the rtf file exported to under RTF export</comment>
-  </data>
-  <data name="kstidRtfGridAllWordsLabel" xml:space="preserve">
-    <value>All Words</value>
-    <comment>The value for the 'Word List' label when the exported list is not filtered or the result of a  search query.</comment>
-  </data>
-  <data name="kstidRtfGridHdrDateTimeName" xml:space="preserve">
-    <value>Date/Time: {0}{1}</value>
-    <comment>The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name.</comment>
-  </data>
-  <data name="kstidRtfGridHdrLanguageName" xml:space="preserve">
-    <value>Language: {0}{1}</value>
-    <comment>The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name.</comment>
-  </data>
-  <data name="kstidRtfGridHdrNbrOfRecords" xml:space="preserve">
-    <value>Number of Records: {0}{1}</value>
-    <comment>The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records.</comment>
-  </data>
-  <data name="kstidRtfGridHdrProjectName" xml:space="preserve">
-    <value>Project: {0}{1}</value>
-    <comment>The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name.</comment>
-  </data>
-  <data name="kstidRtfGridHdrSearchPattern" xml:space="preserve">
-    <value>For Search Query: {0}{1}</value>
-    <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
-  </data>
-  <data name="kstidRtfGridHdrWordListName" xml:space="preserve">
-    <value>Word List: {0}{1}</value>
-    <comment>The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name.</comment>
-  </data>
-  <data name="kstidRtfInvalidEditor" xml:space="preserve">
-    <value>No editor exists at: {0}</value>
   </data>
   <data name="kstidSAMissingMsg" xml:space="preserve">
     <value>Speech Analyzer cannot be found. Make sure it is installed.</value>
