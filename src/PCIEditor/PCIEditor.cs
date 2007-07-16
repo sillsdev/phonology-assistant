@@ -114,7 +114,8 @@ namespace SIL.Pa
 			string inventoryPath = Path.Combine(exePath, kInventoryFile);
 			if (!File.Exists(inventoryPath))
 			{
-				string msg = string.Format(Properties.Resources.kstidInventoryFileMissing, inventoryPath);
+				string filePath = STUtils.PrepFilePathForSTMsgBox(inventoryPath);
+				string msg = string.Format(Properties.Resources.kstidInventoryFileMissing, filePath);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -888,7 +889,8 @@ namespace SIL.Pa
 			// Make sure the file exists
 			if (!File.Exists(m_xmlFilePath))
 			{
-				string msg = string.Format(Properties.Resources.kstidIpaGridErrNoFile, m_xmlFilePath);
+				string path = STUtils.PrepFilePathForSTMsgBox(m_xmlFilePath);
+				string msg = string.Format(Properties.Resources.kstidIpaGridErrNoFile, path);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -1136,7 +1138,8 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), helpFilePath, topicPath);
 			else
 			{
-				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg, helpFilePath);
+				string filePath = STUtils.PrepFilePathForSTMsgBox(helpFilePath);
+				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg, filePath);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}

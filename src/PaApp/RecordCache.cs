@@ -98,8 +98,10 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
+				filename = STUtils.PrepFilePathForSTMsgBox(filename);
+
 				STUtils.STMsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
-					filename, "\n", e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					filename, e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
 			return null;

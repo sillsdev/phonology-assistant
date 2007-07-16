@@ -150,7 +150,9 @@ namespace SIL.Pa
 
 			if (!File.Exists(path))
 			{
-				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg, path);
+				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
+					STUtils.PrepFilePathForSTMsgBox(path));
+
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}

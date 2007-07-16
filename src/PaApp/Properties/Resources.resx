@@ -161,8 +161,8 @@
     <value>Project File '{0}' has an Invalid Format</value>
   </data>
   <data name="kstidErrorReadingDataSourceFile" xml:space="preserve">
-    <value>The following error occurred reading data source file '{0}'.{1}{2}</value>
-    <comment>Parameter 0 is file name; parameter 1 is a line break; parameter 2 is error message.</comment>
+    <value>The following error occurred reading data source file '{0}'.{1}</value>
+    <comment>Parameter 0 is file name; parameter 1 is error message.</comment>
   </data>
   <data name="kstidHelpFileMissingMsg" xml:space="preserve">
     <value>The help file '{0}' cannot be found.</value>
@@ -171,8 +171,8 @@
     <value>The field '{0}' is invalid.</value>
   </data>
   <data name="kstidLoadingRecordCacheError" xml:space="preserve">
-    <value>The following error occurred while loading '{0}':{1}{2}</value>
-    <comment>Message displayed when failing to load a PAXML file. Parameter 0 is filename, paramter 1 is a line break, and parameter 2 is the error message.</comment>
+    <value>The following error occurred while loading '{0}':\n{1}</value>
+    <comment>Message displayed when failing to load a PAXML file. Parameter 0 is filename, and parameter 1 is the error message.</comment>
   </data>
   <data name="kstidMissingClassMsg" xml:space="preserve">
     <value>The class '{0}' is missing from this project. It may have been deleted.</value>

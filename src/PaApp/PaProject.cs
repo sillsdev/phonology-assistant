@@ -131,7 +131,7 @@ namespace SIL.Pa
 			if (!File.Exists(projFileName))
 			{
 				errorMsg = string.Format(Properties.Resources.kstidProjectFileNonExistent,
-					projFileName);
+					STUtils.PrepFilePathForSTMsgBox(projFileName));
 			}
 
 			string tmpProjPathFilePrefix = Path.GetFullPath(projFileName);
@@ -186,12 +186,12 @@ namespace SIL.Pa
 				if (project == null)
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-						projFileName);
+						STUtils.PrepFilePathForSTMsgBox(projFileName));
 				}
 				else
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-						projFileName, e.Message);
+						STUtils.PrepFilePathForSTMsgBox(projFileName), e.Message);
 				}
 
 				if (showErrors)

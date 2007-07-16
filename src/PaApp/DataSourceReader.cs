@@ -226,7 +226,7 @@ namespace SIL.Pa
 					{
 						string msg =
 							string.Format(Properties.Resources.kstidErrorProcessingDataSourceFile,
-							source.DataSourceFile);
+							STUtils.PrepFilePathForSTMsgBox(source.DataSourceFile));
 
 						STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
@@ -235,7 +235,7 @@ namespace SIL.Pa
 				{
 					string msg = string.Format(
 						Properties.Resources.kstidErrorReadingDataSourceFile,
-						source.DataSourceFile, '\n', e.Message);
+						STUtils.PrepFilePathForSTMsgBox(source.DataSourceFile), e.Message);
 
 					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}

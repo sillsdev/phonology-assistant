@@ -98,14 +98,14 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					recEntry.DataSource.DataSourceFile);
+					STUtils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidDataSourceEditorMissingMsg,
-					recEntry.DataSource.Editor);
+					STUtils.PrepFilePathForSTMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
@@ -132,7 +132,8 @@ namespace SIL.Pa
 			if (!IsToolboxRunning)
 			{
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					recEntry.DataSource.DataSourceFile);
+					STUtils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
+				
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 			    return;
 			}

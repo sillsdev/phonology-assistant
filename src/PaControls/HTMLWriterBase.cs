@@ -70,9 +70,10 @@ namespace SIL.Pa.Controls
 
 			if (!File.Exists(m_xslFileBase))
 			{
+				string filePath = STUtils.PrepFilePathForSTMsgBox(m_xslFileBase);
 				STUtils.STMsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
-					m_xslFileBase), MessageBoxButtons.OK);
+					filePath), MessageBoxButtons.OK);
 				return false;
 			}
 

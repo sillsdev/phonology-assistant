@@ -752,10 +752,9 @@ namespace SIL.Pa.Data
 
 			if (s_fwqueries == null)
 			{
-				string msg = string.Format(
-					Properties.Resources.kstidErrorLoadingQueriesMsg, s_queryFile);
-
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				string filePath = STUtils.PrepFilePathForSTMsgBox(s_queryFile);
+				STUtils.STMsgBox(string.Format(Properties.Resources.kstidErrorLoadingQueriesMsg,
+					filePath), MessageBoxButtons.OK);
 			}
 		}
 

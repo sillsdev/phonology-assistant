@@ -1602,7 +1602,9 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), s_helpFilePath, ResourceHelper.GetHelpString(hid));
 			else
 			{
-				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg, s_helpFilePath);
+				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
+					STUtils.PrepFilePathForSTMsgBox(s_helpFilePath));
+				
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}

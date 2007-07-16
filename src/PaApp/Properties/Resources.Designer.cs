@@ -172,7 +172,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following error occurred reading data source file &apos;{0}&apos;.{1}{2}.
+        ///   Looks up a localized string similar to The following error occurred reading data source file &apos;{0}&apos;.{1}.
         /// </summary>
         internal static string kstidErrorReadingDataSourceFile {
             get {
@@ -199,7 +199,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following error occurred while loading &apos;{0}&apos;:{1}{2}.
+        ///   Looks up a localized string similar to The following error occurred while loading &apos;{0}&apos;:\n{1}.
         /// </summary>
         internal static string kstidLoadingRecordCacheError {
             get {
