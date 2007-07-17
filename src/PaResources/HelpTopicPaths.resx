@@ -146,7 +146,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidCVSyllablesOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/CV_Syllables_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/CV_Syllables_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidDataCorpusView" xml:space="preserve">
@@ -154,7 +154,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidExperimentalTranscriptionsPopup" xml:space="preserve">
-    <value>User_Interface/Word_Lists/Experimental_Transcription_Word_Lists.htm</value>
+    <value>User_Interface/Word_Lists/Experimental_Transcriptions_Word_Lists.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">
@@ -162,7 +162,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFontsOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Fonts_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/Fonts_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFwDataSourcePropertiesDlg" xml:space="preserve">
@@ -197,6 +197,14 @@
     <value>User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidMissingDataSourceMsgBox" xml:space="preserve">
+    <value>User_Interface/Menus/File/Data_Source_Missing.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidMissingFWDatabaseMsgBox" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Database_Missing.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidNewProjectSettingsDlg" xml:space="preserve">
     <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -214,7 +222,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidRecordViewOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Record_View_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/Record_View_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidRtfExportDlg" xml:space="preserve">
@@ -225,6 +233,9 @@
     <value>User_Interface/Views/Search/Save_Search_Pattern.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidSaveXYChartDlg" xml:space="preserve">
+    <value>User_Interface/Views/XY_Charts/Save_XY_Chart.htm</value>
+  </data>
   <data name="hidSearchOptionsSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -234,7 +245,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchPatternOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Search_Patterns_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchView" xml:space="preserve">
@@ -242,7 +253,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSortingOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Sorting_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/Sorting_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidTopicDoesNotExist" xml:space="preserve">
@@ -270,7 +281,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidWordListOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Word_Lists_options.htm</value>
+    <value>User_Interface/Menus/Tools/Options/Word_Lists_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidXYChartsView" xml:space="preserve">

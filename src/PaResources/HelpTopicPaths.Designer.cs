@@ -124,7 +124,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/CV_Syllables_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/CV_Syllables_tab_Options.htm.
         /// </summary>
         internal static string hidCVSyllablesOptions {
             get {
@@ -142,7 +142,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_Transcription_Word_Lists.htm.
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_Transcriptions_Word_Lists.htm.
         /// </summary>
         internal static string hidExperimentalTranscriptionsPopup {
             get {
@@ -160,7 +160,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Fonts_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Fonts_tab_Options.htm.
         /// </summary>
         internal static string hidFontsOptions {
             get {
@@ -241,6 +241,24 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Data_Source_Missing.htm.
+        /// </summary>
+        internal static string hidMissingDataSourceMsgBox {
+            get {
+                return ResourceManager.GetString("hidMissingDataSourceMsgBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/FieldWorks_Database_Missing.htm.
+        /// </summary>
+        internal static string hidMissingFWDatabaseMsgBox {
+            get {
+                return ResourceManager.GetString("hidMissingFWDatabaseMsgBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/File/New_Project_Settings.htm.
         /// </summary>
         internal static string hidNewProjectSettingsDlg {
@@ -277,7 +295,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Record_View_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Record_View_tab_Options.htm.
         /// </summary>
         internal static string hidRecordViewOptions {
             get {
@@ -304,6 +322,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/XY_Charts/Save_XY_Chart.htm.
+        /// </summary>
+        internal static string hidSaveXYChartDlg {
+            get {
+                return ResourceManager.GetString("hidSaveXYChartDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Views/Search/Search_Options_Search_View.htm.
         /// </summary>
         internal static string hidSearchOptionsSearchView {
@@ -322,7 +349,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Search_Patterns_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm.
         /// </summary>
         internal static string hidSearchPatternOptions {
             get {
@@ -340,7 +367,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Sorting_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Sorting_tab_Options.htm.
         /// </summary>
         internal static string hidSortingOptions {
             get {
@@ -403,7 +430,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Word_Lists_options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Word_Lists_tab_Options.htm.
         /// </summary>
         internal static string hidWordListOptions {
             get {

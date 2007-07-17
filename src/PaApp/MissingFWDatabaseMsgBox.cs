@@ -48,7 +48,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-
+			PaApp.ShowHelpTopic(this);
 		}
 	}
 }
