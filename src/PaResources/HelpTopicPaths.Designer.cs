@@ -232,6 +232,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm.
+        /// </summary>
+        internal static string hidMinimalPairsOptions {
+            get {
+                return ResourceManager.GetString("hidMinimalPairsOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/File/New_Project_Settings.htm.
         /// </summary>
         internal static string hidNewProjectSettingsDlg {
@@ -295,6 +304,24 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Search/Search_Options_Search_View.htm.
+        /// </summary>
+        internal static string hidSearchOptionsSearchView {
+            get {
+                return ResourceManager.GetString("hidSearchOptionsSearchView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/XY_Charts/Search_Options_for_Current_Chart_Column.htm.
+        /// </summary>
+        internal static string hidSearchOptionsXYChartsView {
+            get {
+                return ResourceManager.GetString("hidSearchOptionsXYChartsView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Search_Patterns_options.htm.
         /// </summary>
         internal static string hidSearchPatternOptions {
@@ -327,6 +354,15 @@ namespace SIL.Pa.Resources {
         internal static string hidTopicDoesNotExist {
             get {
                 return ResourceManager.GetString("hidTopicDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Transcription_Encoding_Converters.htm.
+        /// </summary>
+        internal static string hidTransConvertersDlg {
+            get {
+                return ResourceManager.GetString("hidTransConvertersDlg", resourceCulture);
             }
         }
         

@@ -1593,6 +1593,26 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static string HelpFilePath
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(s_helpFilePath))
+				{
+					s_helpFilePath = Path.GetDirectoryName(Application.ExecutablePath);
+					s_helpFilePath = Path.Combine(s_helpFilePath, kHelpSubFolder);
+					s_helpFilePath = Path.Combine(s_helpFilePath, kHelpFileName);
+				}
+
+				return s_helpFilePath;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(Control ctrl)
 		{
 			ShowHelpTopic("hid" + ctrl.Name);
@@ -1605,15 +1625,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string hid)
 		{
-			if (string.IsNullOrEmpty(s_helpFilePath))
-			{
-				s_helpFilePath = Path.GetDirectoryName(Application.ExecutablePath);
-				s_helpFilePath = Path.Combine(s_helpFilePath, kHelpSubFolder);
-				s_helpFilePath = Path.Combine(s_helpFilePath, kHelpFileName);
-			}
-
-			if (File.Exists(s_helpFilePath))
-				Help.ShowHelp(new Label(), s_helpFilePath, ResourceHelper.GetHelpString(hid));
+			if (File.Exists(HelpFilePath))
+				Help.ShowHelp(new Label(), HelpFilePath, ResourceHelper.GetHelpString(hid));
 			else
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,

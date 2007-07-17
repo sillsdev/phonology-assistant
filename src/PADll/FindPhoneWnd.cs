@@ -87,6 +87,9 @@ namespace SIL.Pa
 			MinimumSize = PaApp.MinimumViewWindowSize;
 			m_showRegExDlgButton =
 				PaApp.SettingsHandler.GetBoolSettingsValue("regexpsearchmode", "allow", false);
+
+			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click +=
+				new EventHandler(SearchDropDownHelpLink_Click);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -792,6 +795,16 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void SearchDropDownHelpLink_Click(object sender, EventArgs e)
+		{
+			PaApp.ShowHelpTopic("hidSearchOptionsSearchView");
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the current search result view to indicate it needs to be refreshed.

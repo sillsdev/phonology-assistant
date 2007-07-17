@@ -356,6 +356,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ReadSASource(string audioFile)
 		{
+			// At this point, we know we have an SA data source to read so set the help
+			// file and help topic for the encoding conversion dialog's help button.
+			// That dialog is common to PA and SA, so take special treatment (i.e. not
+			// the way all the other PA dialog's help buttons are handled). Set the
+			// encoding conversion dialog's static variables so the proper help file and
+			// topic are jumped to if the user is presented with that dialog and chooses
+			// to click its help button.
+			TransConvertersDlg.HelpFilePath = PaApp.HelpFilePath;
+			TransConvertersDlg.HelpTopic = ResourceHelper.GetHelpString("hidTransConvertersDlg");
+
 			SaAudioDocumentReader reader = new SaAudioDocumentReader();
 			if (!reader.Initialize(audioFile))
 				return;

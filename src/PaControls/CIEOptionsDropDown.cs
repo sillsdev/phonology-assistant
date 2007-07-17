@@ -152,6 +152,7 @@ namespace SIL.Pa.Controls
 		{
 			m_canceled = true;
 			base.HandleHelpClicked(sender, e);
+			PaApp.ShowHelpTopic("hidMinimalPairsOptions");
 		}
 
 		/// ------------------------------------------------------------------------------------

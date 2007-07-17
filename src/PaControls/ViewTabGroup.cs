@@ -464,24 +464,8 @@ namespace SIL.Pa.Controls
 		private void tab_Click(object sender, EventArgs e)
 		{
 			ViewTab clickedTab = sender as ViewTab;
-			if (clickedTab == null)
-				return;
-
-			PaApp.MsgMediator.SendMessage("ViewTabChanged", this);
-
-			if (!clickedTab.Selected)
-			{
-				clickedTab.Selected = true;
-				m_currTab = clickedTab;
-
-				foreach (ViewTab tab in m_tabs)
-				{
-					if (tab != clickedTab)
-						tab.Selected = false;
-				}
-			}
-
-			m_pnlCaption.Invalidate();
+			if (clickedTab != null && !clickedTab.Selected)
+				SelectTab(clickedTab, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

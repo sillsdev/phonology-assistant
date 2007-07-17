@@ -49,6 +49,7 @@ namespace SIL.Pa.Controls
 			m_searchOptionsDropDown.ShowApplyToAll = true;
 			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click +=
 				new EventHandler(ApplyToAllLinkLabel_Click);
+			m_searchOptionsDropDown.lnkHelp.Click += new EventHandler(SearchDropDownHelpLink_Click);
 
 			m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
 			m_errorInCell = Properties.Resources.kimidErrorInCell;
@@ -1654,6 +1655,16 @@ namespace SIL.Pa.Controls
 			}
 
 			UpdateLayout();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void SearchDropDownHelpLink_Click(object sender, EventArgs e)
+		{
+			PaApp.ShowHelpTopic("hidSearchOptionsXYChartsView");
 		}
 
 		/// ------------------------------------------------------------------------------------

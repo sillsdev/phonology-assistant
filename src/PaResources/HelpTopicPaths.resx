@@ -193,6 +193,10 @@
     <value>User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidMinimalPairsOptions" xml:space="preserve">
+    <value>User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidNewProjectSettingsDlg" xml:space="preserve">
     <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -221,6 +225,14 @@
     <value>User_Interface/Views/Search/Save_Search_Pattern.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidSearchOptionsSearchView" xml:space="preserve">
+    <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchOptionsXYChartsView" xml:space="preserve">
+    <value>User_Interface/Views/XY_Charts/Search_Options_for_Current_Chart_Column.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
   <data name="hidSearchPatternOptions" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Options/Search_Patterns_options.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -235,6 +247,10 @@
   </data>
   <data name="hidTopicDoesNotExist" xml:space="preserve">
     <value>Help_topic_does_not_exist.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidTransConvertersDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Transcription_Encoding_Converters.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUncertainPhonesPopup" xml:space="preserve">
