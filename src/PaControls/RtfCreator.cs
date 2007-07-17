@@ -42,8 +42,6 @@ namespace SIL.Pa.Controls
 		private const int kDistBetweenCols = 360; // 0.25 inch in twips between columns
 		private const int kTwipsPerInch = 1440;
 		private const int kSilHierGridRowKey = 9999;
-		private const int kGroupingFieldName = 0;
-		private const int kRecordIndex = 1;
 		private const string kInvalidEditor = "Invalid Editor";
 
 		// Member Variables
@@ -79,6 +77,7 @@ namespace SIL.Pa.Controls
 		private StringBuilder m_cellFormatBldr = new StringBuilder();
 		private StringBuilder m_cellLineFormatBldr = new StringBuilder();
 		private float m_columnStartPoint = 0;
+		private enum ArrayDataType { GroupingFieldName, RecordIndex, SilHierarchicalGridRow };
 		#endregion
 
 		#region Constructor
@@ -104,7 +103,14 @@ namespace SIL.Pa.Controls
 			m_createSearchItemTabs = CreateSearchItemTabs.FirstTab;
 			m_rtfBldr = new StringBuilder();
 
-			//CreateReportHeadings();
+			// Add support for highlighting the search item
+			if (m_cache.IsForSearchResults)
+			{
+				Dictionary<int, int> colorReferences;
+				RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences);
+				m_searchItemColorRefNumber = colorReferences[PaApp.QuerySearchItemBackColor.ToArgb()];
+			}
+
 			CalculateMaxColumnWidths();
 			CreateReportHeadings();
 
@@ -216,7 +222,7 @@ namespace SIL.Pa.Controls
 			if (m_cellTextWidth > m_maxColumnWidths[cell.ColumnIndex])
 				m_maxColumnWidths[cell.ColumnIndex] = m_cellTextWidth;
 
-			m_rowValues.Add(cell.ColumnIndex, new object[2] { cell.Value.ToString(), cell.RowIndex });
+			m_rowValues.Add(cell.ColumnIndex, new object[3] { cell.Value.ToString(), cell.RowIndex, null });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,8 +269,8 @@ namespace SIL.Pa.Controls
 					if (!(row as SilHierarchicalGridRow).Expanded)
 						continue;
 
-					m_rowValues.Add(
-						kSilHierGridRowKey, new object[2] { (row as SilHierarchicalGridRow).Text, row.Index });
+					m_rowValues.Add(kSilHierGridRowKey, new object[3] {
+						(row as SilHierarchicalGridRow).Text, row.Index, row });
 
 					m_wordListRows.Add(m_rowValues);
 					continue;
@@ -285,7 +291,7 @@ namespace SIL.Pa.Controls
 				foreach (DataGridViewCell cell in sortedCellColumns.Values)
 				{
 					if (cell.Value == null)
-						m_rowValues.Add(cell.ColumnIndex, new object[2] { string.Empty, cell.RowIndex });
+						m_rowValues.Add(cell.ColumnIndex, new object[3] { string.Empty, cell.RowIndex, null });
 					else
 						CalcMaxCellColWidths(cell);
 				}
@@ -313,7 +319,6 @@ namespace SIL.Pa.Controls
 			{
 				Dictionary<int, int> colorReferences;
 				m_rtfBldr.AppendLine(RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences));
-				m_searchItemColorRefNumber = colorReferences[PaApp.QuerySearchItemBackColor.ToArgb()];
 			}
 
 			m_rtfBldr.AppendLine("\\pard\\plain ");
@@ -663,9 +668,17 @@ namespace SIL.Pa.Controls
 				{
 					if (m_exportFormat == ExportFormat.Table)
 						m_rtfBldr.Remove((m_rtfBldr.Length - "\\intbl".Length), "\\intbl".Length);
+
 					m_rtfBldr.AppendLine("\\trowd" + string.Format(kcell, (int)m_columnStartPoint));
 					m_rtfBldr.Append("\\intbl\\f0 \\fs20 {\\b ");
-					m_rtfBldr.AppendLine(col.Value[kGroupingFieldName] + "\\cell } \\row");
+
+					// Print the Group Header with the child row counts
+					SilHierarchicalGridRow silHierGridRow = 
+						col.Value[(int)ArrayDataType.SilHierarchicalGridRow] as SilHierarchicalGridRow;
+
+					m_rtfBldr.AppendLine(col.Value[(int)ArrayDataType.GroupingFieldName] + "  " + 
+						string.Format(silHierGridRow.CountFormatStrings[0], silHierGridRow.ChildCount) + "\\cell } \\row");
+
 					m_rtfBldr.Append("\\trowd");
 					if (m_cache.IsForSearchResults)
 						m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
@@ -682,13 +695,13 @@ namespace SIL.Pa.Controls
 				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colName];
 				int fontNumber = m_fontNumbers[colName];
 				int fontSize = m_fontSizes[colName];
-				string colValue = col.Value[kGroupingFieldName].ToString().Replace("\\", "\\\\");
+				string colValue = col.Value[(int)ArrayDataType.GroupingFieldName].ToString().Replace("\\", "\\\\");
 
 				if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
 				{
 					m_rtfBldr.Append(string.Format(
 						(m_exportFormat == ExportFormat.Table ?	kcellValues : ktxValues),
-						fontNumber, fontSize, m_alignedSearchItems[(int)col.Value[kRecordIndex]]));
+						fontNumber, fontSize, m_alignedSearchItems[(int)col.Value[(int)ArrayDataType.RecordIndex]]));
 				}
 				else
 				{
