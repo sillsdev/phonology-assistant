@@ -589,6 +589,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeader AddRowHeader(string text, string subheadtext)
 		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
 			CharGridHeader hdr = CreateRowHeader(text, -1);
 			AddRowToHeading(hdr, subheadtext);
 			return hdr;
@@ -702,6 +705,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeader AddColumnHeader(string text, string subheadtext)
 		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
 			CharGridHeader hdr = CreateColumnHeader(text, -1);
 			AddColumnToHeading(hdr, subheadtext);
 			return hdr;

@@ -390,6 +390,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private CharGridHeader InsertRowHeader(bool beforeClickedOnRow, bool editLabel)
 		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
 			// Get the index of where in the grid we're going to
 			// insert the new header's first grid column.
 			int newGridRowIndex = (beforeClickedOnRow ?
@@ -491,6 +494,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private CharGridHeader InsertColumnHeader(bool insertBeforeCurr, bool editLabel)
 		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
 			// Get the index of where in the grid we're going to
 			// insert the new header's first grid column.
 			int newGridColIndex = (insertBeforeCurr ?

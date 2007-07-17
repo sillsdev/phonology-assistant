@@ -627,6 +627,17 @@ namespace SIL.Pa.Controls
 			HandleLabelMouseDoubleClick((lbl == null ? m_heading : lbl), null);
 			Tag = null;
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Takes the user out of edit label mode.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void EndEditLabel()
+		{
+			if (InLabelEditMode)
+				m_textbox_Leave(null, null);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
