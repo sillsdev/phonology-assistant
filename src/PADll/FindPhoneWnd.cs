@@ -90,6 +90,23 @@ namespace SIL.Pa
 
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click +=
 				new EventHandler(SearchDropDownHelpLink_Click);
+
+			Application.Idle += new EventHandler(Application_Idle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is quite kludgy but it works and all the straight-foward ways to force the
+		/// pattern text box to get focus when the view is first built didn't work. No matter
+		/// what I tried, the pnlMasterOuter seemed to always have the focus first. I think
+		/// it may have something to do with the fact that a view is removed from it's form
+		/// and docked in the main form right after its loaded the first time.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void Application_Idle(object sender, EventArgs e)
+		{
+			Application.Idle -= Application_Idle;
+			ptrnTextBox.TextBox.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
