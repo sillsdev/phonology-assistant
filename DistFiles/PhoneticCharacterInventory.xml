@@ -2409,7 +2409,7 @@
 		<ChartColumn>0</ChartColumn>
 		<ChartGroup>0</ChartGroup>
 	</IPACharInfo>
-	<IPACharInfo Codepoint="778" IPAChar="̥" HexIPAChar="030A">
+	<IPACharInfo Codepoint="778" IPAChar="̊" HexIPAChar="030A">
 		<Name>Over-ring</Name>
 		<Description>Voiceless</Description>
 		<CharType>Diacritics</CharType>

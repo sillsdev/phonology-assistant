@@ -152,6 +152,7 @@ namespace SIL.Pa.Data
 		private static IPACharCache s_cache = null;
 		private static ExperimentalTranscriptions s_experimentalTransList = null;
 		private static AmbiguousSequences s_ambiguousSeqList = null;
+		private static char[] s_tiebars = null;
 
 		private static string s_forcedPhoneDelimiterFmt =
 			kForcedPhoneDelimiterStr + "{0}" + kForcedPhoneDelimiterStr;
@@ -236,22 +237,7 @@ namespace SIL.Pa.Data
 
 				// Now order the items in the list based on the length
 				// of the ambiguous sequence -- longest to shortest.
-				for (int i = s_ambiguousSeqList.Count - 1; i >= 0; i--)
-				{
-					int lenLast = (s_ambiguousSeqList[i].Unit == null ? 0 :
-						s_ambiguousSeqList[i].Unit.Length);
-
-					int lenFirst = (s_ambiguousSeqList[0].Unit == null ? 0 :
-						s_ambiguousSeqList[0].Unit.Length);
-					
-					// If the current ambiguous item is longer than the first one in the list,
-					// then move the current one to the beginning of the list.
-					if (lenLast > lenFirst)
-					{
-						s_ambiguousSeqList.Insert(0, s_ambiguousSeqList[i]);
-						s_ambiguousSeqList.RemoveAt(i + 1);
-					}
-				}
+				s_ambiguousSeqList.SortByUnitLength();
 			}
 		}
 
@@ -263,37 +249,7 @@ namespace SIL.Pa.Data
 		public ExperimentalTranscriptions ExperimentalTranscriptions
 		{
 			get { return s_experimentalTransList; }
-			set
-			{
-				s_experimentalTransList = value;
-				//s_experimentalTransList.Clear();
-
-				//// Copy the references from the specified list to our own.
-				//if (value != null)
-				//{
-				//    foreach (ExperimentalTrans experimentalTrans in value)
-				//        s_experimentalTransList.Add(experimentalTrans);
-				//}
-
-				//// Now order the items in the list on the "convert to"
-				//// lengths -- longest to shortest.
-				//for (int i = s_experimentalTransList.Count - 1; i >= 0; i--)
-				//{
-				//    int length = (s_experimentalTransList[i].ConvertFromItem == null ? 0 :
-				//        s_experimentalTransList[i].ConvertFromItem.Length);
-
-				//    int lenFirst = (s_experimentalTransList[0].ConvertFromItem == null ? 0 :
-				//        s_experimentalTransList[0].ConvertFromItem.Length);
-
-				//    // If the current phone is longer than the first phone in the list,
-				//    // then move the current phone to the beginning of the list.
-				//    if (length > lenFirst)
-				//    {
-				//        s_experimentalTransList.Insert(0, s_experimentalTransList[i]);
-				//        s_experimentalTransList.RemoveAt(i + 1);
-				//    }
-				//}
-			}
+			set { s_experimentalTransList = value; }
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -376,6 +332,9 @@ namespace SIL.Pa.Data
 			if (m_toneLetters != null)
 				m_toneLetters.Clear();
 
+			s_tiebars = null;
+			List<char> tiebars = new List<char>();
+
 			// Copy the items from the list to the "real" cache.
 			foreach (IPACharInfo info in tmpCache)
 			{
@@ -391,8 +350,14 @@ namespace SIL.Pa.Data
 						m_toneLetters = new Dictionary<string, IPACharInfo>();
 
 					m_toneLetters[info.IPAChar] = info;
+
+					if (info.CanPreceedBaseChar)
+						tiebars.Add((char)info.Codepoint);
 				}
 			}
+
+			if (tiebars.Count > 0)
+				s_tiebars = tiebars.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -722,6 +687,9 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string DelimitAmbiguousSequences(string phonetic)
 		{
+			//if (s_tiebars != null)
+			//    phonetic = PrepForAmbigSeqDelimiting(phonetic);
+
 			foreach (AmbiguousSeq ambigSeq in s_ambiguousSeqList)
 			{
 				if (ambigSeq.Convert)
@@ -733,6 +701,24 @@ namespace SIL.Pa.Data
 
 			return phonetic;
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// This method will go through the phonetic string and put a token after the first
+		///// phone following a tie bar in preparation for delimiting ambiguous sequences. This
+		///// is to prevent the following types of situations where ^ = a tie bar and an
+		///// ambiguous sequence of sh (ignore, for the moment that it's an unlikely example).
+		///// 
+		/////		A word like: at^sho without any ambiguous sequences would yield the phones
+		/////		a, t^s, h, and o. Without doing any preparation first and the ambiguous seq.
+		/////		applied, the phones would be a, t^, sh, and o.
+		///// 
+		///// But that's bad. Therefore, this method will prevent this situation.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private static string PrepForAmbigSeqDelimiting(string phonetic)
+		//{
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

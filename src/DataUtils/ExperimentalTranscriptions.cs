@@ -115,26 +115,14 @@ namespace SIL.Pa.Data
 				List<ExperimentalTrans> tmpList = new List<ExperimentalTrans>();
 
 				// Copy the ExperimentalTrans references.
-				foreach (ExperimentalTrans experimentalTrans in this)
-					tmpList.Add(experimentalTrans);
+				for (int i = 0; i < this.Count; i++)
+				{
+					this[i].DisplayIndex = i;
+					tmpList.Add(this[i]);
+				}
 
 				// Now order the items.
-				for (int i = tmpList.Count - 1; i >= 0; i--)
-				{
-					int length = (tmpList[i].ConvertFromItem == null ? 0 :
-						tmpList[i].ConvertFromItem.Length);
-
-					int lenFirst = (tmpList[0].ConvertFromItem == null ? 0 :
-						tmpList[0].ConvertFromItem.Length);
-
-					// If the current phone is longer than the first phone in the list,
-					// then move the current phone to the beginning of the list.
-					if (length > lenFirst)
-					{
-						tmpList.Insert(0, tmpList[i]);
-						tmpList.RemoveAt(i + 1);
-					}
-				}
+				tmpList.Sort(ExperimentalTransComparer);
 
 				// Now put the sorted items in a list whose keys are what
 				// to convert from and whose values are what to convert to.
@@ -151,6 +139,33 @@ namespace SIL.Pa.Data
 				
 				return (list.Count > 0 ? list : null);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Compare method for the length of the item to convert from.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int ExperimentalTransComparer(ExperimentalTrans x, ExperimentalTrans y)
+		{
+			if (x == y || ((x == null || x.ConvertFromItem == null) &&
+				(y == null || y.ConvertFromItem == null)))
+			{
+				return 0;
+			}
+
+			if (x == null || x.ConvertFromItem == null)
+				return 1;
+
+			if (y == null || y.ConvertFromItem == null)
+				return -1;
+
+			// For items of the same length, this will preserve the order in
+			// which the user entered the items in the Phone Inventory view.
+			if (x.ConvertFromItem.Length == y.ConvertFromItem.Length)
+				return x.DisplayIndex.CompareTo(y.DisplayIndex);
+
+			return -(x.ConvertFromItem.Length.CompareTo(y.ConvertFromItem.Length));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -253,6 +268,7 @@ namespace SIL.Pa.Data
 		private string m_currentConvertToItem;
 		private bool m_convert = true;
 		private bool m_treatAsSinglePhone = false;
+		private int m_displayIndex;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -353,6 +369,18 @@ namespace SIL.Pa.Data
 		{
 			get { return m_convertToItems; }
 			set { m_convertToItems = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		internal int DisplayIndex
+		{
+			get { return m_displayIndex; }
+			set { m_displayIndex = value; }
 		}
 	}
 }

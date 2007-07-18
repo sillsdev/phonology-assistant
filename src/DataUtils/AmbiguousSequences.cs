@@ -165,6 +165,43 @@ namespace SIL.Pa.Data
 				return i;
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SortByUnitLength()
+		{
+			for (int i = 0; i < this.Count; i++)
+				this[i].DisplayIndex = i;
+
+			this.Sort(AmbiguousSeqComparer);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Compare method for the length of the units of two ambiguous sequences.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int AmbiguousSeqComparer(AmbiguousSeq x, AmbiguousSeq y)
+		{
+			if (x == y || ((x == null || x.Unit == null) && (y == null || y.Unit == null)))
+				return 0;
+
+			if (x == null || x.Unit == null)
+				return 1;
+
+			if (y == null || y.Unit == null)
+				return -1;
+
+			// For items of the same length, this will preserve the order in
+			// which the user entered the items in the Phone Inventory view.
+			if (x.Unit.Length == y.Unit.Length)
+				return x.DisplayIndex.CompareTo(y.DisplayIndex);
+
+			return -(x.Unit.Length.CompareTo(y.Unit.Length));
+		}
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -183,6 +220,8 @@ namespace SIL.Pa.Data
 		public string BaseChar;
 		[XmlIgnore]
 		public bool IsDefault = false;
+		[XmlIgnore]
+		internal int DisplayIndex;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -201,6 +240,16 @@ namespace SIL.Pa.Data
 		public AmbiguousSeq(string unit)
 		{
 			Unit = unit;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Unit;
 		}
 	}
 }

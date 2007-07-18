@@ -65,6 +65,7 @@ namespace SIL.Pa.Data
 		[SetUp]
 		public void TestSetup()
 		{
+			DataUtils.IPACharCache.AmbiguousSequences.Clear();
 			DataUtils.IPACharCache.ExperimentalTranscriptions.Clear();
 			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 		}
@@ -518,8 +519,8 @@ namespace SIL.Pa.Data
 			string[] result;
 			Dictionary<int, string[]> uncertainties;
 
-			ExperimentalTrans ambigItem = new ExperimentalTrans("\u1D50b");
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			AmbiguousSeq ambigItem = new AmbiguousSeq("\u1D50b");
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
 			result = IPACharCache.PhoneticParser("\u1D50bai", true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
@@ -546,11 +547,11 @@ namespace SIL.Pa.Data
 			string[] result;
 			Dictionary<int, string[]> uncertainties;
 
-			ExperimentalTrans ambigItem = new ExperimentalTrans("\u1D51g");
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			AmbiguousSeq ambigItem = new AmbiguousSeq("\u1D51g");
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
-			ambigItem = new ExperimentalTrans("t\u0283");
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			ambigItem = new AmbiguousSeq("t\u0283");
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
 			result = IPACharCache.PhoneticParser("ab\u1D51gct\u0283de", true, out uncertainties);
 			Assert.AreEqual(7, result.Length);
@@ -575,11 +576,11 @@ namespace SIL.Pa.Data
 			string[] result;
 			Dictionary<int, string[]> uncertainties;
 
-			ExperimentalTrans ambigItem = new ExperimentalTrans("\u1D51g");
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			AmbiguousSeq ambigItem = new AmbiguousSeq("\u1D51g");
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
-			ambigItem = new ExperimentalTrans("t\u0283");
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			ambigItem = new AmbiguousSeq("t\u0283");
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
 			// Test at the beginning of the uncertain group.
 			result = IPACharCache.PhoneticParser("ab(\u1D51g/i/a)de", true, out uncertainties);
@@ -615,9 +616,9 @@ namespace SIL.Pa.Data
 			string[] result;
 			Dictionary<int, string[]> uncertainties;
 
-			ExperimentalTrans ambigItem = new ExperimentalTrans("\u1D50b");
+			AmbiguousSeq ambigItem = new AmbiguousSeq("\u1D50b");
 			ambigItem.Convert = false;
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(ambigItem);
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
 
 			result = IPACharCache.PhoneticParser("d\u1D50bai", true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
@@ -629,6 +630,27 @@ namespace SIL.Pa.Data
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("d", result[0]);
 			Assert.AreEqual("\u1D50b", result[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that the phonetic parser does not convert any ambiguous seq. even when there
+		/// are some to convert but the convert flag is turned off.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AmbiguousSeqTest_TieBarTest1()
+		{
+			string[] result;
+			Dictionary<int, string[]> uncertainties;
+
+			AmbiguousSeq ambigItem = new AmbiguousSeq("sc");
+			ambigItem.Convert = true;
+			DataUtils.IPACharCache.AmbiguousSequences.Add(ambigItem);
+
+			result = IPACharCache.PhoneticParser("t\u0361sc", true, out uncertainties);
+			Assert.AreEqual("t\u0361s", result[0]);
+			Assert.AreEqual("c", result[1]);
 		}
 	}
 }
