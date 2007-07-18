@@ -601,7 +601,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XY Charts View Help.
+        ///   Looks up a localized string similar to XY Charts View (Ctrl+Alt+X).
         /// </summary>
         internal static string kstidXYChartsViewToolTip {
             get {

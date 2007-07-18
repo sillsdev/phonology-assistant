@@ -159,7 +159,7 @@
     <comment>Parameter 0 is project name; parameter 1 is application name (i.e. Phonology Assistant)</comment>
   </data>
   <data name="kstidXYChartsViewToolTip" xml:space="preserve">
-    <value>XY Charts View Help</value>
+    <value>XY Charts View (Ctrl+Alt+X)</value>
   </data>
   <data name="kstidXYChartsSliderPanelText" xml:space="preserve">
     <value>Charts &amp; Chart Building</value>
