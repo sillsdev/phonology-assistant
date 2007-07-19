@@ -111,7 +111,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string GetCVPattern(string phonetic)
 		{
-			return GetCVPattern(IPACharCache.PhoneticParser(phonetic, true));
+			return GetCVPattern(DataUtils.IPACharCache.PhoneticParser(phonetic, true));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -455,10 +455,12 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private bool CheckIfAmbiguous(string phone)
 		{
-			if (PhoneCache.AmbiguousSequences == null)
+			if (DataUtils.IPACharCache.AmbiguousSequences == null)
 				return false;
 
-			AmbiguousSeq ambigSeq = PhoneCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+			AmbiguousSeq ambigSeq =
+				DataUtils.IPACharCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+			
 			if (ambigSeq != null)
 			{
 				IPACharInfo charInfo = DataUtils.IPACharCache[ambigSeq.BaseChar];

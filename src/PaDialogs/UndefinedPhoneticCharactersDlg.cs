@@ -33,10 +33,11 @@ namespace SIL.Pa.Dialogs
 			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (IPACharCache.UndefinedCharacters != null && IPACharCache.UndefinedCharacters.Count > 0)
+			if (DataUtils.IPACharCache.UndefinedCharacters != null &&
+				DataUtils.IPACharCache.UndefinedCharacters.Count > 0)
 			{
-				using (UndefinedPhoneticCharactersDlg dlg =
-					new UndefinedPhoneticCharactersDlg(projectName, IPACharCache.UndefinedCharacters))
+				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
+					projectName, DataUtils.IPACharCache.UndefinedCharacters))
 				{
 					dlg.ShowDialog();
 				}

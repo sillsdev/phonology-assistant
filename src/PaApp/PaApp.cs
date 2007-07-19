@@ -308,8 +308,11 @@ namespace SIL.Pa
 			if (PhoneCache.FeatureOverrides != null)
 				PhoneCache.FeatureOverrides.MergeWithPhoneCache(s_phoneCache);
 
-			if (IPACharCache.UndefinedCharacters != null && IPACharCache.UndefinedCharacters.Count > 0)
+			if (DataUtils.IPACharCache.UndefinedCharacters != null &&
+				DataUtils.IPACharCache.UndefinedCharacters.Count > 0)
+			{
 				AddUndefinedCharsToCaches();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -384,7 +387,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void AddUndefinedCharsToCaches()
 		{
-			foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+			foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
 			{
 				DataUtils.IPACharCache.AddUndefinedCharacter(upci.Character);
 				s_phoneCache.AddUndefinedPhone(upci.Character.ToString());

@@ -258,8 +258,6 @@ namespace SIL.Pa
 			gridAmbiguous.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			gridAmbiguous.Font = FontHelper.UIFont;
 
-			gridAmbiguous.DefaultValuesNeeded += new DataGridViewRowEventHandler(gridAmbiguous_DefaultValuesNeeded);
-
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
 			col.Width = 90;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -290,6 +288,14 @@ namespace SIL.Pa
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			col.HeaderText = Properties.Resources.kstidAmbiguousCVPatternHdg;
 			gridAmbiguous.Columns.Add(col);
+
+			col = SilGrid.CreateCheckBoxColumn("default");
+			col.Visible = false;
+			gridAmbiguous.Columns.Add(col);
+
+			col = SilGrid.CreateCheckBoxColumn("projdefault");
+			col.Visible = false;
+			gridAmbiguous.Columns.Add(col);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,7 +308,7 @@ namespace SIL.Pa
 			int prevRow = gridAmbiguous.CurrentCellAddress.Y;
 
 			gridAmbiguous.Rows.Clear();
-			AmbiguousSequences ambigSeqList = PaApp.Project.AmbiguousSequences;
+			AmbiguousSequences ambigSeqList = DataUtils.IPACharCache.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -318,7 +324,8 @@ namespace SIL.Pa
 				gridAmbiguous["seq", i].Value = ambigSeqList[i].Unit;
 				gridAmbiguous["convert", i].Value = ambigSeqList[i].Convert;
 				gridAmbiguous["base", i].Value = ambigSeqList[i].BaseChar;
-				gridAmbiguous.Rows[i].Tag = ambigSeqList[i].IsDefault;
+				gridAmbiguous["default", i].Value = ambigSeqList[i].IsDefault;
+				gridAmbiguous["projdefault", i].Value = ambigSeqList[i].IsProjectDefault;
 
 				if (!string.IsNullOrEmpty(ambigSeqList[i].BaseChar))
 				{
@@ -326,8 +333,9 @@ namespace SIL.Pa
 						PaApp.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
 				}
 
-				if (ambigSeqList[i].IsDefault)
+				if (ambigSeqList[i].IsDefault || ambigSeqList[i].IsProjectDefault)
 				{
+					gridAmbiguous.Rows[i].Cells[0].ReadOnly = true;
 					hasDefaultSequences = true;
 					if (!chkShowDefaults.Checked)
 						gridAmbiguous.Rows[i].Visible = false;
@@ -774,6 +782,8 @@ namespace SIL.Pa
 		{
 			e.Row.Cells["seq"].Value = string.Empty;
 			e.Row.Cells["convert"].Value = true;
+			e.Row.Cells["default"].Value = false;
+			e.Row.Cells["projdefault"].Value = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -783,17 +793,61 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
 		{
-			if (e.ColumnIndex != 2 || gridAmbiguous.NewRowIndex == e.RowIndex)
+			if (e.RowIndex == gridAmbiguous.NewRowIndex)
 				return;
 
+			if (e.ColumnIndex == 0)
+				e.Cancel = ValidateSequence(e.RowIndex, e.FormattedValue as string);
+			else if (e.ColumnIndex == 2)
+				e.Cancel = ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns whether or not the row edit should be cancelled due to a duplicate
+		/// sequence.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ValidateSequence(int row, string newSeq)
+		{
+			// Make sure a unit was specified.
+			//if (string.IsNullOrEmpty(newUnit))
+			//    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
+
+			for (int i = 0; i < gridAmbiguous.NewRowIndex; i++)
+			{
+				if (i != row && gridAmbiguous[0, i].Value as string == newSeq)
+				{
+					bool isDefault = ((bool)gridAmbiguous["default", row].Value ||
+						(bool)gridAmbiguous["projdefault", row].Value);
+
+					string msg = (isDefault ?
+						Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
+						Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
+
+					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns whether or not the row edit should be cancelled due to an invalid
+		/// base character.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ValidateBaseCharacter(int row, string newBaseChar)
+		{
 			string msg = null;
 
 			// Make sure a base character was specified.
-			string newBaseChar = e.FormattedValue as string;
 			if (string.IsNullOrEmpty(newBaseChar))
 				msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
 
-			string phone = gridAmbiguous["seq", e.RowIndex].Value as string;
+			string phone = gridAmbiguous["seq", row].Value as string;
 
 			if (msg == null)
 			{
@@ -809,8 +863,10 @@ namespace SIL.Pa
 			if (msg != null)
 			{
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				e.Cancel = true;
+				return true;
 			}
+
+			return false;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -820,10 +876,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			// Make sure that if they edited a default row, that we
-			// clear it's marker so it no longer shows up as default.
-			gridAmbiguous.Rows[e.RowIndex].Tag = null;
-
 			// When the base character was edited then automatically determine
 			// the C or V type of the ambiguous sequence.
 			if (e.ColumnIndex == 2)
@@ -885,22 +937,19 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Don't allow deleting default sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
 		{
-			// Should I remove the unit from the phone inventory list?
-		}
+			if (e.Row != null &&
+				((bool)e.Row.Cells["default"].Value || (bool)e.Row.Cells["projdefault"].Value))
+			{
+				STUtils.STMsgBox(Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg,
+					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_UserAddedRow(object sender, DataGridViewRowEventArgs e)
-		{
-			// Should I add unit to the phone inventory list?
+				e.Cancel = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1004,8 +1053,11 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (PaApp.Project.AmbiguousSequences == null && gridAmbiguous.RowCountLessNewRow > 0)
+				if (DataUtils.IPACharCache.AmbiguousSequences == null &&
+					gridAmbiguous.RowCountLessNewRow > 0)
+				{
 					return true;
+				}
 
 				int i = 0;
 
@@ -1013,8 +1065,7 @@ namespace SIL.Pa
 				// those found in the project's list of ambiguous sequences.
 				foreach (DataGridViewRow row in gridAmbiguous.Rows)
 				{
-					bool isDefault = (row.Tag is bool ? (bool)row.Tag : false);
-					if (isDefault || row.Index == gridAmbiguous.NewRowIndex)
+					if (row.Index == gridAmbiguous.NewRowIndex)
 						continue;
 
 					i++;
@@ -1023,7 +1074,7 @@ namespace SIL.Pa
 					bool convert = (bool)row.Cells["convert"].Value;
 
 					AmbiguousSeq ambigSeq =
-						PaApp.Project.AmbiguousSequences.GetAmbiguousSeq(seq, false);
+						DataUtils.IPACharCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
 
 					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
 						return true;
@@ -1032,8 +1083,8 @@ namespace SIL.Pa
 				// At this point, we know all the ones found in the grid match, identically ones
 				// found in the project's list. So the last check is to compare the number of non
 				// default sequences in the project list to the number found in our grid.
-				return (i != (PaApp.Project.AmbiguousSequences == null ? 0 :
-					PaApp.Project.AmbiguousSequences.NonDefaultCount));
+				return (i != (DataUtils.IPACharCache.AmbiguousSequences == null ? 0 :
+					DataUtils.IPACharCache.AmbiguousSequences.NonDefaultCount));
 			}
 		}
 
@@ -1086,7 +1137,7 @@ namespace SIL.Pa
 
 			foreach (DataGridViewRow row in gridAmbiguous.Rows)
 			{
-				if (row.Index != gridAmbiguous.NewRowIndex && (!(row.Tag is bool) || !((bool)row.Tag)))
+				if (row.Index != gridAmbiguous.NewRowIndex && !(bool)row.Cells["default"].Value)
 				{
 					string phone = row.Cells["seq"].Value as string;
 					string basechar = row.Cells["base"].Value as string;
@@ -1101,13 +1152,14 @@ namespace SIL.Pa
 						seq.Convert = (row.Cells["convert"].Value == null ?
 							false : (bool)row.Cells["convert"].Value);
 
+						seq.IsProjectDefault = (bool)row.Cells["projdefault"].Value;
 						ambigSeqList.Add(seq);
 					}
 				}
 			}
 
 			ambigSeqList.Save(PaApp.Project.ProjectPathFilePrefix);
-			PaApp.Project.AmbiguousSequences =
+			DataUtils.IPACharCache.AmbiguousSequences =
 				AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
 
 			LoadAmbiguousGrid();
@@ -1180,7 +1232,10 @@ namespace SIL.Pa
 		{
 			foreach (DataGridViewRow row in gridAmbiguous.Rows)
 			{
-				if (row.Tag is bool && (bool)row.Tag)
+				if (row.Index == gridAmbiguous.NewRowIndex)
+					continue;
+			
+				if ((bool)row.Cells["default"].Value || (bool)row.Cells["projdefault"].Value)
 					row.Visible = chkShowDefaults.Checked;
 			}
 

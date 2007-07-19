@@ -161,17 +161,19 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			if (PaApp.Project.ExperimentalTranscriptions.Count == 0)
+			ExperimentalTranscriptions expList = DataUtils.IPACharCache.ExperimentalTranscriptions;
+
+			if (expList == null || expList.Count == 0)
 			{
 				m_grid.Columns.Add(new RadioButtonColumn());
 				m_grid.IsDirty = false;
 				return;
 			}
 
-			m_grid.Rows.Add(PaApp.Project.ExperimentalTranscriptions.Count);
+			m_grid.Rows.Add(expList.Count);
 
 			int i = 0;
-			foreach (ExperimentalTrans info in PaApp.Project.ExperimentalTranscriptions)
+			foreach (ExperimentalTrans info in expList)
 			{
 				m_grid[0, i].Value = info.ConvertFromItem;
 
@@ -664,7 +666,7 @@ namespace SIL.Pa.Controls
 			}
 
 			experimentaTransList.Save(PaApp.Project.ProjectPathFilePrefix);
-			PaApp.Project.ExperimentalTranscriptions = experimentaTransList;
+			DataUtils.IPACharCache.ExperimentalTranscriptions = experimentaTransList;
 			m_grid.IsDirty = false;
 		}
 

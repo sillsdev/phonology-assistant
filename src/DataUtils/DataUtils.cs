@@ -34,9 +34,9 @@ namespace SIL.Pa.Data
 			kSearchPatternDiamond + "_" + kSearchPatternDiamond;
 
 		private static Form m_mainWindow;
-		internal static AFeatureCache m_aFeatureCache;
-		internal static BFeatureCache m_bFeatureCache;
-		internal static IPACharCache m_ipaCharCache;
+		internal static AFeatureCache s_aFeatureCache;
+		internal static BFeatureCache s_bFeatureCache;
+		internal static IPACharCache s_ipaCharCache;
 
 		#region Cache Loading methods
 		/// ------------------------------------------------------------------------------------
@@ -46,8 +46,8 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static void ReloadIPACharCache()
 		{
-			m_ipaCharCache.Clear();
-			m_ipaCharCache = IPACharCache.Load();
+			s_ipaCharCache.Clear();
+			s_ipaCharCache = IPACharCache.Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,10 +57,10 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static void LoadIPACharCache(string projectFileName)
 		{
-			if (m_ipaCharCache != null)
-				m_ipaCharCache.Clear();
+			if (s_ipaCharCache != null)
+				s_ipaCharCache.Clear();
 			
-			m_ipaCharCache = IPACharCache.Load(projectFileName);
+			s_ipaCharCache = IPACharCache.Load(projectFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,10 +71,10 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static void LoadAFeatureCache(string projectFileName)
 		{
-			if (m_aFeatureCache != null)
-				m_aFeatureCache.Clear();
+			if (s_aFeatureCache != null)
+				s_aFeatureCache.Clear();
 
-			m_aFeatureCache = AFeatureCache.Load(projectFileName);
+			s_aFeatureCache = AFeatureCache.Load(projectFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,10 +85,10 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static void LoadBFeatureCache(string projectFileName)
 		{
-			if (m_bFeatureCache != null)
-				m_bFeatureCache.Clear();
+			if (s_bFeatureCache != null)
+				s_bFeatureCache.Clear();
 
-			m_bFeatureCache = BFeatureCache.Load(projectFileName);
+			s_bFeatureCache = BFeatureCache.Load(projectFileName);
 		}
 
 		#endregion
@@ -118,10 +118,10 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_ipaCharCache == null)
-					m_ipaCharCache = IPACharCache.Load();
+				if (s_ipaCharCache == null)
+					s_ipaCharCache = IPACharCache.Load();
 
-				return m_ipaCharCache;
+				return s_ipaCharCache;
 			}
 		}
 
@@ -134,10 +134,10 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_aFeatureCache == null)
-					m_aFeatureCache = AFeatureCache.Load();
+				if (s_aFeatureCache == null)
+					s_aFeatureCache = AFeatureCache.Load();
 
-				return m_aFeatureCache;
+				return s_aFeatureCache;
 			}
 		}
 
@@ -150,10 +150,10 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_bFeatureCache == null)
-					m_bFeatureCache = BFeatureCache.Load();
+				if (s_bFeatureCache == null)
+					s_bFeatureCache = BFeatureCache.Load();
 
-				return m_bFeatureCache;
+				return s_bFeatureCache;
 			}
 		}
 

@@ -134,7 +134,6 @@ namespace SIL.Pa.Data
 	public class IPACharCache : Dictionary<int, IPACharInfo>
 	{
 		public const string kBreakChars = " ";
-		private static UndefinedPhoneticCharactersInfoList s_undefinedCharacters;
 
 		public enum SortType
 		{
@@ -149,10 +148,10 @@ namespace SIL.Pa.Data
 		internal const string kForcedPhoneDelimiterStr = "\uFFFC";
 		private const char kForcedPhoneDelimiter = '\uFFFC';
 		
-		private static IPACharCache s_cache = null;
-		private static ExperimentalTranscriptions s_experimentalTransList = null;
-		private static AmbiguousSequences s_ambiguousSeqList = null;
-		private static char[] s_tiebars = null;
+		private ExperimentalTranscriptions m_experimentalTransList = null;
+		private AmbiguousSequences m_sortedAmbiguousSeqList = null;
+		private AmbiguousSequences m_unsortedAmbiguousSeqList = null;
+		private UndefinedPhoneticCharactersInfoList m_undefinedCharacters;
 
 		private static string s_forcedPhoneDelimiterFmt =
 			kForcedPhoneDelimiterStr + "{0}" + kForcedPhoneDelimiterStr;
@@ -169,10 +168,9 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		internal IPACharCache(string projectFileName)
 		{
-			s_experimentalTransList = new ExperimentalTranscriptions();
-			s_ambiguousSeqList = new AmbiguousSequences();
+			m_experimentalTransList = new ExperimentalTranscriptions();
+			m_unsortedAmbiguousSeqList = new AmbiguousSequences();
 			m_cacheFileName = BuildFileName(projectFileName, true);
-			s_cache = this;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -209,36 +207,50 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequences AmbiguousSequences
 		{
-			get { return s_ambiguousSeqList; }
+			get { return m_unsortedAmbiguousSeqList; }
 			set
 			{
-				s_ambiguousSeqList.Clear();
-
-				// Copy the references from the specified list to our own.
-				if (value != null)
-				{
-					foreach (AmbiguousSeq ambiguousSeq in value)
-						s_ambiguousSeqList.Add(ambiguousSeq);
-				}
-
-				/// Go through the tone letters collection and add them to the ambiguous list.
-				/// Tone letters are special in that they're the only IPA characters in the
-				/// cache that are made up of multiple code points. When it comes to parsing a
-				/// phonetic string into its phones, tone letters need to be treated as
-				/// ambiguous sequences.
-				if (s_ambiguousSeqList != null && m_toneLetters != null)
-				{
-					foreach (IPACharInfo info in m_toneLetters.Values)
-					{
-						if (!s_ambiguousSeqList.ContainsSeq(info.IPAChar, true))
-							s_ambiguousSeqList.Add(new AmbiguousSeq(info.IPAChar));
-					}
-				}
-
-				// Now order the items in the list based on the length
-				// of the ambiguous sequence -- longest to shortest.
-				s_ambiguousSeqList.SortByUnitLength();
+				m_unsortedAmbiguousSeqList = value;
+				BuildSortedAmbiguousSequencesList();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will build a list of ambiguous sequences that's in order of their length and
+		/// will include the tone letters as well. The order is longest to shortest with those
+		/// with the same lengths, staying in the order in which the user entered them in the
+		/// Phone Inventory view.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void BuildSortedAmbiguousSequencesList()
+		{
+			m_sortedAmbiguousSeqList = new AmbiguousSequences();
+
+			// Copy the references from the specified list to our own.
+			if (m_unsortedAmbiguousSeqList != null)
+			{
+				foreach (AmbiguousSeq ambiguousSeq in m_unsortedAmbiguousSeqList)
+					m_sortedAmbiguousSeqList.Add(ambiguousSeq);
+			}
+
+			/// Go through the tone letters collection and add them to the ambiguous list.
+			/// Tone letters are special in that they're the only IPA characters in the
+			/// cache that are made up of multiple code points. When it comes to parsing a
+			/// phonetic string into its phones, tone letters need to be treated as
+			/// ambiguous sequences.
+			if (m_sortedAmbiguousSeqList != null && m_toneLetters != null)
+			{
+				foreach (IPACharInfo info in m_toneLetters.Values)
+				{
+					if (!m_sortedAmbiguousSeqList.ContainsSeq(info.IPAChar, true))
+						m_sortedAmbiguousSeqList.Add(new AmbiguousSeq(info.IPAChar));
+				}
+			}
+
+			// Now order the items in the list based on the length
+			// of the ambiguous sequence -- longest to shortest.
+			m_sortedAmbiguousSeqList.SortByUnitLength();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -248,8 +260,8 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public ExperimentalTranscriptions ExperimentalTranscriptions
 		{
-			get { return s_experimentalTransList; }
-			set { s_experimentalTransList = value; }
+			get { return m_experimentalTransList; }
+			set { m_experimentalTransList = value; }
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -269,28 +281,22 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static IPACharCache Load(string projectFileName)
 		{
-			s_cache = new IPACharCache(projectFileName);
+			IPACharCache cache = new IPACharCache(projectFileName);
 			
 			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
 			// (i.e. IPACharCache) isn't serializable nor deserializable.
 			List<IPACharInfo> tmpCache = STUtils.DeserializeData(
-				s_cache.CacheFileName, typeof(List<IPACharInfo>)) as List<IPACharInfo>;
+				cache.CacheFileName, typeof(List<IPACharInfo>)) as List<IPACharInfo>;
 
 			if (tmpCache == null)
-			{
-				s_cache = null;
 				return null;
-			}
 
-			s_cache.LoadFromList(tmpCache);
+			cache.LoadFromList(tmpCache);
 			tmpCache.Clear();
 			tmpCache = null;
 
-			if (s_cache.Count == 0)
-				s_cache = null;
-
 			// This should never return null.
-			return s_cache;
+			return (cache.Count == 0 ? null : cache);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -332,9 +338,6 @@ namespace SIL.Pa.Data
 			if (m_toneLetters != null)
 				m_toneLetters.Clear();
 
-			s_tiebars = null;
-			List<char> tiebars = new List<char>();
-
 			// Copy the items from the list to the "real" cache.
 			foreach (IPACharInfo info in tmpCache)
 			{
@@ -350,14 +353,8 @@ namespace SIL.Pa.Data
 						m_toneLetters = new Dictionary<string, IPACharInfo>();
 
 					m_toneLetters[info.IPAChar] = info;
-
-					if (info.CanPreceedBaseChar)
-						tiebars.Add((char)info.Codepoint);
 				}
 			}
-
-			if (tiebars.Count > 0)
-				s_tiebars = tiebars.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -497,10 +494,10 @@ namespace SIL.Pa.Data
 		/// character cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static UndefinedPhoneticCharactersInfoList UndefinedCharacters
+		public UndefinedPhoneticCharactersInfoList UndefinedCharacters
 		{
-			get { return s_undefinedCharacters; }
-			set { s_undefinedCharacters = value; }
+			get { return m_undefinedCharacters; }
+			set { m_undefinedCharacters = value; }
 		}
 
 		#endregion
@@ -512,7 +509,7 @@ namespace SIL.Pa.Data
 		/// by commas.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string PhoneticParser_CommaDelimited(string phonetic, bool normalize)
+		public string PhoneticParser_CommaDelimited(string phonetic, bool normalize)
 		{
 			Dictionary<int, string[]> uncertainPhones;
 			string[] phones = PhoneticParser(phonetic, normalize, out uncertainPhones);
@@ -536,7 +533,7 @@ namespace SIL.Pa.Data
 		/// Parses the specified phonetic string into an array of phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string[] PhoneticParser(string phonetic, bool normalize)
+		public string[] PhoneticParser(string phonetic, bool normalize)
 		{
 			Dictionary<int, string[]> uncertainPhones;
 			return PhoneticParser(phonetic, normalize, out uncertainPhones);
@@ -548,9 +545,14 @@ namespace SIL.Pa.Data
 		/// by commas.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string[] PhoneticParser(string phonetic, bool normalize,
+		public string[] PhoneticParser(string phonetic, bool normalize,
 			out Dictionary<int, string[]> uncertainPhones)
 		{
+			// This flag gets set when we encounter a phonetic string that begins with a non
+			// base character (e.g. prenasalized 'd'). When the end of the phone beginning
+			// the string is found, the phone is added to the ambiguous sequences list.
+			bool addPhoneToAmbiguousSeqList = false;
+
 			uncertainPhones = null;
 
 			// Return an empty array if there's nothing in the phonetic.
@@ -564,7 +566,7 @@ namespace SIL.Pa.Data
 			if (normalize)
 			    phonetic = FFNormalizer.Normalize(phonetic);
 
-			phonetic = s_experimentalTransList.Convert(phonetic);
+			phonetic = m_experimentalTransList.Convert(phonetic);
 			phonetic = DelimitAmbiguousSequences(phonetic);
 
 			int phoneStart = 0;
@@ -587,7 +589,7 @@ namespace SIL.Pa.Data
 				}
 
 				// Get the information for the current codepoint.
-				IPACharInfo ciCurr = s_cache[c];
+				IPACharInfo ciCurr = this[c];
 
 				// If there's no information for a code point or there is but there isn't
 				// any for the previous character and the current character isn't a base
@@ -627,9 +629,9 @@ namespace SIL.Pa.Data
 					ciPrev = null;
 
 					// Log the undefined character.
-					if (badChar != '\0' && s_undefinedCharacters != null)
+					if (badChar != '\0' && m_undefinedCharacters != null)
 					{
-						s_undefinedCharacters.Add(c, phonetic);
+						m_undefinedCharacters.Add(c, phonetic);
 
 						// Add the undefined phonetic character to the list of phones. Later,
 						// the character will be added to the IPA character cache.
@@ -643,7 +645,10 @@ namespace SIL.Pa.Data
 				// then it must be a diacritic at the beginning of the phonetic
 				// transcription so just put it with the following characters.
 				if (ciPrev == null && ciCurr != null && !ciCurr.IsBaseChar)
+				{
+					addPhoneToAmbiguousSeqList = true;
 					continue;
+				}
 
 				// Is the previous codepoint special in that it's not a base character
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
@@ -665,8 +670,23 @@ namespace SIL.Pa.Data
 				// until we come across the beginning of the next phone.
 				if (ciCurr.IsBaseChar && i > phoneStart && ciPrev != null)
 				{
-					phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
+					string phone = phonetic.Substring(phoneStart, i - phoneStart);
+					phones.Add(phone);
 					phoneStart = i;
+
+					if (addPhoneToAmbiguousSeqList)
+					{
+						AmbiguousSeq seq = new AmbiguousSeq(phone);
+						seq.Convert = true;
+						seq.IsProjectDefault = true;
+
+						if (m_unsortedAmbiguousSeqList == null)
+							m_unsortedAmbiguousSeqList = new AmbiguousSequences();
+
+						m_unsortedAmbiguousSeqList.Add(seq);
+						BuildSortedAmbiguousSequencesList();
+						addPhoneToAmbiguousSeqList = false;
+					}
 				}
 
 				ciPrev = ciCurr;
@@ -685,40 +705,25 @@ namespace SIL.Pa.Data
 		/// their own phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string DelimitAmbiguousSequences(string phonetic)
+		private string DelimitAmbiguousSequences(string phonetic)
 		{
-			//if (s_tiebars != null)
-			//    phonetic = PrepForAmbigSeqDelimiting(phonetic);
-
-			foreach (AmbiguousSeq ambigSeq in s_ambiguousSeqList)
+			if (m_sortedAmbiguousSeqList == null && m_unsortedAmbiguousSeqList != null)
+				BuildSortedAmbiguousSequencesList();
+			
+			if (m_sortedAmbiguousSeqList != null)
 			{
-				if (ambigSeq.Convert)
+				foreach (AmbiguousSeq ambigSeq in m_sortedAmbiguousSeqList)
 				{
-					phonetic = phonetic.Replace(ambigSeq.Unit,
-						string.Format(s_forcedPhoneDelimiterFmt, ambigSeq.Unit));
+					if (ambigSeq.Convert)
+					{
+						phonetic = phonetic.Replace(ambigSeq.Unit,
+							string.Format(s_forcedPhoneDelimiterFmt, ambigSeq.Unit));
+					}
 				}
 			}
 
 			return phonetic;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// This method will go through the phonetic string and put a token after the first
-		///// phone following a tie bar in preparation for delimiting ambiguous sequences. This
-		///// is to prevent the following types of situations where ^ = a tie bar and an
-		///// ambiguous sequence of sh (ignore, for the moment that it's an unlikely example).
-		///// 
-		/////		A word like: at^sho without any ambiguous sequences would yield the phones
-		/////		a, t^s, h, and o. Without doing any preparation first and the ambiguous seq.
-		/////		applied, the phones would be a, t^, sh, and o.
-		///// 
-		///// But that's bad. Therefore, this method will prevent this situation.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static string PrepForAmbigSeqDelimiting(string phonetic)
-		//{
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -753,7 +758,7 @@ namespace SIL.Pa.Data
 		/// <returns>The first phone in the list of uncertain phones. It is treated
 		/// as the primary (i.e. most likely candidate) phone.</returns>
 		/// ------------------------------------------------------------------------------------
-		private static string GetUncertainties(string phonetic, ref int i, int phoneNumber,
+		private string GetUncertainties(string phonetic, ref int i, int phoneNumber,
 			ref Dictionary<int, string[]> uncertainPhones)
 		{
 			if (uncertainPhones == null)
@@ -818,7 +823,7 @@ namespace SIL.Pa.Data
 			phones.Add(tmpPhone);
 			uncertainPhones[phoneNumber] = phones.ToArray();
 
-			if (s_undefinedCharacters != null)
+			if (m_undefinedCharacters != null)
 				ValidateCodepointsInUncertainPhones(phonetic, phones);
 
 			return phones[0];
@@ -830,15 +835,15 @@ namespace SIL.Pa.Data
 		/// are in PA's character code inventory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void ValidateCodepointsInUncertainPhones(string phonetic, List<string> phones)
+		private void ValidateCodepointsInUncertainPhones(string phonetic, List<string> phones)
 		{
 			foreach (string phone in phones)
 			{
 				foreach (char c in phone)
 				{
 					// Get the information for the current codepoint.
-					if (!s_cache.ContainsKey((int)c))
-						s_undefinedCharacters.Add(c, phonetic);
+					if (!ContainsKey((int)c))
+						m_undefinedCharacters.Add(c, phonetic);
 				}
 			}
 		}

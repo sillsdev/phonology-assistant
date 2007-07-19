@@ -225,9 +225,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private static void MergeInUndefinedIgnoredPhones()
 		{
-			if (IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (DataUtils.IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
 				{
 					if (!s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Add(upci.Character.ToString());
@@ -242,9 +242,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private static void UnMergeInUndefinedIgnoredPhones()
 		{
-			if (IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (DataUtils.IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in IPACharCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
 				{
 					if (s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Remove(upci.Character.ToString());
@@ -348,7 +348,7 @@ namespace SIL.Pa.FFSearchEngine
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 				
 				return (bldrPhones.Length == 0 ? null :
-					IPACharCache.PhoneticParser(bldrPhones.ToString(), true));
+					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true));
 			}
 		}
 
@@ -487,11 +487,19 @@ namespace SIL.Pa.FFSearchEngine
 					PatternGroupMember member = obj as PatternGroupMember;
 					if (member != null && member.Member != null &&
 						member.Member.Trim() != string.Empty &&
-						(member.MemberType == MemberType.SinglePhone ||
-						member.MemberType == MemberType.IPACharacterRun))
+						member.MemberType == MemberType.SinglePhone)
 					{
 						phones.Append(member.Member.Trim());
 					}
+
+					//PatternGroupMember member = obj as PatternGroupMember;
+					//if (member != null && member.Member != null &&
+					//    member.Member.Trim() != string.Empty &&
+					//    (member.MemberType == MemberType.SinglePhone ||
+					//    member.MemberType == MemberType.IPACharacterRun))
+					//{
+					//    phones.Append(member.Member.Trim());
+					//}
 				}
 			}
 

@@ -478,21 +478,24 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticValue()
 		{
-			if (IPACharCache.UndefinedCharacters != null)
+			if (DataUtils.IPACharCache.UndefinedCharacters != null)
 			{
 				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
 				if (fieldInfo != null)
-					IPACharCache.UndefinedCharacters.CurrentReference = GetField(fieldInfo.FieldName, true);
+				{
+					DataUtils.IPACharCache.UndefinedCharacters.CurrentReference =
+						GetField(fieldInfo.FieldName, true);
+				}
 
-				IPACharCache.UndefinedCharacters.CurrentDataSourceName =
+				DataUtils.IPACharCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
 					System.IO.Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 
-			m_phones = IPACharCache.PhoneticParser(m_phoneticValue.Value, false,
-				out m_uncertainPhones);
+			m_phones = DataUtils.IPACharCache.PhoneticParser(
+				m_phoneticValue.Value, false, out m_uncertainPhones);
 
 			if (m_phones != null && m_phones.Length == 0)
 			{

@@ -171,11 +171,11 @@ namespace SIL.Pa
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			DataUtils.IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				IPACharCache.UndefinedCharacters.CurrentDataSourceName =
+				DataUtils.IPACharCache.UndefinedCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 

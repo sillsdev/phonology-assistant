@@ -29,8 +29,6 @@ namespace SIL.Pa
 		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
 		private PaFieldInfoList m_fieldInfoList;
-		private ExperimentalTranscriptions m_experimentalTransList;
-		private AmbiguousSequences m_ambiguousSeqList;
 		private List<CVPatternInfo> m_CVPatternInfoList;
 		private SearchClassList m_classes;
 		private SortOptions m_DataCorpusSortOptions;
@@ -89,18 +87,16 @@ namespace SIL.Pa
 			if (m_fieldInfoList != null)
 				m_fieldInfoList.Clear();
 
-			if (m_experimentalTransList != null)
-			    m_experimentalTransList.Clear();
-
-			if (m_ambiguousSeqList != null)
-				m_ambiguousSeqList.Clear();
-
 			m_dataSources = null;
 			m_classes = null;
 			m_queryGroups = null;
 			m_fieldInfoList = null;
-			m_experimentalTransList = null;
-			m_ambiguousSeqList = null;
+
+			if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
+				DataUtils.IPACharCache.ExperimentalTranscriptions.Clear();
+	
+			if (DataUtils.IPACharCache.AmbiguousSequences != null)
+				DataUtils.IPACharCache.AmbiguousSequences.Clear();
 		}
 
 		#endregion
@@ -231,10 +227,10 @@ namespace SIL.Pa
 					CopyLastModifiedTimes(project);
 				}
 
-				project.ExperimentalTranscriptions =
+				DataUtils.IPACharCache.ExperimentalTranscriptions =
 					ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
 
-				project.AmbiguousSequences = PhoneCache.AmbiguousSequences =
+				DataUtils.IPACharCache.AmbiguousSequences = 
 					AmbiguousSequences.Load(ProjectPathFilePrefix);
 			}
 
@@ -429,9 +425,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadDataSources()
 		{
-			ExperimentalTranscriptions = ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
-			AmbiguousSequences = AmbiguousSequences.Load(ProjectPathFilePrefix);
-			PhoneCache.AmbiguousSequences = AmbiguousSequences;
+			DataUtils.IPACharCache.ExperimentalTranscriptions =
+				ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
+			
+			DataUtils.IPACharCache.AmbiguousSequences =
+				AmbiguousSequences.Load(ProjectPathFilePrefix);
+			
 			PhoneCache.FeatureOverrides = PhoneFeatureOverrides.Load(ProjectPathFilePrefix);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();
@@ -710,42 +709,6 @@ namespace SIL.Pa
 		{
 			get { return m_showUndefinedCharsDlg; }
 			set { m_showUndefinedCharsDlg = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the project's list of ambiguous sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public AmbiguousSequences AmbiguousSequences
-		{
-			get { return m_ambiguousSeqList; }
-			set
-			{
-				m_ambiguousSeqList = value;
-				DataUtils.IPACharCache.AmbiguousSequences = value;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the project's list of experimental transcriptions.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public ExperimentalTranscriptions ExperimentalTranscriptions
-		{
-			get { return m_experimentalTransList; }
-			set
-			{
-				m_experimentalTransList = value;
-
-				// The IPA char. cache keeps it's own clone of the experimental transcriptions
-				// since it needs to keep them in a sorted order that may not be the way
-				// the user entered them on the phone inventory tab.
-				DataUtils.IPACharCache.ExperimentalTranscriptions = value;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -339,4 +339,16 @@
     <value>{0}-{1}XYChart.html</value>
     <comment>First parameter is language name, second is XY chart name</comment>
   </data>
+  <data name="kstidAmbiguousSeqCantDeleteDefaultMsg" xml:space="preserve">
+    <value>Default sequences may not be deleted.</value>
+    <comment>Message shown when trying to delete default ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg1" xml:space="preserve">
+    <value>That sequence already exists.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg2" xml:space="preserve">
+    <value>That sequence already exists as a default sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
 </root>

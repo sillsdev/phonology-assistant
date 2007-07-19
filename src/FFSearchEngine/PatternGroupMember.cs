@@ -12,7 +12,6 @@ namespace SIL.Pa.FFSearchEngine
 		Binary,
 		Class,
 		SinglePhone,
-		IPACharacterRun,
 		AnyConsonant,
 		AnyVowel,
 		OneOrMore,
@@ -33,9 +32,10 @@ namespace SIL.Pa.FFSearchEngine
 		private StringBuilder m_memberBuilder;
 		private ulong[] m_masks = new ulong[] {0, 0};
 
-		// When the member type gets set to IPACharacterRun, this variable holds
-		// the character run broken into it's individual phones.
-		private string[] m_ipaRun;
+		// This variable is only set when the member's type is SinglePhone or IPACharacterRun
+		// and is only used to the ToString() method can properly display the member as it
+		// was before the phone was stripped of it's diacritics.
+		private string m_singlePhoneForToString = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -56,13 +56,7 @@ namespace SIL.Pa.FFSearchEngine
 		public MemberType MemberType
 		{
 			get {return m_type;}
-			internal set
-			{
-				if (value == MemberType.IPACharacterRun && m_member != null)
-					m_ipaRun = IPACharCache.PhoneticParser(m_member, true);
-
-				m_type = value;
-			}
+			internal set {m_type = value;}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,17 +80,6 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			get {return m_diacriticPattern;}
 			set {m_diacriticPattern = value;}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the array of IPA characters that make up member when the member type is
-		/// an SinglePhone member.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] MemberArray
-		{
-			get { return m_ipaRun; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +112,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public MemberType CloseMember()
+		public PatternGroupMember[] CloseMember()
 		{
 			m_member = m_memberBuilder.ToString();
 			m_memberBuilder = null;
@@ -140,7 +123,7 @@ namespace SIL.Pa.FFSearchEngine
 				
 				// Stip off the C or V from the member's text.
 				m_member = m_member.Substring(1);
-				return m_type;
+				return null;
 			}
 
 			if (m_member == "*")
@@ -158,10 +141,10 @@ namespace SIL.Pa.FFSearchEngine
 				if (IsArticulatoryFeature(feature))
 					CloseArticulatoryFeatureMember(feature);
 				else
-					CloseIPACharacterMember();
+					return ClosePhoneRunMember();
 			}
 
-			return m_type;
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,21 +212,37 @@ namespace SIL.Pa.FFSearchEngine
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Closes a member whose type will be SinglePhone or IPACharacterRun
+		/// Closes a member containing one or more phones.
 		/// </summary>
+		/// <remarks>
+		/// When we arrive at this method, we know we're about to close a member containing
+		/// one or more phones. When closing the current member, it will contain the first
+		/// phone in the run. If there is more than one phone, then new members are generated
+		/// for each of the phones following the first one. Finally, the collection of those
+		/// members is returned, with the first in the collection being "this".
+		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		private void CloseIPACharacterMember()
+		private PatternGroupMember[] ClosePhoneRunMember()
 		{
-			m_ipaRun = IPACharCache.PhoneticParser(m_member, true);
+			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
-			// Determine whether or not we have a single phone or a run.
-			m_type = (m_ipaRun == null || m_ipaRun.Length <= 1 ?
-				MemberType.SinglePhone : MemberType.IPACharacterRun);
+			string[] phones = DataUtils.IPACharCache.PhoneticParser(m_member, true);
+			if (phones == null || phones.Length == 0)
+				return null;
 
-			// When the member is a single phone then strip off the diacritics from the phone
-			// and store them in the member's diacritics pattern.
-			if (m_type == MemberType.SinglePhone && m_ipaRun.Length == 1)
-				PostProcessClosedSinglePhoneMemeber();
+			// First wrap up this member using the first phone in the run.
+			CloseSinglePhoneMemeber(phones[0]);
+			memberPhones.Add(this);
+
+			// Now go through any following phones in the run and create new members for them.
+			for (int i = 1; i < phones.Length; i++)
+			{
+				PatternGroupMember member = new PatternGroupMember();
+				member.CloseSinglePhoneMemeber(phones[i]);
+				memberPhones.Add(member);
+			}
+
+			return memberPhones.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -252,18 +251,20 @@ namespace SIL.Pa.FFSearchEngine
 		/// diacritics in the member's diacritics pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void PostProcessClosedSinglePhoneMemeber()
+		private void CloseSinglePhoneMemeber(string phone)
 		{
+			m_singlePhoneForToString = phone;
+
 			string basePhone;
 			string diacritics;
-			SearchEngine.ParsePhone(m_ipaRun[0], out basePhone, out diacritics);
-
-			if (string.IsNullOrEmpty(diacritics))
-				return;
+			SearchEngine.ParsePhone(phone, out basePhone, out diacritics);
 
 			// Save the phone with all its diacritics stripped off.
-			m_ipaRun[0] = basePhone;
-			m_member = m_ipaRun[0];
+			m_member = basePhone;
+			m_type = MemberType.SinglePhone;
+			
+			if (string.IsNullOrEmpty(diacritics))
+				return;
 
 			if (m_diacriticPattern == null)
 				m_diacriticPattern = string.Empty;
@@ -278,7 +279,10 @@ namespace SIL.Pa.FFSearchEngine
 				if (lastChar != '*' && lastChar != '+')
 					lastChar = '\0';
 				else
-					m_diacriticPattern = m_diacriticPattern.Substring(0, m_diacriticPattern.Length - 1);
+				{
+					m_diacriticPattern =
+						m_diacriticPattern.Substring(0, m_diacriticPattern.Length - 1);
+				}
 			}
 
 			// Add the diacritics removed from the phone to the ones found in the diacritic
@@ -297,11 +301,14 @@ namespace SIL.Pa.FFSearchEngine
 		#region ToString Method
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Return a linquistically appropriate version of the pattern member.
+		/// Return a displayable version of the pattern member.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
+			if (m_singlePhoneForToString != null)
+				return m_singlePhoneForToString;
+
 			string diacriticCluster = (m_diacriticPattern == null ? string.Empty :
 				string.Format("[{0}{1}]", DataUtils.kDottedCircle, m_diacriticPattern));
 
@@ -323,66 +330,6 @@ namespace SIL.Pa.FFSearchEngine
 		#endregion
 
 		#region Pattern matching methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks a run of phones (i.e. phones in a word) to see if they match those in the
-		/// member. Checking begins in the word at the specified start index.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CompareResultType ContainsMatch(EnvironmentType envType, string[] phones,
-			ref int startIndex)
-		{
-			int runLen = m_ipaRun.Length - 1;
-			if (runLen < 0)
-				return CompareResultType.NoMatch;
-
-			// First, verify that the index into the word is where it won't under
-			// or overflow if compared to the IPA character run in the pattern member.
-			if (envType != EnvironmentType.Before)
-			{
-				if ((startIndex + runLen) >= phones.Length)
-					return CompareResultType.NoMatch;
-			}
-			else
-			{
-				if ((startIndex - runLen) < 0)
-					return CompareResultType.NoMatch;
-			}
-
-			// When the environment is before, we begin searching from the end of the run
-			// of phones in the member as and step backward in the word starting at
-			// startIndex. Otherwise, start from the beginning of the run and step
-			// forward through the word starting at startIndex.
-			int ridx = (envType != EnvironmentType.Before ? 0 : runLen);
-			int pidx = startIndex;
-			int newStartIndex = pidx;
-			int incAmount = (envType == EnvironmentType.Before ? -1 : 1);
-			CompareResultType compareResult = CompareResultType.NoMatch;
-
-			while (pidx >= 0 && pidx < phones.Length && ridx >= 0 && ridx <= runLen)
-			{
-				compareResult = ComparePhones(m_ipaRun[ridx], phones[pidx]);
-				
-				if (compareResult == CompareResultType.NoMatch)
-					return CompareResultType.NoMatch;
-
-				if (compareResult != CompareResultType.Ignored)
-				{
-					// Move to the next phone in the pattern's run and save the
-					// last index where we got a match in the word we're searching.
-					ridx += incAmount;
-					newStartIndex = pidx;
-				}
-				
-				// Move to the next phone in the word we're checking.
-				pidx += incAmount;
-			}
-
-			startIndex = newStartIndex;
-			return (compareResult == CompareResultType.Ignored ?
-				CompareResultType.NoMatch : CompareResultType.Match);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Determines whether or not a single phone matches the pattern in the member.

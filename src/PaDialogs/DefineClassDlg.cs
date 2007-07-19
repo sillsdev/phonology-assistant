@@ -439,7 +439,7 @@ namespace SIL.Pa.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = IPACharCache.PhoneticParser_CommaDelimited(phones, true);
+				phones = DataUtils.IPACharCache.PhoneticParser_CommaDelimited(phones, true);
 				return "{" + (phones == null ? string.Empty : phones) + "}";
 			}
 		}

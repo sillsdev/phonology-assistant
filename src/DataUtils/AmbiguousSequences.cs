@@ -77,6 +77,33 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds an ambiguous sequence to the collection, first making sure the sequence with
+		/// the same Unit value is not already in the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new void Add(AmbiguousSeq seq)
+		{
+			if (seq == null)
+				return;
+
+			if (!ContainsSeq(seq.Unit, false))
+				base.Add(seq);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds an ambiguous sequence to the collection with the specified sequence, first
+		/// making sure the unit is not already found in one of the sequences in the list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Add(string unit)
+		{
+			if (!string.IsNullOrEmpty(unit) && !ContainsSeq(unit, false))
+				Add(new AmbiguousSeq(unit));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Saves the list of ambiguous sequences to a project-specific xml file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -218,6 +245,12 @@ namespace SIL.Pa.Data
 		public bool Convert = true;
 		[XmlAttribute]
 		public string BaseChar;
+		
+		// This flag is only used for sequences that were added
+		// from the PhoneticParser in the IPA character cache.
+		[XmlAttribute]
+		public bool IsProjectDefault = false;
+
 		[XmlIgnore]
 		public bool IsDefault = false;
 		[XmlIgnore]
@@ -240,6 +273,21 @@ namespace SIL.Pa.Data
 		public AmbiguousSeq(string unit)
 		{
 			Unit = unit;
+
+			if (string.IsNullOrEmpty(unit))
+				return;
+
+			// Find the first base character starting from the end of
+			// the string. Make that character the base character for the unit.
+			for (int i = unit.Length - 1; i >= 0; i--)
+			{
+				IPACharInfo charInfo = DataUtils.IPACharCache[unit[i]];
+				if (charInfo != null && charInfo.IsBaseChar)
+				{
+					BaseChar = charInfo.IPAChar;
+					return;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
