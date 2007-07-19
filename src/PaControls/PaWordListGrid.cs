@@ -3123,9 +3123,17 @@ namespace SIL.Pa.Controls
 
 			while (!saPrs.HasExited)
 			{
-				Application.DoEvents();
-				if (m_playbackAborted && !saPrs.HasExited)
-					saPrs.Kill();
+				// It appears as though there are some times when HasExited returns false and
+				// calling Kill throws an exception because the process has already exited.
+				// I think it is when pressing F8 multiple times in quick succession.
+				// Therefore, wrap it all in a try/catch and go on our merry way.
+				try
+				{
+					Application.DoEvents();
+					if (m_playbackAborted && !saPrs.HasExited)
+						saPrs.Kill();
+				}
+				catch { }
 			}
 
 			if (m_kbHook != null)
