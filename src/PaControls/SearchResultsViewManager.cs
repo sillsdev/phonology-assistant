@@ -277,17 +277,18 @@ namespace SIL.Pa.Controls
 
 			if (CurrentViewsGrid != null)
 			{
-				if (CurrentViewsGrid.IsGroupedByField)
-					CurrentViewsGrid.GroupByField = null;
-				else if (CurrentViewsGrid.SortOptions.SortInformationList != null &&
-					CurrentViewsGrid.SortOptions.SortInformationList.Count > 0)
+				PaWordListGrid grid = CurrentViewsGrid;
+
+				if (grid.IsGroupedByField)
+					grid.GroupByField = null;
+				else if (grid.SortOptions.SortInformationList != null &&
+					grid.SortOptions.SortInformationList.Count > 0)
 				{
-					CurrentViewsGrid.GroupByField =
-						CurrentViewsGrid.SortOptions.SortInformationList[0].FieldInfo;
+					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
 				}
 
-				if (!CurrentViewsGrid.CurrentCell.Displayed)
-					CurrentViewsGrid.MoveCellsRowToScreenMiddle(CurrentViewsGrid.CurrentCell);
+				if (grid.CurrentCell != null && !grid.CurrentCell.Displayed)
+					grid.ScrollRowToMiddleOfGrid(grid.CurrentCell.RowIndex);
 
 				FindInfo.ResetStartSearchCell(true);
 				FindInfo.CanFindAgain = true;

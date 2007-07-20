@@ -457,8 +457,11 @@ namespace SIL.Pa.Controls
 		{
 			// There is NOT a match if the cell is NOT visible (i.e. group(s) collapsed) AND
 			// searching collapsed groups AND (the grid is grouped on a sorted field OR minimal pairs).
-			if (!cell.Visible && !m_searchCollapsedGroups && (m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
+			if (!cell.Visible && !m_searchCollapsedGroups &&
+				(m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
+			{
 				return false;
+			}
 
 			string cellValue = cell.Value as string;
 			if (cellValue == null)
@@ -471,47 +474,48 @@ namespace SIL.Pa.Controls
 
 			try
 			{
-				if (Regex.IsMatch(cellValue, findPattern))
+				if (!Regex.IsMatch(cellValue, findPattern))
+					return false;
+
+				if (DoneSearching(cell))
+					return true;
+
+				if (!cell.Visible && m_searchCollapsedGroups &&
+					(m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
 				{
-					if (!DoneSearching(cell))
+					if (m_findBackwards)
+						ExpandPreviousHierarchicalGridRow();
+					else
 					{
-						if (!cell.Visible && m_searchCollapsedGroups && 
-							(m_grid.IsGroupedByField || m_grid.Cache.IsCIEList))
-						{
-							if (m_findBackwards)
-								ExpandPreviousHierarchicalGridRow();
-							else
-							{
-								// m_silHierarchicalGridRow will only be NULL when the user Groups by Sorted Field
-								// in the middle of a Find and then does a Find Next
-								if (m_silHierarchicalGridRow == null)
-									ExpandPreviousHierarchicalGridRow();
-								else
-								{
-									if (!m_silHierarchicalGridRow.Expanded)
-										m_silHierarchicalGridRow.Expanded = true;
-								}
-							}
-						}
-						m_numberOfFinds++;
-
-						// If the cell is off the screen, move the cell's row to the screen's middle.
-						if (!cell.Displayed && m_showMessages) // m_showMessages will only be false if running tests
-							m_grid.MoveCellsRowToScreenMiddle(cell);
-
-						if (cell.Visible)
-							m_grid.CurrentCell = cell;
-						return true;
+						// m_silHierarchicalGridRow will only be null when the user
+						// Groups by Sorted Field in the middle of a Find and then
+						// does a Find Next
+						if (m_silHierarchicalGridRow == null)
+							ExpandPreviousHierarchicalGridRow();
+						else if (!m_silHierarchicalGridRow.Expanded)
+							m_silHierarchicalGridRow.Expanded = true;
 					}
-					return true; // done searching
 				}
+
+				m_numberOfFinds++;
+
+				// If the cell is off the screen, move the cell's row to the screen's
+				// middle. m_showMessages will only be false if running tests.
+				if (!cell.Displayed && m_showMessages)
+					m_grid.ScrollRowToMiddleOfGrid(cell.RowIndex);
+
+				if (cell.Visible)
+					m_grid.CurrentCell = cell;
+
+				// Done searching
+				return true;
 			}
 			catch (Exception ex)
 			{
-				// Display the error message
 				if (m_showMessages)
 					STUtils.STMsgBox(ex.Message, MessageBoxButtons.OK);
 			}
+
 			return false;
 		}
 

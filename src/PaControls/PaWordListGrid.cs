@@ -2313,11 +2313,11 @@ namespace SIL.Pa.Controls
 		/// Moves the specified cell's row to the middle of the screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void MoveCellsRowToScreenMiddle(DataGridViewCell cell)
+		public void ScrollRowToMiddleOfGrid(int rowIndex)
 		{
 			// Number of visible rows that will be displayed above the row with the matched cell
 			int backupRowCount = DisplayedRowCount(true) / 2;
-			int firstDisplayRowIndex = cell.RowIndex - 1;
+			int firstDisplayRowIndex = rowIndex - 1;
 
 			while (firstDisplayRowIndex > 0)
 			{
@@ -2329,7 +2329,18 @@ namespace SIL.Pa.Controls
 
 				firstDisplayRowIndex--;
 			}
-			FirstDisplayedScrollingRowIndex = firstDisplayRowIndex;
+
+			try
+			{
+				// Sometimes this fails with a "No room is available to display rows"
+				// exception, but almost never. I'm not sure what June did, but I think it
+				// had something to do with running in 120dpi. So wrap in a try/catch.
+				FirstDisplayedScrollingRowIndex = firstDisplayRowIndex;
+			}
+			catch
+			{
+				FirstDisplayedScrollingRowIndex = 0;
+			}
 		}
 
 		#endregion
