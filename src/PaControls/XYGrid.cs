@@ -1250,9 +1250,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
-				return false;
-
 			Search();
 			return true;
 		}
