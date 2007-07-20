@@ -448,9 +448,6 @@
     <None Include="Resources\Warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\XYChartError.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\XYChartDirty.png" />
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +485,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XYChartError.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

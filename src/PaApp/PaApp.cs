@@ -1365,6 +1365,18 @@ namespace SIL.Pa
 		public static WordListCache Search(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, int incAmount, out int resultCount)
 		{
+			return Search(query, incProgressBar, returnCountOnly,
+				true, incAmount, out resultCount);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates and loads a result cache for the specified search query.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WordListCache Search(SearchQuery query, bool incProgressBar,
+			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
+		{
 			resultCount = 0;
 
 			if (query.IsPatternRegExpression)
@@ -1385,7 +1397,7 @@ namespace SIL.Pa
 				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
 	
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
-			if (!VerifyMiscPatternConditions(engine))
+			if (!VerifyMiscPatternConditions(engine, showErrMsg))
 				return null;
 
 			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
@@ -1539,7 +1551,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static bool VerifyMiscPatternConditions(SearchEngine engine)
+		private static bool VerifyMiscPatternConditions(SearchEngine engine, bool showErrMsg)
 		{
 			if (engine == null)
 				return false;
@@ -1567,7 +1579,7 @@ namespace SIL.Pa
 					errors.ToString());
 			}
 
-			if (msg != null)
+			if (msg != null && showErrMsg)
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 
 			return (msg == null);

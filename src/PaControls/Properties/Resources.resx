@@ -134,7 +134,7 @@
     <value>..\Resources\DropDownButtonArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidErrorInCell" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\XYChartError.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\XYChartError.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidExpandGlyph" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ExplorerBar_Epand_Glyph.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

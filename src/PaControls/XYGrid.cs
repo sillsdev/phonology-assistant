@@ -1160,7 +1160,7 @@ namespace SIL.Pa.Controls
 					int count;
 					query = qryEnvironment.Clone();
 					query.Pattern = srchItem + "/" + qryEnvironment.Pattern;
-					PaApp.Search(query, false, true, 0, out count);
+					PaApp.Search(query, false, true, false, 0, out count);
 					cell.Value = count;
 					VerifyPatternPhonesAreInCache(cell, query);
 
