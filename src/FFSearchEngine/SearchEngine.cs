@@ -730,6 +730,22 @@ namespace SIL.Pa.FFSearchEngine
 		/// Searches the specified phonetic character array for pattern matches.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public bool SearchWord(string phonetic, out int[] result)
+		{
+			result = new int[] { -1, -1 };
+
+			if (DataUtils.IPACharCache == null)
+				return false;
+
+			m_matchIndex = 0;
+			return SearchWord(DataUtils.IPACharCache.PhoneticParser(phonetic, true), out result);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Searches the specified phonetic character array for pattern matches.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public bool SearchWord(string[] eticChars, out int[] result)
 		{
 			m_phones = eticChars;

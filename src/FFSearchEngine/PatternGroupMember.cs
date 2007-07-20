@@ -348,8 +348,12 @@ namespace SIL.Pa.FFSearchEngine
 		private CompareResultType ContainsMatch(string phone,
 			Dictionary<string, IPhoneInfo> phoneCache)
 		{
-			if (SearchEngine.IgnoredPhones.Contains(phone))
-				return CompareResultType.Ignored;
+			//// Check if the phone is ignored, making sure the current member is not in
+			//// the ignored list. If the current member is in the ignored list, then
+			//// don't ignore it because it has been explicitly included in the pattern.
+			//if (SearchEngine.IgnoredPhones.Contains(phone) &&
+			//    !SearchEngine.IgnoredPhones.Contains(m_member))
+			//    return CompareResultType.Ignored;
 
 			if (m_type == MemberType.SinglePhone)
 				return ComparePhones(m_member, phone);
@@ -448,7 +452,11 @@ namespace SIL.Pa.FFSearchEngine
 		private CompareResultType ComparePhones(string patternPhone, string phone)
 		{
 			// First check if phone is ignored.
-			if (SearchEngine.IgnoredPhones.Contains(phone))
+			// Check if the phone is ignored, making sure the current member is not in
+			// the ignored list. If the current member is in the ignored list, then
+			// don't ignore it because it has been explicitly included in the pattern.
+			if (SearchEngine.IgnoredPhones.Contains(phone) &&
+				!SearchEngine.IgnoredPhones.Contains(m_member))
 				return CompareResultType.Ignored;
 
 			// Take the phone from the word we're searching and
