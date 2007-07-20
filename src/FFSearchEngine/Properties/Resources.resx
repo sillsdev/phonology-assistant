@@ -117,29 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="kstidAfterEnvironmentText" xml:space="preserve">
-    <value>after environment</value>
-  </data>
-  <data name="kstidBeforeEnvironmentText" xml:space="preserve">
-    <value>before environment</value>
+  <data name="kstidEnvAfterPatternParsedToNothingError" xml:space="preserve">
+    <value>Error parsing the environment after.</value>
   </data>
   <data name="kstidEnvAfterSyntaxError" xml:space="preserve">
-    <value>Syntax error in after environment.</value>
+    <value>Syntax error in the environment after.</value>
+  </data>
+  <data name="kstidEnvBeforePatternParsedToNothingError" xml:space="preserve">
+    <value>Error parsing the environment before.</value>
   </data>
   <data name="kstidEnvBeforeSyntaxError" xml:space="preserve">
-    <value>Syntax error in before environment.</value>
+    <value>Syntax error in the environment before.</value>
   </data>
   <data name="kstidItemSyntaxError" xml:space="preserve">
     <value>Syntax error in search item.</value>
   </data>
-  <data name="kstidPatternParsedToNothingError" xml:space="preserve">
-    <value>Error parsing the {0}.</value>
-    <comment>The parameter is kstidSearchItemText, kstidBeforeEnvironmentText or kstidAfterEnvironmentText</comment>
-  </data>
   <data name="kstidPatternSyntaxError" xml:space="preserve">
     <value>Syntax error. Pattern is not\nin the correct format: {0}</value>
   </data>
-  <data name="kstidSearchItemText" xml:space="preserve">
-    <value>search item</value>
+  <data name="kstidSrchItemPatternParsedToNothingError" xml:space="preserve">
+    <value>Error parsing the search item.</value>
   </data>
 </root>

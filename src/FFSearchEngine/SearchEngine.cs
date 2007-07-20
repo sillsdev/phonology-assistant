@@ -134,29 +134,17 @@ namespace SIL.Pa.FFSearchEngine
 				if (!m_srchItem.Parse(patterns[0]))
 					m_errorMessages.Add(Properties.Resources.kstidItemSyntaxError);
 				else if (m_srchItem.Members == null || m_srchItem.Members.Count == 0)
-				{
-					m_errorMessages.Add(string.Format(
-						Properties.Resources.kstidPatternParsedToNothingError,
-						Properties.Resources.kstidSearchItemText));
-				}
+					m_errorMessages.Add(Properties.Resources.kstidSrchItemPatternParsedToNothingError);
 
 				if (!m_envBefore.Parse(patterns[1]))
 					m_errorMessages.Add(Properties.Resources.kstidEnvBeforeSyntaxError);
 				else if (m_envBefore.Members == null || m_envBefore.Members.Count == 0)
-				{
-					m_errorMessages.Add(string.Format(
-						Properties.Resources.kstidPatternParsedToNothingError,
-						Properties.Resources.kstidBeforeEnvironmentText));
-				}
+					m_errorMessages.Add(Properties.Resources.kstidEnvBeforePatternParsedToNothingError);
 
 				if (!m_envAfter.Parse(patterns[2]))
 					m_errorMessages.Add(Properties.Resources.kstidEnvAfterSyntaxError);
 				else if (m_envAfter.Members == null || m_envAfter.Members.Count == 0)
-				{
-					m_errorMessages.Add(string.Format(
-						Properties.Resources.kstidPatternParsedToNothingError,
-						Properties.Resources.kstidAfterEnvironmentText));
-				}
+					m_errorMessages.Add(Properties.Resources.kstidEnvAfterPatternParsedToNothingError);
 			}
 			catch
 			{

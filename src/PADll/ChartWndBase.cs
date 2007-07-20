@@ -489,6 +489,14 @@ namespace SIL.Pa
 				SearchQuery query = new SearchQuery();
 				query.Pattern = phone + "/" + environment;
 				query.IgnoreDiacritics = false;
+
+				// Check if the phone only exists as an uncertain phone. If so,
+				// then set the flag in the query to include searching words
+				// made using all uncertain uncertain derivations.
+				IPhoneInfo phoneInfo = PaApp.PhoneCache[phone];
+				if (phoneInfo != null && phoneInfo.TotalCount == 0)
+					query.IncludeAllUncertainPossibilities = true;
+				
 				queries.Add(query);
 			}
 
