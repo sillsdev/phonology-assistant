@@ -306,9 +306,18 @@ namespace SIL.Pa.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0},\n{1}.
         /// </summary>
-        internal static string kstidCharPickerTooltip {
+        internal static string kstidCharPickerTooltipLong {
             get {
-                return ResourceManager.GetString("kstidCharPickerTooltip", resourceCulture);
+                return ResourceManager.GetString("kstidCharPickerTooltipLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        internal static string kstidCharPickerTooltipShort {
+            get {
+                return ResourceManager.GetString("kstidCharPickerTooltipShort", resourceCulture);
             }
         }
         

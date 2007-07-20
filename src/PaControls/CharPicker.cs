@@ -498,7 +498,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private string GetCharsToolTipText(IPACharInfo charInfo)
 		{
-			string tooltip = string.Format(Properties.Resources.kstidCharPickerTooltip,
+			string tooltip = string.Format(string.IsNullOrEmpty(charInfo.Description) ?
+				Properties.Resources.kstidCharPickerTooltipShort :
+				Properties.Resources.kstidCharPickerTooltipLong,
 				charInfo.Name, charInfo.Description);
 
 			return STUtils.ConvertLiteralNewLines(tooltip);

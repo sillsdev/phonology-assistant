@@ -402,7 +402,7 @@ namespace SIL.Pa.Data
 		internal PhoneInfo(string phone, bool isUndefined)
 		{
 			m_phone = phone;
-			m_isUndefined = IsUndefined;
+			m_isUndefined = isUndefined;
 
 			if (string.IsNullOrEmpty(phone))
 				return;

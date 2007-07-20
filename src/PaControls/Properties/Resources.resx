@@ -215,9 +215,13 @@
   <data name="kstidCentralHeading" xml:space="preserve">
     <value>Central</value>
   </data>
-  <data name="kstidCharPickerTooltip" xml:space="preserve">
+  <data name="kstidCharPickerTooltipLong" xml:space="preserve">
     <value>{0},\n{1}</value>
     <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
+  </data>
+  <data name="kstidCharPickerTooltipShort" xml:space="preserve">
+    <value>{0}</value>
+    <comment>Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).</comment>
   </data>
   <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
     <value>Minimal Pairs Options (Ctrl+Alt+M)</value>

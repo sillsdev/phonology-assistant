@@ -121,13 +121,16 @@ namespace SIL.Pa.Controls
 			// phone rows.
 			foreach (CharGridCell cgc in phoneList)
 			{
-				if (!pickerRows.TryGetValue(cgc.Row, out currRow))
+				if (cgc.Visible)
 				{
-					currRow = CreateNewPickerRow();
-					pickerRows[cgc.Row] = currRow;
-				}
+					if (!pickerRows.TryGetValue(cgc.Row, out currRow))
+					{
+						currRow = CreateNewPickerRow();
+						pickerRows[cgc.Row] = currRow;
+					}
 
-				currRow.Items.Add(cgc.Phone);
+					currRow.Items.Add(cgc.Phone);
+				}
 			}
 
 			// Now add each row to the controls collection.
@@ -137,6 +140,7 @@ namespace SIL.Pa.Controls
 				Controls.Add(pickerRow);
 				pickerRow.BringToFront();
 			}
+
 			ResumeLayout(false);
 		}
 

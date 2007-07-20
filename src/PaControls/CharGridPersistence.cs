@@ -363,9 +363,8 @@ namespace SIL.Pa.Controls
 				// it won't be visible.
 				if (!found)
 				{
+					cgc.Visible = false;
 					phoneList.Add(cgc);
-					int i = phoneList.Count - 1;
-					phoneList[i].Visible = false;
 				}
 			}
 		}

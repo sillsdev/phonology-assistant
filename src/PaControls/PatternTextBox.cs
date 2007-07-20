@@ -506,9 +506,7 @@ namespace SIL.Pa.Controls
 			// But only when the previous character is not '['.
 			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
 			{
-				m_ignoreTextChange = true;
 				txtPattern.Text = txtPattern.Text.Insert(selStart, ("[" + e.KeyChar.ToString() + "]"));
-				m_ignoreTextChange = false;
 				e.KeyChar = (char)0;
 				e.Handled = true;
 				txtPattern.SelectionStart = selStart + 3;
