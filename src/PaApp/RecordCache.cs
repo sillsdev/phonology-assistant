@@ -178,7 +178,6 @@ namespace SIL.Pa
 			if (entry.HasInterlinearData)
 				ParseEntryAsInterlinear(entry);
 			
-
 			// If we didn't parse any interlinear fields or the phonetic wasn't among
 			// them, make sure it gets parsed before any other non interlinear fields.
 			if (phoneticField != null && phoneticField.IsParsed &&

@@ -513,6 +513,7 @@ namespace SIL.Pa
 			System.Text.StringBuilder field = new System.Text.StringBuilder();
 			bool onFirstRecordMarker = false;
 			bool foundFirstRecord = false;
+			m_recCacheEntry = null;
 
 			while ((currLine = file.ReadLine()) != null) 
 			{
