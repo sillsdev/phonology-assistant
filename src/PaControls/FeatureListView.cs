@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Text;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Data.OleDb;
+using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
-using SIL.Pa.Resources;
 
 namespace SIL.Pa.Controls
 {
@@ -26,44 +22,38 @@ namespace SIL.Pa.Controls
 
 		public delegate void CustomDoubleClickHandler(object sender, string feature);
 		public event CustomDoubleClickHandler CustomDoubleClick;
-		
-		private const int kMaxFeaturesAllowed = 126;
-		private const int kCustomFeatureType = 5;
-		private const string kTypeSortField = "TypeOrder";
-		private const string kFeatureSortField = "Feature";
 
 		private bool m_allowDoubleClickToChangeCheckState = true;
-		private PaApp.FeatureType m_featureType;
 		private bool m_isDirty = false;
 		private bool m_ignoreCheckChanges = false;
 		private bool m_emphasizeCheckedItems = true;
-		private ulong[] m_currMasks = new ulong[] {0, 0};
-		private Font m_checkedItemFont;
 		private Size m_chkBoxSize = new Size(13, 13);
 		private Color m_glyphColor = Color.Black;
+		private readonly ulong[] m_currMasks = new ulong[] {0, 0};
+		private readonly PaApp.FeatureType m_featureType;
+		private readonly Font m_checkedItemFont;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView(PaApp.FeatureType featureType) : base()
+		public FeatureListView(PaApp.FeatureType featureType)
 		{
 			m_featureType = featureType;
 
 			Name = "lvFeatures-" + (m_featureType == PaApp.FeatureType.Binary ?
 				"Binary" : "Articulatory");
 
-			ColumnHeader colHdr = new System.Windows.Forms.ColumnHeader();
+			ColumnHeader colHdr = new ColumnHeader();
 			colHdr.Width = 210;
 
-			Font = FontHelper.UIFont;
-			m_checkedItemFont = FontHelper.MakeFont(Font, FontStyle.Bold | FontStyle.Italic);
-			
+			base.Font = FontHelper.UIFont;
+			m_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
 			CheckBoxes = true;
 			Columns.Add(colHdr);
 			HeaderStyle = ColumnHeaderStyle.None;
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			LabelEdit = true;
 			MultiSelect = false;
 			HideSelection = false;
@@ -430,6 +420,9 @@ namespace SIL.Pa.Controls
 
 			ListViewItem item = SelectedItems[0];
 			FeatureItemInfo info = item.Tag as FeatureItemInfo;
+			if (info == null)
+				return;
+
 			string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Feature);
 
 			// Make sure the user really wants to do this.
@@ -444,7 +437,6 @@ namespace SIL.Pa.Controls
 				item.Remove();
 				SelectedItems.Clear();
 				SelectedIndices.Add((newIndex < Items.Count ? newIndex : Items.Count - 1));
-
 				m_isDirty = true;
 			}
 		}
@@ -502,15 +494,18 @@ namespace SIL.Pa.Controls
 				{
 					ListViewItem item = SelectedItems[0];
 					FeatureItemInfo info = item.Tag as FeatureItemInfo;
-					string feature = "[" + info.Feature + "]";
-
-					if (m_featureType == PaApp.FeatureType.Articulatory)
-						return feature;
-
-					if (info.TriStateValue != BinaryFeatureValue.None)
+					if (info != null)
 					{
-						return feature.Insert(1,
-							info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
+						string feature = "[" + info.Feature + "]";
+
+						if (m_featureType == PaApp.FeatureType.Articulatory)
+							return feature;
+
+						if (info.TriStateValue != BinaryFeatureValue.None)
+						{
+							return feature.Insert(1,
+								info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
+						}
 					}
 				}
 

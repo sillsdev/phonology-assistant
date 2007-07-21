@@ -13,19 +13,19 @@
 // Last reviewed: 
 // --------------------------------------------------------------------------------------------
 
-using System.Xml;
-using System.Drawing;
-using System.Windows.Forms;  //for ImageList
-using SIL.Utils;
-using System.Reflection;
 using System;
+using System.Drawing;
 using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
+using SIL.Utils;
+//for ImageList
 
 namespace XCore
 {
 	public interface IUIAdapter
 	{
-		System.Windows.Forms.Control  Init (System.Windows.Forms.Form window, ImageCollection smallImages, ImageCollection largeImages, Mediator mediator);
+		Control  Init (Form window, ImageCollection smallImages, ImageCollection largeImages, Mediator mediator);
 		void CreateUIForChoiceGroupCollection(ChoiceGroupCollection groupCollection);
 		void CreateUIForChoiceGroup(ChoiceGroup group);
 		void OnIdle();
@@ -65,7 +65,7 @@ namespace XCore
 
 	public interface IUIMenuAdapter
 	{
-		bool HandleAltKey(System.Windows.Forms.KeyEventArgs e, bool wasDown); //for showing, for example, menus
+		bool HandleAltKey(KeyEventArgs e, bool wasDown); //for showing, for example, menus
 
 		// This method supports various scenarios under which the context menu is expected to operate.
 		// The first two parameters required, but the last two are optional.

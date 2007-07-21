@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using SIL.Pa.Resources;
+using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 
@@ -616,7 +613,7 @@ namespace SIL.Pa.Controls
 		/// Cleanup when the grid is destroyed / replaced with a new one.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void HandleGridDestroyed(object sender, System.EventArgs e)
+		private static void HandleGridDestroyed(object sender, EventArgs e)
 		{
 			// Unsubscribe
 			m_grid.CellClick -= HandleCellClick;

@@ -1,11 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.SpeechTools.Utils;
@@ -22,14 +17,14 @@ namespace SIL.Pa.Controls
 		public event EventHandler Collapsed;
 		public event EventHandler Expanded;
 
-		private bool m_drawHot = false;
-		private Button m_button;
-		private Control m_control;
 		private int m_controlsExpandedHeight;
+		private bool m_drawHot = false;
 		private bool m_expanded = true;
-		private int m_glyphButtonWidth;
-		private Color m_buttonBackColor = Color.Empty;
 		private bool m_gradientButton = true;
+		private Color m_buttonBackColor = Color.Empty;
+		private readonly Button m_button;
+		private readonly Control m_control;
+		private readonly int m_glyphButtonWidth;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -45,10 +40,10 @@ namespace SIL.Pa.Controls
 			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			m_button.Height = 13 + (m_button.Font.Height * lines.Length);
 			m_button.Cursor = Cursors.Hand;
-			m_button.Click += new EventHandler(m_button_Click);
-			m_button.Paint += new PaintEventHandler(m_button_Paint);
-			m_button.MouseEnter += new EventHandler(m_button_MouseEnter);
-			m_button.MouseLeave += new EventHandler(m_button_MouseLeave);
+			m_button.Click += m_button_Click;
+			m_button.Paint += m_button_Paint;
+			m_button.MouseEnter += m_button_MouseEnter;
+			m_button.MouseLeave += m_button_MouseLeave;
 			Controls.Add(m_button);
 
 			m_control = hostedControl;

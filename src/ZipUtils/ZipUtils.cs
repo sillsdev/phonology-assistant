@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -31,7 +29,7 @@ namespace ZipUtils
 		/// ------------------------------------------------------------------------------------
 		public static void UncompressFilesInZip(string zipFileName, string outputPath)
 		{
-			FastZip zipper = new ICSharpCode.SharpZipLib.Zip.FastZip();
+			FastZip zipper = new FastZip();
 			zipper.RestoreDateTimeOnExtract = true;
 			zipper.ExtractZip(zipFileName, outputPath, null);
 		}

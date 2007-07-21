@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data

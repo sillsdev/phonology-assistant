@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 using System.Xml.Serialization;
-using System.Reflection;
-using SIL.Pa.Data;
 
 namespace SIL.Pa
 {
@@ -20,9 +17,9 @@ namespace SIL.Pa
 	[XmlType("Record")]
 	public class RecordCacheEntry
 	{
-		private int m_id;
+		private readonly int m_id;
+		private readonly bool m_canBeEditedInToolbox = false;
 		private PaDataSource m_dataSource;
-		private bool m_canBeEditedInToolbox = false;
 		private bool m_needsParsing = false;
 		private string m_firstInterlinearField = null;
 		private List<string> m_interlinearFields;

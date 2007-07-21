@@ -15,11 +15,11 @@
 // <remarks>
 // </remarks>
 // --------------------------------------------------------------------------------------------
+
 using System;
-using System.Xml;
 using System.Collections;
 using System.Diagnostics;
-
+using System.Xml;
 using SIL.Utils;
 
 namespace XCore

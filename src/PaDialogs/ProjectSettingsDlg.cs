@@ -1,15 +1,13 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
-using SIL.Pa.Controls;
 using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -784,7 +782,7 @@ namespace SIL.Pa.Dialogs
 			using (StringFormat sf = STUtils.GetStringFormat(true))
 			using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
 			{
-				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 				Rectangle rc = btn.ClientRectangle;
 				e.Graphics.DrawString("...", fnt, SystemBrushes.ControlText, rc, sf);
 			}

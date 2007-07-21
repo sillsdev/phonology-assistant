@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.Globalization;
-using System.Windows.Forms;
+using System.Text;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -19,8 +15,8 @@ namespace SIL.Pa
 	public class CacheSortComparer : IComparer<WordListCacheEntry>
 	{
 		private const char kMOAPOAPadChar = '0';
-		private SortInformationList m_sortInfoList;
-		private SortOptions m_sortOptions;
+		private readonly SortInformationList m_sortInfoList;
+		private readonly SortOptions m_sortOptions;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -91,6 +87,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private int CompareMOAOrPOAKeys(WordListCacheEntry x, WordListCacheEntry y)
 		{
+			if (x == null && y == null)
+				return 0;
+
+			if (x == null)
+				return -1;
+
+			if (y == null)
+				return 1;
+			
 			StringBuilder bldrXKey = new StringBuilder();
 			StringBuilder bldrYKey = new StringBuilder();
 				
@@ -98,8 +103,8 @@ namespace SIL.Pa
 			string xkey;
 			string ykey;
 
-			int xPhoneCount = (x != null && x.Phones != null ? x.Phones.Length : 0);
-			int yPhoneCount = (y != null && y.Phones != null ? y.Phones.Length : 0);
+			int xPhoneCount = (x.Phones != null ? x.Phones.Length : 0);
+			int yPhoneCount = (y.Phones != null ? y.Phones.Length : 0);
 
 			// Loop through the phones in each entry and assemble a hex key for them.
 			for (int i = 0; i < xPhoneCount || i < yPhoneCount; i++)
@@ -155,7 +160,7 @@ namespace SIL.Pa
 		/// phonetic sorting on MOA or POA.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ModifyAndCombineKeys(List<string> xKeys, List<string> yKeys,
+		private void ModifyAndCombineKeys(IList<string> xKeys, IList<string> yKeys,
 			out string xKey, out string yKey)
 		{
 			StringBuilder bldrXKey = new StringBuilder();
@@ -193,7 +198,6 @@ namespace SIL.Pa
 		private void GetMOAOrPOAKeysForPhoneticCompare(WordListCacheEntry cacheEntry,
 			out List<string> before, out List<string> item, out List<string> after)
 		{
-			string phoneKey;
 			IPhoneInfo phoneInfo;
 			before = new List<string>();
 			item = new List<string>();
@@ -210,7 +214,7 @@ namespace SIL.Pa
 				if (phoneInfo == null)
 					continue;
 
-				phoneKey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
+				string phoneKey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
 					phoneInfo.MOAKey : phoneInfo.POAKey);
 
 				// Determine in what environment the current phone is found.
@@ -342,8 +346,8 @@ namespace SIL.Pa
 			if (fieldValue1 == null && fieldValue2 == null)
 				return 0;
 
-			DateTime dateTime1 = new DateTime();
-			DateTime dateTime2 = new DateTime();
+			DateTime dateTime1;
+			DateTime dateTime2;
 			
 			if (fieldValue1 == null || !DateTime.TryParse(fieldValue1, out dateTime1))
 				return -1;
@@ -390,7 +394,7 @@ namespace SIL.Pa
 			if (fieldValue2 == null)
 				return 1;
 
-			int compareResult = 0;
+			int compareResult;
 			compareResult = string.Compare(fieldValue1, fieldValue2, true, CultureInfo.CurrentCulture);
 			return compareResult;
 		}
@@ -403,6 +407,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public int Compare(WordListCacheEntry x, WordListCacheEntry y)
 		{
+			if (x == null && y == null)
+				return 0;
+
+			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].ascending : true);
+
+			if (x == null)
+				return (ascending ? -1 : 1);
+
+			if (y == null)
+				return (ascending ? 1 : -1);
+			
 			// First compare CIE group Id's before anything else.
 			if (x.CIEGroupId >= 0 && y.CIEGroupId >= 0 && x.CIEGroupId != y.CIEGroupId)
 				return (x.CIEGroupId - y.CIEGroupId);
@@ -410,18 +425,8 @@ namespace SIL.Pa
 			// Continue with the next iteration if the fieldValues are EQUAL
 			for (int i = 0; i < m_sortInfoList.Count; i++)
 			{
-				bool ascending = m_sortInfoList[i].ascending;
-
-				if (x == null && y == null)
-					continue;
-
-				if (x == null)
-					return (ascending ? -1 : 1);
-
-				if (y == null)
-					return (ascending ? 1 : -1);
-			
-				int compareResult = 0;
+				ascending = m_sortInfoList[i].ascending;
+				int compareResult;
 
 				// Use a special comparison for phonetic fields.
 				if (m_sortInfoList[i].FieldInfo.IsPhonetic)

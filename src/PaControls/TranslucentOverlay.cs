@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -14,7 +10,7 @@ namespace SIL.Pa.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class TranslucentOverlay : SIL.SpeechTools.Utils.NoActivateWnd
+	public class TranslucentOverlay : NoActivateWnd
 	{
 		private const int kDefaultSize = 50;
 		private Control m_parent = null;

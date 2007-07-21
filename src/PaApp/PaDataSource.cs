@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
@@ -119,7 +118,7 @@ namespace SIL.Pa
 		private void MakeNewMappingsList()
 		{
 			m_mappings = new List<SFMarkerMapping>();
-			m_mappings.Add(new SFMarkerMapping(PaDataSource.kRecordMarker));
+			m_mappings.Add(new SFMarkerMapping(kRecordMarker));
 
 			// Add a mapping for each PA field in the specified PaFieldInfoList. For each new
 			// mapping, check if there is a mapping for the same field in the specified
@@ -155,7 +154,7 @@ namespace SIL.Pa
 
 				do
 				{
-					if (line.Trim() != string.Empty)
+					if (line != null && line.Trim() != string.Empty)
 					{
 						m_linesInFile++;
 						if (line.StartsWith("\\"))
@@ -166,7 +165,7 @@ namespace SIL.Pa
 				reader.Close();
 
 				// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
-				return (((float)linesBeginningWithBackslash / (float)m_linesInFile) >= 0.60);
+				return (((float)linesBeginningWithBackslash / m_linesInFile) >= 0.60);
 			}
 		}
 
@@ -492,7 +491,7 @@ namespace SIL.Pa
 				int count = 0;
 				foreach (SFMarkerMapping mapping in m_mappings)
 				{
-					if (mapping.FieldName == PaDataSource.kRecordMarker && string.IsNullOrEmpty(mapping.Marker))
+					if (mapping.FieldName == kRecordMarker && string.IsNullOrEmpty(mapping.Marker))
 						count = -999;
 					else
 						count += (string.IsNullOrEmpty(mapping.Marker) ? 0 : 1);

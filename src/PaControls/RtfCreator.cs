@@ -1,15 +1,13 @@
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
-using SIL.Pa;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -50,7 +48,7 @@ namespace SIL.Pa.Controls
 		private int m_MaxColWidth = 2160; // 1.5 inches in twips
 		private int m_uiFontSize;
 		private float m_pixelsPerInch;
-		private Dictionary<String, String> m_columnHeaders = new Dictionary<String, String>();
+		private Dictionary<string, string> m_columnHeaders = new Dictionary<string, string>();
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
 		private Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
 		// Each dict represents a row. The key is the column index & the value is the cell's value

@@ -1,12 +1,5 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+using System.Diagnostics;
 using System.Xml;
-using System.Xml.Xsl;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Resources;
 
 namespace SIL.Pa.Controls
 {
@@ -18,7 +11,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLXYChartWriter : HTMLWriterBase
 	{
-		private XYGrid m_xyGrid;
+		private readonly XYGrid m_xyGrid;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -59,7 +52,7 @@ namespace SIL.Pa.Controls
 		protected override void WriteOuterElements(XmlWriter writer, string languageName,
 			string[] rootAttribValues)
 		{
-			System.Diagnostics.Debug.Assert(rootAttribValues.Length == 2);
+			Debug.Assert(rootAttribValues.Length == 2);
 
 			writer.WriteStartElement("table");
 			writer.WriteAttributeString("language", languageName);
@@ -98,7 +91,7 @@ namespace SIL.Pa.Controls
 			// Start at the second column since the first is empty and end with
 			// the second to last since the last one should also be empty.
 			for (int i = 1; i < m_xyGrid.ColumnCount - 1; i++)
-				AddColumnHeading((char)((int)col + (i - 1)), m_xyGrid[i, 0].Value as string);
+				AddColumnHeading((char)(col + (i - 1)), m_xyGrid[i, 0].Value as string);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,8 +140,8 @@ namespace SIL.Pa.Controls
 
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "colhead" + "s");
-			element.SetAttribute("cellstart", "1*" + col.ToString());
-			element.SetAttribute("cellend", "1*" + col.ToString());
+			element.SetAttribute("cellstart", "1*" + col);
+			element.SetAttribute("cellend", "1*" + col);
 			element.SetAttribute("colspan", "1");
 			element.SetAttribute("rowspan", "1");
 			XmlNode node = m_currNode.AppendChild(element);
@@ -207,8 +200,8 @@ namespace SIL.Pa.Controls
 		{
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "rowheads");
-			element.SetAttribute("cellstart", (row + 1).ToString() + "*A");
-			element.SetAttribute("cellend", (row + 1).ToString() + "*A");
+			element.SetAttribute("cellstart", (row + 1) + "*A");
+			element.SetAttribute("cellend", (row + 1) + "*A");
 			element.SetAttribute("colspan", "1");
 			element.SetAttribute("rowspan", "1");
 			XmlNode node = m_currNode.AppendChild(element);
@@ -228,14 +221,15 @@ namespace SIL.Pa.Controls
 			{
 				XmlElement element = m_xmlDoc.CreateElement("td");
 				element.SetAttribute("class", "d");
-				element.SetAttribute("cellstart", (row + 1).ToString() + "*" + col.ToString());
+				element.SetAttribute("cellstart", (row + 1) + "*" + col);
 				XmlNode node = m_currNode.AppendChild(element);
 
-				string text = (m_xyGrid[i, row].Value == null ? string.Empty :
-					m_xyGrid[i, row].Value.ToString());
+				string text = (m_xyGrid[i, row].Value == null ||
+					m_xyGrid[i, row].Value is XYChartException ?
+					string.Empty : m_xyGrid[i, row].Value.ToString());
 				
 				SetNodesText(node, text);
-				col = (char)((int)col + 1);
+				col = (char)(col + 1);
 			}
 		}
 
@@ -251,7 +245,7 @@ namespace SIL.Pa.Controls
 		{
 			m_currNode = m_xmlDoc.SelectSingleNode("table/t" + (inHeaderNode ? "head" : "body"));
 			XmlElement element = m_xmlDoc.CreateElement("tr");
-			element.SetAttribute("id", "R" + rowNumber.ToString());
+			element.SetAttribute("id", "R" + rowNumber);
 			m_currNode = m_currNode.AppendChild(element);
 		}
 

@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa
 {
@@ -16,7 +14,7 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class CIEBuilder
 	{
-		private SortOptions m_sortOptions;
+		private readonly SortOptions m_sortOptions;
 		private CIEOptions m_cieOptions;
 		private WordListCache m_cache;
 
@@ -51,7 +49,7 @@ namespace SIL.Pa
 				return;
 
 			m_cache = cache;
-			m_sortOptions = (sortOptions == null ? new SortOptions(true) : sortOptions);
+			m_sortOptions = (sortOptions ?? new SortOptions(true));
 			CIEOptions = cieOptions;
 		}
 
@@ -74,7 +72,7 @@ namespace SIL.Pa
 		public CIEOptions CIEOptions
 		{
 			get { return m_cieOptions; }
-			set {m_cieOptions = (value == null ? new CIEOptions() : value);}
+			set {m_cieOptions = (value ?? new CIEOptions());}
 		}
 
 		/// ------------------------------------------------------------------------------------

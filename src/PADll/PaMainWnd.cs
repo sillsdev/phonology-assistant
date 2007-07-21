@@ -15,21 +15,12 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Reflection;
-using System.IO;
-using System.Data.SqlClient;
-using System.Windows.Forms.VisualStyles;
-using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
-using SIL.Pa.Resources;
-using SIL.Pa.Dialogs;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using XCore;
@@ -41,7 +32,7 @@ namespace SIL.Pa
 	/// Summary description for PaMainWnd.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class PaMainWnd : System.Windows.Forms.Form, IxCoreColleague
+	public partial class PaMainWnd : Form, IxCoreColleague
 	{
 		private ITMAdapter m_tmAdapter;
 		private bool m_shuttingDown = false;
@@ -74,7 +65,7 @@ namespace SIL.Pa
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
 
-			MinimumSize = PaApp.MinimumViewWindowSize;
+			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
 			SetUIFont();
 			Show();
@@ -255,47 +246,41 @@ namespace SIL.Pa
 			string helptooltip = Properties.Resources.kstidDataCorpusViewHelpToolTip;
 			Image img = (itemProps == null ? null : itemProps.Image);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusWnd));
-			ViewTab tab = vwTabGroup.GetTab(typeof(DataCorpusWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidSearchViewToolTip;
 			helptooltip = Properties.Resources.kstidSearchViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView",
-				img, typeof(FindPhoneWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(FindPhoneWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidConsonantChartViewToolTip;
 			helptooltip = Properties.Resources.kstidConsonantChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView",
-				img, typeof(ConsonantChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidVowelChartViewToolTip;
 			helptooltip = Properties.Resources.kstidVowelChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView",
-				img, typeof(VowelChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidXYChartsViewToolTip;
 			helptooltip = Properties.Resources.kstidXYChartsViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView",
-				img, typeof(XYChartWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(XYChartWnd));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuPhoneInventory");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = Properties.Resources.kstidPhoneInventoryViewToolTip;
 			helptooltip = Properties.Resources.kstidPhoneInventoryViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidPhoneInventoryView",
-				img, typeof(PhoneInventoryWnd));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidPhoneInventoryView", img, typeof(PhoneInventoryWnd));
 			
 			vwTabGroup.Visible = true;
 		}
@@ -452,17 +437,6 @@ namespace SIL.Pa
 		{
 			get {return m_shuttingDown;}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not we have a valid database connection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ProjectLoaded
-		{
-			get {return PaApp.Project != null;}
-		}
-
 
 		#endregion
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
@@ -46,17 +46,17 @@ namespace SIL.Pa.Controls
 				return;
 
 			// Add the column for the check box.
-			DataGridViewColumn col = SilGrid.CreateCheckBoxColumn(kCheckCol);
+			DataGridViewColumn col = CreateCheckBoxColumn(kCheckCol);
 			Columns.Add(col);
 
 			// Add the column for the field name.
-			col = SilGrid.CreateTextBoxColumn(kFieldCol);
+			col = CreateTextBoxColumn(kFieldCol);
 			col.ReadOnly = true;
 			col.CellTemplate.Style.Font = FontHelper.UIFont;
 			Columns.Add(col);
 
 			// Add a column for a value on which to sort. This column is not visible.
-			col = SilGrid.CreateTextBoxColumn(kOrderCol);
+			col = CreateTextBoxColumn(kOrderCol);
 			col.ReadOnly = true;
 			col.Visible = false;
 			col.ValueType = typeof(int);
@@ -229,7 +229,7 @@ namespace SIL.Pa.Controls
 			// Force commital of the click's change.
 			CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-			System.Diagnostics.Debug.WriteLine(MousePosition.ToString() + "   Value: " + Rows[0].Cells[kCheckCol].Value); 
+			Debug.WriteLine(MousePosition.ToString() + "   Value: " + Rows[0].Cells[kCheckCol].Value); 
 
 
 

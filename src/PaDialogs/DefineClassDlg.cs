@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using SIL.Pa.Resources;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
+using SIL.Pa.Resources;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
@@ -105,7 +100,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public DefineClassDlg(ClassListViewItem classInfo, ClassesDlg classDlg) : this(classDlg)
 		{
-			System.Diagnostics.Debug.Assert(classInfo != null);
+			Debug.Assert(classInfo != null);
 			m_origClassInfo = classInfo;
 			m_classInfo = new ClassListViewItem(classInfo);
 			Setup();
@@ -324,9 +319,9 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			System.Diagnostics.Debug.Assert(m_classesDlg != null);
-			System.Diagnostics.Debug.Assert(m_classInfo != null);
-			System.Diagnostics.Debug.Assert(charExplorer != null);
+			Debug.Assert(m_classesDlg != null);
+			Debug.Assert(m_classInfo != null);
+			Debug.Assert(charExplorer != null);
 
 			if (!m_splitterSettingsLoaded &&
 				(m_classInfo.ClassType == SearchClassType.Articulatory ||

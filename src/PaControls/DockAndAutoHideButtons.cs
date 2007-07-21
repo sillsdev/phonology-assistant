@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace SIL.Pa.Controls
 {
@@ -14,16 +11,16 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class DockButton : XButton
 	{
-		private ToolTip m_tooltip = new ToolTip();
+		private readonly ToolTip m_tooltip = new ToolTip();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DockButton()	: base()
+		public DockButton()
 		{
-			AutoSize = false;
+			base.AutoSize = false;
 			m_tooltip.ShowAlways = true;
 		}
 
@@ -39,7 +36,7 @@ namespace SIL.Pa.Controls
 			Form frm = FindForm();
 			Point pt = frm.PointToClient(MousePosition);
 			pt.X += (SystemInformation.CursorSize.Width / 2);
-			pt.Y += (int)((float)SystemInformation.CursorSize.Height * 1.5f);
+			pt.Y += (int)(SystemInformation.CursorSize.Height * 1.5f);
 			m_tooltip.Show(Properties.Resources.kstidDockToolTip, frm, pt);
 		}
 
@@ -62,16 +59,16 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class AutoHideButton : XButton
 	{
-		private ToolTip m_tooltip = new ToolTip();
+		private readonly ToolTip m_tooltip = new ToolTip();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public AutoHideButton() : base()
+		public AutoHideButton()
 		{
-			AutoSize = false;
+			base.AutoSize = false;
 			m_tooltip.ShowAlways = true;
 		}
 
@@ -87,7 +84,7 @@ namespace SIL.Pa.Controls
 			Form frm = FindForm();
 			Point pt = frm.PointToClient(MousePosition);
 			pt.X += (SystemInformation.CursorSize.Width / 2);
-			pt.Y += (int)((float)SystemInformation.CursorSize.Height * 1.5f);
+			pt.Y += (int)(SystemInformation.CursorSize.Height * 1.5f);
 			m_tooltip.Show(Properties.Resources.kstidAutoHideToolTip, frm, pt);
 		}
 

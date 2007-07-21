@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Diagnostics;
 using SIL.Pa.Data;
+using SIL.Pa.FFSearchEngine.Properties;
 
 namespace SIL.Pa.FFSearchEngine
 {
@@ -105,7 +104,7 @@ namespace SIL.Pa.FFSearchEngine
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
 			{
 				m_errorMessages.Add(string.Format(
-					Properties.Resources.kstidPatternSyntaxError,
+					Resources.kstidPatternSyntaxError,
 					DataUtils.kEmptyDiamondPattern));
 
 				return;
@@ -132,24 +131,24 @@ namespace SIL.Pa.FFSearchEngine
 				m_envAfter = new PatternGroup(EnvironmentType.After);
 
 				if (!m_srchItem.Parse(patterns[0]))
-					m_errorMessages.Add(Properties.Resources.kstidItemSyntaxError);
+					m_errorMessages.Add(Resources.kstidItemSyntaxError);
 				else if (m_srchItem.Members == null || m_srchItem.Members.Count == 0)
-					m_errorMessages.Add(Properties.Resources.kstidSrchItemPatternParsedToNothingError);
+					m_errorMessages.Add(Resources.kstidSrchItemPatternParsedToNothingError);
 
 				if (!m_envBefore.Parse(patterns[1]))
-					m_errorMessages.Add(Properties.Resources.kstidEnvBeforeSyntaxError);
+					m_errorMessages.Add(Resources.kstidEnvBeforeSyntaxError);
 				else if (m_envBefore.Members == null || m_envBefore.Members.Count == 0)
-					m_errorMessages.Add(Properties.Resources.kstidEnvBeforePatternParsedToNothingError);
+					m_errorMessages.Add(Resources.kstidEnvBeforePatternParsedToNothingError);
 
 				if (!m_envAfter.Parse(patterns[2]))
-					m_errorMessages.Add(Properties.Resources.kstidEnvAfterSyntaxError);
+					m_errorMessages.Add(Resources.kstidEnvAfterSyntaxError);
 				else if (m_envAfter.Members == null || m_envAfter.Members.Count == 0)
-					m_errorMessages.Add(Properties.Resources.kstidEnvAfterPatternParsedToNothingError);
+					m_errorMessages.Add(Resources.kstidEnvAfterPatternParsedToNothingError);
 			}
 			catch
 			{
 				m_errorMessages.Add(string.Format(
-					Properties.Resources.kstidPatternSyntaxError, DataUtils.kEmptyDiamondPattern));
+					Resources.kstidPatternSyntaxError, DataUtils.kEmptyDiamondPattern));
 			}
 
 			m_srchItemStr = patterns[0];

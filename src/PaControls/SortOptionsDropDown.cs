@@ -1,16 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
-using SIL.Pa;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {

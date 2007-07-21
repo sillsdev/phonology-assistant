@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Controls;
+using System.Xml;
 using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -148,7 +144,7 @@ namespace SIL.Pa.Controls
 		/// Draws the ToolTip with the magnified font.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandlePhoneToolTipDraw(System.Object sender, DrawToolTipEventArgs e)
+		private void HandlePhoneToolTipDraw(Object sender, DrawToolTipEventArgs e)
 		{
 			// Only use custom toolTips for IpaCharacter labels
 			e.Graphics.FillRectangle(SystemBrushes.Info, e.Bounds);
@@ -189,7 +185,7 @@ namespace SIL.Pa.Controls
 		/// Display the bar's value in a label just above the bar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleMouseEnter(object sender, System.EventArgs e)
+		private void HandleMouseEnter(object sender, EventArgs e)
 		{
 			HistogramBar bar = sender as HistogramBar;
 			Label lbl = sender as Label;
@@ -415,7 +411,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

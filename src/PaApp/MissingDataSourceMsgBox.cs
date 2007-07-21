@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
@@ -22,7 +18,7 @@ namespace SIL.Pa
 		public MissingDataSourceMsgBox()
 		{
 			InitializeComponent();
-			Text = Application.ProductName;
+			base.Text = Application.ProductName;
 			picIcon.Image = SystemIcons.Question.ToBitmap();
 			lblMsg.Font = FontHelper.UIFont;
 			lblFileName.Font = FontHelper.UIFont;

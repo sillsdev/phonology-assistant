@@ -1,13 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
-using SIL.Pa.Resources;
 
 namespace SIL.Pa.Controls
 {

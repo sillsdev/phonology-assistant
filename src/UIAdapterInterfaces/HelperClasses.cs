@@ -17,12 +17,11 @@
 // --------------------------------------------------------------------------------------------
 using System;
 using System.Collections;
-using System.IO;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Reflection;
 using System.Diagnostics;
-using XCore;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {

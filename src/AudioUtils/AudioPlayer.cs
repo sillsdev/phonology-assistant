@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 using Microsoft.Win32;
+using SIL.SpeechTools.AudioUtils.Properties;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.SpeechTools.AudioUtils
@@ -173,7 +173,7 @@ namespace SIL.SpeechTools.AudioUtils
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
 				return null;
 			}
 

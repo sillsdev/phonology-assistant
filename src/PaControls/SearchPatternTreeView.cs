@@ -1,17 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
 using System.Drawing;
-using System.Text;
+using System.Media;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
-using SIL.Pa.Resources;
-using SIL.Pa.FFSearchEngine;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -454,7 +449,7 @@ namespace SIL.Pa.Controls
 		{
 			if (newName == null || newName.Trim() == string.Empty)
 			{
-				System.Media.SystemSounds.Beep.Play();
+				SystemSounds.Beep.Play();
 				return false;
 			}
 
@@ -483,7 +478,7 @@ namespace SIL.Pa.Controls
 		{
 			if (newName == null || newName.Trim() == string.Empty)
 			{
-				System.Media.SystemSounds.Beep.Play();
+				SystemSounds.Beep.Play();
 				return false;
 			}
 
@@ -1243,7 +1238,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

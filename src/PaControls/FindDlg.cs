@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
-using System.Text.RegularExpressions;
 
 namespace SIL.Pa.Controls
 {
@@ -37,7 +36,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public FindDlg(PaWordListGrid grid)
 		{
-			System.Diagnostics.Debug.Assert(grid != null);
+			Debug.Assert(grid != null);
 			m_grid = grid;
 
 			InitializeComponent();

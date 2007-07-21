@@ -1,9 +1,8 @@
 using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Threading;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa

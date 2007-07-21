@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.Pa.Controls;
-using SIL.Pa.Dialogs;
-using SIL.Pa.Resources;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.FFSearchEngine;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Controls;
+using SIL.Pa.Data;
+using SIL.Pa.Dialogs;
+using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa
@@ -99,7 +97,7 @@ namespace SIL.Pa
 		public void ReloadChart(bool restoreDefault)
 		{
 			if (restoreDefault)
-				System.IO.File.Delete(m_persistedInfoFilename);
+				File.Delete(m_persistedInfoFilename);
 			else
 				CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
 			
@@ -128,7 +126,7 @@ namespace SIL.Pa
 					new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
 
 				string[] defs = new string[1];
-				defs[0] = System.IO.Path.Combine(Application.StartupPath, "CVChartsTMDefinition.xml");
+				defs[0] = Path.Combine(Application.StartupPath, "CVChartsTMDefinition.xml");
 				m_tmAdapter.Initialize(DockableContainer,
 					PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 				
@@ -633,7 +631,7 @@ namespace SIL.Pa
 			string outputFileName =
 				HTMLChartWriter.Export(m_chrGrid, defaultHTMLFileName, m_htmlChartName);
 
-			if (System.IO.File.Exists(outputFileName))
+			if (File.Exists(outputFileName))
 				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);
 
 			return true;
@@ -877,7 +875,7 @@ namespace SIL.Pa
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

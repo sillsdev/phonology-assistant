@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
 using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 
 namespace SIL.Pa.Controls
 {
@@ -138,14 +133,14 @@ namespace SIL.Pa.Controls
 			Point pt1 = new Point(rc.Width / 2, dy);
 			Point pt2 = new Point(10, dy);
 			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
+				kHeadDarkColor, kBodyDarkColor))
 			{
 				g.DrawLine(new Pen(br, 1), pt1, pt2);
 			}
 
 			pt2 = new Point(rc.Width - 11, dy);
 			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
+				kHeadDarkColor, kBodyDarkColor))
 			{
 				g.DrawLine(new Pen(br, 1), pt1, pt2);
 			}
@@ -214,8 +209,8 @@ namespace SIL.Pa.Controls
 			if (!Enabled)
 				return;
 
-			System.Diagnostics.Debug.Assert(ctrl != null);
-			System.Diagnostics.Debug.Assert(bar != null);
+			Debug.Assert(ctrl != null);
+			Debug.Assert(bar != null);
 
 			m_popupTimer.Start();
 
@@ -256,7 +251,7 @@ namespace SIL.Pa.Controls
 			if (!Enabled)
 				return;
 
-			System.Diagnostics.Debug.Assert(m_associatedGrid != null);
+			Debug.Assert(m_associatedGrid != null);
 
 			m_popupTimer.Start();
 			

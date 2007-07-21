@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Reflection;
-using System.Xml.Serialization;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using System.Xml.Serialization;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -146,7 +145,7 @@ namespace SIL.Pa
 				project.LoadDataSources();
 				if (appWindow != null)
 				{
-					appWindow.Activated += new EventHandler(project.appWindow_Activated);
+					appWindow.Activated += project.appWindow_Activated;
 					project.m_appWindow = appWindow;
 				}
 			}
@@ -215,7 +214,7 @@ namespace SIL.Pa
 				if (m_appWindow != null)
 				{
 					m_appWindow.Activated -= appWindow_Activated;
-					m_appWindow.Activated += new EventHandler(project.appWindow_Activated);
+					m_appWindow.Activated += project.appWindow_Activated;
 					project.m_appWindow = m_appWindow;
 				}
 
@@ -539,7 +538,7 @@ namespace SIL.Pa
 		[XmlIgnore]
 		public string ProjectPath
 		{
-			get	{return System.IO.Path.GetDirectoryName(m_fileName);}
+			get	{return Path.GetDirectoryName(m_fileName);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -554,8 +553,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return System.IO.Path.Combine(string.IsNullOrEmpty(m_fileName) ? string.Empty :
-					System.IO.Path.GetDirectoryName(m_fileName), m_name) + ".";
+				return Path.Combine(string.IsNullOrEmpty(m_fileName) ? string.Empty :
+					Path.GetDirectoryName(m_fileName), m_name) + ".";
 			}
 		}
 
@@ -870,7 +869,7 @@ namespace SIL.Pa
 
 				return m_cieOptions;
 			}
-			set	{m_cieOptions = (value == null ? new CIEOptions() : value);}
+			set	{m_cieOptions = (value ?? new CIEOptions());}
 		}
 		
 		#endregion
@@ -883,10 +882,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{
-			get {return (m_gridLayoutInfo != null ? m_gridLayoutInfo : new GridLayoutInfo());}
+			get {return (m_gridLayoutInfo ?? new GridLayoutInfo());}
 			set
 			{
-				m_gridLayoutInfo = (value != null ? value : new GridLayoutInfo());
+				m_gridLayoutInfo = (value ?? new GridLayoutInfo());
 				m_gridLayoutInfo.m_owningProject = this;
 			}
 		}
@@ -902,7 +901,7 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class GridLayoutInfo
 	{
-		public System.Windows.Forms.DataGridViewCellBorderStyle GridLines =
+		public DataGridViewCellBorderStyle GridLines =
 			DataGridViewCellBorderStyle.Single;
 
 		public int ColHeaderHeight = -1;

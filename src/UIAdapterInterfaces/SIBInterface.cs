@@ -1,5 +1,5 @@
-using System;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using XCore;
 
 namespace SIL.FieldWorks.Common.UIAdapters
@@ -119,7 +119,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="key"></param>
 		/// ------------------------------------------------------------------------------------
-		void LoadSettings(Microsoft.Win32.RegistryKey key);
+		void LoadSettings(RegistryKey key);
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -127,7 +127,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="key"></param>
 		/// ------------------------------------------------------------------------------------
-		void SaveSettings(Microsoft.Win32.RegistryKey key);
+		void SaveSettings(RegistryKey key);
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using SIL.Pa.Data;
 
 namespace SIL.Pa.FFSearchEngine
@@ -10,7 +8,7 @@ namespace SIL.Pa.FFSearchEngine
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PhoneCache : SIL.Pa.Data.PhoneCache
+	public class PhoneCache : Data.PhoneCache
 	{
 	}
 

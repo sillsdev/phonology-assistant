@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
@@ -83,7 +81,7 @@ namespace SIL.Pa.Controls
 		public void Initialize(string pattern, DataGridViewCell associatedCell,
 			string informationMsg)
 		{
-			System.Diagnostics.Debug.Assert(associatedCell != null);
+			Debug.Assert(associatedCell != null);
 
 			Padding = new Padding(10);
 			BorderStyle = BorderStyle.FixedSingle;
@@ -98,7 +96,7 @@ namespace SIL.Pa.Controls
 			}
 			else
 			{
-				System.Diagnostics.Debug.Assert(m_associatedCell.Tag != null);
+				Debug.Assert(m_associatedCell.Tag != null);
 
 				List<string> invalidItems = null;
 				MsgType msgType = MsgType.NonExistentPhones;
@@ -263,14 +261,14 @@ namespace SIL.Pa.Controls
 			Point pt1 = new Point(rc.Width / 2, m_lblMsg.Bottom + 6);
 			Point pt2 = new Point(-5, m_lblMsg.Bottom + 6);
 			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
+				kHeadDarkColor, kBodyDarkColor))
 			{
 				g.DrawLine(new Pen(br, 1), pt1, pt2);
 			}
 
 			pt2 = new Point(rc.Width + 4, m_lblMsg.Bottom + 6);
 			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
+				kHeadDarkColor, kBodyDarkColor))
 			{
 				g.DrawLine(new Pen(br, 1), pt1, pt2);
 			}

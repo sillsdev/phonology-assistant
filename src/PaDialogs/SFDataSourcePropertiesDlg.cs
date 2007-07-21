@@ -1,16 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml;
-using System.Text;
-using SIL.Pa.Controls;
 using SIL.Pa.Resources;
-using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using XCore;
 
@@ -822,7 +817,7 @@ namespace SIL.Pa.Dialogs
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 			// TODO:  Add SFDataSourcePropertiesDlg.Init implementation
 		}

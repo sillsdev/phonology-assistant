@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
 using System.IO;
-using System.Xml.Serialization;
+using System.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using System.Xml.Serialization;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -313,9 +312,9 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private List<int> GetInterlinearColumnWidths(string firstInterlinearLine)
+		private static List<int> GetInterlinearColumnWidths(string firstInterlinearLine)
 		{
-			int i = 0;
+			int i;
 			int start = 0;
 			List<int> colWidths = new List<int>();
 
@@ -333,56 +332,6 @@ namespace SIL.Pa
 
 			colWidths.Add(firstInterlinearLine.Length - start);
 			return colWidths;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Because of how dashes are treated in interlinear text, it makes parsing the data
-		/// a little complicated. Therefore, all spaces directly before and after dashes are
-		/// replaced with object replacement characters (ORCs). After parsing, the ORCs will
-		/// be restored to spaces.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Dictionary<string, string> FormatForEasierParsing(Dictionary<string, string> fields)
-		{
-			Dictionary<string, string> converted = new Dictionary<string, string>();
-			foreach (KeyValuePair<string, string> data in fields)
-			{
-				string[] splits = data.Value.Split("-".ToCharArray());
-				StringBuilder bldr = new StringBuilder(data.Value.Length);
-				
-				// Were there any dashes in the text?
-				if (splits.Length == 1)
-				{
-					converted[data.Key] = data.Value;
-					continue;
-				}
-
-				for (int i = 0; i < splits.Length; i++)
-				{
-					char[] chrs = splits[i].ToCharArray();
-					if (chrs.Length > 0)
-					{
-						// Replace any spaces at the beginning with ORCs.
-						int c = 0;
-						while (c < chrs.Length && chrs[c] == ' ')
-							chrs[c++] = DataUtils.kOrc;
-
-						// Replace any spaces at the end with ORCs.
-						c = splits[i].Length - 1;
-						while (c >= 0 && chrs[c] == ' ')
-							chrs[c--] = DataUtils.kOrc;
-					}
-
-					bldr.Append(chrs);
-					if (i < splits.Length - 1)
-						bldr.Append('-');
-				}
-
-				converted[data.Key] = bldr.ToString();
-			}
-
-			return converted;
 		}
 	}
 
@@ -438,7 +387,6 @@ namespace SIL.Pa
 				s_cache[entry.Id] = entry.Phonetic;
 
 			tmpList.Clear();
-			tmpList = null;
 			return s_cache;
 		}
 
@@ -463,7 +411,6 @@ namespace SIL.Pa
 			s_cache.Clear();
 			tmpList.Clear();
 			s_cache = null;
-			tmpList = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

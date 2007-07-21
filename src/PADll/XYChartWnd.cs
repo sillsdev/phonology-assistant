@@ -1,20 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
-using SIL.Pa.Controls;
-using SIL.Pa.Resources;
-using SIL.Pa.Dialogs;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Controls;
+using SIL.Pa.Dialogs;
+using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa
@@ -28,17 +23,15 @@ namespace SIL.Pa
 	{
 		private const string kSavedChartsFile = "XYCharts.xml";
 
-		private string m_openClass = ResourceHelper.GetString("kstidOpenClassSymbol");
-		private string m_closeClass = ResourceHelper.GetString("kstidCloseClassSymbol");
-		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
-		private SplitterPanel m_dockedSidePanel;
-		private SplitterPanel m_resultsPanel;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
-		private XYGrid m_xyGrid;
 		private List<XYChartLayout> m_savedCharts;
 		private ITMAdapter m_tmAdapter;
 		private ITMAdapter m_mainMenuAdapter;
+		private readonly string m_openClass = ResourceHelper.GetString("kstidOpenClassSymbol");
+		private readonly string m_closeClass = ResourceHelper.GetString("kstidCloseClassSymbol");
+		private readonly SplitterPanel m_dockedSidePanel;
+		private readonly XYGrid m_xyGrid;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -55,9 +48,8 @@ namespace SIL.Pa
 			m_xyGrid.OwningForm = this;
 			m_xyGrid.Dock = DockStyle.Fill;
 			m_xyGrid.TabIndex = lblChartName.TabIndex + 1;
-			m_xyGrid.KeyDown += new KeyEventHandler(m_xyGrid_KeyDown);
-			m_xyGrid.CellMouseDoubleClick += 
-				new DataGridViewCellMouseEventHandler(m_xyGrid_CellMouseDoubleClick);
+			m_xyGrid.KeyDown += m_xyGrid_KeyDown;
+			m_xyGrid.CellMouseDoubleClick += m_xyGrid_CellMouseDoubleClick;
 			PaApp.IncProgressBar();
 
 			LoadToolbarAndContextMenus();
@@ -72,7 +64,6 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
-			m_resultsPanel = splitResults.Panel1;
 			
 			LoadSettings();
 			m_xyGrid.Reset();
@@ -84,7 +75,7 @@ namespace SIL.Pa
 			UpdateButtons();
 			PaApp.UninitializeProgressBar();
 
-			MinimumSize = PaApp.MinimumViewWindowSize;
+			base.MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,8 +93,7 @@ namespace SIL.Pa
 			if (m_tmAdapter == null)
 				return;
 
-			m_tmAdapter.LoadControlContainerItem +=
-				new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
+			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			string[] defs = new string[1];
 			defs[0] = Path.Combine(Application.StartupPath, "XYChartsTMDefinition.xml");
@@ -379,16 +369,16 @@ namespace SIL.Pa
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				float splitRatio = (float)splitOuter.SplitterDistance / (float)splitOuter.Width;
+				float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
-				splitRatio = (float)splitResults.SplitterDistance / (float)splitResults.Height;
+				splitRatio = splitResults.SplitterDistance / (float)splitResults.Height;
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
 
-				splitRatio = (float)splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
+				splitRatio = splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
 
-				splitRatio = (float)splitChart.SplitterDistance / (float)splitChart.Height;
+				splitRatio = splitChart.SplitterDistance / (float)splitChart.Height;
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 			}
 			catch { }
@@ -409,16 +399,16 @@ namespace SIL.Pa
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
 				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)((float)splitOuter.Width * splitRatio);
+				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
-				splitResults.SplitterDistance = (int)((float)splitResults.Height * splitRatio);
+				splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.5f);
-				splitSideBarOuter.SplitterDistance = (int)((float)splitSideBarOuter.Height * splitRatio);
+				splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
-				splitChart.SplitterDistance = (int)((float)splitChart.Height * splitRatio);
+				splitChart.SplitterDistance = (int)(splitChart.Height * splitRatio);
 			}
 			catch { }
 			
@@ -722,8 +712,11 @@ namespace SIL.Pa
 			else if (e.Item is ClassListViewItem)
 			{
 				ClassListViewItem item = e.Item as ClassListViewItem;
-				dragText = (item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
-					m_openClass + item.Text + m_closeClass : item.Pattern);
+				if (item != null)
+				{
+					dragText = (item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
+						m_openClass + item.Text + m_closeClass : item.Pattern);
+				}
 			}
 
 			// Any text we begin dragging.
@@ -979,8 +972,8 @@ namespace SIL.Pa
 			if (resultCache != null && splitChart.Panel2Collapsed)
 			{
 				splitChart.Panel2Collapsed = false;
-				if ((float)splitChart.SplitterDistance < (float)splitChart.Panel1.Padding.Top * 2.5)
-					splitChart.SplitterDistance = (int)((float)splitChart.Panel1.Padding.Top * 2.5);
+				if (splitChart.SplitterDistance < splitChart.Panel1.Padding.Top * 2.5)
+					splitChart.SplitterDistance = (int)(splitChart.Panel1.Padding.Top * 2.5);
 			}
 		}
 
@@ -1073,10 +1066,10 @@ namespace SIL.Pa
 
 			// Center the labels vertically.
 			lblChartName.Top =
-				(int)Math.Ceiling((float)(padding - lblChartName.Height) / 2f) + 1;
+				(int)Math.Ceiling((padding - lblChartName.Height) / 2f) + 1;
 
 			lblChartNameValue.Top =
-				(int)Math.Ceiling((float)(padding - lblChartNameValue.Height) / 2f);
+				(int)Math.Ceiling((padding - lblChartNameValue.Height) / 2f);
 
 			rawRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
@@ -1407,7 +1400,7 @@ namespace SIL.Pa
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

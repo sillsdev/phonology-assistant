@@ -1,14 +1,12 @@
 using System;
-using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Data.OleDb;
-using System.Windows.Forms;
 using System.ComponentModel;
-using SIL.SpeechTools.Utils;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -32,9 +30,9 @@ namespace SIL.Pa.Controls
 		public bool ANDFeatures = true;
 		public bool IsDirty = false;
 		public bool InEditMode = false;
-		private ulong[] m_masks = new ulong[2];
-		private string m_plusSymbol = ResourceHelper.GetString("kstidPlusFeatureSymbol");
-		private string m_minusSymbol = ResourceHelper.GetString("kstidMinusFeatureSymbol");
+		private readonly ulong[] m_masks = new ulong[2];
+		private readonly string m_plusSymbol = ResourceHelper.GetString("kstidPlusFeatureSymbol");
+		private readonly string m_minusSymbol = ResourceHelper.GetString("kstidMinusFeatureSymbol");
 
 		#region Constructor and Copy method
 		/// ------------------------------------------------------------------------------------
@@ -229,8 +227,8 @@ namespace SIL.Pa.Controls
 					return ptrn;
 				}
 
-				string[] members = null;
-				string brackets = kClassBracketing;
+				string[] members;
+				string brackets;
 
 				//if (ClassType == ClassType.OtherClasses)
 				//{
@@ -266,7 +264,7 @@ namespace SIL.Pa.Controls
 					return readableMembers.ToString();
 
 				return string.Format((ANDFeatures ? kANDBracketing : kORBracketing),
-					readableMembers.ToString());
+					readableMembers);
 			}
 		}
 
@@ -371,7 +369,7 @@ namespace SIL.Pa.Controls
 		public bool Draw(DrawListViewItemEventArgs e)
 		{
 			// This seems more reliable than using e.State. I was having trouble with that.
-			bool selected = (ListView.SelectedItems.Contains(this as ListViewItem) && !InEditMode);
+			bool selected = (ListView.SelectedItems.Contains(this) && !InEditMode);
 
 			Color clrFore = SystemColors.WindowText;
 

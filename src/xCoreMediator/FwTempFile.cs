@@ -19,7 +19,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-
 namespace SIL.FieldWorks.Common.Utils
 {
 	/// <summary>
@@ -69,7 +68,7 @@ namespace SIL.FieldWorks.Common.Utils
 			{
 				// I (JohnH) could not figure out how to just rename the file,
 				// so I just delete and re-create it.
-				System.IO.File.Delete(m_path);
+				File.Delete(m_path);
 				m_path = System.IO.Path.ChangeExtension(m_path, extension);
 				m_writer = File.CreateText(m_path);
 			}

@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
-using System.Drawing;
 using System.Xml.Serialization;
-using System.Reflection;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
 
 namespace SIL.Pa
@@ -295,56 +292,6 @@ namespace SIL.Pa
 			internal set {m_recEntry = value;}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the manner of articulation key for the entry.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[XmlIgnore]
-		//public string MOAKey
-		//{
-		//    get
-		//    {
-		//        if (m_moaKey == null)
-		//        {
-		//            // TODO: When chow characters are supported, figure out how to deal with them.
-		//            if (m_phoneticValue.Value == null)
-		//                return "0";
-
-		//            m_moaKey = DataUtils.GetMOAKey(Phones);
-		//        }
-				
-		//        return m_moaKey;
-		//    }
-			
-		//    set { m_moaKey = value; }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the place of articulation key for the entry.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[XmlIgnore]
-		//public string POAKey
-		//{
-		//    get
-		//    {
-		//        if (m_poaKey == null)
-		//        {
-		//            // TODO: When chow characters are supported, figure out how to deal with them.
-		//            if (m_phoneticValue.Value == null)
-		//                return "0";
-
-		//            m_poaKey = DataUtils.GetPOAKey(Phones);
-		//        }
-				
-		//        return m_poaKey;
-		//    }
-
-		//    set { m_poaKey = value; }
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the array of phones that make up the phonetic word.
@@ -491,7 +438,7 @@ namespace SIL.Pa
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
-					System.IO.Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
+					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 
 			m_phones = DataUtils.IPACharCache.PhoneticParser(

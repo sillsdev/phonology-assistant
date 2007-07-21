@@ -1,16 +1,14 @@
 using System;
-using System.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
+using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Reflection;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.FFSearchEngine;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -914,7 +912,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

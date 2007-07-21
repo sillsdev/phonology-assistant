@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SIL.Pa.Data;
+using SIL.SpeechTools.AudioUtils;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
@@ -19,8 +18,8 @@ namespace SIL.Pa
 	{
 		private static List<Process> s_saProcesses;
 		
-		private bool m_showFwJumpUrlDlg = false;
-		private string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
+		private readonly bool m_showFwJumpUrlDlg = false;
+		private readonly string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
 			"[AudioFiles]\nFile0={1}\n[BeginningWAVOffsets]\nOffset0={2}\n" +
 			"[EndingWAVOffsets]\nOffset0={3}\n[Commands]\nCommand0=SelectFile(0)";
 
@@ -173,7 +172,7 @@ namespace SIL.Pa
 
 			// Inform anyone who cares (namely Toolbox) that a jump is being requested.
 			uint WM_SANTA_FE_FOCUS = STUtils.RegisterWindowMessage("SantaFeFocus");
-			bool success = STUtils.PostMessage(STUtils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
+			STUtils.PostMessage(STUtils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,7 +189,6 @@ namespace SIL.Pa
 			Dictionary<int, string> tempCache = TempRecordCache.Load();
 			string jumpValue = tempCache[recEntry.Id];
 			tempCache.Clear();
-			tempCache = null;
 			return jumpValue;
 		}
 
@@ -259,7 +257,7 @@ namespace SIL.Pa
 			}
 
 			// Make sure SA exists.
-			string saPath = SIL.SpeechTools.AudioUtils.AudioPlayer.GetSaPath();
+			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
 				STUtils.STMsgBox(Properties.Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
@@ -274,7 +272,7 @@ namespace SIL.Pa
 			prs.StartInfo.FileName = "\"" + saPath + "\"";
 			prs.StartInfo.Arguments = "-l " + lstFile;
 			prs.EnableRaisingEvents = true;
-			prs.Exited += new EventHandler(SA_Exited);
+			prs.Exited += SA_Exited;
 
 			// Create a new collection to hold the new process.
 			if (s_saProcesses == null)
@@ -282,7 +280,6 @@ namespace SIL.Pa
 
 			// Save the process so PA has a record of it. (See CloseSAInstances, below)
 			s_saProcesses.Add(prs);
-			
 			prs.Start();
 		}
 

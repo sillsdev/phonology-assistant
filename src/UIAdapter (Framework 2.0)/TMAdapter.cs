@@ -1,16 +1,13 @@
 using System;
-using System.IO;
-using System.Xml;
-using System.Windows.Forms;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Resources;
+using System.Windows.Forms;
+using System.Xml;
 using Microsoft.Win32;
-using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 
 namespace SIL.FieldWorks.Common.UIAdapters
@@ -251,28 +248,28 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		private void SetupToolStripPanels()
 		{
 			m_tspTop = new ToolStripPanel();
-			m_tspTop.Dock = System.Windows.Forms.DockStyle.Top;
+			m_tspTop.Dock = DockStyle.Top;
 			m_tspTop.Name = "tspTop";
-			m_tspTop.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			m_tspTop.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			m_tspTop.Orientation = Orientation.Horizontal;
+			m_tspTop.RowMargin = new Padding(3, 0, 0, 0);
 
 			m_tspBottom = new ToolStripPanel();
-			m_tspBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+			m_tspBottom.Dock = DockStyle.Bottom;
 			m_tspBottom.Name = "tspBottom";
-			m_tspBottom.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			m_tspBottom.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			m_tspBottom.Orientation = Orientation.Horizontal;
+			m_tspBottom.RowMargin = new Padding(3, 0, 0, 0);
 
 			m_tspLeft = new ToolStripPanel();
-			m_tspLeft.Dock = System.Windows.Forms.DockStyle.Left;
+			m_tspLeft.Dock = DockStyle.Left;
 			m_tspLeft.Name = "tspLeft";
-			m_tspLeft.Orientation = System.Windows.Forms.Orientation.Vertical;
-			m_tspLeft.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+			m_tspLeft.Orientation = Orientation.Vertical;
+			m_tspLeft.RowMargin = new Padding(0, 3, 0, 0);
 
 			m_tspRight = new ToolStripPanel();
-			m_tspRight.Dock = System.Windows.Forms.DockStyle.Right;
+			m_tspRight.Dock = DockStyle.Right;
 			m_tspRight.Name = "tspRight";
-			m_tspRight.Orientation = System.Windows.Forms.Orientation.Vertical;
-			m_tspRight.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+			m_tspRight.Orientation = Orientation.Vertical;
+			m_tspRight.RowMargin = new Padding(0, 3, 0, 0);
 
 			m_parentControl.Controls.Add(m_tspLeft);
 			m_parentControl.Controls.Add(m_tspRight);

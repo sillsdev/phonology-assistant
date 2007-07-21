@@ -1,18 +1,12 @@
 using System;
-using System.Globalization;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.IO;
+using System.Globalization;
 using System.Windows.Forms;
-using SIL.Pa;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
+using SIL.Pa.Properties;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -807,7 +801,7 @@ namespace SIL.Pa
 				}
 				catch
 				{
-					STUtils.STMsgBox(Properties.Resources.kstidInvalidUnicodeValueMsg,
+					STUtils.STMsgBox(Resources.kstidInvalidUnicodeValueMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -815,7 +809,7 @@ namespace SIL.Pa
 				int codePoint = int.Parse(txtHexValue.Text.Trim(), NumberStyles.HexNumber);
 				if (codePoint <= invalidCodePoint)
 				{
-					STUtils.STMsgBox(Properties.Resources.kstidUnicodeValueTooSmallMsg,
+					STUtils.STMsgBox(Resources.kstidUnicodeValueTooSmallMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -823,7 +817,7 @@ namespace SIL.Pa
 				// Make sure the codePoint is unique
 				if (m_codePoints.Contains(codePoint))
 				{
-					STUtils.STMsgBox(string.Format(Properties.Resources.kstidDuplicateCharMsg,
+					STUtils.STMsgBox(string.Format(Resources.kstidDuplicateCharMsg,
 						lblChar.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -847,7 +841,7 @@ namespace SIL.Pa
 			{
 				missingFields = missingFields.Replace(":", string.Empty);
 				missingFields = missingFields.TrimEnd(new char[] { ',', ' ' });
-				missingFields = string.Format(Properties.Resources.kstidMissingFieldsMsg, missingFields);
+				missingFields = string.Format(Resources.kstidMissingFieldsMsg, missingFields);
 				STUtils.STMsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}

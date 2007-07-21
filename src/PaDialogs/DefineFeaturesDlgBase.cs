@@ -15,19 +15,16 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
+using System.Drawing;
 using System.IO;
-using System.Diagnostics;
-using SIL.Pa.Data;
-using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using System.Windows.Forms;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
+using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Dialogs
@@ -458,7 +455,7 @@ namespace SIL.Pa.Dialogs
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

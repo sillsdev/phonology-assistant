@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -265,7 +265,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string GetCommaDelimitedPhonesInFeature(string featureName)
 		{
-			System.Diagnostics.Debug.Assert(featureName != null);
+			Debug.Assert(featureName != null);
 
 			featureName = featureName.Trim().ToLower();
 			featureName = featureName.Replace("[", string.Empty);
@@ -337,8 +337,8 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static PhoneFeatureOverrides FeatureOverrides
 		{
-			get { return PhoneCache.s_featureOverrides; }
-			set { PhoneCache.s_featureOverrides = value; }
+			get { return s_featureOverrides; }
+			set { s_featureOverrides = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

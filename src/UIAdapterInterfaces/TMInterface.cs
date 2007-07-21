@@ -15,10 +15,7 @@
 // <remarks>
 // </remarks>
 // --------------------------------------------------------------------------------------------
-using System;
-using System.Collections;
 using System.Windows.Forms;
-using System.Drawing;
 using XCore;
 
 namespace SIL.FieldWorks.Common.UIAdapters

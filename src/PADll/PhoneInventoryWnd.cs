@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using System.Xml;
+using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
-using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 
 namespace SIL.Pa
@@ -28,10 +25,10 @@ namespace SIL.Pa
 		private SizableDropDownPanel m_sddpBFeatures;
 		private CustomDropDown m_bFeatureDropdown;
 		private FeatureListView m_lvBFeatures;
-		private ITMAdapter m_mainMenuAdapter;
-		private ITMAdapter m_tmAdapter;
-		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
-		private ToolTip m_phoneToolTip;
+		private readonly ITMAdapter m_mainMenuAdapter;
+		private readonly ITMAdapter m_tmAdapter;
+		private readonly ExperimentalTranscriptionControl m_experimentalTransCtrl;
+		private readonly ToolTip m_phoneToolTip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -64,8 +61,7 @@ namespace SIL.Pa
 			m_experimentalTransCtrl.Dock = DockStyle.Fill;
 			m_experimentalTransCtrl.TabIndex = pgpExperimental.TabIndex;
 			m_experimentalTransCtrl.Grid.ShowWaterMarkWhenDirty = true;
-			m_experimentalTransCtrl.Grid.GetWaterMarkRect +=
-				new SilGrid.GetWaterMarkRectHandler(HandleGetWaterMarkRect);
+			m_experimentalTransCtrl.Grid.GetWaterMarkRect += HandleGetWaterMarkRect;
 			pnlExperimental.Controls.Add(m_experimentalTransCtrl);
 			m_experimentalTransCtrl.BringToFront();
 			pgpExperimental.ControlReceivingFocusOnMnemonic = m_experimentalTransCtrl.Grid;
@@ -90,8 +86,8 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
-			MinimumSize = PaApp.MinimumViewWindowSize;
-			Application.Idle += new EventHandler(Application_Idle);
+			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,7 +115,7 @@ namespace SIL.Pa
 		{
 			// Build the articulatory features drop-down.
 			m_sddpAFeatures = new SizableDropDownPanel(Name + "AFeatureDropDown",
-				new Size((int)((double)splitFeatures.Panel1.Width * 2.5), 175));
+				new Size((int)(splitFeatures.Panel1.Width * 2.5), 175));
 			m_sddpAFeatures.MinimumSize = new Size(200, 100);
 			m_sddpAFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpAFeatures.Padding = new Padding(7, 7, 7, m_sddpAFeatures.Padding.Bottom);
@@ -127,18 +123,17 @@ namespace SIL.Pa
 			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory);
 			m_lvAFeatures.Dock = DockStyle.Fill;
 			m_lvAFeatures.Load();
-			m_lvAFeatures.KeyPress += new KeyPressEventHandler(m_lvAFeatures_KeyPress);
+			m_lvAFeatures.KeyPress += m_lvAFeatures_KeyPress;
 			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
 
 			m_aFeatureDropdown = new CustomDropDown();
 			m_aFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
-			m_aFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_featureDropdown_Closing);
+			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
 
 			// Build the binary features drop-down.
 			m_sddpBFeatures = new SizableDropDownPanel(Name + "BFeatureDropDown",
-				new Size((int)((double)splitFeatures.Panel1.Width * 2.5), 175));
+				new Size((int)(splitFeatures.Panel1.Width * 2.5), 175));
 			m_sddpBFeatures.MinimumSize = new Size(200, 100);
 			m_sddpBFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpBFeatures.Padding = new Padding(7, 7, 7, m_sddpBFeatures.Padding.Bottom);
@@ -146,14 +141,13 @@ namespace SIL.Pa
 			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary);
 			m_lvBFeatures.Dock = DockStyle.Fill;
 			m_lvBFeatures.Load();
-			m_lvBFeatures.KeyPress += new KeyPressEventHandler(m_lvBFeatures_KeyPress);
+			m_lvBFeatures.KeyPress += m_lvBFeatures_KeyPress;
 			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
 
 			m_bFeatureDropdown = new CustomDropDown();
 			m_bFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
-			m_bFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_featureDropdown_Closing);
+			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 			{
@@ -457,16 +451,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			float splitRatio = (float)splitOuter.SplitterDistance / (float)splitOuter.Width;
+			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
-			splitRatio = (float)splitChanges.SplitterDistance / (float)splitChanges.Height;
+			splitRatio = splitChanges.SplitterDistance / (float)splitChanges.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
 
-			splitRatio = (float)splitInventory.SplitterDistance / (float)splitInventory.Height;
+			splitRatio = splitInventory.SplitterDistance / (float)splitInventory.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
 
-			splitRatio = (float)splitFeatures.SplitterDistance / (float)splitFeatures.Height;
+			splitRatio = splitFeatures.SplitterDistance / (float)splitFeatures.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 		}
 
@@ -498,19 +492,19 @@ namespace SIL.Pa
 
 				// Splitter between left and right half of view.
 				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)((float)splitOuter.Width * splitRatio);
+				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
 				// Splitter between experimental transcriptions and ambiguous sequences.
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.5f);
-				splitChanges.SplitterDistance = (int)((float)splitChanges.Height * splitRatio);
+				splitChanges.SplitterDistance = (int)(splitChanges.Height * splitRatio);
 
 				// Splitter between phone inventory and features.
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.4f);
-				splitInventory.SplitterDistance = (int)((float)splitInventory.Height * splitRatio);
+				splitInventory.SplitterDistance = (int)(splitInventory.Height * splitRatio);
 
 				// Splitter between articulatory and binary features.
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
-				splitFeatures.SplitterDistance = (int)((float)splitFeatures.Height * splitRatio);
+				splitFeatures.SplitterDistance = (int)(splitFeatures.Height * splitRatio);
 			}
 			catch { }
 
@@ -653,7 +647,7 @@ namespace SIL.Pa
 		/// specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void UpdatePhonesFeatureText(PhoneInfo phoneInfo)
+		private void UpdatePhonesFeatureText(IPhoneInfo phoneInfo)
 		{
 			txtAFeatures.Text = txtBFeatures.Text = string.Empty;
 
@@ -857,7 +851,7 @@ namespace SIL.Pa
 			}
 
 			// Make sure the new base character is part of the ambiguous sequence.
-			if (msg == null && !phone.Contains(newBaseChar))
+			if (msg == null && phone != null && !phone.Contains(newBaseChar))
 				msg = Properties.Resources.kstidAmbiguousBaseCharNotInTransMsg;
 
 			if (msg != null)
@@ -1004,7 +998,7 @@ namespace SIL.Pa
 				// though it's tip's point is still within the bounds of the cell. It is only
 				// when the mouse location leaves the cell do we want to hide the tooltip.
 				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				Point pt = gridPhones.PointToClient(Form.MousePosition);
+				Point pt = gridPhones.PointToClient(MousePosition);
 				if (!rc.Contains(pt))
 					m_phoneToolTip.Hide(gridPhones.FindForm());
 			}
@@ -1179,12 +1173,12 @@ namespace SIL.Pa
 				return false;
 			}
 
-			PhoneFeatureOverrides featOverrideList = new PhoneFeatureOverrides();
+			PhoneFeatureOverrides featureOverrideList = new PhoneFeatureOverrides();
 
 			foreach (DataGridViewRow row in gridPhones.Rows)
 			{
 				// Get the phone from the grid.
-				PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
+				PhoneInfo phoneInfo = row.Cells["phone"].Value as PhoneInfo;
 				if (phoneInfo != null)
 				{
 					// Find the grid phone's entry in the application's phone cache. If the
@@ -1197,12 +1191,12 @@ namespace SIL.Pa
 						phoneCacheEntry.Masks[1] != phoneInfo.Masks[1] ||
 						phoneCacheEntry.BinaryMask != phoneInfo.BinaryMask))
 					{
-						featOverrideList[phoneInfo.Phone] = phoneInfo;
+						featureOverrideList[phoneInfo.Phone] = phoneInfo;
 					}
 				}
 			}
 
-			featOverrideList.Save(PaApp.Project.ProjectPathFilePrefix);
+			featureOverrideList.Save(PaApp.Project.ProjectPathFilePrefix);
 			gridPhones.IsDirty = false;
 			return true;
 		}
@@ -1341,7 +1335,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1351,7 +1345,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1361,7 +1355,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1371,7 +1365,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1381,7 +1375,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowCIEResults(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1391,7 +1385,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1401,7 +1395,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1411,7 +1405,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1421,7 +1415,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		#endregion
@@ -1432,7 +1426,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 			// Not used in PA.
 		}

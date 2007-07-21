@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using System.Reflection;
-using System.IO;
 using System.ComponentModel;
 using System.Diagnostics;
-using SIL.Pa.Resources;
-using SIL.Pa.Controls;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
-using SIL.SpeechTools.AudioUtils;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.SpeechTools.AudioUtils;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -26,13 +22,8 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class PaWordListGrid : DataGridView, IxCoreColleague
 	{
-		private const int kPopupHeadingVPadding = 15;
-		private const int kPopupHeadingBodyGap = 5;
-		private const int kPopupGapBetweenItems = 10;
-		private const int kPopupBottomMargin = 10;
 		private const int kPopupSidePadding = 30;
 
-		private GridCellInfoPopup m_cellInfoPopup;
 		private static bool s_showTopRightHotState = false;
 		private static bool s_showBottomRightHotState = false;
 		private WordListCache m_cache = null;
@@ -41,9 +32,6 @@ namespace SIL.Pa.Controls
 		private CIEOptions m_cieOptions = null;
 		private Type m_owningViewType = null;
 		private string m_phoneticColName;
-		private string m_audioFileFieldName;
-		private string m_audioFileOffsetFieldName;
-		private string m_audioFileLengthFieldName;
 		private WordCacheEntry m_currPaintingCellEntry = null;
 		private bool m_currPaintingCellSelected = false;
 		internal bool m_suspendSavingColumnChanges = false;
@@ -54,7 +42,6 @@ namespace SIL.Pa.Controls
 		private bool m_playbackInProgress = false;
 		private bool m_playbackAborted;
 		private int m_currPlaybackRow = -2;
-		private Bitmap m_spkrImage;
 		private AudioPlayer m_audioPlayer;
 		private int m_playbackSpeed;
 		private bool m_isCurrentPlaybackGrid = false;
@@ -66,7 +53,12 @@ namespace SIL.Pa.Controls
 		private bool m_ToggleGroupExpansion = false;
 
 		private LocalWindowsHook m_kbHook;
-		private Keys m_stopPlaybackKey = Keys.None;
+		private readonly Keys m_stopPlaybackKey = Keys.None;
+		private readonly GridCellInfoPopup m_cellInfoPopup;
+		private readonly string m_audioFileFieldName;
+		private readonly string m_audioFileOffsetFieldName;
+		private readonly string m_audioFileLengthFieldName;
+		private readonly Bitmap m_spkrImage;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -76,7 +68,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid(WordListCache cache) : this(cache, null)
 		{
-			Cursor = Cursors.Default;
+			base.Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,17 +105,16 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid()
-			: base()
 		{
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			ReadOnly = true;
 			AllowUserToAddRows = false;
 			AllowUserToDeleteRows = false;
 			AllowUserToOrderColumns = true;
 			AutoGenerateColumns = false;
 			ShowCellToolTips = false;
-			Dock = DockStyle.Fill;
-			Font = FontHelper.UIFont;
+			base.Dock = DockStyle.Fill;
+			base.Font = FontHelper.UIFont;
 			BorderStyle = BorderStyle.Fixed3D;
 			SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			VirtualMode = true;
@@ -139,8 +130,8 @@ namespace SIL.Pa.Controls
 			m_cellInfoPopup = new GridCellInfoPopup();
 			m_cellInfoPopup.AssociatedGrid = this;
 			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
-			m_cellInfoPopup.Paint += new PaintEventHandler(m_cellInfoPopup_Paint);
-			m_cellInfoPopup.CommandLink.Click += new EventHandler(PopupsCommandLink_Click);
+			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
+			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
 			if (PaApp.TMAdapter != null)
 			{
@@ -240,21 +231,6 @@ namespace SIL.Pa.Controls
 			}
 
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// For some reason, this is safer to do in a Disposed delegate than in an override
-		/// of the Dispose method. Putting this in an override of Dispose sometimes throws
-		/// a "Parameter is not valid" exception.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void PaWordListGrid_Disposed(object sender, EventArgs e)
-		{
-			Disposed -= PaWordListGrid_Disposed;
-
-			//if (m_cellInfoPopup != null)
-			//    m_cellInfoPopup.Dispose();
 		}
 
 		#endregion
@@ -445,7 +421,6 @@ namespace SIL.Pa.Controls
 			if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 				m_dataSourcePathFieldName == null)
 			{
-				PaFieldInfo dataSrcPathFld = PaApp.Project.FieldInfo.DataSourcePathField;
 				if (PaApp.Project.FieldInfo.DataSourcePathField != null)
 					m_dataSourcePathFieldName = PaApp.Project.FieldInfo.DataSourcePathField.FieldName;
 			}
@@ -611,7 +586,7 @@ namespace SIL.Pa.Controls
 			set
 			{
 				base.CellBorderStyle = value;
-				TMItemProperties itemProps = null;
+				TMItemProperties itemProps;
 
 				switch (value)
 				{
@@ -960,7 +935,7 @@ namespace SIL.Pa.Controls
 				base.ContextMenuStrip = value;
 
 				if (base.ContextMenuStrip != null)
-					base.ContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
+					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
 			}
 		}
 
@@ -1123,7 +1098,6 @@ namespace SIL.Pa.Controls
 		protected override void OnCellMouseMove(DataGridViewCellMouseEventArgs e)
 		{
 			base.OnCellMouseMove(e);
-			Rectangle rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 
 			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				e.ColumnIndex < 0 || e.RowIndex < 0 || m_cache == null ||
@@ -1233,7 +1207,7 @@ namespace SIL.Pa.Controls
 
 			int rightEdge = rc.Right - 1;
 			rc.Height /= 2;
-			rc.Width = (int)((float)rc.Height * 1.5);
+			rc.Width = (int)(rc.Height * 1.5);
 			rc.X = rightEdge - rc.Width;
 			return rc.Contains(mouseLocation);
 		}
@@ -1255,9 +1229,9 @@ namespace SIL.Pa.Controls
 			int rightEdge = rc.Right - 1;
 			int bottomEdge = rc.Bottom - 1;
 			rc.Height /= 2;
-			rc.Width = (int)((float)rc.Height * 1.5);
+			rc.Width = (int)(rc.Height * 1.5);
 			rc.X = rightEdge - rc.Width;
-			rc.Y = bottomEdge = rc.Height;
+			rc.Y = bottomEdge - rc.Height;
 			return rc.Contains(mouseLocation);
 		}
 
@@ -1356,7 +1330,8 @@ namespace SIL.Pa.Controls
 		/// Measure how big the experimental transcription list must be.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int GetWidestExperimentalTrancription(Dictionary<string, string> experimentalTrans)
+		private static int GetWidestExperimentalTrancription(
+			Dictionary<string, string> experimentalTrans)
 		{
 			TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.LeftAndRightPadding;
 
@@ -1547,8 +1522,8 @@ namespace SIL.Pa.Controls
 			get
 			{
 				Rectangle rc = ClientRectangle;
-				rc.Width = (int)((float)rc.Width * 0.5f);
-				rc.Height = (int)((float)rc.Height * 0.5f);
+				rc.Width = (int)(rc.Width * 0.5f);
+				rc.Height = (int)(rc.Height * 0.5f);
 				rc.X = (ClientRectangle.Width - rc.Width) / 2;
 				rc.Y = (ClientRectangle.Height - rc.Height) / 2;
 				return rc;
@@ -1965,12 +1940,12 @@ namespace SIL.Pa.Controls
 			// If their are uncertain phones, draw the little red
 			// triangle in the top right corner.
 			if (entry.ContiansUncertainties)
-				DrawUncertaintyCornerGlyph(g, rc, entry);
+				DrawUncertaintyCornerGlyph(g, rc);
 			
 			// If their are experimental transcription conversions, draw the little green
 			// triangle in the bottom right corner.
 			if (entry.AppliedExperimentalTranscriptions != null)
-				DrawExperimentalTransCornerGlyphs(g, rc, entry);
+				DrawExperimentalTransCornerGlyphs(g, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1978,8 +1953,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void DrawUncertaintyCornerGlyph(Graphics g, Rectangle rc,
-			WordCacheEntry entry)
+		private static void DrawUncertaintyCornerGlyph(Graphics g, Rectangle rc)
 		{
 			Point pt1 = new Point(rc.Right - 7, rc.Y);
 			Point pt2 = new Point(rc.Right - 1, rc.Y + 6);
@@ -2005,8 +1979,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void DrawExperimentalTransCornerGlyphs(Graphics g, Rectangle rc,
-			WordCacheEntry entry)
+		private static void DrawExperimentalTransCornerGlyphs(Graphics g, Rectangle rc)
 		{
 			Point pt1 = new Point(rc.Right - 8, rc.Bottom - 1);
 			Point pt2 = new Point(rc.Right - 1, rc.Bottom - 8);
@@ -3132,7 +3105,7 @@ namespace SIL.Pa.Controls
 			{
 				// Create a global hook for the key that stops playback.
 				m_kbHook = new LocalWindowsHook(HookType.WH_KEYBOARD);
-				m_kbHook.HookInvoked += new LocalWindowsHook.HookEventHandler(m_kbHook_HookInvoked);
+				m_kbHook.HookInvoked += m_kbHook_HookInvoked;
 				m_kbHook.Install();
 			}
 
@@ -3260,7 +3233,7 @@ namespace SIL.Pa.Controls
 		/// Never used in PA.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 
@@ -3293,7 +3266,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaCacheGridRow() : base()
+		public PaCacheGridRow()
 		{
 		}
 

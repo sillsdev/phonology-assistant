@@ -1,6 +1,5 @@
-using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -81,7 +80,7 @@ namespace SIL.Pa.Controls
 		protected override void WriteOuterElements(XmlWriter writer, string languageName,
 			string[] rootAttribValues)
 		{
-			System.Diagnostics.Debug.Assert(rootAttribValues.Length >= 1);
+			Debug.Assert(rootAttribValues.Length >= 1);
 
 			writer.WriteStartElement("PaDataExport");
 			writer.WriteAttributeString("language", languageName);

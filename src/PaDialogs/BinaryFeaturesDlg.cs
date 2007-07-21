@@ -14,22 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
-using System.Drawing;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.Data.OleDb;
-using System.IO;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
-using SIL.Pa.Resources;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
-using SIL.FieldWorks.Common.UIAdapters;
-using XCore;
 
 namespace SIL.Pa.Dialogs
 {
@@ -98,7 +83,7 @@ namespace SIL.Pa.Dialogs
 
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BinaryFeaturesDlg));
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(BinaryFeaturesDlg));
 			this.splitContainer1.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();

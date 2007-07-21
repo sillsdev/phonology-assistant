@@ -16,10 +16,10 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
-using System.Xml;
-using SIL.Utils;
-using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Xml;
 
 namespace SIL.Utils
 {
@@ -43,7 +43,7 @@ namespace SIL.Utils
 		{
 			m_parent = null;
 			m_baseDirectory = baseDirectory;
-			string sWs = System.Globalization.CultureInfo.CurrentUICulture.Name.Replace('-', '_');
+			string sWs = CultureInfo.CurrentUICulture.Name.Replace('-', '_');
 			Load(sWs);
 		}
 

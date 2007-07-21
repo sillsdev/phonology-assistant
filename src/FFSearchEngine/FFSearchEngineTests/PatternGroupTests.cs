@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data.OleDb;
 using NUnit.Framework;
 using SIL.Pa.Data;
 using SIL.SpeechTools.TestUtils;

@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Media;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
+using System.Xml;
+using Microsoft.VisualBasic.Devices;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -365,7 +365,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void txtPattern_LocationChanged(object sender, System.EventArgs e)
+		void txtPattern_LocationChanged(object sender, EventArgs e)
 		{
 			Invalidate();
 		}
@@ -433,7 +433,7 @@ namespace SIL.Pa.Controls
 		private void txtPattern_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			// Let Ctrl-C takes its normal course.
-			if (e.KeyChar == (char)3 && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			if (e.KeyChar == (char)3 && (ModifierKeys & Keys.Control) == Keys.Control)
 				return;
 			
 			char nextChar;
@@ -442,7 +442,7 @@ namespace SIL.Pa.Controls
 			// characters that are only valid for complete search patterns.
 			if (!m_allowFullSearchPattern && ("/_<>" + kEmptyPatternChar).Contains(e.KeyChar.ToString()))
 			{
-				System.Media.SystemSounds.Beep.Play();
+				SystemSounds.Beep.Play();
 				e.KeyChar = (char)0;
 				e.Handled = true;
 				return;
@@ -1060,7 +1060,7 @@ namespace SIL.Pa.Controls
 		/// Never used in PA.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 
@@ -1105,7 +1105,7 @@ namespace SIL.Pa.Controls
 			if (m.Msg != 0x0100)
 				return base.PreProcessMessage(ref m);
 
-			Microsoft.VisualBasic.Devices.Keyboard kb = new Microsoft.VisualBasic.Devices.Keyboard();
+			Keyboard kb = new Keyboard();
 
 			// Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
 			// reason we handle {}{} and - (the dash is treated as an underscore) specially

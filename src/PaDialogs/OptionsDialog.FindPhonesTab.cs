@@ -1,11 +1,5 @@
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Drawing.Text;
-using SIL.Pa.Resources;
-using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 

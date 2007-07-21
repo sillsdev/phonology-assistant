@@ -1,12 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 
 namespace SIL.Pa.Dialogs
 {

@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.ComponentModel;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls

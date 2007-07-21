@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Media;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Data;
+using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -99,7 +96,7 @@ namespace SIL.Pa.Dialogs
 		{
 			if (txtSrchItem.Text.Trim().Length == 0)
 			{
-				System.Media.SystemSounds.Beep.Play();
+				SystemSounds.Beep.Play();
 				txtSrchItem.Focus();
 				return;
 			}

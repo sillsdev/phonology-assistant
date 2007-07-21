@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -45,9 +42,9 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public FwDataSourcePropertiesDlg(PaProject project, FwDataSourceInfo fwSourceInfo) : this()
 		{
-			System.Diagnostics.Debug.Assert(project != null);
-			System.Diagnostics.Debug.Assert(project.FieldInfo != null);
-			System.Diagnostics.Debug.Assert(fwSourceInfo != null);
+			Debug.Assert(project != null);
+			Debug.Assert(project.FieldInfo != null);
+			Debug.Assert(fwSourceInfo != null);
 
 			m_project = project;
 			m_fwSourceInfo = fwSourceInfo;

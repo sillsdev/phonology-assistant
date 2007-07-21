@@ -1,15 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
-using System.Data;
-using System.Data.OleDb;
-using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Reflection;
-using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -175,7 +165,7 @@ namespace SIL.Pa.Data
 			StringBuilder keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPACharInfo info = DataUtils.IPACharCache[c];
+				IPACharInfo info = IPACharCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.MOArticulation));
 			}
@@ -198,7 +188,7 @@ namespace SIL.Pa.Data
 			StringBuilder keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPACharInfo info = DataUtils.IPACharCache[c];
+				IPACharInfo info = IPACharCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.POArticulation));
 			}

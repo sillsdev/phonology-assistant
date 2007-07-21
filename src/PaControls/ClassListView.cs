@@ -1,14 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
 using System.ComponentModel;
-using SIL.Pa.Resources;
+using System.Drawing;
+using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 
 namespace SIL.Pa.Controls
 {
@@ -48,9 +42,9 @@ namespace SIL.Pa.Controls
 		/// Constructs a new list resultView for phonetic classes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListView() : base()
+		public ClassListView()
 		{
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			Name = "lvClasses";
 			HeaderStyle = ColumnHeaderStyle.Nonclickable;
 			MultiSelect = false;
@@ -60,7 +54,7 @@ namespace SIL.Pa.Controls
 			HideSelection = false;
 
 			// This will ensure the row height will accomodate the tallest font.
-			Font = FontHelper.UIFont;
+			base.Font = FontHelper.UIFont;
 
 			AddColumns();
 			//AddGroups();
@@ -297,7 +291,7 @@ namespace SIL.Pa.Controls
 			get
 			{
 				IntPtr hwnd = new IntPtr(STUtils.FindWindowEx(Handle, 0, "SysHeader32", null));
-				STUtils.RECT rc = new STUtils.RECT();
+				STUtils.RECT rc;
 				return (STUtils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
 			}
 		}

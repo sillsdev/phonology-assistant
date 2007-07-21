@@ -15,21 +15,19 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms.VisualStyles;
+using System.Windows.Forms;
+using System.Xml;
+using Microsoft.VisualBasic.Devices;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Resources;
-using SIL.Pa.Dialogs;
 using SIL.Pa.Controls;
-using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.Pa.Dialogs;
+using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa
@@ -50,7 +48,7 @@ namespace SIL.Pa
 		{
 			string filename = args as string;
 
-			if (!System.IO.File.Exists(filename))
+			if (!File.Exists(filename))
 			{
 				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
 				STUtils.STMsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
@@ -919,8 +917,8 @@ namespace SIL.Pa
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps != null)
 			{
-				Microsoft.VisualBasic.Devices.Keyboard kb =
-					new Microsoft.VisualBasic.Devices.Keyboard();
+				Keyboard kb =
+					new Keyboard();
 
 				itemProps.Visible = (kb.CtrlKeyDown && kb.ShiftKeyDown);
 				itemProps.Update = true;
@@ -950,8 +948,8 @@ namespace SIL.Pa
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps != null)
 			{
-				Microsoft.VisualBasic.Devices.Keyboard kb =
-					new Microsoft.VisualBasic.Devices.Keyboard();
+				Keyboard kb =
+					new Keyboard();
 
 				itemProps.Visible = (kb.CtrlKeyDown && kb.ShiftKeyDown);
 				itemProps.Update = true;
@@ -988,7 +986,7 @@ namespace SIL.Pa
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

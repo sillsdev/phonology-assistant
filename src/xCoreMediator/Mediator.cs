@@ -16,16 +16,17 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Collections.Specialized;	// for StringDictionary
-using System.Threading;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
-
-using SIL.Utils;
 using SIL.FieldWorks.Common.Utils;
+using SIL.Utils;
+// for StringDictionary
 
 namespace XCore
 {
@@ -170,7 +171,7 @@ namespace XCore
 		/// <summary>This is the message value that is used to communicate the need to process the defered mediator queue</summary>
 		public const int WM_BROADCAST_ITEM_INQUEUE = 0x8000+0x77;	// wm_app + 0x77
 		/// <summary>Included here so as to not add another common utils dependancy</summary>
-		[System.Runtime.InteropServices.DllImport("User32.dll", CharSet=System.Runtime.InteropServices.CharSet.Auto)]
+		[DllImport("User32.dll", CharSet=CharSet.Auto)]
 		public static extern bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam);
 		private Queue<QueueItem> m_jobs = new Queue<QueueItem>();	// queue to contain the defered broadcasts
 		private Queue<QueueItem> m_pendingjobs = new Queue<QueueItem>(); // queue to contain the broadcasts until we have a main window
@@ -382,7 +383,7 @@ namespace XCore
 					m_pendingMessages.Clear();
 					// Since we have gotten rid of the pending messages, also remove the event handler.
 					// Otherwise you can get a null exception when trying to process the idle event: LT-5830
-					System.Windows.Forms.Application.Idle -= PostMessageApplication_Idle;
+					Application.Idle -= PostMessageApplication_Idle;
 				}
 				if (m_jobs != null)
 					m_jobs.Clear();
@@ -510,7 +511,7 @@ namespace XCore
 				mainWndPtr = m_mainWndPtr;
 			else
 				mainWndPtr = Process.GetCurrentProcess().MainWindowHandle;
-			PostMessage(mainWndPtr, Mediator.WM_BROADCAST_ITEM_INQUEUE, 0, 0);
+			PostMessage(mainWndPtr, WM_BROADCAST_ITEM_INQUEUE, 0, 0);
 		}
 
 		/// <summary>Add an item to the queue and let the app know an item is present to be processed.</summary>
@@ -602,7 +603,7 @@ namespace XCore
 		{
 			// create the initial info:
 			// datetime threadid threadpriority: msg
-			System.Text.StringBuilder msgOut = new System.Text.StringBuilder();
+			StringBuilder msgOut = new StringBuilder();
 			msgOut.Append(DateTime.Now.Ticks);
 			msgOut.Append("-");
 			msgOut.Append(Thread.CurrentThread.GetHashCode());
@@ -610,14 +611,14 @@ namespace XCore
 			msgOut.Append(Thread.CurrentThread.Priority);
 			msgOut.Append(": ");
 			msgOut.Append(msg);
-			System.Diagnostics.Debug.WriteLine(msgOut.ToString());
+			Debug.WriteLine(msgOut.ToString());
 		}
 
 		private string BuildDebugMsg(string msg)
 		{
 			// create the initial info:
 			// datetime threadid threadpriority: msg
-			System.Text.StringBuilder msgOut = new System.Text.StringBuilder();
+			StringBuilder msgOut = new StringBuilder();
 			msgOut.Append(DateTime.Now.Ticks);
 			msgOut.Append("-");
 			msgOut.Append(Thread.CurrentThread.GetHashCode());
@@ -949,7 +950,7 @@ namespace XCore
 
 			// If the queue is empty then subscribe to the idle event to process messages
 			if (m_pendingMessages.Count == 0)
-				System.Windows.Forms.Application.Idle += new EventHandler(PostMessageApplication_Idle);
+				Application.Idle += new EventHandler(PostMessageApplication_Idle);
 
 			// Add this message to the queue
 			m_pendingMessages.Enqueue(new PendingMessageItem(messageName, parameter));
@@ -977,7 +978,7 @@ namespace XCore
 			finally
 			{
 				// Since the queue is now empty, turn off the idle handler
-				System.Windows.Forms.Application.Idle -= PostMessageApplication_Idle;
+				Application.Idle -= PostMessageApplication_Idle;
 			}
 		}
 
@@ -1079,7 +1080,7 @@ namespace XCore
 				Debug.Fail("The convention is to send messages without the 'On' prefix.  That is added by the message sending code.");
 #endif
 
-			System.ComponentModel.CancelEventArgs cancelArguments = new  System.ComponentModel.CancelEventArgs(false);
+			CancelEventArgs cancelArguments = new  CancelEventArgs(false);
 			InvokeOnColleagues("On"+messageName, 
 				null, // types see note above
 				new Object[] { parameter, cancelArguments },
@@ -1451,7 +1452,7 @@ namespace XCore
 			//most exceptions will be invoked by the method that we actually called.
 			//the only exceptions we want to catch are the ones that just mean that we failed to find
 			//a suitable method. These we can report if in debug-mode, otherwise ignore.
-			catch(System.ArgumentException error)
+			catch(ArgumentException error)
 			{
 				//I once spent close to an hour wondering what was causing the failure here.
 				//The exception message was "Object type cannot be converted to target type."
@@ -1477,7 +1478,7 @@ namespace XCore
 				// Unfortunately, that's inherent with message handling architecture when
 				// handling one message allows other messages to be handled before it finishes.
 				// - SteveMc
-				if (inner is System.NullReferenceException &&
+				if (inner is NullReferenceException &&
 					mi.Name == "OnChooseLanguageProject")
 				{
 					// We probably closed the target's window after choosing another project,

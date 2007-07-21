@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.ComponentModel;
 using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -19,8 +18,8 @@ namespace SIL.Pa.Controls
 	{
 		private struct PickerItemInfo
 		{
-			internal string tooltip;
-			internal string character;
+			internal readonly string tooltip;
+			internal readonly string character;
 
 			internal PickerItemInfo(string chr, string tip)
 			{
@@ -49,16 +48,16 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CharPicker() : base()
+		public CharPicker()
 		{
 			Padding = new Padding(0);
 			BackColor = Color.Transparent;
-			AutoSize = false;
+			base.AutoSize = false;
 			LayoutStyle = ToolStripLayoutStyle.Flow;
-			Dock = DockStyle.None;
+			base.Dock = DockStyle.None;
 			RenderMode = ToolStripRenderMode.ManagerRenderMode;
 			GripStyle = ToolStripGripStyle.Hidden;
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			SetStyle(ControlStyles.Selectable, true);
 			RefreshFont();
 		}
@@ -303,7 +302,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private Color GetParentBackColor(out bool isOnTab)
 		{
-			isOnTab = false;
 			Control ctrlParent = Parent;
 
 			while (ctrlParent.Parent != null && ctrlParent.BackColor == Color.Transparent)
@@ -350,7 +348,7 @@ namespace SIL.Pa.Controls
 			e.Item.Size = m_itemSize;
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			e.Item.Margin = new Padding(kDefaultItemMargin);
-			e.Item.MouseMove += new MouseEventHandler(Item_MouseMove);
+			e.Item.MouseMove += Item_MouseMove;
 
 			// Save the point at which the mouse went down over the item.
 			e.Item.MouseDown += delegate(object sender, MouseEventArgs mea)
@@ -496,7 +494,7 @@ namespace SIL.Pa.Controls
 		/// Constructs a tooltip for the specified character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetCharsToolTipText(IPACharInfo charInfo)
+		private static string GetCharsToolTipText(IPACharInfo charInfo)
 		{
 			string tooltip = string.Format(string.IsNullOrEmpty(charInfo.Description) ?
 				Properties.Resources.kstidCharPickerTooltipShort :

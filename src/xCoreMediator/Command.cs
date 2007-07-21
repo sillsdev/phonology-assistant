@@ -15,13 +15,11 @@
 // <remarks>
 // </remarks>
 // --------------------------------------------------------------------------------------------
-using System;
-using System.Diagnostics;
-using System.Xml;
-using System.Collections;
-using System.Globalization;
-using System.Windows.Forms;
 
+using System;
+using System.Collections;
+using System.Windows.Forms;
+using System.Xml;
 using SIL.FieldWorks.Common.Utils;
 using SIL.Utils;
 
@@ -305,7 +303,7 @@ namespace XCore
 			}
 		}
 
-		public System.Windows.Forms.Keys Shortcut
+		public Keys Shortcut
 		{
 			get
 			{
@@ -618,12 +616,12 @@ namespace XCore
 
 	public class BusyIndicator : IFWDisposable
 	{
-		private System.Windows.Forms.Cursor m_old;
+		private Cursor m_old;
 
 		public BusyIndicator()
 		{
-			m_old = System.Windows.Forms.Cursor.Current;
-			System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+			m_old = Cursor.Current;
+			Cursor.Current = Cursors.WaitCursor;
 		}
 
 		#region IDisposable & Co. implementation

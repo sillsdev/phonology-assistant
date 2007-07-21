@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Xml.Serialization;
-using System.Reflection;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
@@ -79,7 +75,7 @@ namespace SIL.Pa
 					typeof(SearchClassList)) as SearchClassList;
 			}
 
-			return (srchClasses == null ? new SearchClassList() : srchClasses);
+			return (srchClasses ?? new SearchClassList());
 		}
 
 		/// ------------------------------------------------------------------------------------

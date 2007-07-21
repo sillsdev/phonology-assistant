@@ -15,23 +15,18 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Collections;
-using System.Data;
-using System.Diagnostics;
-using System.Xml;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using Microsoft.Win32;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Resources;
+using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 using XCore;
 using ZipUtils;
 
@@ -79,9 +74,6 @@ namespace SIL.Pa
 		public const string kPaSampleFolder = "Samples";
 
 		private static string s_helpFilePath = null;
-		private static string s_settingsFile;
-		private static PaSettingsHandler s_settingsHndlr;
-		private static Mediator s_msgMediator;
 		private static ITMAdapter s_tmAdapter;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
@@ -99,10 +91,14 @@ namespace SIL.Pa
 		private static PhoneCache s_phoneCache;
 		private static PaFieldInfoList s_fieldInfo;
 		private static ISplashScreen s_splashScreen;
-		private static Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static string s_defaultProjFolder;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
-		private static Size s_minViewWindowSize;
+		private static readonly string s_settingsFile;
+		private static readonly PaSettingsHandler s_settingsHndlr;
+		private static readonly Mediator s_msgMediator;
+		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
+		private static readonly Size s_minViewWindowSize;
+		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -220,7 +216,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool DesignMode
 		{
-			get { return System.Diagnostics.Process.GetCurrentProcess().ProcessName == "devenv"; }
+			get { return Process.GetCurrentProcess().ProcessName == "devenv"; }
 		}
 
 		#region Cache related properties and methods
@@ -321,7 +317,7 @@ namespace SIL.Pa
 		/// therefore, it will not be added nor its count incremented.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddUncertainPhonesToCache(Dictionary<int, string[]> uncertainPhones)
+		private static void AddUncertainPhonesToCache(IDictionary<int, string[]> uncertainPhones)
 		{
 			// Go through the uncertain phone groups, skipping the
 			// primary one in each group since that was already added
@@ -348,7 +344,7 @@ namespace SIL.Pa
 		/// the specified uncertain groups.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void UpdateSiblingUncertaintys(Dictionary<int, string[]> uncertainPhones)
+		private static void UpdateSiblingUncertaintys(IDictionary<int, string[]> uncertainPhones)
 		{
 			// Go through the uncertain phone groups
 			foreach (string[] uPhones in uncertainPhones.Values)
@@ -411,8 +407,6 @@ namespace SIL.Pa
 
 		#endregion
 
-		private static List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -468,7 +462,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static Size MinimumViewWindowSize
 		{
-			get { return PaApp.s_minViewWindowSize; }
+			get { return s_minViewWindowSize; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -489,8 +483,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ISplashScreen SplashScreen
 		{
-			get { return PaApp.s_splashScreen; }
-			set { PaApp.s_splashScreen = value; }
+			get { return s_splashScreen; }
+			set { s_splashScreen = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -511,8 +505,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ProjectLoadInProcess
 		{
-			get { return PaApp.s_projectLoadInProcess; }
-			set { PaApp.s_projectLoadInProcess = value; }
+			get { return s_projectLoadInProcess; }
+			set { s_projectLoadInProcess = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -682,7 +676,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetBoolSettingsValue(
+				return SettingsHandler.GetBoolSettingsValue(
 					kSQLServerOptions, "autostart", true);
 			}
 		}
@@ -695,16 +689,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static int NumberOfRecentlyUsedQueries
 		{
-			get
-			{
-				return PaApp.SettingsHandler.GetIntSettingsValue("recentlyusedqueries",
-					"maxallowed", 20);
-			}
-			set
-			{
-				PaApp.SettingsHandler.SaveSettingsValue("recentlyusedqueries",
-					"maxallowed", value);
-			}
+			get {return SettingsHandler.GetIntSettingsValue("recentlyusedqueries", "maxallowed", 20);}
+			set {SettingsHandler.SaveSettingsValue("recentlyusedqueries", "maxallowed", value);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -714,16 +700,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static Color RecordViewFieldLabelColor
 		{
-			get
-			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
-					"recordviewcolors", "lable", Color.DarkRed);
-			}
-			set
-			{
-				PaApp.SettingsHandler.SaveSettingsValue(
-					"recordviewcolors", "label", value);
-			}
+			get {return SettingsHandler.GetColorSettingsValue("recordviewcolors", "lable", Color.DarkRed);}
+			set {SettingsHandler.SaveSettingsValue("recordviewcolors", "label", value);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -735,12 +713,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"uncertainphonecolors", "foreground", Color.RoyalBlue);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"uncertainphonecolors", "foreground", value);
 			}
 		}
@@ -754,12 +732,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"searchresultcolors", "srchitemforeground", Color.Black);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"searchresultcolors", "srchitemforeground", value);
 			}
 		}
@@ -773,12 +751,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"searchresultcolors", "srchitembackground", Color.Yellow);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"searchresultcolors", "srchitembackground", value);
 			}
 		}
@@ -793,12 +771,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"xychartcolors", "zerobackground", Color.PaleGoldenrod);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"xychartcolors", "zerobackground", value);
 			}
 		}
@@ -813,12 +791,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"xychartcolors", "zeroforeground", Color.Black);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"xychartcolors", "zeroforeground", value);
 			}
 		}
@@ -833,12 +811,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"xychartcolors", "nonzerobackground", Color.LightSteelBlue);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"xychartcolors", "nonzerobackground", value);
 			}
 		}
@@ -853,12 +831,12 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetColorSettingsValue(
+				return SettingsHandler.GetColorSettingsValue(
 					"xychartcolors", "nonzeroforeground", Color.Black);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
+				SettingsHandler.SaveSettingsValue(
 					"xychartcolors", "nonzeroforeground", value);
 			}
 		}
@@ -879,31 +857,20 @@ namespace SIL.Pa
 			{
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "PaTMDefinition.xml");
-				adapter.Initialize(menuContainer,
-					PaApp.MsgMediator, ApplicationRegKeyPath, defs);
-
+				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
+				adapter.RecentFilesList = RecentlyUsedProjectList;
+				adapter.RecentlyUsedItemChosen += delegate(string filename)
+              	{
+              		 MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename);
+              	};
 			}
-
-			adapter.RecentFilesList = RecentlyUsedProjectList;
-			adapter.RecentlyUsedItemChosen += 
-				new RecentlyUsedItemChosenHandler(adapter_RecentlyUsedItemChosen);
 
 			if (s_defaultMenuAdapters == null)
 				s_defaultMenuAdapters = new List<ITMAdapter>();
 
 			s_defaultMenuAdapters.Add(adapter);
 			return adapter;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Informs whoever cares that a recently used project has been chosen.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void adapter_RecentlyUsedItemChosen(string filename)
-		{
-			MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -977,7 +944,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void EnableWhenProjectOpen(TMItemProperties itemProps)
 		{
-			bool enable = (PaApp.Project != null);
+			bool enable = (Project != null);
 
 			if (itemProps != null && itemProps.Enabled != enable)
 			{
@@ -995,7 +962,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool DetermineMenuStateBasedOnViewType(TMItemProperties itemProps, Type viewType)
 		{
-			bool enable = (PaApp.Project != null && PaApp.CurrentViewType != viewType);
+			bool enable = (Project != null && CurrentViewType != viewType);
 
 			if (itemProps != null && itemProps.Enabled != enable)
 			{
@@ -1004,7 +971,7 @@ namespace SIL.Pa
 				itemProps.Update = true;
 			}
 
-			return (itemProps != null && PaApp.CurrentViewType == viewType);
+			return (itemProps != null && CurrentViewType == viewType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1154,8 +1121,8 @@ namespace SIL.Pa
 			if (s_splashScreen != null && s_splashScreen.StillAlive)
 			{
 				Application.DoEvents();
-				if (PaApp.MainForm != null)
-					PaApp.MainForm.Activate();
+				if (MainForm != null)
+					MainForm.Activate();
 
 				s_splashScreen.Close();
 			}
@@ -1208,8 +1175,6 @@ namespace SIL.Pa
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect, string initialDirectory)
 		{
-			string[] filters = filter.Split("|".ToCharArray());
-			
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
@@ -1220,8 +1185,7 @@ namespace SIL.Pa
 			dlg.ShowHelp = false;
 			dlg.Title = dlgTitle;
 			dlg.RestoreDirectory = false;
-			dlg.InitialDirectory = (initialDirectory == null ?
-				Environment.CurrentDirectory : initialDirectory);
+			dlg.InitialDirectory = (initialDirectory ?? Environment.CurrentDirectory);
 
 			if (filterIndex > 0)
 				dlg.FilterIndex = filterIndex;
@@ -1263,8 +1227,6 @@ namespace SIL.Pa
 		public static string SaveFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, string initialFileName, string initialDir)
 		{
-			string[] filters = filter.Split("|".ToCharArray());
-
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.AddExtension = true;
 			dlg.DefaultExt = defaultFileType;
@@ -1298,7 +1260,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool IsViewOrFormActive(Type viewType, Form frm)
 		{
-			return (viewType == PaApp.CurrentViewType && frm != null && frm.ContainsFocus);
+			return (viewType == CurrentViewType && frm != null && frm.ContainsFocus);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1311,7 +1273,7 @@ namespace SIL.Pa
 			if (frm == null)
 				return false;
 
-			if (frm.ContainsFocus || frm.GetType() == PaApp.CurrentViewType)
+			if (frm.ContainsFocus || frm.GetType() == CurrentViewType)
 				return true;
 
 			return false;
@@ -1389,22 +1351,21 @@ namespace SIL.Pa
 			
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
-			int[] result;
 
 			SearchQuery modifiedQuery = ConvertClassesToPatterns(query, true);
 			if (modifiedQuery == null)
 				return null;
 
-			if (PaApp.Project != null)
-				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
+			if (Project != null)
+				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 	
-			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 			if (!VerifyMiscPatternConditions(engine, showErrMsg))
 				return null;
 
 			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
 
-			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
+			foreach (WordCacheEntry wordEntry in WordCache)
 			{
 				if (incProgressBar && (incCounter++) == incAmount)
 				{
@@ -1452,6 +1413,7 @@ namespace SIL.Pa
 						eticWords[i] = tmpChars.ToArray();
 					}
 
+					int[] result;
 					bool matchFound = engine.SearchWord(eticWords[i], out result);
 					while (matchFound)
 					{
@@ -1506,7 +1468,7 @@ namespace SIL.Pa
 
 			// Get the index of the first opening bracket and check if we need go further.
 			int i = query.Pattern.IndexOf(kOpenClassBracket);
-			if (PaApp.Project == null || PaApp.Project.SearchClasses.Count == 0 || i < 0)
+			if (Project == null || Project.SearchClasses.Count == 0 || i < 0)
 				return query;
 
 			SearchQuery newQuery = query.Clone();
@@ -1523,7 +1485,7 @@ namespace SIL.Pa
 					// Extract the class name from the query's pattern and
 					// find the SearchClass object having that class name.
 					string className = newQuery.Pattern.Substring(start, i - start + 1);
-					SearchClass srchClass = PaApp.Project.SearchClasses[className];
+					SearchClass srchClass = Project.SearchClasses[className];
 					if (srchClass != null)
 						newQuery.Pattern = newQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
@@ -1577,8 +1539,7 @@ namespace SIL.Pa
 						errors.Append('\n');
 				}
 
-				msg = string.Format(Properties.Resources.kstidPatternParsingErrorMsg,
-					errors.ToString());
+				msg = string.Format(Properties.Resources.kstidPatternParsingErrorMsg, errors);
 			}
 
 			if (msg != null && showErrMsg)

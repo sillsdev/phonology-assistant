@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SIL.Pa.Data
@@ -42,7 +38,7 @@ namespace SIL.Pa.Data
 			{
 				Opacity += 0.05f;
 				Application.DoEvents();
-				System.Threading.Thread.Sleep(50);
+				Thread.Sleep(50);
 			}
 
 			Opacity = maxOpacity;
@@ -75,7 +71,7 @@ namespace SIL.Pa.Data
 			{
 				Opacity -= 0.05f;
 				Application.DoEvents();
-				System.Threading.Thread.Sleep(50);
+				Thread.Sleep(50);
 			}
 		}
 

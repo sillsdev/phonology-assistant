@@ -1,19 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.IO;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Controls;
-using SIL.Pa.Resources;
-using SIL.Pa.FFSearchEngine;
-using SIL.Pa.Dialogs;
+using System.Windows.Forms;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Controls;
+using SIL.Pa.Dialogs;
 using XCore;
 
 namespace SIL.Pa
@@ -929,7 +921,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 			// Not used in PA.
 		}

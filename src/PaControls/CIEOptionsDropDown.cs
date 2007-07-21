@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
@@ -62,7 +57,7 @@ namespace SIL.Pa.Controls
 				else
 					m_cieOptions.Type = CIEOptions.IdenticalType.Both;
 
-				m_cieOptions.SearchQuery = base.SearchQuery;
+				m_cieOptions.SearchQuery = SearchQuery;
 				return m_cieOptions;
 			}
 			set
@@ -72,7 +67,7 @@ namespace SIL.Pa.Controls
 
 				if (m_cieOptions != null)
 				{
-					base.SearchQuery = m_cieOptions.SearchQuery;
+					SearchQuery = m_cieOptions.SearchQuery;
 					rbAfter.Checked = false;
 					rbBefore.Checked = false;
 					rbBoth.Checked = false;

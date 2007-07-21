@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-using SIL.Pa.Data;
-
 namespace SIL.Pa
 {
 	/// ----------------------------------------------------------------------------------------
@@ -145,7 +139,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string[] Phones
 		{
-			get { return (m_phones == null ? m_wordRec.Phones : m_phones); }
+			get { return (m_phones ?? m_wordRec.Phones); }
 		}
 
 		/// ------------------------------------------------------------------------------------

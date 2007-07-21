@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using System.Data.OleDb;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Globalization;
-using System.Reflection;
 using System.Xml.Serialization;
-using SIL.Pa.Data;
+using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa
 {
@@ -23,7 +15,7 @@ namespace SIL.Pa
 		private bool m_isForRegExpSearchResults = false;
 		private bool m_isCIEList = false;
 		private SortedList<int, string> m_cieGroupTexts;
-		private FFSearchEngine.SearchQuery m_searchQuery = null;
+		private SearchQuery m_searchQuery = null;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -32,7 +24,7 @@ namespace SIL.Pa
 		/// the cache is not for search results, then this value is null.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FFSearchEngine.SearchQuery SearchQuery
+		public SearchQuery SearchQuery
 		{
 			get { return m_searchQuery; }
 			set { m_searchQuery = value; }
@@ -247,7 +239,7 @@ namespace SIL.Pa
 		/// the highlighted portion of the phontic search result column.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ProcessSpaces(ref string[] phones, ref int offset, int length)
+		private static void ProcessSpaces(ref string[] phones, ref int offset, int length)
 		{
 			// Determine whether or not we found a match at the beginning
 			// of the word and whether or not that includes an initial space.
@@ -387,7 +379,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public int IndexOf(string sortField)
 		{
-			for (int i = 0; i < this.Count; i++)
+			for (int i = 0; i < Count; i++)
 			{
 				if (this[i].FieldInfo.FieldName == sortField)
 					return i;

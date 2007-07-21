@@ -1,20 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
-using SIL.Pa.Controls;
-using SIL.Pa.Resources;
-using SIL.Pa.Dialogs;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Controls;
+using SIL.Pa.Data;
+using SIL.Pa.Dialogs;
+using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa
@@ -41,12 +37,11 @@ namespace SIL.Pa
 		private ITMAdapter m_mainMenuAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
 		private bool m_sidePanelDocked = true;
-		private SplitterPanel m_dockedSidePanel;
-		private SplitterPanel m_resultsPanel;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private RegExpressionSearchDlg m_regExDlg;
-		private bool m_showRegExDlgButton = false;
+		private readonly SplitterPanel m_dockedSidePanel;
+		private readonly bool m_showRegExDlgButton = false;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -78,20 +73,17 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
-			m_resultsPanel = splitResults.Panel1;
 
 			LoadSettings();
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
-			MinimumSize = PaApp.MinimumViewWindowSize;
+			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			m_showRegExDlgButton =
 				PaApp.SettingsHandler.GetBoolSettingsValue("regexpsearchmode", "allow", false);
 
-			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click +=
-				new EventHandler(SearchDropDownHelpLink_Click);
-
-			Application.Idle += new EventHandler(Application_Idle);
+			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
+			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -140,8 +132,7 @@ namespace SIL.Pa
 
 			if (m_tmAdapter != null)
 			{
-				m_tmAdapter.LoadControlContainerItem +=
-					new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
+				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "FFSearchTMDefinition.xml");
@@ -286,16 +277,16 @@ namespace SIL.Pa
 		{
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RawRecViewOn);
 
-			float splitRatio = (float)splitOuter.SplitterDistance / (float)splitOuter.Width;
+			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
-			splitRatio = (float)splitResults.SplitterDistance / (float)splitResults.Height;
+			splitRatio = splitResults.SplitterDistance / (float)splitResults.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
 
-			splitRatio = (float)splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
+			splitRatio = splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
 
-			splitRatio = (float)splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
+			splitRatio = splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 		}
 
@@ -314,16 +305,16 @@ namespace SIL.Pa
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
 				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)((float)splitOuter.Width * splitRatio);
+				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
-				splitResults.SplitterDistance = (int)((float)splitResults.Height * splitRatio);
+				splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
-				splitSideBarOuter.SplitterDistance = (int)((float)splitSideBarOuter.Height * splitRatio);
+				splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
 
 				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
-				splitSideBarInner.SplitterDistance = (int)((float)splitSideBarInner.Height * splitRatio);
+				splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height * splitRatio);
 			}
 			catch { }
 		
@@ -846,9 +837,7 @@ namespace SIL.Pa
 			if (ptrnTextBox.Top != 5)
 				ptrnTextBox.Top = 5;
 
-			int top = (int)Math.Ceiling(
-				(float)(pnlCurrPattern.Height - lblCurrPattern.Height) / 2f) + 1;
-
+			int top = (int)Math.Ceiling((pnlCurrPattern.Height - lblCurrPattern.Height) / 2f) + 1;
 			if (top != lblCurrPattern.Top)
 				lblCurrPattern.Top = top;
 		}
@@ -881,7 +870,7 @@ namespace SIL.Pa
 		/// Make sure to center the refresh button vertically in it's owning panel.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void pnlCurrPattern_Resize(object sender, System.EventArgs e)
+		private void pnlCurrPattern_Resize(object sender, EventArgs e)
 		{
 			int top = (pnlCurrPattern.Height - btnRefresh.Height) / 2;
 			if (top != btnRefresh.Top)
@@ -1050,8 +1039,12 @@ namespace SIL.Pa
 			else if (e.Item is ClassListViewItem)
 			{
 				ClassListViewItem item = e.Item as ClassListViewItem;
-				dragText = (item.Pattern == null || ShowClassNames ?
-					PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket : item.Pattern);
+				if (item != null)
+				{
+					dragText = (item.Pattern == null || ShowClassNames ?
+						PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket :
+						item.Pattern);
+				}
 			}
 
 			// Any text we've got at this point we construct a query from it and begin
@@ -1701,7 +1694,7 @@ namespace SIL.Pa
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

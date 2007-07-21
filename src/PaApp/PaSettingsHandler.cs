@@ -1,19 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Data;
-using System.Data.OleDb;
-using System.Diagnostics;
-using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
 	public class PaSettingsHandler : SettingsHandler
 	{
-		private const string kMarkerMapNode = kRootNodeName + "/markermap";
 		private const string kPhoneticSortOptNode = kRootNodeName + "/phoneticsortoptions";
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +51,7 @@ namespace SIL.Pa
 		/// <summary>
 		/// Saves a value to the settings file for the specified window.
 		/// </summary>
-		/// <param name="windowName">Name of window.</param>
+		/// <param name="name"></param>
 		/// <param name="property">Name of the item being saved (this is used for the
 		/// attribute name in the XML node). For example: "splitter1Location"</param>
 		/// <param name="value">value being saved.</param>

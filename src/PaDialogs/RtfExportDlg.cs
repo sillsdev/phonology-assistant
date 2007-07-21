@@ -1,11 +1,9 @@
 using System;
-using System.IO;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.Controls;
-using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
@@ -13,18 +11,18 @@ namespace SIL.Pa.Dialogs
 	/// <summary>
 	/// Summary description for RtfExportDlg.
 	/// </summary>
-	public class RtfExportDlg : System.Windows.Forms.Form
+	public class RtfExportDlg : Form
 	{
-		private System.Windows.Forms.GroupBox grpTarget;
-		private System.Windows.Forms.GroupBox grpFormat;
-		private System.Windows.Forms.RadioButton rbToClipboard;
-		private System.Windows.Forms.RadioButton rbToFileOpen;
-		private System.Windows.Forms.RadioButton rbToFile;
-		private System.Windows.Forms.RadioButton rbFmtTabDelim;
-		private System.Windows.Forms.RadioButton rbFmtTable;
-		private System.Windows.Forms.Button btnExport;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Button btnSetEditor;
+		private GroupBox grpTarget;
+		private GroupBox grpFormat;
+		private RadioButton rbToClipboard;
+		private RadioButton rbToFileOpen;
+		private RadioButton rbToFile;
+		private RadioButton rbFmtTabDelim;
+		private RadioButton rbFmtTable;
+		private Button btnExport;
+		private Button btnCancel;
+		private Button btnSetEditor;
 
 		// Declare member variables
 		private string m_rtfEditor;
@@ -37,7 +35,7 @@ namespace SIL.Pa.Dialogs
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private Container components = null;
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------

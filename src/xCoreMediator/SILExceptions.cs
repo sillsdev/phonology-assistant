@@ -18,7 +18,9 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
+using System.Windows.Forms;
 using System.Xml;
+using xCoreMediator.Properties;
 
 namespace SIL.Utils
 {
@@ -47,10 +49,10 @@ namespace SIL.Utils
 		
 		public void ShowDialog()
 		{
-			System.Windows.Forms.MessageBox.Show(this.Message,
-				xCoreMediator.Properties.Resources.XMLConfigurationError,
-				System.Windows.Forms.MessageBoxButtons.OK,
-				System.Windows.Forms.MessageBoxIcon.Exclamation);
+			MessageBox.Show(this.Message,
+				Resources.XMLConfigurationError,
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Exclamation);
 		}
 	}
 

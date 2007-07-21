@@ -1,10 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
+using System.Threading;
+using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
+using Timer=System.Windows.Forms.Timer;
 
 namespace SIL.Pa.Controls
 {
@@ -358,7 +359,7 @@ namespace SIL.Pa.Controls
 					while (m_pnlContainer.Left + m_slidingIncrement < m_leftEdgeWhenOpened)
 					{
 						m_pnlContainer.Left += m_slidingIncrement;
-						System.Threading.Thread.Sleep(40);
+						Thread.Sleep(40);
 					}
 				}
 				else
@@ -366,7 +367,7 @@ namespace SIL.Pa.Controls
 					while (m_pnlContainer.Left - m_slidingIncrement > m_leftEdgeWhenOpened)
 					{
 						m_pnlContainer.Left -= m_slidingIncrement;
-						System.Threading.Thread.Sleep(40);
+						Thread.Sleep(40);
 					}
 				}
 			}
@@ -396,7 +397,7 @@ namespace SIL.Pa.Controls
 					while (m_pnlContainer.Left - m_slidingIncrement > m_leftEdgeWhenClosed)
 					{
 						m_pnlContainer.Left -= m_slidingIncrement;
-						System.Threading.Thread.Sleep(40);
+						Thread.Sleep(40);
 					}
 				}
 				else
@@ -404,7 +405,7 @@ namespace SIL.Pa.Controls
 					while (m_pnlContainer.Left + m_slidingIncrement < m_leftEdgeWhenClosed)
 					{
 						m_pnlContainer.Left += m_slidingIncrement;
-						System.Threading.Thread.Sleep(40);
+						Thread.Sleep(40);
 					}
 				}
 			}
@@ -650,9 +651,9 @@ namespace SIL.Pa.Controls
 			using (SolidBrush br = new SolidBrush(Enabled ?
 				SystemColors.ControlText : SystemColors.GrayText))
 			{
-				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 				sf.FormatFlags |= StringFormatFlags.DirectionVertical;
-				sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+				sf.HotkeyPrefix = HotkeyPrefix.None;
 				e.Graphics.DrawString(m_tabText, FontHelper.UIFont, br, rc, sf);
 			}
 		}

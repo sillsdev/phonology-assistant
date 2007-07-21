@@ -16,27 +16,26 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Specialized;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Xml;
+using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace SIL.Utils
 {
 	public class ImageCollection
 	{
 		protected ImageList m_images;
-		protected System.Collections.Specialized.StringCollection m_labels;
+		protected StringCollection m_labels;
 		public ImageCollection(bool isLarge)
 		{
 			m_images = new ImageList();
 			m_images.ColorDepth = ColorDepth.Depth24Bit;
 			if(isLarge)
-				m_images.ImageSize = new System.Drawing.Size(32,32);
-			m_labels = new System.Collections.Specialized.StringCollection();
+				m_images.ImageSize = new Size(32,32);
+			m_labels = new StringCollection();
 		}
 
 		/// <summary>
@@ -97,9 +96,9 @@ namespace SIL.Utils
 				// Prepend the directory where the current DLL lives.  This should fix
 				// LT-1541 (and similar bugs) once and for all!
 				// (Note that CodeBase prepends "file:/", which must be removed.)
-				string baseDir = System.IO.Path.GetDirectoryName(
+				string baseDir = Path.GetDirectoryName(
 					Assembly.GetExecutingAssembly().CodeBase).Substring(6);
-				string assemblyPath = System.IO.Path.Combine(baseDir, assemblyName);
+				string assemblyPath = Path.Combine(baseDir, assemblyName);
 				string className = XmlUtils.GetAttributeValue(node, "class").Trim();
 				string field = XmlUtils.GetAttributeValue(node, "field").Trim();
 

@@ -1,21 +1,15 @@
 using System;
-using System.Globalization;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
-using System.Security.AccessControl;
-using SIL.Pa;
-using SIL.Pa.Dialogs;
-using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Controls;
+using SIL.Pa.Data;
+using SIL.Pa.Dialogs;
+using SIL.Pa.Properties;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -102,7 +96,7 @@ namespace SIL.Pa
 			}
 			catch
 			{
-				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg,
+				string msg = string.Format(Resources.kstidWriteAccessErrorMsg,
 					Path.GetFileName(Application.ExecutablePath));
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
@@ -115,7 +109,7 @@ namespace SIL.Pa
 			if (!File.Exists(inventoryPath))
 			{
 				string filePath = STUtils.PrepFilePathForSTMsgBox(inventoryPath);
-				string msg = string.Format(Properties.Resources.kstidInventoryFileMissing, filePath);
+				string msg = string.Format(Resources.kstidInventoryFileMissing, filePath);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -179,7 +173,7 @@ namespace SIL.Pa
 
 			Label lbl = new Label();
 			lbl.AutoSize = false;
-			lbl.Text = Properties.Resources.kstidAfeaturesHdg;
+			lbl.Text = Resources.kstidAfeaturesHdg;
 			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			lbl.Dock = DockStyle.Top;
 			lbl.Height = lbl.PreferredHeight + 10;
@@ -207,7 +201,7 @@ namespace SIL.Pa
 
 			lbl = new Label();
 			lbl.AutoSize = false;
-			lbl.Text = Properties.Resources.kstidBFeaturesHdg;
+			lbl.Text = Resources.kstidBFeaturesHdg;
 			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			lbl.Dock = DockStyle.Top;
 			lbl.Height = lbl.PreferredHeight + 10;
@@ -389,14 +383,14 @@ namespace SIL.Pa
 
 				// Don't allow CharType's of 'Unknown'
 				if (row.Visible && row.Cells[kCharType].Value.ToString() == kUnknown)
-					return ShowErrorMessage(Properties.Resources.kstidIpaGridErrUnknownCharType, row);
+					return ShowErrorMessage(Resources.kstidIpaGridErrUnknownCharType, row);
 
 				if (unknownCharTypes.Contains(charTypeVal))
 				{
 					if (charSubTypeVal != kUnknown)
 					{
 						return ShowErrorMessage(string.Format(
-							Properties.Resources.kstidIpaGridErrNeedUnknown, charTypeVal), row);
+							Resources.kstidIpaGridErrNeedUnknown, charTypeVal), row);
 					}
 				}
 
@@ -404,14 +398,14 @@ namespace SIL.Pa
 				{
 					if (charSubTypeVal == kUnknown)
 						return ShowErrorMessage(
-							string.Format(Properties.Resources.kstidIpaGridErrRemoveUnknown, charTypeVal), row);
+							string.Format(Resources.kstidIpaGridErrRemoveUnknown, charTypeVal), row);
 				}
 
 				bool isBaseChar = (bool)row.Cells[kIsBaseChar].Value;
 				bool canProceedBase = (bool)row.Cells[kCanPreceedBaseChar].Value;
 
 				if (isBaseChar && canProceedBase)
-					return ShowErrorMessage(Properties.Resources.kstidIpaGridErrBothTrue, row);
+					return ShowErrorMessage(Resources.kstidIpaGridErrBothTrue, row);
 			}
 			return true;
 		}
@@ -435,7 +429,7 @@ namespace SIL.Pa
 		{
 			row.Selected = true;
 			m_grid.FirstDisplayedScrollingRowIndex = row.Index; // Scroll error row to the top
-			warningMessage(Properties.Resources.kstidIpaGridErrTitleDataConflict, errMsg);
+			warningMessage(Resources.kstidIpaGridErrTitleDataConflict, errMsg);
 			return false;
 		}
 
@@ -548,8 +542,8 @@ namespace SIL.Pa
 				OpenFileDialog dlg = new OpenFileDialog();
 				dlg.CheckFileExists = true;
 				dlg.CheckPathExists = true;
-				dlg.Title = Properties.Resources.kstidIpaGridOpenFileTitle;
-				dlg.Filter = Properties.Resources.kstidIpaGridOpenFileFilter;
+				dlg.Title = Resources.kstidIpaGridOpenFileTitle;
+				dlg.Filter = Resources.kstidIpaGridOpenFileFilter;
 				// Set the initial directory to the startup path
 				dlg.InitialDirectory = Application.StartupPath;
 				dlg.Multiselect = false;
@@ -577,7 +571,7 @@ namespace SIL.Pa
 
 			// Add the HexIpa field column.
 			col = SilGrid.CreateTextBoxColumn(kHexIPAChar);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridHexIpa);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridHexIpa);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -587,7 +581,7 @@ namespace SIL.Pa
 
 			// Add the IpaChar field column.
 			col = SilGrid.CreateTextBoxColumn(kIpaChar);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridIpaChar);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridIpaChar);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
@@ -604,68 +598,68 @@ namespace SIL.Pa
 
 			// Add the Name field column.
 			col = SilGrid.CreateTextBoxColumn(kName);
-			col.HeaderText = Properties.Resources.kstidIpaGridName;
+			col.HeaderText = Resources.kstidIpaGridName;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the Description field column.
 			col = SilGrid.CreateTextBoxColumn(kDescription);
-			col.HeaderText = Properties.Resources.kstidIpaGridDesc;
+			col.HeaderText = Resources.kstidIpaGridDesc;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
 				kCharType, Enum.GetNames(typeof(IPACharacterType)));
-			col.HeaderText = Properties.Resources.kstidIpaGridCharType;
+			col.HeaderText = Resources.kstidIpaGridCharType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharSubType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
 				kCharSubType, Enum.GetNames(typeof(IPACharacterSubType)));
-			col.HeaderText = Properties.Resources.kstidIpaGridCharSubType;
+			col.HeaderText = Resources.kstidIpaGridCharSubType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharIgnoreType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
 				kIgnoreType, Enum.GetNames(typeof(IPACharIgnoreTypes)));
-			col.HeaderText = Properties.Resources.kstidIpaGridCharIgnoreType;
+			col.HeaderText = Resources.kstidIpaGridCharIgnoreType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the IsBaseChar check box column.
 			col = SilGrid.CreateCheckBoxColumn(kIsBaseChar);
-			col.HeaderText = Properties.Resources.kstidIpaGridIsBase;
+			col.HeaderText = Resources.kstidIpaGridIsBase;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the Can preceed base character check box column.
 			col = SilGrid.CreateCheckBoxColumn(kCanPreceedBaseChar);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridCanPreceedBase);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridCanPreceedBase);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the DisplayWDottedCircle check box column.
 			col = SilGrid.CreateCheckBoxColumn(kDisplayWDottedCircle);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridWDotCircle);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridWDotCircle);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the Display Order column.
 			col = SilGrid.CreateTextBoxColumn(kDisplayOrder);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridDisplayOrder);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridDisplayOrder);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.Visible = false;	// Currently, not used.
 			m_grid.Columns.Add(col);
 
 			// Add the MOA column.
 			col = SilGrid.CreateTextBoxColumn(kMOA);
-			col.HeaderText = Properties.Resources.kstidIpaGridMOA;
+			col.HeaderText = Resources.kstidIpaGridMOA;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -674,7 +668,7 @@ namespace SIL.Pa
 
 			// Add the POA column.
 			col = SilGrid.CreateTextBoxColumn(kPOA);
-			col.HeaderText = Properties.Resources.kstidIpaGridPOA;
+			col.HeaderText = Resources.kstidIpaGridPOA;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -698,7 +692,7 @@ namespace SIL.Pa
 
 			// Add the ChartColumn column.
 			col = SilGrid.CreateTextBoxColumn(kChartColumn);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridChartColumn);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridChartColumn);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -707,7 +701,7 @@ namespace SIL.Pa
 
 			// Add the ChartGroup column.
 			col = SilGrid.CreateTextBoxColumn(kChartGroup);
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridChartGroup);
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Resources.kstidIpaGridChartGroup);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -716,7 +710,7 @@ namespace SIL.Pa
 
 			col = SilGrid.CreateSilButtonColumn(kAFeatures);
 			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidAfeaturesHdg;
+			col.HeaderText = Resources.kstidAfeaturesHdg;
 			col.Width = kDefaultFeatureColWidth;
 			((SilButtonColumn)col).UseComboButtonStyle = true;
 			((SilButtonColumn)col).ButtonClicked +=
@@ -725,7 +719,7 @@ namespace SIL.Pa
 
 			col = SilGrid.CreateSilButtonColumn(kBFeatures);
 			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidBFeaturesHdg;
+			col.HeaderText = Resources.kstidBFeaturesHdg;
 			col.Width = kDefaultFeatureColWidth;
 			((SilButtonColumn)col).UseComboButtonStyle = true;
 			((SilButtonColumn)col).ButtonClicked +=
@@ -890,7 +884,7 @@ namespace SIL.Pa
 			if (!File.Exists(m_xmlFilePath))
 			{
 				string path = STUtils.PrepFilePathForSTMsgBox(m_xmlFilePath);
-				string msg = string.Format(Properties.Resources.kstidIpaGridErrNoFile, path);
+				string msg = string.Format(Resources.kstidIpaGridErrNoFile, path);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -901,7 +895,7 @@ namespace SIL.Pa
 			// Make sure the format is correct
 			if (m_charInventory == null)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidIpaGridErrBadXmlFormat,
+				STUtils.STMsgBox(Resources.kstidIpaGridErrBadXmlFormat,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -1046,7 +1040,7 @@ namespace SIL.Pa
 			if (m_grid == null)
 			{
 				warningMessage(
-					Properties.Resources.kstidIpaGridErrTitleNoFileOpen, Properties.Resources.kstidIpaGridErrNoFileOpen);
+					Resources.kstidIpaGridErrTitleNoFileOpen, Resources.kstidIpaGridErrNoFileOpen);
 				return;
 			}
 
@@ -1064,17 +1058,17 @@ namespace SIL.Pa
 			if (m_grid == null)
 			{
 				warningMessage(
-					Properties.Resources.kstidIpaGridErrTitleNoFileOpen, Properties.Resources.kstidIpaGridErrNoFileOpen);
+					Resources.kstidIpaGridErrTitleNoFileOpen, Resources.kstidIpaGridErrNoFileOpen);
 				return;
 			}
 
 			// Only save after verifying the data
 			if (Verify())
 			{
-				string filter = Properties.Resources.kstidIpaGridFiletypeXML;
+				string filter = Resources.kstidIpaGridFiletypeXML;
 				int filterIndex = 0;
 				m_xmlFilePath = PaApp.SaveFileDialog("xml", filter, ref filterIndex,
-					Properties.Resources.kstidIpaGridSaveAsCaption, string.Empty);
+					Resources.kstidIpaGridSaveAsCaption, string.Empty);
 
 				if (m_xmlFilePath != string.Empty)
 					SaveChanges();
@@ -1139,7 +1133,7 @@ namespace SIL.Pa
 			else
 			{
 				string filePath = STUtils.PrepFilePathForSTMsgBox(helpFilePath);
-				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg, filePath);
+				string msg = string.Format(Resources.kstidHelpFileMissingMsg, filePath);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
@@ -1197,7 +1191,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (STUtils.STMsgBox(Properties.Resources.kstidIpaGridDeletion,
+			if (STUtils.STMsgBox(Resources.kstidIpaGridDeletion,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				m_grid.Rows.Remove(m_grid.CurrentRow);

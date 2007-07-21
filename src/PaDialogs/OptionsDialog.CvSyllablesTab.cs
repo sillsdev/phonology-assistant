@@ -1,13 +1,9 @@
 using System;
-using System.Text;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
-using System.Drawing.Text;
-using SIL.Pa;
-using SIL.Pa.Resources;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
@@ -118,7 +114,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadCustomType()
 		{
-			txtCustomChars.TextChanged += new System.EventHandler(txtCustomChars_TextChanged);
+			txtCustomChars.TextChanged += new EventHandler(txtCustomChars_TextChanged);
 			foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type

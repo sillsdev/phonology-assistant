@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Xml.Serialization;
+using System.IO;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
@@ -207,7 +204,7 @@ namespace SIL.Pa.Controls
 		/// Stores the phone information from a CharGrid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void StorePhones(CharGrid chrGrid, List<CharGridCell> phoneList)
+		private void StorePhones(CharGrid chrGrid, ICollection<CharGridCell> phoneList)
 		{
 			DataGridView grid = chrGrid.Grid;
 			m_phones.Clear();
@@ -254,7 +251,7 @@ namespace SIL.Pa.Controls
 		{
 			ssegsToIgnore = null;
 
-			if (!System.IO.File.Exists(filename))
+			if (!File.Exists(filename))
 				return false;
 
 			CharGridPersistence cgp =
@@ -279,7 +276,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool Load(CharGridBuilder chrGridBldr, string filename)
 		{
-			if (chrGridBldr == null || !System.IO.File.Exists(filename))
+			if (chrGridBldr == null || !File.Exists(filename))
 				return false;
 
 			CharGridPersistence cgp =
@@ -335,7 +332,7 @@ namespace SIL.Pa.Controls
 		/// Load up the phones found in the persistence source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadPhones(List<CharGridCell> phoneList)
+		private void LoadPhones(IList<CharGridCell> phoneList)
 		{
 			// Go through the phones deserialized from the XML file.
 			foreach (CharGridCell cgc in m_phones)

@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.FFSearchEngine;
+using System.Windows.Forms;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -31,17 +28,17 @@ namespace SIL.Pa.Controls
 		private List<SearchResultTab> m_tabs;
 		private SearchResultTab m_currTab;
 		internal Panel m_pnlHdrBand;
-		private Panel m_pnlTabs;
-		private Panel m_pnlClose;
 		private Panel m_pnlScroll;
-		private XButton m_btnClose;
 		private XButton m_btnLeft;
 		private XButton m_btnRight;
-		private SearchResultsViewManager m_rsltVwMngr;
 		internal ToolTip m_tooltip;
-		private TabDropIndicator m_dropIndicator;
 		private SearchResultTab m_contextMenuTab = null;
 		private SearchResultTabGroup m_contextMenuTabGroup = null;
+		private readonly XButton m_btnClose;
+		private readonly Panel m_pnlTabs;
+		private readonly Panel m_pnlClose;
+		private readonly SearchResultsViewManager m_rsltVwMngr;
+		private readonly TabDropIndicator m_dropIndicator;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -55,8 +52,8 @@ namespace SIL.Pa.Controls
 		public SearchResultTabGroup(SearchResultsViewManager rsltVwMngr)
 		{
 			Visible = true;
-			DoubleBuffered = true;
-			AllowDrop = true;
+			base.DoubleBuffered = true;
+			base.AllowDrop = true;
 
 			m_tooltip = new ToolTip();
 
@@ -65,9 +62,9 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand = new Panel();
 			m_pnlHdrBand.Dock = DockStyle.Top;
 			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
-			m_pnlHdrBand.Paint += new PaintEventHandler(HandlePanelPaint);
-			m_pnlHdrBand.Resize += new EventHandler(m_pnlHdrBand_Resize);
-			m_pnlHdrBand.Click += new EventHandler(HandleClick);
+			m_pnlHdrBand.Paint += HandlePanelPaint;
+			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
+			m_pnlHdrBand.Click += HandleClick;
 			Controls.Add(m_pnlHdrBand);
 
 			// Create the panel that holds all the tabs. 
@@ -75,7 +72,7 @@ namespace SIL.Pa.Controls
 			m_pnlTabs.Visible = true;
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Location = new Point(0, 0);
-			m_pnlTabs.Click += new EventHandler(HandleClick);
+			m_pnlTabs.Click += HandleClick;
 			m_pnlHdrBand.Controls.Add(m_pnlTabs);
 
 			AdjustPanelHeights();
@@ -85,13 +82,13 @@ namespace SIL.Pa.Controls
 			m_pnlClose.Width = 22;
 			m_pnlClose.Visible = true;
 			m_pnlClose.Dock = DockStyle.Right;
-			m_pnlClose.Paint += new PaintEventHandler(HandleCloseScrollPanelPaint);
+			m_pnlClose.Paint += HandleCloseScrollPanelPaint;
 			m_pnlHdrBand.Controls.Add(m_pnlClose);
 
 			// Create a button that will close a tab.
 			m_btnClose = new XButton();
 			m_btnClose.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			m_btnClose.Click += new EventHandler(m_btnClose_Click);
+			m_btnClose.Click += m_btnClose_Click;
 			m_btnClose.Location = new Point(m_pnlClose.Width - m_btnClose.Width,
 				(m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3);
 			m_tooltip.SetToolTip(m_btnClose,
@@ -112,7 +109,7 @@ namespace SIL.Pa.Controls
 				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
 
 			if (m_pnlHdrBand.ContextMenuStrip != null)
-				m_pnlHdrBand.ContextMenuStrip.Opening += new CancelEventHandler(ContextMenuStrip_Opening);
+				m_pnlHdrBand.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,7 +146,7 @@ namespace SIL.Pa.Controls
 			m_pnlScroll.Width = 40;
 			m_pnlScroll.Visible = true;
 			m_pnlScroll.Dock = DockStyle.Right;
-			m_pnlScroll.Paint += new PaintEventHandler(HandleCloseScrollPanelPaint);
+			m_pnlScroll.Paint += HandleCloseScrollPanelPaint;
 			m_pnlHdrBand.Controls.Add(m_pnlScroll);
 			m_pnlScroll.Visible = false;
 			m_pnlScroll.BringToFront();
@@ -159,7 +156,7 @@ namespace SIL.Pa.Controls
 			m_btnLeft.DrawLeftArrowButton = true;
 			m_btnLeft.Size = new Size(18, 18);
 			m_btnLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			m_btnLeft.Click += new EventHandler(m_btnLeft_Click);
+			m_btnLeft.Click += m_btnLeft_Click;
 			m_btnLeft.Location = new Point(4, (m_pnlHdrBand.Height - m_btnLeft.Height) / 2 - 3);
 			m_pnlScroll.Controls.Add(m_btnLeft);
 
@@ -168,7 +165,7 @@ namespace SIL.Pa.Controls
 			m_btnRight.DrawRightArrowButton = true;
 			m_btnRight.Size = new Size(18, 18);
 			m_btnRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			m_btnRight.Click += new EventHandler(m_btnRight_Click);
+			m_btnRight.Click += m_btnRight_Click;
 			m_btnRight.Location = new Point(22, (m_pnlHdrBand.Height - m_btnRight.Height) / 2 - 3);
 			m_pnlScroll.Controls.Add(m_btnRight);
 
@@ -383,15 +380,13 @@ namespace SIL.Pa.Controls
 		public void AddTab(SearchResultTab tab)
 		{
 			tab.Dock = DockStyle.Left;
-			tab.Click += new EventHandler(tab_Click);
-			tab.MouseDown += new MouseEventHandler(tab_MouseDown);
-
+			tab.Click += tab_Click;
+			tab.MouseDown += tab_MouseDown;
 			InitializeTab(tab, tab.ResultView, false);
 			m_pnlTabs.Controls.Add(tab);
 			tab.BringToFront();
 			m_tabs.Add(tab);
 			AdjustTabContainerWidth();
-
 			UseWaitCursor = false;
 		}
 
@@ -423,7 +418,7 @@ namespace SIL.Pa.Controls
 			{
 				tab.ResultView = resultView;
 				tab.ResultView.Size = new Size(Width, Height - m_pnlHdrBand.Height);
-				tab.ResultView.Click += new EventHandler(HandleClick);
+				tab.ResultView.Click += HandleClick;
 				Controls.Add(resultView);
 				AdjustTabContainerWidth();
 				resultView.BringToFront();
@@ -964,7 +959,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandlePanelPaint(object sender, PaintEventArgs e)
+		private static void HandlePanelPaint(object sender, PaintEventArgs e)
 		{
 			Panel pnl = sender as Panel;
 
@@ -983,11 +978,14 @@ namespace SIL.Pa.Controls
 		/// Draw a line that's the continuation of the line drawn on the owner of m_pnlUndock.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleCloseScrollPanelPaint(object sender, PaintEventArgs e)
+		private static void HandleCloseScrollPanelPaint(object sender, PaintEventArgs e)
 		{
 			Panel pnl = sender as Panel;
-			int y = pnl.ClientRectangle.Bottom - 1;
-			e.Graphics.DrawLine(SystemPens.ControlDark, 0, y, pnl.Right, y);
+			if (pnl != null)
+			{
+				int y = pnl.ClientRectangle.Bottom - 1;
+				e.Graphics.DrawLine(SystemPens.ControlDark, 0, y, pnl.Right, y);
+			}
 		}
 
 		#endregion
@@ -1206,9 +1204,7 @@ namespace SIL.Pa.Controls
 				m_currTab.CieOptionsDropDownContainer.AddControl(m_currTab.CieOptionsDropDown);
 			}
 
-			m_currTab.CieOptionsDropDownContainer.Closed +=
-				new ToolStripDropDownClosedEventHandler(m_cieOptionsDropDownContainer_Closed);
-
+			m_currTab.CieOptionsDropDownContainer.Closed += m_cieOptionsDropDownContainer_Closed;
 			Point pt = ctrl.PointToScreen(new Point(0, ctrl.Height));
 			m_currTab.CieOptionsDropDownContainer.Show(pt);
 		}
@@ -1245,7 +1241,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 
@@ -1299,10 +1295,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public SearchResultTab(SearchResultTabGroup owningTabControl)
 		{
-			DoubleBuffered = true;
-			AutoSize = false;
-			AllowDrop = true;
-			Font = FontHelper.PhoneticFont;
+			base.DoubleBuffered = true;
+			base.AutoSize = false;
+			base.AllowDrop = true;
+			base.Font = FontHelper.PhoneticFont;
 			m_owningTabGroup = owningTabControl;
 			m_query = new SearchQuery();
 			PaApp.AddMediatorColleague(this);
@@ -1310,8 +1306,8 @@ namespace SIL.Pa.Controls
 			if (m_owningTabGroup.TMAdapter != null)
 				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
 
-			if (ContextMenuStrip != null)
-				ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(ContextMenuStrip_Opening);
+			if (base.ContextMenuStrip != null)
+				base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
 
 			// Prepare the tab's minimal pair options button.
 			Image img = Properties.Resources.kimidMinimalPairOptions;
@@ -1321,7 +1317,7 @@ namespace SIL.Pa.Controls
 			m_btnCIEOptions.BackColor = Color.Transparent;
 			m_btnCIEOptions.Visible = false;
 			m_btnCIEOptions.Left = kleftImgMargin;
-			m_btnCIEOptions.Click += new EventHandler(m_btnCIEOptions_Click);
+			m_btnCIEOptions.Click += m_btnCIEOptions_Click;
 			Controls.Add(m_btnCIEOptions);
 
 			m_owningTabGroup.m_tooltip.SetToolTip(m_btnCIEOptions,
@@ -1402,7 +1398,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
 			ContextMenuStrip cms = sender as ContextMenuStrip;
 
@@ -1645,7 +1641,7 @@ namespace SIL.Pa.Controls
 
 			// Don't allow the width of a tab to be any
 			// wider than 3/4 of it's owning group's width.
-			Width = Math.Min(width, (int)((float)m_owningTabGroup.Width * 0.75));
+			Width = Math.Min(width, (int)(m_owningTabGroup.Width * 0.75));
 
 			m_tabTextClipped = (Width < width);
 			Invalidate();
@@ -1730,11 +1726,11 @@ namespace SIL.Pa.Controls
 				}
 
 				m_resultView.Grid.AllowDrop = true;
-				m_resultView.Grid.DragOver += new DragEventHandler(HandleResultViewDragOver);
-				m_resultView.Grid.DragDrop += new DragEventHandler(HandleResultViewDragDrop);
-				m_resultView.Grid.DragLeave += new EventHandler(HandleResultViewDragLeave);
-				m_resultView.Grid.RowEnter += new DataGridViewCellEventHandler(HandleResultViewRowEnter);
-				m_resultView.Grid.Enter += new EventHandler(HandleResultViewEnter);
+				m_resultView.Grid.DragOver += HandleResultViewDragOver;
+				m_resultView.Grid.DragDrop += HandleResultViewDragDrop;
+				m_resultView.Grid.DragLeave +=HandleResultViewDragLeave;
+				m_resultView.Grid.RowEnter += HandleResultViewRowEnter;
+				m_resultView.Grid.Enter += HandleResultViewEnter;
 				m_resultView.Grid.AllowDrop = true;
 			}
 		}
@@ -1831,16 +1827,6 @@ namespace SIL.Pa.Controls
 			}
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleResultViewEnterAndLeave(object sender, EventArgs e)
-		{
-			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2197,7 +2183,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 
@@ -2225,8 +2211,8 @@ namespace SIL.Pa.Controls
 	public class TabDropIndicator : TranslucentOverlay
 	{
 		private const int kDefaultIndicatorWidth = 50;
-		private SearchResultTabGroup m_tabGroup;
-		private int m_height;
+		private readonly SearchResultTabGroup m_tabGroup;
+		private readonly int m_height;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -2291,7 +2277,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private Point GetIndicatorLocation(bool draggingTab)
 		{
-			Point pt = Point.Empty;
+			Point pt;
 
 			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
 				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);

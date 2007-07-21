@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
-using System.Data.OleDb;
+using System.Text;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
 
@@ -140,7 +139,7 @@ namespace SIL.Pa.Data
 			}
 			set
 			{
-				System.Diagnostics.Debug.Assert(value != null);
+				Debug.Assert(value != null);
 				featureName = CleanUpFeatureName(featureName);
 				base[featureName] = value;
 			}
@@ -153,11 +152,11 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private string CleanUpFeatureName(string featureName)
 		{
-			System.Diagnostics.Debug.Assert(featureName != null);
+			Debug.Assert(featureName != null);
 			featureName = featureName.Trim().ToLower();
 			featureName = featureName.Replace("[", string.Empty);
 			featureName = featureName.Replace("]", string.Empty);
-			System.Diagnostics.Debug.Assert(featureName.Length > 0);
+			Debug.Assert(featureName.Length > 0);
 			if (featureName[0] == '+' || featureName[0] == '-')
 				featureName = featureName.Substring(1);
 

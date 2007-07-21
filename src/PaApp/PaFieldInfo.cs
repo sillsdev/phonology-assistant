@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Reflection;
+using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -448,8 +446,7 @@ namespace SIL.Pa
 				CleanupLoadedFieldList(fieldInfoList);
 				
 				// Now, if we have a project, save any changes made during cleanup.
-				if (project != null)
-					fieldInfoList.Save(project);
+				fieldInfoList.Save(project);
 			}
 			else
 			{
@@ -494,7 +491,7 @@ namespace SIL.Pa
 					fieldInfo.Font = null;
 
 				// Check if this field's word list grid display index is already being used.
-				float index = (float)fieldInfo.DisplayIndexInGrid;
+				float index = fieldInfo.DisplayIndexInGrid;
 				if (index > -1)
 				{
 					while (gridIndexes.ContainsKey(index))
@@ -504,7 +501,7 @@ namespace SIL.Pa
 				}
 
 				// Check if this field's record view display index is already being used.
-				index = (float)fieldInfo.DisplayIndexInRecView;
+				index = fieldInfo.DisplayIndexInRecView;
 				if (index > -1)
 				{
 					while (recVwIndexes.ContainsKey(index))
@@ -726,11 +723,7 @@ namespace SIL.Pa
 		[XmlIgnore]
 		public Font Font
 		{
-			get
-			{
-				return (m_font == null ? 
-					System.Windows.Forms.SystemInformation.MenuFont : m_font);
-			}
+			get { return (m_font ?? SystemInformation.MenuFont); }
 			set { m_font = value; }
 		}
 

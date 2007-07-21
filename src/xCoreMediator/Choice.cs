@@ -31,13 +31,11 @@
 	/// in the content view which gives an overview of this section.)
 // </remarks>
 // --------------------------------------------------------------------------------------------
-using System;
-using System.Xml;
-using System.Collections;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
 
+using System;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.Xml;
 using SIL.Utils;
 
 namespace XCore
@@ -140,7 +138,7 @@ namespace XCore
 			}
 		}
 
-		abstract 		public void OnClick(object sender, System.EventArgs args);
+		abstract 		public void OnClick(object sender, EventArgs args);
 
 
 	}
@@ -267,7 +265,7 @@ namespace XCore
 			return display;
 		}
 	
-		override public void OnClick(object sender, System.EventArgs args)
+		override public void OnClick(object sender, EventArgs args)
 		{ 
 			CommandObject.InvokeCommand();
 			//			HandleClick();
@@ -352,7 +350,7 @@ namespace XCore
 		#endregion Properties
 
 
-		override public void OnClick(object sender, System.EventArgs args)
+		override public void OnClick(object sender, EventArgs args)
 		{
 			//if we are a a boolProperty widget, the parent will call us back at HandleClick()
 			Debug.Assert(this.BoolPropertyName != "");
@@ -469,7 +467,7 @@ namespace XCore
 		#endregion Properties
 
 
-		override public void OnClick(object sender, System.EventArgs args)
+		override public void OnClick(object sender, EventArgs args)
 		{
 			//todo:++++++refactor!!!!!!!!!!!!!!!this is just copied and pasted from HandleClickedWhenSinglePropertyAtomicValue
 				
@@ -605,7 +603,7 @@ namespace XCore
 		#endregion Properties
 
 
-		override public void OnClick(object sender, System.EventArgs args)
+		override public void OnClick(object sender, EventArgs args)
 		{
 			// the boolean is a crude attempt to handle timing problems caused by clicking
 			// before the previous click is done being handled.  so... ignore the second
@@ -658,7 +656,7 @@ namespace XCore
 			: base(mediator,  configurationNode,  adapter, parent)
 		{
 		}
-		override public void OnClick(object sender, System.EventArgs args)
+		override public void OnClick(object sender, EventArgs args)
 		{
 			Debug.Fail("this should never be called");
 		}

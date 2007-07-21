@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Text;
+using System.Media;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -33,24 +32,24 @@ namespace SIL.Pa.Controls
 		private const int kMinHdrSize = 22;
 
 		private int m_cellWidth = 38;
-		private List<CharGridHeader> m_colHdrs;
-		private List<CharGridHeader> m_rowHdrs;
 		private CharGridHeader m_currentHeader = null;
 		private bool m_searchWhenPhoneDoubleClicked = true;
 		private Point m_mouseDownGridLocation = Point.Empty;
-		private CharGridHeaderCollectionPanel m_pnlColHeaders;
-		private CharGridHeaderCollectionPanel m_pnlRowHeaders;
 		private DataGridViewCell m_cellDraggedOver;
 		private string m_phoneBeingDragged = null;
-		private Font m_chartFont;
 		private ITMAdapter m_tmAdapter;
 		private bool m_showUncertainPhones = false;
 		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
 		private CharGridHeader m_currentRowHeader = null;
 		private CharGridHeader m_currentColHeader = null;
 		private Type m_owningViewType = null;
-		private PhoneInfoPopup m_phoneInfoPopup;
 		private CellKBMovingCellHelper m_phoneMovingHelper;
+		private readonly List<CharGridHeader> m_colHdrs;
+		private readonly List<CharGridHeader> m_rowHdrs;
+		private readonly CharGridHeaderCollectionPanel m_pnlColHeaders;
+		private readonly CharGridHeaderCollectionPanel m_pnlRowHeaders;
+		private readonly Font m_chartFont;
+		private readonly PhoneInfoPopup m_phoneInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -59,7 +58,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
@@ -377,14 +376,12 @@ namespace SIL.Pa.Controls
 					m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuCharChartGrid");
 					if (m_grid.ContextMenuStrip != null)
 					{
-						m_grid.ContextMenuStrip.Opening += delegate(object sender1,
-							CancelEventArgs ce)
+						m_grid.ContextMenuStrip.Opening += delegate
 						{
 							m_phoneInfoPopup.Enabled = false;
 						};
 
-						m_grid.ContextMenuStrip.Closed += delegate(object sender2,
-							ToolStripDropDownClosedEventArgs te)
+						m_grid.ContextMenuStrip.Closed += delegate
 						{
 							m_phoneInfoPopup.Enabled = true;
 						};
@@ -1010,7 +1007,7 @@ namespace SIL.Pa.Controls
 			// Draw a double vertical line to the left of the first column heading
 			// (which is the right edge of the top, left corner panel).
 			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				CharGrid.kGridColor, SystemColors.GrayText))
+				kGridColor, SystemColors.GrayText))
 			{
 				using (Pen pen = new Pen(br))
 				{
@@ -1273,7 +1270,7 @@ namespace SIL.Pa.Controls
 			if (cgc == null)
 				return;
 
-			bool beginMove = false;
+			bool beginMove;
 
 			switch (e.KeyCode)
 			{
@@ -1346,9 +1343,9 @@ namespace SIL.Pa.Controls
 		private CharGridCell m_cgc;
 		private bool m_drawNoDropIcon = false;
 		private Rectangle m_rcNoDropIcon;
-		private DataGridView m_grid;
-		private Color m_defaultCellSelectedBackColor;
-		private Color m_defaultCellSelectedForeColor;
+		private readonly DataGridView m_grid;
+		private readonly Color m_defaultCellSelectedBackColor;
+		private readonly Color m_defaultCellSelectedForeColor;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1361,10 +1358,10 @@ namespace SIL.Pa.Controls
 
 			if (m_grid != null)
 			{
-				m_grid.Paint += new PaintEventHandler(m_grid_Paint);
-				m_grid.CellEnter += new DataGridViewCellEventHandler(m_grid_CellEnter);
-				m_grid.CellLeave += new DataGridViewCellEventHandler(m_grid_CellLeave);
-				m_grid.KeyUp += new KeyEventHandler(m_grid_KeyUp);
+				m_grid.Paint += m_grid_Paint;
+				m_grid.CellEnter += m_grid_CellEnter;
+				m_grid.CellLeave += m_grid_CellLeave;
+				m_grid.KeyUp += m_grid_KeyUp;
 				m_defaultCellSelectedBackColor = m_grid.DefaultCellStyle.SelectionBackColor;
 				m_defaultCellSelectedForeColor = m_grid.DefaultCellStyle.SelectionForeColor;
 			}
@@ -1445,7 +1442,7 @@ namespace SIL.Pa.Controls
 				// a phone so put the phone back from whence it came.
 				if (currentCellsCgc != null && currentCellsCgc != m_cgc)
 				{
-					System.Media.SystemSounds.Beep.Play();
+					SystemSounds.Beep.Play();
 					m_originalCell.Value = m_cgc;
 					m_grid.CurrentCell = m_originalCell;
 				}

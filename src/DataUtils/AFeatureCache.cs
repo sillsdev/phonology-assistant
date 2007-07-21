@@ -1,9 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Pa.Data.Properties;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
@@ -127,9 +129,9 @@ namespace SIL.Pa.Data
 				if (showMsgWhenAlreadyExists)
 				{
 					STUtils.STMsgBox(
-						string.Format(Properties.Resources.kstidFeatureExistsMsg, name),
-						System.Windows.Forms.MessageBoxButtons.OK,
-						System.Windows.Forms.MessageBoxIcon.Exclamation);
+						string.Format(Resources.kstidFeatureExistsMsg, name),
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Exclamation);
 				}
 
 				return true;
@@ -176,9 +178,9 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				System.Diagnostics.Debug.Assert(featureName != null);
+				Debug.Assert(featureName != null);
 				featureName = featureName.Trim();
-				System.Diagnostics.Debug.Assert(featureName.Length > 0);
+				Debug.Assert(featureName.Length > 0);
 				AFeature feature;
 				return (TryGetValue(featureName, out feature) ? feature : null);
 			}
@@ -202,9 +204,9 @@ namespace SIL.Pa.Data
 				if (showMsgWhenCantDelete)
 				{
 					STUtils.STMsgBox(
-						string.Format(Properties.Resources.kstidFeatureCantBeDeletedMsg, name),
-						System.Windows.Forms.MessageBoxButtons.OK,
-						System.Windows.Forms.MessageBoxIcon.Exclamation);
+						string.Format(Resources.kstidFeatureCantBeDeletedMsg, name),
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Exclamation);
 
 					return;
 				}

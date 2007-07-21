@@ -18,13 +18,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Xml.Serialization; 
-using System.Runtime.Serialization;
+using System.Drawing;
 using System.IO;
-using System.Threading;		// for Monitor (dlh)
+using System.Media;
 using System.Text;
-
+using System.Threading;
+using System.Windows.Forms;
+using System.Xml.Serialization;
 using SIL.FieldWorks.Common.Utils;
+// for Monitor (dlh)
 
 namespace XCore
 {
@@ -188,7 +190,7 @@ namespace XCore
 			CheckDisposed();
 			if(!Monitor.TryEnter(m_properties))
 			{
-				System.Media.SystemSounds.Exclamation.Play();
+				SystemSounds.Exclamation.Play();
 				TraceVerboseLine(">>>>>>>*****  colision: <A>  ********<<<<<<<<<<<");
 				Monitor.Enter(m_properties);
 			}
@@ -384,12 +386,12 @@ namespace XCore
 		public void Save(string settingsId, string[] omitPrefixes)
 		{
 			CheckDisposed();
-			System.IO.StreamWriter writer = null;
+			StreamWriter writer = null;
 			try
 			{
 				XmlSerializer szr = new XmlSerializer(typeof(Property[]));
 				string path = SettingsPath(settingsId);
-				writer = new System.IO.StreamWriter(path);
+				writer = new StreamWriter(path);
 						
 				szr.Serialize(writer, MakePropertyArrayForSerializing(settingsId, omitPrefixes));
 			}
@@ -406,7 +408,7 @@ namespace XCore
 
 		private string SettingsPath(string settingsId)
 		{
-			return System.IO.Path.Combine(UserSettingDirectory, settingsId + "Settings.xml");
+			return Path.Combine(UserSettingDirectory, settingsId + "Settings.xml");
 		}
 
 		/// <summary>
@@ -417,9 +419,9 @@ namespace XCore
 			get
 			{
 				CheckDisposed();
-				string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-				path = System.IO.Path.Combine(path,System.Windows.Forms.Application.CompanyName+"\\"+ System.Windows.Forms.Application.ProductName);
-				System.IO.Directory.CreateDirectory(path);
+				string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+				path = Path.Combine(path,Application.CompanyName+"\\"+ Application.ProductName);
+				Directory.CreateDirectory(path);
 				return path;
 			}
 		}
@@ -435,14 +437,14 @@ namespace XCore
 			CheckDisposed();
 			string path = SettingsPath(settingsId);
 			
-			if(!System.IO.File.Exists(path))
+			if(!File.Exists(path))
 				return;
 
-			System.IO.StreamReader reader =null;
+			StreamReader reader =null;
 			try
 			{
 				XmlSerializer szr = new XmlSerializer(typeof(Property[]));
-				reader = new System.IO.StreamReader(path);
+				reader = new StreamReader(path);
 						
 				Property[] list = (Property[])szr.Deserialize(reader);
 				ReadPropertyArrayForDeserializing(list);
@@ -453,7 +455,7 @@ namespace XCore
 			}
 			catch(Exception )
 			{
-				System.Windows.Forms.MessageBox.Show(xCoreInterfaces.ProblemRestoringSettings);
+				MessageBox.Show(xCoreInterfaces.ProblemRestoringSettings);
 			}
 			finally
 			{
@@ -536,12 +538,12 @@ namespace XCore
 		private void TraceVerboseLine(string s)
 		{
 			if(m_traceSwitch.TraceVerbose)
-				Trace.WriteLine("PTID="+System.Threading.Thread.CurrentThread.GetHashCode()+": "+s);
+				Trace.WriteLine("PTID="+Thread.CurrentThread.GetHashCode()+": "+s);
 		}
 		private void TraceInfoLine(string s)
 		{
 			if(m_traceSwitch.TraceInfo || m_traceSwitch.TraceVerbose)
-				Trace.WriteLine("PTID="+System.Threading.Thread.CurrentThread.GetHashCode()+": "+s);
+				Trace.WriteLine("PTID="+Thread.CurrentThread.GetHashCode()+": "+s);
 		}	
 
 		#endregion
@@ -549,9 +551,9 @@ namespace XCore
 
 	[Serializable]
 	//TODO: we can't very well change this source code every time someone adds a new value type!!!
-	[XmlInclude(typeof(System.Drawing.Point))]
-	[XmlInclude(typeof(System.Drawing.Size))]
-	[XmlInclude(typeof(System.Windows.Forms.FormWindowState))]
+	[XmlInclude(typeof(Point))]
+	[XmlInclude(typeof(Size))]
+	[XmlInclude(typeof(FormWindowState))]
 	public class Property
 	{
 		public string name = null;

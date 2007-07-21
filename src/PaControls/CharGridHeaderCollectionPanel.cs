@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,10 +12,10 @@ namespace SIL.Pa.Controls
 	public class CharGridHeaderCollectionPanel : Panel, IMessageFilter
 	{
 		private int m_splitPosition = -1;
-		private bool m_isForColumns = true;
 		private Rectangle m_sizingRectangle;
 		private bool m_resizeInProcess = false;
 		private SizingLine m_sizingLine;
+		private readonly bool m_isForColumns = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -26,9 +24,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeaderCollectionPanel(bool forColumns)
 		{
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
+			base.BackColor = SystemColors.Window;
 			m_isForColumns = forColumns;
-			BackColor = SystemColors.Window;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Resources;
-using SIL.Pa.FFSearchEngine;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls

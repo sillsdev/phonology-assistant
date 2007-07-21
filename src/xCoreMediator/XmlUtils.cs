@@ -18,16 +18,15 @@
 // --------------------------------------------------------------------------------------------
 #define UsingDotNetTransforms
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Xml.XPath;
-using System.Diagnostics;
-//using MSXML2;
 using SIL.FieldWorks.Common.Utils;
+//using MSXML2;
 
 namespace SIL.Utils
 {
@@ -171,7 +170,7 @@ namespace SIL.Utils
 		/// <returns>The value of the attribute, or null, if not found.</returns>
 		public static string GetAttributeValue(XmlNode node, string attrName)
 		{
-			return XmlUtils.GetOptionalAttributeValue(node, attrName);
+			return GetOptionalAttributeValue(node, attrName);
 		}
 
 		/// <summary>
@@ -253,7 +252,7 @@ namespace SIL.Utils
 		/// </exception>
 		public static string GetManditoryAttributeValue(XmlNode node, string attrName)
 		{
-			string retval = XmlUtils.GetOptionalAttributeValue(node, attrName, null);
+			string retval = GetOptionalAttributeValue(node, attrName, null);
 			if (retval == null)
 			{
 				throw new ApplicationException("The attribute'"
@@ -385,7 +384,7 @@ namespace SIL.Utils
 			try
 			{
 				inputDOM.Save(sTempInput);
-				SIL.Utils.XmlUtils.TransformFileToFile(sTransformName, sTempInput, sOutputName); 
+				TransformFileToFile(sTransformName, sTempInput, sOutputName); 
 			}
 			finally
 			{
@@ -450,12 +449,12 @@ namespace SIL.Utils
 		/// </summary>
 		/// <param name="methodName"></param>
 		/// <returns></returns>
-		public static System.Reflection.MethodInfo GetStaticMethod(XmlNode node, string sAssemblyAttr, string sClassAttr, 
-			string sMethodName, out System.Type typeFound)
+		public static MethodInfo GetStaticMethod(XmlNode node, string sAssemblyAttr, string sClassAttr, 
+			string sMethodName, out Type typeFound)
 		{
-			string sAssemblyName = XmlUtils.GetAttributeValue(node, sAssemblyAttr);
-			string sClassName = XmlUtils.GetAttributeValue(node, sClassAttr);
-			System.Reflection.MethodInfo mi = GetStaticMethod(sAssemblyName, sClassName, sMethodName, 
+			string sAssemblyName = GetAttributeValue(node, sAssemblyAttr);
+			string sClassName = GetAttributeValue(node, sClassAttr);
+			MethodInfo mi = GetStaticMethod(sAssemblyName, sClassName, sMethodName, 
 				"node " + node.OuterXml, out typeFound);
 			return mi;
 		}
@@ -465,18 +464,18 @@ namespace SIL.Utils
 		/// </summary>
 		/// <param name="methodName"></param>
 		/// <returns></returns>
-		public static System.Reflection.MethodInfo GetStaticMethod(string sAssemblyName, string sClassName, 
-			string sMethodName, string sContext, out System.Type typeFound)
+		public static MethodInfo GetStaticMethod(string sAssemblyName, string sClassName, 
+			string sMethodName, string sContext, out Type typeFound)
 		{
 			typeFound = null;
-			System.Reflection.Assembly assemblyFound = null;
+			Assembly assemblyFound = null;
 			try
 			{
-				string baseDir = System.IO.Path.GetDirectoryName(
-					System.Reflection.Assembly.GetExecutingAssembly().CodeBase).
+				string baseDir = Path.GetDirectoryName(
+					Assembly.GetExecutingAssembly().CodeBase).
 					Substring(6);
-				assemblyFound = System.Reflection.Assembly.LoadFrom(
-					System.IO.Path.Combine(baseDir, sAssemblyName));
+				assemblyFound = Assembly.LoadFrom(
+					Path.Combine(baseDir, sAssemblyName));
 			}
 			catch (Exception error)
 			{
@@ -496,7 +495,7 @@ namespace SIL.Utils
 				throw new RuntimeConfigurationException(sMsg, error);
 			}
 			Debug.Assert(typeFound != null);
-			System.Reflection.MethodInfo mi = null;
+			MethodInfo mi = null;
 			try
 			{
 				mi = typeFound.GetMethod(sMethodName);

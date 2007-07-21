@@ -1,12 +1,8 @@
 //#define TESTMS
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Reflection;
-
 using SIL.FieldWorks.Common.Utils;
 
 namespace XCore

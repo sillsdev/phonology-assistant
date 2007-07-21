@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -19,7 +16,6 @@ namespace SIL.Pa.Controls
 	public partial class CharPickerRows : UserControl, IPhoneListViewer
 	{
 		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
-		private IPACharacterType m_charType;
 		public event ItemDragEventHandler ItemDrag;
 		public event ToolStripItemClickedEventHandler ItemClicked;
 
@@ -31,16 +27,6 @@ namespace SIL.Pa.Controls
 		public CharPickerRows()
 		{
 			InitializeComponent();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CharPickerRows(IPACharacterType charType) : this()
-		{
-			m_charType = charType;
 			Reset();
 		}
 
@@ -115,7 +101,7 @@ namespace SIL.Pa.Controls
 			if (phoneList == null)
 				return;
 
-			CharPicker currRow = null;
+			CharPicker currRow;
 			SortedList<int, CharPicker> pickerRows = new SortedList<int, CharPicker>();
 
 			// Create a collection of pickers (each being a row) sorted by the

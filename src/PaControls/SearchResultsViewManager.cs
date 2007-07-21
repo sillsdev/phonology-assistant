@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-using SIL.Pa.Resources;
-using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -79,7 +79,6 @@ namespace SIL.Pa.Controls
 	{
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private SearchResultTabPopup m_srchResultTabPopup;
-		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private float m_horzSplitterCount = 0;
 		private float m_vertSplitterCount = 0;
 		private bool m_ignoreTagGroupRemoval = false;
@@ -87,10 +86,11 @@ namespace SIL.Pa.Controls
 		private SplitterPanel m_resultsPanel;
 		private bool m_rawRecViewOn = true;
 		private Form m_form;
-		private ISearchResultsViewHost m_srchRsltVwHost;
 		private ITMAdapter m_tmAdapter;
 		private SplitContainer m_splitResults;
-		private RawRecordView m_rawRecView;
+		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
+		private readonly ISearchResultsViewHost m_srchRsltVwHost;
+		private readonly RawRecordView m_rawRecView;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -102,7 +102,7 @@ namespace SIL.Pa.Controls
 		{
 			m_form = frm;
 			m_srchRsltVwHost = frm as ISearchResultsViewHost;
-			System.Diagnostics.Debug.Assert(m_srchRsltVwHost != null);
+			Debug.Assert(m_srchRsltVwHost != null);
 			m_tmAdapter = tmAdapter;
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
@@ -110,10 +110,8 @@ namespace SIL.Pa.Controls
 			PaApp.AddMediatorColleague(this);
 
 			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
-			m_playbackSpeedAdjuster.lnkPlay.Click +=
-				new EventHandler(HandlePlaybackSpeedAdjusterPlayClick);
-
-			m_resultsPanel.ControlRemoved += new ControlEventHandler(this.HandleTabGroupRemoved);
+			m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
+			m_resultsPanel.ControlRemoved += this.HandleTabGroupRemoved;
 			Application.AddMessageFilter(this);
 		}
 
@@ -849,8 +847,12 @@ namespace SIL.Pa.Controls
 				// panel the removed tab group's sibling.
 				m_ignoreTagGroupRemoval = true;
 				SplitterPanel newOwningPanel = owningSplitContainer.Parent as SplitterPanel;
-				newOwningPanel.Controls.Remove(owningSplitContainer);
-				newOwningPanel.Controls.Add(siblingPaneToRelocate);
+				if (newOwningPanel != null)
+				{
+					newOwningPanel.Controls.Remove(owningSplitContainer);
+					newOwningPanel.Controls.Add(siblingPaneToRelocate);
+				}
+
 				m_ignoreTagGroupRemoval = false;
 
 				if (owningSplitContainer.Orientation == Orientation.Horizontal)
@@ -874,8 +876,8 @@ namespace SIL.Pa.Controls
 			{
 				// When the removed tag group is the current one,
 				// make sure a remaining group is made current.
-				SearchResultTabGroup newTabGroup = (siblingPaneToRelocate == null ?
-					m_resultsPanel.Controls[0] : siblingPaneToRelocate) as SearchResultTabGroup;
+				SearchResultTabGroup newTabGroup =
+					(siblingPaneToRelocate ?? m_resultsPanel.Controls[0]) as SearchResultTabGroup;
 
 				SearchResultTabGroupChanged(newTabGroup);
 				PaApp.MsgMediator.SendMessage("SearchResultTabGroupChanged", newTabGroup);
@@ -1040,9 +1042,9 @@ namespace SIL.Pa.Controls
 		/// Once the tab is created, it's selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private SearchResultTab CreateTab(SearchResultLocation resultLocation)
+		private void CreateTab(SearchResultLocation resultLocation)
 		{
-			return CreateTab(resultLocation, null);
+			CreateTab(resultLocation, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1051,8 +1053,7 @@ namespace SIL.Pa.Controls
 		/// Once the tab is created, it's selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private SearchResultTab CreateTab(SearchResultLocation resultLocation,
-			SearchResultView resultView)
+		private void CreateTab(SearchResultLocation resultLocation, SearchResultView resultView)
 		{
 			SearchResultTab tab;
 			m_resultsPanel.SuspendLayout();
@@ -1073,7 +1074,7 @@ namespace SIL.Pa.Controls
 				// Must Select the Tab, so the Current Playback Grid for the tab is set to true.
 				// This will ensure the sound file Playback will always work.
 				m_currTabGroup.SelectTab(tab, true);
-				return tab;
+				return;
 			}
 
 			SearchResultTabGroup tabGroup = m_currTabGroup;
@@ -1098,8 +1099,8 @@ namespace SIL.Pa.Controls
 				tabGroup.AddTab(resultView));
 
 			tabGroup.SelectTab(tab, true);
-			tab.MouseEnter += new EventHandler(tab_MouseEnter);
-			tab.MouseLeave += new EventHandler(tab_MouseLeave);
+			tab.MouseEnter += tab_MouseEnter;
+			tab.MouseLeave += tab_MouseLeave;
 
 			// If the tab just added is a new, empty tab, selecting it will cause a chain
 			// reaction caused by hiding the former selected tab's grid. Doing that forces
@@ -1114,7 +1115,7 @@ namespace SIL.Pa.Controls
 
 			tabGroup.ResumeLayout(false);
 			m_resultsPanel.ResumeLayout();
-			return tab;
+			return;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1133,19 +1134,19 @@ namespace SIL.Pa.Controls
 			split.SplitterWidth = 8;
 			split.TabStop = false;
 			split.Dock = DockStyle.Fill;
-			split.Panel1.ControlRemoved += new ControlEventHandler(HandleTabGroupRemoved);
-			split.Panel2.ControlRemoved += new ControlEventHandler(HandleTabGroupRemoved);
+			split.Panel1.ControlRemoved += HandleTabGroupRemoved;
+			split.Panel2.ControlRemoved += HandleTabGroupRemoved;
 			split.Panel1.Tag = 1;
 			split.Panel2.Tag = 2;
 
 			// Determine whether the new tab group's split container
 			// should be oriented horizontally or vertically.
-			float newSplitDistance = 0;
+			float newSplitDistance;
 			if (resultLocation == SearchResultLocation.NewSideBySideTabGroup)
 			{
 				split.Orientation = Orientation.Vertical;
 				m_vertSplitterCount++;
-				newSplitDistance = (float)m_resultsPanel.Width *
+				newSplitDistance = m_resultsPanel.Width *
 					(m_vertSplitterCount / (m_vertSplitterCount + 1f));
 			}
 			else
@@ -1241,9 +1242,7 @@ namespace SIL.Pa.Controls
 			m_phoneticSortOptionsDropDown =
 				new SortOptionsDropDown(CurrentViewsGrid.SortOptions, true, m_tmAdapter);
 
-			m_phoneticSortOptionsDropDown.SortOptionsChanged +=
-				new SortOptionsDropDown.SortOptionsChangedHandler(HandlePhoneticSortOptionsChanged);
-
+			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
 			return true;
 		}
@@ -1432,7 +1431,7 @@ namespace SIL.Pa.Controls
 			// The query name may just be the pattern and in that case, we won't use it as
 			// part of the default output file name. But if all characters in the name
 			// are valid, then it will be used as part of the default file name.
-			foreach (char invalidChar in System.IO.Path.GetInvalidFileNameChars())
+			foreach (char invalidChar in Path.GetInvalidFileNameChars())
 			{
 				if (queryName.Contains(invalidChar.ToString()))
 				{
@@ -1459,7 +1458,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

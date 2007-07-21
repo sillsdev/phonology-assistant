@@ -1,12 +1,6 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Xsl;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Resources;
 
 namespace SIL.Pa.Controls
 {
@@ -61,7 +55,7 @@ namespace SIL.Pa.Controls
 		protected override void WriteOuterElements(XmlWriter writer, string languageName,
 			string[] rootAttribValues)
 		{
-			System.Diagnostics.Debug.Assert(rootAttribValues.Length >= 1);
+			Debug.Assert(rootAttribValues.Length >= 1);
 
 			writer.WriteStartElement("table");
 			writer.WriteAttributeString("language", languageName);

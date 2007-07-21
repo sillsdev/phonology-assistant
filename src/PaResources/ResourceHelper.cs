@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Text;
-using System.Windows.Forms;
-using System.Resources;
-using System.IO;
 using System.Reflection;
+using System.Resources;
+using System.Windows.Forms;
 
 namespace SIL.Pa.Resources
 {
@@ -33,13 +25,13 @@ namespace SIL.Pa.Resources
 
 			if (s_stringResources == null)
 			{
-				s_stringResources = new System.Resources.ResourceManager(
+				s_stringResources = new ResourceManager(
 					"SIL.Pa.Resources.PaStrings", Assembly.GetExecutingAssembly());
 			}
 
 			if (s_helpResources == null)
 			{
-				s_helpResources = new System.Resources.ResourceManager(
+				s_helpResources = new ResourceManager(
 					"SIL.Pa.Resources.HelpTopicPaths", Assembly.GetExecutingAssembly());
 			}
 		}
@@ -67,7 +59,7 @@ namespace SIL.Pa.Resources
 		{
 			if (s_stringResources == null)
 			{
-				s_stringResources = new System.Resources.ResourceManager(
+				s_stringResources = new ResourceManager(
 					"SIL.Pa.Resources.PaStrings", Assembly.GetExecutingAssembly());
 			}
 
@@ -85,7 +77,7 @@ namespace SIL.Pa.Resources
 		{
 			if (s_helpResources == null)
 			{
-				s_helpResources = new System.Resources.ResourceManager(
+				s_helpResources = new ResourceManager(
 					"SIL.Pa.Resources.HelpTopicPaths", Assembly.GetExecutingAssembly());
 			}
 

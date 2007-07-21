@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
@@ -15,7 +11,7 @@ namespace SIL.Pa.Dialogs
 	/// A dialog that allows the user to specify a FieldWorks database.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FwProjectsDlg : SIL.Pa.Dialogs.OKCancelDlgBase
+	public partial class FwProjectsDlg : OKCancelDlgBase
 	{
 		private PaProject m_project;
 
@@ -43,7 +39,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public FwProjectsDlg(PaProject project) : this()
 		{
-			System.Diagnostics.Debug.Assert(project != null);
+			Debug.Assert(project != null);
 			m_project = project;
 		}
 

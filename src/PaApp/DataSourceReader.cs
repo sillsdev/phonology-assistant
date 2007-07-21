@@ -1,14 +1,13 @@
 using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Data.SqlClient;
-using System.Windows.Forms;
+using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -77,7 +76,7 @@ namespace SIL.Pa
 		/// already started.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CheckNeedForSQLServer(List<PaDataSource> dataSources)
+		private void CheckNeedForSQLServer(IEnumerable<PaDataSource> dataSources)
 		{
 			bool alreadyTriedToStartSQLServer = false;
 
@@ -86,14 +85,12 @@ namespace SIL.Pa
 				if (source.FwSourceDirectFromDB)
 				{
 					if (!alreadyTriedToStartSQLServer && FwDBUtils.StartSQLServer(true))
-						return true;
+						return;
 
 					alreadyTriedToStartSQLServer = true;
 					source.SkipLoading = true;
 				}
 			}
-
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -509,8 +506,7 @@ namespace SIL.Pa
 				return false;
 
 			string currLine;
-			string currMarker;
-			System.Text.StringBuilder field = new System.Text.StringBuilder();
+			StringBuilder field = new StringBuilder();
 			bool onFirstRecordMarker = false;
 			bool foundFirstRecord = false;
 			m_recCacheEntry = null;
@@ -519,7 +515,7 @@ namespace SIL.Pa
 			{
 				PaApp.IncProgressBar();
 				currLine = currLine.Trim();
-				currMarker = null;
+				string currMarker = null;
 
 				if (currLine.StartsWith("\\"))
 				{
@@ -608,15 +604,15 @@ namespace SIL.Pa
 		/// record.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool ParseAndStoreSFMField(string field)
+		private void ParseAndStoreSFMField(string field)
 		{
 			if (field == null)
-				return false;
+				return;
 
 			field = field.Trim();
 
 			if (!field.StartsWith("\\"))
-				return false;
+				return;
 
 			// Get two strings, the first containing the backslash marker
 			// and the other contianing the data following the marker.
@@ -624,11 +620,11 @@ namespace SIL.Pa
 
 			// If we didn't get two strings back then ignore this field.
 			if (split.Length != 2)
-				return false;
-			
+				return;
+
 			// If there's no mapping for the marker, ignore this field.
 			if (!m_fieldsForMarkers.ContainsKey(split[0]))
-				return false;
+				return;
 
 			if (m_recCacheEntry == null)
 			{
@@ -651,8 +647,8 @@ namespace SIL.Pa
 					continue;
 				}
 
-				long startPoint = 0;
-				long endPoint = 0;
+				long startPoint;
+				long endPoint;
 				string audioFileName = ParseSoundFileName(split[1], out startPoint, out endPoint);
 
 				if (!string.IsNullOrEmpty(audioFileName))
@@ -668,7 +664,7 @@ namespace SIL.Pa
 				}
 			}
 
-			return true;
+			return;
 		}
 
 		/// ------------------------------------------------------------------------------------

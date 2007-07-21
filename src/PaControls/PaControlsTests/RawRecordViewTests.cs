@@ -14,15 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
-using System.IO;
-using System.Data;
-using System.Data.OleDb;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Windows.Forms;
 using NUnit.Framework;
 using SIL.SpeechTools.TestUtils;
 

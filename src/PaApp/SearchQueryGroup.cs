@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
-using System.Xml.Serialization;
 using System.Windows.Forms;
-using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using System.Xml.Serialization;
 using SIL.Pa.FFSearchEngine;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -142,8 +140,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void UpdateQuery(SearchQuery query)
 		{
-			System.Diagnostics.Debug.Assert(query != null);
-			System.Diagnostics.Debug.Assert(query.Id > 0);
+			Debug.Assert(query != null);
+			Debug.Assert(query.Id > 0);
 
 			foreach (SearchQueryGroup grp in this)
 			{

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.SpeechTools.Utils;
@@ -23,9 +21,9 @@ namespace SIL.Pa.Controls
 		private const int kCnvrtCol = 1;
 
 		private SilGrid m_grid;
-		private HeaderLabel m_header;
-		private Label lblTargetHdg;
-		private Label lblSourceHdg;
+		private readonly HeaderLabel m_header;
+		private readonly Label lblTargetHdg;
+		private readonly Label lblSourceHdg;
 
 		#region Constructing the control, grid and loading the grid
 		/// ------------------------------------------------------------------------------------
@@ -55,7 +53,7 @@ namespace SIL.Pa.Controls
 			m_header = new HeaderLabel();
 			m_header.Dock = DockStyle.Top;
 			m_header.ShowWindowBackgroudOnTopAndRightEdge = false;
-			m_header.Paint += new PaintEventHandler(m_header_Paint);
+			m_header.Paint += m_header_Paint;
 			m_header.Controls.Add(lblSourceHdg);
 			m_header.Controls.Add(lblTargetHdg);
 			Controls.Add(m_header);
@@ -107,17 +105,12 @@ namespace SIL.Pa.Controls
 			m_grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
 			m_grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
 			m_grid.RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
-			m_grid.CellEndEdit +=
-				new DataGridViewCellEventHandler(m_grid_CellEndEdit);
-			m_grid.CellBeginEdit +=
-				new DataGridViewCellCancelEventHandler(m_grid_CellBeginEdit);
-			m_grid.CurrentCellDirtyStateChanged +=
-				new EventHandler(m_grid_CurrentCellDirtyStateChanged);
-			m_grid.CellPainting +=
-				new DataGridViewCellPaintingEventHandler(m_grid_CellPainting);
-			m_grid.ColumnWidthChanged +=
-				new DataGridViewColumnEventHandler(m_grid_ColumnWidthChanged);
-			m_grid.KeyDown += new KeyEventHandler(m_grid_KeyDown);
+			m_grid.CellEndEdit += m_grid_CellEndEdit;
+			m_grid.CellBeginEdit += m_grid_CellBeginEdit;
+			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
+			m_grid.CellPainting += m_grid_CellPainting;
+			m_grid.ColumnWidthChanged += m_grid_ColumnWidthChanged;
+			m_grid.KeyDown += m_grid_KeyDown;
 
 			// The sequence-to-convert column.
 			DataGridViewColumn col = new RadioButtonColumn("col0", false, true);
@@ -192,7 +185,7 @@ namespace SIL.Pa.Controls
 						// If there aren't enough columns to accomodate the
 						// next convert to item, then add a new one.
 						if (col == m_grid.Columns.Count)
-							m_grid.Columns.Add(new RadioButtonColumn("col" + col.ToString()));
+							m_grid.Columns.Add(new RadioButtonColumn("col" + col));
 
 						m_grid[col, i].Value = cnvrtToItem;
 						cell = m_grid[col, i] as RadioButtonCell;
@@ -206,7 +199,7 @@ namespace SIL.Pa.Controls
 				i++;
 			}
 
-			m_grid.Columns.Add(new RadioButtonColumn("col" + m_grid.Columns.Count.ToString()));
+			m_grid.Columns.Add(new RadioButtonColumn("col" + m_grid.Columns.Count));
 			m_grid.EndEdit();
 
 			PaApp.SettingsHandler.LoadGridProperties(m_grid);
@@ -451,7 +444,7 @@ namespace SIL.Pa.Controls
 		void m_grid_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
 		{
 			foreach (DataGridViewColumn col in m_grid.Columns)
-				col.Name = "col" + col.DisplayIndex.ToString();
+				col.Name = "col" + col.DisplayIndex;
 
 			PaApp.SettingsHandler.SaveGridProperties(m_grid);
 
@@ -464,8 +457,7 @@ namespace SIL.Pa.Controls
 		/// Custom draw column headers.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellPainting(object sender,
-			DataGridViewCellPaintingEventArgs e)
+		private void m_grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 				return;
@@ -706,7 +698,7 @@ namespace SIL.Pa.Controls
 	{
 		private bool m_includeCVPattern = true;
 		private bool m_showRadioButton = true;
-		private bool m_forNoConvertColumn = false;
+		private readonly bool m_forNoConvertColumn = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -715,10 +707,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn() : base(new RadioButtonCell())
 		{
-			DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			base.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			Width = 110;
 			HeaderText = string.Empty;
-			Resizable = DataGridViewTriState.True;
+			base.Resizable = DataGridViewTriState.True;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -756,9 +748,9 @@ namespace SIL.Pa.Controls
 			m_showRadioButton = true;
 			m_forNoConvertColumn = true;
 
-			DefaultCellStyle.Font = FontHelper.UIFont;
-			CellTemplate.Style.Font = FontHelper.UIFont;
-			ReadOnly = true;
+			base.DefaultCellStyle.Font = FontHelper.UIFont;
+			base.CellTemplate.Style.Font = FontHelper.UIFont;
+			base.ReadOnly = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -826,7 +818,7 @@ namespace SIL.Pa.Controls
 		private bool m_checked = false;
 		private bool m_mouseOverRadioButton = false;
 		private bool m_enabled = true;
-		private Font m_fntCV = FontHelper.UIFont;
+		private readonly Font m_fntCV = FontHelper.UIFont;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -834,7 +826,6 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonCell()
-			: base()
 		{
 			if (PaApp.Project.FieldInfo.CVPatternField != null)
 				m_fntCV = PaApp.Project.FieldInfo.CVPatternField.Font;
@@ -1159,6 +1150,7 @@ namespace SIL.Pa.Controls
 		/// <param name="bounds">The rectangle of the entire cell.</param>
 		/// <param name="rcrb">The returned rectangle for the radio button.</param>
 		/// <param name="rcText">The returned rectangle for the text.</param>
+		/// <param name="rcCVPattern"></param>
 		/// ------------------------------------------------------------------------------------
 		private void GetRectangles(Rectangle bounds, out Rectangle rcrb,
 			out Rectangle rcText, out Rectangle rcCVPattern)
@@ -1175,7 +1167,7 @@ namespace SIL.Pa.Controls
 
 			// The gap between the left edge of the cell and the radio button is 7 pixels.
 			rcrb = new Rectangle(bounds.Left + 7, 0, m_rbDimension, m_rbDimension);
-			rcrb.Y = bounds.Top + (int)Math.Ceiling((float)(bounds.Height - m_rbDimension) / 2f);
+			rcrb.Y = bounds.Top + (int)Math.Ceiling((bounds.Height - m_rbDimension) / 2f);
 		}
 
 		/// ------------------------------------------------------------------------------------

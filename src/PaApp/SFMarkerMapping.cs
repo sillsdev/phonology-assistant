@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Xml.Serialization;
-using SIL.Pa.Resources;
-using SIL.Pa.Data;
 
 namespace SIL.Pa
 {
@@ -17,9 +12,8 @@ namespace SIL.Pa
 	[XmlType("Mapping")]
 	public class SFMarkerMapping
 	{
-		private static string s_noneText = Properties.Resources.kstidDropDownNoneEntry;
-
-		private PaFieldInfo m_fieldInfo;
+		private static readonly string s_noneText = Properties.Resources.kstidDropDownNoneEntry;
+		private readonly PaFieldInfo m_fieldInfo;
 		private string m_fieldName = string.Empty;
 		private string m_marker = string.Empty;
 		private bool m_isInterlinear = false;
@@ -171,7 +165,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public System.Drawing.Image MapToSymbol
+		public Image MapToSymbol
 		{
 			get
 			{

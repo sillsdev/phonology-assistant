@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -10,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jaars, Inc.")]
 [assembly: AssemblyProduct("PaAppTests")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2005")]
+[assembly: AssemblyCopyright("Copyright � Jaars, Inc. 2005")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

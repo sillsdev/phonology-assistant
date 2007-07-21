@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using System.Xml;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -42,7 +40,7 @@ namespace SIL.Pa.Controls
 			InitializeComponent();
 			PaApp.AddMediatorColleague(this);
 
-			Disposed += new EventHandler(PatternBuilderComponents_Disposed);
+			Disposed += PatternBuilderComponents_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,9 +71,9 @@ namespace SIL.Pa.Controls
 			
 			lvClasses.Load();
 			lvClasses.LoadSettings(Name);
-			lvClasses.ItemDrag += new ItemDragEventHandler(ClassListItemDragHandler);
-			lvClasses.KeyPress += new KeyPressEventHandler(ClassListKeyPressHandler);
-			lvClasses.MouseDoubleClick += new MouseEventHandler(ClassListDoubleClickHandler);
+			lvClasses.ItemDrag += ClassListItemDragHandler;
+			lvClasses.KeyPress += ClassListKeyPressHandler;
+			lvClasses.MouseDoubleClick += ClassListDoubleClickHandler;
 
 			SetupVowConPickers(true);
 			SetupOtherPicker();
@@ -196,7 +194,7 @@ namespace SIL.Pa.Controls
 			}
 
 			// Create the consonant picker on the con. tab.
-			m_conPicker = new CharPickerRows(IPACharacterType.Consonant);
+			m_conPicker = new CharPickerRows();
 			m_conPicker.Location = new Point(0, 0);
 			m_conPicker.BackColor = pnlConsonants.BackColor;
 			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPACharacterType.Consonant);
@@ -204,7 +202,7 @@ namespace SIL.Pa.Controls
 			pnlConsonants.Controls.Add(m_conPicker);
 
 			// Create the consonant picker on the vow. tab.
-			m_vowPicker = new CharPickerRows(IPACharacterType.Vowel);
+			m_vowPicker = new CharPickerRows();
 			m_vowPicker.Location = new Point(0, 0);
 			m_vowPicker.BackColor = pnlVowels.BackColor;
 			bldr = new CharGridBuilder(m_vowPicker, IPACharacterType.Vowel);
@@ -213,10 +211,10 @@ namespace SIL.Pa.Controls
 
 			if (firstTime)
 			{
-				m_conPicker.ItemDrag += new ItemDragEventHandler(ConPickerDragHandler);
-				m_conPicker.ItemClicked += new ToolStripItemClickedEventHandler(ConPickerClickedHandler);
-				m_vowPicker.ItemDrag += new ItemDragEventHandler(VowPickerDragHandler);
-				m_vowPicker.ItemClicked += new ToolStripItemClickedEventHandler(VowPickerClickedHandler);
+				m_conPicker.ItemDrag += ConPickerDragHandler;
+				m_conPicker.ItemClicked += ConPickerClickedHandler;
+				m_vowPicker.ItemDrag += VowPickerDragHandler;
+				m_vowPicker.ItemClicked += VowPickerClickedHandler;
 			}
 		}
 
@@ -255,9 +253,9 @@ namespace SIL.Pa.Controls
 				IPACharacterSubType.OtherSymbols));
 
 			charExplorer.TypesToShow = typesToShow;
-			charExplorer.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(OtherCharShouldLoadChar);
-			charExplorer.ItemDrag += new ItemDragEventHandler(OtherCharDragHandler);
-			charExplorer.CharPicked += new CharPicker.CharPickedHandler(OtherCharPickedHandler);
+			charExplorer.ShouldLoadChar += OtherCharShouldLoadChar;
+			charExplorer.ItemDrag += OtherCharDragHandler;
+			charExplorer.CharPicked += OtherCharPickedHandler;
 			charExplorer.Load();
 
 			m_diacriticsInCache = null;
@@ -277,10 +275,9 @@ namespace SIL.Pa.Controls
 			flv.AllowDoubleClickToChangeCheckState = false;
 			flv.EmphasizeCheckedItems = false;
 			flv.CheckBoxes = (featureType == PaApp.FeatureType.Binary);
-			flv.ItemDrag += new ItemDragEventHandler(FeatureListsItemDragHandler);
-			flv.KeyPress += new KeyPressEventHandler(FeatureListsKeyPressHandler);
-			flv.CustomDoubleClick +=
-				new FeatureListView.CustomDoubleClickHandler(FeatureListDoubleClickHandler);
+			flv.ItemDrag += FeatureListsItemDragHandler;
+			flv.KeyPress += FeatureListsKeyPressHandler;
+			flv.CustomDoubleClick += FeatureListDoubleClickHandler;
 
 			return flv;
 		}
@@ -356,7 +353,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 			// Not used in PA
 		}

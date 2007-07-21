@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -30,12 +30,12 @@ namespace SIL.Pa.Controls
 	public class CharGridBuilder
 	{
 		private List<CharGridCell> m_phoneList;
-		private CharGrid m_chrGrid;
-		private IPhoneListViewer m_phoneLstVwr;
 		private string m_supraSegsToIgnore;
 		private string m_persistedInfoFilename;
-		private IPACharacterType m_chrType;
 		private bool m_reloadError = false;
+		private readonly CharGrid m_chrGrid;
+		private readonly IPhoneListViewer m_phoneLstVwr;
+		private readonly IPACharacterType m_chrType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -126,14 +126,13 @@ namespace SIL.Pa.Controls
 				// force building a default CharGrid and persist its layout.
 				CharGridBuilder bldr = new CharGridBuilder(new CharGrid(), m_chrType);
 				bldr.Build();
-				bldr = null;
 
 				// Try again.
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
 					string msg = string.Format(
-						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType.ToString());
+						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType);
 					STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 					return;
 				}
@@ -261,8 +260,8 @@ namespace SIL.Pa.Controls
 				if (info != null)
 				{
 					CharGridCell cgc = new CharGridCell(phone);
-					cgc.DefaultColumn = (info == null ? -1 : info.ChartColumn);
-					cgc.DefaultGroup = (info == null ? -1 : info.ChartGroup);
+					cgc.DefaultColumn = info.ChartColumn;
+					cgc.DefaultGroup = info.ChartGroup;
 					cgc.TotalCount = phoneInfo.Value.TotalCount;
 					cgc.CountAsPrimaryUncertainty = phoneInfo.Value.CountAsPrimaryUncertainty;
 					cgc.CountAsNonPrimaryUncertainty = phoneInfo.Value.CountAsNonPrimaryUncertainty;
@@ -542,7 +541,7 @@ namespace SIL.Pa.Controls
 			m_chrGrid.AddColumnToHeading(hdr);
 			m_chrGrid.AddColumnToHeading(hdr);
 
-			hdr = m_chrGrid.AddColumnHeader();
+			m_chrGrid.AddColumnHeader();
 
 			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidBackHeading);
 			m_chrGrid.AddColumnToHeading(hdr);

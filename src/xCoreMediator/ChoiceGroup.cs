@@ -15,15 +15,13 @@
 // <remarks>
 // </remarks>
 // --------------------------------------------------------------------------------------------
+
 using System;
-using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
 using System.Diagnostics;
-using System.Reflection;
-
+using System.Text;
+using System.Xml;
 using SIL.Utils;
 
 namespace XCore
@@ -329,7 +327,7 @@ namespace XCore
 
 
 		//for menus, this is wired to be "pop up" event
-		public void OnDisplay(object sender, System.EventArgs args)
+		public void OnDisplay(object sender, EventArgs args)
 		{
 			UpdateUI();
 		}
@@ -405,7 +403,7 @@ namespace XCore
 			StringTable stringTbl = null;
 			if (m_mediator != null && m_mediator.HasStringTable)
 				stringTbl = m_mediator.StringTbl;
-			XCore.List list = new XCore.List(listNode, stringTbl);
+			List list = new List(listNode, stringTbl);
 			
 			UIListDisplayProperties display =new UIListDisplayProperties(list);
 			display.PropertyName= this.PropertyName;
@@ -637,7 +635,7 @@ namespace XCore
 			{
 				// remove the choiceValue from the string.
 				Debug.Assert(rgsValues.Length > 1);
-				System.Text.StringBuilder sbValues = new System.Text.StringBuilder(sValue.Length);
+				StringBuilder sbValues = new StringBuilder(sValue.Length);
 				for (int i = 0; i < rgsValues.Length; ++i)
 				{
 					if (idx != i)

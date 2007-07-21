@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
+
 namespace SIL.Pa.FFSearchEngine
 {
 	#region SearchQuery class
@@ -83,7 +85,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public bool IsEqual(SearchQuery query)
 		{
-			System.Diagnostics.Debug.Assert(query != this);
+			Debug.Assert(query != this);
 
 			if (m_name != query.m_name || m_pattern != query.m_pattern ||
 				m_category != query.m_category || m_patternOnly != query.m_patternOnly)
@@ -102,7 +104,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public bool AreOptionsEqual(SearchQuery query)
 		{
-			System.Diagnostics.Debug.Assert(query != this);
+			Debug.Assert(query != this);
 
 			if (m_showAllOccurrences != query.m_showAllOccurrences ||
 				m_ignoreDiacritics != query.m_ignoreDiacritics ||

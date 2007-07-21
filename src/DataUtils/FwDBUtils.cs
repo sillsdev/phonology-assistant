@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.ServiceProcess;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Pa.Data.Properties;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
@@ -68,7 +67,7 @@ namespace SIL.Pa.Data
 				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
 
 				SQLServerMessageWnd msgWnd =
-					new SQLServerMessageWnd(Properties.Resources.kstidGettingFwProjInfoMsg);
+					new SQLServerMessageWnd(Resources.kstidGettingFwProjInfoMsg);
 
 				// Read all the SQL databases from the server's master table.
 				using (SqlConnection connection = FwConnection("master"))
@@ -210,12 +209,12 @@ namespace SIL.Pa.Data
 					// Check if we've timed out.
 					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
 					{
-						msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer1, msg);
+						msg = string.Format(Resources.kstidErrorStartingSQLServer1, msg);
 						STUtils.STMsgBox(msg, MessageBoxButtons.OK);
 						return false;
 					}
 
-					msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer2,
+					msg = string.Format(Resources.kstidErrorStartingSQLServer2,
 						s_secondsToWaitForSQLToStart);
 
 					if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo,
@@ -288,7 +287,7 @@ namespace SIL.Pa.Data
 
 			// When they're different, return the project name,
 			// followed by the DB name in parentheses.
-			string text = Properties.Resources.kstidFWDataSourceInfo;
+			string text = Resources.kstidFWDataSourceInfo;
 			return string.Format(text, ProjectName, m_dbName);
 		}
 
@@ -463,7 +462,7 @@ namespace SIL.Pa.Data
 		{
 			if (IsMissing)
 			{
-				string msg = string.Format(Properties.Resources.kstidFwDBMissing, DBName);
+				string msg = string.Format(Resources.kstidFwDBMissing, DBName);
 				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
@@ -553,7 +552,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				return GetWritingSystems(FwQueries.VernacularWsSQL,
-					Properties.Resources.kstidErrorRetrievingVernWsMsg);
+					Resources.kstidErrorRetrievingVernWsMsg);
 			}
 		}
 
@@ -567,7 +566,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				return GetWritingSystems(FwQueries.AnalysisWs,
-					Properties.Resources.kstidErrorRetrievingAnalWsMsg);
+					Resources.kstidErrorRetrievingAnalWsMsg);
 			}
 		}
 
@@ -659,14 +658,14 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public bool GetData(DataRetrievedHandler dataRetrievedHdlr)
 		{
-			string errMsg = Properties.Resources.kstidErrorRetrievingFwDataMsg;
+			string errMsg = Resources.kstidErrorRetrievingFwDataMsg;
 			string sql =
 				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
 				FwQueries.LexemeFormSQL : FwQueries.PronunciationFieldSQL);
 
 			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
 			{
-				errMsg = string.Format(Properties.Resources.kstidMissingWsMsg,
+				errMsg = string.Format(Resources.kstidMissingWsMsg,
 					m_sourceInfo.ProjectName);
 
 				STUtils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -763,7 +762,7 @@ namespace SIL.Pa.Data
 			if (s_fwqueries == null)
 			{
 				string filePath = STUtils.PrepFilePathForSTMsgBox(s_queryFile);
-				STUtils.STMsgBox(string.Format(Properties.Resources.kstidErrorLoadingQueriesMsg,
+				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg,
 					filePath), MessageBoxButtons.OK);
 			}
 		}

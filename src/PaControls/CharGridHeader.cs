@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using System.Text;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
@@ -15,19 +16,17 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class CharGridHeader : Panel
 	{
-		private TextFormatFlags m_txtFmtFlags = TextFormatFlags.HidePrefix;
-
 		private static TextBox m_textbox;
-		private List<DataGridViewColumn> m_ownedCols;
-		private List<DataGridViewRow> m_ownedRows;
 
-		private Label m_lastLabelRightClickedOn = null;
-		private Label m_heading;
-		private List<Label> m_subHeadings;
 		private bool m_subHeadingsVisible = false;
-		private bool m_isForColumns = true;
 		private int m_group;
 		private bool m_selected = false;
+		private readonly List<DataGridViewColumn> m_ownedCols;
+		private readonly List<DataGridViewRow> m_ownedRows;
+		private readonly Label m_heading;
+		private readonly List<Label> m_subHeadings;
+		private readonly bool m_isForColumns = true;
+		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.HidePrefix;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -558,7 +557,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool IsRowEmpty(DataGridViewRow row)
 		{
-			System.Diagnostics.Debug.Assert(row != null);
+			Debug.Assert(row != null);
 
 			DataGridView grid = row.DataGridView;
 			if (grid == null || grid.Rows == null)
@@ -658,7 +657,6 @@ namespace SIL.Pa.Controls
 			PaApp.MsgMediator.SendMessage("CharGridHeaderClicked", this);
 			if (e.Button == MouseButtons.Right)
 			{
-				m_lastLabelRightClickedOn = lbl;
 				PaApp.MsgMediator.SendMessage("CharGridHeaderRightClicked", this);
 			}
 		}
@@ -767,7 +765,7 @@ namespace SIL.Pa.Controls
 					if (m_isForColumns)
 						sf.LineAlignment = StringAlignment.Far;
 
-					e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+					e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 					e.Graphics.DrawString(lbl.Text, lbl.Font, br, lbl.ClientRectangle, sf);
 				}
 			}

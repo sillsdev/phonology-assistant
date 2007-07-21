@@ -19,6 +19,7 @@
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SIL.FieldWorks.Common.Utils
 {
@@ -87,7 +88,7 @@ namespace SIL.FieldWorks.Common.Utils
 		/// <param name="pt"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		public bool Contains(System.Drawing.Point pt)
+		public bool Contains(Point pt)
 		{
 			if (pt.X < left)
 				return false;
@@ -2319,14 +2320,14 @@ namespace SIL.FieldWorks.Common.Utils
 		/// See Windows API documentation for SHBrowseForFolder
 		/// </summary>
 		[DllImport("Shell32.dll", CharSet=CharSet.Auto)]
-		internal extern static System.IntPtr SHBrowseForFolder(ref BrowseInfo bi);
+		internal extern static IntPtr SHBrowseForFolder(ref BrowseInfo bi);
 	
 		/// <summary>
 		/// See Windows API documentation for SHBrowseForFolder
 		/// </summary>
 		[DllImport("Shell32.dll", CharSet=CharSet.Auto)]
 		[return : MarshalAs(UnmanagedType.Bool)]
-		internal extern static bool SHGetPathFromIDList(IntPtr pidl, [MarshalAs(UnmanagedType.LPTStr)] System.Text.StringBuilder pszPath);
+		internal extern static bool SHGetPathFromIDList(IntPtr pidl, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder pszPath);
 	
 		/// <summary>
 		/// See Windows API documentation for SHGetMalloc

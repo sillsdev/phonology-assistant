@@ -1,7 +1,7 @@
 using System;
-using System.IO;
 using System.Drawing;
-using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -233,8 +233,8 @@ namespace SIL.Pa.Controls
 				int closed = xslContent.IndexOf("]", open);
 				if (closed > open)
 				{
-					System.Globalization.CultureInfo ci =
-						System.Globalization.CultureInfo.CreateSpecificCulture("en");
+					CultureInfo ci =
+						CultureInfo.CreateSpecificCulture("en");
 					STUtils.TryFloatParse(
 						xslContent.Substring(open, closed - open), ci, out altSize);
 				}

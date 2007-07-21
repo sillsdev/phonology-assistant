@@ -1,18 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
-using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Data;
+using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa
 {
 	public class RegExpressionSearch
 	{
-		private SearchQuery m_query;
-		private Regex m_regExBefore;
-		private Regex m_regExItem;
-		private Regex m_regExAfter;
+		private readonly SearchQuery m_query;
+		private readonly Regex m_regExBefore;
+		private readonly Regex m_regExItem;
+		private readonly Regex m_regExAfter;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -21,7 +19,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public RegExpressionSearch(SearchQuery query)
 		{
-			System.Diagnostics.Debug.Assert(query != null);
+			Debug.Assert(query != null);
 
 			m_query = query;
 
@@ -51,16 +49,11 @@ namespace SIL.Pa
 			}
 
 			WordListCache resultCache = new WordListCache();
-			int offset;
-			int length;
 
 			foreach (WordCacheEntry wordEntry in PaApp.WordCache)
 			{
-				offset = 0;
+				int offset = 0;
 				string phonetic = wordEntry.PhoneticValueWithPrimaryUncertainty;
-
-				//if (phonetic == "inaweza")
-				//    offset = 0;
 
 				while (offset < phonetic.Length)
 				{
@@ -70,7 +63,7 @@ namespace SIL.Pa
 						break;
 
 					offset = match.Index;
-					length = match.Length;
+					int length = match.Length;
 
 					// Search for the environment before, looking for a match that
 					// butts up against the match on the search item.

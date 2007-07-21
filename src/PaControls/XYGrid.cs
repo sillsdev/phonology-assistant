@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Resources;
-using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
-using SIL.Pa.Data;
+using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Data;
+using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
+using SIL.SpeechTools.Utils;
 using XCore;
 
 namespace SIL.Pa.Controls
@@ -402,7 +403,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void AddColumn(bool updateLayout)
 		{
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(string.Empty);
+			DataGridViewColumn col = CreateTextBoxColumn(string.Empty);
 			col.Tag = new SearchQuery();
 			Columns.Add(col);
 
@@ -418,7 +419,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void AddColumn(SearchQuery query, bool updateLayout)
 		{
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(string.Empty);
+			DataGridViewColumn col = CreateTextBoxColumn(string.Empty);
 			col.Tag = query;
 
 			int newColIndex = Columns.Count - 1;
@@ -1087,7 +1088,7 @@ namespace SIL.Pa.Controls
 			Columns.Clear();
 			m_layout = null;
 
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("srchitem");
+			DataGridViewColumn col = CreateTextBoxColumn("srchitem");
 			col.Frozen = true;
 			col.Width = 45;
 			Columns.Add(col);
@@ -1696,7 +1697,7 @@ namespace SIL.Pa.Controls
 		/// <param name="mediator"></param>
 		/// <param name="configurationParameters"></param>
 		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, System.Xml.XmlNode configurationParameters)
+		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
 		}
 

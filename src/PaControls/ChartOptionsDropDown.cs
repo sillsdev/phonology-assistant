@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -30,7 +26,7 @@ namespace SIL.Pa.Controls
 			pickerIgnore.Font =	FontHelper.MakeEticRegFontDerivative(fontSize);
 			pickerIgnore.ItemSize = new Size(pickerIgnore.PreferredItemHeight,
 				pickerIgnore.PreferredItemHeight);
-			pickerIgnore.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(pickerIgnore_ShouldLoadChar);
+			pickerIgnore.ShouldLoadChar += pickerIgnore_ShouldLoadChar;
 			pickerIgnore.LoadCharacters();
 			SetIgnoredChars(ignoreList);
 

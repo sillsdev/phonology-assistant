@@ -1,9 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Forms;
-using SIL.Pa.Data;
 
 namespace SIL.Pa
 {
