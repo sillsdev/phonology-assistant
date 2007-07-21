@@ -71,11 +71,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddCharacterDlg.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddCharacterDlg.designer.cs">
       <DependentUpon>AddCharacterDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="PCIEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PCIEditor.Designer.cs">
       <DependentUpon>PCIEditor.cs</DependentUpon>

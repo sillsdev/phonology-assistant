@@ -138,7 +138,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidConsonantChartView" xml:space="preserve">
-    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm</value>
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_views.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidCustomFieldsDlg" xml:space="preserve">
@@ -277,7 +277,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidVowelChartView" xml:space="preserve">
-    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_overview.htm</value>
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_views.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidWordListOptions" xml:space="preserve">
