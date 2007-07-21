@@ -14,8 +14,8 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class SaveSearchQueryDlg : OKCancelDlgBase
 	{
-		private SearchQuery m_query;
-		private SearchPatternTreeView m_tvSrchPatterns;
+		private readonly SearchQuery m_query;
+		private readonly SearchPatternTreeView m_tvSrchPatterns;
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

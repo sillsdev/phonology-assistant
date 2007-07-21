@@ -14,7 +14,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ConsonantChartWnd() : base()
+		public ConsonantChartWnd()
 		{
 			InitializeComponent();
 			Name = "consonantChartWnd";

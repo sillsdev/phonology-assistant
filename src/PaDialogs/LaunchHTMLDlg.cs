@@ -19,7 +19,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public static void PostExportProcess(Form parent, string filename)
 		{
-			bool autoLaunch = true;
+			bool autoLaunch;
 			bool showdialog = !PaApp.SettingsHandler.GetBoolSettingsValue(
 				kstidHTMLExportSetting, "dontshowdialog", false);
 

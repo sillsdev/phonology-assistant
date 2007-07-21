@@ -33,9 +33,6 @@ namespace SIL.Pa.Controls
 		private PaWordListGrid m_grid;
 		private PaDataSource m_dataSource;
 		private FindDlg m_findDlg;
-		private PaFieldInfo m_phoneticFieldInfo = PaApp.FieldInfo.PhoneticField;
-		private PaFieldInfo m_cvcFieldInfo = PaApp.FieldInfo.CVPatternField;
-		private PaFieldInfo m_glossFieldInfo = PaApp.FieldInfo.GlossField;
 		private const string kPhonetic = "Phonetic";
 		private const string kGloss = "Gloss";
 		private const string kCVPattern = "CVPattern";
@@ -120,7 +117,7 @@ namespace SIL.Pa.Controls
 							"GLFIB glbitter glebay glbitter drillbit glabitging");	// Gloss
 
 			// Create grid
-			m_grid = new PaWordListGrid(m_cache, this.GetType(), false);
+			m_grid = new PaWordListGrid(m_cache, GetType(), false);
 			SetField(m_grid, "m_suspendSavingColumnChanges", true);
 
 			// Make all the grid's rows & columns visible and thus searchable

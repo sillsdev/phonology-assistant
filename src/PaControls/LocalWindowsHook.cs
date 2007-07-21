@@ -84,7 +84,7 @@ namespace SIL.Pa.Controls
 		public LocalWindowsHook(HookType hook)
 		{
 			m_hookType = hook;
-			m_filterFunc = new HookProc(this.CoreHookProc); 
+			m_filterFunc = this.CoreHookProc; 
 		}
 
 		public LocalWindowsHook(HookType hook, HookProc func)

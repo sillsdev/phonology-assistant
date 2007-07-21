@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -19,7 +18,7 @@ namespace SIL.Pa.Dialogs
 	public partial class ProjectSettingsDlg : OKCancelDlgBase
 	{
 		private PaProject m_project;
-		private bool m_newProject;
+		private readonly bool m_newProject;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -28,7 +27,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public ProjectSettingsDlg() : this(null)
 		{
-			Text = Properties.Resources.kstidNewProjectSettingsDlgCaption;
+			base.Text = Properties.Resources.kstidNewProjectSettingsDlgCaption;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -36,7 +35,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ProjectSettingsDlg(PaProject project) : base()
+		public ProjectSettingsDlg(PaProject project)
 		{
 			Application.DoEvents();
 
@@ -47,7 +46,7 @@ namespace SIL.Pa.Dialogs
 
 			InitializeComponent();
 
-			Text = Properties.Resources.kstidProjectSettingsDlgCaption;
+			base.Text = Properties.Resources.kstidProjectSettingsDlgCaption;
 			m_newProject = (project == null);
 
 			pnlGridHdg.Font = FontHelper.UIFont;
@@ -98,7 +97,7 @@ namespace SIL.Pa.Dialogs
 			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDataSourceInfoList != null);
 
 			m_dirty = m_newProject;
-			Application.Idle += new EventHandler(Application_Idle);
+			Application.Idle += Application_Idle;
 			Application.UseWaitCursor = false;
 		}
 
@@ -168,7 +167,7 @@ namespace SIL.Pa.Dialogs
 			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			m_grid.RowEnter += new DataGridViewCellEventHandler(m_grid_RowEnter);
+			m_grid.RowEnter += m_grid_RowEnter;
 
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
@@ -191,8 +190,7 @@ namespace SIL.Pa.Dialogs
 			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
 			((SilButtonColumn)col).ButtonText = Properties.Resources.kstidXSLTColButtonText;
 			((SilButtonColumn)col).ButtonToolTip = Properties.Resources.kstidXSLTColButtonToolTip;
-			((SilButtonColumn)col).ButtonClicked +=
-				new DataGridViewCellMouseEventHandler(HandleSpecifyXSLTClick);
+			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
 			m_grid.Columns.Add(col);
 
 		    PaApp.SettingsHandler.LoadGridProperties(m_grid);
@@ -360,7 +358,7 @@ namespace SIL.Pa.Dialogs
 						// FW data source information is incomplete.
 						offendingIndex = i;
 						msg = string.Format(Properties.Resources.kstidFwDataSourceWsMissingMsg,
-							m_project.DataSources[i].FwDataSourceInfo.ToString());
+							m_project.DataSources[i].FwDataSourceInfo);
 						break;
 					}
 				}
@@ -665,7 +663,7 @@ namespace SIL.Pa.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					if (((OKCancelDlgBase)dlg).ChangesWereMade)
+					if (ChangesWereMade)
 						m_dirty = true;
 				}
 			}
@@ -691,7 +689,7 @@ namespace SIL.Pa.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					if (((OKCancelDlgBase)dlg).ChangesWereMade)
+					if (dlg.ChangesWereMade)
 						m_dirty = true;
 				}
 			}
@@ -730,7 +728,7 @@ namespace SIL.Pa.Dialogs
 			using (CustomFieldsDlg dlg = new CustomFieldsDlg(m_project))
 			{
 				dlg.ShowDialog(this);
-				if (((OKCancelDlgBase)dlg).ChangesWereMade)
+				if (dlg.ChangesWereMade)
 					m_dirty = true;
 			}
 		}
@@ -767,41 +765,41 @@ namespace SIL.Pa.Dialogs
 		#endregion
 
 		#region Painting methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint the ellipsis on the button where I want them.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleButtonPaint(object sender, PaintEventArgs e)
-		{
-			Button btn = sender as Button;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Paint the ellipsis on the button where I want them.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandleButtonPaint(object sender, PaintEventArgs e)
+		//{
+		//    Button btn = sender as Button;
 
-			if (btn == null)
-				return;
+		//    if (btn == null)
+		//        return;
 
-			using (StringFormat sf = STUtils.GetStringFormat(true))
-			using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
-			{
-				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
-				Rectangle rc = btn.ClientRectangle;
-				e.Graphics.DrawString("...", fnt, SystemBrushes.ControlText, rc, sf);
-			}
-		}
+		//    using (StringFormat sf = STUtils.GetStringFormat(true))
+		//    using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
+		//    {
+		//        e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
+		//        Rectangle rc = btn.ClientRectangle;
+		//        e.Graphics.DrawString("...", fnt, SystemBrushes.ControlText, rc, sf);
+		//    }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sizes and locates one of the buttons that look like their on the grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Rectangle LocateGridButton(Button btn, Rectangle rcCell)
-		{
-			btn.Size = new Size(rcCell.Height + 1, rcCell.Height + 1);
-			Point pt = m_grid.PointToScreen(new Point(rcCell.Right - rcCell.Height - 1, rcCell.Y - 1));
-			btn.Location = m_grid.Parent.PointToClient(pt);
-			btn.Invalidate();
-			rcCell.Width -= (rcCell.Height + 2);
-			return rcCell;
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Sizes and locates one of the buttons that look like their on the grid.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private Rectangle LocateGridButton(Button btn, Rectangle rcCell)
+		//{
+		//    btn.Size = new Size(rcCell.Height + 1, rcCell.Height + 1);
+		//    Point pt = m_grid.PointToScreen(new Point(rcCell.Right - rcCell.Height - 1, rcCell.Y - 1));
+		//    btn.Location = m_grid.Parent.PointToClient(pt);
+		//    btn.Invalidate();
+		//    rcCell.Width -= (rcCell.Height + 2);
+		//    return rcCell;
+		//}
 
 		#endregion
 
@@ -863,11 +861,6 @@ namespace SIL.Pa.Dialogs
 				btnProperties.PerformClick();
 				e.Handled = true;
 			}
-		}
-
-		private void m_grid_KeyPress(object sender, KeyPressEventArgs e)
-		{
-
 		}
 	}
 }

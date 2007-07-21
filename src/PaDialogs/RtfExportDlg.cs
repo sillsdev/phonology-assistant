@@ -26,7 +26,7 @@ namespace SIL.Pa.Dialogs
 
 		// Declare member variables
 		private string m_rtfEditor;
-		private PaWordListGrid m_grid;
+		private readonly PaWordListGrid m_grid;
 		private RtfCreator.ExportTarget m_exportTarget;
 		private RtfCreator.ExportFormat m_exportFormat;
 		private Button btnHelp;
@@ -319,7 +319,7 @@ namespace SIL.Pa.Dialogs
 			dlg.Title = "Set RTF Editor...";
 			dlg.Filter = "Exe File (*.exe)|*.EXE";
 			// Set the initial directory to "C:\Program Files"
-			dlg.InitialDirectory = (Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)).ToString();
+			dlg.InitialDirectory = (Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
 			dlg.Multiselect = false;
 			dlg.ShowReadOnly = false;
 			dlg.FilterIndex = 1;

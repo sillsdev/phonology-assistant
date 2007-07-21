@@ -16,16 +16,17 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class DefineClassDlg : OKCancelDlgBase
 	{
-		private FeatureListView m_lvArticulatoryFeatures;
-		private FeatureListView m_lvBinaryFeatures;
-		private Dictionary<SearchClassType, Control> m_ctrls = new Dictionary<SearchClassType, Control>();
-		private ClassListViewItem m_classInfo;
-		private ClassListViewItem m_origClassInfo = null;
+		private bool m_splitterSettingsLoaded = false;
 		private PhonesInFeatureViewer m_conViewer;
 		private PhonesInFeatureViewer m_vowViewer;
 		private PhonesInFeatureViewer m_otherPhonesViewer;
-		private ClassesDlg m_classesDlg;
-		private bool m_splitterSettingsLoaded = false;
+		private readonly ClassesDlg m_classesDlg;
+		private readonly ClassListViewItem m_classInfo;
+		private readonly ClassListViewItem m_origClassInfo = null;
+		private readonly FeatureListView m_lvArticulatoryFeatures;
+		private readonly FeatureListView m_lvBinaryFeatures;
+		private readonly Dictionary<SearchClassType, Control> m_ctrls =
+			new Dictionary<SearchClassType, Control>();
 
 		#region Construction and setup
 		/// ------------------------------------------------------------------------------------
@@ -223,7 +224,7 @@ namespace SIL.Pa.Dialogs
 			flv.Dock = DockStyle.Fill;
 			flv.Visible = true;
 			flv.LabelEdit = false;
-			flv.FeatureChanged += new FeatureListView.FeatureChangedHandler(HandleFeatureChanged);
+			flv.FeatureChanged += HandleFeatureChanged;
 			flv.TabIndex = txtClassName.TabIndex + 1;
 			splitOuter.Panel2.Controls.Add(flv);
 			return flv;
@@ -435,7 +436,7 @@ namespace SIL.Pa.Dialogs
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
 				phones = DataUtils.IPACharCache.PhoneticParser_CommaDelimited(phones, true);
-				return "{" + (phones == null ? string.Empty : phones) + "}";
+				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}
 
@@ -624,28 +625,6 @@ namespace SIL.Pa.Dialogs
 				//else
 					m_classInfo.Masks = new ulong[] {0, 0};
 			}
-		}
-
-		#endregion
-
-		#region Misc. Resizing event handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the IPACharChooser controls have their height and with adjusted as
-		/// their parent, the explorer bar, changes sizes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void explorerBar_Resize(object sender, EventArgs e)
-		{
-			//exbarIPAChars.SuspendLayout();
-
-			//foreach (ExplorerBarItem item in exbarIPAChars.Items)
-			//{
-			//    IPACharChooser chooser = item.Control as IPACharChooser;
-			//    item.SetHostedControlHeight(chooser.PreferredHeight);
-			//}
-
-			//exbarIPAChars.ResumeLayout();
 		}
 
 		#endregion

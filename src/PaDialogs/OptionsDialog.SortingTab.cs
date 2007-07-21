@@ -100,16 +100,18 @@ namespace SIL.Pa.Dialogs
 				m_prevListType.SortOptions = GetSortOptionsFromTab();
 
 			SortOptionsTypeComboItem item = cboListType.Items[0] as SortOptionsTypeComboItem;
-			PaApp.Project.DataCorpusSortOptions = item.SortOptions;
+			if (item != null)
+				PaApp.Project.DataCorpusSortOptions = item.SortOptions;
 
 			item = cboListType.Items[1] as SortOptionsTypeComboItem;
-			PaApp.Project.FindPhoneSortOptions = item.SortOptions;
+			if (item != null)
+				PaApp.Project.FindPhoneSortOptions = item.SortOptions;
 
 			item = cboListType.Items[2] as SortOptionsTypeComboItem;
-			PaApp.Project.XYChartSortOptions = item.SortOptions;
+			if (item != null)
+				PaApp.Project.XYChartSortOptions = item.SortOptions;
 
 			PaApp.Project.Save();
-
 			PaApp.MsgMediator.SendMessage("SortingOptionsChanged", null);
 		}
 
@@ -306,7 +308,7 @@ namespace SIL.Pa.Dialogs
 		/// ----------------------------------------------------------------------------------------
 		private class SortOptionsTypeComboItem
 		{
-			private string m_text;
+			private readonly string m_text;
 			private SortOptions m_sortOptions;
 
 			/// ------------------------------------------------------------------------------------

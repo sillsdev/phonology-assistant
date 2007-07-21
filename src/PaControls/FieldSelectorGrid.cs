@@ -34,7 +34,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FieldSelectorGrid() : base()
+		public FieldSelectorGrid()
 		{
 			RowHeadersVisible = false;
 			ColumnHeadersVisible = false;
@@ -229,10 +229,6 @@ namespace SIL.Pa.Controls
 			// Force commital of the click's change.
 			CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-			Debug.WriteLine(MousePosition.ToString() + "   Value: " + Rows[0].Cells[kCheckCol].Value); 
-
-
-
 			// When the new value of the Select All item is indeterminate, force it to
 			// false since the user clicking on it should never make it indeterminate.
 			if (e.RowIndex == 0 && Rows[0].Cells[kCheckCol].Value is int)
@@ -298,7 +294,7 @@ namespace SIL.Pa.Controls
 			// Adjust the field name's column width so it extends all the way to the grid'
 			// right edge. Account for the vertical scroll bar if it's showing.
 			Columns[kFieldCol].Width = (ClientSize.Width - Columns[kCheckCol].Width -
-				(this.DisplayedRowCount(false) < Rows.Count ?
+				(DisplayedRowCount(false) < Rows.Count ?
 				SystemInformation.VerticalScrollBarWidth : 0) - 5);
 		}
 

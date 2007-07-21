@@ -41,6 +41,8 @@ namespace SIL.Pa.Resources
 		/// Returns a string from the resource file using the specified resource ID.
 		/// </summary>
 		/// <param name="stid">String resource id</param>
+		/// <param name="resMngr">Resource manager from which to get string specified by
+		/// stid</param>
 		/// -----------------------------------------------------------------------------------
 		private static string GetString(string stid, ResourceManager resMngr)
 		{

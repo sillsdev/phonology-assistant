@@ -18,7 +18,7 @@ namespace SIL.Pa.Dialogs
 		private const string kParsedCol = "parsed";
 
 		private SilGrid m_grid;
-		private PaProject m_project;
+		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -81,11 +81,11 @@ namespace SIL.Pa.Dialogs
 			m_grid.AllowUserToAddRows = true;
 			m_grid.AllowUserToDeleteRows = true;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			m_grid.CellPainting += new DataGridViewCellPaintingEventHandler(m_grid_CellPainting);
-			m_grid.CellBeginEdit += new DataGridViewCellCancelEventHandler(m_grid_CellBeginEdit);
-			m_grid.CellEndEdit += new DataGridViewCellEventHandler(m_grid_CellEndEdit);
-			m_grid.RowsRemoved += new DataGridViewRowsRemovedEventHandler(m_grid_RowsRemoved);
-			m_grid.DefaultValuesNeeded += new DataGridViewRowEventHandler(m_grid_DefaultValuesNeeded);
+			m_grid.CellPainting += m_grid_CellPainting;
+			m_grid.CellBeginEdit += m_grid_CellBeginEdit;
+			m_grid.CellEndEdit += m_grid_CellEndEdit;
+			m_grid.RowsRemoved += m_grid_RowsRemoved;
+			m_grid.DefaultValuesNeeded += m_grid_DefaultValuesNeeded;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kNameCol);
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgName;

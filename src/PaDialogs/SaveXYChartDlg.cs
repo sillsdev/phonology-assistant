@@ -14,8 +14,8 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class SaveXYChartDlg : OKCancelDlgBase
 	{
-		private XYGrid m_xyGrid;
-		private List<XYChartLayout> m_savedCharts;
+		private readonly XYGrid m_xyGrid;
+		private readonly List<XYChartLayout> m_savedCharts;
 		private XYChartLayout m_layoutToOverwrite = null;
 
 		/// ------------------------------------------------------------------------------------

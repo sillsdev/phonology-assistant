@@ -9,7 +9,8 @@ namespace SIL.Pa.Dialogs
 {
 	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
-		private string m_infoFmt;
+		private readonly string m_infoFmt;
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -174,7 +175,6 @@ namespace SIL.Pa.Dialogs
 		{
 			SilHierarchicalGridRow row;
 			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
-			int childCount = 0;
 			int lastChild = m_grid.RowCount - 1;
 			string prevCodepoint = m_grid[0, lastChild].Value as string;
 			object prevChar = m_grid[1, lastChild].Value;
@@ -198,10 +198,7 @@ namespace SIL.Pa.Dialogs
 					prevCodepoint = m_grid[0, i].Value as string;
 					prevChar = m_grid[1, i].Value;
 					lastChild = i;
-					childCount = 0;
 				}
-
-				childCount++;
 			}
 
 			// Insert the first group heading row.

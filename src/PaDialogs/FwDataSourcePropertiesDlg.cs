@@ -19,8 +19,8 @@ namespace SIL.Pa.Dialogs
 		private const string kWsNameCol = "wsname";
 		private const string kWsTypeCol = "wstype";
 
-		private PaProject m_project;
-		private FwDataSourceInfo m_fwSourceInfo;
+		private readonly PaProject m_project;
+		private readonly FwDataSourceInfo m_fwSourceInfo;
 		private List<FwWritingSysInfo> m_wsInfo;
 		private List<string> m_allWsNames;
 
@@ -99,8 +99,7 @@ namespace SIL.Pa.Dialogs
 			m_grid.Name = Name + "Grid";
 			m_grid.AutoGenerateColumns = false;
 			m_grid.Font = FontHelper.UIFont;
-			m_grid.EditingControlShowing +=
-				new DataGridViewEditingControlShowingEventHandler(m_grid_EditingControlShowing);
+			m_grid.EditingControlShowing += m_grid_EditingControlShowing;
 
 			// Add a column for the field name.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kFieldCol);
@@ -223,7 +222,7 @@ namespace SIL.Pa.Dialogs
 			if (cbo.SelectedIndex < 0)
 				cbo.SelectedIndex = 0;
 
-			cbo.SelectionChangeCommitted += new EventHandler(cbo_SelectionChangeCommitted);
+			cbo.SelectionChangeCommitted += cbo_SelectionChangeCommitted;
 		}
 
 		/// ------------------------------------------------------------------------------------

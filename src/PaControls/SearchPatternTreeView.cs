@@ -24,15 +24,15 @@ namespace SIL.Pa.Controls
 		private bool m_cutCommand = false;
 		private bool m_pasteCommand = false;
 		private SearchQuery m_patternClipboard;
-		private ImageList m_images;
-		private int m_closedImage = 0;
-		private int m_openImage = 1;
 		private ITMAdapter m_tmAdapter;
-		private Label m_lblNoPatternsMsg;
 		private SlidingPanel m_slidingPanel;
 		private XButton m_btnCopy;
 		private XButton m_btnCut;
 		private XButton m_btnPaste;
+		private readonly ImageList m_images;
+		private readonly int m_closedImage = 0;
+		private readonly int m_openImage = 1;
+		private readonly Label m_lblNoPatternsMsg;
 		//private ToolTip m_tooltip;
 
 		#region Construction and saving query and loading
@@ -41,7 +41,7 @@ namespace SIL.Pa.Controls
 		/// Constructs a search pattern tree resultView.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchPatternTreeView() : base()
+		public SearchPatternTreeView()
 		{
 			BorderStyle = BorderStyle.None;
 			HideSelection = false;
@@ -63,7 +63,7 @@ namespace SIL.Pa.Controls
 			m_lblNoPatternsMsg.Dock = DockStyle.Fill;
 			m_lblNoPatternsMsg.TextAlign = ContentAlignment.MiddleCenter;
 			m_lblNoPatternsMsg.Visible = false;
-			this.Controls.Add(m_lblNoPatternsMsg);
+			Controls.Add(m_lblNoPatternsMsg);
 
 			PaApp.AddMediatorColleague(this);
 
@@ -533,7 +533,7 @@ namespace SIL.Pa.Controls
 			SelectedNode = editedNode;
 
 			// See comments on Idle delegate method below.
-			Application.Idle += new EventHandler(Application_Idle);
+			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -945,7 +945,7 @@ namespace SIL.Pa.Controls
 			{
 				// Pattern exisits so ask user if he wants to overwrite.
 				string msg = Properties.Resources.kstidDuplicateSearchQueryQuestion;
-				msg = string.Format(msg, query.ToString());
+				msg = string.Format(msg, query);
 				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 
@@ -988,7 +988,7 @@ namespace SIL.Pa.Controls
 				string newName = newquery.ToString();
 
 				while (PatternExists(newquery.Category, newName))
-					newName = string.Format("{0} ({1})", newquery.ToString(), ++i);
+					newName = string.Format("{0} ({1})", newquery, ++i);
 
 				if (newquery.ToString() != newName)
 					newquery.Name = newName;

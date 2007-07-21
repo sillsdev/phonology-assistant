@@ -21,9 +21,9 @@ namespace SIL.Pa
 		private WordListCache m_cache;
 		private ITMAdapter m_tmAdapter;
 		private ITMAdapter m_mainMenuAdapter;
-		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private bool m_rawRecViewOn = true;
+		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -44,8 +44,7 @@ namespace SIL.Pa
 				return;
 
 			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
-			m_playbackSpeedAdjuster.lnkPlay.Click +=
-				new EventHandler(HandlePlaybackSpeedAdjusterPlayClick);
+			m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
 
 			PaApp.IncProgressBar();
 			LoadToolbar();
@@ -53,7 +52,7 @@ namespace SIL.Pa
 			LoadWindow();
 			PaApp.UninitializeProgressBar();
 
-			MinimumSize = PaApp.MinimumViewWindowSize;
+			base.MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,9 +68,7 @@ namespace SIL.Pa
 
 			if (m_tmAdapter != null)
 			{
-				m_tmAdapter.LoadControlContainerItem +=
-					new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
-				
+				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "DataCorpusTMDefinition.xml");
 				m_tmAdapter.Initialize(pnlMasterOuter,
@@ -107,7 +104,7 @@ namespace SIL.Pa
 				m_grid.Cache = m_cache;
 			else
 			{
-				m_grid = new PaWordListGrid(cache, this.GetType(), false);
+				m_grid = new PaWordListGrid(cache, GetType(), false);
 				m_grid.TMAdapter = m_tmAdapter;
 
 				// Even thought the grid is docked, setting it's size here prevents the user
@@ -117,7 +114,7 @@ namespace SIL.Pa
 
 				m_grid.Name = Name + "Grid";
 				m_grid.LoadSettings();
-				m_grid.RowEnter += new DataGridViewCellEventHandler(m_grid_RowEnter);
+				m_grid.RowEnter += m_grid_RowEnter;
 				m_grid.Visible = false;
 				splitContainer1.Panel1.Controls.Add(m_grid);
 				m_grid.Visible = true;
@@ -183,9 +180,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			float splitRatio =
-				(float)splitContainer1.SplitterDistance / (float)splitContainer1.Height;
-
+			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
 		}
@@ -205,7 +200,7 @@ namespace SIL.Pa
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
 				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
-				splitContainer1.SplitterDistance = (int)((float)splitContainer1.Height * splitRatio);
+				splitContainer1.SplitterDistance = (int)(splitContainer1.Height * splitRatio);
 			}
 			catch { }
 
@@ -297,11 +292,8 @@ namespace SIL.Pa
 		protected bool OnViewTabChanged(object args)
 		{
 			ViewTabGroup vwTabGrp = args as ViewTabGroup;
-			if (vwTabGrp != null && vwTabGrp != null && vwTabGrp.CurrentTab != null &&
-				vwTabGrp.CurrentTab.View == this)
-			{
+			if (vwTabGrp != null && vwTabGrp.CurrentTab != null && vwTabGrp.CurrentTab.View == this)
 				FindInfo.Grid = m_grid;
-			}
 
 			return false;
 		}
@@ -860,9 +852,7 @@ namespace SIL.Pa
 			m_phoneticSortOptionsDropDown =
 				new SortOptionsDropDown(m_grid.SortOptions, false, m_tmAdapter);
 
-			m_phoneticSortOptionsDropDown.SortOptionsChanged +=
-				new SortOptionsDropDown.SortOptionsChangedHandler(HandlePhoneticSortOptionsChanged);
-
+			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
 			return true;
 		}

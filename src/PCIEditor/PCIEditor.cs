@@ -42,22 +42,20 @@ namespace SIL.Pa
 
 		private const int kDefaultFeatureColWidth = 225;
 
-		private bool m_amTesting = false;
-		private List<string> unknownCharTypes;
-		private List<string> knownCharTypes;
+		private readonly bool m_amTesting = false;
+		private readonly List<string> unknownCharTypes;
+		private readonly List<string> knownCharTypes;
 		private string m_xmlFilePath = string.Empty;
 		internal SilGrid m_grid;
-		private List<int> m_codePoints = new List<int>();
+		private readonly List<int> m_codePoints = new List<int>();
 		private List<IPACharInfo> m_charInventory;
-		private string m_hexIpa = string.Empty;
-		private string m_name = string.Empty;
-		private int invalidCodePoint = 31;
-		private SortedDictionary<int, DataGridViewRow> m_gridDictionary =
+		private readonly int invalidCodePoint = 31;
+		private readonly SortedDictionary<int, DataGridViewRow> m_gridDictionary =
 			new SortedDictionary<int, DataGridViewRow>();
 
 		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
-		private SortedList<float, int> m_MOA = new SortedList<float, int>();
-		private SortedList<float, int> m_POA = new SortedList<float, int>();
+		private readonly SortedList<float, int> m_MOA = new SortedList<float, int>();
+		private readonly SortedList<float, int> m_POA = new SortedList<float, int>();
 
 		private DataGridViewColumn m_lastSortedCol;
 		private ListSortDirection m_lastSortDirection = ListSortDirection.Ascending;
@@ -166,7 +164,7 @@ namespace SIL.Pa
 		{
 			// Build the articulatory features drop-down.
 			m_sddpAFeatures = new SizableDropDownPanel(s_settingsHndlr, Name + "AFeatureDropDown",
-				new Size((int)((double)kDefaultFeatureColWidth * 2.5), 175));
+				new Size((int)(kDefaultFeatureColWidth * 2.5), 175));
 			m_sddpAFeatures.MinimumSize = new Size(200, 100);
 			m_sddpAFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpAFeatures.Padding = new Padding(7, 0, 7, m_sddpAFeatures.Padding.Bottom);
@@ -189,12 +187,11 @@ namespace SIL.Pa
 			m_aFeatureDropdown = new CustomDropDown();
 			m_aFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
-			m_aFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_featureDropdown_Closing);
+			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
 
 			// Build the binary features drop-down.
 			m_sddpBFeatures = new SizableDropDownPanel(s_settingsHndlr, Name + "BFeatureDropDown",
-				new Size((int)((double)kDefaultFeatureColWidth * 2.5), 175));
+				new Size((int)(kDefaultFeatureColWidth * 2.5), 175));
 			m_sddpBFeatures.MinimumSize = new Size(200, 100);
 			m_sddpBFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpBFeatures.Padding = new Padding(7, 0, 7, m_sddpBFeatures.Padding.Bottom);
@@ -217,8 +214,7 @@ namespace SIL.Pa
 			m_bFeatureDropdown = new CustomDropDown();
 			m_bFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
-			m_bFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_featureDropdown_Closing);
+			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 			{
@@ -239,7 +235,7 @@ namespace SIL.Pa
 			if (!Focused)
 				m_grid.Focus();
 
-			FeatureListView lv = null;
+			FeatureListView lv;
 			if (sender == m_aFeatureDropdown)
 				lv = m_lvAFeatures;
 			else if (sender == m_bFeatureDropdown)
@@ -254,7 +250,7 @@ namespace SIL.Pa
 			if (charInfo == null)
 				return;
 
-			bool changed = false;
+			bool changed;
 
 			if (sender == m_bFeatureDropdown)
 			{
@@ -361,25 +357,10 @@ namespace SIL.Pa
 					continue;
 
 				int codePoint = (int)row.Cells[kCodePoint].Value;
-				string ipaChar = row.Cells[kIpaChar].Value as string;
-				string hexIpa = row.Cells[kHexIPAChar].Value as string;
-
-				//// Check for valid hex IPA numbers
-				//if (!validHexNumber(hexIpa.Trim(), row))
-				//    return false;
-
-				//// Check for unique codePoint's / IPAChar's 
-				//if (m_codePoints.Contains(codePoint))
-				//{
-				//    return ShowErrorMessage(string.Format(
-				//        Properties.Resources.kstidDuplicateCharMsg, ipaChar), row);
-				//}
-
 				m_codePoints.Add(codePoint);
 
-				string charTypeVal = ((string)row.Cells[kCharType].Value).ToString();
-				string charSubTypeVal = ((string)row.Cells[kCharSubType].Value).ToString();
-				string errorMsg = string.Empty;
+				string charTypeVal = row.Cells[kCharType].Value.ToString();
+				string charSubTypeVal = row.Cells[kCharSubType].Value.ToString();
 
 				// Don't allow CharType's of 'Unknown'
 				if (row.Visible && row.Cells[kCharType].Value.ToString() == kUnknown)
@@ -415,7 +396,7 @@ namespace SIL.Pa
 		/// Display the warning message.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void warningMessage(string errTitle, string errMsg)
+		private static void warningMessage(string errTitle, string errMsg)
 		{
 			MessageBox.Show(errMsg, errTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
@@ -490,7 +471,8 @@ namespace SIL.Pa
 		/// Load the articulation (moa & poa) values.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadArticulators(float val, int codepoint, SortedList<float, int> articulators)
+		private static void LoadArticulators(float val, int codepoint,
+			SortedList<float, int> articulators)
 		{
 			while (true)
 			{
@@ -713,8 +695,7 @@ namespace SIL.Pa
 			col.HeaderText = Resources.kstidAfeaturesHdg;
 			col.Width = kDefaultFeatureColWidth;
 			((SilButtonColumn)col).UseComboButtonStyle = true;
-			((SilButtonColumn)col).ButtonClicked +=
-				new DataGridViewCellMouseEventHandler(HandleFeatureDropDownClick);
+			((SilButtonColumn)col).ButtonClicked += HandleFeatureDropDownClick;
 			m_grid.Columns.Add(col);
 
 			col = SilGrid.CreateSilButtonColumn(kBFeatures);
@@ -722,8 +703,7 @@ namespace SIL.Pa
 			col.HeaderText = Resources.kstidBFeaturesHdg;
 			col.Width = kDefaultFeatureColWidth;
 			((SilButtonColumn)col).UseComboButtonStyle = true;
-			((SilButtonColumn)col).ButtonClicked +=
-				new DataGridViewCellMouseEventHandler(HandleFeatureDropDownClick);
+			((SilButtonColumn)col).ButtonClicked += HandleFeatureDropDownClick;
 			m_grid.Columns.Add(col);
 		}
 
@@ -742,8 +722,8 @@ namespace SIL.Pa
 				return;
 
 			// Figure out what drop-down and list view to use based on the column index.
-			FeatureListView lv = null;
-			CustomDropDown cdd = null;
+			FeatureListView lv;
+			CustomDropDown cdd;
 			if (m_grid.Columns[e.ColumnIndex].Name == kAFeatures)
 			{
 				cdd = m_aFeatureDropdown;
@@ -955,13 +935,9 @@ namespace SIL.Pa
 			m_grid.ColumnHeadersHeight *= 2; // Make room for 2 line headers
 			m_grid.Columns[kAFeatures].Width = kDefaultFeatureColWidth;
 			m_grid.Columns[kBFeatures].Width = kDefaultFeatureColWidth;
-
-			m_grid.CurrentCellDirtyStateChanged +=
-				new EventHandler(m_grid_CurrentCellDirtyStateChanged);
-
-			m_grid.MouseDoubleClick += new MouseEventHandler(m_grid_MouseDoubleClick);
-			m_grid.ColumnHeaderMouseClick +=
-				new DataGridViewCellMouseEventHandler(m_grid_ColumnHeaderMouseClick);
+			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
+			m_grid.MouseDoubleClick += m_grid_MouseDoubleClick;
+			m_grid.ColumnHeaderMouseClick += m_grid_ColumnHeaderMouseClick;
 
 			m_lastSortedCol = m_grid.Columns[kHexIPAChar];
 			m_lastSortDirection = ListSortDirection.Ascending;

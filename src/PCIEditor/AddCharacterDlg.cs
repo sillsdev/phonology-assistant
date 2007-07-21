@@ -17,7 +17,6 @@ namespace SIL.Pa
 		private const string kCodePoint = "CodePoint";
 		private const string kIpaChar = "IpaChar";
 		private const string kHexIPAChar = "HexIPAChar";
-		private const string kLblHexValue = "Hex Value";
 		private const string kName = "Name";
 		private const string kDescription = "Description";
 		private const string kCharType = "CharType";
@@ -115,36 +114,36 @@ namespace SIL.Pa
 		#endregion
 
 		#region Member variables
-		private int invalidCodePoint = 31;
+		private readonly int invalidCodePoint = 31;
 
 		// MOA & POA
 		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
-		private SortedList<float, string> m_MOA = new SortedList<float, string>();
-		private SortedList<float, string> m_POA = new SortedList<float, string>();
-		private float m_original_moa;
-		private float m_original_poa;
+		private readonly SortedList<float, string> m_MOA = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_POA = new SortedList<float, string>();
+		private readonly float m_original_moa;
+		private readonly float m_original_poa;
 
 		// Chart Columns and Groups
 		// The SortedList Key is the col/grp number and the Value is the col/grp name
-		private string m_origChartGroup = string.Empty;
-		private string m_origChartColumn = string.Empty;
-		private int m_origChartColumnOtherSymbol;
-		private SortedList<float, string> m_ConsChartPulmonicColumns = new SortedList<float, string>();
-		private SortedList<float, string> m_ConsChartPulmonicGroups = new SortedList<float, string>();
-		private SortedList<float, string> m_ConsChartNonPulmonicGroups = new SortedList<float, string>();
-		private SortedList<float, string> m_ConsChartOtherSymbolGroups = new SortedList<float, string>();
-		private SortedList<float, string> m_ConsChartImplosiveColumns = new SortedList<float, string>();
-		private SortedList<float, string> m_ConsChartClickEjectiveColumns = new SortedList<float, string>();
-		private SortedList<float, string> m_VowelChartGroups = new SortedList<float, string>();
-		private SortedList<float, string> m_VowelChartColumns = new SortedList<float, string>();
+		private readonly string m_origChartGroup = string.Empty;
+		private readonly string m_origChartColumn = string.Empty;
+		private readonly int m_origChartColumnOtherSymbol;
+		private readonly SortedList<float, string> m_ConsChartPulmonicColumns = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_ConsChartPulmonicGroups = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_ConsChartNonPulmonicGroups = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_ConsChartOtherSymbolGroups = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_ConsChartImplosiveColumns = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_ConsChartClickEjectiveColumns = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_VowelChartGroups = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_VowelChartColumns = new SortedList<float, string>();
 
-		private bool m_addingChar = true;
+		private readonly bool m_addingChar = true;
+		private readonly List<int> m_codePoints = new List<int>();
+		private readonly PCIEditor m_pciEditor;
+		private readonly string m_saveAFeatureDropDownName;
+		private readonly string m_saveBFeatureDropDownName;
 		private IPACharInfo m_charInfo;
-		private List<int> m_codePoints = new List<int>();
-		private PCIEditor m_pciEditor;
-		private string m_saveAFeatureDropDownName;
-		private string m_saveBFeatureDropDownName;
-		private ulong[] m_masks = new ulong[] {0,0};
+		private ulong[] m_masks = new ulong[] { 0, 0 };
 		private ulong m_binaryMask = 0;
 		#endregion
 
@@ -167,12 +166,8 @@ namespace SIL.Pa
 			m_saveBFeatureDropDownName = m_pciEditor.m_sddpBFeatures.SavedSettingsName;
 			m_pciEditor.m_sddpAFeatures.SavedSettingsName = Name + "AFeatureDropDown";
 			m_pciEditor.m_sddpBFeatures.SavedSettingsName = Name + "BFeatureDropDown";
-
-			m_pciEditor.m_aFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_aFeatureDropdown_Closing);
-
-			m_pciEditor.m_bFeatureDropdown.Closing +=
-				new ToolStripDropDownClosingEventHandler(m_bFeatureDropdown_Closing);
+			m_pciEditor.m_aFeatureDropdown.Closing += m_aFeatureDropdown_Closing;
+			m_pciEditor.m_bFeatureDropdown.Closing += m_bFeatureDropdown_Closing;
 
 			lblChar.Font = FontHelper.PhoneticFont;
 			cboMoa.Font = FontHelper.PhoneticFont;
@@ -198,7 +193,6 @@ namespace SIL.Pa
 			DataGridViewRow row;
 			if (m_addingChar)
 			{
-				row = new DataGridViewRow();
 				lblUnicodeValue.Visible = false;
 				txtHexValue.Text = string.Empty;
 				lblChar.Text = string.Empty;
@@ -395,19 +389,19 @@ namespace SIL.Pa
 		/// --------------------------------------------------------------------------------------------
 		void CreateDirtyStateHandlers()
 		{
-			txtHexValue.TextChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			txtCharName.TextChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			txtCharDesc.TextChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboType.SelectedIndexChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboSubType.SelectedIndexChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboIgnoreType.SelectedIndexChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			chkIsBase.CheckStateChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			chkPreceedBaseChar.CheckStateChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			chkDottedCircle.CheckStateChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboMoa.SelectedValueChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboPoa.SelectedValueChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboChartColumn.SelectedValueChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
-			cboChartGroup.SelectedValueChanged += new EventHandler(ipaCharAdd_DirtyStateChanged);
+			txtHexValue.TextChanged += ipaCharAdd_DirtyStateChanged;
+			txtCharName.TextChanged += ipaCharAdd_DirtyStateChanged;
+			txtCharDesc.TextChanged += ipaCharAdd_DirtyStateChanged;
+			cboType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
+			cboSubType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
+			cboIgnoreType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
+			chkIsBase.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
+			chkPreceedBaseChar.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
+			chkDottedCircle.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
+			cboMoa.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
+			cboPoa.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
+			cboChartColumn.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
+			cboChartGroup.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -474,7 +468,7 @@ namespace SIL.Pa
 		/// Add a space before each capital letter to make the string easier to read.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string SeperateWordsWithSpace(string multiWord)
+		private static string SeperateWordsWithSpace(string multiWord)
 		{
 			string newName = string.Empty;
 			foreach (char letter in multiWord)
@@ -891,12 +885,11 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			if ((int)e.KeyChar >= (int)'a' && (int)e.KeyChar <= (int)'f')
-				e.KeyChar = (char)((int)e.KeyChar & ~0x20);
+			if (e.KeyChar >= 'a' && e.KeyChar <= 'f')
+				e.KeyChar = (char)(e.KeyChar & ~0x20);
 			
-			if (((int)e.KeyChar >= (int)'A' && (int)e.KeyChar <= (int)'F') ||
-				((int)e.KeyChar >= (int)'0' && (int)e.KeyChar <= (int)'9') ||
-				e.KeyChar == '\b')
+			if ((e.KeyChar >= 'A' && e.KeyChar <= 'F') ||
+				(e.KeyChar >= '0' && e.KeyChar <= '9') || e.KeyChar == '\b')
 			{
 				return;
 			}
@@ -915,7 +908,7 @@ namespace SIL.Pa
 			if (txtHexValue.Text.Trim() == string.Empty)
 				return;
 
-			int codePoint = 0;
+			int codePoint;
 			if (int.TryParse(txtHexValue.Text, NumberStyles.HexNumber,
 				NumberFormatInfo.InvariantInfo, out codePoint) && codePoint > 31)
 			{

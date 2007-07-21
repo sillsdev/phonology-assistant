@@ -15,7 +15,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string BuildFileName(string projectFileName)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kExperimentalTransFile;
 			return filename;
 		}
@@ -44,8 +44,7 @@ namespace SIL.Pa.Data
 				}
 			}
 
-			return (experimentalTrans == null ?
-				new ExperimentalTranscriptions() : experimentalTrans);
+			return (experimentalTrans ?? new ExperimentalTranscriptions());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,7 +112,7 @@ namespace SIL.Pa.Data
 				List<ExperimentalTrans> tmpList = new List<ExperimentalTrans>();
 
 				// Copy the ExperimentalTrans references.
-				for (int i = 0; i < this.Count; i++)
+				for (int i = 0; i < Count; i++)
 				{
 					this[i].DisplayIndex = i;
 					tmpList.Add(this[i]);

@@ -22,10 +22,10 @@ namespace SIL.Pa.Dialogs
 
 		private SilGrid m_grid;
 		private string m_filename;
-		private List<string> m_markersInFile = new List<string>();
 		private List<SFMarkerMapping> m_mappings;
-		private PaDataSource m_datasource;
-		private PaFieldInfoList m_fieldInfo;
+		private readonly List<string> m_markersInFile = new List<string>();
+		private readonly PaDataSource m_datasource;
+		private readonly PaFieldInfoList m_fieldInfo;
 
 		#endregion
 
@@ -35,7 +35,7 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SFDataSourcePropertiesDlg(PaFieldInfoList fieldInfo, PaDataSource datasource) : base()
+		public SFDataSourcePropertiesDlg(PaFieldInfoList fieldInfo, PaDataSource datasource)
 		{
 			m_datasource = datasource;
 			m_fieldInfo = fieldInfo;
@@ -213,7 +213,8 @@ namespace SIL.Pa.Dialogs
 
 					// Don't put the record marker field in the list of
 					// possible first interlinear fields.
-					if (clone.FieldName != PaDataSource.kRecordMarker && fieldInfo.CanBeInterlinear)
+					if (clone.FieldName != PaDataSource.kRecordMarker && fieldInfo != null &&
+						fieldInfo.CanBeInterlinear)
 					{
 						cboFirstInterlinear.Items.Add(clone);
 						if (m_datasource.FirstInterlinearField == clone.FieldName)
@@ -325,7 +326,7 @@ namespace SIL.Pa.Dialogs
 				default: rbParseOnlyPhonetic.Checked = true; break;
 			}
 
-			m_grid.CellEnter += new DataGridViewCellEventHandler(m_grid_CellEnter);
+			m_grid.CellEnter += m_grid_CellEnter;
 		}
 
 		#endregion
@@ -345,8 +346,8 @@ namespace SIL.Pa.Dialogs
 			m_grid.AutoGenerateColumns = false;
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			m_grid.CellPainting += new DataGridViewCellPaintingEventHandler(m_grid_CellPainting);
-			m_grid.CellClick += new DataGridViewCellEventHandler(m_grid_CellClick);
+			m_grid.CellPainting += m_grid_CellPainting;
+			m_grid.CellClick += m_grid_CellClick;
 			m_grid.DataSource = m_mappings;
 
 			// Create the marker column and pass it the list of markers found in the files to
@@ -644,7 +645,7 @@ namespace SIL.Pa.Dialogs
 			if (cboFirstInterlinear.SelectedIndex > 0)
 			{
 				SFMarkerMapping mapping = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
-				if (!mapping.IsInterlinear)
+				if (mapping != null && !mapping.IsInterlinear)
 				{
 					mapping.IsInterlinear = true;
 					if (m_grid != null)
@@ -715,7 +716,6 @@ namespace SIL.Pa.Dialogs
 			{
 				reader = new StreamReader(filename);
 
-				string marker;
 				string line;
 				while ((line = reader.ReadLine()) != null)
 				{
@@ -725,8 +725,7 @@ namespace SIL.Pa.Dialogs
 					if (line.StartsWith("\\") && !line.StartsWith(PaDataSource.kShoeboxMarker) &&
 						!line.StartsWith("\\_Date"))
 					{
-						marker = line.Split(' ')[0];
-						
+						string marker = line.Split(' ')[0];
 						if (!markerList.Contains(marker))
 							markerList.Add(marker);
 					}
@@ -819,7 +818,6 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void Init(Mediator mediator, XmlNode configurationParameters)
 		{
-			// TODO:  Add SFDataSourcePropertiesDlg.Init implementation
 		}
 
 		public IxCoreColleague[] GetMessageTargets()

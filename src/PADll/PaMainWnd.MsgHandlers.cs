@@ -248,7 +248,7 @@ namespace SIL.Pa
 			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(PaApp.Project))
 			{
 				dlg.ShowDialog(this);
-				if (((OKCancelDlgBase)dlg).ChangesWereMade)
+				if (dlg.ChangesWereMade)
 					FullProjectReload();
 			}
 

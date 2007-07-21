@@ -19,8 +19,6 @@ namespace SIL.Pa.Controls
 		public event CharPicker.ShouldLoadCharHandler ShouldLoadChar;
 		public event ItemDragEventHandler ItemDrag;
 
-		private const string kWildcardDiacritic = "*";
-
 		private CharPicker m_pickerConsonant;
 		private CharPicker m_pickerNonPulmonics;
 		private CharPicker m_pickerOther;
@@ -29,14 +27,14 @@ namespace SIL.Pa.Controls
 		private CharPicker m_pickerDiacritics;
 		private CharPicker m_pickerTone;
 		private List<IPACharacterTypeInfo> m_typesToShow;
-		private int m_bigFontSize = 19;
+		private readonly int m_bigFontSize = 19;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharacterExplorer() : base()
+		public IPACharacterExplorer()
 		{
 		}
 
@@ -61,9 +59,10 @@ namespace SIL.Pa.Controls
 			{
 				CharPicker picker = item.Control as CharPicker;
 				if (picker != null)
+				{
 					picker.RefreshFont();
-
-				item.SetHostedControlHeight(picker.PreferredHeight + 10);
+					item.SetHostedControlHeight(picker.PreferredHeight + 10);
+				}
 			}
 		}
 
@@ -195,9 +194,9 @@ namespace SIL.Pa.Controls
 		private void LoadConsonants(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerConsonant = new CharPicker();
-			m_pickerConsonant.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerConsonant.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerConsonant.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerConsonant.CharPicked += HandleCharPicked;
+			m_pickerConsonant.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerConsonant.ItemDrag += HandleCharacterItemDrag;
 			m_pickerConsonant.LoadCharacterType(typeInfo);
 			m_pickerConsonant.CheckItemsOnClick = false;
 			m_pickerConsonant.AutoSizeItems = true;
@@ -212,9 +211,9 @@ namespace SIL.Pa.Controls
 		private void LoadNonPulmonics(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerNonPulmonics = new CharPicker();
-			m_pickerNonPulmonics.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerNonPulmonics.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerNonPulmonics.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerNonPulmonics.CharPicked += HandleCharPicked;
+			m_pickerNonPulmonics.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerNonPulmonics.ItemDrag += HandleCharacterItemDrag;
 			m_pickerNonPulmonics.LoadCharacterType(typeInfo);
 			m_pickerNonPulmonics.CheckItemsOnClick = false;
 			m_pickerNonPulmonics.AutoSizeItems = true;
@@ -229,9 +228,9 @@ namespace SIL.Pa.Controls
 		private void LoadOthers(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerOther = new CharPicker();
-			m_pickerOther.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerOther.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerOther.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerOther.CharPicked += HandleCharPicked;
+			m_pickerOther.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerOther.ItemDrag += HandleCharacterItemDrag;
 			m_pickerOther.LoadCharacterType(typeInfo);
 			m_pickerOther.CheckItemsOnClick = false;
 			m_pickerOther.AutoSizeItems = true;
@@ -246,9 +245,9 @@ namespace SIL.Pa.Controls
 		private void LoadVowels(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerVowel = new CharPicker();
-			m_pickerVowel.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerVowel.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerVowel.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerVowel.CharPicked += HandleCharPicked;
+			m_pickerVowel.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerVowel.ItemDrag += HandleCharacterItemDrag;
 			m_pickerVowel.LoadCharacterType(typeInfo);
 			m_pickerVowel.CheckItemsOnClick = false;
 			m_pickerVowel.AutoSizeItems = true;
@@ -263,9 +262,9 @@ namespace SIL.Pa.Controls
 		private void LoadDiacritics(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerDiacritics = new CharPicker();
-			m_pickerDiacritics.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerDiacritics.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerDiacritics.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerDiacritics.CharPicked += HandleCharPicked;
+			m_pickerDiacritics.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerDiacritics.ItemDrag += HandleCharacterItemDrag;
 			m_pickerDiacritics.LoadCharacterType(typeInfo);
 			
 			m_pickerDiacritics.CheckItemsOnClick = false;
@@ -285,9 +284,9 @@ namespace SIL.Pa.Controls
 		private void LoadSSegs(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerSSeg = new CharPicker();
-			m_pickerSSeg.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerSSeg.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerSSeg.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerSSeg.CharPicked += HandleCharPicked;
+			m_pickerSSeg.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerSSeg.ItemDrag += HandleCharacterItemDrag;
 			m_pickerSSeg.LoadCharacterType(typeInfo);
 			
 			m_pickerSSeg.CheckItemsOnClick = false;
@@ -307,9 +306,9 @@ namespace SIL.Pa.Controls
 		private void LoadTone(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerTone = new CharPicker();
-			m_pickerTone.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			m_pickerTone.ShouldLoadChar += new CharPicker.ShouldLoadCharHandler(HandleShouldLoadCharacter);
-			m_pickerTone.ItemDrag += new ItemDragEventHandler(HandleCharacterItemDrag);
+			m_pickerTone.CharPicked += HandleCharPicked;
+			m_pickerTone.ShouldLoadChar += HandleShouldLoadCharacter;
+			m_pickerTone.ItemDrag += HandleCharacterItemDrag;
 			m_pickerTone.LoadCharacterType(typeInfo);
 
 			m_pickerTone.CheckItemsOnClick = false;
@@ -371,7 +370,7 @@ namespace SIL.Pa.Controls
 			foreach (ExplorerBarItem item in Items)
 			{
 				CharPicker picker = item.Control as CharPicker;
-				if (picker == item.Control)
+				if (picker != null && picker == item.Control)
 					item.SetHostedControlHeight(picker.PreferredHeight + 10);
 			}
 

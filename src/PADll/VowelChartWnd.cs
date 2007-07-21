@@ -14,7 +14,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public VowelChartWnd() : base()
+		public VowelChartWnd()
 		{
 			InitializeComponent();
 			Name = "vowelChartWnd";

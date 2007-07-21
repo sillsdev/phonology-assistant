@@ -12,9 +12,9 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLChartWriter : HTMLWriterBase
 	{
-		private bool m_colSubHeadingsVisible = false;
-		private bool m_rowSubHeadingsVisible = false;
-		private CharGrid m_chrGrid;
+		private readonly bool m_colSubHeadingsVisible = false;
+		private readonly bool m_rowSubHeadingsVisible = false;
+		private readonly CharGrid m_chrGrid;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -95,10 +95,10 @@ namespace SIL.Pa.Controls
 				foreach (Label subHdr in hdr.SubHeaders)
 				{
 					AddColumnSubHeading(subCol, subHdr.Text);
-					subCol = (char)((int)subCol + 1);
+					subCol = (char)(subCol + 1);
 				}
 
-				col = (char)((int)col + hdr.OwnedColumns.Count);
+				col = (char)(col + hdr.OwnedColumns.Count);
 			}
 		}
 
@@ -136,7 +136,7 @@ namespace SIL.Pa.Controls
 
 			int numColsSpanned = (m_rowSubHeadingsVisible ? 2 : 1);
 			string numRowsSpanned = (m_colSubHeadingsVisible ? "2" : "1");
-			string cellEnd = numRowsSpanned + "*" + (char)((numColsSpanned - 1) + (int)'A');
+			string cellEnd = numRowsSpanned + "*" + (char)((numColsSpanned - 1) + 'A');
 
 			element.SetAttribute("class", "colhead");
 			element.SetAttribute("cellstart", "1*A");
@@ -164,12 +164,12 @@ namespace SIL.Pa.Controls
 				(m_colSubHeadingsVisible && !columnsSubHeadingsVisible ? "2" : "1");
 
 			string row2 = (m_colSubHeadingsVisible ? "2" : "1");
-			char col2 = (char)((int)col1 + numColsSpanned - 1);
+			char col2 = (char)(col1 + numColsSpanned - 1);
 
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "colhead" + (columnsSubHeadingsVisible ? "p" : "s"));
-			element.SetAttribute("cellstart", "1*" + col1.ToString());
-			element.SetAttribute("cellend", row2 + "*" + col2.ToString());
+			element.SetAttribute("cellstart", "1*" + col1);
+			element.SetAttribute("cellend", row2 + "*" + col2);
 			element.SetAttribute("colspan", numColsSpanned.ToString());
 			element.SetAttribute("rowspan", numRowsSpanned);
 			XmlNode node = m_currNode.AppendChild(element);
@@ -309,12 +309,12 @@ namespace SIL.Pa.Controls
 				(m_rowSubHeadingsVisible && !rowSubHeadingsVisible ? "2" : "1");
 			
 			int row2 = row1 + numRowsSpanned - 1;
-			char col2 = (char)((int)'A' + (m_rowSubHeadingsVisible ? 1 : 0));
+			char col2 = (char)('A' + (m_rowSubHeadingsVisible ? 1 : 0));
 
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "rowhead" + (numRowsSpanned == 1 ? "s" : "p"));
-			element.SetAttribute("cellstart", row1.ToString() + "*A");
-			element.SetAttribute("cellend", row2.ToString() + "*" + col2.ToString());
+			element.SetAttribute("cellstart", row1 + "*A");
+			element.SetAttribute("cellend", row2 + "*" + col2);
 			element.SetAttribute("colspan", numColsSpanned);
 			element.SetAttribute("rowspan", numRowsSpanned.ToString());
 			XmlNode node = m_currNode.AppendChild(element);
@@ -330,7 +330,7 @@ namespace SIL.Pa.Controls
 		{
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", "rowheadc");
-			element.SetAttribute("cellstart", row.ToString() + "*B");
+			element.SetAttribute("cellstart", row + "*B");
 			XmlNode node = m_currNode.AppendChild(element);
 			SetNodesText(node, text);
 		}
@@ -348,13 +348,13 @@ namespace SIL.Pa.Controls
 			{
 				XmlElement element = m_xmlDoc.CreateElement("td");
 				element.SetAttribute("class", "d");
-				element.SetAttribute("cellstart", row.ToString() + "*" + col.ToString());
+				element.SetAttribute("cellstart", row + "*" + col);
 				XmlNode node = m_currNode.AppendChild(element);
 
 				CharGridCell charCell = cell.Value as CharGridCell;
 				string phone = (charCell == null ? null : charCell.Phone);
 				SetNodesText(node, phone);
-				col = (char)((int)col + 1);
+				col = (char)(col + 1);
 			}
 		}
 
@@ -370,7 +370,7 @@ namespace SIL.Pa.Controls
 		{
 			m_currNode = m_xmlDoc.SelectSingleNode("table/t" + (inHeaderNode ? "head" : "body"));
 			XmlElement element = m_xmlDoc.CreateElement("tr");
-			element.SetAttribute("id", "R" + rowNumber.ToString());
+			element.SetAttribute("id", "R" + rowNumber);
 			m_currNode = m_currNode.AppendChild(element);
 		}
 

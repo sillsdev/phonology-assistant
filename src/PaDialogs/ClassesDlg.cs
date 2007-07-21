@@ -142,6 +142,9 @@ namespace SIL.Pa.Dialogs
 
 			ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
 
+			if (item == null)
+				return;
+
 			using (DefineClassDlg dlg = new DefineClassDlg(item, this))
 			{
 				//dlg.TxtClassName.Enabled = false;
@@ -227,9 +230,14 @@ namespace SIL.Pa.Dialogs
 			if (lvClasses.SelectedItems.Count > 0)
 			{
 				ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
-				item = CopyAndInsertItem(item, ResourceHelper.GetString("kstidCopyOfPrefix") + item.Text);
-				lvClasses.LabelEdit = true;
-				item.BeginEdit();
+				if (item != null)
+				{
+					item = CopyAndInsertItem(item,
+						ResourceHelper.GetString("kstidCopyOfPrefix") + item.Text);
+					
+					lvClasses.LabelEdit = true;
+					item.BeginEdit();
+				}
 			}
 		}
 

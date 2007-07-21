@@ -21,42 +21,41 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class XYGrid : SilGrid, IxCoreColleague
 	{
-		private Image m_dirtyIndicator;
-		private Bitmap m_errorInCell;
-		private Point m_prevCurrCellAddress = new Point(-1, -1);
-		private XYChartLayout m_layout;
 		private bool m_paintDropValidEffect = false;
 		private bool m_mouseDownOnCornerCell = false;
 		private bool m_loadedLayout = false;
-		private SearchOptionsDropDown m_searchOptionsDropDown;
-		private XYChartCellInfoPopup m_cellInfoPopup;
+		private string m_preEditCellValue;
+		private int m_defaultRowHeight;
+		private Point m_prevCurrCellAddress = new Point(-1, -1);
+		private Label m_lblName;
 		private Form m_owningForm;
 		private ITMAdapter m_tmAdapter;
-		private Label m_lblName;
-		private string m_preEditCellValue;
-		private ToolTip m_tooltip;
-		private int m_defaultRowHeight;
+		private XYChartLayout m_layout;
+		private readonly ToolTip m_tooltip;
+		private readonly Image m_dirtyIndicator;
+		private readonly Bitmap m_errorInCell;
+		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
+		private readonly XYChartCellInfoPopup m_cellInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYGrid()	: base()
+		public XYGrid()
 		{
 			OnPaFontsChanged(null);
 
 			m_searchOptionsDropDown = new SearchOptionsDropDown();
 			m_searchOptionsDropDown.ShowApplyToAll = true;
-			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click +=
-				new EventHandler(ApplyToAllLinkLabel_Click);
-			m_searchOptionsDropDown.lnkHelp.Click += new EventHandler(SearchDropDownHelpLink_Click);
+			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click += ApplyToAllLinkLabel_Click;
+			m_searchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 
 			m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
 			m_errorInCell = Properties.Resources.kimidErrorInCell;
 			m_errorInCell.MakeTransparent(m_errorInCell.GetPixel(0, 0));
 
-			Font = FontHelper.UIFont;
+			base.Font = FontHelper.UIFont;
 			DefaultCellStyle.Font = FontHelper.UIFont;
 			DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			DefaultCellStyle.ForeColor = SystemColors.ControlText;
@@ -67,7 +66,7 @@ namespace SIL.Pa.Controls
 			SelectionMode = DataGridViewSelectionMode.CellSelect;
 			ColumnHeadersVisible = false;
 			RowHeadersVisible = false;
-			AllowDrop = true;
+			base.AllowDrop = true;
 			ShowCellToolTips = false;
 
 			Reset();
@@ -379,7 +378,7 @@ namespace SIL.Pa.Controls
 
 			query = query.Clone();
 			query.Pattern = this[0, row].Value as string;
-			query.Pattern += "/" + this[col, 0].Value as string;
+			query.Pattern += "/" + this[col, 0].Value;
 			return query;
 		}
 
@@ -569,7 +568,7 @@ namespace SIL.Pa.Controls
 			// Monitor a mouse down and eat any that are on the top, left cell.
 			if (m.HWnd == Handle && m.Msg == 0x201 || m.Msg == 0x204 || m.Msg == 0x207)
 			{
-				int x = (int)(m.LParam.ToInt32() & 0x0000FFFF);
+				int x = (m.LParam.ToInt32() & 0x0000FFFF);
 				int y = (int)(m.LParam.ToInt32() & 0xFFFF0000) / 0x10000;
 
 				m_mouseDownOnCornerCell = false;
@@ -796,7 +795,7 @@ namespace SIL.Pa.Controls
 					// Determine what cell is being dragged over. Only allow
 					// text to be dropped on search item or environment cells.
 					Point pt = PointToClient(new Point(e.X, e.Y));
-					HitTestInfo hinfo = this.HitTest(pt.X, pt.Y);
+					HitTestInfo hinfo = HitTest(pt.X, pt.Y);
 					if ((hinfo.RowIndex == 0 || hinfo.ColumnIndex == 0) &&
 						(hinfo.RowIndex + hinfo.ColumnIndex) > 0)
 					{
@@ -885,7 +884,7 @@ namespace SIL.Pa.Controls
 
 			// Get the cell dropped on.
 			Point pt = PointToClient(new Point(x, y));
-			HitTestInfo hinfo = this.HitTest(pt.X, pt.Y);
+			HitTestInfo hinfo = HitTest(pt.X, pt.Y);
 			DataGridViewCell cell = this[hinfo.ColumnIndex, hinfo.RowIndex];
 
 			// When dropping on the new row or new column, then make sure to add a new,
@@ -1111,7 +1110,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Search()
 		{
-			if (this.IsCurrentCellInEditMode)
+			if (IsCurrentCellInEditMode)
 			{
 				// Force any changes that may be pending.
 				CommitEdit(DataGridViewDataErrorContexts.Commit);
@@ -1291,6 +1290,9 @@ namespace SIL.Pa.Controls
 			// By this time, we know the cell is in the edit mode so get its edit control.
 			DataGridViewTextBoxEditingControl txtBox =
 				EditingControl as DataGridViewTextBoxEditingControl;
+
+			if (txtBox == null)
+				return;
 
 			int selStart = txtBox.SelectionStart;
 			int selLen = txtBox.SelectionLength;
@@ -1723,15 +1725,15 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class XYChartException : Exception
 	{
-		private Exception m_thrownException;
-		private string m_queryErrorMsg;
+		private readonly Exception m_thrownException;
+		private readonly string m_queryErrorMsg;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs an XYChartException object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartException(Exception thrownException, SearchQuery query)	: base()
+		public XYChartException(Exception thrownException, SearchQuery query)
 		{
 			m_thrownException = thrownException;
 

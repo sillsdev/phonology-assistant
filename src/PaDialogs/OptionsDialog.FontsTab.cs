@@ -54,8 +54,7 @@ namespace SIL.Pa.Dialogs
 				m_fontGrid.Columns["field"].Width = 110;
 			}
 
-			m_fontGrid.CurrentCellDirtyStateChanged +=
-				new EventHandler(m_fontGrid_CurrentCellDirtyStateChanged);
+			m_fontGrid.CurrentCellDirtyStateChanged += m_fontGrid_CurrentCellDirtyStateChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,7 +156,10 @@ namespace SIL.Pa.Dialogs
 				// Update the sample cell to use the new font and save the new font.
 				row.Cells["sample"].Style.Font = font;
 				row.Tag = font;
-				prevFont.Dispose();
+				
+				if (prevFont != null)
+					prevFont.Dispose();
+	
 				m_fontChanged = true;
 			}
 			catch (ArgumentException err)
@@ -231,7 +233,8 @@ namespace SIL.Pa.Dialogs
 				foreach (DataGridViewRow row in m_fontGrid.Rows)
 				{
 					PaFieldInfo fieldInfo = row.Cells[0].Value as PaFieldInfo;
-					fieldInfo.Font = (Font)row.Tag;
+					if (fieldInfo != null)
+						fieldInfo.Font = (Font)row.Tag;
 				}
 
 				PaApp.Project.Save();

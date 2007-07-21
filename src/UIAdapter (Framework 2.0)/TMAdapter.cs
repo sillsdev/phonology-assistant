@@ -46,7 +46,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// ----------------------------------------------------------------------------------------
 	public class TMAdapter : ITMAdapter
 	{
-		private const int kDockSiteHeight = 24;
 		private const string kMainMenuName = "~MainMenu~";
 		private const string kToolbarItemSuffix = "~ToolbarItem~";
 		private const string kDateTimeRegEntry = "TMDefinitionFileDateTime";
@@ -71,7 +70,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		// Stores all the commands (and related information). The keys for this collection
 		// are the command id strings from the XML definition file.
-		private Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
+		private readonly Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
 
 		// This is true while we are reading the XML block of context menus.
 		protected bool m_readingContextMenuDef = false;
@@ -146,12 +145,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="parentForm"></param>
+		/// <param name="parentControl"></param>
 		/// <param name="msgMediator"></param>
 		/// <param name="definitions"></param>
 		/// <param name="appsRegKeyPath">Registry key path (under HKCU) where application's
 		/// settings are stored (default is "Software\SIL\FieldWorks").</param>
-		/// <param name="fileSpecForUserSettings"></param>
+		/// <param name="definitions"></param>
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(Control parentControl, Mediator msgMediator,
 			string appsRegKeyPath, string[] definitions)
@@ -164,10 +163,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="parentForm"></param>
+		/// <param name="parentControl"></param>
 		/// <param name="msgMediator"></param>
 		/// <param name="definitions"></param>
-		/// <param name="fileSpecForUserSettings"></param>
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(Control parentControl, Mediator msgMediator, string[] definitions)
 		{
@@ -190,7 +188,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				m_toolbarListItem.OwnerItem is ToolStripMenuItem)
 			{
 				ToolStripMenuItem item = m_toolbarListItem.OwnerItem as ToolStripMenuItem;
-				item.DropDownClosed += new EventHandler(HandleToolBarListMenuClosing);
+				if (item != null)
+					item.DropDownClosed += HandleToolBarListMenuClosing;
 			}
 
 			GetSettingFilesPrefix(definitions);
@@ -205,7 +204,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			m_rmlocalStrings = null;
 
 			m_parentControl.ResumeLayout();
-			Application.Idle += new EventHandler(HandleItemUpdates);
+			Application.Idle += HandleItemUpdates;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,7 +242,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Creates toolstrip panels.
 		/// </summary>
-		/// <param name="parentForm">Form in which panels are added.</param>
 		/// ------------------------------------------------------------------------------------
 		private void SetupToolStripPanels()
 		{
@@ -387,7 +385,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			// Read the saved version of the adapter assembly from the registry.
 			string savedVersion = (string)TMDefinitionDateKey.GetValue(kAdapterVerEntry, "0");
-			string currentVersion = this.GetType().Assembly.GetName().Version.ToString();
+			string currentVersion = GetType().Assembly.GetName().Version.ToString();
 
 			// If the assembly versions do not match then delete the saved files.
 			if (savedVersion != currentVersion)
@@ -521,7 +519,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					Application.Idle -= HandleItemUpdates;
 					
 					if (value)
-						Application.Idle += new EventHandler(HandleItemUpdates);
+						Application.Idle += HandleItemUpdates;
 				}
 			}
 		}
@@ -625,8 +623,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					string fmt = (i > 9 ? string.Empty : "&") + "{0} {1}";
 					string text = string.Format(fmt, i + 1, value[i]);
 					ToolStripMenuItem item = new ToolStripMenuItem(text);
-					item.Name = kRufMenuItemNamePrefix + i.ToString();
-					item.Click += new EventHandler(HandleRecentlyUsedItemClick);
+					item.Name = kRufMenuItemNamePrefix + i;
+					item.Click += HandleRecentlyUsedItemClick;
 					parentItem.DropDownItems.Insert(rufIndex + i + 1, item);
 				}
 			}
@@ -664,7 +662,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			}
 
 			ToolStripMenuItem parentItem = m_rufMarkerItem.OwnerItem as ToolStripMenuItem;
-			rufIndex = parentItem.DropDownItems.IndexOf(m_rufMarkerItem);
+			if (parentItem != null)
+				rufIndex = parentItem.DropDownItems.IndexOf(m_rufMarkerItem);
+			
 			return parentItem;
 		}
 
@@ -755,7 +755,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="field"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		private ImageList GetImageListFromResourceAssembly(string assemblyName,
+		private static ImageList GetImageListFromResourceAssembly(string assemblyName,
 			string className, string field)
 		{
 			Assembly assembly = GetAssembly(assemblyName);
@@ -788,7 +788,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="node"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		protected ResourceManager GetResourceMngr(XmlNode node)
+		protected static ResourceManager GetResourceMngr(XmlNode node)
 		{
 			string assemblyPath = GetAttributeValue(node, "assemblyPath");
 			string className = GetAttributeValue(node, "class");
@@ -806,13 +806,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="assemblyName"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		protected Assembly GetAssembly(string assemblyName)
+		protected static Assembly GetAssembly(string assemblyName)
 		{
 			string baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 			// Note: CodeBase prepends "file:/", which must be removed.
 			string assemblyPath = Path.Combine(baseDir.Substring(6), assemblyName);
 
-			Assembly assembly = null;
+			Assembly assembly;
 			
 			try
 			{
@@ -919,7 +919,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="shortcut"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		private Keys ParseShortcutKeyString(string shortcut)
+		private static Keys ParseShortcutKeyString(string shortcut)
 		{
 			Keys sckeys = Keys.None;
 
@@ -1026,7 +1026,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					cmnu.ShowImageMargin = GetBoolFromAttribute(node, "showimagemargin", true);
 					cmnu.ShowCheckMargin = GetBoolFromAttribute(node, "showcheckmargin", !cmnu.ShowImageMargin);
 					cmnu.ShowItemToolTips = GetBoolFromAttribute(node, "showitemtooltips", false);
-					cmnu.Opened += new EventHandler(HandleContextMenuOpened);
+					cmnu.Opened += HandleContextMenuOpened;
 					
 					ReadMenuItems(node.FirstChild, cmnu, true);
 					
@@ -1163,7 +1163,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// it in the collection to which parentItem belongs.
 		/// </summary>
 		/// <param name="item"></param>
-		/// <param name="parentItem"></param>
+		/// <param name="refItemName"></param>
 		/// <param name="beginGroup">True if item should begin a new group.</param>
 		/// <param name="cancelBeginGroupOnFollowing">True if parentItem should no longer
 		/// begin a group.</param>
@@ -1296,9 +1296,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			while (node != null)
 			{
-				string name = GetAttributeValue(node, "name");
 				bool beginGroup = GetBoolFromAttribute(node, "begingroup");
-
 				ToolStripItem item = ReadSingleItem(node, parentItem, false);
 
 				if (parentItem is ToolStrip)
@@ -1416,7 +1414,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			// Get nasty if the type in the XML definition is bad.
 			if (type < 0 || type > 5)
-				throw new Exception(type.ToString() + " is an invalid toolbar item type.");
+				throw new Exception(type + " is an invalid toolbar item type.");
 
 			switch (type)
 			{
@@ -1465,7 +1463,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (ctrl == null)
 			{
 				ctrl = new Label();
-				((Label)ctrl).Text = "Missing Control: " + name;
+				ctrl.Text = "Missing Control: " + name;
 			}
 			
 			ToolStripControlHost host = new ToolStripControlHost(ctrl);
@@ -1513,7 +1511,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Creates one of three different types of drop-down toolbar items.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private ToolStripItem CreateDropDownToolBarItem(XmlNode node, int type)
+		private static ToolStripItem CreateDropDownToolBarItem(XmlNode node, int type)
 		{
 			ToolStripItem item;
 
@@ -1636,7 +1634,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			item.AutoSize = GetBoolFromAttribute(node, "autosize", item.AutoSize);
 
 			item.Name = name;
-			InitItem(node, item, name, isMenuItem);
+			InitItem(node, item, name);
 
 			if (isMenuItem && item.DisplayStyle != ToolStripItemDisplayStyle.Image)
 				item.ToolTipText = null;
@@ -1651,9 +1649,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="node"></param>
 		/// <param name="item">Item to be initialized.</param>
 		/// <param name="name"></param>
-		/// <param name="isMenuItem"></param>
 		/// ------------------------------------------------------------------------------------
-		private void InitItem(XmlNode node, ToolStripItem item, string name, bool isMenuItem)
+		private void InitItem(XmlNode node, ToolStripItem item, string name)
 		{
 			string commandid = GetAttributeValue(node, "commandid");
 			bool visible = GetBoolFromAttribute(node, "visible", true);
@@ -1695,23 +1692,23 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			}
 			else if (item is ToolStripDropDownButton)
 			{
-				((ToolStripDropDownButton)item).DropDownOpening += new EventHandler(HandleItemsPopup);
-				((ToolStripDropDownButton)item).DropDownClosed += new EventHandler(HandleDropDownClosed);
+				((ToolStripDropDownButton)item).DropDownOpening += HandleItemsPopup;
+				((ToolStripDropDownButton)item).DropDownClosed += HandleDropDownClosed;
 			}
 			else if (item is ToolStripSplitButton)
 			{
-				((ToolStripSplitButton)item).ButtonClick += new EventHandler(HandleItemClicks);
-				((ToolStripSplitButton)item).DropDownOpening += new EventHandler(HandleItemsPopup);
-				((ToolStripSplitButton)item).DropDownClosed += new EventHandler(HandleDropDownClosed);
+				((ToolStripSplitButton)item).ButtonClick += HandleItemClicks;
+				((ToolStripSplitButton)item).DropDownOpening += HandleItemsPopup;
+				((ToolStripSplitButton)item).DropDownClosed += HandleDropDownClosed;
 			}
 			else if (!(item is ToolStripTextBox))
 			{
-				item.Click += new EventHandler(HandleItemClicks);
+				item.Click += HandleItemClicks;
 
 				if (item is ToolStripMenuItem)
 				{
-					((ToolStripMenuItem)item).DropDownOpening += new EventHandler(HandleMenuPopups);
-					((ToolStripMenuItem)item).DropDownClosed += new EventHandler(HandleDropDownClosed);
+					((ToolStripMenuItem)item).DropDownOpening += HandleMenuPopups;
+					((ToolStripMenuItem)item).DropDownClosed += HandleDropDownClosed;
 				}
 			}
 			
@@ -1906,7 +1903,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				//    dropDown.OwnerItem.Owner.Hide();
 				
 				TMItemProperties itemProps = dropDown.Tag as TMItemProperties;
-				m_msgMediator.SendMessage("DropDownClosed" +  itemProps.Message, itemProps);
+				if (itemProps != null)
+					m_msgMediator.SendMessage("DropDownClosed" +  itemProps.Message, itemProps);
 			}
 
 			dropDown.VisibleChanged -= ControlHostOwnerVisibleChanged;
@@ -2020,7 +2018,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			    item.Name = barProps[i].Name + kToolbarItemSuffix;
 			    item.Checked = barProps[i].Visible;
 			    item.Tag = m_toolbarListItem.Tag;
-				item.Click += new EventHandler(HandleItemClicks);
+				item.Click += HandleItemClicks;
 				m_toolbarListItem.DropDownItems.Add(item);
 			}
 		}
@@ -2124,7 +2122,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			itemProps.Tag = m_htItemTags[item];
 			itemProps.Size = item.Size;
 
-			//TODO:						itemProps.BeginGroup = item.BeginGroup;
+			//TODO:	itemProps.BeginGroup = item.BeginGroup;
 
 			CommandInfo cmdInfo = GetCommandInfo(item);
 			if (cmdInfo != null)
@@ -2278,11 +2276,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			// cause unnecessary flicker.
 			if (itemProps.List != null && itemProps.List.Count == item.Items.Count)
 			{
-				bool fAreSame = true;
-				for (int i = 0; i < item.Items.Count || !fAreSame; i++)
-					fAreSame = (item.Items[i] == itemProps.List[i]);
+				bool areSame = true;
+				for (int i = 0; i < item.Items.Count || !areSame; i++)
+					areSame = (item.Items[i] == itemProps.List[i]);
 
-				if (fAreSame)
+				if (areSame)
 					return;
 			}
 			
@@ -2381,9 +2379,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		public void AddMenuItem(TMItemProperties itemProps, string parentItemName, string insertBeforeItem)
 		{
 			ToolStripMenuItem item = new ToolStripMenuItem();
-			item.Click += new EventHandler(HandleItemClicks);
-			item.DropDownOpening += new EventHandler(HandleMenuPopups);
-			item.DropDownClosed += new EventHandler(HandleDropDownClosed);
+			item.Click += HandleItemClicks;
+			item.DropDownOpening += HandleMenuPopups;
+			item.DropDownClosed += HandleDropDownClosed;
 			item.Name = itemProps.Name;
 			item.ShortcutKeys = itemProps.ShortcutKey;
 			itemProps.Update = true;
@@ -2690,7 +2688,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// 
 		/// </summary>
 		/// <param name="node"></param>
-		/// <param name="attrValue"></param>
+		/// <param name="attribute"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		protected static bool GetBoolFromAttribute(XmlNode node, string attribute)
@@ -2703,7 +2701,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// 
 		/// </summary>
 		/// <param name="node"></param>
-		/// <param name="attrValue"></param>
+		/// <param name="attribute"></param>
 		/// <param name="defaultValue"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
@@ -2717,9 +2715,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="attrValue"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		protected static int GetIntFromAttribute(XmlNode node, string attribute, int defaultValue)
 		{

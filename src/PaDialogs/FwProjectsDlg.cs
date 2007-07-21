@@ -13,7 +13,7 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FwProjectsDlg : OKCancelDlgBase
 	{
-		private PaProject m_project;
+		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -29,7 +29,7 @@ namespace SIL.Pa.Dialogs
 			lstFwProjects.Items.AddRange(FwDBUtils.FwDataSourceInfoList);
 			lstFwProjects.SelectedIndex = 0;
 
-			Application.Idle += new EventHandler(Application_Idle);
+			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------

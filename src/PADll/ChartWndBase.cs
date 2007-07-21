@@ -49,7 +49,7 @@ namespace SIL.Pa
 			
 			LoadToolbarAndContextMenus();
 			m_chrGrid.TMAdapter = m_tmAdapter;
-			m_chrGrid.OwningViewType = this.GetType();
+			m_chrGrid.OwningViewType = GetType();
 			PaApp.IncProgressBar();
 		}
 
@@ -63,7 +63,6 @@ namespace SIL.Pa
 			CharGridBuilder bldr = new CharGridBuilder(m_chrGrid, CharacterType);
 			m_phoneList = bldr.Build();
 			m_persistedInfoFilename = bldr.PersistedInfoFilename;
-			bldr = null;
 			PaApp.IncProgressBar();
 
 			// This should only be null when something has gone wrong...
@@ -122,9 +121,7 @@ namespace SIL.Pa
 
 			if (m_tmAdapter != null)
 			{
-				m_tmAdapter.LoadControlContainerItem +=
-					new LoadControlContainerItemHandler(m_tmAdapter_LoadControlContainerItem);
-
+				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "CVChartsTMDefinition.xml");
 				m_tmAdapter.Initialize(DockableContainer,
@@ -155,7 +152,7 @@ namespace SIL.Pa
 		private Control m_tmAdapter_LoadControlContainerItem(string name)
 		{
 			m_chartOptionsDropDown = new ChartOptionsDropDown(m_chrGrid.SupraSegsToIgnore);
-			m_chartOptionsDropDown.lnkRefresh.Click += new EventHandler(HandleRefreshChartClick);
+			m_chartOptionsDropDown.lnkRefresh.Click += HandleRefreshChartClick;
 			return m_chartOptionsDropDown;
 		}
 
@@ -198,9 +195,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			float splitRatio =
-				(float)splitContainer1.SplitterDistance / (float)splitContainer1.Height;
-
+			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
 		}
@@ -220,7 +215,7 @@ namespace SIL.Pa
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
 				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
-				splitContainer1.SplitterDistance = (int)((float)splitContainer1.Height * splitRatio);
+				splitContainer1.SplitterDistance = (int)(splitContainer1.Height * splitRatio);
 			}
 			catch { }
 		
@@ -782,7 +777,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -792,7 +787,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -802,7 +797,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -812,7 +807,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -822,7 +817,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowCIEResults(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -832,7 +827,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -842,7 +837,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -852,7 +847,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -862,7 +857,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, this.GetType());
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		#endregion

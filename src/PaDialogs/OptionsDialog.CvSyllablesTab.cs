@@ -12,9 +12,8 @@ namespace SIL.Pa.Dialogs
 {
 	public partial class OptionsDlg
 	{
-		private const int kTxtCustomHeightDiff = 22;
 		private bool m_handleTextChange = true;
-		private Dictionary<string, IPACharIgnoreTypes> m_allPickerPhones =
+		private readonly Dictionary<string, IPACharIgnoreTypes> m_allPickerPhones =
 			new Dictionary<string, IPACharIgnoreTypes>();
 
 		/// ------------------------------------------------------------------------------------
@@ -64,13 +63,13 @@ namespace SIL.Pa.Dialogs
 			SetDisplayedChars(chkTone, tonePicker);
 
 			// Assign event handlers
-			chkStress.Click += new EventHandler(HandleGroupCheckChanged);
-			chkLength.Click += new EventHandler(HandleGroupCheckChanged);
-			chkTone.Click += new EventHandler(HandleGroupCheckChanged);
+			chkStress.Click += HandleGroupCheckChanged;
+			chkLength.Click += HandleGroupCheckChanged;
+			chkTone.Click += HandleGroupCheckChanged;
 
-			stressPicker.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			lengthPicker.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
-			tonePicker.CharPicked += new CharPicker.CharPickedHandler(HandleCharPicked);
+			stressPicker.CharPicked += HandleCharPicked;
+			lengthPicker.CharPicked += HandleCharPicked;
+			tonePicker.CharPicked += HandleCharPicked;
 		}
 		
 		/// ------------------------------------------------------------------------------------

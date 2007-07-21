@@ -7,8 +7,6 @@ namespace SIL.Pa.Dialogs
 {
 	public partial class OptionsDlg
 	{
-		private const string kEmptyDiamondPattern = "\u25CA/\u25CA_\u25CA";
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

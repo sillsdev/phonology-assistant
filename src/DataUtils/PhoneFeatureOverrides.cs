@@ -20,7 +20,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string BuildFileName(string projectFileName)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kOverrideFile;
 			return filename;
 		}
@@ -77,7 +77,7 @@ namespace SIL.Pa.Data
 			List<PhoneInfo> overrideList = new List<PhoneInfo>();
 
 			// Move the entries into a list because dictionaries are not serializable.
-			foreach (PhoneInfo phoneInfo in this.Values)
+			foreach (PhoneInfo phoneInfo in Values)
 				overrideList.Add(phoneInfo);
 
 			string filename = BuildFileName(projectFileName);
