@@ -200,6 +200,7 @@ namespace SIL.Pa
 			this.lstRecentPatterns.FormattingEnabled = true;
 			this.lstRecentPatterns.Name = "lstRecentPatterns";
 			this.lstRecentPatterns.DoubleClick += new System.EventHandler(this.lstRecentPatterns_DoubleClick);
+			this.lstRecentPatterns.Enter += new System.EventHandler(this.lstRecentPatterns_Enter);
 			this.lstRecentPatterns.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseUp);
 			this.lstRecentPatterns.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseMove);
 			this.lstRecentPatterns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseDown);
@@ -397,14 +398,15 @@ namespace SIL.Pa
 			this.pnlCurrPattern.Controls.Add(this.lblCurrPattern);
 			resources.ApplyResources(this.pnlCurrPattern, "pnlCurrPattern");
 			this.pnlCurrPattern.Name = "pnlCurrPattern";
-			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
 			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
+			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
 			// 
 			// ptrnTextBox
 			// 
 			this.ptrnTextBox.AllowFullSearchPattern = true;
 			resources.ApplyResources(this.ptrnTextBox, "ptrnTextBox");
 			this.ptrnTextBox.BackColor = System.Drawing.Color.Transparent;
+			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.ptrnTextBox.Name = "ptrnTextBox";
 			this.ptrnTextBox.OwningForm = null;
 			this.ptrnTextBox.SearchQueryCategory = null;

@@ -25,7 +25,7 @@ min width
 				td.colhead {font-size: .8em;}
 				td.colhead {font-weight: bold;}
 				td.colhead {text-align: left;}
-				td.colhead {padding: 3px;}
+				td.colhead {padding: 3px 6px 3px 6px;}
 
 				tr {min-height:20px;}
 
@@ -34,7 +34,7 @@ min width
 				td.groupheadtext {background-color: rgb(230, 230, 230);}
 				td.groupheadtext {border-color: rgb(153, 153, 153);}
 				td.groupheadtext {font-weight: bold;}
-				
+
 				/* These two lines will be replaced by the font information for the field */
 				/* on which a word list is grouped. If the word list is showing minimal   */
 				/* pairs, then this will be the phonetic font information. Otherwise it   */
@@ -69,12 +69,13 @@ min width
 				td.d {height:1.5em;}
 				td.d {border-width: 1px;}
 				td.d {border-color: rgb(153, 153, 153);}
+				td.d {padding: 3px 6px 3px 6px;}
 
 				td.phbefore {border-right: none;}
 				td.phbefore {text-align: right;}
 				td.phbefore {border-width: 1px;}
 				td.phbefore {border-color: rgb(153, 153, 153);}
-				
+
 				td.phtarget {text-align: center;}
 				td.phtarget {background-color: rgb(230,230,230);}
 				td.phtarget {border-left: none;}
@@ -82,7 +83,7 @@ min width
 				td.phtarget {border-width: 1px;}
 				td.phtarget {border-color: rgb(153, 153, 153);}
 				td.phtarget {width: 1.0em;}
-				
+
 				td.phafter {border-left: none;}
 				td.phafter {border-width: 1px;}
 				td.phafter {border-color: rgb(153, 153, 153);}

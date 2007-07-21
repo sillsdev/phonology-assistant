@@ -102,6 +102,7 @@ namespace SIL.Pa.Controls
 
 			Width = maxRowWidth;
 			Height = height + 4;
+			MinimumSize = new Size(maxRowWidth, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

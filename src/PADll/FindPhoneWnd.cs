@@ -1135,6 +1135,17 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Make sure an item is selected when the list gets focus.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lstRecentPatterns_Enter(object sender, EventArgs e)
+		{
+			if (lstRecentPatterns.SelectedIndex < 0 && lstRecentPatterns.Items.Count > 0)
+				lstRecentPatterns.SelectedIndex = 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

@@ -315,6 +315,7 @@ namespace SIL.Pa.Controls
 		{
 			string bdrWidth = GetCSSSettingForDefaultCell(xslContent, "border-width");
 			string bdrColor = GetCSSSettingForDefaultCell(xslContent, "border-color");
+			string padding = GetCSSSettingForDefaultCell(xslContent, "padding");
 
 			StringBuilder info = new StringBuilder();
 			string replacementText = "/*Field-Settings-Go-Here*/";
@@ -325,7 +326,7 @@ namespace SIL.Pa.Controls
 				if (fieldInfo.Font != null && fieldInfo.VisibleInGrid)
 				{
 					WriteFieldInfoForSingleColumn(fieldInfo, info, fontSize,
-						bdrWidth, bdrColor);
+						bdrWidth, bdrColor, padding);
 				}
 			}
 
@@ -390,7 +391,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteFieldInfoForSingleColumn(PaFieldInfo fieldInfo, StringBuilder info,
-			float fontSize, string bdrWidth, string bdrColor)
+			float fontSize, string bdrWidth, string bdrColor, string padding)
 		{
 			// If an alternate size was found in the XSL file, then assume it's in 'em'
 			// units. Otherwise, use the PaFieldInfo's font size in points.
@@ -415,6 +416,12 @@ namespace SIL.Pa.Controls
 			{
 				info.Append(className);
 				info.AppendFormat("{{border-color: {0};}}\r\n", bdrColor);
+			}
+
+			if (!string.IsNullOrEmpty(padding))
+			{
+				info.Append(className);
+				info.AppendFormat("{{padding: {0};}}\r\n", padding);
 			}
 
 			if (fieldInfo.Font.Bold)
