@@ -351,4 +351,8 @@
     <value>That sequence already exists as a default sequence.</value>
     <comment>Message shown when editing ambiguous sequences.</comment>
   </data>
+  <data name="kstidRecentlyUsedProjectMissingMsg" xml:space="preserve">
+    <value>The project file '{0}' is missing.</value>
+    <comment>Message displayed when a recently used project file is chosen (i.e. .pap file) and it no longer exists.</comment>
+  </data>
 </root>

@@ -622,9 +622,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (value == null || value.Length == 0)
 					return;
 
-				for (int i = 0; i < 9 && i < value.Length; i++)
+				for (int i = 0; i < value.Length; i++)
 				{
-					string text = string.Format("&{0} {1}", i + 1, value[i]);
+					// Only add the accelerator for files 0 - 9.
+					string fmt = (i > 9 ? string.Empty : "&") + "{0} {1}";
+					string text = string.Format(fmt, i + 1, value[i]);
 					ToolStripMenuItem item = new ToolStripMenuItem(text);
 					item.Name = kRufMenuItemNamePrefix + i.ToString();
 					item.Click += new EventHandler(HandleRecentlyUsedItemClick);

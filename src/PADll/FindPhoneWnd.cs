@@ -1128,9 +1128,13 @@ namespace SIL.Pa
 			// If we've exceeded the number of queries to save in
 			// the list then remove the last one.
 			if (lstRecentPatterns.Items.Count > PaApp.NumberOfRecentlyUsedQueries)
-				lstRecentPatterns.Items.Remove(lstRecentPatterns.Items.Count - 1);
+				lstRecentPatterns.Items.RemoveAt(lstRecentPatterns.Items.Count - 1);
 
 			OnUpdateRemovePattern(null);
+
+			// This should always have at least one item at this point, but just in case...
+			if (lstRecentPatterns.Items.Count > 0)
+				lstRecentPatterns.SelectedIndex = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------

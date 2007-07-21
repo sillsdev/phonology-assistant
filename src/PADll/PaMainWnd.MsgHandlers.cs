@@ -50,8 +50,13 @@ namespace SIL.Pa
 		{
 			string filename = args as string;
 
-			if (!string.IsNullOrEmpty(filename) && System.IO.File.Exists(filename) &&
-				(PaApp.Project == null || PaApp.Project.ProjectFileName != filename))
+			if (!System.IO.File.Exists(filename))
+			{
+				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
+				STUtils.STMsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
+					MessageBoxIcon.Exclamation);
+			}
+			else if (PaApp.Project == null || PaApp.Project.ProjectFileName != filename)
 			{
 				LoadProject(filename);
 				UndefinedPhoneticCharactersDlg.Show(PaApp.Project == null ?

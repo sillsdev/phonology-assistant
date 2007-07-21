@@ -71,7 +71,6 @@ namespace SIL.Pa
 		
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
-		public const string kOptionsSettingsKey = "globaloptions";
 		public const string kSQLServerOptions = "sqlserver";
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
@@ -698,13 +697,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return PaApp.SettingsHandler.GetIntSettingsValue(
-					kOptionsSettingsKey, "numberofrecentlyusedqueries", 20);
+				return PaApp.SettingsHandler.GetIntSettingsValue("recentlyusedqueries",
+					"maxallowed", 20);
 			}
 			set
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(
-					kOptionsSettingsKey, "numberofrecentlyusedqueries", value);
+				PaApp.SettingsHandler.SaveSettingsValue("recentlyusedqueries",
+					"maxallowed", value);
 			}
 		}
 
@@ -914,6 +913,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void AddProjectToRecentlyUsedProjectsList(string filename)
 		{
+			int maxruf = SettingsHandler.GetIntSettingsValue("recentlyusedfiles", "maxallowed", 10);
+
 			List<string> rufList = new List<string>(RecentlyUsedProjectList);
 
 			// First, remove the filename from the list if it's in there.
@@ -922,7 +923,7 @@ namespace SIL.Pa
 
 			rufList.Insert(0, filename);
 
-			for (int i = 1; i < 10 && i <= rufList.Count; i++)
+			for (int i = 1; i < maxruf && i <= rufList.Count; i++)
 			{
 				string entry = string.Format("ruf{0}", i);
 				SettingsHandler.SaveSettingsValue(entry, "file", rufList[i - 1]);
@@ -944,13 +945,14 @@ namespace SIL.Pa
 		{
 			get
 			{
-				List<string> rufList = new List<string>();
+				int maxruf = SettingsHandler.GetIntSettingsValue("recentlyusedfiles", "maxallowed", 10);
+				List<string> rufList = new List<string>(maxruf);
 
-				for (int i = 1; i < 10; i++)
+				for (int i = 1; i < maxruf; i++)
 				{
 					string entry = string.Format("ruf{0}", i);
 					string filename = SettingsHandler.GetStringSettingsValue(entry, "file", null);
-					if (!string.IsNullOrEmpty(filename))
+					if (File.Exists(filename))
 						rufList.Add(filename);
 				}
 

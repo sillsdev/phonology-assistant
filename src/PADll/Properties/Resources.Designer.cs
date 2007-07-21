@@ -439,6 +439,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The project file &apos;{0}&apos; is missing..
+        /// </summary>
+        internal static string kstidRecentlyUsedProjectMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidRecentlyUsedProjectMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is already a saved chart with the name &quot;{0}&quot;..
         /// </summary>
         internal static string kstidSavedChartNameAlreadyExistsMsg {
