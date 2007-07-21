@@ -2321,11 +2321,15 @@ namespace SIL.Pa.Controls
 
 			while (firstDisplayRowIndex > 0)
 			{
-				if (Rows[firstDisplayRowIndex].Visible)
-					backupRowCount--;
+				// firstDisplayRowIndex should never be >= RowCount, but just in case.
+				if (firstDisplayRowIndex < RowCount)
+				{
+					if (Rows[firstDisplayRowIndex].Visible)
+						backupRowCount--;
 
-				if (backupRowCount == 0)
-					break;
+					if (backupRowCount == 0)
+						break;
+				}
 
 				firstDisplayRowIndex--;
 			}
@@ -2832,18 +2836,18 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Display the FindDlg form.
+		/// Handle groups expanding and collapsing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void GroupExpandedChangedHandler(SilHierarchicalGridRow row)
 		{
 			if (!row.Expanded && row.IsRowOwned(FindInfo.FirstMatchedRow))
 			{
-				CurrentCell = this[0, row.Index];
+				CurrentCell = this[0, (row.Index >= 0 ? row.Index : 0)];
 
 				// Move the cell's row to the screen's top if it is not on the screen
 				if (!CurrentCell.Displayed)
-					FirstDisplayedScrollingRowIndex = (row.Index < 1) ? 0 : row.Index;
+					FirstDisplayedScrollingRowIndex = (row.Index < 1 ? 0 : row.Index);
 
 				FindInfo.ResetStartSearchCell(false);
 			}
