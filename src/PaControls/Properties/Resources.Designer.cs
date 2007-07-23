@@ -1078,6 +1078,33 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in\nan invalid location within the search pattern:\n\n{0}\n\nThe one-or-more symbol may only be the\nfirst item in the environment before and/or\nthe last item in the environment after..
+        /// </summary>
+        internal static string kstidSrchPatternOneOrMoreError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternOneOrMoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The space/word boundary symbol (#) may not\nbe the first or last item in the search item portion\n(what precedes the slash) of the search pattern:\n\n{0}.
+        /// </summary>
+        internal static string kstidSrchPatternWordBoundaryError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternWordBoundaryError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The zero-or-more symbol (*) was\nfound in an invalid location within\nthe search pattern:\n\n{0}\n\nThe zero-or-more symbol may only\nbe the first item in the environment\nbefore and/or the last item in the\nenvironment after..
+        /// </summary>
+        internal static string kstidSrchPatternZeroOrMoreError {
+            get {
+                return ResourceManager.GetString("kstidSrchPatternZeroOrMoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap or Flap.
         /// </summary>
         internal static string kstidTapFlapHeading {

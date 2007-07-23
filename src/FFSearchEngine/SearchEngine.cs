@@ -100,7 +100,8 @@ namespace SIL.Pa.FFSearchEngine
 
 			string[] patterns = pattern.Split(new char[] { '/', '_' });
 			
-			if (patterns.Length == 0 || string.IsNullOrEmpty(patterns[0]) ||
+			if (patterns.Length == 0 || patterns.Length > 3 ||
+				string.IsNullOrEmpty(patterns[0]) ||
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
 			{
 				m_errorMessages.Add(string.Format(
@@ -114,7 +115,7 @@ namespace SIL.Pa.FFSearchEngine
 				patterns = new string[] { patterns[0], "*", "*" };
 			else if (patterns.Length < 3)
 				patterns = new string[] { patterns[0], patterns[1], "*" };
-			
+
 			if (string.IsNullOrEmpty(patterns[1]))
 				patterns[1] = "*";
 			

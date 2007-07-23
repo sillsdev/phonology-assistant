@@ -22,6 +22,8 @@ namespace SIL.Pa.Controls
 		private bool m_drawArrow = true;
 		private Timer m_popupTimer;
 		private Point m_popupLocation;
+		private Font m_eticBold;
+		private Font m_eticMsg;
 		private DataGridViewCell m_associatedCell;
 		private readonly DataGridView m_associatedGrid;
 		private readonly Label m_lblMsg;
@@ -56,6 +58,23 @@ namespace SIL.Pa.Controls
 			m_popupTimer.Interval = 700;
 			m_popupTimer.Tick += m_popupTimer_Tick;
 			m_popupTimer.Stop();
+
+			m_eticBold = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_eticMsg = FontHelper.MakeEticRegFontDerivative(10);
+
+			Disposed += XYChartCellInfoPopup_Disposed;
+		}
+
+		///  ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void XYChartCellInfoPopup_Disposed(object sender, EventArgs e)
+		{
+			m_eticBold.Dispose();
+			m_eticMsg.Dispose();
+			Disposed -= XYChartCellInfoPopup_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,11 +135,14 @@ namespace SIL.Pa.Controls
 				InitializeLabels(msgType);
 
 				StringBuilder bldr = new StringBuilder();
-				for (int i = 0; i < invalidItems.Count; i++)
+				if (invalidItems != null)
 				{
-					bldr.Append(invalidItems[i]);
-					if (i < invalidItems.Count - 1)
-						bldr.Append(", ");
+					for (int i = 0; i < invalidItems.Count; i++)
+					{
+						bldr.Append(invalidItems[i]);
+						if (i < invalidItems.Count - 1)
+							bldr.Append(", ");
+					}
 				}
 
 				m_lblInfo.Text = bldr.ToString();
@@ -139,14 +161,14 @@ namespace SIL.Pa.Controls
 		private void InitializeLabels(MsgType msgType)
 		{
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
-			m_lblPattern.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_lblPattern.Font = m_eticBold;
 
 			string msg;
 
 			if (msgType == MsgType.Other)
 			{
 				msg = Properties.Resources.kstidXYChartPopupInfoSyntaxErrorsMsg;
-				m_lblInfo.Font = FontHelper.UIFont;
+				m_lblInfo.Font = m_eticMsg;
 			}
 			else
 			{
@@ -159,9 +181,9 @@ namespace SIL.Pa.Controls
 			}
 
 			m_lblMsg.Text = STUtils.ConvertLiteralNewLines(msg);
-			m_lblMsg.Font = FontHelper.UIFont;
 			m_lblMsg.Location = new Point(Padding.Left, m_lblPattern.Bottom + 10);
 			m_lblMsg.Size = m_lblMsg.PreferredSize;
+			m_lblMsg.Font = FontHelper.UIFont;
 
 			m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
 				(msgType == MsgType.Other ? 13 : 10));

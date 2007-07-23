@@ -1147,7 +1147,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GetResultsForCell(DataGridViewCell cell, string srchItem,
+		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
 			SearchQuery qryEnvironment)
 		{
 			SearchQuery query = null;
@@ -1161,11 +1161,17 @@ namespace SIL.Pa.Controls
 					query = qryEnvironment.Clone();
 					query.Pattern = srchItem + "/" + qryEnvironment.Pattern;
 					PaApp.Search(query, false, true, false, 0, out count);
-					cell.Value = count;
-					VerifyPatternPhonesAreInCache(cell, query);
 
-					if (cell.Tag == null)
-						VerifyCharactersAreInInventory(cell, query);
+					if (count < 0)
+						cell.Value = new XYChartException(query);
+					else
+					{
+						cell.Value = count;
+						VerifyPatternPhonesAreInCache(cell, query);
+
+						if (cell.Tag == null)
+							VerifyCharactersAreInInventory(cell, query);
+					}
 				}
 			}
 			catch (Exception e)
@@ -1181,7 +1187,7 @@ namespace SIL.Pa.Controls
 		/// for a cell popup with that information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void VerifyPatternPhonesAreInCache(DataGridViewCell cell, SearchQuery query)
+		private static void VerifyPatternPhonesAreInCache(DataGridViewCell cell, SearchQuery query)
 		{
 			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, true);
 			if (modifiedQuery == null)
@@ -1210,7 +1216,7 @@ namespace SIL.Pa.Controls
 		/// used for a cell popup with that information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void VerifyCharactersAreInInventory(DataGridViewCell cell, SearchQuery query)
+		private static void VerifyCharactersAreInInventory(DataGridViewCell cell, SearchQuery query)
 		{
 			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, true);
 			if (modifiedQuery != null)
@@ -1662,7 +1668,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void SearchDropDownHelpLink_Click(object sender, EventArgs e)
+		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
 			PaApp.ShowHelpTopic("hidSearchOptionsXYChartsView");
 		}
@@ -1727,6 +1733,48 @@ namespace SIL.Pa.Controls
 	{
 		private readonly Exception m_thrownException;
 		private readonly string m_queryErrorMsg;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Constructs an XYChartException object.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public XYChartException(SearchQuery query)
+		{
+			SearchEngine engine = new SearchEngine(query.Pattern);
+
+			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
+			{
+				m_queryErrorMsg = string.Format(
+					Properties.Resources.kstidSrchPatternWordBoundaryError, query.Pattern);
+			}
+			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
+			{
+				m_queryErrorMsg = string.Format(
+					Properties.Resources.kstidSrchPatternZeroOrMoreError, query.Pattern);
+			}
+			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
+			{
+				m_queryErrorMsg = string.Format(
+					Properties.Resources.kstidSrchPatternOneOrMoreError, query.Pattern);
+			}
+
+			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
+			{
+				StringBuilder errors = new StringBuilder();
+				for (int i = 0; i < engine.ErrorMessages.Length; i++)
+				{
+					errors.Append(engine.ErrorMessages[i]);
+					if (i < engine.ErrorMessages.Length - 1)
+						errors.Append('\n');
+				}
+
+				m_queryErrorMsg = errors.ToString();
+			}
+
+			if (string.IsNullOrEmpty(m_queryErrorMsg))
+				m_queryErrorMsg = "Unkown Error.";
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

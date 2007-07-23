@@ -1361,7 +1361,10 @@ namespace SIL.Pa
 	
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 			if (!VerifyMiscPatternConditions(engine, showErrMsg))
+			{
+				resultCount = -1;
 				return null;
+			}
 
 			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
 
