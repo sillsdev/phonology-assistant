@@ -13,10 +13,10 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public partial class PhoneInfoPopupContent : UserControl
 	{
-		private int m_origWidth1;
-		private int m_origWidth2;
-		private int m_origWidth3;
-		private int m_origLeft;
+		private readonly int m_origWidth1;
+		private readonly int m_origWidth2;
+		private readonly int m_origWidth3;
+		private readonly int m_origLeft;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -26,7 +26,7 @@ namespace SIL.Pa.Controls
 		public PhoneInfoPopupContent()
 		{
 			InitializeComponent();
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 
 			m_origWidth1 = lblPhone.Width;
 			m_origWidth2 = lblBlkWhtBorder.Width;
@@ -100,7 +100,7 @@ namespace SIL.Pa.Controls
 			for (int i = 0; i < siblingUncertainties.Count; i++)
 			{
 				string comma = (i > 0 ? ", " : string.Empty);
-				lblSiblingPhones.Text = bldr.ToString() + comma + siblingUncertainties[i];
+				lblSiblingPhones.Text = bldr + comma + siblingUncertainties[i];
 
 				// Determine whether or not to insert a new line or if there's room to
 				// continue adding phones on the current line.

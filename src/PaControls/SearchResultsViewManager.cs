@@ -1240,7 +1240,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(CurrentViewsGrid.SortOptions, true, m_tmAdapter);
+				new SortOptionsDropDown(CurrentViewsGrid.SortOptions, true);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;

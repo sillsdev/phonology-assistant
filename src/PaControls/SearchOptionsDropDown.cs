@@ -252,7 +252,7 @@ namespace SIL.Pa.Controls
 		/// specified chooser.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetIgnoredChars(CharPicker picker)
+		private static string GetIgnoredChars(CharPicker picker)
 		{
 			StringBuilder ignoreList = new StringBuilder();
 			foreach (ToolStripButton item in picker.Items)
@@ -272,7 +272,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetIgnoredChars(CheckBox chk, CharPicker picker, List<string> ignoreList)
+		private static void SetIgnoredChars(CheckBox chk, CharPicker picker, List<string> ignoreList)
 		{
 			foreach (ToolStripButton item in picker.Items)
 			{

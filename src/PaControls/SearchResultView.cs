@@ -12,8 +12,8 @@ namespace SIL.Pa.Controls
 	{
 		private SearchQuery m_searchQuery;
 		private PaWordListGrid m_grid;
-		private ITMAdapter m_tmAdapter;
-		private Type m_owningViewType;
+		private readonly ITMAdapter m_tmAdapter;
+		private readonly Type m_owningViewType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -23,8 +23,8 @@ namespace SIL.Pa.Controls
 		public SearchResultView(Type owningViewType, ITMAdapter tmAdapter)
 		{
 			InitializeComponent();
-			DoubleBuffered = true;
-			Dock = DockStyle.Fill;
+			base.DoubleBuffered = true;
+			base.Dock = DockStyle.Fill;
 			m_owningViewType = owningViewType;
 			m_tmAdapter = tmAdapter;
 		}
@@ -36,8 +36,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(WordListCache cache)
 		{
-			m_searchQuery = cache.SearchQuery;
-
 			if (cache == null || cache.Count == 0)
 			{
 				if (m_grid != null)
@@ -47,8 +45,11 @@ namespace SIL.Pa.Controls
 					m_grid = null;
 				}
 
+				m_searchQuery = null;
 				return;
 			}
+
+			m_searchQuery = cache.SearchQuery;
 
 			// Save the grid we're replacing.
 			PaWordListGrid tmpgrid = m_grid;
@@ -76,7 +77,7 @@ namespace SIL.Pa.Controls
 				tmpgrid.Dispose();
 			}
 
-			Disposed += new EventHandler(SearchResultView_Disposed);
+			Disposed += SearchResultView_Disposed;
 			m_grid.UseWaitCursor = false;
 			m_grid.Cursor = Cursors.Default;
 		}

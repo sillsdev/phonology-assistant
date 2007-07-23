@@ -29,7 +29,7 @@ namespace SIL.Pa.FFSearchEngine
 		private string m_diacriticPattern = null;
 
 		private StringBuilder m_memberBuilder;
-		private ulong[] m_masks = new ulong[] {0, 0};
+		private readonly ulong[] m_masks = new ulong[] {0, 0};
 
 		// This variable is only set when the member's type is SinglePhone or IPACharacterRun
 		// and is only used to the ToString() method can properly display the member as it
@@ -151,7 +151,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool IsArticulatoryFeature(string feature)
+		private static bool IsArticulatoryFeature(string feature)
 		{
 			foreach (string key in DataUtils.AFeatureCache.Keys)
 			{
@@ -469,7 +469,7 @@ namespace SIL.Pa.FFSearchEngine
 				return CompareResultType.NoMatch;
 
 			bool match = SearchEngine.CompareDiacritics(m_diacriticPattern,
-				phonesDiacritics == null ? null : phonesDiacritics, false);
+				phonesDiacritics ?? null, false);
 
 			return (match ? CompareResultType.Match : CompareResultType.NoMatch);
 		}

@@ -152,7 +152,7 @@ namespace SIL.Pa.Data
 		private AmbiguousSequences m_unsortedAmbiguousSeqList = null;
 		private UndefinedPhoneticCharactersInfoList m_undefinedCharacters;
 
-		private static string s_forcedPhoneDelimiterFmt =
+		private static readonly string s_forcedPhoneDelimiterFmt =
 			kForcedPhoneDelimiterStr + "{0}" + kForcedPhoneDelimiterStr;
 
 		public const string kDefaultIPACharCacheFile = "PhoneticCharacterInventory.xml";
@@ -177,9 +177,9 @@ namespace SIL.Pa.Data
 		/// Builds the name from which to load or save the cache file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string BuildFileName(string projectFileName, bool mustExist)
+		private static string BuildFileName(string projectFileName, bool mustExist)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kIPACharCacheFile;
 
 			// Uncomment if phonetic inventories can exist at the project level.
@@ -292,7 +292,6 @@ namespace SIL.Pa.Data
 
 			cache.LoadFromList(tmpCache);
 			tmpCache.Clear();
-			tmpCache = null;
 
 			// This should never return null.
 			return (cache.Count == 0 ? null : cache);
@@ -319,7 +318,6 @@ namespace SIL.Pa.Data
 			// Copy the items into a temp list because Dictionaries cannot be serialized.
 			List<IPACharInfo> tmpCache = ToList(false);
 			STUtils.SerializeData(m_cacheFileName, tmpCache);
-			tmpCache = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,7 +367,7 @@ namespace SIL.Pa.Data
 			{
 				IPACharInfo charInfo = new IPACharInfo();
 				charInfo.IPAChar = c.ToString();
-				charInfo.Codepoint = (int)c;
+				charInfo.Codepoint = c;
 				charInfo.HexIPAChar = charInfo.Codepoint.ToString("X4");
 				charInfo.CharType = IPACharacterType.Unknown;
 				charInfo.CharSubType = IPACharacterSubType.Unknown;
@@ -841,7 +839,7 @@ namespace SIL.Pa.Data
 				foreach (char c in phone)
 				{
 					// Get the information for the current codepoint.
-					if (!ContainsKey((int)c))
+					if (!ContainsKey(c))
 						m_undefinedCharacters.Add(c, phonetic);
 				}
 			}

@@ -14,25 +14,25 @@ namespace SIL.Pa.Controls
 		private const int kContainerPadding = 5;
 
 		private bool m_slideFromLeft = true;
-		private Label m_lblTab;
-		private Panel m_pnlPlaceholder;
-		private PaPanel m_pnlContainer;
-		private Control m_hostedControl;
-		private Control m_owningContainer;
-		private string m_tabText;
 		private bool m_sliderOpen = false;
-		private Timer m_tmrMouseLocationMonitor;
-		private Timer m_tmrCloser;
-		private Timer m_tmrOpener;
+		private bool m_resizeInProcess = false;
+		private bool m_freeze = false;
 		private int m_leftEdgeWhenClosed;
 		private int m_leftEdgeWhenOpened;
-		private bool m_opening = false;
 		private int m_slidingIncrement;
 		private Rectangle m_sizingRectangle;
 		private SizingLine m_sizingLine;
-		private bool m_resizeInProcess = false;
-		private bool m_freeze = false;
-		private string m_settingName;
+		private Label m_lblTab;
+		private PaPanel m_pnlContainer;
+		private Timer m_tmrMouseLocationMonitor;
+		private Timer m_tmrCloser;
+		private Timer m_tmrOpener;
+		private readonly Panel m_pnlPlaceholder;
+		private readonly Control m_hostedControl;
+		private readonly Control m_owningContainer;
+		private readonly string m_tabText;
+		private readonly bool m_opening = false;
+		private readonly string m_settingName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,9 +43,9 @@ namespace SIL.Pa.Controls
 			Panel pnlPlaceHolder, string settingName)
 		{
 			SuspendLayout();
-			DoubleBuffered = true;
-			Cursor = Cursors.Default;
-			Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+			base.DoubleBuffered = true;
+			base.Cursor = Cursors.Default;
+			base.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
 
 			m_tabText = tabText;
 			m_owningContainer = owningContainer;
@@ -59,10 +59,10 @@ namespace SIL.Pa.Controls
 			SetupPanels();
 			SetupTimers();
 
-			m_pnlPlaceholder.SizeChanged += new EventHandler(m_pnlPlaceholder_SizeChanged);
+			m_pnlPlaceholder.SizeChanged += m_pnlPlaceholder_SizeChanged;
 			m_owningContainer.Controls.Add(m_pnlContainer);
-			m_owningContainer.Resize += new EventHandler(HandleOwningContainerResize);
-			m_owningContainer.ParentChanged += new EventHandler(m_owningContainer_ParentChanged);
+			m_owningContainer.Resize += HandleOwningContainerResize;
+			m_owningContainer.ParentChanged += m_owningContainer_ParentChanged;
 
 			m_hostedControl.ResumeLayout(false);
 			m_owningContainer.ResumeLayout(false);
@@ -78,19 +78,19 @@ namespace SIL.Pa.Controls
 		{
 			m_lblTab = new Label();
 			m_lblTab.BackColor = Color.Transparent;
-			m_lblTab.MouseLeave += new EventHandler(m_lblTab_MouseLeave);
-			m_lblTab.MouseEnter += new EventHandler(m_lblTab_MouseEnter);
-			m_lblTab.Paint += new PaintEventHandler(m_lblTab_Paint);
-			m_lblTab.Click += new EventHandler(m_pnlTab_Click);
+			m_lblTab.MouseLeave += m_lblTab_MouseLeave;
+			m_lblTab.MouseEnter += m_lblTab_MouseEnter;
+			m_lblTab.Paint += m_lblTab_Paint;
+			m_lblTab.Click += m_pnlTab_Click;
 			Controls.Add(m_lblTab);
 
 			m_pnlContainer = new PaPanel();
 			m_pnlContainer.Padding = new Padding(kContainerPadding);
 			m_pnlContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
 			m_pnlContainer.Visible = false;
-			m_pnlContainer.MouseMove += new MouseEventHandler(m_pnlContainer_MouseMove);
-			m_pnlContainer.MouseDown += new MouseEventHandler(m_pnlContainer_MouseDown);
-			m_pnlContainer.MouseUp += new MouseEventHandler(m_pnlContainer_MouseUp);
+			m_pnlContainer.MouseMove += m_pnlContainer_MouseMove;
+			m_pnlContainer.MouseDown += m_pnlContainer_MouseDown;
+			m_pnlContainer.MouseUp += m_pnlContainer_MouseUp;
 
 			LoadSettings();
 			m_pnlPlaceholder_SizeChanged(null, null);
@@ -130,15 +130,15 @@ namespace SIL.Pa.Controls
 		{
 			m_tmrMouseLocationMonitor = new Timer();
 			m_tmrMouseLocationMonitor.Interval = 1;
-			m_tmrMouseLocationMonitor.Tick += new EventHandler(m_tmrMouseLocationMonitor_Tick);
+			m_tmrMouseLocationMonitor.Tick += m_tmrMouseLocationMonitor_Tick;
 
 			m_tmrCloser = new Timer();
 			m_tmrCloser.Interval = 1000;
-			m_tmrCloser.Tick += new EventHandler(m_tmrCloser_Tick);
+			m_tmrCloser.Tick += m_tmrCloser_Tick;
 
 			m_tmrOpener = new Timer();
 			m_tmrOpener.Interval = 400;
-			m_tmrOpener.Tick += new EventHandler(m_tmrOpener_Tick);
+			m_tmrOpener.Tick += m_tmrOpener_Tick;
 		}
 
 		/// ------------------------------------------------------------------------------------

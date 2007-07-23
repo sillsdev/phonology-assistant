@@ -14,8 +14,8 @@ namespace SIL.Pa.Controls
 	{
 		public SizingLine(int width, int height)
 		{
-			DoubleBuffered = true;
-			AutoSize = false;
+			base.DoubleBuffered = true;
+			base.AutoSize = false;
 			Size = new Size(width, height);
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);

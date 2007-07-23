@@ -137,10 +137,9 @@ namespace SIL.Pa.Data
 				if (phone.Length > 1)
 				{
 					StringBuilder stbPattern2 = new StringBuilder();
-					string phoneStr = string.Empty;
 					for (int i = phone.Length - 1; i >= 0; i--)
 					{
-						phoneStr = phone[i].ToString();
+						string phoneStr = phone[i].ToString();
 
 						if (s_cvPatternInfoList != null)
 						{
@@ -168,7 +167,7 @@ namespace SIL.Pa.Data
 				}
 				else
 				{
-					if (!containsModifier && charInfo != null && charInfo.IsBaseChar)
+					if (charInfo != null && charInfo.IsBaseChar)
 						stbPattern.Append(ProcessCVBaseChar(phone));
 				}
 			}

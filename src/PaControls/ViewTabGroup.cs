@@ -20,7 +20,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel, IxCoreColleague
 	{
-		private TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
+		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
 		private bool m_isCurrentTabControl = false;
@@ -33,7 +33,7 @@ namespace SIL.Pa.Controls
 		private Panel m_pnlScroll;
 		private XButton m_btnLeft;
 		private XButton m_btnRight;
-		private ToolTip m_tooltip;
+		private readonly ToolTip m_tooltip;
 		private XButton m_btnHelp;
 
 		internal static Font s_tabFont;
@@ -50,9 +50,9 @@ namespace SIL.Pa.Controls
 		public ViewTabGroup()
 		{
 			Visible = true;
-			DoubleBuffered = true;
-			AllowDrop = true;
-			BackColor = SystemColors.Control;
+			base.DoubleBuffered = true;
+			base.AllowDrop = true;
+			base.BackColor = SystemColors.Control;
 			s_tabFont = FontHelper.MakeFont(SystemInformation.MenuFont, 9);
 			m_tooltip = new ToolTip();
 
@@ -114,8 +114,8 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand = new Panel();
 			m_pnlHdrBand.Dock = DockStyle.Top;
 			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
-			m_pnlHdrBand.Paint += new PaintEventHandler(m_pnlHdrBand_Paint);
-			m_pnlHdrBand.Resize += new EventHandler(m_pnlHdrBand_Resize);
+			m_pnlHdrBand.Paint += m_pnlHdrBand_Paint;
+			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
 			using (Graphics g = CreateGraphics())
 			{
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
@@ -135,7 +135,7 @@ namespace SIL.Pa.Controls
 			// Create the panel that holds all the tabs. 
 			m_pnlTabs = new Panel();
 			m_pnlTabs.Visible = true;
-			m_pnlTabs.Paint += new PaintEventHandler(HandleLinePaint);
+			m_pnlTabs.Paint += HandleLinePaint;
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Padding = new Padding(3, 3, 0, 0);
 			m_pnlTabs.Location = new Point(0, 0);
@@ -155,7 +155,7 @@ namespace SIL.Pa.Controls
 			m_pnlCaption.Height = 28;
 			m_pnlCaption.Dock = DockStyle.Top;
 			m_pnlCaption.MakeDark = true;
-			m_pnlCaption.Paint += new PaintEventHandler(m_pnlCaption_Paint);
+			m_pnlCaption.Paint += m_pnlCaption_Paint;
 			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
 			Controls.Add(m_pnlCaption);
 
@@ -165,7 +165,7 @@ namespace SIL.Pa.Controls
 			m_btnHelp.Image = Properties.Resources.kimidHelp;
 			int gap = (m_pnlCaption.Height - m_btnHelp.Height) / 2;
 			m_btnHelp.Location = new Point(m_pnlCaption.Width - (gap * 2) - m_btnHelp.Width, gap);
-			m_btnHelp.Click += new EventHandler(m_btnHelp_Click);
+			m_btnHelp.Click += m_btnHelp_Click;
 			m_pnlCaption.Controls.Add(m_btnHelp);
 		}
 
@@ -185,7 +185,7 @@ namespace SIL.Pa.Controls
 			//m_pnlUndock.Width = 27;
 			m_pnlUndock.Visible = true;
 			m_pnlUndock.Dock = DockStyle.Right;
-			m_pnlUndock.Paint += new PaintEventHandler(HandleLinePaint);
+			m_pnlUndock.Paint += HandleLinePaint;
 			m_pnlHdrBand.Controls.Add(m_pnlUndock);
 			m_pnlUndock.BringToFront();
 		}
@@ -202,7 +202,7 @@ namespace SIL.Pa.Controls
 			m_pnlScroll.Width = 40;
 			m_pnlScroll.Visible = true;
 			m_pnlScroll.Dock = DockStyle.Right;
-			m_pnlScroll.Paint += new PaintEventHandler(HandleLinePaint);
+			m_pnlScroll.Paint += HandleLinePaint;
 			m_pnlHdrBand.Controls.Add(m_pnlScroll);
 			m_pnlScroll.Visible = false;
 			m_pnlScroll.BringToFront();
@@ -214,7 +214,7 @@ namespace SIL.Pa.Controls
 			m_btnLeft.DrawLeftArrowButton = true;
 			m_btnLeft.Size = new Size(18, 18);
 			m_btnLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			m_btnLeft.Click += new EventHandler(m_btnLeft_Click);
+			m_btnLeft.Click += m_btnLeft_Click;
 			m_btnLeft.Location = new Point(4, top);
 			m_pnlScroll.Controls.Add(m_btnLeft);
 
@@ -223,7 +223,7 @@ namespace SIL.Pa.Controls
 			m_btnRight.DrawRightArrowButton = true;
 			m_btnRight.Size = new Size(18, 18);
 			m_btnRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			m_btnRight.Click += new EventHandler(m_btnRight_Click);
+			m_btnRight.Click += m_btnRight_Click;
 			m_btnRight.Location = new Point(22, top);
 			m_pnlScroll.Controls.Add(m_btnRight);
 
@@ -324,7 +324,7 @@ namespace SIL.Pa.Controls
 			tab.HelpToolTipText = helptootip;
 			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
-			tab.Click += new EventHandler(tab_Click);
+			tab.Click += tab_Click;
 
 			// Get the text's width.
 			using (Graphics g = CreateGraphics())
@@ -781,7 +781,7 @@ namespace SIL.Pa.Controls
 		/// Draw a line that's the continuation of the line drawn underneath all the tabs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleLinePaint(object sender, PaintEventArgs e)
+		static void HandleLinePaint(object sender, PaintEventArgs e)
 		{
 			Panel pnl = sender as Panel;
 
@@ -941,10 +941,10 @@ namespace SIL.Pa.Controls
 		private bool m_mouseOver = false;
 		private bool m_selected = false;
 		private ViewTabGroup m_owningTabGroup;
-		private Image m_image;
+		private readonly Image m_image;
 		private Control m_viewsControl = null;
 		private Form m_viewsForm = null;
-		private Type m_viewType = null;
+		private readonly Type m_viewType = null;
 		private bool m_viewDocked = true;
 		private bool m_ignoreTabSelection = false;
 		private Timer m_tmrFader;
@@ -971,16 +971,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
-			DoubleBuffered = true;
-			AutoSize = false;
-			AllowDrop = true;
-			Font = ViewTabGroup.s_tabFont;
+			base.DoubleBuffered = true;
+			base.AutoSize = false;
+			base.AllowDrop = true;
+			base.Font = ViewTabGroup.s_tabFont;
 			m_owningTabGroup = owningTabControl;
 			m_viewType = viewType;
 			m_image = img;
 
 			if (PaApp.MainForm != null)
-				PaApp.MainForm.Activated += new EventHandler(MainForm_Activated);
+				PaApp.MainForm.Activated += MainForm_Activated;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1033,7 +1033,7 @@ namespace SIL.Pa.Controls
 			if (!(m_viewsForm is ITabView))
 			{
 				STUtils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
-					m_viewType.ToString()), MessageBoxButtons.OK);
+					m_viewType), MessageBoxButtons.OK);
 			}
 
 			if (m_image != null)
@@ -1067,9 +1067,9 @@ namespace SIL.Pa.Controls
 			}
 
 			// Monitor the form's closing and activation events.
-			m_viewsForm.FormClosing += new FormClosingEventHandler(m_viewsForm_FormClosing);
-			m_viewsForm.FormClosed += new FormClosedEventHandler(m_viewsForm_FormClosed);
-			m_viewsForm.Activated += new EventHandler(m_viewsForm_Activated);
+			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
+			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
+			m_viewsForm.Activated += m_viewsForm_Activated;
 
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
 			return m_viewsForm;
@@ -1251,7 +1251,7 @@ namespace SIL.Pa.Controls
 			// Fade-in the undocked form.
 			m_tmrFader = new Timer();
 			m_tmrFader.Interval = 5;
-			m_tmrFader.Tick += new EventHandler(m_tmrFader_Tick);
+			m_tmrFader.Tick += m_tmrFader_Tick;
 			m_tmrFader.Start();
 			while (m_viewsForm.Opacity < 1.0)
 				Application.DoEvents();
@@ -1498,16 +1498,16 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Overridden methods and event handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the current tab is selected when its grid get's focus.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleResultViewEnter(object sender, EventArgs e)
-		{
-			if (!m_selected || !m_owningTabGroup.IsCurrent)
-				m_owningTabGroup.SelectTab(this, true);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Make sure the current tab is selected when its grid get's focus.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandleResultViewEnter(object sender, EventArgs e)
+		//{
+		//    if (!m_selected || !m_owningTabGroup.IsCurrent)
+		//        m_owningTabGroup.SelectTab(this, true);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

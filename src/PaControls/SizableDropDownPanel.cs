@@ -18,7 +18,7 @@ namespace SIL.Pa.Controls
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
 		private bool m_resizeDoEvents = false;
-		private SettingsHandler m_settingsHndlr = null;
+		private readonly SettingsHandler m_settingsHndlr = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -36,13 +36,13 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SizableDropDownPanel(SettingsHandler settingsHndlr, string savedSettingName,
-			Size defaultSize) : base()
+			Size defaultSize)
 		{
 			m_settingsHndlr = settingsHndlr;
 
 			Padding = new Padding(0, 0, 0, kHotDimension);
-			DoubleBuffered = true;
-			BackColor = Color.White;
+			base.DoubleBuffered = true;
+			base.BackColor = Color.White;
 
 			int width = SettingsHandler.GetIntSettingsValue(savedSettingName, "width", defaultSize.Width);
 			int height = SettingsHandler.GetIntSettingsValue(savedSettingName, "height", defaultSize.Height);
@@ -58,7 +58,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private SettingsHandler SettingsHandler
 		{
-			get { return (m_settingsHndlr != null ? m_settingsHndlr : PaApp.SettingsHandler); }
+			get { return (m_settingsHndlr ?? PaApp.SettingsHandler); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -66,7 +66,6 @@ namespace SIL.Pa.Controls
 
 			// Add some vertical padding.
 			int newHeight = (sz.Height + kPopupHeadingVPadding);
-			int heightDifference = newHeight - pnlHeading.Height;
 			pnlHeading.Height = sz.Height + kPopupHeadingVPadding;
 			
 			// Make sure the body and link area are still the same
@@ -362,8 +361,6 @@ namespace SIL.Pa.Controls
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			base.OnPaintBackground(e);
-
-			Rectangle rc = ClientRectangle;
 
 			// Fill-in the entire background.
 			//Color clr1 = Color.FromArgb(110, Color.Wheat);

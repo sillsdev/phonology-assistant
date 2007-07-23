@@ -36,16 +36,15 @@ namespace SIL.Pa.Controls
 		private const int kGapBetweenColumns = 500;
 		private const string khdr = "{\\rtf1\\ansi\\deff0";
 		private const string ktab = "\\tx{0}";
-		private const string ktabs = "\\tx{0}\\tx{1}\\tx{2}";
 		private const string kline = "\\f{0}\\fs{1} {2}";
 		private const string kbold = "\\b ";
 		private const string kitalic = "\\i ";
 
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
-		private Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
-		private Dictionary<string, Font> m_fonts = new Dictionary<string, Font>();
+		private readonly Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
+		private readonly Dictionary<string, Font> m_fonts = new Dictionary<string, Font>();
 		
-		private List<RTFFieldInfo> m_rtfFields = new List<RTFFieldInfo>();
+		private readonly List<RTFFieldInfo> m_rtfFields = new List<RTFFieldInfo>();
 		private List<int> m_firstILLineTabs = null;
 		private List<int> m_subordinateILLineTabs = null;
 		private int m_rowsInCol1;
@@ -55,7 +54,7 @@ namespace SIL.Pa.Controls
 		private int m_uiFontNumber;
 		private float m_pixelsPerInch;
 		private RecordCacheEntry m_recEntry = null;
-		private TextFormatFlags m_txtFmtFlags = TextFormatFlags.NoPadding |
+		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.NoPadding |
 			TextFormatFlags.NoPrefix | TextFormatFlags.SingleLine;
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RawRecordView() : base()
+		public RawRecordView()
 		{
 			ReadOnly = true;
 			TabStop = false;
@@ -191,8 +190,8 @@ namespace SIL.Pa.Controls
 					m_rowsInCol1++;
 			}
 
-			string firstLineTabStopsString = null;
-			string subordinateTabStopsString = null;
+			string firstLineTabStopsString;
+			string subordinateTabStopsString;
 			string tabStopsString = GetTabStops(out firstLineTabStopsString,
 				out subordinateTabStopsString);
 
@@ -203,11 +202,8 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// Apply the bold and/or italic styles if applicable.
 		/// </summary>
-		/// <param name="dataFont">Font</param>
-		/// <param name="lines">StringBuilder</param>
-		/// <param name="beginning">bool</param>
 		/// ------------------------------------------------------------------------------------
-		private string ApplyFontStyle(Font dataFont, bool beginFormatting)
+		private static string ApplyFontStyle(Font dataFont, bool beginFormatting)
 		{
 			string fmt = string.Empty;
 
@@ -532,19 +528,19 @@ namespace SIL.Pa.Controls
 			}
 
 			// Calculate tab stop between 1st column's field label and the field query.
-			float stopLocation = ((float)maxLabelWidthCol1 / m_pixelsPerInch) *
+			float stopLocation = (maxLabelWidthCol1 / m_pixelsPerInch) *
 				1440 + kGapBetweenLabelAndValue;
 			tabStops.Add((int)stopLocation);
 
 			// Calculate tab stop between 1st column's field query and 2nd column's field label.
-			stopLocation += ((float)maxValueWidthCol1 / m_pixelsPerInch) *
+			stopLocation += (maxValueWidthCol1 / m_pixelsPerInch) *
 				1440 + kGapBetweenColumns;
 			tabStops.Add((int)stopLocation);
 
 			if (m_numInterlinearFields == 0)
 			{
 				// Tab between 2nd column's field label and the 2nd column's field query.
-				stopLocation += ((float)maxLabelWidthCol2 / m_pixelsPerInch) *
+				stopLocation += (maxLabelWidthCol2 / m_pixelsPerInch) *
 					1440 + kGapBetweenLabelAndValue;
 				tabStops.Add((int)stopLocation);
 			}
@@ -613,7 +609,7 @@ namespace SIL.Pa.Controls
 				for (int subcol = 0; subcol < subColWidths[col].Count; subcol++)
 				{
 					stopLocation +=
-						((float)subColWidths[col][subcol] / m_pixelsPerInch) * 1440 +
+						(subColWidths[col][subcol] / m_pixelsPerInch) * 1440 +
 						kInterlinearColPadding;
 
 					m_subordinateILLineTabs.Add((int)stopLocation);
@@ -643,7 +639,6 @@ namespace SIL.Pa.Controls
 			GetFirstAndSecondInterlinearFields(out firstField, out secondField);
 
 			Font firstLineFont = PaApp.FieldInfo[firstField.field].Font;
-			int numInterlinearRows = m_recEntry.InterlinearFields.Count;
 			int numInterlinearColumns = firstField.columnValues.Length;
 
 			using (Graphics g = CreateGraphics())
@@ -653,7 +648,7 @@ namespace SIL.Pa.Controls
 				{
 					maxSubColWidths = new List<int>();
 					int totalColWidth = 0;
-					int numSubColumnsInCurrCol = 0;
+					int numSubColumnsInCurrCol;
 					// Test to see if there is only 1 interlinear field
 					if (secondField == null || secondField.parsedColValues == null)
 						numSubColumnsInCurrCol = 0;
@@ -751,25 +746,25 @@ namespace SIL.Pa.Controls
 			return maxSubColWidth;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a single line and column for the RTF.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildColumnLine(int i, ref StringBuilder bldr)
-		{
-			int dataFontNumber = m_fontNumbers[m_rtfFields[i].field];
-			int dataFontSize = m_fontSizes[m_rtfFields[i].field];
-			Font dataFont = m_fonts[m_rtfFields[i].field];
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Builds a single line and column for the RTF.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void BuildColumnLine(int i, ref StringBuilder bldr)
+		//{
+		//    int dataFontNumber = m_fontNumbers[m_rtfFields[i].field];
+		//    int dataFontSize = m_fontSizes[m_rtfFields[i].field];
+		//    Font dataFont = m_fonts[m_rtfFields[i].field];
 
-			bldr.Append("{" + kbold);
-			bldr.AppendFormat(kline, m_uiFontNumber, m_uiFontSize, m_rtfFields[i].label);
-			bldr.Append(":}\\tab");
+		//    bldr.Append("{" + kbold);
+		//    bldr.AppendFormat(kline, m_uiFontNumber, m_uiFontSize, m_rtfFields[i].label);
+		//    bldr.Append(":}\\tab");
 
-			bldr.Append(ApplyFontStyle(dataFont, true));
-			bldr.AppendFormat(kline, dataFontNumber, dataFontSize, m_rtfFields[i].fieldValue);
-			bldr.Append(ApplyFontStyle(dataFont, false));
-		}
+		//    bldr.Append(ApplyFontStyle(dataFont, true));
+		//    bldr.AppendFormat(kline, dataFontNumber, dataFontSize, m_rtfFields[i].fieldValue);
+		//    bldr.Append(ApplyFontStyle(dataFont, false));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -789,7 +784,7 @@ namespace SIL.Pa.Controls
 		/// name and whose values are strings of sub column contents.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		private Dictionary<int, List<string>> GetInterlinearSubColumnContents(
+		private static Dictionary<int, List<string>> GetInterlinearSubColumnContents(
 			List<string> unparsedColValues)
 		{
 			Dictionary<int, List<string>> parsedColContent = new Dictionary<int, List<string>>();
@@ -846,7 +841,7 @@ namespace SIL.Pa.Controls
 		/// <param name="startIndex"></param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		private int FindPotentialSubColEnd(string fieldContent, int startIndex)
+		private static int FindPotentialSubColEnd(string fieldContent, int startIndex)
 		{
 			if (startIndex == fieldContent.Length)
 				return startIndex;
@@ -868,7 +863,7 @@ namespace SIL.Pa.Controls
 		/// Checks if all the indexes are equal.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool SubColumnFound(ref int[] indexes)
+		private static bool SubColumnFound(ref int[] indexes)
 		{
 			if (indexes.Length <= 1)
 				return true;

@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa
+namespace SIL.Pa.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -25,8 +25,8 @@ namespace SIL.Pa
 			if (DesignMode || grid == null || grid.Columns.Count == 0)
 				return;
 
-			AutoScroll = true;
-			BackColor = SystemColors.Menu;
+			base.AutoScroll = true;
+			base.BackColor = SystemColors.Menu;
 			Padding = new Padding(10, 10, 10, 6);
 
 			int height = 0;
@@ -54,7 +54,7 @@ namespace SIL.Pa
 				chkbox.Checked = col.Value.Visible;
 				chkbox.AutoEllipsis = true;
 				chkbox.Tag = col.Value;
-				chkbox.CheckedChanged += new EventHandler(HandleCheckedChanged);
+				chkbox.CheckedChanged += HandleCheckedChanged;
 
 				height += chkbox.Height;
 				if (chkbox.PreferredSize.Width > maxWidth)

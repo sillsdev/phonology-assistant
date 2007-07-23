@@ -36,23 +36,23 @@ namespace SIL.Pa.FFSearchEngine
 		
 		public const string kIgnoredPhone = "\uFFFC";
 		private static SearchQuery s_currQuery = new SearchQuery();
-		private static List<string> s_ignoredPhones = new List<string>();
-		private static List<char> s_ignoredChars = new List<char>();
+		private readonly static List<string> s_ignoredPhones = new List<string>();
+		private readonly static List<char> s_ignoredChars = new List<char>();
 
 		private static bool s_ignoreDiacritics = true;
 		private static Dictionary<string, IPhoneInfo> s_phoneCache;
 		private static bool s_ignoreUndefinedChars = true;
 
-		private PatternGroup m_envBefore;
-		private PatternGroup m_envAfter;
-		private PatternGroup m_srchItem;
-		private string m_envBeforeStr = string.Empty;
-		private string m_envAfterStr = string.Empty;
-		private string m_srchItemStr = string.Empty;
+		private readonly PatternGroup m_envBefore;
+		private readonly PatternGroup m_envAfter;
+		private readonly PatternGroup m_srchItem;
+		private readonly string m_envBeforeStr = string.Empty;
+		private readonly string m_envAfterStr = string.Empty;
+		private readonly string m_srchItemStr = string.Empty;
 		private string[] m_phones = null;
 		int m_matchIndex = 0;
 
-		private List<string> m_errorMessages = new List<string>();
+		private readonly List<string> m_errorMessages = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

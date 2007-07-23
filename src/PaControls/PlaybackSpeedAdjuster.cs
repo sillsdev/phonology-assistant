@@ -7,8 +7,8 @@ namespace SIL.Pa.Controls
 {
 	public partial class PlaybackSpeedAdjuster : UserControl
 	{
-		private string m_valueFmt;
-		private Font m_font;
+		private readonly string m_valueFmt;
+		private readonly Font m_font;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -24,7 +24,7 @@ namespace SIL.Pa.Controls
 			lblValue.Font = FontHelper.UIFont;
 			lnkPlay.Font = FontHelper.UIFont;
 
-			m_font = Font;
+			m_font = base.Font;
 		}
 
 		/// ------------------------------------------------------------------------------------

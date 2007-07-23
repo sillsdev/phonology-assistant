@@ -10,7 +10,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class WordListGroupingBuilder
 	{
-		private PaWordListGrid m_grid;
+		private readonly PaWordListGrid m_grid;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -119,7 +119,6 @@ namespace SIL.Pa.Controls
 			WordListCache cache = m_grid.Cache;
 			Font fnt = FontHelper.MakeFont(fieldInfo.Font, FontStyle.Bold);
 			string prevFldValue = cache[cache.Count - 1][fieldInfo];
-			int childCount = 0;
 			int lastChild = cache.Count - 1;
 
 			for (int i = cache.Count - 1; i >= 0; i--)
@@ -129,21 +128,19 @@ namespace SIL.Pa.Controls
 					m_grid.Rows.Insert(i + 1,
 						new SilHierarchicalGridRow(m_grid, prevFldValue, fnt, i + 1, lastChild));
 					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						new SilHierarchicalGridRow.ExpandedStateChangedHandler(m_grid.GroupExpandedChangedHandler);
+						m_grid.GroupExpandedChangedHandler;
 
 					prevFldValue = cache[i][fieldInfo];
 					lastChild = i;
-					childCount = 0;
 				}
-
-				childCount++;
 			}
 
 			// Insert the first group heading row and insert a hierarchical column for the
 			// + and - glpyhs.
 			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid, prevFldValue, fnt, 0, lastChild));
 			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				new SilHierarchicalGridRow.ExpandedStateChangedHandler(m_grid.GroupExpandedChangedHandler);
+				m_grid.GroupExpandedChangedHandler;
+			
 			m_grid.m_suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
@@ -159,7 +156,6 @@ namespace SIL.Pa.Controls
 			WordListCache cache = m_grid.Cache;
 			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			int prevGroup = cache[cache.Count - 1].CIEGroupId;
-			int childCount = 0;
 			int lastChild = cache.Count - 1;
 
 			for (int i = cache.Count - 1; i >= 0; i--)
@@ -173,21 +169,18 @@ namespace SIL.Pa.Controls
 					m_grid.Rows.Insert(i + 1,
 						new SilHierarchicalGridRow(m_grid, cieGroupText, fnt, i + 1, lastChild));
 					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						new SilHierarchicalGridRow.ExpandedStateChangedHandler(m_grid.GroupExpandedChangedHandler);
+						m_grid.GroupExpandedChangedHandler;
 
 					prevGroup = cache[i].CIEGroupId;
 					lastChild = i;
-					childCount = 0;
 				}
-
-				childCount++;
 			}
 
 			// Insert the first group heading row.
 			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
 				CIEBuilder.GetCIEPattern(cache[0], m_grid.CIEOptions), fnt, 0, lastChild));
 			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				new SilHierarchicalGridRow.ExpandedStateChangedHandler(m_grid.GroupExpandedChangedHandler);
+				m_grid.GroupExpandedChangedHandler;
 			
 			// Insert a hierarchical column for the + and - glpyhs.
 			m_grid.m_suspendSavingColumnChanges = true;

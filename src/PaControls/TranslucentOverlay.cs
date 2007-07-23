@@ -26,8 +26,8 @@ namespace SIL.Pa.Controls
 			ShowInTaskbar = false;
 			StartPosition = FormStartPosition.Manual;
 			FormBorderStyle = FormBorderStyle.None;
-			DoubleBuffered = true;
-			BackColor = Color.Magenta;
+			base.DoubleBuffered = true;
+			base.BackColor = Color.Magenta;
 			TransparencyKey = Color.Magenta;
 			Size = new Size(kDefaultSize, kDefaultSize);
 			Left = 0;

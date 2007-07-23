@@ -15,11 +15,11 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class HTMLGridWriter : HTMLWriterBase
 	{
-		private PaWordListGrid m_grid;
 		private SortedList<int, DataGridViewColumn> m_sortedColList;
-		private bool m_isForSearchResult;
-		private bool m_writeGrpHdgCount = false;
-		private int m_grpHdgRowColSpan = 0;
+		private readonly PaWordListGrid m_grid;
+		private readonly bool m_isForSearchResult;
+		private readonly bool m_writeGrpHdgCount = false;
+		private readonly int m_grpHdgRowColSpan = 0;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

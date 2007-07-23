@@ -21,7 +21,7 @@ namespace SIL.Pa.Controls
 		private bool m_mouseDown = false;
 		private bool m_mouseOver = false;
 		private PaintState m_state = PaintState.Normal;
-		private TextFormatFlags m_txtFmtflags = TextFormatFlags.NoPadding |
+		private readonly TextFormatFlags m_txtFmtflags = TextFormatFlags.NoPadding |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
 
@@ -32,9 +32,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public XButton()
 		{
-			AutoSize = false;
-			BackColor = SystemColors.Control;
-			Font = new Font("Marlett", 9, GraphicsUnit.Point);
+			base.AutoSize = false;
+			base.BackColor = SystemColors.Control;
+			base.Font = new Font("Marlett", 9, GraphicsUnit.Point);
 			Size = new Size(16, 16); 
 		}
 

@@ -40,14 +40,14 @@ namespace SIL.Pa.FFSearchEngine
 		private const int kFirstDiacriticPlaceholderMaker = 1;
 	
 		private static int s_currDiacriticPlaceholderMaker;
-		private static Dictionary<int, string> s_diacriticPlaceholders = new Dictionary<int, string>();
+		private static readonly Dictionary<int, string> s_diacriticPlaceholders = new Dictionary<int, string>();
 
-		private bool m_isRootGroup = false;
+		private readonly bool m_isRootGroup = false;
 		private string m_cachedSearchWord = null;
 		private string[] m_cachedSearchChars = null;
 		private GroupType m_type = GroupType.And;
 		private PatternGroupMember m_currMember;
-		private EnvironmentType m_envType = EnvironmentType.Item;
+		private readonly EnvironmentType m_envType = EnvironmentType.Item;
 		private string m_diacriticPattern = null;
 
 		// m_members can contain both objects of type PatternGroup and PatternGroupMember.
@@ -174,8 +174,8 @@ namespace SIL.Pa.FFSearchEngine
 			char closeBracket = char.MinValue;
 			if (m_type != GroupType.Sequential)
 			{
-				int i = i = pattern.Length - 1;
-				while ((int)pattern[i] < 32)
+				int i = pattern.Length - 1;
+				while (pattern[i] < 32)
 					i--;
 
 				closeBracket = pattern[i];
@@ -191,10 +191,10 @@ namespace SIL.Pa.FFSearchEngine
 				// If we've found our final close bracket, then we're done.
 				if (m_type != GroupType.Sequential && pattern[i] == closeBracket)
 				{
-					if (i + 1 < pattern.Length && (int)pattern[i + 1] < 32)
+					if (i + 1 < pattern.Length && pattern[i + 1] < 32)
 					{
 						CloseCurrentMember();
-						AddDiacriticPatternToCurrentMember((int)pattern[++i]);
+						AddDiacriticPatternToCurrentMember(pattern[++i]);
 					}
 
 					break;
@@ -207,9 +207,9 @@ namespace SIL.Pa.FFSearchEngine
 					continue;
 				}
 
-				if ((int)pattern[i] < 32)
+				if (pattern[i] < 32)
 				{
-					AddDiacriticPatternToCurrentMember((int)pattern[i]);
+					AddDiacriticPatternToCurrentMember(pattern[i]);
 					continue;
 				}
 
@@ -331,7 +331,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// assumed to be an embedded pattern group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string ExtractSubGroup(string pattern, ref int i)
+		private static string ExtractSubGroup(string pattern, ref int i)
 		{
 			int openBracketCount = 0;
 			
@@ -372,20 +372,20 @@ namespace SIL.Pa.FFSearchEngine
 		/// It is assumed it modifies the current member.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		private bool AddDiacriticPatternToCurrentMember(int diacriticClusterKey)
+		private void AddDiacriticPatternToCurrentMember(int diacriticClusterKey)
 		{
 			if (m_members.Count == 0 && m_currMember == null)
 			{
 				// TODO: log meaningful error - diacritic patterns should
 				// never come before any other members nor be by themselves.
-				return false;
+				return;
 			}
 
 			string diacriticPattern;
 			if (!s_diacriticPlaceholders.TryGetValue(diacriticClusterKey, out diacriticPattern))
 			{
 				// TODO: log meaningful error.
-				return false;
+				return;
 			}
 
 			// Modify the current member or group with the diacritic pattern.
@@ -396,8 +396,6 @@ namespace SIL.Pa.FFSearchEngine
 				m_diacriticPattern = diacriticPattern;
 				PropogateGroupDiacriticPatternToMembers(this, diacriticPattern);
 			}
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -437,7 +435,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string MergeDiacriticPatterns(string ptrn1, string ptrn2)
+		private static string MergeDiacriticPatterns(string ptrn1, string ptrn2)
 		{
 			if (string.IsNullOrEmpty(ptrn1))
 				return ptrn2;
@@ -581,7 +579,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// counterparts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool VerifyMatchingBrackets(string pattern, char open, char close)
+		private static bool VerifyMatchingBrackets(string pattern, char open, char close)
 		{
 			int bracketOpenCount = 0;
 			int bracketCloseCount = 0;
@@ -602,7 +600,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// Verifies that open brackets don't have the wrong type of closing brackets.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool VerifyBracketOrdering(string pattern)
+		private static bool VerifyBracketOrdering(string pattern)
 		{
 			Stack<char> bracketStack = new Stack<char>();
 			
@@ -632,7 +630,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// all the diacritic placeholders for the full pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool VerifyDiacriticPlaceholderCluster(ref string pattern)
+		private static bool VerifyDiacriticPlaceholderCluster(ref string pattern)
 		{
 			int i = 0;
 			while ((i = pattern.IndexOf(DataUtils.kDottedCircleC, i)) >= 0)
@@ -679,7 +677,7 @@ namespace SIL.Pa.FFSearchEngine
 				cluster = cluster.Normalize(NormalizationForm.FormD);
 				cluster = cluster.Replace(DataUtils.kDottedCircle, string.Empty);
 
-				if (foundOneOrMoreSymbol && foundOneOrMoreSymbol)
+				if (foundZeroOrMoreSymbol && foundOneOrMoreSymbol)
 				{
 					// TODO: Log meaningful error.
 				}
@@ -695,8 +693,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Replace the diacritic cluster in the pattern with a marker.
-				pattern = pattern.Substring(0, i - 1) + 
-					((char)s_currDiacriticPlaceholderMaker).ToString() +
+				pattern = pattern.Substring(0, i - 1) + ((char)s_currDiacriticPlaceholderMaker) +
 					pattern.Substring(idxCloseBracket + 1);
 
 				i = 0;
@@ -799,7 +796,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// "{[+high,+cons,][+vcd,+cons,]}"
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string DelimitMembers(string pattern)
+		private static string DelimitMembers(string pattern)
 		{
 			// First, merge any diacritic pattern in square brackets
 			// with the preceeding feature (C and V included).
@@ -815,8 +812,6 @@ namespace SIL.Pa.FFSearchEngine
 			DelimitArticulatoryFeatures(tmpPattern, ref modifiedPtrn);
 
 			string finalModified = modifiedPtrn.ToString();
-			
-			finalModified = modifiedPtrn.ToString();
 			finalModified = finalModified.Replace(" ", string.Empty);
 			finalModified = finalModified.Replace("$,|", "$|");
 			finalModified = finalModified.Replace("],[", "][");
@@ -830,7 +825,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// square brackets with commas.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool DelimitArticulatoryFeatures(string pattern, ref StringBuilder modifiedPtrn)
+		private static void DelimitArticulatoryFeatures(string pattern, ref StringBuilder modifiedPtrn)
 		{
 			string tmpPattern = pattern.ToLower();
 
@@ -838,10 +833,8 @@ namespace SIL.Pa.FFSearchEngine
 			{
 				string feature = "[" + info.Value.Name.ToLower();
 				if (!CommaDelimitBracketedMember(feature, tmpPattern, ref modifiedPtrn))
-					return false;
+					return;
 			}
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -852,7 +845,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// bracket is not found, then false is returned. That's an error condition.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CommaDelimitBracketedMember(string lookFor, string pattern,
+		private static bool CommaDelimitBracketedMember(string lookFor, string pattern,
 			ref StringBuilder modifiedPtrn)
 		{
 			int i = 0;
@@ -914,14 +907,14 @@ namespace SIL.Pa.FFSearchEngine
 		/// be AND'd together.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private GroupType GetRootGroupType(string pattern)
+		private static GroupType GetRootGroupType(string pattern)
 		{
 			// Because diacritic placeholder groups don't count as pattern groups,
 			// take them out before trying to determine the root group type.
 			StringBuilder modifiedPattern = new StringBuilder();
 			for (int i = 0; i < pattern.Length; i++)
 			{
-				if ((int)pattern[i] >= 32)
+				if (pattern[i] >= 32)
 					modifiedPattern.Append(pattern[i]);
 			}
 
@@ -1179,7 +1172,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check if the phone is ignored, making sure the current member is not in
 				// the ignored list. If the current member is in the ignored list, then
 				// don't ignore it because it has been explicitly included in the pattern.
-				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) &&
+				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) && member != null &&
 					!SearchEngine.IgnoredPhones.Contains(member.Member))
 				{
 					ip++;
@@ -1276,7 +1269,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check if the phone is ignored, making sure the current member is not in
 				// the ignored list. If the current member is in the ignored list, then
 				// don't ignore it because it has been explicitly included in the pattern.
-				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) &&
+				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) && member != null &&
 					!SearchEngine.IgnoredPhones.Contains(member.Member))
 				{
 					ip--;
@@ -1356,7 +1349,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check if the phone is ignored, making sure the current member is not in
 				// the ignored list. If the current member is in the ignored list, then
 				// don't ignore it because it has been explicitly included in the pattern.
-				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) &&
+				if (SearchEngine.IgnoredPhones.Contains(phones[ip]) && member != null &&
 					!SearchEngine.IgnoredPhones.Contains(member.Member))
 				{
 					ip++;
@@ -1406,7 +1399,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CheckForOneOrMorePhonesBefore(int ip, string[] phones)
+		private static bool CheckForOneOrMorePhonesBefore(int ip, string[] phones)
 		{
 			int count = 0;
 
@@ -1424,7 +1417,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CheckForOneOrMorePhonesAfter(int ip, string[] phones)
+		private static bool CheckForOneOrMorePhonesAfter(int ip, string[] phones)
 		{
 			int count = 0;
 
@@ -1437,52 +1430,52 @@ namespace SIL.Pa.FFSearchEngine
 			return (count > 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines if the specified group member is a zero or more or one or more member
-		/// and determines whether or not a match has been found.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ZeroOneOrMoreProcessed(int phoneCount, PatternGroupMember member,
-			ref CompareResultType compareResult, int currPhoneIndex, int srchStartIndex,
-			int ignoredPhoneCount)
-		{
-			if (member.MemberType == MemberType.ZeroOrMore)
-			{
-				compareResult = CompareResultType.Match;
-				return true;
-			}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Determines if the specified group member is a zero or more or one or more member
+		///// and determines whether or not a match has been found.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private bool ZeroOneOrMoreProcessed(int phoneCount, PatternGroupMember member,
+		//    ref CompareResultType compareResult, int currPhoneIndex, int srchStartIndex,
+		//    int ignoredPhoneCount)
+		//{
+		//    if (member.MemberType == MemberType.ZeroOrMore)
+		//    {
+		//        compareResult = CompareResultType.Match;
+		//        return true;
+		//    }
 
-			if (member.MemberType == MemberType.OneOrMore)
-			{
-				if (m_envType == EnvironmentType.Before)
-				{
-					if (currPhoneIndex < 0)
-						compareResult = CompareResultType.NoMatch;
-					else
-					{
-						compareResult = (srchStartIndex >= 0 &&	srchStartIndex >= ignoredPhoneCount ?
-							CompareResultType.Match : CompareResultType.NoMatch);
-					}
-				}
-				else if (m_envType == EnvironmentType.After)
-				{
-					if (currPhoneIndex == phoneCount)
-						compareResult = CompareResultType.NoMatch;
-					else
-					{
-						int startDelta = phoneCount - srchStartIndex;
-						int countDelta = phoneCount - ignoredPhoneCount;
-						compareResult = (srchStartIndex <= phoneCount - 1 && startDelta < countDelta ?
-							CompareResultType.Match : CompareResultType.NoMatch);
-					}
-				}
+		//    if (member.MemberType == MemberType.OneOrMore)
+		//    {
+		//        if (m_envType == EnvironmentType.Before)
+		//        {
+		//            if (currPhoneIndex < 0)
+		//                compareResult = CompareResultType.NoMatch;
+		//            else
+		//            {
+		//                compareResult = (srchStartIndex >= 0 &&	srchStartIndex >= ignoredPhoneCount ?
+		//                    CompareResultType.Match : CompareResultType.NoMatch);
+		//            }
+		//        }
+		//        else if (m_envType == EnvironmentType.After)
+		//        {
+		//            if (currPhoneIndex == phoneCount)
+		//                compareResult = CompareResultType.NoMatch;
+		//            else
+		//            {
+		//                int startDelta = phoneCount - srchStartIndex;
+		//                int countDelta = phoneCount - ignoredPhoneCount;
+		//                compareResult = (srchStartIndex <= phoneCount - 1 && startDelta < countDelta ?
+		//                    CompareResultType.Match : CompareResultType.NoMatch);
+		//            }
+		//        }
 
-				return true;
-			}
+		//        return true;
+		//    }
 
-			return false;
-		}
+		//    return false;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

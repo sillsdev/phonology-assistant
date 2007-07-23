@@ -25,15 +25,15 @@ namespace SIL.Pa.Controls
 		private const char kEmptyPatternChar = '\u25CA';
 		private bool m_allowFullSearchPattern = false;
 		private bool m_ignoreTextChange = false;
-		private SearchQuery m_searchQuery;
-		private SearchOptionsDropDown m_searchOptionsDropDown;
-		private string m_srchQryCategory;
-		private Form m_owningForm;
 		private bool m_classDisplayBehaviorChanged = false;
-		private Image m_downArrow;
-		private Image m_upArrow;
 		private bool m_ignoreResize = false;
 		private bool m_showArrows = true;
+		private string m_srchQryCategory;
+		private SearchQuery m_searchQuery;
+		private Form m_owningForm;
+		private readonly Image m_downArrow;
+		private readonly Image m_upArrow;
+		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,7 +53,7 @@ namespace SIL.Pa.Controls
 
 			txtPattern.OwningPatternTextBoxControl = this;
 			m_searchOptionsDropDown = new SearchOptionsDropDown();
-			BackColor = Color.Transparent;
+			base.BackColor = Color.Transparent;
 			txtPattern.Font = FontHelper.PhoneticFont;
 			m_searchQuery = new SearchQuery();
 			PaApp.AddMediatorColleague(this);
@@ -506,7 +506,7 @@ namespace SIL.Pa.Controls
 			// But only when the previous character is not '['.
 			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
 			{
-				txtPattern.Text = txtPattern.Text.Insert(selStart, ("[" + e.KeyChar.ToString() + "]"));
+				txtPattern.Text = txtPattern.Text.Insert(selStart, ("[" + e.KeyChar + "]"));
 				e.KeyChar = (char)0;
 				e.Handled = true;
 				txtPattern.SelectionStart = selStart + 3;
@@ -1039,11 +1039,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateVerifyPattern(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
-				return false;
-
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps != null)
+			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
 				return false;
 
 			itemProps.Visible = true;

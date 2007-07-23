@@ -850,7 +850,7 @@ namespace SIL.Pa
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(m_grid.SortOptions, false, m_tmAdapter);
+				new SortOptionsDropDown(m_grid.SortOptions, false);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;

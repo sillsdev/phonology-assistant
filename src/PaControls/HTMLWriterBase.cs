@@ -22,11 +22,11 @@ namespace SIL.Pa.Controls
 
 		protected XmlDocument m_xmlDoc;
 		protected XmlNode m_currNode;
-		private string m_htmlOutputFile;
 		protected Font m_groupHeadingFont = null;
 		protected string m_tmpXMLFile;
 		protected string m_xslFileBase;
 		protected bool m_error = false;
+		private readonly string m_htmlOutputFile;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

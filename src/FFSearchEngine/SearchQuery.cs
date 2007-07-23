@@ -476,7 +476,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// strings coming before shorter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ParseIgnoredChars(string ignoredChars, out List<string> ignoredList)
+		private static void ParseIgnoredChars(string ignoredChars, out List<string> ignoredList)
 		{
 			ignoredList = new List<string>();
 			if (string.IsNullOrEmpty(ignoredChars))

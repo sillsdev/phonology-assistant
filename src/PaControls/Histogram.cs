@@ -13,15 +13,14 @@ namespace SIL.Pa.Controls
 	public partial class Histogram : UserControl, IxCoreColleague
 	{
 		private const int kMagnifiedCharSize = 22;
-		private const string kPhoneLabelMarker = "IPA";
 		private const int kPhoneLabelWidth = 40;
 		private const int kLineGapSize = 25;
 		private const int kPixelsFromTop = 10;
 
 		private int m_maxTotalCount = 0;
 		private decimal m_barHeightFactor = 0;
-		private ToolTip m_phoneToolTip;
-		private PhoneInfoPopup m_phoneInfoPopup;
+		private readonly ToolTip m_phoneToolTip;
+		private readonly PhoneInfoPopup m_phoneInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -34,10 +33,10 @@ namespace SIL.Pa.Controls
 
 			m_phoneToolTip = new ToolTip();
 			m_phoneToolTip.OwnerDraw = true;
-			m_phoneToolTip.Draw += new DrawToolTipEventHandler(HandlePhoneToolTipDraw);
-			m_phoneToolTip.Popup += new PopupEventHandler(HandlePhoneToolTipPopup);
+			m_phoneToolTip.Draw += HandlePhoneToolTipDraw;
+			m_phoneToolTip.Popup += HandlePhoneToolTipPopup;
 			
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			
 			pnlFixedBorder.Dock = DockStyle.Fill;
 			pnlFixedBorder.BringToFront();
@@ -82,9 +81,9 @@ namespace SIL.Pa.Controls
 				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(16);
 				lblPhone.Size = new Size(40, 25);
 				lblPhone.Text = cgc.Phone;
-				lblPhone.Paint += new PaintEventHandler(lbl_Paint);
-				lblPhone.MouseEnter += new EventHandler(HandleMouseEnter);
-				lblPhone.MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+				lblPhone.Paint += lbl_Paint;
+				lblPhone.MouseEnter += HandleMouseEnter;
+				lblPhone.MouseDoubleClick += HandleMouseDoubleClick;
 				lblPhone.Location = new Point(xLocationOffset, 2);
 				pnlPhones.Controls.Add(lblPhone);
 				lblPhone.BringToFront();
@@ -95,8 +94,8 @@ namespace SIL.Pa.Controls
 				// Create the bars.
 				HistogramBar histBar = new HistogramBar();
 				histBar.InitializeBar(cgc);
-				histBar.MouseEnter += new EventHandler(HandleMouseEnter);
-				histBar.MouseDoubleClick += new MouseEventHandler(HandleMouseDoubleClick);
+				histBar.MouseEnter += HandleMouseEnter;
+				histBar.MouseDoubleClick += HandleMouseDoubleClick;
 				pnlBars.Controls.Add(histBar);
 
 				// Link the phone's label with its bar and vice versa.
@@ -237,13 +236,11 @@ namespace SIL.Pa.Controls
 				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, m_maxTotalCount);
 
 			int xLocationOffset = 0;
-			int maxBarHeight = 0;
 
 			// Reposition and resize bars
 			foreach (HistogramBar bar in pnlBars.Controls)
 			{
-				maxBarHeight =
-					(int)((decimal)(m_maxTotalCount - bar.BarValue) * m_barHeightFactor);
+				int maxBarHeight = (int)((m_maxTotalCount - bar.BarValue) * m_barHeightFactor);
 
 				// "5" is the column spacing on either side of a bar
 				Point newLoc = new Point((xLocationOffset + 5), (maxBarHeight + kPixelsFromTop + 1));
@@ -367,7 +364,7 @@ namespace SIL.Pa.Controls
 			// Calculate (relative to pnlYaxis) where the bottom of the bar's panel is.
 			Point pt = pnlBars.PointToScreen(new Point(0, pnlBars.ClientSize.Height));
 			pt = pnlYaxis.PointToClient(pt);
-			int yLocationOffset = pt.Y - (int)((double)kLineGapSize * 1.5);
+			int yLocationOffset = pt.Y - (int)(kLineGapSize * 1.5);
 
 			// Calculate (relative to pnlYaxis) where we should stop drawing numbers.
 			pt = pnlBars.PointToScreen(new Point(0, 0));
@@ -386,7 +383,7 @@ namespace SIL.Pa.Controls
 					// Must round to 2 decimal places to update the line values more frequently.
 					if (m_barHeightFactor != 0)
 					{
-						horzLineValue += Math.Round(((decimal)kLineGapSize / m_barHeightFactor), 2);
+						horzLineValue += Math.Round((kLineGapSize / m_barHeightFactor), 2);
 						// Show 2 decimal places on the horz line value numbers if the tallest
 						// bar is less than the number of horz lines
 						if (m_maxTotalCount < pnlBars.ClientSize.Height / kLineGapSize)
@@ -438,10 +435,10 @@ namespace SIL.Pa.Controls
 	{
 		private CharGridCell m_cgcPhoneInfo;
 
-		private Color m_clrRight = ColorHelper.CalculateColor(Color.White,
+		private readonly Color m_clrRight = ColorHelper.CalculateColor(Color.White,
 			SystemColors.GradientActiveCaption, 110);
 
-		private Color m_clrLeft = ColorHelper.CalculateColor(Color.White,
+		private readonly Color m_clrLeft = ColorHelper.CalculateColor(Color.White,
 			SystemColors.ActiveCaption, 70);
 
 		/// ------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ namespace SIL.Pa.Data
 		/// Builds the name from which to load or save the cache file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string BuildFileName(string projectFileName, bool mustExist)
+		private static string BuildFileName(string projectFileName, bool mustExist)
 		{
 			string filename = (projectFileName == null ? string.Empty : projectFileName);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kBFeatureCacheFile;
@@ -77,6 +77,9 @@ namespace SIL.Pa.Data
 			List<BFeature> tmpList = STUtils.DeserializeData(cache.CacheFileName,
 				typeof(List<BFeature>)) as List<BFeature>;
 
+			if (tmpList == null)
+				return null;
+
 			foreach (BFeature feature in tmpList)
 			{
 				if (feature.Name != null)
@@ -84,7 +87,6 @@ namespace SIL.Pa.Data
 			}
 
 			tmpList.Clear();
-			tmpList = null;
 			return (cache.Count == 0 ? null : cache);
 		}
 
@@ -119,9 +121,7 @@ namespace SIL.Pa.Data
 
 			STUtils.SerializeData(m_cacheFileName, tmpList);
 			tmpSortedList.Clear();
-			tmpSortedList = null;
 			tmpList.Clear();
-			tmpList = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string CleanUpFeatureName(string featureName)
+		private static string CleanUpFeatureName(string featureName)
 		{
 			Debug.Assert(featureName != null);
 			featureName = featureName.Trim().ToLower();

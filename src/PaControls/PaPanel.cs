@@ -22,7 +22,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaPanel() : base()
+		public PaPanel()
 		{
 			BorderStyle = (Application.VisualStyleState == VisualStyleState.NoneEnabled ?
 				BorderStyle.Fixed3D : BorderStyle.FixedSingle);

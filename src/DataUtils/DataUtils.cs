@@ -8,7 +8,7 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataUtils
+	public class DataUtils
 	{
 		public static char[] kTieBars = new char[] { '\u0361', '\u035C' };
 		public const string kTopTieBar = "\u0361";

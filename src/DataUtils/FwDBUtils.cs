@@ -75,22 +75,20 @@ namespace SIL.Pa.Data
 					if (connection != null && FwQueries.FwDatabasesSQL != null)
 					{
 						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
-						if (command != null)
+						
+						// Get all the database names.
+						using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
 						{
-							// Get all the database names.
-							using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
+							if (reader != null)
 							{
-								if (reader != null)
-								{
-									while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-										fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string));
+								while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+									fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string));
 
-									reader.Close();
-								}
+								reader.Close();
 							}
-
-							connection.Close();
 						}
+
+						connection.Close();
 					}
 				}
 
@@ -190,7 +188,7 @@ namespace SIL.Pa.Data
 								svcController.Start();
 
 							svcController.WaitForStatus(ServiceControllerStatus.Running,
-								new TimeSpan((long)s_secondsToWaitForSQLToStart * (long)10000000));
+								new TimeSpan(s_secondsToWaitForSQLToStart * (long)10000000));
 
 							msgWnd.CloseFade();
 						}
@@ -530,7 +528,7 @@ namespace SIL.Pa.Data
 	{
 		public delegate void DataRetrievedHandler(SqlDataReader reader);
 
-		private FwDataSourceInfo m_sourceInfo;
+		private readonly FwDataSourceInfo m_sourceInfo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -615,17 +613,14 @@ namespace SIL.Pa.Data
 					if (connection != null && !string.IsNullOrEmpty(sql))
 					{
 						SqlCommand command = new SqlCommand(sql, connection);
-						if (command != null)
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							using (SqlDataReader reader = command.ExecuteReader())
+							if (reader != null)
 							{
-								if (reader != null)
-								{
-									while (reader.Read())
-										wsCollection[(int)reader["Obj"]] = reader["Txt"] as string;
+								while (reader.Read())
+									wsCollection[(int) reader["Obj"]] = reader["Txt"] as string;
 
-									reader.Close();
-								}
+								reader.Close();
 							}
 						}
 

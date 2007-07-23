@@ -6,7 +6,7 @@ namespace SIL.Pa.Controls
 {
 	public partial class SearchResultTabPopup : UserControl
 	{
-		private SilPopup m_popup;
+		private readonly SilPopup m_popup;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

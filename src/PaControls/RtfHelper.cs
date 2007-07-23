@@ -28,7 +28,6 @@ namespace SIL.Pa.Controls
 
 			PaFieldInfoList fields = PaApp.FieldInfo;
 			string fontFmt = "{{\\f{0}\\fnil {1};}}";
-			int uiFontSize = (int)FontHelper.UIFont.SizeInPoints * 2;
 
 			// Save the font information that will be written to the RTF.
 			StringBuilder bldr = new StringBuilder();
@@ -103,7 +102,7 @@ namespace SIL.Pa.Controls
 					colors[i].R, colors[i].G, colors[i].B);
 			}
 
-			return bldr.ToString() + "}";
+			return bldr + "}";
 		}
 
 		/// ------------------------------------------------------------------------------------

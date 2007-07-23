@@ -25,7 +25,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string BuildFileName(string projectFileName)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kSequenceFile;
 			return filename;
 		}
@@ -162,7 +162,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public int GetSequenceIndex(string phone)
 		{
-			for (int i = 0; i < this.Count; i++)
+			for (int i = 0; i < Count; i++)
 			{
 				if (this[i].Unit == phone)
 					return i;
@@ -198,10 +198,10 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void SortByUnitLength()
 		{
-			for (int i = 0; i < this.Count; i++)
+			for (int i = 0; i < Count; i++)
 				this[i].DisplayIndex = i;
 
-			this.Sort(AmbiguousSeqComparer);
+			Sort(AmbiguousSeqComparer);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ namespace SIL.Pa.Data
 		/// Compare method for the length of the units of two ambiguous sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int AmbiguousSeqComparer(AmbiguousSeq x, AmbiguousSeq y)
+		private static int AmbiguousSeqComparer(AmbiguousSeq x, AmbiguousSeq y)
 		{
 			if (x == y || ((x == null || x.Unit == null) && (y == null || y.Unit == null)))
 				return 0;

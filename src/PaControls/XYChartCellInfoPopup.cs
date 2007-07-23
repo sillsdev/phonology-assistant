@@ -18,15 +18,15 @@ namespace SIL.Pa.Controls
 			Other
 		}
 
-		private Label m_lblMsg;
-		private Label m_lblPattern;
-		private Label m_lblInfo;
-		private DataGridView m_associatedGrid;
-		private DataGridViewCell m_associatedCell;
-		private Timer m_popupTimer;
-		private Point m_popupLocation;
 		private bool m_drawLeftArrow = true;
 		private bool m_drawArrow = true;
+		private Timer m_popupTimer;
+		private Point m_popupLocation;
+		private DataGridViewCell m_associatedCell;
+		private readonly DataGridView m_associatedGrid;
+		private readonly Label m_lblMsg;
+		private readonly Label m_lblPattern;
+		private readonly Label m_lblInfo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -54,7 +54,7 @@ namespace SIL.Pa.Controls
 
 			m_popupTimer = new Timer();
 			m_popupTimer.Interval = 700;
-			m_popupTimer.Tick += new EventHandler(m_popupTimer_Tick);
+			m_popupTimer.Tick += m_popupTimer_Tick;
 			m_popupTimer.Stop();
 		}
 
@@ -91,7 +91,7 @@ namespace SIL.Pa.Controls
 
 			if (informationMsg != null)
 			{
-				InitializeLabels(0, MsgType.Other);
+				InitializeLabels(MsgType.Other);
 				m_lblInfo.Text = STUtils.ConvertLiteralNewLines(informationMsg);
 			}
 			else
@@ -113,7 +113,7 @@ namespace SIL.Pa.Controls
 						invalidItems.Add(c.ToString());
 				}
 				
-				InitializeLabels(invalidItems.Count, msgType);
+				InitializeLabels(msgType);
 
 				StringBuilder bldr = new StringBuilder();
 				for (int i = 0; i < invalidItems.Count; i++)
@@ -136,7 +136,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeLabels(int numberOfInvalidItems, MsgType msgType)
+		private void InitializeLabels(MsgType msgType)
 		{
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
 			m_lblPattern.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);

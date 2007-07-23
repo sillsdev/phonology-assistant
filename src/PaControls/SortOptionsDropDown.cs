@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.FieldWorks.Common.UIAdapters;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
@@ -13,23 +12,17 @@ namespace SIL.Pa.Controls
 		public delegate void SortOptionsChangedHandler(SortOptions sortOptions);
 		public event SortOptionsChangedHandler SortOptionsChanged;
 		
-		// These values may be adjusted when the system's dpi setting is greater than 96.
-		private const int kHeightWithoutAdvacedOpts = 110;
-		private const int kFullHeightWithoutHelp = 217;
-		private const int kFullHeightWithHelp = 242;
-
-		private RadioButton[] m_rbSort;
-		private RadioButton[] m_rbAdvSort0;
-		private RadioButton[] m_rbAdvSort1;
-		private RadioButton[] m_rbAdvSort2;
-		private CheckBox[] m_cbRL;
-		private int[] m_checkedIndexes;
-		private SortOptions m_sortOptions;
-		private ITMAdapter m_tmAdapter;
 		private bool m_makePhoneticPrimarySortFieldOnChange = true;
 		private bool m_showHelpLink = true;
 		private bool m_showAdvancedOptions = false;
 		private int m_widestSortTypeRadioButton;
+		private readonly int[] m_checkedIndexes;
+		private SortOptions m_sortOptions;
+		private readonly RadioButton[] m_rbSort;
+		private readonly RadioButton[] m_rbAdvSort0;
+		private readonly RadioButton[] m_rbAdvSort1;
+		private readonly RadioButton[] m_rbAdvSort2;
+		private readonly CheckBox[] m_cbRL;
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
@@ -69,22 +62,10 @@ namespace SIL.Pa.Controls
 		/// SortOptions constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptionsDropDown(SortOptions sortOptions)	: this(sortOptions, true, null)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// SortOptions constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SortOptionsDropDown(SortOptions sortOptions,	bool showAdvancedOptions,
-			ITMAdapter tmAdapter) : this()
+		public SortOptionsDropDown(SortOptions sortOptions,	bool showAdvancedOptions) : this()
 		{
 			if (PaApp.DesignMode)
 				return;
-
-			m_tmAdapter = (tmAdapter == null ? PaApp.TMAdapter : tmAdapter);
 
 			// Reset the SortOptions object
 			SortOptions = sortOptions;
@@ -191,7 +172,7 @@ namespace SIL.Pa.Controls
 			get { return m_sortOptions; }
 			set 
 			{
-				m_sortOptions = (value == null ? new SortOptions(true) : value);
+				m_sortOptions = (value ?? new SortOptions(true));
 
 				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
 					(m_sortOptions.SortType == PhoneticSortType.Unicode);
@@ -550,13 +531,16 @@ namespace SIL.Pa.Controls
 		{
 			Control ctrl = sender as Control;
 
-			if (ctrl is RadioButton)
+			if (ctrl != null)
 			{
-				ctrl.Tag = 0;
-				ctrl.Parent.Invalidate();
+				if (ctrl is RadioButton)
+				{
+					ctrl.Tag = 0;
+					ctrl.Parent.Invalidate();
+				}
+				else
+					ctrl.Invalidate();
 			}
-			else
-				ctrl.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -579,7 +563,7 @@ namespace SIL.Pa.Controls
 		{
 			Control ctrl = sender as Control;
 
-			if (!ctrl.Focused || ctrl.Tag != null)
+			if (ctrl != null && (!ctrl.Focused || ctrl.Tag != null))
 			{
 				ctrl.Tag = null;
 				return;

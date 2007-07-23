@@ -13,19 +13,17 @@ namespace SIL.Pa.Controls
 	public partial class FindDlg : Form
 	{
 		#region Member Variables
-		// Declare member variables
-		private List<char> m_reservedRegexChars =
-			new List<char>(new char[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
-		private PaWordListGrid m_grid;
-		private static ArrayList m_findWhatItems = new ArrayList();
-		private string m_cellValue = string.Empty;
-		private int m_maxSavedFindPatterns = 20;
-		private static List<string> s_colsToFindIn = new List<string>();
-		private string m_findPattern = string.Empty;
 		private bool m_cancel = false;
 		private int m_dyHeightClientHeight = 0;
 		private int m_optionsPanelHeight;
 		private bool m_prevMatchCaseValue = false;
+		private readonly int m_maxSavedFindPatterns = 20;
+		private readonly PaWordListGrid m_grid;
+		private static readonly ArrayList m_findWhatItems = new ArrayList();
+		private static readonly List<string> s_colsToFindIn = new List<string>();
+		private readonly List<char> m_reservedRegexChars =
+			new List<char>(new char[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
+
 		# endregion
 
 		#region Constructor & Closing
@@ -193,7 +191,6 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// Call FindInfo to find matching cells based on the search pattern.
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		private void btnFind(object sender, EventArgs e)
 		{
@@ -216,8 +213,7 @@ namespace SIL.Pa.Controls
 					fieldInfo.DisplayIndexInGrid,
 					fieldInfo.DisplayText, fieldInfo.FieldName);
 
-				if (item != null)
-					columnsToSearch.Add(item);
+				columnsToSearch.Add(item);
 			}
 
 			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
@@ -232,7 +228,6 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// Handle the Cancel button click.
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, EventArgs e)
 		{

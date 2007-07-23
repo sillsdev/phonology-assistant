@@ -7,7 +7,7 @@ using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
-	public partial class FindInfo
+	public class FindInfo
 	{
 		#region Member Variables
 		// Declare member variables
@@ -57,9 +57,9 @@ namespace SIL.Pa.Controls
 					dlgColItem.DisplayIndex,
 					dlgColItem.ToString(), dlgColItem.FieldName);
 
-				if (item != null)
-					columnsToSearch.Add(item);
+				columnsToSearch.Add(item);
 			}
+
 			ColumnsToSearch = columnsToSearch.ToArray();
 		}
 
@@ -106,7 +106,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// <returns>column display index to start searching from</returns>
 		/// ------------------------------------------------------------------------------------
-		private static int CalcStartSearchCol()
+		private static void CalcStartSearchCol()
 		{
 			int currCellDisplayIndex = m_grid.Columns[m_grid.CurrentCell.ColumnIndex].DisplayIndex;
 
@@ -128,21 +128,31 @@ namespace SIL.Pa.Controls
 						if (m_doneFinding && m_grid.CurrentCell.RowIndex == m_iPreviousRow)
 						{
 							if (m_colsToSearch[i].DisplayIndex < currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 						else if (m_doneFinding && m_grid.CurrentCell.RowIndex != m_iPreviousRow)
 						{
-							return SetCurrentColumn(m_colsToSearch.Length - 1);
+							SetCurrentColumn(m_colsToSearch.Length - 1);
+							return;
 						}
 						else if (m_doneFinding && (currColumnSortPosition < m_colsToSearch.Length - 1))
 						{
 							if (m_colsToSearch[i].DisplayIndex <= currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 						else
 						{
 							if (m_colsToSearch[i].DisplayIndex < currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 					}
 				}
@@ -161,21 +171,31 @@ namespace SIL.Pa.Controls
 						if (m_doneFinding && m_grid.CurrentCell.RowIndex == m_iPreviousRow)
 						{
 							if (m_colsToSearch[i].DisplayIndex > currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 						else if (m_doneFinding && m_grid.CurrentCell.RowIndex != m_iPreviousRow)
 						{
-							return SetCurrentColumn(0);
+							SetCurrentColumn(0);
+							return;
 						}
 						else if (m_doneFinding && currColumnSortPosition > 0)
 						{
 							if (m_colsToSearch[i].DisplayIndex >= currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 						else
 						{
 							if (m_colsToSearch[i].DisplayIndex > currCellDisplayIndex)
-								return SetCurrentColumn(i);
+							{
+								SetCurrentColumn(i);
+								return;
+							}
 						}
 					}
 				}
@@ -185,7 +205,7 @@ namespace SIL.Pa.Controls
 					SetCurrentRow(0); // first row becomes the current row
 				SetCurrentColumn(0);
 			}
-			return m_iColumn;
+			return;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,11 +225,11 @@ namespace SIL.Pa.Controls
 		/// Set the current column value.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static int SetCurrentColumn(int currentColumn)
+		private static void SetCurrentColumn(int currentColumn)
 		{
 			m_iColumn = currentColumn;
 			m_matchedColumn = currentColumn;
-			return currentColumn;
+			return;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,7 +237,6 @@ namespace SIL.Pa.Controls
 		/// Searches for first findPattern match with a cell beginning with the last
 		/// matched row and column
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		public static bool FindFirst(bool findPrevious)
 		{
@@ -429,17 +448,17 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// <returns>true if a hierarchial grid row was expanded</returns>
 		/// ------------------------------------------------------------------------------------
-		private static bool ExpandPreviousHierarchicalGridRow()
+		private static void ExpandPreviousHierarchicalGridRow()
 		{
 			for (int rowIndex = m_iRow; rowIndex >= 0; rowIndex--)
 			{
-				if (m_grid.Rows[rowIndex] is SilHierarchicalGridRow)
+				SilHierarchicalGridRow row = m_grid.Rows[rowIndex] as SilHierarchicalGridRow;
+				if (row != null)
 				{
-					(m_grid.Rows[rowIndex] as SilHierarchicalGridRow).Expanded = true;
-					return true;
+					row.Expanded = true;
+					return;
 				}
 			}
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -655,8 +674,8 @@ namespace SIL.Pa.Controls
 					m_grid = value;
 					if (m_grid != null)
 					{
-						m_grid.HandleDestroyed += new EventHandler(HandleGridDestroyed);
-						m_grid.CellClick += new DataGridViewCellEventHandler(HandleCellClick);
+						m_grid.HandleDestroyed += HandleGridDestroyed;
+						m_grid.CellClick += HandleCellClick;
 					}
 					ResetStartSearchCell(false);
 				}
@@ -761,10 +780,10 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class FindDlgColItem
 	{
-		private int m_colIndex;
-		private int m_displayIndex;
-		private string m_text;
-		private string m_fieldName;
+		private readonly int m_colIndex;
+		private readonly int m_displayIndex;
+		private readonly string m_text;
+		private readonly string m_fieldName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

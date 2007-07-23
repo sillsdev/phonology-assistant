@@ -9,20 +9,20 @@ namespace SIL.Pa.Controls
 {
 	public partial class PhonesInFeatureViewer : UserControl, IPhoneListViewer
 	{
-		private IPACharacterType m_charType;
-		private string m_settingValPrefix;
-		private string m_frmName;
 		private bool m_showAll;
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
-		private Control m_pnlView;
-		private SortedList<int, List<Label>> m_lableRows;
+		private bool m_allFeaturesMustMatch = false;
 		private int m_lblHeight = 0;
 		private ulong[] m_aMasks;
 		private ulong m_bMask;
+		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
-		private bool m_allFeaturesMustMatch = false;
-		private CompactViewerPanel pnlCompactView;
+		private readonly string m_settingValPrefix;
+		private readonly string m_frmName;
+		private readonly IPACharacterType m_charType;
+		private readonly SortedList<int, List<Label>> m_lableRows;
+		private readonly CompactViewerPanel pnlCompactView;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,12 +37,12 @@ namespace SIL.Pa.Controls
 			pnlOuter.Controls.Add(pnlCompactView);
 			pnlCompactView.BringToFront();
 
-			DoubleBuffered = true;
-			BackColor = Color.Transparent;
+			base.DoubleBuffered = true;
+			base.BackColor = Color.Transparent;
 			m_lableRows = new SortedList<int, List<Label>>();
 
 			if (!PaApp.DesignMode)
-				Font = FontHelper.MakeEticRegFontDerivative(14);
+				base.Font = FontHelper.MakeEticRegFontDerivative(14);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace SIL.Pa.Controls
 
 			m_charType = charType;
 			RefreshLayout();
-			Disposed += new EventHandler(PhonesInFeatureViewer_Disposed);
+			Disposed += PhonesInFeatureViewer_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +167,6 @@ namespace SIL.Pa.Controls
 						m_lableRows[0].Add(lbl);
 				}
 
-				labels = null;
 				LayoutPhones();
 			}
 		}
@@ -477,10 +476,10 @@ namespace SIL.Pa.Controls
 	{
 		internal CompactViewerPanel()
 		{
-			AutoScroll = true;
-			Dock = DockStyle.Fill;
-			BackColor = Color.Transparent;
-			DoubleBuffered = true;
+			base.AutoScroll = true;
+			base.Dock = DockStyle.Fill;
+			base.BackColor = Color.Transparent;
+			base.DoubleBuffered = true;
 		}
 	}
 }

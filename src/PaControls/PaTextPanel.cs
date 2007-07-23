@@ -31,7 +31,7 @@ namespace SIL.Pa.Controls
 		public PaTextPanel()
 		{
 			SetStyle(ControlStyles.UseTextForAccessibility, true);
-			Font = FontHelper.UIFont;
+			base.Font = FontHelper.UIFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

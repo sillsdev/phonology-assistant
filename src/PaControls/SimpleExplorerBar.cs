@@ -12,7 +12,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SimpleExplorerBar : PaPanel
 	{
-		private List<ExplorerBarItem> m_items = new List<ExplorerBarItem>();
+		private readonly List<ExplorerBarItem> m_items = new List<ExplorerBarItem>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -21,7 +21,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public SimpleExplorerBar()
 		{
-			AutoScroll = true;
+			base.AutoScroll = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,8 +75,8 @@ namespace SIL.Pa.Controls
 			Controls.Add(item);
 			item.BringToFront();
 
-			item.Collapsed += new EventHandler(item_SizeChanged);
-			item.Expanded += new EventHandler(item_SizeChanged);
+			item.Collapsed += item_SizeChanged;
+			item.Expanded += item_SizeChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------

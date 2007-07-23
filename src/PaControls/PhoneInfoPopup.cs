@@ -9,16 +9,16 @@ namespace SIL.Pa.Controls
 {
 	public class PhoneInfoPopup : SilPopup
 	{
-		private DataGridView m_associatedGrid;
-		private DataGridViewCell m_associatedCell;
-		private PhoneInfoPopupContent m_content;
 		private bool m_siblingUncertaintiesExist = false;
-		private Timer m_popupTimer;
-		private Control m_ctrl;
-		private Point m_popupLocation;
 		private bool m_drawLeftArrow = true;
 		private bool m_drawArrow = true;
 		private bool m_showRelativeToScreen = false;
+		private Point m_popupLocation;
+		private Control m_ctrl;
+		private DataGridViewCell m_associatedCell;
+		private readonly DataGridView m_associatedGrid;
+		private readonly PhoneInfoPopupContent m_content;
+		private readonly Timer m_popupTimer;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -27,13 +27,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PhoneInfoPopup()
 		{
-			DoubleBuffered = true;
+			base.DoubleBuffered = true;
 			m_content = new PhoneInfoPopupContent();
 			Controls.Add(m_content);
 
 			m_popupTimer = new Timer();
 			m_popupTimer.Interval = 700;
-			m_popupTimer.Tick += new EventHandler(m_popupTimer_Tick);
+			m_popupTimer.Tick += m_popupTimer_Tick;
 			m_popupTimer.Stop();
 		}
 
@@ -51,7 +51,6 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="phone">Phone whose information is being shown.</param>
 		/// <param name="associatedCell">Cell associated with the popup.</param>
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(DataGridViewCell associatedCell)

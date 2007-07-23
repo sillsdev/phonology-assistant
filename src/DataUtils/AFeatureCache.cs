@@ -37,9 +37,9 @@ namespace SIL.Pa.Data
 		/// Builds the name from which to load or save the cache file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string BuildFileName(string projectFileName, bool mustExist)
+		private static string BuildFileName(string projectFileName, bool mustExist)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kAFeatureCacheFile;
 
 			if (!File.Exists(filename) && mustExist)
@@ -71,11 +71,13 @@ namespace SIL.Pa.Data
 			List<AFeature> tmpList = STUtils.DeserializeData(cache.CacheFileName,
 				typeof(List<AFeature>)) as List<AFeature>;
 
+			if (tmpList == null)
+				return null;
+
 			foreach (AFeature feature in tmpList)
 				cache[feature.Name.ToLower()] = feature;
 
 			tmpList.Clear();
-			tmpList = null;
 			return (cache.Count == 0 ? null : cache);
 		}
 
@@ -110,9 +112,7 @@ namespace SIL.Pa.Data
 
 			STUtils.SerializeData(m_cacheFileName, tmpList);
 			tmpSortedList.Clear();
-			tmpSortedList = null;
 			tmpList.Clear();
-			tmpList = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ namespace SIL.Pa.Data
 			// Features never really get deleted. Their name just gets set to something
 			// that tells the program it's not being used for a custom feature. Just make
 			// sure the name is unique and starts with the blank prefix. 
-			feature.Name = AFeature.kBlankPrefix + Guid.NewGuid().ToString();
+			feature.Name = AFeature.kBlankPrefix + Guid.NewGuid();
 			this[feature.Name.ToLower()] = feature;
 		}
 
