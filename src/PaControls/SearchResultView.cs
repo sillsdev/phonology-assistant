@@ -36,6 +36,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(WordListCache cache)
 		{
+			m_searchQuery = (cache != null ? cache.SearchQuery : null);
+
 			if (cache == null || cache.Count == 0)
 			{
 				if (m_grid != null)
@@ -45,11 +47,9 @@ namespace SIL.Pa.Controls
 					m_grid = null;
 				}
 
-				m_searchQuery = null;
 				return;
 			}
 
-			m_searchQuery = cache.SearchQuery;
 
 			// Save the grid we're replacing.
 			PaWordListGrid tmpgrid = m_grid;

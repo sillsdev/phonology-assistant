@@ -244,7 +244,9 @@ namespace SIL.Pa
 			}
 
 			PaApp.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
+			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
 			m_recCache.BuildWordCache(PaApp.ProgressBar);
+			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = false;
 			PaApp.IncProgressBar();
 			TempRecordCache.Save();
 			PaApp.UninitializeProgressBar();

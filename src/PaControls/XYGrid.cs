@@ -463,6 +463,64 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
+		{
+			base.OnEditingControlShowing(e);
+
+			TextBox txt = e.Control as TextBox;
+			if (txt != null)
+			{
+				txt.TextChanged += CellTextBoxTextChanged;
+				txt.KeyPress += CellTextBoxKeyPress;
+				txt.VisibleChanged += CellTextBoxVisibleChanged;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void CellTextBoxTextChanged(object sender, EventArgs e)
+		{
+			// For some reason, it didn't work to directly assign the static delegate
+			// from PatternTextBox to the text box event. So I call it this way.
+			PatternTextBox.txtPatternTextChanged(sender, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void CellTextBoxKeyPress(object sender, KeyPressEventArgs e)
+		{
+			// For some reason, it didn't work to directly assign the static delegate
+			// from PatternTextBox to the text box event. So I call it this way.
+			PatternTextBox.txtPatternKeyPress(sender, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void CellTextBoxVisibleChanged(object sender, EventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+			if (txt != null && !txt.Visible)
+			{
+				txt.TextChanged -= CellTextBoxTextChanged;
+				txt.KeyPress -= CellTextBoxKeyPress;
+				txt.VisibleChanged -= CellTextBoxVisibleChanged;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellEndEdit(DataGridViewCellEventArgs e)
 		{
 			base.OnCellEndEdit(e);
@@ -494,8 +552,7 @@ namespace SIL.Pa.Controls
 					this[col, row].Value = "*_*";
 				else if (value == "+")
 					this[col, row].Value = "+_+";
-
-				if (value.EndsWith("_"))
+				else if (value.EndsWith("_"))
 					this[col, row].Value += "*";
 				else if (value.IndexOf('_') < 0)
 					this[col, row].Value += "_*";
@@ -1283,8 +1340,8 @@ namespace SIL.Pa.Controls
 		public void InsertTextInCell(DataGridViewCell cell, string text)
 		{
 			if (cell == null || string.IsNullOrEmpty(text) ||
-				(cell.RowIndex > 0 && cell.ColumnIndex > 0) ||
-				(cell.RowIndex == 0 && cell.ColumnIndex == 0))
+			    (cell.RowIndex > 0 && cell.ColumnIndex > 0) ||
+			    (cell.RowIndex == 0 && cell.ColumnIndex == 0))
 				return;
 
 			if (!cell.IsInEditMode)
@@ -1297,23 +1354,11 @@ namespace SIL.Pa.Controls
 			DataGridViewTextBoxEditingControl txtBox =
 				EditingControl as DataGridViewTextBoxEditingControl;
 
-			if (txtBox == null)
-				return;
-
-			int selStart = txtBox.SelectionStart;
-			int selLen = txtBox.SelectionLength;
-
-			// First, remove any text that's selected since it's assume the text that's
-			// being inserted should replace it.
-			if (selLen > 0)
-				txtBox.Text = txtBox.Text.Remove(selStart, selLen);
-
-			// Now insert the text at the insertion point, give the control focus and
-			// move the insertion point to just after the text that was inserted.
-			txtBox.Text = txtBox.Text.Insert(selStart, text);
-			EditingControl.Focus();
-			txtBox.SelectionStart = selStart + text.Length;
-			txtBox.SelectionLength = 0;
+			if (txtBox != null)
+			{
+				txtBox.Focus();
+				PatternTextBox.Insert(txtBox, text);
+			}
 		}
 
 		#endregion

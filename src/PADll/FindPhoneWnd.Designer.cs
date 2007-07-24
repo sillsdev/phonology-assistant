@@ -403,7 +403,6 @@ namespace SIL.Pa
 			// 
 			// ptrnTextBox
 			// 
-			this.ptrnTextBox.AllowFullSearchPattern = true;
 			resources.ApplyResources(this.ptrnTextBox, "ptrnTextBox");
 			this.ptrnTextBox.BackColor = System.Drawing.Color.Transparent;
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;

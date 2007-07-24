@@ -50,9 +50,7 @@ namespace SIL.Pa.Controls
 			this.txtPattern.DragDrop += new System.Windows.Forms.DragEventHandler(this.txtPattern_DragDrop);
 			this.txtPattern.Leave += new System.EventHandler(this.txtPattern_Leave);
 			this.txtPattern.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPattern_KeyUp);
-			this.txtPattern.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPattern_KeyPress);
 			this.txtPattern.SizeChanged += new System.EventHandler(this.txtPattern_SizeChanged);
-			this.txtPattern.TextChanged += new System.EventHandler(this.txtPattern_TextChanged);
 			this.txtPattern.LocationChanged += new System.EventHandler(this.txtPattern_LocationChanged);
 			// 
 			// PatternTextBox

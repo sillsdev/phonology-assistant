@@ -131,20 +131,9 @@ namespace SIL.Pa.FFSearchEngine
 				m_envBefore = new PatternGroup(EnvironmentType.Before);
 				m_envAfter = new PatternGroup(EnvironmentType.After);
 
-				if (!m_srchItem.Parse(patterns[0]))
-					m_errorMessages.Add(Resources.kstidItemSyntaxError);
-				else if (m_srchItem.Members == null || m_srchItem.Members.Count == 0)
-					m_errorMessages.Add(Resources.kstidSrchItemPatternParsedToNothingError);
-
-				if (!m_envBefore.Parse(patterns[1]))
-					m_errorMessages.Add(Resources.kstidEnvBeforeSyntaxError);
-				else if (m_envBefore.Members == null || m_envBefore.Members.Count == 0)
-					m_errorMessages.Add(Resources.kstidEnvBeforePatternParsedToNothingError);
-
-				if (!m_envAfter.Parse(patterns[2]))
-					m_errorMessages.Add(Resources.kstidEnvAfterSyntaxError);
-				else if (m_envAfter.Members == null || m_envAfter.Members.Count == 0)
-					m_errorMessages.Add(Resources.kstidEnvAfterPatternParsedToNothingError);
+				Parse(m_srchItem, patterns[0]);
+				Parse(m_envBefore, patterns[1]);
+				Parse(m_envAfter, patterns[2]);
 			}
 			catch
 			{
@@ -155,6 +144,46 @@ namespace SIL.Pa.FFSearchEngine
 			m_srchItemStr = patterns[0];
 			m_envBeforeStr = patterns[1];
 			m_envAfterStr = patterns[2];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Parse(PatternGroup ptrnGrp, string pattern)
+		{
+			bool success = ptrnGrp.Parse(pattern);
+
+			if (ptrnGrp.ErrorMessages != null && ptrnGrp.ErrorMessages.Length > 0)
+			{
+				m_errorMessages.AddRange(ptrnGrp.ErrorMessages);
+				return;
+			}
+
+			string envType = null;
+			switch (ptrnGrp.EnvironmentType)
+			{
+				case EnvironmentType.Before:
+					envType = Resources.kstidEnvironmentBefore;
+					break;
+				case EnvironmentType.After:
+					envType = Resources.kstidEnvironmentAfter;
+					break;
+				case EnvironmentType.Item:
+					envType = Resources.kstidSearchItem;
+					break;
+			}
+
+			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
+			{
+				string msg = Resources.kstidParsedToNothingError;
+				m_errorMessages.Add(string.Format(msg, envType));
+				return;
+			}
+
+			if (!success)
+				m_errorMessages.Add(string.Format(Resources.kstidSyntaxErr, envType));
 		}
 
 		#region Properties

@@ -22,9 +22,8 @@ namespace SIL.Pa.Controls
 	{
 		public event EventHandler SearchQueryChanged;
 
-		private const char kEmptyPatternChar = '\u25CA';
-		private bool m_allowFullSearchPattern = false;
-		private bool m_ignoreTextChange = false;
+		//private bool m_allowFullSearchPattern = false;
+		//private bool m_ignoreTextChange = false;
 		private bool m_classDisplayBehaviorChanged = false;
 		private bool m_ignoreResize = false;
 		private bool m_showArrows = true;
@@ -34,6 +33,7 @@ namespace SIL.Pa.Controls
 		private readonly Image m_downArrow;
 		private readonly Image m_upArrow;
 		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
+		private static readonly char kEmptyPatternChar = '\u25CA';
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -52,9 +52,13 @@ namespace SIL.Pa.Controls
 				return;
 
 			txtPattern.OwningPatternTextBoxControl = this;
+			txtPattern.TextChanged += txtPatternTextChanged;
+			txtPattern.KeyPress += txtPatternKeyPress;
+			txtPattern.Font = FontHelper.PhoneticFont;
+			txtPattern.Tag = this;
+		
 			m_searchOptionsDropDown = new SearchOptionsDropDown();
 			base.BackColor = Color.Transparent;
-			txtPattern.Font = FontHelper.PhoneticFont;
 			m_searchQuery = new SearchQuery();
 			PaApp.AddMediatorColleague(this);
 		}
@@ -67,7 +71,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetSearchQuery(SearchQuery query)
 		{
-			if (query == m_searchQuery || query.IsPatternRegExpression)
+			if (query == m_searchQuery || (query != null && query.IsPatternRegExpression))
 				return;
 
 			if (query == null)
@@ -138,27 +142,27 @@ namespace SIL.Pa.Controls
 			set { m_classDisplayBehaviorChanged = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Indicates whether or not the user may enter the '/' and '_' to indicate a complete
-		/// find phone search pattern.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool AllowFullSearchPattern
-		{
-			get { return m_allowFullSearchPattern; }
-			set
-			{
-				m_allowFullSearchPattern = value;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Indicates whether or not the user may enter the '/' and '_' to indicate a complete
+		///// find phone search pattern.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool AllowFullSearchPattern
+		//{
+		//    get { return m_allowFullSearchPattern; }
+		//    set
+		//    {
+		//        m_allowFullSearchPattern = value;
 
-				if (value && txtPattern.Text == string.Empty)
-				{
-					txtPattern.Text = EmptyPattern;
-					txtPattern.SelectionStart = 0;
-					txtPattern.SelectionLength = 0;
-				}
-			}
-		}
+		//        if (value && txtPattern.Text == string.Empty)
+		//        {
+		//            txtPattern.Text = EmptyPattern;
+		//            txtPattern.SelectionStart = 0;
+		//            txtPattern.SelectionLength = 0;
+		//        }
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -169,7 +173,7 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				return (m_allowFullSearchPattern && !PaApp.DesignMode &&
+				return (/* m_allowFullSearchPattern && */ !PaApp.DesignMode &&
 					(PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns) ?
 					DataUtils.kEmptyDiamondPattern : string.Empty);
 			}
@@ -346,292 +350,6 @@ namespace SIL.Pa.Controls
 
 		#endregion
 
-		#region Text Box events
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This control should size itself to be a little larger than the text box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_SizeChanged(object sender, EventArgs e)
-		{
-			m_ignoreResize = true;
-			Height = txtPattern.Height + m_upArrow.Height + m_downArrow.Height;
-			m_ignoreResize = false;
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void txtPattern_LocationChanged(object sender, EventArgs e)
-		{
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_TextChanged(object sender, EventArgs e)
-		{
-			if (m_ignoreTextChange)
-				return;
-
-			int selstart = txtPattern.SelectionStart;
-			int sellen = txtPattern.SelectionLength;
-
-			// Force all consonant class to be uppercase.
-			if (txtPattern.Text.IndexOf("[c]") >= 0)
-				txtPattern.Text = txtPattern.Text.Replace("[c]", "[C]");
-
-			// Force all vowel class to be uppercase.
-			if (txtPattern.Text.IndexOf("[v]") >= 0)
-				txtPattern.Text = txtPattern.Text.Replace("[v]", "[V]");
-
-			txtPattern.SelectionStart = selstart;
-			txtPattern.SelectionLength = sellen;
-
-			if (!m_allowFullSearchPattern)
-			{
-				// Since the Keypress event will prevent '/', '_', '<' and '>'
-				// from being entered, this check is here only for the case when
-				// the user pastes those characters into the text box.
-				if (txtPattern.Text.IndexOf("/") >= 0)
-					txtPattern.Text = txtPattern.Text.Replace("/", string.Empty);
-
-				if (txtPattern.Text.IndexOf("_") >= 0)
-					txtPattern.Text = txtPattern.Text.Replace("_", string.Empty);
-
-				if (txtPattern.Text.IndexOf("<") >= 0)
-					txtPattern.Text = txtPattern.Text.Replace("<", string.Empty);
-
-				if (txtPattern.Text.IndexOf(">") >= 0)
-					txtPattern.Text = txtPattern.Text.Replace(">", string.Empty);
-
-				if (selstart <= txtPattern.Text.Length)
-					txtPattern.SelectionStart = selstart;
-			}
-
-			if (m_searchQuery.Pattern != txtPattern.Text)
-			{
-				m_searchQuery.Pattern = txtPattern.Text;
-				if (SearchQueryChanged != null)
-					SearchQueryChanged(this, EventArgs.Empty);
-			}
-
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			// Let Ctrl-C takes its normal course.
-			if (e.KeyChar == (char)3 && (ModifierKeys & Keys.Control) == Keys.Control)
-				return;
-			
-			char nextChar;
-
-			// When the text box is not to contain a complete search pattern, then ignore
-			// characters that are only valid for complete search patterns.
-			if (!m_allowFullSearchPattern && ("/_<>" + kEmptyPatternChar).Contains(e.KeyChar.ToString()))
-			{
-				SystemSounds.Beep.Play();
-				e.KeyChar = (char)0;
-				e.Handled = true;
-				return;
-			}
-
-			// Process enter as though the user wants to begin a search.
-			if (e.KeyChar == (char)Keys.Enter && IsPatternFull)
-			{
-				PaApp.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", SearchQuery);
-				e.Handled = true;
-				return;
-			}
-
-			int selStart = txtPattern.SelectionStart;
-
-			// Remove any selected text.
-			if (txtPattern.SelectionLength > 0)
-			{
-				txtPattern.Text = txtPattern.Text.Remove(selStart, txtPattern.SelectionLength);
-				txtPattern.SelectionStart = selStart;
-			}
-
-			// Cause a space to jump over adjacent close brackets, slash or underline.
-			if (e.KeyChar == (char)Keys.Space && selStart < txtPattern.Text.Length)
-			{
-				nextChar = txtPattern.Text[selStart];
-				if (("]}/_" + kEmptyPatternChar).Contains(nextChar.ToString()))
-				{
-					txtPattern.SelectionStart++;
-					e.KeyChar = (char)0;
-					e.Handled = true;
-					return;
-				}
-			}
-
-			// If the previous character is a diamond get rid of it first.
-			char prevChar = (selStart > 0 ? txtPattern.Text[selStart - 1] : (char)0);
-			if (prevChar == kEmptyPatternChar && e.KeyChar != (char)Keys.Space)
-			{
-				txtPattern.Text = txtPattern.Text.Remove(selStart - 1, 1);
-				txtPattern.SelectionStart = --selStart;
-			}
-
-			// If the next character is a diamond get rid of it first.
-			nextChar = (selStart < txtPattern.Text.Length ? txtPattern.Text[selStart] : (char)0);
-			if (nextChar == kEmptyPatternChar)
-			{
-				txtPattern.Text = txtPattern.Text.Remove(selStart, 1);
-				txtPattern.SelectionStart = selStart;
-			}
-			else if ((nextChar == '/' && e.KeyChar == '/') || (nextChar == '_' && e.KeyChar == '_'))
-			{
-				e.KeyChar = (char)0;
-				e.Handled = true;
-				txtPattern.SelectionStart++;
-				return;
-			}
-
-			// When 'C' is entered then automatically insert "[C]".
-			// When 'V' is entered then automatically insert "[V]".
-			// But only when the previous character is not '['.
-			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
-			{
-				txtPattern.Text = txtPattern.Text.Insert(selStart, ("[" + e.KeyChar + "]"));
-				e.KeyChar = (char)0;
-				e.Handled = true;
-				txtPattern.SelectionStart = selStart + 3;
-				return;
-			}
-
-			//// Uncomment to automatically insert a closing brace or
-			//// bracket when the user enters an opening counterpart.
-			//if (e.KeyChar == '[' || e.KeyChar == '{')
-			//{
-			//    m_ignoreTextChange = true;
-			//    txtPattern.Text = txtPattern.Text.Insert(selStart, (e.KeyChar == '[' ? "]" : "}"));
-			//    txtPattern.SelectionStart = selStart;
-			//    m_ignoreTextChange = false;
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Do this on the up stroke since the insertion point will have been moved by that
-		/// time, thus causing the arrows to be placed in the correct location.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_KeyUp(object sender, KeyEventArgs e)
-		{
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_DragOver(object sender, DragEventArgs e)
-		{
-			SearchQuery data =
-				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
-
-			if (data == null)
-			{
-				// What's being dragged is not appropriate to be dropped in a search
-				// pattern, therefore, indicate that dropping not allowed.
-				e.Effect = DragDropEffects.None;
-				return;
-			}
-
-			if (!txtPattern.Focused)
-				txtPattern.Focus();
-
-			Point pt = txtPattern.PointToClient(new Point(e.X, e.Y));
-			if (pt.X >= 0)
-			{
-				txtPattern.SelectionStart = (pt.X >= EndOfTextLocation.X ?
-					txtPattern.Text.Length : txtPattern.GetCharIndexFromPosition(pt));
-			}
-
-			// Make these visible during dragging.
-			m_showArrows = true;
-			Invalidate();
-
-			e.Effect = DragDropEffects.Copy;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_DragDrop(object sender, DragEventArgs e)
-		{
-			SearchQuery query =
-				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
-
-			// Is what was dropped appropriate to be dropped in a search pattern?
-			if (query != null)
-			{
-				if (query.PatternOnly)
-					Insert(query.Pattern);
-				else
-				{
-					// A full pattern was dropped so first clear out any pattern in the text box.
-					SetSearchQuery(query);
-				}
-			}
-
-			// After dropping, we know we have focus so make sure the arrows
-			// aren't visible now that dropping is done.
-			m_showArrows = false;
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Click(object sender, EventArgs e)
-		{
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Enter(object sender, EventArgs e)
-		{
-			m_showArrows = false;
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Leave(object sender, EventArgs e)
-		{
-			m_showArrows = true;
-			Invalidate();
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clear the pattern
@@ -639,13 +357,14 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Clear()
 		{
-			m_ignoreTextChange = true;
+			//m_ignoreTextChange = true;
+			txtPattern.TextChanged -= txtPatternTextChanged;
 			txtPattern.Text = EmptyPattern;
 			m_searchQuery = new SearchQuery();
 			m_srchQryCategory = null;
-			m_ignoreTextChange = false;
+			txtPattern.TextChanged += txtPatternTextChanged;
+			//m_ignoreTextChange = false;
 		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Inserts the specified text in the current insertion point in the search pattern.
@@ -653,15 +372,26 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Insert(string text)
 		{
-			if (string.IsNullOrEmpty(text) /*|| (text == "#" && !m_allowFullSearchPattern)*/)
+			Insert(txtPattern, text);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Inserts the specified text in the current insertion point in the specified text
+		/// box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void Insert(TextBox txt, string text)
+		{
+			if (txt == null || string.IsNullOrEmpty(text) /*|| (text == "#" && !m_allowFullSearchPattern)*/)
 				return;
 
-			int selstart = txtPattern.SelectionStart;
-			string newText = txtPattern.Text.Trim();
+			int selstart = txt.SelectionStart;
+			string newText = txt.Text.Trim();
 
 			// First, remove any selected text.
-			if (txtPattern.SelectionLength > 0)
-				newText = newText.Remove(selstart, txtPattern.SelectionLength);
+			if (txt.SelectionLength > 0)
+				newText = newText.Remove(selstart, txt.SelectionLength);
 
 			//// When inserting a word boundary character, move the insertion
 			//// point to the nearest valid location for a word boundary.
@@ -700,8 +430,8 @@ namespace SIL.Pa.Controls
 				ProcessTextWithDottedCircle(newText, selstart, ref text);
 
 			newText = newText.Insert(selstart, text);
-			txtPattern.Text = newText;
-			txtPattern.SelectionStart = selstart + (text == "{}" || text == "[]"
+			txt.Text = newText;
+			txt.SelectionStart = selstart + (text == "{}" || text == "[]"
 				|| text == DataUtils.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
 
 			Application.DoEvents();
@@ -713,7 +443,7 @@ namespace SIL.Pa.Controls
 		/// not, make sure it is surrounded by square brackets.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ProcessTextWithDottedCircle(string newText, int selstart, ref string text)
+		private static void ProcessTextWithDottedCircle(string newText, int selstart, ref string text)
 		{
 			// Strip out the dotted circle and check if what's left is a single tie-bar-
 			// type character. If so, then just return the text without the dotted circle.
@@ -1047,6 +777,301 @@ namespace SIL.Pa.Controls
 			itemProps.Enabled = !IsPatternEmpty;
 			itemProps.Update = true;
 			return true;
+		}
+
+		#endregion
+
+		#region Text Box events
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This control should size itself to be a little larger than the text box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_SizeChanged(object sender, EventArgs e)
+		{
+			m_ignoreResize = true;
+			Height = txtPattern.Height + m_upArrow.Height + m_downArrow.Height;
+			m_ignoreResize = false;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void txtPattern_LocationChanged(object sender, EventArgs e)
+		{
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Do this on the up stroke since the insertion point will have been moved by that
+		/// time, thus causing the arrows to be placed in the correct location.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_KeyUp(object sender, KeyEventArgs e)
+		{
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_DragOver(object sender, DragEventArgs e)
+		{
+			SearchQuery data =
+				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+
+			if (data == null)
+			{
+				// What's being dragged is not appropriate to be dropped in a search
+				// pattern, therefore, indicate that dropping not allowed.
+				e.Effect = DragDropEffects.None;
+				return;
+			}
+
+			if (!txtPattern.Focused)
+				txtPattern.Focus();
+
+			Point pt = txtPattern.PointToClient(new Point(e.X, e.Y));
+			if (pt.X >= 0)
+			{
+				txtPattern.SelectionStart = (pt.X >= EndOfTextLocation.X ?
+					txtPattern.Text.Length : txtPattern.GetCharIndexFromPosition(pt));
+			}
+
+			// Make these visible during dragging.
+			m_showArrows = true;
+			Invalidate();
+
+			e.Effect = DragDropEffects.Copy;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_DragDrop(object sender, DragEventArgs e)
+		{
+			SearchQuery query =
+				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+
+			// Is what was dropped appropriate to be dropped in a search pattern?
+			if (query != null)
+			{
+				if (query.PatternOnly)
+					Insert(query.Pattern);
+				else
+				{
+					// A full pattern was dropped so first clear out any pattern in the text box.
+					SetSearchQuery(query);
+				}
+			}
+
+			// After dropping, we know we have focus so make sure the arrows
+			// aren't visible now that dropping is done.
+			m_showArrows = false;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_Click(object sender, EventArgs e)
+		{
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_Enter(object sender, EventArgs e)
+		{
+			m_showArrows = false;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtPattern_Leave(object sender, EventArgs e)
+		{
+			m_showArrows = true;
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void txtPatternTextChanged(object sender, EventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
+
+			if (txt == null /* || m_ignoreTextChange */)
+				return;
+
+			int selstart = txt.SelectionStart;
+			int sellen = txt.SelectionLength;
+
+			// Force all consonant class to be uppercase.
+			if (txt.Text.IndexOf("[c]") >= 0)
+				txt.Text = txt.Text.Replace("[c]", "[C]");
+
+			// Force all vowel class to be uppercase.
+			if (txt.Text.IndexOf("[v]") >= 0)
+				txt.Text = txt.Text.Replace("[v]", "[V]");
+
+			txt.SelectionStart = selstart;
+			txt.SelectionLength = sellen;
+
+			//if (!m_allowFullSearchPattern)
+			//{
+			//    // Since the Keypress event will prevent '/', '_', '<' and '>'
+			//    // from being entered, this check is here only for the case when
+			//    // the user pastes those characters into the text box.
+			//    if (txtPattern.Text.IndexOf("/") >= 0)
+			//        txtPattern.Text = txtPattern.Text.Replace("/", string.Empty);
+
+			//    if (txtPattern.Text.IndexOf("_") >= 0)
+			//        txtPattern.Text = txtPattern.Text.Replace("_", string.Empty);
+
+			//    if (txtPattern.Text.IndexOf("<") >= 0)
+			//        txtPattern.Text = txtPattern.Text.Replace("<", string.Empty);
+
+			//    if (txtPattern.Text.IndexOf(">") >= 0)
+			//        txtPattern.Text = txtPattern.Text.Replace(">", string.Empty);
+
+			//    if (selstart <= txtPattern.Text.Length)
+			//        txtPattern.SelectionStart = selstart;
+			//}
+
+			if (ptrTextBox != null)
+			{
+				if (ptrTextBox.m_searchQuery.Pattern != txt.Text)
+				{
+					ptrTextBox.m_searchQuery.Pattern = txt.Text;
+					if (ptrTextBox.SearchQueryChanged != null)
+						ptrTextBox.SearchQueryChanged(ptrTextBox, EventArgs.Empty);
+				}
+
+				ptrTextBox.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		///
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void txtPatternKeyPress(object sender, KeyPressEventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
+
+			// Let Ctrl-C takes its normal course.
+			if (txt == null || (e.KeyChar == (char)3 && (ModifierKeys & Keys.Control) == Keys.Control))
+				return;
+
+			char nextChar;
+
+			// When the text box is not to contain a complete search pattern, then ignore
+			// characters that are only valid for complete search patterns.
+			// if (!m_allowFullSearchPattern && ("/_<>" + kEmptyPatternChar).Contains(e.KeyChar.ToString()))
+			//{
+			//    SystemSounds.Beep.Play();
+			//    e.KeyChar = (char)0;
+			//    e.Handled = true;
+			//    return;
+			//}
+
+			// Process enter as though the user wants to begin a search.
+			if (e.KeyChar == (char)Keys.Enter && ptrTextBox != null && ptrTextBox.IsPatternFull)
+			{
+				PaApp.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", ptrTextBox.SearchQuery);
+				e.Handled = true;
+				return;
+			}
+
+			int selStart = txt.SelectionStart;
+
+			// Remove any selected text.
+			if (txt.SelectionLength > 0)
+			{
+				txt.Text = txt.Text.Remove(selStart, txt.SelectionLength);
+				txt.SelectionStart = selStart;
+			}
+
+			// Cause a space to jump over adjacent close brackets, slash or underline.
+			if (e.KeyChar == (char)Keys.Space && selStart < txt.Text.Length)
+			{
+				nextChar = txt.Text[selStart];
+				if (("]}/_" + kEmptyPatternChar).Contains(nextChar.ToString()))
+				{
+					txt.SelectionStart++;
+					e.KeyChar = (char)0;
+					e.Handled = true;
+					return;
+				}
+			}
+
+			// If the previous character is a diamond get rid of it first.
+			char prevChar = (selStart > 0 ? txt.Text[selStart - 1] : (char)0);
+			if (prevChar == kEmptyPatternChar && e.KeyChar != (char)Keys.Space)
+			{
+				txt.Text = txt.Text.Remove(selStart - 1, 1);
+				txt.SelectionStart = --selStart;
+			}
+
+			// If the next character is a diamond get rid of it first.
+			nextChar = (selStart < txt.Text.Length ? txt.Text[selStart] : (char)0);
+			if (nextChar == kEmptyPatternChar)
+			{
+				txt.Text = txt.Text.Remove(selStart, 1);
+				txt.SelectionStart = selStart;
+			}
+			else if ((nextChar == '/' && e.KeyChar == '/') || (nextChar == '_' && e.KeyChar == '_'))
+			{
+				e.KeyChar = (char)0;
+				e.Handled = true;
+				txt.SelectionStart++;
+				return;
+			}
+
+			// When 'C' is entered then automatically insert "[C]".
+			// When 'V' is entered then automatically insert "[V]".
+			// But only when the previous character is not '['.
+			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
+			{
+				txt.Text = txt.Text.Insert(selStart, ("[" + e.KeyChar + "]"));
+				e.KeyChar = (char)0;
+				e.Handled = true;
+				txt.SelectionStart = selStart + 3;
+				return;
+			}
+
+			//// Uncomment to automatically insert a closing brace or
+			//// bracket when the user enters an opening counterpart.
+			//if (e.KeyChar == '[' || e.KeyChar == '{')
+			//{
+			//    m_ignoreTextChange = true;
+			//    txtPattern.Text = txtPattern.Text.Insert(selStart, (e.KeyChar == '[' ? "]" : "}"));
+			//    txtPattern.SelectionStart = selStart;
+			//    m_ignoreTextChange = false;
+			//}
 		}
 
 		#endregion

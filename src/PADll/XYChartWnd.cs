@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
+using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
@@ -640,7 +641,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			m_xyGrid.InsertTextInCell(item.Text);
+			m_xyGrid.InsertTextInCell(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------

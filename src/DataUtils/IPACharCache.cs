@@ -119,6 +119,16 @@ namespace SIL.Pa.Data
 		public string Transcription;
 		public string SourceName;
 		public string Reference;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Character.ToString();
+		}
 	}
 
 	#endregion
@@ -159,6 +169,7 @@ namespace SIL.Pa.Data
 		public const string kIPACharCacheFile = "PhoneticCharacterInventory.xml";
 		private string m_cacheFileName = null;
 		private Dictionary<string, IPACharInfo> m_toneLetters = null;
+		private bool m_logUndefinedCharacters = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -497,6 +508,19 @@ namespace SIL.Pa.Data
 			set { m_undefinedCharacters = value; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the PhoneticParse method should
+		/// add to the UndefinedCharacters collection any characters it runs across that
+		/// aren't found in the phonetic character inventory.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool LogUndefinedCharactersWhenParsing
+		{
+			get { return m_logUndefinedCharacters; }
+			set { m_logUndefinedCharacters = value; }
+		}
+
 		#endregion
 
 		#region Phonetic string parser
@@ -626,12 +650,10 @@ namespace SIL.Pa.Data
 					ciPrev = null;
 
 					// Log the undefined character.
-					if (badChar != '\0' && m_undefinedCharacters != null)
+					if (m_logUndefinedCharacters && badChar != '\0' &&
+						m_undefinedCharacters != null)
 					{
 						m_undefinedCharacters.Add(c, phonetic);
-
-						// Add the undefined phonetic character to the list of phones. Later,
-						// the character will be added to the IPA character cache.
 						phones.Add(c.ToString());
 					}
 

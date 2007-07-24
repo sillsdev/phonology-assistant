@@ -168,7 +168,7 @@ namespace SIL.Pa.Controls
 			if (msgType == MsgType.Other)
 			{
 				msg = Properties.Resources.kstidXYChartPopupInfoSyntaxErrorsMsg;
-				m_lblInfo.Font = m_eticMsg;
+				m_lblInfo.Font = FontHelper.UIFont;
 			}
 			else
 			{
