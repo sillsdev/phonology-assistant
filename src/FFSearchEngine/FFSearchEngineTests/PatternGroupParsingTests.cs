@@ -47,14 +47,12 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void VerifyMatchingBracketsTest()
 		{
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
-
 			string pattern = "{[[+high][+cons],[[+vcd][+cons]]}";
-			Assert.IsFalse(GetBoolResult(group, "VerifyMatchingBrackets",
+			Assert.IsFalse(GetBoolResult(typeof(PatternGroup), "VerifyMatchingBrackets",
 				new object[] {pattern, '[', ']'}));
 
 			pattern = "{{a,e},[[+front][+round]]";
-			Assert.IsFalse(GetBoolResult(group, "VerifyMatchingBrackets",
+			Assert.IsFalse(GetBoolResult(typeof(PatternGroup), "VerifyMatchingBrackets",
 				new object[] { pattern, '{', '}' }));
 		}
 
@@ -70,48 +68,48 @@ namespace SIL.Pa.FFSearchEngine
 
 			string pattern = "[[+high][+vcd][V]]";
 			string result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("[|+high$|+vcd$|V$]", result);
+			Assert.AreEqual("[%+high$%+vcd$%V$]", result);
 
 			pattern = "{[[+high][+cons]][[+vcd][+cons]]}";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("{[|+high$|+cons$][|+vcd$|+cons$]}", result);
+			Assert.AreEqual("{[%+high$%+cons$][%+vcd$%+cons$]}", result);
 
 			pattern = "[{[+high][+vcd]}[+cons]]";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("[{|+high$|+vcd$}|+cons$]", result);
+			Assert.AreEqual("[{%+high$%+vcd$}%+cons$]", result);
 
 			pattern = "{{a,e}[[+front][+round]]}";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("{{a,e}[|+front$|+round$]}", result);
+			Assert.AreEqual("{{a,e}[%+front$%+round$]}", result);
 
 			// Test a pattern from which some brackets don't need removing.
 			pattern = "[+front]{[+round][+vcd]}";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("|+front${|+round$|+vcd$}", result);
+			Assert.AreEqual("%+front${%+round$%+vcd$}", result);
 
 			pattern = "[[{a,e}{[+high][DENTAL]}][-dOrSaL]]";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("[[{a,e}{|+high$|DENTAL$}]|-dOrSaL$]", result);
+			Assert.AreEqual("[[{a,e}{%+high$%DENTAL$}]%-dOrSaL$]", result);
 
 			pattern = "[+high]abc[+con]";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("|+high$abc|+con$", result);
+			Assert.AreEqual("%+high$abc%+con$", result);
 
 			pattern = "[+high]abc{[+con],[dental]}";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("|+high$abc{|+con$|dental$}", result);
+			Assert.AreEqual("%+high$abc{%+con$%dental$}", result);
 
 			pattern = "[+high]abc[[+con],[dental]]";
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual("|+high$abc[|+con$|dental$]", result);
+			Assert.AreEqual("%+high$abc[%+con$%dental$]", result);
 
 			pattern = string.Format("[+con][[C][{0}~+]]", DataUtils.kDottedCircle);
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual(string.Format("|+con$[|C$[{0}~+]]", DataUtils.kDottedCircle), result);
+			Assert.AreEqual(string.Format("%+con$[%C$[{0}~+]]", DataUtils.kDottedCircle), result);
 
 			pattern = string.Format("[+con][[C][{0}~*]]", DataUtils.kDottedCircle);
 			result = GetStrResult(group, "DelimitMembers", pattern);
-			Assert.AreEqual(string.Format("|+con$[|C$[{0}~*]]", DataUtils.kDottedCircle), result);
+			Assert.AreEqual(string.Format("%+con$[%C$[{0}~*]]", DataUtils.kDottedCircle), result);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,13 +120,13 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void MiscParseFailureTest()
 		{
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
+			PatternGroup rootGroup = new PatternGroup(EnvironmentType.After);
 
-			group = new PatternGroup(EnvironmentType.Item);
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			Assert.IsFalse(group.Parse(string.Empty));
 			Assert.IsFalse(group.Parse(null));
 			
-			SetField(group, "m_isRootGroup", false);
+			SetField(group, "m_rootGroup", rootGroup);
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "{[ab}]"));
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "a[bc]"));
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "{ab}c"));
@@ -173,7 +171,7 @@ namespace SIL.Pa.FFSearchEngine
 			member.AddToMember(DataUtils.kBottomTieBarC);
 			member.AddToMember('s');
 			member.AddToMember(dental);
-			member.DiacriticPattern = aspiration.ToString() + "+";
+			member.DiacriticPattern = aspiration + "+";
 			member.CloseMember();
 
 			Assert.AreEqual(string.Format("t{0}s", DataUtils.kBottomTieBarC), member.Member);
@@ -196,7 +194,7 @@ namespace SIL.Pa.FFSearchEngine
 			member.AddToMember(DataUtils.kTopTieBarC);
 			member.AddToMember('s');
 			member.AddToMember(dental);
-			member.DiacriticPattern = aspiration.ToString() + "*";
+			member.DiacriticPattern = aspiration + "*";
 			member.CloseMember();
 
 			Assert.AreEqual(string.Format("t{0}s", DataUtils.kTopTieBarC), member.Member);
@@ -491,10 +489,8 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void PatternGroupTest_VowConWithModifier()
 		{
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
-
 			// Parse any aspirated consonant
-			group = new PatternGroup(EnvironmentType.Item);
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[C][{0}\u02B0]]", DataUtils.kDottedCircle));
 			Assert.AreEqual(1, group.Members.Count);
 			Assert.IsTrue(group.Members[0] is PatternGroupMember);
@@ -520,10 +516,8 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void PatternGroupTest_FeatureModifier()
 		{
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
-
 			// Parse any aspirated consonant
-			group = new PatternGroup(EnvironmentType.Item);
+			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[+stop][{0}\u02B0+]]", DataUtils.kDottedCircle));
 			Assert.AreEqual(1, group.Members.Count);
 			Assert.IsTrue(group.Members[0] is PatternGroupMember);

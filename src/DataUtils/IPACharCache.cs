@@ -101,8 +101,7 @@ namespace SIL.Pa.Data
 				ucpInfo.Character = c;
 				ucpInfo.SourceName = CurrentDataSourceName;
 				ucpInfo.Reference = CurrentReference;
-				ucpInfo.Transcription =
-					transcription.Replace(IPACharCache.kForcedPhoneDelimiterStr, string.Empty);
+				ucpInfo.Transcription = transcription;
 			}
 		}
 	}
@@ -151,19 +150,16 @@ namespace SIL.Pa.Data
 			Unicode
 		}
 
-		private const string kEmptySetChars = "0\u2205";
+		private static string s_currentPhoneticBeingParsed;
 
-		// Use object replacement character.
-		internal const string kForcedPhoneDelimiterStr = "\uFFFC";
-		private const char kForcedPhoneDelimiter = '\uFFFC';
-		
+		private const string kEmptySetChars = "0\u2205";
+		private const char kParseTokenMarker = '\u0001';
+		private readonly string m_ambigTokenFmt = kParseTokenMarker + "{0}";
+
 		private ExperimentalTranscriptions m_experimentalTransList = null;
 		private AmbiguousSequences m_sortedAmbiguousSeqList = null;
 		private AmbiguousSequences m_unsortedAmbiguousSeqList = null;
 		private UndefinedPhoneticCharactersInfoList m_undefinedCharacters;
-
-		private static readonly string s_forcedPhoneDelimiterFmt =
-			kForcedPhoneDelimiterStr + "{0}" + kForcedPhoneDelimiterStr;
 
 		public const string kDefaultIPACharCacheFile = "PhoneticCharacterInventory.xml";
 		public const string kIPACharCacheFile = "PhoneticCharacterInventory.xml";
@@ -587,8 +583,9 @@ namespace SIL.Pa.Data
 			if (normalize)
 			    phonetic = FFNormalizer.Normalize(phonetic);
 
+			s_currentPhoneticBeingParsed = phonetic;
 			phonetic = m_experimentalTransList.Convert(phonetic);
-			phonetic = DelimitAmbiguousSequences(phonetic);
+			phonetic = MarkAmbiguousSequences(phonetic);
 
 			int phoneStart = 0;
 			for (int i = 0; i < phonetic.Length; i++)
@@ -596,15 +593,20 @@ namespace SIL.Pa.Data
 				char c = phonetic[i];
 				char badChar = '\0';
 
-				// Check if we've run into a marker indicating the beginning of
-				// an ambiguous sequence or experimental phone transcription.
-				if (c == kForcedPhoneDelimiter)
+				// Check if we've run into a marker indicating
+				// the beginning of an ambiguous sequence.
+				if (c == kParseTokenMarker)
 				{
 					// First, close the previous phone if there is one.
 					if (i > phoneStart)
 						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 
-					AddPhoneFromBetweenDelimiters(phonetic, phones, ref i);
+					string ambigPhone =
+						m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[++i]);
+
+					if (!string.IsNullOrEmpty(ambigPhone))
+						phones.Add(ambigPhone);
+
 					phoneStart = i + 1;
 					continue;
 				}
@@ -620,6 +622,7 @@ namespace SIL.Pa.Data
 					if (i > phoneStart)
 						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 
+					// Check if we're at the beginning of an uncertain phone group
 					if (c != '(')
 					{
 						phoneStart = i + 1;
@@ -635,16 +638,14 @@ namespace SIL.Pa.Data
 						// between the parentheses. In that situation, the parentheses are
 						// not considered to be surrounding a group of uncertain phones.
 						if (primaryPhone == null)
-						{
-							phoneStart = i + 1;
 							badChar = c;
-						}
 						else
 						{
 							phones.Add(primaryPhone);
-							phoneStart = index + 1;
 							i = index;
 						}
+
+						phoneStart = i + 1;
 					}
 
 					ciPrev = null;
@@ -653,7 +654,7 @@ namespace SIL.Pa.Data
 					{
 						// Log the undefined character.
 						if (m_logUndefinedCharacters && m_undefinedCharacters != null)
-							m_undefinedCharacters.Add(c, phonetic);
+							m_undefinedCharacters.Add(c, s_currentPhoneticBeingParsed);
 
 						phones.Add(c.ToString());
 					}
@@ -721,11 +722,20 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Put delimiters around all ambiguous sequences so they're sure to be parsed into
-		/// their own phones.
+		/// This method marks ambiguous sequences in the specified phonetic string.
+		/// 
+		/// The process of marking ambiguous sequences in a phonetic string involves replacing
+		/// a series of characters that is recognied as an ambiguous sequence with two
+		/// characters. The first character is always the same and informs the parsing process
+		/// that what follows is an ambiguous sequence token. The second character is the
+		/// token. Tokens uniquely identify the sequence of characters being replaced.
+		/// 
+		/// After all ambiguous sequences in a phonetic string are marked, the process of
+		/// parsing a phonetic string into phones will find the tokens, adding the phones they
+		/// represent to the collection of phones being built for the phonetic string.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string DelimitAmbiguousSequences(string phonetic)
+		private string MarkAmbiguousSequences(string phonetic)
 		{
 			if (m_sortedAmbiguousSeqList == null && m_unsortedAmbiguousSeqList != null)
 				BuildSortedAmbiguousSequencesList();
@@ -737,30 +747,12 @@ namespace SIL.Pa.Data
 					if (ambigSeq.Convert)
 					{
 						phonetic = phonetic.Replace(ambigSeq.Unit,
-							string.Format(s_forcedPhoneDelimiterFmt, ambigSeq.Unit));
+							string.Format(m_ambigTokenFmt, ambigSeq.ParseToken));
 					}
 				}
 			}
 
 			return phonetic;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Finds the end of an ambiguous sequence or experimental transcription, extracts the
-		/// sequence from the specified phonetic string and adds it to the specified list of
-		/// phones.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void AddPhoneFromBetweenDelimiters(string phonetic, List<string> phones,
-			ref int i)
-		{
-			int end = phonetic.IndexOf(kForcedPhoneDelimiter, i + 1);
-			if (end < 0)
-				return;
-
-			phones.Add(phonetic.Substring(i + 1, end - (i + 1)));
-			i = end;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -791,16 +783,16 @@ namespace SIL.Pa.Data
 
 			for (; i < phonetic.Length && phonetic[i] != ')'; i++)
 			{
-				// Experimental transcription delimiters in uncertain groups are actually
-				// redundant since uncertain groups should be transcribed as there are
-				// no experimental transcriptions. Therefore, skip the delimiters when
-				// they're found.
-				if (phonetic[i] == kForcedPhoneDelimiter)
-					continue;
-
-				if (phonetic[i] == '/' || phonetic[i] == ',')
+				if (phonetic[i] != '/' && phonetic[i] != ',' && phonetic[i] != kParseTokenMarker)
 				{
-					// If the phone is the empty set character just save an empty string.
+					bldrPhone.Append(phonetic[i]);
+					continue;
+				}
+
+				if (phonetic[i] != kParseTokenMarker)
+				{
+					// Save the previous phone, if there is one, checking if the phone is the
+					// empty set character. If it's the empty set, then just save an empty string.
 					tmpPhone = bldrPhone.ToString();
 					if (kEmptySetChars.Contains(tmpPhone))
 						tmpPhone = string.Empty;
@@ -810,7 +802,22 @@ namespace SIL.Pa.Data
 					continue;
 				}
 
-				bldrPhone.Append(phonetic[i]);
+				// Ambiguous sequences in uncertain groups are actually redundant since
+				// the slashes and the final close parenthesis should mark sequences that
+				// are to be kept together as phones. But, we have to check for them...
+				// just in case.
+				string ambigPhone =
+					m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[i + 1]);
+
+				if (!string.IsNullOrEmpty(ambigPhone))
+				{
+					// Replace the token marker and the token with the ambiguous sequence.
+					string dualCharMarker =
+						string.Format(m_ambigTokenFmt, phonetic[i + 1]);
+
+					phonetic = phonetic.Replace(dualCharMarker, ambigPhone);
+					bldrPhone.Append(phonetic[i]);
+				}
 			}
 
 			// If we reached the end of the string it means we didn't
@@ -844,7 +851,7 @@ namespace SIL.Pa.Data
 			uncertainPhones[phoneNumber] = phones.ToArray();
 
 			if (m_undefinedCharacters != null)
-				ValidateCodepointsInUncertainPhones(phonetic, phones);
+				ValidateCodepointsInUncertainPhones(phones);
 
 			return phones[0];
 		}
@@ -855,7 +862,7 @@ namespace SIL.Pa.Data
 		/// are in PA's character code inventory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ValidateCodepointsInUncertainPhones(string phonetic, List<string> phones)
+		private void ValidateCodepointsInUncertainPhones(List<string> phones)
 		{
 			foreach (string phone in phones)
 			{
@@ -863,7 +870,7 @@ namespace SIL.Pa.Data
 				{
 					// Get the information for the current codepoint.
 					if (!ContainsKey(c))
-						m_undefinedCharacters.Add(c, phonetic);
+						m_undefinedCharacters.Add(c, s_currentPhoneticBeingParsed);
 				}
 			}
 		}

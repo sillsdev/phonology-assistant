@@ -96,14 +96,12 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void GetRootGroupTypeTest()
 		{
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
-
 			string pattern = "[+high+con]abc,dental";
-			GroupType result = (GroupType)GetResult(group, "GetRootGroupType", pattern);
+			GroupType result = (GroupType)GetResult(typeof(PatternGroup), "GetRootGroupType", pattern);
 			Assert.AreEqual(GroupType.Sequential, result);
 
 			pattern = "[[+high][+con]{a,e}]";
-			result = (GroupType)GetResult(group, "GetRootGroupType", pattern);
+			result = (GroupType)GetResult(typeof(PatternGroup), "GetRootGroupType", pattern);
 			Assert.AreEqual(GroupType.And, result);
 		}
 

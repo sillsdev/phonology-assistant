@@ -388,6 +388,8 @@ namespace SIL.Pa.Controls
 
 			int selstart = txt.SelectionStart;
 			string newText = txt.Text.Trim();
+			if (selstart >= newText.Length)
+				selstart = newText.Length;
 
 			// First, remove any selected text.
 			if (txt.SelectionLength > 0)

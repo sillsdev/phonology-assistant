@@ -64,6 +64,7 @@ namespace SIL.Pa.Data
 			DataUtils.IPACharCache.AmbiguousSequences.Clear();
 			DataUtils.IPACharCache.ExperimentalTranscriptions.Clear();
 			DataUtils.IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -624,7 +625,9 @@ namespace SIL.Pa.Data
 			// Test two ambiguities in the uncertain group.
 			result = DataUtils.IPACharCache.PhoneticParser("a(i/t\u0283/a/\u1D51g)de", true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
+			Assert.AreEqual("i", uncertainties[1][0]);
 			Assert.AreEqual("t\u0283", uncertainties[1][1]);
+			Assert.AreEqual("a", uncertainties[1][2]);
 			Assert.AreEqual("\u1D51g", uncertainties[1][3]);
 		}
 		

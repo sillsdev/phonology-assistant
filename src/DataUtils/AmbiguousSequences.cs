@@ -18,6 +18,16 @@ namespace SIL.Pa.Data
 		public const string kDefaultSequenceFile = "DefaultAmbiguousSequences.xml";
 		public const string kSequenceFile = "AmbiguousSequences.xml";
 
+		private static char s_unusedToken;
+		
+		// The parse tokens list is a hash table of character tokens unique to each ambiguous
+		// sequence in the list. They are used when parsing phonetic text containing
+		// ambiguous sequences. Before a phonetic transcription is parsed into phones, each
+		// ambiguous sequence in the transcription is replaced by a single token. Then the
+		// transcription is parsed into phones, the tokens are replaced by the ambiguous
+		// sequences they represent.
+		private Dictionary<char, string> m_parseTokens;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Construct the file name for the project-specific sequences.
@@ -75,6 +85,28 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public AmbiguousSequences()
+		{
+			Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new void Clear()
+		{
+			base.Clear();
+			m_parseTokens = null;
+			s_unusedToken = '\uFFFF';
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds an ambiguous sequence to the collection, first making sure the sequence with
 		/// the same Unit value is not already in the list.
 		/// </summary>
@@ -85,7 +117,25 @@ namespace SIL.Pa.Data
 				return;
 
 			if (!ContainsSeq(seq.Unit, false))
+			{
+				seq.ParseToken = s_unusedToken--;
 				base.Add(seq);
+			}
+		
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new void AddRange(IEnumerable<AmbiguousSeq> collection)
+		{
+			if (collection != null)
+			{
+				foreach (AmbiguousSeq seq in collection)
+					Add(seq);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -173,6 +223,42 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the unit of the ambiguous sequence for the specified parse token.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetAmbigSeqForToken(char token)
+		{
+			string ambigSeq = null;
+
+			// Create the token list if it hasn't already been built.
+			if (m_parseTokens == null)
+			{
+				m_parseTokens = new Dictionary<char, string>();
+				foreach (AmbiguousSeq seq in this)
+					m_parseTokens[seq.ParseToken] = seq.Unit;
+			}
+
+			m_parseTokens.TryGetValue(token, out ambigSeq);
+			return ambigSeq;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// The parse tokens list is a hash table of character tokens unique to each ambiguous
+		///// sequence in the list. They are used when parsing phonetic text containing
+		///// ambiguous sequences. Before a phonetic transcription is parsed into phones, each
+		///// ambiguous sequence in the transcription is replaced by a single token. Then the
+		///// transcription is parsed into phones, the tokens are replaced by the ambiguous
+		///// sequences they represent.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//internal Dictionary<char, string> ParseTokens
+		//{
+		//    get { return m_parseTokens; }
+		//}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the number of sequences in the list that are not default sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -253,6 +339,8 @@ namespace SIL.Pa.Data
 		public bool IsDefault = false;
 		[XmlIgnore]
 		internal int DisplayIndex;
+		[XmlIgnore]
+		internal char ParseToken;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
