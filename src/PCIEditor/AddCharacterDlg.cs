@@ -12,6 +12,9 @@ namespace SIL.Pa
 {
 	public partial class AddCharacterDlg : OKCancelDlgBase
 	{
+		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+-#=*%CV" +
+			DataUtils.kOrc.ToString() + DataUtils.kDottedCircle;
+
 		#region Constants
 		// Define Constants
 		private const string kCodePoint = "CodePoint";

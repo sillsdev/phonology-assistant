@@ -387,10 +387,25 @@ namespace SIL.Pa.FFSearchEngine
 				bldrPhones.Append(GetPhonesFromMember(m_envBefore));
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 
-				foreach (char c in bldrPhones.ToString())
+				string[] phones =
+					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true);
+				
+				if (phones != null)
 				{
-					if (DataUtils.IPACharCache == null || DataUtils.IPACharCache[c] == null)
-						badChars.Add(c);
+					foreach (string phone in phones)
+					{
+						// We only care about phones of length 1, since
+						// undefined characters are only one character in length.
+						if (phone.Length == 1)
+						{
+							if (DataUtils.IPACharCache == null ||
+								DataUtils.IPACharCache[phone] == null ||
+								DataUtils.IPACharCache[phone].IsUndefined)
+							{
+								badChars.Add(phone[0]);
+							}
+						}
+					}
 				}
 
 				return (badChars.Count == 0 ? null : badChars.ToArray());

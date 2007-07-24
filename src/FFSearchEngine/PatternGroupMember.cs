@@ -223,6 +223,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private PatternGroupMember[] ClosePhoneRunMember()
 		{
+			m_type = MemberType.SinglePhone;
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
 			string[] phones = DataUtils.IPACharCache.PhoneticParser(m_member, true);

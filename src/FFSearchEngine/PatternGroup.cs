@@ -237,7 +237,7 @@ namespace SIL.Pa.FFSearchEngine
 					continue;
 				}
 
-				if (pattern[i] == '|')
+				if (pattern[i] == '%')
 				{
 					CloseCurrentMember();
 					continue;
@@ -777,7 +777,7 @@ namespace SIL.Pa.FFSearchEngine
 						return false;
 					}
 
-					tmpPattern = "|*$" + tmpPattern.Substring(1);
+					tmpPattern = "%*$" + tmpPattern.Substring(1);
 				}
 				else
 				{
@@ -789,7 +789,7 @@ namespace SIL.Pa.FFSearchEngine
 					}
 
 					tmpPattern = tmpPattern.TrimEnd("*".ToCharArray());
-					tmpPattern += "|*$";
+					tmpPattern += "%*$";
 				}
 			}
 
@@ -804,7 +804,7 @@ namespace SIL.Pa.FFSearchEngine
 						return false;
 					}
 
-					tmpPattern = "|+$" + tmpPattern.Substring(1);
+					tmpPattern = "%+$" + tmpPattern.Substring(1);
 				}
 				else
 				{
@@ -816,7 +816,7 @@ namespace SIL.Pa.FFSearchEngine
 					}
 
 					tmpPattern = tmpPattern.TrimEnd("+".ToCharArray());
-					tmpPattern += "|+$";
+					tmpPattern += "%+$";
 				}
 			}
 
@@ -854,7 +854,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			string finalModified = modifiedPtrn.ToString();
 			finalModified = finalModified.Replace(" ", string.Empty);
-			finalModified = finalModified.Replace("$,|", "$|");
+			finalModified = finalModified.Replace("$,%", "$%");
 			finalModified = finalModified.Replace("],[", "][");
 			finalModified = finalModified.Replace("},{", "}{");
 			return finalModified;
@@ -932,7 +932,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				modifiedPtrn[closeIndex] = '$';
-				modifiedPtrn[i] = '|';
+				modifiedPtrn[i] = '%';
 				i++;
 			}
 

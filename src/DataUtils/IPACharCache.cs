@@ -649,11 +649,12 @@ namespace SIL.Pa.Data
 
 					ciPrev = null;
 
-					// Log the undefined character.
-					if (m_logUndefinedCharacters && badChar != '\0' &&
-						m_undefinedCharacters != null)
+					if (badChar != '\0')
 					{
-						m_undefinedCharacters.Add(c, phonetic);
+						// Log the undefined character.
+						if (m_logUndefinedCharacters && m_undefinedCharacters != null)
+							m_undefinedCharacters.Add(c, phonetic);
+
 						phones.Add(c.ToString());
 					}
 

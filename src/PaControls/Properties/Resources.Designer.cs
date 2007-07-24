@@ -1078,7 +1078,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in\nan invalid location within the search pattern:\n\n{0}\n\nThe one-or-more symbol may only be the\nfirst item in the environment before and/or\nthe last item in the environment after..
+        ///   Looks up a localized string similar to Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after..
         /// </summary>
         internal static string kstidSrchPatternOneOrMoreError {
             get {
@@ -1087,7 +1087,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The space/word boundary symbol (#) may not\nbe the first or last item in the search item portion\n(what precedes the slash) of the search pattern:\n\n{0}.
+        ///   Looks up a localized string similar to Misplaced space or word boundary symbol (#). A space or word boundary symbol may not be at the beginning or end of the search item..
         /// </summary>
         internal static string kstidSrchPatternWordBoundaryError {
             get {
@@ -1096,7 +1096,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The zero-or-more symbol (*) was\nfound in an invalid location within\nthe search pattern:\n\n{0}\n\nThe zero-or-more symbol may only\nbe the first item in the environment\nbefore and/or the last item in the\nenvironment after..
+        ///   Looks up a localized string similar to Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after..
         /// </summary>
         internal static string kstidSrchPatternZeroOrMoreError {
             get {
@@ -1227,6 +1227,15 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidXYChartPopupInfoBadCharsMsg {
             get {
                 return ResourceManager.GetString("kstidXYChartPopupInfoBadCharsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}) {1}\n\n.
+        /// </summary>
+        internal static string kstidXYChartPopupInfoErrListFormat {
+            get {
+                return ResourceManager.GetString("kstidXYChartPopupInfoErrListFormat", resourceCulture);
             }
         }
         

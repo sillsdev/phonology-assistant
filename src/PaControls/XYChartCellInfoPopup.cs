@@ -15,6 +15,7 @@ namespace SIL.Pa.Controls
 		{
 			NonExistentPhones,
 			BadCharacters,
+			Exception,
 			Other
 		}
 
@@ -107,10 +108,14 @@ namespace SIL.Pa.Controls
 
 			m_associatedCell = associatedCell;
 			m_lblPattern.Text = pattern;
+			MsgType msgType = MsgType.Other;
 
 			if (informationMsg != null)
 			{
-				InitializeLabels(MsgType.Other);
+				if (m_associatedCell.Value is XYChartException)
+					msgType = MsgType.Exception;
+				
+				InitializeLabels(msgType);
 				m_lblInfo.Text = STUtils.ConvertLiteralNewLines(informationMsg);
 			}
 			else
@@ -118,7 +123,7 @@ namespace SIL.Pa.Controls
 				Debug.Assert(m_associatedCell.Tag != null);
 
 				List<string> invalidItems = null;
-				MsgType msgType = MsgType.NonExistentPhones;
+				msgType = MsgType.NonExistentPhones;
 
 				// Assume the information to display is a string
 				// of invalidItems stored in the cell's tag property.
@@ -149,7 +154,9 @@ namespace SIL.Pa.Controls
 			}
 
 			m_lblPattern.Size = m_lblPattern.PreferredSize;
-			m_lblInfo.Size = m_lblInfo.PreferredSize;
+			m_lblInfo.Size = (msgType != MsgType.Exception ?
+				m_lblInfo.PreferredSize : CalculateExceptionInfoLabelSize());
+
 			LocateLabels();
 		}
 
@@ -163,9 +170,9 @@ namespace SIL.Pa.Controls
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
 			m_lblPattern.Font = m_eticBold;
 
-			string msg;
+			string msg = null;
 
-			if (msgType == MsgType.Other)
+			if (msgType == MsgType.Other || msgType == MsgType.Exception)
 			{
 				msg = Properties.Resources.kstidXYChartPopupInfoSyntaxErrorsMsg;
 				m_lblInfo.Font = FontHelper.UIFont;
@@ -181,12 +188,32 @@ namespace SIL.Pa.Controls
 			}
 
 			m_lblMsg.Text = STUtils.ConvertLiteralNewLines(msg);
+			if (msgType == MsgType.Exception)
+				m_lblMsg.Text = m_lblMsg.Text.Replace("\n", " ");
+
 			m_lblMsg.Location = new Point(Padding.Left, m_lblPattern.Bottom + 10);
 			m_lblMsg.Size = m_lblMsg.PreferredSize;
 			m_lblMsg.Font = FontHelper.UIFont;
 
 			m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
 				(msgType == MsgType.Other ? 13 : 10));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Size CalculateExceptionInfoLabelSize()
+		{
+			int maxWidth = (int)(m_lblMsg.Width * 1.1);
+			Size sz = new Size(maxWidth, int.MaxValue);
+			TextFormatFlags flags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
+
+			m_lblInfo.TextAlign = ContentAlignment.MiddleLeft;
+			sz = TextRenderer.MeasureText(m_lblInfo.Text, m_lblInfo.Font, sz, flags);
+			sz.Height += 8;
+			return sz;
 		}
 
 		/// ------------------------------------------------------------------------------------

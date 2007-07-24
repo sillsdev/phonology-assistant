@@ -1786,39 +1786,35 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public XYChartException(SearchQuery query)
 		{
-			SearchEngine engine = new SearchEngine(query.Pattern);
+			SearchQuery modifiedQuery =
+				PaApp.ConvertClassesToPatterns(query, false, out m_queryErrorMsg);
+			
+			if (modifiedQuery == null)
+				return;
 
-			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-			{
-				m_queryErrorMsg = string.Format(
-					Properties.Resources.kstidSrchPatternWordBoundaryError, query.Pattern);
-			}
-			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-			{
-				m_queryErrorMsg = string.Format(
-					Properties.Resources.kstidSrchPatternZeroOrMoreError, query.Pattern);
-			}
-			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-			{
-				m_queryErrorMsg = string.Format(
-					Properties.Resources.kstidSrchPatternOneOrMoreError, query.Pattern);
-			}
+			SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
 
 			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
 			{
+				string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;
 				StringBuilder errors = new StringBuilder();
 				for (int i = 0; i < engine.ErrorMessages.Length; i++)
-				{
-					errors.Append(engine.ErrorMessages[i]);
-					if (i < engine.ErrorMessages.Length - 1)
-						errors.Append('\n');
-				}
+					errors.AppendFormat(msgFmt, i + 1, engine.ErrorMessages[i]);
 
 				m_queryErrorMsg = errors.ToString();
 			}
+			else if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
+				m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
+			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
+				m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
+			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
+				m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
 
 			if (string.IsNullOrEmpty(m_queryErrorMsg))
 				m_queryErrorMsg = "Unkown Error.";
+
+			m_queryErrorMsg = STUtils.ConvertLiteralNewLines(m_queryErrorMsg);
+			m_queryErrorMsg = m_queryErrorMsg.TrimEnd("\n\r".ToCharArray());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1826,28 +1822,9 @@ namespace SIL.Pa.Controls
 		/// Constructs an XYChartException object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartException(Exception thrownException, SearchQuery query)
+		public XYChartException(Exception thrownException, SearchQuery query) : this(query)
 		{
 			m_thrownException = thrownException;
-
-			string errMsg;
-			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, false, out errMsg);
-			if (modifiedQuery == null)
-			{
-				m_queryErrorMsg = errMsg;
-				return;
-			}
-
-			SearchEngine engine = new SearchEngine(modifiedQuery);
-			StringBuilder bldr = new StringBuilder();
-			for (int i = 0; i < engine.ErrorMessages.Length; i++)
-			{
-				bldr.Append(engine.ErrorMessages[i]);
-				if (i < engine.ErrorMessages.Length - 1)
-					bldr.Append('\n');
-			}
-
-			m_queryErrorMsg = bldr.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------
