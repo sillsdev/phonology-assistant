@@ -139,10 +139,10 @@
     <value>Misplaced diacritic in {0}.</value>
   </data>
   <data name="kstidOneOrMoreBeginningErr" xml:space="preserve">
-    <value>When the one-or-more symbol is present in the environment before, it must be  at the beginning.</value>
+    <value>When the one-or-more symbol (+) is present in the environment before, it must be  at the beginning.</value>
   </data>
   <data name="kstidOneOrMoreEndingErr" xml:space="preserve">
-    <value>When the one-or-more symbol is present in the environment after, it must be  at the end.</value>
+    <value>When the one-or-more symbol (+) is present in the environment after, it must be  at the end.</value>
   </data>
   <data name="kstidParsedToNothingError" xml:space="preserve">
     <value>Error parsing the {0}.</value>
@@ -151,7 +151,7 @@
     <value>The {0} is empty.</value>
   </data>
   <data name="kstidPatternSyntaxError" xml:space="preserve">
-    <value>Syntax error. Pattern is not\nin the correct format: {0}</value>
+    <value>Syntax error. Pattern is not in the correct format: {0}</value>
   </data>
   <data name="kstidSearchItem" xml:space="preserve">
     <value>search item</value>
@@ -163,21 +163,21 @@
     <value>There are too many diacritic placeholders between a single set of brackets in the {0}.</value>
   </data>
   <data name="kstidTooManyOneOrMoreErr" xml:space="preserve">
-    <value>Too many one-or-more symbols (+) found in {0}. Only one is allowed.</value>
+    <value>Too many one-or-more symbols (+) found in the {0}. Only one is allowed.</value>
   </data>
   <data name="kstidTooManyZeroOrMoreErr" xml:space="preserve">
-    <value>Too many zero-or-more symbols (*) found in {0}. Only one is allowed.</value>
+    <value>Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.</value>
   </data>
   <data name="kstidZeroAndOneOrMoreFoundErr" xml:space="preserve">
-    <value>The zero-or-more symbol cannot be in the {0} with the one-or-more symbol.</value>
+    <value>The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).</value>
   </data>
   <data name="kstidZeroOneOrMoreFoundInSrchItemErr" xml:space="preserve">
-    <value>The zero-or-more and one-or-more symbols are not allowed in the search item.</value>
+    <value>The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.</value>
   </data>
   <data name="kstidZeroOrMoreBeginningErr" xml:space="preserve">
-    <value>When the zero-or-more symbol is present in the environment before, it must be  at the beginning.</value>
+    <value>When the zero-or-more symbol (*) is present in the environment before, it must be  at the beginning.</value>
   </data>
   <data name="kstidZeroOrMoreEndingErr" xml:space="preserve">
-    <value>When the zero-or-more symbol is present in the environment after, it must be  at the end.</value>
+    <value>When the zero-or-more symbol (*) is present in the environment after, it must be  at the end.</value>
   </data>
 </root>

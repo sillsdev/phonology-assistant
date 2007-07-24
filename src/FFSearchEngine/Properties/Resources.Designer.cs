@@ -124,7 +124,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the one-or-more symbol is present in the environment before, it must be  at the beginning..
+        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the environment before, it must be  at the beginning..
         /// </summary>
         internal static string kstidOneOrMoreBeginningErr {
             get {
@@ -133,7 +133,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the one-or-more symbol is present in the environment after, it must be  at the end..
+        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the environment after, it must be  at the end..
         /// </summary>
         internal static string kstidOneOrMoreEndingErr {
             get {
@@ -160,7 +160,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Syntax error. Pattern is not\nin the correct format: {0}.
+        ///   Looks up a localized string similar to Syntax error. Pattern is not in the correct format: {0}.
         /// </summary>
         internal static string kstidPatternSyntaxError {
             get {
@@ -196,7 +196,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Too many one-or-more symbols (+) found in {0}. Only one is allowed..
+        ///   Looks up a localized string similar to Too many one-or-more symbols (+) found in the {0}. Only one is allowed..
         /// </summary>
         internal static string kstidTooManyOneOrMoreErr {
             get {
@@ -205,7 +205,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Too many zero-or-more symbols (*) found in {0}. Only one is allowed..
+        ///   Looks up a localized string similar to Too many zero-or-more symbols (*) found in the {0}. Only one is allowed..
         /// </summary>
         internal static string kstidTooManyZeroOrMoreErr {
             get {
@@ -214,7 +214,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The zero-or-more symbol cannot be in the {0} with the one-or-more symbol..
+        ///   Looks up a localized string similar to The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+)..
         /// </summary>
         internal static string kstidZeroAndOneOrMoreFoundErr {
             get {
@@ -223,7 +223,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The zero-or-more and one-or-more symbols are not allowed in the search item..
+        ///   Looks up a localized string similar to The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item..
         /// </summary>
         internal static string kstidZeroOneOrMoreFoundInSrchItemErr {
             get {
@@ -232,7 +232,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the zero-or-more symbol is present in the environment before, it must be  at the beginning..
+        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the environment before, it must be  at the beginning..
         /// </summary>
         internal static string kstidZeroOrMoreBeginningErr {
             get {
@@ -241,7 +241,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the zero-or-more symbol is present in the environment after, it must be  at the end..
+        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the environment after, it must be  at the end..
         /// </summary>
         internal static string kstidZeroOrMoreEndingErr {
             get {
