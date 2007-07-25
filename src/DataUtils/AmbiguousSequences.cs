@@ -98,6 +98,17 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public AmbiguousSequences(IEnumerable<AmbiguousSeq> list) : base(list)
+		{
+			m_parseTokens = null;
+			s_unusedToken = '\uFFFF';
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public new void Clear()
 		{
 			base.Clear();
@@ -157,15 +168,18 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void Save(string projectFileName)
 		{
-			// Before saving, make sure there are no empty or null units.
-			for (int i = Count - 1; i >= 0; i--)
+			AmbiguousSequences tmpList = new AmbiguousSequences(this);
+
+			// Before saving, make sure there are no empty or null units and get rid of those
+			// sequences that were added automatically by the phonetic parser in IPACharCache.
+			for (int i = tmpList.Count - 1; i >= 0; i--)
 			{
-				if (this[i].Unit == null || this[i].Unit.Trim().Length == 0)
-					RemoveAt(i);
+				string unit = tmpList[i].Unit;
+				if (unit == null || unit.Trim().Length == 0 || tmpList[i].IsProjectDefault)
+					tmpList.RemoveAt(i);
 			}
-			
-			string filename = BuildFileName(projectFileName);
-			STUtils.SerializeData(filename, this);
+
+			STUtils.SerializeData(BuildFileName(projectFileName), tmpList);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -332,7 +346,7 @@ namespace SIL.Pa.Data
 		
 		// This flag is only used for sequences that were added
 		// from the PhoneticParser in the IPA character cache.
-		[XmlAttribute]
+		[XmlIgnore]
 		public bool IsProjectDefault = false;
 
 		[XmlIgnore]

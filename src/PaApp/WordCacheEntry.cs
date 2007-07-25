@@ -99,17 +99,8 @@ namespace SIL.Pa
 					fieldValue.Value = value;
 				else if (value != null)
 				{
-					// We're setting the phonetic value so normalize
-					// the string and convert any experimental transcriptions.
-					fieldValue.Value =
-						DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
-						FFNormalizer.Normalize(value), out m_experimentalTranscriptionList);
-
-					// Check if it contains uncertain phones. If so, then force immediate
-					// parsing to make sure the list of uncertain phones is ready when
-					// this entry is displayed in a word list grid.
-					if (value.IndexOfAny("(".ToCharArray()) >= 0)
-						ParsePhoneticValue();
+					SetPhoneticValue(value);
+					ParsePhoneticValue();
 				}
 			}
 		}
@@ -362,24 +353,8 @@ namespace SIL.Pa
 					if (fieldInfo.IsPhonetic)
 					{
 						m_phoneticValue = fieldValue;
-
-						if (m_phoneticValue.Value != null)
-						{
-							if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
-							{
-								// Normalize the phonetic string and convert experimental transcriptions.
-								m_phoneticValue.Value =
-									DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
-										FFNormalizer.Normalize(fieldValue.Value),
-										out m_experimentalTranscriptionList);
-							}
-
-							// Check if the phonetic value contains uncertain phones. If so,
-							// then parse into phones to make sure the list of uncertain phones
-							// is ready when this entry is displayed in a word list grid.
-							if (m_phoneticValue.Value.IndexOfAny("(".ToCharArray()) >= 0)
-								ParsePhoneticValue();
-						}
+						SetPhoneticValue(fieldValue.Value);
+						ParsePhoneticValue();
 					}
 				}
 			}
@@ -387,35 +362,28 @@ namespace SIL.Pa
 			m_fieldValuesList = null;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Converts all experimental transcriptions in the specified word and returns the
-		///// word with all the conversions applied.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private string ConvertExperimentalTranscriptions(string phonetic)
-		//{
-		//    if (s_experimentalTranscriptionList != null)
-		//    {
-		//        foreach (KeyValuePair<string, string> convertItem in s_experimentalTranscriptionList)
-		//        {
-		//            // Does the phonetic string contain the item to be converted?
-		//            if (phonetic.IndexOf(convertItem.Key) >= 0)
-		//            {
-		//                // At this point, we know we need to make a conversion. So make sure
-		//                // we have a list to store this conversion.
-		//                if (m_experimentalTranscriptionList == null)
-		//                    m_experimentalTranscriptionList = new Dictionary<string, string>();
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetPhoneticValue(string phonetic)
+		{
+			if (!string.IsNullOrEmpty(phonetic))
+			{
+				// Normalize the phonetic string.
+				phonetic = FFNormalizer.Normalize(phonetic);
 
-		//                // Save the information for this conversion and do the conversion.
-		//                m_experimentalTranscriptionList[convertItem.Key] = convertItem.Value;
-		//                phonetic = phonetic.Replace(convertItem.Key, convertItem.Value);
-		//            }
-		//        }
-		//    }
+				if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
+				{
+					// Convert experimental transcriptions within the phonetic string.
+					phonetic = DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
+						phonetic, out m_experimentalTranscriptionList);
+				}
+			}
 
-		//    return phonetic;
-		//}
+			m_phoneticValue.Value = phonetic;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -425,6 +393,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticValue()
 		{
+			if (m_phoneticValue.Value == null)
+				return;
+
 			if (DataUtils.IPACharCache.UndefinedCharacters != null)
 			{
 				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
@@ -442,7 +413,7 @@ namespace SIL.Pa
 			}
 
 			m_phones = DataUtils.IPACharCache.PhoneticParser(
-				m_phoneticValue.Value, false, out m_uncertainPhones);
+				m_phoneticValue.Value, false, false, out m_uncertainPhones);
 
 			if (m_phones != null && m_phones.Length == 0)
 			{

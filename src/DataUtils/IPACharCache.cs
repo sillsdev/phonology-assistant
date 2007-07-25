@@ -167,6 +167,10 @@ namespace SIL.Pa.Data
 		private Dictionary<string, IPACharInfo> m_toneLetters = null;
 		private bool m_logUndefinedCharacters = false;
 
+		// This is a collection that is created every time the PhoneticParser method is
+		// called and holds all the phones that have been parsed out of a transcription.
+		private List<string> m_phones;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -558,17 +562,27 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Parses the specified phonetic string into a new string of phones delimited
-		/// by commas.
+		/// Parses the specified phonetic string into an array of phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string[] PhoneticParser(string phonetic, bool normalize,
 			out Dictionary<int, string[]> uncertainPhones)
 		{
+			return PhoneticParser(phonetic, normalize, true, out uncertainPhones);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Parses the specified phonetic string into an array of phones.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] PhoneticParser(string phonetic, bool normalize,
+			bool convertExperimentalTranscriptions, out Dictionary<int, string[]> uncertainPhones)
+		{
 			// This flag gets set when we encounter a phonetic string that begins with a non
 			// base character (e.g. prenasalized 'd'). When the end of the phone beginning
 			// the string is found, the phone is added to the ambiguous sequences list.
-			bool addPhoneToAmbiguousSeqList = false;
+			bool addToAmbigSeqList = false;
 
 			uncertainPhones = null;
 
@@ -576,7 +590,7 @@ namespace SIL.Pa.Data
 			if (string.IsNullOrEmpty(phonetic))
 				return null;
 
-			List<string> phones = new List<string>();
+			m_phones = new List<string>();
 			IPACharInfo ciPrev = null;
 
 			// Normalize the string if necessary.
@@ -584,7 +598,10 @@ namespace SIL.Pa.Data
 			    phonetic = FFNormalizer.Normalize(phonetic);
 
 			s_currentPhoneticBeingParsed = phonetic;
-			phonetic = m_experimentalTransList.Convert(phonetic);
+
+			if (convertExperimentalTranscriptions)
+				phonetic = m_experimentalTransList.Convert(phonetic);
+	
 			phonetic = MarkAmbiguousSequences(phonetic);
 
 			int phoneStart = 0;
@@ -599,13 +616,16 @@ namespace SIL.Pa.Data
 				{
 					// First, close the previous phone if there is one.
 					if (i > phoneStart)
-						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
+					{
+						SavePhone(phonetic.Substring(phoneStart, i - phoneStart),
+							ref addToAmbigSeqList);
+					}
 
 					string ambigPhone =
 						m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[++i]);
 
 					if (!string.IsNullOrEmpty(ambigPhone))
-						phones.Add(ambigPhone);
+						m_phones.Add(ambigPhone);
 
 					phoneStart = i + 1;
 					continue;
@@ -620,7 +640,10 @@ namespace SIL.Pa.Data
 				if (ciCurr == null || ciCurr.CharType == IPACharacterType.Unknown)
 				{
 					if (i > phoneStart)
-						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
+					{
+						SavePhone(phonetic.Substring(phoneStart, i - phoneStart),
+							ref addToAmbigSeqList);
+					}	
 
 					// Check if we're at the beginning of an uncertain phone group
 					if (c != '(')
@@ -632,7 +655,7 @@ namespace SIL.Pa.Data
 					{
 						int index = i + 1;
 						string primaryPhone = GetUncertainties(phonetic, ref index,
-							phones.Count, ref uncertainPhones);
+							m_phones.Count, ref uncertainPhones);
 
 						// Primary phone should only be null when no slash was found
 						// between the parentheses. In that situation, the parentheses are
@@ -641,7 +664,7 @@ namespace SIL.Pa.Data
 							badChar = c;
 						else
 						{
-							phones.Add(primaryPhone);
+							m_phones.Add(primaryPhone);
 							i = index;
 						}
 
@@ -656,7 +679,7 @@ namespace SIL.Pa.Data
 						if (m_logUndefinedCharacters && m_undefinedCharacters != null)
 							m_undefinedCharacters.Add(c, s_currentPhoneticBeingParsed);
 
-						phones.Add(c.ToString());
+						m_phones.Add(c.ToString());
 					}
 
 					continue;
@@ -667,7 +690,7 @@ namespace SIL.Pa.Data
 				// transcription so just put it with the following characters.
 				if (ciPrev == null && ciCurr != null && !ciCurr.IsBaseChar)
 				{
-					addPhoneToAmbiguousSeqList = true;
+					addToAmbigSeqList = true;
 					continue;
 				}
 
@@ -692,22 +715,8 @@ namespace SIL.Pa.Data
 				if (ciCurr.IsBaseChar && i > phoneStart && ciPrev != null)
 				{
 					string phone = phonetic.Substring(phoneStart, i - phoneStart);
-					phones.Add(phone);
+					SavePhone(phone, ref addToAmbigSeqList);
 					phoneStart = i;
-
-					if (addPhoneToAmbiguousSeqList)
-					{
-						AmbiguousSeq seq = new AmbiguousSeq(phone);
-						seq.Convert = true;
-						seq.IsProjectDefault = true;
-
-						if (m_unsortedAmbiguousSeqList == null)
-							m_unsortedAmbiguousSeqList = new AmbiguousSequences();
-
-						m_unsortedAmbiguousSeqList.Add(seq);
-						BuildSortedAmbiguousSequencesList();
-						addPhoneToAmbiguousSeqList = false;
-					}
 				}
 
 				ciPrev = ciCurr;
@@ -715,9 +724,39 @@ namespace SIL.Pa.Data
 
 			// Save the last phone
 			if (phoneStart < phonetic.Length)
-				phones.Add(phonetic.Substring(phoneStart));
+				SavePhone(phonetic.Substring(phoneStart), ref addToAmbigSeqList);
 
-			return phones.ToArray();
+			return m_phones.ToArray();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SavePhone(string phone, ref bool addToAmbigSeqList)
+		{
+			m_phones.Add(phone);
+
+			if (addToAmbigSeqList)
+			{
+				/// Add the phone to the ambiguous sequences. This only happens when the
+				/// PhoneticParser encounters a phone at the beginning of a transcription
+				/// that starts with a non base character. Therefore, it assumes the non
+				/// base character goes with the next following base character, which means
+				/// the phone should be in the ambiguous sequences list for the sake of
+				/// future processing.
+				AmbiguousSeq seq = new AmbiguousSeq(phone);
+				seq.Convert = true;
+				seq.IsProjectDefault = true;
+
+				if (m_unsortedAmbiguousSeqList == null)
+					m_unsortedAmbiguousSeqList = new AmbiguousSequences();
+
+				m_unsortedAmbiguousSeqList.Add(seq);
+				BuildSortedAmbiguousSequencesList();
+				addToAmbigSeqList = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -862,7 +901,7 @@ namespace SIL.Pa.Data
 		/// are in PA's character code inventory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ValidateCodepointsInUncertainPhones(List<string> phones)
+		private void ValidateCodepointsInUncertainPhones(IEnumerable<string> phones)
 		{
 			foreach (string phone in phones)
 			{

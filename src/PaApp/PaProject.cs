@@ -90,12 +90,6 @@ namespace SIL.Pa
 			m_classes = null;
 			m_queryGroups = null;
 			m_fieldInfoList = null;
-
-			if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
-				DataUtils.IPACharCache.ExperimentalTranscriptions.Clear();
-	
-			if (DataUtils.IPACharCache.AmbiguousSequences != null)
-				DataUtils.IPACharCache.AmbiguousSequences.Clear();
 		}
 
 		#endregion
