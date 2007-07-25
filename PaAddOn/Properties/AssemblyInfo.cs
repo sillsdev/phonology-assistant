@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("PaAddOn")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jaars, Inc.")]
+[assembly: AssemblyCompany("SIL, Inc.")]
 [assembly: AssemblyProduct("PaAddOn")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2007")]
+[assembly: AssemblyCopyright("Copyright © SIL, Inc. 2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
