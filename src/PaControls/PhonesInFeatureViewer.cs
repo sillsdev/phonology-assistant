@@ -142,14 +142,18 @@ namespace SIL.Pa.Controls
 
 				// Load all non consonant/vowel phones by first adding them to a list
 				// in POA order.
-				foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in PaApp.PhoneCache)
+				foreach (KeyValuePair<string, IPhoneInfo> kvpPhoneInfo in PaApp.PhoneCache)
 				{
-					if (phoneInfo.Value.CharType != IPACharacterType.Consonant &&
-						phoneInfo.Value.CharType != IPACharacterType.Vowel)
+					IPhoneInfo iPhoneInfo = kvpPhoneInfo.Value;
+					PhoneInfo phoneInfo = iPhoneInfo as PhoneInfo;
+
+					if (iPhoneInfo.CharType != IPACharacterType.Consonant &&
+						iPhoneInfo.CharType != IPACharacterType.Vowel &&
+						(phoneInfo == null || !phoneInfo.IsUndefined))
 					{
-						Label lbl = CreateLabel(phoneInfo.Key, phoneInfo.Value);
-						if (!labels.ContainsKey(phoneInfo.Value.POAKey))
-							labels[phoneInfo.Value.POAKey] = lbl;
+						Label lbl = CreateLabel(kvpPhoneInfo.Key, iPhoneInfo);
+						if (!labels.ContainsKey(iPhoneInfo.POAKey))
+							labels[iPhoneInfo.POAKey] = lbl;
 						else
 						{
 							labels[key.ToString()] = lbl;
