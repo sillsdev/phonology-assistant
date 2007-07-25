@@ -394,7 +394,7 @@
     <value>pnlEvnBefore</value>
   </data>
   <data name="&gt;&gt;pnlEvnBefore.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2762.18080, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlEvnBefore.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -448,7 +448,7 @@
     <value>pnlSrchItem</value>
   </data>
   <data name="&gt;&gt;pnlSrchItem.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2762.18080, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrchItem.Parent" xml:space="preserve">
     <value>splitInner.Panel1</value>
@@ -490,7 +490,7 @@
     <value>pnlEnvAfter</value>
   </data>
   <data name="&gt;&gt;pnlEnvAfter.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2739.36392, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaTextPanel, PaControls, Version=1.0.2762.18080, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlEnvAfter.Parent" xml:space="preserve">
     <value>splitInner.Panel2</value>

@@ -934,17 +934,6 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnRegExpressionShowSearchResults(object args)
-		{
-			PerformSearch(args as SearchQuery, SearchResultLocation.CurrentTabGroup);
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache PerformSearch(SearchQuery query, SearchResultLocation resultLocation)
 		{
 			if (query == null)

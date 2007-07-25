@@ -5,9 +5,8 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.Controls;
 using SIL.Pa;
-using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Resources;
 using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
@@ -19,9 +18,8 @@ namespace SIL.Pa.AddOn
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PaAddOn : IxCoreColleague
+	public class PaAddOnManager : IxCoreColleague
 	{
-		private readonly Mediator m_mediator;
 		private PaMainWnd m_mainWnd;
 		private DataCorpusWnd m_dataCorpusWnd;
 		private FindPhoneWnd m_findPhoneWnd;
@@ -35,7 +33,7 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaAddOn()
+		public PaAddOnManager()
 		{
 			PaApp.AddMediatorColleague(this);
 		}
@@ -68,6 +66,88 @@ namespace SIL.Pa.AddOn
 
 			return false;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRegExpressionShowSearchResults(object args)
+		{
+			SearchQuery query = args as SearchQuery;
+			if (query == null || m_findPhoneWnd == null || m_findPhoneWnd.ResultViewManger == null)
+				return true;
+
+			ISearchResultsViewHost srchRsltVwHost = ReflectionHelper.GetField(
+				m_findPhoneWnd.ResultViewManger, "m_srchRsltVwHost") as ISearchResultsViewHost;
+
+			if (srchRsltVwHost != null)
+				srchRsltVwHost.BeforeSearchPerformed(query, null);
+
+			//PaApp.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
+
+			RegExpressionSearch regExpSrch = new RegExpressionSearch(query);
+			WordListCache resultCache = regExpSrch.Search();
+
+			if (resultCache != null)
+			{
+				resultCache.SearchQuery = query.Clone();
+				ReflectionHelper.CallMethod(m_findPhoneWnd.ResultViewManger,
+					"ShowResults", resultCache, SearchResultLocation.CurrentTabGroup);
+			}
+
+			//PaApp.UninitializeProgressBar();
+
+			return true;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// This is a hidden feature.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnRegularExpressionSearchDialog(object args)
+		//{
+		//    if (m_regExDlg != null)
+		//        m_regExDlg.Close();
+		//    else
+		//    {
+		//        m_regExDlg = new RegExpressionSearchDlg();
+		//        m_regExDlg.Show();
+		//        m_regExDlg.FormClosed += delegate
+		//        {
+		//            m_regExDlg.Dispose();
+		//            m_regExDlg = null;
+		//        };
+		//    }
+
+		//    return true;
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnUpdateRegularExpressionSearchDialog(object args)
+		//{
+		//    TMItemProperties itemProps = args as TMItemProperties;
+		//    if (itemProps == null)
+		//        return false;
+
+		//    bool shouldBeVisible = m_showRegExDlgButton;
+		//    bool shouldBeChecked = (m_regExDlg != null);
+
+		//    if (shouldBeChecked != itemProps.Checked || shouldBeVisible != itemProps.Visible)
+		//    {
+		//        itemProps.Checked = shouldBeChecked;
+		//        itemProps.Visible = shouldBeVisible;
+		//        itemProps.Update = true;
+		//    }
+
+		//    return true;
+		//}
+
 
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------

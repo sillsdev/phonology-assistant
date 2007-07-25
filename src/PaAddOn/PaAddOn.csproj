@@ -30,12 +30,25 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PaAddOn.cs" />
+    <Compile Include="PaAddOnManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RegExpressionSearch.cs" />
+    <Compile Include="RegExpressionSearchDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegExpressionSearchDlg.designer.cs">
+      <DependentUpon>RegExpressionSearchDlg.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
@@ -73,6 +86,10 @@
       <Name>PaDll</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\PaResources\PaResources.csproj">
+      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
+      <Name>PaResources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
@@ -83,6 +100,29 @@
       <Name>xCoreMediator</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegExpressionSearchDlg.resx">
+      <DependentUpon>RegExpressionSearchDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show_results.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Insert_into_pattern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clear_current_search_pattern.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

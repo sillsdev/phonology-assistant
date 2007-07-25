@@ -6,7 +6,7 @@ using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa.Dialogs
+namespace SIL.Pa.AddOn
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

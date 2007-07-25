@@ -168,7 +168,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdGroupBySortedField" message="GroupBySortedField"/>
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups"/>
-		<command id="CmdRegExpressionSrchDlg" message="RegularExpressionSearchDialog"/>
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.FF.TBDef">
@@ -216,7 +215,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
  					<item name="tbbAdjustPlaybackSpeed" commandid="CmdAdjustPlaybackSpeed" type="5" autoclose="false"/>
 				</item>
 			</item>
-			<item name="tbbRegExpressionSrchDlg" commandid="CmdRegExpressionSrchDlg" type="0" displaytype="1" leftmargin="20" visible="false"/>
 			<item name="tbbPhoneticSort" commandid="CmdPhoneticSort" type="3" split="false" rightaligned="true" rightmargin="10"/>
 		</toolbar>
 	</toolbars>

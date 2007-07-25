@@ -1,4 +1,4 @@
-namespace SIL.Pa.Dialogs
+namespace SIL.Pa.AddOn
 {
 	partial class RegExpressionSearchDlg
 	{
@@ -79,7 +79,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			// tbShowResults
 			// 
-			this.tbShowResults.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidShowResults;
+			this.tbShowResults.Image = global::SIL.Pa.AddOn.Properties.Resources.kimidShowResults;
 			resources.ApplyResources(this.tbShowResults, "tbShowResults");
 			this.tbShowResults.Margin = new System.Windows.Forms.Padding(5, 1, 0, 2);
 			this.tbShowResults.Name = "tbShowResults";
@@ -102,7 +102,7 @@ namespace SIL.Pa.Dialogs
             this.vowelPhoneGroupToolStripMenuItem,
             this.mnuPhonesInAFeature,
             this.mnuPhonesInBFeature});
-			this.tbInsert.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidInsertElementIntoPattern;
+			this.tbInsert.Image = global::SIL.Pa.AddOn.Properties.Resources.kimidInsertElementIntoPattern;
 			resources.ApplyResources(this.tbInsert, "tbInsert");
 			this.tbInsert.Name = "tbInsert";
 			// 
@@ -154,7 +154,7 @@ namespace SIL.Pa.Dialogs
 			// tbSearchOptions
 			// 
 			this.tbSearchOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbSearchOptions.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidSearchOptions;
+			this.tbSearchOptions.Image = global::SIL.Pa.AddOn.Properties.Resources.kimidSearchOptions;
 			resources.ApplyResources(this.tbSearchOptions, "tbSearchOptions");
 			this.tbSearchOptions.Name = "tbSearchOptions";
 			// 
@@ -165,7 +165,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			// tbClear
 			// 
-			this.tbClear.Image = global::SIL.Pa.Dialogs.Properties.Resources.kimidClearPattern;
+			this.tbClear.Image = global::SIL.Pa.AddOn.Properties.Resources.kimidClearPattern;
 			resources.ApplyResources(this.tbClear, "tbClear");
 			this.tbClear.Name = "tbClear";
 			this.tbClear.Click += new System.EventHandler(this.tbClear_Click);

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 
-namespace SIL.Pa
+namespace SIL.Pa.AddOn
 {
 	public class RegExpressionSearch
 	{

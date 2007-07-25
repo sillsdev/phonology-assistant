@@ -39,9 +39,7 @@ namespace SIL.Pa
 		private bool m_sidePanelDocked = true;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
-		private RegExpressionSearchDlg m_regExDlg;
 		private readonly SplitterPanel m_dockedSidePanel;
-		private readonly bool m_showRegExDlgButton = false;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -79,9 +77,6 @@ namespace SIL.Pa
 			PaApp.UninitializeProgressBar();
 
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
-			m_showRegExDlgButton =
-				PaApp.SettingsHandler.GetBoolSettingsValue("regexpsearchmode", "allow", false);
-
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 			Application.Idle += Application_Idle;
 		}
@@ -751,53 +746,6 @@ namespace SIL.Pa
 			}
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is a hidden feature.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnRegularExpressionSearchDialog(object args)
-		{
-			if (m_regExDlg != null)
-				m_regExDlg.Close();
-			else
-			{
-				m_regExDlg = new RegExpressionSearchDlg();
-				m_regExDlg.Show();
-				m_regExDlg.FormClosed += delegate
-				{
-					m_regExDlg.Dispose();
-					m_regExDlg = null;
-				};
-			}
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateRegularExpressionSearchDialog(object args)
-		{
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null)
-				return false;
-
-			bool shouldBeVisible = m_showRegExDlgButton;
-			bool shouldBeChecked = (m_regExDlg != null);
-
-			if (shouldBeChecked != itemProps.Checked || shouldBeVisible != itemProps.Visible)
-			{
-				itemProps.Checked = shouldBeChecked;
-				itemProps.Visible = shouldBeVisible;
-				itemProps.Update = true;
-			}
-
-			return true;
 		}
 
 		#endregion

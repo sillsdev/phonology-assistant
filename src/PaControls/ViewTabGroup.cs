@@ -1072,6 +1072,7 @@ namespace SIL.Pa.Controls
 			m_viewsForm.Activated += m_viewsForm_Activated;
 
 			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", this);
+			PaApp.MsgMediator.SendMessage("ViewOpened", m_viewsForm);
 			return m_viewsForm;
 		}
 

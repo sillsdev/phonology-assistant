@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -100,6 +101,12 @@ namespace SIL.Pa
 		private static readonly Size s_minViewWindowSize;
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
 
+		// The PA add-on DLL provides undocumented features, if it exists in the pa.exe
+		// folder. The add-on manager class is the class in the DLL that links PA with
+		// the add-on. At this point, it's all done through reflection.
+		private static readonly Assembly s_addOnAssembly;
+		private static readonly object s_addOnManager;
+
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -133,6 +140,13 @@ namespace SIL.Pa
 			s_minViewWindowSize = new Size(
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
+
+			s_addOnAssembly = ReflectionHelper.LoadAssembly("PaAddOn.dll");
+			if (s_addOnAssembly != null)
+			{
+				s_addOnManager = ReflectionHelper.CreateClassInstance(s_addOnAssembly,
+					"PaAddOnManager");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -661,6 +675,26 @@ namespace SIL.Pa
 				return s_progressBarLabel;
 			}
 			set	{s_progressBarLabel = value;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// PA add-on DLL provides undocumented features, if it exists in the pa.exe folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Assembly AddOnAssembly
+		{
+			get { return s_addOnAssembly; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// PA add-on manager provides undocumented features, if it exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static object AddOnManager
+		{
+			get { return s_addOnAssembly; }
 		}
 
 		#endregion
@@ -1342,13 +1376,6 @@ namespace SIL.Pa
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
-
-			if (query.IsPatternRegExpression)
-			{
-				RegExpressionSearch regExpSrch = new RegExpressionSearch(query);
-				return regExpSrch.Search();
-			}
-			
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
