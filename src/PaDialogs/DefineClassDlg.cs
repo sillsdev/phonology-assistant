@@ -60,7 +60,7 @@ namespace SIL.Pa.Dialogs
 			m_lvArticulatoryFeatures = InitializeFeatureList(PaApp.FeatureType.Articulatory);
 			m_lvBinaryFeatures = InitializeFeatureList(PaApp.FeatureType.Binary);
 
-			m_ctrls[SearchClassType.PhoneticChars] = charExplorer;
+			m_ctrls[SearchClassType.Phones] = charExplorer;
 			m_ctrls[SearchClassType.Articulatory] = splitOuter;
 			m_ctrls[SearchClassType.Binary] = splitOuter;
 			//m_ctrls[SearchClassType.OtherClass] = lvClasses;
@@ -116,17 +116,17 @@ namespace SIL.Pa.Dialogs
 		{
 			switch (m_classInfo.ClassType)
 			{
-				case SearchClassType.PhoneticChars:
-					Text = string.Format(Text, Properties.Resources.kstidPhoneticCharClassDlgHdg);
-					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnPhoneticChars");
+				case SearchClassType.Phones:
+					Text = string.Format(Text, Properties.Resources.kstidPhoneClassDlgHdg);
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassTypePhones");
 					break;
 				case SearchClassType.Articulatory:
 					Text = string.Format(Text, Properties.Resources.kstidArticulatoryFeatureClassDlgHdg);
-					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnArticulatoryFeatures");
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassTypeArticulatoryFeatures");
 					break;
 				case SearchClassType.Binary:
 					Text = string.Format(Text, Properties.Resources.kstidBinaryFeatureClassDlgHdg);
-					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassBasedOnBinaryFeatures");
+					lblClassTypeValue.Text = ResourceHelper.GetString("kstidClassTypeBinaryFeatures");
 					break;
 				case SearchClassType.OtherClass:
 					break;
@@ -170,17 +170,17 @@ namespace SIL.Pa.Dialogs
 
 			// The scope button is irrelevant for IPA character classes.
 			// So hide it when that's the case.
-			rdoAnd.Visible = rdoOr.Visible = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
+			rdoAnd.Visible = rdoOr.Visible = (m_classInfo.ClassType != SearchClassType.Phones);
 
 			UpdateCharacterViewers();
 
 			// Adjust properties of the members text box accordingly.
-			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.PhoneticChars ?
+			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.Phones ?
 				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
 
 			txtMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2 - 1;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
-			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.PhoneticChars);
+			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.Phones);
 			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
 
 			splitOuter.ResumeLayout();
@@ -379,7 +379,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (m_classInfo.ClassType == SearchClassType.PhoneticChars)
+			if (m_classInfo.ClassType == SearchClassType.Phones)
 			{
 				// Check if any of the characters entered are invalid.
 				List<char> undefinedChars = new List<char>();
@@ -431,7 +431,7 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
-				if (m_classInfo.ClassType != SearchClassType.PhoneticChars)
+				if (m_classInfo.ClassType != SearchClassType.Phones)
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
@@ -452,7 +452,7 @@ namespace SIL.Pa.Dialogs
 		{
 			switch (m_classInfo.ClassType)
 			{
-				case SearchClassType.PhoneticChars:
+				case SearchClassType.Phones:
 					PaApp.ShowHelpTopic("hidPhoneticCharacterClassDlg");
 					break;
 				case SearchClassType.Articulatory:
@@ -614,7 +614,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void txtMembers_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (m_classInfo.ClassType == SearchClassType.PhoneticChars)
+			if (m_classInfo.ClassType == SearchClassType.Phones)
 				return;
 
 			if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)

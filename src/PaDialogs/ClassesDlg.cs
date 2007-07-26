@@ -175,7 +175,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddCharClass_Click(object sender, EventArgs e)
 		{
-			AddClass(SearchClassType.PhoneticChars);
+			AddClass(SearchClassType.Phones);
 		}
 
 		/// ------------------------------------------------------------------------------------

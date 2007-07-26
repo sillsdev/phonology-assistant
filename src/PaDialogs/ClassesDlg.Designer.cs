@@ -100,7 +100,6 @@ namespace SIL.Pa.Dialogs
 			this.lvClasses.AppliesTo = SIL.Pa.Controls.ClassListView.ListApplicationType.ClassesDialog;
 			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.FullRowSelect = true;
-			this.lvClasses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Clickable;
 			this.lvClasses.HideSelection = false;
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";

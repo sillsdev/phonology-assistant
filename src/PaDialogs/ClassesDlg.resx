@@ -265,7 +265,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
     <value>519, 7</value>
@@ -340,22 +340,22 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2714.18533, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2762.41349, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lvClasses.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
-  <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>19, 21</value>
-  </metadata>
+  </data>
   <data name="cmnuAddCharClass.Size" type="System.Drawing.Size, System.Drawing">
     <value>215, 22</value>
   </data>
   <data name="cmnuAddCharClass.Text" xml:space="preserve">
-    <value>&amp;Phonetic Characters Class...</value>
+    <value>&amp;Phones Class...</value>
   </data>
   <data name="cmnuAddArtFeatureClass.Size" type="System.Drawing.Size, System.Drawing">
     <value>215, 22</value>
@@ -378,9 +378,9 @@
   <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
@@ -415,6 +415,6 @@
     <value>ClassesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2714.18805, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2762.41351, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

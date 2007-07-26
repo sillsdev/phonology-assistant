@@ -25,7 +25,7 @@ namespace SIL.Pa.Controls
 		public static string kClassBracketing = PaApp.kOpenClassBracket + "{0}" +
 			PaApp.kCloseClassBracket;
 
-		public SearchClassType ClassType = SearchClassType.PhoneticChars;
+		public SearchClassType ClassType = SearchClassType.Phones;
 		public bool AllowEdit = true;
 		public bool ANDFeatures = true;
 		public bool IsDirty = false;
@@ -130,7 +130,7 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				return (ClassType == SearchClassType.PhoneticChars ?
+				return (ClassType == SearchClassType.Phones ?
 					FontHelper.PhoneticFont : FontHelper.UIFont);
 			}
 		}
@@ -148,14 +148,14 @@ namespace SIL.Pa.Controls
 			{
 				switch (ClassType)
 				{
-					case SearchClassType.PhoneticChars:
-						return ResourceHelper.GetString("kstidClassBasedOnPhoneticChars");
+					case SearchClassType.Phones:
+						return ResourceHelper.GetString("kstidClassTypePhones");
 
 					case SearchClassType.Articulatory:
-						return ResourceHelper.GetString("kstidClassBasedOnArticulatoryFeatures");
+						return ResourceHelper.GetString("kstidClassTypeArticulatoryFeatures");
 
 					case SearchClassType.Binary:
-						return ResourceHelper.GetString("kstidClassBasedOnBinaryFeatures");
+						return ResourceHelper.GetString("kstidClassTypeBinaryFeatures");
 				
 					default:
 						return null;
@@ -215,7 +215,7 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				if (ClassType == SearchClassType.PhoneticChars)
+				if (ClassType == SearchClassType.Phones)
 				{
 					if (Pattern == null)
 						return string.Empty;
@@ -408,7 +408,7 @@ namespace SIL.Pa.Controls
 				}
 
 				Font fnt = FontHelper.UIFont;
-				if (i == 1 && ClassType == SearchClassType.PhoneticChars)
+				if (i == 1 && ClassType == SearchClassType.Phones)
 				{
 					fnt = (ListView is ClassListView ?
 						((ClassListView)ListView).PhoneticFont : FontHelper.PhoneticFont);
@@ -442,7 +442,7 @@ namespace SIL.Pa.Controls
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');
 
-			if (srchClass.SearchClassType != SearchClassType.PhoneticChars)
+			if (srchClass.SearchClassType != SearchClassType.Phones)
 				GetMasksFromPattern(item, srchClass.Pattern);
 	
 			return item;

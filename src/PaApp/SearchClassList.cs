@@ -13,10 +13,15 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public enum SearchClassType
 	{
+		/// <summary>
+		// PhoneticChars has been deprecated in favor of Phones. But PhoneticChars is retained
+		// for now for the sake of beta users who may have created classes before this change.
+		/// </summary>
 		PhoneticChars = 0,
 		Articulatory = 1,
 		Binary = 2,
-		OtherClass,
+		OtherClass = 3,
+		Phones = 4,
 	}
 
 	#region SearchClassList class
@@ -73,6 +78,25 @@ namespace SIL.Pa
 			{
 				srchClasses = STUtils.DeserializeData(filename,
 					typeof(SearchClassList)) as SearchClassList;
+			}
+
+			if (srchClasses != null)
+			{
+				bool upgradeMade = false;
+
+				// Run through this for the sake of classes created before 26-Jul-07
+				// that used the enumeration PhoneticChars instead of Phones.
+				foreach (SearchClass srchClass in srchClasses)
+				{
+					if (srchClass.SearchClassType == SearchClassType.PhoneticChars)
+					{
+						srchClass.SearchClassType = SearchClassType.Phones;
+						upgradeMade = true;
+					}
+				}
+
+				if (upgradeMade)
+					srchClasses.Save();
 			}
 
 			return (srchClasses ?? new SearchClassList());

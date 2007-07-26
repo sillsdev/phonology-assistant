@@ -431,9 +431,9 @@
     <value>Binary Features</value>
     <comment>Caption of class definition dialog for an binary features class</comment>
   </data>
-  <data name="kstidPhoneticCharClassDlgHdg" xml:space="preserve">
-    <value>Phonetic Characters</value>
-    <comment>Caption of class definition dialog for an phonetic character features class</comment>
+  <data name="kstidPhoneClassDlgHdg" xml:space="preserve">
+    <value>Phones</value>
+    <comment>Caption of class definition dialog for an phone class</comment>
   </data>
   <data name="kstidInvalidPhoneticCharMsg" xml:space="preserve">
     <value>Invalid phonetic character.</value>
