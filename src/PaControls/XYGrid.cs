@@ -822,7 +822,7 @@ namespace SIL.Pa.Controls
 				}
 			}
 
-			if (row > 0 && col > 0 && row != NewRowIndex)
+			if (row > 0 && col > 0)
 				this[col, row].ReadOnly = true;
 
 			base.OnCellFormatting(e);
