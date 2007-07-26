@@ -97,6 +97,7 @@ namespace SIL.Pa.Controls
 		public void LoadSettings(string frmName)
 		{
 			charExplorer.LoadSettings(frmName);
+			lvClasses.LoadSettings(frmName);
 		}
 
 		/// ------------------------------------------------------------------------------------

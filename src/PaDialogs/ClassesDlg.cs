@@ -25,7 +25,6 @@ namespace SIL.Pa.Dialogs
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			lvClasses.Load();
 			lvClasses.LoadSettings(Name);
-
 			lvClasses_SelectedIndexChanged(null, null);
 		}
 

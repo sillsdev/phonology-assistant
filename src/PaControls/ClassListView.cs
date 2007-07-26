@@ -35,6 +35,8 @@ namespace SIL.Pa.Controls
 		private ListApplicationType m_appliesTo = ListApplicationType.ClassesDialog;
 		private bool m_showMembersAndClassTypeColumns = true;
 		internal Font PhoneticFont = null;
+		private SortOrder m_sortOrder = SortOrder.None;
+		private int m_sortColumn = -1;
 
 		#region Construction and loading
 		/// ------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ namespace SIL.Pa.Controls
 		{
 			base.DoubleBuffered = true;
 			Name = "lvClasses";
-			HeaderStyle = ColumnHeaderStyle.Nonclickable;
+			HeaderStyle = ColumnHeaderStyle.Clickable;
 			MultiSelect = false;
 			OwnerDraw = true;
 			View = View.Details;
@@ -134,6 +136,26 @@ namespace SIL.Pa.Controls
 
 			foreach (SearchClass srchClass in PaApp.Project.SearchClasses)
 				Items.Add(ClassListViewItem.Create(srchClass));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			if (m_sortColumn >= 0)
+			{
+				// Toggle the value now because it will be toggled
+				// back in the OnColumnClick method.
+				m_sortOrder = (m_sortOrder == SortOrder.Ascending ?
+					SortOrder.Descending : SortOrder.Ascending);
+
+				OnColumnClick(new ColumnClickEventArgs(m_sortColumn));
+			}
 
 			SelectedItems.Clear();
 			if (Items.Count > 0)
@@ -151,7 +173,25 @@ namespace SIL.Pa.Controls
 		public void LoadSettings(string parentFormName)
 		{
 			foreach (ColumnHeader hdr in Columns)
-				hdr.Width = PaApp.SettingsHandler.GetIntSettingsValue(parentFormName, "col" + hdr.Index, hdr.Width);
+			{
+				hdr.Width = PaApp.SettingsHandler.GetIntSettingsValue(
+					parentFormName, "col" + hdr.Index, hdr.Width);
+			}
+
+			m_sortColumn = PaApp.SettingsHandler.GetIntSettingsValue(
+				parentFormName, "sortedcolumn", -1);
+
+			try
+			{
+				string sortOrder = PaApp.SettingsHandler.GetStringSettingsValue(
+					parentFormName, "sortorder", "None");
+
+				m_sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), sortOrder, true);
+			}
+			catch
+			{
+				m_sortOrder = SortOrder.None;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -163,6 +203,9 @@ namespace SIL.Pa.Controls
 		{
 			foreach (ColumnHeader hdr in Columns)
 				PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "col" + hdr.Index, hdr.Width);
+
+			PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "sortedcolumn", m_sortColumn);
+			PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "sortorder", m_sortOrder);
 		}
 
 		#endregion
@@ -367,8 +410,117 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDrawColumnHeader(DrawListViewColumnHeaderEventArgs e)
 		{
-			e.DrawDefault = true;
-			base.OnDrawColumnHeader(e);
+			if (m_sortColumn != e.ColumnIndex)
+			{
+				e.DrawDefault = true;
+				base.OnDrawColumnHeader(e);
+				return;
+			}
+
+			e.DrawDefault = false;
+			e.DrawBackground();
+			e.DrawText();
+
+			// Draw the arrow glyph, indicating the sort direction. The
+			// arrow will be drawn from its wider end to the point.
+			int inc = 1;
+			int start = e.Bounds.Top + ((e.Bounds.Height - 5) / 2) - 1;
+			if (m_sortOrder == SortOrder.Ascending)
+			{
+				// Draw fat end at the bottom and move up.
+				start += 4;
+				inc = -1;
+			}
+
+			Point pt1 = new Point(e.Bounds.Right - 20, start);
+			Point pt2 = new Point(pt1.X + 8, start);
+
+			// Draw four lines, each successive line being two pixels shorter
+			// than the previous and one line up or down from the previous.
+			for (int i = 0; i < 4; i++)
+			{
+				e.Graphics.DrawLine(SystemPens.ControlDark, pt1, pt2);
+				pt1.X++;
+				pt2.X--;
+				pt1.Y += inc;
+				pt2.Y += inc;
+			}
+
+			// Draw the point. Since a line cannot be 1 pixel long, draw a vertical
+			// line that starts at the pixel that is the point and ends one pixel
+			// into the body of the arrow.
+			pt2.Y -= inc;
+			e.Graphics.DrawLine(SystemPens.ControlDark, pt1, pt2);
+		}
+
+		#endregion
+
+		#region Sorting methods and comparer class
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Allow sorting on the class name or the class type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnColumnClick(ColumnClickEventArgs e)
+		{
+			base.OnColumnClick(e);
+
+			if (e.Column != 1)
+			{
+				m_sortColumn = e.Column;
+				m_sortOrder = (m_sortOrder == SortOrder.Ascending ?
+					SortOrder.Descending : SortOrder.Ascending);
+
+				ListViewItem item = (SelectedItems.Count > 0 ? SelectedItems[0] : null);
+				ListViewItemSorter = new ClassListComparer(m_sortOrder, m_sortColumn);
+				ListViewItemSorter = null;
+				Invalidate(new Rectangle(0, 0, Width, ColumnHeaderHeight), true);
+				if (item != null)
+					item.Focused = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		class ClassListComparer : System.Collections.IComparer
+		{
+			private readonly SortOrder m_sortOrder;
+			private readonly int m_sortColumn;
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// 
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			internal ClassListComparer(SortOrder order, int sortColumn)
+			{
+				m_sortOrder = order;
+				m_sortColumn = sortColumn;
+			}
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// 
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			public int Compare(object ox, object oy)
+			{
+				ListViewItem x = ox as ListViewItem;
+				ListViewItem y = oy as ListViewItem;
+
+				int result = 0;
+
+				if (m_sortColumn != 0)
+					result = x.SubItems[2].Text.CompareTo(y.SubItems[2].Text);
+				
+				if (result == 0)
+					result = x.Text.CompareTo(y.Text);
+
+				return (result != 0 && m_sortOrder == SortOrder.Descending ? -result : result);
+			}
 		}
 
 		#endregion

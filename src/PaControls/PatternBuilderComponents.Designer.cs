@@ -156,7 +156,7 @@ namespace SIL.Pa.Controls
 			this.lvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvClasses.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.lvClasses.FullRowSelect = true;
-			this.lvClasses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.lvClasses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Clickable;
 			this.lvClasses.HideSelection = false;
 			this.lvClasses.Location = new System.Drawing.Point(5, 5);
 			this.lvClasses.MultiSelect = false;
