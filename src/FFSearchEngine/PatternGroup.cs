@@ -1179,9 +1179,11 @@ namespace SIL.Pa.FFSearchEngine
 			if (m_type == GroupType.Sequential)
 				return SearchSequentially(phones, startIndex, ref results);
 
+			int inc = (m_envType == EnvironmentType.Before ? -1 : 1);
+
 			// At this point, we know this group is either and And or Or group. Though
 			// it may contain decendent groups, it only contains one child group.
-			for (int i = startIndex; i < phones.Length; i++)
+			for (int i = startIndex; i < phones.Length; i += inc)
 			{
 				if (phones[i] == string.Empty)
 					continue;
@@ -1519,53 +1521,6 @@ namespace SIL.Pa.FFSearchEngine
 			return (count > 0);
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Determines if the specified group member is a zero or more or one or more member
-		///// and determines whether or not a match has been found.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private bool ZeroOneOrMoreProcessed(int phoneCount, PatternGroupMember member,
-		//    ref CompareResultType compareResult, int currPhoneIndex, int srchStartIndex,
-		//    int ignoredPhoneCount)
-		//{
-		//    if (member.MemberType == MemberType.ZeroOrMore)
-		//    {
-		//        compareResult = CompareResultType.Match;
-		//        return true;
-		//    }
-
-		//    if (member.MemberType == MemberType.OneOrMore)
-		//    {
-		//        if (m_envType == EnvironmentType.Before)
-		//        {
-		//            if (currPhoneIndex < 0)
-		//                compareResult = CompareResultType.NoMatch;
-		//            else
-		//            {
-		//                compareResult = (srchStartIndex >= 0 &&	srchStartIndex >= ignoredPhoneCount ?
-		//                    CompareResultType.Match : CompareResultType.NoMatch);
-		//            }
-		//        }
-		//        else if (m_envType == EnvironmentType.After)
-		//        {
-		//            if (currPhoneIndex == phoneCount)
-		//                compareResult = CompareResultType.NoMatch;
-		//            else
-		//            {
-		//                int startDelta = phoneCount - srchStartIndex;
-		//                int countDelta = phoneCount - ignoredPhoneCount;
-		//                compareResult = (srchStartIndex <= phoneCount - 1 && startDelta < countDelta ?
-		//                    CompareResultType.Match : CompareResultType.NoMatch);
-		//            }
-		//        }
-
-		//        return true;
-		//    }
-
-		//    return false;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -1584,15 +1539,13 @@ namespace SIL.Pa.FFSearchEngine
 					((PatternGroup)member).SearchGroup(phone) :
 					((PatternGroupMember)member).ContainsMatch(phone));
 
-				if (compareResult == CompareResultType.Match && m_type != GroupType.And)
+				if (compareResult == CompareResultType.Ignored ||
+					(compareResult == CompareResultType.Match && m_type != GroupType.And) ||
+					(compareResult == CompareResultType.NoMatch && m_type != GroupType.Or))
+				{
 					return compareResult;
-
-				if (compareResult == CompareResultType.NoMatch && m_type != GroupType.Or)
-					return compareResult;
+				}
 			}
-
-			if (compareResult == CompareResultType.Ignored)
-				return compareResult;
 
 			// We should only get this far for two reasons. 1) we're an OR group and no
 			// match was found, or 2) we're an AND group and every member yielded a match.
