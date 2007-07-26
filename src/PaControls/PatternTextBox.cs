@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Media;
+//using System.Media;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.VisualBasic.Devices;
@@ -984,9 +984,15 @@ namespace SIL.Pa.Controls
 			TextBox txt = sender as TextBox;
 			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
 
-			// Let Ctrl-C takes its normal course.
-			if (txt == null || (e.KeyChar == (char)3 && (ModifierKeys & Keys.Control) == Keys.Control))
+			if (txt == null)
 				return;
+
+			if ((ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				// Let Ctrl-C, Ctrl-V and Ctrl-X take their normal course.
+				if (e.KeyChar == (char)3 || e.KeyChar == (char)22 || e.KeyChar == (char)24)
+					return;
+			}
 
 			char nextChar;
 

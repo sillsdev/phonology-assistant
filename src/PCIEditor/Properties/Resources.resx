@@ -124,7 +124,7 @@
     <value>Binary Features</value>
   </data>
   <data name="kstidDuplicateCharMsg" xml:space="preserve">
-    <value>A record for character {0} already exists.</value>
+    <value>A record for character U+{0} already exists.</value>
   </data>
   <data name="kstidHelpFileMissingMsg" xml:space="preserve">
     <value>The help file '{0}' cannot be found.</value>
@@ -230,6 +230,9 @@
   </data>
   <data name="kstidMissingFieldsMsg" xml:space="preserve">
     <value>The following information is missing:\n\n{0}</value>
+  </data>
+  <data name="kstidUnicodeValueIsReservedMsg" xml:space="preserve">
+    <value>The Unicode value U+{0:4} is reserved and may not\nbe used as a phonetic character. The characters that\nmay not be used as phonetic characters are:\n\n{1}</value>
   </data>
   <data name="kstidUnicodeValueTooSmallMsg" xml:space="preserve">
     <value>The Unicode value is too small.\nIt must be larger than U+001F.</value>

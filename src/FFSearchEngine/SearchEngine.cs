@@ -471,29 +471,51 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public OneOrMoreCondition GetOneOrMoreCondition()
 		{
+			string tmp = RemovePlusBinaryFeatures(m_srchItemStr);
+
 			// Check search item
-			if (m_srchItemStr.Contains("+"))
+			if (tmp.Contains("+"))
 				return OneOrMoreCondition.InSearchItem;
 
 			// Check environment before
-			string[] pieces = m_envBeforeStr.Split("+".ToCharArray());
+			tmp = RemovePlusBinaryFeatures(m_envBeforeStr);
+			string[] pieces = tmp.Split("+".ToCharArray());
 
 			if (pieces.Length > 2)
 				return OneOrMoreCondition.MoreThanOneInEnvBefore;
 
-			if (pieces.Length > 1 && !m_envBeforeStr.StartsWith("+"))
+			if (pieces.Length > 1 && !tmp.StartsWith("+"))
 				return OneOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
-			pieces = m_envAfterStr.Split("+".ToCharArray());
+			tmp = RemovePlusBinaryFeatures(m_envBeforeStr);
+			pieces = tmp.Split("+".ToCharArray());
 
 			if (pieces.Length > 2)
 				return OneOrMoreCondition.MoreThanOneInEnvAfter;
 
-			if (pieces.Length > 1 && !m_envAfterStr.EndsWith("+"))
+			if (pieces.Length > 1 && !tmp.EndsWith("+"))
 				return OneOrMoreCondition.NotEndOfEnvAfter;
 
 			return OneOrMoreCondition.NoCondition;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get rid of all +binary feature names in the specified string.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string RemovePlusBinaryFeatures(string pattern)
+		{
+			pattern = pattern.ToLower();
+
+			foreach (BFeature feature in DataUtils.BFeatureCache.Values)
+			{
+				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
+				pattern = pattern.Replace(ptrnFeature, string.Empty);
+			}
+
+			return pattern;
 		}
 
 		#endregion

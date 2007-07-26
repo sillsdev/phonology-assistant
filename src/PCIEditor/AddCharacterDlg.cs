@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
@@ -14,6 +15,9 @@ namespace SIL.Pa
 	{
 		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+-#=*%CV" +
 			DataUtils.kOrc.ToString() + DataUtils.kDottedCircle;
+
+		private const string kInvalidPhoneticCharsDisplay =
+			"{ } [ ] <> ( ) , $ _ % - # / + = * C V\n\nU+25CC and U+FFFC";
 
 		#region Constants
 		// Define Constants
@@ -815,8 +819,22 @@ namespace SIL.Pa
 				if (m_codePoints.Contains(codePoint))
 				{
 					STUtils.STMsgBox(string.Format(Resources.kstidDuplicateCharMsg,
-						lblChar.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						txtHexValue.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
+				}
+
+				// Make sure the code point isn't one of the reserved characters.
+				foreach (char c in m_invalidPhoneticChars)
+				{
+					if (codePoint == c)
+					{
+						STUtils.STMsgBox(string.Format(
+							Properties.Resources.kstidUnicodeValueIsReservedMsg,
+							txtHexValue.Text, kInvalidPhoneticCharsDisplay),
+							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					
+						return false;
+					}
 				}
 			}
 
@@ -836,6 +854,9 @@ namespace SIL.Pa
 
 			if (missingFields != string.Empty)
 			{
+				missingFields = missingFields.Replace("&&", "~~");
+				missingFields = missingFields.Replace("&", string.Empty);
+				missingFields = missingFields.Replace("~~", "&");
 				missingFields = missingFields.Replace(":", string.Empty);
 				missingFields = missingFields.TrimEnd(new char[] { ',', ' ' });
 				missingFields = string.Format(Resources.kstidMissingFieldsMsg, missingFields);
