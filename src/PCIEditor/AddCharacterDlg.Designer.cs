@@ -49,7 +49,6 @@ namespace SIL.Pa
 			this.lblUnicode = new System.Windows.Forms.Label();
 			this.lblCharLable = new System.Windows.Forms.Label();
 			this.lblUPlus = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
 			this.cboPoa = new System.Windows.Forms.ComboBox();
 			this.grpSortOrder = new System.Windows.Forms.GroupBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -71,6 +70,8 @@ namespace SIL.Pa
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
 			this.hlblArticulatory = new SIL.Pa.Controls.HeaderLabel();
 			this.btnArticulatory = new SIL.Pa.Controls.XButton();
+			this.lblMOA = new System.Windows.Forms.Label();
+			this.lblPOA = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -168,9 +169,9 @@ namespace SIL.Pa
 			// 
 			// cboMoa
 			// 
+			resources.ApplyResources(this.cboMoa, "cboMoa");
 			this.cboMoa.DropDownHeight = 300;
 			this.cboMoa.FormattingEnabled = true;
-			resources.ApplyResources(this.cboMoa, "cboMoa");
 			this.cboMoa.Name = "cboMoa";
 			// 
 			// label4
@@ -229,22 +230,18 @@ namespace SIL.Pa
 			resources.ApplyResources(this.lblUPlus, "lblUPlus");
 			this.lblUPlus.Name = "lblUPlus";
 			// 
-			// label9
-			// 
-			resources.ApplyResources(this.label9, "label9");
-			this.label9.Name = "label9";
-			// 
 			// cboPoa
 			// 
+			resources.ApplyResources(this.cboPoa, "cboPoa");
 			this.cboPoa.DropDownHeight = 300;
 			this.cboPoa.FormattingEnabled = true;
-			resources.ApplyResources(this.cboPoa, "cboPoa");
 			this.cboPoa.Name = "cboPoa";
 			// 
 			// grpSortOrder
 			// 
+			this.grpSortOrder.Controls.Add(this.lblPOA);
+			this.grpSortOrder.Controls.Add(this.lblMOA);
 			this.grpSortOrder.Controls.Add(this.label4);
-			this.grpSortOrder.Controls.Add(this.label9);
 			this.grpSortOrder.Controls.Add(this.cboMoa);
 			this.grpSortOrder.Controls.Add(this.cboPoa);
 			resources.ApplyResources(this.grpSortOrder, "grpSortOrder");
@@ -406,6 +403,16 @@ namespace SIL.Pa
 			this.btnArticulatory.Name = "btnArticulatory";
 			this.btnArticulatory.Click += new System.EventHandler(this.btnArticulatory_Click);
 			// 
+			// lblMOA
+			// 
+			resources.ApplyResources(this.lblMOA, "lblMOA");
+			this.lblMOA.Name = "lblMOA";
+			// 
+			// lblPOA
+			// 
+			resources.ApplyResources(this.lblPOA, "lblPOA");
+			this.lblPOA.Name = "lblPOA";
+			// 
 			// AddCharacterDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -431,6 +438,7 @@ namespace SIL.Pa
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.grpSortOrder.ResumeLayout(false);
+			this.grpSortOrder.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			this.groupBox5.ResumeLayout(false);
@@ -465,7 +473,6 @@ namespace SIL.Pa
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.Label lblUnicode;
 		private System.Windows.Forms.Label lblCharLable;
-		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.ComboBox cboPoa;
 		private System.Windows.Forms.Label lblChar;
 		private System.Windows.Forms.Label lblUnicodeValue;
@@ -490,6 +497,8 @@ namespace SIL.Pa
 		private SIL.Pa.Controls.HeaderLabel hlblBinary;
 		private SIL.Pa.Controls.XButton btnBinary;
 		private System.Windows.Forms.Label lblUPlus;
+		private System.Windows.Forms.Label lblMOA;
+		private System.Windows.Forms.Label lblPOA;
 
 	}
 }
