@@ -176,6 +176,10 @@ namespace SIL.Pa
 			m_pciEditor.m_aFeatureDropdown.Closing += m_aFeatureDropdown_Closing;
 			m_pciEditor.m_bFeatureDropdown.Closing += m_bFeatureDropdown_Closing;
 
+			// Unhook the delegates from the the main form.
+			m_pciEditor.m_aFeatureDropdown.Closing -= m_pciEditor.m_featureDropdown_Closing;
+			m_pciEditor.m_bFeatureDropdown.Closing -= m_pciEditor.m_featureDropdown_Closing;
+
 			lblChar.Font = FontHelper.PhoneticFont;
 			cboMoa.Font = FontHelper.PhoneticFont;
 			cboPoa.Font = FontHelper.PhoneticFont;
@@ -612,6 +616,10 @@ namespace SIL.Pa
 			m_pciEditor.m_sddpBFeatures.SavedSettingsName = m_saveBFeatureDropDownName;
 			m_pciEditor.m_aFeatureDropdown.Closing -= m_aFeatureDropdown_Closing;
 			m_pciEditor.m_bFeatureDropdown.Closing -= m_bFeatureDropdown_Closing;
+
+			// Hook up the delegates back on the main form.
+			m_pciEditor.m_aFeatureDropdown.Closing += m_pciEditor.m_featureDropdown_Closing;
+			m_pciEditor.m_bFeatureDropdown.Closing += m_pciEditor.m_featureDropdown_Closing;
 
 			PCIEditor.SettingsHandler.SaveFormProperties(this);
 			base.OnFormClosing(e);

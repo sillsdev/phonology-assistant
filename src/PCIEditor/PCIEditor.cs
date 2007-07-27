@@ -249,7 +249,7 @@ namespace SIL.Pa
 		/// Update a phones feature mask(s) after one of the feature drop-down lists closes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_featureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+		internal void m_featureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
 			// If this form doesn't have focus, it probably means the drop-down was used
 			// and closed on the AddCharacterDlg.
