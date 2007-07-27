@@ -51,6 +51,8 @@ namespace SIL.Pa
 			this.lblUPlus = new System.Windows.Forms.Label();
 			this.cboPoa = new System.Windows.Forms.ComboBox();
 			this.grpSortOrder = new System.Windows.Forms.GroupBox();
+			this.lblPOA = new System.Windows.Forms.Label();
+			this.lblMOA = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.chkDottedCircle = new System.Windows.Forms.CheckBox();
 			this.chkPreceedBaseChar = new System.Windows.Forms.CheckBox();
@@ -70,8 +72,6 @@ namespace SIL.Pa
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
 			this.hlblArticulatory = new SIL.Pa.Controls.HeaderLabel();
 			this.btnArticulatory = new SIL.Pa.Controls.XButton();
-			this.lblMOA = new System.Windows.Forms.Label();
-			this.lblPOA = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -248,6 +248,16 @@ namespace SIL.Pa
 			this.grpSortOrder.Name = "grpSortOrder";
 			this.grpSortOrder.TabStop = false;
 			// 
+			// lblPOA
+			// 
+			resources.ApplyResources(this.lblPOA, "lblPOA");
+			this.lblPOA.Name = "lblPOA";
+			// 
+			// lblMOA
+			// 
+			resources.ApplyResources(this.lblMOA, "lblMOA");
+			this.lblMOA.Name = "lblMOA";
+			// 
 			// groupBox4
 			// 
 			this.groupBox4.Controls.Add(this.chkDottedCircle);
@@ -402,16 +412,6 @@ namespace SIL.Pa
 			this.btnArticulatory.Image = null;
 			this.btnArticulatory.Name = "btnArticulatory";
 			this.btnArticulatory.Click += new System.EventHandler(this.btnArticulatory_Click);
-			// 
-			// lblMOA
-			// 
-			resources.ApplyResources(this.lblMOA, "lblMOA");
-			this.lblMOA.Name = "lblMOA";
-			// 
-			// lblPOA
-			// 
-			resources.ApplyResources(this.lblPOA, "lblPOA");
-			this.lblPOA.Name = "lblPOA";
 			// 
 			// AddCharacterDlg
 			// 

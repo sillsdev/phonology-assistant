@@ -97,7 +97,7 @@ namespace SIL.Pa
 		private const string kPlosive = "Plosive";
 		private const string kNasal = "Nasal";
 		private const string kTrill = "Trill";
-		private const string kTapOrFlap = "Tap Or Flap";
+		private const string kTapOrFlap = "Tap or Flap";
 		private const string kFricative = "Fricative";
 		private const string kLateralFricative = "Lateral Fricative";
 		private const string kApproximant = "Approximant";
