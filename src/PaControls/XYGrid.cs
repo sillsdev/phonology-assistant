@@ -451,6 +451,23 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
+		{
+			base.OnColumnWidthChanged(e);
+
+			if (e.Column.Index < m_layout.ColumnWidths.Count)
+			{
+				IsDirty = true;
+				m_layout.ColumnWidths[e.Column.Index] = e.Column.Width;
+				Invalidate(GetCellDisplayRectangle(0, 0, true));
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellBeginEdit(DataGridViewCellCancelEventArgs e)
 		{
 			// Save the value before editing begins.
@@ -1768,6 +1785,7 @@ namespace SIL.Pa.Controls
 		#endregion
 	}
 
+	#region XYChartException class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// An exception class for cells in an XY chart that caused an error when their search
@@ -1847,4 +1865,6 @@ namespace SIL.Pa.Controls
 			get { return m_queryErrorMsg; }
 		}
 	}
+
+	#endregion
 }
