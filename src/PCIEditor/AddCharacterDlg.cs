@@ -13,11 +13,11 @@ namespace SIL.Pa
 {
 	public partial class AddCharacterDlg : OKCancelDlgBase
 	{
-		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+-#=*%CV" +
+		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+#=*%CV" +
 			DataUtils.kOrc.ToString() + DataUtils.kDottedCircle;
 
 		private const string kInvalidPhoneticCharsDisplay =
-			"{ } [ ] <> ( ) , $ _ % - # / + = * C V\n\nU+25CC and U+FFFC";
+			"{ } [ ] <> ( ) , $ _ % # / + = * C V\n\nU+25CC and U+FFFC";
 
 		#region Constants
 		// Define Constants

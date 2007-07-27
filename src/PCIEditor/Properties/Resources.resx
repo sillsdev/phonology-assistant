@@ -228,6 +228,9 @@
   <data name="kstidIpaGridWDotCircle" xml:space="preserve">
     <value>Display with\nDotted Circle?</value>
   </data>
+  <data name="kstidLoadingProgramMsg" xml:space="preserve">
+    <value>Loading Phonetic Character Inventory Editor...</value>
+  </data>
   <data name="kstidMissingFieldsMsg" xml:space="preserve">
     <value>The following information is missing:\n\n{0}</value>
   </data>

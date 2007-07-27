@@ -66,8 +66,8 @@ namespace SIL.Pa.Data
 				
 				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
 
-				SQLServerMessageWnd msgWnd =
-					new SQLServerMessageWnd(Resources.kstidGettingFwProjInfoMsg);
+				SmallFadingWnd msgWnd =
+					new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
 
 				// Read all the SQL databases from the server's master table.
 				using (SqlConnection connection = FwConnection("master"))
@@ -175,7 +175,8 @@ namespace SIL.Pa.Data
 						if (svcController.Status == ServiceControllerStatus.Running)
 							return true;
 
-						using (SQLServerMessageWnd msgWnd = new SQLServerMessageWnd())
+						using (SmallFadingWnd msgWnd =
+							new SmallFadingWnd(Properties.Resources.kstidStartingSQLServerMsg))
 						{
 							msgWnd.Show();
 							Application.DoEvents();

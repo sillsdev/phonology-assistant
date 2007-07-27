@@ -70,6 +70,8 @@ namespace SIL.Pa
 		internal CustomDropDown m_bFeatureDropdown;
 		internal FeatureListView m_lvBFeatures;
 
+		private static SmallFadingWnd s_loadingWnd = null;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The main entry point for the application.
@@ -80,6 +82,8 @@ namespace SIL.Pa
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
 
 			string exePath = Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -220,6 +224,23 @@ namespace SIL.Pa
 			{
 				m_lvAFeatures.BorderStyle = BorderStyle.FixedSingle;
 				m_lvBFeatures.BorderStyle = BorderStyle.FixedSingle;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			if (s_loadingWnd != null)
+			{
+				s_loadingWnd.CloseFade();
+				s_loadingWnd.Dispose();
+				s_loadingWnd = null;
 			}
 		}
 

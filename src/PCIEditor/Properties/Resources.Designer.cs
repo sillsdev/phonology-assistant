@@ -385,6 +385,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading Phonetic Character Inventory Editor....
+        /// </summary>
+        internal static string kstidLoadingProgramMsg {
+            get {
+                return ResourceManager.GetString("kstidLoadingProgramMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The following information is missing:\n\n{0}.
         /// </summary>
         internal static string kstidMissingFieldsMsg {
