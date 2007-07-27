@@ -87,6 +87,11 @@ namespace SIL.Pa.Controls
 		{
 			if (disposing)
 			{
+				// June M. discovered that if you choose to load a different project while you're
+				// in the edit mode of an XY chart cell, the program crashes when the XYGrid is
+				// disposed. This will prevent that. I don't know how she finds these things.
+				EndEdit();
+
 				if (m_tooltip != null)
 					m_tooltip.Dispose();
 
