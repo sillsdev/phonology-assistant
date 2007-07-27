@@ -1183,7 +1183,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			// At this point, we know this group is either and And or Or group. Though
 			// it may contain decendent groups, it only contains one child group.
-			for (int i = startIndex; i < phones.Length; i += inc)
+			for (int i = startIndex; i < phones.Length && i >= 0; i += inc)
 			{
 				if (phones[i] == string.Empty)
 					continue;

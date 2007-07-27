@@ -753,20 +753,21 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Paint a single line at the top of the panel.
+		/// Paint a single line at the top of the panel (which will be just above the
+		/// histogram).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
 		{
-			Color clr = (PaintingHelper.CanPaintVisualStyle() ?
-				VisualStyleInformation.TextControlBorder : SystemColors.ControlDark);
+			//Color clr = (PaintingHelper.CanPaintVisualStyle() ?
+			//    VisualStyleInformation.TextControlBorder : SystemColors.ControlDark);
 
-			using (Pen pen = new Pen(clr))
-			{
-				e.Graphics.DrawLine(pen, splitContainer1.Panel2.Padding.Left, 0,
-					splitContainer1.Panel2.ClientSize.Width -
-					(splitContainer1.Panel2.Padding.Right + 1), 0);
-			}
+			//using (Pen pen = new Pen(clr))
+			//{
+			//    e.Graphics.DrawLine(pen, splitContainer1.Panel2.Padding.Left, 0,
+			//        splitContainer1.Panel2.ClientSize.Width -
+			//        (splitContainer1.Panel2.Padding.Right + 1), 0);
+			//}
 		}
 
 		#region Update handlers for menus that shouldn't be enabled when this view is current

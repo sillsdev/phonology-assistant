@@ -18,6 +18,7 @@ namespace SIL.Pa.Controls
 		private const int kPixelsFromTop = 10;
 
 		private int m_maxTotalCount = 0;
+		private int m_phoneHeight = 0;
 		private decimal m_barHeightFactor = 0;
 		private readonly ToolTip m_phoneToolTip;
 		private readonly PhoneInfoPopup m_phoneInfoPopup;
@@ -71,21 +72,19 @@ namespace SIL.Pa.Controls
 
 			foreach (CharGridCell cgc in phoneList)
 			{
-				//if (!PaApp.PhoneCache.ContainsKey(phone))
-				//    continue;
-
-				//IPhoneInfo info = PaApp.PhoneCache[phone];
-
 				// Create phone labels that appear under the bar.
 				Label lblPhone = new Label();
 				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(16);
-				lblPhone.Size = new Size(40, 25);
 				lblPhone.Text = cgc.Phone;
 				lblPhone.Paint += lbl_Paint;
 				lblPhone.MouseEnter += HandleMouseEnter;
 				lblPhone.MouseDoubleClick += HandleMouseDoubleClick;
 				lblPhone.Location = new Point(xLocationOffset, 2);
+				lblPhone.AutoSize = true;
 				pnlPhones.Controls.Add(lblPhone);
+				m_phoneHeight = lblPhone.Height;
+				lblPhone.Size = new Size(kPhoneLabelWidth, m_phoneHeight);
+				lblPhone.AutoSize = false;
 				lblPhone.BringToFront();
 
 				// Set the phone's magnified tooltip.
@@ -110,6 +109,17 @@ namespace SIL.Pa.Controls
 			}
 
 			pnlPhones.Width = (pnlPhones.Controls.Count * kPhoneLabelWidth);
+
+			// Account for the fact that each phone's Y location is 2.
+			m_phoneHeight += 2;
+
+			// Make sure the labels have enough vertical space. This will increase
+			// room for the labels when the scroll bar appears underneath them and
+			// decrease room when the scroll bar disappears. In other words, this
+			// calculation will make sure there's only enough vertical space for
+			// the phone labels as is necessary so they won't get clipped.
+			if (m_phoneHeight != pnlScroller.ClientSize.Height)
+				pnlScroller.Height += (m_phoneHeight - pnlScroller.ClientSize.Height);
 
 			// Add 5 additional pixels of space between the right-most bar and border
 			pnlBars.Width = (pnlPhones.Controls.Count * kPhoneLabelWidth) + 5;
@@ -220,6 +230,8 @@ namespace SIL.Pa.Controls
 			pnlBars.Invalidate();
 		}
 
+		private bool m_ignoreFixedBorderResize = false;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adjusts the height of each bar based on the tipHeight of their owning panel.
@@ -227,8 +239,20 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlFixedBorder_Resize(object sender, EventArgs e)
 		{
-			if (m_maxTotalCount == 0 || PaApp.DesignMode)
+			if (m_maxTotalCount == 0 || m_ignoreFixedBorderResize || PaApp.DesignMode)
 				return;
+
+			// Make sure the labels have enough vertical space. This will increase
+			// room for the labels when the scroll bar appears underneath them and
+			// decrease room when the scroll bar disappears. In other words, this
+			// calculation will make sure there's only enough vertical space for
+			// the phone labels as is necessary so they won't get clipped.
+			if (m_phoneHeight != pnlScroller.ClientSize.Height)
+			{
+				m_ignoreFixedBorderResize = true;
+				pnlScroller.Height += (m_phoneHeight - pnlScroller.ClientSize.Height);
+				m_ignoreFixedBorderResize = false;
+			}
 
 			pnlBars.SuspendLayout();
 
