@@ -129,7 +129,7 @@
     <value>Horizontal</value>
   </data>
   <data name="splitResults.Panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 0, 0</value>
+    <value>0, 1, 0, 0</value>
   </data>
   <data name="&gt;&gt;splitResults.Panel1.Name" xml:space="preserve">
     <value>splitResults.Panel1</value>
