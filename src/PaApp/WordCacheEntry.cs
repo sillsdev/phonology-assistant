@@ -91,16 +91,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void SetValue(string field, string value)
 		{
-			PaFieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
+			if (!string.IsNullOrEmpty(value))
 			{
-				// Are we setting the phonetic value?
-				if (fieldValue != m_phoneticValue)
-					fieldValue.Value = value;
-				else if (value != null)
+				PaFieldValue fieldValue;
+				if (m_fieldValues.TryGetValue(field, out fieldValue))
 				{
-					SetPhoneticValue(value);
-					ParsePhoneticValue();
+					// Are we setting the phonetic value?
+					if (fieldValue != m_phoneticValue)
+						fieldValue.Value = value;
+					else if (value != null)
+					{
+						SetPhoneticValue(value);
+						ParsePhoneticValue();
+					}
 				}
 			}
 		}

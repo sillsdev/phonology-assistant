@@ -176,6 +176,8 @@ namespace SIL.Pa
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
+				DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
+
 				m_currDataSource = source;
 
 				PaApp.UpdateProgressBarLabel(string.Format(
@@ -244,7 +246,6 @@ namespace SIL.Pa
 			}
 
 			PaApp.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
-			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
 			m_recCache.BuildWordCache(PaApp.ProgressBar);
 			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = false;
 			PaApp.IncProgressBar();
@@ -297,12 +298,15 @@ namespace SIL.Pa
 				WordCacheEntry wentry = new WordCacheEntry(true);
 				wentry.RecordEntry = m_recCacheEntry;
 
-				// Read the data for all columns. If there are columns the record or word
-				// entries don't recognize, they'll just be ignored.
+				// Read the data for all columns. If there are columns the record
+				// or word entries don't recognize, they'll just be ignored.
 				for (int i = 0; i < reader.FieldCount; i++)
 				{
-					m_recCacheEntry.SetValue(reader.GetName(i), reader[i].ToString());
-					wentry.SetValue(reader.GetName(i), reader[i].ToString());
+					if (!(reader[i] is DBNull))
+					{
+						m_recCacheEntry.SetValue(reader.GetName(i), reader[i].ToString());
+						wentry.SetValue(reader.GetName(i), reader[i].ToString());
+					}
 				}
 
 				// Add the entries to the caches.

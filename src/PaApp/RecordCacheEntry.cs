@@ -102,12 +102,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void SetValue(string field, string value)
 		{
-			PaFieldValue fieldValue;
-
-			if (field != s_dataSourcePathFieldName && field != s_dataSourceFieldName &&
-				m_fieldValues.TryGetValue(field, out fieldValue))
+			if (!string.IsNullOrEmpty(value))
 			{
-				fieldValue.Value = value;
+				PaFieldValue fieldValue;
+
+				if (field != s_dataSourcePathFieldName && field != s_dataSourceFieldName &&
+					m_fieldValues.TryGetValue(field, out fieldValue))
+				{
+					fieldValue.Value = value;
+				}
 			}
 		}
 
