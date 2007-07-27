@@ -820,6 +820,10 @@ namespace SIL.Pa.Controls
 		private bool m_enabled = true;
 		private readonly Font m_fntCV = FontHelper.UIFont;
 
+		private static readonly TextFormatFlags s_cellFmtFlags =
+			TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter |
+			TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -913,7 +917,7 @@ namespace SIL.Pa.Controls
 			Rectangle rcrb;
 			Rectangle rcText;
 			Rectangle rcCVPattern;
-			GetRectangles(rc, out rcrb, out rcText, out rcCVPattern);
+			GetRectangles(null, rc, out rcrb, out rcText, out rcCVPattern);
 
 			if (relativeToCell)
 			{
@@ -1034,22 +1038,21 @@ namespace SIL.Pa.Controls
 			Rectangle rcrb;
 			Rectangle rcText;
 			Rectangle rcCVPattern;
-			GetRectangles(bounds, out rcrb, out rcText, out rcCVPattern);
+			GetRectangles(g, bounds, out rcrb, out rcText, out rcCVPattern);
 			DrawRadioButton(g, rcrb);
-
-			TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding |
-				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
-				TextFormatFlags.NoPrefix | TextFormatFlags.EndEllipsis;
 
 			Color clrText = (m_enabled ? style.ForeColor : SystemColors.GrayText);
 
 			// Draw the CV pattern
 			if (rcCVPattern != Rectangle.Empty)
-				TextRenderer.DrawText(g, CVPattern, m_fntCV, rcCVPattern, clrText, flags);
+			{
+				TextRenderer.DrawText(g, CVPattern, m_fntCV, rcCVPattern,
+					clrText, s_cellFmtFlags | TextFormatFlags.EndEllipsis);
+			}
 
 			// Draw text
-			TextRenderer.DrawText(g, formattedValue as string, style.Font, rcText,
-				clrText, flags);
+			TextRenderer.DrawText(g, formattedValue as string, style.Font,
+				rcText, clrText, s_cellFmtFlags | TextFormatFlags.EndEllipsis);
 
 			DrawCVPatternSeparatorLines(g, bounds, rcCVPattern);
 		}
@@ -1152,10 +1155,10 @@ namespace SIL.Pa.Controls
 		/// <param name="rcText">The returned rectangle for the text.</param>
 		/// <param name="rcCVPattern"></param>
 		/// ------------------------------------------------------------------------------------
-		private void GetRectangles(Rectangle bounds, out Rectangle rcrb,
+		private void GetRectangles(Graphics g, Rectangle bounds, out Rectangle rcrb,
 			out Rectangle rcText, out Rectangle rcCVPattern)
 		{
-			rcCVPattern = GetCVPatternRectangle(bounds);
+			rcCVPattern = GetCVPatternRectangle(g, bounds);
 
 			// The gap between the left edge of the cell and the text will be the
 			// diameter of the radio button plus 7 pixels, plus whatever left padding the
@@ -1177,27 +1180,33 @@ namespace SIL.Pa.Controls
 		/// <param name="bounds">The bounding rectangle for the entire cell.</param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GetCVPatternRectangle(Rectangle bounds)
+		private Rectangle GetCVPatternRectangle(Graphics g, Rectangle bounds)
 		{
-			if (!ShowCVPattern || DataGridView == null || DataGridView.Rows.Count == 0)
+			if (!ShowCVPattern || DataGridView == null ||
+				DataGridView.Rows.Count == 0 || g == null)
+			{
 				return Rectangle.Empty;
+			}
 
 			int maxWidth = 0;
+
 			foreach (DataGridViewRow row in DataGridView.Rows)
 			{
 				RadioButtonCell cell = row.Cells[ColumnIndex] as RadioButtonCell;
 				if (cell != null)
 				{
-					Size sz = TextRenderer.MeasureText(cell.CVPattern, m_fntCV);
+					Size sz = TextRenderer.MeasureText(g, cell.CVPattern,
+						m_fntCV, Size.Empty, s_cellFmtFlags);
+
 					maxWidth = Math.Max(maxWidth, sz.Width);
 				}
 			}
 
-			if (maxWidth == 0)
+			// Just don't show the CV pattern if its with is zero or its width doesn't
+			// leave room for at least 20 pixels of the left portion of the cell.
+			if (maxWidth == 0 || maxWidth > bounds.Width - 20)
 				return Rectangle.Empty;
 
-			// Add a little for margin.
-			maxWidth += 9;
 			return new Rectangle(bounds.Right - maxWidth - 1, bounds.Y, maxWidth, bounds.Height);
 		}
 
