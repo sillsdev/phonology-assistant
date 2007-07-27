@@ -182,16 +182,16 @@ namespace SIL.Pa
 			lbl.TextAlign = ContentAlignment.MiddleLeft;
 			m_sddpAFeatures.Controls.Add(lbl);
 
-			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory);
-			m_lvAFeatures.Dock = DockStyle.Fill;
-			m_lvAFeatures.Load();
-			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
-			m_lvAFeatures.BringToFront();
-
 			m_aFeatureDropdown = new CustomDropDown();
 			m_aFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
 			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
+
+			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory, m_aFeatureDropdown);
+			m_lvAFeatures.Dock = DockStyle.Fill;
+			m_lvAFeatures.Load();
+			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
+			m_lvAFeatures.BringToFront();
 
 			// Build the binary features drop-down.
 			m_sddpBFeatures = new SizableDropDownPanel(s_settingsHndlr, Name + "BFeatureDropDown",
@@ -209,16 +209,16 @@ namespace SIL.Pa
 			lbl.TextAlign = ContentAlignment.MiddleLeft;
 			m_sddpBFeatures.Controls.Add(lbl);
 
-			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary);
-			m_lvBFeatures.Dock = DockStyle.Fill;
-			m_lvBFeatures.Load();
-			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
-			m_lvBFeatures.BringToFront();
-
 			m_bFeatureDropdown = new CustomDropDown();
 			m_bFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
 			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
+
+			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary, m_bFeatureDropdown);
+			m_lvBFeatures.Dock = DockStyle.Fill;
+			m_lvBFeatures.Load();
+			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
+			m_lvBFeatures.BringToFront();
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 			{

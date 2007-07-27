@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
+using SIL.FieldWorks.Common.UIAdapters;
 
 namespace SIL.Pa.Controls
 {
@@ -29,10 +30,23 @@ namespace SIL.Pa.Controls
 		private bool m_emphasizeCheckedItems = true;
 		private Size m_chkBoxSize = new Size(13, 13);
 		private Color m_glyphColor = Color.Black;
-		private readonly ulong[] m_currMasks = new ulong[] {0, 0};
+		private readonly ulong[] m_currMasks = new ulong[] { 0, 0 };
+		private readonly ulong[] m_backupCurrMasks = new ulong[] { 0, 0 };
 		private readonly PaApp.FeatureType m_featureType;
 		private readonly Font m_checkedItemFont;
+		private readonly CustomDropDown m_hostingDropDown;
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureListView(PaApp.FeatureType featureType, CustomDropDown hostingDropDown)
+			: this(featureType)
+		{
+			m_hostingDropDown = hostingDropDown;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -110,6 +124,37 @@ namespace SIL.Pa.Controls
 
 			if (LabelEdit && SelectedItems.Count > 0 && e.KeyCode == Keys.F2)
 				SelectedItems[0].BeginEdit();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assume that when the list is hosted on a drop-down and the user presses Esc, that
+		/// they want to abort any changes they made since the last time the CurrentMasks
+		/// property was set.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape && m_hostingDropDown != null)
+			{
+				m_currMasks[0] = m_backupCurrMasks[0];
+				m_currMasks[1] = m_backupCurrMasks[1];
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			base.OnKeyPress(e);
+
+			if (e.KeyChar == (char)Keys.Enter && m_hostingDropDown != null)
+				m_hostingDropDown.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -528,6 +573,11 @@ namespace SIL.Pa.Controls
 			{
 				m_currMasks[0] = value[0];
 				m_currMasks[1] = value[1];
+				
+				// These are used when the list view is hosted on a drop-down control and the
+				// user presses Esc. The original mask values will be restored at that point.
+				m_backupCurrMasks[0] = value[0];
+				m_backupCurrMasks[1] = value[1];
 
 				// Loop through items in the feature list and set their state according to
 				// the specified mask.

@@ -168,7 +168,7 @@ namespace SIL.Pa
 			m_pciEditor = pciEditor;
 
 			// Prepare things to use the same feature drop-downs that are used on the
-			// main form, for the feature grid columns.
+			// main form, for the grid's feature columns.
 			m_saveAFeatureDropDownName = m_pciEditor.m_sddpAFeatures.SavedSettingsName;
 			m_saveBFeatureDropDownName = m_pciEditor.m_sddpBFeatures.SavedSettingsName;
 			m_pciEditor.m_sddpAFeatures.SavedSettingsName = Name + "AFeatureDropDown";

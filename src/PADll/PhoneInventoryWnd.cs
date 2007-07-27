@@ -120,16 +120,15 @@ namespace SIL.Pa
 			m_sddpAFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpAFeatures.Padding = new Padding(7, 7, 7, m_sddpAFeatures.Padding.Bottom);
 
-			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory);
-			m_lvAFeatures.Dock = DockStyle.Fill;
-			m_lvAFeatures.Load();
-			m_lvAFeatures.KeyPress += m_lvAFeatures_KeyPress;
-			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
-
 			m_aFeatureDropdown = new CustomDropDown();
 			m_aFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
 			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
+
+			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory, m_aFeatureDropdown);
+			m_lvAFeatures.Dock = DockStyle.Fill;
+			m_lvAFeatures.Load();
+			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
 
 			// Build the binary features drop-down.
 			m_sddpBFeatures = new SizableDropDownPanel(Name + "BFeatureDropDown",
@@ -138,16 +137,15 @@ namespace SIL.Pa
 			m_sddpBFeatures.BorderStyle = BorderStyle.FixedSingle;
 			m_sddpBFeatures.Padding = new Padding(7, 7, 7, m_sddpBFeatures.Padding.Bottom);
 
-			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary);
-			m_lvBFeatures.Dock = DockStyle.Fill;
-			m_lvBFeatures.Load();
-			m_lvBFeatures.KeyPress += m_lvBFeatures_KeyPress;
-			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
-
 			m_bFeatureDropdown = new CustomDropDown();
 			m_bFeatureDropdown.AutoCloseWhenMouseLeaves = false;
 			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
 			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
+
+			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary, m_bFeatureDropdown);
+			m_lvBFeatures.Dock = DockStyle.Fill;
+			m_lvBFeatures.Load();
+			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 			{
@@ -705,28 +703,6 @@ namespace SIL.Pa
 				m_bFeatureDropdown.Show(pt);
 				m_lvBFeatures.Focus();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close the drop-down if the user presses enter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_lvBFeatures_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == (char)Keys.Enter)
-				m_bFeatureDropdown.Close();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close the drop-down if the user presses enter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_lvAFeatures_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (e.KeyChar == (char)Keys.Enter)
-				m_aFeatureDropdown.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
