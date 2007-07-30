@@ -52,7 +52,7 @@ namespace SIL.Pa.FFSearchEngine
 		private string[] m_phones = null;
 		int m_matchIndex = 0;
 
-		private readonly List<string> m_errorMessages = new List<string>();
+		private readonly List<string> m_errors = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -74,6 +74,9 @@ namespace SIL.Pa.FFSearchEngine
 		public SearchEngine(SearchQuery query) : this(query.Pattern)
 		{
 			CurrentSearchQuery = query;
+
+			if (m_errors != null && m_errors.Count > 0)
+				query.ErrorMessages.AddRange(m_errors);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +86,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public string[] ErrorMessages
 		{
-			get { return m_errorMessages.ToArray(); }
+			get { return m_errors.ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,7 +96,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine(string pattern)
 		{
-			m_errorMessages.Clear();
+			m_errors.Clear();
 
 			if (pattern == null)
 				pattern = "";
@@ -104,7 +107,7 @@ namespace SIL.Pa.FFSearchEngine
 				string.IsNullOrEmpty(patterns[0]) ||
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
 			{
-				m_errorMessages.Add(string.Format(
+				m_errors.Add(string.Format(
 					Resources.kstidPatternSyntaxError,
 					DataUtils.kEmptyDiamondPattern));
 
@@ -137,7 +140,7 @@ namespace SIL.Pa.FFSearchEngine
 			}
 			catch
 			{
-				m_errorMessages.Add(string.Format(
+				m_errors.Add(string.Format(
 					Resources.kstidPatternSyntaxError, DataUtils.kEmptyDiamondPattern));
 			}
 
@@ -153,13 +156,10 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private void Parse(PatternGroup ptrnGrp, string pattern)
 		{
-			bool success = ptrnGrp.Parse(pattern);
+			bool success = ptrnGrp.Parse(pattern, m_errors);
 
-			if (ptrnGrp.ErrorMessages != null && ptrnGrp.ErrorMessages.Length > 0)
-			{
-				m_errorMessages.AddRange(ptrnGrp.ErrorMessages);
+			if (m_errors.Count > 0)
 				return;
-			}
 
 			string envType = null;
 			switch (ptrnGrp.EnvironmentType)
@@ -178,12 +178,12 @@ namespace SIL.Pa.FFSearchEngine
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
 				string msg = Resources.kstidParsedToNothingError;
-				m_errorMessages.Add(string.Format(msg, envType));
+				m_errors.Add(string.Format(msg, envType));
 				return;
 			}
 
 			if (!success)
-				m_errorMessages.Add(string.Format(Resources.kstidSyntaxErr, envType));
+				m_errors.Add(string.Format(Resources.kstidSyntaxErr, envType));
 		}
 
 		#region Properties

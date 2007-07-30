@@ -198,6 +198,63 @@
   <data name="pnlMemberPickingContainer.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="&gt;&gt;splitOuter.Name" xml:space="preserve">
+    <value>splitOuter</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.Parent" xml:space="preserve">
+    <value>pnlMemberPickingContainer</value>
+  </data>
+  <data name="&gt;&gt;splitOuter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Name" xml:space="preserve">
+    <value>lvClasses</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
+    <value>pnlMemberPickingContainer</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Name" xml:space="preserve">
+    <value>charExplorer</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
+    <value>pnlMemberPickingContainer</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnlMemberPickingContainer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 80</value>
+  </data>
+  <data name="pnlMemberPickingContainer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>450, 340</value>
+  </data>
+  <data name="pnlMemberPickingContainer.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pnlMemberPickingContainer.Name" xml:space="preserve">
+    <value>pnlMemberPickingContainer</value>
+  </data>
+  <data name="&gt;&gt;pnlMemberPickingContainer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlMemberPickingContainer.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlMemberPickingContainer.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="splitOuter.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 112</value>
   </data>
@@ -949,7 +1006,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -976,7 +1033,7 @@
     <value>charExplorer</value>
   </data>
   <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -984,35 +1041,14 @@
   <data name="&gt;&gt;charExplorer.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="pnlMemberPickingContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 80</value>
-  </data>
-  <data name="pnlMemberPickingContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 340</value>
-  </data>
-  <data name="pnlMemberPickingContainer.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberPickingContainer.Name" xml:space="preserve">
-    <value>pnlMemberPickingContainer</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberPickingContainer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberPickingContainer.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberPickingContainer.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="txtClassName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="txtClassName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 43</value>
+    <value>104, 43</value>
   </data>
   <data name="txtClassName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>346, 20</value>
+    <value>356, 20</value>
   </data>
   <data name="txtClassName.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1039,13 +1075,13 @@
     <value>13, 46</value>
   </data>
   <data name="lblClassName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+    <value>38, 13</value>
   </data>
   <data name="lblClassName.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="lblClassName.Text" xml:space="preserve">
-    <value>Class &amp;name:</value>
+    <value>&amp;Name:</value>
   </data>
   <data name="&gt;&gt;lblClassName.Name" xml:space="preserve">
     <value>lblClassName</value>
@@ -1069,13 +1105,13 @@
     <value>13, 14</value>
   </data>
   <data name="lblClassType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 13</value>
+    <value>34, 13</value>
   </data>
   <data name="lblClassType.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="lblClassType.Text" xml:space="preserve">
-    <value>Class Type:</value>
+    <value>Type:</value>
   </data>
   <data name="&gt;&gt;lblClassType.Name" xml:space="preserve">
     <value>lblClassType</value>
@@ -1143,6 +1179,9 @@
   <data name="&gt;&gt;lblMembers.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="rdoOr.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -1164,9 +1203,6 @@
   <data name="rdoOr.Text" xml:space="preserve">
     <value>&amp;OR</value>
   </data>
-  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="rdoOr.ToolTip" xml:space="preserve">
     <value>Phones must match one or more specified features</value>
   </data>
@@ -1240,7 +1276,7 @@
     <value>pnlMembers</value>
   </data>
   <data name="&gt;&gt;pnlMembers.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2715.22470, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMembers.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1248,11 +1284,14 @@
   <data name="&gt;&gt;pnlMembers.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="lblClassTypeValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lblClassTypeValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>111, 14</value>
+    <value>104, 14</value>
   </data>
   <data name="lblClassTypeValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1275,11 +1314,11 @@
   <data name="&gt;&gt;lblClassTypeValue.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>39</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>39</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -1306,6 +1345,6 @@
     <value>DefineClassDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2715.22471, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2767.23303, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

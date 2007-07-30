@@ -40,6 +40,7 @@ namespace SIL.Pa
 		// popup for the user.
 		private Dictionary<string, string> m_experimentalTranscriptionList = null;
 
+		#region Constructors
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -54,8 +55,32 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry(bool allocateSpaceForFieldValues)
+		public WordCacheEntry(bool allocateSpaceForFieldValues) :
+			this(null, allocateSpaceForFieldValues)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public WordCacheEntry(RecordCacheEntry recEntry, bool allocateSpaceForFieldValues) :
+			this(null, 0, allocateSpaceForFieldValues)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public WordCacheEntry(RecordCacheEntry recEntry, int wordIndex,
+			bool allocateSpaceForFieldValues)
+		{
+			m_recEntry = recEntry;
+			m_wordIndex = wordIndex;
+
 			if (!allocateSpaceForFieldValues)
 				return;
 
@@ -71,6 +96,8 @@ namespace SIL.Pa
 				}
 			}
 		}
+
+		#endregion
 
 		#region Methods and Indexers for getting and setting field values
 		/// ------------------------------------------------------------------------------------

@@ -1268,9 +1268,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void VerifyPatternPhonesAreInCache(DataGridViewCell cell, SearchQuery query)
 		{
-			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, true);
-			if (modifiedQuery == null)
+			query.ErrorMessages.Clear();
+			SearchQuery modifiedQuery;
+			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false))
+			{
+				cell.Value = new XYChartException(query);
 				return;
+			}
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
 			string[] phonesInQuery = engine.PhonesInPattern;
@@ -1297,12 +1301,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void VerifyCharactersAreInInventory(DataGridViewCell cell, SearchQuery query)
 		{
-			SearchQuery modifiedQuery = PaApp.ConvertClassesToPatterns(query, true);
-			if (modifiedQuery != null)
+			query.ErrorMessages.Clear();
+			SearchQuery modifiedQuery;
+			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false))
 			{
-				SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
-				cell.Tag = engine.InvalidCharactersInPattern;
+				cell.Value = new XYChartException(query);
+				return;
 			}
+
+			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			cell.Tag = engine.InvalidCharactersInPattern;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1809,30 +1817,53 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public XYChartException(SearchQuery query)
 		{
-			SearchQuery modifiedQuery =
-				PaApp.ConvertClassesToPatterns(query, false, out m_queryErrorMsg);
-			
-			if (modifiedQuery == null)
-				return;
+			//SearchQuery modifiedQuery;
+			//if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg);
+			//    return;
 
-			SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
+			//SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
 
-			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
+			//if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
+			//{
+			//    string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;
+			//    StringBuilder errors = new StringBuilder();
+			//    for (int i = 0; i < engine.ErrorMessages.Length; i++)
+			//        errors.AppendFormat(msgFmt, i + 1, engine.ErrorMessages[i]);
+
+			//    m_queryErrorMsg = errors.ToString();
+			//}
+			//else if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
+			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
+			//else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
+			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
+			//else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
+			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+
+			if (query.ErrorMessages.Count > 0)
 			{
 				string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;
 				StringBuilder errors = new StringBuilder();
-				for (int i = 0; i < engine.ErrorMessages.Length; i++)
-					errors.AppendFormat(msgFmt, i + 1, engine.ErrorMessages[i]);
+				for (int i = 0; i < query.ErrorMessages.Count; i++)
+					errors.AppendFormat(msgFmt, i + 1, query.ErrorMessages[i]);
 
 				m_queryErrorMsg = errors.ToString();
 			}
-			else if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-				m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
-			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-				m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
-			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-				m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+			else
+			{
+				SearchQuery modifiedQuery;
+				if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
+					return;
 
+				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
+
+				if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
+					m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
+				else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
+					m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
+				else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
+					m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+			}
+			
 			if (string.IsNullOrEmpty(m_queryErrorMsg))
 				m_queryErrorMsg = "Unkown Error.";
 

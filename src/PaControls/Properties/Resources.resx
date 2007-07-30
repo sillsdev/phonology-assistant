@@ -251,7 +251,7 @@
     <comment>Group header text for class listview controls</comment>
   </data>
   <data name="kstidClassListViewClassTypeText" xml:space="preserve">
-    <value>Class Type</value>
+    <value>Type</value>
     <comment>Header text for Class Listview controls</comment>
   </data>
   <data name="kstidClassListViewMembersText" xml:space="preserve">
@@ -259,7 +259,7 @@
     <comment>Header text for Class Listview controls</comment>
   </data>
   <data name="kstidClassListViewNameText" xml:space="preserve">
-    <value>Class Name</value>
+    <value>Name</value>
     <comment>Header text for Class Listview controls</comment>
   </data>
   <data name="kstidClicksHeading" xml:space="preserve">

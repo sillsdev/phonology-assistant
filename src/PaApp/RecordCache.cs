@@ -237,9 +237,7 @@ namespace SIL.Pa
 				// Expand the capacity for more word entries if necessary.
 				if (i == entry.WordEntries.Count)
 				{
-					entry.WordEntries.Add(new WordCacheEntry(true));
-					entry.WordEntries[i].RecordEntry = entry;
-					entry.WordEntries[i].WordIndex = i;
+					entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
 					m_wordCache.Add(entry.WordEntries[i]);
 				}
 
@@ -281,9 +279,7 @@ namespace SIL.Pa
 			int wordIndex = 0;
 			for (int w = 0; w < colWidths.Count; w++)
 			{
-				WordCacheEntry wordEntry = new WordCacheEntry(true);
-				wordEntry.RecordEntry = entry;
-				wordEntry.WordIndex = wordIndex++;
+				WordCacheEntry wordEntry = new WordCacheEntry(entry, wordIndex++, true);
 				
 				foreach (KeyValuePair<string, string> line in unparsedLines)
 				{

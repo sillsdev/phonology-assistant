@@ -217,7 +217,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The class &apos;{0}&apos; is missing from this project. It may have been deleted..
+        ///   Looks up a localized string similar to The class &apos;{0}&apos; is not in this project. It may have been deleted..
         /// </summary>
         internal static string kstidMissingClassMsg {
             get {

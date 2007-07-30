@@ -178,7 +178,8 @@
     <comment>Message displayed when failing to load a PAXML file. Parameter 0 is filename, and parameter 1 is the error message.</comment>
   </data>
   <data name="kstidMissingClassMsg" xml:space="preserve">
-    <value>The class '{0}' is missing from this project. It may have been deleted.</value>
+    <value>The class '{0}' is not in this project. It may have been deleted.</value>
+    <comment>Message displayed when a search pattern contains a class that doesn't exist in the project.</comment>
   </data>
   <data name="kstidMissingDataSourceOFDMsg" xml:space="preserve">
     <value>Choose New Data Source Location</value>

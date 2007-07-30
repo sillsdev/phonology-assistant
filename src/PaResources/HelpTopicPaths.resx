@@ -122,7 +122,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidArticulatoryFeatureClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Classes/Articulatory_Feature_Class.htm</value>
+    <value>User_Interface/Menus/Tools/Classes/Articulatory_Features_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
@@ -130,7 +130,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidBinaryFeatureClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Classes/Binary_Feature_Class.htm</value>
+    <value>User_Interface/Menus/Tools/Classes/Binary_Features_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidClassesDlg" xml:space="preserve">
@@ -214,7 +214,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidPhoneticCharacterClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Classes/Phonetic_Character_Class.htm</value>
+    <value>User_Interface/Menus/Tools/Classes/Phones_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidProjectSettingsDlg" xml:space="preserve">

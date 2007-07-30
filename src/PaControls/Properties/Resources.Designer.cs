@@ -385,7 +385,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Class Type.
+        ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string kstidClassListViewClassTypeText {
             get {
@@ -403,7 +403,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Class Name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string kstidClassListViewNameText {
             get {

@@ -104,8 +104,8 @@ namespace SIL.Pa
 		// The PA add-on DLL provides undocumented features, if it exists in the pa.exe
 		// folder. The add-on manager class is the class in the DLL that links PA with
 		// the add-on. At this point, it's all done through reflection.
-		private static readonly Assembly s_addOnAssembly;
-		private static readonly object s_addOnManager;
+		private static List<Assembly> s_addOnAssemblys;
+		private static List<object> s_addOnManagers;
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -141,11 +141,66 @@ namespace SIL.Pa
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
 
-			s_addOnAssembly = ReflectionHelper.LoadAssembly("PaAddOn.dll");
-			if (s_addOnAssembly != null)
+			ReadAddOns();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add Ons are undocumented and it's assumed that each add-on assembly contains at
+		/// least a class called "PaAddOnManager". If a class by that name is not found in
+		/// an assembly in the AddOns folder, then it's not considered to be an AddOn
+		/// assembly for PA. It's up to the PaAddOnManager class in each add-on to do all
+		/// the proper initialization it needs. There's nothing in the PA code that recognizes
+		/// AddOns. It's all up to the Add On to reference the PA code, not the other way
+		/// around. So, if an Add On needs to add a menu to the main menu, it's up to the
+		/// add on to do it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void ReadAddOns()
+		{
+			if (DesignMode)
+				return;
+
+			string[] addOnAssemblyFiles;
+
+			try
 			{
-				s_addOnManager = ReflectionHelper.CreateClassInstance(s_addOnAssembly,
-					"PaAddOnManager");
+				string addOnPath = Path.GetDirectoryName(Application.ExecutablePath);
+				addOnPath = Path.Combine(addOnPath, "AddOns");
+				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
+			}
+			catch
+			{
+				return;
+			}
+
+			if (addOnAssemblyFiles == null || addOnAssemblyFiles.Length == 0)
+				return;
+
+			foreach (string filename in addOnAssemblyFiles)
+			{
+				try
+				{
+					Assembly assembly = ReflectionHelper.LoadAssembly(filename);
+					if (assembly != null)
+					{
+						object instance =
+							ReflectionHelper.CreateClassInstance(assembly, "PaAddOnManager");
+
+						if (instance != null)
+						{
+							if (s_addOnAssemblys == null)
+								s_addOnAssemblys = new List<Assembly>();
+
+							if (s_addOnManagers == null)
+								s_addOnManagers = new List<object>();
+
+							s_addOnAssemblys.Add(assembly);
+							s_addOnManagers.Add(instance);
+						}
+					}
+				}
+				catch { }
 			}
 		}
 
@@ -682,9 +737,9 @@ namespace SIL.Pa
 		/// PA add-on DLL provides undocumented features, if it exists in the pa.exe folder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Assembly AddOnAssembly
+		public static List<Assembly> AddOnAssemblys
 		{
-			get { return s_addOnAssembly; }
+			get { return s_addOnAssemblys; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -692,9 +747,9 @@ namespace SIL.Pa
 		/// PA add-on manager provides undocumented features, if it exists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static object AddOnManager
+		public static List<object> AddOnManagers
 		{
-			get { return s_addOnAssembly; }
+			get { return s_addOnManagers; }
 		}
 
 		#endregion
@@ -1379,8 +1434,9 @@ namespace SIL.Pa
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
-			SearchQuery modifiedQuery = ConvertClassesToPatterns(query, true);
-			if (modifiedQuery == null)
+			query.ErrorMessages.Clear();
+			SearchQuery modifiedQuery;
+			if (!ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
 
 			if (Project != null)
@@ -1389,6 +1445,7 @@ namespace SIL.Pa
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 			if (!VerifyMiscPatternConditions(engine, showErrMsg))
 			{
+				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
 				resultCount = -1;
 				return null;
 			}
@@ -1477,10 +1534,11 @@ namespace SIL.Pa
 		/// them with the pattern the classes represent.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SearchQuery ConvertClassesToPatterns(SearchQuery query, bool showMsgOnErr)
+		public static bool ConvertClassesToPatterns(SearchQuery query,
+			out SearchQuery modifiedQuery, bool showMsgOnErr)
 		{
 			string msg;
-			return ConvertClassesToPatterns(query, showMsgOnErr, out msg);
+			return ConvertClassesToPatterns(query, out modifiedQuery, showMsgOnErr, out msg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1489,39 +1547,41 @@ namespace SIL.Pa
 		/// them with the pattern the classes represent.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SearchQuery ConvertClassesToPatterns(SearchQuery query, bool showMsgOnErr,
-			out string errorMsg)
+		public static bool ConvertClassesToPatterns(SearchQuery query,
+			out SearchQuery modifiedQuery, bool showMsgOnErr, out string errorMsg)
 		{
 			Debug.Assert(query != null);
 			Debug.Assert(query.Pattern != null);
 			errorMsg = null;
 
+			modifiedQuery = query.Clone();
+
 			// Get the index of the first opening bracket and check if we need go further.
 			int i = query.Pattern.IndexOf(kOpenClassBracket);
 			if (Project == null || Project.SearchClasses.Count == 0 || i < 0)
-				return query;
-
-			SearchQuery newQuery = query.Clone();
+				return true;
 
 			while (i >= 0)
 			{
 				// Save the offset of the open bracket and find
 				// its corresponding closing bracket.
 				int start = i;
-				i = newQuery.Pattern.IndexOf(kCloseClassBracket, i);
+				i = modifiedQuery.Pattern.IndexOf(kCloseClassBracket, i);
 
 				if (i > start)
 				{
 					// Extract the class name from the query's pattern and
 					// find the SearchClass object having that class name.
-					string className = newQuery.Pattern.Substring(start, i - start + 1);
+					string className = modifiedQuery.Pattern.Substring(start, i - start + 1);
 					SearchClass srchClass = Project.SearchClasses[className];
 					if (srchClass != null)
-						newQuery.Pattern = newQuery.Pattern.Replace(className, srchClass.Pattern);
+						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
 					{
 						errorMsg = Properties.Resources.kstidMissingClassMsg;
 						errorMsg = string.Format(errorMsg, className);
+						modifiedQuery.ErrorMessages.Add(errorMsg);
+						query.ErrorMessages.Add(errorMsg);
 
 						if (showMsgOnErr)
 						{
@@ -1529,15 +1589,15 @@ namespace SIL.Pa
 								   MessageBoxIcon.Exclamation);
 						}
 
-						return null;
+						return false;
 					}
 				}
 
 				// Get the next open class bracket.
-				i = newQuery.Pattern.IndexOf(kOpenClassBracket);
+				i = modifiedQuery.Pattern.IndexOf(kOpenClassBracket);
 			}
 
-			return newQuery;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -70,7 +70,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Articulatory_Feature_Class.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Articulatory_Features_Class.htm.
         /// </summary>
         internal static string hidArticulatoryFeatureClassDlg {
             get {
@@ -88,7 +88,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Binary_Feature_Class.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Binary_Features_Class.htm.
         /// </summary>
         internal static string hidBinaryFeatureClassDlg {
             get {
@@ -277,7 +277,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Phonetic_Character_Class.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Phones_Class.htm.
         /// </summary>
         internal static string hidPhoneticCharacterClassDlg {
             get {

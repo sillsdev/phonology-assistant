@@ -183,7 +183,6 @@ namespace SIL.Pa.Controls
 					Properties.Resources.kstidXYChartPopupInfoBadCharsMsg :
 					Properties.Resources.kstidXYChartPopupInfoInvalidPhonesMsg);
 
-				m_lblMsg.Text = STUtils.ConvertLiteralNewLines(msg);
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 
@@ -192,8 +191,8 @@ namespace SIL.Pa.Controls
 				m_lblMsg.Text = m_lblMsg.Text.Replace("\n", " ");
 
 			m_lblMsg.Location = new Point(Padding.Left, m_lblPattern.Bottom + 10);
-			m_lblMsg.Size = m_lblMsg.PreferredSize;
 			m_lblMsg.Font = FontHelper.UIFont;
+			m_lblMsg.Size = m_lblMsg.PreferredSize;
 
 			m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
 				(msgType == MsgType.Other ? 13 : 10));

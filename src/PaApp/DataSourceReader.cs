@@ -295,8 +295,7 @@ namespace SIL.Pa
 				// Make a new word entry because for FW data sources read directly from the
 				// database, there will be a one-to-one correspondence between record cache
 				// entries and word cache entries.
-				WordCacheEntry wentry = new WordCacheEntry(true);
-				wentry.RecordEntry = m_recCacheEntry;
+				WordCacheEntry wentry = new WordCacheEntry(m_recCacheEntry, true);
 
 				// Read the data for all columns. If there are columns the record
 				// or word entries don't recognize, they'll just be ignored.
@@ -399,8 +398,7 @@ namespace SIL.Pa
 			// Go through each word, adding a word cache entry for each.
 			foreach (KeyValuePair<uint, AudioDocWords> adw in adWords)
 			{
-				WordCacheEntry wentry = new WordCacheEntry(true);
-				wentry.WordIndex = wordIndex++;
+				WordCacheEntry wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
 				
 				fieldInfo = PaApp.FieldInfo.PhoneticField;
 				if (fieldInfo != null)
