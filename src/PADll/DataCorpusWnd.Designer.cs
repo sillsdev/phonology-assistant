@@ -30,7 +30,7 @@ namespace SIL.Pa
 		{
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.paPanel1 = new SIL.Pa.Controls.PaPanel();
-			this.rawRecVw = new SIL.Pa.Controls.RawRecordView();
+			this.rtfRecVw = new SIL.Pa.Controls.RtfRecordView();
 			this.pnlMasterOuter = new System.Windows.Forms.Panel();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
@@ -70,7 +70,7 @@ namespace SIL.Pa
 			// 
 			this.paPanel1.BackColor = System.Drawing.SystemColors.Window;
 			this.paPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.paPanel1.Controls.Add(this.rawRecVw);
+			this.paPanel1.Controls.Add(this.rtfRecVw);
 			this.paPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.paPanel1.DoubleBuffered = false;
 			this.paPanel1.Location = new System.Drawing.Point(10, 0);
@@ -81,17 +81,17 @@ namespace SIL.Pa
 			// 
 			// rawRecVw
 			// 
-			this.rawRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this.rawRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.rawRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rawRecVw.Location = new System.Drawing.Point(4, 4);
-			this.rawRecVw.Name = "rawRecVw";
-			this.rawRecVw.ReadOnly = true;
-			this.rawRecVw.Size = new System.Drawing.Size(650, 68);
-			this.rawRecVw.TabIndex = 0;
-			this.rawRecVw.TabStop = false;
-			this.rawRecVw.Text = "";
-			this.rawRecVw.WordWrap = false;
+			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
+			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.rtfRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtfRecVw.Location = new System.Drawing.Point(4, 4);
+			this.rtfRecVw.Name = "rawRecVw";
+			this.rtfRecVw.ReadOnly = true;
+			this.rtfRecVw.Size = new System.Drawing.Size(650, 68);
+			this.rtfRecVw.TabIndex = 0;
+			this.rtfRecVw.TabStop = false;
+			this.rtfRecVw.Text = "";
+			this.rtfRecVw.WordWrap = false;
 			// 
 			// pnlMasterOuter
 			// 
@@ -164,7 +164,7 @@ namespace SIL.Pa
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private SIL.Pa.Controls.PaPanel paPanel1;
-		private SIL.Pa.Controls.RawRecordView rawRecVw;
+		private SIL.Pa.Controls.RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlMasterOuter;
 		public System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel sblblMain;

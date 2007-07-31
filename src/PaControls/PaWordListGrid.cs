@@ -147,7 +147,7 @@ namespace SIL.Pa.Controls
 		/// project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void BuildColumns()
+		protected virtual void BuildColumns()
 		{
 			m_suspendSavingColumnChanges = true;
 
@@ -167,7 +167,7 @@ namespace SIL.Pa.Controls
 		/// object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private DataGridViewColumn AddNewColumn(PaFieldInfo fieldInfo)
+		protected virtual DataGridViewColumn AddNewColumn(PaFieldInfo fieldInfo)
 		{
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(fieldInfo.FieldName);
 			col.HeaderText = fieldInfo.DisplayText;
@@ -623,7 +623,7 @@ namespace SIL.Pa.Controls
 		/// Gets or sets the PhoneticSortOptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions SortOptions
+		public virtual SortOptions SortOptions
 		{
 			get { return m_sortOptions; }
 			set
@@ -661,7 +661,7 @@ namespace SIL.Pa.Controls
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaFieldInfo GroupByField
+		public virtual PaFieldInfo GroupByField
 		{
 			get	{return m_groupByField;}
 			set
@@ -989,7 +989,7 @@ namespace SIL.Pa.Controls
 		/// Shows the phonetic sort popup at the bottom left of the phonetic column header.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ShowPhoneticSortOptionsPopup()
+		protected virtual void ShowPhoneticSortOptionsPopup()
 		{
 			if (!Focused)
 			{
@@ -2117,7 +2117,7 @@ namespace SIL.Pa.Controls
 		/// <param name="colName">string</param>
 		/// <param name="changeSortDirection">bool</param>
 		/// ------------------------------------------------------------------------------------
-		public void Sort(string colName, bool changeSortDirection)
+		public virtual void Sort(string colName, bool changeSortDirection)
 		{
 			// Remove the SortGlyph from the previous sort column header
 			foreach (DataGridViewColumn col in Columns)
@@ -2206,7 +2206,7 @@ namespace SIL.Pa.Controls
 		/// Updates the font used for the columns.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshColumnFonts(bool updateColumnFonts)
+		public virtual void RefreshColumnFonts(bool updateColumnFonts)
 		{
 			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.SingleLine;
@@ -2240,7 +2240,7 @@ namespace SIL.Pa.Controls
 		/// Restores the current row, sort options and first visible row to those specified.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PostDataSourceModifiedRestore(int row, int column,
+		public virtual void PostDataSourceModifiedRestore(int row, int column,
 			int firstRow, SortOptions savedSortOptions)
 		{
 			PostDataSourceModifiedRestore(row, column, firstRow, savedSortOptions, null);
@@ -2251,7 +2251,7 @@ namespace SIL.Pa.Controls
 		/// Restores the current row, sort options and first visible row to those specified.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PostDataSourceModifiedRestore(int row, int column, 
+		public virtual void PostDataSourceModifiedRestore(int row, int column, 
 			int firstRow, SortOptions savedSortOptions, CIEOptions cieOptions)
 		{
 			// Restore and apply the saved sort options
@@ -2286,7 +2286,7 @@ namespace SIL.Pa.Controls
 		/// Moves the specified cell's row to the middle of the screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ScrollRowToMiddleOfGrid(int rowIndex)
+		public virtual void ScrollRowToMiddleOfGrid(int rowIndex)
 		{
 			// Number of visible rows that will be displayed above the row with the matched cell
 			int backupRowCount = DisplayedRowCount(true) / 2;
@@ -2329,7 +2329,7 @@ namespace SIL.Pa.Controls
 		/// sorting tab of the options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnSortingOptionsChanged(object args)
+		protected virtual bool OnSortingOptionsChanged(object args)
 		{
 			bool performSort = (args != null && args.GetType() == typeof(bool) && (bool)args);
 
@@ -2370,7 +2370,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
+		protected virtual bool OnDataSourcesModified(object args)
 		{
 			if (PaApp.Project == null || PaApp.Project.FieldInfo == null)
 				return false;
@@ -2442,7 +2442,7 @@ namespace SIL.Pa.Controls
 		/// This method gets called when the CV syllables get changed in the options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnCVSyllablesChanged(object args)
+		protected virtual bool OnCVSyllablesChanged(object args)
 		{
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.CVPatternField;
 			if (fieldInfo != null)
@@ -2460,7 +2460,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnEditSourceRecord(object args)
+		protected virtual bool OnEditSourceRecord(object args)
 		{
 			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
@@ -2588,7 +2588,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnWordListOptionsChanged(object args)
+		protected virtual bool OnWordListOptionsChanged(object args)
 		{
 			// Calling Load on the GridLayoutInfo will fire multiple calls to
 			// OnColumnDisplayIndexChanged since the load updates all the column display
@@ -2812,7 +2812,7 @@ namespace SIL.Pa.Controls
 		/// Handle groups expanding and collapsing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void GroupExpandedChangedHandler(SilHierarchicalGridRow row)
+		public virtual void GroupExpandedChangedHandler(SilHierarchicalGridRow row)
 		{
 			if (!row.Expanded && row.IsRowOwned(FindInfo.FirstMatchedRow))
 			{

@@ -1134,9 +1134,9 @@ namespace SIL.Pa.Controls
 		/// Gets the tab group's record view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RawRecordView RawRecordView
+		public IRecordView RecordView
 		{
-			get { return m_rsltVwMngr.RawRecordView; }
+			get { return m_rsltVwMngr.RecordView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1656,8 +1656,8 @@ namespace SIL.Pa.Controls
 		{
 			RemoveResultView();
 
-			if (m_owningTabGroup.RawRecordView != null)
-				m_owningTabGroup.RawRecordView.Rtf = null;
+			if (m_owningTabGroup.RecordView != null)
+				m_owningTabGroup.RecordView.Clear();
 
 			m_query = new SearchQuery();
 			Text = Properties.Resources.kstidEmptySrchResultTabText;
@@ -1775,17 +1775,17 @@ namespace SIL.Pa.Controls
 			if (!m_selected)
 				return;
 
-			if (m_owningTabGroup.RawRecordView == null || m_resultView == null ||
+			if (m_owningTabGroup.RecordView == null || m_resultView == null ||
 				!m_owningTabGroup.IsCurrent || m_resultView.Grid == null)
 			{
-				m_owningTabGroup.RawRecordView.UpdateRecord(null);
+				m_owningTabGroup.RecordView.UpdateRecord(null);
 			}
 			else
 			{
 				RecordCacheEntry entry = (e == null ? m_resultView.Grid.GetRecord() :
 					m_resultView.Grid.GetRecord(e.RowIndex));
 
-				m_owningTabGroup.RawRecordView.UpdateRecord(entry);
+				m_owningTabGroup.RecordView.UpdateRecord(entry);
 			}
 		}
 
@@ -1819,10 +1819,10 @@ namespace SIL.Pa.Controls
 		protected bool OnRecordViewOptionsChanged(object args)
 		{
 			if (m_selected && m_owningTabGroup.IsCurrent &&
-				m_owningTabGroup.RawRecordView != null &&
+				m_owningTabGroup.RecordView != null &&
 				m_resultView != null && m_resultView.Grid != null)
 			{
-				m_owningTabGroup.RawRecordView.UpdateRecord(
+				m_owningTabGroup.RecordView.UpdateRecord(
 					m_resultView.Grid.GetRecord(), true);
 			}
 

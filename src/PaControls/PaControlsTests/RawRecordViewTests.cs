@@ -26,9 +26,9 @@ namespace SIL.Pa.Controls
     /// </summary>
     /// --------------------------------------------------------------------------------
     [TestFixture]
-    public class RawRecordViewTests : TestBase
+    public class RecordViewTests : TestBase
 	{
-		private RawRecordView m_view = new RawRecordView();
+		private RtfRecordView m_view = new RtfRecordView();
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace SIL.Pa.Controls
 		[SetUp]
         public void TestSetup()
         {
-			m_view = new RawRecordView();
+			m_view = new RtfRecordView();
 		}
 
 		/// ------------------------------------------------------------------------------------

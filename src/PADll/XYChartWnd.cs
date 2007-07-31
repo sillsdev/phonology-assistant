@@ -89,7 +89,7 @@ namespace SIL.Pa
 			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
 			m_mainMenuAdapter.AllowUpdates = false;
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
-			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rawRecVw);
+			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
 
 			if (m_tmAdapter == null)
 				return;
@@ -1072,7 +1072,7 @@ namespace SIL.Pa
 			lblChartNameValue.Top =
 				(int)Math.Ceiling((padding - lblChartNameValue.Height) / 2f);
 
-			rawRecVw.UpdateFonts();
+			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			m_slidingPanel.RefreshFonts();
 

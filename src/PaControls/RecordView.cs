@@ -10,27 +10,41 @@ namespace SIL.Pa.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public interface IRecordView
+	{
+		void Clear();
+		void UpdateFonts();
+		void UpdateRecord(RecordCacheEntry entry);
+		void UpdateRecord(RecordCacheEntry entry, bool forceUpdate);
+	}
+	
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
 	/// An RTF control that displays the contents of a PA record.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class RawRecordView : RichTextBox
+	public class RtfRecordView : RichTextBox, IRecordView
 	{
-		public class RTFFieldInfo
+		internal class RTFFieldInfo
 		{
-			public string field;
-			public string fieldValue;
-			public string label;
-			public int labelWidth;
-			public int valueWidth;
-			public int displayIndex;
+			internal string field;
+			internal string fieldValue;
+			internal string label;
+			internal int labelWidth;
+			internal int valueWidth;
+			internal int displayIndex;
 
 			// The following fields are specifically for interlinear fields.
-			public bool isInterlinearField = false;
-			public bool isFirstLine;
-			public string[] columnValues;
-			public Dictionary<int, string[]> parsedColValues;
+			internal bool isInterlinearField = false;
+			internal bool isFirstLine;
+			internal string[] columnValues;
+			internal Dictionary<int, string[]> parsedColValues;
 		}
 
+		private const char kZeroWidthSpace = '\u200B';
 		private const int kInterlinearColPadding = 130;
 		private const int kGapBetweenLabelAndValue = 200;
 		private const int kGapBetweenColumns = 500;
@@ -39,6 +53,7 @@ namespace SIL.Pa.Controls
 		private const string kline = "\\f{0}\\fs{1} {2}";
 		private const string kbold = "\\b ";
 		private const string kitalic = "\\i ";
+		private const string kFmtOneLineOneCol = @"\cf{0}\b\fs{1}\f{2} {3}:\cf0\b0\tab";
 
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
 		private readonly Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
@@ -52,6 +67,10 @@ namespace SIL.Pa.Controls
 		private string m_rtf;
 		private int m_uiFontSize;
 		private int m_uiFontNumber;
+		private int m_maxFontSize;
+		private int m_maxFontNumber;
+		private int m_lineSpacing;
+		private int m_fieldLabelColorRefNumber;
 		private float m_pixelsPerInch;
 		private RecordCacheEntry m_recEntry = null;
 		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.NoPadding |
@@ -62,7 +81,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RawRecordView()
+		public RtfRecordView()
 		{
 			ReadOnly = true;
 			TabStop = false;
@@ -70,6 +89,17 @@ namespace SIL.Pa.Controls
 
 			if (!PaApp.DesignMode)
 				UpdateFonts();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Empties the contents of the record view.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new void Clear()
+		{
+			base.Clear();
+			Rtf = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,6 +113,7 @@ namespace SIL.Pa.Controls
 			get { return base.Rtf; }
 			set
 			{
+
 				if (string.IsNullOrEmpty(value))
 					Text = Properties.Resources.kstidEmtpyRawRecView;
 				else
@@ -234,31 +265,33 @@ namespace SIL.Pa.Controls
 			StringBuilder lines = new StringBuilder(m_rtf);
 			Dictionary<int, int> colorReferences;
 			Color clrFieldLabel = PaApp.RecordViewFieldLabelColor;
-			lines.Append(RtfHelper.ColorTable(clrFieldLabel, out colorReferences));
-			lines.AppendLine("\\pard\\plain");
+			lines.AppendLine();
+			lines.AppendLine(RtfHelper.ColorTable(clrFieldLabel, out colorReferences));
 
-			int fieldLabelColorRefNumber = colorReferences[clrFieldLabel.ToArgb()];
+			GetLargestFontInfo();
+			m_fieldLabelColorRefNumber = colorReferences[clrFieldLabel.ToArgb()];
 
 			for (int i = 0; i < m_rowsInCol1; i++)
 			{
+				// The default line spacing is usually larger than necessary, especially if
+				// one of the fonts is Doulos SIL. Therefore, scrunch them together a little.
+				lines.AppendFormat(@"\pard\plain\sl-{0}", m_lineSpacing);
+
 				if (m_rtfFields[i].isInterlinearField)
 				{
 					FormatInterlinearForRTF(m_rtfFields[i], lines,
-						firstLineTabStopsString, subordinateTabStopsString,
-						fieldLabelColorRefNumber);
+						firstLineTabStopsString, subordinateTabStopsString);
 				}
 				else
 				{
 					lines.AppendLine(tabStopsString);
+					
 					int dataFontNumber = m_fontNumbers[m_rtfFields[i].field];
 					int dataFontSize = m_fontSizes[m_rtfFields[i].field];
 					Font dataFont = m_fonts[m_rtfFields[i].field];
-					lines.AppendFormat("\\cf{0} ", fieldLabelColorRefNumber);
 
-					lines.Append("{" + kbold);
-					lines.AppendFormat(kline, m_uiFontNumber, m_uiFontSize, m_rtfFields[i].label);
-					lines.Append(":}");
-					lines.Append("\\tab\\cf0 ");
+					lines.AppendFormat(kFmtOneLineOneCol, new object[] {m_fieldLabelColorRefNumber,
+						m_uiFontSize, m_uiFontNumber, m_rtfFields[i].label});
 
 					lines.Append(ApplyFontStyle(dataFont, true));
 					lines.AppendFormat(kline, dataFontNumber, dataFontSize, m_rtfFields[i].fieldValue);
@@ -270,12 +303,9 @@ namespace SIL.Pa.Controls
 						dataFontNumber = m_fontNumbers[m_rtfFields[m_rowsInCol1 + i].field];
 						dataFontSize = m_fontSizes[m_rtfFields[m_rowsInCol1 + i].field];
 						dataFont = m_fonts[m_rtfFields[m_rowsInCol1 + i].field];
-						lines.AppendFormat("\\cf{0} ", fieldLabelColorRefNumber);
-						lines.Append("{" + kbold);
-						lines.AppendFormat(kline, m_uiFontNumber, m_uiFontSize,
-							m_rtfFields[m_rowsInCol1 + i].label);
-						lines.Append(":}");
-						lines.Append("\\tab\\cf0 ");
+
+						lines.AppendFormat(kFmtOneLineOneCol, new object[] {m_fieldLabelColorRefNumber,
+							m_uiFontSize, m_uiFontNumber, m_rtfFields[m_rowsInCol1 + i].label});
 
 						lines.Append(ApplyFontStyle(dataFont, true));
 						lines.AppendFormat(kline, dataFontNumber, dataFontSize,
@@ -283,7 +313,15 @@ namespace SIL.Pa.Controls
 						lines.Append(ApplyFontStyle(dataFont, false));
 					}
 
-					lines.AppendLine("\\par\\pard");
+					// Add a zero width space at the end of the line using the largest font so all
+					// the lines will have uniform spacing between. I tried using a regular space
+					// but the RTF control ignored it. I also tried forcing the line spacing using
+					// the \slN RTF code, but that didn't seem to work either. It looked great in
+					// Word, but not the RichTextBox. Grrr!
+					lines.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
+						kZeroWidthSpace);
+					
+					lines.AppendLine(@"\par");
 				}
 			}
 
@@ -296,9 +334,34 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private void GetLargestFontInfo()
+		{
+			// Figure out which font is the tallest.
+			m_maxFontSize = m_uiFontSize;
+			m_maxFontNumber = m_uiFontNumber;
+			m_lineSpacing = 0;
+			
+			for (int i = 0; i < m_rowsInCol1; i++)
+			{
+				if (m_maxFontSize < m_fontSizes[m_rtfFields[i].field])
+				{
+					m_maxFontSize = m_fontSizes[m_rtfFields[i].field];
+					m_maxFontNumber = m_fontNumbers[m_rtfFields[i].field];
+				}
+
+				m_lineSpacing = Math.Max(m_lineSpacing, ((m_maxFontSize / 2) * 1440) / 72);
+			}
+
+			m_lineSpacing += 20; // Add 20 twips for good measure.
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void FormatInterlinearForRTF(RTFFieldInfo rtfField, StringBuilder bldr,
-			string firstLineTabStopsString, string subordinateTabStopsString,
-			int fieldLabelColorRefNumber)
+			string firstLineTabStopsString, string subordinateTabStopsString)
 		{
 			bldr.AppendLine((rtfField.isFirstLine ?
 				firstLineTabStopsString : subordinateTabStopsString));
@@ -307,10 +370,9 @@ namespace SIL.Pa.Controls
 			int dataFontSize = m_fontSizes[rtfField.field];
 			Font dataFont = m_fonts[rtfField.field];
 
-			bldr.AppendFormat("\\cf{0} ", fieldLabelColorRefNumber);
-			bldr.Append("{" + kbold);
-			bldr.AppendFormat(kline, m_uiFontNumber, m_uiFontSize, rtfField.label);
-			bldr.Append(":}\\tab\\cf0 ");
+			bldr.AppendFormat(kFmtOneLineOneCol, new object[] {m_fieldLabelColorRefNumber,
+				m_uiFontSize, m_uiFontNumber, rtfField.label});
+
 			bldr.AppendFormat(kline, dataFontNumber, dataFontSize, string.Empty);
 
 			for (int col = 0; col < rtfField.columnValues.Length; col++)
@@ -338,7 +400,16 @@ namespace SIL.Pa.Controls
 
 			// Strip off the last tab and append the correct line ending marker.
 			bldr.Remove(bldr.Length - 5, 5);
-			bldr.AppendLine("\\par\\pard");
+
+			// Add a zero width space at the end of the line using the largest font so all
+			// the lines will have uniform spacing between. I tried using a regular space
+			// but the RTF control ignored it. I also tried forcing the line spacing using
+			// the \slN RTF code, but that didn't seem to work either. It looked great in
+			// Word, but not the RichTextBox. Grrr!
+			bldr.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
+				kZeroWidthSpace);
+
+			bldr.AppendLine(@"\par");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -684,7 +755,7 @@ namespace SIL.Pa.Controls
 		/// Find the first and second interlinear fields in the RTF fields collection.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void GetFirstAndSecondInterlinearFields(out RTFFieldInfo firstField,
+		private void GetFirstAndSecondInterlinearFields(out RTFFieldInfo firstField,
 			out RTFFieldInfo secondField)
 		{
 			firstField = null;

@@ -123,7 +123,7 @@ namespace SIL.Pa
 			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
 			m_mainMenuAdapter.AllowUpdates = false;
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
-			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rawRecVw);
+			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
 
 			if (m_tmAdapter != null)
 			{
@@ -1348,7 +1348,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			rawRecVw.UpdateFonts();
+			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			ptrnTextBox.TextBox.Font = FontHelper.PhoneticFont;
 			lstRecentPatterns.Font = FontHelper.PhoneticFont;

@@ -32,7 +32,7 @@ namespace SIL.Pa
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartWnd));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SIL.Pa.Controls.PaPanel();
-			this.rawRecVw = new SIL.Pa.Controls.RawRecordView();
+			this.rtfRecVw = new SIL.Pa.Controls.RtfRecordView();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
@@ -96,7 +96,7 @@ namespace SIL.Pa
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
-			this.pnlRecView.Controls.Add(this.rawRecVw);
+			this.pnlRecView.Controls.Add(this.rtfRecVw);
 			resources.ApplyResources(this.pnlRecView, "pnlRecView");
 			this.pnlRecView.DoubleBuffered = false;
 			this.pnlRecView.MnemonicGeneratesClick = false;
@@ -105,12 +105,12 @@ namespace SIL.Pa
 			// 
 			// rawRecVw
 			// 
-			this.rawRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this.rawRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.rawRecVw, "rawRecVw");
-			this.rawRecVw.Name = "rawRecVw";
-			this.rawRecVw.ReadOnly = true;
-			this.rawRecVw.TabStop = false;
+			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
+			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			resources.ApplyResources(this.rtfRecVw, "rawRecVw");
+			this.rtfRecVw.Name = "rawRecVw";
+			this.rtfRecVw.ReadOnly = true;
+			this.rtfRecVw.TabStop = false;
 			// 
 			// splitOuter
 			// 
@@ -355,7 +355,7 @@ namespace SIL.Pa
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitResults;
 		private SIL.Pa.Controls.PaPanel pnlRecView;
-		private SIL.Pa.Controls.RawRecordView rawRecVw;
+		private SIL.Pa.Controls.RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
 		private SIL.Pa.Controls.PaGradientPanel pnlSideBarCaption;
 		private System.Windows.Forms.Panel pnlTabClassDef;

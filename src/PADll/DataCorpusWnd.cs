@@ -127,7 +127,7 @@ namespace SIL.Pa
 			}
 
 			// This will enforce an update of the record pane.
-			rawRecVw.UpdateRecord(m_grid.GetRecord(), true);
+			rtfRecVw.UpdateRecord(m_grid.GetRecord(), true);
 		}
 
 		#region Method for loading
@@ -410,7 +410,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			rawRecVw.UpdateRecord(m_grid.GetRecord(e.RowIndex));
+			rtfRecVw.UpdateRecord(m_grid.GetRecord(e.RowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -425,7 +425,7 @@ namespace SIL.Pa
 			if (grid != m_grid)
 				return false;
 
-			rawRecVw.UpdateRecord(m_grid.GetRecord(m_grid.CurrentCellAddress.Y));
+			rtfRecVw.UpdateRecord(m_grid.GetRecord(m_grid.CurrentCellAddress.Y));
 			return true;
 		}
 
@@ -696,7 +696,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecordViewOptionsChanged(object args)
 		{
-			rawRecVw.UpdateRecord(m_grid.GetRecord(), true);
+			rtfRecVw.UpdateRecord(m_grid.GetRecord(), true);
 			return false;
 		}
 
@@ -741,7 +741,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			rawRecVw.UpdateFonts();
+			rtfRecVw.UpdateFonts();
 
 
 			// Return false to allow other windows to update their fonts.
@@ -865,7 +865,7 @@ namespace SIL.Pa
 		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
 		{
 			m_grid.SortOptions = sortOptions;
-			rawRecVw.UpdateRecord(m_grid.GetRecord());
+			rtfRecVw.UpdateRecord(m_grid.GetRecord());
 		}
 
 		/// ------------------------------------------------------------------------------------

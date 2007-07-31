@@ -84,13 +84,13 @@ namespace SIL.Pa.Controls
 		private bool m_ignoreTagGroupRemoval = false;
 		private SearchResultTabGroup m_currTabGroup;
 		private SplitterPanel m_resultsPanel;
-		private bool m_rawRecViewOn = true;
+		private bool m_recViewOn = true;
 		private Form m_form;
 		private ITMAdapter m_tmAdapter;
 		private SplitContainer m_splitResults;
 		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private readonly ISearchResultsViewHost m_srchRsltVwHost;
-		private readonly RawRecordView m_rawRecView;
+		private readonly IRecordView m_recView;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -98,7 +98,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchResultsViewManager(Form frm, ITMAdapter tmAdapter,
-			SplitContainer splitResults, RawRecordView rawRecView)
+			SplitContainer splitResults, IRecordView recView)
 		{
 			m_form = frm;
 			m_srchRsltVwHost = frm as ISearchResultsViewHost;
@@ -106,7 +106,7 @@ namespace SIL.Pa.Controls
 			m_tmAdapter = tmAdapter;
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
-			m_rawRecView = rawRecView;
+			m_recView = recView;
 			PaApp.AddMediatorColleague(this);
 
 			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
@@ -147,9 +147,9 @@ namespace SIL.Pa.Controls
 		/// Gets the view tabs manager's record view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RawRecordView RawRecordView
+		public IRecordView RecordView
 		{
-			get { return m_rawRecView; }
+			get { return m_recView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,12 +159,12 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool RawRecViewOn
 		{
-			get { return m_rawRecViewOn; }
+			get { return m_recViewOn; }
 			set
 			{
-				if (m_rawRecViewOn != value)
+				if (m_recViewOn != value)
 				{
-					m_rawRecViewOn = value;
+					m_recViewOn = value;
 					m_splitResults.Panel2Collapsed = !m_splitResults.Panel2Collapsed;
 				}
 			}
@@ -412,7 +412,7 @@ namespace SIL.Pa.Controls
 			if (!PaApp.IsFormActive(m_form))
 				return false;
 
-			RawRecViewOn = !m_rawRecViewOn;
+			RawRecViewOn = !m_recViewOn;
 			return true;
 		}
 
@@ -435,7 +435,7 @@ namespace SIL.Pa.Controls
 			if (m_splitResults.Parent is SplitterPanel)
 				enable = !((SplitContainer)m_splitResults.Parent.Parent).Panel2Collapsed;
 
-			bool check = (m_rawRecViewOn && itemProps.Enabled);
+			bool check = (m_recViewOn && itemProps.Enabled);
 			if (itemProps.Checked != check || itemProps.Enabled != enable || !itemProps.Visible)
 			{
 				itemProps.Enabled = enable;
@@ -514,7 +514,7 @@ namespace SIL.Pa.Controls
 				m_resultsPanel.Controls.RemoveAt(0);
 				ctrl.Dispose();
 				m_ignoreTagGroupRemoval = false;
-				m_rawRecView.UpdateRecord(null);
+				m_recView.UpdateRecord(null);
 				m_currTabGroup = null;
 				m_horzSplitterCount = m_vertSplitterCount = 0;
 
@@ -869,7 +869,7 @@ namespace SIL.Pa.Controls
 			if (m_resultsPanel.Controls.Count == 0)
 			{
 				m_currTabGroup = null;
-				m_rawRecView.UpdateRecord(null);
+				m_recView.UpdateRecord(null);
 				m_srchRsltVwHost.NotifyAllTabsClosed();
 			}
 			else if (removedTabGroupWasCurrent)
@@ -970,7 +970,7 @@ namespace SIL.Pa.Controls
 			// When this is true, it probably means there are no results showing.
 			// But, since there is about to be, we'll need to show the record
 			// view when m_rawRecViewOn is true.
-			if (m_rawRecViewOn && m_splitResults.Panel2Collapsed)
+			if (m_recViewOn && m_splitResults.Panel2Collapsed)
 				m_splitResults.Panel2Collapsed = false;
 
 			// When the results should be shown in the current tab group, then check if the
@@ -1246,7 +1246,7 @@ namespace SIL.Pa.Controls
 			if (CurrentViewsGrid != null)
 			{
 				CurrentViewsGrid.SortOptions = sortOptions;
-				m_rawRecView.UpdateRecord(CurrentViewsGrid.GetRecord());
+				m_recView.UpdateRecord(CurrentViewsGrid.GetRecord());
 			}
 		}
 
