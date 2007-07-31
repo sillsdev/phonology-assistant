@@ -250,11 +250,11 @@
     <Compile Include="PlaybackSpeedAdjuster.Designer.cs">
       <DependentUpon>PlaybackSpeedAdjuster.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecordView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="RtfCreator.cs" />
     <Compile Include="RtfHelper.cs" />
+    <Compile Include="RtfRecordView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SearchResultsViewManager.cs" />
     <Compile Include="SearchResultTabPopup.cs">
       <SubType>UserControl</SubType>
@@ -269,7 +269,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
       <SubType>Component</SubType>
