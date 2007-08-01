@@ -66,7 +66,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(RecordCacheEntry recEntry, bool allocateSpaceForFieldValues) :
-			this(null, 0, allocateSpaceForFieldValues)
+			this(recEntry, 0, allocateSpaceForFieldValues)
 		{
 		}
 
