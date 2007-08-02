@@ -36,7 +36,7 @@ namespace SIL.Pa.Dialogs
 			// This will hide visible layout ugliness.
 			// The opacity is set to 1 in the shown event.
 			Opacity = 0;
-			
+
 			base.OnHandleCreated(e);
 
 			if (Location.X == 0 && Location.Y == 0)

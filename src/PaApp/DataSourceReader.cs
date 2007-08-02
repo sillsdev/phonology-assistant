@@ -368,6 +368,9 @@ namespace SIL.Pa
 			TransConvertersDlg.HelpFilePath = PaApp.HelpFilePath;
 			TransConvertersDlg.HelpTopic = ResourceHelper.GetHelpString("hidTransConvertersDlg");
 
+			m_currDataSource.LastModification =
+				SaAudioDocument.GetTranscriptionFileModifiedTime(audioFile);
+
 			SaAudioDocumentReader reader = new SaAudioDocumentReader();
 			if (!reader.Initialize(audioFile))
 				return;
@@ -375,8 +378,6 @@ namespace SIL.Pa
 			SortedDictionary<uint, AudioDocWords> adWords = reader.Words;
 			if (adWords == null)
 				return;
-
-			m_currDataSource.LastModification = reader.LastModified;
 			
 			// Make only a single record entry for the entire wave file.
 			m_recCacheEntry = new RecordCacheEntry(false);

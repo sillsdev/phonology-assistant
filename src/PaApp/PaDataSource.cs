@@ -124,7 +124,7 @@ namespace SIL.Pa
 			// mapping, check if there is a mapping for the same field in the specified
 			// default mappings list. If there is, then assign the new mapping's marker and
 			// interlinear flag to that of the one found in the default mapping list.
-			foreach (PaFieldInfo fieldInfo in PaApp.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in PaFieldInfoList.DefaultFieldInfoList)
 			{
 				SFMarkerMapping newMapping = new SFMarkerMapping(fieldInfo);
 				m_mappings.Add(newMapping);
