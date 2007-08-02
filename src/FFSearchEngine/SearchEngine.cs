@@ -438,26 +438,30 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public ZeroOrMoreCondition GetZeroOrMoreCondition()
 		{
+			string tmpSrchItem = RemoveDiacriticPlaceholderModifiers(m_srchItemStr);
+			string tmpEnvBefore = RemoveDiacriticPlaceholderModifiers(m_envBeforeStr);
+			string tmpEnvAfter = RemoveDiacriticPlaceholderModifiers(m_envAfterStr);
+
 			// Check search item
-			if (m_srchItemStr.Contains("*"))
+			if (tmpSrchItem.Contains("*"))
 				return ZeroOrMoreCondition.InSearchItem;
 
 			// Check environment before
-			string[] pieces = m_envBeforeStr.Split("*".ToCharArray());
+			string[] pieces = tmpEnvBefore.Split("*".ToCharArray());
 
 			if (pieces.Length > 2)
 			    return ZeroOrMoreCondition.MoreThanOneInEnvBefore;
 
-			if (pieces.Length > 1 && !m_envBeforeStr.StartsWith("*"))
+			if (pieces.Length > 1 && !tmpEnvBefore.StartsWith("*"))
 				return ZeroOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
-			pieces = m_envAfterStr.Split("*".ToCharArray());
+			pieces = tmpEnvAfter.Split("*".ToCharArray());
 
 			if (pieces.Length > 2)
 				return ZeroOrMoreCondition.MoreThanOneInEnvAfter;
 
-			if (pieces.Length > 1 && !m_envAfterStr.EndsWith("*"))
+			if (pieces.Length > 1 && !tmpEnvAfter.EndsWith("*"))
 				return ZeroOrMoreCondition.NotEndOfEnvAfter;
 
 			return ZeroOrMoreCondition.NoCondition;
@@ -472,6 +476,7 @@ namespace SIL.Pa.FFSearchEngine
 		public OneOrMoreCondition GetOneOrMoreCondition()
 		{
 			string tmp = RemovePlusBinaryFeatures(m_srchItemStr);
+			tmp = RemoveDiacriticPlaceholderModifiers(tmp);
 
 			// Check search item
 			if (tmp.Contains("+"))
@@ -513,6 +518,29 @@ namespace SIL.Pa.FFSearchEngine
 			{
 				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
+			}
+
+			return pattern;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get rid of all the stuff between diacritic placeholder (i.e. dotted circle) and
+		/// its enclosing closed square bracket.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string RemoveDiacriticPlaceholderModifiers(string pattern)
+		{
+			int start = 0;
+
+			while ((start = pattern.IndexOf(DataUtils.kDottedCircleC, start)) >= 0)
+			{
+				int end = pattern.IndexOf("]", start);
+				if (end > start)
+				{
+					start += 1;
+					pattern = pattern.Remove(start, end - start);
+				}
 			}
 
 			return pattern;
