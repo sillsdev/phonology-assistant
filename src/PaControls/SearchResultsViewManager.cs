@@ -157,7 +157,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool RawRecViewOn
+		public bool RecordViewOn
 		{
 			get { return m_recViewOn; }
 			set
@@ -412,7 +412,7 @@ namespace SIL.Pa.Controls
 			if (!PaApp.IsFormActive(m_form))
 				return false;
 
-			RawRecViewOn = !m_recViewOn;
+			RecordViewOn = !m_recViewOn;
 			return true;
 		}
 
@@ -1104,7 +1104,7 @@ namespace SIL.Pa.Controls
 
 			tabGroup.ResumeLayout(false);
 			m_resultsPanel.ResumeLayout();
-			return;
+			PaApp.MsgMediator.SendMessage("SearchResultTabCreated", tab);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1182,6 +1182,9 @@ namespace SIL.Pa.Controls
 			m_resultsPanel.ResumeLayout();
 			
 			m_ignoreTagGroupRemoval = false;
+			
+			PaApp.MsgMediator.SendMessage("SearchResultTabGroupCreated", tabGroup);
+			
 			return tabGroup;
 		}
 

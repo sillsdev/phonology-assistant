@@ -44,6 +44,8 @@ namespace SIL.Pa.Dialogs
 				Rectangle rc = (Parent != null ? Parent.Bounds : Screen.PrimaryScreen.WorkingArea);
 				Location = new Point((rc.Width - Width) / 2, (rc.Height - Height) / 2);
 			}
+
+			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------

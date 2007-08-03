@@ -281,7 +281,7 @@ namespace SIL.Pa
 
 			ViewDocked();
 
-			m_rsltVwMngr.RawRecViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
 
 			// Hide the record view pane until the first search, at which time the value of
@@ -361,7 +361,7 @@ namespace SIL.Pa
 		private void SaveSettings()
 		{
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible",
-				m_rsltVwMngr.RawRecViewOn);
+				m_rsltVwMngr.RecordViewOn);
 
 			try
 			{
@@ -1101,7 +1101,7 @@ namespace SIL.Pa
 			if (!PaApp.IsFormActive(this))
 				return false;
 
-			m_xyGrid.Search();
+			m_xyGrid.FillChart();
 			return true;
 		}
 

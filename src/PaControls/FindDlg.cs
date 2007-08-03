@@ -311,6 +311,17 @@ namespace SIL.Pa.Controls
 		#region Overrides
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adjust the form's height based on the panel's heights.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -319,6 +330,7 @@ namespace SIL.Pa.Controls
 			cboFindWhat.Font = FontHelper.PhoneticFont;
 			Height = pnlFindWhat.Height + m_optionsPanelHeight +
 				pnlButtons.Height + m_dyHeightClientHeight;
+
 		}
 
 		#endregion

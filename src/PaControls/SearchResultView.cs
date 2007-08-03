@@ -36,6 +36,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(WordListCache cache)
 		{
+			PaApp.MsgMediator.SendMessage("BeforeSearchResultViewInitialized", this);
+
 			m_searchQuery = (cache != null ? cache.SearchQuery : null);
 
 			if (cache == null || cache.Count == 0)
@@ -49,7 +51,6 @@ namespace SIL.Pa.Controls
 
 				return;
 			}
-
 
 			// Save the grid we're replacing.
 			PaWordListGrid tmpgrid = m_grid;
@@ -80,6 +81,8 @@ namespace SIL.Pa.Controls
 			Disposed += SearchResultView_Disposed;
 			m_grid.UseWaitCursor = false;
 			m_grid.Cursor = Cursors.Default;
+
+			PaApp.MsgMediator.SendMessage("AfterSearchResultViewInitialized", this);
 		}
 
 		/// ------------------------------------------------------------------------------------

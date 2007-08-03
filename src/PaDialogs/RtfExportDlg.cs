@@ -87,6 +87,17 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// RtfExportDlg Closing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

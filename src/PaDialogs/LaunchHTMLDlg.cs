@@ -78,6 +78,17 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void chkAlwaysOpen_CheckedChanged(object sender, EventArgs e)
 		{
 			chkDontShowAgain.Enabled = !chkAlwaysOpen.Checked;

@@ -208,7 +208,7 @@ namespace SIL.Pa
 
 			// Loop through the phones and assemble a hex key for the phones in the entry
 			// according to the current sort options (i.e. MOA or POA, R/L or L/R).
-			for ( int i = 0; i < cacheEntry.Phones.Length; i++)
+			for (int i = 0; i < cacheEntry.Phones.Length; i++)
 			{
 				phoneInfo = PaApp.PhoneCache[cacheEntry.Phones[i]];
 				if (phoneInfo == null)
@@ -409,6 +409,13 @@ namespace SIL.Pa
 		{
 			if (x == null && y == null)
 				return 0;
+
+			if ((x["Reference"] == "SwahiliFrame.142" && y["Reference"] == "SwahiliFrame.140") ||
+				(y["Reference"] == "SwahiliFrame.142" && x["Reference"] == "SwahiliFrame.140"))
+			{
+				System.Diagnostics.Debug.WriteLine("");
+			}
+
 
 			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].ascending : true);
 

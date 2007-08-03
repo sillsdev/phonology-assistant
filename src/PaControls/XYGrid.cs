@@ -155,7 +155,9 @@ namespace SIL.Pa.Controls
 
 			// Go ahead and fill the chart after loading it.
 			if (!IsEmpty)
-				Search();
+				FillChart();
+
+			PaApp.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1187,7 +1189,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Search()
+		public void FillChart()
 		{
 			if (IsCurrentCellInEditMode)
 			{
@@ -1219,6 +1221,8 @@ namespace SIL.Pa.Controls
 
 			PaApp.UninitializeProgressBar();
 			Cursor = Cursors.Default;
+
+			PaApp.MsgMediator.SendMessage("XYChartFilled", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1343,7 +1347,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			Search();
+			FillChart();
 			return true;
 		}
 

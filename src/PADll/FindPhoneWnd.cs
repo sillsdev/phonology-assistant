@@ -270,7 +270,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RawRecViewOn);
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RecordViewOn);
 
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
@@ -436,7 +436,7 @@ namespace SIL.Pa
 			ViewDocked();
 			m_slidingPanel.LoadSettings();
 
-			m_rsltVwMngr.RawRecViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
 
 			try

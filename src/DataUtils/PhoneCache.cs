@@ -654,7 +654,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				if (m_isUndefined)
-					return "0";
+					return "000";
 
 				if (m_moaKey == null)
 				{
@@ -683,7 +683,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				if (m_isUndefined)
-					return "0";
+					return "000";
 
 				if (m_poaKey == null)
 				{
