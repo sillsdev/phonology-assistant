@@ -352,7 +352,7 @@ namespace SIL.Pa.Controls
 				m_lineSpacing = Math.Max(m_lineSpacing, ((m_maxFontSize / 2) * 1440) / 72);
 			}
 
-			m_lineSpacing += 40; // Add 40 twips for the sake of acenders and decenders.
+			m_lineSpacing += 50; // Add 50 twips for the sake of acenders and decenders.
 		}
 
 		/// ------------------------------------------------------------------------------------
