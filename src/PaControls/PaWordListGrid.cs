@@ -726,6 +726,22 @@ namespace SIL.Pa.Controls
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseDoubleClick(DataGridViewCellMouseEventArgs e)
+		{
+			base.OnCellMouseDoubleClick(e);
+
+			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
+				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "editsourceondoublclick", false))
+			{
+				OnEditSourceRecord(null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// In order to achieve double buffering without the problem that arises from having
 		/// double buffering on while sizing rows and columns or dragging columns around,
 		/// monitor when the mouse goes down and turn off double buffering when it goes down
@@ -2466,7 +2482,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			int row = -1;
-			if (args.GetType() == typeof(int))
+			if (args != null && args.GetType() == typeof(int))
 				row = (int)args;
 			else if (CurrentRow != null)
 				row = CurrentRow.Index;
@@ -2490,10 +2506,26 @@ namespace SIL.Pa.Controls
 			// useless to us in PA and can also be accomplished with other key combinations.
 			// Eat the sequence in case a menu accelerator wants to use this combination.
 			if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down))
+			{
+				e.Handled = true;
+				base.OnKeyDown(e);
 				return;
-			
+			}
+
+			if (e.KeyCode == Keys.Enter && PaApp.SettingsHandler.GetBoolSettingsValue(
+				"wordlists", "editsourceonenterkey", false))
+			{
+				e.Handled = true;
+				base.OnKeyDown(e);
+				OnEditSourceRecord(null);
+				return;
+			}
+
 			base.OnKeyDown(e);
-			
+
+			// A hidden feature is that when the user presses Ctrl+Shift+F2 on an
+			// entry that came from a FW database, a dialog with the jump url will
+			// be shown before jumping to Flex.
 			if (e.Control && e.Shift && e.KeyCode == Keys.F2 && GetWordEntry() != null)
 				new DataSourceEditor(GetWordEntry().WordCacheEntry, null, true);
 		}
