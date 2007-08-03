@@ -72,7 +72,7 @@ namespace SIL.Pa.Controls
 			Columns.Add(colHdr);
 			HeaderStyle = ColumnHeaderStyle.None;
 			base.DoubleBuffered = true;
-			LabelEdit = true;
+			LabelEdit = false;
 			MultiSelect = false;
 			HideSelection = false;
 			View = View.List;
@@ -134,7 +134,8 @@ namespace SIL.Pa.Controls
 			if (htinfo.Item != null && htinfo.Item.Tag != null)
 			{
 				FeatureItemInfo item = htinfo.Item.Tag as FeatureItemInfo;
-				if (item != null && item.Name != item.FullName && item.FullName != null)
+				if (item != null && item.FullName != null &&
+					item.Name.ToLower() != item.FullName.ToLower())
 				{
 					if (item != m_tooltip.Tag)
 					{

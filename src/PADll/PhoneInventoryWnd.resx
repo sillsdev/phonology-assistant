@@ -148,7 +148,7 @@
     <value>gridPhones</value>
   </data>
   <data name="&gt;&gt;gridPhones.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2754.23598, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2769.37109, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridPhones.Parent" xml:space="preserve">
     <value>pnlPhones</value>
@@ -178,7 +178,7 @@
     <value>pgpPhoneList</value>
   </data>
   <data name="&gt;&gt;pgpPhoneList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpPhoneList.Parent" xml:space="preserve">
     <value>pnlPhones</value>
@@ -205,7 +205,7 @@
     <value>pnlPhones</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Parent" xml:space="preserve">
     <value>splitInventory.Panel1</value>
@@ -304,7 +304,7 @@
     <value>btnADropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Parent" xml:space="preserve">
     <value>hlblAFeatures</value>
@@ -334,7 +334,7 @@
     <value>hlblAFeatures</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Parent" xml:space="preserve">
     <value>pnlAFeatures</value>
@@ -361,7 +361,7 @@
     <value>pnlAFeatures</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel1</value>
@@ -445,7 +445,7 @@
     <value>btnBDropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Parent" xml:space="preserve">
     <value>hlblBFeatures</value>
@@ -475,7 +475,7 @@
     <value>hlblBFeatures</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Parent" xml:space="preserve">
     <value>pnlBFeatures</value>
@@ -502,7 +502,7 @@
     <value>pnlBFeatures</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel2</value>
@@ -619,7 +619,7 @@
     <value>pgpExperimental</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Parent" xml:space="preserve">
     <value>pnlExperimental</value>
@@ -646,7 +646,7 @@
     <value>pnlExperimental</value>
   </data>
   <data name="&gt;&gt;pnlExperimental.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExperimental.Parent" xml:space="preserve">
     <value>splitChanges.Panel1</value>
@@ -688,7 +688,7 @@
     <value>gridAmbiguous</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2754.23598, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2769.37109, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Parent" xml:space="preserve">
     <value>pnlAmbiguous</value>
@@ -757,7 +757,7 @@
     <value>pgpAmbiguous</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Parent" xml:space="preserve">
     <value>pnlAmbiguous</value>
@@ -784,7 +784,7 @@
     <value>pnlAmbiguous</value>
   </data>
   <data name="&gt;&gt;pnlAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2755.22855, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlAmbiguous.Parent" xml:space="preserve">
     <value>splitChanges.Panel2</value>

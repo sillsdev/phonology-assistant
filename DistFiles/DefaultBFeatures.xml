@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfBFeature>
-  <BFeature Bit="0" Name="Consonantal" FullName="Consonantal">
+  <BFeature Bit="0" Name="cons" FullName="Consonantal">
     <PlusMask>1</PlusMask>
     <MinusMask>2</MinusMask>
   </BFeature>
-  <BFeature Bit="2" Name="Syll" FullName="Syllabic">
+  <BFeature Bit="2" Name="syll" FullName="Syllabic">
     <PlusMask>4</PlusMask>
     <MinusMask>8</MinusMask>
   </BFeature>
-  <BFeature Bit="4" Name="Sonorant" FullName="Sonorant">
+  <BFeature Bit="4" Name="son" FullName="Sonorant">
     <PlusMask>16</PlusMask>
     <MinusMask>32</MinusMask>
   </BFeature>
-  <BFeature Bit="6" Name="High" FullName="High">
+  <BFeature Bit="6" Name="high" FullName="High">
     <PlusMask>64</PlusMask>
     <MinusMask>128</MinusMask>
   </BFeature>
-  <BFeature Bit="8" Name="Back" FullName="Back">
+  <BFeature Bit="8" Name="back" FullName="Back">
     <PlusMask>256</PlusMask>
     <MinusMask>512</MinusMask>
   </BFeature>
-  <BFeature Bit="10" Name="Low" FullName="Low">
+  <BFeature Bit="10" Name="low" FullName="Low">
     <PlusMask>1024</PlusMask>
     <MinusMask>2048</MinusMask>
   </BFeature>
-  <BFeature Bit="12" Name="Anterior" FullName="Anterior">
+  <BFeature Bit="12" Name="ant" FullName="Anterior">
     <PlusMask>4096</PlusMask>
     <MinusMask>8192</MinusMask>
   </BFeature>
-  <BFeature Bit="14" Name="Coronal" FullName="Coronal">
+  <BFeature Bit="14" Name="COR" FullName="Coronal">
     <PlusMask>16384</PlusMask>
     <MinusMask>32768</MinusMask>
   </BFeature>
-  <BFeature Bit="16" Name="Voice" FullName="Voice">
+  <BFeature Bit="16" Name="voice" FullName="Voice">
     <PlusMask>65536</PlusMask>
     <MinusMask>131072</MinusMask>
   </BFeature>
@@ -40,19 +40,19 @@
     <PlusMask>262144</PlusMask>
     <MinusMask>524288</MinusMask>
   </BFeature>
-  <BFeature Bit="20" Name="Nasal" FullName="Nasal">
+  <BFeature Bit="20" Name="nas" FullName="Nasal">
     <PlusMask>1048576</PlusMask>
     <MinusMask>2097152</MinusMask>
   </BFeature>
-  <BFeature Bit="22" Name="Strident" FullName="Strident">
+  <BFeature Bit="22" Name="strid" FullName="Strident">
     <PlusMask>4194304</PlusMask>
     <MinusMask>8388608</MinusMask>
   </BFeature>
-  <BFeature Bit="24" Name="Lateral" FullName="Lateral">
+  <BFeature Bit="24" Name="lat" FullName="Lateral">
     <PlusMask>16777216</PlusMask>
     <MinusMask>33554432</MinusMask>
   </BFeature>
-  <BFeature Bit="26" Name="Round" FullName="Round">
+  <BFeature Bit="26" Name="rnd" FullName="Round">
     <PlusMask>67108864</PlusMask>
     <MinusMask>134217728</MinusMask>
   </BFeature>
@@ -68,7 +68,7 @@
     <PlusMask>4294967296</PlusMask>
     <MinusMask>8589934592</MinusMask>
   </BFeature>
-  <BFeature Bit="34" Name="Labial" FullName="Labial">
+  <BFeature Bit="34" Name="LAB" FullName="Labial">
     <PlusMask>17179869184</PlusMask>
     <MinusMask>34359738368</MinusMask>
   </BFeature>
@@ -76,19 +76,19 @@
     <PlusMask>68719476736</PlusMask>
     <MinusMask>137438953472</MinusMask>
   </BFeature>
-  <BFeature Bit="38" Name="Distributed" FullName="Distributed">
+  <BFeature Bit="38" Name="distr" FullName="Distributed">
     <PlusMask>274877906944</PlusMask>
     <MinusMask>549755813888</MinusMask>
   </BFeature>
-  <BFeature Bit="40" Name="Dorsal" FullName="Dorsal">
+  <BFeature Bit="40" Name="DORS" FullName="Dorsal">
     <PlusMask>1099511627776</PlusMask>
     <MinusMask>2199023255552</MinusMask>
   </BFeature>
-  <BFeature Bit="42" Name="Spread glottis" FullName="Spread glottis">
+  <BFeature Bit="42" Name="spread" FullName="Spread glottis">
     <PlusMask>4398046511104</PlusMask>
     <MinusMask>8796093022208</MinusMask>
   </BFeature>
-  <BFeature Bit="44" Name="Con. glottis" FullName="Constricted glottis (pressure)">
+  <BFeature Bit="44" Name="constr" FullName="Constricted glottis (pressure)">
     <PlusMask>17592186044416</PlusMask>
     <MinusMask>35184372088832</MinusMask>
   </BFeature>
@@ -100,11 +100,11 @@
     <PlusMask>281474976710656</PlusMask>
     <MinusMask>562949953421312</MinusMask>
   </BFeature>
-  <BFeature Bit="50" Name="Pharyngeal" FullName="Pharyngeal">
+  <BFeature Bit="50" Name="PHAR" FullName="Pharyngeal">
     <PlusMask>1125899906842624</PlusMask>
     <MinusMask>2251799813685248</MinusMask>
   </BFeature>
-  <BFeature Bit="52" Name="Continuant acoustic" FullName="Continuant acoustic">
+  <BFeature Bit="52" Name="cont" FullName="Continuant acoustic">
     <PlusMask>4503599627370496</PlusMask>
     <MinusMask>9007199254740992</MinusMask>
   </BFeature>
@@ -112,15 +112,15 @@
     <PlusMask>18014398509481984</PlusMask>
     <MinusMask>36028797018963968</MinusMask>
   </BFeature>
-  <BFeature Bit="56" Name="Long" FullName="Long">
+  <BFeature Bit="56" Name="long" FullName="Long">
     <PlusMask>72057594037927936</PlusMask>
     <MinusMask>144115188075855872</MinusMask>
   </BFeature>
-  <BFeature Bit="58" Name="Approximant" FullName="Approximant">
+  <BFeature Bit="58" Name="approx" FullName="Approximant">
     <PlusMask>288230376151711744</PlusMask>
     <MinusMask>576460752303423488</MinusMask>
   </BFeature>
-  <BFeature Bit="60" Name="Tense" FullName="Tense">
+  <BFeature Bit="60" Name="tense" FullName="Tense">
     <PlusMask>1152921504606846976</PlusMask>
     <MinusMask>2305843009213693952</MinusMask>
   </BFeature>

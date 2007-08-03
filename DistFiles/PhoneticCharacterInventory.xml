@@ -10,8 +10,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-35</MOArticulation>
-    <POArticulation>-35</POArticulation>
+    <MOArticulation>-20</MOArticulation>
+    <POArticulation>-20</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -28,8 +28,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-30</MOArticulation>
-    <POArticulation>-30</POArticulation>
+    <MOArticulation>-25</MOArticulation>
+    <POArticulation>-25</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>128</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -46,8 +46,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>27</DisplayOrder>
-    <MOArticulation>-25</MOArticulation>
-    <POArticulation>-25</POArticulation>
+    <MOArticulation>-30</MOArticulation>
+    <POArticulation>-30</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>2048</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -64,8 +64,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>25</DisplayOrder>
-    <MOArticulation>-20</MOArticulation>
-    <POArticulation>-20</POArticulation>
+    <MOArticulation>-35</MOArticulation>
+    <POArticulation>-35</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>256</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -82,8 +82,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>23</DisplayOrder>
-    <MOArticulation>-15</MOArticulation>
-    <POArticulation>-15</POArticulation>
+    <MOArticulation>-40</MOArticulation>
+    <POArticulation>-40</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -100,8 +100,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>21</DisplayOrder>
-    <MOArticulation>-10</MOArticulation>
-    <POArticulation>-10</POArticulation>
+    <MOArticulation>-45</MOArticulation>
+    <POArticulation>-45</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>512</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -118,8 +118,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>19</DisplayOrder>
-    <MOArticulation>-5</MOArticulation>
-    <POArticulation>-5</POArticulation>
+    <MOArticulation>-50</MOArticulation>
+    <POArticulation>-50</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>1024</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -154,8 +154,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>730</MOArticulation>
-    <POArticulation>745</POArticulation>
+    <MOArticulation>725</MOArticulation>
+    <POArticulation>740</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>65536</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -172,8 +172,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-50</MOArticulation>
-    <POArticulation>-50</POArticulation>
+    <MOArticulation>-5</MOArticulation>
+    <POArticulation>-5</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -190,8 +190,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-45</MOArticulation>
-    <POArticulation>-45</POArticulation>
+    <MOArticulation>-10</MOArticulation>
+    <POArticulation>-10</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -225,12 +225,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>25</DisplayOrder>
-    <MOArticulation>535</MOArticulation>
-    <POArticulation>475</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>530</MOArticulation>
+    <POArticulation>470</POArticulation>
     <Mask0>4400193994762</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>764109077300479616</BinaryMask>
+    <BinaryMask>2780595775928075926</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -243,12 +243,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>2</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>20</MOArticulation>
     <POArticulation>35</POArticulation>
     <Mask0>32793</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768472885406302208</BinaryMask>
+    <BinaryMask>766218886569328681</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -261,12 +261,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>7</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>45</MOArticulation>
     <POArticulation>210</POArticulation>
     <Mask0>33797</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768542592733964928</BinaryMask>
+    <BinaryMask>766290483540003433</BinaryMask>
     <ChartColumn>12</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -279,12 +279,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>4</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>30</MOArticulation>
     <POArticulation>95</POArticulation>
     <Mask0>32905</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768473460940296192</BinaryMask>
+    <BinaryMask>766219427601010729</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -297,12 +297,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>10</DisplayOrder>
-    <MOArticulation>460</MOArticulation>
-    <POArticulation>450</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>455</MOArticulation>
+    <POArticulation>445</POArticulation>
     <Mask0>277025390602</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1916960213163150080</BinaryMask>
+    <BinaryMask>1627604177454983830</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -315,12 +315,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>28</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>155</MOArticulation>
     <POArticulation>65</POArticulation>
     <Mask0>524325</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>745954886195511296</BinaryMask>
+    <BinaryMask>743700887358537769</BinaryMask>
     <ChartColumn>2</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -333,12 +333,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>10</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>65</MOArticulation>
     <POArticulation>255</POArticulation>
     <Mask0>34825</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768471940513499264</BinaryMask>
+    <BinaryMask>766220106205825385</BinaryMask>
     <ChartColumn>15</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -351,12 +351,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>46</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>255</MOArticulation>
     <POArticulation>330</POArticulation>
     <Mask0>540677</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763964903838351360</BinaryMask>
+    <BinaryMask>757207270844399658</BinaryMask>
     <ChartColumn>20</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -369,12 +369,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>1</DisplayOrder>
-    <MOArticulation>415</MOArticulation>
-    <POArticulation>430</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>410</MOArticulation>
+    <POArticulation>425</POArticulation>
     <Mask0>68719476746</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1916960213163149824</BinaryMask>
+    <BinaryMask>1627604177454983766</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -387,12 +387,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>53</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>290</MOArticulation>
     <POArticulation>235</POArticulation>
     <Mask0>2098185</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1916960213163149824</BinaryMask>
+    <BinaryMask>1627604177454983770</BinaryMask>
     <ChartColumn>13</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -405,12 +405,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>9</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>55</MOArticulation>
     <POArticulation>245</POArticulation>
     <Mask0>34821</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768471940513564800</BinaryMask>
+    <BinaryMask>766220106205890921</BinaryMask>
     <ChartColumn>14</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -423,12 +423,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>55</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>300</MOArticulation>
     <POArticulation>140</POArticulation>
     <Mask0>272629897</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860222144512</BinaryMask>
+    <BinaryMask>473485450731147289</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>7</ChartGroup>
   </IPACharInfo>
@@ -441,12 +441,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>14</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>85</MOArticulation>
     <POArticulation>40</POArticulation>
     <Mask0>65561</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969285777883136</BinaryMask>
+    <BinaryMask>766218886568280089</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
@@ -459,12 +459,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>16</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>95</MOArticulation>
     <POArticulation>100</POArticulation>
     <Mask0>65673</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969861311877120</BinaryMask>
+    <BinaryMask>766219427599962137</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
@@ -477,12 +477,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>15</DisplayOrder>
-    <MOArticulation>485</MOArticulation>
-    <POArticulation>545</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>480</MOArticulation>
+    <POArticulation>540</POArticulation>
     <Mask0>309237645322</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>1917030564660349440</BinaryMask>
+    <BinaryMask>1627674288568207766</BinaryMask>
     <ChartColumn>9</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -495,12 +495,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>1</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>15</MOArticulation>
     <POArticulation>30</POArticulation>
     <Mask0>32789</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768472885406367744</BinaryMask>
+    <BinaryMask>766218886569394217</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -513,12 +513,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>11</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>70</MOArticulation>
     <POArticulation>285</POArticulation>
     <Mask0>36869</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768612678001920384</BinaryMask>
+    <BinaryMask>766360843694246313</BinaryMask>
     <ChartColumn>16</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -531,12 +531,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>22</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>125</MOArticulation>
     <POArticulation>105</POArticulation>
     <Mask0>131209</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>762843960332079104</BinaryMask>
+    <BinaryMask>401427856718385177</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -549,12 +549,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>32</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>175</MOArticulation>
     <POArticulation>115</POArticulation>
     <Mask0>524421</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860234792960</BinaryMask>
+    <BinaryMask>761715826903896105</BinaryMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -567,12 +567,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>3</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>25</MOArticulation>
     <POArticulation>90</POArticulation>
     <Mask0>32901</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768473460940361728</BinaryMask>
+    <BinaryMask>768471227414761513</BinaryMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -585,12 +585,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>6</DisplayOrder>
-    <MOArticulation>440</MOArticulation>
-    <POArticulation>530</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>435</MOArticulation>
+    <POArticulation>525</POArticulation>
     <Mask0>103079215114</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>1917030564660349184</BinaryMask>
+    <BinaryMask>1627674288568207702</BinaryMask>
     <ChartColumn>9</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -603,12 +603,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>29</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>160</MOArticulation>
     <POArticulation>70</POArticulation>
     <Mask0>524329</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>745954886195445760</BinaryMask>
+    <BinaryMask>743700887358472233</BinaryMask>
     <ChartColumn>3</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -621,12 +621,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>2</DisplayOrder>
-    <MOArticulation>380</MOArticulation>
-    <POArticulation>395</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>375</MOArticulation>
+    <POArticulation>390</POArticulation>
     <Mask0>69208073</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1917030564660349184</BinaryMask>
+    <BinaryMask>1627674288568207706</BinaryMask>
     <ChartColumn>15</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
@@ -639,12 +639,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>40</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>225</MOArticulation>
     <POArticulation>265</POArticulation>
     <Mask0>526341</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763968339812190336</BinaryMask>
+    <BinaryMask>761716505504516457</BinaryMask>
     <ChartColumn>14</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -657,12 +657,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>2</DisplayOrder>
-    <MOArticulation>420</MOArticulation>
-    <POArticulation>435</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>415</MOArticulation>
+    <POArticulation>430</POArticulation>
     <Mask0>70866960394</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>1916960195916171776</BinaryMask>
+    <BinaryMask>1627604194701961814</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -675,12 +675,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>33</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>180</MOArticulation>
     <POArticulation>120</POArticulation>
     <Mask0>524425</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860234727424</BinaryMask>
+    <BinaryMask>761715826903830569</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -693,12 +693,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>2</DisplayOrder>
-    <MOArticulation>330</MOArticulation>
-    <POArticulation>350</POArticulation>
-    <Mask0>8388673</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>696414628878112896</BinaryMask>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>760</MOArticulation>
+    <POArticulation>775</POArticulation>
+    <Mask0>0</Mask0>
+    <Mask1>2097152</Mask1>
+    <BinaryMask>0</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -765,12 +765,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>23</DisplayOrder>
-    <MOArticulation>525</MOArticulation>
-    <POArticulation>470</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>520</MOArticulation>
+    <POArticulation>465</POArticulation>
     <Mask0>2201170739210</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>764038708556301952</BinaryMask>
+    <BinaryMask>1627603902577051286</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -783,12 +783,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>38</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>215</MOArticulation>
     <POArticulation>225</POArticulation>
     <Mask0>525317</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>764038992032590464</BinaryMask>
+    <BinaryMask>761786882838628969</BinaryMask>
     <ChartColumn>12</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -801,12 +801,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>31</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>170</MOArticulation>
     <POArticulation>85</POArticulation>
     <Mask0>524361</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969585361014784</BinaryMask>
+    <BinaryMask>761715552030117929</BinaryMask>
     <ChartColumn>5</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -819,12 +819,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>11</DisplayOrder>
-    <MOArticulation>465</MOArticulation>
-    <POArticulation>455</POArticulation>
+    <DisplayOrder>0</DisplayOrder>
+    <MOArticulation>460</MOArticulation>
+    <POArticulation>450</POArticulation>
     <Mask0>277025390602</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>1916960195916172032</BinaryMask>
+    <BinaryMask>1627604194701961878</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -837,12 +837,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>44</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>245</MOArticulation>
     <POArticulation>315</POArticulation>
     <Mask0>532485</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>764109077300544896</BinaryMask>
+    <BinaryMask>762982043388085289</BinaryMask>
     <ChartColumn>18</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -855,12 +855,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>19</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>110</MOArticulation>
     <POArticulation>260</POArticulation>
     <Mask0>67593</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763968340885080192</BinaryMask>
+    <BinaryMask>766220106204776793</BinaryMask>
     <ChartColumn>15</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
@@ -874,8 +874,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>18</DisplayOrder>
-    <MOArticulation>500</MOArticulation>
-    <POArticulation>465</POArticulation>
+    <MOArticulation>495</MOArticulation>
+    <POArticulation>460</POArticulation>
     <Mask0>1101659111434</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>3069881700523018752</BinaryMask>
@@ -892,8 +892,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>6</DisplayOrder>
-    <MOArticulation>760</MOArticulation>
-    <POArticulation>775</POArticulation>
+    <MOArticulation>755</MOArticulation>
+    <POArticulation>770</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>2097152</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -928,8 +928,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>4</DisplayOrder>
-    <MOArticulation>340</MOArticulation>
-    <POArticulation>370</POArticulation>
+    <MOArticulation>335</MOArticulation>
+    <POArticulation>365</POArticulation>
     <Mask0>8389761</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>696484998696036992</BinaryMask>
@@ -946,8 +946,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>3</DisplayOrder>
-    <MOArticulation>335</MOArticulation>
-    <POArticulation>360</POArticulation>
+    <MOArticulation>330</MOArticulation>
+    <POArticulation>355</POArticulation>
     <Mask0>8388993</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>696414904829761664</BinaryMask>
@@ -964,8 +964,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>24</DisplayOrder>
-    <MOArticulation>530</MOArticulation>
-    <POArticulation>520</POArticulation>
+    <MOArticulation>525</MOArticulation>
+    <POArticulation>515</POArticulation>
     <Mask0>2207613190154</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -982,8 +982,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>27</DisplayOrder>
-    <MOArticulation>545</MOArticulation>
-    <POArticulation>560</POArticulation>
+    <MOArticulation>540</MOArticulation>
+    <POArticulation>555</POArticulation>
     <Mask0>4432406249482</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>764109077300479360</BinaryMask>
@@ -1000,8 +1000,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>28</DisplayOrder>
-    <MOArticulation>550</MOArticulation>
-    <POArticulation>565</POArticulation>
+    <MOArticulation>545</MOArticulation>
+    <POArticulation>560</POArticulation>
     <Mask0>34359738378</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>764109060053501312</BinaryMask>
@@ -1018,7 +1018,7 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>6</DisplayOrder>
-    <MOArticulation>350</MOArticulation>
+    <MOArticulation>345</MOArticulation>
     <POArticulation>345</POArticulation>
     <Mask0>16777241</Mask0>
     <Mask1>0</Mask1>
@@ -1036,8 +1036,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>22</DisplayOrder>
-    <MOArticulation>520</MOArticulation>
-    <POArticulation>555</POArticulation>
+    <MOArticulation>515</MOArticulation>
+    <POArticulation>550</POArticulation>
     <Mask0>1133871366154</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>3069952069267196416</BinaryMask>
@@ -1090,8 +1090,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>7</DisplayOrder>
-    <MOArticulation>355</MOArticulation>
-    <POArticulation>355</POArticulation>
+    <MOArticulation>350</MOArticulation>
+    <POArticulation>350</POArticulation>
     <Mask0>16777417</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768191985963585536</BinaryMask>
@@ -1108,8 +1108,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>12</DisplayOrder>
-    <MOArticulation>470</MOArticulation>
-    <POArticulation>495</POArticulation>
+    <MOArticulation>465</MOArticulation>
+    <POArticulation>490</POArticulation>
     <Mask0>283467841546</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -1126,8 +1126,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>16</DisplayOrder>
-    <MOArticulation>490</MOArticulation>
-    <POArticulation>505</POArticulation>
+    <MOArticulation>485</MOArticulation>
+    <POArticulation>500</POArticulation>
     <Mask0>558345748490</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>3069952086514174464</BinaryMask>
@@ -1144,8 +1144,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>17</DisplayOrder>
-    <MOArticulation>495</MOArticulation>
-    <POArticulation>460</POArticulation>
+    <MOArticulation>490</MOArticulation>
+    <POArticulation>455</POArticulation>
     <Mask0>1101659111434</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>3069881717769996800</BinaryMask>
@@ -1162,8 +1162,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>19</DisplayOrder>
-    <MOArticulation>505</MOArticulation>
-    <POArticulation>510</POArticulation>
+    <MOArticulation>500</MOArticulation>
+    <POArticulation>505</POArticulation>
     <Mask0>1108101562378</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>1917030581907327744</BinaryMask>
@@ -1180,8 +1180,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>20</DisplayOrder>
-    <MOArticulation>510</MOArticulation>
-    <POArticulation>515</POArticulation>
+    <MOArticulation>505</MOArticulation>
+    <POArticulation>510</POArticulation>
     <Mask0>1108101562378</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>1917030564660349696</BinaryMask>
@@ -1216,8 +1216,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>9</DisplayOrder>
-    <MOArticulation>365</MOArticulation>
-    <POArticulation>375</POArticulation>
+    <MOArticulation>360</MOArticulation>
+    <POArticulation>370</POArticulation>
     <Mask0>16779273</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768190465536788608</BinaryMask>
@@ -1288,8 +1288,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>14</DisplayOrder>
-    <MOArticulation>480</MOArticulation>
-    <POArticulation>540</POArticulation>
+    <MOArticulation>475</MOArticulation>
+    <POArticulation>535</POArticulation>
     <Mask0>309237645322</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>1917030581907327488</BinaryMask>
@@ -1306,8 +1306,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>3</DisplayOrder>
-    <MOArticulation>385</MOArticulation>
-    <POArticulation>400</POArticulation>
+    <MOArticulation>380</MOArticulation>
+    <POArticulation>395</POArticulation>
     <Mask0>69207049</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>1916960195916171776</BinaryMask>
@@ -1342,8 +1342,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>10</DisplayOrder>
-    <MOArticulation>410</MOArticulation>
-    <POArticulation>425</POArticulation>
+    <MOArticulation>405</MOArticulation>
+    <POArticulation>420</POArticulation>
     <Mask0>526597</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>763968623284217984</BinaryMask>
@@ -1360,8 +1360,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>3</DisplayOrder>
-    <MOArticulation>425</MOArticulation>
-    <POArticulation>485</POArticulation>
+    <MOArticulation>420</MOArticulation>
+    <POArticulation>480</POArticulation>
     <Mask0>77309411338</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>1917030581907327488</BinaryMask>
@@ -1378,8 +1378,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>7</DisplayOrder>
-    <MOArticulation>445</MOArticulation>
-    <POArticulation>440</POArticulation>
+    <MOArticulation>440</MOArticulation>
+    <POArticulation>435</POArticulation>
     <Mask0>141733920778</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>3069881717769996800</BinaryMask>
@@ -1468,8 +1468,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>5</DisplayOrder>
-    <MOArticulation>435</MOArticulation>
-    <POArticulation>525</POArticulation>
+    <MOArticulation>430</MOArticulation>
+    <POArticulation>520</POArticulation>
     <Mask0>103079215114</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>1917030581907327232</BinaryMask>
@@ -1576,8 +1576,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>13</DisplayOrder>
-    <MOArticulation>475</MOArticulation>
-    <POArticulation>500</POArticulation>
+    <MOArticulation>470</MOArticulation>
+    <POArticulation>495</POArticulation>
     <Mask0>283467841546</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>3069952069267196416</BinaryMask>
@@ -1594,8 +1594,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>26</DisplayOrder>
-    <MOArticulation>540</MOArticulation>
-    <POArticulation>480</POArticulation>
+    <MOArticulation>535</MOArticulation>
+    <POArticulation>475</POArticulation>
     <Mask0>4398046511114</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>764038691309323904</BinaryMask>
@@ -1648,8 +1648,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>9</DisplayOrder>
-    <MOArticulation>405</MOArticulation>
-    <POArticulation>420</POArticulation>
+    <MOArticulation>400</MOArticulation>
+    <POArticulation>415</POArticulation>
     <Mask0>268697733</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>475739484070432768</BinaryMask>
@@ -1792,8 +1792,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>8</DisplayOrder>
-    <MOArticulation>360</MOArticulation>
-    <POArticulation>365</POArticulation>
+    <MOArticulation>355</MOArticulation>
+    <POArticulation>360</POArticulation>
     <Mask0>16778249</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768260834280966784</BinaryMask>
@@ -1828,8 +1828,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>4</DisplayOrder>
-    <MOArticulation>430</MOArticulation>
-    <POArticulation>490</POArticulation>
+    <MOArticulation>425</MOArticulation>
+    <POArticulation>485</POArticulation>
     <Mask0>77309411338</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>1917030564660349440</BinaryMask>
@@ -1846,8 +1846,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>9</DisplayOrder>
-    <MOArticulation>455</MOArticulation>
-    <POArticulation>535</POArticulation>
+    <MOArticulation>450</MOArticulation>
+    <POArticulation>530</POArticulation>
     <Mask0>154618822666</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>3069952069267196416</BinaryMask>
@@ -1882,8 +1882,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>21</DisplayOrder>
-    <MOArticulation>515</MOArticulation>
-    <POArticulation>550</POArticulation>
+    <MOArticulation>510</MOArticulation>
+    <POArticulation>545</POArticulation>
     <Mask0>1133871366154</Mask0>
     <Mask1>67108864</Mask1>
     <BinaryMask>3069952086514174464</BinaryMask>
@@ -1900,8 +1900,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>1</DisplayOrder>
-    <MOArticulation>375</MOArticulation>
-    <POArticulation>390</POArticulation>
+    <MOArticulation>370</MOArticulation>
+    <POArticulation>385</POArticulation>
     <Mask0>67635205</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>1917026166613903616</BinaryMask>
@@ -1936,8 +1936,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>8</DisplayOrder>
-    <MOArticulation>450</MOArticulation>
-    <POArticulation>445</POArticulation>
+    <MOArticulation>445</MOArticulation>
+    <POArticulation>440</POArticulation>
     <Mask0>141733920778</Mask0>
     <Mask1>33554432</Mask1>
     <BinaryMask>3069881700523018752</BinaryMask>
@@ -2080,8 +2080,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>10</DisplayOrder>
-    <MOArticulation>370</MOArticulation>
-    <POArticulation>385</POArticulation>
+    <MOArticulation>365</MOArticulation>
+    <POArticulation>380</POArticulation>
     <Mask0>16781321</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768331203025144192</BinaryMask>
@@ -2098,8 +2098,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>4</DisplayOrder>
-    <MOArticulation>390</MOArticulation>
-    <POArticulation>405</POArticulation>
+    <MOArticulation>385</MOArticulation>
+    <POArticulation>400</POArticulation>
     <Mask0>134742021</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109008581068160</BinaryMask>
@@ -2152,8 +2152,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>6</DisplayOrder>
-    <MOArticulation>400</MOArticulation>
-    <POArticulation>415</POArticulation>
+    <MOArticulation>395</MOArticulation>
+    <POArticulation>410</POArticulation>
     <Mask0>134250505</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768612609282377088</BinaryMask>
@@ -2170,8 +2170,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>5</DisplayOrder>
-    <MOArticulation>395</MOArticulation>
-    <POArticulation>410</POArticulation>
+    <MOArticulation>390</MOArticulation>
+    <POArticulation>405</POArticulation>
     <Mask0>134742025</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109008581002624</BinaryMask>
@@ -2188,8 +2188,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-40</MOArticulation>
-    <POArticulation>-40</POArticulation>
+    <MOArticulation>-15</MOArticulation>
+    <POArticulation>-15</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2224,8 +2224,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>3</DisplayOrder>
-    <MOArticulation>585</MOArticulation>
-    <POArticulation>600</POArticulation>
+    <MOArticulation>580</MOArticulation>
+    <POArticulation>595</POArticulation>
     <Mask0>8796093022208</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2242,8 +2242,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>17</DisplayOrder>
-    <MOArticulation>655</MOArticulation>
-    <POArticulation>670</POArticulation>
+    <MOArticulation>650</MOArticulation>
+    <POArticulation>665</POArticulation>
     <Mask0>1024</Mask0>
     <Mask1>536870912</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2260,8 +2260,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>16</DisplayOrder>
-    <MOArticulation>650</MOArticulation>
-    <POArticulation>665</POArticulation>
+    <MOArticulation>645</MOArticulation>
+    <POArticulation>660</POArticulation>
     <Mask0>67108864</Mask0>
     <Mask1>134217728</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2278,8 +2278,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>11</DisplayOrder>
-    <MOArticulation>555</MOArticulation>
-    <POArticulation>570</POArticulation>
+    <MOArticulation>550</MOArticulation>
+    <POArticulation>565</POArticulation>
     <Mask0>33554433</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2296,8 +2296,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>1</DisplayOrder>
-    <MOArticulation>735</MOArticulation>
-    <POArticulation>750</POArticulation>
+    <MOArticulation>730</MOArticulation>
+    <POArticulation>745</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>65536</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2314,8 +2314,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>2</DisplayOrder>
-    <MOArticulation>740</MOArticulation>
-    <POArticulation>755</POArticulation>
+    <MOArticulation>735</MOArticulation>
+    <POArticulation>750</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>131072</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2332,8 +2332,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>3</DisplayOrder>
-    <MOArticulation>745</MOArticulation>
-    <POArticulation>760</POArticulation>
+    <MOArticulation>740</MOArticulation>
+    <POArticulation>755</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>262144</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2350,8 +2350,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>4</DisplayOrder>
-    <MOArticulation>750</MOArticulation>
-    <POArticulation>765</POArticulation>
+    <MOArticulation>745</MOArticulation>
+    <POArticulation>760</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>524288</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2368,8 +2368,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>12</DisplayOrder>
-    <MOArticulation>630</MOArticulation>
-    <POArticulation>645</POArticulation>
+    <MOArticulation>625</MOArticulation>
+    <POArticulation>640</POArticulation>
     <Mask0>4503599627370496</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2386,8 +2386,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>18</DisplayOrder>
-    <MOArticulation>660</MOArticulation>
-    <POArticulation>675</POArticulation>
+    <MOArticulation>655</MOArticulation>
+    <POArticulation>670</POArticulation>
     <Mask0>2048</Mask0>
     <Mask1>268435456</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2404,8 +2404,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>30</DisplayOrder>
-    <MOArticulation>720</MOArticulation>
-    <POArticulation>735</POArticulation>
+    <MOArticulation>715</MOArticulation>
+    <POArticulation>730</POArticulation>
     <Mask0>4611686018695823360</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2422,8 +2422,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>19</DisplayOrder>
-    <MOArticulation>665</MOArticulation>
-    <POArticulation>680</POArticulation>
+    <MOArticulation>660</MOArticulation>
+    <POArticulation>675</POArticulation>
     <Mask0>8192</Mask0>
     <Mask1>1073741824</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2584,8 +2584,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>28</DisplayOrder>
-    <MOArticulation>710</MOArticulation>
-    <POArticulation>725</POArticulation>
+    <MOArticulation>705</MOArticulation>
+    <POArticulation>720</POArticulation>
     <Mask0>65536</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2620,8 +2620,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>5</DisplayOrder>
-    <MOArticulation>755</MOArticulation>
-    <POArticulation>770</POArticulation>
+    <MOArticulation>750</MOArticulation>
+    <POArticulation>765</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>1048576</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2638,8 +2638,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>8</DisplayOrder>
-    <MOArticulation>610</MOArticulation>
-    <POArticulation>625</POArticulation>
+    <MOArticulation>605</MOArticulation>
+    <POArticulation>620</POArticulation>
     <Mask0>281474976710656</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2656,8 +2656,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>1</DisplayOrder>
-    <MOArticulation>575</MOArticulation>
-    <POArticulation>590</POArticulation>
+    <MOArticulation>570</MOArticulation>
+    <POArticulation>585</POArticulation>
     <Mask0>4</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2728,8 +2728,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>23</DisplayOrder>
-    <MOArticulation>685</MOArticulation>
-    <POArticulation>700</POArticulation>
+    <MOArticulation>680</MOArticulation>
+    <POArticulation>695</POArticulation>
     <Mask0>288230376151711744</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2746,8 +2746,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>24</DisplayOrder>
-    <MOArticulation>690</MOArticulation>
-    <POArticulation>705</POArticulation>
+    <MOArticulation>685</MOArticulation>
+    <POArticulation>700</POArticulation>
     <Mask0>576460752303423488</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2764,8 +2764,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>31</DisplayOrder>
-    <MOArticulation>725</MOArticulation>
-    <POArticulation>740</POArticulation>
+    <MOArticulation>720</MOArticulation>
+    <POArticulation>735</POArticulation>
     <Mask0>9223372036854775808</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2782,8 +2782,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>5</DisplayOrder>
-    <MOArticulation>595</MOArticulation>
-    <POArticulation>610</POArticulation>
+    <MOArticulation>590</MOArticulation>
+    <POArticulation>605</POArticulation>
     <Mask0>35184372088832</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2800,8 +2800,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>21</DisplayOrder>
-    <MOArticulation>675</MOArticulation>
-    <POArticulation>690</POArticulation>
+    <MOArticulation>670</MOArticulation>
+    <POArticulation>685</POArticulation>
     <Mask0>72057594037927936</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2818,8 +2818,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>22</DisplayOrder>
-    <MOArticulation>680</MOArticulation>
-    <POArticulation>695</POArticulation>
+    <MOArticulation>675</MOArticulation>
+    <POArticulation>690</POArticulation>
     <Mask0>144115188075855872</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2836,8 +2836,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>6</DisplayOrder>
-    <MOArticulation>600</MOArticulation>
-    <POArticulation>615</POArticulation>
+    <MOArticulation>595</MOArticulation>
+    <POArticulation>610</POArticulation>
     <Mask0>70368744177664</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2854,8 +2854,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>7</DisplayOrder>
-    <MOArticulation>605</MOArticulation>
-    <POArticulation>620</POArticulation>
+    <MOArticulation>600</MOArticulation>
+    <POArticulation>615</POArticulation>
     <Mask0>140737488355328</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2872,8 +2872,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>13</DisplayOrder>
-    <MOArticulation>635</MOArticulation>
-    <POArticulation>650</POArticulation>
+    <MOArticulation>630</MOArticulation>
+    <POArticulation>645</POArticulation>
     <Mask0>9007199254740992</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2890,8 +2890,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>1</DisplayOrder>
-    <MOArticulation>570</MOArticulation>
-    <POArticulation>585</POArticulation>
+    <MOArticulation>565</MOArticulation>
+    <POArticulation>580</POArticulation>
     <Mask0>4</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2908,8 +2908,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>10</DisplayOrder>
-    <MOArticulation>620</MOArticulation>
-    <POArticulation>635</POArticulation>
+    <MOArticulation>615</MOArticulation>
+    <POArticulation>630</POArticulation>
     <Mask0>1125899906842624</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2926,8 +2926,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>25</DisplayOrder>
-    <MOArticulation>695</MOArticulation>
-    <POArticulation>710</POArticulation>
+    <MOArticulation>690</MOArticulation>
+    <POArticulation>705</POArticulation>
     <Mask0>64</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2944,8 +2944,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>2</DisplayOrder>
-    <MOArticulation>580</MOArticulation>
-    <POArticulation>595</POArticulation>
+    <MOArticulation>575</MOArticulation>
+    <POArticulation>590</POArticulation>
     <Mask0>8</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2962,8 +2962,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>11</DisplayOrder>
-    <MOArticulation>625</MOArticulation>
-    <POArticulation>640</POArticulation>
+    <MOArticulation>620</MOArticulation>
+    <POArticulation>635</POArticulation>
     <Mask0>2251799813685248</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2980,8 +2980,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>14</DisplayOrder>
-    <MOArticulation>640</MOArticulation>
-    <POArticulation>655</POArticulation>
+    <MOArticulation>635</MOArticulation>
+    <POArticulation>650</POArticulation>
     <Mask0>18014398509481984</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -2998,8 +2998,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>20</DisplayOrder>
-    <MOArticulation>670</MOArticulation>
-    <POArticulation>685</POArticulation>
+    <MOArticulation>665</MOArticulation>
+    <POArticulation>680</POArticulation>
     <Mask0>10240</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3016,8 +3016,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>4</DisplayOrder>
-    <MOArticulation>590</MOArticulation>
-    <POArticulation>605</POArticulation>
+    <MOArticulation>585</MOArticulation>
+    <POArticulation>600</POArticulation>
     <Mask0>17592186044416</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3034,8 +3034,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>26</DisplayOrder>
-    <MOArticulation>700</MOArticulation>
-    <POArticulation>715</POArticulation>
+    <MOArticulation>695</MOArticulation>
+    <POArticulation>710</POArticulation>
     <Mask0>1152921504606846976</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3052,8 +3052,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>27</DisplayOrder>
-    <MOArticulation>705</MOArticulation>
-    <POArticulation>720</POArticulation>
+    <MOArticulation>700</MOArticulation>
+    <POArticulation>715</POArticulation>
     <Mask0>2305843009213693952</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3070,8 +3070,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>15</DisplayOrder>
-    <MOArticulation>645</MOArticulation>
-    <POArticulation>660</POArticulation>
+    <MOArticulation>640</MOArticulation>
+    <POArticulation>655</POArticulation>
     <Mask0>36028797018963968</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3088,8 +3088,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>9</DisplayOrder>
-    <MOArticulation>615</MOArticulation>
-    <POArticulation>630</POArticulation>
+    <MOArticulation>610</MOArticulation>
+    <POArticulation>625</POArticulation>
     <Mask0>563499709235200</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3106,8 +3106,8 @@
     <CanPreceedBaseChar>true</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>12</DisplayOrder>
-    <MOArticulation>560</MOArticulation>
-    <POArticulation>575</POArticulation>
+    <MOArticulation>555</MOArticulation>
+    <POArticulation>570</POArticulation>
     <Mask0>536870913</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3124,8 +3124,8 @@
     <CanPreceedBaseChar>true</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>11</DisplayOrder>
-    <MOArticulation>565</MOArticulation>
-    <POArticulation>580</POArticulation>
+    <MOArticulation>560</MOArticulation>
+    <POArticulation>575</POArticulation>
     <Mask0>1073741825</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -3301,8 +3301,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>5</DisplayOrder>
-    <MOArticulation>345</MOArticulation>
-    <POArticulation>380</POArticulation>
+    <MOArticulation>340</MOArticulation>
+    <POArticulation>375</POArticulation>
     <Mask0>276824193</Mask0>
     <Mask1>134217728</Mask1>
     <BinaryMask>696414904812984448</BinaryMask>
@@ -3445,8 +3445,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>29</DisplayOrder>
-    <MOArticulation>715</MOArticulation>
-    <POArticulation>730</POArticulation>
+    <MOArticulation>710</MOArticulation>
+    <POArticulation>725</POArticulation>
     <Mask0>4611686018427453440</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>

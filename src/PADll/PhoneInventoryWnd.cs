@@ -29,6 +29,7 @@ namespace SIL.Pa
 		private readonly ITMAdapter m_tmAdapter;
 		private readonly ExperimentalTranscriptionControl m_experimentalTransCtrl;
 		private readonly ToolTip m_phoneToolTip;
+		private readonly ToolTip m_bFeatureToolTip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,6 +50,7 @@ namespace SIL.Pa
 				return;
 
 			m_phoneToolTip = new ToolTip();
+			m_bFeatureToolTip = new ToolTip();
 
 			PaApp.IncProgressBar();
 			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
@@ -659,6 +661,44 @@ namespace SIL.Pa
 			features = DataUtils.BFeatureCache.GetFeaturesText(phoneInfo.BinaryMask);
 			if (!string.IsNullOrEmpty(features))
 				txtBFeatures.Text = features.Replace(", ", "\r\n");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show binary feature's full name when the mouse hovers over it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtBFeatures_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (txtBFeatures.Text.Length == 0 || txtBFeatures.Lines.Length == 0)
+				return;
+
+			int index = txtBFeatures.GetCharIndexFromPosition(e.Location);
+			int line = txtBFeatures.GetLineFromCharIndex(index);
+
+			if (line >= 0 && line < txtBFeatures.Lines.Length)
+			{
+				string shortName = txtBFeatures.Lines[line];
+
+				BFeature feature = DataUtils.BFeatureCache[shortName];
+				if (feature != null && feature.Name.ToLower() != feature.FullName.ToLower())
+				{
+					if (feature != m_bFeatureToolTip.Tag)
+					{
+						txtBFeatures.Capture = true;
+						Point pt = txtBFeatures.GetPositionFromCharIndex(index);
+						m_bFeatureToolTip.Tag = feature;
+						m_bFeatureToolTip.Show(shortName.Substring(0, 1) + feature.FullName,
+							txtBFeatures, new Point(2, pt.Y));
+					}
+
+					return;
+				}
+			}
+
+			txtBFeatures.Capture = false;
+			m_bFeatureToolTip.Hide(txtBFeatures);
+			m_bFeatureToolTip.Tag = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
