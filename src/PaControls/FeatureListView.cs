@@ -35,6 +35,7 @@ namespace SIL.Pa.Controls
 		private readonly PaApp.FeatureType m_featureType;
 		private readonly Font m_checkedItemFont;
 		private readonly CustomDropDown m_hostingDropDown;
+		private readonly ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -61,6 +62,9 @@ namespace SIL.Pa.Controls
 
 			ColumnHeader colHdr = new ColumnHeader();
 			colHdr.Width = 210;
+
+			if (m_featureType == PaApp.FeatureType.Binary)
+				m_tooltip = new ToolTip();
 
 			base.Font = FontHelper.UIFont;
 			m_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
@@ -112,7 +116,42 @@ namespace SIL.Pa.Controls
 			using (Graphics g = CreateGraphics())
 				m_chkBoxSize = renderer.GetPartSize(g, ThemeSizeType.Draw);
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show the full names of binary features for those features where the name and full
+		/// name are different.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+
+			if (m_tooltip == null)
+				return;
+
+			ListViewHitTestInfo htinfo = HitTest(e.Location);
+			if (htinfo.Item != null && htinfo.Item.Tag != null)
+			{
+				FeatureItemInfo item = htinfo.Item.Tag as FeatureItemInfo;
+				if (item != null && item.Name != item.FullName && item.FullName != null)
+				{
+					if (item != m_tooltip.Tag)
+					{
+						Rectangle rc = GetItemRect(htinfo.Item.Index, ItemBoundsPortion.Label);
+						rc.X += 3;
+						m_tooltip.Tag = htinfo.Item.Font;
+						m_tooltip.Show(item.FullName, this, rc.Location);
+					}
+
+					return;
+				}
+			}
+
+			m_tooltip.Hide(this);
+			m_tooltip.Tag = null;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -180,7 +219,7 @@ namespace SIL.Pa.Controls
 						e.CancelEdit = true;
 					else
 					{
-						info.Feature = newName;
+						info.Name = newName;
 						((AFeature)info.CacheEntry).Name = newName;
 						m_isDirty = true;
 					}
@@ -262,7 +301,7 @@ namespace SIL.Pa.Controls
 			foreach (ListViewItem item in Items)
 			{
 				FeatureItemInfo fi = item.Tag as FeatureItemInfo;
-				if (fi != null && fi.Feature != null && fi.Checked)
+				if (fi != null && fi.Name != null && fi.Checked)
 					m_currMasks[fi.MaskNum] |= fi.Mask;
 			}
 		}
@@ -287,7 +326,7 @@ namespace SIL.Pa.Controls
 			foreach (ListViewItem item in Items)
 			{
 				FeatureItemInfo fi = item.Tag as FeatureItemInfo;
-				if (fi != null && fi.Feature != null &&
+				if (fi != null && fi.Name != null &&
 					fi.TriStateValue != BinaryFeatureValue.None)
 				{
 					m_currMasks[0] |= (fi.TriStateValue == BinaryFeatureValue.Plus ?
@@ -434,7 +473,7 @@ namespace SIL.Pa.Controls
 					return;
 
 				FeatureItemInfo info = new FeatureItemInfo();
-				info.Feature = newName;
+				info.Name = newName;
 				info.Mask = feature.Mask;
 				info.MaskNum = feature.MaskNumber;
 				info.IsCustom = feature.IsCustomFeature;
@@ -468,12 +507,12 @@ namespace SIL.Pa.Controls
 			if (info == null)
 				return;
 
-			string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Feature);
+			string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
 
 			// Make sure the user really wants to do this.
 			if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
-				DataUtils.AFeatureCache.Delete(info.Feature, false);
+				DataUtils.AFeatureCache.Delete(info.Name, false);
 				int newIndex = item.Index;
 
 				// Remove the item from the list resultView and set the new selected item to
@@ -509,12 +548,12 @@ namespace SIL.Pa.Controls
 					if (info != null)
 					{
 						if (m_featureType == PaApp.FeatureType.Articulatory && item.Checked)
-							features.Add(string.Format(fmt, info.Feature.ToLower()));
+							features.Add(string.Format(fmt, info.Name.ToLower()));
 						else if (info.TriStateValue != BinaryFeatureValue.None)
 						{
 							features.Add(string.Format(fmt,
 								(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
-								info.Feature));
+								info.Name));
 						}
 					}
 				}
@@ -541,7 +580,7 @@ namespace SIL.Pa.Controls
 					FeatureItemInfo info = item.Tag as FeatureItemInfo;
 					if (info != null)
 					{
-						string feature = "[" + info.Feature + "]";
+						string feature = "[" + info.Name + "]";
 
 						if (m_featureType == PaApp.FeatureType.Articulatory)
 							return feature;
@@ -622,12 +661,12 @@ namespace SIL.Pa.Controls
 					if (info != null)
 					{
 						if (m_featureType == PaApp.FeatureType.Articulatory && item.Checked)
-							features.Append(info.Feature);
+							features.Append(info.Name);
 						else if (info.TriStateValue != BinaryFeatureValue.None)
 						{
 							features.Append(
 								(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
-								info.Feature);
+								info.Name);
 						}
 
 						features.Append(", ");
@@ -833,12 +872,12 @@ namespace SIL.Pa.Controls
 				if (!feature.Value.IsBlank)
 				{
 					FeatureItemInfo info = new FeatureItemInfo();
-					info.Feature = feature.Value.Name;
+					info.Name = feature.Value.Name;
 					info.MaskNum = feature.Value.MaskNumber;
 					info.Mask = feature.Value.Mask;
 					info.IsCustom = feature.Value.IsCustomFeature;
 					info.CacheEntry = feature.Value;
-					ListViewItem item = new ListViewItem(info.Feature);
+					ListViewItem item = new ListViewItem(info.Name);
 					item.Tag = info;
 					Items.Add(item);
 				}
@@ -855,11 +894,12 @@ namespace SIL.Pa.Controls
 			foreach (KeyValuePair<string, BFeature> feature in DataUtils.BFeatureCache)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
-				info.Feature = feature.Value.Name;
+				info.Name = feature.Value.Name;
+				info.FullName = feature.Value.FullName;
 				info.PlusMask = feature.Value.PlusMask;
 				info.MinusMask = feature.Value.MinusMask;
 				info.CacheEntry = feature.Value;
-				ListViewItem item = new ListViewItem(info.Feature);
+				ListViewItem item = new ListViewItem(info.Name);
 				item.Tag = info;
 				Items.Add(item);
 			}
@@ -889,7 +929,8 @@ namespace SIL.Pa.Controls
 	/// ------------------------------------------------------------------------------------
 	internal class FeatureItemInfo
 	{
-		internal string Feature;
+		internal string Name;
+		internal string FullName;
 		internal int MaskNum;
 		internal ulong Mask = 0;
 		internal ulong MinusMask = 0;

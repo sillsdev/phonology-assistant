@@ -237,6 +237,7 @@ namespace SIL.Pa.Data
 	{
 		private int m_bit;
 		private string m_name;
+		private string m_fullname;
 		private ulong m_plusMask;
 		private ulong m_minusMask;
 
@@ -263,6 +264,18 @@ namespace SIL.Pa.Data
 		{
 			get { return m_name; }
 			set { m_name = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public string FullName
+		{
+			get { return (string.IsNullOrEmpty(m_fullname) ? Name : m_fullname); }
+			set { m_fullname = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
