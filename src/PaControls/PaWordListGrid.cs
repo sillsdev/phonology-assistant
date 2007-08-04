@@ -221,17 +221,20 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
+			if (disposing)
 			{
 				if (m_groupHeadingFont != null)
 					m_groupHeadingFont.Dispose();
 
 				if (base.ContextMenuStrip != null)
 					base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
-				
-				m_cellInfoPopup.Paint -= m_cellInfoPopup_Paint;
-				m_cellInfoPopup.CommandLink.Click -= PopupsCommandLink_Click;
-				m_cellInfoPopup.Dispose();
+
+				if (m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
+				{
+					m_cellInfoPopup.Paint -= m_cellInfoPopup_Paint;
+					m_cellInfoPopup.CommandLink.Click -= PopupsCommandLink_Click;
+					m_cellInfoPopup.Dispose();
+				}
 			}
 
 			base.Dispose(disposing);
