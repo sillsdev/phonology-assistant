@@ -2070,6 +2070,7 @@ namespace SIL.Pa.Controls
 				m_backupCache = m_cache;
 				m_cache = cieCache;
 				RefreshRows(true);
+				PaApp.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
 			}
 
 			return true;
@@ -2088,6 +2089,7 @@ namespace SIL.Pa.Controls
 				m_backupCache = null;
 				m_cache.Sort(m_sortOptions);
 				RefreshRows(true);
+				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
 			}
 		}
 

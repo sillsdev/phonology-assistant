@@ -19,14 +19,15 @@ namespace SIL.Pa.AddOn
 	/// ----------------------------------------------------------------------------------------
 	public class PaAddOnManager : IxCoreColleague
 	{
-		private CustomDropDown m_dropDown;
-		private NumberOfPhonesToMatchCtrl m_numPhonesCtrl;
-		private List<PaWordListGrid> m_grids = new List<PaWordListGrid>();
+		private readonly Font m_fntGlyph;
+		private readonly CustomDropDown m_dropDown;
+		private readonly NumberOfPhonesToMatchCtrl m_numPhonesCtrl;
+		private readonly List<PaWordListGrid> m_grids = new List<PaWordListGrid>();
 		
-		private Dictionary<PaWordListGrid, int> m_numPhonesBefore =
+		private readonly Dictionary<PaWordListGrid, int> m_numPhonesBefore =
 			new Dictionary<PaWordListGrid, int>();
 
-		private Dictionary<PaWordListGrid, int> m_numPhonesAfter =
+		private readonly Dictionary<PaWordListGrid, int> m_numPhonesAfter =
 			new Dictionary<PaWordListGrid, int>();
 		
 		/// ------------------------------------------------------------------------------------
@@ -41,6 +42,8 @@ namespace SIL.Pa.AddOn
 			m_numPhonesCtrl = new NumberOfPhonesToMatchCtrl();
 			m_numPhonesCtrl.lnkApply.Click += lnkApply_Click;
 			m_dropDown.AddControl(m_numPhonesCtrl);
+
+			m_fntGlyph = new Font("Marlett", 9);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,7 +51,7 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterWordListGrouped(object args)
+		protected bool OnAfterWordListGroupedByField(object args)
 		{
 			try
 			{
@@ -58,10 +61,35 @@ namespace SIL.Pa.AddOn
 					grid.Cache != null && grid.Cache.IsForSearchResults)
 				{
 					m_grids.Add(grid);
-					m_numPhonesBefore[grid] = WordListGroupingBuilder.NumberOfAfterPhonesToMatch;
+					m_numPhonesBefore[grid] = WordListGroupingBuilder.NumberOfBeforePhonesToMatch;
 					m_numPhonesAfter[grid] = WordListGroupingBuilder.NumberOfAfterPhonesToMatch;
 					grid.HandleDestroyed += grid_HandleDestroyed;
 					grid.ColumnHeaderMouseClick += grid_ColumnHeaderMouseClick;
+					OnWordListGridSorted(grid);
+				}
+			}
+			catch { }
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnWordListGridSorted(object args)
+		{
+			try
+			{
+				PaWordListGrid grid = args as PaWordListGrid;
+				if (grid != null && m_grids.Contains(grid))
+				{
+					grid.Columns[0].HeaderCell.Style.Font = m_fntGlyph;
+					grid.Columns[0].HeaderCell.Style.ForeColor = Color.CadetBlue;
+					grid.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+					grid.Columns[0].HeaderText =
+						(DoesGridQualifyForFeature(grid) ? "6" : string.Empty);
 				}
 			}
 			catch { }
@@ -80,13 +108,8 @@ namespace SIL.Pa.AddOn
 			{
 				PaWordListGrid grid = sender as PaWordListGrid;
 
-				if (grid == null || e.ColumnIndex != 0 ||
-					!(grid.Columns[0] is SilHierarchicalGridColumn) || grid.Cache == null ||
-					!grid.Cache.IsForSearchResults || grid.SortOptions.AdvSortOrder[1] == 0 ||
-					!grid.SortOptions.SortInformationList[0].FieldInfo.IsPhonetic)
-				{
+				if (e.ColumnIndex != 0 || !DoesGridQualifyForFeature(grid))
 					return;
-				}
 
 				if (!grid.Focused)
 				{
@@ -108,6 +131,25 @@ namespace SIL.Pa.AddOn
 				m_dropDown.Show(pt);
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool DoesGridQualifyForFeature(PaWordListGrid grid)
+		{
+			try
+			{
+				return (grid != null && grid.Columns[0] is SilHierarchicalGridColumn &&
+					grid.Cache != null && grid.Cache.IsForSearchResults &&
+					grid.SortOptions.SortInformationList[0].FieldInfo.IsPhonetic &&
+					grid.SortOptions.AdvSortOrder[1] != 0);
+			}
+			catch { }
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,7 +188,7 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterWordListUnGrouped(object args)
+		protected bool OnAfterWordListUnGroupedByField(object args)
 		{
 			UnhookGrid(args as PaWordListGrid);
 			return false;

@@ -40,18 +40,18 @@ namespace SIL.Pa.AddOn
 			// 
 			this.lblMessage.AutoSize = true;
 			this.lblMessage.Location = new System.Drawing.Point(3, 0);
-			this.lblMessage.MaximumSize = new System.Drawing.Size(130, 0);
+			this.lblMessage.MaximumSize = new System.Drawing.Size(150, 0);
 			this.lblMessage.Name = "lblMessage";
-			this.lblMessage.Size = new System.Drawing.Size(123, 52);
+			this.lblMessage.Size = new System.Drawing.Size(141, 65);
 			this.lblMessage.TabIndex = 0;
 			this.lblMessage.Tag = "";
-			this.lblMessage.Text = "Number of phones to match when grouping by environment {0}. Zero, matches all pho" +
-				"nes.";
+			this.lblMessage.Text = "Number of phones to match when grouping by environment {0}. Zero, matches environ" +
+				"ment exactly.";
 			// 
 			// updnPhones
 			// 
 			this.updnPhones.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.updnPhones.Location = new System.Drawing.Point(8, 60);
+			this.updnPhones.Location = new System.Drawing.Point(18, 73);
 			this.updnPhones.Margin = new System.Windows.Forms.Padding(8);
 			this.updnPhones.Name = "updnPhones";
 			this.updnPhones.Size = new System.Drawing.Size(114, 20);
@@ -60,6 +60,8 @@ namespace SIL.Pa.AddOn
 			// 
 			// tblCtrls
 			// 
+			this.tblCtrls.AutoSize = true;
+			this.tblCtrls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tblCtrls.ColumnCount = 1;
 			this.tblCtrls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tblCtrls.Controls.Add(this.lblMessage, 0, 0);
@@ -72,14 +74,14 @@ namespace SIL.Pa.AddOn
 			this.tblCtrls.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblCtrls.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblCtrls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblCtrls.Size = new System.Drawing.Size(130, 112);
+			this.tblCtrls.Size = new System.Drawing.Size(150, 129);
 			this.tblCtrls.TabIndex = 2;
 			// 
 			// lnkApply
 			// 
 			this.lnkApply.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.lnkApply.AutoSize = true;
-			this.lnkApply.Location = new System.Drawing.Point(48, 93);
+			this.lnkApply.Location = new System.Drawing.Point(58, 106);
 			this.lnkApply.Margin = new System.Windows.Forms.Padding(5);
 			this.lnkApply.Name = "lnkApply";
 			this.lnkApply.Size = new System.Drawing.Size(33, 13);
@@ -97,11 +99,12 @@ namespace SIL.Pa.AddOn
 			this.DoubleBuffered = true;
 			this.Name = "NumberOfPhonesToMatchCtrl";
 			this.Padding = new System.Windows.Forms.Padding(5);
-			this.Size = new System.Drawing.Size(140, 122);
+			this.Size = new System.Drawing.Size(160, 139);
 			((System.ComponentModel.ISupportInitialize)(this.updnPhones)).EndInit();
 			this.tblCtrls.ResumeLayout(false);
 			this.tblCtrls.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 

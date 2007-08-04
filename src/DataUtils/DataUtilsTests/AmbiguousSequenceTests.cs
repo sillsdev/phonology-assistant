@@ -157,50 +157,82 @@ namespace SIL.Pa.Data
 			Assert.AreEqual("ab", m_ambigSeqList[5].Unit);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests that the ambiguous sequences list contains an ambiguous sequence
-		/// automatically added from calling PhoneticParser with a phonetic string that begins
-		/// with a diacritic.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void AmbiguousSeqTest_ParserAutoAdd1()
-		{
-			Dictionary<int, string[]> uncertainties;
-			DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
-			Assert.AreEqual("\u1D50b", DataUtils.IPACharCache.AmbiguousSequences[0].Unit);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests that the ambiguous sequences list contains an ambiguous sequence
+		///// automatically added from calling PhoneticParser with a phonetic string that begins
+		///// with a diacritic.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void AmbiguousSeqTest_ParserAutoAdd1()
+		//{
+		//    Dictionary<int, string[]> uncertainties;
+		//    DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
+		//    Assert.AreEqual("\u1D50b", DataUtils.IPACharCache.AmbiguousSequences[0].Unit);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests that the ambiguous sequences list contains an ambiguous sequence
+		///// automatically added from calling PhoneticParser with a phonetic string that begins
+		///// with a diacritic. The internal list is checked to make sure the one automatically
+		///// added is in the right order.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void AmbiguousSeqTest_ParserAutoAdd2()
+		//{
+		//    m_ambigSeqList.Add("12");
+		//    m_ambigSeqList.Add("123");
+
+		//    // This will influence the sorted list but we don't want it to.
+		//    SetField(DataUtils.IPACharCache, "m_toneLetters", null);
+
+		//    DataUtils.IPACharCache.AmbiguousSequences = m_ambigSeqList;
+
+		//    Dictionary<int, string[]> uncertainties;
+		//    DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
+
+		//    // Get the value of the internal list that should be sorted.
+		//    m_ambigSeqList =
+		//        GetField(DataUtils.IPACharCache, "m_sortedAmbiguousSeqList") as AmbiguousSequences;
+
+		//    Assert.AreEqual("123", m_ambigSeqList[0].Unit);
+		//    Assert.AreEqual("12", m_ambigSeqList[1].Unit);
+		//    Assert.AreEqual("\u1D50b", m_ambigSeqList[2].Unit);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests that the ambiguous sequences list contains an ambiguous sequence
-		/// automatically added from calling PhoneticParser with a phonetic string that begins
-		/// with a diacritic. The internal list is checked to make sure the one automatically
-		/// added is in the right order.
+		/// Tests the FindAmbiguousSequences on the IPACharCache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AmbiguousSeqTest_ParserAutoAdd2()
+		public void FindAmbiguousSequencesTest()
 		{
-			m_ambigSeqList.Add("12");
-			m_ambigSeqList.Add("123");
+			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("abc"));
+			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("abc def"));
+			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("Xabc"));
+			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("Xabc Xdef"));
 
-			// This will influence the sorted list but we don't want it to.
-			SetField(DataUtils.IPACharCache, "m_toneLetters", null);
+			List<string> ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc");
+			Assert.AreEqual(1, ambigSeqs.Count);
+			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 
-			DataUtils.IPACharCache.AmbiguousSequences = m_ambigSeqList;
+			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc def");
+			Assert.AreEqual(1, ambigSeqs.Count);
+			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 
-			Dictionary<int, string[]> uncertainties;
-			DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
+			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc \u1D50def");
+			Assert.AreEqual(2, ambigSeqs.Count);
+			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
+			Assert.AreEqual("\u1D50d", ambigSeqs[1]);
 
-			// Get the value of the internal list that should be sorted.
-			m_ambigSeqList =
-				GetField(DataUtils.IPACharCache, "m_sortedAmbiguousSeqList") as AmbiguousSequences;
-
-			Assert.AreEqual("123", m_ambigSeqList[0].Unit);
-			Assert.AreEqual("12", m_ambigSeqList[1].Unit);
-			Assert.AreEqual("\u1D50b", m_ambigSeqList[2].Unit);
+			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("XX\u1D50abc X\u1D50def");
+			Assert.AreEqual(2, ambigSeqs.Count);
+			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
+			Assert.AreEqual("\u1D50d", ambigSeqs[1]);
 		}
 	}
 }

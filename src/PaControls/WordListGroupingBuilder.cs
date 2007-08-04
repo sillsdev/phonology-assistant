@@ -13,6 +13,8 @@ namespace SIL.Pa.Controls
 	{
 		private static int s_numberOfBeforePhonesToMatch = -1;
 		private static int s_numberOfAfterPhonesToMatch = -1;
+		private static int s_numberOfBeforePhonesToMatchCIE = -1;
+		private static int s_numberOfAfterPhonesToMatchCIE = -1;
 
 		private readonly PaWordListGrid m_grid;
 		private Font m_headingFont;
@@ -49,7 +51,11 @@ namespace SIL.Pa.Controls
 				
 				return s_numberOfBeforePhonesToMatch;
 			}
-			set {s_numberOfBeforePhonesToMatch = value;}
+			set
+			{
+				s_numberOfBeforePhonesToMatch = value;
+				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "before", value);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,7 +76,61 @@ namespace SIL.Pa.Controls
 				
 				return s_numberOfAfterPhonesToMatch;
 			}
-			set {s_numberOfAfterPhonesToMatch = value;}
+			set
+			{
+				s_numberOfAfterPhonesToMatch = value;
+				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "after", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Number of phones in the environment before to match when creating minimal pair
+		/// groups.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int NumberOfBeforePhonesToMatchForCIE
+		{
+			get
+			{
+				if (s_numberOfBeforePhonesToMatchCIE < 0)
+				{
+					s_numberOfBeforePhonesToMatch = PaApp.SettingsHandler.GetIntSettingsValue(
+						"phonestomatchforgrouping", "beforecie", 0);
+				}
+
+				return s_numberOfBeforePhonesToMatchCIE;
+			}
+			set
+			{
+				s_numberOfBeforePhonesToMatchCIE = value;
+				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "beforecie", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Number of phones in the environment after to match when creating minimal pair
+		/// groups.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int NumberOfAfterPhonesToMatchForCIE
+		{
+			get
+			{
+				if (s_numberOfAfterPhonesToMatchCIE < 0)
+				{
+					s_numberOfAfterPhonesToMatchCIE = PaApp.SettingsHandler.GetIntSettingsValue(
+						"phonestomatchforgrouping", "aftercie", 0);
+				}
+
+				return s_numberOfAfterPhonesToMatchCIE;
+			}
+			set
+			{
+				s_numberOfAfterPhonesToMatchCIE = value;
+				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "aftercie", value);
+			}
 		}
 
 		#endregion 
@@ -90,7 +150,9 @@ namespace SIL.Pa.Controls
 				grid.SuspendLayout();
 				builder.InternalGroup();
 				grid.ResumeLayout();
-				PaApp.MsgMediator.SendMessage("AfterWordListGrouped", grid);
+
+				if (grid.GroupByField != null)
+					PaApp.MsgMediator.SendMessage("AfterWordListGroupedByField", grid);
 			}
 		}
 
@@ -107,7 +169,7 @@ namespace SIL.Pa.Controls
 				grid.SuspendLayout();
 				builder.InternalUnGroup();
 				grid.ResumeLayout();
-				PaApp.MsgMediator.SendMessage("AfterWordListUnGrouped", grid);
+				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}
 
@@ -173,9 +235,28 @@ namespace SIL.Pa.Controls
 				{
 					// Should we group by the phonetic column's search item?
 					if (m_grid.SortOptions.AdvSortOrder[1] == 0)
-						GroupOnPhoneticSearchItem(m_grid.GroupByField.FieldName);
+						GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.FieldName, 1);
 					else
-						GroupOnPhoneticEnvironment(m_grid.GroupByField.FieldName);
+					{
+						bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
+
+						int numberPhonesToMatch = (matchBefore ?
+							NumberOfBeforePhonesToMatch : NumberOfAfterPhonesToMatch);
+
+						if (numberPhonesToMatch == 0)
+						{
+							// Match exactly on the environment before or after.
+							GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.FieldName,
+								(matchBefore ? 0 : 2));
+						}
+						else
+						{
+							// Match on the environment before or after
+							// up to the specified number of phones.
+							GroupOnPhoneticEnvironment(m_grid.GroupByField.FieldName,
+								matchBefore, numberPhonesToMatch);
+						}
+					}
 				}
 			}
 		}
@@ -208,39 +289,34 @@ namespace SIL.Pa.Controls
 				}
 			}
 
-			// Insert the first group heading row and insert a hierarchical column for the
-			// + and - glpyhs.
-			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				prevFldValue, m_headingFont, 0, lastChild));
-			
-			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				m_grid.GroupExpandedChangedHandler;
-			
-			m_grid.m_suspendSavingColumnChanges = true;
-			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid.m_suspendSavingColumnChanges = false;
+			FinishGrouping(prevFldValue, lastChild);
 		}
 
+		#region methods for grouping on phonetic fields in search result grids
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Groups on one of the three parts of the phonetic field for search result grids.
+		/// When determining groups, exact matches on the item are required for two entries
+		/// to be included in the same group. The part argument is 0 for the environment
+		/// before, 1 for the search item and 2 for the environment after.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GroupOnPhoneticSearchItem(string fieldName)
+		private void GroupOnPhoneticSearchItemPartExactly(string fieldName, int part)
 		{
 			if (string.IsNullOrEmpty(fieldName))
 				return;
 
-			int slash = m_cache.SearchQuery.Pattern.IndexOf('/');
-			string fmtHeading = "{0}" +
-				(slash >= 0 ? m_cache.SearchQuery.Pattern.Substring(slash) : "/*_*");
-
+			string fmtHeading = GetHeadingFormatForGroupingByPhonetic();
 			int lastChild = m_cache.Count - 1;
-			string prevFldValue = m_cache[lastChild].SearchItem;
+			string prevFldValue = (part == 0 ? m_cache[lastChild].EnvironmentBefore :
+				part == 1 ? m_cache[lastChild].SearchItem : m_cache[lastChild].EnvironmentAfter);
 
 			for (int i = m_cache.Count - 1; i >= 0; i--)
 			{
-				if (prevFldValue != m_cache[i].SearchItem)
+				string currFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
+					part == 1 ? m_cache[i].SearchItem : m_cache[i].EnvironmentAfter);
+
+				if (prevFldValue != currFldValue)
 				{
 					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
 						string.Format(fmtHeading, prevFldValue), m_headingFont, i + 1, lastChild));
@@ -248,55 +324,32 @@ namespace SIL.Pa.Controls
 					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
 						m_grid.GroupExpandedChangedHandler;
 
-					prevFldValue = m_cache[i].SearchItem;
 					lastChild = i;
+					prevFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
+						part == 1 ? m_cache[i].SearchItem : m_cache[i].EnvironmentAfter);
 				}
 			}
 
-			// Insert the first group heading row and insert a hierarchical column for the
-			// + and - glpyhs.
-			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				string.Format(fmtHeading, prevFldValue), m_headingFont, 0, lastChild));
-			
-			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				m_grid.GroupExpandedChangedHandler;
-
-			m_grid.m_suspendSavingColumnChanges = true;
-			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid.m_suspendSavingColumnChanges = false;
+			FinishGrouping(fmtHeading, prevFldValue, lastChild);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Groups on the environment before or after for a search result grid when the number
+		/// of phones to match is greater than zero.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GroupOnPhoneticEnvironment(string fieldName)
+		private void GroupOnPhoneticEnvironment(string fieldName, bool matchBefore,
+			int numberPhonesToMatch)
 		{
 			if (string.IsNullOrEmpty(fieldName))
 				return;
 
-			bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
 			bool rightToLeft = (matchBefore ?
 				m_grid.SortOptions.AdvRlOptions[0] :
 				m_grid.SortOptions.AdvRlOptions[2]);
 
-			int numberPhonesToMatch = (matchBefore ?
-				NumberOfBeforePhonesToMatch : NumberOfAfterPhonesToMatch);
-			
-			if (numberPhonesToMatch <= 0)
-				numberPhonesToMatch = int.MaxValue;
-
-			string fmtHeading = "{0}";
-			string pattern = m_cache.SearchQuery.Pattern;
-			pattern = pattern.Replace("{", "{{");
-			pattern = pattern.Replace("}", "}}");
-			string[] ptrnParts = pattern.Split("/_".ToCharArray(), 3);
-			if (ptrnParts.Length == 3)
-			{
-				fmtHeading = ptrnParts[0] + "/" +
-					(matchBefore ? "{0}_" + ptrnParts[2] : ptrnParts[1] + "_{0}");
-			}
+			string fmtHeading = GetHeadingFormatForGroupingByPhonetic();
 			
 			int lastChild = m_cache.Count - 1;
 			WordListCacheEntry prevEntry = m_cache[lastChild];
@@ -323,17 +376,7 @@ namespace SIL.Pa.Controls
 			heading = GetHeadingTextFromEntry(m_cache[0], matchBefore,
 				rightToLeft, numberPhonesToMatch);
 
-			// Insert the first group heading row and insert a hierarchical column for the
-			// + and - glpyhs.
-			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				string.Format(fmtHeading, heading), m_headingFont, 0, lastChild));
-
-			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				m_grid.GroupExpandedChangedHandler;
-
-			m_grid.m_suspendSavingColumnChanges = true;
-			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid.m_suspendSavingColumnChanges = false;
+			FinishGrouping(fmtHeading, heading, lastChild);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -415,6 +458,37 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the format for the heading text when grouping by the phonetic column for
+		/// search result views.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string GetHeadingFormatForGroupingByPhonetic()
+		{
+			string fmtHeading = "{0}";
+			string pattern = m_cache.SearchQuery.Pattern;
+			pattern = pattern.Replace("{", "{{");
+			pattern = pattern.Replace("}", "}}");
+
+			if (m_grid.SortOptions.AdvSortOrder[1] == 0)
+			{
+				int slash = pattern.IndexOf('/');
+				fmtHeading = "{0}" + (slash >= 0 ? pattern.Substring(slash) : "/*_*");
+			}
+			else
+			{
+				string[] ptrnParts = pattern.Split("/_".ToCharArray(), 3);
+				if (ptrnParts.Length == 3)
+				{
+					fmtHeading = ptrnParts[0] + "/" + (m_grid.SortOptions.AdvSortOrder[0] == 0 ?
+						"{0}_" + ptrnParts[2] : ptrnParts[1] + "_{0}");
+				}
+			}
+
+			return fmtHeading;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -423,8 +497,6 @@ namespace SIL.Pa.Controls
 		{
 			int phonesToInclude = numberPhonesToMatch;
 			int start = 0;
-			bool includeEllipsisBefore = false;
-			bool includeEllipsisAfter = false;
 
 			if (matchBefore)
 			{
@@ -435,8 +507,6 @@ namespace SIL.Pa.Controls
 				// which one will be the first one from the phones collection.
 				phonesToInclude = Math.Min(phonesToInclude, entry.SearchItemOffset);
 				start = (rightToLeft ? entry.SearchItemOffset - phonesToInclude : 0);
-				includeEllipsisBefore = (rightToLeft && phonesToInclude < entry.SearchItemOffset);
-				includeEllipsisAfter = (!rightToLeft && phonesToInclude < entry.SearchItemOffset); 
 			}
 			else
 			{
@@ -452,9 +522,6 @@ namespace SIL.Pa.Controls
 				// Figure out which phone is the first phone in the returned string.
 				start = (rightToLeft ? entry.Phones.Length - phonesToInclude :
 					entry.SearchItemOffset + entry.SearchItemLength);
-
-				includeEllipsisBefore = (rightToLeft && phonesToInclude < phonesInEnvAfter);
-				includeEllipsisAfter = (!rightToLeft && phonesToInclude < phonesInEnvAfter); 
 			}
 
 			System.Text.StringBuilder heading = new System.Text.StringBuilder();
@@ -462,9 +529,11 @@ namespace SIL.Pa.Controls
 			for (int i = start; phonesToInclude > 0; i++, phonesToInclude--)
 				heading.Append(entry.Phones[i]);
 
-			return (includeEllipsisBefore ? "..." : string.Empty) + heading.ToString() +
-				(includeEllipsisAfter ? "..." : string.Empty);
+			return (rightToLeft ? "..." : string.Empty) + heading.ToString() +
+				(!rightToLeft ? "..." : string.Empty);
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -495,14 +564,34 @@ namespace SIL.Pa.Controls
 				}
 			}
 
-			// Insert the first group heading row.
+			FinishGrouping(CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions), lastChild);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FinishGrouping(string heading, int grpsLastChild)
+		{
+			FinishGrouping("{0}", heading, grpsLastChild);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FinishGrouping(string fmtHeading, string heading, int grpsLastChild)
+		{
+			// Insert the first group heading row and insert a hierarchical column for the
+			// + and - glpyhs.
 			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions), m_headingFont, 0, lastChild));
-			
+				string.Format(fmtHeading, heading), m_headingFont, 0, grpsLastChild));
+
 			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
 				m_grid.GroupExpandedChangedHandler;
-			
-			// Insert a hierarchical column for the + and - glpyhs.
+
 			m_grid.m_suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
