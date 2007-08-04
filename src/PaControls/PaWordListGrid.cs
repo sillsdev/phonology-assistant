@@ -223,6 +223,9 @@ namespace SIL.Pa.Controls
 		{
 			if (disposing && m_cellInfoPopup != null && !m_cellInfoPopup.IsDisposed)
 			{
+				if (m_groupHeadingFont != null)
+					m_groupHeadingFont.Dispose();
+
 				if (base.ContextMenuStrip != null)
 					base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 				
