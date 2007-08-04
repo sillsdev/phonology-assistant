@@ -205,6 +205,12 @@ namespace SIL.Pa.Controls
 					col.Dispose();
 				}
 			}
+
+			if (m_grid.GroupHeadingFont != null)
+			{
+				m_grid.GroupHeadingFont.Dispose();
+				m_grid.GroupHeadingFont = null;
+			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -259,6 +265,8 @@ namespace SIL.Pa.Controls
 					}
 				}
 			}
+
+			m_grid.GroupHeadingFont = m_headingFont;
 		}
 
 		/// ------------------------------------------------------------------------------------

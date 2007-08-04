@@ -638,11 +638,6 @@ namespace SIL.Pa.Data
 		public string[] PhoneticParser(string phonetic, bool normalize,
 			bool convertExperimentalTranscriptions, out Dictionary<int, string[]> uncertainPhones)
 		{
-			// This flag gets set when we encounter a phonetic string that begins with a non
-			// base character (e.g. prenasalized 'd'). When the end of the phone beginning
-			// the string is found, the phone is added to the ambiguous sequences list.
-			//bool addToAmbigSeqList = false;
-
 			uncertainPhones = null;
 
 			// Return an empty array if there's nothing in the phonetic.
@@ -676,10 +671,6 @@ namespace SIL.Pa.Data
 					// First, close the previous phone if there is one.
 					if (i > phoneStart)
 						m_phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
-					//{
-					//    SavePhone(phonetic.Substring(phoneStart, i - phoneStart),
-					//        ref addToAmbigSeqList);
-					//}
 
 					string ambigPhone =
 						m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[++i]);
@@ -701,10 +692,6 @@ namespace SIL.Pa.Data
 				{
 					if (i > phoneStart)
 						m_phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
-					//{
-					//    SavePhone(phonetic.Substring(phoneStart, i - phoneStart),
-					//        ref addToAmbigSeqList);
-					//}	
 
 					// Check if we're at the beginning of an uncertain phone group
 					if (c != '(')
@@ -751,10 +738,6 @@ namespace SIL.Pa.Data
 				// transcription so just put it with the following characters.
 				if (ciPrev == null && ciCurr != null && !ciCurr.IsBaseChar)
 					continue;
-				//{
-				//    addToAmbigSeqList = true;
-				//    continue;
-				//}
 
 				// Is the previous codepoint special in that it's not a base character
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
@@ -777,9 +760,6 @@ namespace SIL.Pa.Data
 				if (ciCurr.IsBaseChar && i > phoneStart && ciPrev != null)
 				{
 					m_phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
-
-					//string phone = phonetic.Substring(phoneStart, i - phoneStart);
-					//SavePhone(phone, ref addToAmbigSeqList);
 					phoneStart = i;
 				}
 
@@ -789,40 +769,9 @@ namespace SIL.Pa.Data
 			// Save the last phone
 			if (phoneStart < phonetic.Length)
 				m_phones.Add(phonetic.Substring(phoneStart));
-				//SavePhone(phonetic.Substring(phoneStart), ref addToAmbigSeqList);
 
 			return m_phones.ToArray();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void SavePhone(string phone, ref bool addToAmbigSeqList)
-		//{
-		//    m_phones.Add(phone);
-
-		//    if (addToAmbigSeqList)
-		//    {
-		//        /// Add the phone to the ambiguous sequences. This only happens when the
-		//        /// PhoneticParser encounters a phone at the beginning of a transcription
-		//        /// that starts with a non base character. Therefore, it assumes the non
-		//        /// base character goes with the next following base character, which means
-		//        /// the phone should be in the ambiguous sequences list for the sake of
-		//        /// future processing.
-		//        AmbiguousSeq seq = new AmbiguousSeq(phone);
-		//        seq.Convert = true;
-		//        seq.IsProjectDefault = true;
-
-		//        if (m_unsortedAmbiguousSeqList == null)
-		//            m_unsortedAmbiguousSeqList = new AmbiguousSequences();
-
-		//        m_unsortedAmbiguousSeqList.Add(seq);
-		//        BuildSortedAmbiguousSequencesList();
-		//        addToAmbigSeqList = false;
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -47,6 +47,7 @@ namespace SIL.Pa.Controls
 		private bool m_isCurrentPlaybackGrid = false;
 		private string m_dataSourcePathFieldName;
 		private PaFieldInfo m_groupByField = null;
+		private Font m_groupHeadingFont = null;
 
 		private bool m_allGroupsCollapsed = false;
 		private bool m_allGroupsExpanded = true;
@@ -516,6 +517,18 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This gets assigned to a new font when the grid is grouped by a field or minimal
+		/// pairs. When the grid is ungrouped, then it gets disposed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Font GroupHeadingFont
+		{
+			get { return m_groupHeadingFont; }
+			set { m_groupHeadingFont = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the AllGroupsCollapsed for the grid.
