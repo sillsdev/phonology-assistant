@@ -88,6 +88,15 @@ namespace SIL.Pa
 			foreach (WordListCacheEntry entry in m_cache)
 			    entry.CIEGroupId = -1;
 
+			// First, send a message to see if there is an AddOn to find minimal pairs. If so,
+			// then return the cache it generated instead of the one built by this method.
+			object args = this;
+			if (PaApp.MsgMediator.SendMessage("FindMinimalPairsAlternate", args))
+			{
+				if (args is WordListCache)
+					return (args as WordListCache);
+			}
+
 			Dictionary<string, List<WordListCacheEntry>> cieGroups =
 				new Dictionary<string, List<WordListCacheEntry>>();
 

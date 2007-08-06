@@ -28,6 +28,7 @@ namespace SIL.Pa
 		private RecordCacheEntry m_recEntry;
 		private string[] m_phones;
 		private string m_absoluteAudioFilePath;
+		private object m_tag = null;
 
 		// This is only used for deserialization
 		private List<PaFieldValue> m_fieldValuesList;
@@ -208,6 +209,18 @@ namespace SIL.Pa
 		#endregion
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public object Tag
+		{
+			get { return m_tag; }
+			set { m_tag = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

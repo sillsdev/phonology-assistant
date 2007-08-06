@@ -25,6 +25,7 @@ namespace SIL.Pa
 		private List<string> m_interlinearFields;
 		private List<WordCacheEntry> m_wordEntries;
 		private Dictionary<string, PaFieldValue> m_fieldValues;
+		private object m_tag = null;
 		
 		// These three variables are for records associated with SA audio files.
 		private int m_channels;
@@ -209,13 +210,25 @@ namespace SIL.Pa
 		#endregion
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
+		public object Tag
+		{
+			get { return m_tag; }
+			set { m_tag = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a number that uniquely identifies the record entry among its peers within
 		/// the application's record cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public int Id
 		{
 			get { return m_id; }

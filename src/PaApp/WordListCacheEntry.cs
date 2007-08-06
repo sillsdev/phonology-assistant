@@ -18,6 +18,7 @@ namespace SIL.Pa
 		private int m_srchItemLength;
 		private bool m_showInList = true;
 		private int m_cieGroupId = -1;
+		private object m_tag = null;
 
 		#region Indexer overloads
 		/// ------------------------------------------------------------------------------------
@@ -56,6 +57,17 @@ namespace SIL.Pa
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public object Tag
+		{
+			get { return m_tag; }
+			set { m_tag = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get's the phonetic field's value for the word list cache entry.

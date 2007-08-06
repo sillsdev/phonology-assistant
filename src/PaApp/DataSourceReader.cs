@@ -188,6 +188,7 @@ namespace SIL.Pa
 
 				try
 				{
+					PaApp.MsgMediator.SendMessage("BeforeReadingDataSource", source);
 					bool readSuccess = true;
 
 					switch (source.DataSourceType)
@@ -221,13 +222,16 @@ namespace SIL.Pa
 							break;
 					}
 
-					if (!readSuccess)
+					if (readSuccess)
+						PaApp.MsgMediator.SendMessage("AfterReadingDataSource", source);
+					else
 					{
 						string msg =
 							string.Format(Properties.Resources.kstidErrorProcessingDataSourceFile,
 							STUtils.PrepFilePathForSTMsgBox(source.DataSourceFile));
 
 						STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						PaApp.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
 					}
 				}
 				catch (Exception e)

@@ -425,8 +425,10 @@ namespace SIL.Pa
 				AmbiguousSequences.Load(ProjectPathFilePrefix);
 			
 			PhoneCache.FeatureOverrides = PhoneFeatureOverrides.Load(ProjectPathFilePrefix);
+			PaApp.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();
+			PaApp.MsgMediator.SendMessage("AfterLoadingDataSources", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
