@@ -184,6 +184,8 @@ namespace SIL.Pa
 				return;
 
 			AmbiguousSequences masterList = DataUtils.IPACharCache.AmbiguousSequences;
+			if (masterList == null)
+				masterList = new AmbiguousSequences();
 
 			foreach (string unit in ambigSeqs)
 			{
