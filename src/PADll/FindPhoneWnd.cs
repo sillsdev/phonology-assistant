@@ -178,10 +178,6 @@ namespace SIL.Pa
 			ptrnBldrComponent.ClassListDoubleClickHandler = HandleClassListDoubleClick;
 			ptrnBldrComponent.Initialize();
 
-			string tip = Properties.Resources.kstidFFClassListToolTip;
-			m_tooltip.SetToolTip(ptrnBldrComponent.ClassListView,
-				STUtils.ConvertLiteralNewLines(tip));
-
 			tvSavedPatterns.Load();
 
 			btnAutoHide.Left = btnDock.Left;

@@ -206,6 +206,28 @@ namespace SIL.Pa.Controls
 		#region Methods/property to get a human-readable string of class members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets an array of feature names that are the members in this class if the class
+		/// type is articulatory or binary.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public string[] FeatureNames
+		{
+			get
+			{
+				if (ClassType == SearchClassType.Articulatory)
+					return GetArticulatoryFeaturesStrings(Masks);
+
+				if (ClassType == SearchClassType.Binary)
+					return GetBinaryFeaturesStrings(Masks[0]);
+
+				return null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a displayable list of the members of the class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

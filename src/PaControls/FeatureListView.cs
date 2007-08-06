@@ -139,9 +139,10 @@ namespace SIL.Pa.Controls
 				{
 					if (item != m_tooltip.Tag)
 					{
+						Capture = true;
 						Rectangle rc = GetItemRect(htinfo.Item.Index, ItemBoundsPortion.Label);
 						rc.X += 3;
-						m_tooltip.Tag = htinfo.Item.Font;
+						m_tooltip.Tag = item;
 						m_tooltip.Show(item.FullName, this, rc.Location);
 					}
 
@@ -149,6 +150,7 @@ namespace SIL.Pa.Controls
 				}
 			}
 
+			Capture = false;
 			m_tooltip.Hide(this);
 			m_tooltip.Tag = null;
 		}

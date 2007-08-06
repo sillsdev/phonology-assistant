@@ -385,6 +385,33 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Members (AND&apos;d):.
+        /// </summary>
+        internal static string kstidClassListMembersToolTipAndHdg {
+            get {
+                return ResourceManager.GetString("kstidClassListMembersToolTipAndHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Members:.
+        /// </summary>
+        internal static string kstidClassListMembersToolTipHdg {
+            get {
+                return ResourceManager.GetString("kstidClassListMembersToolTipHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Members (OR&apos;d):.
+        /// </summary>
+        internal static string kstidClassListMembersToolTipOrHdg {
+            get {
+                return ResourceManager.GetString("kstidClassListMembersToolTipOrHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         internal static string kstidClassListViewClassTypeText {

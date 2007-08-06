@@ -152,7 +152,7 @@ namespace SIL.Pa.Controls
 			// 
 			// lvClasses
 			// 
-			this.lvClasses.AppliesTo = SIL.Pa.Controls.ClassListView.ListApplicationType.FindPhoneWindow;
+			this.lvClasses.AppliesTo = SIL.Pa.Controls.ClassListView.ListApplicationType.SearchViewWnd;
 			this.lvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lvClasses.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.lvClasses.FullRowSelect = true;

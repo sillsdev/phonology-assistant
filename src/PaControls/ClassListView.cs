@@ -6,6 +6,173 @@ using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
+	#region ClassListViewToolTip class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Tooltip for showing the members of a class when the user hovers over a search class
+	/// name.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class ClassListViewToolTip : ToolTip
+	{
+		private Font m_titleFont = new Font(FontHelper.UIFont, FontStyle.Bold);
+		private Point m_contentLocation = Point.Empty;
+		private string m_tipText;
+		private ClassListViewItem m_item;
+		private ClassListViewItem m_prevItem;
+		private Control m_ctrl;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ClassListViewToolTip(Control ctrl)
+		{
+			m_ctrl = ctrl;
+			OwnerDraw = true;
+			Popup += HandlePopup;
+			Draw += HandleDraw;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && m_titleFont != null)
+				m_titleFont.Dispose();
+
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ClassListViewItem ClassListViewItem
+		{
+			get { return m_item; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Show(ClassListViewItem item)
+		{
+			ErasePrevItemDottedLine(item);
+
+			if (item.ClassType == SearchClassType.Phones)
+				m_tipText = item.FormattedMembersString;
+			else
+			{
+				string[] features = item.FeatureNames;
+				m_tipText = (features != null ? string.Join("\n", features) : string.Empty);
+			}
+
+			m_item = item;
+			Point pt = m_ctrl.PointToClient(Control.MousePosition);
+
+			if (!(m_ctrl is ListView))
+				pt.Y += (int)(Cursor.Current.Size.Height * 0.7);
+			else
+			{
+				Rectangle rc = (m_ctrl as ListView).GetItemRect(item.Index, ItemBoundsPortion.Label);
+				pt.Y = rc.Bottom + 3;
+			}
+
+			base.Show(m_tipText, m_ctrl, pt);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Hide()
+		{
+			ErasePrevItemDottedLine(null);
+			
+			if (m_ctrl != null)
+				base.Hide(m_ctrl);
+
+			m_item = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ErasePrevItemDottedLine(ClassListViewItem item)
+		{
+			if (m_prevItem != null)
+			{
+				Rectangle rc = m_prevItem.GetBounds(ItemBoundsPortion.Label);
+				m_prevItem.ListView.Invalidate(rc);
+			}
+
+			m_prevItem = item;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePopup(object sender, PopupEventArgs e)
+		{
+			if (m_item == null)
+				return;
+
+			if (m_item.ClassType == SearchClassType.Phones)
+				ToolTipTitle = Properties.Resources.kstidClassListMembersToolTipHdg;
+			else
+			{
+				ToolTipTitle = (m_item.ANDFeatures ?
+					Properties.Resources.kstidClassListMembersToolTipAndHdg :
+					Properties.Resources.kstidClassListMembersToolTipOrHdg);
+			}
+
+			Size sz = TextRenderer.MeasureText(m_tipText, m_item.ClassMembersFont);
+			Size szHdg = TextRenderer.MeasureText(ToolTipTitle, m_titleFont);
+			
+			// Add enough for 4 pixels of padding all around, and 5
+			// pixels between the title and the feature members.
+			e.ToolTipSize = new Size(Math.Max(sz.Width, szHdg.Width) + 8,
+				sz.Height + szHdg.Height + 13);
+			
+			m_contentLocation = new Point(4, szHdg.Height + 9);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleDraw(object sender, DrawToolTipEventArgs e)
+		{
+			e.DrawBackground();
+			e.DrawBorder();
+
+			TextRenderer.DrawText(e.Graphics, ToolTipTitle, m_titleFont,
+				new Point(4, 4), SystemColors.InfoText);
+
+			TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding |
+				TextFormatFlags.WordBreak;
+
+			TextRenderer.DrawText(e.Graphics, m_tipText, m_item.ClassMembersFont,
+				m_contentLocation, SystemColors.InfoText, flags);
+		}
+	}
+
+	#endregion
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -20,7 +187,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public enum ListApplicationType
 		{
-			FindPhoneWindow,
+			SearchViewWnd,
 			ClassesDialog,
 			DefineClassesDialog
 		}
@@ -37,6 +204,7 @@ namespace SIL.Pa.Controls
 		internal Font PhoneticFont = null;
 		private SortOrder m_sortOrder = SortOrder.None;
 		private int m_sortColumn = -1;
+		private readonly ClassListViewToolTip m_tooltip;
 
 		#region Construction and loading
 		/// ------------------------------------------------------------------------------------
@@ -60,6 +228,8 @@ namespace SIL.Pa.Controls
 
 			AddColumns();
 			//AddGroups();
+
+			m_tooltip = new ClassListViewToolTip(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,10 +239,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+			if (disposing)
 			{
-				PhoneticFont.Dispose();
-				PhoneticFont = null;
+				if (m_tooltip != null)
+					m_tooltip.Dispose();
+
+				if (PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+				{
+					PhoneticFont.Dispose();
+					PhoneticFont = null;
+				}
 			}
 
 			base.Dispose(disposing);
@@ -384,6 +560,47 @@ namespace SIL.Pa.Controls
 			return false;
 		}
 
+		#region Member tooltip methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show the full names of binary features for those features where the name and full
+		/// name are different.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+
+			if (m_tooltip == null)
+				return;
+
+			ListViewHitTestInfo htinfo = HitTest(e.Location);
+			if (htinfo.Item != null)
+			{
+				ClassListViewItem item = htinfo.Item as ClassListViewItem;
+				if (item != null)
+				{
+					Rectangle rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
+					if (rc.Contains(e.Location))
+					{
+						if (item != m_tooltip.ClassListViewItem)
+						{
+							Capture = true;
+							m_tooltip.Show(item);
+							Invalidate(rc);
+						}
+
+						return;
+					}
+				}
+			}
+
+			Capture = false;
+			m_tooltip.Hide();
+		}
+
+		#endregion
+
 		#region Drawing methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -393,13 +610,31 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDrawItem(DrawListViewItemEventArgs e)
 		{
-			e.DrawDefault = !m_showMembersAndClassTypeColumns;
+			e.DrawDefault = true;
 			base.OnDrawItem(e);
-		
+			
+			// If we've returned from calling the base with the draw default flag set to false
+			// false, we assume some derived class or delegate has already done the drawing.
 			if (!e.DrawDefault)
+				return;
+
+			ClassListViewItem item = e.Item as ClassListViewItem;
+			if (item == null)
+				return;
+			
+			e.DrawDefault = false;
+			item.Draw(e);
+
+			if (m_tooltip != null && m_tooltip.ClassListViewItem == item)
 			{
-				ClassListViewItem item = e.Item as ClassListViewItem;
-				e.DrawDefault = (item == null || !item.Draw(e));
+				int width = TextRenderer.MeasureText(item.Text, FontHelper.UIFont).Width;
+				Rectangle rc = item.GetBounds(ItemBoundsPortion.Label);
+				using (Pen pen = (Pen)SystemPens.WindowText.Clone())
+				{
+					pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+					int dy = rc.Bottom - (m_showMembersAndClassTypeColumns ? 3 : 2);
+					e.Graphics.DrawLine(pen, rc.X, dy, rc.X + width, dy);
+				}
 			}
 		}
 		

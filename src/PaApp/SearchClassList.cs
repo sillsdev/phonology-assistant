@@ -14,8 +14,10 @@ namespace SIL.Pa
 	public enum SearchClassType
 	{
 		/// <summary>
-		// PhoneticChars has been deprecated in favor of Phones. But PhoneticChars is retained
-		// for now for the sake of beta users who may have created classes before this change.
+		/// PhoneticChars has been deprecated in favor of Phones. But PhoneticChars is retained
+		/// so classes created by beta users before this change will still have their classes
+		/// read by the program. However, classes of type PhoneticChars are updated the first
+		/// time they are read to classes of type Phones.
 		/// </summary>
 		PhoneticChars = 0,
 		Articulatory = 1,

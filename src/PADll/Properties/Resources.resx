@@ -187,10 +187,6 @@
   <data name="kstidHideRecPaneToolTip" xml:space="preserve">
     <value>Hide record pane</value>
   </data>
-  <data name="kstidFFClassListToolTip" xml:space="preserve">
-    <value>Double-click, press enter when selected, or drag a\nclass to insert it into the current search pattern</value>
-    <comment>Tooltip text for the class list in the find phone window.</comment>
-  </data>
   <data name="kstidConfirmSavedChartRemoval" xml:space="preserve">
     <value>Are you sure you want to remove the saved chart?</value>
   </data>
