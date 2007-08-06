@@ -64,6 +64,9 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			CurrentSearchQuery = query;
 			PhoneCache = phoneCache;
+
+			if (m_errors != null && m_errors.Count > 0)
+				query.ErrorMessages.AddRange(m_errors);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,16 +80,6 @@ namespace SIL.Pa.FFSearchEngine
 
 			if (m_errors != null && m_errors.Count > 0)
 				query.ErrorMessages.AddRange(m_errors);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Contains a list of errors when there are any.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] ErrorMessages
-		{
-			get { return m_errors.ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,6 +140,16 @@ namespace SIL.Pa.FFSearchEngine
 			m_srchItemStr = patterns[0];
 			m_envBeforeStr = patterns[1];
 			m_envAfterStr = patterns[2];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Contains a list of errors when there are any.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] ErrorMessages
+		{
+			get { return m_errors.ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

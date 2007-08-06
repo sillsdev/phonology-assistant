@@ -186,7 +186,14 @@ namespace SIL.Pa.Controls
 				DataGridViewColumnSortMode.Programmatic :
 				DataGridViewColumnSortMode.Automatic);
 
-			col.DisplayIndex = fieldInfo.DisplayIndexInGrid;
+			int i = fieldInfo.DisplayIndexInGrid;
+			if (i < ColumnCount)
+			{
+				while (i < ColumnCount && Columns[i].Frozen)
+					i++;
+			}
+
+			col.DisplayIndex = i;
 			col.Visible = fieldInfo.VisibleInGrid;
 			if (fieldInfo.WidthInGrid > -1)
 				col.Width = fieldInfo.WidthInGrid;

@@ -136,7 +136,7 @@
     <value>Mismatched brackets or braces found in the {0}.</value>
   </data>
   <data name="kstidMisplacedDiacriticErr" xml:space="preserve">
-    <value>Misplaced diacritic in {0}.</value>
+    <value>Misplaced diacritic in the {0}.</value>
   </data>
   <data name="kstidOneOrMoreBeginningErr" xml:space="preserve">
     <value>When the one-or-more symbol (+) is present in the environment before, it must be  at the beginning.</value>
@@ -146,6 +146,9 @@
   </data>
   <data name="kstidParsedToNothingError" xml:space="preserve">
     <value>Error parsing the {0}.</value>
+  </data>
+  <data name="kstidPatternContainsSpacesErr" xml:space="preserve">
+    <value>There were spaces found in the {0}. Use '#' instead.</value>
   </data>
   <data name="kstidPatternEmptyErr" xml:space="preserve">
     <value>The {0} is empty.</value>

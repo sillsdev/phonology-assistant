@@ -115,7 +115,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Misplaced diacritic in {0}..
+        ///   Looks up a localized string similar to Misplaced diacritic in the {0}..
         /// </summary>
         internal static string kstidMisplacedDiacriticErr {
             get {
@@ -147,6 +147,15 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         internal static string kstidParsedToNothingError {
             get {
                 return ResourceManager.GetString("kstidParsedToNothingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There were spaces found in the {0}. Use &apos;#&apos; instead..
+        /// </summary>
+        internal static string kstidPatternContainsSpacesErr {
+            get {
+                return ResourceManager.GetString("kstidPatternContainsSpacesErr", resourceCulture);
             }
         }
         

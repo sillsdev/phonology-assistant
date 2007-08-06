@@ -506,12 +506,14 @@ namespace SIL.Pa.FFSearchEngine
 				return false;
 			}
 
+			if (pattern.IndexOf(' ') >= 0)
+			{
+				LogError("kstidPatternContainsSpacesErr");
+				return false;
+			}
+
 			pattern = pattern.Replace("[c]", "[C]");
 			pattern = pattern.Replace("[v]", "[V]");
-
-			// Get rid of all spaces.
-			while (pattern.IndexOf(' ') >= 0)
-				pattern = pattern.Replace(" ", string.Empty);
 
 			// Check for too many zero-or-more symbols
 			if (pattern.IndexOf("**") >= 0)
