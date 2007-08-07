@@ -196,56 +196,11 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Affricates.
-        /// </summary>
-        internal static string kstidAffricatesHeading {
-            get {
-                return ResourceManager.GetString("kstidAffricatesHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Alveolar.
-        /// </summary>
-        internal static string kstidAlveolarHeading {
-            get {
-                return ResourceManager.GetString("kstidAlveolarHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Approximant.
-        /// </summary>
-        internal static string kstidApproximantHeading {
-            get {
-                return ResourceManager.GetString("kstidApproximantHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Automatically Hide.
         /// </summary>
         internal static string kstidAutoHideToolTip {
             get {
                 return ResourceManager.GetString("kstidAutoHideToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        internal static string kstidBackHeading {
-            get {
-                return ResourceManager.GetString("kstidBackHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bilabial.
-        /// </summary>
-        internal static string kstidBilabialHeading {
-            get {
-                return ResourceManager.GetString("kstidBilabialHeading", resourceCulture);
             }
         }
         
@@ -295,15 +250,6 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Central.
-        /// </summary>
-        internal static string kstidCentralHeading {
-            get {
-                return ResourceManager.GetString("kstidCentralHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0},\n{1}.
         /// </summary>
         internal static string kstidCharPickerTooltipLong {
@@ -327,60 +273,6 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidCIEOptionsButtonToolTip {
             get {
                 return ResourceManager.GetString("kstidCIEOptionsButtonToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Consonant - Manner of Articulation.
-        /// </summary>
-        internal static string kstidClassGroupConMOA {
-            get {
-                return ResourceManager.GetString("kstidClassGroupConMOA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Consonant - Place of Articulation.
-        /// </summary>
-        internal static string kstidClassGroupConPOA {
-            get {
-                return ResourceManager.GetString("kstidClassGroupConPOA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to General.
-        /// </summary>
-        internal static string kstidClassGroupGeneral {
-            get {
-                return ResourceManager.GetString("kstidClassGroupGeneral", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User Defined.
-        /// </summary>
-        internal static string kstidClassGroupUserDefined {
-            get {
-                return ResourceManager.GetString("kstidClassGroupUserDefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Voicing.
-        /// </summary>
-        internal static string kstidClassGroupVoicing {
-            get {
-                return ResourceManager.GetString("kstidClassGroupVoicing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vowels.
-        /// </summary>
-        internal static string kstidClassGroupVowel {
-            get {
-                return ResourceManager.GetString("kstidClassGroupVowel", resourceCulture);
             }
         }
         
@@ -439,38 +331,11 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clicks.
-        /// </summary>
-        internal static string kstidClicksHeading {
-            get {
-                return ResourceManager.GetString("kstidClicksHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Close Active Tab.
         /// </summary>
         internal static string kstidCloseActiveTabButtonToolTip {
             get {
                 return ResourceManager.GetString("kstidCloseActiveTabButtonToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close.
-        /// </summary>
-        internal static string kstidCloseHeading {
-            get {
-                return ResourceManager.GetString("kstidCloseHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close-mid.
-        /// </summary>
-        internal static string kstidClosemidHeading {
-            get {
-                return ResourceManager.GetString("kstidClosemidHeading", resourceCulture);
             }
         }
         
@@ -516,15 +381,6 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidDeleteFFPatternConfirmationMsg {
             get {
                 return ResourceManager.GetString("kstidDeleteFFPatternConfirmationMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dental.
-        /// </summary>
-        internal static string kstidDentalHeading {
-            get {
-                return ResourceManager.GetString("kstidDentalHeading", resourceCulture);
             }
         }
         
@@ -673,33 +529,6 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fricative.
-        /// </summary>
-        internal static string kstidFricativeHeading {
-            get {
-                return ResourceManager.GetString("kstidFricativeHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Front.
-        /// </summary>
-        internal static string kstidFrontHeading {
-            get {
-                return ResourceManager.GetString("kstidFrontHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Glottal.
-        /// </summary>
-        internal static string kstidGlottalHeading {
-            get {
-                return ResourceManager.GetString("kstidGlottalHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select All.
         /// </summary>
         internal static string kstidGridColumnSelectorAllItem {
@@ -808,42 +637,6 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Labiodental.
-        /// </summary>
-        internal static string kstidLabiodentalHeading {
-            get {
-                return ResourceManager.GetString("kstidLabiodentalHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lateral approximant.
-        /// </summary>
-        internal static string kstidLateralApproximateHeading {
-            get {
-                return ResourceManager.GetString("kstidLateralApproximateHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lateral fricative.
-        /// </summary>
-        internal static string kstidLateralFricativeHeading {
-            get {
-                return ResourceManager.GetString("kstidLateralFricativeHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nasal.
-        /// </summary>
-        internal static string kstidNasalHeading {
-            get {
-                return ResourceManager.GetString("kstidNasalHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New Class.
         /// </summary>
         internal static string kstidNewClassName {
@@ -889,51 +682,6 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open.
-        /// </summary>
-        internal static string kstidOpenHeading {
-            get {
-                return ResourceManager.GetString("kstidOpenHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Open-mid.
-        /// </summary>
-        internal static string kstidOpenmidHeading {
-            get {
-                return ResourceManager.GetString("kstidOpenmidHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Other.
-        /// </summary>
-        internal static string kstidOtherHeading {
-            get {
-                return ResourceManager.GetString("kstidOtherHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Palatal.
-        /// </summary>
-        internal static string kstidPalatalHeading {
-            get {
-                return ResourceManager.GetString("kstidPalatalHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pharyngeal.
-        /// </summary>
-        internal static string kstidPharyngealHeading {
-            get {
-                return ResourceManager.GetString("kstidPharyngealHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Phones in data matching....
         /// </summary>
         internal static string kstidPhonesInFeatureViewerText {
@@ -943,38 +691,11 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Plosive.
-        /// </summary>
-        internal static string kstidPlosiveHeading {
-            get {
-                return ResourceManager.GetString("kstidPlosiveHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Postalveolar.
-        /// </summary>
-        internal static string kstidPostalveolarHeading {
-            get {
-                return ResourceManager.GetString("kstidPostalveolarHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the feature &apos;{0}&apos;?.
         /// </summary>
         internal static string kstidRemoveFeatureMsg {
             get {
                 return ResourceManager.GetString("kstidRemoveFeatureMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Retroflex.
-        /// </summary>
-        internal static string kstidRetroflexHeading {
-            get {
-                return ResourceManager.GetString("kstidRetroflexHeading", resourceCulture);
             }
         }
         
@@ -1132,24 +853,6 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tap or Flap.
-        /// </summary>
-        internal static string kstidTapFlapHeading {
-            get {
-                return ResourceManager.GetString("kstidTapFlapHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trill.
-        /// </summary>
-        internal static string kstidTrillHeading {
-            get {
-                return ResourceManager.GetString("kstidTrillHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} ({1}) - {2}.
         /// </summary>
         internal static string kstidUndockedViewCaption {
@@ -1164,24 +867,6 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidUndockViewToolTip {
             get {
                 return ResourceManager.GetString("kstidUndockViewToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Uvular.
-        /// </summary>
-        internal static string kstidUvularHeading {
-            get {
-                return ResourceManager.GetString("kstidUvularHeading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Velar.
-        /// </summary>
-        internal static string kstidVelarHeading {
-            get {
-                return ResourceManager.GetString("kstidVelarHeading", resourceCulture);
             }
         }
         

@@ -153,7 +153,7 @@ namespace SIL.Pa.Controls
 			if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 			{
 				BuildPhoneList();
-				BuildDefaultChart();
+				DefaultChartHeadings.Load(this, m_chrType);
 				defaultChartBuilt = true;
 			}
 
@@ -209,10 +209,19 @@ namespace SIL.Pa.Controls
 			{
 				cgp.LoadHeadings(m_chrGrid, true);
 				cgp.LoadHeadings(m_chrGrid, false);
-				m_chrGrid.RowHeaderWidth = cgp.RowHeaderWidth;
-				m_chrGrid.ColumnHeaderHeight = cgp.ColumnHeaderHeight;
-				m_chrGrid.RowHeadersCollectionPanel.SplitPosition = cgp.RowSplitPosition;
-				m_chrGrid.ColumnHeadersCollectionPanel.SplitPosition = cgp.ColumnSplitPosition;
+				
+				if (cgp.RowHeaderWidth > 0)
+					m_chrGrid.RowHeaderWidth = cgp.RowHeaderWidth;
+				
+				if (cgp.ColumnHeaderHeight > 0)
+					m_chrGrid.ColumnHeaderHeight = cgp.ColumnHeaderHeight;
+	
+				if (cgp.RowSplitPosition > 0)
+					m_chrGrid.RowHeadersCollectionPanel.SplitPosition = cgp.RowSplitPosition;
+				
+				if (cgp.ColumnSplitPosition > 0)
+					m_chrGrid.ColumnHeadersCollectionPanel.SplitPosition = cgp.ColumnSplitPosition;
+				
 				m_chrGrid.ShowUncertainPhones = cgp.ShowUncertainPhones;
 				m_chrGrid.SupraSegsToIgnore = cgp.SupraSegsToIgnore;
 			}
@@ -312,7 +321,7 @@ namespace SIL.Pa.Controls
 			StringBuilder bldr = new StringBuilder();
 			for (int i = 0; i < phone.Length; i++)
 			{
-				if (!m_supraSegsToIgnore.Contains(phone.Substring(i, 1)))
+				if (m_supraSegsToIgnore == null || !m_supraSegsToIgnore.Contains(phone.Substring(i, 1)))
 					bldr.Append(phone[i]);
 			}
 
@@ -509,160 +518,5 @@ namespace SIL.Pa.Controls
 			// We've failed to find a header so just create one at the end of the grid.
 			return m_chrGrid.AddRowHeader();
 		}
-
-		#region Methods for building a default chart
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets up the default vowel chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildDefaultChart()
-		{
-			if (m_chrType == IPACharacterType.Consonant)
-				BuildDefaultConChart();
-			else if (m_chrType == IPACharacterType.Vowel)
-				BuildDefaultVowChart();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets up a default vowel chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildDefaultVowChart()
-		{
-			CharGridHeader hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidFrontHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-
-			hdr = m_chrGrid.AddColumnHeader();
-			m_chrGrid.AddColumnToHeading(hdr);
-
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidCentralHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			m_chrGrid.AddColumnToHeading(hdr);
-
-			m_chrGrid.AddColumnHeader();
-
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidBackHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidCloseHeading);
-			hdr.Group = 0;
-			hdr = m_chrGrid.AddRowHeader();
-			hdr.Group = 1;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidClosemidHeading);
-			hdr.Group = 2;
-			hdr = m_chrGrid.AddRowHeader();
-			hdr.Group = 3;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidOpenmidHeading);
-			hdr.Group = 4;
-			hdr = m_chrGrid.AddRowHeader();
-			hdr.Group = 5;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidOpenHeading);
-			hdr.Group = 6;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidOtherHeading);
-			hdr.Group = 7;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets up a default consonant chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildDefaultConChart()
-		{
-			CharGridHeader hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidBilabialHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidLabiodentalHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidDentalHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidAlveolarHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidPostalveolarHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidRetroflexHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidPalatalHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidVelarHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidUvularHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidPharyngealHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-			hdr = m_chrGrid.AddColumnHeader(Properties.Resources.kstidGlottalHeading);
-			m_chrGrid.AddColumnToHeading(hdr);
-
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidPlosiveHeading);
-			hdr.Group = 0;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidNasalHeading);
-			hdr.Group = 1;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidTrillHeading);
-			hdr.Group = 2;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidTapFlapHeading);
-			hdr.Group = 3;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidFricativeHeading);
-			hdr.Group = 4;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidLateralFricativeHeading);
-			hdr.Group = 5;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidApproximantHeading);
-			hdr.Group = 6;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidLateralApproximateHeading);
-			hdr.Group = 7;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidImplosivesHeading);
-			hdr.Group = 8;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidClicksHeading);
-			hdr.Group = 9;
-			hdr = m_chrGrid.AddRowHeader(Properties.Resources.kstidOtherHeading);
-			hdr.Group = 10;
-
-			// If there are any affricate phones then make a group for them.
-			if (CheckForAffricates(11))
-			{
-				hdr = m_chrGrid.InsertRowHeaderBefore(hdr);
-				hdr.HeadingText = Properties.Resources.kstidAffricatesHeading;
-				hdr.Group = 11;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks if there are any affricate or double articulate phones.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool CheckForAffricates(int affricatesGroup)
-		{
-			int affricateCount = 0;
-
-			for (int i = 0; i < m_phoneList.Count; i++)
-			{
-				if (IsPhoneAffricate(m_phoneList[i].Phone))
-				{
-					m_phoneList[i].Group = affricatesGroup;
-					affricateCount++;
-				}
-			}
-
-			return (affricateCount > 0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns the default group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool IsPhoneAffricate(string phone)
-		{
-			string topTieBar = "\u0361";
-			string bottomTieBar = "\u035C";
-
-			if (phone.Contains(topTieBar) || phone.Contains(bottomTieBar))
-				return true;
-
-			return false;
-		}
-		
-		#endregion
 	}
 }

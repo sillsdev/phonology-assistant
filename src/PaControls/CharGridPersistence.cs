@@ -3,9 +3,37 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
+using SIL.Pa.Data;
 
 namespace SIL.Pa.Controls
 {
+	#region DefaultChartHeadings class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class DefaultChartHeadings : CharGridPersistence
+	{
+		public const string kDefaultConChartHeadingsFile = "DefaultConsonantChartHeadings.xml";
+		public const string kDefaultVowChartHeadingsFile = "DefaultVowelChartHeadings.xml";
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the headings from the XML file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool Load(CharGridBuilder chrGridBldr, IPACharacterType chrType)
+		{
+			string filename = STUtils.GetLocalPath(chrType == IPACharacterType.Consonant ?
+				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile, true);
+
+			return Load(chrGridBldr, filename);
+		}
+	}
+
+	#endregion
+
 	#region CharGridPersistence Class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -14,7 +42,7 @@ namespace SIL.Pa.Controls
 	/// phones he may have dragged around) of a vowel or consonant chart.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlRoot("PhoneChartInfo")]
+	[XmlRoot("PhoneChart")]
 	public class CharGridPersistence
 	{
 		private int m_rowHeaderWidth;
@@ -32,7 +60,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private CharGridPersistence()
+		internal CharGridPersistence()
 		{
 			m_phones = new List<CharGridCell>();
 			m_colHeadings = new List<CharGridHeaderPersistenceInfo>();

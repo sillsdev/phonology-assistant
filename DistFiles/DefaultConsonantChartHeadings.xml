@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PhoneChart>
+	<ColHeadings>
+		<Heading text="Bilabial">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Labiodental">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Dental">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Alveolar">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Postalveolar">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Retroflex">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Alv-palatal">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Palatal">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Velar">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Uvular">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Pharyngeal">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Glottal">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+		<Heading text="Epiglottal">
+			<SubHeading />
+			<SubHeading />
+		</Heading>
+	</ColHeadings>
+	<RowHeadings>
+		<Heading text="Plosive" Group="0" />
+		<Heading text="Nasal" Group="1" />
+		<Heading text="Trill" Group="2" />
+		<Heading text="Tap or Flap" Group="3" />
+		<Heading text="Fricative" Group="4" />
+		<Heading text="Lateral fricative" Group="5" />
+		<Heading text="Approximant" Group="6" />
+		<Heading text="Lateral approximant" Group="7" />
+		<Heading text="Implosives" Group="8" />
+		<Heading text="Clicks" Group="9" />
+		<Heading text="Affricates" Group="11" />
+		<Heading text="Other" Group="10" />
+	</RowHeadings>
+</PhoneChart>

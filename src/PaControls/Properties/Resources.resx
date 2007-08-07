@@ -175,24 +175,9 @@
   <data name="kstidAddSearchCategoryBeforeSave" xml:space="preserve">
     <value>Before saving a search pattern, you must first add a category to the saved pattern list.</value>
   </data>
-  <data name="kstidAffricatesHeading" xml:space="preserve">
-    <value>Affricates</value>
-  </data>
-  <data name="kstidAlveolarHeading" xml:space="preserve">
-    <value>Alveolar</value>
-  </data>
-  <data name="kstidApproximantHeading" xml:space="preserve">
-    <value>Approximant</value>
-  </data>
   <data name="kstidAutoHideToolTip" xml:space="preserve">
     <value>Automatically Hide</value>
     <comment>Tooltip for the sliding panel auto. hide button</comment>
-  </data>
-  <data name="kstidBackHeading" xml:space="preserve">
-    <value>Back</value>
-  </data>
-  <data name="kstidBilabialHeading" xml:space="preserve">
-    <value>Bilabial</value>
   </data>
   <data name="kstidCellInfoExperimentalTransHdgText" xml:space="preserve">
     <value>Experimental transcription(s){0}converted in this entry:</value>
@@ -212,9 +197,6 @@
   <data name="kstidCellInfoLnkCmdUncertainToolTip" xml:space="preserve">
     <value>Edit source record</value>
   </data>
-  <data name="kstidCentralHeading" xml:space="preserve">
-    <value>Central</value>
-  </data>
   <data name="kstidCharPickerTooltipLong" xml:space="preserve">
     <value>{0},\n{1}</value>
     <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
@@ -225,30 +207,6 @@
   </data>
   <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
     <value>Minimal Pairs Options (Ctrl+Alt+M)</value>
-  </data>
-  <data name="kstidClassGroupConMOA" xml:space="preserve">
-    <value>Consonant - Manner of Articulation</value>
-    <comment>Group header text for class listview controls</comment>
-  </data>
-  <data name="kstidClassGroupConPOA" xml:space="preserve">
-    <value>Consonant - Place of Articulation</value>
-    <comment>Group header text for class listview controls</comment>
-  </data>
-  <data name="kstidClassGroupGeneral" xml:space="preserve">
-    <value>General</value>
-    <comment>Group header text for class listview controls</comment>
-  </data>
-  <data name="kstidClassGroupUserDefined" xml:space="preserve">
-    <value>User Defined</value>
-    <comment>Group header text for class listview controls</comment>
-  </data>
-  <data name="kstidClassGroupVoicing" xml:space="preserve">
-    <value>Voicing</value>
-    <comment>Group header text for class listview controls</comment>
-  </data>
-  <data name="kstidClassGroupVowel" xml:space="preserve">
-    <value>Vowels</value>
-    <comment>Group header text for class listview controls</comment>
   </data>
   <data name="kstidClassListMembersToolTipAndHdg" xml:space="preserve">
     <value>Members (AND'd):</value>
@@ -274,17 +232,8 @@
     <value>Name</value>
     <comment>Header text for Class Listview controls</comment>
   </data>
-  <data name="kstidClicksHeading" xml:space="preserve">
-    <value>Clicks</value>
-  </data>
   <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
     <value>Close Active Tab</value>
-  </data>
-  <data name="kstidCloseHeading" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="kstidClosemidHeading" xml:space="preserve">
-    <value>Close-mid</value>
   </data>
   <data name="kstidCollapsingGroups" xml:space="preserve">
     <value>Collapsing groups...</value>
@@ -304,9 +253,6 @@
   <data name="kstidDeleteFFPatternConfirmationMsg" xml:space="preserve">
     <value>Are you sure you want to remove the search pattern '{0}'?</value>
     <comment>Question asked when the user wants to delete a find phone search pattern.</comment>
-  </data>
-  <data name="kstidDentalHeading" xml:space="preserve">
-    <value>Dental</value>
   </data>
   <data name="kstidDockToolTip" xml:space="preserve">
     <value>Dock</value>
@@ -365,15 +311,6 @@
     <value>Find has finished searching.</value>
     <comment>Popup message when all records have been searched with the FindDlg</comment>
   </data>
-  <data name="kstidFricativeHeading" xml:space="preserve">
-    <value>Fricative</value>
-  </data>
-  <data name="kstidFrontHeading" xml:space="preserve">
-    <value>Front</value>
-  </data>
-  <data name="kstidGlottalHeading" xml:space="preserve">
-    <value>Glottal</value>
-  </data>
   <data name="kstidGridColumnSelectorAllItem" xml:space="preserve">
     <value>Select All</value>
   </data>
@@ -412,18 +349,6 @@
   <data name="kstidIPAChooserGroupVowels" xml:space="preserve">
     <value>Vowels</value>
   </data>
-  <data name="kstidLabiodentalHeading" xml:space="preserve">
-    <value>Labiodental</value>
-  </data>
-  <data name="kstidLateralApproximateHeading" xml:space="preserve">
-    <value>Lateral approximant</value>
-  </data>
-  <data name="kstidLateralFricativeHeading" xml:space="preserve">
-    <value>Lateral fricative</value>
-  </data>
-  <data name="kstidNasalHeading" xml:space="preserve">
-    <value>Nasal</value>
-  </data>
   <data name="kstidNewClassName" xml:space="preserve">
     <value>New Class</value>
     <comment>Default name given to new classes</comment>
@@ -443,36 +368,12 @@
     <value>No Results Found.</value>
     <comment>Displayed in the search results area when no matches were found.</comment>
   </data>
-  <data name="kstidOpenHeading" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="kstidOpenmidHeading" xml:space="preserve">
-    <value>Open-mid</value>
-  </data>
-  <data name="kstidOtherHeading" xml:space="preserve">
-    <value>Other</value>
-  </data>
-  <data name="kstidPalatalHeading" xml:space="preserve">
-    <value>Palatal</value>
-  </data>
-  <data name="kstidPharyngealHeading" xml:space="preserve">
-    <value>Pharyngeal</value>
-  </data>
   <data name="kstidPhonesInFeatureViewerText" xml:space="preserve">
     <value>Phones in data matching...</value>
-  </data>
-  <data name="kstidPlosiveHeading" xml:space="preserve">
-    <value>Plosive</value>
-  </data>
-  <data name="kstidPostalveolarHeading" xml:space="preserve">
-    <value>Postalveolar</value>
   </data>
   <data name="kstidRemoveFeatureMsg" xml:space="preserve">
     <value>Are you sure you want to remove the feature '{0}'?</value>
     <comment>Question asked when the user clicks on the remove button on the Define Articulatory Features dialog box.</comment>
-  </data>
-  <data name="kstidRetroflexHeading" xml:space="preserve">
-    <value>Retroflex</value>
   </data>
   <data name="kstidRTFExportCaptionSFD" xml:space="preserve">
     <value>Save RTF File</value>
@@ -538,24 +439,12 @@
     <value>Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after.</value>
     <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
   </data>
-  <data name="kstidTapFlapHeading" xml:space="preserve">
-    <value>Tap or Flap</value>
-  </data>
-  <data name="kstidTrillHeading" xml:space="preserve">
-    <value>Trill</value>
-  </data>
   <data name="kstidUndockedViewCaption" xml:space="preserve">
     <value>{0} ({1}) - {2}</value>
     <comment>Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.</comment>
   </data>
   <data name="kstidUndockViewToolTip" xml:space="preserve">
     <value>Undock view</value>
-  </data>
-  <data name="kstidUvularHeading" xml:space="preserve">
-    <value>Uvular</value>
-  </data>
-  <data name="kstidVelarHeading" xml:space="preserve">
-    <value>Velar</value>
   </data>
   <data name="kstidWordListStatusBarText" xml:space="preserve">
     <value>Record {0} of {1}</value>
