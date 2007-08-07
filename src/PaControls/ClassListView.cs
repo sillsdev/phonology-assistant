@@ -585,7 +585,6 @@ namespace SIL.Pa.Controls
 					{
 						if (item != m_tooltip.ClassListViewItem)
 						{
-							Capture = true;
 							m_tooltip.Show(item);
 							Invalidate(rc);
 						}
@@ -595,8 +594,20 @@ namespace SIL.Pa.Controls
 				}
 			}
 
-			Capture = false;
 			m_tooltip.Hide();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseLeave(EventArgs e)
+		{
+			base.OnMouseLeave(e);
+			
+			if (m_tooltip != null)
+				m_tooltip.Hide();
 		}
 
 		#endregion

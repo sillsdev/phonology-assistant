@@ -70,6 +70,7 @@ namespace SIL.Pa
 			m_xyGrid.Reset();
 			splitChart.Panel1.Controls.Add(m_xyGrid);
 			m_xyGrid.BringToFront();
+			splitChart.Panel1MinSize = m_xyGrid.Top + 10;
 			splitChart.Panel2Collapsed = true;
 			PaApp.IncProgressBar();
 

@@ -18,6 +18,8 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureListView : ListView
 	{
+		private const int kMaxColWidth = 210;
+
 		public delegate void FeatureChangedHandler(object sender, ulong[] newMasks);
 		public event FeatureChangedHandler FeatureChanged;
 
@@ -61,7 +63,7 @@ namespace SIL.Pa.Controls
 				"Binary" : "Articulatory");
 
 			ColumnHeader colHdr = new ColumnHeader();
-			colHdr.Width = 210;
+			colHdr.Width = kMaxColWidth;
 
 			if (m_featureType == PaApp.FeatureType.Binary)
 				m_tooltip = new ToolTip();
@@ -137,22 +139,59 @@ namespace SIL.Pa.Controls
 				if (item != null && item.FullName != null &&
 					item.Name.ToLower() != item.FullName.ToLower())
 				{
-					if (item != m_tooltip.Tag)
+					if (htinfo.Item != m_tooltip.Tag)
 					{
-						Capture = true;
-						Rectangle rc = GetItemRect(htinfo.Item.Index, ItemBoundsPortion.Label);
-						rc.X += 3;
-						m_tooltip.Tag = item;
-						m_tooltip.Show(item.FullName, this, rc.Location);
+						ErasePreviousUnderline();
+						Point pt = PointToClient(MousePosition);
+						pt.Y += (int)(Cursor.Current.Size.Height * 0.7);
+						m_tooltip.Tag = htinfo.Item;
+						m_tooltip.Show(item.FullName, this, pt);
+						Invalidate(GetItemRect(htinfo.Item.Index, ItemBoundsPortion.Label));
 					}
 
 					return;
 				}
 			}
 
-			Capture = false;
 			m_tooltip.Hide(this);
+			ErasePreviousUnderline();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseLeave(EventArgs e)
+		{
+			base.OnMouseLeave(e);
+
+			if (m_tooltip != null)
+			{
+				m_tooltip.Hide(this);
+				ErasePreviousUnderline();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ErasePreviousUnderline()
+		{
+			if (m_tooltip == null)
+				return;
+
+			ListViewItem item = m_tooltip.Tag as ListViewItem;
 			m_tooltip.Tag = null;
+
+			if (item != null)
+			{
+				// Erase the previous 
+				Rectangle rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
+				Invalidate(rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -361,6 +400,18 @@ namespace SIL.Pa.Controls
 					DrawFeatureState(e.Graphics, info, rcChkBox.Location);
 				else
 					DrawFeatureState(e.Graphics, info, rcChkBox);
+			}
+
+			// Draw underline if the current item has a tooltip showing the feature's full name.
+			if (m_tooltip != null && m_tooltip.Tag == e.Item)
+			{
+				int width = TextRenderer.MeasureText(e.Item.Text, FontHelper.UIFont).Width;
+				rc = e.Item.GetBounds(ItemBoundsPortion.Label);
+				using (Pen pen = (Pen)SystemPens.WindowText.Clone())
+				{
+					pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+					e.Graphics.DrawLine(pen, rc.X + 2, rc.Bottom - 2, rc.X + width, rc.Bottom - 2);
+				}
 			}
 		}
 
@@ -885,6 +936,8 @@ namespace SIL.Pa.Controls
 					Items.Add(item);
 				}
 			}
+
+			AdjustColumnWidth();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -906,8 +959,37 @@ namespace SIL.Pa.Controls
 				item.Tag = info;
 				Items.Add(item);
 			}
+
+			AdjustColumnWidth();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Figure out the widest text label and set the column width to that.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AdjustColumnWidth()
+		{
+			Font fnt = (m_emphasizeCheckedItems ? m_checkedItemFont : FontHelper.UIFont);
+			int width = 0;
+
+			for (int i = 0; i < Items.Count; i++)
+			{
+				Size sz = TextRenderer.MeasureText(Items[i].Text, fnt);
+				width = Math.Max(width, sz.Width);
+			}
+
+			width = Math.Min(width, kMaxColWidth);
+
+			if (CheckBoxes && Items.Count > 0)
+			{
+				width += (GetItemRect(0, ItemBoundsPortion.Entire).Width -
+					GetItemRect(0, ItemBoundsPortion.ItemOnly).Width);
+			}
+
+			Columns[0].Width = width;
+		}
+
 		#endregion
 	}
 
