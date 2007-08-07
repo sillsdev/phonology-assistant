@@ -506,7 +506,7 @@ namespace SIL.Pa.FFSearchEngine
 				return false;
 			}
 
-			if (pattern.IndexOf(' ') >= 0)
+			if (!VerifyNoIllegalSpaces(pattern))
 			{
 				LogError("kstidPatternContainsSpacesErr");
 				return false;
@@ -590,6 +590,45 @@ namespace SIL.Pa.FFSearchEngine
 				{
 					LogError("kstidMismatchedBracketsOrBracesErr");
 					return false;
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Searches the specified pattern for spaces. If any are found, the pattern is scanned
+		/// for an open bracket before and a closed bracket after the space. What is between
+		/// is assumed to be a feature name and is then checked against the articulatory and
+		/// binary feature caches to see if the feature name is valid. If not, the space is
+		/// illegal in the pattern.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyNoIllegalSpaces(string pattern)
+		{
+			int i = 0;
+			while (i < pattern.Length && (i = pattern.IndexOf(' ', i)) >= 0)
+			{
+				int open = i++;
+				
+				// Search backward for the first opening bracket.
+				while (open >= 0 && pattern[open] != '[') open--;
+
+				// Search forward for the next closing bracket.
+				int closed = pattern.IndexOf(']', i);
+
+				if (open < 0 || closed < 0)
+					return false;
+
+				if (closed > open)
+				{
+					string text = pattern.Substring(open + 1, closed - open - 1);
+					if (DataUtils.AFeatureCache[text] == null &&
+						DataUtils.BFeatureCache[text] == null)
+					{
+						return false;
+					}
 				}
 			}
 

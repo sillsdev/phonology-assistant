@@ -181,6 +181,7 @@ namespace SIL.Pa.Data
 				Debug.Assert(featureName != null);
 				featureName = featureName.Trim();
 				Debug.Assert(featureName.Length > 0);
+				featureName = featureName.ToLower();
 				AFeature feature;
 				return (TryGetValue(featureName, out feature) ? feature : null);
 			}
