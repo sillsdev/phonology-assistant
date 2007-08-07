@@ -225,6 +225,7 @@ copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutD
 copy "$(TargetDir)..\..\DistFiles\DefaultAFeatures.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultBFeatures.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultAmbiguousSequences.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\CVChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
