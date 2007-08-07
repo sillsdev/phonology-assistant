@@ -267,7 +267,7 @@
     <Mask0>33797</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>766290483540003433</BinaryMask>
-    <ChartColumn>12</ChartColumn>
+    <ChartColumn>14</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="100" IPAChar="d" HexIPAChar="0064">
@@ -339,7 +339,7 @@
     <Mask0>34825</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>766220106205825385</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="104" IPAChar="h" HexIPAChar="0068">
@@ -357,7 +357,7 @@
     <Mask0>540677</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>757207270844399658</BinaryMask>
-    <ChartColumn>20</ChartColumn>
+    <ChartColumn>22</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="105" IPAChar="i" HexIPAChar="0069">
@@ -393,7 +393,7 @@
     <Mask0>2098185</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>1627604177454983770</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="107" IPAChar="k" HexIPAChar="006B">
@@ -411,7 +411,7 @@
     <Mask0>34821</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>766220106205890921</BinaryMask>
-    <ChartColumn>14</ChartColumn>
+    <ChartColumn>16</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="108" IPAChar="l" HexIPAChar="006C">
@@ -519,7 +519,7 @@
     <Mask0>36869</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>766360843694246313</BinaryMask>
-    <ChartColumn>16</ChartColumn>
+    <ChartColumn>18</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="114" IPAChar="r" HexIPAChar="0072">
@@ -627,7 +627,7 @@
     <Mask0>69208073</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>1627674288568207706</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="120" IPAChar="x" HexIPAChar="0078">
@@ -645,7 +645,7 @@
     <Mask0>526341</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>761716505504516457</BinaryMask>
-    <ChartColumn>14</ChartColumn>
+    <ChartColumn>16</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="121" IPAChar="y" HexIPAChar="0079">
@@ -789,7 +789,7 @@
     <Mask0>525317</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>761786882838628969</BinaryMask>
-    <ChartColumn>12</ChartColumn>
+    <ChartColumn>14</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="240" IPAChar="ð" HexIPAChar="00F0">
@@ -843,7 +843,7 @@
     <Mask0>532485</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>762982043388085289</BinaryMask>
-    <ChartColumn>18</ChartColumn>
+    <ChartColumn>20</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="331" IPAChar="ŋ" HexIPAChar="014B">
@@ -861,7 +861,7 @@
     <Mask0>67593</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>766220106204776793</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="339" IPAChar="œ" HexIPAChar="0153">
@@ -873,67 +873,67 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>18</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>495</MOArticulation>
     <POArticulation>460</POArticulation>
     <Mask0>1101659111434</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>3069881700523018752</BinaryMask>
+    <BinaryMask>2780525424430877334</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="448" IPAChar="ǀ" HexIPAChar="01C0">
     <Name>Pipe</Name>
-    <Description>Dental</Description>
+    <Description>Dental Click</Description>
     <CharType>Consonant</CharType>
     <CharSubType>NonPulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>6</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>755</MOArticulation>
     <POArticulation>770</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>2097152</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <ChartColumn>4</ChartColumn>
+    <Mask0>8388672</Mask0>
+    <Mask1>0</Mask1>
+    <BinaryMask>729618873797726249</BinaryMask>
+    <ChartColumn>0</ChartColumn>
     <ChartGroup>9</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="449" IPAChar="ǁ" HexIPAChar="01C1">
     <Name>Double Pipe</Name>
-    <Description>Alveolar lateral</Description>
+    <Description>Alveolar lateral click</Description>
     <CharType>Consonant</CharType>
     <CharSubType>NonPulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>7</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>765</MOArticulation>
     <POArticulation>780</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>4194304</Mask1>
+    <Mask0>276824192</Mask0>
+    <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
-    <ChartColumn>6</ChartColumn>
+    <ChartColumn>0</ChartColumn>
     <ChartGroup>9</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="450" IPAChar="ǂ" HexIPAChar="01C2">
     <Name>Double-barred Pipe</Name>
-    <Description>Palatoalveolar</Description>
+    <Description>Palatoalveolar Click</Description>
     <CharType>Consonant</CharType>
     <CharSubType>NonPulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>4</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>335</MOArticulation>
     <POArticulation>365</POArticulation>
     <Mask0>8389761</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>696484998696036992</BinaryMask>
-    <ChartColumn>12</ChartColumn>
+    <ChartColumn>0</ChartColumn>
     <ChartGroup>9</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="451" IPAChar="ǃ" HexIPAChar="01C3">
@@ -963,12 +963,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>24</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>525</MOArticulation>
     <POArticulation>515</POArticulation>
     <Mask0>2207613190154</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>0</BinaryMask>
+    <BinaryMask>1590941648347530646</BinaryMask>
     <ChartColumn>5</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -981,12 +981,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>27</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>540</MOArticulation>
     <POArticulation>555</POArticulation>
     <Mask0>4432406249482</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>764109077300479360</BinaryMask>
+    <BinaryMask>2779469876021233046</BinaryMask>
     <ChartColumn>8</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -999,12 +999,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>28</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>545</MOArticulation>
     <POArticulation>560</POArticulation>
     <Mask0>34359738378</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>764109060053501312</BinaryMask>
+    <BinaryMask>2780595793175053718</BinaryMask>
     <ChartColumn>9</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -1017,12 +1017,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>6</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>345</MOArticulation>
     <POArticulation>345</POArticulation>
     <Mask0>16777241</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768191410429591552</BinaryMask>
+    <BinaryMask>765937411592618025</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>8</ChartGroup>
   </IPACharInfo>
@@ -1035,12 +1035,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>22</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>515</MOArticulation>
     <POArticulation>550</POArticulation>
     <Mask0>1133871366154</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>3069952069267196416</BinaryMask>
+    <BinaryMask>2780595793175054742</BinaryMask>
     <ChartColumn>9</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -1048,19 +1048,19 @@
     <Name>Curly-tail C</Name>
     <Description>Voiceless Alveolo-palatal fricative</Description>
     <CharType>Consonant</CharType>
-    <CharSubType>OtherSymbols</CharSubType>
+    <CharSubType>Pulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>7</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>195</MOArticulation>
     <POArticulation>160</POArticulation>
     <Mask0>525445</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>764038992028392064</BinaryMask>
+    <BinaryMask>761786882838628969</BinaryMask>
     <ChartColumn>12</ChartColumn>
-    <ChartGroup>10</ChartGroup>
+    <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="598" IPAChar="ɖ" HexIPAChar="0256">
     <Name>Right-tail D</Name>
@@ -1071,12 +1071,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>6</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>40</MOArticulation>
     <POArticulation>175</POArticulation>
     <Mask0>33289</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768473460940300288</BinaryMask>
+    <BinaryMask>766219427601014825</BinaryMask>
     <ChartColumn>11</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -1089,12 +1089,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>7</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>350</MOArticulation>
     <POArticulation>350</POArticulation>
     <Mask0>16777417</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768191985963585536</BinaryMask>
+    <BinaryMask>765937952624304169</BinaryMask>
     <ChartColumn>5</ChartColumn>
     <ChartGroup>8</ChartGroup>
   </IPACharInfo>
@@ -1107,12 +1107,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>12</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>465</MOArticulation>
     <POArticulation>490</POArticulation>
     <Mask0>283467841546</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>0</BinaryMask>
+    <BinaryMask>2743863152954378646</BinaryMask>
     <ChartColumn>4</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -1125,12 +1125,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>16</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>485</MOArticulation>
     <POArticulation>500</POArticulation>
     <Mask0>558345748490</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>3069952086514174464</BinaryMask>
+    <BinaryMask>1627674271321229718</BinaryMask>
     <ChartColumn>5</ChartColumn>
     <ChartGroup>3</ChartGroup>
   </IPACharInfo>
@@ -1143,12 +1143,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>17</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>490</MOArticulation>
     <POArticulation>455</POArticulation>
     <Mask0>1101659111434</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>3069881717769996800</BinaryMask>
+    <BinaryMask>2780525407183899286</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -1161,12 +1161,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>19</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>500</MOArticulation>
     <POArticulation>505</POArticulation>
     <Mask0>1108101562378</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1917030581907327744</BinaryMask>
+    <BinaryMask>2780595775928076694</BinaryMask>
     <ChartColumn>4</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -1179,12 +1179,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>20</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>505</MOArticulation>
     <POArticulation>510</POArticulation>
     <Mask0>1108101562378</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>1917030564660349696</BinaryMask>
+    <BinaryMask>2780595793175054742</BinaryMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -1197,13 +1197,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>8</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>50</MOArticulation>
     <POArticulation>215</POArticulation>
     <Mask0>33801</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768542592733899392</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <BinaryMask>766290483539937897</BinaryMask>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="608" IPAChar="ɠ" HexIPAChar="0260">
@@ -1215,13 +1215,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>9</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>360</MOArticulation>
     <POArticulation>370</POArticulation>
     <Mask0>16779273</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768190465536788608</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <BinaryMask>765938631229114729</BinaryMask>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>8</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="609" IPAChar="ɡ" HexIPAChar="0261">
@@ -1233,13 +1233,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>10</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>60</MOArticulation>
     <POArticulation>250</POArticulation>
     <Mask0>34825</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768471940513499264</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <BinaryMask>766220106205825385</BinaryMask>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="610" IPAChar="ɢ" HexIPAChar="0262">
@@ -1251,13 +1251,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>12</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>75</MOArticulation>
     <POArticulation>290</POArticulation>
     <Mask0>36873</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>768612678001854848</BinaryMask>
-    <ChartColumn>17</ChartColumn>
+    <BinaryMask>766360843694180777</BinaryMask>
+    <ChartColumn>19</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="611" IPAChar="ɣ" HexIPAChar="0263">
@@ -1269,13 +1269,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>41</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>230</MOArticulation>
     <POArticulation>270</POArticulation>
     <Mask0>526345</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763968339812124800</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <BinaryMask>761716505504450857</BinaryMask>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="612" IPAChar="ɤ" HexIPAChar="0264">
@@ -1287,12 +1287,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>14</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>475</MOArticulation>
     <POArticulation>535</POArticulation>
     <Mask0>309237645322</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1917030581907327488</BinaryMask>
+    <BinaryMask>1627674271321262486</BinaryMask>
     <ChartColumn>8</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -1305,13 +1305,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>3</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>380</MOArticulation>
     <POArticulation>395</POArticulation>
     <Mask0>69207049</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1916960195916171776</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <BinaryMask>1627602820312399898</BinaryMask>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="614" IPAChar="ɦ" HexIPAChar="0266">
@@ -1323,13 +1323,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>47</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>260</MOArticulation>
     <POArticulation>335</POArticulation>
     <Mask0>540681</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1916886408445132800</BinaryMask>
-    <ChartColumn>21</ChartColumn>
+    <BinaryMask>757207270844334122</BinaryMask>
+    <ChartColumn>23</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="615" IPAChar="ɧ" HexIPAChar="0267">
@@ -1341,13 +1341,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>10</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>405</MOArticulation>
     <POArticulation>420</POArticulation>
     <Mask0>526597</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763968623284217984</BinaryMask>
-    <ChartColumn>14</ChartColumn>
+    <BinaryMask>761716788976576873</BinaryMask>
+    <ChartColumn>16</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="616" IPAChar="ɨ" HexIPAChar="0268">
@@ -1359,12 +1359,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>3</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>420</MOArticulation>
     <POArticulation>480</POArticulation>
     <Mask0>77309411338</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1917030581907327488</BinaryMask>
+    <BinaryMask>1627674271321229654</BinaryMask>
     <ChartColumn>4</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -1377,32 +1377,32 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>7</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>440</MOArticulation>
     <POArticulation>435</POArticulation>
     <Mask0>141733920778</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>3069881717769996800</BinaryMask>
+    <BinaryMask>2780525682061830742</BinaryMask>
     <ChartColumn>2</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="619" IPAChar="ɫ" HexIPAChar="026B">
     <Name>Lower case L with Middle Tilde</Name>
-    <Description>Voiced Alveolar Lateral Approximant</Description>
+    <Description>Velarized Voiced Alveolar Lateral Approximant</Description>
     <CharType>Consonant</CharType>
     <CharSubType>Pulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>55</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>305</MOArticulation>
     <POArticulation>145</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
+    <Mask0>272629896</Mask0>
+    <Mask1>2415919104</Mask1>
+    <BinaryMask>436894793606453593</BinaryMask>
     <ChartColumn>7</ChartColumn>
-    <ChartGroup>8</ChartGroup>
+    <ChartGroup>7</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="620" IPAChar="ɬ" HexIPAChar="026C">
     <Name>Belted L</Name>
@@ -1413,12 +1413,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>48</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>265</MOArticulation>
     <POArticulation>125</POArticulation>
     <Mask0>269484165</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860222210048</BinaryMask>
+    <BinaryMask>761715826882924585</BinaryMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -1431,12 +1431,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>56</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>310</MOArticulation>
     <POArticulation>205</POArticulation>
     <Mask0>272630281</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860222148608</BinaryMask>
+    <BinaryMask>473485450731151385</BinaryMask>
     <ChartColumn>11</ChartColumn>
     <ChartGroup>7</ChartGroup>
   </IPACharInfo>
@@ -1449,12 +1449,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>49</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>270</MOArticulation>
     <POArticulation>130</POArticulation>
     <Mask0>269484169</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860222144512</BinaryMask>
+    <BinaryMask>761715826882859049</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -1467,12 +1467,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>5</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>430</MOArticulation>
     <POArticulation>520</POArticulation>
     <Mask0>103079215114</Mask0>
     <Mask1>67108864</Mask1>
-    <BinaryMask>1917030581907327232</BinaryMask>
+    <BinaryMask>1627674271321229654</BinaryMask>
     <ChartColumn>8</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
@@ -1485,13 +1485,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>54</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>295</MOArticulation>
     <POArticulation>275</POArticulation>
     <Mask0>2099209</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1916889844418971648</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <BinaryMask>1627533533832874330</BinaryMask>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="625" IPAChar="ɱ" HexIPAChar="0271">
@@ -1503,31 +1503,31 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>15</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>90</MOArticulation>
     <POArticulation>60</POArticulation>
     <Mask0>65577</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>745954887268401152</BinaryMask>
+    <BinaryMask>748204488058798105</BinaryMask>
     <ChartColumn>3</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="626" IPAChar="ɲ" HexIPAChar="0272">
     <Name>Left-tail N (at left)</Name>
-    <Description>Voised Palatal Nasal</Description>
+    <Description>Voiced Palatal Nasal</Description>
     <CharType>Consonant</CharType>
     <CharSubType>Pulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>18</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>105</MOArticulation>
     <POArticulation>220</POArticulation>
     <Mask0>66569</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>764038993105480320</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <BinaryMask>766290483538889305</BinaryMask>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="627" IPAChar="ɳ" HexIPAChar="0273">
@@ -1539,12 +1539,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>17</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>100</MOArticulation>
     <POArticulation>180</POArticulation>
     <Mask0>66057</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969861311881216</BinaryMask>
+    <BinaryMask>766219427599966233</BinaryMask>
     <ChartColumn>11</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
@@ -1557,13 +1557,13 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>20</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>115</MOArticulation>
     <POArticulation>295</POArticulation>
     <Mask0>69641</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>764109078373435776</BinaryMask>
-    <ChartColumn>17</ChartColumn>
+    <BinaryMask>766360843693132185</BinaryMask>
+    <ChartColumn>19</ChartColumn>
     <ChartGroup>1</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="629" IPAChar="ɵ" HexIPAChar="0275">
@@ -1575,12 +1575,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>13</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>470</MOArticulation>
     <POArticulation>495</POArticulation>
     <Mask0>283467841546</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>3069952069267196416</BinaryMask>
+    <BinaryMask>2780595793175054742</BinaryMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
@@ -1593,12 +1593,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>26</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>535</MOArticulation>
     <POArticulation>475</POArticulation>
     <Mask0>4398046511114</Mask0>
     <Mask1>33554432</Mask1>
-    <BinaryMask>764038691309323904</BinaryMask>
+    <BinaryMask>2780525424430876310</BinaryMask>
     <ChartColumn>1</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -1611,12 +1611,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>26</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>145</MOArticulation>
     <POArticulation>50</POArticulation>
     <Mask0>524309</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969284704993280</BinaryMask>
+    <BinaryMask>761715285868019753</BinaryMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -1629,12 +1629,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>51</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>280</MOArticulation>
     <POArticulation>135</POArticulation>
     <Mask0>2097289</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>1916891089967865856</BinaryMask>
+    <BinaryMask>2780455459346540954</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
@@ -1647,12 +1647,12 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>9</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>400</MOArticulation>
     <POArticulation>415</POArticulation>
     <Mask0>268697733</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>475739484070432768</BinaryMask>
+    <BinaryMask>473485450739535897</BinaryMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
@@ -1665,25 +1665,25 @@
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>52</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>285</MOArticulation>
     <POArticulation>200</POArticulation>
     <Mask0>2097673</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>763969860238925824</BinaryMask>
+    <BinaryMask>2780455459346540954</BinaryMask>
     <ChartColumn>11</ChartColumn>
     <ChartGroup>6</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="637" IPAChar="ɽ" HexIPAChar="027D">
     <Name>Right-tail R</Name>
-    <Description>Voices Retroflexed Flap</Description>
+    <Description>Voiced Retroflexed Flap</Description>
     <CharType>Consonant</CharType>
     <CharSubType>Pulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
-    <DisplayOrder>25</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>140</MOArticulation>
     <POArticulation>185</POArticulation>
     <Mask0>262665</Mask0>
@@ -1725,7 +1725,7 @@
     <Mask0>135177</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>762983177393637760</BinaryMask>
-    <ChartColumn>17</ChartColumn>
+    <ChartColumn>19</ChartColumn>
     <ChartGroup>2</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="641" IPAChar="ʁ" HexIPAChar="0281">
@@ -1743,7 +1743,7 @@
     <Mask0>528393</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109077300480384</BinaryMask>
-    <ChartColumn>17</ChartColumn>
+    <ChartColumn>19</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="642" IPAChar="ʂ" HexIPAChar="0282">
@@ -1797,7 +1797,7 @@
     <Mask0>16778249</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768260834280966784</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>8</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="648" IPAChar="ʈ" HexIPAChar="0288">
@@ -1905,7 +1905,7 @@
     <Mask0>67635205</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>1917026166613903616</BinaryMask>
-    <ChartColumn>14</ChartColumn>
+    <ChartColumn>16</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="654" IPAChar="ʎ" HexIPAChar="028E">
@@ -1923,7 +1923,7 @@
     <Mask0>269485065</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764038992015747712</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>7</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="655" IPAChar="ʏ" HexIPAChar="028F">
@@ -2013,7 +2013,7 @@
     <Mask0>49157</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768455310400192512</BinaryMask>
-    <ChartColumn>20</ChartColumn>
+    <ChartColumn>22</ChartColumn>
     <ChartGroup>0</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="661" IPAChar="ʕ" HexIPAChar="0295">
@@ -2031,7 +2031,7 @@
     <Mask0>532489</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768612678001591680</BinaryMask>
-    <ChartColumn>19</ChartColumn>
+    <ChartColumn>21</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="664" IPAChar="ʘ" HexIPAChar="0298">
@@ -2085,7 +2085,7 @@
     <Mask0>16781321</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768331203025144192</BinaryMask>
-    <ChartColumn>17</ChartColumn>
+    <ChartColumn>19</ChartColumn>
     <ChartGroup>8</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="668" IPAChar="ʜ" HexIPAChar="029C">
@@ -2103,7 +2103,7 @@
     <Mask0>134742021</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109008581068160</BinaryMask>
-    <ChartColumn>20</ChartColumn>
+    <ChartColumn>22</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="669" IPAChar="ʝ" HexIPAChar="029D">
@@ -2121,7 +2121,7 @@
     <Mask0>525321</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764038708556302976</BinaryMask>
-    <ChartColumn>13</ChartColumn>
+    <ChartColumn>15</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="671" IPAChar="ʟ" HexIPAChar="029F">
@@ -2139,7 +2139,7 @@
     <Mask0>272631817</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>763968339795347584</BinaryMask>
-    <ChartColumn>15</ChartColumn>
+    <ChartColumn>17</ChartColumn>
     <ChartGroup>7</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="673" IPAChar="ʡ" HexIPAChar="02A1">
@@ -2157,7 +2157,7 @@
     <Mask0>134250505</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>768612609282377088</BinaryMask>
-    <ChartColumn>21</ChartColumn>
+    <ChartColumn>23</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="674" IPAChar="ʢ" HexIPAChar="02A2">
@@ -2175,7 +2175,7 @@
     <Mask0>134742025</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109008581002624</BinaryMask>
-    <ChartColumn>21</ChartColumn>
+    <ChartColumn>23</ChartColumn>
     <ChartGroup>10</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="675" IPAChar="ʣ" HexIPAChar="02A3">
@@ -2925,7 +2925,7 @@
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>true</DisplayWDottedCircle>
-    <DisplayOrder>25</DisplayOrder>
+    <DisplayOrder>0</DisplayOrder>
     <MOArticulation>690</MOArticulation>
     <POArticulation>705</POArticulation>
     <Mask0>64</Mask0>
@@ -3183,7 +3183,7 @@
     <Mask0>528389</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>764109077300545920</BinaryMask>
-    <ChartColumn>16</ChartColumn>
+    <ChartColumn>18</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="7504" IPAChar="ᵐ" HexIPAChar="1D50">

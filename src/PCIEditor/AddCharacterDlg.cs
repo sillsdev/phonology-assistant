@@ -82,6 +82,8 @@ namespace SIL.Pa
 		private const string kVoicedPostalveolar = "Voiced Postalveolar";
 		private const string kVoicelessRetroflex = "Voiceless Retroflex";
 		private const string kVoicedRetroflex = "Voiced Retroflex";
+		private const string kVoicedAlvPalatal = "Voiced Alveolo-palatal";
+		private const string kVoicelessAlvPalatal = "Voicless Alveolo-palatal";
 		private const string kVoicelessPalatal = "Voiceless Palatal";
 		private const string kVoicedPalatal = "Voiced Palatal";
 		private const string kVoicelessVelar = "Voiceless Velar";
@@ -92,6 +94,8 @@ namespace SIL.Pa
 		private const string kVoicedPharyngeal = "Voiced Pharyngeal";
 		private const string kVoicelessGlottal = "Voiceless Glottal";
 		private const string kVoicedGlottal = "Voiced Glottal";
+		private const string kVoicelessEpiglottal = "Voiceless Epiglottal";
+		private const string kVoicedEpiglottal = "Voiced Epiglottal";
 
 		// CONSONANT PULMONIC Groups
 		private const string kPlosive = "Plosive";
@@ -329,16 +333,20 @@ namespace SIL.Pa
 			m_ConsChartPulmonicColumns[9] = kVoicedPostalveolar;
 			m_ConsChartPulmonicColumns[10] = kVoicelessRetroflex;
 			m_ConsChartPulmonicColumns[11] = kVoicedRetroflex;
-			m_ConsChartPulmonicColumns[12] = kVoicelessPalatal;
-			m_ConsChartPulmonicColumns[13] = kVoicedPalatal;
-			m_ConsChartPulmonicColumns[14] = kVoicelessVelar;
-			m_ConsChartPulmonicColumns[15] = kVoicedVelar;                      
-			m_ConsChartPulmonicColumns[16] = kVoicelessUvular;
-			m_ConsChartPulmonicColumns[17] = kVoicedUvular;
-			m_ConsChartPulmonicColumns[18] = kVoicelessPharyngeal;
-			m_ConsChartPulmonicColumns[19] = kVoicedPharyngeal;
-			m_ConsChartPulmonicColumns[20] = kVoicelessGlottal;
-			m_ConsChartPulmonicColumns[21] = kVoicedGlottal;
+			m_ConsChartPulmonicColumns[12] = kVoicedAlvPalatal;
+			m_ConsChartPulmonicColumns[13] = kVoicelessAlvPalatal;
+			m_ConsChartPulmonicColumns[14] = kVoicelessPalatal;
+			m_ConsChartPulmonicColumns[15] = kVoicedPalatal;
+			m_ConsChartPulmonicColumns[16] = kVoicelessVelar;
+			m_ConsChartPulmonicColumns[17] = kVoicedVelar;                      
+			m_ConsChartPulmonicColumns[18] = kVoicelessUvular;
+			m_ConsChartPulmonicColumns[19] = kVoicedUvular;
+			m_ConsChartPulmonicColumns[20] = kVoicelessPharyngeal;
+			m_ConsChartPulmonicColumns[21] = kVoicedPharyngeal;
+			m_ConsChartPulmonicColumns[22] = kVoicelessGlottal;
+			m_ConsChartPulmonicColumns[23] = kVoicedGlottal;
+			m_ConsChartPulmonicColumns[24] = kVoicelessEpiglottal;
+			m_ConsChartPulmonicColumns[25] = kVoicedEpiglottal;
 
 			// CONSONANT PULMONIC Groups
 			m_ConsChartPulmonicGroups[0] = kPlosive;
