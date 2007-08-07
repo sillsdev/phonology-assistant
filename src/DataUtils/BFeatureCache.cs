@@ -165,24 +165,6 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Determines whether or not the specified key (that's been converted to lowercase and
-		/// had all its spaces removed) is in the cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public BFeature FeatureFromCompactedKey(string compactKey)
-		{
-			foreach (KeyValuePair<string, BFeature> feature in this)
-			{
-				string modifiedKey = feature.Key.Replace(" ", string.Empty);
-				if (compactKey == modifiedKey.ToLower())
-					return feature.Value;
-			}
-
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets an array of feature names for the features in the specified mask.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

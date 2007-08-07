@@ -135,32 +135,14 @@ namespace SIL.Pa.FFSearchEngine
 				CloseClassMember();
 			else
 			{
-				string feature = m_member.ToLower();
-
-				if (IsArticulatoryFeature(feature))
+				AFeature feature = DataUtils.AFeatureCache[m_member];
+				if (feature != null)
 					CloseArticulatoryFeatureMember(feature);
 				else
 					return ClosePhoneRunMember();
 			}
 
 			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool IsArticulatoryFeature(string feature)
-		{
-			foreach (string key in DataUtils.AFeatureCache.Keys)
-			{
-				string spacelessKey = key.Replace(" ", string.Empty).ToLower();
-				if (feature.ToLower() == spacelessKey)
-					return true;
-			}
-
-			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -173,13 +155,10 @@ namespace SIL.Pa.FFSearchEngine
 			m_type = MemberType.Binary;
 			m_member = m_member.ToLower();
 
-			// Strip off the + or -
-			string featureText = m_member.Substring(1);
-
 			// Find the feature in the cache.
-			BFeature feature = DataUtils.BFeatureCache.FeatureFromCompactedKey(featureText);
+			BFeature feature = DataUtils.BFeatureCache[m_member];
 			if (feature != null)
-				m_masks[0] = (m_member.StartsWith("+") ? feature.PlusMask :	feature.MinusMask);
+				m_masks[0] = (m_member.StartsWith("+") ? feature.PlusMask : feature.MinusMask);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,15 +166,11 @@ namespace SIL.Pa.FFSearchEngine
 		/// Closes a member whose type will be articulatory feature.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CloseArticulatoryFeatureMember(string featureText)
+		private void CloseArticulatoryFeatureMember(AFeature feature)
 		{
 			m_type = MemberType.Articulatory;
 			m_member = m_member.ToLower();
-
-			// Find the feature in the cache.
-			AFeature feature = DataUtils.AFeatureCache.FeatureFromCompactedKey(featureText);
-			if (feature != null)
-				m_masks[feature.MaskNumber] = feature.Mask;
+			m_masks[feature.MaskNumber] = feature.Mask;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -206,8 +206,7 @@ namespace SIL.Pa.Data
 				{
 					STUtils.STMsgBox(
 						string.Format(Resources.kstidFeatureCantBeDeletedMsg, name),
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Exclamation);
+						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 					return;
 				}
@@ -251,24 +250,6 @@ namespace SIL.Pa.Data
 
 				return false;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified key (that's been converted to lowercase and
-		/// had all its spaces removed) is in the cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public AFeature FeatureFromCompactedKey(string compactKey)
-		{
-			foreach (KeyValuePair<string, AFeature> feature in this)
-			{
-				string modifiedKey = feature.Key.Replace(" ", string.Empty);
-				if (compactKey == modifiedKey.ToLower())
-					return feature.Value;
-			}
-
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -894,7 +894,6 @@ namespace SIL.Pa.FFSearchEngine
 			DelimitArticulatoryFeatures(tmpPattern, ref modifiedPtrn);
 
 			string finalModified = modifiedPtrn.ToString();
-			finalModified = finalModified.Replace(" ", string.Empty);
 			finalModified = finalModified.Replace("$,%", "$%");
 			finalModified = finalModified.Replace("],[", "][");
 			finalModified = finalModified.Replace("},{", "}{");
