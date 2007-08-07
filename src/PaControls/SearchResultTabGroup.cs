@@ -1412,6 +1412,26 @@ namespace SIL.Pa.Controls
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the tab's result view with a new result cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshResultView(WordListCache resultCache)
+		{
+			Text = (resultCache == null ||
+				resultCache.SearchQuery == null ? string.Empty :
+				resultCache.SearchQuery.ToString());
+
+			if (resultCache != null)
+			{
+				m_resultView.Initialize(resultCache);
+				m_query = resultCache.SearchQuery;
+			}
+			
+			AdjustWidth();
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

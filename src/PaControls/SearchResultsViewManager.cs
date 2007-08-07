@@ -1001,13 +1001,8 @@ namespace SIL.Pa.Controls
 			if (m_currTabGroup != null && m_currTabGroup.CurrentTab != null &&
 				m_currTabGroup.CurrentTab.ResultView != null)
 			{
-				m_currTabGroup.CurrentTab.Text = (resultCache == null ||
-					resultCache.SearchQuery == null ? string.Empty :
-					resultCache.SearchQuery.ToString());
-
-				m_currTabGroup.CurrentTab.AdjustWidth();
+				m_currTabGroup.CurrentTab.RefreshResultView(resultCache);
 				m_currTabGroup.AdjustTabContainerWidth();
-				m_currTabGroup.CurrentTab.ResultView.Initialize(resultCache);
 				return true;
 			}
 
