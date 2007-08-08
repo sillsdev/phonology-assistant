@@ -617,15 +617,15 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (value == null || value.Length == 0)
 					return;
 
-				for (int i = 0; i < value.Length; i++)
+				for (int i = 1; i <= value.Length; i++)
 				{
-					// Only add the accelerator for files 0 - 9.
+					// Only add the accelerator for files 1 - 9.
 					string fmt = (i > 9 ? string.Empty : "&") + "{0} {1}";
-					string text = string.Format(fmt, i + 1, value[i]);
+					string text = string.Format(fmt, i, value[i - 1]);
 					ToolStripMenuItem item = new ToolStripMenuItem(text);
 					item.Name = kRufMenuItemNamePrefix + i;
 					item.Click += HandleRecentlyUsedItemClick;
-					parentItem.DropDownItems.Insert(rufIndex + i + 1, item);
+					parentItem.DropDownItems.Insert(rufIndex + i, item);
 				}
 			}
 		}

@@ -155,7 +155,7 @@ namespace SIL.Pa.Dialogs
 
 			m_grid.AutoResizeColumns();
 			m_grid.AutoResizeRows();
-			
+
 			// Add a couple of pixels because I observed the auto sizing comes up a couple
 			// pixels short when certain size fonts are used in the column headers.
 			m_grid.Columns[0].Width += 2;
@@ -164,6 +164,16 @@ namespace SIL.Pa.Dialogs
 			m_grid.Sort(m_grid.Columns[0], ListSortDirection.Ascending);
 			Group();
 			m_grid.CurrentCell = m_grid[0, 0];
+
+			if (PaApp.SettingsHandler.GetBoolSettingsValue(Name, "expandonopen", false))
+				return;
+
+			// Collapse all the groups.
+			foreach (DataGridViewRow row in m_grid.Rows)
+			{
+				if (row is SilHierarchicalGridRow)
+					((SilHierarchicalGridRow)row).SetExpandedState(false, true);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
