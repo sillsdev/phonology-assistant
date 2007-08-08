@@ -308,9 +308,20 @@ namespace SIL.Pa.Data
 
 		private int m_bit;
 		private string m_name;
+		private string m_fullname;
 		private int m_maskNumber;
 		private ulong m_mask;
 		private bool m_isCustomFeature = false;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return FullName;
+		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -335,6 +346,18 @@ namespace SIL.Pa.Data
 		{
 			get { return m_name; }
 			set { m_name = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public string FullName
+		{
+			get { return (string.IsNullOrEmpty(m_fullname) ? Name : m_fullname); }
+			set { m_fullname = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

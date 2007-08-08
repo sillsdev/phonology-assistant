@@ -286,20 +286,29 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members:.
-        /// </summary>
-        internal static string kstidClassListMembersToolTipHdg {
-            get {
-                return ResourceManager.GetString("kstidClassListMembersToolTipHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Members (OR&apos;d):.
         /// </summary>
         internal static string kstidClassListMembersToolTipOrHdg {
             get {
                 return ResourceManager.GetString("kstidClassListMembersToolTipOrHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Members:.
+        /// </summary>
+        internal static string kstidClassListPhoneMembersToolTipHdg {
+            get {
+                return ResourceManager.GetString("kstidClassListPhoneMembersToolTipHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Member:.
+        /// </summary>
+        internal static string kstidClassListSingleMemberToolTipHdg {
+            get {
+                return ResourceManager.GetString("kstidClassListSingleMemberToolTipHdg", resourceCulture);
             }
         }
         

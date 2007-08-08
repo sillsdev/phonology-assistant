@@ -212,13 +212,17 @@
     <value>Members (AND'd):</value>
     <comment>Heading for the tooltip used to display the members of a class of AND'd features in a class list view.</comment>
   </data>
-  <data name="kstidClassListMembersToolTipHdg" xml:space="preserve">
-    <value>Members:</value>
-    <comment>Heading for the tooltip used to display the members of a class of phones in a class list view.</comment>
-  </data>
   <data name="kstidClassListMembersToolTipOrHdg" xml:space="preserve">
     <value>Members (OR'd):</value>
     <comment>Heading for the tooltip used to display the members of a class of OR'd features in a class list view.</comment>
+  </data>
+  <data name="kstidClassListPhoneMembersToolTipHdg" xml:space="preserve">
+    <value>Members:</value>
+    <comment>Heading for the tooltip used to display the members of a class of phones in a class list view.</comment>
+  </data>
+  <data name="kstidClassListSingleMemberToolTipHdg" xml:space="preserve">
+    <value>Member:</value>
+    <comment>Heading for the tooltip used to display the member of a class containing a single feature.</comment>
   </data>
   <data name="kstidClassListViewClassTypeText" xml:space="preserve">
     <value>Type</value>

@@ -65,8 +65,7 @@ namespace SIL.Pa.Controls
 			ColumnHeader colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
 
-			if (m_featureType == PaApp.FeatureType.Binary)
-				m_tooltip = new ToolTip();
+			m_tooltip = new ToolTip();
 
 			base.Font = FontHelper.UIFont;
 			m_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
@@ -927,6 +926,7 @@ namespace SIL.Pa.Controls
 				{
 					FeatureItemInfo info = new FeatureItemInfo();
 					info.Name = feature.Value.Name;
+					info.FullName = feature.Value.FullName;
 					info.MaskNum = feature.Value.MaskNumber;
 					info.Mask = feature.Value.Mask;
 					info.IsCustom = feature.Value.IsCustomFeature;

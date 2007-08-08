@@ -223,6 +223,16 @@ namespace SIL.Pa.Data
 		private ulong m_plusMask;
 		private ulong m_minusMask;
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return FullName;
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

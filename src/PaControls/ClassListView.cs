@@ -131,12 +131,17 @@ namespace SIL.Pa.Controls
 				return;
 
 			if (m_item.ClassType == SearchClassType.Phones)
-				ToolTipTitle = Properties.Resources.kstidClassListMembersToolTipHdg;
+				ToolTipTitle = Properties.Resources.kstidClassListPhoneMembersToolTipHdg;
 			else
 			{
-				ToolTipTitle = (m_item.ANDFeatures ?
-					Properties.Resources.kstidClassListMembersToolTipAndHdg :
-					Properties.Resources.kstidClassListMembersToolTipOrHdg);
+				if (m_tipText.IndexOf('\n') < 0)
+					ToolTipTitle = Properties.Resources.kstidClassListSingleMemberToolTipHdg;
+				else
+				{
+					ToolTipTitle = (m_item.ANDFeatures ?
+						Properties.Resources.kstidClassListMembersToolTipAndHdg :
+						Properties.Resources.kstidClassListMembersToolTipOrHdg);
+				}
 			}
 
 			Size sz = TextRenderer.MeasureText(m_tipText, m_item.ClassMembersFont);
