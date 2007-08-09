@@ -589,6 +589,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no FieldWorks projects found on this computer..
+        /// </summary>
+        internal static string kstidNoFwProjectsFoundMsg {
+            get {
+                return ResourceManager.GetString("kstidNoFwProjectsFoundMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to hi ni nini/this what.
         /// </summary>
         internal static string kstidNoParseSampleOutput {

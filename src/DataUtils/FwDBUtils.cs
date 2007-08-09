@@ -19,6 +19,8 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwDBUtils
 	{
+		private static string kSQLSvrSvc = "MSSQL$SILFW";
+
 		public enum FwWritingSystemType
 		{
 			None,
@@ -138,6 +140,28 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsSQLServerInstalled(bool showMsg)
+		{
+			foreach (ServiceController service in ServiceController.GetServices())
+			{
+				if (service.ServiceName.ToLower() == kSQLSvrSvc.ToLower())
+					return true;
+			}
+
+			if (showMsg)
+			{
+				STUtils.STMsgBox(Properties.Resources.kstidSQLServerNotInstalledMsg,
+					MessageBoxButtons.OK);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Checks if SQL server is started.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -145,9 +169,12 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
+				if (!IsSQLServerInstalled(false))
+					return false;
+				
 				try
 				{
-					using (ServiceController svcController = new ServiceController("MSSQL$SILFW"))
+					using (ServiceController svcController = new ServiceController(kSQLSvrSvc))
 						return (svcController.Status == ServiceControllerStatus.Running);
 				}
 				catch { }
@@ -163,13 +190,16 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static bool StartSQLServer(bool showErrMessages)
 		{
+			if (!IsSQLServerInstalled(showErrMessages))
+				return false;
+
 			string msg = null;
 
 			while (true)
 			{
 				try
 				{
-					using (ServiceController svcController = new ServiceController("MSSQL$SILFW"))
+					using (ServiceController svcController = new ServiceController(kSQLSvrSvc))
 					{
 						// If the server instance is already running, we're good.
 						if (svcController.Status == ServiceControllerStatus.Running)

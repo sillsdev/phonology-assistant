@@ -85,16 +85,7 @@ namespace SIL.Pa.Dialogs
 
 			Application.UseWaitCursor = true;
 			FwDataSourcePrep();
-
-			// If the project contains FW data sources, then an attempt must be made to start
-			// SQL server. If there are no FW data sources, then only attempt to start SQL
-			// server if the AutoStartSQLServer flag is true (which it is by default). The only
-			// way for the flag to be false is via an undocumented entry in the settings file
-			// (e.g. <setting id="sqlserver" autostart="False" />)
-			if (PaApp.AutoStartSQLServer && !FwDBUtils.IsSQLServerStarted)
-				FwDBUtils.StartSQLServer(false);
-
-			cmnuAddFwDataSource.Enabled = (FwDBUtils.FwDataSourceInfoList != null);
+			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
 
 			m_dirty = m_newProject;
 			Application.Idle += Application_Idle;
@@ -540,9 +531,27 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddFwDataSource_Click(object sender, EventArgs e)
 		{
-			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project))
+			// Make sure SQL Server is started.
+			if (!FwDBUtils.IsSQLServerStarted)
 			{
-				if (dlg.ShowDialog() == DialogResult.OK && dlg.ChosenDatabase != null)
+				// Start SQL Server
+				if (!FwDBUtils.StartSQLServer(true))
+					return;
+			}
+
+			// See if there are any FW databases on this computer.
+			FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
+			if (fwDataSourceInfo == null)
+			{
+				STUtils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
+					MessageBoxButtons.OK);
+
+				return;
+			}
+
+			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project, fwDataSourceInfo))
+			{
+				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
 					if (!ProjectContainsDataSource(dlg.ChosenDatabase.ToString()))
 					{

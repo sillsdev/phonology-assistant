@@ -471,4 +471,7 @@
     <value>{0} - ({1})</value>
     <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
   </data>
+  <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
+    <value>There are no FieldWorks projects found on this computer.</value>
+  </data>
 </root>

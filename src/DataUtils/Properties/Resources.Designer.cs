@@ -169,6 +169,15 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access to FieldWorks projects requires SQL Server but it is not installed on this computer..
+        /// </summary>
+        internal static string kstidSQLServerNotInstalledMsg {
+            get {
+                return ResourceManager.GetString("kstidSQLServerNotInstalledMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starting SQL Server....
         /// </summary>
         internal static string kstidStartingSQLServerMsg {

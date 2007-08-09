@@ -23,13 +23,6 @@ namespace SIL.Pa.Dialogs
 		public FwProjectsDlg()
 		{
 			InitializeComponent();
-
-			lblMsg.Font = FontHelper.UIFont;
-			lstFwProjects.Font = FontHelper.UIFont;
-			lstFwProjects.Items.AddRange(FwDBUtils.FwDataSourceInfoList);
-			lstFwProjects.SelectedIndex = 0;
-
-			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,10 +30,17 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwProjectsDlg(PaProject project) : this()
+		public FwProjectsDlg(PaProject project, FwDataSourceInfo[] fwDataSourceInfo) : this()
 		{
 			Debug.Assert(project != null);
 			m_project = project;
+
+			lblMsg.Font = FontHelper.UIFont;
+			lstFwProjects.Font = FontHelper.UIFont;
+			lstFwProjects.Items.AddRange(fwDataSourceInfo);
+			lstFwProjects.SelectedIndex = 0;
+
+			Application.Idle += Application_Idle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,8 +60,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
-			base.OnClosed(e);
 			Application.Idle -= Application_Idle;
+			base.OnClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
