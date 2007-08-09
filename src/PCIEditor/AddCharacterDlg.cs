@@ -69,7 +69,7 @@ namespace SIL.Pa
 		private const string kBackUnrounded = "Back Unrounded";
 		private const string kBackRounded = "Back Rounded";
 
-		// CONSONANT PULMONIC Columns
+		// CONSONANT Columns
 		private const string kVoicelessBilabial = "Voiceless Bilabial";
 		private const string kVoicedBilabial = "Voiced Bilabial";
 		private const string kVoicelessLabiodental = "Voiceless Labiodental";
@@ -82,8 +82,8 @@ namespace SIL.Pa
 		private const string kVoicedPostalveolar = "Voiced Postalveolar";
 		private const string kVoicelessRetroflex = "Voiceless Retroflex";
 		private const string kVoicedRetroflex = "Voiced Retroflex";
-		private const string kVoicedAlvPalatal = "Voiced Alveolo-palatal";
-		private const string kVoicelessAlvPalatal = "Voicless Alveolo-palatal";
+		private const string kVoicelessAlvPalatal = "Voiceless Alv-palatal";
+		private const string kVoicedAlvPalatal = "Voiced Alv-palatal";
 		private const string kVoicelessPalatal = "Voiceless Palatal";
 		private const string kVoicedPalatal = "Voiced Palatal";
 		private const string kVoicelessVelar = "Voiceless Velar";
@@ -97,7 +97,7 @@ namespace SIL.Pa
 		private const string kVoicelessEpiglottal = "Voiceless Epiglottal";
 		private const string kVoicedEpiglottal = "Voiced Epiglottal";
 
-		// CONSONANT PULMONIC Groups
+		// CONSONANT Groups
 		private const string kPlosive = "Plosive";
 		private const string kNasal = "Nasal";
 		private const string kTrill = "Trill";
@@ -106,22 +106,9 @@ namespace SIL.Pa
 		private const string kLateralFricative = "Lateral Fricative";
 		private const string kApproximant = "Approximant";
 		private const string kLateralApproximant = "Lateral Approximant";
-		// NON-PULMONIC Groups
-		private const string kImplosive = "Implosive";
-		private const string kClick = "Click";
+		private const string kImplosive = "Implosives";
+		private const string kClick = "Clicks";
 
-		// NON-PULMONIC CLICK (Ejective) Columns
-		private const string kBilabial = "Bilabial";
-		private const string kLabiodental = "Labiodental";
-		private const string kDental = "Dental";
-		private const string kLateralAlveolar = "Lateral Alveolar";
-		private const string kPostalveolar = "Postalveolar";
-		private const string kRetroflex = "Retroflex";
-		private const string kPalatoAlveolar = "Palato Alveolar";
-		private const string kVelar = "Velar";
-		private const string kUvular = "Uvular";
-		private const string kPharyngeal = "Pharyngeal";
-		private const string kGlottal = "Glottal";
 		#endregion
 
 		#region Member variables
@@ -139,14 +126,10 @@ namespace SIL.Pa
 		private readonly string m_origChartGroup = string.Empty;
 		private readonly string m_origChartColumn = string.Empty;
 		private readonly int m_origChartColumnOtherSymbol;
-		private readonly SortedList<float, string> m_ConsChartPulmonicColumns = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_ConsChartPulmonicGroups = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_ConsChartNonPulmonicGroups = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_ConsChartOtherSymbolGroups = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_ConsChartImplosiveColumns = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_ConsChartClickEjectiveColumns = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_VowelChartGroups = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_VowelChartColumns = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_CChartCols = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_CChartGrps = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_VChartGrps = new SortedList<float, string>();
+		private readonly SortedList<float, string> m_VChartCols = new SortedList<float, string>();
 
 		private readonly bool m_addingChar = true;
 		private readonly List<int> m_codePoints = new List<int>();
@@ -257,24 +240,24 @@ namespace SIL.Pa
 			// Chart Position
 			if (cboType.SelectedItem.ToString() == kConsonant)
 			{
-				if (!m_ConsChartPulmonicGroups.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
-					m_origChartGroup = m_ConsChartPulmonicGroups[0];
+				if (!m_CChartGrps.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
+					m_origChartGroup = m_CChartGrps[0];
 
 				if (m_origChartGroup == kOtherSymbols)
 					m_origChartColumnOtherSymbol = (int)row.Cells[kChartColumn].Value;
-				else if (!m_ConsChartPulmonicColumns.TryGetValue(
+				else if (!m_CChartCols.TryGetValue(
 					(int)row.Cells[kChartColumn].Value, out m_origChartColumn))
 				{
-					m_origChartColumn = m_ConsChartPulmonicColumns[0];
+					m_origChartColumn = m_CChartCols[0];
 				}
 			}
 			else if (cboType.SelectedItem.ToString() == kVowel)
 			{
-				if (!m_VowelChartGroups.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
-					m_origChartGroup = m_VowelChartGroups[0];
+				if (!m_VChartGrps.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
+					m_origChartGroup = m_VChartGrps[0];
 
-				if (!m_VowelChartColumns.TryGetValue((int)row.Cells[kChartColumn].Value, out m_origChartColumn))
-					m_origChartColumn = m_VowelChartColumns[0];
+				if (!m_VChartCols.TryGetValue((int)row.Cells[kChartColumn].Value, out m_origChartColumn))
+					m_origChartColumn = m_VChartCols[0];
 			}
 
 			if (m_origChartGroup != string.Empty)
@@ -299,106 +282,67 @@ namespace SIL.Pa
 		void LoadChartColumnsGroups()
 		{
 			// Vowel Groups
-			m_VowelChartGroups[0] = kClose;
-			m_VowelChartGroups[1] = kNearClose;
-			m_VowelChartGroups[2] = kCloseMid;
-			m_VowelChartGroups[3] = kMid;
-			m_VowelChartGroups[4] = kOpenMid;
-			m_VowelChartGroups[5] = kNearOpen;
-			m_VowelChartGroups[6] = kOpen;
-			m_VowelChartGroups[7] = kOther;
+			m_VChartGrps[0] = kClose;
+			m_VChartGrps[1] = kNearClose;
+			m_VChartGrps[2] = kCloseMid;
+			m_VChartGrps[3] = kMid;
+			m_VChartGrps[4] = kOpenMid;
+			m_VChartGrps[5] = kNearOpen;
+			m_VChartGrps[6] = kOpen;
+			m_VChartGrps[7] = kOther;
 
 			// Vowel Columns
-			m_VowelChartColumns[0] = kFrontUnrounded;
-			m_VowelChartColumns[1] = kFrontRounded;
-			m_VowelChartColumns[2] = kNearFrontUnrounded;
-			m_VowelChartColumns[3] = kNearFrontRounded;
-			m_VowelChartColumns[4] = kCentralUnrounded;
-			m_VowelChartColumns[5] = kCentral;
-			m_VowelChartColumns[6] = kCentralRounded;
-			m_VowelChartColumns[7] = kNearBackRounded;
-			m_VowelChartColumns[8] = kBackUnrounded;
-			m_VowelChartColumns[9] = kBackRounded;
+			m_VChartCols[0] = kFrontUnrounded;
+			m_VChartCols[1] = kFrontRounded;
+			m_VChartCols[2] = kNearFrontUnrounded;
+			m_VChartCols[3] = kNearFrontRounded;
+			m_VChartCols[4] = kCentralUnrounded;
+			m_VChartCols[5] = kCentral;
+			m_VChartCols[6] = kCentralRounded;
+			m_VChartCols[7] = kNearBackRounded;
+			m_VChartCols[8] = kBackUnrounded;
+			m_VChartCols[9] = kBackRounded;
 
 			// CONSONANT PULMONIC Columns
-			m_ConsChartPulmonicColumns[0] = kVoicelessBilabial;
-			m_ConsChartPulmonicColumns[1] = kVoicedBilabial;
-			m_ConsChartPulmonicColumns[2] = kVoicelessLabiodental;
-			m_ConsChartPulmonicColumns[3] = kVoicedLabiodental;
-			m_ConsChartPulmonicColumns[4] = kVoicelessDental;
-			m_ConsChartPulmonicColumns[5] = kVoicedDental;
-			m_ConsChartPulmonicColumns[6] = kVoicelessAlveolar;
-			m_ConsChartPulmonicColumns[7] = kVoicedAlveolar;
-			m_ConsChartPulmonicColumns[8] = kVoicelessPostalveolar;
-			m_ConsChartPulmonicColumns[9] = kVoicedPostalveolar;
-			m_ConsChartPulmonicColumns[10] = kVoicelessRetroflex;
-			m_ConsChartPulmonicColumns[11] = kVoicedRetroflex;
-			m_ConsChartPulmonicColumns[12] = kVoicedAlvPalatal;
-			m_ConsChartPulmonicColumns[13] = kVoicelessAlvPalatal;
-			m_ConsChartPulmonicColumns[14] = kVoicelessPalatal;
-			m_ConsChartPulmonicColumns[15] = kVoicedPalatal;
-			m_ConsChartPulmonicColumns[16] = kVoicelessVelar;
-			m_ConsChartPulmonicColumns[17] = kVoicedVelar;                      
-			m_ConsChartPulmonicColumns[18] = kVoicelessUvular;
-			m_ConsChartPulmonicColumns[19] = kVoicedUvular;
-			m_ConsChartPulmonicColumns[20] = kVoicelessPharyngeal;
-			m_ConsChartPulmonicColumns[21] = kVoicedPharyngeal;
-			m_ConsChartPulmonicColumns[22] = kVoicelessGlottal;
-			m_ConsChartPulmonicColumns[23] = kVoicedGlottal;
-			m_ConsChartPulmonicColumns[24] = kVoicelessEpiglottal;
-			m_ConsChartPulmonicColumns[25] = kVoicedEpiglottal;
+			m_CChartCols[0] = kVoicelessBilabial;
+			m_CChartCols[1] = kVoicedBilabial;
+			m_CChartCols[2] = kVoicelessLabiodental;
+			m_CChartCols[3] = kVoicedLabiodental;
+			m_CChartCols[4] = kVoicelessDental;
+			m_CChartCols[5] = kVoicedDental;
+			m_CChartCols[6] = kVoicelessAlveolar;
+			m_CChartCols[7] = kVoicedAlveolar;
+			m_CChartCols[8] = kVoicelessPostalveolar;
+			m_CChartCols[9] = kVoicedPostalveolar;
+			m_CChartCols[10] = kVoicelessRetroflex;
+			m_CChartCols[11] = kVoicedRetroflex;
+			m_CChartCols[12] = kVoicedAlvPalatal;
+			m_CChartCols[13] = kVoicelessAlvPalatal;
+			m_CChartCols[14] = kVoicelessPalatal;
+			m_CChartCols[15] = kVoicedPalatal;
+			m_CChartCols[16] = kVoicelessVelar;
+			m_CChartCols[17] = kVoicedVelar;                      
+			m_CChartCols[18] = kVoicelessUvular;
+			m_CChartCols[19] = kVoicedUvular;
+			m_CChartCols[20] = kVoicelessPharyngeal;
+			m_CChartCols[21] = kVoicedPharyngeal;
+			m_CChartCols[22] = kVoicelessGlottal;
+			m_CChartCols[23] = kVoicedGlottal;
+			m_CChartCols[24] = kVoicelessEpiglottal;
+			m_CChartCols[25] = kVoicedEpiglottal;
 
-			// CONSONANT PULMONIC Groups
-			m_ConsChartPulmonicGroups[0] = kPlosive;
-			m_ConsChartPulmonicGroups[1] = kNasal;
-			m_ConsChartPulmonicGroups[2] = kTrill;
-			m_ConsChartPulmonicGroups[3] = kTapOrFlap;
-			m_ConsChartPulmonicGroups[4] = kFricative;
-			m_ConsChartPulmonicGroups[5] = kLateralFricative;
-			m_ConsChartPulmonicGroups[6] = kApproximant;
-			m_ConsChartPulmonicGroups[7] = kLateralApproximant;
-			m_ConsChartPulmonicGroups[8] = kImplosive;
-			m_ConsChartPulmonicGroups[9] = kClick;
-			m_ConsChartPulmonicGroups[10] = kOtherSymbols;
-
-			// NON-PULMONIC Groups
-			m_ConsChartNonPulmonicGroups[8] = kImplosive;
-			m_ConsChartNonPulmonicGroups[9] = kClick;
-
-			// OTHER SYMBOLS Groups
-			m_ConsChartOtherSymbolGroups[10] = kOtherSymbols;
-
-			// OTHER SYMBOLS Columns
-			//m_ConsChartOtherSymbolsColumns[7] = kAlveolarLateralFlap;
-			//m_ConsChartOtherSymbolsColumns[12] = kVoicelessAlveolarPalatalFricative;
-			//m_ConsChartOtherSymbolsColumns[13] = kVoicedAlveolarPalatalFricative;
-			//m_ConsChartOtherSymbolsColumns[14] = kVoicelessAlveolarPalatalFricative;
-
-			// NON-PULMONIC VOICED IMPLOSIVE Columns
-			m_ConsChartImplosiveColumns[1] = kVoicedBilabial;
-			m_ConsChartImplosiveColumns[3] = kVoicedLabiodental;
-			m_ConsChartImplosiveColumns[5] = kVoicedDental;
-			m_ConsChartImplosiveColumns[7] = kVoicedAlveolar;
-			m_ConsChartImplosiveColumns[9] = kVoicedPostalveolar;
-			m_ConsChartImplosiveColumns[11] = kVoicedRetroflex;
-			m_ConsChartImplosiveColumns[13] = kVoicedPalatal;
-			m_ConsChartImplosiveColumns[15] = kVoicedVelar;         
-			m_ConsChartImplosiveColumns[17] = kVoicedUvular;
-			m_ConsChartImplosiveColumns[19] = kVoicedPharyngeal;
-			m_ConsChartImplosiveColumns[21] = kVoicedGlottal;
-
-			// NON-PULMONIC CLICK (Ejective) Columns
-			m_ConsChartClickEjectiveColumns[0] = kBilabial;
-			m_ConsChartClickEjectiveColumns[2] = kLabiodental;
-			m_ConsChartClickEjectiveColumns[4] = kDental;
-			m_ConsChartClickEjectiveColumns[6] = kLateralAlveolar;
-			m_ConsChartClickEjectiveColumns[8] = kPostalveolar;
-			m_ConsChartClickEjectiveColumns[10] = kRetroflex;
-			m_ConsChartClickEjectiveColumns[12] = kPalatoAlveolar;
-			m_ConsChartClickEjectiveColumns[14] = kVelar;
-			m_ConsChartClickEjectiveColumns[16] = kUvular;
-			m_ConsChartClickEjectiveColumns[18] = kPharyngeal;
-			m_ConsChartClickEjectiveColumns[20] = kGlottal;
+			// CONSONANT Groups
+			m_CChartGrps[0] = kPlosive;
+			m_CChartGrps[1] = kNasal;
+			m_CChartGrps[2] = kTrill;
+			m_CChartGrps[3] = kTapOrFlap;
+			m_CChartGrps[4] = kFricative;
+			m_CChartGrps[5] = kLateralFricative;
+			m_CChartGrps[6] = kApproximant;
+			m_CChartGrps[7] = kLateralApproximant;
+			m_CChartGrps[8] = kImplosive;
+			m_CChartGrps[9] = kClick;
+			m_CChartGrps[10] = kOther;
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -514,36 +458,18 @@ namespace SIL.Pa
 
 			if (cboType.SelectedItem.ToString() == kConsonant)
 			{
-				if (cboSubType.SelectedItem.ToString() == kPulmonic)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartPulmonicGroups)
-						cboChartGroup.Items.Add(col.Value);
-				}
-				else if (cboSubType.SelectedItem.ToString() == kNonPulmonic)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartNonPulmonicGroups)
-						cboChartGroup.Items.Add(col.Value);
-				}
-				else if (cboSubType.SelectedItem.ToString() == kOtherSymbols)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartOtherSymbolGroups)
-						cboChartGroup.Items.Add(col.Value);
-				}
-				else
-				{
-					for (int i = 0; i < 8; i++)
-						cboChartGroup.Items.Add(i);
-				}
+				foreach (KeyValuePair<float, string> col in m_CChartGrps)
+					cboChartGroup.Items.Add(col.Value);
 			}
 			else if (cboType.SelectedItem.ToString() == kVowel)
 			{
-				foreach (KeyValuePair<float, string> col in m_VowelChartGroups)
+				foreach (KeyValuePair<float, string> col in m_VChartGrps)
 					cboChartGroup.Items.Add(col.Value);
 			}
 			else
 			{
-				for (int i = 0; i < 8; i++)
-					cboChartGroup.Items.Add(i);
+				cboChartGroup.Enabled = false;
+				return;
 			}
 
 			// Select the correct cbo item
@@ -551,6 +477,8 @@ namespace SIL.Pa
 				cboChartGroup.SelectedItem = m_origChartGroup;
 			else if (cboChartGroup.Items.Count > 0)
 				cboChartGroup.SelectedIndex = 0;
+
+			cboChartGroup.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -564,52 +492,28 @@ namespace SIL.Pa
 
 			if (cboType.SelectedItem.ToString() == kConsonant)
 			{
-				if (cboChartGroup.SelectedItem.ToString() == kClick)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartClickEjectiveColumns)
-						cboChartColumn.Items.Add(col.Value);
-				}
-				else if (cboChartGroup.SelectedItem.ToString() == kImplosive)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartImplosiveColumns)
-						cboChartColumn.Items.Add(col.Value);
-				}
-				else if (cboSubType.SelectedItem.ToString() == kPulmonic)
-				{
-					foreach (KeyValuePair<float, string> col in m_ConsChartPulmonicColumns)
-						cboChartColumn.Items.Add(col.Value);
-				}
-				else
-				{
-					for (int i = 0; i < 22; i++)
-						cboChartColumn.Items.Add(i);
-				}
+				foreach (KeyValuePair<float, string> col in m_CChartCols)
+					cboChartColumn.Items.Add(col.Value);
 			}
 			else if (cboType.SelectedItem.ToString() == kVowel)
 			{
-				foreach (KeyValuePair<float, string> col in m_VowelChartColumns)
+				foreach (KeyValuePair<float, string> col in m_VChartCols)
 					cboChartColumn.Items.Add(col.Value);
 			}
 			else
 			{
-				for (int i = 0; i < 22; i++)
-					cboChartColumn.Items.Add(i);
+				cboChartColumn.Enabled = false;
+				return;
 			}
 
-			// Select the correct cbo item
-			if (cboChartGroup.SelectedItem.ToString() == kOtherSymbols)
-			{
-				if (m_origChartGroup == kOtherSymbols)
-					cboChartColumn.SelectedIndex = m_origChartColumnOtherSymbol;
-			}
-			else
-			{
-				if (cboChartColumn.Items.Contains(m_origChartColumn))
-					cboChartColumn.SelectedItem = m_origChartColumn;
-				else if (cboChartColumn.Items.Count > 0)
-					cboChartColumn.SelectedIndex = 0;
-			}
+			if (cboChartColumn.Items.Contains(m_origChartColumn))
+				cboChartColumn.SelectedItem = m_origChartColumn;
+			else if (cboChartColumn.Items.Count > 0)
+				cboChartColumn.SelectedIndex = 0;
+
+			cboChartColumn.Enabled = true;
 		}
+
 		#endregion
 
 		#region Overrides
@@ -761,42 +665,20 @@ namespace SIL.Pa
 			}
 
 			// Save Chart Position
-			string subType = cboSubType.SelectedItem.ToString();
 			if (cboType.SelectedItem.ToString() == kConsonant)
 			{
-				if (subType == kPulmonic)
-				{
-					m_charInfo.ChartGroup = GetGroupKey(m_ConsChartPulmonicGroups);
-					m_charInfo.ChartColumn = GetColumnKey(m_ConsChartPulmonicColumns);
-				}
-				else if (subType == kNonPulmonic && (string)cboChartGroup.SelectedItem == kClick)
-				{
-					m_charInfo.ChartGroup = GetGroupKey(m_ConsChartNonPulmonicGroups);
-					m_charInfo.ChartColumn = GetColumnKey(m_ConsChartClickEjectiveColumns);
-				}
-				else if (subType == kNonPulmonic && (string)cboChartGroup.SelectedItem == kImplosive)
-				{
-					m_charInfo.ChartGroup = GetGroupKey(m_ConsChartNonPulmonicGroups);
-					m_charInfo.ChartColumn = GetColumnKey(m_ConsChartImplosiveColumns);
-				}
-				else if (subType == kOtherSymbols)
-				{
-					m_charInfo.ChartGroup = GetGroupKey(m_ConsChartOtherSymbolGroups);
-					m_charInfo.ChartColumn = (int)cboChartColumn.SelectedItem;
-				}
+				m_charInfo.ChartGroup = GetGroupKey(m_CChartGrps);
+				m_charInfo.ChartColumn = GetColumnKey(m_CChartCols);
 			}
 			else if (cboType.SelectedItem.ToString() == kVowel)
 			{
-				m_charInfo.ChartGroup = GetGroupKey(m_VowelChartGroups);
-				m_charInfo.ChartColumn = GetColumnKey(m_VowelChartColumns);
+				m_charInfo.ChartGroup = GetGroupKey(m_VChartGrps);
+				m_charInfo.ChartColumn = GetColumnKey(m_VChartCols);
 			}
 			else
 			{
-				// The column and group selections are numbers
-				//if (cboChartColumn.SelectedItem.ToString().Length < 3)
-				m_charInfo.ChartColumn = (int)cboChartColumn.SelectedItem;
-				//if (cboChartGroup.SelectedItem.ToString().Length < 3)
-				m_charInfo.ChartGroup = (int)cboChartGroup.SelectedItem;
+				m_charInfo.ChartColumn = 0;
+				m_charInfo.ChartGroup = 0;
 			}
 
 			return true;
@@ -854,6 +736,10 @@ namespace SIL.Pa
 				}
 			}
 
+			bool mustHaveColAndGrp = (cboType.SelectedItem != null && (
+				cboType.SelectedItem.ToString() == kConsonant ||
+				cboType.SelectedItem.ToString() == kVowel));
+
 			string missingFields = string.Empty;
 			if (m_addingChar && txtHexValue.Text == string.Empty)
 				missingFields += (lblUnicode.Text + ", ");
@@ -863,9 +749,9 @@ namespace SIL.Pa
 				missingFields += (kLblMoa + ", ");
 			if (m_addingChar && cboPoa.SelectedItem == null)
 				missingFields += (kLblPoa + ", ");
-			if (cboChartColumn.SelectedItem == null)
+			if (cboChartColumn.SelectedItem == null && mustHaveColAndGrp)
 				missingFields += (kLblChartColumn + ", ");
-			if (cboChartGroup.SelectedItem == null)
+			if (cboChartGroup.SelectedItem == null && mustHaveColAndGrp)
 				missingFields += (kLblChartGroup + ", ");
 
 			if (missingFields != string.Empty)
@@ -966,27 +852,9 @@ namespace SIL.Pa
 		private void cboType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			LoadChartGroupItems();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the Selected Index Changed event for the SubType combo box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void cboSubType_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			LoadChartGroupItems();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the Selected Index Changed event for the Chart Group combo box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void cboChartGroup_SelectedIndexChanged(object sender, EventArgs e)
-		{
 			LoadChartColumnItems();
 		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

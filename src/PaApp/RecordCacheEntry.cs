@@ -190,17 +190,26 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets all the values for an interlinear field. The values can be considered all
-		/// the column values for the specified field.
+		/// the column values for the specified field. When the fieldInfo parameter is for
+		/// the phonetic field, then useOriginalPhonetic tells the method to get the value
+		/// of the phonetic as it was before applying any experimental transcriptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] GetParsedFieldValues(string field)
+		public string[] GetParsedFieldValues(PaFieldInfo fieldInfo, bool useOriginalPhonetic)
 		{
+			if (fieldInfo == null)
+				return null;
+
 			List<string> values = new List<string>();
+			bool getOrigPhonetic = (useOriginalPhonetic && fieldInfo.IsPhonetic);
+			string fldName = fieldInfo.FieldName;
 
 			// Go through the parsed word entries and get the values for the specified field.
 			foreach (WordCacheEntry wentry in m_wordEntries)
 			{
-				string fieldValue = wentry.GetField(field, false);
+				string fieldValue = (getOrigPhonetic ?
+					wentry.OriginalPhoneticValue : wentry.GetField(fldName, false));
+				
 				values.Add(fieldValue != null ? fieldValue.Trim() : string.Empty);
 			}
 

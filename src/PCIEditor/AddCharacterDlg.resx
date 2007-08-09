@@ -1183,7 +1183,7 @@
     <value>btnBinary</value>
   </data>
   <data name="&gt;&gt;btnBinary.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnBinary.Parent" xml:space="preserve">
     <value>hlblBinary</value>
@@ -1213,7 +1213,7 @@
     <value>hlblBinary</value>
   </data>
   <data name="&gt;&gt;hlblBinary.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblBinary.Parent" xml:space="preserve">
     <value>pnlBinary</value>
@@ -1237,7 +1237,7 @@
     <value>pnlBinary</value>
   </data>
   <data name="&gt;&gt;pnlBinary.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlBinary.Parent" xml:space="preserve">
     <value>grpFeatures</value>
@@ -1309,7 +1309,7 @@
     <value>btnArticulatory</value>
   </data>
   <data name="&gt;&gt;btnArticulatory.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnArticulatory.Parent" xml:space="preserve">
     <value>hlblArticulatory</value>
@@ -1339,7 +1339,7 @@
     <value>hlblArticulatory</value>
   </data>
   <data name="&gt;&gt;hlblArticulatory.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblArticulatory.Parent" xml:space="preserve">
     <value>paPanel1</value>
@@ -1363,7 +1363,7 @@
     <value>paPanel1</value>
   </data>
   <data name="&gt;&gt;paPanel1.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2764.25473, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2777.24847, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;paPanel1.Parent" xml:space="preserve">
     <value>grpFeatures</value>
@@ -1411,6 +1411,6 @@
     <value>AddCharacterDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2764.25474, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2777.25302, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

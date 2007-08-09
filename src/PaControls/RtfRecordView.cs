@@ -497,7 +497,7 @@ namespace SIL.Pa.Controls
 			foreach (string field in m_recEntry.InterlinearFields)
 			{
 				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[field];
-				string[] colValues = m_recEntry.GetParsedFieldValues(field);
+				string[] colValues = m_recEntry.GetParsedFieldValues(fieldInfo, true);
 				if (fieldInfo == null || !fieldInfo.VisibleInRecView ||
 					fieldInfo.DisplayIndexInRecView < 0 || colValues == null)
 				{

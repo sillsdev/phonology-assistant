@@ -23,6 +23,7 @@ namespace SIL.Pa
 	{
 		private Dictionary<string, PaFieldValue> m_fieldValues;
 		private PaFieldValue m_phoneticValue;
+		private string m_origPhoneticValue;
 		private int m_wordIndex;
 		private Dictionary<int, string[]> m_uncertainPhones = null;
 		private RecordCacheEntry m_recEntry;
@@ -256,6 +257,18 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the entry's phonetic value before any experimental transcription conversions
+		/// were applied. If none were applied, then this value just returns the PhoneticValue.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string OriginalPhoneticValue
+		{
+			get { return m_origPhoneticValue ?? PhoneticValue; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the entry's phonetic value.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -410,8 +423,10 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetPhoneticValue(string phonetic)
+		private void SetPhoneticValue(string origPhonetic)
 		{
+			string phonetic = origPhonetic;
+
 			if (!string.IsNullOrEmpty(phonetic))
 			{
 				// Normalize the phonetic string.
@@ -422,6 +437,10 @@ namespace SIL.Pa
 					// Convert experimental transcriptions within the phonetic string.
 					phonetic = DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
 						phonetic, out m_experimentalTranscriptionList);
+
+					// Save this for displaying in the record view.
+					if (origPhonetic != phonetic)
+						m_origPhoneticValue = origPhonetic;
 				}
 			}
 

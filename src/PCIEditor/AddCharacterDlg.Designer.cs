@@ -122,6 +122,7 @@ namespace SIL.Pa
 			// 
 			// cboType
 			// 
+			this.cboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboType.FormattingEnabled = true;
 			resources.ApplyResources(this.cboType, "cboType");
 			this.cboType.Name = "cboType";
@@ -129,13 +130,14 @@ namespace SIL.Pa
 			// 
 			// cboSubType
 			// 
+			this.cboSubType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboSubType.FormattingEnabled = true;
 			resources.ApplyResources(this.cboSubType, "cboSubType");
 			this.cboSubType.Name = "cboSubType";
-			this.cboSubType.SelectedIndexChanged += new System.EventHandler(this.cboSubType_SelectedIndexChanged);
 			// 
 			// cboIgnoreType
 			// 
+			this.cboIgnoreType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboIgnoreType.FormattingEnabled = true;
 			resources.ApplyResources(this.cboIgnoreType, "cboIgnoreType");
 			this.cboIgnoreType.Name = "cboIgnoreType";
@@ -171,6 +173,7 @@ namespace SIL.Pa
 			// 
 			resources.ApplyResources(this.cboMoa, "cboMoa");
 			this.cboMoa.DropDownHeight = 300;
+			this.cboMoa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboMoa.FormattingEnabled = true;
 			this.cboMoa.Name = "cboMoa";
 			// 
@@ -234,6 +237,7 @@ namespace SIL.Pa
 			// 
 			resources.ApplyResources(this.cboPoa, "cboPoa");
 			this.cboPoa.DropDownHeight = 300;
+			this.cboPoa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboPoa.FormattingEnabled = true;
 			this.cboPoa.Name = "cboPoa";
 			// 
@@ -307,13 +311,14 @@ namespace SIL.Pa
 			// 
 			// cboChartGroup
 			// 
+			this.cboChartGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboChartGroup.FormattingEnabled = true;
 			resources.ApplyResources(this.cboChartGroup, "cboChartGroup");
 			this.cboChartGroup.Name = "cboChartGroup";
-			this.cboChartGroup.SelectedIndexChanged += new System.EventHandler(this.cboChartGroup_SelectedIndexChanged);
 			// 
 			// cboChartColumn
 			// 
+			this.cboChartColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboChartColumn.FormattingEnabled = true;
 			resources.ApplyResources(this.cboChartColumn, "cboChartColumn");
 			this.cboChartColumn.Name = "cboChartColumn";
