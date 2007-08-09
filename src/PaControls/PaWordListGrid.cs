@@ -2437,6 +2437,9 @@ namespace SIL.Pa.Controls
 					col = AddNewColumn(fieldInfo);
 				}
 
+				if (col.HeaderText != fieldInfo.DisplayText)
+					col.HeaderText = fieldInfo.DisplayText;
+
 				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft &&
 					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
 					DataGridViewContentAlignment.MiddleRight :

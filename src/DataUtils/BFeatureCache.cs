@@ -139,9 +139,12 @@ namespace SIL.Pa.Data
 			}
 			set
 			{
-				Debug.Assert(value != null);
-				featureName = CleanUpFeatureName(featureName);
-				base[featureName] = value;
+				if (featureName != null)
+				{
+					featureName = CleanUpFeatureName(featureName);
+					if (featureName.Length > 0)
+						base[featureName] = value;
+				}
 			}
 		}
 
@@ -152,11 +155,12 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string CleanUpFeatureName(string featureName)
 		{
-			Debug.Assert(featureName != null);
+			if (featureName == null)
+				return string.Empty;
+
 			featureName = featureName.Trim().ToLower();
 			featureName = featureName.Replace("[", string.Empty);
 			featureName = featureName.Replace("]", string.Empty);
-			Debug.Assert(featureName.Length > 0);
 			if (featureName[0] == '+' || featureName[0] == '-')
 				featureName = featureName.Substring(1);
 

@@ -976,22 +976,36 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		///
+		/// 
 		/// </summary>
+		/// <remarks>
+		/// Ctrl-A: KeyChar = 1
+		/// Ctrl-C: KeyChar = 3
+		/// Ctrl-V: KeyChar = 22
+		/// Ctrl-X: KeyChar = 24
+		/// Ctrl-Y: KeyChar = 25
+		/// Ctrl-Z: KeyChar = 26
+		/// </remarks>
 		/// ------------------------------------------------------------------------------------
 		public static void txtPatternKeyPress(object sender, KeyPressEventArgs e)
 		{
 			TextBox txt = sender as TextBox;
 			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
 
+			// Let ctrl sequences take their normal course.
 			if (txt == null)
 				return;
 
 			if ((ModifierKeys & Keys.Control) == Keys.Control)
 			{
-				// Let Ctrl-C, Ctrl-V and Ctrl-X take their normal course.
-				if (e.KeyChar == (char)3 || e.KeyChar == (char)22 || e.KeyChar == (char)24)
-					return;
+				// Cause Ctrl-A to select all. It doesn't seem to do it by default.
+				if (e.KeyChar == (char)1)
+				{
+					txt.SelectAll();
+					e.Handled = true;
+				}
+
+				return;
 			}
 
 			char nextChar;

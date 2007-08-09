@@ -373,7 +373,7 @@ namespace SIL.Pa.Controls
 			{
 				DataGridViewCell cell = m_grid[e.ColumnIndex, e.RowIndex];
 				if (!string.IsNullOrEmpty(cell.Value as string))
-					cell.Value = FFNormalizer.Normalize(cell.Value as string);
+					cell.Value = FFNormalizer.Normalize((cell.Value as string).Trim());
 
 				// Check if there's no "convert to" experimentaTransList. If not,
 				// then make sure the None column is checked.

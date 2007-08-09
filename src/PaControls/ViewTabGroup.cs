@@ -937,6 +937,8 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTab : Label
 	{
+		private static bool s_viewSelectionInProgress = false;
+		private bool m_ignoreTabSelection = false;
 		private Point m_mouseDownLocation = Point.Empty;
 		private bool m_mouseOver = false;
 		private bool m_selected = false;
@@ -946,7 +948,6 @@ namespace SIL.Pa.Controls
 		private Form m_viewsForm = null;
 		private readonly Type m_viewType = null;
 		private bool m_viewDocked = true;
-		private bool m_ignoreTabSelection = false;
 		private Timer m_tmrFader;
 		private ToolTip m_dockedToolTip;
 		private bool m_undockingInProgress = false;
@@ -1445,22 +1446,23 @@ namespace SIL.Pa.Controls
 			get { return m_selected; }
 			set
 			{
-				if (m_selected != value)
+				if (m_selected == value || s_viewSelectionInProgress)
+					return;
+
+				s_viewSelectionInProgress = true;
+				m_selected = value;
+				Invalidate();
+
+				// Invalidate the tab to the left of this one in
+				// case it needs to redraw its etched right border.
+				ViewTab adjacentTab = m_owningTabGroup.FindFirstVisibleTabToLeft(this);
+				if (adjacentTab != null)
+					adjacentTab.Invalidate();
+
+				Application.DoEvents();
+
+				if (!m_ignoreTabSelection)
 				{
-					m_selected = value;
-					Invalidate();
-
-					// Invalidate the tab to the left of this one in
-					// case it needs to redraw its etched right border.
-					ViewTab adjacentTab = m_owningTabGroup.FindFirstVisibleTabToLeft(this);
-					if (adjacentTab != null)
-						adjacentTab.Invalidate();
-
-					Application.DoEvents();
-
-					if (m_ignoreTabSelection)
-						return;
-
 					if (value)
 					{
 						OpenView(true);
@@ -1471,10 +1473,6 @@ namespace SIL.Pa.Controls
 					}
 					else
 					{
-						// Uncomment the following to cause the view's form
-						// to be unloaded when its tab becomes unselected.
-						// CloseView();
-
 						if (m_viewsControl != null && m_viewDocked)
 							m_viewsControl.Visible = false;
 					}
@@ -1482,6 +1480,8 @@ namespace SIL.Pa.Controls
 					if (m_viewsForm != null)
 						((ITabView)m_viewsForm).TMAdapter.AllowUpdates = value;
 				}
+
+				s_viewSelectionInProgress = false;
 			}
 		}
 
