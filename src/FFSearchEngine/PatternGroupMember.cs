@@ -27,6 +27,7 @@ namespace SIL.Pa.FFSearchEngine
 		private MemberType m_type;
 		private string m_member = null;
 		private string m_diacriticPattern = null;
+		private List<char> m_diacriticPatternArray = new List<char>();
 
 		private StringBuilder m_memberBuilder;
 		private readonly ulong[] m_masks = new ulong[] {0, 0};
@@ -244,31 +245,7 @@ namespace SIL.Pa.FFSearchEngine
 			if (m_diacriticPattern == null)
 				m_diacriticPattern = string.Empty;
 
-			char lastChar = '\0';
-
-			// Save the last character in the current diacritic pattern if it's the
-			// zero or one or more symbol. Then strip it out of the diacritic pattern.
-			if (m_diacriticPattern.Length > 0)
-			{
-				lastChar = m_diacriticPattern[m_diacriticPattern.Length - 1];
-				if (lastChar != '*' && lastChar != '+')
-					lastChar = '\0';
-				else
-				{
-					m_diacriticPattern =
-						m_diacriticPattern.Substring(0, m_diacriticPattern.Length - 1);
-				}
-			}
-
-			// Add the diacritics removed from the phone to the ones found in the diacritic
-			// placeholder cluster. Also insert a dotted circle so normalization has a base
-			// character, around which to normalize the diacritics. Then remove the dotted circle.
-			diacritics = DataUtils.kDottedCircle + diacritics + m_diacriticPattern;
-			diacritics = diacritics.Normalize(NormalizationForm.FormD);
-			m_diacriticPattern = diacritics.Remove(0, 1);
-
-			if (lastChar != '\0')
-				m_diacriticPattern += lastChar.ToString();
+			m_diacriticPattern += diacritics;
 		}
 
 		#endregion
@@ -323,13 +300,6 @@ namespace SIL.Pa.FFSearchEngine
 		private CompareResultType ContainsMatch(string phone,
 			Dictionary<string, IPhoneInfo> phoneCache)
 		{
-			//// Check if the phone is ignored, making sure the current member is not in
-			//// the ignored list. If the current member is in the ignored list, then
-			//// don't ignore it because it has been explicitly included in the pattern.
-			//if (SearchEngine.IgnoredPhones.Contains(phone) &&
-			//    !SearchEngine.IgnoredPhones.Contains(m_member))
-			//    return CompareResultType.Ignored;
-
 			if (m_type == MemberType.SinglePhone)
 				return ComparePhones(m_member, phone);
 
@@ -385,8 +355,8 @@ namespace SIL.Pa.FFSearchEngine
 				return compareResult;
 			}
 
-			return (SearchEngine.CompareDiacritics(m_diacriticPattern, phone) ?
-				CompareResultType.Match : CompareResultType.NoMatch);
+			return (CompareDiacritics(m_diacriticPattern, phone) ?
+			    CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -444,10 +414,184 @@ namespace SIL.Pa.FFSearchEngine
 			if (patternPhone != basePhone)
 				return CompareResultType.NoMatch;
 
-			bool match = SearchEngine.CompareDiacritics(m_diacriticPattern,
-				phonesDiacritics ?? null, false);
-
+			bool match = CompareDiacritics(m_diacriticPattern, phonesDiacritics ?? null, false);
 			return (match ? CompareResultType.Match : CompareResultType.NoMatch);
+		}
+
+		#endregion
+
+		#region Methods for Diacritic Checking
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method kicks off comparing the specified phone's diacritics from a phone with
+		/// those specified in the pattern (i.e. patternDiacritics).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool CompareDiacritics(string patternDiacritics, string phone)
+		{
+			return CompareDiacritics(patternDiacritics, phone, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Compares the specified diacritics from the value in text to determine whether or
+		/// not they match the diacritics in patternDiacritics. When textIsCompletePhone is
+		/// true, the diacritics are stripped out. Otherwise, this method assumes text only
+		/// contains diacritics and no base characters.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool CompareDiacritics(string patternDiacritics, string text,
+			bool textIsCompletePhone)
+		{
+			 if (patternDiacritics == null)
+				patternDiacritics = string.Empty;
+
+			if (patternDiacritics == "*")
+				return true;
+
+			string phonesDiacritics = text;
+
+			// If this is true it's assumed the text is a complete phone (i.e. base character with
+			// all its diacritics). Otherwise it's assumed the text is just one or more diacritics.
+			if (textIsCompletePhone)
+			{
+				// Parse the phone (i.e. text) into it's base phone and the diacritics modying it.
+				string basePhone;
+				SearchEngine.ParsePhone(text, out basePhone, out phonesDiacritics);
+			}
+
+			// Check for zero or more diacritics, plus the one(s) specified in the pattern.
+			if (patternDiacritics.IndexOf('*') >= 0)
+				return DiacriticsMatchZeroOrMore(patternDiacritics, phonesDiacritics);
+
+			// Check for one or more diacritics, plus the one(s) specified in the pattern.
+			if (patternDiacritics.IndexOf('+') >= 0)
+				return DiacriticsMatchOneOrMore(patternDiacritics, phonesDiacritics);
+
+			// Stip off the ignored diacritics from the phone.
+			phonesDiacritics = RemoveIgnoredDiacritics(patternDiacritics, phonesDiacritics);
+
+			// At this point, we know all the diacritics specified in the pattern
+			// must match those modifying the phone. So first check the length of
+			// the pattern of diacritics with those in the phone, then check that
+			// each of the phone's diacritics are also in the pattern.
+			if (patternDiacritics.Length != phonesDiacritics.Length)
+				return false;
+
+			foreach (char c in phonesDiacritics)
+			{
+				if (patternDiacritics.IndexOf(c) < 0)
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes all ignored diacritics and suprasegmentals from the specifiec string of
+		/// diacritics that were stripped from a phone and that are not in the pattern's
+		/// diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string RemoveIgnoredDiacritics(string patternDiacritics,
+			string phonesDiacritics)
+		{
+			if (phonesDiacritics == null)
+				return string.Empty;
+
+			// If non suprasegmental diacritics are ignored, then first remove them from the
+			// phone's diacritics if they are not found in the pattern's diacritics.
+			if (SearchEngine.IgnoreDiacritics)
+			{
+				for (int i = 0; i < phonesDiacritics.Length; i++)
+				{
+					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
+					{
+						IPACharInfo charInfo = DataUtils.IPACharCache[phonesDiacritics[i]];
+						if (charInfo != null && charInfo.CharType == IPACharacterType.Diacritics)
+							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], DataUtils.kOrc);
+					}
+				}
+
+				phonesDiacritics = phonesDiacritics.Replace(DataUtils.kOrc.ToString(), string.Empty);
+			}
+
+			// Now remove all ignored, non base char. suprasegmentals
+			// that are not explicitly in the pattern's diacritics.
+			foreach (char sseg in SearchEngine.IgnoredChars)
+			{
+				if (patternDiacritics.IndexOf(sseg) < 0)
+					phonesDiacritics = phonesDiacritics.Replace(sseg.ToString(), string.Empty);
+
+				if (phonesDiacritics.Length == 0)
+					break;
+			}
+
+			return phonesDiacritics;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if a phone's diacritics match those in the pattern's diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool DiacriticsMatchZeroOrMore(string patternDiacritics,
+			string phoneDiacritics)
+		{
+			if (patternDiacritics == null)
+				patternDiacritics = string.Empty;
+
+			// If the pattern is just *, then we have a match, regardless
+			// of whether or not the phone is modified by any diacritics.
+			if (patternDiacritics == "*")
+				return true;
+
+			if (phoneDiacritics == null)
+				return false;
+
+			// If the pattern contains more diacritics (after accounting for the zero
+			// or more character) than those in the phone, we know we've already failed.
+			if (patternDiacritics.Length - 1 > phoneDiacritics.Length)
+				return false;
+
+			foreach (char c in patternDiacritics)
+			{
+				if (c != '*' && phoneDiacritics.IndexOf(c) < 0)
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if a phone's diacritics match when the member contains a + following
+		/// a base character, V or C.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool DiacriticsMatchOneOrMore(string patternDiacritics, string phoneDiacritics)
+		{
+			if (string.IsNullOrEmpty(phoneDiacritics))
+				return false;
+
+			// If the pattern is just *, then we have a match, regardless of whether or not
+			// the phone is modified by any diacritics.
+			if (patternDiacritics == "+")
+				return (phoneDiacritics.Length > 0);
+
+			// If the pattern contains as many or more diacritics than
+			// those in the phone, we know we've already failed.
+			if (patternDiacritics.Length > phoneDiacritics.Length)
+				return false;
+
+			foreach (char c in patternDiacritics)
+			{
+				if (c != '+' && phoneDiacritics.IndexOf(c) < 0)
+					return false;
+			}
+
+			return true;
 		}
 
 		#endregion

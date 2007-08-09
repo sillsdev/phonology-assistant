@@ -152,7 +152,8 @@ namespace SIL.Pa.FFSearchEngine
 			member.CloseMember();
 
 			Assert.AreEqual(string.Format("t{0}s", DataUtils.kBottomTieBarC), member.Member);
-			Assert.AreEqual(string.Format("{0}{1}", dental, aspiration), member.DiacriticPattern);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(dental) >= 0);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(aspiration) >= 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,7 +176,9 @@ namespace SIL.Pa.FFSearchEngine
 			member.CloseMember();
 
 			Assert.AreEqual(string.Format("t{0}s", DataUtils.kBottomTieBarC), member.Member);
-			Assert.AreEqual(string.Format("{0}{1}+", dental, aspiration), member.DiacriticPattern);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(dental) >= 0);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(aspiration) >= 0);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf('+') >= 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,7 +201,9 @@ namespace SIL.Pa.FFSearchEngine
 			member.CloseMember();
 
 			Assert.AreEqual(string.Format("t{0}s", DataUtils.kTopTieBarC), member.Member);
-			Assert.AreEqual(string.Format("{0}{1}*", dental, aspiration), member.DiacriticPattern);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(dental) >= 0);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf(aspiration) >= 0);
+			Assert.IsTrue(member.DiacriticPattern.IndexOf('*') >= 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,8 +246,8 @@ namespace SIL.Pa.FFSearchEngine
 
 			// Verify an AND group
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[ [ {a,e} { [+high][DENTAL] } ] [-dOrSaL] ]");
-			Assert.AreEqual("[[{a,e}{[+high],[dental]}][-dorsal]]", group.ToString());
+			group.Parse("[[{a,e}{[+high][DENTAL]}][-dOrS]]");
+			Assert.AreEqual("[[{a,e}{[+high],[dental]}][-dors]]", group.ToString());
 
 			// Verify a sequential group
 			group = new PatternGroup(EnvironmentType.After);
@@ -259,16 +264,16 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual("der[+high]", group.ToString());
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse("der[+high]abc[dental]{[-voice][+dorsal]}");
-			Assert.AreEqual("der[+high]abc[dental]{[-voice],[+dorsal]}", group.ToString());
+			group.Parse("der[+high]abc[dental]{[-voice][+dors]}");
+			Assert.AreEqual("der[+high]abc[dental]{[-voice],[+dors]}", group.ToString());
 
 			group = new PatternGroup(EnvironmentType.Before);
-			group.Parse("#{[-voice],[+dorsal]}");
-			Assert.AreEqual("#{[-voice],[+dorsal]}", group.ToString());
+			group.Parse("#{[-voice],[+dors]}");
+			Assert.AreEqual("#{[-voice],[+dors]}", group.ToString());
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[-voice],[+dorsal]}#");
-			Assert.AreEqual("{[-voice],[+dorsal]}#", group.ToString());
+			group.Parse("{[-voice],[+dors]}#");
+			Assert.AreEqual("{[-voice],[+dors]}#", group.ToString());
 
 			// Parse any aspirated consonant
 			string pattern = string.Format("[[C][{0}\u02B0]]", DataUtils.kDottedCircle);
@@ -331,10 +336,10 @@ namespace SIL.Pa.FFSearchEngine
 			DataUtils.AFeatureCache["dental"].Mask = 111;
 			DataUtils.AFeatureCache["dental"].MaskNumber = 1;
 			DataUtils.BFeatureCache["high"].PlusMask = 222;
-			DataUtils.BFeatureCache["dorsal"].MinusMask = 333;
+			DataUtils.BFeatureCache["dors"].MinusMask = 333;
 
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[ [ {a,e} { [+high][DENTAL] } ] [-dOrSaL] ]");
+			group.Parse("[[{a,e}{[+high][DENTAL]}][-dOrS]]");
 
 			Assert.IsNotNull(group);
 			Assert.AreEqual(group.GroupType, GroupType.And);
@@ -344,7 +349,7 @@ namespace SIL.Pa.FFSearchEngine
 			PatternGroupMember groupMember = group.Members[1] as PatternGroupMember;
 			Assert.IsNotNull(groupMember);
 			Assert.AreEqual(MemberType.Binary, groupMember.MemberType);
-			Assert.AreEqual("-dorsal", groupMember.Member);
+			Assert.AreEqual("-dors", groupMember.Member);
 			Assert.AreEqual(333, groupMember.Masks[0]);
 
 			// Nested within the first group should be 2 other groups.

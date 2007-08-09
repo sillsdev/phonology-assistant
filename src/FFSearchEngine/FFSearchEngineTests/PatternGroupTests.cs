@@ -514,7 +514,9 @@ namespace SIL.Pa.FFSearchEngine
 
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[C][{0}^*]]", DataUtils.kDottedCircle));
-			Assert.IsFalse(group.Search("ateit~^ou", 0, out m_results));
+			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[C][{0}*]]", DataUtils.kDottedCircle));
@@ -567,17 +569,25 @@ namespace SIL.Pa.FFSearchEngine
 			// Treat digits as mock diacritics. (0 and 1 cannot be used because they're used
 			// as part of the pattern parsing process.)
 			AddMockDiacritics("23456789");
-			AddMockPhones(new string[] {"a", "e", "c", "i", "o", "c2", "c23", "c234",
-				"c2345", "c2356", "c23456", "c234567"}, IPACharacterType.Consonant);
+			AddMockPhones(new string[] {"a", "e", "c", "i", "o", "c2", "c23", "c32",
+				"c234",	"c2345", "c2356", "c23456", "c234567"}, IPACharacterType.Consonant);
+
+			//TestDiacriticPattern("[[C][{0}+]]/*_*", "c", false);
+			//TestDiacriticPattern("[[C][{0}+]]/*_*", "c2", true);
+			//TestDiacriticPattern("[[C][{0}2+]]/*_*", "c2", false);
+			//TestDiacriticPattern("[[C][{0}2+]]/*_*", "c23", true);
+			//TestDiacriticPattern("[[C][{0}+2]]/*_*", "c2", false);
+			//TestDiacriticPattern("[[C][{0}+3]]/*_*", "c23", true);
+			//TestDiacriticPattern("[[C][{0}23+56]]/*_*", "c2356", false);
+			//TestDiacriticPattern("[[C][{0}23+56]]/*_*", "c23456", true);
 
 			TestDiacriticPattern("[[C][{0}+]]/*_*", "c", false);
 			TestDiacriticPattern("[[C][{0}+]]/*_*", "c2", true);
 			TestDiacriticPattern("[[C][{0}2+]]/*_*", "c2", false);
 			TestDiacriticPattern("[[C][{0}2+]]/*_*", "c23", true);
-			TestDiacriticPattern("[[C][{0}+2]]/*_*", "c2", false);
-			TestDiacriticPattern("[[C][{0}+3]]/*_*", "c23", true);
-			TestDiacriticPattern("[[C][{0}23+56]]/*_*", "c2356", false);
-			TestDiacriticPattern("[[C][{0}23+56]]/*_*", "c23456", true);
+			TestDiacriticPattern("[[C][{0}2+]]/*_*", "c32", true);
+			TestDiacriticPattern("[[C][{0}2356+]]/*_*", "c2356", false);
+			TestDiacriticPattern("[[C][{0}2356+]]/*_*", "c23456", true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -620,7 +630,9 @@ namespace SIL.Pa.FFSearchEngine
 
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[V][{0}^*]]", DataUtils.kDottedCircle));
-			Assert.IsFalse(group.Search("amo~^xyz", 0, out m_results));
+			Assert.IsTrue(group.Search("amo~^xyz", 0, out m_results));
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse(string.Format("[[V][{0}*]]", DataUtils.kDottedCircle));
@@ -1824,17 +1836,15 @@ namespace SIL.Pa.FFSearchEngine
 			// Test when ignored diacritics in search item
 			m_query.Pattern = "o~b/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bct^~de", false), out m_results));
-
+			string[] phones = DataUtils.IPACharCache.PhoneticParser("ao~bct^~de", false);
+			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
 
 			m_query.Pattern = "o~t^/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bco~t^xyz", false), out m_results));
-
+			phones = DataUtils.IPACharCache.PhoneticParser("ao~bco~t^xyz", false);
+			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
 		}
