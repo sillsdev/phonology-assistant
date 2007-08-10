@@ -75,6 +75,10 @@ namespace SIL.Pa
 
 			Application.DoEvents();
 
+			// Unpack samples if it's never been done before.
+			SampleDataHelper sdhlpr = new SampleDataHelper();
+			sdhlpr.UnpackSampleData();
+
 			EnableOptionsMenus(false);
 			EnableUndockMenu(false);
 

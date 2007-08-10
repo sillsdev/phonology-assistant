@@ -29,7 +29,6 @@ using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SIL.SpeechTools.Utils;
 using XCore;
-using ZipUtils;
 
 namespace SIL.Pa
 {
@@ -71,8 +70,6 @@ namespace SIL.Pa
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
-		public const string kPaSampleDataZipFile = "SamplePaData.zip";
-		public const string kPaSampleFolder = "Samples";
 
 		private static string s_helpFilePath = null;
 		private static ITMAdapter s_tmAdapter;
@@ -122,7 +119,6 @@ namespace SIL.Pa
 			}
 
 			InitializePaRegKey();
-			UnpackSampleData();
 			
 			s_msgMediator = new Mediator();
 			s_settingsFile = Path.Combine(s_defaultProjFolder, "pa.xml");
@@ -237,44 +233,6 @@ namespace SIL.Pa
 			// Create the folder if it doesn't exist.
 			if (!Directory.Exists(projPath))
 				Directory.CreateDirectory(projPath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will unpack sample data into a sub-foldere of the user's default
-		/// project folder. This is only done once, the first time the current user has
-		/// run PA.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void UnpackSampleData()
-		{
-			// Don't bother unpacking if that's been done before.
-			RegistryKey key = Registry.CurrentUser.OpenSubKey(kPaRegKeyName);
-			if (key != null && (int)key.GetValue("SamplesUnpacked", 0) > 0)
-				return;
-			
-			// Can't unpack the samples if the samples zip file doesn't exist.
-			string sampleZipFile = Path.Combine(Application.StartupPath, kPaSampleDataZipFile);
-			if (!File.Exists(sampleZipFile))
-				return;
-
-			// Make sure the target folder for the samples exists.
-			string sampleFolder = Path.Combine(s_defaultProjFolder, kPaSampleFolder);
-			if (!Directory.Exists(sampleFolder))
-				Directory.CreateDirectory(sampleFolder);
-
-			try
-			{
-				ZipHelper.UncompressFilesInZip(sampleZipFile, sampleFolder);
-			}
-			catch {}
-
-			// Write a value to the registry so samples won't be unpacked again. I could
-			// write this to the settings file but I don't want to unpack if the user
-			// has deleted the samples and his settings file at some point after having
-			// already unpacked the samples.
-			key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
-			key.SetValue("SamplesUnpacked", 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -757,21 +715,6 @@ namespace SIL.Pa
 		#region Options Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This option is hidden and mainly used for development when I don't want SQL
-		/// server to be automatically started by just going to the project settings dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool AutoStartSQLServer
-		{
-			get
-			{
-				return SettingsHandler.GetBoolSettingsValue(
-					kSQLServerOptions, "autostart", true);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets or sets the number of queries to remember in the recently used queries list
 		/// in the search window's side panel.
 		/// </summary>
@@ -969,6 +912,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void AddProjectToRecentlyUsedProjectsList(string filename)
 		{
+			AddProjectToRecentlyUsedProjectsList(filename, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified file to the recently used projects list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void AddProjectToRecentlyUsedProjectsList(string filename, bool addToEnd)
+		{
 			int maxruf = SettingsHandler.GetIntSettingsValue("recentlyusedfiles", "maxallowed", 10);
 
 			List<string> rufList = new List<string>(RecentlyUsedProjectList);
@@ -977,7 +930,10 @@ namespace SIL.Pa
 			if (rufList.Contains(filename))
 				rufList.Remove(filename);
 
-			rufList.Insert(0, filename);
+			if (addToEnd)
+				rufList.Add(filename);
+			else
+				rufList.Insert(0, filename);
 
 			for (int i = 1; i < maxruf && i <= rufList.Count; i++)
 			{

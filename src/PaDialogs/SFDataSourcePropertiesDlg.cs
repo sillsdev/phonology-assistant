@@ -39,11 +39,7 @@ namespace SIL.Pa.Dialogs
 		{
 			m_datasource = datasource;
 			m_fieldInfo = fieldInfo;
-
-			// Required for Windows Form Designer support
 			InitializeComponent();
-
-			Initialize();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -303,6 +299,22 @@ namespace SIL.Pa.Dialogs
 
 				return DataSourceParseType.PhoneticOnly;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+		
+			// I'm not sure why this has to be done so late, but for some reason rows in the
+			// grid were added and removed after the handle is created but before showing
+			// the dialog, thus causing the dirty flag to get set to true. The adding and
+			// removing takes place in code I don't control.
+			m_grid.IsDirty = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

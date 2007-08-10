@@ -88,6 +88,7 @@ namespace SIL.Pa.Dialogs
 			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
 
 			m_dirty = m_newProject;
+			m_grid.IsDirty = false;
 			Application.Idle += Application_Idle;
 			Application.UseWaitCursor = false;
 		}
@@ -668,7 +669,8 @@ namespace SIL.Pa.Dialogs
 			}
 
 			// Open the mappings dialog.
-			using (SFDataSourcePropertiesDlg dlg = new SFDataSourcePropertiesDlg(m_project.FieldInfo, dataSource))
+			using (SFDataSourcePropertiesDlg dlg =
+				new SFDataSourcePropertiesDlg(m_project.FieldInfo, dataSource))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{

@@ -134,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SampleDataHelper.cs" />
     <Compile Include="SearchClassList.cs" />
     <Compile Include="SearchQueryGroup.cs" />
     <Compile Include="SFMarkerMapping.cs" />
