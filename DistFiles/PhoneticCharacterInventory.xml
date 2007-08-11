@@ -10,8 +10,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>-35</MOArticulation>
-		<POArticulation>-35</POArticulation>
+		<MOArticulation>-20</MOArticulation>
+		<POArticulation>-20</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>64</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -28,8 +28,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>-30</MOArticulation>
-		<POArticulation>-30</POArticulation>
+		<MOArticulation>-25</MOArticulation>
+		<POArticulation>-25</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>128</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -46,8 +46,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>27</DisplayOrder>
-		<MOArticulation>-25</MOArticulation>
-		<POArticulation>-25</POArticulation>
+		<MOArticulation>-30</MOArticulation>
+		<POArticulation>-30</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>2048</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -64,8 +64,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>25</DisplayOrder>
-		<MOArticulation>-20</MOArticulation>
-		<POArticulation>-20</POArticulation>
+		<MOArticulation>-35</MOArticulation>
+		<POArticulation>-35</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>256</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -82,8 +82,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>23</DisplayOrder>
-		<MOArticulation>-15</MOArticulation>
-		<POArticulation>-15</POArticulation>
+		<MOArticulation>-40</MOArticulation>
+		<POArticulation>-40</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>64</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -100,8 +100,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>21</DisplayOrder>
-		<MOArticulation>-10</MOArticulation>
-		<POArticulation>-10</POArticulation>
+		<MOArticulation>-45</MOArticulation>
+		<POArticulation>-45</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>512</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -118,8 +118,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>19</DisplayOrder>
-		<MOArticulation>-5</MOArticulation>
-		<POArticulation>-5</POArticulation>
+		<MOArticulation>-50</MOArticulation>
+		<POArticulation>-50</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>1024</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -172,8 +172,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>-50</MOArticulation>
-		<POArticulation>-50</POArticulation>
+		<MOArticulation>-5</MOArticulation>
+		<POArticulation>-5</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -190,10 +190,28 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>-45</MOArticulation>
-		<POArticulation>-45</POArticulation>
+		<MOArticulation>-10</MOArticulation>
+		<POArticulation>-10</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
+		<BinaryMask>0</BinaryMask>
+		<ChartColumn>0</ChartColumn>
+		<ChartGroup>0</ChartGroup>
+	</IPACharInfo>
+	<IPACharInfo Codepoint="45" IPAChar="-" HexIPAChar="002D">
+		<Name>Hyphen-Minus</Name>
+		<Description>Morpheme break</Description>
+		<CharType>Breaking</CharType>
+		<CharSubType>Unknown</CharSubType>
+		<IgnoreType>StressSyllable</IgnoreType>
+		<IsBaseChar>true</IsBaseChar>
+		<CanPreceedBaseChar>false</CanPreceedBaseChar>
+		<DisplayWDottedCircle>false</DisplayWDottedCircle>
+		<DisplayOrder>0</DisplayOrder>
+		<MOArticulation>775</MOArticulation>
+		<POArticulation>790</POArticulation>
+		<Mask0>0</Mask0>
+		<Mask1>8388608</Mask1>
 		<BinaryMask>0</BinaryMask>
 		<ChartColumn>0</ChartColumn>
 		<ChartGroup>0</ChartGroup>
@@ -712,8 +730,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>12</DisplayOrder>
-		<MOArticulation>835</MOArticulation>
-		<POArticulation>850</POArticulation>
+		<MOArticulation>840</MOArticulation>
+		<POArticulation>855</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -730,8 +748,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>9</DisplayOrder>
-		<MOArticulation>840</MOArticulation>
-		<POArticulation>855</POArticulation>
+		<MOArticulation>845</MOArticulation>
+		<POArticulation>860</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -748,8 +766,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>15</DisplayOrder>
-		<MOArticulation>830</MOArticulation>
-		<POArticulation>845</POArticulation>
+		<MOArticulation>835</MOArticulation>
+		<POArticulation>850</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -936,7 +954,7 @@
 		<ChartColumn>13</ChartColumn>
 		<ChartGroup>9</ChartGroup>
 	</IPACharInfo>
-	<IPACharInfo Codepoint="21" IPAChar="!" HexIPAChar="0021">
+	<IPACharInfo Codepoint="33" IPAChar="!" HexIPAChar="0021">
 		<Name>Exclamation Point</Name>
 		<Description>(Post)alveolar Click</Description>
 		<CharType>Consonant</CharType>
@@ -2206,8 +2224,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>-40</MOArticulation>
-		<POArticulation>-40</POArticulation>
+		<MOArticulation>-15</MOArticulation>
+		<POArticulation>-15</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2458,8 +2476,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>2</DisplayOrder>
-		<MOArticulation>875</MOArticulation>
-		<POArticulation>890</POArticulation>
+		<MOArticulation>880</MOArticulation>
+		<POArticulation>895</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>1</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2476,8 +2494,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>5</DisplayOrder>
-		<MOArticulation>880</MOArticulation>
-		<POArticulation>895</POArticulation>
+		<MOArticulation>885</MOArticulation>
+		<POArticulation>900</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>2</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2494,8 +2512,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>8</DisplayOrder>
-		<MOArticulation>885</MOArticulation>
-		<POArticulation>900</POArticulation>
+		<MOArticulation>890</MOArticulation>
+		<POArticulation>905</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>4</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2512,8 +2530,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>11</DisplayOrder>
-		<MOArticulation>890</MOArticulation>
-		<POArticulation>905</POArticulation>
+		<MOArticulation>895</MOArticulation>
+		<POArticulation>910</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>8</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2530,8 +2548,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>14</DisplayOrder>
-		<MOArticulation>895</MOArticulation>
-		<POArticulation>910</POArticulation>
+		<MOArticulation>900</MOArticulation>
+		<POArticulation>915</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>16</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2548,8 +2566,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>10</DisplayOrder>
-		<MOArticulation>795</MOArticulation>
-		<POArticulation>810</POArticulation>
+		<MOArticulation>800</MOArticulation>
+		<POArticulation>815</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>8</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2566,8 +2584,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>4</DisplayOrder>
-		<MOArticulation>785</MOArticulation>
-		<POArticulation>800</POArticulation>
+		<MOArticulation>790</MOArticulation>
+		<POArticulation>805</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>2</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2584,8 +2602,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>20</DisplayOrder>
-		<MOArticulation>810</MOArticulation>
-		<POArticulation>825</POArticulation>
+		<MOArticulation>815</MOArticulation>
+		<POArticulation>830</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>512</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2620,8 +2638,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>7</DisplayOrder>
-		<MOArticulation>790</MOArticulation>
-		<POArticulation>805</POArticulation>
+		<MOArticulation>795</MOArticulation>
+		<POArticulation>810</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>4</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2692,8 +2710,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>1</DisplayOrder>
-		<MOArticulation>780</MOArticulation>
-		<POArticulation>795</POArticulation>
+		<MOArticulation>785</MOArticulation>
+		<POArticulation>800</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>1</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2710,8 +2728,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>18</DisplayOrder>
-		<MOArticulation>805</MOArticulation>
-		<POArticulation>820</POArticulation>
+		<MOArticulation>810</MOArticulation>
+		<POArticulation>825</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>1024</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -2728,8 +2746,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>13</DisplayOrder>
-		<MOArticulation>800</MOArticulation>
-		<POArticulation>815</POArticulation>
+		<MOArticulation>805</MOArticulation>
+		<POArticulation>820</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>16</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3214,7 +3232,7 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>905</MOArticulation>
+		<MOArticulation>910</MOArticulation>
 		<POArticulation>715</POArticulation>
 		<Mask0>65552</Mask0>
 		<Mask1>0</Mask1>
@@ -3232,7 +3250,7 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>910</MOArticulation>
+		<MOArticulation>915</MOArticulation>
 		<POArticulation>730</POArticulation>
 		<Mask0>67584</Mask0>
 		<Mask1>0</Mask1>
@@ -3250,7 +3268,7 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>900</MOArticulation>
+		<MOArticulation>905</MOArticulation>
 		<POArticulation>725</POArticulation>
 		<Mask0>66560</Mask0>
 		<Mask1>0</Mask1>
@@ -3268,8 +3286,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>22</DisplayOrder>
-		<MOArticulation>815</MOArticulation>
-		<POArticulation>830</POArticulation>
+		<MOArticulation>820</MOArticulation>
+		<POArticulation>835</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>64</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3286,8 +3304,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>24</DisplayOrder>
-		<MOArticulation>820</MOArticulation>
-		<POArticulation>835</POArticulation>
+		<MOArticulation>825</MOArticulation>
+		<POArticulation>840</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>256</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3304,8 +3322,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>0</DisplayOrder>
-		<MOArticulation>825</MOArticulation>
-		<POArticulation>840</POArticulation>
+		<MOArticulation>830</MOArticulation>
+		<POArticulation>845</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>2048</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3340,8 +3358,8 @@
 		<CanPreceedBaseChar>true</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>9</DisplayOrder>
-		<MOArticulation>775</MOArticulation>
-		<POArticulation>790</POArticulation>
+		<MOArticulation>780</MOArticulation>
+		<POArticulation>795</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>16777216</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3358,8 +3376,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>6</DisplayOrder>
-		<MOArticulation>845</MOArticulation>
-		<POArticulation>860</POArticulation>
+		<MOArticulation>850</MOArticulation>
+		<POArticulation>865</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3376,8 +3394,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>3</DisplayOrder>
-		<MOArticulation>850</MOArticulation>
-		<POArticulation>865</POArticulation>
+		<MOArticulation>855</MOArticulation>
+		<POArticulation>870</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3394,8 +3412,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>3</DisplayOrder>
-		<MOArticulation>855</MOArticulation>
-		<POArticulation>870</POArticulation>
+		<MOArticulation>860</MOArticulation>
+		<POArticulation>875</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3412,8 +3430,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>3</DisplayOrder>
-		<MOArticulation>860</MOArticulation>
-		<POArticulation>875</POArticulation>
+		<MOArticulation>865</MOArticulation>
+		<POArticulation>880</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3430,8 +3448,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>3</DisplayOrder>
-		<MOArticulation>865</MOArticulation>
-		<POArticulation>880</POArticulation>
+		<MOArticulation>870</MOArticulation>
+		<POArticulation>885</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3448,8 +3466,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>true</DisplayWDottedCircle>
 		<DisplayOrder>3</DisplayOrder>
-		<MOArticulation>870</MOArticulation>
-		<POArticulation>885</POArticulation>
+		<MOArticulation>875</MOArticulation>
+		<POArticulation>890</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>0</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3484,8 +3502,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>17</DisplayOrder>
-		<MOArticulation>920</MOArticulation>
-		<POArticulation>920</POArticulation>
+		<MOArticulation>925</MOArticulation>
+		<POArticulation>925</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>8192</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3502,8 +3520,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>16</DisplayOrder>
-		<MOArticulation>915</MOArticulation>
-		<POArticulation>915</POArticulation>
+		<MOArticulation>920</MOArticulation>
+		<POArticulation>920</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>4096</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3520,8 +3538,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>28</DisplayOrder>
-		<MOArticulation>925</MOArticulation>
-		<POArticulation>925</POArticulation>
+		<MOArticulation>930</MOArticulation>
+		<POArticulation>930</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>16384</Mask1>
 		<BinaryMask>0</BinaryMask>
@@ -3538,8 +3556,8 @@
 		<CanPreceedBaseChar>false</CanPreceedBaseChar>
 		<DisplayWDottedCircle>false</DisplayWDottedCircle>
 		<DisplayOrder>29</DisplayOrder>
-		<MOArticulation>930</MOArticulation>
-		<POArticulation>930</POArticulation>
+		<MOArticulation>935</MOArticulation>
+		<POArticulation>935</POArticulation>
 		<Mask0>0</Mask0>
 		<Mask1>32768</Mask1>
 		<BinaryMask>0</BinaryMask>

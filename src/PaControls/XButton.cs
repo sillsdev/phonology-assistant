@@ -22,8 +22,9 @@ namespace SIL.Pa.Controls
 		private bool m_mouseOver = false;
 		private PaintState m_state = PaintState.Normal;
 		private readonly TextFormatFlags m_txtFmtflags = TextFormatFlags.NoPadding |
-				TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
-				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+			TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
+			TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
+			TextFormatFlags.PreserveGraphicsClipping;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -272,7 +273,8 @@ namespace SIL.Pa.Controls
 		{
 			TextFormatFlags flags = TextFormatFlags.NoPrefix |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding;
+				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			Color clr = (Enabled ? ForeColor : SystemColors.GrayText);
 			TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, clr, flags);

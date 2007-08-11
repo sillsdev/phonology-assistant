@@ -838,7 +838,8 @@ namespace SIL.Pa.Dialogs
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.PathEllipsis |
 				(m_grid.RightToLeft == RightToLeft.Yes ?
-				TextFormatFlags.RightToLeft : TextFormatFlags.Left);
+				TextFormatFlags.RightToLeft : TextFormatFlags.Left) |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics,
 				m_grid.Rows[e.RowIndex].Cells["sourcefiles"].Value as string,

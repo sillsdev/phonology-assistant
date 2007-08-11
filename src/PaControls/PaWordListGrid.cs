@@ -60,6 +60,7 @@ namespace SIL.Pa.Controls
 		private readonly string m_audioFileOffsetFieldName;
 		private readonly string m_audioFileLengthFieldName;
 		private readonly Bitmap m_spkrImage;
+		private readonly PaFieldInfoList m_fieldInfoList;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -93,9 +94,9 @@ namespace SIL.Pa.Controls
 			Cache = cache;
 			m_owningViewType = owningViewType;
 
-			m_audioFileFieldName = PaApp.Project.FieldInfo.AudioFileField.FieldName;
-			m_audioFileOffsetFieldName = PaApp.Project.FieldInfo.AudioFileOffsetField.FieldName;
-			m_audioFileLengthFieldName = PaApp.Project.FieldInfo.AudioFileLengthField.FieldName;
+			m_audioFileFieldName = m_fieldInfoList.AudioFileField.FieldName;
+			m_audioFileOffsetFieldName = m_fieldInfoList.AudioFileOffsetField.FieldName;
+			m_audioFileLengthFieldName = m_fieldInfoList.AudioFileLengthField.FieldName;
 			m_spkrImage = Properties.Resources.kimidPlaybackSpkr;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -107,6 +108,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid()
 		{
+			m_fieldInfoList = PaApp.Project.FieldInfo;
 			base.DoubleBuffered = true;
 			ReadOnly = true;
 			AllowUserToAddRows = false;
@@ -152,7 +154,7 @@ namespace SIL.Pa.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
 			{
 				if (fieldInfo.DisplayIndexInGrid >= 0)
 					AddNewColumn(fieldInfo);
@@ -435,8 +437,8 @@ namespace SIL.Pa.Controls
 			if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 				m_dataSourcePathFieldName == null)
 			{
-				if (PaApp.Project.FieldInfo.DataSourcePathField != null)
-					m_dataSourcePathFieldName = PaApp.Project.FieldInfo.DataSourcePathField.FieldName;
+				if (m_fieldInfoList.DataSourcePathField != null)
+					m_dataSourcePathFieldName = m_fieldInfoList.DataSourcePathField.FieldName;
 			}
 
 			string newAudioFileName;
@@ -1693,16 +1695,8 @@ namespace SIL.Pa.Controls
 			m_currPaintingCellSelected =
 				((e.State & DataGridViewElementStates.Selected) > 0);
 
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.AudioFileField;
-			if (fieldInfo != null && Columns[e.ColumnIndex].Name == fieldInfo.FieldName)
-			{
-				DrawFilePath(e);
-				e.Handled = true;
-				return;
-			}
-
-			fieldInfo = PaApp.Project.FieldInfo.DataSourcePathField;
-			if (fieldInfo != null && Columns[e.ColumnIndex].Name == fieldInfo.FieldName)
+			if (Columns[e.ColumnIndex].Name == m_fieldInfoList.AudioFileField.FieldName ||
+				Columns[e.ColumnIndex].Name == m_fieldInfoList.DataSourcePathField.FieldName)
 			{
 				DrawFilePath(e);
 				e.Handled = true;
@@ -1818,7 +1812,8 @@ namespace SIL.Pa.Controls
 				return;
 
 			TextFormatFlags flags = TextFormatFlags.PathEllipsis | TextFormatFlags.NoPrefix |
-				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, soundFilePath, e.CellStyle.Font, e.CellBounds,
 				(m_currPaintingCellSelected ? e.CellStyle.SelectionForeColor :
@@ -1853,7 +1848,8 @@ namespace SIL.Pa.Controls
 				srchItemOffset, srchItemLength);
 
 			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
-				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			// Calculate the width of the search item.
 			int itemWidth = TextRenderer.MeasureText(e.Graphics, srchItem,
@@ -1909,7 +1905,8 @@ namespace SIL.Pa.Controls
 			e.Paint(rc, parts);
 
 			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
-				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.Left;
+				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
+				TextFormatFlags.Left | TextFormatFlags.PreserveGraphicsClipping;
 
 			Color textColor = (m_currPaintingCellSelected ?
 				RowsDefaultCellStyle.SelectionForeColor : ForeColor);
@@ -2263,7 +2260,7 @@ namespace SIL.Pa.Controls
 				{
 					if (updateColumnFonts)
 					{
-						PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[col.Name];
+						PaFieldInfo fieldInfo = m_fieldInfoList[col.Name];
 						if (fieldInfo != null)
 							col.DefaultCellStyle.Font = fieldInfo.Font;
 					}
@@ -2416,7 +2413,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
-			if (PaApp.Project == null || PaApp.Project.FieldInfo == null)
+			if (PaApp.Project == null || m_fieldInfoList == null)
 				return false;
 			
 			m_suspendSavingColumnChanges = true;
@@ -2426,7 +2423,7 @@ namespace SIL.Pa.Controls
 			if (IsGroupedByField)
 				Columns[0].Visible = false;
 
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
 			{
 				DataGridViewColumn col = Columns[fieldInfo.FieldName];
 				if (col == null)
@@ -2491,7 +2488,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnCVSyllablesChanged(object args)
 		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.CVPatternField;
+			PaFieldInfo fieldInfo = m_fieldInfoList.CVPatternField;
 			if (fieldInfo != null)
 			{
 				DataGridViewColumn col = Columns[fieldInfo.FieldName];

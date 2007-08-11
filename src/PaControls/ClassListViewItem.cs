@@ -410,7 +410,7 @@ namespace SIL.Pa.Controls
 			// Draw the item and subitem texts.
 			TextFormatFlags flags = TextFormatFlags.SingleLine |
 				TextFormatFlags.TextBoxControl | TextFormatFlags.EndEllipsis |
-				TextFormatFlags.VerticalCenter;
+				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping;
 
 			flags |= (ListView.RightToLeft == RightToLeft.Yes ?
 				TextFormatFlags.RightToLeft : TextFormatFlags.Left);

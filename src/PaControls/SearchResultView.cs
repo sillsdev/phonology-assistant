@@ -188,7 +188,8 @@ namespace SIL.Pa.Controls
 
 			TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 				TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
-				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter;
+				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			using (Font fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{

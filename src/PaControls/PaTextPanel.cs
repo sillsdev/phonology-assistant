@@ -155,15 +155,11 @@ namespace SIL.Pa.Controls
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			
+
 			if (!string.IsNullOrEmpty(Text))
 			{
-				// Draw the text.
-				using (StringFormat sf = STUtils.GetStringFormat(false))
-				{
-					TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle,
-						SystemColors.ControlText, m_txtFmtFlags);
-				}
+				TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle,
+					SystemColors.ControlText, m_txtFmtFlags);
 			}
 		}
 	}

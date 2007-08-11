@@ -755,7 +755,8 @@ namespace SIL.Pa.Controls
 
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left |
-				TextFormatFlags.HidePrefix | TextFormatFlags.EndEllipsis;
+				TextFormatFlags.HidePrefix | TextFormatFlags.EndEllipsis |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, CurrentTab.Text, m_pnlCaption.Font,
 				rc, SystemColors.ActiveCaptionText, flags);
@@ -1671,7 +1672,7 @@ namespace SIL.Pa.Controls
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.WordEllipsis |
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
-				TextFormatFlags.HidePrefix;
+				TextFormatFlags.HidePrefix | TextFormatFlags.PreserveGraphicsClipping;
 
 			Color clrText = (m_selected ? Color.Black :
 				ColorHelper.CalculateColor(SystemColors.ControlText,

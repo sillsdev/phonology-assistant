@@ -64,10 +64,11 @@ namespace SIL.Pa.Controls
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
 			m_pnlColHeaders = new CharGridHeaderCollectionPanel(true);
 			m_pnlRowHeaders = new CharGridHeaderCollectionPanel(false);
-			
+
 			InitializeComponent();
 
 			SuspendLayout();
+			m_grid.OwningPanel = pnlGrid;
 			m_grid.Font = m_chartFont;
 			m_grid.GridColor = kGridColor;
 			pnlColHeaderOuter.Controls.Add(m_pnlColHeaders);
@@ -984,7 +985,7 @@ namespace SIL.Pa.Controls
 
 				TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 					TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding |
-					TextFormatFlags.NoPrefix;
+					TextFormatFlags.NoPrefix | TextFormatFlags.PreserveGraphicsClipping;
 
 				TextRenderer.DrawText(e.Graphics, m_phoneBeingDragged,
 					m_chartFont, e.CellBounds, clr, flags);
@@ -1800,6 +1801,125 @@ namespace SIL.Pa.Controls
 		}
 
 		#endregion
+	}
+
+	#endregion
+
+	#region CharGridView class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	internal class CharGridView : DataGridView
+	{
+		delegate void AutoScrollPositionDelegate(ScrollableControl sender, Point p);
+		private Panel m_owner;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal CharGridView()
+		{
+			DoubleBuffered = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		internal Panel OwningPanel
+		{
+			set { m_owner = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This prevents the grid's owning panel from scrolling to 0,0 whenever the focus
+		/// leaves the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLostFocus(EventArgs e)
+		{
+			if (m_owner == null)
+				return;
+
+			Point pt = m_owner.AutoScrollPosition;
+			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			Object[] args = { m_owner, pt };
+			BeginInvoke(del, args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This prevents the grid's owning panel from scrolling to 0,0 whenever the focus
+		/// leaves the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLeave(EventArgs e)
+		{
+			if (m_owner == null)
+				return;
+
+			Point pt = m_owner.AutoScrollPosition;
+			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			Object[] args = { m_owner, pt };
+			BeginInvoke(del, args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This prevents the grid's owning panel from scrolling to 0,0 whenever the grid
+		/// gains focus.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnGotFocus(EventArgs e)
+		{
+			if (m_owner == null)
+				return;
+
+			Point pt = m_owner.AutoScrollPosition;
+			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			Object[] args = { m_owner, pt };
+			BeginInvoke(del, args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This prevents the grid's owning panel from scrolling to 0,0 whenever the grid
+		/// gains focus.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnEnter(EventArgs e)
+		{
+			if (m_owner == null)
+				return;
+
+			Point pt = m_owner.AutoScrollPosition;
+			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			Object[] args = { m_owner, pt };
+			BeginInvoke(del, args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetAutoScrollPosition(ScrollableControl sender, Point pt)
+		{
+			if (!pt.IsEmpty)
+			{
+				pt.X = Math.Abs(pt.X);
+				pt.Y = Math.Abs(pt.Y);
+				sender.AutoScrollPosition = pt;
+			}
+		}
 	}
 
 	#endregion

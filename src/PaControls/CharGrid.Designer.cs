@@ -29,9 +29,9 @@ namespace SIL.Pa.Controls
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			this.m_grid = new CharGridView();
 			this.pnlWrapper = new SIL.Pa.Controls.PaPanel();
 			this.pnlGrid = new System.Windows.Forms.Panel();
-			this.m_grid = new System.Windows.Forms.DataGridView();
 			this.m_vsplitter = new System.Windows.Forms.Splitter();
 			this.pnlRowHeaderOuter = new System.Windows.Forms.Panel();
 			this.m_hsplitter = new System.Windows.Forms.Splitter();
@@ -190,7 +190,7 @@ namespace SIL.Pa.Controls
 
 		#endregion
 
-		private System.Windows.Forms.DataGridView m_grid;
+		private CharGridView m_grid;
 		private PaPanel pnlWrapper;
 		private System.Windows.Forms.Panel pnlCorner;
 		private System.Windows.Forms.Panel pnlColHeaderOuter;

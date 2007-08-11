@@ -302,7 +302,7 @@ namespace SIL.Pa.Controls
 
 			TextFormatFlags flags = TextFormatFlags.WordBreak | TextFormatFlags.NoPadding |
 				TextFormatFlags.EndEllipsis | TextFormatFlags.HorizontalCenter |
-				TextFormatFlags.VerticalCenter;
+				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping;
 
 			Rectangle rc = ClientRectangle;
 			rc.Y = m_pnlHdrBand.Bottom;
@@ -2098,7 +2098,8 @@ namespace SIL.Pa.Controls
 		{
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
-				TextFormatFlags.NoPadding | TextFormatFlags.LeftAndRightPadding;
+				TextFormatFlags.NoPadding | TextFormatFlags.LeftAndRightPadding |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 			if (m_image == null)
 				flags |= TextFormatFlags.HorizontalCenter;

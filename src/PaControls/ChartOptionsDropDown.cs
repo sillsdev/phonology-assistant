@@ -31,13 +31,13 @@ namespace SIL.Pa.Controls
 			SetIgnoredChars(ignoreList);
 
 			// Adjust the size of the drop-down to fit 5 columns.
-			Width = pickerIgnore.GetPreferredWidth(5) +	Padding.Left + Padding.Right;
-			Height = pickerIgnore.PreferredHeight + Padding.Top + Padding.Bottom;
+			Width = pickerIgnore.GetPreferredWidth(5) + pnlPicker.Padding.Left + pnlPicker.Padding.Right;
+			Height = pickerIgnore.PreferredHeight + pnlPicker.Top + Padding.Bottom;
 
 			// Center the refresh and help labels vertically between the bottom of the
 			// drop-down and the bottom of the picker.
 			lnkRefresh.Top = ClientSize.Height -
-				((ClientSize.Height - pickerIgnore.Bottom) / 2) - (lnkRefresh.Height / 2);
+				((ClientSize.Height - pnlPicker.Bottom) / 2) - (lnkRefresh.Height / 2);
 
 			lnkHelp.Top = lnkRefresh.Top;
 			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;

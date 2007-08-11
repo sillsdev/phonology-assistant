@@ -83,8 +83,8 @@ namespace SIL.Pa.Controls
 				lblPhone.AutoSize = true;
 				pnlPhones.Controls.Add(lblPhone);
 				m_phoneHeight = lblPhone.Height;
-				lblPhone.Size = new Size(kPhoneLabelWidth, m_phoneHeight);
 				lblPhone.AutoSize = false;
+				lblPhone.Size = new Size(kPhoneLabelWidth, m_phoneHeight);
 				lblPhone.BringToFront();
 
 				// Set the phone's magnified tooltip.

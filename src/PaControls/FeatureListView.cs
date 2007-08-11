@@ -461,7 +461,7 @@ namespace SIL.Pa.Controls
 			}
 
 			TextRenderer.DrawText(e.Graphics, e.Item.Text, fnt, rc, clrText,
-				TextFormatFlags.VerticalCenter);
+				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping);
 		}
 
 		/// ------------------------------------------------------------------------------------
