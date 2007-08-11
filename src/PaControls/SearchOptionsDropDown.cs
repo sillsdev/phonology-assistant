@@ -51,7 +51,10 @@ namespace SIL.Pa.Controls
 			tonePicker.Tag = chkTone;
 			lengthPicker.Tag = chkLength;
 
-			SetupPickers();
+			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
+			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
+			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
+			LayoutDropDown();
 
 			ShowApplyToAll = false;
 			m_query = new SearchQuery();
@@ -80,12 +83,8 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetupPickers()
+		protected void LayoutDropDown()
 		{
-			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
-			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
-			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
-
 			int dyGrpPickerDiff = grpTone.Height - tonePicker.Height;
 			int dxGrpPickerDiff = grpTone.Width - tonePicker.Width;
 
@@ -121,7 +120,8 @@ namespace SIL.Pa.Controls
 			chkTone.Top = grpTone.Top - 3;
 			chkLength.Top = grpLength.Top - 3;
 			
-			Height = grpUncertainties.Bottom + lnkHelp.Height + 15;
+			Height = (grpUncertainties.Visible ? grpUncertainties.Bottom :
+				grpLength.Bottom) + lnkHelp.Height + 15;
 		}
 		
 		/// ------------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ namespace SIL.Pa.Controls
 		public CIEOptionsDropDown()
 		{
 			InitializeComponent();
-		
+			LayoutDropDown();
 			CIEOptions = (PaApp.Project != null ? PaApp.Project.CIEOptions.Clone() : new CIEOptions());
 			
 			rbAfter.Font = FontHelper.UIFont;
