@@ -170,20 +170,6 @@
     <Compile Include="CIEOptionsDropDown.Designer.cs">
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
     </Compile>
-    <Compile Include="ColorPickerDropDown.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ColorPickerMatrix.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ColorPickerMatrix.Designer.cs">
-      <DependentUpon>ColorPickerMatrix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ColorPickerStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ColorPickerStrings.resx</DependentUpon>
-    </Compile>
     <Compile Include="DockAndAutoHideButtons.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -367,19 +353,6 @@
     <EmbeddedResource Include="CIEOptionsDropDown.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ColorPickerDropDown.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ColorPickerDropDown.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ColorPickerMatrix.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ColorPickerMatrix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ColorPickerStrings.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ColorPickerStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
