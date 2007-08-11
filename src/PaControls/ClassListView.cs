@@ -419,7 +419,10 @@ namespace SIL.Pa.Controls
 		{
 			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
 			if (item != null)
+			{
 				item.InEditMode = true;
+				item.Text = item.Text.Trim();
+			}
 
 			base.OnBeforeLabelEdit(e);
 		}
@@ -435,9 +438,9 @@ namespace SIL.Pa.Controls
 
 			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
 
-			if (item != null)
+			if (e.Label != null && item != null)
 			{
-				if (DoesClassNameExist(e.Label, item, true))
+				if (e.Label.Trim() == item.Text || DoesClassNameExist(e.Label, item, true))
 					e.CancelEdit = true;
 				else
 					item.IsDirty = true;
@@ -551,13 +554,20 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool DoesClassNameExist(string className, ClassListViewItem origClassInfo, bool showMsg)
 		{
+			if (className != null)
+				className = className.Trim();
+
 			// Ensure the new class doesn't have a duplicate class name
 			foreach (ClassListViewItem item in Items)
 			{
-				if (item.Text == className && item != origClassInfo)
+				if (item.Text.Trim() == className && item != origClassInfo)
 				{
-					STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
-						className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					if (showMsg)
+					{
+						STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
+							className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					}
+					
 					return true;
 				}
 			}

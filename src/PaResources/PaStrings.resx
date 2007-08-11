@@ -136,10 +136,6 @@
   <data name="kstidCloseClassSymbol" xml:space="preserve">
     <value>&gt;</value>
   </data>
-  <data name="kstidCopyOfPrefix" xml:space="preserve">
-    <value>Copy of </value>
-    <comment>Prefix for names of copied items</comment>
-  </data>
   <data name="kstidDeleteItemMsg" xml:space="preserve">
     <value>Are you sure you want to delete {0} '{1}'?</value>
     <comment>Format for msg displayed when the user deletes a category, folder or document. Parameter 0 is the value for kstidCategory, or kstidFolder, or kstidDocument. Parameter 1 is the name of the item.</comment>

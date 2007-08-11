@@ -589,7 +589,8 @@ namespace SIL.Pa.Data
 		/// by commas.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string PhoneticParser_CommaDelimited(string phonetic, bool normalize)
+		public string PhoneticParser_CommaDelimited(string phonetic, bool normalize,
+			bool removeDuplicates)
 		{
 			Dictionary<int, string[]> uncertainPhones;
 			string[] phones = PhoneticParser(phonetic, normalize, out uncertainPhones);
@@ -600,12 +601,14 @@ namespace SIL.Pa.Data
 			StringBuilder commaDelimitedPhones = new StringBuilder();
 			for (int i = 0; i < phones.Length; i++)
 			{
-				commaDelimitedPhones.Append(phones[i]);
-				if (i < phones.Length - 1)
+				if (!removeDuplicates || commaDelimitedPhones.ToString().IndexOf(phones[i]) < 0)
+				{
+					commaDelimitedPhones.Append(phones[i]);
 					commaDelimitedPhones.Append(',');
+				}
 			}
 
-			return commaDelimitedPhones.ToString();
+			return commaDelimitedPhones.ToString().TrimEnd((", ").ToCharArray());
 		}
 
 		/// ------------------------------------------------------------------------------------

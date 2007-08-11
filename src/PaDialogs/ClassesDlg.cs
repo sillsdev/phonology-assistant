@@ -231,9 +231,19 @@ namespace SIL.Pa.Dialogs
 				ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					item = CopyAndInsertItem(item,
-						ResourceHelper.GetString("kstidCopyOfPrefix") + item.Text);
-					
+					string baseName =
+						string.Format(Properties.Resources.kstidClassCopyOfPrefix, item.Text);
+
+					string newName = baseName;
+
+					int i = 1;
+					while (lvClasses.DoesClassNameExist(newName, null, false))
+					{
+						newName = string.Format(Properties.Resources.kstidClassCopyNameFormat,
+							baseName, i++);
+					}
+
+					item = CopyAndInsertItem(item, newName);
 					lvClasses.LabelEdit = true;
 					item.BeginEdit();
 				}

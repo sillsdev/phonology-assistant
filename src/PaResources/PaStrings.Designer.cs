@@ -106,15 +106,6 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy of .
-        /// </summary>
-        internal static string kstidCopyOfPrefix {
-            get {
-                return ResourceManager.GetString("kstidCopyOfPrefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete {0} &apos;{1}&apos;?.
         /// </summary>
         internal static string kstidDeleteItemMsg {

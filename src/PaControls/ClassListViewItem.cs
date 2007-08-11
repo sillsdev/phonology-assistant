@@ -194,7 +194,7 @@ namespace SIL.Pa.Controls
 			get
 			{
 				SearchClass srchClass = new SearchClass();
-				srchClass.Name = Text;
+				srchClass.Name = (Text ?? Text.Trim());
 				srchClass.SearchClassType = ClassType;
 				srchClass.Pattern = Pattern;
 				return srchClass;

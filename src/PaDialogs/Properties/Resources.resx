@@ -474,4 +474,12 @@
   <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
     <value>There are no FieldWorks projects found on this computer.</value>
   </data>
+  <data name="kstidClassCopyNameFormat" xml:space="preserve">
+    <value>{0} ({1:D2})</value>
+    <comment>Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.</comment>
+  </data>
+  <data name="kstidClassCopyOfPrefix" xml:space="preserve">
+    <value>Copy of {0}</value>
+    <comment>Prefix for names of copied items</comment>
+  </data>
 </root>

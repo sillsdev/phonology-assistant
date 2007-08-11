@@ -410,6 +410,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
+			txtClassName.Text = txtClassName.Text.Trim();
+
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
@@ -435,7 +437,7 @@ namespace SIL.Pa.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = DataUtils.IPACharCache.PhoneticParser_CommaDelimited(phones, true);
+				phones = DataUtils.IPACharCache.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}

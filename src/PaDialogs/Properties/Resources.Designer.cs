@@ -172,6 +172,24 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} ({1:D2}).
+        /// </summary>
+        internal static string kstidClassCopyNameFormat {
+            get {
+                return ResourceManager.GetString("kstidClassCopyNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy of {0}.
+        /// </summary>
+        internal static string kstidClassCopyOfPrefix {
+            get {
+                return ResourceManager.GetString("kstidClassCopyOfPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Field be Interlinear?.
         /// </summary>
         internal static string kstidCustomFieldGridHdgInterlinear {
