@@ -78,9 +78,10 @@ namespace SIL.Pa.Controls
 				Clear();
 			else
 			{
-				m_searchQuery = query.Clone();
 				txtPattern.Text = (string.IsNullOrEmpty(query.Pattern) ?
 					EmptyPattern : query.Pattern);
+				
+				m_searchQuery = query.Clone();
 			}
 		}
 
@@ -830,10 +831,15 @@ namespace SIL.Pa.Controls
 
 			if (data == null)
 			{
-				// What's being dragged is not appropriate to be dropped in a search
-				// pattern, therefore, indicate that dropping not allowed.
-				e.Effect = DragDropEffects.None;
-				return;
+				// Check if the data is plain text.
+				string pattern = e.Data.GetData(typeof(string)) as string;
+				if (pattern == null)
+				{
+					// What's being dragged is not appropriate to be dropped in a search
+					// pattern, therefore, indicate that dropping not allowed.
+					e.Effect = DragDropEffects.None;
+					return;
+				}
 			}
 
 			if (!txtPattern.Focused)
@@ -864,6 +870,14 @@ namespace SIL.Pa.Controls
 				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 
 			// Is what was dropped appropriate to be dropped in a search pattern?
+			if (query == null)
+			{
+				// See if the data is plain text.
+				string pattern = e.Data.GetData(typeof(string)) as string;
+				if (pattern != null)
+					query = new SearchQuery(pattern);
+			}
+
 			if (query != null)
 			{
 				if (query.PatternOnly)
