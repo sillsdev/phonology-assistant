@@ -58,7 +58,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
-			base.DoubleBuffered = true;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
