@@ -467,7 +467,8 @@ namespace SIL.Pa
 					object value = typeof(SaAudioDocumentReader).InvokeMember(
 						fieldInfo.SaFieldName, flags, null, reader, null);
 
-					m_recCacheEntry.SetValue(fieldInfo.FieldName, value.ToString());
+					if (value != null)
+						m_recCacheEntry.SetValue(fieldInfo.FieldName, value.ToString());
 				}
 				catch { }
 			}

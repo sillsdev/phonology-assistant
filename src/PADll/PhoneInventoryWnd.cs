@@ -25,11 +25,11 @@ namespace SIL.Pa
 		private SizableDropDownPanel m_sddpBFeatures;
 		private CustomDropDown m_bFeatureDropdown;
 		private FeatureListView m_lvBFeatures;
+		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
+		private ToolTip m_phoneToolTip;
+		private ToolTip m_bFeatureToolTip;
 		private readonly ITMAdapter m_mainMenuAdapter;
 		private readonly ITMAdapter m_tmAdapter;
-		private readonly ExperimentalTranscriptionControl m_experimentalTransCtrl;
-		private readonly ToolTip m_phoneToolTip;
-		private readonly ToolTip m_bFeatureToolTip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -90,7 +90,75 @@ namespace SIL.Pa
 
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			Application.Idle += Application_Idle;
+			Disposed += PhoneInventoryWnd_Disposed;
 		}
+
+		#region Dispose method
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void PhoneInventoryWnd_Disposed(object sender, EventArgs e)
+		{
+			Disposed -= PhoneInventoryWnd_Disposed;
+			
+			if (m_bFeatureToolTip != null)
+			{
+				m_bFeatureToolTip.Dispose();
+				m_bFeatureToolTip = null;
+			}
+
+			if (m_phoneToolTip != null)
+			{
+				m_phoneToolTip.Dispose();
+				m_phoneToolTip = null;
+			}
+
+			if (m_sddpAFeatures != null && !m_sddpAFeatures.IsDisposed)
+			{
+				m_sddpAFeatures.Dispose();
+				m_sddpAFeatures = null;
+			}
+
+			if (m_sddpBFeatures != null && !m_sddpBFeatures.IsDisposed)
+			{
+				m_sddpBFeatures.Dispose();
+				m_sddpBFeatures = null;
+			}
+
+			if (m_experimentalTransCtrl != null && !m_experimentalTransCtrl.IsDisposed)
+			{
+				m_experimentalTransCtrl.Dispose();
+				m_experimentalTransCtrl = null;
+			}
+
+			if (m_lvAFeatures != null && !m_lvAFeatures.IsDisposed)
+			{
+				m_lvAFeatures.Dispose();
+				m_lvAFeatures = null;
+			}
+
+			if (m_lvBFeatures != null && !m_lvBFeatures.IsDisposed)
+			{
+				m_lvBFeatures.Dispose();
+				m_lvBFeatures = null;
+			}
+
+			if (m_aFeatureDropdown != null && !m_aFeatureDropdown.IsDisposed)
+			{
+				m_aFeatureDropdown.Dispose();
+				m_aFeatureDropdown = null;
+			}
+
+			if (m_bFeatureDropdown != null && !m_bFeatureDropdown.IsDisposed)
+			{
+				m_bFeatureDropdown.Dispose();
+				m_bFeatureDropdown = null;
+			}
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
