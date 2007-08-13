@@ -101,7 +101,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (AboutDlg dlg = new AboutDlg(true, true))
+			using (AboutDlg dlg = new AboutDlg(true, false))
 				dlg.ShowDialog(this);
 
 			return true;

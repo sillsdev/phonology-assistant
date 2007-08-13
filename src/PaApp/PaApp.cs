@@ -113,7 +113,7 @@ namespace SIL.Pa
 		{
 			if (Application.ExecutablePath.ToLower().EndsWith("pa.exe"))
 			{
-				s_splashScreen = new SplashScreen(true, true);
+				s_splashScreen = new SplashScreen(false, false);
 				s_splashScreen.Show();
 				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
 			}
