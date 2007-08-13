@@ -566,7 +566,12 @@ namespace SIL.Pa.FFSearchEngine
 
 			foreach (BFeature feature in DataUtils.BFeatureCache.Values)
 			{
+				// Remove those whose short name was specified.
 				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
+				pattern = pattern.Replace(ptrnFeature, string.Empty);
+
+				// Remove those whose full name was specified.
+				ptrnFeature = string.Format("[+{0}]", feature.FullName.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
 			}
 

@@ -135,7 +135,20 @@ namespace SIL.Pa.Data
 			{
 				featureName = CleanUpFeatureName(featureName);
 				BFeature feature;
-				return (TryGetValue(featureName, out feature) ? feature : null);
+
+				if (TryGetValue(featureName, out feature))
+					return feature;
+
+				// If we failed to get a feature object from the specified name, then check
+				// if the name is the full name of a feature by going through the collection
+				// to see if one of their full names matches featureName.
+				foreach (BFeature feat in this.Values)
+				{
+					if (featureName == feat.FullName.ToLower())
+						return feat;
+				}
+
+				return null;
 			}
 			set
 			{
