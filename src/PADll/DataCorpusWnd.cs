@@ -175,14 +175,36 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewUndocked()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Saves some misc. settings.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSettings()
+		public void SaveSettings()
 		{
+			m_grid.SaveSettings();
+			PaApp.SettingsHandler.SaveFormProperties(this);
+			
 			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewDocking()
+		{
+			SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -305,7 +327,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = false;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = false;
+			
 			return false;
 		}
 
@@ -316,7 +340,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEndViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = true;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = true;
+		
 			return false;
 		}
 
@@ -390,19 +416,6 @@ namespace SIL.Pa
 			m_grid.Focus();
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			m_grid.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			SaveSettings();
-			base.OnFormClosing(e);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the record pane with the raw record query for the current row.

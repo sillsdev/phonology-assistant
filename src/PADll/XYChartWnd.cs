@@ -292,32 +292,6 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-
-			SaveSettings();
-
-			if (m_slidingPanel.SlideFromLeft)
-			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
-					!splitOuter.Panel1Collapsed);
-			}
-			else
-			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
-					!splitOuter.Panel2Collapsed);
-			}
-
-			ptrnBldrComponent.SaveSettings(Name);
-			base.OnFormClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Clean up a bit.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -359,8 +333,31 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSettings()
+		public void ViewUndocked()
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SaveSettings()
+		{
+			PaApp.SettingsHandler.SaveFormProperties(this);
+
+			if (m_slidingPanel.SlideFromLeft)
+			{
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
+					!splitOuter.Panel1Collapsed);
+			}
+			else
+			{
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
+					!splitOuter.Panel2Collapsed);
+			}
+
+			ptrnBldrComponent.SaveSettings(Name);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible",
 				m_rsltVwMngr.RecordViewOn);
 
@@ -384,6 +381,16 @@ namespace SIL.Pa
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewDocking()
+		{
+			SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -495,7 +502,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = false;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = false;
+			
 			return false;
 		}
 
@@ -506,7 +515,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEndViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = true;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = true;
+			
 			return false;
 		}
 

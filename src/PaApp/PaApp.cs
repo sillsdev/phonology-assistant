@@ -40,9 +40,12 @@ namespace SIL.Pa
 	public interface ITabView
 	{
 		Control DockableContainer { get;}
+		void ViewDocking();
 		void ViewDocked();
 		void ViewUndocking();
+		void ViewUndocked();
 		void ViewActivatedWhileDocked();
+		void SaveSettings();
 		ToolStripProgressBar ProgressBar { get;}
 		ToolStripStatusLabel ProgressBarLabel { get;}
 		ToolStripStatusLabel StatusBarLabel { get;}

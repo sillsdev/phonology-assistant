@@ -448,29 +448,6 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			// Save the value of the show default ambiguous sequences check box.
-			if (chkShowDefaults.Enabled)
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "showdefault", chkShowDefaults.Checked);
-
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			SaveSettings();
-
-			PaApp.SettingsHandler.SaveGridProperties(gridAmbiguous);
-			PaApp.SettingsHandler.SaveGridProperties(gridPhones);
-
-
-			// Check if changes were made.
-
-			base.OnFormClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Clean up a bit.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -521,8 +498,16 @@ namespace SIL.Pa
 		/// Saves some misc. settings.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSettings()
+		public void SaveSettings()
 		{
+			// Save the value of the show default ambiguous sequences check box.
+			if (chkShowDefaults.Enabled)
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "showdefault", chkShowDefaults.Checked);
+
+			PaApp.SettingsHandler.SaveFormProperties(this);
+			PaApp.SettingsHandler.SaveGridProperties(gridAmbiguous);
+			PaApp.SettingsHandler.SaveGridProperties(gridPhones);
+			
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
@@ -544,6 +529,25 @@ namespace SIL.Pa
 		public void ViewUndocking()
 		{
 			m_mainMenuAdapter.AllowUpdates = true;
+			SaveSettings();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewUndocked()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewDocking()
+		{
 			SaveSettings();
 		}
 

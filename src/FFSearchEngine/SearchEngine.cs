@@ -591,11 +591,11 @@ namespace SIL.Pa.FFSearchEngine
 			while ((start = pattern.IndexOf(DataUtils.kDottedCircleC, start)) >= 0)
 			{
 				int end = pattern.IndexOf("]", start);
-				if (end > start)
-				{
-					start += 1;
-					pattern = pattern.Remove(start, end - start);
-				}
+				if (end < start)
+					break;
+
+				start++;
+				pattern = pattern.Remove(start, end - start);
 			}
 
 			return pattern;

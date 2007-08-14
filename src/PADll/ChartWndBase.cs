@@ -182,8 +182,26 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public void SaveSettings()
+		{
+			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
+			PaApp.SettingsHandler.SaveFormProperties(this);
+
+			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void ViewUndocking()
 		{
+			if (m_chrGrid.Grid is CharGridView)
+				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
+	
 			m_mainMenuAdapter.AllowUpdates = true;
 			SaveSettings();
 		}
@@ -193,11 +211,23 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSettings()
+		public void ViewUndocked()
 		{
-			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
+			if (m_chrGrid.Grid is CharGridView)
+				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewDocking()
+		{
+			SaveSettings();
+
+			if (m_chrGrid.Grid is CharGridView)
+				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -220,6 +250,9 @@ namespace SIL.Pa
 			catch { }
 		
 			m_mainMenuAdapter.AllowUpdates = false;
+
+			if (m_chrGrid.Grid is CharGridView)
+				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -300,7 +333,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = false;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = false;
+			
 			return false;
 		}
 
@@ -311,7 +346,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEndViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = true;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = true;
+	
 			return false;
 		}
 
@@ -354,24 +391,12 @@ namespace SIL.Pa
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			HistogramOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
 
+			m_chrGrid.Reset();
 			Initialize();
 			
 			ViewDocked();
 			PaApp.UninitializeProgressBar();
 			MinimumSize = PaApp.MinimumViewWindowSize;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save settings
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			SaveSettings();
-			base.OnFormClosing(e);
 		}
 
 		///// ------------------------------------------------------------------------------------

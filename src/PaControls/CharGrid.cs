@@ -44,12 +44,12 @@ namespace SIL.Pa.Controls
 		private CharGridHeader m_currentColHeader = null;
 		private Type m_owningViewType = null;
 		private CellKBMovingCellHelper m_phoneMovingHelper;
-		private readonly List<CharGridHeader> m_colHdrs;
-		private readonly List<CharGridHeader> m_rowHdrs;
-		private readonly CharGridHeaderCollectionPanel m_pnlColHeaders;
-		private readonly CharGridHeaderCollectionPanel m_pnlRowHeaders;
-		private readonly Font m_chartFont;
-		private readonly PhoneInfoPopup m_phoneInfoPopup;
+		private List<CharGridHeader> m_colHdrs;
+		private List<CharGridHeader> m_rowHdrs;
+		private CharGridHeaderCollectionPanel m_pnlColHeaders;
+		private CharGridHeaderCollectionPanel m_pnlRowHeaders;
+		private Font m_chartFont;
+		private PhoneInfoPopup m_phoneInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -77,6 +77,42 @@ namespace SIL.Pa.Controls
 
 			AdjustRowHeadingLocation();
 			AdjustColumnHeadingLocation();
+
+			Disposed += CharGrid_Disposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void CharGrid_Disposed(object sender, EventArgs e)
+		{
+			Disposed -= CharGrid_Disposed;
+
+			m_rowHdrs = null;
+			m_colHdrs = null;
+
+			if (m_chartFont != null)
+				m_chartFont.Dispose();
+
+			if (m_pnlColHeaders != null && !m_pnlColHeaders.IsDisposed)
+			{
+				m_pnlColHeaders.Dispose();
+				m_pnlColHeaders = null;
+			}
+
+			if (m_pnlRowHeaders != null && !m_pnlRowHeaders.IsDisposed)
+			{
+				m_pnlRowHeaders.Dispose();
+				m_pnlRowHeaders = null;
+			}
+
+			if (m_phoneInfoPopup != null && !m_phoneInfoPopup.IsDisposed)
+			{
+				m_phoneInfoPopup.Dispose();
+				m_phoneInfoPopup = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1810,7 +1846,7 @@ namespace SIL.Pa.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	internal class CharGridView : DataGridView
+	public class CharGridView : DataGridView
 	{
 		delegate void AutoScrollPositionDelegate(ScrollableControl sender, Point p);
 		private Panel m_owner;
@@ -1820,9 +1856,19 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal CharGridView()
+		public CharGridView()
 		{
 			DoubleBuffered = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetDoubleBuffering(bool turnOn)
+		{
+			DoubleBuffered = turnOn;
 		}
 
 		/// ------------------------------------------------------------------------------------

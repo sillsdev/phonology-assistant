@@ -264,8 +264,39 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSettings()
+		public void ViewUndocked()
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SaveSettings()
+		{
+			PaApp.SettingsHandler.SaveFormProperties(this);
+
+			if (m_slidingPanel.SlideFromLeft)
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
+			else
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel2Collapsed);
+
+			tvSavedPatterns.SaveSettings();
+
+			// Save the list of recently used queries.
+			List<SearchQuery> recentList = new List<SearchQuery>();
+			for (int i = 0; i < lstRecentPatterns.Items.Count; i++)
+				recentList.Add(lstRecentPatterns.Items[i] as SearchQuery);
+
+			string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
+			if (recentList.Count > 0)
+				STUtils.SerializeData(path, recentList);
+			else
+				File.Delete(path);
+
+			ptrnBldrComponent.SaveSettings(Name);
+
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RecordViewOn);
 
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
@@ -279,6 +310,16 @@ namespace SIL.Pa
 
 			splitRatio = splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ViewDocking()
+		{
+			SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -393,7 +434,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = false;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = false;
+			
 			return false;
 		}
 
@@ -404,7 +447,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEndViewChangingStatus(object args)
 		{
-			m_tmAdapter.AllowUpdates = true;
+			if (args == this)
+				m_tmAdapter.AllowUpdates = true;
+			
 			return false;
 		}
 
@@ -448,39 +493,6 @@ namespace SIL.Pa
 			{
 				lstRecentPatterns.Items.Clear();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-
-			SaveSettings();
-
-			if (m_slidingPanel.SlideFromLeft)
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
-			else
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel2Collapsed);
-
-			tvSavedPatterns.SaveSettings();
-
-			// Save the list of recently used queries.
-			List<SearchQuery> recentList = new List<SearchQuery>();
-			for (int i = 0; i < lstRecentPatterns.Items.Count; i++)
-				recentList.Add(lstRecentPatterns.Items[i] as SearchQuery);
-
-			string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
-			if (recentList.Count > 0)
-				STUtils.SerializeData(path, recentList);
-			else
-				File.Delete(path);
-
-			ptrnBldrComponent.SaveSettings(Name);
-			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

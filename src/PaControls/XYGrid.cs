@@ -462,7 +462,8 @@ namespace SIL.Pa.Controls
 		{
 			base.OnColumnWidthChanged(e);
 
-			if (e.Column.Index < m_layout.ColumnWidths.Count)
+			if (m_layout != null && m_layout.ColumnWidths != null &&
+				e.Column.Index < m_layout.ColumnWidths.Count)
 			{
 				IsDirty = true;
 				m_layout.ColumnWidths[e.Column.Index] = e.Column.Width;

@@ -135,7 +135,7 @@
     <value>10, 10</value>
   </data>
   <data name="m_chrGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>553, 276</value>
+    <value>610, 342</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="m_chrGrid.TabIndex" type="System.Int32, mscorlib">
@@ -145,7 +145,7 @@
     <value>m_chrGrid</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharGrid, PaControls, Version=1.0.2475.41157, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharGrid, PaControls, Version=1.0.2781.26945, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -178,7 +178,7 @@
     <value>10, 1</value>
   </data>
   <data name="m_histogram.Size" type="System.Drawing.Size, System.Drawing">
-    <value>553, 187</value>
+    <value>610, 235</value>
   </data>
   <data name="m_histogram.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -187,7 +187,7 @@
     <value>m_histogram</value>
   </data>
   <data name="&gt;&gt;m_histogram.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.Histogram, PaControls, Version=1.0.2475.41157, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.Histogram, PaControls, Version=1.0.2781.26945, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_histogram.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -211,10 +211,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>573, 492</value>
+    <value>630, 606</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>286</value>
+    <value>352</value>
   </data>
   <data name="splitContainer1.SplitterWidth" type="System.Int32, mscorlib">
     <value>8</value>
@@ -244,7 +244,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlMasterOuter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>573, 492</value>
+    <value>630, 606</value>
   </data>
   <data name="pnlMasterOuter.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -268,7 +268,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>573, 492</value>
+    <value>630, 606</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>

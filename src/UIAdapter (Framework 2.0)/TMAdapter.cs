@@ -2733,11 +2733,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		public void Dispose()
 		{
 			Application.Idle -= HandleItemUpdates;
-			
-			m_parentControl.Controls.Remove(m_tspLeft);
-			m_parentControl.Controls.Remove(m_tspRight);
-			m_parentControl.Controls.Remove(m_tspTop);
-			m_parentControl.Controls.Remove(m_tspBottom);
+
+			if (m_parentControl != null)
+			{
+				m_parentControl.Controls.Remove(m_tspLeft);
+				m_parentControl.Controls.Remove(m_tspRight);
+				m_parentControl.Controls.Remove(m_tspTop);
+				m_parentControl.Controls.Remove(m_tspBottom);
+			}
 
 			if (m_menuBar != null)
 			{
@@ -2768,7 +2771,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 				m_cmenus.Clear();
 			}
-
 
 			if (m_barLocationOrder != null)
 			{
@@ -2801,10 +2803,17 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (m_htItemTags != null)
 				m_htItemTags.Clear();
 
-			m_tspTop.Dispose();
-			m_tspBottom.Dispose();
-			m_tspLeft.Dispose();
-			m_tspRight.Dispose();
+			if (m_tspTop != null && !m_tspTop.IsDisposed)
+				m_tspTop.Dispose();
+
+			if (m_tspBottom != null && !m_tspBottom.IsDisposed)
+				m_tspBottom.Dispose();
+
+			if (m_tspLeft != null && !m_tspLeft.IsDisposed)
+				m_tspLeft.Dispose();
+
+			if (m_tspRight != null && !m_tspRight.IsDisposed)
+				m_tspRight.Dispose();
 
 			m_menuBar = null;
 			m_rufMarkerItem = null;
