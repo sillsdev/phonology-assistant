@@ -18,10 +18,12 @@ namespace SIL.Pa.Controls
 
 		private TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
-					TextFormatFlags.LeftAndRightPadding;
+					TextFormatFlags.LeftAndRightPadding | TextFormatFlags.PreserveGraphicsClipping;
 
 		private bool m_mnemonicGeneratesClick = false;
 		private Control m_ctrlRcvingFocusOnMnemonic = null;
+		private Rectangle m_rcText;
+		private bool m_clipTextForChildControls = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,6 +34,7 @@ namespace SIL.Pa.Controls
 		{
 			SetStyle(ControlStyles.UseTextForAccessibility, true);
 			base.Font = FontHelper.UIFont;
+			m_rcText = ClientRectangle;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -138,13 +141,79 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ClipTextForChildControls
+		{
+			get { return m_clipTextForChildControls; }
+			set { m_clipTextForChildControls = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Calculates the rectangle of the text when there are child controls. This method
+		/// assumes that controls to the right of the text should clip the text. However, if
+		/// the controls are above and below the text, this method will probably screw up
+		/// the text drawing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CalculateTextRectangle()
+		{
+			m_rcText = ClientRectangle;
+
+			if (!m_clipTextForChildControls)
+				return;
+
+			int rightExtent = m_rcText.Right;
+
+			foreach (Control child in Controls)
+				rightExtent = Math.Min(rightExtent, child.Left);
+
+			if (rightExtent != m_rcText.Right &&
+				m_rcText.Contains(new Point(rightExtent, m_rcText.Top + m_rcText.Height / 2)))
+			{
+				m_rcText.Width -= (m_rcText.Right - rightExtent);
+
+				// Give a bit more to account for the 
+				if ((m_txtFmtFlags & TextFormatFlags.LeftAndRightPadding) > 0)
+					m_rcText.Width += 8;
+			}
+
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnControlAdded(ControlEventArgs e)
+		{
+			base.OnControlAdded(e);
+			CalculateTextRectangle();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnControlRemoved(ControlEventArgs e)
+		{
+			base.OnControlRemoved(e);
+			CalculateTextRectangle();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Make sure to repaint when resizing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs eventargs)
+		protected override void OnResize(EventArgs e)
 		{
-			base.OnResize(eventargs);
-			Invalidate();
+			base.OnResize(e);
+			CalculateTextRectangle();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,7 +227,7 @@ namespace SIL.Pa.Controls
 
 			if (!string.IsNullOrEmpty(Text))
 			{
-				TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle,
+				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText,
 					SystemColors.ControlText, m_txtFmtFlags);
 			}
 		}

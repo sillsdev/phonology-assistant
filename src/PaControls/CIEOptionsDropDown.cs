@@ -22,6 +22,7 @@ namespace SIL.Pa.Controls
 		public CIEOptionsDropDown()
 		{
 			InitializeComponent();
+			grpUncertainties.Visible = false;
 			LayoutDropDown();
 			CIEOptions = (PaApp.Project != null ? PaApp.Project.CIEOptions.Clone() : new CIEOptions());
 			
@@ -29,7 +30,9 @@ namespace SIL.Pa.Controls
 			rbBefore.Font = FontHelper.UIFont;
 			rbBoth.Font = FontHelper.UIFont;
 			lnkApply.Font = FontHelper.UIFont;
-			
+
+			rbBoth.Left = rbAfter.Left = rbBefore.Left = chkTone.Left;
+
 			lnkApply.Top = ClientSize.Height -
 				((ClientSize.Height - grpLength.Bottom) / 2) - (lnkApply.Height / 2);
 

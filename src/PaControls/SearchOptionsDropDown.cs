@@ -85,8 +85,20 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected void LayoutDropDown()
 		{
-			int dyGrpPickerDiff = grpTone.Height - tonePicker.Height;
-			int dxGrpPickerDiff = grpTone.Width - tonePicker.Width;
+			Padding grpPadding = new Padding(8);
+			grpStress.Padding = grpStress.Padding = grpTone.Padding = grpLength.Padding;
+
+			// Difference between the height of the picker controls
+			// and the group in which they are contained.
+			int dyGrpPickerDiff = 13 + (grpTone.Padding.Top * 2);
+
+			// Difference between the width of the picker controls
+			// and the group in which they are contained.
+			int dxGrpPickerDiff = grpTone.Padding.Left * 2;
+
+			// Get the difference between a group's left edge and the
+			// left edge of the check box associated with that group.
+			int dxGrpChkDiff = chkTone.Left - grpTone.Left;
 
 			stressPicker.ItemSize = new Size(stressPicker.PreferredItemHeight,
 				stressPicker.PreferredItemHeight);
@@ -98,15 +110,23 @@ namespace SIL.Pa.Controls
 				lengthPicker.PreferredItemHeight);
 
 			// Set widths of groups.
-			int newWidth =  tonePicker.GetPreferredWidth(7) + dxGrpPickerDiff;
-			if (newWidth > grpTone.Width)
-			{
-				grpStress.Width = newWidth;
-				grpTone.Width = newWidth;
-				grpLength.Width = newWidth;
-				grpUncertainties.Width = newWidth;
-				Width = (grpTone.Left * 2) + newWidth;
-			}
+			int maxGrpsWidth = tonePicker.GetPreferredWidth(7) + dxGrpPickerDiff;
+			if (grpUncertainties.Visible)
+				maxGrpsWidth = Math.Max(maxGrpsWidth, grpUncertainties.Width);
+
+			grpStress.Width = grpTone.Width = maxGrpsWidth;
+			grpLength.Width = grpUncertainties.Width = maxGrpsWidth;
+			Width = maxGrpsWidth + 24;
+
+			// Center the controls. (Subtract 1 to account for the border.
+			int newLeft = ((Width - maxGrpsWidth) / 2) - 1;
+			grpStress.Left = grpTone.Left = newLeft;
+			grpLength.Left = grpUncertainties.Left = newLeft;
+
+			// Align the checkboxes properly
+			newLeft = grpTone.Left + dxGrpChkDiff;
+			chkStress.Left = chkTone.Left = newLeft;
+			chkLength.Left = chkIgnoreDiacritics.Left = newLeft;
 
 			// Set heights of groups.
 			grpStress.Height = stressPicker.PreferredHeight + dyGrpPickerDiff;
@@ -123,18 +143,18 @@ namespace SIL.Pa.Controls
 			Height = (grpUncertainties.Visible ? grpUncertainties.Bottom :
 				grpLength.Bottom) + lnkHelp.Height + 15;
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		protected override void OnVisibleChanged(EventArgs e)
 		{
-			base.OnHandleCreated(e);
+			base.OnVisibleChanged(e);
 
 			// This is a kludge but I don't know any othe way to give the drop-down focus.
-			if (!PaApp.DesignMode)
+			if (Visible && !PaApp.DesignMode)
 				SendKeys.Send("{DOWN}");
 		}
 
