@@ -21,6 +21,7 @@ namespace SIL.Pa.Controls
 	public partial class PatternTextBox : UserControl, IxCoreColleague
 	{
 		public event EventHandler SearchQueryChanged;
+		public event EventHandler PatternTextChanged;
 
 		//private bool m_allowFullSearchPattern = false;
 		//private bool m_ignoreTextChange = false;
@@ -71,9 +72,23 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetSearchQuery(SearchQuery query)
 		{
+			SetSearchQuery(query, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set's the pattern text box's search query, cloning it if specified by the
+		/// cloneQuery flag.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetSearchQuery(SearchQuery query, bool allowTextChangedEvent)
+		{
 			if (query == m_searchQuery || (query != null && query.IsPatternRegExpression))
 				return;
 
+			if (!allowTextChangedEvent)
+				txtPattern.TextChanged -= txtPatternTextChanged;
+	
 			if (query == null)
 				Clear();
 			else
@@ -83,6 +98,12 @@ namespace SIL.Pa.Controls
 				
 				m_searchQuery = query.Clone();
 			}
+
+			if (!allowTextChangedEvent)
+				txtPattern.TextChanged += txtPatternTextChanged;
+
+			if (SearchQueryChanged != null)
+				SearchQueryChanged(this, EventArgs.Empty);
 		}
 
 		#region Properties
@@ -885,7 +906,7 @@ namespace SIL.Pa.Controls
 				else
 				{
 					// A full pattern was dropped so first clear out any pattern in the text box.
-					SetSearchQuery(query);
+					SetSearchQuery(query, true);
 				}
 			}
 
@@ -980,8 +1001,8 @@ namespace SIL.Pa.Controls
 				if (ptrTextBox.m_searchQuery.Pattern != txt.Text)
 				{
 					ptrTextBox.m_searchQuery.Pattern = txt.Text;
-					if (ptrTextBox.SearchQueryChanged != null)
-						ptrTextBox.SearchQueryChanged(ptrTextBox, EventArgs.Empty);
+					if (ptrTextBox.PatternTextChanged != null)
+						ptrTextBox.PatternTextChanged(ptrTextBox, EventArgs.Empty);
 				}
 
 				ptrTextBox.Invalidate();

@@ -1354,15 +1354,13 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
+			if (sender is ITabView)
+				(sender as ITabView).SaveSettings();
+			
 			// When the close reason is UserClosing, it means the user is closing
 			// an undocked view's form. In that case, we don't really allow the
 			// form to be closed, because it's just being docked.
-			if (e.CloseReason != CloseReason.UserClosing)
-			{
-				if (sender is ITabView)
-					(sender as ITabView).SaveSettings();
-			}
-			else if (!m_viewDocked)
+			if (!m_viewDocked && e.CloseReason == CloseReason.UserClosing) 
 			{
 				e.Cancel = true;
 				DockView(false);

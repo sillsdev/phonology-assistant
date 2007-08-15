@@ -774,7 +774,7 @@ namespace SIL.Pa
 		/// Updates the current search result view to indicate it needs to be refreshed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ptrnTextBox_SearchQueryChanged(object sender, EventArgs e)
+		private void ptrnTextBox_PatternTextChanged(object sender, EventArgs e)
 		{
 			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
 				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;

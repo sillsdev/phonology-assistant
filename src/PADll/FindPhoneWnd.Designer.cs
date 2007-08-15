@@ -409,7 +409,7 @@ namespace SIL.Pa
 			this.ptrnTextBox.Name = "ptrnTextBox";
 			this.ptrnTextBox.OwningForm = null;
 			this.ptrnTextBox.SearchQueryCategory = null;
-			this.ptrnTextBox.SearchQueryChanged += new System.EventHandler(this.ptrnTextBox_SearchQueryChanged);
+			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
 			this.ptrnTextBox.SizeChanged += new System.EventHandler(this.ptrnTextBox_SizeChanged);
 			// 
 			// lblCurrPattern

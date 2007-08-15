@@ -1858,22 +1858,13 @@ namespace SIL.Pa.Controls
 			// Calculate the center of the cell less half the width of the search item.
 			int itemLeft = rc.X + (rc.Width / 2) - (itemWidth / 2);
 
-			// Draw the search item's background, taking into consideration when the
-			// cell is selected. In that case, the highlighted background is made a
-			// little transparent so the row's selection color shows through.
-			Rectangle rcSearchItemBackground = new Rectangle(itemLeft, rc.Y, itemWidth, rc.Height - 1);
-			Color backColor = (m_currPaintingCellSelected ?
-				Color.FromArgb(90, PaApp.QuerySearchItemBackColor) : PaApp.QuerySearchItemBackColor);
-			e.Graphics.FillRectangle(new SolidBrush(backColor), rcSearchItemBackground);
+			// Draw the background color for the search item and the search item's phones.
+			DrawSearchItemBackground(e.Graphics, rc, itemWidth, itemLeft);
+			DrawSearchItemPhones(e.Graphics, wlentry.Phones, rc, srchItemOffset,
+				envAfterOffset, flags, itemLeft);
 
 			Color textColor = (m_currPaintingCellSelected ?
 				RowsDefaultCellStyle.SelectionForeColor : ForeColor);
-
-			// Draw the phones in the search item.
-			rc.X = itemLeft;
-			rc.Width = e.CellBounds.Right - itemLeft;
-			DrawPhones(e.Graphics, wlentry.Phones, srchItemOffset, envAfterOffset,
-				rc, PaApp.QuerySearchItemForeColor, flags, true);
 
 			// Draw the phones in the environment after.
 			rc.X = itemLeft + itemWidth;
@@ -1881,13 +1872,73 @@ namespace SIL.Pa.Controls
 			DrawPhones(e.Graphics, wlentry.Phones, envAfterOffset, wlentry.Phones.Length,
 				rc, textColor, flags, true);
 
-			// Draw the phones in the environment before.
-			rc.X = e.CellBounds.X;
-			rc.Width = itemLeft - e.CellBounds.X;
-			DrawPhones(e.Graphics, wlentry.Phones, srchItemOffset - 1, -1,
-				rc, textColor, flags, false);
+			if (itemLeft > e.CellBounds.X)
+			{
+				// Draw the phones in the environment before.
+				rc.X = e.CellBounds.X;
+				rc.Width = itemLeft - e.CellBounds.X;
+				DrawPhones(e.Graphics, wlentry.Phones, srchItemOffset - 1, -1,
+					rc, textColor, flags, false);
+			}
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, wlentry.WordCacheEntry);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paint the background color for the search item's rectangle.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void DrawSearchItemBackground(Graphics g, Rectangle rc, int width, int left)
+		{
+			// Take into consideration when the cell is selected. In that case, the highlighted
+			// background is made a little transparent so the row's selection color shows through.
+			Rectangle rcBackground = new Rectangle(left, rc.Y, width, rc.Height - 1);
+			
+			if (rcBackground.X < rc.X)
+			{
+				rcBackground.X = rc.X;
+				rcBackground.Width -= (rc.X - left);
+				if (rcBackground.Width >= rc.Width)
+					rcBackground.Width = rc.Width - 1;
+			}
+
+			Color backColor = (m_currPaintingCellSelected ?
+				Color.FromArgb(90, PaApp.QuerySearchItemBackColor) : PaApp.QuerySearchItemBackColor);
+			
+			g.FillRectangle(new SolidBrush(backColor), rcBackground);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void DrawSearchItemPhones(Graphics g, string[] phones, Rectangle cellBounds,
+			int begin, int end, TextFormatFlags flags, int left)
+		{
+			Rectangle rc = new Rectangle(left, cellBounds.Y,
+				cellBounds.Right - left, cellBounds.Height);
+
+			// I think there's a bug in .Net because the graphics clipping area seems to
+			// always be the entire grid. Therefore, using PreserveGraphicsClipping in the
+			// flags doesn't seem to do any good when the rectangle is outside the cell's
+			// border.
+			if (left >= cellBounds.X)
+				DrawPhones(g, phones, begin, end, rc, PaApp.QuerySearchItemForeColor, flags, true);
+			else
+			{
+				// At this point, we know the cell isn't big enough for everything
+				// and the search item's left edge is beyond the left edge of the
+				// cell. So draw an ellipsis.
+				rc.X = cellBounds.X;
+				rc.Width -= (cellBounds.X - left);
+				if (rc.Width >= cellBounds.Width)
+					rc.Width = cellBounds.Width - 1;
+
+				DrawPhones(g, new string[] { "..." }, 0, 1,
+					rc, PaApp.QuerySearchItemForeColor, flags, true);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1918,7 +1969,6 @@ namespace SIL.Pa.Controls
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, m_currPaintingCellEntry);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
