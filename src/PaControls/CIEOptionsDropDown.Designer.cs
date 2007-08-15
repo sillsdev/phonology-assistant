@@ -39,48 +39,48 @@ namespace SIL.Pa.Controls
 			// chkShowAllWords
 			// 
 			this.chkShowAllWords.Location = new System.Drawing.Point(205, 80);
-			this.chkShowAllWords.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkShowAllWords.Margin = new System.Windows.Forms.Padding(4);
 			// 
 			// grpStress
 			// 
 			this.grpStress.Location = new System.Drawing.Point(14, 122);
-			this.grpStress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.grpStress.Margin = new System.Windows.Forms.Padding(4);
 			this.grpStress.TabIndex = 5;
 			// 
 			// grpTone
 			// 
 			this.grpTone.Location = new System.Drawing.Point(14, 199);
-			this.grpTone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.grpTone.Margin = new System.Windows.Forms.Padding(4);
 			this.grpTone.TabIndex = 7;
 			// 
 			// grpLength
 			// 
 			this.grpLength.Location = new System.Drawing.Point(14, 411);
-			this.grpLength.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.grpLength.Margin = new System.Windows.Forms.Padding(4);
 			this.grpLength.TabIndex = 9;
 			// 
 			// chkIgnoreDiacritics
 			// 
 			this.chkIgnoreDiacritics.Location = new System.Drawing.Point(24, 96);
-			this.chkIgnoreDiacritics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkIgnoreDiacritics.Margin = new System.Windows.Forms.Padding(4);
 			this.chkIgnoreDiacritics.TabIndex = 3;
 			// 
 			// chkStress
 			// 
 			this.chkStress.Location = new System.Drawing.Point(24, 120);
-			this.chkStress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkStress.Margin = new System.Windows.Forms.Padding(4);
 			this.chkStress.TabIndex = 4;
 			// 
 			// chkTone
 			// 
 			this.chkTone.Location = new System.Drawing.Point(24, 197);
-			this.chkTone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkTone.Margin = new System.Windows.Forms.Padding(4);
 			this.chkTone.TabIndex = 6;
 			// 
 			// chkLength
 			// 
 			this.chkLength.Location = new System.Drawing.Point(24, 409);
-			this.chkLength.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkLength.Margin = new System.Windows.Forms.Padding(4);
 			this.chkLength.TabIndex = 8;
 			// 
 			// lnkHelp
@@ -119,7 +119,7 @@ namespace SIL.Pa.Controls
 			this.rbAfter.Size = new System.Drawing.Size(152, 17);
 			this.rbAfter.TabIndex = 2;
 			this.rbAfter.TabStop = true;
-			this.rbAfter.Text = "Identical &After Environment";
+			this.rbAfter.Text = "Identical Environment &After";
 			this.rbAfter.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbAfter.UseVisualStyleBackColor = true;
 			// 
@@ -132,7 +132,7 @@ namespace SIL.Pa.Controls
 			this.rbBefore.Size = new System.Drawing.Size(161, 17);
 			this.rbBefore.TabIndex = 1;
 			this.rbBefore.TabStop = true;
-			this.rbBefore.Text = "Identical &Before Environment";
+			this.rbBefore.Text = "Identical Environment &Before";
 			this.rbBefore.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbBefore.UseVisualStyleBackColor = true;
 			// 
@@ -169,7 +169,7 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.rbBefore);
 			this.Controls.Add(this.rbAfter);
 			this.Controls.Add(this.rbBoth);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MinimumSize = new System.Drawing.Size(188, 2);
 			this.Name = "CIEOptionsDropDown";
 			this.Size = new System.Drawing.Size(248, 516);

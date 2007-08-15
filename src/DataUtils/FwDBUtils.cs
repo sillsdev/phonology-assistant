@@ -19,8 +19,6 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwDBUtils
 	{
-		private static string kSQLSvrSvc = "MSSQL$SILFW";
-
 		public enum FwWritingSystemType
 		{
 			None,
@@ -37,20 +35,6 @@ namespace SIL.Pa.Data
 		{
 			LexemeForm,
 			PronunciationField
-		}
-
-		private static int s_secondsToWaitForSQLToStart = 25;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the number of seconds to wait for SQL server to start if it's not
-		/// already running.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int SecondsToWaitForSQLToStart
-		{
-			get { return s_secondsToWaitForSQLToStart; }
-			set { s_secondsToWaitForSQLToStart = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,7 +56,7 @@ namespace SIL.Pa.Data
 					new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
 
 				// Read all the SQL databases from the server's master table.
-				using (SqlConnection connection = FwConnection("master"))
+				using (SqlConnection connection = FwConnection(FwQueries.MasterTable))
 				{
 					if (connection != null && FwQueries.FwDatabasesSQL != null)
 					{
@@ -103,16 +87,6 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the FieldWorks SQL server name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string FwServer
-		{
-			get { return string.Format(@"{0}\SILFW", Environment.MachineName); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Opens a connection to a SQL server database on the local machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -122,17 +96,19 @@ namespace SIL.Pa.Data
 			{
 				if (StartSQLServer(true))
 				{
-					string connectionFmt = @"server={0}; Database={1}; User ID=FWDeveloper;" +
-						@"Password=careful; Connect Timeout = 10; Pooling=false;";
-
-					string connectionStr = string.Format(connectionFmt, FwServer, dbName);
+					string connectionStr = string.Format(FwQueries.ConnectionString,
+						new string[] { FwQueries.Server, dbName, "FWDeveloper", "careful" });
+					
 					SqlConnection connection = new SqlConnection(connectionStr);
 					connection.Open();
 					return connection;
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				string msg = string.Format(Properties.Resources.kstidSQLConnectionErrMsg,
+					dbName, e.Message);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
 			return null;
@@ -147,7 +123,7 @@ namespace SIL.Pa.Data
 		{
 			foreach (ServiceController service in ServiceController.GetServices())
 			{
-				if (service.ServiceName.ToLower() == kSQLSvrSvc.ToLower())
+				if (service.ServiceName.ToLower() == FwQueries.Service.ToLower())
 					return true;
 			}
 
@@ -174,7 +150,7 @@ namespace SIL.Pa.Data
 				
 				try
 				{
-					using (ServiceController svcController = new ServiceController(kSQLSvrSvc))
+					using (ServiceController svcController = new ServiceController(FwQueries.Service))
 						return (svcController.Status == ServiceControllerStatus.Running);
 				}
 				catch { }
@@ -199,7 +175,7 @@ namespace SIL.Pa.Data
 			{
 				try
 				{
-					using (ServiceController svcController = new ServiceController(kSQLSvrSvc))
+					using (ServiceController svcController = new ServiceController(FwQueries.Service))
 					{
 						// If the server instance is already running, we're good.
 						if (svcController.Status == ServiceControllerStatus.Running)
@@ -219,7 +195,7 @@ namespace SIL.Pa.Data
 								svcController.Start();
 
 							svcController.WaitForStatus(ServiceControllerStatus.Running,
-								new TimeSpan(s_secondsToWaitForSQLToStart * (long)10000000));
+								new TimeSpan(FwQueries.SecsToWaitForDBEngineStartup * (long)10000000));
 
 							msgWnd.CloseFade();
 						}
@@ -244,7 +220,7 @@ namespace SIL.Pa.Data
 					}
 
 					msg = string.Format(Resources.kstidErrorStartingSQLServer2,
-						s_secondsToWaitForSQLToStart);
+						FwQueries.SecsToWaitForDBEngineStartup);
 
 					if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question) != DialogResult.Yes)
@@ -296,7 +272,7 @@ namespace SIL.Pa.Data
 		public FwDataSourceInfo(string dbName)
 		{
 			DBName = dbName;
-			Server = FwDBUtils.FwServer;
+			Server = FwQueries.Server;
 
 			// As of the Summer 2007 release of FW, projects names are now just the DB name.
 			m_projName = dbName;
@@ -746,6 +722,18 @@ namespace SIL.Pa.Data
 		private static FwQueries s_fwqueries;
 		private static string s_queryFile;
 
+		[XmlElement("service")]
+		public string m_service;
+
+		[XmlElement("secondstowaitfordbenginestartup")]
+		public int m_secsToWaitForDBEngineStartup = 25;
+
+		[XmlElement("connectionstring")]
+		public string m_connectionString;
+
+		[XmlElement("server")]
+		public string m_server;
+
 		[XmlElement("mastertable")]
 		public string m_masterTable;
 
@@ -804,6 +792,77 @@ namespace SIL.Pa.Data
 			{
 				Load();
 				return s_queryFile;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string Service
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_service : "MSSQL$SILFW");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ConnectionString
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_connectionString : null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string Server
+		{
+			get
+			{
+				Load();
+				return string.Format((s_fwqueries != null ?
+					s_fwqueries.m_server : @"{0}\SILFW"), Environment.MachineName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int SecsToWaitForDBEngineStartup
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_secsToWaitForDBEngineStartup : 25);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MasterTable
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_masterTable : null);
 			}
 		}
 

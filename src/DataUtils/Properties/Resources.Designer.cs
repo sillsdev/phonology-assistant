@@ -169,6 +169,15 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following error occurred when trying to establish\na connection to the {0} database.\n\n{1}.
+        /// </summary>
+        internal static string kstidSQLConnectionErrMsg {
+            get {
+                return ResourceManager.GetString("kstidSQLConnectionErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access to FieldWorks projects requires SQL Server but it is not installed on this computer..
         /// </summary>
         internal static string kstidSQLServerNotInstalledMsg {
