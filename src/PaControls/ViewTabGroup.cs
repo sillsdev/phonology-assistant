@@ -1030,6 +1030,12 @@ namespace SIL.Pa.Controls
 
 			// Create an instance of the view's form
 			m_viewsForm = (Form)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
+			
+			// This handles a problem the program has with undocking a view to a
+			// maximized or minimized window. This will prevent that from happening.
+			if (m_viewsForm.WindowState != FormWindowState.Normal)
+				m_viewsForm.WindowState = FormWindowState.Normal;
+			
 			PaApp.MsgMediator.SendMessage("BeginViewOpening", m_viewsForm);
 			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", m_viewsForm);
 
@@ -1142,6 +1148,12 @@ namespace SIL.Pa.Controls
 			// the mouse over PA's main window or click on the desktop or another application.
 			// I haven't been able to find a successful solution.
 			m_viewsForm.Visible = false;
+			
+			// This handles a problem the program has with undocking a view to a
+			// maximized or minimized window. This will prevent that from happening.
+			if (m_viewsForm.WindowState != FormWindowState.Normal)
+				m_viewsForm.WindowState = FormWindowState.Normal;
+			
 			m_viewsForm.ShowInTaskbar = false;
 
 			if (m_viewsForm.Controls.Contains(m_viewsControl))
