@@ -1402,7 +1402,7 @@ namespace SIL.Pa
 			pgpExperimental.Font = FontHelper.UIFont;
 			pgpPhoneList.Font = FontHelper.UIFont;
 
-			int y = (pgpAmbiguous.Height - chkShowDefaults.Height) / 2;
+			int y = (pgpAmbiguous.Height - chkShowDefaults.Height) / 2 + 1;
 			chkShowDefaults.Location = new Point(pgpAmbiguous.Width - chkShowDefaults.Width - 3, y);
 
 			gridPhones.Columns["phone"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
