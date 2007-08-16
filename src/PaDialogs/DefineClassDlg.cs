@@ -626,6 +626,10 @@ namespace SIL.Pa.Dialogs
 				//    m_classInfo.OtherClassIds = null;
 				//else
 					m_classInfo.Masks = new ulong[] {0, 0};
+					
+				// Fix for PA-555
+				m_lvArticulatoryFeatures.CurrentMasks = new ulong[] { 0, 0 };
+				m_lvBinaryFeatures.CurrentMasks = new ulong[] { 0, 0 };
 			}
 		}
 

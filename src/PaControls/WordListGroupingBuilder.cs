@@ -289,8 +289,11 @@ namespace SIL.Pa.Controls
 					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
 						prevFldValue, m_headingFont, i + 1, lastChild));
 					
-					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						m_grid.GroupExpandedChangedHandler;
+					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
+					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+					
+					if (m_grid.AllGroupsCollapsed)
+						shgrow.SetExpandedState(false, false);
 
 					prevFldValue = m_cache[i][fieldName];
 					lastChild = i;
@@ -328,9 +331,12 @@ namespace SIL.Pa.Controls
 				{
 					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
 						string.Format(fmtHeading, prevFldValue), m_headingFont, i + 1, lastChild));
-		
-					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						m_grid.GroupExpandedChangedHandler;
+
+					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
+					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+
+					if (m_grid.AllGroupsCollapsed)
+						shgrow.SetExpandedState(false, false);
 
 					lastChild = i;
 					prevFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
@@ -373,8 +379,11 @@ namespace SIL.Pa.Controls
 					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
 						string.Format(fmtHeading, heading), m_headingFont, i + 1, lastChild));
 
-					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						m_grid.GroupExpandedChangedHandler;
+					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
+					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+
+					if (m_grid.AllGroupsCollapsed)
+						shgrow.SetExpandedState(false, false);
 
 					prevEntry = m_cache[i];
 					lastChild = i;
@@ -563,9 +572,12 @@ namespace SIL.Pa.Controls
 
 					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
 						cieGroupText, m_headingFont, i + 1, lastChild));
-					
-					((SilHierarchicalGridRow)m_grid.Rows[i + 1]).ExpandedStateChanged +=
-						m_grid.GroupExpandedChangedHandler;
+
+					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
+					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+
+					if (m_grid.AllGroupsCollapsed)
+						shgrow.SetExpandedState(false, false);
 
 					prevGroup = m_cache[i].CIEGroupId;
 					lastChild = i;
@@ -597,12 +609,21 @@ namespace SIL.Pa.Controls
 			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
 				string.Format(fmtHeading, heading), m_headingFont, 0, grpsLastChild));
 
-			((SilHierarchicalGridRow)m_grid.Rows[0]).ExpandedStateChanged +=
-				m_grid.GroupExpandedChangedHandler;
+			SilHierarchicalGridRow shgrow = m_grid.Rows[0] as SilHierarchicalGridRow;
+			shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+
+			if (m_grid.AllGroupsCollapsed)
+				shgrow.SetExpandedState(false, false);
 
 			m_grid.m_suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
+
+			// If, formerly, not all the groups were collapsed, then force all
+			// of them to be expanded. Otherwise the expanded state for rows
+			// formly collapsed will be all messed up.
+			if (!m_grid.AllGroupsCollapsed)
+				m_grid.ToggleGroupExpansion(true, true);
 		}
 	}
 }

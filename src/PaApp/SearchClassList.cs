@@ -176,7 +176,7 @@ namespace SIL.Pa
 		public string Pattern
 		{
 			get { return m_pattern; }
-			set { m_pattern = value; }
+			set	{m_pattern = (value == null ? value : value.Replace("], [", "],["));}
 		}
 
 		/// ------------------------------------------------------------------------------------

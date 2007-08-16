@@ -117,6 +117,7 @@ namespace SIL.Pa
 			query.IgnoredToneChars = null;
 			query.Pattern = "[V]/*_*";
 			m_cache = PaApp.Search(query);
+			m_cache.SearchQuery = query;
 			m_cache.Sort(m_sortOptions);
 		}
 
@@ -242,7 +243,7 @@ namespace SIL.Pa
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324\u02B0";
+			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
 			options.SearchQuery.IgnoredStressChars = null;
 			options.SearchQuery.IgnoredToneChars = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
@@ -274,7 +275,7 @@ namespace SIL.Pa
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324\u02B0";
+			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
 			options.SearchQuery.IgnoredStressChars = null;
 			options.SearchQuery.IgnoredToneChars = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
@@ -306,7 +307,7 @@ namespace SIL.Pa
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324\u02B0";
+			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
 			options.SearchQuery.IgnoredStressChars = null;
 			options.SearchQuery.IgnoredToneChars = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
@@ -382,8 +383,8 @@ namespace SIL.Pa
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("b\u0324it", retCache[0].PhoneticValue);
-			Assert.AreEqual("bag", retCache[1].PhoneticValue);
+			Assert.AreEqual("bag", retCache[0].PhoneticValue);
+			Assert.AreEqual("b\u0324it", retCache[1].PhoneticValue);
 			Assert.AreEqual("dig\u02B0", retCache[2].PhoneticValue);
 			Assert.AreEqual("don", retCache[3].PhoneticValue);
 		}
@@ -414,10 +415,10 @@ namespace SIL.Pa
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("nod", retCache[0].PhoneticValue);
-			Assert.AreEqual("g\u02B0id", retCache[1].PhoneticValue);
-			Assert.AreEqual("tib\u0324", retCache[2].PhoneticValue);
-			Assert.AreEqual("gab", retCache[3].PhoneticValue);
+			Assert.AreEqual("tib\u0324", retCache[0].PhoneticValue);
+			Assert.AreEqual("gab", retCache[1].PhoneticValue);
+			Assert.AreEqual("nod", retCache[2].PhoneticValue);
+			Assert.AreEqual("g\u02B0id", retCache[3].PhoneticValue);
 		}
 
 		/// ------------------------------------------------------------------------------------

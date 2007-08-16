@@ -1102,6 +1102,7 @@ namespace SIL.Pa.Controls
 
 			if (m_viewsForm != null)
 			{
+				PaApp.UnloadDefaultMenu(((ITabView)m_viewsForm).TMAdapter);
 				m_viewsForm.Close();
 				if (m_viewsForm != null && m_viewsForm.IsDisposed)
 					m_viewsForm.Dispose();

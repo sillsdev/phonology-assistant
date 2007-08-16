@@ -998,37 +998,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public IxCoreColleague[] GetMessageTargets()
 		{
-			List<IxCoreColleague> targets = new List<IxCoreColleague>();
-			targets.Add(this);
-
-			foreach (ViewTab tab in vwTabGroup.Tabs)
-			{
-				IxCoreColleague colleague = tab.View as IxCoreColleague;
-				if (colleague != null)
-				{
-					if (tab.Selected)
-						targets.Insert(0, colleague);
-					else
-						targets.Add(colleague);
-				}
-			}
-
-			return (targets.ToArray());
-			
-			//// Find the MDI child with focus, add that first, then add the MDI window.
-			//List<IxCoreColleague> targets = new List<IxCoreColleague>();
-			//foreach (object obj in MdiChildren)
-			//{
-			//    if (obj is IxCoreColleague)
-			//    {
-			//        if ((obj as Form) == this.ActiveMdiChild)
-			//            targets.Insert(0, obj as IxCoreColleague);
-			//        else
-			//            targets.Add(obj as IxCoreColleague);
-			//    }
-			//}
-
-			//return (targets.ToArray());
+			return new IxCoreColleague[] { this };
 		}
 
 		#endregion

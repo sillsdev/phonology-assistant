@@ -2744,8 +2744,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (m_menuBar != null)
 			{
-				m_menuBar.Dispose();
 				m_menuBar.Items.Clear();
+				m_menuBar.Dispose();
 			}
 
 			if (m_items != null)

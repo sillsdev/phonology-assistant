@@ -275,7 +275,7 @@ namespace SIL.Pa.Controls
 
 					// When features are OR'd together, put a comma between them.
 					if (i < members.Length - 1 && !ANDFeatures)
-						readableMembers.Append(", ");
+						readableMembers.Append(",");
 				}
 
 				if (readableMembers.Length == 0)

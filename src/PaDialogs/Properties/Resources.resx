@@ -482,4 +482,14 @@
     <value>Copy of {0}</value>
     <comment>Prefix for names of copied items</comment>
   </data>
+  <data name="kstidSetRTFEditorOFDlgFilter" xml:space="preserve">
+    <value>All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*</value>
+  </data>
+  <data name="kstidSetRTFEditorOFDlgTitle" xml:space="preserve">
+    <value>Set RTF Editor...</value>
+    <comment>Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files.</comment>
+  </data>
+  <data name="kstidMissingRTFEditorMsg" xml:space="preserve">
+    <value>You must first specify an RTF editor.</value>
+  </data>
 </root>

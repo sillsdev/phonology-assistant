@@ -781,23 +781,27 @@ namespace SIL.Pa.Controls
 			}
 
 			// Open the file with the specified RTF editor
-			if (File.Exists(m_rtfEditor))
+			if (m_exportTarget == ExportTarget.FileAndOpen)
 			{
-				if (m_exportTarget == ExportTarget.FileAndOpen &&
-					!string.IsNullOrEmpty(m_rtfEditor) && filename.Trim().Length != 0)
+				if (File.Exists(m_rtfEditor))
 				{
-					Process.Start("\"" + m_rtfEditor + "\"", "\"" + filename + "\"");
+					if (m_exportTarget == ExportTarget.FileAndOpen &&
+						!string.IsNullOrEmpty(m_rtfEditor) && filename.Trim().Length != 0)
+					{
+						Process.Start("\"" + m_rtfEditor + "\"", "\"" + filename + "\"");
+					}
 				}
-			}
-			else
-			{
-				string msg = string.Format(Properties.Resources.kstidRtfInvalidEditor, m_rtfEditor);
-				MessageBox.Show(msg, kInvalidEditor, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
+				else
+				{
+					string msg = string.Format(Properties.Resources.kstidRtfInvalidEditor, m_rtfEditor);
+					MessageBox.Show(msg, kInvalidEditor, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 			}
 
 			return;
 		}
+
 		#endregion
 	}
 }

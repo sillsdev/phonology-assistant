@@ -905,6 +905,23 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UnloadDefaultMenu(ITMAdapter adapter)
+		{
+			if (s_defaultMenuAdapters != null && s_defaultMenuAdapters.Contains(adapter))
+				s_defaultMenuAdapters.Remove(adapter);
+
+			if (adapter != null)
+			{
+				adapter.Dispose();
+				adapter = null;
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds the specified file to the recently used projects list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

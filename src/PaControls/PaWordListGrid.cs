@@ -673,6 +673,9 @@ namespace SIL.Pa.Controls
 					Columns[colName].HeaderCell.SortGlyphDirection =
 						(m_sortOptions.SortInformationList[0].ascending ?
 						SortOrder.Ascending : SortOrder.Descending);
+
+					if (m_groupByField != null)
+						m_groupByField = m_sortOptions.SortInformationList[0].FieldInfo;
 				}
 
 				m_cache.Sort(m_sortOptions);
@@ -2254,11 +2257,21 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ToggleGroupExpansion(bool expand)
+		{
+			ToggleGroupExpansion(expand, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Provides a way to expand or collapse all groups shown in the grid (when the
 		/// primary sort field is not displayed in groups, this method will do nothing).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ToggleGroupExpansion(bool expand)
+		public void ToggleGroupExpansion(bool expand, bool forceStateChange)
 		{
 			if (!IsGroupedByField && !m_cache.IsCIEList)
 				return;
@@ -2276,7 +2289,7 @@ namespace SIL.Pa.Controls
 			{
 				if (row is SilHierarchicalGridRow)
 				{
-					((SilHierarchicalGridRow)row).SetExpandedState(expand, false);
+					((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange);
 					PaApp.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
 				}
 			}

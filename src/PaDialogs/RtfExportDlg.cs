@@ -31,11 +31,7 @@ namespace SIL.Pa.Dialogs
 		private RtfCreator.ExportFormat m_exportFormat;
 		private Button btnHelp;
 		private Panel panel1;
-
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private Container components = null;
+		private IContainer components;
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------
@@ -211,9 +207,8 @@ namespace SIL.Pa.Dialogs
 			// btnExport
 			// 
 			resources.ApplyResources(this.btnExport, "btnExport");
-			this.btnExport.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnExport.Name = "btnExport";
-			this.btnExport.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnExport_MouseClick);
+			this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
 			// 
 			// btnCancel
 			// 
@@ -267,7 +262,6 @@ namespace SIL.Pa.Dialogs
 		#endregion
 
 		#region Events
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handle the ExportType selected event.
@@ -277,20 +271,7 @@ namespace SIL.Pa.Dialogs
 		{
 			RadioButton rb = sender as RadioButton;
 			if (rb != null)
-			{
 				m_exportTarget = (RtfCreator.ExportTarget)rb.Tag;
-				if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen)
-				{
-					btnSetEditor.Enabled = true;
-					if (!File.Exists(m_rtfEditor))
-						btnExport.Enabled = false;
-				}
-				else
-				{
-					btnSetEditor.Enabled = false;
-					btnExport.Enabled = true;
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -310,8 +291,14 @@ namespace SIL.Pa.Dialogs
 		/// Export the PaWordListGrid query in Rtf format.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnExport_MouseClick(object sender, MouseEventArgs e)
+		private void btnExport_Click(object sender, EventArgs e)
 		{
+			if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
+			{
+				STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg, MessageBoxButtons.OK);
+				return;
+			}
+
 			new RtfCreator(m_exportTarget, m_exportFormat, m_grid, m_grid.Cache, m_rtfEditor);
 			Close();
 		}
@@ -327,8 +314,8 @@ namespace SIL.Pa.Dialogs
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
-			dlg.Title = "Set RTF Editor...";
-			dlg.Filter = "Exe File (*.exe)|*.EXE";
+			dlg.Title = Properties.Resources.kstidSetRTFEditorOFDlgTitle;
+			dlg.Filter = Properties.Resources.kstidSetRTFEditorOFDlgFilter;
 			// Set the initial directory to "C:\Program Files"
 			dlg.InitialDirectory = (Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
 			dlg.Multiselect = false;

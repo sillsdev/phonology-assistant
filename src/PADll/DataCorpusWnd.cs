@@ -526,7 +526,7 @@ namespace SIL.Pa
 				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
 			}
 
-			if (!m_grid.CurrentCell.Displayed && m_grid.CurrentCell != null)
+			if (m_grid.CurrentCell != null && !m_grid.CurrentCell.Displayed)
 				m_grid.ScrollRowToMiddleOfGrid(m_grid.CurrentCell.RowIndex);
 
 			FindInfo.ResetStartSearchCell(true);

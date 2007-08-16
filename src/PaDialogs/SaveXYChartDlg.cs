@@ -45,6 +45,12 @@ namespace SIL.Pa.Dialogs
 			m_savedCharts = savedCharts;
 			txtName.Text = (string.IsNullOrEmpty(xyGrid.ChartName) ? xyGrid.DefaultName : xyGrid.ChartName);
 			txtName.SelectAll();
+
+			// This will force the user to put something in the name other than
+			// spaces or an empty space, even when it was determined to make the
+			// default name empty or all spaces. See PA-556.
+			if (txtName.Text.Trim() == string.Empty)
+				m_dirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

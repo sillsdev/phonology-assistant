@@ -84,19 +84,19 @@ namespace SIL.Pa
 		public void GetInterlinearColumnWidthsTest()
 		{
 			string testString = "barney   rubble  trouble";
-			List<int> result = GetResult(m_cache, "GetInterlinearColumnWidths", testString) as List<int>;
+			List<int> result = GetResult(typeof(RecordCache), "GetInterlinearColumnWidths", testString) as List<int>;
 			Assert.AreEqual(3, result.Count);
 			Assert.AreEqual(9, result[0]);
 			Assert.AreEqual(8, result[1]);
 			Assert.AreEqual(7, result[2]);
 
 			testString = "barney rubble   ";
-			result = GetResult(m_cache, "GetInterlinearColumnWidths", testString) as List<int>;
+			result = GetResult(typeof(RecordCache), "GetInterlinearColumnWidths", testString) as List<int>;
 			Assert.AreEqual(2, result.Count);
 			Assert.AreEqual(7, result[0]);
 
 			testString = "barney";
-			result = GetResult(m_cache, "GetInterlinearColumnWidths", testString) as List<int>;
+			result = GetResult(typeof(RecordCache), "GetInterlinearColumnWidths", testString) as List<int>;
 			Assert.AreEqual(1, result.Count);
 			Assert.AreEqual(6, result[0]);
 		}

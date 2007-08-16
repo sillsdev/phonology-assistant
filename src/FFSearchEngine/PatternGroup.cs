@@ -506,6 +506,8 @@ namespace SIL.Pa.FFSearchEngine
 				return false;
 			}
 
+			pattern = pattern.Replace("], [", "],[");
+
 			if (!VerifyNoIllegalSpaces(pattern))
 			{
 				LogError("kstidPatternContainsSpacesErr");

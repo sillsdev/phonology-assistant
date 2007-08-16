@@ -598,6 +598,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must first specify an RTF editor..
+        /// </summary>
+        internal static string kstidMissingRTFEditorMsg {
+            get {
+                return ResourceManager.GetString("kstidMissingRTFEditorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Project Settings.
         /// </summary>
         internal static string kstidNewProjectSettingsDlgCaption {
@@ -747,6 +756,24 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static string kstidSavedChartNameAlreadyExistsOverwriteMsg {
             get {
                 return ResourceManager.GetString("kstidSavedChartNameAlreadyExistsOverwriteMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string kstidSetRTFEditorOFDlgFilter {
+            get {
+                return ResourceManager.GetString("kstidSetRTFEditorOFDlgFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set RTF Editor....
+        /// </summary>
+        internal static string kstidSetRTFEditorOFDlgTitle {
+            get {
+                return ResourceManager.GetString("kstidSetRTFEditorOFDlgTitle", resourceCulture);
             }
         }
         
