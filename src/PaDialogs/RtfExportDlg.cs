@@ -31,7 +31,7 @@ namespace SIL.Pa.Dialogs
 		private RtfCreator.ExportFormat m_exportFormat;
 		private Button btnHelp;
 		private Panel panel1;
-		private IContainer components;
+		private IContainer components = null;
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------
