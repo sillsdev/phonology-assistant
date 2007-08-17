@@ -32,6 +32,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PaTextPanel()
 		{
+			DoubleBuffered = true;
 			SetStyle(ControlStyles.UseTextForAccessibility, true);
 			base.Font = FontHelper.UIFont;
 			m_rcText = ClientRectangle;
