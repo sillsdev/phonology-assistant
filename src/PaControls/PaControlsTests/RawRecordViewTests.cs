@@ -28,8 +28,6 @@ namespace SIL.Pa.Controls
     [TestFixture]
     public class RecordViewTests : TestBase
 	{
-		private RtfRecordView m_view = new RtfRecordView();
-
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -59,7 +57,6 @@ namespace SIL.Pa.Controls
 		[SetUp]
         public void TestSetup()
         {
-			m_view = new RtfRecordView();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -70,7 +67,6 @@ namespace SIL.Pa.Controls
 		[TearDown]
         public void TestTearDown()
         {
-			m_view = null;
 		}
 
 		#endregion
@@ -108,8 +104,8 @@ namespace SIL.Pa.Controls
 				"cl-  PRES- live",
 				"prf- TEMP- v"});
 
-			Dictionary<int, List<string>> result = GetResult(
-				m_view, "GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
+			Dictionary<int, List<string>> result = GetResult(typeof(RtfRecordView),
+				"GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
 
 			Assert.AreEqual(3, result.Count);
 			Assert.AreEqual(3, result[0].Count);
@@ -141,8 +137,8 @@ namespace SIL.Pa.Controls
 				"angu    j-",
 				"1s POSS cl-"});
 
-			Dictionary<int, List<string>> result = GetResult(
-				m_view, "GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
+			Dictionary<int, List<string>> result = GetResult(typeof(RtfRecordView),
+				"GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
 
 			Assert.AreEqual(2, result.Count);
 			Assert.AreEqual(2, result[0].Count);
@@ -165,8 +161,8 @@ namespace SIL.Pa.Controls
 		{
 			List<string> data = new List<string>(new string[] {"1s POSS cl-"});
 
-			Dictionary<int, List<string>> result = GetResult(
-				m_view, "GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
+			Dictionary<int, List<string>> result = GetResult(typeof(RtfRecordView),
+				"GetInterlinearSubColumnContents", data) as Dictionary<int, List<string>>;
 
 			Assert.AreEqual(1, result.Count);
 			Assert.AreEqual(1, result[0].Count);

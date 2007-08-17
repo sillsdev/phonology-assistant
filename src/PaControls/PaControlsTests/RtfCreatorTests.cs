@@ -54,7 +54,7 @@ namespace SIL.Pa.Controls
 			m_maxColumnWidths.Add(3, 270);		// Audio File
 
 			m_rtfCreator = new RtfCreator(RtfCreator.ExportTarget.Clipboard, 
-				RtfCreator.ExportFormat.Table, null, null, null);
+				RtfCreator.ExportFormat.Table, null, new WordListCache(), null);
 			SetField(m_rtfCreator, "m_maxColumnWidths", m_maxColumnWidths);
 			SetField(m_rtfCreator, "m_pixelsPerInch", 96f);
 			SetField(m_rtfCreator, "m_MaxColWidth", 2340);

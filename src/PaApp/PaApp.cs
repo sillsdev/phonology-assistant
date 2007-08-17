@@ -264,14 +264,7 @@ namespace SIL.Pa
 		public static WordCache WordCache
 		{
 			get { return s_wordCache; }
-			set
-			{
-				if (value != null && s_wordCache != value)
-				{
-					s_wordCache = value;
-					BuildPhoneCache();
-				}
-			}
+			set	{ s_wordCache = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

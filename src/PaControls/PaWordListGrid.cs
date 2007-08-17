@@ -2312,31 +2312,43 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual void RefreshColumnFonts(bool updateColumnFonts)
 		{
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
-				TextFormatFlags.SingleLine;
+			m_defaultRowHeight = 0;
 
-			using (Graphics g = CreateGraphics())
+			foreach (DataGridViewColumn col in Columns)
 			{
-				m_defaultRowHeight = 0;
-
-				foreach (DataGridViewColumn col in Columns)
+				if (updateColumnFonts)
 				{
-					if (updateColumnFonts)
-					{
-						PaFieldInfo fieldInfo = m_fieldInfoList[col.Name];
-						if (fieldInfo != null)
-							col.DefaultCellStyle.Font = fieldInfo.Font;
-					}
-
-					int fieldFontHeight = TextRenderer.MeasureText(g,
-							"X", col.DefaultCellStyle.Font, Size.Empty, flags).Height;
-
-					m_defaultRowHeight = Math.Max(m_defaultRowHeight, fieldFontHeight);
+					PaFieldInfo fieldInfo = m_fieldInfoList[col.Name];
+					if (fieldInfo != null)
+						col.DefaultCellStyle.Font = fieldInfo.Font;
 				}
+
+				m_defaultRowHeight = Math.Max(m_defaultRowHeight,
+					col.DefaultCellStyle.Font.Height);
 			}
 
-			m_defaultRowHeight += 4;
-			AutoResizeRows(DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders);
+			// Add a little vertical padding.
+			m_defaultRowHeight +=
+				PaApp.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 3);
+
+			// Get rid of all custom row heights (i.e. row heights adjusted by the user).
+			m_customRowHeights = null;
+
+			if (RowCount > 0)
+			{
+				// Reset all the row heights to the new height. I used to update the row
+				// heights using a call to AutoResizeRows. But that caused a bug (see
+				// PA-193 and PA-81). Calling Updating row heights this way fixes it.
+				UpdateRowHeightInfo(0, true);
+				
+				// Make sure the selected row is scrolled into view.
+				if (CurrentRow != null && !CurrentRow.Displayed)
+					ScrollRowToMiddleOfGrid(CurrentRow.Index);
+
+				// Invalidate the row headers because they don't always paint
+				// correctly right away after a call to UpdateRowHeightInfo.
+				Invalidate(new Rectangle(0, 0, RowHeadersWidth, ClientSize.Height));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

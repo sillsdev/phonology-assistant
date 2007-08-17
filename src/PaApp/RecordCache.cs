@@ -155,6 +155,7 @@ namespace SIL.Pa
 				}
 			}
 
+			PaApp.BuildPhoneCache();
 			return m_wordCache;
 		}
 
