@@ -100,7 +100,7 @@
 			<!-- Delete unecessary junk in the release build's folder -->
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\output\release\*.tlb</Arg>
-				<Arg>C:\Phonology Assistant\output\release\*.pdb</Arg>
+				<!-- Arg>C:\Phonology Assistant\output\release\*.pdb</Arg -->
 				<Arg>C:\Phonology Assistant\output\release\pa.xml</Arg>
 				<Arg>C:\Phonology Assistant\output\release\speechtools.xml</Arg>
 			</CommandItem>
