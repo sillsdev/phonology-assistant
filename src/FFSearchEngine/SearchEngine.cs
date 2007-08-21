@@ -543,7 +543,7 @@ namespace SIL.Pa.FFSearchEngine
 				return OneOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
-			tmp = RemovePlusBinaryFeatures(m_envBeforeStr);
+			tmp = RemovePlusBinaryFeatures(m_envAfterStr);
 			pieces = tmp.Split("+".ToCharArray());
 
 			if (pieces.Length > 2)
