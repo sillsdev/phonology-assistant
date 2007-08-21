@@ -904,6 +904,7 @@ namespace SIL.Pa.Controls
 			e.Height = (m_customRowHeights != null &&
 				m_customRowHeights.TryGetValue(e.RowIndex, out rowHeight) ?	rowHeight : m_defaultRowHeight);
 
+			e.MinimumHeight = 10;
 			base.OnRowHeightInfoNeeded(e);
 		}
 
@@ -2281,7 +2282,6 @@ namespace SIL.Pa.Controls
 			AllGroupsCollapsed = !expand;
 			AllGroupsExpanded = expand;
 
-			Application.UseWaitCursor = true;
 			PaApp.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
 				Properties.Resources.kstidCollapsingGroups, RowCount);
 
@@ -2301,7 +2301,6 @@ namespace SIL.Pa.Controls
 			CurrentCell = this[0, 0];
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
-			Application.UseWaitCursor = false;
 			m_ToggleGroupExpansion = false;
 		}
 

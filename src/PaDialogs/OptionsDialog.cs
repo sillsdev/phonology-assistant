@@ -18,10 +18,9 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			PaApp.InitializeProgressBar("Loading Options...", 8);
-			
-			Application.UseWaitCursor = true;
-			Application.DoEvents();
+			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 8);
+
+			STUtils.WaitCursors(true);
 			InitializeComponent();
 			
 			// Remove this until we implement it.
@@ -60,7 +59,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Application.UseWaitCursor = false;
+			STUtils.WaitCursors(false);
 			base.OnShown(e);
 			PaApp.UninitializeProgressBar();
 		}

@@ -28,16 +28,16 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
 			this.pnlButtons = new System.Windows.Forms.Panel();
+			this.chkIgnoreInSearches = new System.Windows.Forms.CheckBox();
 			this.chkShowUndefinedCharDlg = new System.Windows.Forms.CheckBox();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.lblInfo = new System.Windows.Forms.Label();
-			this.chkIgnoreInSearches = new System.Windows.Forms.CheckBox();
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.SuspendLayout();
@@ -51,6 +51,13 @@ namespace SIL.Pa.Dialogs
 			this.pnlButtons.Controls.Add(this.btnOK);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Name = "pnlButtons";
+			// 
+			// chkIgnoreInSearches
+			// 
+			resources.ApplyResources(this.chkIgnoreInSearches, "chkIgnoreInSearches");
+			this.chkIgnoreInSearches.AutoEllipsis = true;
+			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
+			this.chkIgnoreInSearches.UseVisualStyleBackColor = true;
 			// 
 			// chkShowUndefinedCharDlg
 			// 
@@ -79,7 +86,7 @@ namespace SIL.Pa.Dialogs
 			this.m_grid.AllowUserToDeleteRows = false;
 			this.m_grid.AllowUserToOrderColumns = true;
 			this.m_grid.AllowUserToResizeRows = false;
-			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -111,19 +118,15 @@ namespace SIL.Pa.Dialogs
 			this.m_grid.RowHeadersVisible = false;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
+			this.m_grid.VirtualMode = true;
 			this.m_grid.WaterMark = "!";
+			this.m_grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValueNeeded);
+			this.m_grid.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			// 
 			// lblInfo
 			// 
 			resources.ApplyResources(this.lblInfo, "lblInfo");
 			this.lblInfo.Name = "lblInfo";
-			// 
-			// chkIgnoreInSearches
-			// 
-			resources.ApplyResources(this.chkIgnoreInSearches, "chkIgnoreInSearches");
-			this.chkIgnoreInSearches.AutoEllipsis = true;
-			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
-			this.chkIgnoreInSearches.UseVisualStyleBackColor = true;
 			// 
 			// UndefinedPhoneticCharactersDlg
 			// 

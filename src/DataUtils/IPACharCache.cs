@@ -478,11 +478,14 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(ipaCharStr))
+					return null;
+
 				IPACharInfo charInfo;
 				if (m_toneLetters != null && m_toneLetters.TryGetValue(ipaCharStr, out charInfo))
 					return charInfo;
 				
-				return (ipaCharStr == null || ipaCharStr.Length < 1 ? null : this[ipaCharStr[0]]);
+				return this[ipaCharStr[0]];
 			}
 		}
 
@@ -552,11 +555,7 @@ namespace SIL.Pa.Data
 				{
 					IPACharInfo ci = this[word[i]];
 
-					// Skip characters we can't account for.
-					if (ci == null )
-						continue;
-
-					if (ci.IsBaseChar || ci.IsUndefined)
+					if (ci == null || ci.IsBaseChar || ci.IsUndefined)
 					{
 						// If there's already something in the builder it means
 						// we've previously found some non base characters before

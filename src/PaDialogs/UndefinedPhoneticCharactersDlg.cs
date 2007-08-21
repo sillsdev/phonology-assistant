@@ -9,8 +9,13 @@ namespace SIL.Pa.Dialogs
 {
 	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
+		private int m_defaultRowHeight;
+		private readonly bool m_expandGroupsOpen;
+		private readonly UndefinedPhoneticCharactersInfoList m_list;
 		private readonly string m_infoFmt;
-		
+		private readonly string m_codepointColFmt =
+			Properties.Resources.kstidUndefPhoneticChartsGridCodePointColFmt;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -37,7 +42,13 @@ namespace SIL.Pa.Dialogs
 				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
 					projectName, DataUtils.IPACharCache.UndefinedCharacters))
 				{
+					if (PaApp.MainForm != null)
+						PaApp.MainForm.AddOwnedForm(dlg);
+
 					dlg.ShowDialog();
+
+					if (PaApp.MainForm != null)
+						PaApp.MainForm.RemoveOwnedForm(dlg);
 				}
 			}
 		}
@@ -52,7 +63,15 @@ namespace SIL.Pa.Dialogs
 			if (list != null && list.Count > 0)
 			{
 				using (UndefinedPhoneticCharactersDlg dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
+				{
+					if (PaApp.MainForm != null)
+						PaApp.MainForm.AddOwnedForm(dlg);
+
 					dlg.ShowDialog();
+
+					if (PaApp.MainForm != null)
+						PaApp.MainForm.RemoveOwnedForm(dlg);
+				}
 			}
 		}
 
@@ -75,12 +94,18 @@ namespace SIL.Pa.Dialogs
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			AddColumns();
+			CalcRowHeight();
+
+			m_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
 			if (PaApp.Project != null)
 			{
 				chkShowUndefinedCharDlg.Checked = PaApp.Project.ShowUndefinedCharsDlg;
 				chkIgnoreInSearches.Checked = PaApp.Project.IgnoreUndefinedCharsInSearches;
 			}
+
+			m_expandGroupsOpen =
+				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "expandonopen", false);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -88,8 +113,10 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public UndefinedPhoneticCharactersDlg(string projectName, UndefinedPhoneticCharactersInfoList list) : this()
+		public UndefinedPhoneticCharactersDlg(string projectName,
+			UndefinedPhoneticCharactersInfoList list) : this()
 		{
+			m_list = list;
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
 			LoadGrid(list);
 		}
@@ -142,38 +169,72 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadGrid(UndefinedPhoneticCharactersInfoList list)
+		private void CalcRowHeight()
 		{
-			m_grid.Rows.Clear();
+			m_defaultRowHeight = 0;
 
-			foreach (UndefinedPhoneticCharactersInfo upci in list)
+			foreach (DataGridViewColumn col in m_grid.Columns)
 			{
-				m_grid.Rows.Add(new object[] {
-					string.Format("U+{0:X4}", (int)upci.Character), upci.Character,
-					upci.Transcription, upci.Reference, upci.SourceName});
+				m_defaultRowHeight = Math.Max(m_defaultRowHeight,
+					(col.DefaultCellStyle.Font ?? FontHelper.UIFont).Height);
 			}
 
+			// Add a little vertical padding.
+			m_defaultRowHeight += 4;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadGrid(UndefinedPhoneticCharactersInfoList list)
+		{
+			STUtils.WaitCursors(true);
+			m_grid.Rows.Clear();
+			m_grid.RowCount = list.Count;
+
+			// Save in each row the index of it's entry in the undefined char. list
+			// because the row index won't do it for us after the grid is grouped.
+			for (int i = 0; i < m_grid.RowCount; i++)
+				m_grid.Rows[i].Tag = i;
+
 			m_grid.AutoResizeColumns();
-			m_grid.AutoResizeRows();
 
 			// Add a couple of pixels because I observed the auto sizing comes up a couple
 			// pixels short when certain size fonts are used in the column headers.
 			m_grid.Columns[0].Width += 2;
-
 			PaApp.SettingsHandler.LoadGridProperties(m_grid);
-			m_grid.Sort(m_grid.Columns[0], ListSortDirection.Ascending);
+			
+			m_list.Sort(CompareUndefinedCharValues);
+
 			Group();
+
+			if (!m_expandGroupsOpen && m_grid.RowCount <= 5000)
+				CollapseGroups();
+
 			m_grid.CurrentCell = m_grid[0, 0];
+			STUtils.WaitCursors(false);
+		}
 
-			if (PaApp.SettingsHandler.GetBoolSettingsValue(Name, "expandonopen", false))
-				return;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int CompareUndefinedCharValues(UndefinedPhoneticCharactersInfo x,
+			UndefinedPhoneticCharactersInfo y)
+		{
+			if (x == null && y == null)
+				return 0;
 
-			// Collapse all the groups.
-			foreach (DataGridViewRow row in m_grid.Rows)
-			{
-				if (row is SilHierarchicalGridRow)
-					((SilHierarchicalGridRow)row).SetExpandedState(false, true);
-			}
+			if (x == null)
+				return -1;
+
+			if (y == null)
+				return 1;
+
+			return (x.Character.CompareTo(y.Character));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,44 +246,98 @@ namespace SIL.Pa.Dialogs
 		{
 			SilHierarchicalGridRow row;
 			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
-			int lastChild = m_grid.RowCount - 1;
-			string prevCodepoint = m_grid[0, lastChild].Value as string;
-			object prevChar = m_grid[1, lastChild].Value;
+			int lastChild = m_list.Count - 1;
+			char prevChar = m_list[lastChild].Character;
 			string fmt = Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgFmt;
 			string[] countFmt = new string[] {
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtLong,
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtMed,
 				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtShort};
-			
+
+			m_grid.SuspendLayout();
+
 			// Go from the bottom of the grid up, finding where the values differ from
 			// one row to the next. At those boundaries, a hierarchical row is inserted.
-			for (int i = m_grid.RowCount - 1; i >= 0; i--)
+			for (int i = m_list.Count - 1; i >= 0; i--)
 			{
-				if (prevCodepoint != (m_grid[0, i].Value as string))
+				if (prevChar != m_list[i].Character)
 				{
 					row = new SilHierarchicalGridRow(m_grid,
-						string.Format(fmt, prevChar, prevCodepoint), fnt, i + 1, lastChild);
-
+						string.Format(fmt, prevChar, (int)prevChar), fnt, i + 1, lastChild);
+					
 					row.CountFormatStrings = countFmt;
 					m_grid.Rows.Insert(i + 1, row);
-					prevCodepoint = m_grid[0, i].Value as string;
-					prevChar = m_grid[1, i].Value;
+					prevChar = m_list[i].Character;
 					lastChild = i;
 				}
 			}
 
 			// Insert the first group heading row.
 			row = new SilHierarchicalGridRow(m_grid,
-				string.Format(fmt, prevChar, prevCodepoint), fnt, 0, lastChild);
+				string.Format(fmt, prevChar, ((int)prevChar).ToString()), fnt, 0, lastChild);
 
 			row.CountFormatStrings = countFmt;
 			m_grid.Rows.Insert(0, row);
 
 			// Insert a hierarchical column for the + and - glpyhs.
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
+			m_grid.ResumeLayout();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CollapseGroups()
+		{
+			foreach (DataGridViewRow row in m_grid.Rows)
+			{
+				if (row is SilHierarchicalGridRow)
+					((SilHierarchicalGridRow)row).SetExpandedState(false, false);
+			}
 		}
 
 		#region Event handlers and overrides
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_RowHeightInfoNeeded(object sender, DataGridViewRowHeightInfoNeededEventArgs e)
+		{
+			e.Height = m_defaultRowHeight;
+			e.MinimumHeight = 10;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			e.Value = null;
+			int row = e.RowIndex;
+
+			if (e.ColumnIndex <= 0 || row < 0 || m_grid.Rows[row] is SilHierarchicalGridRow ||
+				m_grid.Rows[row].Tag == null || m_grid.Rows[row].Tag.GetType() != typeof(int))
+			{
+				return;
+			}
+
+			int i = (int)m_grid.Rows[row].Tag;
+
+			switch (e.ColumnIndex)
+			{
+				case 1: e.Value = string.Format("U+{0:X4}", (int)m_list[i].Character); break;
+				case 2: e.Value = m_list[i].Character; break;
+				case 3: e.Value = m_list[i].Transcription; break;
+				case 4: e.Value = m_list[i].Reference; break;
+				case 5: e.Value = m_list[i].SourceName; break;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

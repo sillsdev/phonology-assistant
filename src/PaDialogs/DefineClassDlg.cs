@@ -36,9 +36,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
-			Application.UseWaitCursor = true;
-			Application.DoEvents();
-
+			STUtils.WaitCursors(true);
 			InitializeComponent();
 
 			lblClassName.Font = FontHelper.UIFont;
@@ -333,7 +331,7 @@ namespace SIL.Pa.Dialogs
 
 			charExplorer.LoadSettings(Name);
 			UpdateCharacterViewers();
-			Application.UseWaitCursor = false;
+			STUtils.WaitCursors(false);
 
 			base.OnShown(e);
 		}

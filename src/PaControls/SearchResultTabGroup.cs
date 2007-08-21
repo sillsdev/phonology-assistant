@@ -388,6 +388,7 @@ namespace SIL.Pa.Controls
 			m_tabs.Add(tab);
 			AdjustTabContainerWidth();
 			UseWaitCursor = false;
+			Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -823,6 +824,7 @@ namespace SIL.Pa.Controls
 			// There's a strange problem in which a tab group's wait cursor gets turned on
 			// and I can't find where. It's not explicitly so it must be implicitly.
 			UseWaitCursor = false;
+			Cursor = Cursors.Default;
 
 			return false;
 		}
@@ -1171,13 +1173,17 @@ namespace SIL.Pa.Controls
 			set
 			{
 				base.UseWaitCursor = value;
+				Cursor = (value ? Cursors.WaitCursor : Cursors.Default);
 
 				// Cascade the setting to each of the tab group's tabs. 
 				foreach (SearchResultTab tab in m_tabs)
 				{
 					tab.UseWaitCursor = value;
 					if (tab.ResultView != null && tab.ResultView.Grid != null)
+					{
 						tab.ResultView.Grid.UseWaitCursor = value;
+						tab.Cursor = (value ? Cursors.WaitCursor : Cursors.Default);
+					}
 				}
 			}
 		}

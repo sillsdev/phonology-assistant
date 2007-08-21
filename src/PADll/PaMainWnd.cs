@@ -176,12 +176,9 @@ namespace SIL.Pa
 			if (PaApp.Project != null)
 				PaApp.Project.EnsureSortOptionsSaved();
 
+			STUtils.WaitCursors(true);
 			PaApp.ProjectLoadInProcess = true;
-			Application.UseWaitCursor = true;
-			Application.DoEvents();
 			PaProject project = PaProject.Load(projectFileName, this);
-			Application.UseWaitCursor = false;
-			Application.DoEvents();
 
 			if (project != null)
 			{
@@ -225,8 +222,8 @@ namespace SIL.Pa
 			}
 
 			BackColor = vwTabGroup.BackColor;
-			Application.DoEvents();
 			PaApp.ProjectLoadInProcess = false;
+			STUtils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

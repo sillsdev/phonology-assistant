@@ -90,6 +90,9 @@ namespace SIL.Pa.Dialogs
 		{
 			base.OnHandleCreated(e);
 			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+
+			if (Parent is Form)
+				((Form)Parent).AddOwnedForm(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,6 +102,9 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
+			if (Parent is Form)
+				((Form)Parent).RemoveOwnedForm(this);
+			
 			// Save settings
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "editor", m_rtfEditor);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "file", rbToFile.Checked);

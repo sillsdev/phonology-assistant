@@ -263,8 +263,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void FullProjectReload()
 		{
-			Application.UseWaitCursor = true;
-			Application.DoEvents();
+			STUtils.WaitCursors(true);
 
 			PaProject project = PaProject.Load(PaApp.Project.ProjectFileName, this);
 			if (project != null)
@@ -281,8 +280,7 @@ namespace SIL.Pa
 				PaApp.MsgMediator.SendMessage("DataSourcesModified", project);
 			}
 
-			Application.UseWaitCursor = false;
-			Application.DoEvents();
+			STUtils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

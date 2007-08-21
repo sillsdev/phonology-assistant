@@ -134,7 +134,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public new void Add(AmbiguousSeq seq)
 		{
-			if (seq == null)
+			if (seq == null || string.IsNullOrEmpty(seq.BaseChar))
 				return;
 
 			if (!ContainsSeq(seq.Unit, false))
@@ -177,7 +177,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public new void Insert(int index, AmbiguousSeq seq)
 		{
-			if (seq == null)
+			if (seq == null || string.IsNullOrEmpty(seq.BaseChar))
 				return;
 
 			if (!ContainsSeq(seq.Unit, false))
@@ -411,6 +411,18 @@ namespace SIL.Pa.Data
 				if (charInfo != null && charInfo.IsBaseChar)
 				{
 					BaseChar = charInfo.IPAChar;
+					return;
+				}
+			}
+
+			// If we got this far, then we didn't find a candidate for the base character.
+			// In that case, see if any of the characters are not defined in the phonetic
+			// character inventory. If so, then use the first one we encounter as the base.
+			for (int i = unit.Length - 1; i >= 0; i--)
+			{
+				if (DataUtils.IPACharCache[unit[i]] == null)
+				{
+					BaseChar = unit[i].ToString();
 					return;
 				}
 			}

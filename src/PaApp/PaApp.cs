@@ -1048,10 +1048,7 @@ namespace SIL.Pa
 			if (s_progressBar != null)
 			{
 				if (s_mainForm != null)
-				{
-					Application.UseWaitCursor = true;
-					Application.DoEvents();
-				}
+					STUtils.WaitCursors(true);
 
 				// Save the current progress bar and initialize s_progressBar with the one
 				// returned by the property since it may not be the same. Normally, the one
@@ -1117,7 +1114,7 @@ namespace SIL.Pa
 				s_statusBarHasBeenInitialized = false;
 			}
 
-			Application.UseWaitCursor = false;
+			STUtils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

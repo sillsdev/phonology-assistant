@@ -46,6 +46,9 @@ namespace SIL.Pa.Dialogs
 			}
 
 			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+
+			if (Parent is Form)
+				((Form)Parent).AddOwnedForm(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,7 +80,10 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-		    SaveSettings();
+			if (Parent is Form)
+				((Form)Parent).RemoveOwnedForm(this);
+			
+			SaveSettings();
 		    base.OnFormClosing(e);
 
 		    if (e.Cancel || !IsDirty)

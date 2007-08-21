@@ -11,6 +11,177 @@ using XCore;
 
 namespace SIL.Pa.Controls
 {
+	//#region SearchPatternTreeViewToolTip class
+	///// ----------------------------------------------------------------------------------------
+	///// <summary>
+	///// Tooltip for showing the members of a class when the user hovers over a search class
+	///// name.
+	///// </summary>
+	///// ----------------------------------------------------------------------------------------
+	//public class SearchPatternTreeViewToolTip : ToolTip
+	//{
+	//    private Point m_contentLocation = Point.Empty;
+	//    private string m_tipText;
+	//    private TreeNode m_node;
+	//    private TreeNode m_prevNode;
+	//    private Control m_ctrl;
+
+	//    /// ------------------------------------------------------------------------------------
+	//    /// <summary>
+	//    /// 
+	//    /// </summary>
+	//    /// ------------------------------------------------------------------------------------
+	//    public SearchPatternTreeViewToolTip(Control ctrl)
+	//    {
+	//        m_ctrl = ctrl;
+	//        OwnerDraw = true;
+	//        Popup += HandlePopup;
+	//        Draw += HandleDraw;
+	//    }
+
+	//    ///// ------------------------------------------------------------------------------------
+	//    ///// <summary>
+	//    ///// 
+	//    ///// </summary>
+	//    ///// ------------------------------------------------------------------------------------
+	//    //protected override void Dispose(bool disposing)
+	//    //{
+	//    //    if (disposing && m_titleFont != null)
+	//    //        m_titleFont.Dispose();
+
+	//    //    base.Dispose(disposing);
+	//    //}
+
+	//    ///// ------------------------------------------------------------------------------------
+	//    ///// <summary>
+	//    ///// 
+	//    ///// </summary>
+	//    ///// ------------------------------------------------------------------------------------
+	//    //public ClassListViewItem ClassListViewItem
+	//    //{
+	//    //    get { return m_item; }
+	//    //}
+
+	////    /// ------------------------------------------------------------------------------------
+	////    /// <summary>
+	////    /// 
+	////    /// </summary>
+	////    /// ------------------------------------------------------------------------------------
+	////    public void Show(ClassListViewItem item)
+	////    {
+	////        ErasePrevItemDottedLine(item);
+
+	////        if (item.ClassType == SearchClassType.Phones)
+	////            m_tipText = item.FormattedMembersString;
+	////        else
+	////        {
+	////            string[] features = item.FeatureNames;
+	////            m_tipText = (features != null ? string.Join("\n", features) : string.Empty);
+	////        }
+
+	////        m_item = item;
+	////        Point pt = m_ctrl.PointToClient(Control.MousePosition);
+
+	////        if (!(m_ctrl is ListView))
+	////            pt.Y += (int)(Cursor.Current.Size.Height * 0.7);
+	////        else
+	////        {
+	////            Rectangle rc = (m_ctrl as ListView).GetItemRect(item.Index, ItemBoundsPortion.Label);
+	////            pt.Y = rc.Bottom + 3;
+	////        }
+
+	////        base.Show(m_tipText, m_ctrl, pt);
+	////    }
+
+	////    /// ------------------------------------------------------------------------------------
+	////    /// <summary>
+	////    /// 
+	////    /// </summary>
+	////    /// ------------------------------------------------------------------------------------
+	////    public void Hide()
+	////    {
+	////        ErasePrevItemDottedLine(null);
+
+	////        if (m_ctrl != null)
+	////            base.Hide(m_ctrl);
+
+	////        m_item = null;
+	////    }
+
+	////    /// ------------------------------------------------------------------------------------
+	////    /// <summary>
+	////    /// 
+	////    /// </summary>
+	////    /// ------------------------------------------------------------------------------------
+	////    private void ErasePrevItemDottedLine(ClassListViewItem item)
+	////    {
+	////        if (m_prevItem != null)
+	////        {
+	////            Rectangle rc = m_prevItem.GetBounds(ItemBoundsPortion.Label);
+	////            m_prevItem.ListView.Invalidate(rc);
+	////        }
+
+	////        m_prevItem = item;
+	////    }
+
+	////    /// ------------------------------------------------------------------------------------
+	////    /// <summary>
+	////    /// 
+	////    /// </summary>
+	////    /// ------------------------------------------------------------------------------------
+	////    private void HandlePopup(object sender, PopupEventArgs e)
+	////    {
+	////        if (m_item == null)
+	////            return;
+
+	////        if (m_item.ClassType == SearchClassType.Phones)
+	////            ToolTipTitle = Properties.Resources.kstidClassListPhoneMembersToolTipHdg;
+	////        else
+	////        {
+	////            if (m_tipText.IndexOf('\n') < 0)
+	////                ToolTipTitle = Properties.Resources.kstidClassListSingleMemberToolTipHdg;
+	////            else
+	////            {
+	////                ToolTipTitle = (m_item.ANDFeatures ?
+	////                    Properties.Resources.kstidClassListMembersToolTipAndHdg :
+	////                    Properties.Resources.kstidClassListMembersToolTipOrHdg);
+	////            }
+	////        }
+
+	////        Size sz = TextRenderer.MeasureText(m_tipText, m_item.ClassMembersFont);
+	////        Size szHdg = TextRenderer.MeasureText(ToolTipTitle, m_titleFont);
+
+	////        // Add enough for 4 pixels of padding all around, and 5
+	////        // pixels between the title and the feature members.
+	////        e.ToolTipSize = new Size(Math.Max(sz.Width, szHdg.Width) + 8,
+	////            sz.Height + szHdg.Height + 13);
+
+	////        m_contentLocation = new Point(4, szHdg.Height + 9);
+	////    }
+
+	////    /// ------------------------------------------------------------------------------------
+	////    /// <summary>
+	////    /// 
+	////    /// </summary>
+	////    /// ------------------------------------------------------------------------------------
+	////    private void HandleDraw(object sender, DrawToolTipEventArgs e)
+	////    {
+	////        e.DrawBackground();
+	////        e.DrawBorder();
+
+	////        TextRenderer.DrawText(e.Graphics, ToolTipTitle, m_titleFont,
+	////            new Point(4, 4), SystemColors.InfoText);
+
+	////        TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding |
+	////            TextFormatFlags.WordBreak;
+
+	////        TextRenderer.DrawText(e.Graphics, m_tipText, m_item.ClassMembersFont,
+	////            m_contentLocation, SystemColors.InfoText, flags);
+	////    }
+	////}
+
+	//#endregion
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates a tree resultView for find phone search categories and patterns.

@@ -468,7 +468,7 @@
     <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
   </data>
   <data name="kstidUndefPhoneticCharsGridGroupHdgFmt" xml:space="preserve">
-    <value>{0} - ({1})</value>
+    <value>{0} - (U+{1:X4})</value>
     <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
   </data>
   <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
@@ -491,5 +491,13 @@
   </data>
   <data name="kstidMissingRTFEditorMsg" xml:space="preserve">
     <value>You must first specify an RTF editor.</value>
+  </data>
+  <data name="kstidLoadingOptionsProgressBarText" xml:space="preserve">
+    <value>Loading Options...</value>
+    <comment>Progress bar text when options dialog is being loaded.</comment>
+  </data>
+  <data name="kstidUndefPhoneticChartsGridCodePointColFmt" xml:space="preserve">
+    <value>U+{0:X4}</value>
+    <comment>Format for displaying a character's codepoint value in the undefined phonetic characters dialog</comment>
   </data>
 </root>

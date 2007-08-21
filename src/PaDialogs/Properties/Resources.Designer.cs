@@ -589,6 +589,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading Options....
+        /// </summary>
+        internal static string kstidLoadingOptionsProgressBarText {
+            get {
+                return ResourceManager.GetString("kstidLoadingOptionsProgressBarText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specify field mappings.
         /// </summary>
         internal static string kstidMappingsButtonToolTip {
@@ -904,11 +913,20 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - ({1}).
+        ///   Looks up a localized string similar to {0} - (U+{1:X4}).
         /// </summary>
         internal static string kstidUndefPhoneticCharsGridGroupHdgFmt {
             get {
                 return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgFmt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to U+{0:X4}.
+        /// </summary>
+        internal static string kstidUndefPhoneticChartsGridCodePointColFmt {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticChartsGridCodePointColFmt", resourceCulture);
             }
         }
         

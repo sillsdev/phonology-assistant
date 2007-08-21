@@ -83,14 +83,14 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
-			Application.UseWaitCursor = true;
+			STUtils.WaitCursors(true);
 			FwDataSourcePrep();
 			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
 
 			m_dirty = m_newProject;
 			m_grid.IsDirty = false;
 			Application.Idle += Application_Idle;
-			Application.UseWaitCursor = false;
+			STUtils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
