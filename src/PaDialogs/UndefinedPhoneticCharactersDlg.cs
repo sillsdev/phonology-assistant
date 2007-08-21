@@ -274,7 +274,7 @@ namespace SIL.Pa.Dialogs
 
 			// Insert the first group heading row.
 			row = new SilHierarchicalGridRow(m_grid,
-				string.Format(fmt, prevChar, ((int)prevChar).ToString()), fnt, 0, lastChild);
+				string.Format(fmt, prevChar, (int)prevChar), fnt, 0, lastChild);
 
 			row.CountFormatStrings = countFmt;
 			m_grid.Rows.Insert(0, row);

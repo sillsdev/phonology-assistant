@@ -2277,6 +2277,8 @@ namespace SIL.Pa.Controls
 			if (!IsGroupedByField && !m_cache.IsCIEList)
 				return;
 
+			SuspendLayout();
+	
 			// All the Sorted row groups were either expanded or collapsed
 			m_ToggleGroupExpansion = true;
 			AllGroupsCollapsed = !expand;
@@ -2289,7 +2291,7 @@ namespace SIL.Pa.Controls
 			{
 				if (row is SilHierarchicalGridRow)
 				{
-					((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange);
+					((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange, false);
 					PaApp.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
 				}
 			}
@@ -2302,6 +2304,8 @@ namespace SIL.Pa.Controls
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			m_ToggleGroupExpansion = false;
+			ResumeLayout();
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2322,8 +2326,8 @@ namespace SIL.Pa.Controls
 						col.DefaultCellStyle.Font = fieldInfo.Font;
 				}
 
-				m_defaultRowHeight = Math.Max(m_defaultRowHeight,
-					col.DefaultCellStyle.Font.Height);
+				if (col.DefaultCellStyle.Font != null)
+					m_defaultRowHeight = Math.Max(m_defaultRowHeight, col.DefaultCellStyle.Font.Height);
 			}
 
 			// Add a little vertical padding.

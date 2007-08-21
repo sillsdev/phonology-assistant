@@ -283,6 +283,9 @@ namespace SIL.Pa.Controls
 					grid.SortOptions.SortInformationList.Count > 0)
 				{
 					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
+
+					if (PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+						grid.ToggleGroupExpansion(false);
 				}
 
 				if (grid.CurrentCell != null && !grid.CurrentCell.Displayed)
@@ -1364,6 +1367,12 @@ namespace SIL.Pa.Controls
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
 			FindInfo.ResetStartSearchCell(true);
 			FindInfo.CanFindAgain = true;
+
+			if (CurrentViewsGrid.Cache.IsCIEList &&
+				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseonminpairs", false))
+			{
+				CurrentViewsGrid.ToggleGroupExpansion(false);
+			}
 
 			return true;
 		}

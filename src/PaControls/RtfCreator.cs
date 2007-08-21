@@ -240,16 +240,16 @@ namespace SIL.Pa.Controls
 			// Sort the displayed columns by their display order
 			SortedList sortedColumns = new SortedList();
 			foreach (DataGridViewColumn column in m_grid.Columns)
+			{
 				if (column.Visible)
 					sortedColumns.Add(column.DisplayIndex, column);
+			}
 
 			// Calculate the maximum width of the header columns
 			foreach (DataGridViewColumn column in sortedColumns.Values)
 			{
-				// True when showing "Minimal Pairs"
-				if (column.Name == string.Empty && column.Index == 0)
-					continue;
-				CalcMaxHdrColWidths(column);
+				if (column.Name != string.Empty && column.Index > 0)
+					CalcMaxHdrColWidths(column);
 			}
 
 			foreach (DataGridViewRow row in m_grid.Rows)
@@ -262,7 +262,7 @@ namespace SIL.Pa.Controls
 					if (!(row as SilHierarchicalGridRow).Expanded)
 						continue;
 
-					m_rowValues.Add(kSilHierGridRowKey, new object[3] {
+					m_rowValues.Add(kSilHierGridRowKey, new object[] {
 						(row as SilHierarchicalGridRow).Text, row.Index, row });
 
 					m_wordListRows.Add(m_rowValues);

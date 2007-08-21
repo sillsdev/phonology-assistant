@@ -524,6 +524,8 @@ namespace SIL.Pa
 				m_grid.SortOptions.SortInformationList.Count > 0)
 			{
 				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
+				if (PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+					m_grid.ToggleGroupExpansion(false);
 			}
 
 			if (m_grid.CurrentCell != null && !m_grid.CurrentCell.Displayed)

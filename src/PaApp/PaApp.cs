@@ -1047,8 +1047,7 @@ namespace SIL.Pa
 		{
 			if (s_progressBar != null)
 			{
-				if (s_mainForm != null)
-					STUtils.WaitCursors(true);
+				STUtils.WaitCursors(true);
 
 				// Save the current progress bar and initialize s_progressBar with the one
 				// returned by the property since it may not be the same. Normally, the one
