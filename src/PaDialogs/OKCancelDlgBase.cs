@@ -82,8 +82,8 @@ namespace SIL.Pa.Dialogs
 		{
 			if (Parent is Form)
 				((Form)Parent).RemoveOwnedForm(this);
-			
-			SaveSettings();
+
+			InternalSaveSettings();
 		    base.OnFormClosing(e);
 
 		    if (e.Cancel || !IsDirty)
@@ -91,11 +91,11 @@ namespace SIL.Pa.Dialogs
 
 			if (m_cancelButtonPressed)
 			{
-				ThrowAwayChanges();
+				InternalThrowAwayChanges();
 				return;
 			}
 
-			if (!Verify())
+			if (!InternalVerify())
 			{
 				e.Cancel = true;
 				return;
@@ -125,7 +125,7 @@ namespace SIL.Pa.Dialogs
 				DialogResult = DialogResult.OK;
 			}
 
-		    if (!(m_changesWereMade = SaveChanges()))
+			if (!(m_changesWereMade = InternalSaveChanges()))
 		        e.Cancel = true;
 		}
 
@@ -160,7 +160,28 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool IsDirty
 		{
-		    get { return m_dirty; }
+		    get
+			{
+				// Broadcast a message to anyone who cares (e.g. an AddOn).
+				DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this);
+				PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+				return (m_dirty || dsmi.IsDirty);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when the user clicks the cancel button and the form is closing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalThrowAwayChanges()
+		{
+			// Broadcast a message to anyone who cares (e.g. an AddOn).
+			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+
+			if (dsmi.Continue)
+				ThrowAwayChanges();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,12 +195,46 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Return true if data is OK.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool InternalVerify()
+		{
+			// Broadcast a message to anyone who cares (e.g. an AddOn).
+			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			if (PaApp.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
+			{
+				if (!dsmi.Continue)
+					return dsmi.BoolToReturn;
+			}
+
+			return Verify();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Return true if data is OK. Override in derived classes
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool Verify()
 		{
 		    return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called before the base class OnClosing to allow derived classes to save form
+		/// settings.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalSaveSettings()
+		{
+			// Broadcast a message to anyone who cares (e.g. an AddOn).
+			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+
+			if (dsmi.Continue)
+				SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -199,9 +254,44 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		/// <returns>False if closing the form should be canceled. Otherwise, true.</returns>
 		/// ------------------------------------------------------------------------------------
+		private bool InternalSaveChanges()
+		{
+			// Broadcast a message to anyone who cares (e.g. an AddOn).
+			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			if (PaApp.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
+			{
+				if (!dsmi.Continue)
+					return dsmi.BoolToReturn;
+			}
+
+			return SaveChanges();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called after data has been determined to be dirty, verified and OK is clicked or
+		/// the user has confirmed saving the changes. Override in derived classes.
+		/// </summary>
+		/// <returns>False if closing the form should be canceled. Otherwise, true.</returns>
+		/// ------------------------------------------------------------------------------------
 		protected virtual bool SaveChanges()
 		{
 		    return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when the help button is clicked.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalHandleHelpClick(object sender, EventArgs e)
+		{
+			// Broadcast a message to anyone who cares (e.g. an AddOn).
+			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+
+			if (dsmi.Continue)
+				HandleHelpClick(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,4 +306,52 @@ namespace SIL.Pa.Dialogs
 
 		#endregion
 	}
+
+	#region DlgSendMessageInfo class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class DlgSendMessageInfo
+	{
+		public Form Dialog;
+		public bool IsDirty = false;
+		public object Tag;
+
+		// When Continue comes back from the send message as false, this value determines whether
+		// or not the method issuing the send message should continue or return immediately.
+		public bool Continue = true;
+
+		// When Continue comes back from the send message as false, this value is returned
+		// from the method that issued the send message when that method returns a bool.
+		public bool BoolToReturn = true;
+
+		// When Continue comes back from the send message as false, this value is returned
+		// from the method that issued the send message when that method returns something
+		// other than a bool.
+		public object ObjToReturn;
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DlgSendMessageInfo(Form dialog) : this(dialog, false)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DlgSendMessageInfo(Form dialog, bool isDirty)
+		{
+			Dialog = dialog;
+			IsDirty = isDirty;
+		}
+	}
+
+	#endregion
 }

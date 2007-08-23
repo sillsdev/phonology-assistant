@@ -274,7 +274,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void BuildPhoneCache()
 		{
-			s_phoneCache = new PhoneCache();
+			string conSymbol =
+				s_settingsHndlr.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
+
+			string vowSymbol =
+				s_settingsHndlr.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
+
+			s_phoneCache = new PhoneCache(conSymbol, vowSymbol);
 			SearchEngine.PhoneCache = s_phoneCache;
 
 			foreach (WordCacheEntry entry in s_wordCache)

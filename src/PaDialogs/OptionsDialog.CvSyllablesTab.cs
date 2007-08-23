@@ -113,7 +113,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadCustomType()
 		{
-			txtCustomChars.TextChanged += new EventHandler(txtCustomChars_TextChanged);
+			txtCustomChars.TextChanged += txtCustomChars_TextChanged;
+			
 			foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type
@@ -134,6 +135,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SaveCvSyllablesTabSettings()
 		{
+			txtCustomChars.TextChanged -= txtCustomChars_TextChanged;
+
 			if (!IsDirty)
 				return;
 
@@ -167,7 +170,11 @@ namespace SIL.Pa.Dialogs
 				m_allPickerPhones.Add(phone, cvPatternType);
 
 				if (item.Checked)
-					CreateCVPatternInfo(phone, cvPatternType);
+				{
+					CVPatternInfo cvpi = CVPatternInfo.Create(phone, cvPatternType);
+					if (cvpi != null)
+						PaApp.Project.CVPatternInfoList.Add(cvpi);
+				}
 			}
 		}
 
@@ -178,7 +185,6 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SaveCustomList()
 		{
-			string phone = string.Empty;
 			string[] split = txtCustomChars.Text.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 			ArrayList customList = new ArrayList();
 
@@ -191,36 +197,20 @@ namespace SIL.Pa.Dialogs
 
 			foreach (string cvString in customList)
 			{
-				phone = cvString.Replace(DataUtils.kDottedCircle, string.Empty);
-				if (phone == string.Empty)
+				string chr = cvString.Replace(DataUtils.kDottedCircle, string.Empty);
+				if (chr == string.Empty)
 					continue;
 
-				// If the custom phone already exists in pickers,
-				// then save the phone with the correct cvPatternType.
-				if (m_allPickerPhones.ContainsKey(phone))
-					CreateCVPatternInfo(phone, m_allPickerPhones[phone]);
-				else
-					CreateCVPatternInfo(phone, IPACharIgnoreTypes.NotApplicable); // NA is 'custom' type
+				// If the custom phone already exists in pickers, then save the phone with
+				// the correct IPACharIgnoreTypes. Otherwise, save the phone with the N/A
+				// type which we're using here for custom characters.
+				CVPatternInfo cvpi = CVPatternInfo.Create(cvString,
+					(m_allPickerPhones.ContainsKey(chr) ? m_allPickerPhones[chr] :
+					IPACharIgnoreTypes.NotApplicable));
+
+				if (cvpi != null)
+					PaApp.Project.CVPatternInfoList.Add(cvpi);
 			}
-		}
-
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create a CVPatternInfo object and add it to the pattern list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void CreateCVPatternInfo(string phone, IPACharIgnoreTypes cvPatternType)
-		{
-			CVPatternInfo cv = new CVPatternInfo();
-			cv.Phone = phone;
-
-			// We assume 'NotApplicable' means it's part of the Custom character list.
-			cv.PatternType = cvPatternType;
-
-			IPACharInfo charInfo = DataUtils.IPACharCache[phone];
-			cv.IsBase = charInfo.IsBaseChar;
-			PaApp.Project.CVPatternInfoList.Add(cv);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -307,6 +297,32 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void txtCustomChars_KeyDown(object sender, KeyEventArgs e)
+		{
+			// Ctrl-0 inserts a dotted circle.
+			if (e.Control && e.KeyCode == Keys.D0)
+			{
+				int selStart = txtCustomChars.SelectionStart;
+				if (txtCustomChars.SelectionLength > 0)
+				{
+					// Remove any selected text.
+					m_handleTextChange = false;
+					txtCustomChars.Text =
+						txtCustomChars.Text.Remove(selStart, txtCustomChars.SelectionLength);
+					m_handleTextChange = true;
+				}
+
+				txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, DataUtils.kDottedCircle);
+				txtCustomChars.SelectionStart = selStart + 1;
+				e.SuppressKeyPress = true;
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Handle the tbDisplayChars's text input.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -315,13 +331,13 @@ namespace SIL.Pa.Dialogs
 			// Return if already handling a text change with this method
 			if (!m_handleTextChange)
 				return;
+			
 			m_handleTextChange = false;
-
 			m_dirty = true;
 
 			StringBuilder verifiedText = new StringBuilder();
 			IPACharInfo charInfo;
-			int textPosition = txtCustomChars.SelectionStart;
+			int selStart = txtCustomChars.SelectionStart;
 
 			if (txtCustomChars.TextLength > 0)
 			{
@@ -339,34 +355,26 @@ namespace SIL.Pa.Dialogs
 
 					// Eat the character if it is not in the IPACharCache
 					if (charInfo == null)
-						textPosition--;
+						selStart--;
 					else
 					{
-						// Insert the dotted circle if the character is at the beginning and
-						// the character should be displayed with the dotted circle
-						if (i == 0 && charInfo.DisplayWDottedCircle)
+						// Insert the dotted circle if the character is at the beginning or after
+						// a space and the character should be displayed with the dotted circle.
+						if (charInfo.DisplayWDottedCircle &&
+							((i == 0 || txtCustomChars.Text[i - 1] == ' ')) &&
+							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != DataUtils.kDottedCircleC))
 						{
 							verifiedText.Append(DataUtils.kDottedCircle);
-							textPosition++;
-						}
-
-						if (i > 0)
-						{
-							// Insert the dotted circle if the prev character is a SPACE and
-							// the character should be displayed with the dotted circle
-							if (txtCustomChars.Text[i - 1] == ' ' && charInfo.DisplayWDottedCircle)
-							{
-								verifiedText.Append(DataUtils.kDottedCircle);
-								textPosition++;
-							}
+							selStart++;
 						}
 
 						verifiedText.Append(txtCustomChars.Text[i]);
 					}
 				}
+
 				txtCustomChars.Text = verifiedText.ToString();
 				// Set the cursor at the end of the text
-				txtCustomChars.SelectionStart = textPosition;
+				txtCustomChars.SelectionStart = selStart;
 			}
 
 			m_handleTextChange = true;

@@ -8,7 +8,7 @@
 // </copyright> 
 #endregion
 // 
-// File: MiscTests.cs
+// File: PhoneticParserTests.cs
 // Responsibility: DavidO & ToddJ
 // 
 // <remarks>
@@ -22,7 +22,7 @@ namespace SIL.Pa.Data
 {
     /// --------------------------------------------------------------------------------
     /// <summary>
-    /// Tests Misc. methods in DataUtils that reqire a database.
+    /// Tests Misc. methods in DataUtils.
     /// </summary>
     /// --------------------------------------------------------------------------------
     [TestFixture]

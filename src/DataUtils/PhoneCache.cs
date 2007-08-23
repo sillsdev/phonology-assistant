@@ -20,6 +20,32 @@ namespace SIL.Pa.Data
 		private static AmbiguousSequences s_ambiguousSeqList = null;
 		private static PhoneFeatureOverrides s_featureOverrides = null;
 
+		private readonly string m_conSymbol = "C";
+		private readonly string m_vowSymbol = "V";
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PhoneCache()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PhoneCache(string conSymbol, string vowSymbol)
+		{
+			if (!string.IsNullOrEmpty(conSymbol))
+				m_conSymbol = conSymbol;
+
+			if (!string.IsNullOrEmpty(vowSymbol))
+				m_vowSymbol = vowSymbol;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the IPhoneInfo object for the specified key.
@@ -68,44 +94,6 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Process the CV pattern base character.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string ProcessCVBaseChar(string phone)
-		{
-			bool containsBase = false;
-			StringBuilder stbCvBase = new StringBuilder();
-
-			IPhoneInfo phoneInfo = this[phone];
-
-			if (s_cvPatternInfoList != null)
-			{
-				// Is it a CVPatternInfo display base character?
-				foreach (CVPatternInfo info in s_cvPatternInfoList)
-				{
-					if (info.IsBase && phone == info.Phone)
-					{
-						containsBase = true;
-						stbCvBase.Append(phone);
-						break;
-					}
-				}
-			}
-
-			if (!containsBase)
-			{
-				if (phoneInfo.CharType == IPACharacterType.Consonant)
-					stbCvBase.Append('C');
-				else if (phoneInfo.CharType == IPACharacterType.Vowel)
-					stbCvBase.Append('V');
-				else if (phoneInfo.CharType == IPACharacterType.Breaking)
-					stbCvBase.Append(' ');
-			}
-			return stbCvBase.ToString();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the CV pattern for the specified phonetic string.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -124,55 +112,34 @@ namespace SIL.Pa.Data
 			if (phones == null || phones.Length == 0)
 				return null;
 
-			StringBuilder stbPattern = new StringBuilder();
+			StringBuilder bldr = new StringBuilder();
 			foreach (string phone in phones)
 			{
-				// Add the phone to the cache if there isn't one.
-				if (!ContainsKey(phone))
-					AddPhone(phone);
+				PhoneInfo phoneInfo = this[phone] as PhoneInfo;
 
-				IPACharInfo charInfo = DataUtils.IPACharCache[phone];
-				bool containsModifier = false;
-
-				if (phone.Length > 1)
+				if (CVPatternInfo.Contains(phone))
+					bldr.Append(phone);
+				else if (phoneInfo == null || phoneInfo.IsUndefined)
+					continue;
+				else if (phoneInfo.CharType == IPACharacterType.Breaking)
+					bldr.Append(' ');
+				else if (phoneInfo.CharType == IPACharacterType.Consonant ||
+					phoneInfo.CharType == IPACharacterType.Vowel)
 				{
-					StringBuilder stbPattern2 = new StringBuilder();
-					for (int i = phone.Length - 1; i >= 0; i--)
-					{
-						string phoneStr = phone[i].ToString();
+					string diacriticsAfterBase = null;
+					
+					if (phone.Length > 1)
+						diacriticsAfterBase = CVPatternInfo.GetMatchingModifiers(phone, bldr);
 
-						if (s_cvPatternInfoList != null)
-						{
-							// Is it a modifier?
-							foreach (CVPatternInfo info in s_cvPatternInfoList)
-							{
-								if (!info.IsBase && phoneStr == info.Phone)
-								{
-									containsModifier = true;
-									stbPattern2.Insert(0, phoneStr);
-									break;
-								}
-							}
-						}
+					bldr.Append(phoneInfo.CharType == IPACharacterType.Consonant ?
+						m_conSymbol : m_vowSymbol);
 
-						if (!containsModifier && charInfo != null && charInfo.IsBaseChar)
-						{
-							stbPattern2.Insert(0, ProcessCVBaseChar(phone));
-							break;
-						}
-
-						containsModifier = false;
-					}
-					stbPattern.Append(stbPattern2);
-				}
-				else
-				{
-					if (charInfo != null && charInfo.IsBaseChar)
-						stbPattern.Append(ProcessCVBaseChar(phone));
+					if (diacriticsAfterBase != null)
+						bldr.Append(diacriticsAfterBase);
 				}
 			}
 
-			return stbPattern.ToString();
+			return bldr.ToString();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -721,14 +688,107 @@ namespace SIL.Pa.Data
 	#region CVPatternInfo class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// A class 
+	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class CVPatternInfo
 	{
 		private string m_phone;
-		private IPACharIgnoreTypes m_patternType = 0;
-		private bool m_isBase = false;
+		private string m_leftSideDiacritics = null;
+		private string m_rightSideDiacritics = null;
+		private IPACharIgnoreTypes m_patternType = IPACharIgnoreTypes.NotApplicable;
+
+		#region static methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static CVPatternInfo Create(string phone, IPACharIgnoreTypes patternType)
+		{
+			if (string.IsNullOrEmpty(phone))
+				return null;
+
+			CVPatternInfo cv = new CVPatternInfo();
+			cv.Phone = phone;
+			cv.PatternType = patternType;
+			return cv;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if PhoneCache.CVPatternInfoList contains a CVPatternInfo object whose
+		/// phone is the same as that specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool Contains(string phone)
+		{
+			if (PhoneCache.CVPatternInfoList != null)
+			{
+				foreach (CVPatternInfo cvpi in PhoneCache.CVPatternInfoList)
+				{
+					if (cvpi.Phone == phone)
+						return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks the specified phone for any modifying diacritics found in any of the items
+		/// in PhoneCache.CVPatternInfoList.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetMatchingModifiers(string phone, StringBuilder bldr)
+		{
+			if (PhoneCache.CVPatternInfoList == null)
+				return null;
+
+			// Find out which codepoint in the phone represents the base character. For
+			// tie-barred phones, just use the first of the two base characters.
+			int baseIndex = -1;
+			for (int i = 0; i < phone.Length; i++)
+			{
+				IPACharInfo charInfo = DataUtils.IPACharCache[phone[i]];
+				if (charInfo != null && charInfo.IsBaseChar)
+				{
+					baseIndex = i;
+					break;
+				}
+			}
+
+			// This should never happen, but if the phone has no base character,
+			// what more can we do. 
+			if (baseIndex < 0)
+				return null;
+
+			// Get the pieces of the phone that are before and after the base character.
+			string preBase = (baseIndex == 0 ? string.Empty : phone.Substring(0, baseIndex));
+			string postBase = (baseIndex == phone.Length - 1 ? string.Empty :
+				phone.Substring(baseIndex + 1));
+
+			StringBuilder diacriticsAfterBase = new StringBuilder();
+			foreach (CVPatternInfo cvpi in PhoneCache.CVPatternInfoList)
+			{
+				if (cvpi.HasLeftSideDiacritics && cvpi.LeftSideDiacritics == preBase)
+					bldr.Append(cvpi.LeftSideDiacritics);
+
+				if (cvpi.HasRightSideDiacritics)
+				{
+					foreach (char c in cvpi.RightSideDiacritics)
+					{
+						if (postBase.IndexOf(c) >= 0)
+							diacriticsAfterBase.Append(c);
+					}
+				}
+			}
+
+			return (diacriticsAfterBase.Length == 0 ? null : diacriticsAfterBase.ToString());
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -739,7 +799,45 @@ namespace SIL.Pa.Data
 		public string Phone
 		{
 			get { return m_phone; }
-			set { m_phone = value; }
+			set
+			{
+				m_phone = FFNormalizer.Normalize(value);
+
+				// If the phone is also a base phonetic character, we're done now.
+				IPACharInfo charInfo = DataUtils.IPACharCache[m_phone];
+				if (charInfo != null && charInfo.IsBaseChar)
+					return;
+
+				StringBuilder bldrDiacritics = new StringBuilder();
+				bool foundDiacriticPlaceholder = false;
+
+				// Check if the "phone" contains a base character. If so, then the assumption
+				// is that the CV pattern will contain exact matches of m_phone instead of a
+				// C or V. If not, then keep track of diacritics before and after the diacritic
+				// placeholder. If there's no diacritic placeholder and no base character found,
+				// it's assumed that what's found in m_phone are diacritics that are to follow
+				// the C or V. If there is a diacritic placeholder, then what precedes it are
+				// diacritics that will precede a C or V (e.g. prenasalization) and what
+				// follows it are diacritics that will follow the C or V.
+				foreach (char c in m_phone)
+				{
+					charInfo = DataUtils.IPACharCache[c];
+					if (charInfo != null && charInfo.IsBaseChar)
+						return;
+
+					if (c != DataUtils.kDottedCircleC)
+						bldrDiacritics.Append(c);
+					else if (!foundDiacriticPlaceholder)
+					{
+						// We've hit the first diacritic placeholder, so move all that's
+						// preceded it to the 
+						m_leftSideDiacritics = bldrDiacritics.ToString();
+						foundDiacriticPlaceholder = true;
+					}
+				}
+
+				m_rightSideDiacritics = bldrDiacritics.ToString();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -756,15 +854,58 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets m_isBase.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public bool IsBase
+		[XmlIgnore]
+		public string LeftSideDiacritics
 		{
-			get { return m_isBase; }
-			set { m_isBase = value; }
+			get { return m_leftSideDiacritics; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string RightSideDiacritics
+		{
+			get { return m_rightSideDiacritics; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool HasLeftSideDiacritics
+		{
+			get { return !string.IsNullOrEmpty(m_leftSideDiacritics); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool HasRightSideDiacritics
+		{
+			get { return !string.IsNullOrEmpty(m_rightSideDiacritics); }
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return m_phone;
 		}
 	}
+
 	#endregion
 }

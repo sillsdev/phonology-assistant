@@ -57,6 +57,7 @@ namespace SIL.Pa.Dialogs
 			BuildGrid();
 			
 			cboListType.SelectedIndex = 0;
+			m_sortingGrid.IsDirty = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

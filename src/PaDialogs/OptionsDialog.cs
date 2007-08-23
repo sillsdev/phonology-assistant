@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
@@ -11,6 +12,8 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg : OKCancelDlgBase
 	{
+		private readonly Dictionary<TabPage, string> m_tabPageHelpTopicIds;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -26,10 +29,14 @@ namespace SIL.Pa.Dialogs
 			// Remove this until we implement it.
 			tabOptions.TabPages.Remove(tpgColors);
 
+			// Remove this for now. We may never use it, but
+			// I'm hesitant to yank all the code just yet.
+			tabOptions.TabPages.Remove(tpgFindPhones);
+
 			PaApp.IncProgressBar();
 			InitializeFontTab();
 			PaApp.IncProgressBar();
-			InitializeFindPhonesTab();
+			//InitializeFindPhonesTab();
 			PaApp.IncProgressBar();
 			InitializeWordListTab();
 			PaApp.IncProgressBar();
@@ -44,12 +51,18 @@ namespace SIL.Pa.Dialogs
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
-
 			lblSaveInfo.Top = (pnlButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
-			m_dirty = false;
 			PaApp.IncProgressBar();
+			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
+			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
+			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
+			m_tabPageHelpTopicIds[tpgCVSyllables] = "hidCVSyllablesOptions";
+			m_tabPageHelpTopicIds[tpgSorting] = "hidSortingOptions";
+			m_tabPageHelpTopicIds[tpgFonts] = "hidFontsOptions";
+
+			m_dirty = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,20 +97,10 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
-				return (m_dirty || IsFontsTabDirty || IsFindPhoneTabDirty ||
+				return (m_dirty || IsFontsTabDirty || /*IsFindPhoneTabDirty || */
 					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty);
 			}
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected override bool Verify()
-		//{
-		//    return VerifyFontInfo();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -107,7 +110,7 @@ namespace SIL.Pa.Dialogs
 		protected override bool SaveChanges()
 		{
 			SaveFontTabSettings();
-			SaveFindPhonesTabSettings();
+			//SaveFindPhonesTabSettings();
 			SaveWordListTabSettings();
 			SaveRecViewTabSettings();
 			SaveSortingTabSettings();
@@ -117,38 +120,13 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Sets the visible state of the information message and icon.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void tabOptions_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			//bool saveInfoVisible = (tabOptions.SelectedTab.Tag != null &&
-			//    (bool)tabOptions.SelectedTab.Tag);
-
-			//picSaveInfo.Visible = saveInfoVisible;
-			//lblSaveInfo.Visible = saveInfoVisible;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			string helpId = null;
-
-			switch (tabOptions.SelectedIndex)
-			{
-				case 0: helpId = "hidWordListOptions"; break;
-				case 1: helpId = "hidRecordViewOptions"; break;
-				case 2: helpId = "hidSearchPatternOptions"; break;
-				case 3: helpId = "hidCVSyllablesOptions"; break;
-				case 4: helpId = "hidSortingOptions"; break;
-				case 5: helpId = "hidFontsOptions"; break;
-			}
-
-			PaApp.ShowHelpTopic(helpId);
+			if (m_tabPageHelpTopicIds.ContainsKey(tabOptions.SelectedTab))
+				PaApp.ShowHelpTopic(m_tabPageHelpTopicIds[tabOptions.SelectedTab]);
 		}
 	}
 }

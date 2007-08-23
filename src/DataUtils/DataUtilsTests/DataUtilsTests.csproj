@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbiguousSequenceTests.cs" />
+    <Compile Include="PhoneCacheTests.cs" />
     <Compile Include="PhoneticParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -649,10 +649,11 @@ namespace SIL.Pa
 		/// members are shown instead.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]	// Ignore for now. May never use this. But we'll see.
 		public bool ShowClassNamesInSearchPatterns
 		{
-			get {return m_showClassNamesInSearchPatterns;}
-			set {m_showClassNamesInSearchPatterns = value;}
+			get { return m_showClassNamesInSearchPatterns; }
+			set {/*m_showClassNamesInSearchPatterns = value;*/}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -661,10 +662,12 @@ namespace SIL.Pa
 		/// pattern when the find phones search pattern text box is empty.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]	// Ignore for now. May never use this. But we'll see.
 		public bool ShowDiamondsInEmptySearchPattern
 		{
-			get {return m_showDiamondsInEmptySearchPattern;}
-			set {m_showDiamondsInEmptySearchPattern = value;}
+			get	{ return m_showDiamondsInEmptySearchPattern;}
+			set {/*m_showDiamondsInEmptySearchPattern = value;*/
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -57,7 +57,7 @@ namespace SIL.Pa.Dialogs
 			this.btnHelp.TabIndex = 3;
 			this.btnHelp.Text = "Help";
 			this.btnHelp.UseVisualStyleBackColor = true;
-			this.btnHelp.Click += new System.EventHandler(this.HandleHelpClick);
+			this.btnHelp.Click += new System.EventHandler(this.InternalHandleHelpClick);
 			// 
 			// btnCancel
 			// 
