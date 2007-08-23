@@ -1,0 +1,179 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIL.SpeechTools.Utils</RootNamespace>
+    <AssemblyName>SpeechToolsUtils</AssemblyName>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="SilEncConverters22" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="ExceptionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionViewer.designer.cs">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FontHelper.cs" />
+    <Compile Include="GridCellPiecePainter.cs" />
+    <Compile Include="IdenticalMD5Dlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IdenticalMD5Dlg.Designer.cs">
+      <DependentUpon>IdenticalMD5Dlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MusicXML.cs" />
+    <Compile Include="NoActivateWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SaAudioDocument.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SilButtonCell.cs" />
+    <Compile Include="SilGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SilHierarchicalGridParts.cs" />
+    <Compile Include="SilPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SilPopup.designer.cs">
+      <DependentUpon>SilPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SmallFadingWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmallFadingWnd.designer.cs">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen.cs">
+    </Compile>
+    <Compile Include="ISaAudioDocumentReader.cs" />
+    <Compile Include="ISaAudioDocumentWriter.cs" />
+    <Compile Include="PaintingHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaDatabase.cs" />
+    <Compile Include="SaAudioDocumentReader.cs" />
+    <Compile Include="SaAudioDocumentWriter.cs" />
+    <Compile Include="SettingsHandler.cs" />
+    <Compile Include="SpeechToolsSettingsHandler.cs" />
+    <Compile Include="STUtils.cs">
+    </Compile>
+    <Compile Include="AudioReader.cs" />
+    <Compile Include="TransConverter.cs" />
+    <Compile Include="TransConvertersDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransConvertersDlg.designer.cs">
+      <DependentUpon>TransConvertersDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XMLHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutDlg.resx">
+      <DependentUpon>AboutDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionViewer.resx">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IdenticalMD5Dlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>IdenticalMD5Dlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SilPopup.resx">
+      <DependentUpon>SilPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmallFadingWnd.resx">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreenForm.resx">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransConvertersDlg.resx">
+      <DependentUpon>TransConvertersDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kimidSilLogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Collapse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Expand.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
