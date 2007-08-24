@@ -20,7 +20,7 @@ namespace SIL.Pa
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FindPhoneWnd : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class FindPhoneVw : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		//private string PaApp.kOpenClassBracket = "\u2039";
 		//private string PaApp.kCloseClassBracket = "\u203A";
@@ -47,7 +47,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FindPhoneWnd()
+		public FindPhoneVw()
 		{
 			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
 			InitializeComponent();

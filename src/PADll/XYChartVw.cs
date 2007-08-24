@@ -20,7 +20,7 @@ namespace SIL.Pa
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class XYChartWnd : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class XYChartVw : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		private const string kSavedChartsFile = "XYCharts.xml";
 
@@ -39,7 +39,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartWnd()
+		public XYChartVw()
 		{
 			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidXYChartsViewText, 6);
 			InitializeComponent();

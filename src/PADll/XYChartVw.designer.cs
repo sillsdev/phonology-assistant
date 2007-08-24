@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class XYChartWnd
+	partial class XYChartVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartWnd));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SIL.Pa.Controls.PaPanel();
 			this.rtfRecVw = new SIL.Pa.Controls.RtfRecordView();

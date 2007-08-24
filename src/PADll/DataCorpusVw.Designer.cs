@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class DataCorpusWnd
+	partial class DataCorpusVw
 	{
 		/// <summary>
 		/// Required designer variable.

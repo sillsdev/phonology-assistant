@@ -140,29 +140,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ChartWndBase.cs">
+    <Compile Include="ChartVwBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChartWndBase.Designer.cs">
-      <DependentUpon>ChartWndBase.cs</DependentUpon>
+    <Compile Include="ChartVwBase.designer.cs">
+      <DependentUpon>ChartVwBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConsonantChartWnd.cs">
+    <Compile Include="ConsonantChartVw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConsonantChartWnd.designer.cs">
-      <DependentUpon>ConsonantChartWnd.cs</DependentUpon>
+    <Compile Include="ConsonantChartVw.designer.cs">
+      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataCorpusWnd.cs">
+    <Compile Include="DataCorpusVw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataCorpusWnd.designer.cs">
-      <DependentUpon>DataCorpusWnd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FindPhoneWnd.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FindPhoneWnd.Designer.cs">
-      <DependentUpon>FindPhoneWnd.cs</DependentUpon>
+    <Compile Include="DataCorpusVw.designer.cs">
+      <DependentUpon>DataCorpusVw.cs</DependentUpon>
     </Compile>
     <Compile Include="PaMainWnd.cs">
       <SubType>Form</SubType>
@@ -173,35 +167,53 @@
     <Compile Include="PaMainWnd.MsgHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhoneInventoryWnd.cs">
+    <Compile Include="PhoneInventoryVw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhoneInventoryWnd.Designer.cs">
-      <DependentUpon>PhoneInventoryWnd.cs</DependentUpon>
+    <Compile Include="PhoneInventoryVw.designer.cs">
+      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="VowelChartWnd.cs">
+    <Compile Include="SearchVw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VowelChartWnd.Designer.cs">
-      <DependentUpon>VowelChartWnd.cs</DependentUpon>
+    <Compile Include="SearchVw.designer.cs">
+      <DependentUpon>SearchVw.cs</DependentUpon>
     </Compile>
-    <Compile Include="XYChartWnd.cs">
+    <Compile Include="VowelChartVw.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XYChartWnd.designer.cs">
-      <DependentUpon>XYChartWnd.cs</DependentUpon>
+    <Compile Include="VowelChartVw.designer.cs">
+      <DependentUpon>VowelChartVw.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FindPhoneWnd.resx">
+    <Compile Include="XYChartVw.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XYChartVw.designer.cs">
+      <DependentUpon>XYChartVw.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ChartVwBase.resx">
+      <DependentUpon>ChartVwBase.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>FindPhoneWnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsonantChartVw.resx">
+      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCorpusVw.resx">
+      <DependentUpon>DataCorpusVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PaMainWnd.resx">
       <DependentUpon>PaMainWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhoneInventoryVw.resx">
+      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -209,30 +221,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ChartWndBase.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ChartWndBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConsonantChartWnd.resx">
-      <DependentUpon>ConsonantChartWnd.cs</DependentUpon>
+    <EmbeddedResource Include="SearchVw.resx">
+      <DependentUpon>SearchVw.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataCorpusWnd.resx">
-      <DependentUpon>DataCorpusWnd.cs</DependentUpon>
+    <EmbeddedResource Include="VowelChartVw.resx">
+      <DependentUpon>VowelChartVw.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhoneInventoryWnd.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PhoneInventoryWnd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VowelChartWnd.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>VowelChartWnd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XYChartWnd.resx">
-      <DependentUpon>XYChartWnd.cs</DependentUpon>
+    <EmbeddedResource Include="XYChartVw.resx">
+      <DependentUpon>XYChartVw.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

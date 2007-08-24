@@ -17,7 +17,7 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class PhoneInventoryWnd : Form, IxCoreColleague, ITabView
+	public partial class PhoneInventoryVw : Form, IxCoreColleague, ITabView
 	{
 		private SizableDropDownPanel m_sddpAFeatures;
 		private CustomDropDown m_aFeatureDropdown;
@@ -36,7 +36,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInventoryWnd()
+		public PhoneInventoryVw()
 		{
 			if (!PaApp.DesignMode)
 			{

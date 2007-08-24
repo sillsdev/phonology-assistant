@@ -7,19 +7,19 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class VowelChartWnd : ChartWndBase
+	public partial class ConsonantChartVw : ChartVwBase
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public VowelChartWnd()
+		public ConsonantChartVw()
 		{
 			InitializeComponent();
-			Name = "vowelChartWnd";
-			m_defaultHTMLOutputFile = Properties.Resources.kstidVowChartHTMLFileName;
-			m_htmlChartName = Properties.Resources.kstidVowChartHTMLChartType;
+			Name = "consonantChartWnd";
+			m_defaultHTMLOutputFile = Properties.Resources.kstidConChartHTMLFileName;
+			m_htmlChartName = Properties.Resources.kstidConChartHTMLChartType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override IPACharacterType CharacterType
 		{
-			get { return IPACharacterType.Vowel; }
+			get { return IPACharacterType.Consonant; }
 		}
 	}
 }

@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class ConsonantChartWnd
+	partial class ConsonantChartVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SIL.Pa
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsonantChartWnd));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsonantChartVw));
 			this.SuspendLayout();
 			// 
 			// gridPhones

@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class FindPhoneWnd
+	partial class FindPhoneVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindPhoneWnd));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindPhoneVw));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();

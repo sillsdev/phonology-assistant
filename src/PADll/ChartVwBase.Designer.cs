@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class ChartWndBase
+	partial class ChartVwBase
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartWndBase));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartVwBase));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.m_chrGrid = new SIL.Pa.Controls.CharGrid();
 			this.m_histogram = new SIL.Pa.Controls.Histogram();

@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class VowelChartWnd
+	partial class VowelChartVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SIL.Pa
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VowelChartWnd));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VowelChartVw));
 			this.SuspendLayout();
 			// 
 			// gridPhones

@@ -525,16 +525,16 @@ namespace SIL.Pa
 
 			if (vwTabGroup != null && vwTabGroup.CurrentTab != null)
 			{
-				if (vwTabGroup.CurrentTab.View is DataCorpusWnd)
-					grid = (vwTabGroup.CurrentTab.View as DataCorpusWnd).WordListGrid;
-				else if (vwTabGroup.CurrentTab.View is FindPhoneWnd)
+				if (vwTabGroup.CurrentTab.View is DataCorpusVw)
+					grid = (vwTabGroup.CurrentTab.View as DataCorpusVw).WordListGrid;
+				else if (vwTabGroup.CurrentTab.View is FindPhoneVw)
 				{
-					FindPhoneWnd view = vwTabGroup.CurrentTab.View as FindPhoneWnd;
+					FindPhoneVw view = vwTabGroup.CurrentTab.View as FindPhoneVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
-				else if (vwTabGroup.CurrentTab.View is XYChartWnd)
+				else if (vwTabGroup.CurrentTab.View is XYChartVw)
 				{
-					XYChartWnd view = vwTabGroup.CurrentTab.View as XYChartWnd;
+					XYChartVw view = vwTabGroup.CurrentTab.View as XYChartVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else
@@ -566,16 +566,16 @@ namespace SIL.Pa
 
 			if (vwTabGroup != null && vwTabGroup.CurrentTab != null)
 			{
-				if (vwTabGroup.CurrentTab.View is DataCorpusWnd)
-					grid = (vwTabGroup.CurrentTab.View as DataCorpusWnd).WordListGrid;
-				else if (vwTabGroup.CurrentTab.View is FindPhoneWnd)
+				if (vwTabGroup.CurrentTab.View is DataCorpusVw)
+					grid = (vwTabGroup.CurrentTab.View as DataCorpusVw).WordListGrid;
+				else if (vwTabGroup.CurrentTab.View is FindPhoneVw)
 				{
-					FindPhoneWnd view = vwTabGroup.CurrentTab.View as FindPhoneWnd;
+					FindPhoneVw view = vwTabGroup.CurrentTab.View as FindPhoneVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
-				else if (vwTabGroup.CurrentTab.View is XYChartWnd)
+				else if (vwTabGroup.CurrentTab.View is XYChartVw)
 				{
-					XYChartWnd view = vwTabGroup.CurrentTab.View as XYChartWnd;
+					XYChartVw view = vwTabGroup.CurrentTab.View as XYChartVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else
@@ -707,7 +707,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDataCorpus(object args)
 		{
-			vwTabGroup.ActivateView(typeof(DataCorpusWnd));
+			vwTabGroup.ActivateView(typeof(DataCorpusVw));
 			return true;
 		}
 
@@ -720,7 +720,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewDataCorpus(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DataCorpusWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DataCorpusVw));
 			return true;
 		}
 
@@ -731,7 +731,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewFindPhones(object args)
 		{
-			FindPhoneWnd wnd = vwTabGroup.ActivateView(typeof(FindPhoneWnd)) as FindPhoneWnd;
+			FindPhoneVw wnd = vwTabGroup.ActivateView(typeof(FindPhoneVw)) as FindPhoneVw;
 
 			if (wnd == null)
 				return true;
@@ -754,7 +754,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewFindPhones(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(FindPhoneWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(FindPhoneVw));
 			return true;
 		}
 
@@ -767,7 +767,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewConsonantChart(object args)
 		{
-			vwTabGroup.ActivateView(typeof(ConsonantChartWnd));
+			vwTabGroup.ActivateView(typeof(ConsonantChartVw));
 			return true;
 		}
 
@@ -780,7 +780,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewConsonantChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(ConsonantChartWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(ConsonantChartVw));
 			return true;
 		}
 
@@ -793,7 +793,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewVowelChart(object args)
 		{
-			vwTabGroup.ActivateView(typeof(VowelChartWnd));
+			vwTabGroup.ActivateView(typeof(VowelChartVw));
 			return true;
 		}
 
@@ -806,7 +806,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewVowelChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(VowelChartWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(VowelChartVw));
 			return true;
 		}
 
@@ -819,7 +819,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewXYChart(object args)
 		{
-			vwTabGroup.ActivateView(typeof(XYChartWnd));
+			vwTabGroup.ActivateView(typeof(XYChartVw));
 			return true;
 		}
 
@@ -832,7 +832,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewXYChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(XYChartWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(XYChartVw));
 			return true;
 		}
 
@@ -845,7 +845,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewPhoneInventory(object args)
 		{
-			vwTabGroup.ActivateView(typeof(PhoneInventoryWnd));
+			vwTabGroup.ActivateView(typeof(PhoneInventoryVw));
 			return true;
 		}
 
@@ -858,7 +858,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewPhoneInventory(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(PhoneInventoryWnd));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(PhoneInventoryVw));
 			return true;
 		}
 

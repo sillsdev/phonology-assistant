@@ -21,12 +21,12 @@ namespace SIL.Pa.AddOn
 	public class PaAddOnManager : IxCoreColleague
 	{
 		private PaMainWnd m_mainWnd;
-		private DataCorpusWnd m_dataCorpusWnd;
-		private FindPhoneWnd m_findPhoneWnd;
-		private ConsonantChartWnd m_consonantChartWnd;
-		private VowelChartWnd m_vowelChartWnd;
-		private XYChartWnd m_xyChartWnd;
-		private PhoneInventoryWnd m_phoneInventoryWnd;
+		private DataCorpusVw m_dataCorpusWnd;
+		private FindPhoneVw m_findPhoneWnd;
+		private ConsonantChartVw m_consonantChartWnd;
+		private VowelChartVw m_vowelChartWnd;
+		private XYChartVw m_xyChartWnd;
+		private PhoneInventoryVw m_phoneInventoryWnd;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,18 +49,18 @@ namespace SIL.Pa.AddOn
 			{
 				if (args.GetType() == typeof(PaMainWnd))
 					m_mainWnd = args as PaMainWnd;
-				else if (args.GetType() == typeof(DataCorpusWnd))
-					m_dataCorpusWnd = args as DataCorpusWnd;
-				else if (args.GetType() == typeof(FindPhoneWnd))
-					m_findPhoneWnd = args as FindPhoneWnd;
-				else if (args.GetType() == typeof(ConsonantChartWnd))
-					m_consonantChartWnd = args as ConsonantChartWnd;
-				else if (args.GetType() == typeof(VowelChartWnd))
-					m_vowelChartWnd = args as VowelChartWnd;
-				else if (args.GetType() == typeof(XYChartWnd))
-					m_xyChartWnd = args as XYChartWnd;
-				else if (args.GetType() == typeof(PhoneInventoryWnd))
-					m_phoneInventoryWnd = args as PhoneInventoryWnd;
+				else if (args.GetType() == typeof(DataCorpusVw))
+					m_dataCorpusWnd = args as DataCorpusVw;
+				else if (args.GetType() == typeof(FindPhoneVw))
+					m_findPhoneWnd = args as FindPhoneVw;
+				else if (args.GetType() == typeof(ConsonantChartVw))
+					m_consonantChartWnd = args as ConsonantChartVw;
+				else if (args.GetType() == typeof(VowelChartVw))
+					m_vowelChartWnd = args as VowelChartVw;
+				else if (args.GetType() == typeof(XYChartVw))
+					m_xyChartWnd = args as XYChartVw;
+				else if (args.GetType() == typeof(PhoneInventoryVw))
+					m_phoneInventoryWnd = args as PhoneInventoryVw;
 			}
 			catch { }
 

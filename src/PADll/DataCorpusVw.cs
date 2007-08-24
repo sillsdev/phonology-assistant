@@ -15,7 +15,7 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataCorpusWnd : Form, IxCoreColleague, ITabView
+	public partial class DataCorpusVw : Form, IxCoreColleague, ITabView
 	{
 		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
@@ -30,7 +30,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataCorpusWnd()
+		public DataCorpusVw()
 		{
 			if (!PaApp.DesignMode)
 			{

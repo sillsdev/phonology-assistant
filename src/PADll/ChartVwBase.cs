@@ -21,7 +21,7 @@ namespace SIL.Pa
 	/// character charts.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ChartWndBase : Form, IxCoreColleague, ITabView
+	public partial class ChartVwBase : Form, IxCoreColleague, ITabView
 	{
 		protected List<CharGridCell> m_phoneList;
 		protected ITMAdapter m_tmAdapter;
@@ -37,7 +37,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ChartWndBase()
+		public ChartVwBase()
 		{
 			PaApp.InitializeProgressBarForLoadingView(
 				(CharacterType == IPACharacterType.Consonant ?
