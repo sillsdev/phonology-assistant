@@ -30,7 +30,7 @@ namespace SIL.Pa.Controls
 		private bool m_showArrows = true;
 		private string m_srchQryCategory;
 		private SearchQuery m_searchQuery;
-		private Form m_owningForm;
+		private ITabView m_owningView;
 		private readonly Image m_downArrow;
 		private readonly Image m_upArrow;
 		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
@@ -136,10 +136,10 @@ namespace SIL.Pa.Controls
 		/// Gets or sets the pattern text box's owning form.
 		/// </summary>s
 		/// ------------------------------------------------------------------------------------
-		public Form OwningForm
+		public ITabView OwningView
 		{
-			get { return m_owningForm; }
-			set { m_owningForm = value; }
+			get { return m_owningView; }
+			set { m_owningView = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -523,7 +523,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertConsonant(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("[C]");
@@ -537,7 +537,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertVowel(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("[V]");
@@ -551,7 +551,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertZeroOrMore(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("*");
@@ -565,7 +565,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertOneOrMore(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("+");
@@ -579,7 +579,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertWordBoundary(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("#");
@@ -593,7 +593,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertDiacriticPlaceholder(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert(DataUtils.kDiacriticPlaceholder);
@@ -607,7 +607,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertSyllableBoundary(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert(".");
@@ -621,7 +621,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertANDGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("[]");
@@ -635,7 +635,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertORGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Insert("{}");
@@ -652,7 +652,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchOptions(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			m_searchOptionsDropDown.SearchQuery = m_searchQuery;
@@ -666,7 +666,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			if (m_searchOptionsDropDown.OptionsChanged)
@@ -686,7 +686,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnVerifyPattern(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			return true;
@@ -749,7 +749,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateBeginSearch(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_owningForm) || itemProps == null ||
+			if (!m_owningView.ActiveView || itemProps == null ||
 				itemProps.Name.StartsWith("cmnu"))
 			{
 				return false;
@@ -773,7 +773,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateSavePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_owningForm) || itemProps == null)
+			if (!m_owningView.ActiveView || itemProps == null)
 				return false;
 
 			if (itemProps.Enabled != IsPatternFull)
@@ -794,7 +794,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateVerifyPattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			itemProps.Visible = true;

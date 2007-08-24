@@ -12,7 +12,7 @@ namespace SIL.Pa.Controls
 	{
 		private SearchQuery m_searchQuery;
 		private PaWordListGrid m_grid;
-		private readonly ITMAdapter m_tmAdapter;
+		private ITMAdapter m_tmAdapter;
 		private readonly Type m_owningViewType;
 
 		/// ------------------------------------------------------------------------------------
@@ -154,6 +154,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
+			PaApp.MsgMediator.SendMessage("SearchResultViewDestroying", this);
+
 			base.OnHandleDestroyed(e);
 
 			if (m_grid != null)
@@ -210,6 +212,12 @@ namespace SIL.Pa.Controls
 		public ITMAdapter TMAdapter
 		{
 			get { return m_tmAdapter; }
+			set
+			{
+				m_tmAdapter = value;
+				if (m_grid != null)
+					m_grid.TMAdapter = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -194,6 +194,16 @@ namespace SIL.Pa.Controls
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Control HostedControl
+		{
+			get { return m_hostedControl; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the tab label control that's visible when the control is undocked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -376,6 +386,8 @@ namespace SIL.Pa.Controls
 			m_tmrMouseLocationMonitor.Start();
 			m_sliderOpen = true;
 			Invalidate();
+			Application.DoEvents();
+			PaApp.MsgMediator.SendMessage("SlidingPanelOpened", this);	
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -414,6 +426,7 @@ namespace SIL.Pa.Controls
 			m_pnlContainer.Visible = false;
 			m_sliderOpen = false;
 			Invalidate();
+			PaApp.MsgMediator.SendMessage("SlidingPanelClosed", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -527,6 +540,7 @@ namespace SIL.Pa.Controls
 
 		#endregion
 
+		#region Docking/Undocking methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Docks the currently slider-hosted control in the specified docking target and
@@ -546,6 +560,7 @@ namespace SIL.Pa.Controls
 
 			m_pnlContainer.ResumeLayout();
 			dockingTarget.ResumeLayout();
+			PaApp.MsgMediator.SendMessage("SlidingPanelsControlDocked", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -578,11 +593,16 @@ namespace SIL.Pa.Controls
 			Visible = true;
 			m_sliderOpen = false;
 			Invalidate();
+			BringToFront();
+			m_pnlContainer.BringToFront();
 
 			m_pnlContainer.ResumeLayout();
 			m_owningContainer.ResumeLayout();
 			dockingHost.ResumeLayout();
+			PaApp.MsgMediator.SendMessage("SlidingPanelsControlUndocked", this);
 		}
+
+		#endregion
 
 		#region Painting Methods
 		/// ------------------------------------------------------------------------------------

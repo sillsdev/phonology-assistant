@@ -70,7 +70,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		// Stores all the commands (and related information). The keys for this collection
 		// are the command id strings from the XML definition file.
-		private readonly Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
+		private Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
 
 		// This is true while we are reading the XML block of context menus.
 		protected bool m_readingContextMenuDef = false;
@@ -2736,6 +2736,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (m_parentControl != null)
 			{
+				m_parentControl.Controls.Remove(m_menuBar);
 				m_parentControl.Controls.Remove(m_tspLeft);
 				m_parentControl.Controls.Remove(m_tspRight);
 				m_parentControl.Controls.Remove(m_tspTop);
@@ -2815,6 +2816,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (m_tspRight != null && !m_tspRight.IsDisposed)
 				m_tspRight.Dispose();
 
+			m_commands = null;
+			m_rmlocalStrings = null;
+			m_menusWithShortcuts = null;
 			m_menuBar = null;
 			m_rufMarkerItem = null;
 			m_rufMarkerSeparator = null;
@@ -2827,6 +2831,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			m_tspBottom = null;
 			m_tspLeft = null;
 			m_tspRight = null;
+			m_htItemTags = null;
+			m_parentControl = null;
 		}
 
 		#endregion

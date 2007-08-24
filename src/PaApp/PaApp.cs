@@ -39,22 +39,26 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public interface ITabView
 	{
-		Control DockableContainer { get;}
-		void ViewDocking();
-		void ViewDocked();
-		void ViewUndocking();
-		void ViewUndocked();
-		void ViewActivatedWhileDocked();
-		void SaveSettings();
-		ToolStripProgressBar ProgressBar { get;}
-		ToolStripStatusLabel ProgressBarLabel { get;}
-		ToolStripStatusLabel StatusBarLabel { get;}
-		StatusStrip StatusBar { get;}
-		ToolTip ViewsToolTip { get;}
+		void SetViewActive(bool makeActive, bool isDocked);
+		bool ActiveView { get; }
+		Form OwningForm { get;}
 		ITMAdapter TMAdapter { get;}
 	}
 
-	/// ------------------------------------------------------------------------------------
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public interface IUndockedViewWnd
+	{
+		ToolStripProgressBar ProgressBar { get;}
+		ToolStripStatusLabel ProgressBarLabel { get;}
+		ToolStripStatusLabel StatusBarLabel { get;}
+		StatusStrip StatusBar { get; }
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
@@ -79,11 +83,10 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
 		private static ToolStripStatusLabel s_progressBarLabel;
-		private static ToolStripProgressBar s_savProgressBar;
-		private static ToolStripStatusLabel s_savProgressBarLabel;
-		private static bool s_statusBarHasBeenInitialized = false;
+		private static ToolStripProgressBar s_activeProgressBar;
+		private static ToolStripStatusLabel s_activeProgBarLabel;
 		private static Form s_mainForm;
-		private static Form s_currentView;
+		private static ITabView s_currentView;
 		private static Type s_currentViewType;
 		private static bool s_projectLoadInProcess = false;
 		private static PaProject s_project;
@@ -264,9 +267,9 @@ namespace SIL.Pa
 		public static WordCache WordCache
 		{
 			get { return s_wordCache; }
-			set	{ s_wordCache = value; }
+			set { s_wordCache = value; }
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Builds the cache of phones from the data corpus.
@@ -610,7 +613,7 @@ namespace SIL.Pa
 		/// this form will not be visible.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Form CurrentView
+		public static ITabView CurrentView
 		{
 			get { return s_currentView; }
 			set { s_currentView = value; }
@@ -636,13 +639,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (s_currentView != null && s_currentView.Visible && s_currentView is ITabView &&
-					((ITabView)s_currentView).StatusBarLabel != null)
-				{
-					return ((ITabView)s_currentView).StatusBarLabel;
-				}
+				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
+					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
 
-				return s_statusBarLabel;
+				return (udvwnd != null ? udvwnd.StatusBarLabel : s_statusBarLabel);
 			}
 			set { s_statusBarLabel = value; }
 		}
@@ -656,13 +656,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (s_currentView != null && s_currentView.Visible && s_currentView is ITabView &&
-					((ITabView)s_currentView).ProgressBar != null)
-				{
-					return ((ITabView)s_currentView).ProgressBar;
-				}
-			
-				return s_progressBar;
+				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
+					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				return (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			}
 			set { s_progressBar = value; }
 		}
@@ -676,13 +673,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (s_currentView != null && s_currentView.Visible && s_currentView is ITabView &&
-					((ITabView)s_currentView).ProgressBarLabel != null)
-				{
-					return ((ITabView)s_currentView).ProgressBarLabel;
-				}
+				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
+					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
 
-				return s_progressBarLabel;
+				return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 			}
 			set	{s_progressBarLabel = value;}
 		}
@@ -918,7 +912,7 @@ namespace SIL.Pa
 				adapter = null;
 			}
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds the specified file to the recently used projects list.
@@ -1051,28 +1045,24 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
-			if (s_progressBar != null)
+			IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
+				s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+			ToolStripProgressBar bar =
+				(udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
+
+			ToolStripStatusLabel lbl =
+				(udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+
+			if (bar != null)
 			{
 				STUtils.WaitCursors(true);
-
-				// Save the current progress bar and initialize s_progressBar with the one
-				// returned by the property since it may not be the same. Normally, the one
-				// stored in s_progressBar is the one on the main form but the one returned
-				// from the property may be one from an undocked form. s_progressBar will
-				// be restored to the one on the main form in UninitializeProgressBar.
-				if (!s_statusBarHasBeenInitialized)
-				{
-					s_savProgressBar = s_progressBar;
-					s_savProgressBarLabel = s_progressBarLabel;
-					s_progressBar = ProgressBar;
-					s_progressBarLabel = ProgressBarLabel;
-					s_statusBarHasBeenInitialized = true;
-				}
-
-				s_progressBar.Maximum = maxValue;
-				s_progressBar.Value = 0;
-				s_progressBarLabel.Text = text;
-				s_progressBarLabel.Visible = s_progressBar.Visible = true;
+				bar.Maximum = maxValue;
+				bar.Value = 0;
+				lbl.Text = text;
+				lbl.Visible = bar.Visible = true;
+				s_activeProgBarLabel = lbl;
+				s_activeProgressBar = bar;
 				Application.DoEvents();
 			}
 
@@ -1100,25 +1090,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UninitializeProgressBar()
 		{
-			if (s_progressBar != null)
-				s_progressBar.Visible = false;
+			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
+			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
 
-			if (s_progressBarLabel != null)
-				s_progressBarLabel.Visible = false;
+			if (bar != null)
+				bar.Visible = false;
 
-			if (s_statusBarHasBeenInitialized)
-			{
-				if (s_savProgressBar != null)
-					s_progressBar = s_savProgressBar;
+			if (lbl != null)
+				lbl.Visible = false;
 
-				if (s_savProgressBarLabel != null)
-					s_progressBarLabel = s_savProgressBarLabel;
-
-				s_savProgressBar = null;
-				s_savProgressBarLabel = null;
-				s_statusBarHasBeenInitialized = false;
-			}
-
+			s_activeProgBarLabel = null;
+			s_activeProgressBar = null;
 			STUtils.WaitCursors(false);
 		}
 
@@ -1140,12 +1122,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void IncProgressBar(int amount)
 		{
-			if (s_progressBar != null)
+			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
+
+			if (bar != null)
 			{
-				if (amount != -1 && (s_progressBar.Value + amount) <= s_progressBar.Maximum)
-					s_progressBar.Value += amount;
+				if (amount != -1 && (bar.Value + amount) <= bar.Maximum)
+					bar.Value += amount;
 				else
-					s_progressBar.Value = s_progressBar.Maximum;
+					bar.Value = bar.Maximum;
 			}
 		}
 
@@ -1156,12 +1140,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UpdateProgressBarLabel(string label)
 		{
-			if (s_progressBarLabel != null)
+			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+
+			if (lbl != null)
 			{
 				if (s_splashScreen != null && s_splashScreen.StillAlive)
 					s_splashScreen.Message = label;
-				
-				s_progressBarLabel.Text = label;
+
+				lbl.Text = label;
 				Application.DoEvents();
 			}
 		}

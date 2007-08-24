@@ -21,8 +21,8 @@ namespace SIL.Pa.AddOn
 	public class PaAddOnManager : IxCoreColleague
 	{
 		private PaMainWnd m_mainWnd;
-		private DataCorpusVw m_dataCorpusWnd;
-		private FindPhoneVw m_findPhoneWnd;
+		private DataCorpusVw m_dataCorpusVw;
+		private SearchVw m_findPhoneWnd;
 		private ConsonantChartVw m_consonantChartWnd;
 		private VowelChartVw m_vowelChartWnd;
 		private XYChartVw m_xyChartWnd;
@@ -50,9 +50,9 @@ namespace SIL.Pa.AddOn
 				if (args.GetType() == typeof(PaMainWnd))
 					m_mainWnd = args as PaMainWnd;
 				else if (args.GetType() == typeof(DataCorpusVw))
-					m_dataCorpusWnd = args as DataCorpusVw;
-				else if (args.GetType() == typeof(FindPhoneVw))
-					m_findPhoneWnd = args as FindPhoneVw;
+					m_dataCorpusVw = args as DataCorpusVw;
+				else if (args.GetType() == typeof(SearchVw))
+					m_findPhoneWnd = args as SearchVw;
 				else if (args.GetType() == typeof(ConsonantChartVw))
 					m_consonantChartWnd = args as ConsonantChartVw;
 				else if (args.GetType() == typeof(VowelChartVw))

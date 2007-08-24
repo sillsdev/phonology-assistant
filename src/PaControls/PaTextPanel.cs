@@ -17,8 +17,9 @@ namespace SIL.Pa.Controls
 		public event EventHandler MnemonicInvoked;
 
 		private TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
-					TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
-					TextFormatFlags.LeftAndRightPadding | TextFormatFlags.PreserveGraphicsClipping;
+				TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
+				TextFormatFlags.LeftAndRightPadding | TextFormatFlags.HidePrefix |
+				TextFormatFlags.PreserveGraphicsClipping;
 
 		private bool m_mnemonicGeneratesClick = false;
 		private Control m_ctrlRcvingFocusOnMnemonic = null;
@@ -96,7 +97,7 @@ namespace SIL.Pa.Controls
 			set
 			{
 				base.Text = value;
-				Invalidate();
+				CalculateTextRectangle();
 			}
 		}
 
@@ -137,7 +138,11 @@ namespace SIL.Pa.Controls
 		public TextFormatFlags TextFormatFlags
 		{
 			get { return m_txtFmtFlags; }
-			set { m_txtFmtFlags = value; }
+			set
+			{
+				m_txtFmtFlags = value;
+				CalculateTextRectangle();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,6 +198,9 @@ namespace SIL.Pa.Controls
 		{
 			base.OnControlAdded(e);
 			CalculateTextRectangle();
+
+			e.Control.Resize += ChildControl_Resize;
+			e.Control.LocationChanged += ChildControl_LocationChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,7 +210,30 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnControlRemoved(ControlEventArgs e)
 		{
+			e.Control.Resize -= ChildControl_Resize;
+			e.Control.LocationChanged -= ChildControl_LocationChanged;
+
 			base.OnControlRemoved(e);
+			CalculateTextRectangle();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ChildControl_LocationChanged(object sender, EventArgs e)
+		{
+			CalculateTextRectangle();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ChildControl_Resize(object sender, EventArgs e)
+		{
 			CalculateTextRectangle();
 		}
 
@@ -228,6 +259,8 @@ namespace SIL.Pa.Controls
 
 			if (!string.IsNullOrEmpty(Text))
 			{
+				System.Diagnostics.Debug.WriteLine(Text + "   " + m_rcText);
+
 				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText,
 					SystemColors.ControlText, m_txtFmtFlags);
 			}

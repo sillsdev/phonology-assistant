@@ -55,8 +55,6 @@ namespace SIL.Pa.Controls
 			base.DoubleBuffered = true;
 			base.AllowDrop = true;
 
-			m_tooltip = new ToolTip();
-
 			// Create the panel that holds everything that will be displayed
 			// above a result view (i.e. tabs, close button and scroll buttons).
 			m_pnlHdrBand = new Panel();
@@ -91,8 +89,6 @@ namespace SIL.Pa.Controls
 			m_btnClose.Click += m_btnClose_Click;
 			m_btnClose.Location = new Point(m_pnlClose.Width - m_btnClose.Width,
 				(m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3);
-			m_tooltip.SetToolTip(m_btnClose,
-				Properties.Resources.kstidCloseActiveTabButtonToolTip);
 
 			m_pnlClose.Controls.Add(m_btnClose);
 			m_pnlClose.BringToFront();
@@ -110,6 +106,8 @@ namespace SIL.Pa.Controls
 
 			if (m_pnlHdrBand.ContextMenuStrip != null)
 				m_pnlHdrBand.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+
+			SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,7 +127,9 @@ namespace SIL.Pa.Controls
 			m_pnlTabs.Dispose();
 			m_pnlClose.Dispose();
 			m_pnlScroll.Dispose();
-			m_tooltip.Dispose();
+
+			if (m_tooltip != null)
+				m_tooltip.Dispose();
 
 			base.Dispose(disposing);
 		}
@@ -168,9 +168,6 @@ namespace SIL.Pa.Controls
 			m_btnRight.Click += m_btnRight_Click;
 			m_btnRight.Location = new Point(22, (m_pnlHdrBand.Height - m_btnRight.Height) / 2 - 3);
 			m_pnlScroll.Controls.Add(m_btnRight);
-
-			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
-			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,6 +213,50 @@ namespace SIL.Pa.Controls
 		}
 
 		#region Message mediator message handler and update handler methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetToolTips()
+		{
+			m_tooltip = new ToolTip();
+			m_tooltip.SetToolTip(m_btnClose, Properties.Resources.kstidCloseActiveTabButtonToolTip);
+			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
+			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
+
+			foreach (SearchResultTab tab in m_tabs)
+			{
+				if (tab.CIEOptionsButton != null)
+				{
+					m_tooltip.SetToolTip(tab.CIEOptionsButton,
+					   Properties.Resources.kstidCIEOptionsButtonToolTip);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewDocked(object args)
+		{
+			SetToolTips();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewUndocked(object args)
+		{
+			SetToolTips();
+			return false;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Called when the Class Display Behavior has been changed by the user.
@@ -402,7 +443,7 @@ namespace SIL.Pa.Controls
 			if (tab == null)
 				return;
 
-			bool viewWasInCIEView = tab.m_btnCIEOptions.Visible;
+			bool viewWasInCIEView = tab.CIEOptionsButton.Visible;
 
 			// Make sure that if tab already has a result view, it gets removed.
 			if (removePreviousResults)
@@ -1283,7 +1324,7 @@ namespace SIL.Pa.Controls
 		private SearchQuery m_query;
 		private bool m_tabTextClipped = false;
 		private Image m_image;
-		internal XButton m_btnCIEOptions;
+		private XButton m_btnCIEOptions;
 		private CustomDropDown m_cieOptionsDropDownContainer;
 		private CIEOptionsDropDown m_cieOptionsDropDown;
 		private Color m_activeTabInactiveGroupBack1;
@@ -1325,10 +1366,6 @@ namespace SIL.Pa.Controls
 			m_btnCIEOptions.Left = kleftImgMargin;
 			m_btnCIEOptions.Click += m_btnCIEOptions_Click;
 			Controls.Add(m_btnCIEOptions);
-
-			m_owningTabGroup.m_tooltip.SetToolTip(m_btnCIEOptions,
-				Properties.Resources.kstidCIEOptionsButtonToolTip);
-
 			GetTabColors();
 		}
 
@@ -1397,6 +1434,16 @@ namespace SIL.Pa.Controls
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal XButton CIEOptionsButton
+		{
+			get { return m_btnCIEOptions; }
 		}
 
 		/// ------------------------------------------------------------------------------------

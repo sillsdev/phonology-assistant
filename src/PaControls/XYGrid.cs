@@ -28,10 +28,10 @@ namespace SIL.Pa.Controls
 		private int m_defaultRowHeight;
 		private Point m_prevCurrCellAddress = new Point(-1, -1);
 		private Label m_lblName;
-		private Form m_owningForm;
+		private ITabView m_owningView;
 		private ITMAdapter m_tmAdapter;
 		private XYChartLayout m_layout;
-		private readonly ToolTip m_tooltip;
+		private ToolTip m_tooltip;
 		private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
@@ -73,9 +73,7 @@ namespace SIL.Pa.Controls
 			PaApp.AddMediatorColleague(this);
 			m_cellInfoPopup = new XYChartCellInfoPopup(this);
 
-			m_tooltip = new ToolTip();
-			m_tooltip.IsBalloon = true;
-			m_tooltip.UseFading = true;
+			SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,10 +195,10 @@ namespace SIL.Pa.Controls
 		/// Gets or sets the chart's owning form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Form OwningForm
+		public ITabView OwningView
 		{
-			get { return m_owningForm; }
-			set { m_owningForm = value; }
+			get { return m_owningView; }
+			set { m_owningView = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -359,6 +357,40 @@ namespace SIL.Pa.Controls
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetToolTips()
+		{
+			m_tooltip = new ToolTip();
+			m_tooltip.IsBalloon = true;
+			m_tooltip.UseFading = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewDocked(object args)
+		{
+			SetToolTips();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewUndocked(object args)
+		{
+			SetToolTips();
+			return false;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1406,7 +1438,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClearChart(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			Reset();
@@ -1421,7 +1453,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateClearChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			itemProps.Visible = true;
@@ -1438,7 +1470,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateInsertIntoChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			return (itemProps.Name.StartsWith("cmnu") ? true : UpdateInsertItem(itemProps));
@@ -1451,7 +1483,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertConsonant(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[C]");
@@ -1475,7 +1507,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertVowel(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[V]");
@@ -1499,7 +1531,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertZeroOrMore(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("*");
@@ -1523,7 +1555,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertOneOrMore(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("+");
@@ -1547,7 +1579,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertWordBoundary(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("#");
@@ -1571,7 +1603,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertDiacriticPlaceholder(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell(DataUtils.kDiacriticPlaceholder);
@@ -1595,7 +1627,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertSyllableBoundary(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell(".");
@@ -1619,7 +1651,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertANDGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[]");
@@ -1643,7 +1675,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertORGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			InsertTextInCell("{}");
@@ -1667,7 +1699,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool UpdateInsertItem(TMItemProperties itemProps)
 		{
-			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1686,7 +1718,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateSearchOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1705,7 +1737,7 @@ namespace SIL.Pa.Controls
 		{
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
 			SearchQuery query = GetColumnsSearchQuery(CurrentCellAddress.X);
-			if (query == null || itemProps == null || !PaApp.IsFormActive(m_owningForm))
+			if (query == null || itemProps == null || !m_owningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1760,7 +1792,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			if (!PaApp.IsFormActive(m_owningForm))
+			if (!m_owningView.ActiveView)
 				return false;
 
 			// First, check if any changes were made.
@@ -1822,28 +1854,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public XYChartException(SearchQuery query)
 		{
-			//SearchQuery modifiedQuery;
-			//if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg);
-			//    return;
-
-			//SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
-
-			//if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
-			//{
-			//    string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;
-			//    StringBuilder errors = new StringBuilder();
-			//    for (int i = 0; i < engine.ErrorMessages.Length; i++)
-			//        errors.AppendFormat(msgFmt, i + 1, engine.ErrorMessages[i]);
-
-			//    m_queryErrorMsg = errors.ToString();
-			//}
-			//else if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
-			//else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
-			//else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-			//    m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
-
 			if (query.ErrorMessages.Count > 0)
 			{
 				string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;

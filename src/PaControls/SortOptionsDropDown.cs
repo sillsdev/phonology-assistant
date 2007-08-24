@@ -228,6 +228,7 @@ namespace SIL.Pa.Controls
 				{
 					m_showAdvancedOptions = value;
 					grpAdvSortOptions.Visible = value;
+					grpAdvSortOptions.Enabled = value;
 					SetHeight();
 				}
 			}

@@ -862,13 +862,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetStatusBarText(int rowIndex)
 		{
-			ToolStripStatusLabel sblbl = PaApp.StatusBarLabel;
-
-			Form frm = FindForm();
-			if (frm is ITabView && ((ITabView)frm).StatusBar != null)
-				sblbl = ((ITabView)frm).StatusBarLabel;
-
-			SetStatusBarText(rowIndex, sblbl);
+			SetStatusBarText(rowIndex, PaApp.StatusBarLabel);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -2457,11 +2451,11 @@ namespace SIL.Pa.Controls
 			// Load the sort options appropriate for the grid's view type. Can't compare
 			// types because the m_owningViewType's are declared in PaDll which cannot
 			// be referenced by PaControls since PaControls is referenced by PaDll.
-			if (m_owningViewType.Name == "DataCorpusWnd")
+			if (m_owningViewType.Name == "DataCorpusVw")
 				sortOptions = PaApp.Project.DataCorpusSortOptions;
-			else if (m_owningViewType.Name == "FindPhoneWnd")
+			else if (m_owningViewType.Name == "SearchVw")
 				sortOptions = PaApp.Project.FindPhoneSortOptions.Clone();
-			else if (m_owningViewType.Name == "XYChartWnd")
+			else if (m_owningViewType.Name == "XYChartVw")
 				sortOptions = PaApp.Project.XYChartSortOptions.Clone();
 
 			if (sortOptions == null)

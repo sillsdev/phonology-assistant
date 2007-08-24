@@ -35,6 +35,7 @@ namespace SIL.Pa.Controls
 		private XButton m_btnRight;
 		private readonly ToolTip m_tooltip;
 		private XButton m_btnHelp;
+		private string m_captionText;
 
 		internal static Font s_tabFont;
 
@@ -271,23 +272,6 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Activates the tab whose view is the specified type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Form ActivateView(Type viewType)
-		{
-			ViewTab tab = GetTab(viewType);
-			if (tab != null)
-			{
-				SelectTab(tab, true);
-				return tab.View;
-			}
-
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Closes all the views associated with the tabs in the tab group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -295,6 +279,8 @@ namespace SIL.Pa.Controls
 		{
 			foreach (ViewTab tab in m_tabs)
 				tab.CloseView();
+
+			AdjustTabContainerWidth(true);
 		}
 
 		#region Tab managment methods
@@ -371,9 +357,48 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SelectTab(ViewTab newSelectedTab, bool makeCurrentTabControl)
+		internal void SetActiveView(ITabView view, bool activateViewsForm)
 		{
-			SelectTab(newSelectedTab, makeCurrentTabControl, true);
+			if (view == null)
+				return;
+
+			foreach (ViewTab tab in m_tabs)
+			{
+				if (tab.View is ITabView)
+				{
+					ITabView tabsView = tab.View as ITabView;
+					bool active = (tabsView == view);
+					tabsView.SetViewActive(active, tab.IsViewDocked);
+					tabsView.TMAdapter.AllowUpdates = active;
+				}
+			}
+
+			PaApp.CurrentView = view;
+			PaApp.CurrentViewType = view.GetType();
+
+			Control ctrl = view as Control;
+			if (activateViewsForm && ctrl != null && ctrl.FindForm() != null)
+				ctrl.FindForm().Activate();
+
+			PaApp.MsgMediator.SendMessage("ActiveViewChanged", view);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Activates the tab whose view is the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Control ActivateView(Type viewType)
+		{
+			ViewTab tab = GetTab(viewType);
+			if (tab != null)
+			{
+				SelectTab(tab);
+				SetActiveView(tab.View as ITabView, true);
+				return tab.View;
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -381,26 +406,14 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SelectTab(ViewTab newSelectedTab, bool makeCurrentTabControl,
-			bool activateTabsViewForm)
+		public void SelectTab(ViewTab newSelectedTab)
 		{
-			if (makeCurrentTabControl)
-				PaApp.MsgMediator.SendMessage("ViewTabChanging", this);
-
 			newSelectedTab.Selected = true;
 			m_currTab = newSelectedTab;
 			FindInfo.Grid = null;
-			
-			if (!m_currTab.IsViewDocked)
-			{
-				// When the view is undocked, then all that's
-				// necessary is to make it's form active.
-				if (makeCurrentTabControl && activateTabsViewForm)
-					m_currTab.View.Activate();
 
-				PaApp.MsgMediator.SendMessage("ViewTabChanged", this);
+			if (!m_currTab.IsViewDocked)
 				return;
-			}
 
 			SuspendLayout();
 			foreach (ViewTab tab in m_tabs)
@@ -409,18 +422,11 @@ namespace SIL.Pa.Controls
 					tab.Selected = false;
 			}
 
-			if (makeCurrentTabControl)
-				EnsureTabVisible(newSelectedTab);
-
+			EnsureTabVisible(newSelectedTab);
 			ResumeLayout();
 			m_pnlCaption.Invalidate();
-
-			// Make sure the main form is active
-			if (activateTabsViewForm && makeCurrentTabControl && FindForm() != null)
-				FindForm().Activate();
-
+			m_captionText = newSelectedTab.Text;
 			m_tooltip.SetToolTip(m_btnHelp, newSelectedTab.HelpToolTipText);
-			PaApp.MsgMediator.SendMessage("ViewTabChanged", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -461,9 +467,12 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void tab_Click(object sender, EventArgs e)
 		{
-			ViewTab clickedTab = sender as ViewTab;
-			if (clickedTab != null && !clickedTab.Selected)
-				SelectTab(clickedTab, true, true);
+			ViewTab tab = sender as ViewTab;
+			if (tab != null && !tab.Selected)
+			{
+				SelectTab(tab);
+				SetActiveView(tab.View as ITabView, false);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -523,7 +532,7 @@ namespace SIL.Pa.Controls
 				newTab = FindFirstVisibleTabToRight(tab);
 
 			if (newTab != null)
-				SelectTab(newTab, true, false);
+				SelectTab(newTab);
 
 			AdjustTabContainerWidth(false);
 		}
@@ -747,7 +756,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_pnlCaption_Paint(object sender, PaintEventArgs e)
 		{
-			if (CurrentTab == null)
+			if (string.IsNullOrEmpty(m_captionText))
 				return;
 
 			Rectangle rc = m_pnlCaption.ClientRectangle;
@@ -759,7 +768,7 @@ namespace SIL.Pa.Controls
 				TextFormatFlags.HidePrefix | TextFormatFlags.EndEllipsis |
 				TextFormatFlags.PreserveGraphicsClipping;
 
-			TextRenderer.DrawText(e.Graphics, CurrentTab.Text, m_pnlCaption.Font,
+			TextRenderer.DrawText(e.Graphics, m_captionText, m_pnlCaption.Font,
 				rc, SystemColors.ActiveCaptionText, flags);
 		}
 
@@ -840,18 +849,6 @@ namespace SIL.Pa.Controls
 
 				return count;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view tab group's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public ToolTip ToolTip
-		{
-			get { return m_tooltip; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -947,10 +944,9 @@ namespace SIL.Pa.Controls
 		private ViewTabGroup m_owningTabGroup;
 		private readonly Image m_image;
 		private Control m_viewsControl = null;
-		private Form m_viewsForm = null;
+		private UndockedViewWnd m_viewsForm = null;
 		private readonly Type m_viewType = null;
-		private bool m_viewDocked = true;
-		private ToolTip m_dockedToolTip;
+		private bool m_viewDocked = false;
 		private bool m_undockingInProgress = false;
 		private string m_helpToolTipText = string.Empty;
 		private string m_helpTopicId;
@@ -1002,7 +998,6 @@ namespace SIL.Pa.Controls
 					m_viewsForm.FormClosing -= m_viewsForm_FormClosing;
 					m_viewsForm.FormClosed -= m_viewsForm_FormClosed;
 					m_viewsForm.Activated -= m_viewsForm_Activated;
-					m_viewsForm.Deactivate -= m_viewsForm_Deactivate;
 					m_viewsForm.Dispose();
 				}
 			}
@@ -1015,75 +1010,42 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Form OpenView(bool docked)
+		public Control OpenView()
 		{
 			PaApp.StatusBarLabel.Text = string.Empty;
 
 			// Check if the view is already loaded.
-			if (m_viewsForm != null || m_viewType == null)
+			if (m_viewsControl != null || m_viewType == null)
 			{
-				if (m_viewsControl != null)
+				if (m_viewsForm != null)
+					m_viewsForm.Activate();
+				else if ( m_viewsControl != null)
 					m_viewsControl.Visible = true;
 
-				return m_viewsForm;
+				return m_viewsControl;
 			}
 
 			// Create an instance of the view's form
-			m_viewsForm = (Form)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
-			
-			// This handles a problem the program has with undocking a view to a
-			// maximized or minimized window. This will prevent that from happening.
-			if (m_viewsForm.WindowState != FormWindowState.Normal)
-				m_viewsForm.WindowState = FormWindowState.Normal;
-			
-			PaApp.MsgMediator.SendMessage("BeginViewOpening", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", m_viewsForm);
+			m_viewsControl = (Control)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
+			PaApp.MsgMediator.SendMessage("BeginViewOpen", m_viewsControl);
+			m_viewsControl.Dock = DockStyle.Fill;
 
-			if (!(m_viewsForm is ITabView))
+			if (!(m_viewsControl is ITabView))
 			{
 				STUtils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
 					m_viewType), MessageBoxButtons.OK);
 			}
 
-			if (m_image != null)
-				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
-
 			try
 			{
-				if (m_viewsForm is IxCoreColleague)
-					PaApp.AddMediatorColleague(m_viewsForm as IxCoreColleague);
+				if (m_viewsControl is IxCoreColleague)
+					PaApp.AddMediatorColleague(m_viewsControl as IxCoreColleague);
 			}
 			catch { }
 
-			m_viewsControl = ((ITabView)m_viewsForm).DockableContainer;
-
-			if (((ITabView)m_viewsForm).StatusBar != null)
-			{
-				((ITabView)m_viewsForm).StatusBarLabel.Text = string.Empty;
-				((ITabView)m_viewsForm).ProgressBarLabel.Text = string.Empty;
-				((ITabView)m_viewsForm).ProgressBar.Visible = false;
-			}
-
-			if (!docked)
-				UnDockView();
-			else
-			{
-				m_viewsForm.Opacity = 0;
-
-				// Form must be shown or we don't get any closing events.
-				m_viewsForm.Show();
-				DockView();
-			}
-
-			// Monitor the form's closing and activation events.
-			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
-			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
-			m_viewsForm.Activated += m_viewsForm_Activated;
-			m_viewsForm.Deactivate += m_viewsForm_Deactivate;
-
-			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("ViewOpened", m_viewsForm);
-			return m_viewsForm;
+			DockView();
+			PaApp.MsgMediator.SendMessage("ViewOpened", m_viewsControl);
+			return m_viewsControl;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1093,30 +1055,32 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void CloseView()
 		{
-			if (m_undockingInProgress)
+			if (m_undockingInProgress || m_viewsControl == null)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewClosing", m_viewsForm);
-			if (m_owningTabGroup != null && m_owningTabGroup.Controls.Contains(m_viewsControl))
-				m_owningTabGroup.Controls.Remove(m_viewsControl);
+			PaApp.MsgMediator.SendMessage("BeginViewClosing", m_viewsControl);
+			Visible = true;
 
-			if (m_viewsForm != null)
+			if (!m_viewsControl.IsDisposed)
 			{
-				PaApp.UnloadDefaultMenu(((ITabView)m_viewsForm).TMAdapter);
-				m_viewsForm.Close();
-				if (m_viewsForm != null && m_viewsForm.IsDisposed)
-					m_viewsForm.Dispose();
-				
-				m_viewsForm = null;
-			}
-		
-			if (m_viewsControl != null && !m_viewsControl.IsDisposed)
-			{
+				if (m_owningTabGroup != null && m_owningTabGroup.Controls.Contains(m_viewsControl))
+					m_owningTabGroup.Controls.Remove(m_viewsControl);
+
+				if (m_viewsControl is IxCoreColleague)
+					PaApp.RemoveMediatorColleague(m_viewsControl as IxCoreColleague);
+
+				if (m_viewsControl is ITabView)
+					((ITabView)m_viewsControl).TMAdapter.Dispose();
+
 				m_viewsControl.Dispose();
 				m_viewsControl = null;
 			}
 
+			if (m_viewsForm != null)
+				m_viewsForm.Close();
+
 			PaApp.MsgMediator.SendMessage("ViewClosed", m_viewType);
+			m_viewDocked = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1126,119 +1090,28 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void DockView()
 		{
-			DockView(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Moves the view's control from its form to the tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void DockView(bool activateViewsForm)
-		{
-			if (m_undockingInProgress || (m_viewDocked && m_viewsControl.FindForm() == FindForm()))
+			if (m_undockingInProgress || m_viewDocked)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", m_viewsForm);
-			((ITabView)m_viewsForm).ViewDocking();
-
-			// When a view is being docked for the first time, this sometimes causes, what
-			// looks like, a break in the message processing. The effect is that PA looks
-			// like it has stopped responding. The way to cause it to break free is to move
-			// the mouse over PA's main window or click on the desktop or another application.
-			// I haven't been able to find a successful solution.
-			m_viewsForm.Visible = false;
-			
-			// This handles a problem the program has with undocking a view to a
-			// maximized or minimized window. This will prevent that from happening.
-			if (m_viewsForm.WindowState != FormWindowState.Normal)
-				m_viewsForm.WindowState = FormWindowState.Normal;
-			
-			m_viewsForm.ShowInTaskbar = false;
-
-			if (m_viewsForm.Controls.Contains(m_viewsControl))
-				m_viewsForm.Controls.Remove(m_viewsControl);
-
+			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
 			Visible = true;
 			m_owningTabGroup.ViewWasDocked(this);
-
 			m_viewsControl.Visible = false;
 			m_viewsControl.Size = m_owningTabGroup.ClientSize;
 			m_owningTabGroup.Controls.Add(m_viewsControl);
 			m_viewsControl.PerformLayout();
 			m_viewsControl.Visible = true;
 			m_viewsControl.BringToFront();
+			Application.DoEvents();
 
-			((ITabView)m_viewsForm).ViewDocked();
 			m_viewDocked = true;
 			m_ignoreTabSelection = true;
-			m_owningTabGroup.SelectTab(this, true, !s_undockingInProgress);
+			m_owningTabGroup.SelectTab(this);
 			m_ignoreTabSelection = false;
 
-			if (!s_undockingInProgress && activateViewsForm && m_viewsControl.FindForm() != null)
-				m_viewsControl.FindForm().Activate();
-
 			m_viewsControl.Focus();
-			InitializeDockedToolTipControl();
-			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsForm);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Since tooltips on a view's form won't work when the view gets yanked from its
-		/// form and placed on the main form in which view's are docked, we need to create
-		/// a new tooltip just for docked views.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InitializeDockedToolTipControl()
-		{
-			if (m_dockedToolTip != null)
-				m_dockedToolTip.Dispose();
-
-			m_dockedToolTip = null;
-			
-			ToolTip tooltip = ((ITabView)m_viewsForm).ViewsToolTip;
-			if (tooltip == null)
-				return;
-
-			BindingFlags flags = BindingFlags.NonPublic |
-				BindingFlags.GetField | BindingFlags.Instance;
-
-			try
-			{
-				m_dockedToolTip = new ToolTip();
-				m_dockedToolTip.AutomaticDelay = tooltip.AutomaticDelay;
-				m_dockedToolTip.AutoPopDelay = tooltip.AutoPopDelay;
-				m_dockedToolTip.BackColor = tooltip.BackColor;
-				m_dockedToolTip.ForeColor = tooltip.ForeColor;
-				m_dockedToolTip.InitialDelay = tooltip.InitialDelay;
-				m_dockedToolTip.IsBalloon = tooltip.IsBalloon;
-				m_dockedToolTip.ReshowDelay = tooltip.ReshowDelay;
-				m_dockedToolTip.ShowAlways = tooltip.ShowAlways;
-				m_dockedToolTip.StripAmpersands = tooltip.StripAmpersands;
-				m_dockedToolTip.UseAnimation = tooltip.UseAnimation;
-				m_dockedToolTip.UseFading = tooltip.UseFading;
-
-				Hashtable tools = tooltip.GetType().InvokeMember("tools", flags,
-				    null, tooltip, null) as Hashtable;
-
-				if (tools != null)
-				{
-					foreach (DictionaryEntry de in tools)
-					{
-						Control ctrl = de.Key as Control;
-						if (ctrl != null)
-						{
-							string text = tooltip.GetToolTip(ctrl);
-							if (!string.IsNullOrEmpty(text))
-								m_dockedToolTip.SetToolTip(ctrl, text);
-						}
-					}
-				}
-			}
-			catch { }			
+			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
+			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1251,80 +1124,51 @@ namespace SIL.Pa.Controls
 			if (s_undockingInProgress || !m_viewDocked)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewUnDocking", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("BeginViewChangingStatus", m_viewsForm);
+			PaApp.MsgMediator.SendMessage("BeginViewUnDocking", m_viewsControl);
 			m_undockingInProgress = true;
-			((ITabView)m_viewsForm).ViewUndocking();
-
 			s_undockingInProgress = true;
 
 			if (m_owningTabGroup.Controls.Contains(m_viewsControl))
 				m_owningTabGroup.Controls.Remove(m_viewsControl);
 
 			// Prepare the undocked view's form to host the view and be displayed.
-			m_viewsForm.ShowInTaskbar = true;
-			m_viewsForm.SuspendLayout();
-			m_viewsForm.Controls.Add(m_viewsControl);
-			m_viewsControl.BringToFront();
-			m_viewsForm.Opacity = 0;
-			m_viewsForm.Visible = true;
+			m_viewsForm = new UndockedViewWnd(m_viewsControl);
+			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
+			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
+			m_viewsForm.Activated += m_viewsForm_Activated;
 
+			if (m_image != null)
+				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
+			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
 			string caption = STUtils.RemoveAcceleratorPrefix(Text);
 			m_viewsForm.Text = string.Format(Properties.Resources.kstidUndockedViewCaption,
 				PaApp.Project.ProjectName, caption, Application.ProductName);
-
+			
 			Visible = false;
-			m_viewsForm.ResumeLayout(true);
-
-			// Fade-in the undocked form because it looks cool.
-			while (m_viewsForm.Opacity < 1.0)
-			{
-			    System.Threading.Thread.Sleep(10);
-			    m_viewsForm.Opacity += 0.05f;
-			    Application.DoEvents();
-			}
-
-			m_viewsForm.Activate();
 
 			// Inform the tab group that one of it's views has been undocked.
 			m_ignoreTabSelection = true;
 			m_owningTabGroup.ViewWasUnDocked(this);
 			m_ignoreTabSelection = false;
 			s_undockingInProgress = false;
-
 			m_viewDocked = false;
-			GloballySetViewInformation();
 			m_undockingInProgress = false;
 
-			((ITabView)m_viewsForm).ViewUndocked();
-			PaApp.MsgMediator.SendMessage("EndViewChangingStatus", m_viewsForm);
-			PaApp.MsgMediator.SendMessage("ViewUnDocked", m_viewsForm);
+			m_viewsForm.Show();
 			m_viewsForm.Activate();
+			PaApp.MsgMediator.SendMessage("ViewUndocked", m_viewsControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set the global variables indicating what the current view and view type are.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void GloballySetViewInformation()
-		{
-			PaApp.CurrentView = m_viewsForm;
-			PaApp.CurrentViewType = m_viewType;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// We need to catch the main form's activate event so when it's activated after an
-		/// undocked view is deactivated, we'll know to set the global variables indicating
-		/// what the current view and view type are.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void MainForm_Activated(object sender, EventArgs e)
 		{
 			if (m_viewDocked && m_viewsControl != null && m_viewsControl.Visible)
-				GloballySetViewInformation();
+				m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1334,23 +1178,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void m_viewsForm_Activated(object sender, EventArgs e)
 		{
-			if (!m_viewDocked)
-			{
-				GloballySetViewInformation();
-				if (sender is ITabView)
-					((ITabView)sender).TMAdapter.AllowUpdates = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the global view and view type are set when an undocked view gets focus.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void m_viewsForm_Deactivate(object sender, EventArgs e)
-		{
-			if (sender is ITabView)
-				((ITabView)sender).TMAdapter.AllowUpdates = false;
+			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1366,18 +1194,6 @@ namespace SIL.Pa.Controls
 				e.Cancel = true;
 				return;
 			}
-
-			if (sender is ITabView)
-				(sender as ITabView).SaveSettings();
-			
-			// When the close reason is UserClosing, it means the user is closing
-			// an undocked view's form. In that case, we don't really allow the
-			// form to be closed, because it's just being docked.
-			if (!m_viewDocked && e.CloseReason == CloseReason.UserClosing) 
-			{
-				e.Cancel = true;
-				DockView(false);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1387,18 +1203,15 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_viewsForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			if (sender is IxCoreColleague)
-				PaApp.RemoveMediatorColleague(sender as IxCoreColleague);
-
-			ITabView view = sender as ITabView;
-			if (view.TMAdapter != null)
-				view.TMAdapter.Dispose();
-
-			if (!Visible)
-				Visible = true;
-
+			m_viewsForm.FormClosing -= m_viewsForm_FormClosing;
+			m_viewsForm.FormClosed -= m_viewsForm_FormClosed;
+			m_viewsForm.Activated -= m_viewsForm_Activated;
+			
+			if (m_viewsControl != null)
+				DockView();
+			
+			m_viewsForm.Dispose();
 			m_viewsForm = null;
-			m_viewsControl = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1409,7 +1222,7 @@ namespace SIL.Pa.Controls
 		public void RefreshView()
 		{
 			CloseView();
-			OpenView(m_viewDocked);
+			OpenView();
 		}
 
 		#region Properties
@@ -1451,9 +1264,9 @@ namespace SIL.Pa.Controls
 		/// Gets the tab's view form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Form View
+		public Control View
 		{
-			get { return m_viewsForm; }
+			get { return m_viewsControl; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1504,21 +1317,9 @@ namespace SIL.Pa.Controls
 				if (!m_ignoreTabSelection)
 				{
 					if (value)
-					{
-						OpenView(true);
-						GloballySetViewInformation();
-
-						if ((m_viewsForm is ITabView))
-							((ITabView)m_viewsForm).ViewActivatedWhileDocked();
-					}
-					else
-					{
-						if (m_viewsControl != null && m_viewDocked)
-							m_viewsControl.Visible = false;
-					}
-
-					if (m_viewsForm != null)
-						((ITabView)m_viewsForm).TMAdapter.AllowUpdates = value;
+						OpenView();
+					else if (m_viewsControl != null && m_viewDocked)
+						m_viewsControl.Visible = false;
 				}
 
 				s_viewSelectionInProgress = false;

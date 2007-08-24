@@ -1911,10 +1911,18 @@ namespace SIL.Pa.Controls
 			if (m_owner == null)
 				return;
 
-			Point pt = m_owner.AutoScrollPosition;
-			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
-			Object[] args = { m_owner, pt };
-			BeginInvoke(del, args);
+			try
+			{
+				Point pt = m_owner.AutoScrollPosition;
+				AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+				Object[] args = { m_owner, pt };
+
+				// This will throw an error when the view this grid is on is disposing. Why
+				// the OnLeave event for the control gets called when the outer-most parent
+				// is disposing is beyond me. But, it does, which causes a crash if not handled.
+				BeginInvoke(del, args);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------

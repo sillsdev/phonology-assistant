@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -47,28 +48,6 @@ namespace SIL.Pa.Controls
 
 	#endregion
 
-	#region TabChangingArgs Class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Used to pass information to message handlers called when a tab changes.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class TabChangingArgs
-	{
-		public Form OwningForm;
-		public SearchResultTabGroup Group;
-		public SearchResultTab Tab;
-
-		public TabChangingArgs(Form owningForm, SearchResultTabGroup group, SearchResultTab tab)
-		{
-			OwningForm = owningForm;
-			Group = group;
-			Tab = tab;
-		}
-	}
-
-	#endregion
-
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates methods, properties and message handlers for managing a split container
@@ -81,27 +60,28 @@ namespace SIL.Pa.Controls
 		private SearchResultTabPopup m_srchResultTabPopup;
 		private float m_horzSplitterCount = 0;
 		private float m_vertSplitterCount = 0;
-		private bool m_ignoreTagGroupRemoval = false;
+		private bool m_ignoreTabGroupRemoval = false;
 		private SearchResultTabGroup m_currTabGroup;
 		private SplitterPanel m_resultsPanel;
 		private bool m_recViewOn = true;
-		private Form m_form;
+		private ITabView m_view;
 		private ITMAdapter m_tmAdapter;
 		private SplitContainer m_splitResults;
 		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private readonly ISearchResultsViewHost m_srchRsltVwHost;
 		private readonly IRecordView m_recView;
+		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchResultsViewManager(Form frm, ITMAdapter tmAdapter,
+		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
 			SplitContainer splitResults, IRecordView recView)
 		{
-			m_form = frm;
-			m_srchRsltVwHost = frm as ISearchResultsViewHost;
+			m_view = view;
+			m_srchRsltVwHost = view as ISearchResultsViewHost;
 			Debug.Assert(m_srchRsltVwHost != null);
 			m_tmAdapter = tmAdapter;
 			m_splitResults = splitResults;
@@ -124,12 +104,11 @@ namespace SIL.Pa.Controls
 		public void Dispose()
 		{
 			Application.RemoveMessageFilter(this);
-			m_form = null;
+			m_view = null;
 			m_tmAdapter = null;
 			m_splitResults = null;
 			m_resultsPanel = null;
 			m_currTabGroup = null;
-			m_tmAdapter = null;
 			PaApp.RemoveMediatorColleague(this);
 
 			if (m_srchResultTabPopup != null)
@@ -205,6 +184,12 @@ namespace SIL.Pa.Controls
 		public ITMAdapter TMAdapter
 		{
 			get { return m_tmAdapter; }
+			set
+			{
+				m_tmAdapter = value;
+				foreach (SearchResultView resultView in m_searchResultViews)
+					resultView.TMAdapter = value;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,7 +214,7 @@ namespace SIL.Pa.Controls
 		protected bool OnDropDownGroupByFieldParent(object args)
 		{
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-			if (itemProps == null || !PaApp.IsFormActive(m_form) || CurrentViewsGrid != null)
+			if (itemProps == null || !m_view.ActiveView || CurrentViewsGrid != null)
 				return false;
 
 			CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
@@ -244,7 +229,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateGroupByFieldParent(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+			if (!m_view.ActiveView || itemProps == null)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
@@ -270,7 +255,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupBySortedField(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			if (CurrentViewsGrid != null)
@@ -306,7 +291,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+			if (!m_view.ActiveView || itemProps == null)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
@@ -332,7 +317,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExpandAllGroups(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			if (CurrentViewsGrid != null)
@@ -349,7 +334,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+			if (!m_view.ActiveView || itemProps == null)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
@@ -372,7 +357,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCollapseAllGroups(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			if (CurrentViewsGrid != null)
@@ -389,7 +374,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(m_form) || itemProps == null)
+			if (!m_view.ActiveView || itemProps == null)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
@@ -412,7 +397,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowRecordPane(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			RecordViewOn = !m_recViewOn;
@@ -427,7 +412,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowRecordPane(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			bool enable = true;
@@ -458,7 +443,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReflectMoveToNewSideBySideTabGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			return MoveTabToNewTabGroup(args as SearchResultTab,
@@ -472,7 +457,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReflectMoveToNewStackedTabGroup(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			return MoveTabToNewTabGroup(args as SearchResultTab,
@@ -510,21 +495,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseAllTabGroups(object args)
 		{
-			if (PaApp.IsFormActive(m_form))
+			if (m_view.ActiveView)
 			{
-				m_ignoreTagGroupRemoval = true;
+				m_ignoreTabGroupRemoval = true;
 				Control ctrl = m_resultsPanel.Controls[0];
 				m_resultsPanel.Controls.RemoveAt(0);
 				ctrl.Dispose();
-				m_ignoreTagGroupRemoval = false;
+				m_ignoreTabGroupRemoval = false;
 				m_recView.UpdateRecord(null);
 				m_currTabGroup = null;
 				m_horzSplitterCount = m_vertSplitterCount = 0;
-
-				// For some reason, closing all tabs from the context menu causes the form
-				// to loose focus. Grr!
-				m_form.Activate();
-
 				m_srchRsltVwHost.NotifyAllTabsClosed();
 			}
 			
@@ -539,7 +519,7 @@ namespace SIL.Pa.Controls
 		public bool OnNewTabInCurrentTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			CreateTab(SearchResultLocation.CurrentTabGroup);
@@ -554,7 +534,7 @@ namespace SIL.Pa.Controls
 		protected bool OnNewTabInNewStackedTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			CreateTab(SearchResultLocation.NewStackedTabGroup);
@@ -579,7 +559,7 @@ namespace SIL.Pa.Controls
 		protected bool OnNewTabInNewSideBySideTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			CreateTab(SearchResultLocation.NewSideBySideTabGroup);
@@ -595,7 +575,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateNewTabInNewSideBySideTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			bool enable = (m_resultsPanel.Controls.Count > 0);
@@ -618,7 +598,7 @@ namespace SIL.Pa.Controls
 		public bool OnEnterPressedInSearchPatternTextBox(object args)
 		{
 			SearchQuery query = args as SearchQuery;
-			if (query == null || !PaApp.IsFormActive(m_form))
+			if (query == null || !m_view.ActiveView)
 				return false;
 
 			PerformSearch(query, SearchResultLocation.CurrentTab);
@@ -633,7 +613,7 @@ namespace SIL.Pa.Controls
 		public bool OnShowResultsInCurrentTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			SearchQuery query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
@@ -651,7 +631,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowResultsInCurrentTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			itemProps.Visible = true;
@@ -668,7 +648,7 @@ namespace SIL.Pa.Controls
 		protected bool OnShowResultsInNewStackedTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			SearchQuery query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
@@ -686,7 +666,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowResultsInNewStackedTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			itemProps.Enabled = m_srchRsltVwHost.ShouldMenuBeEnabled(itemProps.Name) &&
@@ -705,7 +685,7 @@ namespace SIL.Pa.Controls
 		protected bool OnShowResultsInNewSideBySideTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			SearchQuery query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
@@ -723,7 +703,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowResultsInNewSideBySideTabGroup(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			itemProps.Enabled = m_srchRsltVwHost.ShouldMenuBeEnabled(itemProps.Name) &&
@@ -742,7 +722,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdatePlayback(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form) || ContainsResults)
+			if (itemProps == null || !m_view.ActiveView || ContainsResults)
 				return false;
 
 			if (itemProps.Enabled)
@@ -816,7 +796,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleTabGroupRemoved(object sender, ControlEventArgs e)
 		{
-			if (m_ignoreTagGroupRemoval)
+			if (m_ignoreTabGroupRemoval)
 				return;
 
 			SearchResultTabGroup tabGroup = e.Control as SearchResultTabGroup;
@@ -848,7 +828,7 @@ namespace SIL.Pa.Controls
 				// Determine the new owning split panel and remove from that panel the
 				// split container that used to own the removed tab group. Then add to that
 				// panel the removed tab group's sibling.
-				m_ignoreTagGroupRemoval = true;
+				m_ignoreTabGroupRemoval = true;
 				SplitterPanel newOwningPanel = owningSplitContainer.Parent as SplitterPanel;
 				if (newOwningPanel != null)
 				{
@@ -856,7 +836,7 @@ namespace SIL.Pa.Controls
 					newOwningPanel.Controls.Add(siblingPaneToRelocate);
 				}
 
-				m_ignoreTagGroupRemoval = false;
+				m_ignoreTabGroupRemoval = false;
 
 				if (owningSplitContainer.Orientation == Orientation.Horizontal)
 					m_horzSplitterCount--;
@@ -899,7 +879,7 @@ namespace SIL.Pa.Controls
 		protected bool OnShowResults(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			SearchQuery query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
@@ -917,7 +897,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowResults(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			bool enable = m_srchRsltVwHost.ShouldMenuBeEnabled(itemProps.Name);
@@ -988,9 +968,24 @@ namespace SIL.Pa.Controls
 			if (resultLocation == SearchResultLocation.CurrentTab && ReuseExistingTab(resultCache))
 				return;
 
-			SearchResultView resultView = new SearchResultView(m_form.GetType(), m_tmAdapter);
+			SearchResultView resultView = new SearchResultView(m_view.GetType(), m_tmAdapter);
 			resultView.Initialize(resultCache);
 			CreateTab(resultLocation, resultView);
+			m_searchResultViews.Add(resultView);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnSearchResultViewDestroying(object args)
+		{
+			SearchResultView resultView = args as SearchResultView;
+			if (resultView != null && m_searchResultViews.Contains(resultView))
+				m_searchResultViews.Remove(resultView);
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1159,7 +1154,7 @@ namespace SIL.Pa.Controls
 			// The new split container is then added to the top most panel for all tab groups.
 			// In other words, every time a new split container is added for a tab group, it
 			// becomes the wrapper for all subsequent tab group split containers. Whew!
-			m_ignoreTagGroupRemoval = true;
+			m_ignoreTabGroupRemoval = true;
 			Control ctrl = m_resultsPanel.Controls[0];
 			m_resultsPanel.Controls.Remove(ctrl);
 
@@ -1179,7 +1174,7 @@ namespace SIL.Pa.Controls
 			split.ResumeLayout(false);
 			m_resultsPanel.ResumeLayout();
 			
-			m_ignoreTagGroupRemoval = false;
+			m_ignoreTabGroupRemoval = false;
 			
 			PaApp.MsgMediator.SendMessage("SearchResultTabGroupCreated", tabGroup);
 			
@@ -1226,7 +1221,7 @@ namespace SIL.Pa.Controls
 		protected bool OnDropDownSearchResultPhoneticSort(object args)
 		{
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-			if (!PaApp.IsFormActive(m_form) || CurrentViewsGrid == null || itemProps == null)
+			if (!m_view.ActiveView || CurrentViewsGrid == null || itemProps == null)
 				return false;
 
 			m_phoneticSortOptionsDropDown =
@@ -1258,7 +1253,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchResultPhoneticSort(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
 			m_phoneticSortOptionsDropDown.Dispose();
@@ -1274,7 +1269,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateSearchResultPhoneticSort(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null);
@@ -1320,14 +1315,14 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownAdjustPlaybackSpeed(object args)
 		{
-			if (!PaApp.IsFormActive(m_form) || CurrentViewsGrid == null ||
+			if (!m_view.ActiveView || CurrentViewsGrid == null ||
 				CurrentViewsGrid.Cache == null)
 			{
 				return false;
 			}
 
 			m_playbackSpeedAdjuster.PlaybackSpeed =
-				PaApp.SettingsHandler.GetIntSettingsValue(m_form.GetType().Name, "playbackspeed", 100);
+				PaApp.SettingsHandler.GetIntSettingsValue(m_view.GetType().Name, "playbackspeed", 100);
 
 			return true;
 		}
@@ -1339,10 +1334,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedAdjustPlaybackSpeed(object args)
 		{
-			if (!PaApp.IsFormActive(m_form))
+			if (!m_view.ActiveView)
 				return false;
 
-			PaApp.SettingsHandler.SaveSettingsValue(m_form.GetType().Name,
+			PaApp.SettingsHandler.SaveSettingsValue(m_view.GetType().Name,
 				"playbackspeed", m_playbackSpeedAdjuster.PlaybackSpeed);
 			
 			return true;
@@ -1358,7 +1353,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCIEResults(object args)
 		{
-			if (!PaApp.IsFormActive(m_form) || CurrentViewsGrid == null ||
+			if (!m_view.ActiveView || CurrentViewsGrid == null ||
 				CurrentViewsGrid.Cache == null)
 			{
 				return false;
@@ -1385,7 +1380,7 @@ namespace SIL.Pa.Controls
 		protected bool OnUpdateShowCIEResults(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(m_form))
+			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&

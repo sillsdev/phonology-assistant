@@ -11,7 +11,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class DockButton : XButton
 	{
-		private readonly ToolTip m_tooltip = new ToolTip();
+		private ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -21,7 +21,7 @@ namespace SIL.Pa.Controls
 		public DockButton()
 		{
 			base.AutoSize = false;
-			m_tooltip.ShowAlways = true;
+			SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -29,26 +29,10 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseEnter(EventArgs e)
+		public void SetToolTips()
 		{
-			base.OnMouseEnter(e);
-
-			Form frm = FindForm();
-			Point pt = frm.PointToClient(MousePosition);
-			pt.X += (SystemInformation.CursorSize.Width / 2);
-			pt.Y += (int)(SystemInformation.CursorSize.Height * 1.5f);
-			m_tooltip.Show(Properties.Resources.kstidDockToolTip, frm, pt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			base.OnMouseLeave(e);
-			m_tooltip.Hide(FindForm());
+			m_tooltip = new ToolTip();
+			m_tooltip.SetToolTip(this, Properties.Resources.kstidDockToolTip);
 		}
 	}
 
@@ -59,7 +43,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class AutoHideButton : XButton
 	{
-		private readonly ToolTip m_tooltip = new ToolTip();
+		private ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -69,7 +53,7 @@ namespace SIL.Pa.Controls
 		public AutoHideButton()
 		{
 			base.AutoSize = false;
-			m_tooltip.ShowAlways = true;
+			SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,26 +61,10 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseEnter(EventArgs e)
+		public void SetToolTips()
 		{
-			base.OnMouseEnter(e);
-
-			Form frm = FindForm();
-			Point pt = frm.PointToClient(MousePosition);
-			pt.X += (SystemInformation.CursorSize.Width / 2);
-			pt.Y += (int)(SystemInformation.CursorSize.Height * 1.5f);
-			m_tooltip.Show(Properties.Resources.kstidAutoHideToolTip, frm, pt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			base.OnMouseLeave(e);
-			m_tooltip.Hide(FindForm());
+			m_tooltip = new ToolTip();
+			m_tooltip.SetToolTip(this, Properties.Resources.kstidAutoHideToolTip);
 		}
 	}
 }
