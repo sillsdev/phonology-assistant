@@ -610,8 +610,16 @@ namespace SIL.Pa
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
+			{
 				SetToolTips();
-	
+
+				// For some reason, (a timing issue, no doubt) the headings above the
+				// experimental transcription grid are messed up (i.e. the heading over
+				// the target transcriptions is all the way to the left) after the view
+				// is undocked. This will fix that so they display correctly.
+				m_experimentalTransCtrl.RefreshHeader();
+			}
+
 			return false;
 		}
 

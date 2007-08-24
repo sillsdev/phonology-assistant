@@ -228,7 +228,7 @@ namespace SIL.Pa.Controls
 		/// Adjust the experimental transcription grid's headings when it changes sizes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void RefreshHeader()
+		public void RefreshHeader()
 		{
 			Rectangle rc = m_grid.GetColumnDisplayRectangle(kCnvrtCol, true);
 			Point pt = m_grid.PointToScreen(rc.Location);
