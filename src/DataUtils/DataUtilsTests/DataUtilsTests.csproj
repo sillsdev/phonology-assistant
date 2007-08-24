@@ -44,7 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\TestUtils\TestUtils.csproj">
+    <ProjectReference Include="..\..\TestUtils\TestUtils.csproj">
       <Project>{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}</Project>
       <Name>TestUtils</Name>
     </ProjectReference>

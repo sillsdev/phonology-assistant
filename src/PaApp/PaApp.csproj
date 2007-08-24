@@ -149,7 +149,7 @@
       <Name>AudioUtils</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Common\SpeechToolsUtils\SpeechToolsUtils.csproj">
+    <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
     </ProjectReference>

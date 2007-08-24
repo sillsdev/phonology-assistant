@@ -70,25 +70,16 @@
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\properties\*.*</Arg>
 				<Arg>c:\Phonology Assistant\src\xCoreMediator\obj\*.*</Arg>
-				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\*.*</Arg>
-				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\properties\*.*</Arg>
-				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\obj\*.*</Arg>
-				<Arg>C:\Phonology Assistant\src\Common\SpeechToolsUtils\obj\release\*.*</Arg>
+				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\*.*</Arg>
+				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\properties\*.*</Arg>
+				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\*.*</Arg>
+				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\release\*.*</Arg>
 			</CommandItem>
 			<!-- Update all the files from the PA Subversion repository -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>update</Arg>
 				<Arg>"https://svn.sil.org/langsw/Phonology Assistant"</Arg>
 				<Arg>"C:\Phonology Assistant"</Arg>
-				<Arg>--non-interactive</Arg>
-				<Arg>--username david_olson</Arg>
-				<Arg>--password 1cecream</Arg>
-			</CommandItem>
-			<!-- Update all the files from the SpeechToolsUtils Subversion repository -->
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
-				<Arg>update</Arg>
-				<Arg>https://svn.sil.org/langsw/speechtools/trunk/src/common/SpeechToolsUtils</Arg>
-				<Arg>"C:\Phonology Assistant\src\Common\SpeechToolsUtils"</Arg>
 				<Arg>--non-interactive</Arg>
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
