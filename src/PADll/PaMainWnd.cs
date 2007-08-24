@@ -176,8 +176,8 @@ namespace SIL.Pa
 			if (PaApp.Project != null)
 				PaApp.Project.EnsureSortOptionsSaved();
 
-			STUtils.WaitCursors(true);
 			PaApp.ProjectLoadInProcess = true;
+			STUtils.WaitCursors(true);
 			PaProject project = PaProject.Load(projectFileName, this);
 
 			if (project != null)
@@ -196,24 +196,19 @@ namespace SIL.Pa
 				// When there are already tabs it means there was a project loaded before
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
-				if (vwTabGroup.Tabs.Count > 0)
+				if (vwTabGroup.CurrentTab != null)
 				{
 					PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
-						vwTabGroup.Tabs.IndexOf(vwTabGroup.CurrentTab));
+						vwTabGroup.CurrentTab.ViewType.ToString());
 				}
 
 				LoadViewTabs();
 
-				// At this point, the number of tabs should never be zero.
-				if (vwTabGroup.Tabs.Count > 0)
-				{
-					// Make the last tab that was current the current one now.
-					int currTab = PaApp.SettingsHandler.GetIntSettingsValue(Name, "currentview", 0);
-					if (currTab < 0 || currTab >= vwTabGroup.Tabs.Count)
-						currTab = 0;
+				// Make the last tab that was current the current one now.
+				Type type = Type.GetType(PaApp.SettingsHandler.GetStringSettingsValue(
+					Name, "currentview", null));
 
-					vwTabGroup.SelectTab(vwTabGroup.Tabs[currTab], true);
-				}
+				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
 
 				PaApp.AddProjectToRecentlyUsedProjectsList(projectFileName);
 				
@@ -253,7 +248,7 @@ namespace SIL.Pa
 			tooltip = Properties.Resources.kstidSearchViewToolTip;
 			helptooltip = Properties.Resources.kstidSearchViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(FindPhoneVw));
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			text = (itemProps == null ? "Error!" : itemProps.Text);
@@ -364,8 +359,12 @@ namespace SIL.Pa
 				PaApp.Project.EnsureSortOptionsSaved();
 
 			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
-				vwTabGroup.Tabs.IndexOf(vwTabGroup.CurrentTab));
+
+			if (vwTabGroup.CurrentTab != null)
+			{
+				PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
+					vwTabGroup.CurrentTab.ViewType.ToString());
+			}
 
 			// Close all the instances of SA that we started, if there are any.
 			DataSourceEditor.CloseSAInstances();

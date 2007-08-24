@@ -31,14 +31,15 @@ namespace SIL.Pa
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VowelChartVw));
 			this.SuspendLayout();
 			// 
-			// gridPhones
+			// m_chrGrid
 			// 
+			this.m_chrGrid.HeadersVisible = true;
 			resources.ApplyResources(this.m_chrGrid, "m_chrGrid");
 			// 
-			// VowelChartWnd
+			// VowelChartVw
 			// 
 			resources.ApplyResources(this, "$this");
-			this.Name = "VowelChartWnd";
+			this.Name = "VowelChartVw";
 			this.ResumeLayout(false);
 
 		}

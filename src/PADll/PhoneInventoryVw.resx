@@ -139,7 +139,7 @@
     <value>22</value>
   </data>
   <data name="gridPhones.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 185</value>
+    <value>177, 189</value>
   </data>
   <data name="gridPhones.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -148,7 +148,7 @@
     <value>gridPhones</value>
   </data>
   <data name="&gt;&gt;gridPhones.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2769.37109, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2791.36664, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridPhones.Parent" xml:space="preserve">
     <value>pnlPhones</value>
@@ -178,7 +178,7 @@
     <value>pgpPhoneList</value>
   </data>
   <data name="&gt;&gt;pgpPhoneList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpPhoneList.Parent" xml:space="preserve">
     <value>pnlPhones</value>
@@ -196,7 +196,7 @@
     <value>0, 10</value>
   </data>
   <data name="pnlPhones.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 212</value>
+    <value>179, 216</value>
   </data>
   <data name="pnlPhones.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -205,7 +205,7 @@
     <value>pnlPhones</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlPhones.Parent" xml:space="preserve">
     <value>splitInventory.Panel1</value>
@@ -253,7 +253,7 @@
     <value>Both</value>
   </data>
   <data name="txtAFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 112</value>
+    <value>177, 106</value>
   </data>
   <data name="txtAFeatures.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -273,6 +273,9 @@
   <data name="&gt;&gt;txtAFeatures.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnADropDownArrow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -283,7 +286,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnADropDownArrow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 4</value>
+    <value>158, 4</value>
   </data>
   <data name="btnADropDownArrow.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -294,9 +297,6 @@
   <data name="btnADropDownArrow.Text" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="btnADropDownArrow.ToolTip" xml:space="preserve">
     <value>Change articulatory features for selected phone</value>
   </data>
@@ -304,7 +304,7 @@
     <value>btnADropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnADropDownArrow.Parent" xml:space="preserve">
     <value>hlblAFeatures</value>
@@ -334,7 +334,7 @@
     <value>hlblAFeatures</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblAFeatures.Parent" xml:space="preserve">
     <value>pnlAFeatures</value>
@@ -352,7 +352,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlAFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 138</value>
+    <value>179, 132</value>
   </data>
   <data name="pnlAFeatures.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -361,7 +361,7 @@
     <value>pnlAFeatures</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlAFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel1</value>
@@ -397,7 +397,7 @@
     <value>Both</value>
   </data>
   <data name="txtBFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 75</value>
+    <value>177, 88</value>
   </data>
   <data name="txtBFeatures.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -427,7 +427,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnBDropDownArrow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 4</value>
+    <value>158, 4</value>
   </data>
   <data name="btnBDropDownArrow.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -445,7 +445,7 @@
     <value>btnBDropDownArrow</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnBDropDownArrow.Parent" xml:space="preserve">
     <value>hlblBFeatures</value>
@@ -475,7 +475,7 @@
     <value>hlblBFeatures</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblBFeatures.Parent" xml:space="preserve">
     <value>pnlBFeatures</value>
@@ -493,7 +493,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlBFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 101</value>
+    <value>179, 114</value>
   </data>
   <data name="pnlBFeatures.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -502,7 +502,7 @@
     <value>pnlBFeatures</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlBFeatures.Parent" xml:space="preserve">
     <value>splitFeatures.Panel2</value>
@@ -523,10 +523,10 @@
     <value>1</value>
   </data>
   <data name="splitFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 247</value>
+    <value>179, 254</value>
   </data>
   <data name="splitFeatures.SplitterDistance" type="System.Int32, mscorlib">
-    <value>138</value>
+    <value>132</value>
   </data>
   <data name="splitFeatures.SplitterWidth" type="System.Int32, mscorlib">
     <value>8</value>
@@ -559,10 +559,10 @@
     <value>1</value>
   </data>
   <data name="splitInventory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 477</value>
+    <value>179, 488</value>
   </data>
   <data name="splitInventory.SplitterDistance" type="System.Int32, mscorlib">
-    <value>222</value>
+    <value>226</value>
   </data>
   <data name="splitInventory.SplitterWidth" type="System.Int32, mscorlib">
     <value>8</value>
@@ -607,7 +607,7 @@
     <value>3, 5, 0, 0</value>
   </data>
   <data name="pgpExperimental.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 25</value>
+    <value>440, 25</value>
   </data>
   <data name="pgpExperimental.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -619,7 +619,7 @@
     <value>pgpExperimental</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpExperimental.Parent" xml:space="preserve">
     <value>pnlExperimental</value>
@@ -637,7 +637,7 @@
     <value>0, 10</value>
   </data>
   <data name="pnlExperimental.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 214</value>
+    <value>442, 218</value>
   </data>
   <data name="pnlExperimental.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -646,7 +646,7 @@
     <value>pnlExperimental</value>
   </data>
   <data name="&gt;&gt;pnlExperimental.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExperimental.Parent" xml:space="preserve">
     <value>splitChanges.Panel1</value>
@@ -679,7 +679,7 @@
     <value>22</value>
   </data>
   <data name="gridAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 188</value>
+    <value>440, 195</value>
   </data>
   <data name="gridAmbiguous.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -688,7 +688,7 @@
     <value>gridAmbiguous</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2769.37109, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2791.36664, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridAmbiguous.Parent" xml:space="preserve">
     <value>pnlAmbiguous</value>
@@ -706,7 +706,7 @@
     <value>NoControl</value>
   </data>
   <data name="chkShowDefaults.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 3</value>
+    <value>309, 3</value>
   </data>
   <data name="chkShowDefaults.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 19</value>
@@ -745,7 +745,7 @@
     <value>3, 5, 0, 0</value>
   </data>
   <data name="pgpAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 25</value>
+    <value>440, 25</value>
   </data>
   <data name="pgpAmbiguous.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -757,7 +757,7 @@
     <value>pgpAmbiguous</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpAmbiguous.Parent" xml:space="preserve">
     <value>pnlAmbiguous</value>
@@ -775,7 +775,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlAmbiguous.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 215</value>
+    <value>442, 222</value>
   </data>
   <data name="pnlAmbiguous.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -784,7 +784,7 @@
     <value>pnlAmbiguous</value>
   </data>
   <data name="&gt;&gt;pnlAmbiguous.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2771.25938, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlAmbiguous.Parent" xml:space="preserve">
     <value>splitChanges.Panel2</value>
@@ -808,10 +808,10 @@
     <value>1</value>
   </data>
   <data name="splitChanges.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 477</value>
+    <value>442, 488</value>
   </data>
   <data name="splitChanges.SplitterDistance" type="System.Int32, mscorlib">
-    <value>224</value>
+    <value>228</value>
   </data>
   <data name="splitChanges.SplitterWidth" type="System.Int32, mscorlib">
     <value>8</value>
@@ -862,7 +862,7 @@
     <value>1</value>
   </data>
   <data name="splitOuter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>625, 477</value>
+    <value>629, 488</value>
   </data>
   <data name="splitOuter.SplitterDistance" type="System.Int32, mscorlib">
     <value>179</value>
@@ -880,7 +880,7 @@
     <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;splitOuter.Parent" xml:space="preserve">
-    <value>pnlMasterOuter</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;splitOuter.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -892,7 +892,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnApply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>529, 452</value>
+    <value>534, 463</value>
   </data>
   <data name="btnApply.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 26</value>
@@ -903,6 +903,9 @@
   <data name="btnApply.Text" xml:space="preserve">
     <value>Apply &amp;Changes</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnApply.ToolTip" xml:space="preserve">
     <value>Save and apply changes</value>
   </data>
@@ -913,36 +916,9 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnApply.Parent" xml:space="preserve">
-    <value>pnlMasterOuter</value>
-  </data>
-  <data name="&gt;&gt;btnApply.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlMasterOuter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="pnlMasterOuter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="pnlMasterOuter.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 0, 10, 10</value>
-  </data>
-  <data name="pnlMasterOuter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>645, 487</value>
-  </data>
-  <data name="pnlMasterOuter.TabIndex" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;pnlMasterOuter.Name" xml:space="preserve">
-    <value>pnlMasterOuter</value>
-  </data>
-  <data name="&gt;&gt;pnlMasterOuter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlMasterOuter.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;pnlMasterOuter.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnApply.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -951,14 +927,11 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>645, 487</value>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 0, 10, 10</value>
   </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>Manual</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Phone Inventory</value>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>649, 498</value>
   </data>
   <data name="&gt;&gt;m_tooltip.Name" xml:space="preserve">
     <value>m_tooltip</value>
@@ -967,9 +940,9 @@
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PhoneInventoryWnd</value>
+    <value>PhoneInventoryVw</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

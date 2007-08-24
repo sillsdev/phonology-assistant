@@ -118,50 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnMoveRowUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>495, 10</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowUp.Name" xml:space="preserve">
-    <value>btnMoveRowUp</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowUp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowUp.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowUp.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnMoveRowDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>495, 44</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowDown.Name" xml:space="preserve">
-    <value>btnMoveRowDown</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowDown.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowDown.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnMoveRowDown.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="m_chrGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 261</value>
+    <value>478, 267</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Name" xml:space="preserve">
     <value>m_chrGrid</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharGrid, PaControls, Version=1.0.2358.38363, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharGrid, PaControls, Version=1.0.2791.34832, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -170,15 +140,15 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>534, 311</value>
+    <value>498, 477</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Consonants</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ConsonantChartWnd</value>
+    <value>ConsonantChartVw</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.ChartWndBase, PaDll, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.ChartVwBase, PaDll, Version=1.0.2791.34835, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

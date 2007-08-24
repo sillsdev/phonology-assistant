@@ -30,32 +30,30 @@ namespace SIL.Pa
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartVwBase));
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.m_chrGrid = new SIL.Pa.Controls.CharGrid();
 			this.m_histogram = new SIL.Pa.Controls.Histogram();
 			this.m_toopTip = new System.Windows.Forms.ToolTip(this.components);
-			this.pnlMasterOuter = new System.Windows.Forms.Panel();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			this.pnlMasterOuter.SuspendLayout();
+			this.splitOuter.Panel1.SuspendLayout();
+			this.splitOuter.Panel2.SuspendLayout();
+			this.splitOuter.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// splitContainer1
+			// splitOuter
 			// 
-			resources.ApplyResources(this.splitContainer1, "splitContainer1");
-			this.splitContainer1.Name = "splitContainer1";
+			resources.ApplyResources(this.splitOuter, "splitOuter");
+			this.splitOuter.Name = "splitOuter";
 			// 
-			// splitContainer1.Panel1
+			// splitOuter.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.m_chrGrid);
-			resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
+			this.splitOuter.Panel1.Controls.Add(this.m_chrGrid);
+			resources.ApplyResources(this.splitOuter.Panel1, "splitOuter.Panel1");
 			// 
-			// splitContainer1.Panel2
+			// splitOuter.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.m_histogram);
-			resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
-			this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+			this.splitOuter.Panel2.Controls.Add(this.m_histogram);
+			resources.ApplyResources(this.splitOuter.Panel2, "splitOuter.Panel2");
+			this.splitOuter.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
 			// 
 			// m_chrGrid
 			// 
@@ -70,24 +68,15 @@ namespace SIL.Pa
 			resources.ApplyResources(this.m_histogram, "m_histogram");
 			this.m_histogram.Name = "m_histogram";
 			// 
-			// pnlMasterOuter
-			// 
-			this.pnlMasterOuter.Controls.Add(this.splitContainer1);
-			resources.ApplyResources(this.pnlMasterOuter, "pnlMasterOuter");
-			this.pnlMasterOuter.Name = "pnlMasterOuter";
-			// 
-			// ChartWndBase
+			// ChartVwBase
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlMasterOuter);
-			this.Name = "ChartWndBase";
-			this.ShowInTaskbar = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			this.splitContainer1.ResumeLayout(false);
-			this.pnlMasterOuter.ResumeLayout(false);
+			this.Controls.Add(this.splitOuter);
+			this.Name = "ChartVwBase";
+			this.splitOuter.Panel1.ResumeLayout(false);
+			this.splitOuter.Panel2.ResumeLayout(false);
+			this.splitOuter.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -96,9 +85,8 @@ namespace SIL.Pa
 
 		private System.Windows.Forms.ToolTip m_toopTip;
 		protected SIL.Pa.Controls.CharGrid m_chrGrid;
-		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.SplitContainer splitOuter;
 		private SIL.Pa.Controls.Histogram m_histogram;
-		private System.Windows.Forms.Panel pnlMasterOuter;
 
 	}
 }

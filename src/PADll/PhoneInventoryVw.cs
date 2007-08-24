@@ -17,8 +17,9 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class PhoneInventoryVw : Form, IxCoreColleague, ITabView
+	public partial class PhoneInventoryVw : UserControl, IxCoreColleague, ITabView
 	{
+		private bool m_activeView = false;
 		private SizableDropDownPanel m_sddpAFeatures;
 		private CustomDropDown m_aFeatureDropdown;
 		private FeatureListView m_lvAFeatures;
@@ -28,7 +29,6 @@ namespace SIL.Pa
 		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
 		private ToolTip m_phoneToolTip;
 		private ToolTip m_bFeatureToolTip;
-		private readonly ITMAdapter m_mainMenuAdapter;
 		private readonly ITMAdapter m_tmAdapter;
 
 		/// ------------------------------------------------------------------------------------
@@ -45,16 +45,13 @@ namespace SIL.Pa
 			}
 
 			InitializeComponent();
-
+			Name = "PhoneInventoryVw";
 			if (PaApp.DesignMode)
 				return;
 
-			m_phoneToolTip = new ToolTip();
-			m_bFeatureToolTip = new ToolTip();
+			SetToolTips();
 
 			PaApp.IncProgressBar();
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 			PaApp.IncProgressBar();
 
@@ -88,9 +85,8 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
-			base.MinimumSize = PaApp.MinimumViewWindowSize;
-			Application.Idle += Application_Idle;
 			Disposed += PhoneInventoryWnd_Disposed;
+			gridPhones.Focus();
 		}
 
 		#region Dispose method
@@ -156,24 +152,12 @@ namespace SIL.Pa
 				m_bFeatureDropdown.Dispose();
 				m_bFeatureDropdown = null;
 			}
+		
+			if (splitOuter != null)
+				splitOuter.Dispose();
 		}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is quite kludgy but it works and all the straight-foward ways to force the
-		/// phone list grid to get focus when the view is first built didn't work. No matter
-		/// what I tried, the pnlMasterOuter seemed to always have the focus first. I think
-		/// it may have something to do with the fact that a view is removed from it's form
-		/// and docked in the main form right after its loaded the first time.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void Application_Idle(object sender, EventArgs e)
-		{
-			Application.Idle -= Application_Idle;
-			gridPhones.Focus();
-		}
 
 		#region Misc. setup
 		/// ------------------------------------------------------------------------------------
@@ -436,25 +420,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			PaApp.SettingsHandler.LoadFormProperties(this);
-			ViewDocked();
+			OnViewDocked(this);
 
 			PaApp.SettingsHandler.LoadGridProperties(gridAmbiguous);
 			PaApp.SettingsHandler.LoadGridProperties(gridPhones);
 
 			chkShowDefaults.Checked = (chkShowDefaults.Enabled &&
 				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a bit.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosed(FormClosedEventArgs e)
-		{
-			splitOuter.Dispose();
-			base.OnFormClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -488,9 +460,39 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control DockableContainer
+		public bool ActiveView
 		{
-			get { return pnlMasterOuter; }
+			get { return m_activeView; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetViewActive(bool makeActive, bool isDocked)
+		{
+			m_activeView = makeActive;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Form OwningForm
+		{
+			get { return FindForm(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the view's toolbar/menu adapter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ITMAdapter TMAdapter
+		{
+			get { return m_tmAdapter; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -504,7 +506,6 @@ namespace SIL.Pa
 			if (chkShowDefaults.Enabled)
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "showdefault", chkShowDefaults.Checked);
 
-			PaApp.SettingsHandler.SaveFormProperties(this);
 			PaApp.SettingsHandler.SaveGridProperties(gridAmbiguous);
 			PaApp.SettingsHandler.SaveGridProperties(gridPhones);
 			
@@ -526,10 +527,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocking()
+		protected bool OnBeginViewClosing(object args)
 		{
-			m_mainMenuAdapter.AllowUpdates = true;
-			SaveSettings();
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -537,8 +540,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocked()
+		protected bool OnBeginViewUnDocking(object args)
 		{
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -546,9 +553,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocking()
+		protected bool OnBeginViewDocking(object args)
 		{
-			SaveSettings();
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -556,35 +566,40 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocked()
+		protected bool OnViewDocked(object args)
 		{
-			try
+			if (args == this)
 			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
+				SetToolTips();
 
-				// Splitter between left and right half of view.
-				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
+				try
+				{
+					// These are in a try/catch because sometimes they might throw an exception
+					// in rare cases. The exception has to do with a condition in the underlying
+					// .Net framework that I haven't been able to make sense of. Anyway, if an
+					// exception is thrown, no big deal, the splitter distances will just be set
+					// to their default values.
 
-				// Splitter between experimental transcriptions and ambiguous sequences.
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.5f);
-				splitChanges.SplitterDistance = (int)(splitChanges.Height * splitRatio);
+					// Splitter between left and right half of view.
+					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
+					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
-				// Splitter between phone inventory and features.
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.4f);
-				splitInventory.SplitterDistance = (int)(splitInventory.Height * splitRatio);
+					// Splitter between experimental transcriptions and ambiguous sequences.
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.5f);
+					splitChanges.SplitterDistance = (int)(splitChanges.Height * splitRatio);
 
-				// Splitter between articulatory and binary features.
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
-				splitFeatures.SplitterDistance = (int)(splitFeatures.Height * splitRatio);
+					// Splitter between phone inventory and features.
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.4f);
+					splitInventory.SplitterDistance = (int)(splitInventory.Height * splitRatio);
+
+					// Splitter between articulatory and binary features.
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
+					splitFeatures.SplitterDistance = (int)(splitFeatures.Height * splitRatio);
+				}
+				catch { }
 			}
-			catch { }
 
-			m_mainMenuAdapter.AllowUpdates = false;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -592,88 +607,32 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewActivatedWhileDocked()
+		protected bool OnViewUndocked(object args)
 		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public StatusStrip StatusBar
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel StatusBarLabel
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripProgressBar ProgressBar
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar's label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel ProgressBarLabel
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolTip ViewsToolTip
-		{
-			get { return m_tooltip; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's toolbar/menu adapter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ITMAdapter TMAdapter
-		{
-			get { return m_tmAdapter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is about to be opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnBeginViewChangingStatus(object args)
-		{
+			if (args == this)
+				SetToolTips();
+	
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets called any time any view is finished being opened, docked or undocked.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnEndViewChangingStatus(object args)
+		private void SetToolTips()
 		{
-			return false;
+			m_phoneToolTip = new ToolTip();
+			m_bFeatureToolTip = new ToolTip();
+
+			System.ComponentModel.ComponentResourceManager resources =
+				new System.ComponentModel.ComponentResourceManager(GetType());
+			
+			m_tooltip = new System.Windows.Forms.ToolTip(components);
+			m_tooltip.SetToolTip(btnADropDownArrow, resources.GetString("btnADropDownArrow.ToolTip"));
+			m_tooltip.SetToolTip(btnBDropDownArrow, resources.GetString("btnBDropDownArrow.ToolTip"));
+			m_tooltip.SetToolTip(chkShowDefaults, resources.GetString("chkShowDefaults.ToolTip"));
+			m_tooltip.SetToolTip(btnApply, resources.GetString("btnApply.ToolTip"));
 		}
 
 		#endregion
@@ -1338,38 +1297,6 @@ namespace SIL.Pa
 					}
 				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// For some reason the anchoring of the appply button doesn't work when the master
-		/// panel is docked and undocked. Therefore, this code will make sure the button
-		/// gets placed in it's correct place when the size of the master panel changes and
-		/// when the apply button isn't already in its correct location.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void pnlMasterOuter_SizeChanged(object sender, EventArgs e)
-		{
-			// Get the X screen coordinate where the button should be.
-			int x = pnlMasterOuter.PointToScreen(new Point(pnlMasterOuter.Width -
-				pnlMasterOuter.Padding.Right - btnApply.Width, 0)).X;
-
-			// Get the Y screen coordinates for the top and bottom of the gap into which
-			// the apply button should be located. This gap is vertically larger than the
-			// height of the apply button and the apply button will be vertically centered
-			// within the gap.
-			int y1 = pnlAmbiguous.PointToScreen(new Point(0, pnlAmbiguous.Height)).Y;
-			int y2 = pnlMasterOuter.PointToScreen(new Point(0, pnlMasterOuter.Height)).Y;
-
-			// Calculate the y screen coordinate where the button should be.
-			int y = y1 + ((y2 - y1 - btnApply.Height) / 2);
-
-			// Convert the screen coordinate to client coordinates and compare it with
-			// the button's current location.
-			Point pt = pnlMasterOuter.PointToClient(new Point(x, y));
-
-			if (pt != btnApply.Location)
-				btnApply.Location = pt;
 		}
 
 		/// ------------------------------------------------------------------------------------

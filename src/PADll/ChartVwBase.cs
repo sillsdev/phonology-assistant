@@ -21,16 +21,17 @@ namespace SIL.Pa
 	/// character charts.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ChartVwBase : Form, IxCoreColleague, ITabView
+	public partial class ChartVwBase : UserControl, IxCoreColleague, ITabView
 	{
 		protected List<CharGridCell> m_phoneList;
 		protected ITMAdapter m_tmAdapter;
-		protected ITMAdapter m_mainMenuAdapter;
+		//protected ITMAdapter m_mainMenuAdapter;
 		protected ChartOptionsDropDown m_chartOptionsDropDown;
 		protected string m_defaultHTMLOutputFile;
 		protected string m_htmlChartName;
 		private string m_persistedInfoFilename;
 		private bool m_histogramOn = true;
+		private bool m_activeView = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -48,7 +49,6 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			
 			LoadToolbarAndContextMenus();
-			m_chrGrid.TMAdapter = m_tmAdapter;
 			m_chrGrid.OwningViewType = GetType();
 			PaApp.IncProgressBar();
 		}
@@ -115,18 +115,18 @@ namespace SIL.Pa
 			if (PaApp.DesignMode)
 				return;
 
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
+			if (m_tmAdapter != null)
+				m_tmAdapter.Dispose();
+
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
+			m_chrGrid.TMAdapter = m_tmAdapter;
 
 			if (m_tmAdapter != null)
 			{
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "CVChartsTMDefinition.xml");
-				m_tmAdapter.Initialize(DockableContainer,
-					PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
-				
+				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 
@@ -172,9 +172,9 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control DockableContainer
+		public bool ActiveView
 		{
-			get { return pnlMasterOuter; }
+			get { return m_activeView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -182,138 +182,22 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SaveSettings()
+		public void SetViewActive(bool makeActive, bool isDocked)
 		{
-			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			m_activeView = makeActive;
 
-			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ViewUndocking()
-		{
-			if (m_chrGrid.Grid is CharGridView)
-				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
-	
-			m_mainMenuAdapter.AllowUpdates = true;
-			SaveSettings();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ViewUndocked()
-		{
-			if (m_chrGrid.Grid is CharGridView)
-				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ViewDocking()
-		{
-			SaveSettings();
-
-			if (m_chrGrid.Grid is CharGridView)
-				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ViewDocked()
-		{
-			try
-			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
-				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
-				splitContainer1.SplitterDistance = (int)(splitContainer1.Height * splitRatio);
-			}
-			catch { }
-		
-			m_mainMenuAdapter.AllowUpdates = false;
-
-			if (m_chrGrid.Grid is CharGridView)
-				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ViewActivatedWhileDocked()
-		{
-			if (m_chrGrid != null && m_chrGrid.Grid != null)
+			if (m_activeView && isDocked && m_chrGrid != null && m_chrGrid.Grid != null)
 				m_chrGrid.Grid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the status bar.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public StatusStrip StatusBar
+		public Form OwningForm
 		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel StatusBarLabel
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripProgressBar ProgressBar
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar's label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel ProgressBarLabel
-		{
-			get { return null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolTip ViewsToolTip
-		{
-			get { return m_toopTip; }
+			get { return FindForm(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -328,27 +212,107 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets called any time any view is about to be opened, docked or undocked.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnBeginViewChangingStatus(object args)
+		public void SaveSettings()
+		{
+			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
+
+			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeginViewClosing(object args)
 		{
 			if (args == this)
-				m_tmAdapter.AllowUpdates = false;
-			
+				SaveSettings();
+
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets called any time any view is finished being opened, docked or undocked.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnEndViewChangingStatus(object args)
+		protected bool OnBeginViewUnDocking(object args)
 		{
 			if (args == this)
-				m_tmAdapter.AllowUpdates = true;
-	
+			{
+				if (m_chrGrid.Grid is CharGridView)
+					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
+
+				SaveSettings();
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewUndocked(object args)
+		{
+			if (args == this && m_chrGrid.Grid is CharGridView)
+				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeginViewDocking(object args)
+		{
+			if (args == this)
+			{
+				SaveSettings();
+
+				if (m_chrGrid.Grid is CharGridView)
+					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewDocked(object args)
+		{
+			if (args == this)
+			{
+				try
+				{
+					// These are in a try/catch because sometimes they might throw an exception
+					// in rare cases. The exception has to do with a condition in the underlying
+					// .Net framework that I haven't been able to make sense of. Anyway, if an
+					// exception is thrown, no big deal, the splitter distances will just be set
+					// to their default values.
+					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
+					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
+				}
+				catch { }
+
+				if (m_chrGrid.Grid is CharGridView)
+					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
+
+				LoadToolbarAndContextMenus();
+			}
+
 			return false;
 		}
 
@@ -367,11 +331,11 @@ namespace SIL.Pa
 				if (m_histogramOn != value)
 				{
 					m_histogramOn = value;
-					splitContainer1.Panel2Collapsed = !value;
-					Padding padding = splitContainer1.Panel1.Padding;
+					splitOuter.Panel2Collapsed = !value;
+					Padding padding = splitOuter.Panel1.Padding;
 					padding = new Padding(padding.Left, padding.Top, padding.Right,
-						(value ? 0 : splitContainer1.Panel2.Padding.Bottom));
-					splitContainer1.Panel1.Padding = padding;
+						(value ? 0 : splitOuter.Panel2.Padding.Bottom));
+					splitOuter.Panel1.Padding = padding;
 				}
 			}
 		}
@@ -388,13 +352,11 @@ namespace SIL.Pa
 			if (PaApp.DesignMode)
 				return;
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
 			HistogramOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
-
 			m_chrGrid.Reset();
 			Initialize();
 			
-			ViewDocked();
+			OnViewDocked(this);
 			PaApp.UninitializeProgressBar();
 			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
@@ -427,7 +389,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearchAnywhere(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			PerformSearch("*_*", "tbbChartPhoneSearchAnywhere");
@@ -441,7 +403,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearchInitial(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			PerformSearch("#_+", "tbbChartPhoneSearchInitial");
@@ -455,7 +417,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearchMedial(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			PerformSearch("+_+", "tbbChartPhoneSearchMedial");
@@ -469,7 +431,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearchFinal(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			PerformSearch("+_#", "tbbChartPhoneSearchFinal");
@@ -483,7 +445,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearchAlone(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 				
 			PerformSearch("#_#", "tbbChartPhoneSearchAlone");
@@ -542,7 +504,7 @@ namespace SIL.Pa
 		protected bool OnChartPhoneSearch(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			// When the tag is nothing then perform a default search of the Phone anywhere.
@@ -566,7 +528,7 @@ namespace SIL.Pa
 		protected bool OnUpdateChartPhoneSearch(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			bool enable = (m_chrGrid != null && m_chrGrid.SelectedPhones != null);
@@ -602,7 +564,7 @@ namespace SIL.Pa
 		protected bool OnDropDownChooseIgnoredCharactersTBMenu(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Control != null && itemProps.Control == m_chartOptionsDropDown)
@@ -642,7 +604,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			string defaultHTMLFileName = 
@@ -652,7 +614,7 @@ namespace SIL.Pa
 				HTMLChartWriter.Export(m_chrGrid, defaultHTMLFileName, m_htmlChartName);
 
 			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);
+				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
 
 			return true;
 		}
@@ -669,7 +631,7 @@ namespace SIL.Pa
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = PaApp.IsFormActive(this);
+			itemProps.Enabled = m_activeView;
 			itemProps.Update = true;
 			return true;
 		}
@@ -681,7 +643,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRestoreDefaultLayoutTBMenu(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			ReloadChart(true);
@@ -695,7 +657,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowHistogram(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			HistogramOn = !HistogramOn;
@@ -710,10 +672,10 @@ namespace SIL.Pa
 		protected bool OnUpdateShowHistogram(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
-			bool shouldBechecked = !splitContainer1.Panel2Collapsed;
+			bool shouldBechecked = !splitOuter.Panel2Collapsed;
 
 			if (itemProps.Checked != shouldBechecked)
 			{
@@ -743,7 +705,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		//protected bool OnUpdateMoveCharChartRowUp(object args)
 		//{
-		//    if (!PaApp.IsFormActive(this) || args.GetType() != typeof(bool))
+		//    if (!m_activeView || args.GetType() != typeof(bool))
 		//        return false;
 
 		//    btnMoveRowUp.Enabled = (bool)args;
@@ -757,7 +719,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		//protected bool OnUpdateMoveCharChartRowDown(object args)
 		//{
-		//    if (!PaApp.IsFormActive(this) || args.GetType() != typeof(bool))
+		//    if (!m_activeView || args.GetType() != typeof(bool))
 		//        return false;
 
 		//    btnMoveRowDown.Enabled = (bool)args;

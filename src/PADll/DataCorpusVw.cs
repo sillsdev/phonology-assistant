@@ -15,14 +15,14 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataCorpusVw : Form, IxCoreColleague, ITabView
+	public partial class DataCorpusVw : UserControl, IxCoreColleague, ITabView
 	{
 		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
 		private ITMAdapter m_tmAdapter;
-		private ITMAdapter m_mainMenuAdapter;
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private bool m_rawRecViewOn = true;
+		private bool m_activeView = false;
 		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 
 		/// ------------------------------------------------------------------------------------
@@ -39,6 +39,7 @@ namespace SIL.Pa
 			}
 
 			InitializeComponent();
+			Name = "DataCorpusVw";
 
 			if (PaApp.DesignMode)
 				return;
@@ -62,18 +63,20 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbar()
 		{
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
+			if (m_tmAdapter != null)
+				m_tmAdapter.Dispose();
+
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
+
+			if (m_grid != null)
+				m_grid.TMAdapter = m_tmAdapter;
 
 			if (m_tmAdapter != null)
 			{
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "DataCorpusTMDefinition.xml");
-				m_tmAdapter.Initialize(pnlMasterOuter,
-					PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
-
+				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 		}
@@ -110,13 +113,13 @@ namespace SIL.Pa
 				// Even thought the grid is docked, setting it's size here prevents the user
 				// from seeing that split second during which time the grid goes from it's
 				// small, default size to its docked size.
-				m_grid.Size = new Size(splitContainer1.Panel1.Width, splitContainer1.Panel1.Height);
+				m_grid.Size = new Size(splitOuter.Panel1.Width, splitOuter.Panel1.Height);
 
 				m_grid.Name = Name + "Grid";
 				m_grid.LoadSettings();
 				m_grid.RowEnter += m_grid_RowEnter;
 				m_grid.Visible = false;
-				splitContainer1.Panel1.Controls.Add(m_grid);
+				splitOuter.Panel1.Controls.Add(m_grid);
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
@@ -154,9 +157,9 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control DockableContainer
+		public bool ActiveView
 		{
-			get {return pnlMasterOuter;}
+			get { return m_activeView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -164,13 +167,20 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocking()
+		public void SetViewActive(bool makeActive, bool isDocked)
 		{
-			m_mainMenuAdapter.AllowUpdates = true;
-			SaveSettings();
+			m_activeView = makeActive;
 
-			if (m_grid != null)
-				m_grid.SetStatusBarText(sblblMain);
+			if (makeActive)
+			{
+				FindInfo.Grid = m_grid;
+
+				if (isDocked && m_grid != null)
+				{
+					m_grid.SetStatusBarText();
+					m_grid.Focus();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,8 +188,22 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocked()
+		public Form OwningForm
 		{
+			get { return FindForm(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeginViewUnDocking(object args)
+		{
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,9 +214,8 @@ namespace SIL.Pa
 		public void SaveSettings()
 		{
 			m_grid.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
 			
-			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Height;
+			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
 		}
@@ -202,9 +225,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocking()
+		protected bool OnBeginViewClosing(object args)
 		{
-			SaveSettings();
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,24 +238,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocked()
+		protected bool OnBeginViewDocking(object args)
 		{
-			try
-			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
-				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
-				splitContainer1.SplitterDistance = (int)(splitContainer1.Height * splitRatio);
-			}
-			catch { }
+			if (args == this)
+				SaveSettings();
 
-			m_mainMenuAdapter.AllowUpdates = false;
-
-			if (m_grid != null)
-				m_grid.SetStatusBarText();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -237,63 +251,29 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewActivatedWhileDocked()
+		protected bool OnViewDocked(object args)
 		{
-			if (m_grid != null)
+			if (args == this)
 			{
-				m_grid.SetStatusBarText();
-				m_grid.Focus();
+				try
+				{
+					// These are in a try/catch because sometimes they might throw an exception
+					// in rare cases. The exception has to do with a condition in the underlying
+					// .Net framework that I haven't been able to make sense of. Anyway, if an
+					// exception is thrown, no big deal, the splitter distances will just be set
+					// to their default values.
+					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
+					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
+				}
+				catch { }
+
+				LoadToolbar();
+				
+				if (m_grid != null)
+					m_grid.SetStatusBarText();
 			}
-		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public StatusStrip StatusBar
-		{
-			get { return statusStrip; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel StatusBarLabel
-		{
-			get { return sblblMain; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripProgressBar ProgressBar
-		{
-			get { return sbProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar's label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel ProgressBarLabel
-		{
-			get { return sblblProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolTip ViewsToolTip
-		{
-			get { return null; }
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -304,46 +284,6 @@ namespace SIL.Pa
 		public ITMAdapter TMAdapter
 		{
 			get { return m_tmAdapter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This message is received when the current view tab changed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnViewTabChanged(object args)
-		{
-			ViewTabGroup vwTabGrp = args as ViewTabGroup;
-			if (vwTabGrp != null && vwTabGrp.CurrentTab != null && vwTabGrp.CurrentTab.View == this)
-				FindInfo.Grid = m_grid;
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is about to be opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnBeginViewChangingStatus(object args)
-		{
-			if (args == this)
-				m_tmAdapter.AllowUpdates = false;
-			
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is finished being opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnEndViewChangingStatus(object args)
-		{
-			if (args == this)
-				m_tmAdapter.AllowUpdates = true;
-		
-			return false;
 		}
 
 		#endregion
@@ -368,7 +308,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownAdjustPlaybackSpeed(object args)
 		{
-			if (!PaApp.IsFormActive(this) || m_grid == null ||
+			if (!m_activeView || m_grid == null ||
 				m_grid.Cache == null)
 			{
 				return false;
@@ -387,7 +327,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedAdjustPlaybackSpeed(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			PaApp.SettingsHandler.SaveSettingsValue(GetType().Name, "playbackspeed",
@@ -406,12 +346,11 @@ namespace SIL.Pa
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			PaApp.SettingsHandler.LoadFormProperties(this);
 
 			RawRecViewOn =
 				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "recordpanevisible", true);
 
-			ViewDocked();
+			OnViewDocked(this);
 			Application.DoEvents();
 			m_grid.Focus();
 		}
@@ -466,11 +405,11 @@ namespace SIL.Pa
 				if (m_rawRecViewOn != value)
 				{
 					m_rawRecViewOn = value;
-					splitContainer1.Panel2Collapsed = !value;
-					Padding padding = splitContainer1.Panel1.Padding;
+					splitOuter.Panel2Collapsed = !value;
+					Padding padding = splitOuter.Panel1.Padding;
 					padding = new Padding(padding.Left, padding.Top, padding.Right,
-						(value ? 0 : splitContainer1.Panel2.Padding.Bottom));
-					splitContainer1.Panel1.Padding = padding;
+						(value ? 0 : splitOuter.Panel2.Padding.Bottom));
+					splitOuter.Panel1.Padding = padding;
 				}
 			}
 		}
@@ -483,10 +422,23 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnViewUndocked(object args)
+		{
+			if (args == this)
+				m_grid.SetStatusBarText();
+
+			return false;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownGroupByFieldParent(object args)
 		{
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			m_grid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
@@ -501,7 +453,7 @@ namespace SIL.Pa
 		protected bool OnUpdateGroupByFieldParent(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null || itemProps.Name.StartsWith("tbb"))
+			if (!m_activeView || itemProps == null || itemProps.Name.StartsWith("tbb"))
 				return false;
 
 			m_grid.BuildGroupByMenu(itemProps.Name, PaApp.TMAdapter);
@@ -515,7 +467,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupBySortedField(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			if (m_grid.IsGroupedByField)
@@ -528,7 +480,7 @@ namespace SIL.Pa
 					m_grid.ToggleGroupExpansion(false);
 			}
 
-			if (m_grid.CurrentCell != null && !m_grid.CurrentCell.Displayed)
+			if (!m_grid.CurrentCell.Displayed && m_grid.CurrentCell != null)
 				m_grid.ScrollRowToMiddleOfGrid(m_grid.CurrentCell.RowIndex);
 
 			FindInfo.ResetStartSearchCell(true);
@@ -544,7 +496,7 @@ namespace SIL.Pa
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (m_grid.RowCount == 0)
@@ -575,7 +527,7 @@ namespace SIL.Pa
 		protected bool OnUpdateShowCIEResults(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Enabled || itemProps.Checked)
@@ -596,7 +548,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExpandAllGroups(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			m_grid.ToggleGroupExpansion(true);
@@ -611,7 +563,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsExpanded))
@@ -631,7 +583,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCollapseAllGroups(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			m_grid.ToggleGroupExpansion(false);
@@ -646,7 +598,7 @@ namespace SIL.Pa
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsCollapsed))
@@ -666,7 +618,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowRecordPane(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			RawRecViewOn = !RawRecViewOn;
@@ -681,7 +633,7 @@ namespace SIL.Pa
 		protected bool OnUpdateShowRecordPane(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsFormActive(this) || itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (itemProps.Checked != m_rawRecViewOn)
@@ -803,7 +755,7 @@ namespace SIL.Pa
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = PaApp.IsFormActive(this);
+			itemProps.Enabled = m_activeView;
 			itemProps.Update = true;
 			return true;
 		}
@@ -815,7 +767,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			string defaultHTMLFileName =
@@ -826,7 +778,7 @@ namespace SIL.Pa
 				new string[] { Properties.Resources.kstidDataCorpusHTMLChartType });
 
 			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);
+				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
 
 			return true;
 		}
@@ -839,7 +791,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsHTML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			itemProps.Visible = true;
@@ -857,7 +809,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownDataCorpusPhoneticSort(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
@@ -890,7 +842,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedDataCorpusPhoneticSort(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			m_phoneticSortOptionsDropDown = null;
@@ -905,7 +857,7 @@ namespace SIL.Pa
 		protected bool OnUpdateDataCorpusPhoneticSort(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (!itemProps.Enabled)

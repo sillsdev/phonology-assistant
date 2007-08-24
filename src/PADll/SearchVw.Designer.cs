@@ -1,6 +1,6 @@
 namespace SIL.Pa
 {
-	partial class FindPhoneVw
+	partial class SearchVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindPhoneVw));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchVw));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
@@ -60,11 +60,6 @@ namespace SIL.Pa
 			this.ptrnTextBox = new SIL.Pa.Controls.PatternTextBox();
 			this.lblCurrPattern = new System.Windows.Forms.Label();
 			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.pnlMasterOuter = new System.Windows.Forms.Panel();
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
-			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -85,8 +80,6 @@ namespace SIL.Pa
 			this.pnlRecView.SuspendLayout();
 			this.pnlCurrPattern.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
-			this.pnlMasterOuter.SuspendLayout();
-			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -133,6 +126,7 @@ namespace SIL.Pa
 			// pnlSideBarCaption
 			// 
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSideBarCaption.Controls.Add(this.btnDock);
 			this.pnlSideBarCaption.Controls.Add(this.btnAutoHide);
@@ -184,6 +178,7 @@ namespace SIL.Pa
 			// pnlRecentPatterns
 			// 
 			this.pnlRecentPatterns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlRecentPatterns.ClipTextForChildControls = true;
 			this.pnlRecentPatterns.ControlReceivingFocusOnMnemonic = null;
 			this.pnlRecentPatterns.Controls.Add(this.lstRecentPatterns);
 			this.pnlRecentPatterns.Controls.Add(this.hlblRecentPatterns);
@@ -208,6 +203,7 @@ namespace SIL.Pa
 			// 
 			// hlblRecentPatterns
 			// 
+			this.hlblRecentPatterns.ClipTextForChildControls = true;
 			this.hlblRecentPatterns.ControlReceivingFocusOnMnemonic = null;
 			this.hlblRecentPatterns.Controls.Add(this.btnClearRecentList);
 			this.hlblRecentPatterns.Controls.Add(this.btnRemoveFromRecentList);
@@ -247,6 +243,7 @@ namespace SIL.Pa
 			// pnlSavedPatterns
 			// 
 			this.pnlSavedPatterns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSavedPatterns.ClipTextForChildControls = true;
 			this.pnlSavedPatterns.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSavedPatterns.Controls.Add(this.tvSavedPatterns);
 			this.pnlSavedPatterns.Controls.Add(this.hlblSavedPatterns);
@@ -270,6 +267,7 @@ namespace SIL.Pa
 			// 
 			// hlblSavedPatterns
 			// 
+			this.hlblSavedPatterns.ClipTextForChildControls = true;
 			this.hlblSavedPatterns.ControlReceivingFocusOnMnemonic = null;
 			this.hlblSavedPatterns.Controls.Add(this.btnCategoryNew);
 			this.hlblSavedPatterns.Controls.Add(this.btnCategoryCut);
@@ -360,6 +358,7 @@ namespace SIL.Pa
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlRecView.ClipTextForChildControls = true;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
 			this.pnlRecView.Controls.Add(this.rtfRecVw);
 			resources.ApplyResources(this.pnlRecView, "pnlRecView");
@@ -368,12 +367,12 @@ namespace SIL.Pa
 			this.pnlRecView.Name = "pnlRecView";
 			this.pnlRecView.PaintExplorerBarBackground = false;
 			// 
-			// rawRecVw
+			// rtfRecVw
 			// 
 			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
 			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.rtfRecVw, "rawRecVw");
-			this.rtfRecVw.Name = "rawRecVw";
+			resources.ApplyResources(this.rtfRecVw, "rtfRecVw");
+			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
 			this.rtfRecVw.TabStop = false;
 			// 
@@ -407,7 +406,7 @@ namespace SIL.Pa
 			this.ptrnTextBox.BackColor = System.Drawing.Color.Transparent;
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.ptrnTextBox.Name = "ptrnTextBox";
-			this.ptrnTextBox.OwningForm = null;
+			this.ptrnTextBox.OwningView = null;
 			this.ptrnTextBox.SearchQueryCategory = null;
 			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
 			this.ptrnTextBox.SizeChanged += new System.EventHandler(this.ptrnTextBox_SizeChanged);
@@ -424,52 +423,14 @@ namespace SIL.Pa
 			resources.ApplyResources(this.pnlOuter, "pnlOuter");
 			this.pnlOuter.Name = "pnlOuter";
 			// 
-			// pnlMasterOuter
-			// 
-			this.pnlMasterOuter.Controls.Add(this.pnlOuter);
-			this.pnlMasterOuter.Controls.Add(this.pnlSliderPlaceholder);
-			this.pnlMasterOuter.Controls.Add(this.pnlCurrPattern);
-			resources.ApplyResources(this.pnlMasterOuter, "pnlMasterOuter");
-			this.pnlMasterOuter.Name = "pnlMasterOuter";
-			// 
-			// statusStrip
-			// 
-			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sblblMain,
-            this.sblblProgress,
-            this.sbProgress});
-			resources.ApplyResources(this.statusStrip, "statusStrip");
-			this.statusStrip.Name = "statusStrip";
-			// 
-			// sblblMain
-			// 
-			resources.ApplyResources(this.sblblMain, "sblblMain");
-			this.sblblMain.Name = "sblblMain";
-			this.sblblMain.Spring = true;
-			// 
-			// sblblProgress
-			// 
-			this.sblblProgress.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-			this.sblblProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-			this.sblblProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
-			this.sblblProgress.Name = "sblblProgress";
-			resources.ApplyResources(this.sblblProgress, "sblblProgress");
-			// 
-			// sbProgress
-			// 
-			resources.ApplyResources(this.sbProgress, "sbProgress");
-			this.sbProgress.Name = "sbProgress";
-			// 
-			// FindPhoneWnd
+			// SearchVw
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlMasterOuter);
-			this.Controls.Add(this.statusStrip);
-			this.KeyPreview = true;
-			this.Name = "FindPhoneWnd";
-			this.ShowInTaskbar = false;
+			this.Controls.Add(this.pnlOuter);
+			this.Controls.Add(this.pnlSliderPlaceholder);
+			this.Controls.Add(this.pnlCurrPattern);
+			this.Name = "SearchVw";
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
@@ -490,11 +451,7 @@ namespace SIL.Pa
 			this.pnlRecView.ResumeLayout(false);
 			this.pnlCurrPattern.ResumeLayout(false);
 			this.pnlOuter.ResumeLayout(false);
-			this.pnlMasterOuter.ResumeLayout(false);
-			this.statusStrip.ResumeLayout(false);
-			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -521,17 +478,12 @@ namespace SIL.Pa
 		private System.Windows.Forms.Panel pnlCurrPattern;
 		private System.Windows.Forms.Label lblCurrPattern;
 		private System.Windows.Forms.Panel pnlOuter;
-		private System.Windows.Forms.Panel pnlMasterOuter;
 		private SIL.Pa.Controls.HeaderLabel hlblRecentPatterns;
 		private SIL.Pa.Controls.DockButton btnDock;
 		private SIL.Pa.Controls.AutoHideButton btnAutoHide;
 		private SIL.Pa.Controls.HeaderLabel hlblSavedPatterns;
 		private SIL.Pa.Controls.XButton btnRemoveFromRecentList;
 		private SIL.Pa.Controls.PatternBuilderComponents ptrnBldrComponent;
-		public System.Windows.Forms.StatusStrip statusStrip;
-		private System.Windows.Forms.ToolStripStatusLabel sblblMain;
-		private System.Windows.Forms.ToolStripStatusLabel sblblProgress;
-		private System.Windows.Forms.ToolStripProgressBar sbProgress;
 		private SIL.Pa.Controls.PatternTextBox ptrnTextBox;
 		private System.Windows.Forms.Button btnRefresh;
 		private SIL.Pa.Controls.XButton btnClearRecentList;

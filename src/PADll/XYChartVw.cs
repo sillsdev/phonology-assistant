@@ -20,15 +20,15 @@ namespace SIL.Pa
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class XYChartVw : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class XYChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		private const string kSavedChartsFile = "XYCharts.xml";
 
+		private bool m_activeView = false;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
 		private ITMAdapter m_tmAdapter;
-		private ITMAdapter m_mainMenuAdapter;
 		private readonly string m_openClass = ResourceHelper.GetString("kstidOpenClassSymbol");
 		private readonly string m_closeClass = ResourceHelper.GetString("kstidCloseClassSymbol");
 		private readonly SplitterPanel m_dockedSidePanel;
@@ -43,10 +43,11 @@ namespace SIL.Pa
 		{
 			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidXYChartsViewText, 6);
 			InitializeComponent();
+			Name = "XYChartVw";
 			PaApp.IncProgressBar();
 
 			m_xyGrid = new XYGrid();
-			m_xyGrid.OwningForm = this;
+			m_xyGrid.OwningView = this;
 			m_xyGrid.Dock = DockStyle.Fill;
 			m_xyGrid.TabIndex = lblChartName.TabIndex + 1;
 			m_xyGrid.KeyDown += m_xyGrid_KeyDown;
@@ -78,6 +79,29 @@ namespace SIL.Pa
 			PaApp.UninitializeProgressBar();
 
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			Disposed += ViewDisposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ViewDisposed(object sender, EventArgs e)
+		{
+			Disposed -= ViewDisposed;
+
+			if (m_xyGrid != null && !m_xyGrid.IsDisposed)
+				m_xyGrid.Dispose();
+
+			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
+				ptrnBldrComponent.Dispose();
+
+			if (m_rsltVwMngr != null)
+				m_rsltVwMngr.Dispose();
+
+			if (splitOuter != null && !splitOuter.IsDisposed)
+				splitOuter.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,10 +111,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
+			if (m_tmAdapter != null)
+				m_tmAdapter.Dispose();
+
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
-			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
+
+			if (m_rsltVwMngr != null)
+				m_rsltVwMngr.TMAdapter = m_tmAdapter;
+			else
+				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
 
 			if (m_tmAdapter == null)
 				return;
@@ -99,13 +128,9 @@ namespace SIL.Pa
 
 			string[] defs = new string[1];
 			defs[0] = Path.Combine(Application.StartupPath, "XYChartsTMDefinition.xml");
-			m_tmAdapter.Initialize(pnlMasterOuter,
-				PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
-
+			m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 			m_tmAdapter.AllowUpdates = true;
 			m_tmAdapter.SetContextMenuForControl(m_xyGrid, "cmnuXYChart");
-
-			//m_tmAdapter.SetContextMenuForControl(lstRecentPatterns, "cmnuRecentPatternsList");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -233,7 +258,7 @@ namespace SIL.Pa
 
 			LoadSavedChartsList();
 
-			btnAutoHide.Left = btnDock.Left;
+			btnAutoHide.Left = btnDock.Left = (pnlSideBarCaption.Width - btnDock.Width - 6);
 			btnAutoHide.Visible = false;
 		}
 
@@ -253,9 +278,9 @@ namespace SIL.Pa
 			btnDock.Top = btnAutoHide.Top;
 
 			m_slidingPanel = new SlidingPanel(Properties.Resources.kstidXYChartsSliderPanelText,
-				pnlMasterOuter, splitSideBarOuter, pnlSliderPlaceholder, Name);
+				this, splitSideBarOuter, pnlSliderPlaceholder, Name);
 
-			pnlMasterOuter.Controls.Add(m_slidingPanel);
+			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();
 		}
 
@@ -269,7 +294,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			//PaApp.SettingsHandler.LoadFormProperties(this);
 			ptrnBldrComponent.LoadSettings(Name);
 
 			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
@@ -280,7 +305,7 @@ namespace SIL.Pa
 			else
 				btnAutoHide_Click(null, null);
 
-			ViewDocked();
+			OnViewDocked(this);
 
 			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
@@ -288,20 +313,6 @@ namespace SIL.Pa
 			// Hide the record view pane until the first search, at which time the value of
 			// m_histogramOn will determine whether or not to show the record view pane.
 			splitResults.Panel2Collapsed = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a bit.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosed(FormClosedEventArgs e)
-		{
-			ptrnBldrComponent.Dispose();
-			m_xyGrid.Dispose();
-			m_rsltVwMngr.Dispose();
-			splitOuter.Dispose();
-			base.OnFormClosed(e);
 		}
 
 		#endregion
@@ -312,9 +323,9 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control DockableContainer
+		public bool ActiveView
 		{
-			get { return pnlMasterOuter; }
+			get { return m_activeView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -322,10 +333,15 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocking()
+		public void SetViewActive(bool makeActive, bool isDocked)
 		{
-			m_mainMenuAdapter.AllowUpdates = true;
-			SaveSettings();
+			m_activeView = makeActive;
+
+			if (m_activeView && isDocked && m_rsltVwMngr.CurrentViewsGrid != null &&
+				m_rsltVwMngr.CurrentViewsGrid.Focused)
+			{
+				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -333,8 +349,32 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocked()
+		public Form OwningForm
 		{
+			get { return FindForm(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the view's toolbar/menu adapter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ITMAdapter TMAdapter
+		{
+			get { return m_tmAdapter; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeginViewUnDocking(object args)
+		{
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,8 +384,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-
 			if (m_slidingPanel.SlideFromLeft)
 			{
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
@@ -388,9 +426,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocking()
+		protected bool OnBeginViewClosing(object args)
 		{
-			SaveSettings();
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -398,30 +439,50 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocked()
+		protected bool OnBeginViewDocking(object args)
 		{
-			try
+			if (args == this)
+				SaveSettings();
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewDocked(object args)
+		{
+			if (args == this)
 			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
-				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
+				SetToolTips();
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
-				splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
+				try
+				{
+					// These are in a try/catch because sometimes they might throw an exception
+					// in rare cases. The exception has to do with a condition in the underlying
+					// .Net framework that I haven't been able to make sense of. Anyway, if an
+					// exception is thrown, no big deal, the splitter distances will just be set
+					// to their default values.
+					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
+					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.5f);
-				splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
+					splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
-				splitChart.SplitterDistance = (int)(splitChart.Height * splitRatio);
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.5f);
+					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
+
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
+					splitChart.SplitterDistance = (int)(splitChart.Height * splitRatio);
+				}
+				catch { }
+
+				LoadToolbarAndContextMenus();
 			}
-			catch { }
-			
-			m_mainMenuAdapter.AllowUpdates = false;
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -429,96 +490,29 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewActivatedWhileDocked()
-		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && m_rsltVwMngr.CurrentViewsGrid.Focused)
-				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public StatusStrip StatusBar
-		{
-			get { return statusStrip; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel StatusBarLabel
-		{
-			get { return sblblMain; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripProgressBar ProgressBar
-		{
-			get { return sbProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar's label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel ProgressBarLabel
-		{
-			get { return sblblProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolTip ViewsToolTip
-		{
-			get { return m_tooltip; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's toolbar/menu adapter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ITMAdapter TMAdapter
-		{
-			get { return m_tmAdapter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is about to be opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnBeginViewChangingStatus(object args)
+		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				m_tmAdapter.AllowUpdates = false;
-			
+				SetToolTips();
+
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets called any time any view is finished being opened, docked or undocked.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnEndViewChangingStatus(object args)
+		private void SetToolTips()
 		{
-			if (args == this)
-				m_tmAdapter.AllowUpdates = true;
-			
-			return false;
+			System.ComponentModel.ComponentResourceManager resources =
+				new System.ComponentModel.ComponentResourceManager(GetType());
+
+			m_tooltip = new System.Windows.Forms.ToolTip(components);
+			m_tooltip.SetToolTip(btnRemoveSavedChart, resources.GetString("btnRemoveSavedChart.ToolTip"));
+
+			btnAutoHide.SetToolTips();
+			btnDock.SetToolTips();
 		}
 
 		#endregion
@@ -1110,7 +1104,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFillInChart(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			m_xyGrid.FillChart();
@@ -1125,7 +1119,7 @@ namespace SIL.Pa
 		protected bool OnUpdateFillInChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Enabled == m_xyGrid.IsEmpty)
@@ -1145,7 +1139,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChart(object args)
 		{
-			if (!m_xyGrid.IsDirty || !PaApp.IsFormActive(this))
+			if (!m_xyGrid.IsDirty || !m_activeView)
 				return false;
 
 			// If the name isn't specified, then use the save as dialog.
@@ -1163,7 +1157,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChartAs(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			using (SaveXYChartDlg dlg = new SaveXYChartDlg(m_xyGrid, m_savedCharts))
@@ -1235,7 +1229,7 @@ namespace SIL.Pa
 		protected bool OnUpdateSaveChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Enabled != (m_xyGrid.ChartLayout != null))
@@ -1255,7 +1249,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginSearch(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1273,7 +1267,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateBeginSearch(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1299,7 +1293,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsRTF(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			RtfExportDlg rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
@@ -1315,7 +1309,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsRTF(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			bool enable = (m_rsltVwMngr.CurrentViewsGrid != null &&
@@ -1338,7 +1332,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			string outputFileName;
@@ -1361,7 +1355,7 @@ namespace SIL.Pa
 				return false;
 
 			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);
+				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
 
 			return true;
 		}
@@ -1374,7 +1368,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsHTML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			bool enable = (ObjectForHTMLExport != null);

@@ -17,7 +17,7 @@ namespace SIL.Pa
 		public ConsonantChartVw()
 		{
 			InitializeComponent();
-			Name = "consonantChartWnd";
+			Name = "ConsonantChartVw";
 			m_defaultHTMLOutputFile = Properties.Resources.kstidConChartHTMLFileName;
 			m_htmlChartName = Properties.Resources.kstidConChartHTMLChartType;
 		}

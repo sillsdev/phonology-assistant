@@ -263,7 +263,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void FullProjectReload()
 		{
-			STUtils.WaitCursors(true);
+			STUtils.WaitCursors(false);
 
 			PaProject project = PaProject.Load(PaApp.Project.ProjectFileName, this);
 			if (project != null)
@@ -527,9 +527,9 @@ namespace SIL.Pa
 			{
 				if (vwTabGroup.CurrentTab.View is DataCorpusVw)
 					grid = (vwTabGroup.CurrentTab.View as DataCorpusVw).WordListGrid;
-				else if (vwTabGroup.CurrentTab.View is FindPhoneVw)
+				else if (vwTabGroup.CurrentTab.View is SearchVw)
 				{
-					FindPhoneVw view = vwTabGroup.CurrentTab.View as FindPhoneVw;
+					SearchVw view = vwTabGroup.CurrentTab.View as SearchVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else if (vwTabGroup.CurrentTab.View is XYChartVw)
@@ -568,9 +568,9 @@ namespace SIL.Pa
 			{
 				if (vwTabGroup.CurrentTab.View is DataCorpusVw)
 					grid = (vwTabGroup.CurrentTab.View as DataCorpusVw).WordListGrid;
-				else if (vwTabGroup.CurrentTab.View is FindPhoneVw)
+				else if (vwTabGroup.CurrentTab.View is SearchVw)
 				{
-					FindPhoneVw view = vwTabGroup.CurrentTab.View as FindPhoneVw;
+					SearchVw view = vwTabGroup.CurrentTab.View as SearchVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else if (vwTabGroup.CurrentTab.View is XYChartVw)
@@ -731,17 +731,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewFindPhones(object args)
 		{
-			FindPhoneVw wnd = vwTabGroup.ActivateView(typeof(FindPhoneVw)) as FindPhoneVw;
+			SearchVw vw = vwTabGroup.ActivateView(typeof(SearchVw)) as SearchVw;
 
-			if (wnd == null)
+			if (vw == null)
 				return true;
 			
 			if (args is SearchQuery)
-				wnd.PerformSearch(args as SearchQuery, SearchResultLocation.CurrentTabGroup);
+				vw.PerformSearch(args as SearchQuery, SearchResultLocation.CurrentTabGroup);
 			else if (args is List<SearchQuery>)
 			{
 				foreach (SearchQuery query in (args as List<SearchQuery>))
-					wnd.PerformSearch(query, SearchResultLocation.CurrentTabGroup);
+					vw.PerformSearch(query, SearchResultLocation.CurrentTabGroup);
 			}
 
 			return true;
@@ -754,7 +754,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewFindPhones(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(FindPhoneVw));
+			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(SearchVw));
 			return true;
 		}
 

@@ -51,8 +51,6 @@ namespace SIL.Pa
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.pnlMasterOuter = new System.Windows.Forms.Panel();
-			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
@@ -73,7 +71,6 @@ namespace SIL.Pa
 			this.splitChart.Panel2.SuspendLayout();
 			this.splitChart.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
-			this.pnlMasterOuter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitResults
@@ -95,6 +92,7 @@ namespace SIL.Pa
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlRecView.ClipTextForChildControls = true;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
 			this.pnlRecView.Controls.Add(this.rtfRecVw);
 			resources.ApplyResources(this.pnlRecView, "pnlRecView");
@@ -103,12 +101,12 @@ namespace SIL.Pa
 			this.pnlRecView.Name = "pnlRecView";
 			this.pnlRecView.PaintExplorerBarBackground = false;
 			// 
-			// rawRecVw
+			// rtfRecVw
 			// 
 			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
 			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.rtfRecVw, "rawRecVw");
-			this.rtfRecVw.Name = "rawRecVw";
+			resources.ApplyResources(this.rtfRecVw, "rtfRecVw");
+			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
 			this.rtfRecVw.TabStop = false;
 			// 
@@ -156,6 +154,7 @@ namespace SIL.Pa
 			// pnlSideBarCaption
 			// 
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSideBarCaption.Controls.Add(this.btnDock);
 			this.pnlSideBarCaption.Controls.Add(this.btnAutoHide);
@@ -193,6 +192,7 @@ namespace SIL.Pa
 			// pnlSavedCharts
 			// 
 			this.pnlSavedCharts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSavedCharts.ClipTextForChildControls = true;
 			this.pnlSavedCharts.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSavedCharts.Controls.Add(this.lvSavedCharts);
 			this.pnlSavedCharts.Controls.Add(this.hlblSavedCharts);
@@ -225,6 +225,7 @@ namespace SIL.Pa
 			// 
 			// hlblSavedCharts
 			// 
+			this.hlblSavedCharts.ClipTextForChildControls = true;
 			this.hlblSavedCharts.ControlReceivingFocusOnMnemonic = null;
 			this.hlblSavedCharts.Controls.Add(this.btnRemoveSavedChart);
 			resources.ApplyResources(this.hlblSavedCharts, "hlblSavedCharts");
@@ -283,18 +284,6 @@ namespace SIL.Pa
 			resources.ApplyResources(this.pnlOuter, "pnlOuter");
 			this.pnlOuter.Name = "pnlOuter";
 			// 
-			// pnlMasterOuter
-			// 
-			this.pnlMasterOuter.Controls.Add(this.pnlOuter);
-			this.pnlMasterOuter.Controls.Add(this.pnlSliderPlaceholder);
-			resources.ApplyResources(this.pnlMasterOuter, "pnlMasterOuter");
-			this.pnlMasterOuter.Name = "pnlMasterOuter";
-			// 
-			// statusStrip
-			// 
-			resources.ApplyResources(this.statusStrip, "statusStrip");
-			this.statusStrip.Name = "statusStrip";
-			// 
 			// sblblMain
 			// 
 			resources.ApplyResources(this.sblblMain, "sblblMain");
@@ -315,15 +304,13 @@ namespace SIL.Pa
 			resources.ApplyResources(this.sbProgress, "sbProgress");
 			this.sbProgress.Name = "sbProgress";
 			// 
-			// XYChartWnd
+			// XYChartVw
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlMasterOuter);
-			this.Controls.Add(this.statusStrip);
-			this.KeyPreview = true;
-			this.Name = "XYChartWnd";
-			this.ShowInTaskbar = false;
+			this.Controls.Add(this.pnlOuter);
+			this.Controls.Add(this.pnlSliderPlaceholder);
+			this.Name = "XYChartVw";
 			this.splitResults.Panel2.ResumeLayout(false);
 			this.splitResults.ResumeLayout(false);
 			this.pnlRecView.ResumeLayout(false);
@@ -342,9 +329,7 @@ namespace SIL.Pa
 			this.splitChart.Panel2.ResumeLayout(false);
 			this.splitChart.ResumeLayout(false);
 			this.pnlOuter.ResumeLayout(false);
-			this.pnlMasterOuter.ResumeLayout(false);
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -360,7 +345,6 @@ namespace SIL.Pa
 		private SIL.Pa.Controls.PaGradientPanel pnlSideBarCaption;
 		private System.Windows.Forms.Panel pnlTabClassDef;
 		private System.Windows.Forms.Panel pnlOuter;
-		private System.Windows.Forms.Panel pnlMasterOuter;
 		private System.Windows.Forms.SplitContainer splitChart;
 		private SIL.Pa.Controls.HeaderLabel hlblSavedCharts;
 		private SIL.Pa.Controls.PaPanel pnlSavedCharts;
@@ -371,7 +355,6 @@ namespace SIL.Pa
 		private SIL.Pa.Controls.XButton btnRemoveSavedChart;
 		private SIL.Pa.Controls.PatternBuilderComponents ptrnBldrComponent;
 		private System.Windows.Forms.Label lblChartName;
-		public System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel sblblMain;
 		private System.Windows.Forms.ToolStripStatusLabel sblblProgress;
 		private System.Windows.Forms.ToolStripProgressBar sbProgress;

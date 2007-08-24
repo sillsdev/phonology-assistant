@@ -20,7 +20,7 @@ namespace SIL.Pa
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FindPhoneVw : Form, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class SearchVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		//private string PaApp.kOpenClassBracket = "\u2039";
 		//private string PaApp.kCloseClassBracket = "\u203A";
@@ -33,8 +33,8 @@ namespace SIL.Pa
 
 		private const string kRecentlyUsedPatternFile = "RecentlyUsedPatterns.xml";
 
+		private bool m_activeView = false;
 		private ITMAdapter m_tmAdapter;
-		private ITMAdapter m_mainMenuAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
 		private bool m_sidePanelDocked = true;
 		private SlidingPanel m_slidingPanel;
@@ -47,22 +47,21 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FindPhoneVw()
+		public SearchVw()
 		{
 			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
 			InitializeComponent();
+			Name = "SearchVw";
 			PaApp.IncProgressBar();
 
 			tvSavedPatterns.SetCutCopyPasteButtons(btnCategoryCut, btnCategoryCopy, btnCategoryPaste);
-			ptrnTextBox.OwningForm = this;
+			ptrnTextBox.OwningView = this;
 			LoadToolbarAndContextMenus();
 
 			lblCurrPattern.Text = STUtils.ConvertLiteralNewLines(lblCurrPattern.Text);
 			PaApp.IncProgressBar();
 
-			string tip = Properties.Resources.kstidSearchPatternTooltip;
-			m_tooltip.SetToolTip(ptrnTextBox.TextBox, STUtils.ConvertLiteralNewLines(tip));
-
+			SetToolTips();
 			SetupSidePanelContents();
 			PaApp.IncProgressBar();
 			SetupSlidingPanel();
@@ -78,22 +77,32 @@ namespace SIL.Pa
 
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
-			Application.Idle += Application_Idle;
+			Disposed += ViewDisposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This is quite kludgy but it works and all the straight-foward ways to force the
-		/// pattern text box to get focus when the view is first built didn't work. No matter
-		/// what I tried, the pnlMasterOuter seemed to always have the focus first. I think
-		/// it may have something to do with the fact that a view is removed from it's form
-		/// and docked in the main form right after its loaded the first time.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void Application_Idle(object sender, EventArgs e)
+		void ViewDisposed(object sender, EventArgs e)
 		{
-			Application.Idle -= Application_Idle;
-			ptrnTextBox.TextBox.Focus();
+			Disposed -= ViewDisposed;
+
+			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
+				ptrnBldrComponent.Dispose();
+			
+			if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+				ptrnTextBox.Dispose();
+	
+			if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
+				tvSavedPatterns.Dispose();
+			
+			if (m_rsltVwMngr != null)
+				m_rsltVwMngr.Dispose();
+
+			if (splitOuter != null && !splitOuter.IsDisposed)
+				splitOuter.Dispose();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,16 +110,21 @@ namespace SIL.Pa
 		/// Create an empty tab after the view has been shown.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(EventArgs e)
+		protected bool OnViewOpened(object args)
 		{
-			base.OnShown(e);
+			if (args == this)
+			{
+				// Start the view with one empty tab.
+				m_rsltVwMngr.CreateEmptyTab();
 
-			// Start the view with one empty tab.
-			m_rsltVwMngr.CreateEmptyTab();
-			
-			OnUpdateRemovePattern(null);
-			OnUpdateClearRecentPatternList(null);
-			tvSavedPatterns.UpdateButtons();
+				OnUpdateRemovePattern(null);
+				OnUpdateClearRecentPatternList(null);
+				tvSavedPatterns.UpdateButtons();
+			}
+
+			ptrnTextBox.TextBox.Focus();
+			ptrnTextBox.TextBox.SelectAll();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,10 +134,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
+			if (m_tmAdapter != null)
+				m_tmAdapter.Dispose();
+
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
-			m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
+
+			if (m_rsltVwMngr != null)
+				m_rsltVwMngr.TMAdapter = m_tmAdapter;
+			else
+				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
 
 			if (m_tmAdapter != null)
 			{
@@ -131,9 +150,7 @@ namespace SIL.Pa
 
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "FFSearchTMDefinition.xml");
-				m_tmAdapter.Initialize(pnlMasterOuter,
-					PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
-
+				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 
@@ -180,7 +197,7 @@ namespace SIL.Pa
 
 			tvSavedPatterns.Load();
 
-			btnAutoHide.Left = btnDock.Left;
+			btnAutoHide.Left = btnDock.Left = (pnlSideBarCaption.Width - btnDock.Width - 6);
 			btnAutoHide.Visible = false;
 		}
 
@@ -200,12 +217,12 @@ namespace SIL.Pa
 			btnDock.Top = btnAutoHide.Top;
 			
 			m_slidingPanel = new SlidingPanel(Properties.Resources.kstidFFSliderPanelText,
-				pnlMasterOuter, splitSideBarOuter, pnlSliderPlaceholder, Name);
+				this, splitSideBarOuter, pnlSliderPlaceholder, Name);
 
-			pnlMasterOuter.SuspendLayout();
-			pnlMasterOuter.Controls.Add(m_slidingPanel);
+			SuspendLayout();
+			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();
-			pnlMasterOuter.ResumeLayout(false);
+			ResumeLayout(false);
 		}
 
 		#endregion
@@ -240,9 +257,9 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control DockableContainer
+		public bool ActiveView
 		{
-			get { return pnlMasterOuter; }
+			get { return m_activeView; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -250,13 +267,25 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocking()
+		public void SetViewActive(bool makeActive, bool isDocked)
 		{
-			m_mainMenuAdapter.AllowUpdates = true;
-			SaveSettings();
+			m_activeView = makeActive;
 
-			if (m_rsltVwMngr.CurrentViewsGrid != null)
-				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText(sblblMain);
+			if (m_activeView && isDocked && m_rsltVwMngr.CurrentViewsGrid != null &&
+				m_rsltVwMngr.CurrentViewsGrid.Focused)
+			{
+				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Form OwningForm
+		{
+			get { return FindForm(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -264,8 +293,25 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewUndocked()
+		protected bool OnBeginViewClosing(object args)
 		{
+			if (args == this)
+				SaveSettings();
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeginViewUnDocking(object args)
+		{
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -275,8 +321,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-
 			if (m_slidingPanel.SlideFromLeft)
 				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
 			else
@@ -317,9 +361,12 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocking()
+		protected bool OnBeginViewDocking(object args)
 		{
-			SaveSettings();
+			if (args == this)
+				SaveSettings();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -327,33 +374,40 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewDocked()
+		protected bool OnViewDocked(object args)
 		{
-			try
+			if (args == this)
 			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
-				float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-				splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
+				SetToolTips();
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
-				splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
+				try
+				{
+					// These are in a try/catch because sometimes they might throw an exception
+					// in rare cases. The exception has to do with a condition in the underlying
+					// .Net framework that I haven't been able to make sense of. Anyway, if an
+					// exception is thrown, no big deal, the splitter distances will just be set
+					// to their default values.
+					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
+					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
-				splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
+					splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
-				splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
-				splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height * splitRatio);
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
+					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
+
+					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
+					splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height * splitRatio);
+				}
+				catch { }
+
+				LoadToolbarAndContextMenus();
+
+				if (m_rsltVwMngr.CurrentViewsGrid != null)
+					m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
 			}
-			catch { }
-		
-			m_mainMenuAdapter.AllowUpdates = false;
 
-			if (m_rsltVwMngr.CurrentViewsGrid != null)
-				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -361,60 +415,38 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ViewActivatedWhileDocked()
+		protected bool OnViewUndocked(object args)
 		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && m_rsltVwMngr.CurrentViewsGrid.Focused)
-				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+			if (args == this)
+				SetToolTips();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the status bar.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public StatusStrip StatusBar
+		private void SetToolTips()
 		{
-			get { return statusStrip; }
-		}
+			m_tooltip = new ToolTip(components);
+			string tip = Properties.Resources.kstidSearchPatternTooltip;
+			m_tooltip.SetToolTip(ptrnTextBox.TextBox, STUtils.ConvertLiteralNewLines(tip));
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the status bar label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel StatusBarLabel
-		{
-			get { return sblblMain; }
-		}
+			System.ComponentModel.ComponentResourceManager resources =
+				new System.ComponentModel.ComponentResourceManager(GetType());
+			
+			m_tooltip.SetToolTip(btnClearRecentList, resources.GetString("btnClearRecentList.ToolTip"));
+			m_tooltip.SetToolTip(btnRemoveFromRecentList, resources.GetString("btnRemoveFromRecentList.ToolTip"));
+			m_tooltip.SetToolTip(btnCategoryNew, resources.GetString("btnCategoryNew.ToolTip"));
+			m_tooltip.SetToolTip(btnCategoryCut, resources.GetString("btnCategoryCut.ToolTip"));
+			m_tooltip.SetToolTip(btnCategoryPaste, resources.GetString("btnCategoryPaste.ToolTip"));
+			m_tooltip.SetToolTip(btnCategoryCopy, resources.GetString("btnCategoryCopy.ToolTip"));
+			m_tooltip.SetToolTip(btnRefresh, resources.GetString("btnRefresh.ToolTip"));
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripProgressBar ProgressBar
-		{
-			get { return sbProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the progress bar's label.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolStripStatusLabel ProgressBarLabel
-		{
-			get { return sblblProgress; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's tooltip control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ToolTip ViewsToolTip
-		{
-			get { return m_tooltip; }
+			btnAutoHide.SetToolTips();
+			btnDock.SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -427,32 +459,6 @@ namespace SIL.Pa
 			get { return m_tmAdapter; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is about to be opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnBeginViewChangingStatus(object args)
-		{
-			if (args == this)
-				m_tmAdapter.AllowUpdates = false;
-			
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets called any time any view is finished being opened, docked or undocked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnEndViewChangingStatus(object args)
-		{
-			if (args == this)
-				m_tmAdapter.AllowUpdates = true;
-			
-			return false;
-		}
-
 		#endregion
 
 		#region Loading/Saving settings
@@ -463,7 +469,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			//PaApp.SettingsHandler.LoadFormProperties(this);
 			ptrnBldrComponent.LoadSettings(Name);
 
 			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
@@ -474,7 +480,7 @@ namespace SIL.Pa
 			else
 				btnAutoHide_Click(null, null);
 
-			ViewDocked();
+			OnViewDocked(this);
 			m_slidingPanel.LoadSettings();
 
 			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
@@ -493,21 +499,6 @@ namespace SIL.Pa
 			{
 				lstRecentPatterns.Items.Clear();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a bit.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosed(FormClosedEventArgs e)
-		{
-			splitOuter.Dispose();
-			ptrnBldrComponent.Dispose();
-			ptrnTextBox.Dispose();
-			tvSavedPatterns.Dispose();
-			m_rsltVwMngr.Dispose();
-			base.OnFormClosed(e);
 		}
 
 		#endregion
@@ -633,7 +624,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClearPattern(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			ptrnTextBox.Clear();
@@ -653,7 +644,7 @@ namespace SIL.Pa
 		protected bool OnUpdateClearPattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			bool enable = (!ptrnTextBox.IsPatternEmpty || m_rsltVwMngr.CurrentViewsGrid != null);
@@ -678,7 +669,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePattern(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			SearchQuery query = ptrnTextBox.SearchQuery;
@@ -728,7 +719,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePatternAs(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			return ShowSavePatternDlg(true);
@@ -1392,7 +1383,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseAllTabGroups(object args)
 		{
-			if (PaApp.IsFormActive(this))
+			if (m_activeView)
 				ptrnTextBox.Clear();
 
 			return false;
@@ -1427,7 +1418,7 @@ namespace SIL.Pa
 		public bool OnCopyToCurrentPattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Name.EndsWith("-FromSavedList"))
@@ -1446,7 +1437,7 @@ namespace SIL.Pa
 		public bool OnUpdateCopyToCurrentPattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			if (itemProps.Name.EndsWith("-FromSavedList"))
@@ -1468,7 +1459,7 @@ namespace SIL.Pa
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !itemProps.Name.EndsWith("-FromRecentList") ||
-				!PaApp.IsFormActive(this))
+				!m_activeView)
 			{
 				return false;
 			}
@@ -1486,7 +1477,7 @@ namespace SIL.Pa
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !itemProps.Name.EndsWith("-FromRecentList") ||
-				!PaApp.IsFormActive(this))
+				!m_activeView)
 			{
 				return false;
 			}
@@ -1503,7 +1494,7 @@ namespace SIL.Pa
 		protected bool OnUpdateRemovePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			bool enable = false;
@@ -1544,7 +1535,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearRecentPatternList(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			bool enable = (lstRecentPatterns.Items.Count > 0);
@@ -1573,7 +1564,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsRTF(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			RtfExportDlg rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
@@ -1598,7 +1589,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!PaApp.IsFormActive(this))
+			if (!m_activeView)
 				return false;
 
 			string outputFileName = m_rsltVwMngr.HTMLExport();
@@ -1607,7 +1598,7 @@ namespace SIL.Pa
 				return false;
 
 			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(pnlMasterOuter.FindForm(), outputFileName);
+				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
 
 			return true;
 		}
@@ -1632,7 +1623,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private bool EnableItemWhenFocusedAndHaveCurrentGrid(TMItemProperties itemProps)
 		{
-			if (itemProps == null || !PaApp.IsFormActive(this))
+			if (itemProps == null || !m_activeView)
 				return false;
 
 			itemProps.Update = true;
