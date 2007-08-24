@@ -85,6 +85,7 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
+			base.DoubleBuffered = true;
 			Disposed += PhoneInventoryWnd_Disposed;
 			gridPhones.Focus();
 		}

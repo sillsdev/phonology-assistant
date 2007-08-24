@@ -1056,14 +1056,13 @@ namespace SIL.Pa
 
 			if (bar != null)
 			{
-				STUtils.WaitCursors(true);
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				lbl.Text = text;
 				lbl.Visible = bar.Visible = true;
 				s_activeProgBarLabel = lbl;
 				s_activeProgressBar = bar;
-				Application.DoEvents();
+				STUtils.WaitCursors(true);
 			}
 
 			return s_progressBar;

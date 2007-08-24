@@ -146,10 +146,11 @@ namespace SIL.Pa.Controls
 		{
 			if (grid != null)
 			{
+				STUtils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
-				grid.SuspendLayout();
 				builder.InternalGroup();
-				grid.ResumeLayout();
+				STUtils.SetWindowRedraw(grid, true, true);
+				grid.Invalidate();
 
 				if (grid.GroupByField != null)
 					PaApp.MsgMediator.SendMessage("AfterWordListGroupedByField", grid);
@@ -165,10 +166,10 @@ namespace SIL.Pa.Controls
 		{
 			if (grid != null)
 			{
+				STUtils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
-				grid.SuspendLayout();
 				builder.InternalUnGroup();
-				grid.ResumeLayout();
+				STUtils.SetWindowRedraw(grid, true, true);
 				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}
@@ -619,11 +620,17 @@ namespace SIL.Pa.Controls
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
 
-			// If, formerly, not all the groups were collapsed, then force all
-			// of them to be expanded. Otherwise the expanded state for rows
-			// formly collapsed will be all messed up.
-			if (!m_grid.AllGroupsCollapsed)
-				m_grid.ToggleGroupExpansion(true, true);
+			// Check if, formerly, all the groups were collapsed.
+			if (m_grid.AllGroupsCollapsed)
+				return;
+
+			// All the groups were not collapsed, so force all of them to be expanded.
+			// Otherwise the expanded state for rows formly collapsed will be all messed up.
+			foreach (System.Windows.Forms.DataGridViewRow row in m_grid.Rows)
+			{
+				if (row is SilHierarchicalGridRow)
+					((SilHierarchicalGridRow)row).SetExpandedState(true, true, false);
+			}
 		}
 	}
 }

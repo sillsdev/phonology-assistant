@@ -25,6 +25,7 @@ namespace SIL.Pa
 		private const string kSavedChartsFile = "XYCharts.xml";
 
 		private bool m_activeView = false;
+		private bool m_initialDock = true;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
@@ -78,7 +79,7 @@ namespace SIL.Pa
 			UpdateButtons();
 			PaApp.UninitializeProgressBar();
 
-			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			base.DoubleBuffered = true;
 			Disposed += ViewDisposed;
 		}
 
@@ -306,6 +307,7 @@ namespace SIL.Pa
 				btnAutoHide_Click(null, null);
 
 			OnViewDocked(this);
+			m_initialDock = true;
 
 			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
@@ -456,8 +458,6 @@ namespace SIL.Pa
 		{
 			if (args == this)
 			{
-				SetToolTips();
-
 				try
 				{
 					// These are in a try/catch because sometimes they might throw an exception
@@ -479,7 +479,20 @@ namespace SIL.Pa
 				}
 				catch { }
 
-				LoadToolbarAndContextMenus();
+				// Don't need to load the tool bar or menus if this is the first time
+				// the view was docked since that all gets done during construction.
+				if (m_initialDock)
+					m_initialDock = false;
+				else
+				{
+					// The toolbar has to be recreated each time the view is removed from it's
+					// (undocked) form and docked back into the main form. The reason has to
+					// do with tooltips. They seem to form an attachment, somehow, with the
+					// form that owns the controls the tooltip is extending. When that form
+					// gets pulled out from under the tooltips, sometimes the program will crash.
+					LoadToolbarAndContextMenus();
+					SetToolTips();
+				}
 			}
 
 			return false;

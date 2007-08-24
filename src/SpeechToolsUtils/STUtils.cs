@@ -45,14 +45,15 @@ namespace SIL.SpeechTools.Utils
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 
-		public const int HWND_BROADCAST = 0xFFFF;
-
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool PostMessage(int hWnd, uint msg, int wParam, int lParam);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern uint RegisterWindowMessage(string msgName);
-
+		
+		private const int WM_SETREDRAW = 0xB;
+		public const int HWND_BROADCAST = 0xFFFF;
+		
 		/// <summary>
 		/// The <c>MemoryStatus</c> structure contains information about the current 
 		/// state of both physical and virtual memory.
@@ -506,6 +507,22 @@ namespace SIL.SpeechTools.Utils
 			}
 
 			Application.DoEvents();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void SetWindowRedraw(Control ctrl, bool turnOn,
+			bool invalidateAfterTurningOn)
+		{
+			if (ctrl != null && !ctrl.IsDisposed && ctrl.IsHandleCreated)
+			{
+				SendMessage(ctrl.Handle, WM_SETREDRAW, (turnOn ? 1 : 0), 0);
+				if (turnOn && invalidateAfterTurningOn)
+					ctrl.Invalidate(true);
+			}
 		}
 	}
 }

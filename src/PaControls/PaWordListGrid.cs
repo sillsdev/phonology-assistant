@@ -2271,7 +2271,7 @@ namespace SIL.Pa.Controls
 			if (!IsGroupedByField && !m_cache.IsCIEList)
 				return;
 
-			SuspendLayout();
+			STUtils.SetWindowRedraw(this, false, false);
 	
 			// All the Sorted row groups were either expanded or collapsed
 			m_ToggleGroupExpansion = true;
@@ -2298,8 +2298,7 @@ namespace SIL.Pa.Controls
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			m_ToggleGroupExpansion = false;
-			ResumeLayout();
-			Invalidate();
+			STUtils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

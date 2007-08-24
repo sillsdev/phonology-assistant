@@ -25,13 +25,13 @@ namespace SIL.Pa
 	{
 		protected List<CharGridCell> m_phoneList;
 		protected ITMAdapter m_tmAdapter;
-		//protected ITMAdapter m_mainMenuAdapter;
 		protected ChartOptionsDropDown m_chartOptionsDropDown;
 		protected string m_defaultHTMLOutputFile;
 		protected string m_htmlChartName;
 		private string m_persistedInfoFilename;
 		private bool m_histogramOn = true;
 		private bool m_activeView = false;
+		private bool m_initialDock = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -46,6 +46,7 @@ namespace SIL.Pa
 				Properties.Resources.kstidVowelChartViewText), 5);
 			
 			InitializeComponent();
+			base.DoubleBuffered = true;
 			PaApp.IncProgressBar();
 			
 			LoadToolbarAndContextMenus();
@@ -310,7 +311,19 @@ namespace SIL.Pa
 				if (m_chrGrid.Grid is CharGridView)
 					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
 
-				LoadToolbarAndContextMenus();
+				// Don't need to load the tool bar or menus if this is the first time
+				// the view was docked since that all gets done during construction.
+				if (m_initialDock)
+					m_initialDock = false;
+				else
+				{
+					// The toolbar has to be recreated each time the view is removed from it's
+					// (undocked) form and docked back into the main form. The reason has to
+					// do with tooltips. They seem to form an attachment, somehow, with the
+					// form that owns the controls the tooltip is extending. When that form
+					// gets pulled out from under the tooltips, sometimes the program will crash.
+					LoadToolbarAndContextMenus();
+				}
 			}
 
 			return false;
@@ -357,6 +370,7 @@ namespace SIL.Pa
 			Initialize();
 			
 			OnViewDocked(this);
+			m_initialDock = true;
 			PaApp.UninitializeProgressBar();
 			MinimumSize = PaApp.MinimumViewWindowSize;
 		}

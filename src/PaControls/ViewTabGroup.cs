@@ -378,7 +378,12 @@ namespace SIL.Pa.Controls
 
 			Control ctrl = view as Control;
 			if (activateViewsForm && ctrl != null && ctrl.FindForm() != null)
+			{
+				if (ctrl.FindForm().WindowState == FormWindowState.Minimized)
+					ctrl.FindForm().WindowState = FormWindowState.Normal;
+				
 				ctrl.FindForm().Activate();
+			}
 
 			PaApp.MsgMediator.SendMessage("ActiveViewChanged", view);
 		}
@@ -1094,21 +1099,21 @@ namespace SIL.Pa.Controls
 				return;
 
 			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
+			STUtils.SetWindowRedraw(m_owningTabGroup, false, false);
 			Visible = true;
+			
 			m_owningTabGroup.ViewWasDocked(this);
-			m_viewsControl.Visible = false;
 			m_viewsControl.Size = m_owningTabGroup.ClientSize;
 			m_owningTabGroup.Controls.Add(m_viewsControl);
 			m_viewsControl.PerformLayout();
-			m_viewsControl.Visible = true;
 			m_viewsControl.BringToFront();
-			Application.DoEvents();
 
 			m_viewDocked = true;
 			m_ignoreTabSelection = true;
 			m_owningTabGroup.SelectTab(this);
 			m_ignoreTabSelection = false;
 
+			STUtils.SetWindowRedraw(m_owningTabGroup, true, true);
 			m_viewsControl.Focus();
 			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
 			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsControl);

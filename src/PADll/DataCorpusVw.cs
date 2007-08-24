@@ -24,6 +24,7 @@ namespace SIL.Pa
 		private bool m_rawRecViewOn = true;
 		private bool m_activeView = false;
 		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
+		private bool m_initialDock = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,7 +54,7 @@ namespace SIL.Pa
 			LoadWindow();
 			PaApp.UninitializeProgressBar();
 
-			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			base.DoubleBuffered = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,8 +268,20 @@ namespace SIL.Pa
 				}
 				catch { }
 
-				LoadToolbar();
-				
+				// Don't need to load the tool bar or menus if this is the first time
+				// the view was docked since that all gets done during construction.
+				if (m_initialDock)
+					m_initialDock = false;
+				else
+				{
+					// The toolbar has to be recreated each time the view is removed from it's
+					// (undocked) form and docked back into the main form. The reason has to
+					// do with tooltips. They seem to form an attachment, somehow, with the
+					// form that owns the controls the tooltip is extending. When that form
+					// gets pulled out from under the tooltips, sometimes the program will crash.
+					LoadToolbar();
+				}
+
 				if (m_grid != null)
 					m_grid.SetStatusBarText();
 			}
@@ -351,6 +364,7 @@ namespace SIL.Pa
 				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "recordpanevisible", true);
 
 			OnViewDocked(this);
+			m_initialDock = true;
 			Application.DoEvents();
 			m_grid.Focus();
 		}

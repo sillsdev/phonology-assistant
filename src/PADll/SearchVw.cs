@@ -40,6 +40,7 @@ namespace SIL.Pa
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private readonly SplitterPanel m_dockedSidePanel;
+		private bool m_initialDock = true;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -75,6 +76,7 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
+			base.DoubleBuffered = true;
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 			Disposed += ViewDisposed;
@@ -378,7 +380,6 @@ namespace SIL.Pa
 		{
 			if (args == this)
 			{
-				SetToolTips();
 
 				try
 				{
@@ -401,7 +402,20 @@ namespace SIL.Pa
 				}
 				catch { }
 
-				LoadToolbarAndContextMenus();
+				// Don't need to load the tool bar or menus if this is the first time
+				// the view was docked since that all gets done during construction.
+				if (m_initialDock)
+					m_initialDock = false;
+				else
+				{
+					// The toolbar has to be recreated each time the view is removed from it's
+					// (undocked) form and docked back into the main form. The reason has to
+					// do with tooltips. They seem to form an attachment, somehow, with the
+					// form that owns the controls the tooltip is extending. When that form
+					// gets pulled out from under the tooltips, sometimes the program will crash.
+					LoadToolbarAndContextMenus();
+					SetToolTips();
+				}
 
 				if (m_rsltVwMngr.CurrentViewsGrid != null)
 					m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
@@ -481,6 +495,7 @@ namespace SIL.Pa
 				btnAutoHide_Click(null, null);
 
 			OnViewDocked(this);
+			m_initialDock = true;
 			m_slidingPanel.LoadSettings();
 
 			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
