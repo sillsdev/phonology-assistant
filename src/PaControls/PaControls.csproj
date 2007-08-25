@@ -133,7 +133,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CharGrid.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CharGrid.Designer.cs">
       <DependentUpon>CharGrid.cs</DependentUpon>
@@ -255,10 +255,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="PatternTextBox.Designer.cs">
       <DependentUpon>PatternTextBox.cs</DependentUpon>

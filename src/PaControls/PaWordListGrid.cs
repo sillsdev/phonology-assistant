@@ -2377,7 +2377,7 @@ namespace SIL.Pa.Controls
 			}
 
 			// Restore the first visible row.
-			if (Rows.Count > firstRow && firstRow >= 0)
+			if (firstRow < Rows.Count && firstRow >= 0 && Rows[firstRow].Visible)
 				FirstDisplayedScrollingRowIndex = firstRow;
 			
 			// Restore the selected row and column.
