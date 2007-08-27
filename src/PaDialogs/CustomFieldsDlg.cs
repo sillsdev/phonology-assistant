@@ -122,6 +122,13 @@ namespace SIL.Pa.Dialogs
 
 			Controls.Add(m_grid);
 			m_grid.BringToFront();
+			
+			// Do this for the sake of the first time the dialog is shown after pa.xml is
+			// created. For all subsequent times, the following call to LoadGridProperties
+			// will overwrite whatever size adjustments are made in these two calls.
+			m_grid.AutoResizeColumnHeadersHeight();
+			m_grid.AutoResizeColumns();
+
 			PaApp.SettingsHandler.LoadFormProperties(this);
 			PaApp.SettingsHandler.LoadGridProperties(m_grid);
 		}

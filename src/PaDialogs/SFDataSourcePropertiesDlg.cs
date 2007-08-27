@@ -106,12 +106,6 @@ namespace SIL.Pa.Dialogs
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
-			if (cboFirstInterlinear.Right > (pnlParseType.Width - 10))
-			{
-				splitOuter.SplitterDistance +=
-					(cboFirstInterlinear.Right + 10 - pnlParseType.Width);
-			}
-
 			try
 			{
 				int splitterDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
@@ -119,6 +113,12 @@ namespace SIL.Pa.Dialogs
 					scImport.SplitterDistance = splitterDistance;
 			}
 			catch { }
+
+			if (cboFirstInterlinear.Right > (pnlParseType.Width - 10))
+			{
+				splitOuter.SplitterDistance +=
+					(cboFirstInterlinear.Right + 10 - pnlParseType.Width);
+			}
 
 			rbNoParse.Tag = Properties.Resources.kstidNoParseSampleOutput;
 			rbParseOneToOne.Tag = Properties.Resources.kstidOneToOneSampleOutput;

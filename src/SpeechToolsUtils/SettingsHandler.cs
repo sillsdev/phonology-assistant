@@ -271,7 +271,7 @@ namespace SIL.SpeechTools.Utils
 			XmlNode node = FindChildNode(kGridsNode, grid.Name);
 
 			if (node == null)
-			    return false;
+				return false;
 
 			// Get the cell border style.
 			gridLinesValue = XMLHelper.GetAttributeValue(node, "lines");
