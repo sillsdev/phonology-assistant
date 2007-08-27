@@ -449,7 +449,7 @@ namespace SIL.SpeechTools.Utils
 				return;
 
 			if (suspendAndResumeLayout)
-				m_owningGrid.SuspendLayout();
+				STUtils.SetWindowRedraw(m_owningGrid, false, false);
 
 			// Make hide or unhide all rows between this one and the next SilHierarchicalGridRow
 			// at the same level or higher or the end of the list, whatever comes first.
@@ -467,7 +467,7 @@ namespace SIL.SpeechTools.Utils
 				ExpandedStateChanged(this);
 
 			if (suspendAndResumeLayout)
-				m_owningGrid.ResumeLayout();
+				STUtils.SetWindowRedraw(m_owningGrid, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -527,8 +527,12 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		private void m_owningGrid_MouseClick(object sender, MouseEventArgs e)
 		{
-			if (GlyphRectangle.Contains(e.X, e.Y))
-				Expanded = !Expanded;
+			DataGridView.HitTestInfo hti = m_owningGrid.HitTest(e.X, e.Y);
+			if (hti.RowIndex == Index)
+			{
+				if (GlyphRectangle.Contains(e.X, e.Y))
+					Expanded = !Expanded;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -757,7 +761,7 @@ namespace SIL.SpeechTools.Utils
 				// the following paint occur.
 				rc.Width = 2;
 			}
-				
+
 			using (SolidBrush br = new SolidBrush(clrLeft))
 				g.FillRectangle(br, rc);
 		}

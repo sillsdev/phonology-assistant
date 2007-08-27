@@ -310,7 +310,7 @@ namespace SIL.SpeechTools.Utils
 			}
 
 			// If the column header height or the former dpi settings are different,
-			// then auto. calculate the heigh of the column headings.
+			// then auto. calculate the height of the column headings.
 			if (colHdrHeight == -1 || dpi != m_currSystemDpi)
 				grid.AutoResizeColumnHeadersHeight();
 			else

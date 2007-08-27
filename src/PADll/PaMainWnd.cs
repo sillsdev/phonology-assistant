@@ -206,9 +206,9 @@ namespace SIL.Pa
 
 				// Make the last tab that was current the current one now.
 				Type type = Type.GetType(PaApp.SettingsHandler.GetStringSettingsValue(
-					Name, "currentview", null));
+					Name, "currentview", typeof(DataCorpusVw).FullName));
 
-				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
+				vwTabGroup.ActivateView(type);
 
 				PaApp.AddProjectToRecentlyUsedProjectsList(projectFileName);
 				
