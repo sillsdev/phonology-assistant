@@ -287,15 +287,7 @@ namespace SIL.Pa.Controls
 			{
 				if (prevFldValue != m_cache[i][fieldName])
 				{
-					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
-						prevFldValue, m_headingFont, i + 1, lastChild));
-					
-					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
-					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
-					
-					if (m_grid.AllGroupsCollapsed)
-						shgrow.SetExpandedState(false, false);
-
+					AddGroupHeadingRow(i + 1, lastChild, null, prevFldValue, m_headingFont);
 					prevFldValue = m_cache[i][fieldName];
 					lastChild = i;
 				}
@@ -330,15 +322,7 @@ namespace SIL.Pa.Controls
 
 				if (prevFldValue != currFldValue)
 				{
-					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
-						string.Format(fmtHeading, prevFldValue), m_headingFont, i + 1, lastChild));
-
-					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
-					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
-
-					if (m_grid.AllGroupsCollapsed)
-						shgrow.SetExpandedState(false, false);
-
+					AddGroupHeadingRow(i + 1, lastChild, fmtHeading, prevFldValue, m_headingFont);
 					lastChild = i;
 					prevFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
 						part == 1 ? m_cache[i].SearchItem : m_cache[i].EnvironmentAfter);
@@ -377,15 +361,7 @@ namespace SIL.Pa.Controls
 				
 				if (heading != null)
 				{
-					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
-						string.Format(fmtHeading, heading), m_headingFont, i + 1, lastChild));
-
-					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
-					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
-
-					if (m_grid.AllGroupsCollapsed)
-						shgrow.SetExpandedState(false, false);
-
+					AddGroupHeadingRow(i + 1, lastChild, fmtHeading, heading, m_headingFont);
 					prevEntry = m_cache[i];
 					lastChild = i;
 				}
@@ -571,15 +547,7 @@ namespace SIL.Pa.Controls
 					if (m_cache.CIEGroupTexts != null)
 						m_cache.CIEGroupTexts.TryGetValue(m_cache[i + 1].CIEGroupId, out cieGroupText);
 
-					m_grid.Rows.Insert(i + 1, new SilHierarchicalGridRow(m_grid,
-						cieGroupText, m_headingFont, i + 1, lastChild));
-
-					SilHierarchicalGridRow shgrow = m_grid.Rows[i + 1] as SilHierarchicalGridRow;
-					shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
-
-					if (m_grid.AllGroupsCollapsed)
-						shgrow.SetExpandedState(false, false);
-
+					AddGroupHeadingRow(i + 1, lastChild, null, cieGroupText, m_headingFont);
 					prevGroup = m_cache[i].CIEGroupId;
 					lastChild = i;
 				}
@@ -607,30 +575,61 @@ namespace SIL.Pa.Controls
 		{
 			// Insert the first group heading row and insert a hierarchical column for the
 			// + and - glpyhs.
-			m_grid.Rows.Insert(0, new SilHierarchicalGridRow(m_grid,
-				string.Format(fmtHeading, heading), m_headingFont, 0, grpsLastChild));
-
-			SilHierarchicalGridRow shgrow = m_grid.Rows[0] as SilHierarchicalGridRow;
-			shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
-
-			if (m_grid.AllGroupsCollapsed)
-				shgrow.SetExpandedState(false, false);
-
+			AddGroupHeadingRow(0, grpsLastChild, fmtHeading, heading, m_headingFont);
 			m_grid.m_suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.m_suspendSavingColumnChanges = false;
 
-			// Check if, formerly, all the groups were collapsed.
-			if (m_grid.AllGroupsCollapsed)
-				return;
-
-			// All the groups were not collapsed, so force all of them to be expanded.
-			// Otherwise the expanded state for rows formly collapsed will be all messed up.
+			// If all the groups were not collapsed, force the row to be expanded.
+			// Otherwise the expanded state for rows formly collapsed will be all
+			// messed up.
+			bool expandGroups = !m_grid.AllGroupsCollapsed;
+			
 			foreach (System.Windows.Forms.DataGridViewRow row in m_grid.Rows)
 			{
-				if (row is SilHierarchicalGridRow)
-					((SilHierarchicalGridRow)row).SetExpandedState(true, true, false);
+				SilHierarchicalGridRow shgrow = row as SilHierarchicalGridRow;
+				if (shgrow != null)
+				{
+					// For some reason, on a Windows Vista machine, this should be called
+					// for each hierarchical row *after* all hierarchical rows are added
+					// to a grid, rather than as the rows are being added. That means this
+					// should not be called in the row's constructor or clone event. When
+					// it is, sometimes (and it appears to be random) the a hand-full of
+					// hierarchical rows never get the grid's RowPostPaint event. This
+					// fixes PA-584.
+					shgrow.SubscribeToOwningGridEvents();
+					
+					if (expandGroups)
+						shgrow.SetExpandedState(true, true, false);
+				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddGroupHeadingRow(int insertIndex, int lastChildInGroup,
+			string fmtHeading, string heading, Font fntHeading)
+		{
+			if (fmtHeading == null)
+			{
+				m_grid.Rows.Insert(insertIndex, new SilHierarchicalGridRow(m_grid,
+					heading, fntHeading, insertIndex, lastChildInGroup));
+			}
+			else
+			{
+				m_grid.Rows.Insert(insertIndex, new SilHierarchicalGridRow(m_grid,
+					string.Format(fmtHeading, heading), fntHeading, insertIndex,
+					lastChildInGroup));
+			}
+
+			SilHierarchicalGridRow shgrow = m_grid.Rows[insertIndex] as SilHierarchicalGridRow;
+			shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
+
+			if (m_grid.AllGroupsCollapsed)
+				shgrow.SetExpandedState(false, false);
 		}
 	}
 }

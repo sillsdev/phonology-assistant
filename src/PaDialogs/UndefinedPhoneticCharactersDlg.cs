@@ -244,7 +244,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void Group()
 		{
-			SilHierarchicalGridRow row;
+			SilHierarchicalGridRow shgrow;
 			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			int lastChild = m_list.Count - 1;
 			char prevChar = m_list[lastChild].Character;
@@ -262,26 +262,33 @@ namespace SIL.Pa.Dialogs
 			{
 				if (prevChar != m_list[i].Character)
 				{
-					row = new SilHierarchicalGridRow(m_grid,
+					shgrow = new SilHierarchicalGridRow(m_grid,
 						string.Format(fmt, prevChar, (int)prevChar), fnt, i + 1, lastChild);
-					
-					row.CountFormatStrings = countFmt;
-					m_grid.Rows.Insert(i + 1, row);
+
+					shgrow.CountFormatStrings = countFmt;
+					m_grid.Rows.Insert(i + 1, shgrow);
 					prevChar = m_list[i].Character;
 					lastChild = i;
 				}
 			}
 
 			// Insert the first group heading row.
-			row = new SilHierarchicalGridRow(m_grid,
+			shgrow = new SilHierarchicalGridRow(m_grid,
 				string.Format(fmt, prevChar, (int)prevChar), fnt, 0, lastChild);
 
-			row.CountFormatStrings = countFmt;
-			m_grid.Rows.Insert(0, row);
+			shgrow.CountFormatStrings = countFmt;
+			m_grid.Rows.Insert(0, shgrow);
 
 			// Insert a hierarchical column for the + and - glpyhs.
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
 			m_grid.ResumeLayout();
+
+			foreach (DataGridViewRow row in m_grid.Rows)
+			{
+				shgrow = row as SilHierarchicalGridRow;
+				if (shgrow != null)
+					shgrow.SubscribeToOwningGridEvents();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -25,7 +26,6 @@ namespace SIL.SpeechTools.Utils
 		private int m_level;
 		private int m_childCount = -1;
 		private int m_hierarchicalColWidths = -1;
-		private bool m_subscribeToOwnersEventsOnNextClone = false;
 		private string[] m_recCountFmt;
 		private int m_firstCacheIndex = -1;
 		private int m_lastCacheIndex = -1;
@@ -56,7 +56,6 @@ namespace SIL.SpeechTools.Utils
 		public SilHierarchicalGridRow(DataGridView owningGrid) : this()
 		{
 			m_owningGrid = owningGrid;
-			m_subscribeToOwnersEventsOnNextClone = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,13 +124,6 @@ namespace SIL.SpeechTools.Utils
 		protected override void Dispose(bool disposing)
 		{
 			UnsubscribeToOwningGridEvents();
-
-			if (m_font != null)
-			{
-				m_font.Dispose();
-				m_font = null;
-			}
-
 			base.Dispose(disposing);
 		}
 
@@ -158,35 +150,6 @@ namespace SIL.SpeechTools.Utils
 				row.m_firstCacheIndex = m_firstCacheIndex;
 				row.m_lastCacheIndex = m_lastCacheIndex;
 				row.m_recCountFmt = m_recCountFmt;
-
-				// This is kludgy but here's the ridiculous problem I observe. Whenever a row
-				// is added to the grid, internally, that row is cloned and added to the grid,
-				// which forces the row to fire it's OnDataGridViewChanged event since an
-				// owning grid has just been assigned to the row. However, it appears that
-				// just cloning a row (not just adding it to the grid's row collection) also
-				// fires the row's OnDataGridViewChanged event. In our case, we're subscribing
-				// to some owning grid's events in the OnDataGridViewChanged event which means
-				// clones will subscribe to those events, even if the clone isn't added to a grid.
-				// Normally that's not bad since I don't go explicitly making clones of rows. But
-				// it turns out the following example will cause a row to be cloned.
-				// Suppose most of the rows in the grid are of type PaCacheGridRow but a few
-				// are of type SilHierarchicalGridRow. In the following example, when
-				// grid.Row[i] is of type SilHierarchicalGridRow and the following code is
-				// executed: PaCacheGridRow row = grid.Row[i] as PaCacheGridRow;
-				// row is returned as null (which is correct) but in the process, grid.Row[i]
-				// is cloned. Aaaaaaaahhhhhhh!!!! What's that all about!!!??? Why in the world
-				// would grid.Row[i] be cloned? Normally, I assume the clone would be disposed
-				// faily quickly except that in my OnDataGridViewChanged I subscribe to the
-				// the owning grid's events which will cause the clone to not get disposed
-				// because it's hanging on to some subscriptions. The example code above is
-				// executed many times which means there will be gobbs of clones hanging around
-				// and each clone's subscribed events will be fired unecessarily. Arrgh!!!
-				// This check is designed to work around the problem.
-				if (m_subscribeToOwnersEventsOnNextClone)
-				{
-					row.SubscribeToOwningGridEvents();
-					m_subscribeToOwnersEventsOnNextClone = false;
-				}
 			}
 
 			return clone;
@@ -194,10 +157,14 @@ namespace SIL.SpeechTools.Utils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// For some reason, on a Windows Vista machine, this should be called for each
+		/// hierarchical row *after* all hierarchical rows are added to a grid, rather than
+		/// as the rows are being added. That means this should not be called in the row's
+		/// constructor or clone event. When it is, sometimes (and it appears to be random)
+		/// the a hand-full of hierarchical rows never get the grid's RowPostPaint event.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SubscribeToOwningGridEvents()
+		public void SubscribeToOwningGridEvents()
 		{
 			if (m_owningGrid != null)
 			{
@@ -647,7 +614,7 @@ namespace SIL.SpeechTools.Utils
 			for (int i = 0; i < 3 && recCount == null; i++)
 			{
 				recCount = string.Format(m_recCountFmt[i], m_childCount);
-				if (TextRenderer.MeasureText(g, recCount, SystemInformation.MenuFont, Size.Empty,
+				if (TextRenderer.MeasureText(g, recCount, FontHelper.UIFont, Size.Empty,
 					measureflags).Width > rcRecCount.Width)
 				{
 					recCount = null;
@@ -656,7 +623,7 @@ namespace SIL.SpeechTools.Utils
 
 			if (recCount != null)
 			{
-				TextRenderer.DrawText(g, recCount, SystemInformation.MenuFont, rcRecCount, clr,
+				TextRenderer.DrawText(g, recCount, FontHelper.UIFont, rcRecCount, clr,
 					flags | TextFormatFlags.Right);
 			}
 		}
