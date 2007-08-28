@@ -1360,6 +1360,26 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsHTML(object args)
+		{
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsRTF(object args)
+		{
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
 			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
