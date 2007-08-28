@@ -248,7 +248,7 @@ namespace SIL.Pa.Controls
 			// Calculate the maximum width of the header columns
 			foreach (DataGridViewColumn column in sortedColumns.Values)
 			{
-				if (column.Name != string.Empty && column.Index > 0)
+				if (column.Name != string.Empty && !(column is SilHierarchicalGridColumn)) //    && column.Index > 0)
 					CalcMaxHdrColWidths(column);
 			}
 

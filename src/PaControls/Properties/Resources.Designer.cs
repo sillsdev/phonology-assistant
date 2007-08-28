@@ -727,7 +727,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date/Time: {0}{1}.
+        ///   Looks up a localized string similar to Date/Time:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrDateTimeName {
             get {
@@ -736,7 +736,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language: {0}{1}.
+        ///   Looks up a localized string similar to Language:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrLanguageName {
             get {
@@ -745,7 +745,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Records: {0}{1}.
+        ///   Looks up a localized string similar to Number of Records:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrNbrOfRecords {
             get {
@@ -754,7 +754,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project: {0}{1}.
+        ///   Looks up a localized string similar to Project:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrProjectName {
             get {
@@ -763,7 +763,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For Search Query: {0}{1}.
+        ///   Looks up a localized string similar to For Search Query:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrSearchPattern {
             get {
@@ -772,7 +772,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Word List: {0}{1}.
+        ///   Looks up a localized string similar to Word List:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrWordListName {
             get {

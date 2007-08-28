@@ -208,7 +208,7 @@ namespace SIL.Pa
 				Type type = Type.GetType(PaApp.SettingsHandler.GetStringSettingsValue(
 					Name, "currentview", typeof(DataCorpusVw).FullName));
 
-				vwTabGroup.ActivateView(type);
+				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
 
 				PaApp.AddProjectToRecentlyUsedProjectsList(projectFileName);
 				
