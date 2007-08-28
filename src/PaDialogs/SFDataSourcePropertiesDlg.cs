@@ -40,6 +40,8 @@ namespace SIL.Pa.Dialogs
 			m_datasource = datasource;
 			m_fieldInfo = fieldInfo;
 			InitializeComponent();
+			Initialize();
+			m_grid.CellEnter += m_grid_CellEnter;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,19 +108,21 @@ namespace SIL.Pa.Dialogs
 
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
+			// Make sure the stuff in the left (fixed) panel can all be seen.
+			if (cboFirstInterlinear.Right > splitOuter.SplitterDistance - 11)
+				splitOuter.SplitterDistance = (cboFirstInterlinear.Right + 11);
+
 			try
 			{
+				// By default, give the mappings grid 65% of the width of its containing
+				// split container control. That means the file contents gets 35%.
+				scImport.SplitterDistance = (int)(scImport.Width * .65);
+
 				int splitterDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
 				if (splitterDistance > -1)
 					scImport.SplitterDistance = splitterDistance;
 			}
 			catch { }
-
-			if (cboFirstInterlinear.Right > (pnlParseType.Width - 10))
-			{
-				splitOuter.SplitterDistance +=
-					(cboFirstInterlinear.Right + 10 - pnlParseType.Width);
-			}
 
 			rbNoParse.Tag = Properties.Resources.kstidNoParseSampleOutput;
 			rbParseOneToOne.Tag = Properties.Resources.kstidOneToOneSampleOutput;
@@ -309,27 +313,9 @@ namespace SIL.Pa.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-		
-			// I'm not sure why this has to be done so late, but for some reason rows in the
-			// grid were added and removed after the handle is created but before showing
-			// the dialog, thus causing the dirty flag to get set to true. The adding and
-			// removing takes place in code I don't control.
-			m_grid.IsDirty = false;
-		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the proper parsing type. This is best done after the grid, handle is created.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
-
-			// This is called here because, for some reason, on some machines, resuming
-			// layout in the InitializeComponents method forces the handle to be created.
-			Initialize();
-
+			// Sets the proper parsing type. This is best
+			// done later rather than in the constructor.
 			switch (m_datasource.ParseType)
 			{
 				case DataSourceParseType.None: rbNoParse.Checked = true; break;
@@ -337,8 +323,12 @@ namespace SIL.Pa.Dialogs
 				case DataSourceParseType.Interlinear: rbInterlinearize.Checked = true; break;
 				default: rbParseOnlyPhonetic.Checked = true; break;
 			}
-
-			m_grid.CellEnter += m_grid_CellEnter;
+		
+			// I'm not sure why this has to be done so late, but for some reason rows in the
+			// grid were added and removed after the handle is created but before showing
+			// the dialog, thus causing the dirty flag to get set to true. The adding and
+			// removing takes place in code I don't control.
+			m_grid.IsDirty = false;
 		}
 
 		#endregion
@@ -391,7 +381,7 @@ namespace SIL.Pa.Dialogs
 			col = SilGrid.CreateCheckBoxColumn("interlinear");
 			col.HeaderText = Properties.Resources.kstidSFMMappingGridInterlinear;
 			col.DataPropertyName = "IsInterlinear";
-			col.Width = 85;
+			//col.Width = 85;
 			m_grid.Columns.Add(col);
 
 			pnlMappings.Controls.Add(m_grid);
@@ -412,11 +402,9 @@ namespace SIL.Pa.Dialogs
 			string gridLinesValue;
 			if (!PaApp.SettingsHandler.LoadGridProperties(m_grid, out gridLinesValue))
 			{
+				m_grid.AutoResizeColumnHeadersHeight();
 				m_grid.AutoResizeColumns();
 				m_grid.AutoResizeRows();
-				m_grid.Columns["marker"].Width = 75;
-				m_grid.Columns["interlinear"].Width = 75;
-				m_grid.AutoResizeColumnHeadersHeight();
 			}
 		}
 
