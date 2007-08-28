@@ -89,8 +89,28 @@ namespace SIL.Pa.Dialogs
 
 			m_dirty = m_newProject;
 			m_grid.IsDirty = false;
-			Application.Idle += Application_Idle;
 			STUtils.WaitCursors(false);
+
+			UpdateButtonStates();
+			Disposed += ProjectSettingsDlg_Disposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void ProjectSettingsDlg_Disposed(object sender, EventArgs e)
+		{
+			Disposed -= ProjectSettingsDlg_Disposed;
+
+			if (m_grid != null && !m_grid.IsDisposed)
+			{
+				m_grid.CurrentCellChanged -= m_grid_CurrentCellChanged;
+				m_grid.CellClick -= m_grid_CellClick;
+				m_grid.RowsAdded -= m_grid_RowsAdded;
+				m_grid.RowsRemoved -= m_grid_RowsRemoved;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,37 +136,7 @@ namespace SIL.Pa.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update button enabled states during idle cycles.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void Application_Idle(object sender, EventArgs e)
-		{
-			bool enableRemoveButton = (m_grid.SelectedRows != null && m_grid.SelectedRows.Count > 0);
-			if (enableRemoveButton != btnRemove.Enabled)
-				btnRemove.Enabled = enableRemoveButton;
-
-			bool enablePropertiesButton = false;
-
-			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < m_project.DataSources.Count)
-			{
-				if (m_grid.SelectedRows == null || m_grid.SelectedRows.Count == 1)
-				{
-					PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
-
-					enablePropertiesButton = 
-						(dataSource.DataSourceType == DataSourceType.SFM ||
-						dataSource.DataSourceType == DataSourceType.Toolbox ||
-						(dataSource.DataSourceType == DataSourceType.FW &&
-						dataSource.FwSourceDirectFromDB));
-				}
-			}
-
-			if (btnProperties.Enabled != enablePropertiesButton)
-				btnProperties.Enabled = enablePropertiesButton;
-		}
-
+		#region Grid setup
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -189,6 +179,11 @@ namespace SIL.Pa.Dialogs
 
 			// When xslt transforms are supported when reading data, then this should become visible.
 			m_grid.Columns["xslt"].Visible = false;
+
+			m_grid.CurrentCellChanged += m_grid_CurrentCellChanged;
+			m_grid.CellClick += m_grid_CellClick;
+			m_grid.RowsAdded += m_grid_RowsAdded;
+			m_grid.RowsRemoved += m_grid_RowsRemoved;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -227,6 +222,95 @@ namespace SIL.Pa.Dialogs
 				m_grid.CurrentCell = m_grid[0, preferredRow];
 		}
 
+		#endregion
+
+		#region Methods for enabling and disabling buttons
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_EnterLeave(object sender, EventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_CurrentCellChanged(object sender, EventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update button enabled states.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void UpdateButtonStates()
+		{
+			bool enableRemoveButton = ((m_grid.CurrentRow != null &&
+				m_grid.CurrentRow.Index < m_project.DataSources.Count) ||
+				(m_grid.SelectedRows != null && m_grid.SelectedRows.Count > 0));
+			
+			if (enableRemoveButton != btnRemove.Enabled)
+				btnRemove.Enabled = enableRemoveButton;
+
+			bool enablePropertiesButton = false;
+
+			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < m_project.DataSources.Count)
+			{
+				if (m_grid.SelectedRows == null || m_grid.SelectedRows.Count <= 1)
+				{
+					PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
+
+					enablePropertiesButton =
+						(dataSource.DataSourceType == DataSourceType.SFM ||
+						dataSource.DataSourceType == DataSourceType.Toolbox ||
+						(dataSource.DataSourceType == DataSourceType.FW &&
+						dataSource.FwSourceDirectFromDB));
+				}
+			}
+
+			if (btnProperties.Enabled != enablePropertiesButton)
+				btnProperties.Enabled = enablePropertiesButton;
+		}
+
+		#endregion
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -247,8 +331,6 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Application.Idle -= Application_Idle;
-
 			base.OnFormClosing(e);
 
 			if (!e.Cancel && DialogResult != DialogResult.OK)
