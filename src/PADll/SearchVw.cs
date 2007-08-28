@@ -483,7 +483,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			//PaApp.SettingsHandler.LoadFormProperties(this);
 			ptrnBldrComponent.LoadSettings(Name);
 
 			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
@@ -1473,11 +1472,8 @@ namespace SIL.Pa
 		protected bool OnRemovePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !itemProps.Name.EndsWith("-FromRecentList") ||
-				!m_activeView)
-			{
+			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
-			}
 
 			lstRecentPatterns_KeyDown(null, new KeyEventArgs(Keys.Delete));
 			return true;
@@ -1491,11 +1487,8 @@ namespace SIL.Pa
 		protected bool OnClearRecentPatternList(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !itemProps.Name.EndsWith("-FromRecentList") ||
-				!m_activeView)
-			{
+			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
-			}
 
 			btnClearRecentList_Click(null, null);
 			return true;
@@ -1638,7 +1631,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private bool EnableItemWhenFocusedAndHaveCurrentGrid(TMItemProperties itemProps)
 		{
-			if (itemProps == null || !m_activeView)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			itemProps.Update = true;

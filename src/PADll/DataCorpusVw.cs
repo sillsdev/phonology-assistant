@@ -541,7 +541,7 @@ namespace SIL.Pa
 		protected bool OnUpdateShowCIEResults(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (itemProps.Enabled || itemProps.Checked)
@@ -699,6 +699,7 @@ namespace SIL.Pa
 				savCurrRowIndex = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : 0);
 				savCurrColIndex = (m_grid.CurrentCell != null ? m_grid.CurrentCell.ColumnIndex : 0);
 				savFirstRowIndex = m_grid.FirstDisplayedScrollingRowIndex;
+				
 				// Save the current sort options
 				savSortOptions = m_grid.SortOptions;
 			}
@@ -709,8 +710,10 @@ namespace SIL.Pa
 			// Restore the current row to what it was before rebuilding.
 			// Then make sure the row is visible.
 			if (m_grid != null)
+			{
 				m_grid.PostDataSourceModifiedRestore(
 					savCurrRowIndex, savCurrColIndex, savFirstRowIndex, savSortOptions);
+			}
 
 			return false;
 		}
@@ -723,7 +726,6 @@ namespace SIL.Pa
 		protected bool OnPaFontsChanged(object args)
 		{
 			rtfRecVw.UpdateFonts();
-
 
 			// Return false to allow other windows to update their fonts.
 			return false;
@@ -752,6 +754,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsRTF(object args)
 		{
+			if (!m_activeView)
+				return false;
+
 			RtfExportDlg rtfExp = new RtfExportDlg(m_grid);
 			rtfExp.ShowDialog(this);
 			return true;
@@ -765,7 +770,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsRTF(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			itemProps.Visible = true;
@@ -805,7 +810,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsHTML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			itemProps.Visible = true;
@@ -871,7 +876,7 @@ namespace SIL.Pa
 		protected bool OnUpdateDataCorpusPhoneticSort(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			if (!itemProps.Enabled)

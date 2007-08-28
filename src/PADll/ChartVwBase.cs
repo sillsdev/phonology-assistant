@@ -641,7 +641,7 @@ namespace SIL.Pa
 		protected bool OnUpdateExportAsHTML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null)
+			if (!m_activeView || itemProps == null)
 				return false;
 
 			itemProps.Visible = true;

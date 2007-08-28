@@ -600,6 +600,7 @@ namespace SIL.SpeechTools.Utils
 			// Shrink the rectangle to what's left after drawing the text.
 			int textWidth = TextRenderer.MeasureText(g, m_text, m_font, Size.Empty,
 				flags &= ~TextFormatFlags.EndEllipsis).Width;
+			
 			Rectangle rcRecCount = rcText;
 			rcRecCount.Width -= textWidth;
 			rcRecCount.X += textWidth;
@@ -665,7 +666,7 @@ namespace SIL.SpeechTools.Utils
 			// Determine the text's rectangle.
 			rcText = rcHighlight;
 
-			// To get the text's rectangle shrink it so it doesn't include any
+			// To get the text's rectangle, shrink it so it doesn't include any
 			// PaHierarchicalGridColumns.
 			for (int i = 0; i <= m_level; i++)
 			{
@@ -740,25 +741,13 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		private bool OwningGridsVerticalScrollBarVisible()
 		{
-			if (m_owningGrid.ScrollBars == ScrollBars.None ||
-				m_owningGrid.ScrollBars == ScrollBars.Horizontal)
+			foreach (Control ctrl in m_owningGrid.Controls)
 			{
-				return false;
+				if (ctrl is VScrollBar && ctrl.Visible)
+					return true;
 			}
 
-			int index = m_owningGrid.Rows.GetLastRow(DataGridViewElementStates.Visible);
-			Rectangle rcUnclipped = m_owningGrid.GetRowDisplayRectangle(index, false);
-			if (rcUnclipped == Rectangle.Empty)
-				return true;
-			
-			Rectangle rcClipped = m_owningGrid.GetRowDisplayRectangle(index, true);
-			if (rcUnclipped.Bottom > rcClipped.Bottom)
-				return true;
-
-			index = m_owningGrid.Rows.GetFirstRow(DataGridViewElementStates.Visible);
-			rcUnclipped = m_owningGrid.GetRowDisplayRectangle(index, false);
-			rcClipped = m_owningGrid.GetRowDisplayRectangle(index, true);
-			return (rcUnclipped.Top < rcClipped.Top);
+			return false;
 		}
 
 		#endregion
