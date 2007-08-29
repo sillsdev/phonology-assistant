@@ -100,6 +100,24 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void CVPatternTest_WithSpaces()
+		{
+			m_cache.AddPhone("a");
+			m_cache.AddPhone("b");
+			m_cache.AddPhone("c");
+			m_cache.AddPhone("e");
+
+			Assert.AreEqual("VC VC", m_cache.GetCVPattern("ab ec"));
+			Assert.AreEqual("C CVV", m_cache.GetCVPattern("b cea"));
+			Assert.AreEqual("VVC C", m_cache.GetCVPattern("eab c"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetCVPattern
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CVPatternTest_IncludeExplicitPhonesWithoutDiacritics()
 		{
 			m_cache.AddPhone("a");

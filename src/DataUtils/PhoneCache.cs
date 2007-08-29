@@ -120,14 +120,18 @@ namespace SIL.Pa.Data
 				if (CVPatternInfo.Contains(phone))
 					bldr.Append(phone);
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
-					continue;
+				{
+					IPACharInfo charInfo = DataUtils.IPACharCache[phone];
+					if (charInfo != null && charInfo.CharType == IPACharacterType.Breaking)
+						bldr.Append(' ');
+				}
 				else if (phoneInfo.CharType == IPACharacterType.Breaking)
 					bldr.Append(' ');
 				else if (phoneInfo.CharType == IPACharacterType.Consonant ||
-					phoneInfo.CharType == IPACharacterType.Vowel)
+				   phoneInfo.CharType == IPACharacterType.Vowel)
 				{
 					string diacriticsAfterBase = null;
-					
+
 					if (phone.Length > 1)
 						diacriticsAfterBase = CVPatternInfo.GetMatchingModifiers(phone, bldr);
 
