@@ -140,6 +140,20 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public bool LoadFormProperties(Form frm)
 		{
+			return LoadFormProperties(frm, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assigns window properties to a form from an XmlDocument.
+		/// </summary>
+		/// <param name="frm">Form to load settings into</param>
+		/// <param name="setLocationOnly">true if the method should only set the form's
+		/// location and not its size. Otherwise, false.</param>
+		/// <returns>True on success</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool LoadFormProperties(Form frm, bool setLocationOnly)
+		{
 			if (m_xmlDoc == null || frm == null)
 				return false;
 
@@ -157,14 +171,21 @@ namespace SIL.SpeechTools.Utils
 			// the same as it was the last time the form's settings were saved.
 			if (dpi == m_currSystemDpi)
 			{
-				frm.Height = XMLHelper.GetIntFromAttribute(node, "height", frm.Height);
-				frm.Width = XMLHelper.GetIntFromAttribute(node, "width", frm.Width);
+				if (!setLocationOnly)
+				{
+					frm.Height = XMLHelper.GetIntFromAttribute(node, "height", frm.Height);
+					frm.Width = XMLHelper.GetIntFromAttribute(node, "width", frm.Width);
+				}
+				
 				frm.Top = XMLHelper.GetIntFromAttribute(node, "top", frm.Top);
 				frm.Left = XMLHelper.GetIntFromAttribute(node, "left", frm.Left);
 			}
 
-			frm.WindowState = (XMLHelper.GetAttributeValue(node, "state") == "Maximized" ?
-				FormWindowState.Maximized :	frm.WindowState = FormWindowState.Normal);
+			if (!setLocationOnly)
+			{
+				frm.WindowState = (XMLHelper.GetAttributeValue(node, "state") == "Maximized" ?
+					FormWindowState.Maximized : frm.WindowState = FormWindowState.Normal);
+			}
 
 			return true;
 		}

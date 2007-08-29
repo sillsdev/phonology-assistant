@@ -47,7 +47,7 @@ namespace SIL.Pa.Dialogs
 			InitializeSortingTab();
 			PaApp.IncProgressBar();
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			PaApp.SettingsHandler.LoadFormProperties(this, true);
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
