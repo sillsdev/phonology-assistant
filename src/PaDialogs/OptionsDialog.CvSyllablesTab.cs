@@ -62,6 +62,8 @@ namespace SIL.Pa.Dialogs
 			SetDisplayedChars(chkLength, lengthPicker);
 			SetDisplayedChars(chkTone, tonePicker);
 
+			AdjustPickerSizes();
+
 			// Assign event handlers
 			chkStress.Click += HandleGroupCheckChanged;
 			chkLength.Click += HandleGroupCheckChanged;
@@ -70,6 +72,34 @@ namespace SIL.Pa.Dialogs
 			stressPicker.CharPicked += HandleCharPicked;
 			lengthPicker.CharPicked += HandleCharPicked;
 			tonePicker.CharPicked += HandleCharPicked;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AdjustPickerSizes()
+		{
+			stressPicker.Location = lengthPicker.Location = tonePicker.Location = new Point(0, 0);
+			
+			stressPicker.Width = stressPicker.GetPreferredWidth(7);
+			stressPicker.Height = stressPicker.PreferredHeight;
+
+			lengthPicker.Width = lengthPicker.GetPreferredWidth(7);
+			lengthPicker.Height = lengthPicker.PreferredHeight;
+
+			tonePicker.Width = tonePicker.GetPreferredWidth(7);
+			tonePicker.Height = tonePicker.PreferredHeight;
+
+			grpStress.Width = stressPicker.Width + grpStress.Padding.Left +
+				grpStress.Padding.Right + SystemInformation.VerticalScrollBarWidth + 5;
+
+			grpLength.Width = lengthPicker.Width + grpLength.Padding.Left +
+				grpLength.Padding.Right + SystemInformation.VerticalScrollBarWidth + 5;
+
+			grpTone.Width = tonePicker.Width + grpTone.Padding.Left +
+				grpTone.Padding.Right + SystemInformation.VerticalScrollBarWidth + 5;
 		}
 		
 		/// ------------------------------------------------------------------------------------

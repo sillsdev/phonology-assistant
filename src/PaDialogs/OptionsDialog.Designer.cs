@@ -83,12 +83,15 @@ namespace SIL.Pa.Dialogs
 			this.lblExampleDesc1 = new System.Windows.Forms.Label();
 			this.chkTone = new System.Windows.Forms.CheckBox();
 			this.grpTone = new System.Windows.Forms.GroupBox();
+			this.pnlTone = new System.Windows.Forms.Panel();
 			this.tonePicker = new SIL.Pa.Controls.CharPicker();
 			this.chkLength = new System.Windows.Forms.CheckBox();
 			this.grpLength = new System.Windows.Forms.GroupBox();
+			this.pnlLength = new System.Windows.Forms.Panel();
 			this.lengthPicker = new SIL.Pa.Controls.CharPicker();
 			this.chkStress = new System.Windows.Forms.CheckBox();
 			this.grpStress = new System.Windows.Forms.GroupBox();
+			this.pnlStress = new System.Windows.Forms.Panel();
 			this.stressPicker = new SIL.Pa.Controls.CharPicker();
 			this.tpgSorting = new System.Windows.Forms.TabPage();
 			this.lblSaveManual = new System.Windows.Forms.Label();
@@ -124,8 +127,11 @@ namespace SIL.Pa.Dialogs
 			this.tpgCVSyllables.SuspendLayout();
 			this.grpDisplayChars.SuspendLayout();
 			this.grpTone.SuspendLayout();
+			this.pnlTone.SuspendLayout();
 			this.grpLength.SuspendLayout();
+			this.pnlLength.SuspendLayout();
 			this.grpStress.SuspendLayout();
+			this.pnlStress.SuspendLayout();
 			this.tpgSorting.SuspendLayout();
 			this.grpColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
@@ -548,10 +554,16 @@ namespace SIL.Pa.Dialogs
 			// 
 			// grpTone
 			// 
-			this.grpTone.Controls.Add(this.tonePicker);
+			this.grpTone.Controls.Add(this.pnlTone);
 			resources.ApplyResources(this.grpTone, "grpTone");
 			this.grpTone.Name = "grpTone";
 			this.grpTone.TabStop = false;
+			// 
+			// pnlTone
+			// 
+			resources.ApplyResources(this.pnlTone, "pnlTone");
+			this.pnlTone.Controls.Add(this.tonePicker);
+			this.pnlTone.Name = "pnlTone";
 			// 
 			// tonePicker
 			// 
@@ -574,10 +586,16 @@ namespace SIL.Pa.Dialogs
 			// 
 			// grpLength
 			// 
-			this.grpLength.Controls.Add(this.lengthPicker);
+			this.grpLength.Controls.Add(this.pnlLength);
 			resources.ApplyResources(this.grpLength, "grpLength");
 			this.grpLength.Name = "grpLength";
 			this.grpLength.TabStop = false;
+			// 
+			// pnlLength
+			// 
+			resources.ApplyResources(this.pnlLength, "pnlLength");
+			this.pnlLength.Controls.Add(this.lengthPicker);
+			this.pnlLength.Name = "pnlLength";
 			// 
 			// lengthPicker
 			// 
@@ -600,10 +618,16 @@ namespace SIL.Pa.Dialogs
 			// 
 			// grpStress
 			// 
-			this.grpStress.Controls.Add(this.stressPicker);
+			this.grpStress.Controls.Add(this.pnlStress);
 			resources.ApplyResources(this.grpStress, "grpStress");
 			this.grpStress.Name = "grpStress";
 			this.grpStress.TabStop = false;
+			// 
+			// pnlStress
+			// 
+			resources.ApplyResources(this.pnlStress, "pnlStress");
+			this.pnlStress.Controls.Add(this.stressPicker);
+			this.pnlStress.Name = "pnlStress";
 			// 
 			// stressPicker
 			// 
@@ -799,8 +823,11 @@ namespace SIL.Pa.Dialogs
 			this.grpDisplayChars.ResumeLayout(false);
 			this.grpDisplayChars.PerformLayout();
 			this.grpTone.ResumeLayout(false);
+			this.pnlTone.ResumeLayout(false);
 			this.grpLength.ResumeLayout(false);
+			this.pnlLength.ResumeLayout(false);
 			this.grpStress.ResumeLayout(false);
+			this.pnlStress.ResumeLayout(false);
 			this.tpgSorting.ResumeLayout(false);
 			this.tpgSorting.PerformLayout();
 			this.grpColSortOptions.ResumeLayout(false);
@@ -879,5 +906,8 @@ namespace SIL.Pa.Dialogs
 		private Label lblShowDiamondPattern;
 		private GroupBox grpColSortOptions;
 		private Label lblSaveManual;
+		private Panel pnlStress;
+		private Panel pnlLength;
+		private Panel pnlTone;
 	}
 }

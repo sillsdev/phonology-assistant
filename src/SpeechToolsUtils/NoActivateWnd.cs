@@ -7,7 +7,7 @@ namespace SIL.SpeechTools.Utils
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This form dosn't steal focus when it gets shown.
+	/// This form doesn't steal focus when it gets shown.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class NoActivateWnd : Form
