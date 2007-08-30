@@ -513,6 +513,8 @@ namespace SIL.Pa
 			if (!m_activeView || itemProps == null)
 				return false;
 
+			bool enable = (m_grid != null && m_grid.Cache != null && m_grid.RowCount > 0);
+			
 			if (m_grid.RowCount == 0)
 			{
 				if (itemProps.Enabled)
@@ -523,9 +525,10 @@ namespace SIL.Pa
 					itemProps.Update = true;
 				}
 			}
-			else if (itemProps.Checked != m_grid.IsGroupedByField)
+			else if (itemProps.Checked != m_grid.IsGroupedByField || enable != itemProps.Enabled)
 			{
 				itemProps.Visible = true;
+				itemProps.Enabled = enable;
 				itemProps.Checked = m_grid.IsGroupedByField;
 				itemProps.Update = true;
 			}
@@ -650,9 +653,12 @@ namespace SIL.Pa
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			if (itemProps.Checked != m_rawRecViewOn)
+			bool enable = (m_grid != null);
+
+			if (itemProps.Checked != m_rawRecViewOn || enable != itemProps.Enabled)
 			{
 				itemProps.Visible = true;
+				itemProps.Enabled = enable;
 				itemProps.Checked = m_rawRecViewOn;
 				itemProps.Update = true;
 			}

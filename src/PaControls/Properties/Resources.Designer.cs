@@ -736,6 +736,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grouped By:{0}{1}.
+        /// </summary>
+        internal static string kstidRtfGridHdrGroupField {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrGroupField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrLanguageName {
@@ -763,11 +772,20 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For Search Query:{0}{1}.
+        ///   Looks up a localized string similar to Search Pattern:{0}{1}.
         /// </summary>
         internal static string kstidRtfGridHdrSearchPattern {
             get {
                 return ResourceManager.GetString("kstidRtfGridHdrSearchPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Pattern:{0}{1}  (Minimal Pairs).
+        /// </summary>
+        internal static string kstidRtfGridHdrSearchPatternForMinPairs {
+            get {
+                return ResourceManager.GetString("kstidRtfGridHdrSearchPatternForMinPairs", resourceCulture);
             }
         }
         

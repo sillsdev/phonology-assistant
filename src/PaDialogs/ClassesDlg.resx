@@ -388,7 +388,7 @@
     <value>619, 457</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>627, 375</value>
+    <value>645, 375</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Classes</value>

@@ -391,6 +391,10 @@
     <value>Date/Time:{0}{1}</value>
     <comment>The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name.</comment>
   </data>
+  <data name="kstidRtfGridHdrGroupField" xml:space="preserve">
+    <value>Grouped By:{0}{1}</value>
+    <comment>The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
   <data name="kstidRtfGridHdrLanguageName" xml:space="preserve">
     <value>Language:{0}{1}</value>
     <comment>The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name.</comment>
@@ -404,7 +408,11 @@
     <comment>The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name.</comment>
   </data>
   <data name="kstidRtfGridHdrSearchPattern" xml:space="preserve">
-    <value>For Search Query:{0}{1}</value>
+    <value>Search Pattern:{0}{1}</value>
+    <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
+  <data name="kstidRtfGridHdrSearchPatternForMinPairs" xml:space="preserve">
+    <value>Search Pattern:{0}{1}  (Minimal Pairs)</value>
     <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
   </data>
   <data name="kstidRtfGridHdrWordListName" xml:space="preserve">

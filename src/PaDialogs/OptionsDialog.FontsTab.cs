@@ -49,6 +49,7 @@ namespace SIL.Pa.Dialogs
 			if (!PaApp.SettingsHandler.LoadGridProperties(m_fontGrid, out gridLinesValue))
 			{
 				m_fontGrid.AutoResizeColumns();
+				m_fontGrid.AutoResizeColumnHeadersHeight();
 				m_fontGrid.AutoResizeRows();
 				m_fontGrid.Columns["font"].Width = 160;
 				m_fontGrid.Columns["field"].Width = 110;

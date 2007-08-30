@@ -13,70 +13,76 @@ namespace SIL.Pa.Controls
 {
 	public class RtfCreator
 	{
-		#region Declaration
-
 		// Enum's
-		private readonly ExportFormat m_exportFormat;
 		public enum ExportFormat { Table, TabDelimited };
-		private readonly ExportTarget m_exportTarget;
 		public enum ExportTarget { File, FileAndOpen, Clipboard };
-		private CreateSearchItemTabs m_createSearchItemTabs;
 		public enum CreateSearchItemTabs { FirstTab, SecondTab, FinishedTabs, Stop };
 
+		private readonly ExportFormat m_exportFormat;
+		private readonly ExportTarget m_exportTarget;
+		private CreateSearchItemTabs m_createSearchItemTabs;
+
 		// Constants
-		private const string khdr = "{\\rtf1\\ansi\\deff0";
-		private const string kline = "{\\line}";
+		private const string khdr = @"{\rtf1\ansi\deff0";
+		private const string kline = @"{\line}";
 		// The first 3 markups in 'kcellLine' draw a line under the column headers
-		private const string kcellLine = "\\clbrdrb\\brdrs\\brdrw30\\cellx{0}";
-		private const string kcell = "\\cellx{0}";
-		private const string ktxcell = "\\tx{0}";
-		private const string kcellHdr = "{0}\\cell ";
-		private const string kcellValues = "\\f{0} \\fs{1} {2}\\cell ";
-		private const string ktab = "\\tab ";
-		private const string ktxHdr = "{0}\\tx ";
-		private const string ktxValues = "\\f{0} \\fs{1} {2}\\tab ";
-		private const string khighlight = "\\highlight{0} ";
-		private const int kMaxPageWidth = 9360; // 6.5 inches in twips
-		private const int kDistBetweenCols = 360; // 0.25 inch in twips between columns
-		private const int kTwipsPerInch = 1440;
-		private const int kSilHierGridRowKey = 9999;
+		private const string kcellLine = @"\clbrdrb\brdrs\brdrw30\clvertalb\cellx{0}";
+		private const string kcell = @"\cellx{0}\clvertalc";
+		private const string ktxcell = @"\tx{0}";
+		private const string kcellHdr = @"{0}{{\cell}}";
+		private const string kcellValues = @"\f{0} \fs{1} {2}{{\cell}}";
+		private const string ktab = @"{\tab}";
+		private const string ktxHdr = @"{0}{{\tx}}";
+		private const string ktxValues = @"\f{0} \fs{1} {2}{{\tab}}";
+		private const string khighlight = @"{{\highlight{0} {1}}}";
+		private const string kparagraph = @"\par\pard";
 		private const string kInvalidEditor = "Invalid Editor";
+		private const int kTwipsPerInch = 1440;
+		private const int kTwipsPerCm = 567;
+		private const int kheadingFontSize = 10;
+		private const int kGroupHdgRowToken = 9999;
 
 		// Member Variables
-		private int m_numberOfColumns = 0;
 		private int m_numberOfRecords = 0;
-		private int m_MaxColWidth = 2160; // 1.5 inches in twips
-		private int m_uiFontSize;
+		private int m_uiFontNumber;
 		private float m_pixelsPerInch;
-		private readonly Dictionary<string, string> m_columnHeaders = new Dictionary<string, string>();
+		private readonly SortedList<int, DataGridViewColumn> m_sortedColumns;
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
 		private readonly Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
+		private readonly Dictionary<int, string> m_alignedSearchItems = new Dictionary<int, string>();
+		
 		// Each dict represents a row. The key is the column index & the value is the cell's value
 		private readonly List<Dictionary<int, object[]>> m_wordListRows = new List<Dictionary<int, object[]>>();
-		private readonly Dictionary<int, string> m_alignedSearchItems = new Dictionary<int, string>();
-		// The key is the column index and the value is the column width
-		private readonly Dictionary<int, int> m_maxColumnWidths = new Dictionary<int, int>();
-		private Dictionary<int, object[]> m_rowValues;
-		private int m_cellTextWidth = 0;
-		private readonly string m_rtfEditor = string.Empty;
-		private readonly StringBuilder m_rtfBldr;
-		private int m_extraSpaceToShare = 0;
-		private int m_largeColCount = 0;
-		private readonly WordListCache m_cache;
-		private Font m_phoneticColumnFont;
-		private readonly DataGridView m_grid;
-		private TextFormatFlags m_flags;
-		private float m_beforeEnvTwipWidth = 0f;
-		private int m_maxBeforeEnvTextWidth = 0;
-		private int m_maxSrchItemAftEnvTextWidth = 0;
-		private readonly int m_searchItemColorRefNumber = 0;
-		private readonly Graphics m_graphics;
-		private StringBuilder m_tabFormatBldr = new StringBuilder();
-		private readonly StringBuilder m_cellFormatBldr = new StringBuilder();
-		private readonly StringBuilder m_cellLineFormatBldr = new StringBuilder();
+
+		// The key is the column index and the value is the width of the widest piece
+		// of text found by scanning the contents of all the cells in the column.
+		private readonly Dictionary<int, int> m_maxFieldWidths = new Dictionary<int, int>();
+
+		private int m_paperWidth;
+		private int m_paperHeight;
+		private int m_pageWidth;
+		private int m_leftMargin;
+		private int m_rightMargin;
+		private int m_topMargin;
+		private int m_bottomMargin;
+		
 		private float m_columnStartPoint = 0;
 		private enum ArrayDataType { GroupingFieldName, RecordIndex, SilHierarchicalGridRow };
-		#endregion
+		private Dictionary<int, object[]> m_rowValues;
+		private Font m_phoneticColFont;
+		private int m_phoneticColIndex;
+		private int m_beforeEnvTwipWidth = 1;
+		private int m_maxSrchItemAftEnvTwipsWidth = 0;
+		private StringBuilder m_tabFormatBldr = new StringBuilder();
+		private readonly string m_rtfEditor = string.Empty;
+		private readonly StringBuilder m_rtfBldr;
+		private readonly WordListCache m_cache;
+		private readonly DataGridView m_grid;
+		private readonly Graphics m_graphics;
+		private readonly int m_searchItemColorRefNumber = 0;
+		private readonly StringBuilder m_cellFormatBldr = new StringBuilder();
+		private readonly StringBuilder m_cellLineFormatBldr = new StringBuilder();
+		private readonly int m_colRightPadding;
 
 		#region Constructor
 		/// ------------------------------------------------------------------------------------
@@ -90,12 +96,23 @@ namespace SIL.Pa.Controls
 			m_exportTarget = target;
 			m_exportFormat = format;
 			m_grid = grid;
+
 			if (m_grid != null)
+			{
 				m_graphics = m_grid.CreateGraphics();
+
+				// Store the dots per inch value from the grid's graphic object
+				m_pixelsPerInch = m_graphics.DpiX;
+			}
+
 			m_cache = cache;
 			m_rtfEditor = rtfEditor;
 			m_createSearchItemTabs = CreateSearchItemTabs.FirstTab;
 			m_rtfBldr = new StringBuilder();
+
+			// Default value is 1/8" gap between columns.
+			m_colRightPadding =	PaApp.SettingsHandler.GetIntSettingsValue(
+				"RTFExport", "gapbetweencolumns", 180);
 
 			// Add support for highlighting the search item
 			if (m_cache.IsForSearchResults)
@@ -105,207 +122,255 @@ namespace SIL.Pa.Controls
 				m_searchItemColorRefNumber = colorReferences[PaApp.QuerySearchItemBackColor.ToArgb()];
 			}
 
-			CalculateMaxColumnWidths();
-			CreateReportHeadings();
-
-			// This is only for running tests
-			if (m_maxColumnWidths.Count == 0)
-				return;
-
-			BuildColumns();
-			BuildCells();
-			WriteToFileOrClipboard();
-		}
-		#endregion
-
-		#region Export Rtf
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Format and save the 'align search item tabs' string.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void FormatAlignSearchIteamString(int rowIndex, WordListCacheEntry entry)
-		{
-			string colorRef = string.Format(khighlight, m_searchItemColorRefNumber);
-			m_alignedSearchItems[rowIndex] = ktab + entry.EnvironmentBefore + ktab.Trim() + colorRef +
-				entry.SearchItem + string.Format(khighlight, 0) + entry.EnvironmentAfter;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Calculate the Phonetic column's maximum before & after environment widths.
-		/// </summary>
-		/// <param name="cacheEntry">WordListCacheEntry</param>
-		/// ------------------------------------------------------------------------------------
-		private void CalcMaxPhoneticEnvWidths(WordListCacheEntry cacheEntry)
-		{
-			// Calculate the text widths
-			int beforeEnvTextWidth = TextRenderer.MeasureText(m_graphics, cacheEntry.EnvironmentBefore,
-				m_phoneticColumnFont, Size.Empty, m_flags).Width;
-			string srchItemAftEnv = " " + cacheEntry.SearchItem + cacheEntry.EnvironmentAfter;
-			int srchItemAftEnvTextWidth = TextRenderer.MeasureText(m_graphics, srchItemAftEnv,
-				m_phoneticColumnFont, Size.Empty, m_flags).Width;
-
-			// Update the max values
-			if (beforeEnvTextWidth > m_maxBeforeEnvTextWidth)
-				m_maxBeforeEnvTextWidth = beforeEnvTextWidth;
-			if (srchItemAftEnvTextWidth > m_maxSrchItemAftEnvTextWidth)
-				m_maxSrchItemAftEnvTextWidth = srchItemAftEnvTextWidth;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Calculate the maximum widths for the header columns.
-		/// </summary>
-		/// <param name="column">DataGridViewColumn</param>
-		/// ------------------------------------------------------------------------------------
-		private void CalcMaxHdrColWidths(DataGridViewColumn column)
-		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[column.Name];
-
-			// Save the column header text width length
-			m_columnHeaders.Add(column.Name, column.HeaderText);
-			m_cellTextWidth = TextRenderer.MeasureText(m_graphics, column.HeaderText,
-				column.DefaultCellStyle.Font, Size.Empty, m_flags).Width;
-
-			if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
+			// Sort the visible columns by their display order.
+			m_sortedColumns = new SortedList<int, DataGridViewColumn>();
+			foreach (DataGridViewColumn col in m_grid.Columns)
 			{
-				m_phoneticColumnFont = column.DefaultCellStyle.Font;
-				foreach (DataGridViewRow row in m_grid.Rows)
-				{
-					if (row is PaCacheGridRow)
-					{
-						int cacheIndex = ((PaCacheGridRow)row).CacheEntryIndex;
-						FormatAlignSearchIteamString(row.Index, m_cache[cacheIndex]);
-						CalcMaxPhoneticEnvWidths(m_cache[cacheIndex]);
-					}
-				}
-
-				m_beforeEnvTwipWidth = 
-					(m_maxBeforeEnvTextWidth / m_pixelsPerInch) * kTwipsPerInch;
-				m_cellTextWidth = (m_maxBeforeEnvTextWidth + m_maxSrchItemAftEnvTextWidth);
+				if (col.Visible && !(col is SilHierarchicalGridColumn))
+					m_sortedColumns[col.DisplayIndex] = col;
 			}
 
-			// "Grouping By Field"
-			if (m_cellTextWidth > 0)
-				m_maxColumnWidths.Add(column.Index, m_cellTextWidth);
+			GetPaperAndMarginValues();
+			CalculateColumnWidths();
+			OutputReportHeadingInformation();
+
+			// This is only for running tests
+			if (m_maxFieldWidths.Count > 0)
+			{
+				MakeFinalWidthAdjustments();
+				m_rtfBldr.AppendFormat(@"\paperw{0}\paperh{1}", m_paperWidth, m_paperHeight);
+				m_rtfBldr.AppendFormat(@"\margl{0}\margr{1}", m_leftMargin, m_rightMargin);
+				m_rtfBldr.AppendFormat(@"\margt{0}\margb{1}", m_topMargin, m_bottomMargin);
+				m_rtfBldr.AppendLine();
+				
+				OutputColumnInformation();
+				OutputDataRows();
+				WriteToFileOrClipboard();
+			}
+
+			if (m_graphics != null)
+				m_graphics.Dispose();
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Calculate the maximum cell column widths.
+		/// 
 		/// </summary>
-		/// <param name="cell">DataGridViewCell</param>
 		/// ------------------------------------------------------------------------------------
-		private void CalcMaxCellColWidths(DataGridViewCell cell)
+		private void GetPaperAndMarginValues()
 		{
-			Font columnFont = m_grid.Columns[cell.ColumnIndex].DefaultCellStyle.Font;
-			string cellValue = cell.Value.ToString();
+			string paperSize = PaApp.SettingsHandler.GetStringSettingsValue(
+				"RTFExport", "papersize", "letter").ToLower();
 
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[cell.ColumnIndex].Name];
+			m_paperWidth = (int)(paperSize == "a4" ? kTwipsPerCm * 21 : kTwipsPerInch * 8.5);
+			m_paperHeight = (int)(paperSize == "a4" ? kTwipsPerCm * 29.7 : kTwipsPerInch * 11);
 
-			// Only display the FileName of the WaveFile when the export format is TabDelimited
-			if (m_exportFormat == ExportFormat.TabDelimited && fieldInfo.IsAudioFile)
-				cellValue = Path.GetFileName(cellValue);
+			int defaultHMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch * 0.75);
+			int defaultVMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch);
 
-			m_cellTextWidth = TextRenderer.MeasureText(m_graphics, cellValue, columnFont, 
-				Size.Empty, m_flags).Width;
+			m_leftMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "lmargin", defaultHMargin);
+			m_rightMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "rmargin", defaultHMargin);
+			m_topMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "tmargin", defaultVMargin);
+			m_bottomMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "bmargin", defaultVMargin);
 
-			// Update the max column length if the cell text width is greater
-			if (m_cellTextWidth > m_maxColumnWidths[cell.ColumnIndex])
-				m_maxColumnWidths[cell.ColumnIndex] = m_cellTextWidth;
-
-			m_rowValues.Add(cell.ColumnIndex, new object[3] { cell.Value.ToString(), cell.RowIndex, null });
+			m_pageWidth = m_paperWidth - (m_leftMargin + m_rightMargin);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int TextWidthInTwips(string text, Font fnt)
+		{
+			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+
+			if (m_exportFormat == ExportFormat.TabDelimited)
+				flags |= TextFormatFlags.SingleLine;
+
+			int textWidth = TextRenderer.MeasureText(m_graphics, text, fnt, Size.Empty, flags).Width;
+			return (int)((textWidth / m_pixelsPerInch) * (float)kTwipsPerInch);
+		}
+
+		#endregion
+
+		#region Methods for calculating field widths and table column widths
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Calculate the maximum column widths.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CalculateMaxColumnWidths()
+		private void CalculateColumnWidths()
 		{
 			// For testing
 			if (m_grid == null)
 				return;
 
-			// Clear the dictionary
-			m_maxColumnWidths.Clear();
-			// Set the flags
-			m_flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
-				TextFormatFlags.SingleLine;
-			// Store the dots per inch value from the grid's graphic object
-			m_pixelsPerInch = m_graphics.DpiX;
-
-			// Sort the displayed columns by their display order
-			SortedList sortedColumns = new SortedList();
-			foreach (DataGridViewColumn column in m_grid.Columns)
-			{
-				if (column.Visible)
-					sortedColumns.Add(column.DisplayIndex, column);
-			}
+			m_maxFieldWidths.Clear();
 
 			// Calculate the maximum width of the header columns
-			foreach (DataGridViewColumn column in sortedColumns.Values)
-			{
-				if (column.Name != string.Empty && !(column is SilHierarchicalGridColumn)) //    && column.Index > 0)
-					CalcMaxHdrColWidths(column);
-			}
+			foreach (DataGridViewColumn col in m_sortedColumns.Values)
+				CalculateWidestColumnHeadingText(col);
 
+			// Go through the rows and save the widest text found for each column.
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
-				m_rowValues = new Dictionary<int, object[]>();
-
-				// "Grouping By Field"
-				if (row is SilHierarchicalGridRow)
-				{
-					if (!(row as SilHierarchicalGridRow).Expanded)
-						continue;
-
-					m_rowValues.Add(kSilHierGridRowKey, new object[] {
-						(row as SilHierarchicalGridRow).Text, row.Index, row });
-
-					m_wordListRows.Add(m_rowValues);
-					continue;
-				}
-
 				if (!row.Visible)
 					continue;
 
-				m_numberOfRecords++;
+				m_rowValues = new Dictionary<int, object[]>();
+				SilHierarchicalGridRow shgrow = row as SilHierarchicalGridRow;
 
-				// Sort the cells by their display order
-				SortedList sortedCellColumns = new SortedList();
-				foreach (DataGridViewCell cell in row.Cells)
-					if (cell.Visible)
-						sortedCellColumns.Add(m_grid.Columns[cell.ColumnIndex].DisplayIndex, cell);
-
-				// Calculate the maximum width of the cell columns
-				foreach (DataGridViewCell cell in sortedCellColumns.Values)
+				// Check if the row is a group heading row.
+				if (shgrow != null)
 				{
-					if (cell.Value == null)
-						m_rowValues.Add(cell.ColumnIndex, new object[3] { string.Empty, cell.RowIndex, null });
-					else
-						CalcMaxCellColWidths(cell);
+					if (shgrow.Expanded)
+					{
+						m_rowValues.Add(kGroupHdgRowToken, new object[] { shgrow.Text, row.Index, row });
+						m_wordListRows.Add(m_rowValues);
+					}
 				}
-				m_wordListRows.Add(m_rowValues);
+				else
+				{
+					m_numberOfRecords++;
+
+					// Calculate the maximum width of the fields in the cells in each column
+					foreach (DataGridViewColumn col in m_sortedColumns.Values)
+					{
+						if (row.Cells[col.Index].Value == null)
+							m_rowValues.Add(col.Index, new object[3] { string.Empty, row.Index, null });
+						else
+							CheckWidthOfCellValue(row.Cells[col.Index]);
+					}
+
+					m_wordListRows.Add(m_rowValues);
+				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Create Report Headings.
+		/// Goes through each of the grid's rows and determines which field in those rows is
+		/// the widest in the specified column.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CreateReportHeadings()
+		private void CalculateWidestColumnHeadingText(DataGridViewColumn column)
+		{
+			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[column.Name];
+
+			using (Font fnt = new Font(FontHelper.UIFont.FontFamily, kheadingFontSize,
+				FontStyle.Bold, GraphicsUnit.Point))
+			{
+				StringBuilder text = new StringBuilder(column.HeaderText);
+				
+				// If the heading has a space in it, then insert a newline at the last
+				// space and get the width necessary for the heading when it wraps on
+				// the last word in the heading.
+				if (m_exportFormat == ExportFormat.Table)
+				{
+					int i = column.HeaderText.LastIndexOf(' ');
+					if (i > 0)
+						text[i] = '\n';
+				}
+
+				m_maxFieldWidths[column.Index] = TextWidthInTwips(text.ToString(), fnt);
+
+				if (fieldInfo.IsPhonetic)
+				{
+					m_phoneticColFont = fieldInfo.Font;
+					m_phoneticColIndex = column.Index;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Calculates the width of the phonetic search result for the specified cache entry.
+		/// Then it compares it to those already saved up to this point and saves it if it's
+		/// wider.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CalculatePhoneticSrchResultWidth(WordListCacheEntry cacheEntry)
+		{
+			int beforeEnvTextWidth = TextWidthInTwips(cacheEntry.EnvironmentBefore, m_phoneticColFont);
+			string srchItemAftEnv = " " + cacheEntry.SearchItem + cacheEntry.EnvironmentAfter;
+			int srchItemAftEnvTextWidth = TextWidthInTwips(srchItemAftEnv, m_phoneticColFont);
+			m_beforeEnvTwipWidth = Math.Max(m_beforeEnvTwipWidth, beforeEnvTextWidth);
+			m_maxSrchItemAftEnvTwipsWidth = Math.Max(m_maxSrchItemAftEnvTwipsWidth, srchItemAftEnvTextWidth);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Measures the text in the specified cell and saves it if it's longer than the width
+		/// currently considered to be the maximum width.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CheckWidthOfCellValue(DataGridViewCell cell)
+		{
+			int textWidth = 0;
+			string cellValue = cell.Value.ToString();
+			int colIndex = cell.ColumnIndex;
+
+			Font columnFont = (m_grid.Columns[colIndex].DefaultCellStyle.Font ??
+				FontHelper.UIFont);
+
+			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[colIndex].Name];
+
+			// Are you looking at a phonetic cell for a search result word list?
+			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
+			{
+				PaCacheGridRow row = m_grid.Rows[cell.RowIndex] as PaCacheGridRow;
+				if (row != null)
+				{
+					// If the environment before ends with a space, change it to a non breaking
+					// space because a regular space messes up the tab location of the search
+					// item and the environment after.
+					string envBefore = m_cache[row.CacheEntryIndex].EnvironmentBefore;
+					if (envBefore != null && envBefore.EndsWith(" "))
+						envBefore = envBefore.Substring(0, envBefore.Length - 1) + '\u00A0';
+
+					m_alignedSearchItems[cell.RowIndex] = ktab + envBefore + ktab +
+						string.Format(khighlight, m_searchItemColorRefNumber,
+						m_cache[row.CacheEntryIndex].SearchItem) +
+						m_cache[row.CacheEntryIndex].EnvironmentAfter;
+
+					CalculatePhoneticSrchResultWidth(m_cache[row.CacheEntryIndex]);
+				}
+
+				textWidth = (m_beforeEnvTwipWidth + m_maxSrchItemAftEnvTwipsWidth);
+			}
+			else
+			{
+				// Only display the FileName of the audio file path
+				// when the export format is TabDelimited
+				if (m_exportFormat == ExportFormat.TabDelimited && fieldInfo.IsAudioFile)
+					cellValue = Path.GetFileName(cellValue);
+
+				textWidth = TextWidthInTwips(cellValue, columnFont);
+			}
+
+			// Update the max column length if the cell text width is greater
+			m_maxFieldWidths[colIndex] = Math.Max(textWidth, m_maxFieldWidths[colIndex]);
+			m_rowValues[colIndex] = new object[3] { cellValue, cell.RowIndex, null };
+		}
+
+		#endregion
+
+		#region Export Rtf
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Output the report's heading information (e.g. project name, language name,
+		/// date, etc.).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputReportHeadingInformation()
 		{
 			// For testing
 			if (m_cache == null)
 				return;
 
-			m_uiFontSize = (int)FontHelper.UIFont.SizeInPoints * 2;
 			m_rtfBldr.AppendLine(khdr);
-			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_fontNumbers, ref m_uiFontSize));
+			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_fontNumbers, ref m_uiFontNumber));
 			
 			// Add color support
 			if (m_cache.IsForSearchResults)
@@ -314,315 +379,150 @@ namespace SIL.Pa.Controls
 				m_rtfBldr.AppendLine(RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences));
 			}
 
-			m_rtfBldr.AppendLine("\\pard\\plain ");
-			m_rtfBldr.AppendLine(string.Format(ktxcell, 2160));
-			m_rtfBldr.AppendLine("\\f0 \\fs18 {\\b");
+			m_rtfBldr.AppendLine(@"\pard\plain ");
+			m_rtfBldr.AppendFormat(ktxcell, 2160);
+			m_rtfBldr.AppendLine();
+			m_rtfBldr.AppendFormat(@"\f{0} \fs18{{\b ", m_uiFontNumber);
+
 			// SearchQuery is null when showing "Minimal Pairs"
 			if (m_cache.IsForSearchResults && m_cache.SearchQuery != null)
-				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrSearchPattern,
-					ktab, m_cache.SearchQuery.Pattern);
+			{
+				string fmt = (m_cache.IsCIEList ?
+					Properties.Resources.kstidRtfGridHdrSearchPatternForMinPairs :
+					Properties.Resources.kstidRtfGridHdrSearchPattern);
+				
+				m_rtfBldr.AppendFormat(fmt,	ktab, m_cache.SearchQuery.Pattern);
+			}
 			else
+			{
 				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrWordListName,
 					ktab, Properties.Resources.kstidRtfGridAllWordsLabel);
+			}
+			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrNbrOfRecords,
-				ktab, m_numberOfRecords);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrNbrOfRecords, ktab, m_numberOfRecords);
+
+			// Add the field the word list is grouped on if it is grouped.
+			if (m_grid is PaWordListGrid && ((PaWordListGrid)m_grid).GroupByField != null)
+			{
+				m_rtfBldr.AppendLine(kline);
+				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrGroupField,
+					ktab, ((PaWordListGrid)m_grid).GroupByField.DisplayText);
+			}
+			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,
-				ktab, PaApp.Project.ProjectName);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,	ktab, PaApp.Project.ProjectName);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrLanguageName,
-				ktab, PaApp.Project.Language);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrLanguageName, ktab, PaApp.Project.Language);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrDateTimeName,
-				ktab, DateTime.Now);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrDateTimeName, ktab, DateTime.Now);
 			
 			m_rtfBldr.Append("}");
-			m_rtfBldr.AppendLine("\\par\\par\\pard");
+			m_rtfBldr.AppendLine(@"\par\par\pard");
 			if (m_exportFormat == ExportFormat.Table)
-				m_rtfBldr.Append("\\trowd");
+				m_rtfBldr.Append(@"\trowd");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Calculate the extra column space that can be shared / redistributed among
-		/// the larger columns.
+		/// Determines how much page width is necessary to fit all the columns at their
+		/// preferred widths. If the portrait orientation doesn't provide enough page width,
+		/// then rotate the page to landscape and see if that provides enough room. When
+		/// exporting a tab-delimited table, that's all the adjustment that's made. So, there
+		/// may be more overflow than there would be in table mode. If in table mode and the
+		/// preferred width of the table exceeds the page width, then all the non phonetic
+		/// columns will be shrunk so they'll all fit within the margins. If they'll have to
+		/// be shrunk too far, then they'll go to a minimum and will just have to overflow
+		/// the right margin. It will be up to the user to make adjustments at that point.
 		/// </summary>
-		/// <returns>The calculated extraShareSpace</returns>
 		/// ------------------------------------------------------------------------------------
-		private int CalcExtraColumnSpace(float totalColWidth)
+		private void MakeFinalWidthAdjustments()
 		{
-			// Does this column have some extra space to share?
-			if ((int)totalColWidth < m_MaxColWidth)
-				return (m_MaxColWidth - (int)totalColWidth);
+			// Calculate sum total of all the field widths to see if they all fit in the page width.
+			int preferredPageWidth = 0;
+			foreach (int fldWidth in m_maxFieldWidths.Values)
+				preferredPageWidth += fldWidth;
 
-			m_largeColCount++;
-			return 0;
-		}
+			// Add in the padding for each cell.
+			//if (m_exportFormat == ExportFormat.Table)
+			preferredPageWidth += (m_colRightPadding * (m_maxFieldWidths.Count - 1));
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get the extra column space.
-		/// </summary>
-		/// <returns>The calculated extraShareSpace</returns>
-		/// ------------------------------------------------------------------------------------
-		private int ExtraSpaceToShare()
-		{
-			int extraShareSpace = 0;
-			float totalColWidth = 0;
+			// By default, if the data is too wide for portrait, landscape is tried.
+			bool tryLandscapeWhenDataTooWide = PaApp.SettingsHandler.GetBoolSettingsValue(
+				"RTFExport", "trylandscape", true);
 
-			// Calculate the new maximum column width
-			m_MaxColWidth = kMaxPageWidth / m_maxColumnWidths.Count;
-
-			foreach (int colWidth in m_maxColumnWidths.Values)
+			if (preferredPageWidth > m_pageWidth && tryLandscapeWhenDataTooWide)
 			{
-				totalColWidth = (colWidth / m_pixelsPerInch) * kTwipsPerInch +
-					(m_exportFormat == ExportFormat.Table ? kDistBetweenCols : 0);
-				extraShareSpace += CalcExtraColumnSpace(totalColWidth);
+				m_rtfBldr.AppendLine(@"\landscape");
+				int tmp = m_paperWidth;
+				m_paperWidth = m_paperHeight;
+				m_paperHeight = tmp;
+				tmp = m_leftMargin;
+				m_leftMargin = m_topMargin;
+				m_topMargin = m_rightMargin;
+				m_rightMargin = m_bottomMargin;
+				m_bottomMargin = tmp;
+				m_pageWidth = m_paperWidth - (m_leftMargin + m_rightMargin);
 			}
 
-			// Subtract the "kDistBetweenCols" padding from the last column
-			if ((int)totalColWidth < m_MaxColWidth)
-				extraShareSpace -= kDistBetweenCols;
+			// By default, the paper width will not be set to a
+			// custom width in order to accomodate all the data.
+			bool useCustomPaperWidth = PaApp.SettingsHandler.GetBoolSettingsValue(
+				"RTFExport", "usecustompaperwidth", false);
 
-			return extraShareSpace;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Size the Phonetic Column so that it is just wide enough for the longest word.
-		/// </summary>
-		/// <param name="columnTwipWidth">float</param>
-		/// <param name="columnStartPoint">float</param>
-		/// <returns>the columnStartPoint</returns>
-		/// ------------------------------------------------------------------------------------
-		private float SizePhoneticColumn(float columnTwipWidth, float columnStartPoint)
-		{
-			m_numberOfColumns++;
-			if (m_cache != null) // for testing
-				if (!m_cache.IsForSearchResults)
-					columnTwipWidth += 30; // Fudge Factor
-
-			// Make sure the Phonetic column width is always just long enough so there is NO wrapping
-			return columnStartPoint + columnTwipWidth;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shorten the column widths.
-		/// </summary>
-		/// <param name="columnTwipWidth">float</param>
-		/// <param name="columnStartPoint">float</param>
-		/// <param name="fieldInfo">string</param>
-		/// <returns>the columnStartPoint</returns>
-		/// ------------------------------------------------------------------------------------
-		private float ShortenColumns(float columnTwipWidth, float columnStartPoint,
-			PaFieldInfo fieldInfo)
-		{
-			if (fieldInfo.IsPhonetic)
-				return SizePhoneticColumn(columnTwipWidth, columnStartPoint);
-
-			// There is no extra space to share
-			if (m_extraSpaceToShare == 0)
-				return columnStartPoint + m_MaxColWidth;
-
-			if (m_numberOfColumns < m_maxColumnWidths.Count)
+			if (preferredPageWidth > m_pageWidth && useCustomPaperWidth)
 			{
-				m_numberOfColumns++;
-				// Calculate the extra space per large column
-				int extraSpacePerLargeCol = m_extraSpaceToShare / m_largeColCount;
-				
-				int neededWidth = (int)columnTwipWidth +
-					(m_exportFormat == ExportFormat.Table ? kDistBetweenCols : 0);
-
-				if (neededWidth > m_MaxColWidth)
-				{
-					// The large column needs some extra space
-					if (neededWidth - m_MaxColWidth > 0)
-						columnStartPoint += m_MaxColWidth + extraSpacePerLargeCol;
-				}
-				else
-					// The column is smaller than the maximum column width
-					columnStartPoint += neededWidth;
-
-				// Last column processing
-				if (m_numberOfColumns == m_maxColumnWidths.Count)
-				{
-					// Remove the "kDistBetweenCols" padding if the last column has a shorter width
-					if (columnTwipWidth < m_MaxColWidth)
-						neededWidth -= kDistBetweenCols;
-					
-					columnStartPoint += neededWidth;
-					
-					// Don't ever go past the kMaxPageWidth
-					if (columnStartPoint > kMaxPageWidth)
-						columnStartPoint = kMaxPageWidth;
-				}
+				m_paperWidth = preferredPageWidth + (m_leftMargin + m_rightMargin);
+				m_pageWidth = preferredPageWidth;
 			}
 
-			return columnStartPoint;
-		}
+			if (m_exportFormat == ExportFormat.TabDelimited || preferredPageWidth <= m_pageWidth)
+				return;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create the column headers
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void CreateColumnHeaders()
-		{
-			m_rtfBldr.Append(m_exportFormat == ExportFormat.Table ? "\n\\intbl" : "\n");
-			m_rtfBldr.Append("\\f0 \\fs20 {\\b ");
-			//float columnHdrsTwipWidth = 0f;
-			//float maxColHdrTwipWidth = 0;
+			// Default for minimum column width is 1/4" (only applies to non phonetic columns).
+			int minColWidthAllowed = PaApp.SettingsHandler.GetIntSettingsValue(
+				"RTFExport", "minimumcolwidth", 360);
 
-			//foreach (string columnHeader in m_columnHeaders.Values)
+			List<int> colsAtMinWidth = new List<int>();
+			Dictionary<int, int> tmpWidth = new Dictionary<int, int>(m_maxFieldWidths);
 
-			foreach (KeyValuePair<string, string> colHdr in m_columnHeaders)
+			// At this point, we know we're in table mode and we need to shrink the
+			// column widths a little in order for the table to fit within the page
+			// margins. So keep shrinking until all the columns fit or they've all
+			// shrunk to their minimum width. Shrink a twip at a time.
+			while (preferredPageWidth > m_pageWidth &&
+				colsAtMinWidth.Count < m_maxFieldWidths.Count - 1)
 			{
-				// "Grouping By Field"
-				if (colHdr.Key == string.Empty && colHdr.Value == string.Empty)
-					continue;
-
-				if (m_exportFormat == ExportFormat.Table)
-					m_rtfBldr.Append(string.Format(kcellHdr, colHdr.Value));
-				else
+				foreach (KeyValuePair<int, int> fldWidth in tmpWidth)
 				{
-					//maxColHdrTwipWidth =
-					//    ((float)m_maxColumnWidths[colHdr.Key] / m_pixelsPerInch) * kTwipsPerInch;
-					////columnHdrsTwipWidth += (maxColHdrTwipWidth + kDistBetweenCols);
-					//columnHdrsTwipWidth += maxColHdrTwipWidth;
-					//// Don't print out headers past the max page width
-					//if (columnHdrsTwipWidth <= kMaxPageWidth)
-					//{
-						m_rtfBldr.Append(string.Format(ktxHdr, colHdr.Value));
-						m_rtfBldr.Append(ktab);
+					// Skip the phonetic column. It's special.
+					if (fldWidth.Key == m_phoneticColIndex)
+						continue;
 
-						PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colHdr.Key];
-					
-						// This fixes the placement of the columnHeader following 'Phonetic', because
-						// it takes into consideration the extra 2 tab stops for Search Item alignment.
-						if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
-						{
-							m_rtfBldr.Append(ktab);
-							m_rtfBldr.Append(ktab);
-						}
-					//}
-					//columnHdrsTwipWidth += kDistBetweenCols;
-				}
-			}
-
-			if (m_exportFormat == ExportFormat.Table)
-			{
-				m_rtfBldr.AppendLine("} \\row");
-				m_rtfBldr.Append("\\trowd");
-			}
-			else
-				m_rtfBldr.AppendLine("} " + kline);
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Recalculate m_MaxColWidth.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void RecalcMaxColWidth()
-		{
-			// Get the columnTwipWidth of the Phonetic column
-			float phoneticTwipWidth = (m_maxColumnWidths[0] / m_pixelsPerInch) * kTwipsPerInch;
-			if (!m_cache.IsForSearchResults)
-				phoneticTwipWidth += 30; // Fudge Factor
-			m_MaxColWidth = (kMaxPageWidth - (int)phoneticTwipWidth) / (m_maxColumnWidths.Count - 1);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create columns.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private StringBuilder FormatSearchItemTabString(StringBuilder tabFormatBldr, float columnStartPoint)
-		{
-			tabFormatBldr.Append("\\tqr");
-			while (m_createSearchItemTabs != CreateSearchItemTabs.Stop)
-			{
-				if (m_createSearchItemTabs == CreateSearchItemTabs.FirstTab)
-				{
-					if (m_exportFormat == ExportFormat.TabDelimited)
-						m_beforeEnvTwipWidth += columnStartPoint;
-					m_createSearchItemTabs = CreateSearchItemTabs.SecondTab;
-				}
-				else
-					if (m_createSearchItemTabs == CreateSearchItemTabs.SecondTab)
+					// Is the column already at it's minimum width?
+					if (m_maxFieldWidths[fldWidth.Key] <= minColWidthAllowed)
 					{
-						m_createSearchItemTabs = CreateSearchItemTabs.FinishedTabs;
-						m_beforeEnvTwipWidth += 28;
+						if (!colsAtMinWidth.Contains(fldWidth.Key))
+							colsAtMinWidth.Add(fldWidth.Key);
 					}
-
-				tabFormatBldr.Append(string.Format(ktxcell, (int)m_beforeEnvTwipWidth));
-				if (m_createSearchItemTabs == CreateSearchItemTabs.FinishedTabs)
-					m_createSearchItemTabs = CreateSearchItemTabs.Stop;
-			}
-			return tabFormatBldr;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Calculate and set column widths.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetColumnWidths(KeyValuePair<int, int> maxColumnWidth, float totalColumnsWidth)
-		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[maxColumnWidth.Key].Name];
-
-			// Create the 2 tabs for the aligning the Phonetic column's search item
-			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
-				m_tabFormatBldr = FormatSearchItemTabString(m_tabFormatBldr, m_columnStartPoint);
-
-			// Only shorten columns width if the total columns width is greater than kMaxPageWidth
-			float columnTwipWidth = (maxColumnWidth.Value / m_pixelsPerInch) * kTwipsPerInch;
-			
-			if (totalColumnsWidth > kMaxPageWidth && m_exportFormat == ExportFormat.Table)
-				m_columnStartPoint = ShortenColumns(columnTwipWidth, m_columnStartPoint, fieldInfo);
-			else
-				m_columnStartPoint += columnTwipWidth + kDistBetweenCols;
-
-			if (m_exportFormat == ExportFormat.TabDelimited)
-				m_cellFormatBldr.Append(string.Format(ktxcell, (int)m_columnStartPoint)); // set tabs
-			else
-			{
-				// cellLineFormatBldr has the bold underlined header cells
-				m_cellLineFormatBldr.Append(string.Format(kcellLine, (int)m_columnStartPoint));
-			
-				// cellFormatBldr holds the 'normal' formatted cells
-				m_cellFormatBldr.Append(string.Format(kcell, (int)m_columnStartPoint));
+					else
+					{
+						m_maxFieldWidths[fldWidth.Key]--;
+						preferredPageWidth--;
+					}
+				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Create columns.
+		/// Outputs the RTF for columns.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void BuildColumns()
+		private void OutputColumnInformation()
 		{
-			// Reset the maximum column length
-			m_MaxColWidth = 2160;
-			m_numberOfColumns = 0;
-			// Compute the extra space that can be redistributed among the report columns
-			m_extraSpaceToShare = ExtraSpaceToShare();
-
-			// If there is no extra space, recalculate the maxColWidth with the Phonetic column's twip width
-			if (m_extraSpaceToShare == 0)
-				RecalcMaxColWidth();
-
-			// Calculate the total column width to see if it is greater than 6.5 inches
-			float totalColumnsWidth = 0;
-			foreach (int colWidth in m_maxColumnWidths.Values)
-				totalColumnsWidth += (colWidth / m_pixelsPerInch) * kTwipsPerInch +
-				(m_exportFormat == ExportFormat.Table ? kDistBetweenCols : 0);
-
-			//m_maxColumnWidths.Remove(m_maxColumnWidths.Count);
-			foreach (KeyValuePair<int, int> maxColumnWidth in m_maxColumnWidths)
-				SetColumnWidths(maxColumnWidth, totalColumnsWidth);
+			foreach (KeyValuePair<int, int> fldWidth in m_maxFieldWidths)
+				OutputDataColumnWidthInformation(fldWidth.Key, fldWidth.Value);
 
 			if (m_exportFormat == ExportFormat.Table)
 				m_rtfBldr.Append(m_cellLineFormatBldr.ToString());
@@ -632,7 +532,7 @@ namespace SIL.Pa.Controls
 			if (m_exportFormat == ExportFormat.TabDelimited)
 				m_rtfBldr.AppendLine(m_cellFormatBldr.ToString());
 
-			CreateColumnHeaders();
+			OutputDataColumnHeadings();
 
 			if (m_cache.IsForSearchResults)
 				m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
@@ -642,91 +542,106 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Format the cell values.
+		/// Figures out the RTF codes for the specified column and its width.
 		/// </summary>
-		/// <param name="row">Dictionary</param>
 		/// ------------------------------------------------------------------------------------
-		private void FormatCellValues(Dictionary<int, object[]> row)
+		private void OutputDataColumnWidthInformation(int colIndex, int width)
 		{
-			if (m_exportFormat == ExportFormat.Table)
-				m_rtfBldr.Append("\\intbl");
+			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[colIndex].Name];
 
-			foreach (KeyValuePair<int, object[]> col in row)
-			{
-				// "Grouping By Field"
-				if (col.Key == kSilHierGridRowKey)
-				{
-					if (m_exportFormat == ExportFormat.Table)
-						m_rtfBldr.Remove((m_rtfBldr.Length - "\\intbl".Length), "\\intbl".Length);
+			// Create the 2 tabs for the aligning the Phonetic column's search item
+			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
+				m_tabFormatBldr = FormatSearchItemTabString(m_tabFormatBldr, m_columnStartPoint);
 
-					m_rtfBldr.AppendLine("\\trowd" + string.Format(kcell, (int) m_columnStartPoint));
-					m_rtfBldr.Append("\\intbl\\f0 \\fs20 {\\b ");
+			m_columnStartPoint += width + m_colRightPadding;
 
-					// Print the Group Header with the child row counts
-					SilHierarchicalGridRow shgrow =
-						col.Value[(int) ArrayDataType.SilHierarchicalGridRow] as SilHierarchicalGridRow;
-
-					if (shgrow != null)
-					{
-						m_rtfBldr.AppendLine(col.Value[(int) ArrayDataType.GroupingFieldName] +
-							"  " + string.Format(shgrow.CountFormatStrings[0],
-							shgrow.ChildCount) + "\\cell } \\row");
-					}
-
-					m_rtfBldr.Append("\\trowd");
-					if (m_cache.IsForSearchResults)
-						m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
-
-					m_rtfBldr.AppendLine(m_cellFormatBldr.ToString());
-					continue;
-				}
-				string colName = m_grid.Columns[col.Key].Name;
-
-				// "Grouping By Field"
-				if (colName == string.Empty)
-					continue;
-
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colName];
-				int fontNumber = m_fontNumbers[colName];
-				int fontSize = m_fontSizes[colName];
-				string colValue = col.Value[(int)ArrayDataType.GroupingFieldName].ToString().Replace("\\", "\\\\");
-
-				if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
-				{
-					m_rtfBldr.Append(string.Format(
-						(m_exportFormat == ExportFormat.Table ?	kcellValues : ktxValues),
-						fontNumber, fontSize, m_alignedSearchItems[(int)col.Value[(int)ArrayDataType.RecordIndex]]));
-				}
-				else
-				{
-					if (m_exportFormat == ExportFormat.Table)
-						m_rtfBldr.Append(string.Format(kcellValues, fontNumber, fontSize, colValue));
-					else
-					{
-						// Only display the FileName of the WaveFile when TabDelimited export fomat
-						if (fieldInfo.IsAudioFile)
-							colValue = Path.GetFileName(colValue);
-
-						m_rtfBldr.Append(string.Format(ktxValues, fontNumber, fontSize, colValue));
-					}
-				}
-			}
-
-			// Removes the last "\\tab "
 			if (m_exportFormat == ExportFormat.TabDelimited)
-				m_rtfBldr.Remove((m_rtfBldr.Length - 5), 4);
+				m_cellFormatBldr.AppendFormat(ktxcell, (int)m_columnStartPoint); // set tabs
+			else
+			{
+				// cellLineFormatBldr has the bold underlined header cells
+				m_cellLineFormatBldr.AppendFormat(kcellLine, (int)m_columnStartPoint);
 
-			// "Grouping By Field"
-			if (!row.ContainsKey(kSilHierGridRowKey))
-				m_rtfBldr.AppendLine(m_exportFormat == ExportFormat.Table ? "\\row" : kline);
+				// cellFormatBldr holds the 'normal' formatted cells
+				m_cellFormatBldr.AppendFormat(kcell, (int)m_columnStartPoint);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Build the cells.
+		/// Create columns.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void BuildCells()
+		private StringBuilder FormatSearchItemTabString(StringBuilder tabFormatBldr,
+			float columnStartPoint)
+		{
+			tabFormatBldr.Append(@"\tqr");
+			while (m_createSearchItemTabs != CreateSearchItemTabs.Stop)
+			{
+				if (m_createSearchItemTabs == CreateSearchItemTabs.FirstTab)
+				{
+					if (m_exportFormat == ExportFormat.TabDelimited)
+						m_beforeEnvTwipWidth += (int)columnStartPoint;
+
+					m_createSearchItemTabs = CreateSearchItemTabs.SecondTab;
+				}
+				else
+					if (m_createSearchItemTabs == CreateSearchItemTabs.SecondTab)
+					{
+						m_createSearchItemTabs = CreateSearchItemTabs.FinishedTabs;
+						m_beforeEnvTwipWidth += 28;
+					}
+
+				tabFormatBldr.AppendFormat(ktxcell, m_beforeEnvTwipWidth);
+
+				if (m_createSearchItemTabs == CreateSearchItemTabs.FinishedTabs)
+					m_createSearchItemTabs = CreateSearchItemTabs.Stop;
+			}
+
+			return tabFormatBldr;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Create the column headers
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputDataColumnHeadings()
+		{
+			m_rtfBldr.Append(m_exportFormat == ExportFormat.Table ? "\n\\intbl" : "\n");
+			m_rtfBldr.AppendFormat(@"\f{0} \fs{1}", m_uiFontNumber, kheadingFontSize * 2);
+			m_rtfBldr.Append(@"{\b ");
+
+			int i = m_sortedColumns.Count;
+			foreach (DataGridViewColumn col in m_sortedColumns.Values)
+			{
+				if (m_exportFormat == ExportFormat.Table)
+					m_rtfBldr.AppendFormat(kcellHdr, col.HeaderText);
+				else
+				{
+					m_rtfBldr.AppendFormat(ktxHdr, col.HeaderText);
+
+					// Only add a tab after the column heading if the heading is not the last one.
+					if (--i > 0)
+						m_rtfBldr.Append(ktab);
+				}
+			}
+
+			if (m_exportFormat == ExportFormat.TabDelimited)
+				m_rtfBldr.AppendLine("}" + kparagraph);
+			else
+			{
+				m_rtfBldr.AppendLine(@"}\row");
+				m_rtfBldr.Append(@"\trowd");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Output rows of data.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputDataRows()
 		{
 			m_fontSizes = new Dictionary<string, int>();
 
@@ -737,10 +652,151 @@ namespace SIL.Pa.Controls
 			}
 
 			foreach (Dictionary<int, object[]> row in m_wordListRows)
-				FormatCellValues(row);
+				OutputSingleDataRow(row);
 
 			m_rtfBldr.AppendLine("}");
-		}		
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Format the cell values.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputSingleDataRow(Dictionary<int, object[]> row)
+		{
+			if (m_exportFormat == ExportFormat.Table)
+				m_rtfBldr.Append(@"\intbl");
+
+			// Iterate through the cells in the row.
+			foreach (KeyValuePair<int, object[]> col in row)
+			{
+				if (col.Key == kGroupHdgRowToken)
+				{
+					OutputGroupHeading(col.Value);
+					continue;
+				}
+
+				string colName = m_grid.Columns[col.Key].Name;
+				if (colName == string.Empty)
+					continue;
+
+				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colName];
+				int fontNumber = m_fontNumbers[colName];
+				int fontSize = m_fontSizes[colName];
+				string colValue = col.Value[(int)ArrayDataType.GroupingFieldName].ToString().Replace("\\", "\\\\");
+
+				if (m_cache.IsForSearchResults && fieldInfo.IsPhonetic)
+				{
+					m_rtfBldr.AppendFormat((m_exportFormat == ExportFormat.Table ?
+						kcellValues : ktxValues), fontNumber, fontSize,
+						m_alignedSearchItems[(int)col.Value[(int)ArrayDataType.RecordIndex]]);
+				}
+				else
+				{
+					if (m_exportFormat == ExportFormat.Table)
+						m_rtfBldr.AppendFormat(kcellValues, fontNumber, fontSize, colValue);
+					else
+					{
+						// Only display the FileName of the WaveFile when TabDelimited export fomat
+						if (fieldInfo.IsAudioFile)
+							colValue = Path.GetFileName(colValue);
+
+						m_rtfBldr.AppendFormat(ktxValues, fontNumber, fontSize, colValue);
+					}
+				}
+			}
+
+			// Removes the last "{\tab}"
+			if (m_exportFormat == ExportFormat.TabDelimited)
+			{
+				if (m_rtfBldr.ToString().EndsWith(ktab))
+					m_rtfBldr.Remove((m_rtfBldr.Length - ktab.Length), ktab.Length);
+			}
+
+			if (!row.ContainsKey(kGroupHdgRowToken))
+				m_rtfBldr.AppendLine(m_exportFormat == ExportFormat.Table ? @"\row" : kline);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Outputs a group heading row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputGroupHeading(object[] col)
+		{
+			// Print the group heading with the child row counts
+			SilHierarchicalGridRow shgrow =
+				col[(int)ArrayDataType.SilHierarchicalGridRow] as SilHierarchicalGridRow;
+
+			if (shgrow == null)
+				return;
+
+			// Get the font number and size for the group heading text.
+			string groupFieldName = null;
+			PaWordListGrid grid = m_grid as PaWordListGrid;
+
+			if (grid != null && grid.GroupByField != null)
+				groupFieldName = grid.GroupByField.FieldName;
+			else if (m_cache.IsCIEList)
+				groupFieldName = PaApp.FieldInfo.PhoneticField.FieldName;
+			
+			int fontNumber = (string.IsNullOrEmpty(groupFieldName) ? 0 : m_fontNumbers[groupFieldName]);
+			int fontSize = (string.IsNullOrEmpty(groupFieldName) ? 20 : m_fontSizes[groupFieldName]);
+
+			if (m_exportFormat == ExportFormat.Table)
+			{
+				m_rtfBldr.Remove((m_rtfBldr.Length - @"\intbl".Length), @"\intbl".Length);
+				m_rtfBldr.AppendLine(@"\trowd");
+				m_rtfBldr.AppendFormat(kcell, (int)m_columnStartPoint);
+				m_rtfBldr.AppendLine(@"\intbl");
+			}
+			else
+			{
+				// Make sure a group header starts a new paragraph.
+				int len = 0;
+				string rtf = m_rtfBldr.ToString();
+				if (rtf.EndsWith(kline))
+					len = kline.Length;
+				else if (rtf.EndsWith(kline + Environment.NewLine))
+					len = kline.Length + Environment.NewLine.Length;
+					
+				if (len > 0)
+				{
+					m_rtfBldr.Remove(m_rtfBldr.Length - len, len);
+					m_rtfBldr.AppendLine(kparagraph);
+				}
+			}
+
+			// By default, put 12 points of space between the
+			// group heading and the row above it.
+			int spaceB4GrpHdg = PaApp.SettingsHandler.GetIntSettingsValue(
+				"RTFExport", "spacebeforegroupheading", 240);
+
+			m_rtfBldr.AppendFormat(@"\sb{0}\f{1} \fs{2}{{\b ", spaceB4GrpHdg, fontNumber, fontSize);
+			m_rtfBldr.Append(col[(int)ArrayDataType.GroupingFieldName]);
+			m_rtfBldr.Append("  ");
+			m_rtfBldr.AppendFormat(shgrow.CountFormatStrings[0], shgrow.ChildCount);
+			m_rtfBldr.Append("}");
+
+			if (m_exportFormat == ExportFormat.Table)
+				m_rtfBldr.Append(@"\cell\row\trowd");
+			else
+			{
+				// Underline the group heading, by default.
+				if (PaApp.SettingsHandler.GetBoolSettingsValue("RTFExport",	"brdrundergroupheading", true))
+					m_rtfBldr.Append(@"\brdrb\brdrs\brdrw10\brsp20");
+
+				m_rtfBldr.Append(kparagraph);
+			}
+
+			m_rtfBldr.AppendLine();
+			m_rtfBldr.Append(@"\sb0");
+
+			if (m_cache.IsForSearchResults)
+				m_rtfBldr.AppendLine(m_tabFormatBldr.ToString());
+
+			m_rtfBldr.AppendLine(m_cellFormatBldr.ToString());
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -795,11 +851,8 @@ namespace SIL.Pa.Controls
 				{
 					string msg = string.Format(Properties.Resources.kstidRtfInvalidEditor, m_rtfEditor);
 					MessageBox.Show(msg, kInvalidEditor, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-					return;
 				}
 			}
-
-			return;
 		}
 
 		#endregion
