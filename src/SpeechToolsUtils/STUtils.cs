@@ -128,6 +128,16 @@ namespace SIL.SpeechTools.Utils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Displays a speech tools message box with just an OK button and an information icon.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DialogResult STMsgBox(string msg)
+		{
+			return STMsgBox(msg, MessageBoxButtons.OK);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Displays a speech tools message box with an icon that is determined by the buttons.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

@@ -48,6 +48,7 @@ namespace SIL.Pa.Controls
 		private string m_dataSourcePathFieldName;
 		private PaFieldInfo m_groupByField = null;
 		private Font m_groupHeadingFont = null;
+		private Label m_noCIEResultsMsg;
 
 		private bool m_allGroupsCollapsed = false;
 		private bool m_allGroupsExpanded = true;
@@ -301,7 +302,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry GetRecord()
 		{
-			return (CurrentRow == null ? null : GetRecord(CurrentRow.Index));
+			return (CurrentRow == null || m_cache == null || m_cache.IsEmpty ?
+				null : GetRecord(CurrentRow.Index));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -755,6 +757,19 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Overridden methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (e.Button == MouseButtons.Right)
+				Focus();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -2105,6 +2120,7 @@ namespace SIL.Pa.Controls
 
 				if (!CIEViewOn())
 				{
+					ManageNoCIEResultsMessage(false);
 					m_cache.Sort(m_sortOptions);
 					RefreshRows(true);
 					return false;
@@ -2130,19 +2146,29 @@ namespace SIL.Pa.Controls
 			CIEBuilder builder = new CIEBuilder(m_cache, m_sortOptions, m_cieOptions);
 			WordListCache cieCache = builder.FindMinimalPairs();
 
-			if (cieCache == null || cieCache.Count <= 1)
+			// This should never happen.
+			if (cieCache == null)
 			{
-				string msg = Properties.Resources.kstidNoMinimalPairsMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
 				return false;
+			}
+
+			if (cieCache.Count > 1)
+			{
+				if (m_noCIEResultsMsg != null)
+					ManageNoCIEResultsMessage(false);
 			}
 			else
 			{
-				m_backupCache = m_cache;
-				m_cache = cieCache;
-				RefreshRows(true);
-				PaApp.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
+				cieCache.Clear();
+				if (m_noCIEResultsMsg == null)
+					ManageNoCIEResultsMessage(true);
 			}
+
+			m_backupCache = m_cache;
+			m_cache = cieCache;
+			RefreshRows(true);
+			PaApp.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
 
 			return true;
 		}
@@ -2156,12 +2182,57 @@ namespace SIL.Pa.Controls
 		{
 			if (m_backupCache != null)
 			{
+				ManageNoCIEResultsMessage(false);
 				m_cache = m_backupCache;
 				m_backupCache = null;
 				m_cache.Sort(m_sortOptions);
 				RefreshRows(true);
 				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ManageNoCIEResultsMessage(bool show)
+		{
+			// If the message isn't showing and we're supposed to
+			// turn it off, then there's nothing to be done.
+			if (!show && m_noCIEResultsMsg == null)
+				return;
+			
+			STUtils.SetWindowRedraw(this, false, false);
+
+			if (!show)
+			{
+				RowHeadersVisible = true;
+				ColumnHeadersVisible = true;
+				BackgroundColor = SystemColors.Window;
+				Controls.Remove(m_noCIEResultsMsg);
+				m_noCIEResultsMsg.Dispose();
+				m_noCIEResultsMsg = null;
+			}
+			else
+			{
+				RowHeadersVisible = false;
+				ColumnHeadersVisible = false;
+				BackgroundColor = SystemColors.Control;
+				m_noCIEResultsMsg = new Label();
+				m_noCIEResultsMsg.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+				m_noCIEResultsMsg.AutoSize = false;
+				m_noCIEResultsMsg.Dock = DockStyle.Fill;
+				m_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+				m_noCIEResultsMsg.Text = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidNoMinimalPairsMsg);
+				m_noCIEResultsMsg.BackColor = Color.Transparent;
+				m_noCIEResultsMsg.MouseDown += delegate { Focus(); };
+				Controls.Add(m_noCIEResultsMsg);
+				m_noCIEResultsMsg.BringToFront();
+				PaApp.MsgMediator.SendMessage("NoCIEResultsShowing", this);
+			}
+
+			STUtils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2184,7 +2255,7 @@ namespace SIL.Pa.Controls
 		{
 			Rows.Clear();
 
-			if (m_cache == null || m_cache.Count == 0)
+			if (m_cache == null || m_cache.IsEmpty)
 				return;
 
 			for (int i = 0; i < m_cache.Count; i++)
@@ -2208,6 +2279,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual void Sort(string colName, bool changeSortDirection)
 		{
+			if (Cache == null || Cache.IsEmpty)
+				return;
+
 			// Remove the SortGlyph from the previous sort column header
 			foreach (DataGridViewColumn col in Columns)
 				col.HeaderCell.SortGlyphDirection = SortOrder.None;
@@ -2268,7 +2342,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ToggleGroupExpansion(bool expand, bool forceStateChange)
 		{
-			if (!IsGroupedByField && !m_cache.IsCIEList)
+			if (!IsGroupedByField && (!m_cache.IsCIEList || m_cache.IsEmpty))
 				return;
 
 			STUtils.SetWindowRedraw(this, false, false);

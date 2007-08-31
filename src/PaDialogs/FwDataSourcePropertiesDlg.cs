@@ -354,7 +354,7 @@ namespace SIL.Pa.Dialogs
 					return true;
 			}
 
-			STUtils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg, MessageBoxButtons.OK);
+			STUtils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg);
 			return false;
 		}
 

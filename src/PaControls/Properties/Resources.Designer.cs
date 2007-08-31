@@ -664,11 +664,20 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No minimal pairs to display..
+        ///   Looks up a localized string similar to No minimal pairs to display.\nChange the minimal pairs options and try again..
         /// </summary>
         internal static string kstidNoMinimalPairsMsg {
             get {
                 return ResourceManager.GetString("kstidNoMinimalPairsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No minimal pairs to display..
+        /// </summary>
+        internal static string kstidNoMinimalPairsPopupMsg {
+            get {
+                return ResourceManager.GetString("kstidNoMinimalPairsPopupMsg", resourceCulture);
             }
         }
         

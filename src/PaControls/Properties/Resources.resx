@@ -362,7 +362,12 @@
     <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
   </data>
   <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
+    <value>No minimal pairs to display.\nChange the minimal pairs options and try again.</value>
+    <comment>Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show.</comment>
+  </data>
+  <data name="kstidNoMinimalPairsPopupMsg" xml:space="preserve">
     <value>No minimal pairs to display.</value>
+    <comment>The user should never really see this message. :o)</comment>
   </data>
   <data name="kstidNoSavedSearchPatternsMsg" xml:space="preserve">
     <value>No Saved Search Patterns</value>

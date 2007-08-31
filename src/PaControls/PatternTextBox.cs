@@ -46,6 +46,7 @@ namespace SIL.Pa.Controls
 			m_downArrow = Properties.Resources.kimidPatternTextBoxDownArrow;
 			m_upArrow = Properties.Resources.kimidPatternTextBoxUpArrow;
 
+			DoubleBuffered = true;
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			InitializeComponent();
 
@@ -348,7 +349,6 @@ namespace SIL.Pa.Controls
 			pt.Y = 0;
 
 			Rectangle rc = new Rectangle(pt, new Size(m_upArrow.Width, m_upArrow.Height));
-
 			e.Graphics.DrawImageUnscaledAndClipped(m_downArrow, rc);
 
 			rc.Y = txtPattern.Bottom;
@@ -363,11 +363,10 @@ namespace SIL.Pa.Controls
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
+			txtPattern.Top = (Height - txtPattern.Height) / 2;
 
-			if (m_ignoreResize)
-				return;
-
-			txtPattern.Width = Width - (Padding.Left * 2);
+			if (!m_ignoreResize)
+				txtPattern.Width = Width - (Padding.Left * 2);
 		}
 
 		#endregion

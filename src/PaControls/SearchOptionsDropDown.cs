@@ -85,16 +85,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected void LayoutDropDown()
 		{
-			Padding grpPadding = new Padding(8);
-			grpStress.Padding = grpStress.Padding = grpTone.Padding = grpLength.Padding;
+			Padding grpPadding = new Padding(7, 8, 7, 7);
+			grpStress.Padding = grpTone.Padding = grpLength.Padding = grpPadding;
 
 			// Difference between the height of the picker controls
 			// and the group in which they are contained.
-			int dyGrpPickerDiff = 13 + (grpTone.Padding.Top * 2);
+			int dyGrpPickerDiff = stressPicker.Top + grpPadding.Bottom;
 
 			// Difference between the width of the picker controls
 			// and the group in which they are contained.
-			int dxGrpPickerDiff = grpTone.Padding.Left * 2;
+			int dxGrpPickerDiff = grpPadding.Left + grpPadding.Right;
 
 			// Get the difference between a group's left edge and the
 			// left edge of the check box associated with that group.

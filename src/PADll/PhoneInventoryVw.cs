@@ -85,6 +85,10 @@ namespace SIL.Pa
 			PaApp.IncProgressBar();
 			PaApp.UninitializeProgressBar();
 
+			Padding pdg = splitChanges.Panel2.Padding;
+			splitChanges.Panel2.Padding = new Padding(pdg.Left, pdg.Top,
+				pdg.Right, btnApply.Height + 5);
+
 			base.DoubleBuffered = true;
 			Disposed += PhoneInventoryWnd_Disposed;
 			gridPhones.Focus();

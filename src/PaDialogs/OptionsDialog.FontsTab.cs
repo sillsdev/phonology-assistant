@@ -165,7 +165,7 @@ namespace SIL.Pa.Dialogs
 			}
 			catch (ArgumentException err)
 			{
-				STUtils.STMsgBox(err.Message, MessageBoxButtons.OK);
+				STUtils.STMsgBox(err.Message);
 
 				if (prevFont == null)
 					return;

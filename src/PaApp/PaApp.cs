@@ -1584,7 +1584,7 @@ namespace SIL.Pa
 			}
 
 			if (msg != null && showErrMsg)
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(msg);
 
 			return (msg == null);
 		}

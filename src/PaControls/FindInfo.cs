@@ -70,6 +70,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public static void ResetStartSearchCell(bool updateColIndexes)
 		{
+			if (m_grid == null)
+				return;
+
 			if (updateColIndexes)
 				UpdateColumnIndexes();
 
@@ -414,10 +417,8 @@ namespace SIL.Pa.Controls
 				if (m_iRow == m_startRow && !m_firstMatch)
 				{
 					if (m_showMessages)
-					{
-						STUtils.STMsgBox(
-							Properties.Resources.kstidFindDataNotFound + m_findText, MessageBoxButtons.OK);
-					}
+						STUtils.STMsgBox(Properties.Resources.kstidFindDataNotFound + m_findText);
+					
 					return true;
 				}
 			}
@@ -529,7 +530,7 @@ namespace SIL.Pa.Controls
 			catch (Exception ex)
 			{
 				if (m_showMessages)
-					STUtils.STMsgBox(ex.Message, MessageBoxButtons.OK);
+					STUtils.STMsgBox(ex.Message);
 			}
 
 			return false;
@@ -559,7 +560,7 @@ namespace SIL.Pa.Controls
 				{
 					// Display message that all records have been searched
 					if (m_showMessages)
-						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching, MessageBoxButtons.OK);
+						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
 					m_firstMatchedRow = cell.RowIndex;
 					m_firstMatchedCol = cell.ColumnIndex;
 				}
@@ -576,7 +577,7 @@ namespace SIL.Pa.Controls
 					m_doneFinding = true;
 					// Display message that all records have been searched
 					if (m_showMessages)
-						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching, MessageBoxButtons.OK);
+						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
 					return true;
 				}
 				else

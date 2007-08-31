@@ -63,6 +63,7 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand.Paint += HandlePanelPaint;
 			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
 			m_pnlHdrBand.Click += HandleClick;
+			m_pnlHdrBand.MouseDown += delegate { HandleClick(null, null); };
 			Controls.Add(m_pnlHdrBand);
 
 			// Create the panel that holds all the tabs. 
@@ -224,15 +225,6 @@ namespace SIL.Pa.Controls
 			m_tooltip.SetToolTip(m_btnClose, Properties.Resources.kstidCloseActiveTabButtonToolTip);
 			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
 			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
-
-			foreach (SearchResultTab tab in m_tabs)
-			{
-				if (tab.CIEOptionsButton != null)
-				{
-					m_tooltip.SetToolTip(tab.CIEOptionsButton,
-					   Properties.Resources.kstidCIEOptionsButtonToolTip);
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -422,7 +414,7 @@ namespace SIL.Pa.Controls
 		{
 			tab.Dock = DockStyle.Left;
 			tab.Click += tab_Click;
-			tab.MouseDown += tab_MouseDown;
+			tab.MouseDown += HandleMouseDown;
 			InitializeTab(tab, tab.ResultView, false);
 			m_pnlTabs.Controls.Add(tab);
 			tab.BringToFront();
@@ -461,6 +453,7 @@ namespace SIL.Pa.Controls
 				tab.ResultView = resultView;
 				tab.ResultView.Size = new Size(Width, Height - m_pnlHdrBand.Height);
 				tab.ResultView.Click += HandleClick;
+				tab.ResultView.MouseDown += HandleMouseDown;
 				Controls.Add(resultView);
 				AdjustTabContainerWidth();
 				resultView.BringToFront();
@@ -545,10 +538,13 @@ namespace SIL.Pa.Controls
 			if (m_pnlTabs.Controls.Contains(tab))
 			{
 				tab.Click -= tab_Click;
-				tab.MouseDown -= tab_MouseDown;
+				tab.MouseDown -= HandleMouseDown;
 
 				if (tab.ResultView != null)
+				{
 					tab.ResultView.Click -= HandleClick;
+					tab.ResultView.MouseDown -= HandleMouseDown;
+				}
 
 				if (Controls.Contains(tab.ResultView))
 					Controls.Remove(tab.ResultView);
@@ -676,10 +672,15 @@ namespace SIL.Pa.Controls
 		/// Also make sure the tab becomes the current tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void tab_MouseDown(object sender, MouseEventArgs e)
+		void HandleMouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
-				tab_Click(sender, null);
+			{
+				if (sender is SearchResultView)
+					tab_Click(m_currTab, null);
+				else
+					tab_Click(sender, null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1325,6 +1326,7 @@ namespace SIL.Pa.Controls
 		private bool m_tabTextClipped = false;
 		private Image m_image;
 		private XButton m_btnCIEOptions;
+		private ToolTip m_CIEButtonToolTip;
 		private CustomDropDown m_cieOptionsDropDownContainer;
 		private CIEOptionsDropDown m_cieOptionsDropDown;
 		private Color m_activeTabInactiveGroupBack1;
@@ -1365,6 +1367,8 @@ namespace SIL.Pa.Controls
 			m_btnCIEOptions.Visible = false;
 			m_btnCIEOptions.Left = kleftImgMargin;
 			m_btnCIEOptions.Click += m_btnCIEOptions_Click;
+			m_btnCIEOptions.MouseEnter += m_btnCIEOptions_MouseEnter;
+			m_btnCIEOptions.MouseLeave += m_btnCIEOptions_MouseLeave;
 			Controls.Add(m_btnCIEOptions);
 			GetTabColors();
 		}
@@ -2207,6 +2211,31 @@ namespace SIL.Pa.Controls
 				m_owningTabGroup.SelectTab(this, true);
 
 			ShowCIEOptions();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_btnCIEOptions_MouseLeave(object sender, EventArgs e)
+		{
+			m_CIEButtonToolTip.Hide(this);
+			m_CIEButtonToolTip.Dispose();
+			m_CIEButtonToolTip = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_btnCIEOptions_MouseEnter(object sender, EventArgs e)
+		{
+			m_CIEButtonToolTip = new ToolTip();
+			Point pt = PointToClient(MousePosition);
+			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
+			m_CIEButtonToolTip.Show(Properties.Resources.kstidCIEOptionsButtonToolTip, this, pt);
 		}
 
 		/// ------------------------------------------------------------------------------------

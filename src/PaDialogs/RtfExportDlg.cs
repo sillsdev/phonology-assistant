@@ -301,7 +301,7 @@ namespace SIL.Pa.Dialogs
 		{
 			if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
 				return;
 			}
 

@@ -73,7 +73,7 @@ namespace SIL.Pa.Controls
 				string filePath = STUtils.PrepFilePathForSTMsgBox(m_xslFileBase);
 				STUtils.STMsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
-					filePath), MessageBoxButtons.OK);
+					filePath));
 				return false;
 			}
 
@@ -185,7 +185,7 @@ namespace SIL.Pa.Controls
 			catch (Exception e)
 			{
 				// Of course, you know we should never get here. :o)
-				STUtils.STMsgBox(e.Message, MessageBoxButtons.OK);
+				STUtils.STMsgBox(e.Message);
 			}
 			finally
 			{

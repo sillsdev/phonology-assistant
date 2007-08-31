@@ -55,10 +55,7 @@ namespace SIL.Pa
 			else if (sourceType == DataSourceType.SA)
 				EditRecordInSA(wcentry, callingApp);
 			else
-			{
-				string msg = Properties.Resources.kstidUnableToEditSourceRecordMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
-			}
+				STUtils.STMsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,7 +130,7 @@ namespace SIL.Pa
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
 					STUtils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
 				
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(msg);
 			    return;
 			}
 
@@ -142,8 +139,7 @@ namespace SIL.Pa
 			// Get the record field whose value will tell us what record to jump to.
 			if (string.IsNullOrEmpty(sortField))
 			{
-				string msg = Properties.Resources.kstidNoToolboxSortFieldSpecified;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
 				return;
 			}
 
@@ -152,8 +148,7 @@ namespace SIL.Pa
 			if (fieldInfo == null)
 			{
 				string msg = Properties.Resources.kstidInvalidToolboxSortField;
-				msg = string.Format(msg, sortField);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(string.Format(msg, sortField));
 				return;
 			}
 
@@ -243,7 +238,7 @@ namespace SIL.Pa
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.AudioFileField;
 			if (fieldInfo == null)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidNoAudioField, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidNoAudioField);
 				return;
 			}
 
@@ -251,8 +246,7 @@ namespace SIL.Pa
 			string audioFile = wcentry[fieldInfo.FieldName];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidAudioFileMissingMsg,
-					MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidAudioFileMissingMsg);
 				return;
 			}
 
@@ -260,7 +254,7 @@ namespace SIL.Pa
 			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidSAMissingMsg);
 				return;
 			}
 

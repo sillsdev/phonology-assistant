@@ -214,8 +214,7 @@ namespace SIL.Pa.Data
 					// Check if we've timed out.
 					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
 					{
-						msg = string.Format(Resources.kstidErrorStartingSQLServer1, msg);
-						STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+						STUtils.STMsgBox(string.Format(Resources.kstidErrorStartingSQLServer1, msg));
 						return false;
 					}
 
@@ -776,8 +775,7 @@ namespace SIL.Pa.Data
 			if (s_fwqueries == null)
 			{
 				string filePath = STUtils.PrepFilePathForSTMsgBox(s_queryFile);
-				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg,
-					filePath), MessageBoxButtons.OK);
+				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
 			}
 		}
 

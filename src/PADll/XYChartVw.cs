@@ -222,7 +222,7 @@ namespace SIL.Pa
 					{
 						string msg = string.Format(
 							Properties.Resources.kstidSavedChartNameAlreadyExistsMsg, nameToCheck);
-						STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+						STUtils.STMsgBox(msg);
 					}
 					
 					return savedLayout;
@@ -592,10 +592,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(row, col, SearchResultLocation.CurrentTabGroup);
 			else
-			{
-				string msg = Properties.Resources.kstidXYChartFillChartMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
-			}
+				STUtils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -617,10 +614,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(m_xyGrid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			else
-			{
-				string msg = Properties.Resources.kstidXYChartFillChartMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
-			}
+				STUtils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 
 			e.Handled = true;
 		}

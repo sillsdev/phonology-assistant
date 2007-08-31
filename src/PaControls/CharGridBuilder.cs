@@ -100,7 +100,7 @@ namespace SIL.Pa.Controls
 			{
 				if (m_reloadError)
 				{
-					STUtils.STMsgBox("Error: " + e.Message, MessageBoxButtons.OK);
+					STUtils.STMsgBox("Error: " + e.Message);
 					return null;
 				}
 
@@ -131,9 +131,8 @@ namespace SIL.Pa.Controls
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
-					string msg = string.Format(
-						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType);
-					STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+					STUtils.STMsgBox(string.Format(
+						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType));
 					return;
 				}
 			}

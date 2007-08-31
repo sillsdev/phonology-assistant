@@ -830,8 +830,7 @@ namespace SIL.Pa.Controls
 				}
 				catch (Exception ex)
 				{
-					// Display the error message
-					STUtils.STMsgBox(ex.Message, MessageBoxButtons.OK);
+					STUtils.STMsgBox(ex.Message);
 					return;
 				}
 			}

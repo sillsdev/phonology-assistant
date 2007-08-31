@@ -114,6 +114,16 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool IsEmpty
+		{
+			get { return Count == 0; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Uses the offset and length to build three groups of strings, the phones in the
 		/// environment before, the phones in the environment after and the phones in the
 		/// search item.

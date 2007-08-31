@@ -32,8 +32,7 @@ namespace SIL.Pa
 						}
 						catch (Exception e)
 						{
-							string msg = e.Message + "\n\nUsing default culture.";
-							STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+							STUtils.STMsgBox(e.Message + "\n\nUsing default culture.");
 						}
 
 						args.RemoveAt(i);

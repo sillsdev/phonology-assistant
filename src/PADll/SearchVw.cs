@@ -78,6 +78,11 @@ namespace SIL.Pa
 
 			base.DoubleBuffered = true;
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			ReflectionHelper.SetProperty(splitOuter, "DoubleBuffered", true);
+			ReflectionHelper.SetProperty(splitSideBarInner, "DoubleBuffered", true);
+			ReflectionHelper.SetProperty(splitSideBarOuter, "DoubleBuffered", true);
+			ReflectionHelper.SetProperty(splitResults, "DoubleBuffered", true);
+			
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 			Disposed += ViewDisposed;
 		}

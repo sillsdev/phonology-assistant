@@ -1038,7 +1038,7 @@ namespace SIL.Pa.Controls
 			if (!(m_viewsControl is ITabView))
 			{
 				STUtils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
-					m_viewType), MessageBoxButtons.OK);
+					m_viewType));
 			}
 
 			try

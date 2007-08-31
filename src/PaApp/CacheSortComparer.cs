@@ -410,13 +410,6 @@ namespace SIL.Pa
 			if (x == null && y == null)
 				return 0;
 
-			if ((x["Reference"] == "SwahiliFrame.142" && y["Reference"] == "SwahiliFrame.140") ||
-				(y["Reference"] == "SwahiliFrame.142" && x["Reference"] == "SwahiliFrame.140"))
-			{
-				System.Diagnostics.Debug.WriteLine("");
-			}
-
-
 			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].ascending : true);
 
 			if (x == null)

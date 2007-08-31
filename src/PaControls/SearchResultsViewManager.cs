@@ -338,7 +338,8 @@ namespace SIL.Pa.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
-				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList)));
+				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList &&
+				!CurrentViewsGrid.Cache.IsEmpty)));
 
 			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsExpanded))
 			{
@@ -378,7 +379,8 @@ namespace SIL.Pa.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && (CurrentViewsGrid.IsGroupedByField ||
-				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList)));
+				(CurrentViewsGrid.Cache != null && CurrentViewsGrid.Cache.IsCIEList &&
+				!CurrentViewsGrid.Cache.IsEmpty)));
 
 			if (itemProps.Enabled != (enable && !CurrentViewsGrid.AllGroupsCollapsed))
 			{
@@ -1234,20 +1236,6 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Called when sort options change.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
-		{
-			if (CurrentViewsGrid != null)
-			{
-				CurrentViewsGrid.SortOptions = sortOptions;
-				m_recView.UpdateRecord(CurrentViewsGrid.GetRecord());
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1283,7 +1271,33 @@ namespace SIL.Pa.Controls
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Called when sort options change.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
+		{
+			if (CurrentViewsGrid != null)
+			{
+				CurrentViewsGrid.SortOptions = sortOptions;
+				m_recView.UpdateRecord(CurrentViewsGrid.GetRecord());
+			}
+		}
+
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This message is received when a word list grid has just looked through its cache
+		/// to find minimal pairs and it couldn't find any.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OnNoCIEResultsShowing(object args)
+		{
+			if (CurrentViewsGrid != null && CurrentViewsGrid == args)
+				m_recView.UpdateRecord(null);
+		}
 
 		#region Playback related methods
 		/// ------------------------------------------------------------------------------------
@@ -1353,17 +1367,14 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCIEResults(object args)
 		{
-			if (!m_view.ActiveView || CurrentViewsGrid == null ||
-				CurrentViewsGrid.Cache == null)
-			{
+			if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
 				return false;
-			}
 
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
 			FindInfo.ResetStartSearchCell(true);
 			FindInfo.CanFindAgain = true;
 
-			if (CurrentViewsGrid.Cache.IsCIEList &&
+			if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
 				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseonminpairs", false))
 			{
 				CurrentViewsGrid.ToggleGroupExpansion(false);
@@ -1384,7 +1395,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				CurrentViewsGrid.RowCount > 2);
+				(CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList));
 
 			bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
 				CurrentViewsGrid.Cache.IsCIEList);

@@ -582,9 +582,15 @@ namespace SIL.Pa
 					enabled = false;
 			}
 
-			itemProps.Visible = true;
-			itemProps.Update = true;
-			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
+			bool enable = (PaApp.Project != null && grid != null && grid.RowCount > 0);
+
+			if (itemProps.Enabled != enable)
+			{
+				itemProps.Enabled = enable;
+				itemProps.Visible = true;
+				itemProps.Update = true;
+			}
+			
 			return true;
 		}
 

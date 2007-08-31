@@ -137,8 +137,7 @@ namespace SIL.Pa.Dialogs
 			string queryName = txtName.Text.Trim();
 			if (string.IsNullOrEmpty(queryName))
 			{
-				string msg = Properties.Resources.kstidNoSavedPatternNameMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -147,8 +146,7 @@ namespace SIL.Pa.Dialogs
 			string categoryName = cboCategories.Text.Trim();
 			if (string.IsNullOrEmpty(categoryName))
 			{
-				string msg = Properties.Resources.kstidNoSavedPatternCategoryMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;

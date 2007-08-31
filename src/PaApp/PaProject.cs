@@ -278,7 +278,7 @@ namespace SIL.Pa
 			{
 				STUtils.STMsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
-					m_name, e.Message), MessageBoxButtons.OK);
+					m_name, e.Message));
 			}
 		}
 

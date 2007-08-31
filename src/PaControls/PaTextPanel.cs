@@ -259,8 +259,6 @@ namespace SIL.Pa.Controls
 
 			if (!string.IsNullOrEmpty(Text))
 			{
-				System.Diagnostics.Debug.WriteLine(Text + "   " + m_rcText);
-
 				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText,
 					SystemColors.ControlText, m_txtFmtFlags);
 			}

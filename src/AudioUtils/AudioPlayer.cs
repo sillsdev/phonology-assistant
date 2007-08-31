@@ -173,7 +173,7 @@ namespace SIL.SpeechTools.AudioUtils
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				STUtils.STMsgBox(Resources.kstidSAMissingMsg, MessageBoxButtons.OK);
+				STUtils.STMsgBox(Resources.kstidSAMissingMsg);
 				return null;
 			}
 
