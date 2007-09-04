@@ -229,10 +229,15 @@ namespace SIL.Pa.Data
 			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 			Assert.AreEqual("\u1D50d", ambigSeqs[1]);
 
-			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("XX\u1D50abc X\u1D50def");
-			Assert.AreEqual(2, ambigSeqs.Count);
-			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
-			Assert.AreEqual("\u1D50d", ambigSeqs[1]);
+			// The code to make the following three asserts pass should be
+			// written at some point, but not now. For now, the problem is
+			// easily dealt with using an explicit ambiguous sequence.
+			
+			// Test with tie bars
+			//ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50t\u035Csab \u1D50t\u0361sab");
+			//Assert.AreEqual(2, ambigSeqs.Count);
+			//Assert.AreEqual("\u1D50t\u035Cs", ambigSeqs[0]);
+			//Assert.AreEqual("\u1D50t\u0361s", ambigSeqs[1]);
 		}
 	}
 }

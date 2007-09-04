@@ -70,6 +70,7 @@ namespace SIL.Pa.Controls
 		private int m_maxFontSize;
 		private int m_maxFontNumber;
 		private int m_lineSpacing;
+		private bool m_useExactLineSpacing = false;
 		private int m_fieldLabelColorRefNumber;
 		private float m_pixelsPerInch;
 		private RecordCacheEntry m_recEntry = null;
@@ -273,9 +274,14 @@ namespace SIL.Pa.Controls
 
 			for (int i = 0; i < m_rowsInCol1; i++)
 			{
-				// The default line spacing is usually larger than necessary, especially if
-				// one of the fonts is Doulos SIL. Therefore, scrunch them together a little.
-				lines.AppendFormat(@"\pard\plain\sl-{0}", m_lineSpacing);
+				lines.AppendLine(@"\pard\plain");
+
+				if (m_useExactLineSpacing)
+				{
+					// The default line spacing is usually larger than necessary, especially if
+					// one of the fonts is Doulos SIL. Therefore, scrunch them together a little.
+					lines.AppendFormat(@"\sl-{0}\slmult0", m_lineSpacing);
+				}
 
 				if (m_rtfFields[i].isInterlinearField)
 				{
@@ -313,14 +319,17 @@ namespace SIL.Pa.Controls
 						lines.Append(ApplyFontStyle(dataFont, false));
 					}
 
-					// Add a zero width space at the end of the line using the largest font so all
-					// the lines will have uniform spacing between. I tried using a regular space
-					// but the RTF control ignored it. I also tried forcing the line spacing using
-					// the \slN RTF code, but that didn't seem to work either. It looked great in
-					// Word, but not the RichTextBox. Grrr!
-					lines.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
-						kZeroWidthSpace);
-					
+					if (m_useExactLineSpacing)
+					{
+						// Add a zero width space at the end of the line using the largest font so all
+						// the lines will have uniform spacing between. I tried using a regular space
+						// but the RTF control ignored it. I also tried forcing the line spacing using
+						// the \slN RTF code, but that didn't seem to work either. It looked great in
+						// Word, but not the RichTextBox. Grrr!
+						lines.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
+							kZeroWidthSpace);
+					}
+
 					lines.AppendLine(@"\par");
 				}
 			}
@@ -336,23 +345,38 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetLargestFontInfo()
 		{
+			m_useExactLineSpacing = PaApp.SettingsHandler.GetBoolSettingsValue(
+				"rtfrecview", "useexactlinespacing", false);
+			
+			if (!m_useExactLineSpacing)
+				return;
+
+			float exactLineHeightMultiplier = PaApp.SettingsHandler.GetIntSettingsValue(
+				"rtfrecview", "percentageofexactlineheighttouse", 1) / 100f;
+						
+			float dpiY;
+			using (Graphics g = CreateGraphics())
+				dpiY = g.DpiY;
+
 			// Figure out which font is the tallest.
 			m_maxFontSize = m_uiFontSize;
 			m_maxFontNumber = m_uiFontNumber;
-			m_lineSpacing = 0;
-			
-			for (int i = 0; i < m_rowsInCol1; i++)
-			{
-				if (m_maxFontSize < m_fontSizes[m_rtfFields[i].field])
-				{
-					m_maxFontSize = m_fontSizes[m_rtfFields[i].field];
-					m_maxFontNumber = m_fontNumbers[m_rtfFields[i].field];
-				}
+			float maxFontHeight = FontHelper.UIFont.GetHeight(dpiY);
 
-				m_lineSpacing = Math.Max(m_lineSpacing, ((m_maxFontSize / 2) * 1440) / 72);
+			for (int i = 0; i < m_rtfFields.Count; i++)
+			{
+				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_rtfFields[i].field];
+
+				if (fieldInfo != null && maxFontHeight < fieldInfo.Font.GetHeight(dpiY))
+				{
+					maxFontHeight = fieldInfo.Font.GetHeight(dpiY);
+					m_maxFontSize = m_fontSizes[m_rtfFields[i].field];
+				    m_maxFontNumber = m_fontNumbers[m_rtfFields[i].field];
+				}
 			}
 
-			m_lineSpacing += 60; // Add 60 twips for the sake of acenders and decenders.
+			m_lineSpacing = (int)((maxFontHeight / 72) * 1440.0);
+			m_lineSpacing = (int)(m_lineSpacing * exactLineHeightMultiplier);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -401,13 +425,16 @@ namespace SIL.Pa.Controls
 			// Strip off the last tab and append the correct line ending marker.
 			bldr.Remove(bldr.Length - 5, 5);
 
-			// Add a zero width space at the end of the line using the largest font so all
-			// the lines will have uniform spacing between. I tried using a regular space
-			// but the RTF control ignored it. I also tried forcing the line spacing using
-			// the \slN RTF code, but that didn't seem to work either. It looked great in
-			// Word, but not the RichTextBox. Grrr!
-			bldr.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
-				kZeroWidthSpace);
+			if (m_useExactLineSpacing)
+			{
+				// Add a zero width space at the end of the line using the largest font so all
+				// the lines will have uniform spacing between. I tried using a regular space
+				// but the RTF control ignored it. I also tried forcing the line spacing using
+				// the \slN RTF code, but that didn't seem to work either. It looked great in
+				// Word, but not the RichTextBox. Grrr!
+				bldr.AppendFormat(@"\fs{0}\f{1} {2}", m_maxFontSize, m_maxFontNumber,
+					kZeroWidthSpace);
+			}
 
 			bldr.AppendLine(@"\par");
 		}

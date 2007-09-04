@@ -60,6 +60,7 @@ namespace SIL.SpeechTools.Utils
 				row.Tag = converter;
 			}
 
+			m_grid.AutoResizeColumnHeadersHeight();
 			BuildConvertersPopupList();
 			AcceptButton = btnOK;
 			CancelButton = btnCancel;

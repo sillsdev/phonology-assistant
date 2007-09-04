@@ -275,6 +275,9 @@ namespace SIL.Pa
 				FwDataReader fwReader = new FwDataReader(m_currDataSource.FwDataSourceInfo);
 				m_currDataSource.SkipLoading = !fwReader.GetData(HandleReadingFwData);
 				m_currDataSource.FwDataSourceInfo.IsMissing = m_currDataSource.SkipLoading;
+			
+				if (!m_currDataSource.SkipLoading && !m_currDataSource.FwDataSourceInfo.IsMissing)
+					m_currDataSource.FwDataSourceInfo.UpdateLastModifiedStamp();
 			}
 		}
 

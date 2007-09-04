@@ -37,6 +37,8 @@ namespace SIL.Pa.Data
 			PronunciationField
 		}
 
+		public static bool ShowMsgWhenGatheringFWInfo = false;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -52,8 +54,9 @@ namespace SIL.Pa.Data
 				
 				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
 
-				SmallFadingWnd msgWnd =
-					new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
+				SmallFadingWnd msgWnd = null;
+				if (ShowMsgWhenGatheringFWInfo)
+					msgWnd = new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
 
 				// Read all the SQL databases from the server's master table.
 				using (SqlConnection connection = FwConnection(FwQueries.MasterTable))
@@ -78,8 +81,11 @@ namespace SIL.Pa.Data
 					}
 				}
 
-				msgWnd.CloseFade();
-				msgWnd.Dispose();
+				if (msgWnd != null)
+				{
+					msgWnd.CloseFade();
+					msgWnd.Dispose();
+				}
 
 				return (fwDBInfoList.Count == 0 ? null : fwDBInfoList.ToArray());
 			}
@@ -310,7 +316,7 @@ namespace SIL.Pa.Data
 				{
 					m_dbName = value;
 					if (m_dbName != null)
-						m_dateLastModified = DateLastModified;
+					    m_dateLastModified = DateLastModified;
 				}
 			}
 		}

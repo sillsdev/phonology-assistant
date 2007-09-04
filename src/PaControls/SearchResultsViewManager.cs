@@ -1395,7 +1395,8 @@ namespace SIL.Pa.Controls
 				return false;
 
 			bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
-				(CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList));
+				(CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList) &&
+				!CurrentViewsGrid.IsGroupedByField);
 
 			bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
 				CurrentViewsGrid.Cache.IsCIEList);

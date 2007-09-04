@@ -77,7 +77,6 @@ namespace SIL.Pa
 			PaApp.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
-			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			ReflectionHelper.SetProperty(splitOuter, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitSideBarInner, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitSideBarOuter, "DoubleBuffered", true);

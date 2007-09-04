@@ -100,6 +100,20 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void CVPatternTest_WithPhonesNotInPhoneCache()
+		{
+			Assert.AreEqual("VCVC", m_cache.GetCVPattern("abec"));
+			Assert.AreEqual("CCVV", m_cache.GetCVPattern("bcea"));
+			Assert.AreEqual("VVCC", m_cache.GetCVPattern("eabc"));
+			Assert.AreEqual("VCVC", m_cache.GetCVPattern("a\u0303be\u0303c"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetCVPattern
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void CVPatternTest_WithSpaces()
 		{
 			m_cache.AddPhone("a");
@@ -239,6 +253,58 @@ namespace SIL.Pa.Data
 			Assert.AreEqual("\u207FCCVV", m_cache.GetCVPattern("\u207Fbcea"));
 			Assert.AreEqual("CV\u0303CV", m_cache.GetCVPattern("ba\u0303ce"));
 			Assert.AreEqual("VCV\u207FC", m_cache.GetCVPattern("eca\u207Fb"));
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetCVPattern
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CVPatternTest_WithExperimentalTrans1()
+		{
+			ExperimentalTrans trans = new ExperimentalTrans("x");
+			trans.TranscriptionsToConvertTo = new List<string>();
+			trans.TranscriptionsToConvertTo.Add("y");
+			trans.CurrentConvertToItem = "y";
+			trans.Convert = true;
+			trans.TreatAsSinglePhone = false;
+
+			DataUtils.IPACharCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
+			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(trans);
+
+			m_cache.AddPhone("a");
+			m_cache.AddPhone("x");
+			m_cache.AddPhone("c");
+			m_cache.AddPhone("e");
+
+			Assert.AreEqual("VVVC", m_cache.GetCVPattern("axec"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetCVPattern
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CVPatternTest_WithExperimentalTrans2()
+		{
+			ExperimentalTrans trans = new ExperimentalTrans("x");
+			trans.TranscriptionsToConvertTo = new List<string>();
+			trans.TranscriptionsToConvertTo.Add("y");
+			trans.CurrentConvertToItem = "y";
+			trans.Convert = true;
+			trans.TreatAsSinglePhone = false;
+
+			DataUtils.IPACharCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
+			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(trans);
+
+			m_cache.AddPhone("a");
+			m_cache.AddPhone("x");
+			m_cache.AddPhone("c");
+			m_cache.AddPhone("e");
+
+			Assert.AreEqual("VCVC", m_cache.GetCVPattern("axec", false));
 		}
 	}
 }

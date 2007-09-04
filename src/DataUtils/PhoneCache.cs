@@ -104,6 +104,23 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the CV pattern for the specified phonetic string.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetCVPattern(string phonetic, bool convertExperimentalTranscriptions)
+		{
+			if (convertExperimentalTranscriptions)
+				return GetCVPattern(DataUtils.IPACharCache.PhoneticParser(phonetic, true));
+
+			Dictionary<int, string[]> uncertainPhones;
+			string[] phones = DataUtils.IPACharCache.PhoneticParser(
+				phonetic, true, false, out uncertainPhones);
+			
+			return GetCVPattern(phones);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the CV pattern for the specified array of phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -122,8 +139,15 @@ namespace SIL.Pa.Data
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
 				{
 					IPACharInfo charInfo = DataUtils.IPACharCache[phone];
-					if (charInfo != null && charInfo.CharType == IPACharacterType.Breaking)
-						bldr.Append(' ');
+					if (charInfo != null)
+					{
+						if (charInfo.CharType == IPACharacterType.Breaking)
+							bldr.Append(' ');
+						else if (charInfo.CharType == IPACharacterType.Consonant)
+							bldr.Append(m_conSymbol);
+						else if (charInfo.CharType == IPACharacterType.Vowel)
+							bldr.Append(m_vowSymbol);
+					}
 				}
 				else if (phoneInfo.CharType == IPACharacterType.Breaking)
 					bldr.Append(' ');

@@ -372,7 +372,6 @@ namespace SIL.Pa
 			OnViewDocked(this);
 			m_initialDock = true;
 			PaApp.UninitializeProgressBar();
-			MinimumSize = PaApp.MinimumViewWindowSize;
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -631,6 +630,16 @@ namespace SIL.Pa
 				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsRTF(object args)
+		{
+			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------

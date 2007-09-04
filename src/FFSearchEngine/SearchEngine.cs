@@ -208,9 +208,6 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			bool success = ptrnGrp.Parse(pattern, m_errors);
 
-			if (m_errors.Count > 0)
-				return;
-
 			string envType = null;
 			switch (ptrnGrp.EnvironmentType)
 			{

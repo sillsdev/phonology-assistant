@@ -138,6 +138,9 @@ namespace SIL.Pa
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
 
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = s_settingsHndlr.GetBoolSettingsValue(
+				"fieldworks", "showmsgwhengatheringinfo", false);
+
 			ReadAddOns();
 		}
 
@@ -1394,6 +1397,18 @@ namespace SIL.Pa
 				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 	
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
+
+			string msg = CombineErrorMessages(modifiedQuery.ErrorMessages.ToArray());
+			if (!string.IsNullOrEmpty(msg))
+			{
+				if (showErrMsg)
+					STUtils.STMsgBox(msg);
+
+				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
+				resultCount = -1;
+				return null;
+			}
+
 			if (!VerifyMiscPatternConditions(engine, showErrMsg))
 			{
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
@@ -1571,22 +1586,33 @@ namespace SIL.Pa
 				msg = Properties.Resources.kstidSrchPatternOneOrMoreError;
 
 			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
-			{
-				StringBuilder errors = new StringBuilder();
-				for (int i = 0; i < engine.ErrorMessages.Length; i++)
-				{
-					errors.Append(engine.ErrorMessages[i]);
-					if (i < engine.ErrorMessages.Length - 1)
-						errors.Append('\n');
-				}
-
-				msg = string.Format(Properties.Resources.kstidPatternParsingErrorMsg, errors);
-			}
+				msg = CombineErrorMessages(engine.ErrorMessages);
 
 			if (msg != null && showErrMsg)
 				STUtils.STMsgBox(msg);
 
 			return (msg == null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines the list of error messages into a single message.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string CombineErrorMessages(string[] errorMessages)
+		{
+			if (errorMessages == null || errorMessages.Length == 0)
+				return null;
+
+			StringBuilder errors = new StringBuilder();
+			for (int i = 0; i < errorMessages.Length; i++)
+			{
+				errors.Append(errorMessages[i]);
+				if (i < errorMessages.Length - 1)
+					errors.Append('\n');
+			}
+
+			return string.Format(Properties.Resources.kstidPatternParsingErrorMsg, errors);
 		}
 
 		/// ------------------------------------------------------------------------------------

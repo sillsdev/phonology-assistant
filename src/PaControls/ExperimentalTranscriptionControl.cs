@@ -1249,8 +1249,13 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ?
-					string.Empty : PaApp.PhoneCache.GetCVPattern(Value as string));
+				// Make sure that when getting the CV pattern for the item to convert, we
+				// first don't convert it using it's own experimental transcription.
+				RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
+				bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
+				
+				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
+					PaApp.PhoneCache.GetCVPattern(Value as string, !isCellForItemToConvert));
 			}
 		}
 	}

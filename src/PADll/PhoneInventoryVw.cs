@@ -1112,8 +1112,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (DataUtils.IPACharCache.AmbiguousSequences == null &&
-					gridAmbiguous.RowCountLessNewRow > 0)
+				if (DataUtils.IPACharCache.AmbiguousSequences == null)
+				{
+					if (gridAmbiguous.RowCountLessNewRow > 0)
+						return true;
+				}
+				else if (DataUtils.IPACharCache.AmbiguousSequences.Count !=
+					gridAmbiguous.RowCountLessNewRow)
 				{
 					return true;
 				}

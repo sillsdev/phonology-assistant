@@ -1485,7 +1485,13 @@ namespace SIL.Pa.Controls
 				m_resultView.Initialize(resultCache);
 				m_query = resultCache.SearchQuery;
 			}
-			
+
+			if (m_btnCIEOptions.Visible)
+			{
+				FindInfo.CanFindAgain = false;
+				m_btnCIEOptions.Visible = m_resultView.Grid.Cache.IsCIEList;
+			}
+
 			AdjustWidth();
 		}
 
