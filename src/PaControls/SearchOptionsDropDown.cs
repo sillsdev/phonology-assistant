@@ -85,7 +85,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected void LayoutDropDown()
 		{
-			Padding grpPadding = new Padding(7, 8, 7, 7);
+			Padding grpPadding = new Padding(7, 7, 7, 7);
 			grpStress.Padding = grpTone.Padding = grpLength.Padding = grpPadding;
 
 			// Difference between the height of the picker controls
@@ -116,6 +116,9 @@ namespace SIL.Pa.Controls
 
 			grpStress.Width = grpTone.Width = maxGrpsWidth;
 			grpLength.Width = grpUncertainties.Width = maxGrpsWidth;
+
+			// Add 24 which is the sum of the group's left and right padding,
+			// plus a margin of 5 on either side of the group boxes.
 			Width = maxGrpsWidth + 24;
 
 			// Center the controls. (Subtract 1 to account for the border.
@@ -128,10 +131,11 @@ namespace SIL.Pa.Controls
 			chkStress.Left = chkTone.Left = newLeft;
 			chkLength.Left = chkIgnoreDiacritics.Left = newLeft;
 
-			// Set heights of groups.
-			grpStress.Height = stressPicker.PreferredHeight + dyGrpPickerDiff;
-			grpTone.Height = tonePicker.PreferredHeight + dyGrpPickerDiff;
-			grpLength.Height = lengthPicker.PreferredHeight + dyGrpPickerDiff;
+			// Set heights of groups. For some reason, adding two
+			// is necessary when using Vista in 120dpi.
+			grpStress.Height = stressPicker.PreferredHeight + dyGrpPickerDiff + 2;
+			grpTone.Height = tonePicker.PreferredHeight + dyGrpPickerDiff + 2;
+			grpLength.Height = lengthPicker.PreferredHeight + dyGrpPickerDiff + 2;
 
 			// Set tops of groups.
 			grpTone.Top = grpStress.Bottom + 15;
