@@ -337,7 +337,7 @@ namespace SIL.SpeechTools.Utils
 			else
 				grid.ColumnHeadersHeight = colHdrHeight;
 
-			return true;
+			return (dpi == m_currSystemDpi);
 		}
 
 		#endregion
