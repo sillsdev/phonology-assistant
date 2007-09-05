@@ -162,7 +162,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdHelpTraining" message="HelpHelpTraining" category="kstidHelpCategory"/>
 		<command id="CmdHelpAbout" message="HelpAbout" category="kstidHelpCategory"/>
 		<command id="CmdStudentManual" message="StudentManual" category="kstidHelpCategory"/>
-		<command id="CmdExercises" message="Exercises" category="kstidHelpCategory"/>
 		<command id="CmdInstructorGuide" message="InstructorGuide" category="kstidHelpCategory"/>
 		<command id="CmdShowGridColumns" message="ShowGridColumns" category="kstidViewCategory"/>
 		<command id="CmdShowGridLines" message="ShowGridLines" category="kstidViewCategory"/>
@@ -258,7 +257,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuHelpPA" commandid="CmdHelpPA"/>
 			<item name="mnuHelpTraining" commandid="CmdHelpTraining">
 				<item name="mnuStudentManual" commandid="CmdStudentManual"/>
-				<item name="mnuExercises" commandid="CmdExercises"/>
 				<item name="mnuInstructorGuide" commandid="CmdInstructorGuide"/>
 			</item>
 			<item name="mnuHelpAbout" commandid="CmdHelpAbout" begingroup="true"/>
