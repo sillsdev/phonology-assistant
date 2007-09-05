@@ -256,7 +256,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SearchResultTabGroup.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PatternTextBox.cs">
       <SubType>UserControl</SubType>

@@ -276,7 +276,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public FwDataSourceInfo(string dbName)
 		{
-			DBName = dbName;
+			m_dbName = dbName;
 			Server = FwQueries.Server;
 
 			// As of the Summer 2007 release of FW, projects names are now just the DB name.
@@ -316,7 +316,7 @@ namespace SIL.Pa.Data
 				{
 					m_dbName = value;
 					if (m_dbName != null)
-					    m_dateLastModified = DateLastModified;
+						m_dateLastModified = DateLastModified;
 				}
 			}
 		}
