@@ -316,7 +316,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Speech Analyzer cannot be found. Make sure it is installed..
+        ///   Looks up a localized string similar to Speech Analyzer cannot be found. Please make sure it is installed..
         /// </summary>
         internal static string kstidSAMissingMsg {
             get {

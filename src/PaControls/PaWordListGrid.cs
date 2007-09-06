@@ -2322,6 +2322,9 @@ namespace SIL.Pa.Controls
 			// Make the grid update its display
 			Invalidate();
 			PaApp.MsgMediator.SendMessage("WordListGridSorted", this);
+
+			if (Cursor == Cursors.WaitCursor)
+				Cursor = Cursors.Default;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2393,7 +2396,7 @@ namespace SIL.Pa.Controls
 						col.DefaultCellStyle.Font = fieldInfo.Font;
 				}
 
-				if (col.DefaultCellStyle.Font != null)
+				if (col.Visible && col.DefaultCellStyle.Font != null)
 					m_defaultRowHeight = Math.Max(m_defaultRowHeight, col.DefaultCellStyle.Font.Height);
 			}
 
@@ -2803,8 +2806,14 @@ namespace SIL.Pa.Controls
 			m_suspendSavingColumnChanges = true;
 			PaApp.Project.GridLayoutInfo.Load(this);
 			m_suspendSavingColumnChanges = false;
+			
 			// Force users to restart Find when adding or removing columns
 			FindInfo.CanFindAgain = false;
+
+			// This will make sure that if a column was made visible or hidden,
+			// that the row height is recalculated based on the heights of the
+			// fonts in the visible rows.
+			RefreshColumnFonts(false);
 
 			// Return false so everyone who cares gets a crack at handling the message.
 			return false;

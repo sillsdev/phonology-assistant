@@ -881,10 +881,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{
-			get {return (m_gridLayoutInfo ?? new GridLayoutInfo());}
+			get	{return (m_gridLayoutInfo ?? new GridLayoutInfo(this));}
 			set
 			{
-				m_gridLayoutInfo = (value ?? new GridLayoutInfo());
+				m_gridLayoutInfo = (value ?? new GridLayoutInfo(this));
 				m_gridLayoutInfo.m_owningProject = this;
 			}
 		}
@@ -900,9 +900,7 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class GridLayoutInfo
 	{
-		public DataGridViewCellBorderStyle GridLines =
-			DataGridViewCellBorderStyle.Single;
-
+		public DataGridViewCellBorderStyle GridLines = DataGridViewCellBorderStyle.Single;
 		public int ColHeaderHeight = -1;
 		public bool SaveReorderedCols = true;
 		public bool SaveAdjustedColHeaderHeight = true;
@@ -910,6 +908,25 @@ namespace SIL.Pa
 		public bool AutoAdjustPhoneticCol = true;
 		public int AutoAjustedMaxWidth = 200;
 		internal PaProject m_owningProject;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public GridLayoutInfo()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public GridLayoutInfo(PaProject owningProj)
+		{
+			m_owningProject = owningProj;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

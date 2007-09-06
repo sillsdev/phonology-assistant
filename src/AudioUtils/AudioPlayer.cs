@@ -219,7 +219,7 @@ namespace SIL.SpeechTools.AudioUtils
 		public static string GetSaPath()
 		{
 			RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\SIL\Speech Analyzer");
-			string saLoc = regKey.GetValue("Location", null) as string;
+			string saLoc = (regKey == null ? null : regKey.GetValue("Location", null) as string);
 			return (string.IsNullOrEmpty(saLoc) || !File.Exists(saLoc) ? null : saLoc);
 		}
 
