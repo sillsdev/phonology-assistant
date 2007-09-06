@@ -369,7 +369,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewDocking(object args)
 		{
-			if (args == this)
+			if (args == this && IsHandleCreated)
 				SaveSettings();
 
 			return false;
