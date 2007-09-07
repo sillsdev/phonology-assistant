@@ -15,14 +15,15 @@ namespace SIL.Pa.Controls
 		private bool m_makePhoneticPrimarySortFieldOnChange = true;
 		private bool m_showHelpLink = true;
 		private bool m_showAdvancedOptions = false;
-		private int m_widestSortTypeRadioButton;
-		private readonly int[] m_checkedIndexes;
 		private SortOptions m_sortOptions;
+		private readonly int[] m_checkedIndexes;
 		private readonly RadioButton[] m_rbSort;
 		private readonly RadioButton[] m_rbAdvSort0;
 		private readonly RadioButton[] m_rbAdvSort1;
 		private readonly RadioButton[] m_rbAdvSort2;
-		private readonly CheckBox[] m_cbRL;
+		private readonly CheckBox[] m_chkRL;
+		private readonly int m_dxAdvGrpTbl;
+		private readonly Point m_advTableLocation;
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
@@ -33,7 +34,14 @@ namespace SIL.Pa.Controls
 		public SortOptionsDropDown()
 		{
 			InitializeComponent();
-			
+
+			// Save the difference between the width of the advanced
+			// options group and it's contained table layout panel.
+			m_dxAdvGrpTbl = grpAdvSortOptions.Width - tblAdvSorting.Width;
+
+			// Save the location of the table layout panel.
+			m_advTableLocation = tblAdvSorting.Location;
+
 			// Horizontally center the advanced panel. This should be done in the designer
 			// but it always seems to get mucked up by a pixel or two, one way or the other.
 			grpAdvSortOptions.Left = (ClientSize.Width - grpAdvSortOptions.Width) / 2;
@@ -46,7 +54,7 @@ namespace SIL.Pa.Controls
 			m_rbAdvSort0 = new RadioButton[] { rbBefore1st, rbItem1st, rbAfter1st };
 			m_rbAdvSort1 = new RadioButton[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
 			m_rbAdvSort2 = new RadioButton[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
-			m_cbRL = new CheckBox[] { cbBeforeRL, cbItemRL, cbAfterRL };
+			m_chkRL = new CheckBox[] { chkBeforeRL, chkItemRL, chkAfterRL };
 
 			// Keeps track of selected advanced sorting radio buttons
 			m_checkedIndexes = new int[3];
@@ -54,7 +62,7 @@ namespace SIL.Pa.Controls
 			m_checkedIndexes[1] = m_sortOptions.AdvSortOrder[1];
 			m_checkedIndexes[2] = m_sortOptions.AdvSortOrder[2];
 
-			AdjustControls();
+			LayoutControls();
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -99,64 +107,50 @@ namespace SIL.Pa.Controls
 		/// to adjust these things manually.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AdjustControls()
+		private void LayoutControls()
 		{
+			grpAdvSortOptions.Width = tblAdvSorting.Width = 0;
+
 			// Find the widest of the 3 upper radio buttons.
-			m_widestSortTypeRadioButton = rbPlaceArticulation.Width;
-			m_widestSortTypeRadioButton =
-				Math.Max(m_widestSortTypeRadioButton, rbMannerArticulation.Width);
-			m_widestSortTypeRadioButton =
-				Math.Max(m_widestSortTypeRadioButton, rbUnicodeOrder.Width);
+			int widestSortTypeRB = rbPlaceArticulation.Width;
+			widestSortTypeRB = Math.Max(widestSortTypeRB, rbMannerArticulation.Width);
+			widestSortTypeRB = Math.Max(widestSortTypeRB, rbUnicodeOrder.Width);
 
-			int addToWidth = 0;
+			if (m_showAdvancedOptions)
+			{
+				int width = 0;
 
-			if (lblBefore.Width < lblBefore.PreferredWidth)
-				addToWidth += (lblBefore.PreferredWidth - lblBefore.Width);
+				// First, check which label of "Preceding", "Item" and "Following" is longest.
+				width = Math.Max(width, lblBefore.PreferredWidth);
+				width = Math.Max(width, lblItem.PreferredWidth);
+				width = Math.Max(width, lblAfter.PreferredWidth);
 
-			if (lblItem.Width < lblItem.PreferredWidth)
-				addToWidth += (lblItem.PreferredWidth - lblItem.Width);
+				lblBefore.Width = lblItem.Width = lblAfter.Width = width;
 
-			if (lblAfter.Width < lblAfter.PreferredWidth)
-				addToWidth += (lblAfter.PreferredWidth - lblAfter.Width);
+				// Now check which of the column headings is widest
+				width = lblFirst.PreferredWidth;
+				width = Math.Max(width, lblSecond.PreferredWidth);
+				width = Math.Max(width, lblThird.PreferredWidth);
+				width = Math.Max(width, lblRL.PreferredWidth);
 
-			if (lblFirst.Width < lblFirst.PreferredWidth)
-				addToWidth += (lblFirst.PreferredWidth - lblFirst.Width);
+				lblFirst.Width = lblSecond.Width = lblThird.Width = lblRL.Width = width;
+				pnlAdvSort0.Width = pnlAdvSort1.Width = pnlAdvSort2.Width = width;
 
-			if (lblSecond.Width < lblSecond.PreferredWidth)
-				addToWidth += (lblSecond.PreferredWidth - lblSecond.Width);
+				tblAdvSorting.Width = tblAdvSorting.PreferredSize.Width;
+				grpAdvSortOptions.Width = tblAdvSorting.Width + m_dxAdvGrpTbl;
+				tblAdvSorting.Location = m_advTableLocation;
+			}
 
-			if (lblThird.Width < lblThird.PreferredWidth)
-				addToWidth += (lblThird.PreferredWidth - lblThird.Width);
+			Width = Math.Max(grpAdvSortOptions.Width, widestSortTypeRB) + 16;
+			
+			rbPlaceArticulation.Left = rbMannerArticulation.Left =
+				rbUnicodeOrder.Left = (Width - widestSortTypeRB) / 2;
 
-			if (lblRL.Width < lblRL.PreferredWidth)
-				addToWidth += (lblRL.PreferredWidth - lblRL.Width);
-
-			// Add 10 more for good measure and set the width of the drop-down.
-			grpAdvSortOptions.Width += (addToWidth + 15);
-			Width = Math.Max(grpAdvSortOptions.Width + 12,
-				m_widestSortTypeRadioButton + 12);
+			if (m_showAdvancedOptions)
+				grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
 
 			lnkHelp.Top = ClientRectangle.Bottom - lnkHelp.Height - 8;
 			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			base.OnSizeChanged(e);
-
-			// Center the advanced sort options group box.
-			grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
-			
-			// Center the advanced sort options group box and the sort type radio buttons.
-			grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
-			rbPlaceArticulation.Left = (Width - m_widestSortTypeRadioButton) / 2;
-			rbMannerArticulation.Left = (Width - m_widestSortTypeRadioButton) / 2;
-			rbUnicodeOrder.Left = (Width - m_widestSortTypeRadioButton) / 2;
 		}
 
 		#region Properties
@@ -187,9 +181,9 @@ namespace SIL.Pa.Controls
 				m_rbAdvSort1[m_checkedIndexes[1]].Checked = true;
 				m_rbAdvSort2[m_checkedIndexes[2]].Checked = true;
 
-				m_cbRL[0].Checked = m_sortOptions.AdvRlOptions[0];
-				m_cbRL[1].Checked = m_sortOptions.AdvRlOptions[1];
-				m_cbRL[2].Checked = m_sortOptions.AdvRlOptions[2];
+				m_chkRL[0].Checked = m_sortOptions.AdvRlOptions[0];
+				m_chkRL[1].Checked = m_sortOptions.AdvRlOptions[1];
+				m_chkRL[2].Checked = m_sortOptions.AdvRlOptions[2];
 
 				AdvancedOptionsEnabled = m_sortOptions.AdvancedEnabled;
 				tblAdvSorting.Enabled = m_sortOptions.AdvancedEnabled;
@@ -229,6 +223,7 @@ namespace SIL.Pa.Controls
 					m_showAdvancedOptions = value;
 					grpAdvSortOptions.Visible = value;
 					grpAdvSortOptions.Enabled = value;
+					LayoutControls();
 					SetHeight();
 				}
 			}
@@ -517,7 +512,7 @@ namespace SIL.Pa.Controls
 		private void HandleRightToLeftCheckBoxChecked(object sender, EventArgs e)
 		{
 			for (int i = 0; i < 3; i++)
-				m_sortOptions.AdvRlOptions[i] = m_cbRL[i].Checked;
+				m_sortOptions.AdvRlOptions[i] = m_chkRL[i].Checked;
 
 			SendChangedEvent();
 		}

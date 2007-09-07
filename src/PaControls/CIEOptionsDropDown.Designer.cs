@@ -28,6 +28,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CIEOptionsDropDown));
 			this.rbBoth = new System.Windows.Forms.RadioButton();
 			this.rbAfter = new System.Windows.Forms.RadioButton();
 			this.rbBefore = new System.Windows.Forms.RadioButton();
@@ -38,141 +39,94 @@ namespace SIL.Pa.Controls
 			// 
 			// chkShowAllWords
 			// 
-			this.chkShowAllWords.Location = new System.Drawing.Point(205, 80);
-			this.chkShowAllWords.Margin = new System.Windows.Forms.Padding(4);
+			resources.ApplyResources(this.chkShowAllWords, "chkShowAllWords");
 			// 
 			// grpStress
 			// 
-			this.grpStress.Location = new System.Drawing.Point(14, 122);
-			this.grpStress.Margin = new System.Windows.Forms.Padding(4);
-			this.grpStress.TabIndex = 5;
+			resources.ApplyResources(this.grpStress, "grpStress");
 			// 
 			// grpTone
 			// 
-			this.grpTone.Location = new System.Drawing.Point(14, 199);
-			this.grpTone.Margin = new System.Windows.Forms.Padding(4);
-			this.grpTone.TabIndex = 7;
+			resources.ApplyResources(this.grpTone, "grpTone");
 			// 
 			// grpLength
 			// 
-			this.grpLength.Location = new System.Drawing.Point(14, 411);
-			this.grpLength.Margin = new System.Windows.Forms.Padding(4);
-			this.grpLength.TabIndex = 9;
+			resources.ApplyResources(this.grpLength, "grpLength");
 			// 
 			// chkIgnoreDiacritics
 			// 
-			this.chkIgnoreDiacritics.Location = new System.Drawing.Point(24, 96);
-			this.chkIgnoreDiacritics.Margin = new System.Windows.Forms.Padding(4);
-			this.chkIgnoreDiacritics.TabIndex = 3;
+			resources.ApplyResources(this.chkIgnoreDiacritics, "chkIgnoreDiacritics");
 			// 
 			// chkStress
 			// 
-			this.chkStress.Location = new System.Drawing.Point(24, 120);
-			this.chkStress.Margin = new System.Windows.Forms.Padding(4);
-			this.chkStress.TabIndex = 4;
+			resources.ApplyResources(this.chkStress, "chkStress");
 			// 
 			// chkTone
 			// 
-			this.chkTone.Location = new System.Drawing.Point(24, 197);
-			this.chkTone.Margin = new System.Windows.Forms.Padding(4);
-			this.chkTone.TabIndex = 6;
+			resources.ApplyResources(this.chkTone, "chkTone");
 			// 
 			// chkLength
 			// 
-			this.chkLength.Location = new System.Drawing.Point(24, 409);
-			this.chkLength.Margin = new System.Windows.Forms.Padding(4);
-			this.chkLength.TabIndex = 8;
+			resources.ApplyResources(this.chkLength, "chkLength");
 			// 
 			// lnkHelp
 			// 
-			this.lnkHelp.Location = new System.Drawing.Point(218, 490);
-			this.lnkHelp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lnkHelp.TabIndex = 12;
+			resources.ApplyResources(this.lnkHelp, "lnkHelp");
 			// 
 			// grpUncertainties
 			// 
-			this.grpUncertainties.Visible = false;
+			resources.ApplyResources(this.grpUncertainties, "grpUncertainties");
 			// 
 			// lblUncertainties
 			// 
-			this.lblUncertainties.Visible = false;
+			resources.ApplyResources(this.lblUncertainties, "lblUncertainties");
 			// 
 			// rbBoth
 			// 
-			this.rbBoth.AutoSize = true;
-			this.rbBoth.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.rbBoth.Location = new System.Drawing.Point(24, 15);
+			resources.ApplyResources(this.rbBoth, "rbBoth");
 			this.rbBoth.Name = "rbBoth";
-			this.rbBoth.Size = new System.Drawing.Size(157, 17);
-			this.rbBoth.TabIndex = 0;
 			this.rbBoth.TabStop = true;
-			this.rbBoth.Text = "B&oth Environments Identical";
-			this.rbBoth.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbBoth.UseVisualStyleBackColor = true;
 			// 
 			// rbAfter
 			// 
-			this.rbAfter.AutoSize = true;
-			this.rbAfter.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.rbAfter.Location = new System.Drawing.Point(24, 63);
+			resources.ApplyResources(this.rbAfter, "rbAfter");
 			this.rbAfter.Name = "rbAfter";
-			this.rbAfter.Size = new System.Drawing.Size(152, 17);
-			this.rbAfter.TabIndex = 2;
 			this.rbAfter.TabStop = true;
-			this.rbAfter.Text = "Identical Environment &After";
-			this.rbAfter.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbAfter.UseVisualStyleBackColor = true;
 			// 
 			// rbBefore
 			// 
-			this.rbBefore.AutoSize = true;
-			this.rbBefore.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.rbBefore.Location = new System.Drawing.Point(24, 39);
+			resources.ApplyResources(this.rbBefore, "rbBefore");
 			this.rbBefore.Name = "rbBefore";
-			this.rbBefore.Size = new System.Drawing.Size(161, 17);
-			this.rbBefore.TabIndex = 1;
 			this.rbBefore.TabStop = true;
-			this.rbBefore.Text = "Identical Environment &Before";
-			this.rbBefore.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbBefore.UseVisualStyleBackColor = true;
 			// 
 			// lnkApply
 			// 
-			this.lnkApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkApply.AutoSize = true;
-			this.lnkApply.Location = new System.Drawing.Point(140, 490);
+			resources.ApplyResources(this.lnkApply, "lnkApply");
 			this.lnkApply.Name = "lnkApply";
-			this.lnkApply.Size = new System.Drawing.Size(33, 13);
-			this.lnkApply.TabIndex = 10;
 			this.lnkApply.TabStop = true;
-			this.lnkApply.Text = "Apply";
 			this.lnkApply.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkApply_LinkClicked);
 			// 
 			// lnkCancel
 			// 
-			this.lnkCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkCancel.AutoSize = true;
-			this.lnkCancel.Location = new System.Drawing.Point(179, 490);
+			resources.ApplyResources(this.lnkCancel, "lnkCancel");
 			this.lnkCancel.Name = "lnkCancel";
-			this.lnkCancel.Size = new System.Drawing.Size(40, 13);
-			this.lnkCancel.TabIndex = 11;
 			this.lnkCancel.TabStop = true;
-			this.lnkCancel.Text = "Cancel";
 			this.lnkCancel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkCancel_LinkClicked);
 			// 
 			// CIEOptionsDropDown
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lnkCancel);
 			this.Controls.Add(this.lnkApply);
 			this.Controls.Add(this.rbBefore);
 			this.Controls.Add(this.rbAfter);
 			this.Controls.Add(this.rbBoth);
-			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MinimumSize = new System.Drawing.Size(188, 2);
 			this.Name = "CIEOptionsDropDown";
-			this.Size = new System.Drawing.Size(248, 516);
 			this.Controls.SetChildIndex(this.grpUncertainties, 0);
 			this.Controls.SetChildIndex(this.lnkHelp, 0);
 			this.Controls.SetChildIndex(this.rbBoth, 0);

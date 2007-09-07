@@ -457,7 +457,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter search pattern in the form:\n[Search Item]/[Environment Before]__[Environment After].
+        ///   Looks up a localized string similar to Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment].
         /// </summary>
         internal static string kstidSearchPatternTooltip {
             get {

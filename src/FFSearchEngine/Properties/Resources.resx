@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="kstidEnvironmentAfter" xml:space="preserve">
-    <value>environment after</value>
+    <value>following environment</value>
   </data>
   <data name="kstidEnvironmentBefore" xml:space="preserve">
-    <value>environment before</value>
+    <value>preceding environment</value>
   </data>
   <data name="kstidIrregularDiacriticPlaceholderErr" xml:space="preserve">
     <value>Irregular diacritic placeholder syntax in {0}.</value>
@@ -139,10 +139,10 @@
     <value>Misplaced diacritic in the {0}.</value>
   </data>
   <data name="kstidOneOrMoreBeginningErr" xml:space="preserve">
-    <value>When the one-or-more symbol (+) is present in the environment before, it must be  at the beginning.</value>
+    <value>When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.</value>
   </data>
   <data name="kstidOneOrMoreEndingErr" xml:space="preserve">
-    <value>When the one-or-more symbol (+) is present in the environment after, it must be  at the end.</value>
+    <value>When the one-or-more symbol (+) is present in the following environment, it must be  at the end.</value>
   </data>
   <data name="kstidParsedToNothingError" xml:space="preserve">
     <value>Error parsing the {0}.</value>
@@ -178,9 +178,9 @@
     <value>The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.</value>
   </data>
   <data name="kstidZeroOrMoreBeginningErr" xml:space="preserve">
-    <value>When the zero-or-more symbol (*) is present in the environment before, it must be  at the beginning.</value>
+    <value>When the zero-or-more symbol (*) is present in the preceding environment, it must be  at the beginning.</value>
   </data>
   <data name="kstidZeroOrMoreEndingErr" xml:space="preserve">
-    <value>When the zero-or-more symbol (*) is present in the environment after, it must be  at the end.</value>
+    <value>When the zero-or-more symbol (*) is present in the following environment, it must be  at the end.</value>
   </data>
 </root>

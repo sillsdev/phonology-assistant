@@ -213,7 +213,7 @@
     <comment>word list window caption for search results. Parameter 0 is for the number of records in the list</comment>
   </data>
   <data name="kstidSearchPatternTooltip" xml:space="preserve">
-    <value>Enter search pattern in the form:\n[Search Item]/[Environment Before]__[Environment After]</value>
+    <value>Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]</value>
     <comment>Tooltip for search pattern text box in the find phone window.</comment>
   </data>
   <data name="kstidVowChartHTMLFileName" xml:space="preserve">

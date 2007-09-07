@@ -445,7 +445,7 @@
     <comment>Tooltip displayed when hovering over a search result tab in the search window.</comment>
   </data>
   <data name="kstidSrchPatternOneOrMoreError" xml:space="preserve">
-    <value>Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after.</value>
+    <value>Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment.</value>
     <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
   </data>
   <data name="kstidSrchPatternWordBoundaryError" xml:space="preserve">
@@ -453,7 +453,7 @@
     <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
   </data>
   <data name="kstidSrchPatternZeroOrMoreError" xml:space="preserve">
-    <value>Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after.</value>
+    <value>Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment.</value>
     <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
   </data>
   <data name="kstidUndockedViewCaption" xml:space="preserve">

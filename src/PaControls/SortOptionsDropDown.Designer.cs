@@ -46,9 +46,9 @@ namespace SIL.Pa.Controls
 			this.rbAfter2nd = new System.Windows.Forms.RadioButton();
 			this.rbBefore2nd = new System.Windows.Forms.RadioButton();
 			this.rbItem2nd = new System.Windows.Forms.RadioButton();
-			this.cbAfterRL = new System.Windows.Forms.CheckBox();
-			this.cbItemRL = new System.Windows.Forms.CheckBox();
-			this.cbBeforeRL = new System.Windows.Forms.CheckBox();
+			this.chkAfterRL = new System.Windows.Forms.CheckBox();
+			this.chkItemRL = new System.Windows.Forms.CheckBox();
+			this.chkBeforeRL = new System.Windows.Forms.CheckBox();
 			this.lblBefore = new System.Windows.Forms.Label();
 			this.lblThird = new System.Windows.Forms.Label();
 			this.lblAfter = new System.Windows.Forms.Label();
@@ -104,9 +104,9 @@ namespace SIL.Pa.Controls
 			this.tblAdvSorting.Controls.Add(this.pnlAdvSort2, 3, 1);
 			this.tblAdvSorting.Controls.Add(this.pnlAdvSort0, 1, 1);
 			this.tblAdvSorting.Controls.Add(this.pnlAdvSort1, 2, 1);
-			this.tblAdvSorting.Controls.Add(this.cbAfterRL, 4, 3);
-			this.tblAdvSorting.Controls.Add(this.cbItemRL, 4, 2);
-			this.tblAdvSorting.Controls.Add(this.cbBeforeRL, 4, 1);
+			this.tblAdvSorting.Controls.Add(this.chkAfterRL, 4, 3);
+			this.tblAdvSorting.Controls.Add(this.chkItemRL, 4, 2);
+			this.tblAdvSorting.Controls.Add(this.chkBeforeRL, 4, 1);
 			this.tblAdvSorting.Controls.Add(this.lblBefore, 0, 1);
 			this.tblAdvSorting.Controls.Add(this.lblThird, 3, 0);
 			this.tblAdvSorting.Controls.Add(this.lblAfter, 0, 3);
@@ -118,10 +118,10 @@ namespace SIL.Pa.Controls
 			// 
 			// pnlAdvSort2
 			// 
+			resources.ApplyResources(this.pnlAdvSort2, "pnlAdvSort2");
 			this.pnlAdvSort2.Controls.Add(this.rbItem3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbBefore3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbAfter3rd);
-			resources.ApplyResources(this.pnlAdvSort2, "pnlAdvSort2");
 			this.pnlAdvSort2.Name = "pnlAdvSort2";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort2, 3);
 			// 
@@ -160,10 +160,10 @@ namespace SIL.Pa.Controls
 			// 
 			// pnlAdvSort0
 			// 
+			resources.ApplyResources(this.pnlAdvSort0, "pnlAdvSort0");
 			this.pnlAdvSort0.Controls.Add(this.rbItem1st);
 			this.pnlAdvSort0.Controls.Add(this.rbBefore1st);
 			this.pnlAdvSort0.Controls.Add(this.rbAfter1st);
-			resources.ApplyResources(this.pnlAdvSort0, "pnlAdvSort0");
 			this.pnlAdvSort0.Name = "pnlAdvSort0";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort0, 3);
 			// 
@@ -203,10 +203,10 @@ namespace SIL.Pa.Controls
 			// 
 			// pnlAdvSort1
 			// 
+			resources.ApplyResources(this.pnlAdvSort1, "pnlAdvSort1");
 			this.pnlAdvSort1.Controls.Add(this.rbAfter2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbBefore2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbItem2nd);
-			resources.ApplyResources(this.pnlAdvSort1, "pnlAdvSort1");
 			this.pnlAdvSort1.Name = "pnlAdvSort1";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort1, 3);
 			// 
@@ -243,86 +243,86 @@ namespace SIL.Pa.Controls
 			this.rbItem2nd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
 			this.rbItem2nd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
 			// 
-			// cbAfterRL
+			// chkAfterRL
 			// 
-			resources.ApplyResources(this.cbAfterRL, "cbAfterRL");
-			this.cbAfterRL.BackColor = System.Drawing.Color.Transparent;
-			this.cbAfterRL.Name = "cbAfterRL";
-			this.cbAfterRL.UseVisualStyleBackColor = false;
-			this.cbAfterRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
-			this.cbAfterRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.cbAfterRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.cbAfterRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			resources.ApplyResources(this.chkAfterRL, "chkAfterRL");
+			this.chkAfterRL.BackColor = System.Drawing.Color.Transparent;
+			this.chkAfterRL.Name = "chkAfterRL";
+			this.chkAfterRL.UseVisualStyleBackColor = false;
+			this.chkAfterRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkAfterRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
+			this.chkAfterRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
+			this.chkAfterRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
 			// 
-			// cbItemRL
+			// chkItemRL
 			// 
-			resources.ApplyResources(this.cbItemRL, "cbItemRL");
-			this.cbItemRL.BackColor = System.Drawing.Color.Transparent;
-			this.cbItemRL.Name = "cbItemRL";
-			this.cbItemRL.UseVisualStyleBackColor = false;
-			this.cbItemRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
-			this.cbItemRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.cbItemRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.cbItemRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			resources.ApplyResources(this.chkItemRL, "chkItemRL");
+			this.chkItemRL.BackColor = System.Drawing.Color.Transparent;
+			this.chkItemRL.Name = "chkItemRL";
+			this.chkItemRL.UseVisualStyleBackColor = false;
+			this.chkItemRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkItemRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
+			this.chkItemRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
+			this.chkItemRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
 			// 
-			// cbBeforeRL
+			// chkBeforeRL
 			// 
-			resources.ApplyResources(this.cbBeforeRL, "cbBeforeRL");
-			this.cbBeforeRL.BackColor = System.Drawing.Color.Transparent;
-			this.cbBeforeRL.Name = "cbBeforeRL";
-			this.cbBeforeRL.UseVisualStyleBackColor = false;
-			this.cbBeforeRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
-			this.cbBeforeRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.cbBeforeRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.cbBeforeRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			resources.ApplyResources(this.chkBeforeRL, "chkBeforeRL");
+			this.chkBeforeRL.BackColor = System.Drawing.Color.Transparent;
+			this.chkBeforeRL.Name = "chkBeforeRL";
+			this.chkBeforeRL.UseVisualStyleBackColor = false;
+			this.chkBeforeRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkBeforeRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
+			this.chkBeforeRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
+			this.chkBeforeRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
 			// 
 			// lblBefore
 			// 
+			resources.ApplyResources(this.lblBefore, "lblBefore");
 			this.lblBefore.AutoEllipsis = true;
 			this.lblBefore.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblBefore, "lblBefore");
 			this.lblBefore.Name = "lblBefore";
 			// 
 			// lblThird
 			// 
+			resources.ApplyResources(this.lblThird, "lblThird");
 			this.lblThird.AutoEllipsis = true;
 			this.lblThird.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblThird, "lblThird");
 			this.lblThird.Name = "lblThird";
 			// 
 			// lblAfter
 			// 
+			resources.ApplyResources(this.lblAfter, "lblAfter");
 			this.lblAfter.AutoEllipsis = true;
 			this.lblAfter.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblAfter, "lblAfter");
 			this.lblAfter.Name = "lblAfter";
 			// 
 			// lblItem
 			// 
+			resources.ApplyResources(this.lblItem, "lblItem");
 			this.lblItem.AutoEllipsis = true;
 			this.lblItem.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblItem, "lblItem");
 			this.lblItem.Name = "lblItem";
 			// 
 			// lblFirst
 			// 
+			resources.ApplyResources(this.lblFirst, "lblFirst");
 			this.lblFirst.AutoEllipsis = true;
 			this.lblFirst.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblFirst, "lblFirst");
 			this.lblFirst.Name = "lblFirst";
 			// 
 			// lblRL
 			// 
+			resources.ApplyResources(this.lblRL, "lblRL");
 			this.lblRL.AutoEllipsis = true;
 			this.lblRL.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblRL, "lblRL");
 			this.lblRL.Name = "lblRL";
 			// 
 			// lblSecond
 			// 
+			resources.ApplyResources(this.lblSecond, "lblSecond");
 			this.lblSecond.AutoEllipsis = true;
 			this.lblSecond.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblSecond, "lblSecond");
 			this.lblSecond.Name = "lblSecond";
 			// 
 			// lnkHelp
@@ -358,9 +358,9 @@ namespace SIL.Pa.Controls
 		private System.Windows.Forms.RadioButton rbUnicodeOrder;
 		private System.Windows.Forms.RadioButton rbPlaceArticulation;
 		private System.Windows.Forms.RadioButton rbMannerArticulation;
-		private System.Windows.Forms.CheckBox cbAfterRL;
-		private System.Windows.Forms.CheckBox cbItemRL;
-		private System.Windows.Forms.CheckBox cbBeforeRL;
+		private System.Windows.Forms.CheckBox chkAfterRL;
+		private System.Windows.Forms.CheckBox chkItemRL;
+		private System.Windows.Forms.CheckBox chkBeforeRL;
 		private System.Windows.Forms.RadioButton rbAfter3rd;
 		private System.Windows.Forms.RadioButton rbAfter2nd;
 		private System.Windows.Forms.RadioButton rbAfter1st;

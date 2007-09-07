@@ -211,9 +211,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void InitializePaRegKey()
 		{
-			// Construct the default project path.
-			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			projPath = Path.Combine(projPath, Application.ProductName);
+			string projPath = GetDefaultProjectFolder();
 
 			// Check if an entry in the registry specifies the default project path.
 			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
@@ -237,6 +235,36 @@ namespace SIL.Pa
 			// Create the folder if it doesn't exist.
 			if (!Directory.Exists(projPath))
 				Directory.CreateDirectory(projPath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Construct the default project path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetDefaultProjectFolder()
+		{
+			// Construct the default project path.
+			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+			// returns an empty string. Argh!!! Therefore, I have to make sure there is
+			// a valid and full path . Do that by getting the user's desktop folder and
+			// chopping off everything that follows the last backslash. If getting the user's
+			// desktop folder fails, then fall back to the program's folder, which is
+			// probably not right, but we'll have to assume it will never happen. :o)
+			if (string.IsNullOrEmpty(projPath))
+			{
+				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
+					return Path.GetDirectoryName(Application.ExecutablePath);
+
+				projPath = projPath.TrimEnd("\\".ToCharArray());
+				int i = projPath.LastIndexOf('\\');
+				projPath = projPath.Substring(0, i);
+			}
+
+			return Path.Combine(projPath, Application.ProductName);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -862,7 +862,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after..
+        ///   Looks up a localized string similar to Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment..
         /// </summary>
         internal static string kstidSrchPatternOneOrMoreError {
             get {
@@ -880,7 +880,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of environment before and/or at the end of the environment after..
+        ///   Looks up a localized string similar to Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment..
         /// </summary>
         internal static string kstidSrchPatternZeroOrMoreError {
             get {

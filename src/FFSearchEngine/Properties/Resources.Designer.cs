@@ -61,7 +61,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to environment after.
+        ///   Looks up a localized string similar to following environment.
         /// </summary>
         internal static string kstidEnvironmentAfter {
             get {
@@ -70,7 +70,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to environment before.
+        ///   Looks up a localized string similar to preceding environment.
         /// </summary>
         internal static string kstidEnvironmentBefore {
             get {
@@ -124,7 +124,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the environment before, it must be  at the beginning..
+        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning..
         /// </summary>
         internal static string kstidOneOrMoreBeginningErr {
             get {
@@ -133,7 +133,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the environment after, it must be  at the end..
+        ///   Looks up a localized string similar to When the one-or-more symbol (+) is present in the following environment, it must be  at the end..
         /// </summary>
         internal static string kstidOneOrMoreEndingErr {
             get {
@@ -241,7 +241,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the environment before, it must be  at the beginning..
+        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the preceding environment, it must be  at the beginning..
         /// </summary>
         internal static string kstidZeroOrMoreBeginningErr {
             get {
@@ -250,7 +250,7 @@ namespace SIL.Pa.FFSearchEngine.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the environment after, it must be  at the end..
+        ///   Looks up a localized string similar to When the zero-or-more symbol (*) is present in the following environment, it must be  at the end..
         /// </summary>
         internal static string kstidZeroOrMoreEndingErr {
             get {

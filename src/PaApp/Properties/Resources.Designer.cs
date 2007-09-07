@@ -343,7 +343,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in an invalid location within\nthe search pattern. The one-or-more symbol may only be the first\nitem in the environment before and/or the last item in the environment\nafter. Please correct this and try your search again..
+        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in an invalid location within\nthe search pattern. The one-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again..
         /// </summary>
         internal static string kstidSrchPatternOneOrMoreError {
             get {
@@ -361,7 +361,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The zero-or-more symbol (*) was found in an invalid location within\nthe search pattern. The zero-or-more symbol may only be the first\nitem in the environment before and/or the last item in the environment\nafter. Please correct this and try your search again..
+        ///   Looks up a localized string similar to The zero-or-more symbol (*) was found in an invalid location within\nthe search pattern. The zero-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again..
         /// </summary>
         internal static string kstidSrchPatternZeroOrMoreError {
             get {
