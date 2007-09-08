@@ -147,7 +147,7 @@ namespace SIL.Pa.Controls
 			if (PaApp.DesignMode)
 				return;
 
-			SuspendLayout();
+			STUtils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
 			foreach (IPACharacterTypeInfo typeInfo in m_typesToShow)
@@ -183,7 +183,29 @@ namespace SIL.Pa.Controls
 			}
 
 			Dock = DockStyle.Fill;
-			ResumeLayout(false);
+			LayoutPickers(false);
+			STUtils.SetWindowRedraw(this, true, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LayoutPickers(bool suspendDraw)
+		{
+			if (suspendDraw)
+				STUtils.SetWindowRedraw(this, false, false);
+
+			foreach (ExplorerBarItem item in Items)
+			{
+				CharPicker picker = item.Control as CharPicker;
+				if (picker != null && picker == item.Control)
+					item.SetHostedControlHeight(picker.PreferredHeight + 10);
+			}
+
+			if (suspendDraw)
+				STUtils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,17 +386,7 @@ namespace SIL.Pa.Controls
 		protected override void OnResize(EventArgs eventargs)
 		{
 			base.OnResize(eventargs);
-			
-			SuspendLayout();
-
-			foreach (ExplorerBarItem item in Items)
-			{
-				CharPicker picker = item.Control as CharPicker;
-				if (picker != null && picker == item.Control)
-					item.SetHostedControlHeight(picker.PreferredHeight + 10);
-			}
-
-			ResumeLayout();
+			LayoutPickers(true);
 		}
 
 		#region Loading/Restoring Settings

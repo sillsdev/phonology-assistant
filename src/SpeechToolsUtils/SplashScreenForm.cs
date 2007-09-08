@@ -325,9 +325,19 @@ namespace SIL.SpeechTools.Utils
 		#region Non-public methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+			STUtils.CenterFormInScreen(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Raises the <see cref="E:System.Windows.Forms.Control.VisibleChanged"></see> event.
 		/// </summary>
-		/// <param name="e">The <see cref="T:System.EventArgs"></see> that contains the event data.</param>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnVisibleChanged(EventArgs e)
 		{
@@ -344,8 +354,6 @@ namespace SIL.SpeechTools.Utils
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			Left = (Screen.PrimaryScreen.WorkingArea.Width - Width) / 2;
-			Top = (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2;
 
 			// set build label visibility
 			lblBuildNumber.Visible = m_showBuildNum;

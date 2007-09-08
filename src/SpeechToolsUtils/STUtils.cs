@@ -98,6 +98,26 @@ namespace SIL.SpeechTools.Utils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CenterFormInScreen(Form frm)
+		{
+			Rectangle rc = Screen.GetWorkingArea(frm);
+			if (rc == Rectangle.Empty)
+				rc = Screen.PrimaryScreen.WorkingArea;
+
+			if (frm.Width > rc.Width)
+				frm.Width = rc.Width;
+
+			if (frm.Height > rc.Height)
+				frm.Height = rc.Height;
+
+			frm.Location = new Point((rc.Width - frm.Width) / 2, (rc.Height - frm.Height) / 2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the amount of free disk space on the specified drive.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

@@ -60,9 +60,7 @@ namespace SIL.Pa.Dialogs
 			rbFmtTable.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "table", true);
 			rbFmtTabDelim.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "tabdelim", false);
 
-			Size savSize = Size;
 			PaApp.SettingsHandler.LoadFormProperties(this, true);
-			Size = savSize;
 		}
 
 		/// ------------------------------------------------------------------------------------

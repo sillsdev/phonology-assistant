@@ -142,7 +142,7 @@ namespace SIL.SpeechTools.Utils
 		{
 			return LoadFormProperties(frm, false);
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Assigns window properties to a form from an XmlDocument.
@@ -154,8 +154,27 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public bool LoadFormProperties(Form frm, bool setLocationOnly)
 		{
+			return LoadFormProperties(frm, setLocationOnly, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Assigns window properties to a form from an XmlDocument.
+		/// </summary>
+		/// <param name="frm">Form to load settings into</param>
+		/// <param name="setLocationOnly">true if the method should only set the form's
+		/// location and not its size. Otherwise, false.</param>
+		/// <param name="centerByDefault">true if the form should be centered in the
+		/// screen when there are no saved properties for it.</param>
+		/// <returns>True on success</returns>
+		/// ------------------------------------------------------------------------------------
+		public bool LoadFormProperties(Form frm, bool setLocationOnly, bool centerByDefault)
+		{
 			if (m_xmlDoc == null || frm == null)
 				return false;
+
+			if (centerByDefault)
+				STUtils.CenterFormInScreen(frm);
 
 			XmlNode node = FindChildNode(kWindowStatesNode, frm.Name);
 

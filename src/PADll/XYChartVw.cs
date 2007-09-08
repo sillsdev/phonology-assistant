@@ -295,7 +295,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			//PaApp.SettingsHandler.LoadFormProperties(this);
 			ptrnBldrComponent.LoadSettings(Name);
 
 			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
