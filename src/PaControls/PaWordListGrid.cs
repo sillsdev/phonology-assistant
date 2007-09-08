@@ -2815,8 +2815,68 @@ namespace SIL.Pa.Controls
 			// fonts in the visible rows.
 			RefreshColumnFonts(false);
 
+			CleanupAfterColumnsHidden();
+
 			// Return false so everyone who cares gets a crack at handling the message.
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// After word list options have changed, it's possible the grid is grouped on a column
+		/// that was removed. Therefore, ungroup the list. In addition, there could be columns
+		/// that were hidden and are in the sort options. If that's the case, they are removed
+		/// from the sort options and the list is resorted.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CleanupAfterColumnsHidden()
+		{
+			// If the column that was grouped on is no longer visible, then ungroup.
+			if (m_groupByField != null)
+			{
+				if (Columns.Contains(m_groupByField.FieldName) &&
+					!Columns[m_groupByField.FieldName].Visible)
+				{
+					GroupByField = null;
+				}
+			}
+
+			if (SortOptions == null)
+				return;
+
+			// If the sort options contain any fields whose column was removed, then
+			// remove the field from the sort options and resort the list.
+			bool reSort = false;
+			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
+			{
+				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
+
+				if (Columns.Contains(fldName) && !Columns[fldName].Visible)
+				{
+					SortOptions.SortInformationList.RemoveAt(i);
+					reSort = true;
+				}
+			}
+
+			if (!reSort)
+				return;
+
+			if (SortOptions.SortInformationList.Count > 0)
+			{
+				// Sort on the first column in the sort option's field list.
+				Sort(SortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+				return;
+			}
+
+			// There isn't a column left on which to sort, so pick the first visible column.
+			foreach (DataGridViewColumn col in Columns)
+			{
+				if (col.Visible)
+				{
+					Sort(col, ListSortDirection.Ascending);
+					return;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

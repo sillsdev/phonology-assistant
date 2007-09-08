@@ -431,6 +431,16 @@ namespace SIL.Pa
 			FieldInfo = fieldInfo;
 			ascending = sortDirection;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return FieldInfo.FieldName + ": " + (ascending ? "Ascending" : "Descending");
+		}
 	}
 
 	#endregion
