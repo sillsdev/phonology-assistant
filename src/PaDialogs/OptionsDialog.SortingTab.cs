@@ -58,6 +58,19 @@ namespace SIL.Pa.Dialogs
 			
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
+
+			Shown += OptionsDlg_Shown;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void OptionsDlg_Shown(object sender, EventArgs e)
+		{
+			phoneticSortOptions.LayoutControls();
+			Shown -= OptionsDlg_Shown;
 		}
 
 		/// ------------------------------------------------------------------------------------
