@@ -107,7 +107,7 @@ namespace SIL.Pa.Controls
 		/// to adjust these things manually.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LayoutControls()
+		public void LayoutControls()
 		{
 			grpAdvSortOptions.Width = tblAdvSorting.Width = 0;
 
