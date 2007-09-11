@@ -105,6 +105,8 @@ namespace SIL.Pa.Controls
 
 			if (SearchQueryChanged != null)
 				SearchQueryChanged(this, EventArgs.Empty);
+
+			Invalidate();
 		}
 
 		#region Properties
