@@ -11,13 +11,26 @@ namespace SIL.Pa
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
+	/// This is strictly for serializing and deserializing PaXML files.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class PaXMLContent
+	{
+		public PaFieldInfoList CustomFields;
+		
+		[XmlElement("PaRecords")]
+		public RecordCache Cache;
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlRoot("PaRecords")]
 	public class RecordCache : List<RecordCacheEntry>, IDisposable
 	{
 		private WordCache m_wordCache;
+		private PaFieldInfoList m_customFields;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -42,6 +55,7 @@ namespace SIL.Pa
 				m_wordCache.Clear();
 				m_wordCache = null;
 			}
+
 			Clear();
 		}
 
@@ -70,11 +84,15 @@ namespace SIL.Pa
 
 			try
 			{
-				RecordCache cache =
-					STUtils.DeserializeData(filename, typeof(RecordCache)) as RecordCache;
+				PaXMLContent paxmlcontent =
+					STUtils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
+
+				RecordCache cache = (paxmlcontent == null ? null : paxmlcontent.Cache);
 
 				if (cache != null)
 				{
+					cache.m_customFields = paxmlcontent.CustomFields;
+					
 					string fwServer;
 					string fwDBName;
 					PaDataSource.GetPaXMLType(filename, out fwServer, out fwDBName);
@@ -115,13 +133,38 @@ namespace SIL.Pa
 		{
 			try
 			{
-				STUtils.SerializeData(filename, this);
+				PaXMLContent paxmlcontent = new PaXMLContent();
+				paxmlcontent.Cache = this;
+				paxmlcontent.CustomFields = new PaFieldInfoList();
+
+				foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+				{
+					if (fieldInfo.IsCustom)
+						paxmlcontent.CustomFields.Add(fieldInfo);
+				}
+
+				if (paxmlcontent.CustomFields.Count == 0)
+					paxmlcontent.CustomFields = null;
+
+				STUtils.SerializeData(filename, paxmlcontent);
 			}
 			catch (Exception e)
 			{
 				STUtils.STMsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
 					e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PaFieldInfoList DeserializedCustomFields
+		{
+			get { return m_customFields; }
+			set { m_customFields = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

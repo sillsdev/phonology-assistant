@@ -1111,7 +1111,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Characters_Inventory_Editor_overview.htm");
+			ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Character_Inventory_Editor_overview.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

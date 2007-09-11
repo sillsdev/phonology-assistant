@@ -55,13 +55,13 @@ namespace SIL.Pa.Controls
 		private bool m_ToggleGroupExpansion = false;
 
 		private LocalWindowsHook m_kbHook;
+		private PaFieldInfoList m_fieldInfoList;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
 		private readonly GridCellInfoPopup m_cellInfoPopup;
 		private readonly string m_audioFileFieldName;
 		private readonly string m_audioFileOffsetFieldName;
 		private readonly string m_audioFileLengthFieldName;
 		private readonly Bitmap m_spkrImage;
-		private readonly PaFieldInfoList m_fieldInfoList;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -95,9 +95,9 @@ namespace SIL.Pa.Controls
 			Cache = cache;
 			m_owningViewType = owningViewType;
 
-			m_audioFileFieldName = m_fieldInfoList.AudioFileField.FieldName;
-			m_audioFileOffsetFieldName = m_fieldInfoList.AudioFileOffsetField.FieldName;
-			m_audioFileLengthFieldName = m_fieldInfoList.AudioFileLengthField.FieldName;
+			m_audioFileFieldName = FieldInfoList.AudioFileField.FieldName;
+			m_audioFileOffsetFieldName = FieldInfoList.AudioFileOffsetField.FieldName;
+			m_audioFileLengthFieldName = FieldInfoList.AudioFileLengthField.FieldName;
 			m_spkrImage = Properties.Resources.kimidPlaybackSpkr;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -109,7 +109,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid()
 		{
-			m_fieldInfoList = PaApp.Project.FieldInfo;
 			base.DoubleBuffered = true;
 			ReadOnly = true;
 			AllowUserToAddRows = false;
@@ -147,6 +146,25 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private PaFieldInfoList FieldInfoList
+		{
+			get
+			{
+				if (m_fieldInfoList == null || m_fieldInfoList.Count == 0)
+					m_fieldInfoList = PaApp.Project.FieldInfo;
+
+				if (m_fieldInfoList == null)
+					m_fieldInfoList = new PaFieldInfoList();
+
+				return m_fieldInfoList;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds the columns to the grid based on the collection of PA fields in the current
 		/// project.
 		/// </summary>
@@ -155,7 +173,7 @@ namespace SIL.Pa.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
+			foreach (PaFieldInfo fieldInfo in FieldInfoList)
 			{
 				if (fieldInfo.DisplayIndexInGrid >= 0)
 					AddNewColumn(fieldInfo);
@@ -439,8 +457,8 @@ namespace SIL.Pa.Controls
 			if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 				m_dataSourcePathFieldName == null)
 			{
-				if (m_fieldInfoList.DataSourcePathField != null)
-					m_dataSourcePathFieldName = m_fieldInfoList.DataSourcePathField.FieldName;
+				if (FieldInfoList.DataSourcePathField != null)
+					m_dataSourcePathFieldName = FieldInfoList.DataSourcePathField.FieldName;
 			}
 
 			string newAudioFileName;
@@ -1708,8 +1726,8 @@ namespace SIL.Pa.Controls
 			m_currPaintingCellSelected =
 				((e.State & DataGridViewElementStates.Selected) > 0);
 
-			if (Columns[e.ColumnIndex].Name == m_fieldInfoList.AudioFileField.FieldName ||
-				Columns[e.ColumnIndex].Name == m_fieldInfoList.DataSourcePathField.FieldName)
+			if (Columns[e.ColumnIndex].Name == FieldInfoList.AudioFileField.FieldName ||
+				Columns[e.ColumnIndex].Name == FieldInfoList.DataSourcePathField.FieldName)
 			{
 				DrawFilePath(e);
 				e.Handled = true;
@@ -2107,6 +2125,23 @@ namespace SIL.Pa.Controls
 		#region Misc. Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetCurrentCell(int col, int row)
+		{
+			if (row < 0 || row >= RowCount)
+				row = 0;
+
+			while (col < ColumnCount && !Columns[col].Visible)
+				col++;
+
+			if (col < ColumnCount && Columns[col].Visible && Rows[row].Visible)
+				CurrentCell = this[col, row];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// When minimal pairs view is off, this will turn it on, otherwise, the existing
 		/// minimal pairs cache is just refreshed.
 		/// </summary>
@@ -2371,7 +2406,7 @@ namespace SIL.Pa.Controls
 			if (!expand)
 				FindInfo.CanFindAgain = false;
 
-			CurrentCell = this[0, 0];
+			SetCurrentCell(0, 0);
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			m_ToggleGroupExpansion = false;
@@ -2391,7 +2426,7 @@ namespace SIL.Pa.Controls
 			{
 				if (updateColumnFonts)
 				{
-					PaFieldInfo fieldInfo = m_fieldInfoList[col.Name];
+					PaFieldInfo fieldInfo = FieldInfoList[col.Name];
 					if (fieldInfo != null)
 						col.DefaultCellStyle.Font = fieldInfo.Font;
 				}
@@ -2460,9 +2495,7 @@ namespace SIL.Pa.Controls
 			// Restore the selected row and column.
 			if (Rows.Count > row)
 			{
-				if (this[column, row].Visible)
-					CurrentCell = this[column, row];
-
+				SetCurrentCell(column, row);
 				CurrentRow.Selected = true;
 				InvalidateRow(row);
 			}
@@ -2561,7 +2594,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
-			if (PaApp.Project == null || m_fieldInfoList == null)
+			m_fieldInfoList = null;
+
+			if (PaApp.Project == null || FieldInfoList.Count == 0)
 				return false;
 			
 			m_suspendSavingColumnChanges = true;
@@ -2571,7 +2606,25 @@ namespace SIL.Pa.Controls
 			if (IsGroupedByField)
 				Columns[0].Visible = false;
 
-			foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
+			int hierarchicalGridColumnCount = 0;
+
+			// Make sure there are no columns for fields that no longer exist in the project.
+			for (int i = ColumnCount - 1; i >= 0; i--)
+			{
+				if (Columns[i] is SilHierarchicalGridColumn)
+					hierarchicalGridColumnCount++;
+				else
+				{
+					// If there's no longer a field for the column, then remove it.
+					PaFieldInfo fieldInfo = FieldInfoList[Columns[i].Name];
+					if (fieldInfo == null)
+						Columns.RemoveAt(i);
+				}
+			}
+
+			// Make sure there are columns for new fields
+			// that may have been added to the project.
+			foreach (PaFieldInfo fieldInfo in FieldInfoList)
 			{
 				DataGridViewColumn col = Columns[fieldInfo.FieldName];
 				if (col == null)
@@ -2601,7 +2654,15 @@ namespace SIL.Pa.Controls
 				{
 					try
 					{
-						col.DisplayIndex = fieldInfo.DisplayIndexInGrid;
+						// Any SilHierarchicalGridColumns are hidden above, and setting the
+						// column's dislpay index below will cause the hierarchical columns
+						// to be bumped to the end of the column's display list -- and since
+						// they are frozen columns, that leads to bad things. Therefore,
+						// adding hierarchicalGridColumnCount to DisplayIndexInGrid will
+						// make sure the hierarchical grid columns stay to the beginning of
+						// the displayed columns.
+						col.DisplayIndex =
+							fieldInfo.DisplayIndexInGrid + hierarchicalGridColumnCount;
 					}
 					catch
 					{
@@ -2611,6 +2672,8 @@ namespace SIL.Pa.Controls
 					col.Visible = fieldInfo.VisibleInGrid;
 				}
 			}
+
+			CleanupColumns();
 
 			// Restore the first column's (collapse/expand group) visibility 
 			// and reset its display index to 0.
@@ -2636,7 +2699,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnCVSyllablesChanged(object args)
 		{
-			PaFieldInfo fieldInfo = m_fieldInfoList.CVPatternField;
+			PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
 			if (fieldInfo != null)
 			{
 				DataGridViewColumn col = Columns[fieldInfo.FieldName];
@@ -2815,7 +2878,7 @@ namespace SIL.Pa.Controls
 			// fonts in the visible rows.
 			RefreshColumnFonts(false);
 
-			CleanupAfterColumnsHidden();
+			CleanupColumns();
 
 			// Return false so everyone who cares gets a crack at handling the message.
 			return false;
@@ -2823,18 +2886,19 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// After word list options have changed, it's possible the grid is grouped on a column
-		/// that was removed. Therefore, ungroup the list. In addition, there could be columns
-		/// that were hidden and are in the sort options. If that's the case, they are removed
-		/// from the sort options and the list is resorted.
+		/// After word list options have changed, or the project's fields list has changed
+		/// (e.g. custom fields change), it's possible the grid is grouped on a column that was
+		/// removed or hidden. Therefore, ungroup the list. In addition, there could be columns
+		/// that were removed or hidden and are in the sort options. If that's the case, they
+		/// are removed from the sort options and the list is resorted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CleanupAfterColumnsHidden()
+		private void CleanupColumns()
 		{
 			// If the column that was grouped on is no longer visible, then ungroup.
 			if (m_groupByField != null)
 			{
-				if (Columns.Contains(m_groupByField.FieldName) &&
+				if (!Columns.Contains(m_groupByField.FieldName) ||
 					!Columns[m_groupByField.FieldName].Visible)
 				{
 					GroupByField = null;
@@ -2851,7 +2915,7 @@ namespace SIL.Pa.Controls
 			{
 				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
 
-				if (Columns.Contains(fldName) && !Columns[fldName].Visible)
+				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
 				{
 					SortOptions.SortInformationList.RemoveAt(i);
 					reSort = true;
@@ -3090,10 +3154,10 @@ namespace SIL.Pa.Controls
 		{
 			if (!row.Expanded && row.IsRowOwned(FindInfo.FirstMatchedRow))
 			{
-				CurrentCell = this[0, (row.Index >= 0 ? row.Index : 0)];
+				SetCurrentCell(0, (row.Index >= 0 ? row.Index : 0));
 
 				// Move the cell's row to the screen's top if it is not on the screen
-				if (!CurrentCell.Displayed)
+				if (CurrentCell != null && !CurrentCell.Displayed)
 					FirstDisplayedScrollingRowIndex = (row.Index < 1 ? 0 : row.Index);
 
 				FindInfo.ResetStartSearchCell(false);

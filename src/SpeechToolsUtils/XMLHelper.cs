@@ -31,7 +31,23 @@ namespace SIL.SpeechTools.Utils
 		public static int GetIntFromAttribute(XmlNode node, string attribute, int defaultValue)
 		{
 			string val = GetAttributeValue(node, attribute);
-			return (val == null ? defaultValue : int.Parse(val));
+			int retVal;
+			return (int.TryParse(val, out retVal) ? retVal : defaultValue);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="attrValue"></param>
+		/// <param name="defaultValue"></param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public static float GetFloatFromAttribute(XmlNode node, string attribute, float defaultValue)
+		{
+			string val = GetAttributeValue(node, attribute);
+			float retVal;
+			return (float.TryParse(val, out retVal) ? retVal : defaultValue);
 		}
 
 		/// ------------------------------------------------------------------------------------

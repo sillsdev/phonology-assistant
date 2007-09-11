@@ -190,6 +190,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A field by the name of &apos;{0}&apos; already exists..
+        /// </summary>
+        internal static string kstidCustomFieldExistsMsg {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldExistsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Field be Interlinear?.
         /// </summary>
         internal static string kstidCustomFieldGridHdgInterlinear {

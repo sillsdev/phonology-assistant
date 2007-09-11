@@ -16,6 +16,7 @@ namespace SIL.Pa.Dialogs
 		private const string kRTLCol = "rtl";
 		private const string kILCol = "interlinear";
 		private const string kParsedCol = "parsed";
+		private const string kOrigCol = "origfield";
 
 		private SilGrid m_grid;
 		private readonly PaProject m_project;
@@ -53,7 +54,7 @@ namespace SIL.Pa.Dialogs
 
 					object[] row = new object[] { fieldInfo.DisplayText,
 						dataType, fieldInfo.RightToLeft, fieldInfo.IsParsed,
-						fieldInfo.CanBeInterlinear};
+						fieldInfo.CanBeInterlinear, fieldInfo };
 
 					m_grid.Rows.Add(row);
 				}
@@ -118,6 +119,11 @@ namespace SIL.Pa.Dialogs
 			col = SilGrid.CreateCheckBoxColumn(kILCol);
 			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgInterlinear;
 			col.Width = 90;
+			m_grid.Columns.Add(col);
+
+			// Keep a column for the original field information object.
+			col = SilGrid.CreateTextBoxColumn(kOrigCol);
+			col.Visible = false;
 			m_grid.Columns.Add(col);
 
 			Controls.Add(m_grid);
@@ -282,7 +288,9 @@ namespace SIL.Pa.Dialogs
 			int i = 0;
 			while (i < m_grid.NewRowIndex)
 			{
-				string fieldName = m_grid[0, i].Value as string;
+				string fieldName = m_grid[kNameCol, i].Value as string;
+				PaFieldInfo origFieldInfo = m_grid[kOrigCol, i].Value as PaFieldInfo;
+				
 				if (fieldName != null)
 					fieldName = fieldName.Trim();
 
@@ -290,6 +298,18 @@ namespace SIL.Pa.Dialogs
 					m_grid.Rows.RemoveAt(i);
 				else
 					i++;
+
+				// Check if the field already exists, but make sure we don't test the
+				// field against itself when the custom field was added in the past.
+				PaFieldInfo fieldInfo = m_project.FieldInfo[fieldName];
+				if (fieldInfo != null && fieldInfo != origFieldInfo)
+				{
+					STUtils.STMsgBox(string.Format(
+						Properties.Resources.kstidCustomFieldExistsMsg, fieldName),
+						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+					return false;
+				}
 			}
 
 			return true;
@@ -323,7 +343,10 @@ namespace SIL.Pa.Dialogs
 				if (i == m_grid.NewRowIndex)
 					continue;
 
-				PaFieldInfo fieldInfo = new PaFieldInfo();
+				PaFieldInfo fieldInfo =
+					(m_grid[kOrigCol, i].Value as PaFieldInfo ?? new PaFieldInfo());
+
+				string origFieldName = fieldInfo.FieldName;
 
 				fieldInfo.IsNumeric = ((m_grid[kTypeCol, i].Value as string) ==
 					Properties.Resources.kstidCustomFieldGridTypeNumeric);
@@ -343,8 +366,13 @@ namespace SIL.Pa.Dialogs
 				fieldInfo.DisplayText = m_grid[kNameCol, i].Value as string;
 				fieldInfo.DisplayIndexInGrid = m_project.FieldInfo.Count - 1;
 				fieldInfo.DisplayIndexInRecView = m_project.FieldInfo.Count - 1;
-				fieldInfo.MarkFieldAsCustom(i);
+				fieldInfo.FieldName = fieldInfo.DisplayText;
+				fieldInfo.IsCustom = true;
 				m_project.FieldInfo.Add(fieldInfo);
+
+				// Inform the project that a custom field has changed.
+				if (origFieldName != null && origFieldName != fieldInfo.FieldName)
+					m_project.ProcessRenamedCustomField(origFieldName, fieldInfo.FieldName);
 			}
 
 			return true;

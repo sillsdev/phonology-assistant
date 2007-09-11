@@ -183,16 +183,18 @@ namespace SIL.Pa.Controls
 					continue;
 
 				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[fieldName];
-
-				if (forGrid)
+				if (fieldInfo != null)
 				{
-					fieldInfo.VisibleInGrid = (bool)row.Cells[kCheckCol].Value;
-					fieldInfo.DisplayIndexInGrid = displayIndex++;
-				}
-				else
-				{
-					fieldInfo.VisibleInRecView = (bool)row.Cells[kCheckCol].Value;
-					fieldInfo.DisplayIndexInRecView = displayIndex++;
+					if (forGrid)
+					{
+						fieldInfo.VisibleInGrid = (bool)row.Cells[kCheckCol].Value;
+						fieldInfo.DisplayIndexInGrid = displayIndex++;
+					}
+					else
+					{
+						fieldInfo.VisibleInRecView = (bool)row.Cells[kCheckCol].Value;
+						fieldInfo.DisplayIndexInRecView = displayIndex++;
+					}
 				}
 			}
 		}

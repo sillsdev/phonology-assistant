@@ -565,7 +565,7 @@ namespace SIL.Pa.Dialogs
 			get
 			{
 				return (cboToolboxSortField.SelectedIndex == 0 ? null :
-						((PaFieldInfo)cboToolboxSortField.SelectedItem).FieldName);
+					((PaFieldInfo)cboToolboxSortField.SelectedItem).FieldName);
 			}
 		}
 

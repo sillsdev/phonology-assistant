@@ -500,4 +500,8 @@
     <value>U+{0:X4}</value>
     <comment>Format for displaying a character's codepoint value in the undefined phonetic characters dialog</comment>
   </data>
+  <data name="kstidCustomFieldExistsMsg" xml:space="preserve">
+    <value>A field by the name of '{0}' already exists.</value>
+    <comment>Message displayed when the user tries to add a custom that doesn't exist.</comment>
+  </data>
 </root>

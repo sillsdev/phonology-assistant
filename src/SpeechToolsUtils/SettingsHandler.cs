@@ -570,10 +570,9 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public bool GetBoolValue(string xPath, string id, string property, bool defaultValue)
 		{
-			string retVal = GetValue(xPath, id, property);
-			try {return bool.Parse(retVal);}
-			catch { }
-			return defaultValue;
+			string val = GetValue(xPath, id, property);
+			bool retVal;
+			return (bool.TryParse(val, out retVal) ? retVal : defaultValue);
 		}
 
 		#endregion

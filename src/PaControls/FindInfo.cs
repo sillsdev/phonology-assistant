@@ -434,12 +434,23 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool ProcessColumns()
 		{
+			// Make sure the column to search is still in the grid and visible.
+			if (m_grid.Columns[m_colsToSearch[m_iColumn].FieldName] == null ||
+				!m_grid.Columns[m_colsToSearch[m_iColumn].FieldName].Visible)
+			{
+				List<FindDlgColItem> tmpLst = new List<FindDlgColItem>(m_colsToSearch);
+				tmpLst.RemoveAt(m_iColumn);
+				m_colsToSearch = tmpLst.ToArray();
+				return false;
+			}
+
 			if (SearchCellDataForMatch(
 				m_grid[m_colsToSearch[m_iColumn].ColIndex, m_grid.Rows[m_iRow].Index], m_findPattern))
 			{
 				Match();
 				return true; // match
 			}
+
 			return false; // no match
 		}
 
@@ -484,7 +495,8 @@ namespace SIL.Pa.Controls
 			if (cellValue == null)
 				return false;
 
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[cell.ColumnIndex].Name];
+			PaFieldInfo fieldInfo =
+				PaApp.Project.FieldInfo[m_grid.Columns[cell.ColumnIndex].Name];
 
 			if (!fieldInfo.IsPhonetic)
 				cellValue = FFNormalizer.Normalize(cellValue);

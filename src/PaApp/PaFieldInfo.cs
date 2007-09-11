@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
@@ -13,10 +15,10 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("Field")]
+	[XmlType("FieldValueInfo")]
 	public class PaFieldValue
 	{
-		[XmlAttribute]
+		[XmlAttribute("FieldName")]
 		public string Name;
 		[XmlAttribute]
 		public string Value;
@@ -63,13 +65,15 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlRoot("PaFields")]
+	[XmlType("PaFields")]
 	public class PaFieldInfoList : List<PaFieldInfo>
 	{
 		private PaFieldInfo m_phoneticField;
 		private PaFieldInfo m_dataSourceField;
 		private PaFieldInfo m_dataSourcePathField;
 		private PaFieldInfo m_audioFileField;
+
+		private const float kCurrVersion = 2.0f;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -412,7 +416,7 @@ namespace SIL.Pa
 					i++;
 			}
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a list of default PA fields.
@@ -452,19 +456,41 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static PaFieldInfoList Load(PaProject project)
 		{
+			bool saveProjAfterLoad;
+			return Load(project, out saveProjAfterLoad);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the field information for the specified project. If the project is null or
+		/// the file in which the project's field information cannot be found, then the
+		/// default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaFieldInfoList Load(PaProject project, out bool saveProjAfterLoad)
+		{
+			saveProjAfterLoad = false;
+
 			if (project == null)
 				return DefaultFieldInfoList;
 
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
-			
+
 			// Get the project specific field information.
 			PaFieldInfoList fieldInfoList = STUtils.DeserializeData(filename,
-					typeof(PaFieldInfoList)) as PaFieldInfoList;
+				typeof(PaFieldInfoList)) as PaFieldInfoList;
 
 			if (fieldInfoList != null)
 			{
 				CleanupLoadedFieldList(fieldInfoList);
-				
+
+				float version = fieldInfoList.ManageVersion(filename, true);
+				if (project != null && version < 2.0f)
+				{
+					UpdateCustomFieldNames(fieldInfoList, project);
+					saveProjAfterLoad = true;
+				}
+
 				// Now, if we have a project, save any changes made during cleanup.
 				fieldInfoList.Save(project);
 			}
@@ -544,6 +570,29 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Update custom field names so the internal names for custom fields are the same
+		/// as the field's display text. This method is only to update the custom field names
+		/// for projects containing custom fields created before 9/9/07 but gets called all
+		/// the time... which is unnecessary after the first time, but won't hurt if it's
+		/// done every time the project's fields are loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void UpdateCustomFieldNames(PaFieldInfoList fieldInfoList,
+			PaProject project)
+		{
+			foreach (PaFieldInfo fieldInfo in fieldInfoList)
+			{
+				if (fieldInfo.IsCustom)
+				{
+					project.ProcessRenamedCustomField(fieldInfo.FieldName,
+						fieldInfo.DisplayText);
+					fieldInfo.FieldName = fieldInfo.DisplayText;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Loads the field information for the specified project. If project is null then
 		/// the default list is loaded.
 		/// </summary>
@@ -555,6 +604,7 @@ namespace SIL.Pa
 
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
 			STUtils.SerializeData(filename, this);
+			ManageVersion(filename, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -565,6 +615,57 @@ namespace SIL.Pa
 		public void Save()
 		{
 			STUtils.SerializeData("DefaultFieldInfo.xml", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method manages reading and writing the file version. It would be great if the
+		/// version could just be a public variable that was serialized and deserialized with
+		/// this class object, but for some reason, (I think it's because this class is
+		/// derived from a generic list) serializing this list doesn't serialize public
+		/// variables and properties in classes derived from List<>, which this class is.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private float ManageVersion(string filename, bool getVer)
+		{
+			try
+			{
+				XmlDocument xmlDoc = new XmlDocument();
+				xmlDoc.Load(filename);
+				XmlNode node = xmlDoc.SelectSingleNode("PaFields");
+
+				if (getVer)
+					return XMLHelper.GetFloatFromAttribute(node, "version", 0f);
+
+				// Write the version to the file. Save the file using a XmlTextWriter
+				// instead of just passing the file name to the save method. Otherwise
+				// the XML file will contain a BOM and that causes trouble.
+				XmlTextWriter writer = new XmlTextWriter(filename, new System.Text.UTF8Encoding(false));
+				writer.Formatting = Formatting.Indented;
+				xmlDoc.DocumentElement.SetAttribute("version", kCurrVersion.ToString());
+				xmlDoc.Save(writer);
+				writer.Flush();
+				writer.Close();
+			}
+			catch { }
+
+			return 0f;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the internal field name for the specified display text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetFieldNameFromDisplayText(string displayText)
+		{
+			foreach (PaFieldInfo fieldInfo in this)
+			{
+				if (displayText == fieldInfo.DisplayText)
+					return fieldInfo.FieldName;
+			}
+
+			return null;
 		}
 	}
 
@@ -685,21 +786,6 @@ namespace SIL.Pa
 		public override string ToString()
 		{
 			return DisplayText;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Marks the field information object as a custom field, assigning the proper
-		/// field name, etc.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void MarkFieldAsCustom(int customFieldNumber)
-		{
-			m_fieldName = kCustomFieldPrefix + customFieldNumber.ToString();
-			m_isCustom = true;
-
-			// TODO: allow user to specify font.
-			Font = FontHelper.UIFont;
 		}
 
 		#region Properties

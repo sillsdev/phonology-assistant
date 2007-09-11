@@ -111,6 +111,7 @@ namespace SIL.Pa.Controls
 			// Save the FieldNames of the search columns for initial selection when
 			// the FindDlg is reopened
 			s_colsToFindIn.Clear();
+			
 			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
 				s_colsToFindIn.Add(fieldInfo.FieldName);
 			
@@ -208,17 +209,14 @@ namespace SIL.Pa.Controls
 
 			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
 			{
-				FindDlgColItem item = new FindDlgColItem(
+				columnsToSearch.Add(new FindDlgColItem(
 					m_grid.Columns[fieldInfo.FieldName].Index,
 					fieldInfo.DisplayIndexInGrid,
-					fieldInfo.DisplayText, fieldInfo.FieldName);
-
-				columnsToSearch.Add(item);
+					fieldInfo.DisplayText, fieldInfo.FieldName));
 			}
 
 			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
 			FindInfo.FindFirst(chkReverseSearch.Checked);
-
 			Close();
 		}
 		#endregion

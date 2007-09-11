@@ -187,19 +187,19 @@ namespace SIL.Pa
 			}
 
 			// At this point, we know we have a valid XML file. Now check if it's PAXML.
-			RecordCache cache =
-				STUtils.DeserializeData(filename, typeof(RecordCache)) as RecordCache;
+			PaXMLContent paxmlContent =
+				STUtils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
 
-			if (cache == null)
+			if (paxmlContent == null)
 				m_sourceType = DataSourceType.XML;
 			else
 			{
 				// We know we have a PAXML file. Now check if it was written by FieldWorks.
 				string fwServer;
 				string fwDBName;
-				m_sourceType = GetPaXMLType(filename, out fwServer, out fwDBName);				
-				m_linesInFile = cache.Count;
-				cache.Clear();
+				m_sourceType = GetPaXMLType(filename, out fwServer, out fwDBName);
+				m_linesInFile = paxmlContent.Cache.Count;
+				paxmlContent.Cache.Clear();
 			}
 
 			return true;
@@ -239,6 +239,24 @@ namespace SIL.Pa
 			catch {}
 
 			return type;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the mappings for an SFM data source and changes mappings with the
+		/// specified original field name, with the specified new field name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RenameMappedFieldName(string origName, string newName)
+		{
+			if (m_mappings == null)
+				return;
+
+			foreach (SFMarkerMapping mapping in m_mappings)
+			{
+				if (mapping.FieldName == origName)
+					mapping.FieldName = newName;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

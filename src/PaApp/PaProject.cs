@@ -60,6 +60,18 @@ namespace SIL.Pa
 				m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes sure that SFM and Toolbox data sources are informed that a custom field has
+		/// changed names. This is so the SF mappings in the data source can be updated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ProcessRenamedCustomField(string origName, string newName)
+		{
+			foreach (PaDataSource source in m_dataSources)
+				source.RenameMappedFieldName(origName, newName);
+		}
+
 		#region IDisposable Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -267,7 +279,11 @@ namespace SIL.Pa
 		{
 			try
 			{
-				m_fieldInfoList = PaFieldInfoList.Load(this);
+				bool saveAfterLoadingFields;
+				m_fieldInfoList = PaFieldInfoList.Load(this, out saveAfterLoadingFields);
+				if (saveAfterLoadingFields)
+					Save();
+
 				PaApp.FieldInfo = m_fieldInfoList;
 				InitializeFontHelperFonts();
 				DataCorpusSortOptions.SyncFieldInfo(m_fieldInfoList);
@@ -428,6 +444,7 @@ namespace SIL.Pa
 			PaApp.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();
+			EnsureSortOptionsValid();
 			PaApp.MsgMediator.SendMessage("AfterLoadingDataSources", this);
 		}
 
@@ -457,6 +474,49 @@ namespace SIL.Pa
 				(m_XYChartSortOptions != null && m_XYChartSortOptions.SaveManuallySetSortOptions))
 			{
 				Save();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the sort option's sort information list to make sure each field in
+		/// there is a valid field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void EnsureSortOptionsValid()
+		{
+			if (m_DataCorpusSortOptions != null &&
+				m_DataCorpusSortOptions.SortInformationList != null)
+			{
+				EnsureSingleSortOptionValid(m_DataCorpusSortOptions.SortInformationList);
+			}
+
+			if (m_FindPhoneSortOptions != null &&
+				m_FindPhoneSortOptions.SortInformationList != null)
+			{
+				EnsureSingleSortOptionValid(m_FindPhoneSortOptions.SortInformationList);
+			}
+
+			if (m_XYChartSortOptions != null &&
+				m_XYChartSortOptions.SortInformationList != null)
+			{
+				EnsureSingleSortOptionValid(m_XYChartSortOptions.SortInformationList);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the specified sort information list to make sure each field in there
+		/// is a valid field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void EnsureSingleSortOptionValid(SortInformationList sil)
+		{
+			for (int i = sil.Count - 1; i >= 0; i--)
+			{
+				PaFieldInfo fieldInfo = m_fieldInfoList[sil[i].FieldInfo.FieldName];
+				if (fieldInfo == null)
+					sil.RemoveAt(i);
 			}
 		}
 

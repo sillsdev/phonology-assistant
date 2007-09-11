@@ -335,8 +335,10 @@ namespace SIL.Pa
 			if (cache == null)
 				return;
 
+			AddCustomFieldsFromPaXML(cache);
+
 			// If the record cache member variable currently points to an empty cache, then
-			// just set it to point to the cache into which we just read the specified PA XML
+			// just set it to point to the cache into which we just read the specified PaXML
 			// file. Otherwise move the records from the cache we just read into to the
 			// member variable cache.
 			if (m_recCache.Count == 0)
@@ -352,6 +354,28 @@ namespace SIL.Pa
 					m_recCache.Add(cache[0]);
 					cache.RemoveAt(0);
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure custom fields stored in the PaXML file are added to the project's field
+		/// list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddCustomFieldsFromPaXML(RecordCache cache)
+		{
+			if (cache.DeserializedCustomFields != null &&
+				cache.DeserializedCustomFields.Count > 0)
+			{
+				foreach (PaFieldInfo customField in cache.DeserializedCustomFields)
+				{
+					PaFieldInfo fieldInfo = m_project.FieldInfo[customField.FieldName];
+					if (fieldInfo == null)
+						m_project.FieldInfo.Add(customField);
+				}
+
+				cache.DeserializedCustomFields = null;
 			}
 		}
 

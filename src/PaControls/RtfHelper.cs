@@ -26,7 +26,9 @@ namespace SIL.Pa.Controls
 			else
 				fontNumbers.Clear();
 
-			PaFieldInfoList fields = PaApp.FieldInfo;
+			PaFieldInfoList fields = (PaApp.Project != null ?
+				PaApp.Project.FieldInfo : PaApp.FieldInfo);
+			
 			string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.

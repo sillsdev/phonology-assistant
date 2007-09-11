@@ -557,7 +557,7 @@ namespace SIL.Pa
 		/// Handle the logic for all methods OnUpdateEditFind(Next/Previous)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enabled)
+		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
 		{
 			if (itemProps == null)
 				return false;
@@ -579,10 +579,10 @@ namespace SIL.Pa
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else
-					enabled = false;
+					enableAllow = false;
 			}
 
-			bool enable = (PaApp.Project != null && grid != null && grid.RowCount > 0);
+			bool enable = (enableAllow && PaApp.Project != null && grid != null && grid.RowCount > 0);
 
 			if (itemProps.Enabled != enable)
 			{
