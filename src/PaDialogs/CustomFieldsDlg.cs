@@ -289,7 +289,6 @@ namespace SIL.Pa.Dialogs
 			while (i < m_grid.NewRowIndex)
 			{
 				string fieldName = m_grid[kNameCol, i].Value as string;
-				PaFieldInfo origFieldInfo = m_grid[kOrigCol, i].Value as PaFieldInfo;
 				
 				if (fieldName != null)
 					fieldName = fieldName.Trim();
@@ -298,17 +297,45 @@ namespace SIL.Pa.Dialogs
 					m_grid.Rows.RemoveAt(i);
 				else
 					i++;
+			}
 
-				// Check if the field already exists, but make sure we don't test the
-				// field against itself when the custom field was added in the past.
-				PaFieldInfo fieldInfo = m_project.FieldInfo[fieldName];
+			// Check for duplicate fields.
+			foreach (DataGridViewRow row1 in m_grid.Rows)
+			{
+				if (row1.Index == m_grid.NewRowIndex)
+					continue;
+
+				PaFieldInfo origFieldInfo = row1.Cells[kOrigCol].Value as PaFieldInfo;
+				string fieldName1 = row1.Cells[kNameCol].Value as string;
+
+				// Check if the field already exists in the project's fields collection.
+				// Make sure we don't test the field against itself.
+				PaFieldInfo fieldInfo = m_project.FieldInfo[fieldName1];
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
 					STUtils.STMsgBox(string.Format(
-						Properties.Resources.kstidCustomFieldExistsMsg, fieldName),
+						Properties.Resources.kstidCustomFieldExistsMsg, fieldName1),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 					return false;
+				}
+
+				// Check if there are any other rows in the grid with the same field name.
+				foreach (DataGridViewRow row2 in m_grid.Rows)
+				{
+					// Make sure we don't test the row against itself.
+					if (row2 == row1 || row2.Index == m_grid.NewRowIndex)
+						continue;
+
+					string fieldName2 = row2.Cells[kNameCol].Value as string;
+					if (fieldName2 == fieldName1)
+					{
+						STUtils.STMsgBox(string.Format(
+							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
+							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+						return false;
+					}
 				}
 			}
 

@@ -190,6 +190,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The custom field &apos;{0}&apos; occurs multiple times in the list..
+        /// </summary>
+        internal static string kstidCustomFieldDupMsg {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldDupMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A field by the name of &apos;{0}&apos; already exists..
         /// </summary>
         internal static string kstidCustomFieldExistsMsg {
