@@ -1118,8 +1118,12 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnRemovePattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()))
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !itemProps.Name.EndsWith("-FromSavedList") ||
+				!PaApp.IsFormActive(FindForm()))
+			{
 				return false;
+			}
 
 			if (CurrentQuery == null)
 				DeleteCategory(SelectedNode);
