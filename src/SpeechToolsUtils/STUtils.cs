@@ -536,7 +536,11 @@ namespace SIL.SpeechTools.Utils
 				}
 			}
 
-			Application.DoEvents();
+			try
+			{
+				Application.DoEvents();
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------

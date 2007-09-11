@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,14 +8,21 @@ using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Dialogs
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
 		private int m_defaultRowHeight;
-		private readonly bool m_expandGroupsOpen;
-		private readonly UndefinedPhoneticCharactersInfoList m_list;
+		private UndefinedPhoneticCharactersInfoList m_currUdpcil;
+		private Dictionary<char, UndefinedPhoneticCharactersInfoList> m_udpciList;
 		private readonly string m_infoFmt;
 		private readonly string m_codepointColFmt =
 			Properties.Resources.kstidUndefPhoneticChartsGridCodePointColFmt;
+
+		private readonly string m_codepointHdgFmt;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -84,28 +92,30 @@ namespace SIL.Pa.Dialogs
 		{
 			InitializeComponent();
 
+			m_codepointHdgFmt = pgpWhere.Text;
+
+			pgpChars.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			pgpWhere.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+
+			m_udpciList = new Dictionary<char, UndefinedPhoneticCharactersInfoList>();
 			m_infoFmt = lblInfo.Text;
 			lblInfo.Font = FontHelper.UIFont;
 			chkShowUndefinedCharDlg.Font = FontHelper.UIFont;
 			chkIgnoreInSearches.Font = FontHelper.UIFont;
+			pgpChars.Font = FontHelper.UIFont;
+			pgpWhere.Font = FontHelper.UIFont;
+			pgpChars.BorderStyle = BorderStyle.None;
+			pgpWhere.BorderStyle = BorderStyle.None;
 
-			Left = (Screen.PrimaryScreen.WorkingArea.Width - Width) / 2;
-			Top = (Screen.PrimaryScreen.WorkingArea.Height - Height) / 2;
-
-			PaApp.SettingsHandler.LoadFormProperties(this);
-			AddColumns();
-			CalcRowHeight();
-
-			m_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+			AddColumnsToCharsGrid();
+			AddColumnsToWhereGrid();
+			CalcWhereGridRowHeight();
 
 			if (PaApp.Project != null)
 			{
 				chkShowUndefinedCharDlg.Checked = PaApp.Project.ShowUndefinedCharsDlg;
 				chkIgnoreInSearches.Checked = PaApp.Project.IgnoreUndefinedCharsInSearches;
 			}
-
-			m_expandGroupsOpen =
-				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "expandonopen", false);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -116,9 +126,9 @@ namespace SIL.Pa.Dialogs
 		public UndefinedPhoneticCharactersDlg(string projectName,
 			UndefinedPhoneticCharactersInfoList list) : this()
 		{
-			m_list = list;
+			list.Sort(CompareUndefinedCharValues);
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
-			LoadGrid(list);
+			LoadCharGrid(list);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,42 +136,64 @@ namespace SIL.Pa.Dialogs
 		/// Add columns to fonts grid
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddColumns()
+		private void AddColumnsToCharsGrid()
 		{
-			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+			m_gridChars.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidUnicodeNumHdg);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			m_grid.Columns.Add(col);
+			m_gridChars.Columns.Add(col);
 
 			// Add the sample column.
-			col = SilGrid.CreateTextBoxColumn("character");
+			col = SilGrid.CreateTextBoxColumn("char");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidCharHdg);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns.Add(col);
+			m_gridChars.Columns.Add(col);
 
-			// Add the sample column.
-			col = SilGrid.CreateTextBoxColumn("word");
+			// Add the occurances number column.
+			col = SilGrid.CreateTextBoxColumn("occur");
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidOccurancesHdg);
+			m_gridChars.Columns.Add(col);
+
+			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			m_gridChars.AutoResizeColumnHeadersHeight();
+			m_gridChars.Name = Name + "CharsGrid";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add columns to fonts grid
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddColumnsToWhereGrid()
+		{
+			m_gridWhere.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+			m_gridWhere.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("word");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidWordHdg);
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns.Add(col);
+			m_gridWhere.Columns.Add(col);
 
 			// Add the reference column.
 			col = SilGrid.CreateTextBoxColumn("reference");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidReferenceHdg);
-			m_grid.Columns.Add(col);
+			m_gridWhere.Columns.Add(col);
 
 			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
 			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidDataSourceHdg);
-			m_grid.Columns.Add(col);
+			m_gridWhere.Columns.Add(col);
 
-			m_grid.Name = Name + "Grid";
+			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			m_gridWhere.AutoResizeColumnHeadersHeight();
+			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+			m_gridWhere.Name = Name + "WhereGrid";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,11 +201,11 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CalcRowHeight()
+		private void CalcWhereGridRowHeight()
 		{
 			m_defaultRowHeight = 0;
 
-			foreach (DataGridViewColumn col in m_grid.Columns)
+			foreach (DataGridViewColumn col in m_gridWhere.Columns)
 			{
 				m_defaultRowHeight = Math.Max(m_defaultRowHeight,
 					(col.DefaultCellStyle.Font ?? FontHelper.UIFont).Height);
@@ -188,32 +220,40 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadGrid(UndefinedPhoneticCharactersInfoList list)
+		private void LoadCharGrid(UndefinedPhoneticCharactersInfoList list)
 		{
 			STUtils.WaitCursors(true);
-			m_grid.Rows.Clear();
-			m_grid.RowCount = list.Count;
-
-			// Save in each row the index of it's entry in the undefined char. list
-			// because the row index won't do it for us after the grid is grouped.
-			for (int i = 0; i < m_grid.RowCount; i++)
-				m_grid.Rows[i].Tag = i;
-
-			m_grid.AutoResizeColumns();
-
-			// Add a couple of pixels because I observed the auto sizing comes up a couple
-			// pixels short when certain size fonts are used in the column headers.
-			m_grid.Columns[0].Width += 2;
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			m_gridChars.Rows.Clear();
 			
-			m_list.Sort(CompareUndefinedCharValues);
+			DataGridViewRow prevRow = null;
+			int count = 0;
+			char prevChar = (char)0;
 
-			Group();
+			for (int i = list.Count - 1; i >= 0; i--)
+			{
+				if (prevChar != list[i].Character)
+				{
+					if (prevRow != null)
+						prevRow.Cells["occur"].Value = count;
 
-			if (!m_expandGroupsOpen && m_grid.RowCount <= 5000)
-				CollapseGroups();
+					count = 0;
+					prevChar = list[i].Character;
+					m_udpciList[prevChar] = new UndefinedPhoneticCharactersInfoList();
+					m_gridChars.Rows.Insert(0, new object[] {
+						string.Format(m_codepointColFmt, (int)prevChar), prevChar, 0});
 
-			m_grid.CurrentCell = m_grid[0, 0];
+					prevRow = m_gridChars.Rows[0];
+				}
+
+				count++;
+				m_udpciList[prevChar].Add(list[i]);
+			}
+
+			if (prevRow != null)
+				prevRow.Cells["occur"].Value = count;
+
+			m_gridChars.AutoResizeColumns();
+			m_gridChars.CurrentCell = m_gridChars[0, 0];
 			STUtils.WaitCursors(false);
 		}
 
@@ -237,74 +277,6 @@ namespace SIL.Pa.Dialogs
 			return (x.Character.CompareTo(y.Character));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Groups rows according to the unicode value.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void Group()
-		{
-			SilHierarchicalGridRow shgrow;
-			Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
-			int lastChild = m_list.Count - 1;
-			char prevChar = m_list[lastChild].Character;
-			string fmt = Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgFmt;
-			string[] countFmt = new string[] {
-				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtLong,
-				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtMed,
-				Properties.Resources.kstidUndefPhoneticCharsGridGroupHdgCountFmtShort};
-
-			m_grid.SuspendLayout();
-
-			// Go from the bottom of the grid up, finding where the values differ from
-			// one row to the next. At those boundaries, a hierarchical row is inserted.
-			for (int i = m_list.Count - 1; i >= 0; i--)
-			{
-				if (prevChar != m_list[i].Character)
-				{
-					shgrow = new SilHierarchicalGridRow(m_grid,
-						string.Format(fmt, prevChar, (int)prevChar), fnt, i + 1, lastChild);
-
-					shgrow.CountFormatStrings = countFmt;
-					m_grid.Rows.Insert(i + 1, shgrow);
-					prevChar = m_list[i].Character;
-					lastChild = i;
-				}
-			}
-
-			// Insert the first group heading row.
-			shgrow = new SilHierarchicalGridRow(m_grid,
-				string.Format(fmt, prevChar, (int)prevChar), fnt, 0, lastChild);
-
-			shgrow.CountFormatStrings = countFmt;
-			m_grid.Rows.Insert(0, shgrow);
-
-			// Insert a hierarchical column for the + and - glpyhs.
-			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid.ResumeLayout();
-
-			foreach (DataGridViewRow row in m_grid.Rows)
-			{
-				shgrow = row as SilHierarchicalGridRow;
-				if (shgrow != null)
-					shgrow.SubscribeToOwningGridEvents();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void CollapseGroups()
-		{
-			foreach (DataGridViewRow row in m_grid.Rows)
-			{
-				if (row is SilHierarchicalGridRow)
-					((SilHierarchicalGridRow)row).SetExpandedState(false, false);
-			}
-		}
-
 		#region Event handlers and overrides
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -322,26 +294,55 @@ namespace SIL.Pa.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		private void m_gridChars_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < 0)
+				return;
+
+			char currChar;
+			if (m_gridChars["char", e.RowIndex].Value is char)
+				currChar = (char)m_gridChars["char", e.RowIndex].Value;
+			else
+			{
+				m_gridWhere.Rows.Clear();
+				return;
+			}
+
+			if (m_gridWhere.Tag is char && (char)m_gridWhere.Tag == currChar)
+				return;
+
+			m_gridWhere.Tag = currChar;
+			m_gridWhere.Rows.Clear();
+
+			if (m_udpciList.TryGetValue(currChar, out m_currUdpcil))
+			{
+				pgpWhere.Text = string.Format(m_codepointHdgFmt, (int)currChar);
+				m_currUdpcil = m_udpciList[currChar];
+				m_gridWhere.RowCount = m_udpciList[currChar].Count;
+				
+				if (m_gridWhere.RowCount > 0)
+					m_gridWhere.CurrentCell = m_gridWhere[0, 0];
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_gridWhere_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			e.Value = null;
 			int row = e.RowIndex;
 
-			if (e.ColumnIndex <= 0 || row < 0 || m_grid.Rows[row] is SilHierarchicalGridRow ||
-				m_grid.Rows[row].Tag == null || m_grid.Rows[row].Tag.GetType() != typeof(int))
-			{
+			if (m_currUdpcil == null)
 				return;
-			}
-
-			int i = (int)m_grid.Rows[row].Tag;
 
 			switch (e.ColumnIndex)
 			{
-				case 1: e.Value = string.Format("U+{0:X4}", (int)m_list[i].Character); break;
-				case 2: e.Value = m_list[i].Character; break;
-				case 3: e.Value = m_list[i].Transcription; break;
-				case 4: e.Value = m_list[i].Reference; break;
-				case 5: e.Value = m_list[i].SourceName; break;
+				case 0: e.Value = m_currUdpcil[row].Transcription; break;
+				case 1: e.Value = m_currUdpcil[row].Reference; break;
+				case 2: e.Value = m_currUdpcil[row].SourceName; break;
 			}
 		}
 
@@ -353,9 +354,26 @@ namespace SIL.Pa.Dialogs
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
+
+			STUtils.CenterFormInScreen(this);
+			float splitRatio =
+				PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
+
+			// If the split ratio is zero, assume any form and grid settings found were
+			// for the dialog as it was before my significant design changes made on
+			// 11-Sep-07. As such, keep the default layout since the old saved settings
+			// will probably make the dialog too small.
+			if (splitRatio > 0)
+			{
+				PaApp.SettingsHandler.LoadFormProperties(this);
+				PaApp.SettingsHandler.LoadGridProperties(m_gridChars);
+				PaApp.SettingsHandler.LoadGridProperties(m_gridWhere);
+				splitContainer1.SplitterDistance = (int)(splitContainer1.Width * splitRatio);
+			}
+
 			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -364,7 +382,11 @@ namespace SIL.Pa.Dialogs
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+			PaApp.SettingsHandler.SaveGridProperties(m_gridChars);
+			PaApp.SettingsHandler.SaveGridProperties(m_gridWhere);
+
+			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Width;
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 
 			if (PaApp.Project != null)
 			{
@@ -394,7 +416,7 @@ namespace SIL.Pa.Dialogs
 				TextFormatFlags flags = TextFormatFlags.NoClipping | TextFormatFlags.WordBreak;
 				Size propSz = new Size(lblInfo.Width, int.MaxValue);
 				Size sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, flags);
-				lblInfo.Height = sz.Height + 6;
+				lblInfo.Height = sz.Height + 15;
 			}
 		}
 

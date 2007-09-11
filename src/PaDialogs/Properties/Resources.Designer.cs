@@ -316,7 +316,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data\nSource.
+        ///   Looks up a localized string similar to Data Source.
         /// </summary>
         internal static string kstidDataSourceHdg {
             get {
@@ -693,6 +693,15 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static string kstidNoToolboxSortField {
             get {
                 return ResourceManager.GetString("kstidNoToolboxSortField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occurances.
+        /// </summary>
+        internal static string kstidOccurancesHdg {
+            get {
+                return ResourceManager.GetString("kstidOccurancesHdg", resourceCulture);
             }
         }
         

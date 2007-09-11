@@ -355,8 +355,8 @@
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
   <data name="kstidDataSourceHdg" xml:space="preserve">
-    <value>Data\nSource</value>
-    <comment>Heading for column in missing character dialog</comment>
+    <value>Data Source</value>
+    <comment>Heading for column in the undefined phonetic characters dialog</comment>
   </data>
   <data name="kstidUnicodeNumHdg" xml:space="preserve">
     <value>Unicode\nNumber</value>
@@ -507,5 +507,9 @@
   <data name="kstidCustomFieldDupMsg" xml:space="preserve">
     <value>The custom field '{0}' occurs multiple times in the list.</value>
     <comment>Message displayed when the user tries to add two or more custom fields with the same name.</comment>
+  </data>
+  <data name="kstidOccurancesHdg" xml:space="preserve">
+    <value>Occurances</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
 </root>

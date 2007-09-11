@@ -53,8 +53,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Sort(SortOptions sortOptions)
 		{
-			CacheSortComparer cacheSorter = new CacheSortComparer(sortOptions);
-			Sort(cacheSorter);
+			// First, send a message that the cache needs to be sorted. If true
+			// is returned then something handled the sort (e.g. an add-on).
+			// Otherwise use the default sorting routine.
+			object[] sortInfo = new object[] { this, sortOptions };
+			if (!PaApp.MsgMediator.SendMessage("SortCache", sortInfo))
+				Sort(new CacheSortComparer(sortOptions));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,8 +69,14 @@ namespace SIL.Pa
 		public bool Sort(SortOptions sortOptions, string sortColName, bool changeSortDirection)
 		{
 			bool ascending = sortOptions.SetPrimarySortField(sortColName, changeSortDirection);
-			CacheSortComparer cacheSorter = new CacheSortComparer(sortOptions);
-			Sort(cacheSorter);
+
+			// First, send a message that the cache needs to be sorted. If true
+			// is returned then something handled the sort (e.g. an add-on).
+			// Otherwise use the default sorting routine.
+			object[] sortInfo = new object[] { this, sortOptions };
+			if (!PaApp.MsgMediator.SendMessage("SortCache", sortInfo))
+				Sort(new CacheSortComparer(sortOptions));
+			
 			return ascending;
 		}
 

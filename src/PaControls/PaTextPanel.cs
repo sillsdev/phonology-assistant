@@ -168,22 +168,22 @@ namespace SIL.Pa.Controls
 		{
 			m_rcText = ClientRectangle;
 
-			if (!m_clipTextForChildControls)
-				return;
-
-			int rightExtent = m_rcText.Right;
-
-			foreach (Control child in Controls)
-				rightExtent = Math.Min(rightExtent, child.Left);
-
-			if (rightExtent != m_rcText.Right &&
-				m_rcText.Contains(new Point(rightExtent, m_rcText.Top + m_rcText.Height / 2)))
+			if (m_clipTextForChildControls)
 			{
-				m_rcText.Width -= (m_rcText.Right - rightExtent);
+				int rightExtent = m_rcText.Right;
 
-				// Give a bit more to account for the 
-				if ((m_txtFmtFlags & TextFormatFlags.LeftAndRightPadding) > 0)
-					m_rcText.Width += 8;
+				foreach (Control child in Controls)
+					rightExtent = Math.Min(rightExtent, child.Left);
+
+				if (rightExtent != m_rcText.Right &&
+					m_rcText.Contains(new Point(rightExtent, m_rcText.Top + m_rcText.Height / 2)))
+				{
+					m_rcText.Width -= (m_rcText.Right - rightExtent);
+
+					// Give a bit more to account for the 
+					if ((m_txtFmtFlags & TextFormatFlags.LeftAndRightPadding) > 0)
+						m_rcText.Width += 8;
+				}
 			}
 
 			Invalidate();
