@@ -73,7 +73,7 @@ namespace SIL.Pa
 		private PaFieldInfo m_dataSourcePathField;
 		private PaFieldInfo m_audioFileField;
 
-		private const float kCurrVersion = 2.0f;
+		private const float kCurrVersion = 2.1f;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -93,10 +93,13 @@ namespace SIL.Pa
 		{
 			get
 			{
-				foreach (PaFieldInfo fieldInfo in this)
+				if (field != null)
 				{
-					if (fieldInfo.FieldName == field)
-						return fieldInfo;
+					foreach (PaFieldInfo fieldInfo in this)
+					{
+						if (fieldInfo.FieldName.ToLower() == field.ToLower())
+							return fieldInfo;
+					}
 				}
 
 				return null;
@@ -474,6 +477,8 @@ namespace SIL.Pa
 			if (project == null)
 				return DefaultFieldInfoList;
 
+			bool migrate = true;
+			bool doCleanup = false;
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
 
 			// Get the project specific field information.
@@ -482,29 +487,30 @@ namespace SIL.Pa
 
 			if (fieldInfoList != null)
 			{
-				CleanupLoadedFieldList(fieldInfoList);
-
+				doCleanup = true;
 				float version = fieldInfoList.ManageVersion(filename, true);
-				if (project != null && version < 2.0f)
-				{
-					UpdateCustomFieldNames(fieldInfoList, project);
-					saveProjAfterLoad = true;
-				}
-
-				// Now, if we have a project, save any changes made during cleanup.
-				fieldInfoList.Save(project);
+				migrate = (version < 2.1f);
 			}
 			else
 			{
 				// The only time we should get here is if the project's field info. file was
 				// deleted, moved or corrupted. If that's the case, then just use the
 				// default field information and make sure to save the project's new field info.
-				// REVIEW: Should this condition be logged so the user knows something
-				// happened to their fields?
 				fieldInfoList = DefaultFieldInfoList;
-				fieldInfoList.Save(project);
 			}
 
+			if (migrate)
+			{
+				AddFwQueryFieldNames(fieldInfoList);
+				MigrateFieldNames(fieldInfoList, project);
+
+				if (doCleanup)
+					CleanupLoadedFieldList(fieldInfoList);
+	
+				saveProjAfterLoad = true;
+			}
+
+			fieldInfoList.Save(project);
 			return fieldInfoList;
 		}
 
@@ -570,22 +576,36 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Update custom field names so the internal names for custom fields are the same
-		/// as the field's display text. This method is only to update the custom field names
-		/// for projects containing custom fields created before 9/9/07 but gets called all
-		/// the time... which is unnecessary after the first time, but won't hurt if it's
-		/// done every time the project's fields are loaded.
+		/// Updates (migrate) field info. lists older than version 2.1 with the FW query
+		/// field names from the default list of fields.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void UpdateCustomFieldNames(PaFieldInfoList fieldInfoList,
-			PaProject project)
+		private static void AddFwQueryFieldNames(PaFieldInfoList fieldInfoList)
 		{
-			foreach (PaFieldInfo fieldInfo in fieldInfoList)
+			foreach (PaFieldInfo fieldInfo in DefaultFieldInfoList)
 			{
-				if (fieldInfo.IsCustom)
+				PaFieldInfo pfi = fieldInfoList[fieldInfo.FieldName];
+				if (pfi != null)
+					pfi.FwQueryFieldName = fieldInfo.FwQueryFieldName;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update (migrate) field names so the internal names for fields is the same as the
+		/// field's display text. This method is only to update the field names for projects
+		/// whose field info. version is earlier than 2.1.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void MigrateFieldNames(PaFieldInfoList fieldInfoList, PaProject project)
+		{
+			if (project != null)
+			{
+				project.MigrateFwDatasourceFieldNames();
+
+				foreach (PaFieldInfo fieldInfo in fieldInfoList)
 				{
-					project.ProcessRenamedCustomField(fieldInfo.FieldName,
-						fieldInfo.DisplayText);
+					project.ProcessRenamedField(fieldInfo.FieldName, fieldInfo.DisplayText);
 					fieldInfo.FieldName = fieldInfo.DisplayText;
 				}
 			}
@@ -659,10 +679,51 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string GetFieldNameFromDisplayText(string displayText)
 		{
-			foreach (PaFieldInfo fieldInfo in this)
+			PaFieldInfo fieldInfo = GetFieldFromDisplayText(displayText);
+			return (fieldInfo == null ? null : fieldInfo.FieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the internal field name for the specified display text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaFieldInfo GetFieldFromDisplayText(string displayText)
+		{
+			if (displayText != null)
 			{
-				if (displayText == fieldInfo.DisplayText)
-					return fieldInfo.FieldName;
+				displayText = displayText.ToLower();
+				foreach (PaFieldInfo fieldInfo in this)
+				{
+					if (fieldInfo.DisplayText != null &&
+						displayText == fieldInfo.DisplayText.ToLower())
+					{
+						return fieldInfo;
+					}
+				}
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the internal field name for the specified display text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaFieldInfo GetFieldFromFwQueryFieldName(string fwQueryFieldNam)
+		{
+			if (fwQueryFieldNam != null)
+			{
+				fwQueryFieldNam = fwQueryFieldNam.ToLower();
+				foreach (PaFieldInfo fieldInfo in this)
+				{
+					if (fieldInfo.FwQueryFieldName != null &&
+						fwQueryFieldNam == fieldInfo.FwQueryFieldName.ToLower())
+					{
+						return fieldInfo;
+					}
+				}
 			}
 
 			return null;
@@ -694,6 +755,7 @@ namespace SIL.Pa
 		private bool m_isReference = false;
 		private bool m_isCVPattern = false;
 		private bool m_isDate = false;
+		private string m_fwQueryFieldName;
 		private bool m_isFwField = false;
 		private bool m_isDataSource = false;
 		private bool m_isDataSourcePath = false;
@@ -736,6 +798,7 @@ namespace SIL.Pa
 			clone.m_isReference = source.m_isReference;
 			clone.m_isDate = source.m_isDate;
 			clone.m_isFwField = source.m_isFwField;
+			clone.m_fwQueryFieldName = source.m_fwQueryFieldName;
 			clone.m_isDataSource = source.m_isDataSource;
 			clone.m_isDataSourcePath = source.m_isDataSourcePath;
 			clone.m_isAudioFile = source.m_isAudioFile;
@@ -986,6 +1049,17 @@ namespace SIL.Pa
 		{
 			get { return m_isFwField; }
 			set { m_isFwField = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string FwQueryFieldName
+		{
+			get { return m_fwQueryFieldName; }
+			set { m_fwQueryFieldName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

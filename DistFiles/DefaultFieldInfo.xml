@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PaFields>
+<PaFields version="2.1">
 	<Field Name="Phonetic">
 		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
@@ -8,6 +8,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>phonetic</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -27,6 +28,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>phonemic</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -46,6 +48,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>tone</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -63,6 +66,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>gloss1</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -73,13 +77,14 @@
 		<DisplayIndexInRecView>3</DisplayIndexInRecView>
 		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
-	<Field Name="GlossOther1">
+	<Field Name="Secondary Gloss">
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>gloss2</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -90,13 +95,14 @@
 		<DisplayIndexInRecView>4</DisplayIndexInRecView>
 		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
-	<Field Name="GlossOther2">
+	<Field Name="Other Gloss">
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>gloss3</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -107,7 +113,7 @@
 		<DisplayIndexInRecView>5</DisplayIndexInRecView>
 		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
-	<Field Name="Ortho">
+	<Field Name="Orthographic">
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -115,6 +121,7 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>ortho</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -125,13 +132,14 @@
 		<DisplayIndexInRecView>6</DisplayIndexInRecView>
 		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
-	<Field Name="POS">
+	<Field Name="Part of Speech">
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>pos</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -142,7 +150,7 @@
 		<DisplayIndexInRecView>7</DisplayIndexInRecView>
 		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
-	<Field Name="CVPattern">
+	<Field Name="CV Pattern">
 		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
@@ -158,7 +166,7 @@
 		<DisplayIndexInGrid>8</DisplayIndexInGrid>
 		<DisplayIndexInRecView>8</DisplayIndexInRecView>
 	</Field>
-	<Field Name="Freeform">
+	<Field Name="Free Translation">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -181,6 +189,7 @@
 		<IsReference>true</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>ref</FwQueryFieldName>
 		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
@@ -190,7 +199,7 @@
 		<DisplayIndexInGrid>10</DisplayIndexInGrid>
 		<DisplayIndexInRecView>10</DisplayIndexInRecView>
 	</Field>
-	<Field Name="NotebookRef">
+	<Field Name="Notebook Ref.">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -222,7 +231,7 @@
 		<DisplayIndexInGrid>12</DisplayIndexInGrid>
 		<DisplayIndexInRecView>12</DisplayIndexInRecView>
 	</Field>
-	<Field Name="EthnologueId">
+	<Field Name="Ethnologue Id">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -238,7 +247,7 @@
 		<DisplayIndexInGrid>13</DisplayIndexInGrid>
 		<DisplayIndexInRecView>13</DisplayIndexInRecView>
 	</Field>
-	<Field Name="LanguageName">
+	<Field Name="Language Name">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -318,7 +327,7 @@
 		<DisplayIndexInGrid>18</DisplayIndexInGrid>
 		<DisplayIndexInRecView>18</DisplayIndexInRecView>
 	</Field>
-	<Field Name="SpeakerName">
+	<Field Name="Speaker">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -334,7 +343,7 @@
 		<DisplayIndexInGrid>19</DisplayIndexInGrid>
 		<DisplayIndexInRecView>19</DisplayIndexInRecView>
 	</Field>
-	<Field Name="SpeakerGender">
+	<Field Name="Speaker's Gender">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -380,7 +389,7 @@
 		<DisplayIndexInGrid>22</DisplayIndexInGrid>
 		<DisplayIndexInRecView>22</DisplayIndexInRecView>
 	</Field>
-	<Field Name="DataSource">
+	<Field Name="Data Source">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -396,7 +405,7 @@
 		<DisplayIndexInGrid>23</DisplayIndexInGrid>
 		<DisplayIndexInRecView>23</DisplayIndexInRecView>
 	</Field>
-	<Field Name="DataSourcePath">
+	<Field Name="Data Source Path">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -412,7 +421,7 @@
 		<DisplayIndexInGrid>24</DisplayIndexInGrid>
 		<DisplayIndexInRecView>24</DisplayIndexInRecView>
 	</Field>
-	<Field Name="AudioFile">
+	<Field Name="Audio File">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -427,7 +436,7 @@
 		<DisplayIndexInGrid>25</DisplayIndexInGrid>
 		<DisplayIndexInRecView>25</DisplayIndexInRecView>
 	</Field>
-	<Field Name="AudioOffset">
+	<Field Name="Audio File Offset">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -440,7 +449,7 @@
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>false</VisibleInRecView>
 	</Field>
-	<Field Name="AudioLength">
+	<Field Name="Audio File Length">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -453,7 +462,7 @@
 		<VisibleInGrid>false</VisibleInGrid>
 		<VisibleInRecView>false</VisibleInRecView>
 	</Field>
-	<Field Name="Guid">
+	<Field Name="GUID">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>

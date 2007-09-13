@@ -124,7 +124,7 @@ namespace SIL.Pa
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
-				m_grid.SortOptions = PaApp.Project.DataCorpusSortOptions;
+				m_grid.SortOptions = PaApp.Project.DataCorpusVwSortOptions;
 				m_grid.IsCurrentPlaybackGrid = true;
 				m_grid.UseWaitCursor = false;
 				m_grid.Cursor = Cursors.Default;

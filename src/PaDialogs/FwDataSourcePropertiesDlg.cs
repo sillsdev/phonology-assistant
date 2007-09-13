@@ -151,7 +151,7 @@ namespace SIL.Pa.Dialogs
 					// indicating what writing system is currently assigned to the row's field.
 					// For now, assign all new rows no writing system (i.e. 'none').
 					DataGridViewRow newRow = m_grid.Rows[m_grid.RowCount - 1];
-					newRow.Tag = new FwDataSourceWsInfo(fieldInfo.FieldName, 0);
+					newRow.Tag = new FwDataSourceWsInfo(fieldInfo.FwQueryFieldName, 0);
 
 					if (m_fwSourceInfo.WritingSystemInfo == null)
 						continue;
@@ -162,7 +162,7 @@ namespace SIL.Pa.Dialogs
 					// writing system.
 					foreach (FwDataSourceWsInfo dswsi in m_fwSourceInfo.WritingSystemInfo)
 					{
-						if (fieldInfo.FieldName == dswsi.FieldName)
+						if (fieldInfo.FwQueryFieldName == dswsi.FieldName)
 						{
 							newRow.Tag = dswsi.Clone();
 

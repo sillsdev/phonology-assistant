@@ -40,17 +40,17 @@ namespace SIL.Pa.Dialogs
 			SortOptionsTypeComboItem item;
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),
-				PaApp.Project.DataCorpusSortOptions.Clone());
+				PaApp.Project.DataCorpusVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[1].ToString(),
-				PaApp.Project.FindPhoneSortOptions.Clone());
+				PaApp.Project.SearchVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(1);
 			cboListType.Items.Insert(1, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[2].ToString(),
-				PaApp.Project.XYChartSortOptions.Clone());
+				PaApp.Project.XYChartVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(2);
 			cboListType.Items.Add(item);
 
@@ -115,15 +115,15 @@ namespace SIL.Pa.Dialogs
 
 			SortOptionsTypeComboItem item = cboListType.Items[0] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.DataCorpusSortOptions = item.SortOptions;
+				PaApp.Project.DataCorpusVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[1] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.FindPhoneSortOptions = item.SortOptions;
+				PaApp.Project.SearchVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[2] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.XYChartSortOptions = item.SortOptions;
+				PaApp.Project.XYChartVwSortOptions = item.SortOptions;
 
 			PaApp.Project.Save();
 			PaApp.MsgMediator.SendMessage("SortingOptionsChanged", null);

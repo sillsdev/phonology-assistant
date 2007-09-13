@@ -427,7 +427,7 @@ namespace SIL.Pa.Dialogs
 					else if (m_project.DataSources[i].DataSourceType == DataSourceType.FW &&
 						m_project.DataSources[i].FwSourceDirectFromDB &&
 						!m_project.DataSources[i].FwDataSourceInfo.HasWritingSystemInfo(
-							m_project.FieldInfo.PhoneticField.FieldName))
+							m_project.FieldInfo.PhoneticField.FwQueryFieldName))
 					{
 						// FW data source information is incomplete.
 						offendingIndex = i;

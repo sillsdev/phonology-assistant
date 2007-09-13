@@ -243,19 +243,21 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Goes through the mappings for an SFM data source and changes mappings with the
-		/// specified original field name, with the specified new field name.
+		/// Goes through the mappings for an SFM data source and changes field names in those
+		/// collections.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RenameMappedFieldName(string origName, string newName)
+		public void RenameField(string origName, string newName)
 		{
-			if (m_mappings == null)
-				return;
-
-			foreach (SFMarkerMapping mapping in m_mappings)
+			// If the data source is an SFM or Toolbox data source then rename the fields
+			// in the mappings collection.
+			if (m_mappings != null)
 			{
-				if (mapping.FieldName == origName)
-					mapping.FieldName = newName;
+				foreach (SFMarkerMapping mapping in m_mappings)
+				{
+					if (mapping.FieldName == origName)
+						mapping.FieldName = newName;
+				}
 			}
 		}
 

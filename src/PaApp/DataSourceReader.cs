@@ -291,6 +291,17 @@ namespace SIL.Pa
 			if (reader == null || reader.IsClosed)
 				return;
 
+			// First, get a list of the fields returned from the query
+			// and translate those to their corresponding PA fields.
+			List<string> fieldNames = new List<string>();
+			for (int i = 0; i < reader.FieldCount; i++)
+			{
+				PaFieldInfo fieldInfo =
+					m_project.FieldInfo.GetFieldFromFwQueryFieldName(reader.GetName(i));
+
+				fieldNames.Add(fieldInfo != null ? fieldInfo.FieldName : null);
+			}
+
 			while (reader.Read())
 			{
 				// Make a new record entry.
@@ -306,12 +317,12 @@ namespace SIL.Pa
 
 				// Read the data for all columns. If there are columns the record
 				// or word entries don't recognize, they'll just be ignored.
-				for (int i = 0; i < reader.FieldCount; i++)
+				for (int i = 0; i < fieldNames.Count; i++)
 				{
-					if (!(reader[i] is DBNull))
+					if (!(reader[i] is DBNull) && fieldNames[i] != null)
 					{
-						m_recCacheEntry.SetValue(reader.GetName(i), reader[i].ToString());
-						wentry.SetValue(reader.GetName(i), reader[i].ToString());
+						m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
+						wentry.SetValue(fieldNames[i], reader[i].ToString());
 					}
 				}
 

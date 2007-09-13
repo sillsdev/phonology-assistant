@@ -30,9 +30,9 @@ namespace SIL.Pa
 		private PaFieldInfoList m_fieldInfoList;
 		private List<CVPatternInfo> m_CVPatternInfoList;
 		private SearchClassList m_classes;
-		private SortOptions m_DataCorpusSortOptions;
-		private SortOptions m_FindPhoneSortOptions;
-		private SortOptions m_XYChartSortOptions;
+		private SortOptions m_dataCorpusVwSortOptions;
+		private SortOptions m_searchVwSortOptions;
+		private SortOptions m_xyChartVwSortOptions;
 		private CIEOptions m_cieOptions;
 		private bool m_showUndefinedCharsDlg = true;
 		private bool m_ignoreUndefinedCharsInSearches = true;
@@ -62,14 +62,65 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Makes sure that SFM and Toolbox data sources are informed that a custom field has
+		/// Makes sure that FW, SFM and Toolbox data sources are informed that a field has
+		/// changed names.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void MigrateFwDatasourceFieldNames()
+		{
+			// Only change these names. The others are just converted to lowercase.
+			List<string> oldNames = new List<string>(new string[] {"Gloss", "GlossOther1", "GlossOther2"});
+			List<string> newNames = new List<string>(new string[] {"gloss1", "gloss2", "gloss3"});
+
+			foreach (PaDataSource source in m_dataSources)
+			{
+				if (source.DataSourceType == DataSourceType.FW &&
+					source.FwDataSourceInfo != null &&
+					source.FwDataSourceInfo.WritingSystemInfo != null)
+				{
+					foreach (FwDataSourceWsInfo wsi in source.FwDataSourceInfo.WritingSystemInfo)
+					{
+						int i = oldNames.IndexOf(wsi.FieldName);
+						wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
+					}
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes sure that SFM and Toolbox data sources are informed that a field has
 		/// changed names. This is so the SF mappings in the data source can be updated.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ProcessRenamedCustomField(string origName, string newName)
+		public void ProcessRenamedField(string origName, string newName)
 		{
 			foreach (PaDataSource source in m_dataSources)
-				source.RenameMappedFieldName(origName, newName);
+				source.RenameField(origName, newName);
+
+			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
+			ProcessRenamedFieldInSortInfo(origName, newName, m_searchVwSortOptions);
+			ProcessRenamedFieldInSortInfo(origName, newName, m_xyChartVwSortOptions);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the specified sort information list to make sure the specified field
+		/// name gets renamed therein.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ProcessRenamedFieldInSortInfo(string origName, string newName,
+			SortOptions sortOptions)
+		{
+			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
+				sortOptions.SortInformationList != null)
+			{
+				foreach (SortInformation si in sortOptions.SortInformationList)
+				{
+					if (si.FieldInfo.FieldName == origName)
+						si.FieldInfo.FieldName = newName;
+				}
+			}
 		}
 
 		#region IDisposable Members
@@ -286,9 +337,9 @@ namespace SIL.Pa
 
 				PaApp.FieldInfo = m_fieldInfoList;
 				InitializeFontHelperFonts();
-				DataCorpusSortOptions.SyncFieldInfo(m_fieldInfoList);
-				FindPhoneSortOptions.SyncFieldInfo(m_fieldInfoList);
-				XYChartSortOptions.SyncFieldInfo(m_fieldInfoList);
+				DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+				SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+				XYChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
 			}
 			catch (Exception e)
 			{
@@ -469,9 +520,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsSaved()
 		{
-			if ((m_DataCorpusSortOptions != null && m_DataCorpusSortOptions.SaveManuallySetSortOptions) ||
-				(m_FindPhoneSortOptions != null && m_FindPhoneSortOptions.SaveManuallySetSortOptions) ||
-				(m_XYChartSortOptions != null && m_XYChartSortOptions.SaveManuallySetSortOptions))
+			if ((m_dataCorpusVwSortOptions != null && m_dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
+				(m_searchVwSortOptions != null && m_searchVwSortOptions.SaveManuallySetSortOptions) ||
+				(m_xyChartVwSortOptions != null && m_xyChartVwSortOptions.SaveManuallySetSortOptions))
 			{
 				Save();
 			}
@@ -485,23 +536,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsValid()
 		{
-			if (m_DataCorpusSortOptions != null &&
-				m_DataCorpusSortOptions.SortInformationList != null)
-			{
-				EnsureSingleSortOptionValid(m_DataCorpusSortOptions.SortInformationList);
-			}
-
-			if (m_FindPhoneSortOptions != null &&
-				m_FindPhoneSortOptions.SortInformationList != null)
-			{
-				EnsureSingleSortOptionValid(m_FindPhoneSortOptions.SortInformationList);
-			}
-
-			if (m_XYChartSortOptions != null &&
-				m_XYChartSortOptions.SortInformationList != null)
-			{
-				EnsureSingleSortOptionValid(m_XYChartSortOptions.SortInformationList);
-			}
+			EnsureSingleSortOptionValid(m_dataCorpusVwSortOptions);
+			EnsureSingleSortOptionValid(m_searchVwSortOptions);
+			EnsureSingleSortOptionValid(m_xyChartVwSortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -510,13 +547,18 @@ namespace SIL.Pa
 		/// is a valid field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void EnsureSingleSortOptionValid(SortInformationList sil)
+		public void EnsureSingleSortOptionValid(SortOptions sortOptions)
 		{
-			for (int i = sil.Count - 1; i >= 0; i--)
+			if (sortOptions != null && sortOptions.SortInformationList != null)
 			{
-				PaFieldInfo fieldInfo = m_fieldInfoList[sil[i].FieldInfo.FieldName];
-				if (fieldInfo == null)
-					sil.RemoveAt(i);
+				SortInformationList list = sortOptions.SortInformationList;
+
+				for (int i = list.Count - 1; i >= 0; i--)
+				{
+					PaFieldInfo fieldInfo = m_fieldInfoList[list[i].FieldInfo.FieldName];
+					if (fieldInfo == null)
+						list.RemoveAt(i);
+				}
 			}
 		}
 
@@ -839,24 +881,24 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Get & Set the DataCorpusSortOptions.
+		/// Gets or sets the default sort options for the data corpus view word list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions DataCorpusSortOptions
+		public SortOptions DataCorpusVwSortOptions
 		{
 			get
 			{
-				if (m_DataCorpusSortOptions == null)
+				if (m_dataCorpusVwSortOptions == null)
 				{
-					m_DataCorpusSortOptions = new SortOptions(true);
-					m_DataCorpusSortOptions.AdvancedEnabled = false;
+					m_dataCorpusVwSortOptions = new SortOptions(true);
+					m_dataCorpusVwSortOptions.AdvancedEnabled = false;
 				}
 
-				return m_DataCorpusSortOptions;
+				return m_dataCorpusVwSortOptions;
 			}
 			set
 			{
-				m_DataCorpusSortOptions = value;
+				m_dataCorpusVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = false;
 			}
@@ -864,25 +906,25 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Get & Set the FindPhoneSortOptions.
+		/// Gets or sets the default sort options for search view word lists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions FindPhoneSortOptions
+		public SortOptions SearchVwSortOptions
 		{
 			get
 			{
-				if (m_FindPhoneSortOptions == null)
+				if (m_searchVwSortOptions == null)
 				{
-					m_FindPhoneSortOptions = new SortOptions(true);
-					m_FindPhoneSortOptions.AdvancedEnabled = true;
+					m_searchVwSortOptions = new SortOptions(true);
+					m_searchVwSortOptions.AdvancedEnabled = true;
 				}
 
-				return m_FindPhoneSortOptions;
+				return m_searchVwSortOptions;
 			}
 			
 			set 
 			{
-				m_FindPhoneSortOptions = value;
+				m_searchVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -890,24 +932,24 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the sort options applied to word lists in XY Chart view.
+		/// Gets or sets the default sort options applied to word lists in XY Chart view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions XYChartSortOptions
+		public SortOptions XYChartVwSortOptions
 		{
 			get
 			{
-				if (m_XYChartSortOptions == null)
+				if (m_xyChartVwSortOptions == null)
 				{
-					m_XYChartSortOptions = new SortOptions(true);
-					m_XYChartSortOptions.AdvancedEnabled = true;
+					m_xyChartVwSortOptions = new SortOptions(true);
+					m_xyChartVwSortOptions.AdvancedEnabled = true;
 				}
 				
-				return m_XYChartSortOptions;
+				return m_xyChartVwSortOptions;
 			}
 			set
 			{
-				m_XYChartSortOptions = value;
+				m_xyChartVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}

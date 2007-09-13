@@ -190,6 +190,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count.
+        /// </summary>
+        internal static string kstidCountHdg {
+            get {
+                return ResourceManager.GetString("kstidCountHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The custom field &apos;{0}&apos; occurs multiple times in the list..
         /// </summary>
         internal static string kstidCustomFieldDupMsg {
@@ -693,15 +702,6 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static string kstidNoToolboxSortField {
             get {
                 return ResourceManager.GetString("kstidNoToolboxSortField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Occurances.
-        /// </summary>
-        internal static string kstidOccurancesHdg {
-            get {
-                return ResourceManager.GetString("kstidOccurancesHdg", resourceCulture);
             }
         }
         

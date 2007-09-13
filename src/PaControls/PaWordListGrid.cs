@@ -2561,11 +2561,11 @@ namespace SIL.Pa.Controls
 			// types because the m_owningViewType's are declared in PaDll which cannot
 			// be referenced by PaControls since PaControls is referenced by PaDll.
 			if (m_owningViewType.Name == "DataCorpusVw")
-				sortOptions = PaApp.Project.DataCorpusSortOptions;
+				sortOptions = PaApp.Project.DataCorpusVwSortOptions;
 			else if (m_owningViewType.Name == "SearchVw")
-				sortOptions = PaApp.Project.FindPhoneSortOptions.Clone();
+				sortOptions = PaApp.Project.SearchVwSortOptions.Clone();
 			else if (m_owningViewType.Name == "XYChartVw")
-				sortOptions = PaApp.Project.XYChartSortOptions.Clone();
+				sortOptions = PaApp.Project.XYChartVwSortOptions.Clone();
 
 			if (sortOptions == null)
 				sortOptions = new SortOptions(true);

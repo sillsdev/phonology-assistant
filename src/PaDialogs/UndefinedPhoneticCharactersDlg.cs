@@ -154,9 +154,11 @@ namespace SIL.Pa.Dialogs
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			m_gridChars.Columns.Add(col);
 
-			// Add the occurances number column.
-			col = SilGrid.CreateTextBoxColumn("occur");
-			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidOccurancesHdg);
+			// Add the count number column.
+			col = SilGrid.CreateTextBoxColumn("count");
+			col.HeaderText = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidCountHdg);
+			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			m_gridChars.Columns.Add(col);
 
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
@@ -234,7 +236,7 @@ namespace SIL.Pa.Dialogs
 				if (prevChar != list[i].Character)
 				{
 					if (prevRow != null)
-						prevRow.Cells["occur"].Value = count;
+						prevRow.Cells["count"].Value = count;
 
 					count = 0;
 					prevChar = list[i].Character;
@@ -250,7 +252,7 @@ namespace SIL.Pa.Dialogs
 			}
 
 			if (prevRow != null)
-				prevRow.Cells["occur"].Value = count;
+				prevRow.Cells["count"].Value = count;
 
 			m_gridChars.AutoResizeColumns();
 			m_gridChars.CurrentCell = m_gridChars[0, 0];

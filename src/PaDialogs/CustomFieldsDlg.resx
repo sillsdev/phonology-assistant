@@ -199,7 +199,7 @@
     <value>0</value>
   </data>
   <data name="lblInfo.Text" xml:space="preserve">
-    <value>Define custom fields to hold data from your data source for which there are no appropriate mappings to intrinsic Phonology Assistant field.</value>
+    <value>Define custom fields to hold data from your data source for which there are no appropriate mappings to intrinsic Phonology Assistant fields.</value>
   </data>
   <data name="lblInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -238,6 +238,6 @@
     <value>CustomFieldsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2734.27526, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2812.20966, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

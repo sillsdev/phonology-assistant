@@ -179,6 +179,15 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void m_grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
+			// Trim leading and trailing spaces from whatever
+			// the user entered in the name column.
+			if (m_grid.Columns[e.ColumnIndex].Name == kNameCol &&
+				m_grid[e.ColumnIndex, e.RowIndex].Value != null)
+			{
+				m_grid[e.ColumnIndex, e.RowIndex].Value =
+					(m_grid[e.ColumnIndex, e.RowIndex].Value as string).Trim();
+			}
+
 			CancelButton = btnCancel;
 		}
 
@@ -310,7 +319,7 @@ namespace SIL.Pa.Dialogs
 
 				// Check if the field already exists in the project's fields collection.
 				// Make sure we don't test the field against itself.
-				PaFieldInfo fieldInfo = m_project.FieldInfo[fieldName1];
+				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
 					STUtils.STMsgBox(string.Format(
@@ -328,7 +337,7 @@ namespace SIL.Pa.Dialogs
 						continue;
 
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
-					if (fieldName2 == fieldName1)
+					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
 						STUtils.STMsgBox(string.Format(
 							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
@@ -399,7 +408,7 @@ namespace SIL.Pa.Dialogs
 
 				// Inform the project that a custom field has changed.
 				if (origFieldName != null && origFieldName != fieldInfo.FieldName)
-					m_project.ProcessRenamedCustomField(origFieldName, fieldInfo.FieldName);
+					m_project.ProcessRenamedField(origFieldName, fieldInfo.FieldName);
 			}
 
 			return true;

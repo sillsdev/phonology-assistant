@@ -508,8 +508,8 @@
     <value>The custom field '{0}' occurs multiple times in the list.</value>
     <comment>Message displayed when the user tries to add two or more custom fields with the same name.</comment>
   </data>
-  <data name="kstidOccurancesHdg" xml:space="preserve">
-    <value>Occurances</value>
+  <data name="kstidCountHdg" xml:space="preserve">
+    <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
 </root>
