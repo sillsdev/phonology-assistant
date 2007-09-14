@@ -324,6 +324,8 @@ namespace SIL.Pa
 					// gets pulled out from under the tooltips, sometimes the program will crash.
 					LoadToolbarAndContextMenus();
 				}
+
+				m_histogram.RefreshLayout();
 			}
 
 			return false;

@@ -55,6 +55,9 @@ namespace SIL.Pa
 			Name = "SearchVw";
 			PaApp.IncProgressBar();
 
+			hlblRecentPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			hlblSavedPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+
 			tvSavedPatterns.SetCutCopyPasteButtons(btnCategoryCut, btnCategoryCopy, btnCategoryPaste);
 			ptrnTextBox.OwningView = this;
 			LoadToolbarAndContextMenus();

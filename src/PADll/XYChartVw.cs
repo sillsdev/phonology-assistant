@@ -47,6 +47,8 @@ namespace SIL.Pa
 			Name = "XYChartVw";
 			PaApp.IncProgressBar();
 
+			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+
 			m_xyGrid = new XYGrid();
 			m_xyGrid.OwningView = this;
 			m_xyGrid.Dock = DockStyle.Fill;

@@ -217,6 +217,16 @@ namespace SIL.Pa.Controls
 		#region Scrolling/Resizing events
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshLayout()
+		{
+			pnlFixedBorder_Resize(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Since the panel the bars are on is not owned by the scrolling panel, make sure the
 		/// left edge of the panel that owns the bars is syncronized with the ipa character
 		/// panel as it is scrolled.
@@ -254,7 +264,7 @@ namespace SIL.Pa.Controls
 				m_ignoreFixedBorderResize = false;
 			}
 
-			pnlBars.SuspendLayout();
+			STUtils.SetWindowRedraw(pnlBars, false, false);
 
 			m_barHeightFactor =
 				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, m_maxTotalCount);
@@ -278,11 +288,10 @@ namespace SIL.Pa.Controls
 					bar.Location = newLoc;
 			}
 
-			pnlBars.ResumeLayout();
+			STUtils.SetWindowRedraw(pnlBars, true, true);
+
 			pnlScroller_Scroll(null, new ScrollEventArgs(ScrollEventType.EndScroll,
 				-pnlScroller.AutoScrollPosition.X));
-
-			pnlYaxis.Invalidate();
 		}
 
 		#endregion
