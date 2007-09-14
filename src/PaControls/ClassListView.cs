@@ -444,9 +444,9 @@ namespace SIL.Pa.Controls
 					e.CancelEdit = true;
 				else
 					item.IsDirty = true;
-
-				item.InEditMode = false;
 			}
+
+			item.InEditMode = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
