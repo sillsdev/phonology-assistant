@@ -756,7 +756,7 @@ namespace SIL.Pa.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
-					if (ChangesWereMade)
+					if (dlg.ChangesWereMade)
 						m_dirty = true;
 				}
 			}
@@ -795,7 +795,8 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSpecifyXSLTClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			int filterIndex = PaApp.SettingsHandler.GetIntSettingsValue("DataSourceXSLTOFD", "filter", 0);
+			int filterIndex =
+				PaApp.SettingsHandler.GetIntSettingsValue("DataSourceXSLTOFD", "filter", 0);
 
 			string filter = ResourceHelper.GetString("kstidFileTypeXSLT") + "|" +
 				ResourceHelper.GetString("kstidFileTypeAllFiles");
@@ -822,10 +823,13 @@ namespace SIL.Pa.Dialogs
 			{
 				dlg.ShowDialog(this);
 				if (dlg.ChangesWereMade)
+				{
+					m_project.CleanUpMappings();
 					m_dirty = true;
+				}
 			}
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns true if the project contains a query source file with the specified name.

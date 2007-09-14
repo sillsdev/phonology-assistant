@@ -318,7 +318,6 @@ namespace SIL.Pa.Dialogs
 			this.rbParseOneToOne.Name = "rbParseOneToOne";
 			this.rbParseOneToOne.TabStop = true;
 			this.rbParseOneToOne.UseVisualStyleBackColor = false;
-			this.rbParseOneToOne.CheckedChanged += new System.EventHandler(this.HandleReadTypeCheckedChanged);
 			// 
 			// rbNoParse
 			// 
@@ -328,7 +327,6 @@ namespace SIL.Pa.Dialogs
 			this.rbNoParse.Name = "rbNoParse";
 			this.rbNoParse.TabStop = true;
 			this.rbNoParse.UseVisualStyleBackColor = false;
-			this.rbNoParse.CheckedChanged += new System.EventHandler(this.HandleReadTypeCheckedChanged);
 			// 
 			// rbInterlinearize
 			// 
@@ -338,7 +336,6 @@ namespace SIL.Pa.Dialogs
 			this.rbInterlinearize.Name = "rbInterlinearize";
 			this.rbInterlinearize.TabStop = true;
 			this.rbInterlinearize.UseVisualStyleBackColor = false;
-			this.rbInterlinearize.CheckedChanged += new System.EventHandler(this.HandleReadTypeCheckedChanged);
 			// 
 			// lblParseType
 			// 
@@ -355,7 +352,6 @@ namespace SIL.Pa.Dialogs
 			this.rbParseOnlyPhonetic.Name = "rbParseOnlyPhonetic";
 			this.rbParseOnlyPhonetic.TabStop = true;
 			this.rbParseOnlyPhonetic.UseVisualStyleBackColor = false;
-			this.rbParseOnlyPhonetic.CheckedChanged += new System.EventHandler(this.HandleReadTypeCheckedChanged);
 			// 
 			// lblSampleOutput
 			// 

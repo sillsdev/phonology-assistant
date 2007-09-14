@@ -62,6 +62,52 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// This method will make sure the list of mappings in all SFM and Toolbox data
+		/// sources doesn't contain a mapping for a field that was removed. Also, if the
+		/// Interlinear status of a custom field changed, this method will make sure the
+		/// mappings don't have contradictory values for the interlinear status of a field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CleanUpMappings()
+		{
+			if (m_dataSources == null)
+				return;
+
+			// Go through the list of data sources in the project and clean up the
+			// mappings for projects of type SFM and Toolbox.
+			foreach (PaDataSource source in m_dataSources)
+			{
+				if (source.DataSourceType != DataSourceType.SFM &&
+					source.DataSourceType != DataSourceType.Toolbox)
+				{
+					continue;
+				}
+
+				// Go through the mappings in the data source and make sure the field
+				// for each mapping is still in the list of fields in the project.
+				for (int i = source.SFMappings.Count - 1; i >= 0; i--)
+				{
+					SFMarkerMapping mapping = source.SFMappings[i];
+
+					if (mapping.FieldName != PaDataSource.kRecordMarker)
+					{
+						PaFieldInfo fieldInfo = m_fieldInfoList[mapping.FieldName];
+
+						// If the mapped field no longer exists, then remove it from the data
+						// source's list of mappings. Otherwise, make sure that the mapping
+						// for the field doesn't think it is an interlinear field if it no
+						// longer is.
+						if (fieldInfo == null)
+							source.SFMappings.RemoveAt(i);
+						else if (!fieldInfo.CanBeInterlinear)
+							mapping.IsInterlinear = false;
+					}
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Makes sure that FW, SFM and Toolbox data sources are informed that a field has
 		/// changed names.
 		/// </summary>

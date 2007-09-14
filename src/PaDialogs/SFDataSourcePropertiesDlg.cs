@@ -204,8 +204,6 @@ namespace SIL.Pa.Dialogs
 				if (fieldInfo != null && (fieldInfo.IsDataSource || fieldInfo.IsDataSourcePath))
 					continue;
 
-				// This should only happen if the user removed a custom field since
-				// the time he was in here to modify the data source's mappings.
 				if (fieldInfo != null || mapping.FieldName == PaDataSource.kRecordMarker)
 				{
 					SFMarkerMapping clone = mapping.Clone();
@@ -224,7 +222,7 @@ namespace SIL.Pa.Dialogs
 			}
 
 			// Now make sure the mappings contain all the fields in the project. It may be that the
-			// mappings list doesn't for for two reasons. 1) The user has added some custom fields
+			// mappings list doesn't for two reasons. 1) The user has added some custom fields
 			// since coming here to modify mappings or 2) A new release of PA introduced some new
 			// intrinsic PA fields.
 			for (int i = 0; i < m_fieldInfo.Count; i++)
@@ -312,6 +310,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
+			rbNoParse.CheckedChanged += HandleReadTypeCheckedChanged;
+			rbParseOnlyPhonetic.CheckedChanged += HandleReadTypeCheckedChanged;
+			rbParseOneToOne.CheckedChanged += HandleReadTypeCheckedChanged;
+			rbInterlinearize.CheckedChanged += HandleReadTypeCheckedChanged;
+
 			base.OnShown(e);
 
 			// Sets the proper parsing type. This is best
@@ -323,7 +326,7 @@ namespace SIL.Pa.Dialogs
 				case DataSourceParseType.Interlinear: rbInterlinearize.Checked = true; break;
 				default: rbParseOnlyPhonetic.Checked = true; break;
 			}
-		
+
 			// I'm not sure why this has to be done so late, but for some reason rows in the
 			// grid were added and removed after the handle is created but before showing
 			// the dialog, thus causing the dirty flag to get set to true. The adding and
@@ -395,7 +398,7 @@ namespace SIL.Pa.Dialogs
 				fnt = m_grid.Rows[0].Cells["pafield"].Style.Font;
 				m_grid.Rows[0].Cells["pafield"].Style.Font = FontHelper.MakeFont(fnt, FontStyle.Bold);
 			}
-			catch {}
+			catch { }
 
 			// If there weren't values previously saved for this grid, then set some of the
 			// grid's properties to their initial values.
