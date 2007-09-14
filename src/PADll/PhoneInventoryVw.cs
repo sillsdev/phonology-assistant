@@ -68,6 +68,12 @@ namespace SIL.Pa
 			pgpAmbiguous.BorderStyle = BorderStyle.None;
 			pgpPhoneList.BorderStyle = BorderStyle.None;
 
+			pgpPhoneList.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			pgpExperimental.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			pgpAmbiguous.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			hlblAFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+			hlblBFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+
 			PaApp.IncProgressBar();
 			BuildPhoneGrid();
 			PaApp.IncProgressBar();
