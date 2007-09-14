@@ -20,8 +20,10 @@ namespace SIL.Pa.Controls
 		private int m_maxTotalCount = 0;
 		private int m_phoneHeight = 0;
 		private decimal m_barHeightFactor = 0;
-		private readonly ToolTip m_phoneToolTip;
 		private readonly PhoneInfoPopup m_phoneInfoPopup;
+
+		// Uncomment if the magnified tooltip of a histogram's phone is desired.
+		//private readonly ToolTip m_phoneToolTip;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,10 +34,11 @@ namespace SIL.Pa.Controls
 		{
 			InitializeComponent();
 
-			m_phoneToolTip = new ToolTip();
-			m_phoneToolTip.OwnerDraw = true;
-			m_phoneToolTip.Draw += HandlePhoneToolTipDraw;
-			m_phoneToolTip.Popup += HandlePhoneToolTipPopup;
+			// Uncomment if the magnified tooltip of a histogram's phone is desired.
+			//m_phoneToolTip = new ToolTip();
+			//m_phoneToolTip.OwnerDraw = true;
+			//m_phoneToolTip.Draw += HandlePhoneToolTipDraw;
+			//m_phoneToolTip.Popup += HandlePhoneToolTipPopup;
 			
 			base.DoubleBuffered = true;
 			
@@ -88,7 +91,8 @@ namespace SIL.Pa.Controls
 				lblPhone.BringToFront();
 
 				// Set the phone's magnified tooltip.
-				m_phoneToolTip.SetToolTip(lblPhone, lblPhone.Text);
+				// Uncomment if the magnified tooltip of a histogram's phone is desired.
+				//m_phoneToolTip.SetToolTip(lblPhone, lblPhone.Text);
 
 				// Create the bars.
 				HistogramBar histBar = new HistogramBar();
@@ -133,41 +137,41 @@ namespace SIL.Pa.Controls
 		#endregion      
 
 		#region Tooltips
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines the correct ToolTip size based on the font size
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandlePhoneToolTipPopup(object sender, PopupEventArgs e)
-		{
-			// Only use custom toolTips for phone labels
-			using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
-			{
-				e.ToolTipSize = TextRenderer.MeasureText(
-					m_phoneToolTip.GetToolTip(e.AssociatedControl), fnt);
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Determines the correct ToolTip size based on the font size
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandlePhoneToolTipPopup(object sender, PopupEventArgs e)
+		//{
+		//    // Only use custom toolTips for phone labels
+		//    using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
+		//    {
+		//        e.ToolTipSize = TextRenderer.MeasureText(
+		//            m_phoneToolTip.GetToolTip(e.AssociatedControl), fnt);
+		//    }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws the ToolTip with the magnified font.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandlePhoneToolTipDraw(Object sender, DrawToolTipEventArgs e)
-		{
-			// Only use custom toolTips for IpaCharacter labels
-			e.Graphics.FillRectangle(SystemBrushes.Info, e.Bounds);
-			e.DrawBorder();
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Draws the ToolTip with the magnified font.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandlePhoneToolTipDraw(Object sender, DrawToolTipEventArgs e)
+		//{
+		//    // Only use custom toolTips for IpaCharacter labels
+		//    e.Graphics.FillRectangle(SystemBrushes.Info, e.Bounds);
+		//    e.DrawBorder();
 
-			TextFormatFlags flags = TextFormatFlags.NoPrefix |
-				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
+		//    TextFormatFlags flags = TextFormatFlags.NoPrefix |
+		//        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;
 
-			using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
-			{
-				TextRenderer.DrawText(e.Graphics, e.ToolTipText, fnt, e.Bounds,
-					SystemColors.InfoText, flags);
-			}
-		}
+		//    using (Font fnt = FontHelper.MakeEticRegFontDerivative(kMagnifiedCharSize))
+		//    {
+		//        TextRenderer.DrawText(e.Graphics, e.ToolTipText, fnt, e.Bounds,
+		//            SystemColors.InfoText, flags);
+		//    }
+		//}
 
 		#endregion
 
@@ -191,7 +195,7 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Display the bar's value in a label just above the bar.
+		/// Display a phone's information popup.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseEnter(object sender, EventArgs e)
@@ -205,7 +209,8 @@ namespace SIL.Pa.Controls
 				if (lbl != null)
 					bar = lbl.Tag as HistogramBar;
 
-				m_phoneToolTip.Show(lbl.Text, this);
+				// Uncomment if the magnified tooltip of a histogram's phone is desired.
+				//m_phoneToolTip.Show(lbl.Text, this);
 			}
 
 			if (bar != null && m_phoneInfoPopup.Initialize(bar.CharGridCellPhoneInfo))
