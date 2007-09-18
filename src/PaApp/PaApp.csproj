@@ -223,6 +223,8 @@ copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutD
 copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultAFeatures.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultBFeatures.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"

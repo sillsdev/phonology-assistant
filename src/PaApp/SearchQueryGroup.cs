@@ -27,8 +27,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static SearchQueryGroupList Load()
 		{
-			string filename = (PaApp.Project != null ?
-				PaApp.Project.ProjectPathFilePrefix + kSearchQueriesFilePrefix :
+			return Load(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of search queries for the specified project. If project is null
+		/// then the default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SearchQueryGroupList Load(PaProject project)
+		{
+			string filename = (project != null ?
+				project.ProjectPathFilePrefix + kSearchQueriesFilePrefix :
 				Path.Combine(Application.StartupPath, kDefaultSearchQueriesFile));
 
 			SearchQueryGroupList srchQueries = null;
@@ -77,9 +88,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			if (PaApp.Project != null)
+			Save(PaApp.Project);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Save(PaProject project)
+		{
+			if (project != null)
 			{
-				string filename = PaApp.Project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
+				string filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
 				STUtils.SerializeData(filename, this);
 			}
 		}

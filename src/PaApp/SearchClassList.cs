@@ -62,7 +62,7 @@ namespace SIL.Pa
 				return null;
 			}
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the list of default search classes.
@@ -70,8 +70,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static SearchClassList Load()
 		{
-			string filename = (PaApp.Project != null ?
-				PaApp.Project.ProjectPathFilePrefix + kSearchClassesFilePrefix :
+			return Load(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of search classes for the specified project. If the project is
+		/// null, then the default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SearchClassList Load(PaProject project)
+		{
+			string filename = (project != null ?
+				project.ProjectPathFilePrefix + kSearchClassesFilePrefix :
 				Path.Combine(Application.StartupPath, kDefaultSearchClassesFile));
 
 			SearchClassList srchClasses = null;
@@ -98,7 +109,7 @@ namespace SIL.Pa
 				}
 
 				if (upgradeMade)
-					srchClasses.Save();
+					srchClasses.Save(project);
 			}
 
 			return (srchClasses ?? new SearchClassList());
@@ -111,9 +122,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			if (PaApp.Project != null)
+			Save(PaApp.Project);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Save(PaProject project)
+		{
+			if (project != null)
 			{
-				string filename = PaApp.Project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
+				string filename = project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
 				STUtils.SerializeData(filename, this);
 			}
 		}

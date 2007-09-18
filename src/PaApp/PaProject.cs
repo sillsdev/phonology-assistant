@@ -17,6 +17,7 @@ namespace SIL.Pa
 	public class PaProject : IDisposable
 	{
 		private Form m_appWindow;
+		private bool m_newProject = false;
 		private bool m_reloadingProjectInProcess = false;
 		private string m_name = Properties.Resources.kstidDefaultNewProjectName;
 		private string m_fileName = null;
@@ -57,7 +58,12 @@ namespace SIL.Pa
 		public PaProject(bool newProject)
 		{
 			if (newProject)
+			{
 				m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
+				m_classes = SearchClassList.Load();
+				m_queryGroups = SearchQueryGroupList.Load();
+				m_newProject = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -554,8 +560,29 @@ namespace SIL.Pa
 		{
 			m_fieldInfoList.Save(this);
 
+			if (m_classes != null && m_classes.Count > 0)
+				m_classes.Save(this);
+
+			if (m_queryGroups != null && m_queryGroups.Count > 0)
+				m_queryGroups.Save(this);
+
 			if (m_fileName != null)
 				STUtils.SerializeData(m_fileName, this);
+
+			if (m_newProject)
+			{
+				// Copy the default XY Chart definitions to the project's XY Chart def. file.
+				try
+				{
+					string srcPath = Path.GetDirectoryName(Application.ExecutablePath);
+					srcPath = Path.Combine(srcPath, "DefaultXYCharts.xml");
+					string destPath = ProjectPathFilePrefix + "XYCharts.xml";
+					File.Copy(srcPath, destPath);
+				}
+				catch { };
+
+				m_newProject = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -900,7 +927,7 @@ namespace SIL.Pa
 			get
 			{
 				if (m_queryGroups == null)
-					m_queryGroups = SearchQueryGroupList.Load();
+					m_queryGroups = SearchQueryGroupList.Load(this);
 
 				return m_queryGroups;
 			}
@@ -918,7 +945,7 @@ namespace SIL.Pa
 			get
 			{
 				if (m_classes == null)
-					m_classes = SearchClassList.Load();
+					m_classes = SearchClassList.Load(this);
 
 				return m_classes;
 			}

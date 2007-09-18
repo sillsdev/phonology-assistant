@@ -400,12 +400,13 @@ namespace SIL.Pa.Controls
 		public void SaveChanges()
 		{
 			m_deletedClass = false;
-			PaApp.Project.SearchClasses.Clear();
+			SearchClassList list = PaApp.Project.SearchClasses;
+			list.Clear();
 
 			foreach (ClassListViewItem item in Items)
-				PaApp.Project.SearchClasses.Add(item.SearchClass);
+				list.Add(item.SearchClass);
 
-			PaApp.Project.SearchClasses.Save();		
+			list.Save();
 		}		
 
 		#endregion
