@@ -362,9 +362,11 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadAmbiguousGrid()
 		{
-			bool showDefaults = chkShowDefaults.Checked ||
-				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true);
-			
+			// Uncomment if we ever go back to having a default set of ambiguous sequences.
+			//bool showDefaults = chkShowDefaults.Checked ||
+			//    PaApp.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true);
+
+			bool showDefaults = true;
 			int prevRow = gridAmbiguous.CurrentCellAddress.Y;
 
 			gridAmbiguous.Rows.Clear();
@@ -1006,13 +1008,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
 		{
-			if (e.Row != null &&
-				(e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value) ||
-				(e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value))
-			{	
-				STUtils.STMsgBox(Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			if (e.Row == null)
+				return;
 
+			string msg = null;
+
+			if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
+				msg = Properties.Resources.kstidAmbiguousSeqCantDeleteAutoGenMsg;
+			else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
+				msg = Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg;
+
+			if (msg != null)
+			{
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}
 		}

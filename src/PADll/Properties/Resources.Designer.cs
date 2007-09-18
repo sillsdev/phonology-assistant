@@ -169,6 +169,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the &apos;Treat as one Unit?’check box..
+        /// </summary>
+        internal static string kstidAmbiguousSeqCantDeleteAutoGenMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqCantDeleteAutoGenMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default sequences may not be deleted..
         /// </summary>
         internal static string kstidAmbiguousSeqCantDeleteDefaultMsg {

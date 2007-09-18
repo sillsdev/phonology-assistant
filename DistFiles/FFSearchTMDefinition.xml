@@ -185,7 +185,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbInsertOneOrMore" commandid="CmdInsertOneOrMore" type="0" displaytype="2"/>
 				<item name="tbbInsertWordBoundary" commandid="CmdInsertWordBoundary" type="0" displaytype="2"/>
 				<item name="tbbInsertDiacriticPlaceholder" commandid="CmdInsertDiacriticPlaceholder" type="0" displaytype="2"/>
-				<item name="tbbInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/>
+				<!-- item name="tbbInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/ -->
 				<item name="tbbInsertANDGroup" commandid="CmdInsertANDGroup" type="0" displaytype="2" begingroup="true"/>
 				<item name="tbbInsertORGroup" commandid="CmdInsertORGroup" type="0" displaytype="2"/>
 			</item>
