@@ -428,6 +428,8 @@
 		<IsReference>false</IsReference>
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
+		<FwQueryFieldName>audiofile</FwQueryFieldName>
+		<IsFwField>true</IsFwField>
 		<IsAudioFile>true</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>

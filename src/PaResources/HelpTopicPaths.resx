@@ -235,6 +235,7 @@
   </data>
   <data name="hidSaveXYChartDlg" xml:space="preserve">
     <value>User_Interface/Views/XY_Charts/Save_XY_Chart.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchOptionsSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
@@ -250,6 +251,10 @@
   </data>
   <data name="hidSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSFDataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Standard_Format_Data_Source_Properties.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSortingOptions" xml:space="preserve">

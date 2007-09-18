@@ -367,6 +367,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/Standard_Format_Data_Source_Properties.htm.
+        /// </summary>
+        internal static string hidSFDataSourcePropertiesDlg {
+            get {
+                return ResourceManager.GetString("hidSFDataSourcePropertiesDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Sorting_tab_Options.htm.
         /// </summary>
         internal static string hidSortingOptions {
