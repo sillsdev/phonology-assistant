@@ -466,6 +466,8 @@
 	</Field>
 	<Field Name="GUID">
 		<CanBeInterlinear>false</CanBeInterlinear>
+		<FwQueryFieldName>guid</FwQueryFieldName>
+		<IsFwField>true</IsFwField>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>
