@@ -73,7 +73,7 @@ namespace SIL.Pa
 		private PaFieldInfo m_dataSourcePathField;
 		private PaFieldInfo m_audioFileField;
 
-		private const float kCurrVersion = 2.1f;
+		private const float kCurrVersion = 2.2f;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -489,7 +489,7 @@ namespace SIL.Pa
 			{
 				doCleanup = true;
 				float version = fieldInfoList.ManageVersion(filename, true);
-				migrate = (version < 2.1f);
+				migrate = (version < kCurrVersion);
 			}
 			else
 			{
