@@ -138,8 +138,7 @@ namespace SIL.Pa.Dialogs
 			// are marked with either the vernacular or analysis writing system.
 			foreach (PaFieldInfo fieldInfo in m_project.FieldInfo.SortedList)
 			{
-				if (fieldInfo.IsFwField &&
-					fieldInfo.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
+				if (fieldInfo.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
 				{
 					// Add the field to the list and, for now, assume
 					// it has no writing system assigned.

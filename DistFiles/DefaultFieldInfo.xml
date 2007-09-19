@@ -9,7 +9,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>phonetic</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -29,7 +28,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>phonemic</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -49,7 +47,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>tone</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -67,7 +64,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>gloss1</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -85,7 +81,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>gloss2</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -103,7 +98,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>gloss3</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -122,7 +116,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>ortho</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -140,7 +133,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>pos</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -190,7 +182,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>ref</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -326,7 +317,6 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>18</DisplayIndexInGrid>
 		<DisplayIndexInRecView>18</DisplayIndexInRecView>
-		<IsFwField>true</IsFwField>
 		<FwQueryFieldName>transcriber</FwQueryFieldName>
 	</Field>
 	<Field Name="Speaker">
@@ -344,7 +334,6 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>19</DisplayIndexInGrid>
 		<DisplayIndexInRecView>19</DisplayIndexInRecView>
-		<IsFwField>true</IsFwField>
 		<FwQueryFieldName>spkr</FwQueryFieldName>
 	</Field>
 	<Field Name="Speaker's Gender">
@@ -377,7 +366,6 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>21</DisplayIndexInGrid>
 		<DisplayIndexInRecView>21</DisplayIndexInRecView>
-		<IsFwField>true</IsFwField>
 		<FwQueryFieldName>comment</FwQueryFieldName>
 	</Field>
 	<Field Name="Date">
@@ -435,7 +423,6 @@
 		<IsCVPattern>false</IsCVPattern>
 		<IsDate>false</IsDate>
 		<FwQueryFieldName>audiofile</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsAudioFile>true</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
 		<IsAudioLength>false</IsAudioLength>
@@ -473,7 +460,6 @@
 	<Field Name="GUID">
 		<CanBeInterlinear>false</CanBeInterlinear>
 		<FwQueryFieldName>guid</FwQueryFieldName>
-		<IsFwField>true</IsFwField>
 		<IsParsed>false</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>

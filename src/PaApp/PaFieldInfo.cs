@@ -1045,17 +1045,6 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsFwField
-		{
-			get { return m_isFwField; }
-			set { m_isFwField = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string FwQueryFieldName
 		{
 			get { return m_fwQueryFieldName; }
