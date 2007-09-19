@@ -326,6 +326,8 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>18</DisplayIndexInGrid>
 		<DisplayIndexInRecView>18</DisplayIndexInRecView>
+		<IsFwField>true</IsFwField>
+		<FwQueryFieldName>transcriber</FwQueryFieldName>
 	</Field>
 	<Field Name="Speaker">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -342,6 +344,8 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>19</DisplayIndexInGrid>
 		<DisplayIndexInRecView>19</DisplayIndexInRecView>
+		<IsFwField>true</IsFwField>
+		<FwQueryFieldName>spkr</FwQueryFieldName>
 	</Field>
 	<Field Name="Speaker's Gender">
 		<CanBeInterlinear>false</CanBeInterlinear>
@@ -373,6 +377,8 @@
 		<VisibleInRecView>true</VisibleInRecView>
 		<DisplayIndexInGrid>21</DisplayIndexInGrid>
 		<DisplayIndexInRecView>21</DisplayIndexInRecView>
+		<IsFwField>true</IsFwField>
+		<FwQueryFieldName>comment</FwQueryFieldName>
 	</Field>
 	<Field Name="Date">
 		<CanBeInterlinear>false</CanBeInterlinear>
