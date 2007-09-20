@@ -129,10 +129,14 @@ namespace SIL.Pa.Dialogs
 			rbParseOnlyPhonetic.Tag = Properties.Resources.kstidParsePhoneticSampleOutput;
 			rbInterlinearize.Tag = Properties.Resources.kstidInterlinearSampleOutput;
 
-			string tooltip = STUtils.ConvertLiteralNewLines(
-				Properties.Resources.kstidOneToOneParsingToolTip);
+			// After reviewing the text for this tooltip, I believe it's more confusing
+			// than helpful. So it's removed for now. If the text is ever rewritten to
+			// be more understandable and still fits on a reasonable-sized tooltip
+			// then this can be uncommented. (PA-660)
+			//string tooltip = STUtils.ConvertLiteralNewLines(
+			//    Properties.Resources.kstidOneToOneParsingToolTip);
 
-			m_tooltip.SetToolTip(rbParseOneToOne, tooltip);
+			//m_tooltip.SetToolTip(rbParseOneToOne, tooltip);
 		}
 
 		/// ------------------------------------------------------------------------------------

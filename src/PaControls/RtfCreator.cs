@@ -34,13 +34,21 @@ namespace SIL.Pa.Controls
 		private const string ktab = @"{\tab}";
 		private const string ktxHdr = @"{0}{{\tx}}";
 		private const string ktxValues = @"\f{0} \fs{1} {2}{{\tab}}";
-		private const string khighlight = @"{{\highlight{0} {1}}}";
+		
+		// I was using the \highlight control word but, for some reason, OpenOffice.org
+		// Writer doesn't recognize it. But it does recognize \chcbpat. Go figure.
+		private const string khighlight = @"{{\chcbpat{0} {1}}}";
 		private const string kparagraph = @"\par\pard";
 		private const string kInvalidEditor = "Invalid Editor";
 		private const int kTwipsPerInch = 1440;
 		private const int kTwipsPerCm = 567;
 		private const int kheadingFontSize = 10;
 		private const int kGroupHdgRowToken = 9999;
+		private const int kGapBetweenSrchItemAndPrecedingEnv = 28;
+
+		// This is a little extra padding given to the phonetic column when it
+		// is for a search result word list and the output is to an RTF table.
+		private const int kExtraTwipsForPhoneticSrchRsltCol = 20;
 
 		// Member Variables
 		private int m_numberOfRecords = 0;
@@ -132,7 +140,7 @@ namespace SIL.Pa.Controls
 
 			GetPaperAndMarginValues();
 			CalculateColumnWidths();
-			OutputReportHeadingInformation();
+			OutputRTFHeadingStuff();
 
 			// This is only for running tests
 			if (m_maxFieldWidths.Count > 0)
@@ -142,7 +150,8 @@ namespace SIL.Pa.Controls
 				m_rtfBldr.AppendFormat(@"\margl{0}\margr{1}", m_leftMargin, m_rightMargin);
 				m_rtfBldr.AppendFormat(@"\margt{0}\margb{1}", m_topMargin, m_bottomMargin);
 				m_rtfBldr.AppendLine();
-				
+
+				OutputReportHeadingInformation();
 				OutputColumnInformation();
 				OutputDataRows();
 				WriteToFileOrClipboard();
@@ -279,6 +288,12 @@ namespace SIL.Pa.Controls
 				{
 					m_phoneticColFont = fieldInfo.Font;
 					m_phoneticColIndex = column.Index;
+
+					// If we're calculating the column width for the phonetic column and
+					// it's for a search result word list, then add in the gap between the
+					// preceding environment and the search item.
+					if (m_cache.IsForSearchResults)
+						m_maxFieldWidths[column.Index] += kGapBetweenSrchItemAndPrecedingEnv;
 				}
 			}
 		}
@@ -292,7 +307,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void CalculatePhoneticSrchResultWidth(WordListCacheEntry cacheEntry)
 		{
-			int beforeEnvTextWidth = TextWidthInTwips(cacheEntry.EnvironmentBefore, m_phoneticColFont);
+			int beforeEnvTextWidth = TextWidthInTwips(cacheEntry.EnvironmentBefore, m_phoneticColFont) +
+				kExtraTwipsForPhoneticSrchRsltCol;
+
 			string srchItemAftEnv = " " + cacheEntry.SearchItem + cacheEntry.EnvironmentAfter;
 			int srchItemAftEnvTextWidth = TextWidthInTwips(srchItemAftEnv, m_phoneticColFont);
 			m_beforeEnvTwipWidth = Math.Max(m_beforeEnvTwipWidth, beforeEnvTextWidth);
@@ -311,12 +328,12 @@ namespace SIL.Pa.Controls
 			string cellValue = cell.Value.ToString();
 			int colIndex = cell.ColumnIndex;
 
-			Font columnFont = (m_grid.Columns[colIndex].DefaultCellStyle.Font ??
-				FontHelper.UIFont);
+			Font columnFont =
+				(m_grid.Columns[colIndex].DefaultCellStyle.Font ?? FontHelper.UIFont);
 
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[colIndex].Name];
 
-			// Are you looking at a phonetic cell for a search result word list?
+			// Are we looking at a phonetic cell for a search result word list?
 			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
 			{
 				PaCacheGridRow row = m_grid.Rows[cell.RowIndex] as PaCacheGridRow;
@@ -337,7 +354,8 @@ namespace SIL.Pa.Controls
 					CalculatePhoneticSrchResultWidth(m_cache[row.CacheEntryIndex]);
 				}
 
-				textWidth = (m_beforeEnvTwipWidth + m_maxSrchItemAftEnvTwipsWidth);
+				textWidth = (m_beforeEnvTwipWidth + m_maxSrchItemAftEnvTwipsWidth) +
+					kGapBetweenSrchItemAndPrecedingEnv + kExtraTwipsForPhoneticSrchRsltCol;
 			}
 			else
 			{
@@ -359,19 +377,14 @@ namespace SIL.Pa.Controls
 		#region Export Rtf
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Output the report's heading information (e.g. project name, language name,
-		/// date, etc.).
+		/// Output the RTF header, font table, color table, etc.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void OutputReportHeadingInformation()
+		private void OutputRTFHeadingStuff()
 		{
-			// For testing
-			if (m_cache == null)
-				return;
-
 			m_rtfBldr.AppendLine(khdr);
 			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_fontNumbers, ref m_uiFontNumber));
-			
+
 			// Add color support
 			if (m_cache.IsForSearchResults)
 			{
@@ -382,6 +395,20 @@ namespace SIL.Pa.Controls
 			m_rtfBldr.AppendLine(@"\pard\plain ");
 			m_rtfBldr.AppendFormat(ktxcell, 2160);
 			m_rtfBldr.AppendLine();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Output the report's heading information (e.g. project name, language name,
+		/// date, etc.).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OutputReportHeadingInformation()
+		{
+			// For testing
+			if (m_cache == null)
+				return;
+
 			m_rtfBldr.AppendFormat(@"\f{0} \fs18{{\b ", m_uiFontNumber);
 
 			// SearchQuery is null when showing "Minimal Pairs"
@@ -585,12 +612,11 @@ namespace SIL.Pa.Controls
 
 					m_createSearchItemTabs = CreateSearchItemTabs.SecondTab;
 				}
-				else
-					if (m_createSearchItemTabs == CreateSearchItemTabs.SecondTab)
-					{
-						m_createSearchItemTabs = CreateSearchItemTabs.FinishedTabs;
-						m_beforeEnvTwipWidth += 28;
-					}
+				else if (m_createSearchItemTabs == CreateSearchItemTabs.SecondTab)
+				{
+					m_createSearchItemTabs = CreateSearchItemTabs.FinishedTabs;
+					m_beforeEnvTwipWidth += kGapBetweenSrchItemAndPrecedingEnv;
+				}
 
 				tabFormatBldr.AppendFormat(ktxcell, m_beforeEnvTwipWidth);
 
