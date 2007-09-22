@@ -1814,7 +1814,6 @@ namespace SIL.Pa.Controls
 
 			PaintCell(e, true);
 			e.Handled = true;
-			//base.OnCellPainting(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

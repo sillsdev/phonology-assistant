@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -26,6 +27,8 @@ namespace SIL.Pa.Controls
 		protected string m_tmpXMLFile;
 		protected string m_xslFileBase;
 		protected bool m_error = false;
+		protected Dictionary<string, string> m_modifiedFieldNames;
+
 		private readonly string m_htmlOutputFile;
 
 		/// ------------------------------------------------------------------------------------
@@ -44,6 +47,7 @@ namespace SIL.Pa.Controls
 			if (m_error)
 				return;
 
+			ModifyFieldNames();
 			CreateTempXMLFile(rootAttribValues);
 			m_htmlOutputFile = GetHTMLOutputFileName(defaultHTMLFileName);
 			m_error = string.IsNullOrEmpty(m_htmlOutputFile);
@@ -78,6 +82,37 @@ namespace SIL.Pa.Controls
 			}
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Field names with spaces and other punctuation are not valid names in cascading
+		/// style sheet class names. Therefore, go through the field names and modify them
+		/// so they don't include those characters. Only allow letters and digits.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ModifyFieldNames()
+		{
+			m_modifiedFieldNames = new Dictionary<string,string>();
+
+			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			{
+				string modifiedName1 = fieldInfo.FieldName;
+				foreach (char c in fieldInfo.FieldName)
+				{
+					if (!char.IsLetterOrDigit(c))
+						modifiedName1 = modifiedName1.Replace(c.ToString(), string.Empty);
+				}
+
+				// Now make sure the field name is still unique compared
+				// to the rest of the fields we've modified.
+				int i = 1;
+				string modifiedName2 = modifiedName1;
+				while (m_modifiedFieldNames.ContainsValue(modifiedName2))
+					modifiedName2 = modifiedName1 + (i++).ToString();
+
+				m_modifiedFieldNames[fieldInfo.FieldName] = modifiedName2;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -400,7 +435,8 @@ namespace SIL.Pa.Controls
 			if (fontSize == 0)
 				fontSize = fieldInfo.Font.SizeInPoints;
 
-			string className = string.Format("\t\t\t\ttd.{0} ", fieldInfo.FieldName);
+			string fieldname = m_modifiedFieldNames[fieldInfo.FieldName];
+			string className = string.Format("\t\t\t\ttd.{0} ", fieldname);
 			info.Append(className);
 			info.AppendFormat("{{font-family: \"{0}\";}}\r\n", fieldInfo.Font.Name);
 			info.Append(className);

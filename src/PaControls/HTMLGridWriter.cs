@@ -257,6 +257,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void WriteRowDataValue(string field, string value)
 		{
+			field = m_modifiedFieldNames[field];
 			XmlElement element = m_xmlDoc.CreateElement("td");
 			element.SetAttribute("class", field);
 			XmlNode node = m_currNode.AppendChild(element);
