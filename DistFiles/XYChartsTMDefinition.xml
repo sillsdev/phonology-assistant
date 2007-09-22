@@ -148,7 +148,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertZeroOrMore" message="InsertZeroOrMore"/>
 		<command id="CmdInsertOneOrMore" message="InsertOneOrMore"/>
 		<command id="CmdInsertWordBoundary" message="InsertWordBoundary"/>
-		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder"/>
+		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder" shortcutkey="Ctrl0"/>
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>

@@ -1175,9 +1175,9 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This is the only reason we need to subclass the text box. This cannot be handled
-		/// in the text box's KeyDown event because Ctrl+[ and Ctrl+] cause an incessant beep.
-		/// Argh!
+		/// This method is the only reason we need to subclass the text box. This cannot be
+		/// handled in the text box's KeyDown event because Ctrl+[ and Ctrl+] cause an
+		/// incessant beep. Argh!
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override bool PreProcessMessage(ref Message m)

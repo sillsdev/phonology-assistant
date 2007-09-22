@@ -32,6 +32,7 @@ namespace SIL.Pa.Controls
 		private ITMAdapter m_tmAdapter;
 		private XYChartLayout m_layout;
 		private ToolTip m_tooltip;
+		private IMessageFilter m_editControlMsgFilter;
 		private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
@@ -515,6 +516,61 @@ namespace SIL.Pa.Controls
 			base.OnCellBeginEdit(e);
 		}
 
+		#region EditControlKeyPressHook class
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This class is only for trapping the Ctrl-0 keypress for inserting diacritic
+		/// placeholders into cells. See comments in OnEditingControlShowing for more details.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal class EditControlKeyPressHook : IMessageFilter
+		{
+			TextBox m_txtBox;
+			DataGridView m_grid;
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// 
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			internal EditControlKeyPressHook(TextBox txtBox, DataGridView grid)
+			{
+				m_txtBox = txtBox;
+				m_grid = grid;
+			}
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// Hook the Ctrl+0 key press to insert a diacritic placeholder. We might as well
+			/// trap Esc too, to get rid of that insessent beep that would otherwise be heard
+			/// when the user leaves edit mode via pressing escape.
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			public bool PreFilterMessage(ref Message m)
+			{
+				if (m.Msg == 0x0100)
+				{
+					Microsoft.VisualBasic.Devices.Keyboard kb =
+						new Microsoft.VisualBasic.Devices.Keyboard();
+
+					if (kb.CtrlKeyDown && m.WParam.ToInt32() == (int)Keys.D0)
+					{
+						PatternTextBox.Insert(m_txtBox, DataUtils.kDiacriticPlaceholder);
+						return true;
+					}
+					else if (m.WParam.ToInt32() == (int)Keys.Escape)
+					{
+						m_grid.EndEdit();
+						return true;
+					}
+				}
+
+				return false;
+			}
+		}
+
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -530,6 +586,35 @@ namespace SIL.Pa.Controls
 				txt.TextChanged += CellTextBoxTextChanged;
 				txt.KeyPress += CellTextBoxKeyPress;
 				txt.VisibleChanged += CellTextBoxVisibleChanged;
+
+				// This is a lot of trouble just to trap Ctrl+0 in order to insert diacritic
+				// placeholders, but it's the only way I found to accomplish it, short of
+				// subclassing the grid cell. For some reason, Ctrl+0 doesn't fire the
+				// edit box's KeyDown event. Argh!
+				m_editControlMsgFilter = new EditControlKeyPressHook(txt, this);
+				Application.AddMessageFilter(m_editControlMsgFilter);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void CellTextBoxVisibleChanged(object sender, EventArgs e)
+		{
+			TextBox txt = sender as TextBox;
+			if (txt != null && !txt.Visible)
+			{
+				txt.TextChanged -= CellTextBoxTextChanged;
+				txt.KeyPress -= CellTextBoxKeyPress;
+				txt.VisibleChanged -= CellTextBoxVisibleChanged;
+
+				if (m_editControlMsgFilter != null)
+				{
+					Application.RemoveMessageFilter(m_editControlMsgFilter);
+					m_editControlMsgFilter = null;
+				}
 			}
 		}
 
@@ -552,25 +637,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		static void CellTextBoxKeyPress(object sender, KeyPressEventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("KeyChar: " + e.KeyChar);
 			// For some reason, it didn't work to directly assign the static delegate
 			// from PatternTextBox to the text box event. So I call it this way.
 			PatternTextBox.txtPatternKeyPress(sender, e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void CellTextBoxVisibleChanged(object sender, EventArgs e)
-		{
-			TextBox txt = sender as TextBox;
-			if (txt != null && !txt.Visible)
-			{
-				txt.TextChanged -= CellTextBoxTextChanged;
-				txt.KeyPress -= CellTextBoxKeyPress;
-				txt.VisibleChanged -= CellTextBoxVisibleChanged;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -814,7 +884,7 @@ namespace SIL.Pa.Controls
 				UpdateLayout();
 				return;
 			}
-			
+
 			if (e.Alt && e.KeyCode == Keys.Down && CurrentCellAddress.X > 0 &&
 			   Columns[CurrentCellAddress.X].Tag is SearchQuery &&
 			   !string.IsNullOrEmpty((Columns[CurrentCellAddress.X].Tag as SearchQuery).Pattern))
@@ -1212,6 +1282,7 @@ namespace SIL.Pa.Controls
 
 			IsDirty = false;
 			m_loadedLayout = false;
+			PaApp.MsgMediator.SendMessage("XYChartReset", this);
 		}
 
 		#endregion

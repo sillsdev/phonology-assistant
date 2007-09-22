@@ -483,7 +483,10 @@ namespace SIL.Pa
 				// Don't need to load the tool bar or menus if this is the first time
 				// the view was docked since that all gets done during construction.
 				if (m_initialDock)
+				{
 					m_initialDock = false;
+					m_xyGrid.Focus();
+				}
 				else
 				{
 					// The toolbar has to be recreated each time the view is removed from it's
