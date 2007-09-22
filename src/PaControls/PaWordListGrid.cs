@@ -56,12 +56,23 @@ namespace SIL.Pa.Controls
 
 		private LocalWindowsHook m_kbHook;
 		private PaFieldInfoList m_fieldInfoList;
+		private readonly bool m_drawFocusRectAroundCurrCell;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
 		private readonly GridCellInfoPopup m_cellInfoPopup;
 		private readonly string m_audioFileFieldName;
 		private readonly string m_audioFileOffsetFieldName;
 		private readonly string m_audioFileLengthFieldName;
 		private readonly Bitmap m_spkrImage;
+
+		private Color m_uncertainPhoneForeColor;
+		private Color m_searchItemBackColor;
+		private Color m_searchItemForeColor;
+		private Color m_selectedFocusedRowBackColor;
+		private Color m_selectedFocusedRowForeColor;
+		private Color m_selectedUnFocusedRowBackColor;
+		private Color m_selectedUnFocusedRowForeColor;
+		private Color m_selectedCellBackColor;
+		private Color m_selectedCellForeColor;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -135,6 +146,9 @@ namespace SIL.Pa.Controls
 			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
+
+			m_drawFocusRectAroundCurrCell =
+				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
 
 			if (PaApp.TMAdapter != null)
 			{
@@ -237,9 +251,30 @@ namespace SIL.Pa.Controls
 		{
 			ForeColor = SystemColors.WindowText;
 			BackgroundColor = SystemColors.Window;
-			GridColor = ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100);
-			RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
-			RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
+			GridColor = PaApp.WordListGridColor;
+
+			m_uncertainPhoneForeColor = PaApp.UncertainPhoneForeColor;
+			m_searchItemBackColor = PaApp.QuerySearchItemBackColor;
+			m_searchItemForeColor = PaApp.QuerySearchItemForeColor;
+			m_selectedCellBackColor = PaApp.SelectedWordListCellBackColor;
+			m_selectedCellForeColor = PaApp.SelectedWordListCellForeColor;
+			m_selectedFocusedRowBackColor = PaApp.SelectedFocusedWordListRowBackColor;
+			m_selectedFocusedRowForeColor = PaApp.SelectedFocusedWordListRowForeColor;
+
+			bool changeSelectionOnFocusLoss = PaApp.SettingsHandler.GetBoolSettingsValue(
+				"wordlists", "chgselonfocusloss", true);
+
+			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
+				PaApp.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
+			
+			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
+				PaApp.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
+
+			RowsDefaultCellStyle.SelectionForeColor = (Focused ?
+				m_selectedFocusedRowForeColor : m_selectedUnFocusedRowForeColor);
+
+			RowsDefaultCellStyle.SelectionBackColor = (Focused ?
+				m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -844,6 +879,12 @@ namespace SIL.Pa.Controls
 		{
 			PaApp.StatusBarLabel.Text = string.Empty;
 			base.OnLeave(e);
+
+			RowsDefaultCellStyle.SelectionForeColor = m_selectedUnFocusedRowForeColor;
+			RowsDefaultCellStyle.SelectionBackColor = m_selectedUnFocusedRowBackColor;
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -855,6 +896,12 @@ namespace SIL.Pa.Controls
 		{
 			SetStatusBarText();
 			base.OnEnter(e);
+
+			RowsDefaultCellStyle.SelectionForeColor = m_selectedFocusedRowForeColor;
+			RowsDefaultCellStyle.SelectionBackColor = m_selectedFocusedRowBackColor;
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -986,7 +1033,8 @@ namespace SIL.Pa.Controls
 			if (CurrentCell != null && CurrentCell.RowIndex == e.RowIndex &&
 				CurrentCell.ColumnIndex == e.ColumnIndex)
 			{
-				e.CellStyle.SelectionBackColor = ColorHelper.LightLightHighlight;
+				e.CellStyle.SelectionBackColor = (Focused ?
+					m_selectedCellBackColor : m_selectedUnFocusedRowBackColor);
 			}
 
 			base.OnCellFormatting(e);
@@ -1469,16 +1517,15 @@ namespace SIL.Pa.Controls
 				foreach (string phone in word)
 				{
 					string ph = phone;
-					Color textColor = Color.Black;
+					Color clrText = Color.Black;
 
 					if (ph.StartsWith("|"))
 					{
-						textColor = PaApp.UncertainPhoneForeColor;
+						clrText = m_uncertainPhoneForeColor;
 						ph = ph.Substring(1);
 					}
 
-					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont,
-						rc, textColor, flags);
+					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont, rc, clrText, flags);
 
 					// Figure out where the next phone should be drawn.
 					int phoneWidth = TextRenderer.MeasureText(g, ph,
@@ -1755,7 +1802,7 @@ namespace SIL.Pa.Controls
 
 					if (m_currPaintingCellEntry.AppliedExperimentalTranscriptions != null)
 					{
-						e.Paint(e.CellBounds, DataGridViewPaintParts.All);
+						PaintCell(e, true);
 						DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds,
 							m_currPaintingCellEntry);
 						
@@ -1765,7 +1812,66 @@ namespace SIL.Pa.Controls
 				}
 			}
 
-			base.OnCellPainting(e);
+			PaintCell(e, true);
+			e.Handled = true;
+			//base.OnCellPainting(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the foreground color for the current cell being painted.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Color GetCurrentCellDrawForeColor(int colindex)
+		{
+			Color clr = RowsDefaultCellStyle.ForeColor;
+
+			if (m_currPaintingCellSelected)
+			{
+				clr = (Focused && CurrentCellAddress.X == colindex ?
+					m_selectedCellForeColor : RowsDefaultCellStyle.SelectionForeColor);
+			}
+
+			return clr;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paints a cell using default values, except for the focus rectangle and content
+		/// when paintContent is false.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void PaintCell(DataGridViewCellPaintingEventArgs e, bool paintContent)
+		{
+			Rectangle rc = e.CellBounds;
+
+			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
+			parts &= ~DataGridViewPaintParts.Focus;
+
+			// Draw default everything but text if paintContent is false.
+			if (!paintContent)
+				parts &= ~DataGridViewPaintParts.ContentForeground;
+
+			// Determine whether or not we're painting the current cell.
+			bool isCurrentCell = (m_currPaintingCellSelected && Focused &&
+				CurrentCellAddress.X == e.ColumnIndex);
+
+			if (!isCurrentCell)
+				e.Paint(rc, parts);
+			else
+			{
+				Color clr = e.CellStyle.SelectionForeColor;
+				e.CellStyle.SelectionForeColor = GetCurrentCellDrawForeColor(e.ColumnIndex);
+				e.Paint(rc, parts);
+				e.CellStyle.SelectionForeColor = clr;
+
+				if (m_drawFocusRectAroundCurrCell)
+				{
+					rc.Width--;
+					rc.Height--;
+					ControlPaint.DrawFocusRectangle(e.Graphics, rc);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1833,10 +1939,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void DrawFilePath(DataGridViewCellPaintingEventArgs e)
 		{
-			// Draw default everything but text.
-			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
-			parts &= ~DataGridViewPaintParts.ContentForeground;
-			e.Paint(e.CellBounds, parts);
+			PaintCell(e, false);
 
 			string soundFilePath = e.Value as string;
 			if (string.IsNullOrEmpty(soundFilePath))
@@ -1847,8 +1950,7 @@ namespace SIL.Pa.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, soundFilePath, e.CellStyle.Font, e.CellBounds,
-				(m_currPaintingCellSelected ? e.CellStyle.SelectionForeColor :
-				e.CellStyle.ForeColor), flags);
+				GetCurrentCellDrawForeColor(e.ColumnIndex), flags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1863,11 +1965,7 @@ namespace SIL.Pa.Controls
 				return;
 
 			Rectangle rc = e.CellBounds;
-
-			// Draw default everything but text.
-			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
-			parts &= ~DataGridViewPaintParts.ContentForeground;
-			e.Paint(rc, parts);
+			PaintCell(e, false);
 
 			int srchItemOffset = wlentry.SearchItemOffset;
 			int srchItemLength = wlentry.SearchItemLength;
@@ -1894,14 +1992,13 @@ namespace SIL.Pa.Controls
 			DrawSearchItemPhones(e.Graphics, wlentry.Phones, rc, srchItemOffset,
 				envAfterOffset, flags, itemLeft);
 
-			Color textColor = (m_currPaintingCellSelected ?
-				RowsDefaultCellStyle.SelectionForeColor : ForeColor);
+			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
 
 			// Draw the phones in the environment after.
 			rc.X = itemLeft + itemWidth;
 			rc.Width = e.CellBounds.Right - (itemLeft + itemWidth);
 			DrawPhones(e.Graphics, wlentry.Phones, envAfterOffset, wlentry.Phones.Length,
-				rc, textColor, flags, true);
+				rc, clrText, flags, true);
 
 			if (itemLeft > e.CellBounds.X)
 			{
@@ -1909,7 +2006,7 @@ namespace SIL.Pa.Controls
 				rc.X = e.CellBounds.X;
 				rc.Width = itemLeft - e.CellBounds.X;
 				DrawPhones(e.Graphics, wlentry.Phones, srchItemOffset - 1, -1,
-					rc, textColor, flags, false);
+					rc, clrText, flags, false);
 			}
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, wlentry.WordCacheEntry);
@@ -1934,10 +2031,11 @@ namespace SIL.Pa.Controls
 					rcBackground.Width = rc.Width - 1;
 			}
 
-			Color backColor = (m_currPaintingCellSelected ?
-				Color.FromArgb(90, PaApp.QuerySearchItemBackColor) : PaApp.QuerySearchItemBackColor);
-			
-			g.FillRectangle(new SolidBrush(backColor), rcBackground);
+			Color clrBack = (m_currPaintingCellSelected ?
+				Color.FromArgb(90, m_searchItemBackColor) :	m_searchItemBackColor);
+
+			using (SolidBrush br = new SolidBrush(clrBack))
+				g.FillRectangle(br, rcBackground);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1948,6 +2046,9 @@ namespace SIL.Pa.Controls
 		private void DrawSearchItemPhones(Graphics g, string[] phones, Rectangle cellBounds,
 			int begin, int end, TextFormatFlags flags, int left)
 		{
+			Color clrText = (m_currPaintingCellSelected && !Focused ?
+				m_selectedUnFocusedRowForeColor : m_searchItemForeColor);
+			
 			Rectangle rc = new Rectangle(left, cellBounds.Y,
 				cellBounds.Right - left, cellBounds.Height);
 
@@ -1956,7 +2057,7 @@ namespace SIL.Pa.Controls
 			// flags doesn't seem to do any good when the rectangle is outside the cell's
 			// border.
 			if (left >= cellBounds.X)
-				DrawPhones(g, phones, begin, end, rc, PaApp.QuerySearchItemForeColor, flags, true);
+				DrawPhones(g, phones, begin, end, rc, clrText, flags, true);
 			else
 			{
 				// At this point, we know the cell isn't big enough for everything
@@ -1967,8 +2068,7 @@ namespace SIL.Pa.Controls
 				if (rc.Width >= cellBounds.Width)
 					rc.Width = cellBounds.Width - 1;
 
-				DrawPhones(g, new string[] { "..." }, 0, 1,
-					rc, PaApp.QuerySearchItemForeColor, flags, true);
+				DrawPhones(g, new string[] { "..." }, 0, 1, rc, clrText, flags, true);
 			}
 		}
 
@@ -1980,23 +2080,18 @@ namespace SIL.Pa.Controls
 		private void DrawPhoneticUncertainty(DataGridViewCellPaintingEventArgs e)
 		{
 			Rectangle rc = e.CellBounds;
-
-			// Draw default everything but text.
-			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
-			parts &= ~DataGridViewPaintParts.ContentForeground;
-			e.Paint(rc, parts);
+			PaintCell(e, false);
 
 			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.Left | TextFormatFlags.PreserveGraphicsClipping;
 
-			Color textColor = (m_currPaintingCellSelected ?
-				RowsDefaultCellStyle.SelectionForeColor : ForeColor);
+			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
 
 			rc.X += 4;
 			rc.Width -= 4;
 			DrawPhones(e.Graphics, m_currPaintingCellEntry.Phones, 0,
-				m_currPaintingCellEntry.Phones.Length, rc, textColor, flags, true);
+				m_currPaintingCellEntry.Phones.Length, rc, clrText, flags, true);
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, m_currPaintingCellEntry);
 		}
@@ -2008,7 +2103,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DrawPhones(Graphics g, string[] phones, int begin, int end, Rectangle rc,
-			Color textColor, TextFormatFlags flags, bool drawForward)
+			Color clrText, TextFormatFlags flags, bool drawForward)
 		{
 			if (begin == end)
 				return;
@@ -2021,7 +2116,7 @@ namespace SIL.Pa.Controls
 			{
 				Color clr = (m_currPaintingCellEntry.ContiansUncertainties &&
 					m_currPaintingCellEntry.UncertainPhones.ContainsKey(i) ?
-					PaApp.UncertainPhoneForeColor : textColor);
+					m_uncertainPhoneForeColor : clrText);
 
 				TextRenderer.DrawText(g, phones[i], FontHelper.PhoneticFont, rc, clr, flags);
 

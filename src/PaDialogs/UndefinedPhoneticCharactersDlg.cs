@@ -23,6 +23,8 @@ namespace SIL.Pa.Dialogs
 			Properties.Resources.kstidUndefPhoneticChartsGridCodePointColFmt;
 
 		private readonly string m_codepointHdgFmt;
+		private readonly Color m_defaultSelectedRowForeColor;
+		private readonly Color m_defaultSelectedRowBackColor;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -110,6 +112,12 @@ namespace SIL.Pa.Dialogs
 			AddColumnsToCharsGrid();
 			AddColumnsToWhereGrid();
 			CalcWhereGridRowHeight();
+
+			m_defaultSelectedRowForeColor = m_gridChars.RowsDefaultCellStyle.ForeColor;
+			m_defaultSelectedRowBackColor = m_gridChars.RowsDefaultCellStyle.BackColor;
+
+			HandleGridEnter(m_gridChars, null);
+			HandleGridLeave(m_gridWhere, null);
 
 			if (PaApp.Project != null)
 			{
@@ -419,6 +427,42 @@ namespace SIL.Pa.Dialogs
 				Size propSz = new Size(lblInfo.Width, int.MaxValue);
 				Size sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, flags);
 				lblInfo.Height = sz.Height + 15;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Change the selected row color when the grid loses focus.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridLeave(object sender, EventArgs e)
+		{
+			DataGridView grid = sender as DataGridView;
+			if (grid != null)
+			{
+				grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.ControlText;
+				grid.RowsDefaultCellStyle.SelectionBackColor = SystemColors.Control;
+
+				if (grid.CurrentRow != null)
+					grid.InvalidateRow(grid.CurrentRow.Index);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Change the selected row color when the grid gains focus.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridEnter(object sender, EventArgs e)
+		{
+			DataGridView grid = sender as DataGridView;
+			if (grid != null)
+			{
+				grid.RowsDefaultCellStyle.SelectionForeColor = m_defaultSelectedRowForeColor;
+				grid.RowsDefaultCellStyle.SelectionBackColor = m_defaultSelectedRowBackColor;
+
+				if (grid.CurrentRow != null)
+					grid.InvalidateRow(grid.CurrentRow.Index);
 			}
 		}
 

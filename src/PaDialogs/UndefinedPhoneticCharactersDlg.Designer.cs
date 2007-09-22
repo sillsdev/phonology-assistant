@@ -164,7 +164,9 @@ namespace SIL.Pa.Dialogs
 			this.m_gridChars.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_gridChars.ShowWaterMarkWhenDirty = false;
 			this.m_gridChars.WaterMark = "!";
+			this.m_gridChars.Enter += new System.EventHandler(this.HandleGridEnter);
 			this.m_gridChars.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_gridChars_RowEnter);
+			this.m_gridChars.Leave += new System.EventHandler(this.HandleGridLeave);
 			// 
 			// pgpChars
 			// 
@@ -230,7 +232,9 @@ namespace SIL.Pa.Dialogs
 			this.m_gridWhere.ShowWaterMarkWhenDirty = false;
 			this.m_gridWhere.VirtualMode = true;
 			this.m_gridWhere.WaterMark = "!";
+			this.m_gridWhere.Enter += new System.EventHandler(this.HandleGridEnter);
 			this.m_gridWhere.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_gridWhere_CellValueNeeded);
+			this.m_gridWhere.Leave += new System.EventHandler(this.HandleGridLeave);
 			this.m_gridWhere.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			// 
 			// pgpWhere

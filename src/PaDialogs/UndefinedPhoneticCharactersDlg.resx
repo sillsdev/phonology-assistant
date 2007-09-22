@@ -334,7 +334,7 @@
     <value>m_gridChars</value>
   </data>
   <data name="&gt;&gt;m_gridChars.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2811.27318, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2818.17800, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_gridChars.Parent" xml:space="preserve">
     <value>pnlSummary</value>
@@ -364,7 +364,7 @@
     <value>pgpChars</value>
   </data>
   <data name="&gt;&gt;pgpChars.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2811.27329, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2820.39060, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpChars.Parent" xml:space="preserve">
     <value>pnlSummary</value>
@@ -391,7 +391,7 @@
     <value>pnlSummary</value>
   </data>
   <data name="&gt;&gt;pnlSummary.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2811.27329, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2820.39060, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSummary.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -430,7 +430,7 @@
     <value>m_gridWhere</value>
   </data>
   <data name="&gt;&gt;m_gridWhere.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2811.27318, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2818.17800, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_gridWhere.Parent" xml:space="preserve">
     <value>pnlDetails</value>
@@ -460,7 +460,7 @@
     <value>pgpWhere</value>
   </data>
   <data name="&gt;&gt;pgpWhere.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2811.27329, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2820.39060, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pgpWhere.Parent" xml:space="preserve">
     <value>pnlDetails</value>
@@ -487,7 +487,7 @@
     <value>pnlDetails</value>
   </data>
   <data name="&gt;&gt;pnlDetails.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2811.27329, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2820.39060, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlDetails.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>

@@ -763,6 +763,150 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static Color WordListGridColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue("wordlists", "gridcolor",
+					ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100));
+			}
+			set { SettingsHandler.SaveSettingsValue("wordlists", "gridcolor", value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedFocusedWordListRowBackColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedfocusedwordlistrowcolors", "background", ColorHelper.LightHighlight);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedfocusedwordlistrowcolors", "background", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedFocusedWordListRowForeColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedfocusedwordlistrowcolors", "foreground", SystemColors.WindowText);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedfocusedwordlistrowcolors", "foreground", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedUnFocusedWordListRowBackColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedunfocusedwordlistrowcolors", "background", SystemColors.Control);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedunfocusedwordlistrowcolors", "background", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedUnFocusedWordListRowForeColor
+		{
+			get
+			{
+				// It turns out the control color for the silver Windows XP theme is very
+				// close to the default color calculated for selected rows in PA word lists.
+				// Therefore, when a word list grid looses focus and a selected row's
+				// background color gets changed to the control color, it's very hard to
+				// tell the difference between a selected row in a focused grid from that
+				// of a non focused grid. So, when the theme is the silver (i.e. Metallic)
+				// then also make the text gray for selected rows in non focused grid's.
+				if (PaintingHelper.CanPaintVisualStyle() &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
+				{
+					return SettingsHandler.GetColorSettingsValue(
+						"selectedunfocusedwordlistrowcolors", "foreground", SystemColors.GrayText);
+				}
+
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedunfocusedwordlistrowcolors", "foreground", SystemColors.ControlText);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedunfocusedwordlistrowcolors", "foreground", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedWordListCellBackColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedwordlistcellcolors", "background", ColorHelper.LightLightHighlight);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedwordlistcellcolors", "background", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Color SelectedWordListCellForeColor
+		{
+			get
+			{
+				return SettingsHandler.GetColorSettingsValue(
+					"selectedwordlistcellcolors", "foreground", SystemColors.WindowText);
+			}
+			set
+			{
+				SettingsHandler.SaveSettingsValue(
+					"selectedwordlistcellcolors", "foreground", value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static Color UncertainPhoneForeColor
 		{
 			get
