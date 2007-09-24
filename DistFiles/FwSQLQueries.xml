@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FwQueries>
+	<rootdatadirregkey>Software\SIL\FieldWorks\RootDataDir</rootdatadirregkey>
 	<service>MSSQL$SILFW</service>
 	<secondstowaitfordbenginestartup>25</secondstowaitfordbenginestartup>
 	<connectionstring>
