@@ -879,12 +879,6 @@ namespace SIL.Pa.Controls
 		{
 			PaApp.StatusBarLabel.Text = string.Empty;
 			base.OnLeave(e);
-
-			RowsDefaultCellStyle.SelectionForeColor = m_selectedUnFocusedRowForeColor;
-			RowsDefaultCellStyle.SelectionBackColor = m_selectedUnFocusedRowBackColor;
-
-			if (CurrentRow != null)
-				InvalidateRow(CurrentRow.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -896,9 +890,35 @@ namespace SIL.Pa.Controls
 		{
 			SetStatusBarText();
 			base.OnEnter(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the background color of the selected row accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
 
 			RowsDefaultCellStyle.SelectionForeColor = m_selectedFocusedRowForeColor;
 			RowsDefaultCellStyle.SelectionBackColor = m_selectedFocusedRowBackColor;
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the background color of the selected row accordingly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
+
+			RowsDefaultCellStyle.SelectionForeColor = m_selectedUnFocusedRowForeColor;
+			RowsDefaultCellStyle.SelectionBackColor = m_selectedUnFocusedRowBackColor;
 
 			if (CurrentRow != null)
 				InvalidateRow(CurrentRow.Index);
@@ -1021,7 +1041,7 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure the cells get formatted with the proper font.
+		/// Make sure the cells get formatted with the proper font and background color.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
@@ -1029,12 +1049,21 @@ namespace SIL.Pa.Controls
 			if (e.CellStyle.Font != Columns[e.ColumnIndex].DefaultCellStyle.Font)
 				e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
 
-			// Set the selected cell's background color to be distinct from
-			if (CurrentCell != null && CurrentCell.RowIndex == e.RowIndex &&
-				CurrentCell.ColumnIndex == e.ColumnIndex)
+			if (CurrentRow != null && CurrentRow.Index == e.RowIndex)
 			{
-				e.CellStyle.SelectionBackColor = (Focused ?
-					m_selectedCellBackColor : m_selectedUnFocusedRowBackColor);
+				if (CurrentCell != null && CurrentCell.ColumnIndex == e.ColumnIndex)
+				{
+					// Set the selected cell's background color to be
+					// distinct from the rest of the current row.
+					e.CellStyle.SelectionBackColor = (Focused ?
+						m_selectedCellBackColor : m_selectedUnFocusedRowBackColor);
+				}
+				else
+				{
+					// Set the selected row's background color.
+					e.CellStyle.SelectionBackColor = (Focused ?
+						m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
+				}
 			}
 
 			base.OnCellFormatting(e);
