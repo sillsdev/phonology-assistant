@@ -47,8 +47,8 @@ namespace SIL.Pa
 		private readonly List<string> knownCharTypes;
 		private string m_xmlFilePath = string.Empty;
 		internal SilGrid m_grid;
-		private readonly List<int> m_codePoints = new List<int>();
 		private List<IPACharInfo> m_charInventory;
+		private readonly List<int> m_codePoints = new List<int>();
 		private readonly int invalidCodePoint = 31;
 		private readonly SortedDictionary<int, DataGridViewRow> m_gridDictionary =
 			new SortedDictionary<int, DataGridViewRow>();
@@ -144,6 +144,12 @@ namespace SIL.Pa
 		public PCIEditor()
 		{
 			InitializeComponent();
+
+			string eticFntName = SettingsHandler.GetStringSettingsValue("phoneticfont", "name", "Doulos SIL");
+			float eticFntSz = SettingsHandler.GetFloatSettingsValue("phoneticfont", "size", 13f);
+			SettingsHandler.SaveSettingsValue("phoneticfont", "name", eticFntName);
+			SettingsHandler.SaveSettingsValue("phoneticfont", "size", eticFntSz);
+			FontHelper.PhoneticFont = new Font(eticFntName, eticFntSz, GraphicsUnit.Point);
 
 			// Load 'knownCharTypes'
 			knownCharTypes = new List<string>();

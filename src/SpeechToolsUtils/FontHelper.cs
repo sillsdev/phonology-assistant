@@ -118,7 +118,7 @@ namespace SIL.SpeechTools.Utils
 			// These should get intialized via the settings file, but in case there is no
 			// settings file, this will ensure at least something.
 			if (FontInstalled("Doulos SIL"))
-				s_fntEtic = MakeFont("Doulos SIL", 12, FontStyle.Regular);
+				s_fntEtic = MakeFont("Doulos SIL", 13, FontStyle.Regular);
 			else if (FontInstalled("Arial Unicode"))
 				s_fntEtic = MakeFont("Arial Unicode", 11, FontStyle.Regular);
 			else if (FontInstalled("Lucida Sans Unicode"))
