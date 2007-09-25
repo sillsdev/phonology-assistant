@@ -178,9 +178,9 @@
     <value>The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.</value>
   </data>
   <data name="kstidZeroOrMoreBeginningErr" xml:space="preserve">
-    <value>When the zero-or-more symbol (*) is present in the preceding environment, it must be  at the beginning.</value>
+    <value>When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.</value>
   </data>
   <data name="kstidZeroOrMoreEndingErr" xml:space="preserve">
-    <value>When the zero-or-more symbol (*) is present in the following environment, it must be  at the end.</value>
+    <value>When the zero-or-more symbol (*) is present in the following environment, it must be at the end.</value>
   </data>
 </root>
