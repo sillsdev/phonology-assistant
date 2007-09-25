@@ -32,6 +32,7 @@ namespace SIL.Pa.Controls
 		private CIEOptions m_cieOptions = null;
 		private Type m_owningViewType = null;
 		private string m_phoneticColName;
+		private string m_audioFileColName;
 		private WordCacheEntry m_currPaintingCellEntry = null;
 		private bool m_currPaintingCellSelected = false;
 		internal bool m_suspendSavingColumnChanges = false;
@@ -49,6 +50,7 @@ namespace SIL.Pa.Controls
 		private PaFieldInfo m_groupByField = null;
 		private Font m_groupHeadingFont = null;
 		private Label m_noCIEResultsMsg;
+		private ToolTip m_audioFilePathToolTip = null;
 
 		private bool m_allGroupsCollapsed = false;
 		private bool m_allGroupsExpanded = true;
@@ -56,6 +58,7 @@ namespace SIL.Pa.Controls
 
 		private LocalWindowsHook m_kbHook;
 		private PaFieldInfoList m_fieldInfoList;
+		private readonly string m_fwRootDataDir;
 		private readonly bool m_drawFocusRectAroundCurrCell;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
 		private readonly GridCellInfoPopup m_cellInfoPopup;
@@ -147,6 +150,8 @@ namespace SIL.Pa.Controls
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
+			m_fwRootDataDir = GetFWRootDataDir();
+
 			m_drawFocusRectAroundCurrCell =
 				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
 
@@ -156,6 +161,30 @@ namespace SIL.Pa.Controls
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the location where FW tucks away data.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string GetFWRootDataDir()
+		{
+			string key = SIL.Pa.Data.FwQueries.FwRegKey;
+			if (string.IsNullOrEmpty(key))
+				return null;
+
+			using (Microsoft.Win32.RegistryKey regKey =
+				Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key))
+			{
+				if (regKey != null)
+				{
+					return regKey.GetValue(SIL.Pa.Data.FwQueries.RootDataDirValue, null)
+						as string;
+				}
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -238,6 +267,8 @@ namespace SIL.Pa.Controls
 			// Save this because we'll need it later.
 			if (fieldInfo.IsPhonetic)
 				m_phoneticColName = fieldInfo.FieldName;
+			else if (fieldInfo.IsAudioFile)
+				m_audioFileColName = fieldInfo.FieldName;
 
 			return col;
 		}
@@ -492,7 +523,7 @@ namespace SIL.Pa.Controls
 
 			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB)
 			{
-				if (AttemptToFindAudioFileForFwDataSource(entry, audioFilePath))
+				if (TryToFindAudioFile(entry, audioFilePath, m_fwRootDataDir))
 					return true;
 			}
 			else if (m_dataSourcePathFieldName == null)
@@ -518,31 +549,6 @@ namespace SIL.Pa.Controls
 			// Now try the alternate path location the user may have specified in
 			// the project's undocumented alternate audio file location field.
 			return TryToFindAudioFile(entry, audioFilePath,	PaApp.Project.AlternateAudioFileFolder);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Attempts to find an audio specified in an FW data source entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool AttemptToFindAudioFileForFwDataSource(WordCacheEntry entry,
-			string audioFilePath)
-		{
-			string key = SIL.Pa.Data.FwQueries.FwRegKey;
-			if (string.IsNullOrEmpty(key))
-				return false;
-
-			using (Microsoft.Win32.RegistryKey regKey =
-				Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key))
-			{
-				if (regKey == null)
-					return false;
-
-				string fwRootDir = regKey.GetValue(SIL.Pa.Data.FwQueries.RootDataDirValue,
-					string.Empty) as string;
-
-				return TryToFindAudioFile(entry, audioFilePath, fwRootDir);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -928,6 +934,12 @@ namespace SIL.Pa.Controls
 		{
 			PaApp.StatusBarLabel.Text = string.Empty;
 			base.OnLeave(e);
+
+			if (m_audioFilePathToolTip != null)
+			{
+				m_audioFilePathToolTip.Dispose();
+				m_audioFilePathToolTip = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1254,24 +1266,52 @@ namespace SIL.Pa.Controls
 			base.OnCellMouseEnter(e);
 
 			if (PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) &&
-				e.ColumnIndex >= 0 && e.RowIndex >= 0 && m_cache != null &&
-				Columns[e.ColumnIndex].Name == m_phoneticColName)
+				e.ColumnIndex >= 0 && e.RowIndex >= 0 && m_cache != null)
 			{
-				WordListCacheEntry wlEntry = GetWordEntry(e.RowIndex);
-				if (wlEntry == null)
-					return;
+				string colName = Columns[e.ColumnIndex].Name;
 
-				WordCacheEntry entry = wlEntry.WordCacheEntry;
+				if (colName == m_phoneticColName || colName == m_audioFileColName)
+				{
+					WordListCacheEntry wlEntry = GetWordEntry(e.RowIndex);
+					if (wlEntry == null)
+						return;
 
-				// Don't popup either of the popups in this method if the cell has
-				// both indicators. In that case the popup is handled in OnCellMouseMove.
-				if (entry.AppliedExperimentalTranscriptions != null && entry.ContiansUncertainties)
-					return;
+					WordCacheEntry entry = wlEntry.WordCacheEntry;
 
-				if (entry.ContiansUncertainties)
-					ShowUncertainDataPopup(e.RowIndex, e.ColumnIndex);
-				else if (entry.AppliedExperimentalTranscriptions != null)
-					ShowExperimentTranscriptionsPopup(e.RowIndex, e.ColumnIndex);
+					if (colName == m_phoneticColName)
+					{
+						// Don't popup either of the popups in this method if the cell has
+						// both indicators. In that case the popup is handled in OnCellMouseMove.
+						if (entry.AppliedExperimentalTranscriptions != null &&
+							entry.ContiansUncertainties)
+						{
+							return;
+						}
+
+						if (entry.ContiansUncertainties)
+							ShowUncertainDataPopup(e.RowIndex, e.ColumnIndex);
+						else if (entry.AppliedExperimentalTranscriptions != null)
+							ShowExperimentTranscriptionsPopup(e.RowIndex, e.ColumnIndex);
+					}
+					else
+					{
+						string audioFilePath = entry[m_audioFileColName];
+
+						// Show a tooltip with the full audio file path if the user has
+						// moved the mouse over the audio file cell of an entry from a
+						// FieldWorks data source.
+						if (audioFilePath != null &&
+							entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
+							!Path.IsPathRooted(audioFilePath))
+						{
+							audioFilePath =	Path.Combine(m_fwRootDataDir, audioFilePath);
+							Point pt = FindForm().PointToClient(MousePosition);
+							pt.Y += (int)(Cursor.Size.Height * 1.3);
+							m_audioFilePathToolTip = new ToolTip();
+							m_audioFilePathToolTip.Show(audioFilePath, FindForm(), pt);
+						}
+					}
+				}
 			}
 		}
 
@@ -1284,6 +1324,12 @@ namespace SIL.Pa.Controls
 		{
 			base.OnCellMouseLeave(e);
 			ClearIndicatorHotspot(e.RowIndex, e.ColumnIndex);
+
+			if (m_audioFilePathToolTip != null)
+			{
+				m_audioFilePathToolTip.Dispose();
+				m_audioFilePathToolTip = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

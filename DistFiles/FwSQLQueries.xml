@@ -39,6 +39,7 @@
 		lsGloss3.Txt As gloss3,
 		lp.Tone As tone,
 		ls.Source As ref,
+		cmf.InternalPath as Audiofile,
 		cpaPOS.Txt As pos,
 		leo.Guid$ As guid
 		FROM LexEntry le
@@ -46,9 +47,12 @@
 		LEFT OUTER JOIN LexEntry_Senses les ON les.Src = le.Id AND les.Ord = 1
 		LEFT OUTER JOIN LexEntry_Pronunciations lep ON lep.Src = le.Id AND lep.Ord = 1
 		LEFT OUTER JOIN LexPronunciation lp ON lp.Id = lep.Dst
+		LEFT OUTER JOIN LexPronunciation_MediaFiles lpm ON lpm.Src = lp.Id AND lpm.Ord = 1
+		LEFT OUTER JOIN CmMedia cmm ON cmm.Id = lpm.Dst
+		LEFT OUTER JOIN CmFile cmf ON cmf.ID = cmm.MediaFile
 		LEFT OUTER JOIN MoForm_Form mffEtic ON mffEtic.Obj = lelf.Dst And mffEtic.Ws = $phoneticWs$
 		LEFT OUTER JOIN MoForm_Form mffEmic ON mffEmic.Obj = lelf.Dst And mffEmic.Ws = $phonemicWs$
-		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $orthoWs$
+		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst	And mffOrtho.Ws = $orthoWs$
 		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
 		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
 		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst AND lsGloss1.Ws = $gloss1Ws$
@@ -56,7 +60,7 @@
 		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst AND lsGloss3.Ws = $gloss3Ws$
 		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
 		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
-		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj	= msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
 	</datafromlexemeform>
 	<!-- The text between $ symbols is replaced by writing system numbers corresponding to user user choices. -->
 	<datafrompronunciationfield>
