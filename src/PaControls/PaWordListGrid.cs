@@ -480,69 +480,44 @@ namespace SIL.Pa.Controls
 			if (!string.IsNullOrEmpty(absolutePath) && File.Exists(absolutePath))
 				return true;
 
-			entry.AbsoluteAudioFilePath = null;
-			string newAudioFileName;
-
-			// Check if the path specified in the data source is an absolute path.
-			// If it is check if the file exists in an alternative location specified
-			// by an undocumented field in the project.
+			// In case the path is rooted with just a backslash (as opposed to a drive letter),
+			// strip off the backslash before trying to find the audio file by combining the
+			// result with various other rooted paths. I do this because combining a rooted
+			// path (using Path.Combine) with any other path just returns the rooted path so
+			// we're no better off than we were before the combine method was called.
 			if (Path.IsPathRooted(audioFilePath))
-			{
-				if (PaApp.Project != null && PaApp.Project.AlternateAudioFileFolder != null)
-				{
-					newAudioFileName = Path.Combine(PaApp.Project.AlternateAudioFileFolder,
-						Path.GetFileName(audioFilePath));
+				audioFilePath = audioFilePath.TrimStart("\\".ToCharArray());
 
-					if (File.Exists(newAudioFileName))
-					{
-						entry.AbsoluteAudioFilePath = newAudioFileName;
-						return true;
-					}
-				}
-
-				if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB)
-					return false;
-			}
+			entry.AbsoluteAudioFilePath = null;
 
 			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB)
-				return AttemptToFindAudioFileForFwDataSource(entry, audioFilePath);
-
-			// Get the name of the data source path field name, if it hasn't already been done.
-			// The data source path is only relevant for non FW data sources.
-			if (m_dataSourcePathFieldName == null)
 			{
+				if (AttemptToFindAudioFileForFwDataSource(entry, audioFilePath))
+					return true;
+			}
+			else if (m_dataSourcePathFieldName == null)
+			{
+				// Get the name of the data source path field name, if it hasn't already been done.
+				// The data source path is only relevant for non FW data sources.
 				if (FieldInfoList.DataSourcePathField != null)
 					m_dataSourcePathFieldName = FieldInfoList.DataSourcePathField.FieldName;
 			}
 
 			// Check a path relative to the data source file's path.
-			if (m_dataSourcePathFieldName != null)
-			{
-				newAudioFileName = Path.Combine(entry[m_dataSourcePathFieldName], audioFilePath);
-				if (File.Exists(newAudioFileName))
-				{
-					entry.AbsoluteAudioFilePath = newAudioFileName;
-					return true;
-				}
-			}
+			if (TryToFindAudioFile(entry, audioFilePath, entry[m_dataSourcePathFieldName]))
+				return true;
 
 			// Check a path relative to the project file's path
-			newAudioFileName = Path.Combine(PaApp.Project.ProjectPath, audioFilePath);
-			if (File.Exists(newAudioFileName))
-			{
-				entry.AbsoluteAudioFilePath = newAudioFileName;
+			if (TryToFindAudioFile(entry, audioFilePath, PaApp.Project.ProjectPath))
 				return true;
-			}
-
+			
 			// Check a path relative to the application's startup path
-			newAudioFileName = Path.Combine(Application.StartupPath, audioFilePath);
-			if (File.Exists(newAudioFileName))
-			{
-				entry.AbsoluteAudioFilePath = newAudioFileName;
+			if (TryToFindAudioFile(entry, audioFilePath, Application.StartupPath))
 				return true;
-			}
 
-			return false;
+			// Now try the alternate path location the user may have specified in
+			// the project's undocumented alternate audio file location field.
+			return TryToFindAudioFile(entry, audioFilePath,	PaApp.Project.AlternateAudioFileFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -566,21 +541,40 @@ namespace SIL.Pa.Controls
 				string fwRootDir = regKey.GetValue(SIL.Pa.Data.FwQueries.RootDataDirValue,
 					string.Empty) as string;
 
-				if (string.IsNullOrEmpty(fwRootDir))
-					return false;
+				return TryToFindAudioFile(entry, audioFilePath, fwRootDir);
+			}
+		}
 
-				string newAudioFileName = Path.Combine(fwRootDir, audioFilePath);
-				if (!File.Exists(newAudioFileName))
-				{
-					newAudioFileName = Path.GetFileName(audioFilePath);
-					newAudioFileName = Path.Combine(fwRootDir, newAudioFileName);
-					if (!File.Exists(newAudioFileName))
-						return false;
-				}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool TryToFindAudioFile(WordCacheEntry entry, string audioFilePath,
+			string rootPath)
+		{
+			if (string.IsNullOrEmpty(rootPath) || string.IsNullOrEmpty(audioFilePath))
+				return false;
 
-				entry.AbsoluteAudioFilePath = newAudioFileName;
+			// First, combine the audioFilePath and the specified rootPath.
+			string newPath = Path.Combine(rootPath, audioFilePath);
+			if (File.Exists(newPath))
+			{
+				entry.AbsoluteAudioFilePath = newPath;
 				return true;
 			}
+
+			// Now try removing just the filename from audioFilePath and
+			// combining that with the specified root path.
+			newPath = Path.GetFileName(audioFilePath);
+			newPath = Path.Combine(rootPath, newPath);
+			if (File.Exists(newPath))
+			{
+				entry.AbsoluteAudioFilePath = newPath;
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
