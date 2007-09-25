@@ -481,22 +481,39 @@ namespace SIL.Pa.Controls
 				return true;
 
 			entry.AbsoluteAudioFilePath = null;
+			string newAudioFileName;
 
-			// Check if the path specified in the data source is an absolute path. Do this
-			// by checking for a colon in the second character position.
-			if (audioFilePath != null && audioFilePath.Length > 0 && audioFilePath[1] == ':')
-				return false;
+			// Check if the path specified in the data source is an absolute path.
+			// If it is check if the file exists in an alternative location specified
+			// by an undocumented field in the project.
+			if (Path.IsPathRooted(audioFilePath))
+			{
+				if (PaApp.Project != null && PaApp.Project.AlternateAudioFileFolder != null)
+				{
+					newAudioFileName = Path.Combine(PaApp.Project.AlternateAudioFileFolder,
+						Path.GetFileName(audioFilePath));
+
+					if (File.Exists(newAudioFileName))
+					{
+						entry.AbsoluteAudioFilePath = newAudioFileName;
+						return true;
+					}
+				}
+
+				if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB)
+					return false;
+			}
+
+			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB)
+				return AttemptToFindAudioFileForFwDataSource(entry, audioFilePath);
 
 			// Get the name of the data source path field name, if it hasn't already been done.
 			// The data source path is only relevant for non FW data sources.
-			if (!entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
-				m_dataSourcePathFieldName == null)
+			if (m_dataSourcePathFieldName == null)
 			{
 				if (FieldInfoList.DataSourcePathField != null)
 					m_dataSourcePathFieldName = FieldInfoList.DataSourcePathField.FieldName;
 			}
-
-			string newAudioFileName;
 
 			// Check a path relative to the data source file's path.
 			if (m_dataSourcePathFieldName != null)
@@ -526,6 +543,44 @@ namespace SIL.Pa.Controls
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Attempts to find an audio specified in an FW data source entry.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool AttemptToFindAudioFileForFwDataSource(WordCacheEntry entry,
+			string audioFilePath)
+		{
+			string key = SIL.Pa.Data.FwQueries.FwRegKey;
+			if (string.IsNullOrEmpty(key))
+				return false;
+
+			using (Microsoft.Win32.RegistryKey regKey =
+				Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key))
+			{
+				if (regKey == null)
+					return false;
+
+				string fwRootDir = regKey.GetValue(SIL.Pa.Data.FwQueries.RootDataDirValue,
+					string.Empty) as string;
+
+				if (string.IsNullOrEmpty(fwRootDir))
+					return false;
+
+				string newAudioFileName = Path.Combine(fwRootDir, audioFilePath);
+				if (!File.Exists(newAudioFileName))
+				{
+					newAudioFileName = Path.GetFileName(audioFilePath);
+					newAudioFileName = Path.Combine(fwRootDir, newAudioFileName);
+					if (!File.Exists(newAudioFileName))
+						return false;
+				}
+
+				entry.AbsoluteAudioFilePath = newAudioFileName;
+				return true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

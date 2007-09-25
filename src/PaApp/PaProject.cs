@@ -25,6 +25,7 @@ namespace SIL.Pa
 		private string m_transcriber = null;
 		private string m_speakerName = null;
 		private string m_comments = null;
+		private string m_alternateAudioFileFolder = null;
 		private List<PaDataSource> m_dataSources = new List<PaDataSource>();
 		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
@@ -815,6 +816,17 @@ namespace SIL.Pa
 		{
 			get { return m_comments; }
 			set { m_comments = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string AlternateAudioFileFolder
+		{
+			get { return m_alternateAudioFileFolder; }
+			set { m_alternateAudioFileFolder = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

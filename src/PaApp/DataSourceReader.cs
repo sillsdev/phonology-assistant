@@ -323,6 +323,18 @@ namespace SIL.Pa
 					{
 						m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
 						wentry.SetValue(fieldNames[i], reader[i].ToString());
+
+						if (fieldNames[i] == m_project.FieldInfo.AudioFileField.FieldName)
+						{
+							string lengthField = m_project.FieldInfo.AudioFileLengthField.FieldName;
+							string offsetField = m_project.FieldInfo.AudioFileOffsetField.FieldName;
+
+							if (wentry[lengthField] == null)
+								wentry.SetValue(lengthField, "0");
+	
+							if (wentry[offsetField] == null)
+								wentry.SetValue(offsetField, "0");
+						}
 					}
 				}
 

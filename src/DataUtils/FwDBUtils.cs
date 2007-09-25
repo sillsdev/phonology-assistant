@@ -727,6 +727,12 @@ namespace SIL.Pa.Data
 		private static FwQueries s_fwqueries;
 		private static string s_queryFile;
 
+		[XmlElement("fwregkey")]
+		public string m_fwRegKey;
+
+		[XmlElement("rootdatadirvalue")]
+		public string m_rootDataDirValue;
+
 		[XmlElement("service")]
 		public string m_service;
 
@@ -796,6 +802,34 @@ namespace SIL.Pa.Data
 			{
 				Load();
 				return s_queryFile;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string FwRegKey
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_fwRegKey : null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string RootDataDirValue
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_rootDataDirValue : null);
 			}
 		}
 
