@@ -1285,7 +1285,6 @@ namespace SIL.Pa.Controls
 			Rows.Add(1);
 			this[0, 0].ReadOnly = true;
 			CurrentCell = this[0, 1];
-			Rows[0].Frozen = true;
 
 			IsDirty = false;
 			m_loadedLayout = false;
