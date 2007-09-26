@@ -756,12 +756,18 @@ namespace SIL.Pa.Controls
 				int y = (int)(m.LParam.ToInt32() & 0xFFFF0000) / 0x10000;
 
 				m_mouseDownOnCornerCell = false;
-				HitTestInfo hinfo = HitTest(x, y);
-				if (hinfo.ColumnIndex == 0 && hinfo.RowIndex == 0)
+
+				// Don't ignore the click if the sizing cursor is showing (since clicks
+				// when the sizing cursor is showing don't make the cell active).
+				if (Cursor != Cursors.SizeWE)
 				{
-					m_mouseDownOnCornerCell = true;
-					m.Result = IntPtr.Zero;
-					m.Msg = 0;
+					HitTestInfo hinfo = HitTest(x, y);
+					if (hinfo.ColumnIndex == 0 && hinfo.RowIndex == 0)
+					{
+						m_mouseDownOnCornerCell = true;
+						m.Result = IntPtr.Zero;
+						m.Msg = 0;
+					}
 				}
 			}
 
