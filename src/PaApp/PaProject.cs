@@ -284,6 +284,7 @@ namespace SIL.Pa
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
 				project.LoadFieldInfo();
+				project.VerifyDataSourceMappings();
 				RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
 			}
 			catch (Exception e)
@@ -344,6 +345,20 @@ namespace SIL.Pa
 			}
 
 			return project;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void VerifyDataSourceMappings()
+		{
+			if (m_dataSources == null)
+				return;
+
+			foreach (PaDataSource ds in DataSources)
+				ds.VerifyMappings(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -513,7 +513,7 @@ namespace SIL.Pa
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			bool enable = (m_grid != null && m_grid.Cache != null && m_grid.RowCount > 0);
+			bool enable = (m_grid != null && m_grid.Cache != null && m_grid.RowCount > 1);
 			
 			if (m_grid.RowCount == 0)
 			{

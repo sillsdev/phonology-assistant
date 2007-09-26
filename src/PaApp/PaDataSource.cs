@@ -133,6 +133,45 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Checks to see if the data source should have mappings (i.e. for SFM and Toolbox
+		/// data source types). If so, then makes sure the collection of mappings is complete.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void VerifyMappings(PaProject project)
+		{
+			if (m_sourceType != DataSourceType.Toolbox && m_sourceType != DataSourceType.SFM &&
+				m_mappings != null)
+			{
+				m_mappings.Clear();
+				return;
+			}
+
+			if (project == null)
+				return;
+
+			if (m_mappings == null || m_mappings.Count == 0)
+			{
+				MakeNewMappingsList();
+				return;
+			}
+
+			// Verify that each field in the project has an item in the mappings collection.
+			foreach (PaFieldInfo fieldinfo in project.FieldInfo)
+				SFMarkerMapping.VerifyMappingForField(m_mappings, fieldinfo);
+
+			// Now make sure a mapping exists for the record marker.
+			foreach (SFMarkerMapping mapping in m_mappings)
+			{
+				if (mapping.FieldName == kRecordMarker)
+					return;
+			}
+
+			// At this point, we know a mapping was not found for the record marker. So add one.
+			m_mappings.Add(new SFMarkerMapping(kRecordMarker));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Determines whether or not a file is an SFM file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

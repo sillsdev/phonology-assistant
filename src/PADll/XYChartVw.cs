@@ -860,16 +860,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void lvSavedCharts_AfterLabelEdit(object sender, LabelEditEventArgs e)
 		{
+			string newName = (e.Label != null ? e.Label.Trim() : null);
+
 			XYChartLayout layout = lvSavedCharts.Items[e.Item].Tag as XYChartLayout;
-			if (layout == null || layout.Name == e.Label || e.Label == null || 
-				e.Label.Trim() == string.Empty)
+			if (layout == null || layout.Name == newName || newName == null)
 			{
 				e.CancelEdit = true;
 				return;
 			}
 
 			// Check if chart name already exists. If it does, cancel the current edit.
-			if (GetExistingLayoutByName(layout, e.Label, true) != null)
+			if (GetExistingLayoutByName(layout, newName, true) != null)
 			{
 				e.CancelEdit = true;
 				return;
@@ -880,13 +881,36 @@ namespace SIL.Pa
 			if (m_xyGrid.ChartLayout != null &&
 				m_xyGrid.ChartLayout.Name == lvSavedCharts.Items[e.Item].Text)
 			{
-				m_xyGrid.ChartLayout.Name = e.Label;
-				lblChartNameValue.Text = e.Label;
+				m_xyGrid.ChartLayout.Name = newName;
+				lblChartNameValue.Text = newName;
 			}
 
 			// Keep the new name and save the change to disk.
-			layout.Name = e.Label;
+			layout.Name = newName;
 			SaveCharts();
+
+			// Because e.Label is readonly (which means the trimmed name cannot be assigned
+			// to e.Label), post a message that will get called after this method is
+			// complete. The message handler for that message will update the saved charts
+			// list with the trimmed name of the chart.
+			KeyValuePair<int, string> kvp = new KeyValuePair<int, string>(e.Item, newName);
+			PaApp.MsgMediator.PostMessage("ChartNameChangedInSavedChartsList", kvp);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnChartNameChangedInSavedChartsList(object args)
+		{
+			if (args is KeyValuePair<int, string>)
+			{
+				KeyValuePair<int, string> kvp = (KeyValuePair<int, string>)args;
+				lvSavedCharts.Items[kvp.Key].Text = kvp.Value;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

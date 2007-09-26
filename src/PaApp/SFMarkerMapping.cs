@@ -68,7 +68,7 @@ namespace SIL.Pa
 		/// <summary>
 		/// Checks the specified mapping list for the specified PA field. If a mapping for the
 		/// field cannot be found, then one is created and added to the specified mappings
-		/// list at the specified index.
+		/// list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static SFMarkerMapping VerifyMappingForField(List<SFMarkerMapping> mappingList,
