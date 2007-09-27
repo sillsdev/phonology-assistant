@@ -889,28 +889,8 @@ namespace SIL.Pa
 			layout.Name = newName;
 			SaveCharts();
 
-			// Because e.Label is readonly (which means the trimmed name cannot be assigned
-			// to e.Label), post a message that will get called after this method is
-			// complete. The message handler for that message will update the saved charts
-			// list with the trimmed name of the chart.
-			KeyValuePair<int, string> kvp = new KeyValuePair<int, string>(e.Item, newName);
-			PaApp.MsgMediator.PostMessage("ChartNameChangedInSavedChartsList", kvp);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnChartNameChangedInSavedChartsList(object args)
-		{
-			if (args is KeyValuePair<int, string>)
-			{
-				KeyValuePair<int, string> kvp = (KeyValuePair<int, string>)args;
-				lvSavedCharts.Items[kvp.Key].Text = kvp.Value;
-			}
-
-			return true;
+			lvSavedCharts.Items[e.Item].Text = newName;
+			e.CancelEdit = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -933,13 +913,54 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure the only column in the saved charts list is the same with as its
-		/// owning list view.
+		/// Makes sure the list has a selected item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvSavedCharts_Resize(object sender, EventArgs e)
+		private void lvSavedCharts_Enter(object sender, EventArgs e)
 		{
-			hdrSavedCharts.Width = lvSavedCharts.ClientSize.Width - 3;
+			// Make sure an item is selected when the list gets focus. Probably the only
+			// time the list will get focus and not have a selected item is the first
+			// time the list gains focus after the view has been loaded.
+			if (lvSavedCharts.SelectedIndices.Count == 0 && lvSavedCharts.Items.Count > 0)
+				lvSavedCharts.Items[0].Selected = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the only column in the saved charts list is the same with as its
+		/// owning list view. Also make sure the list view's size fills the panel underneath
+		/// the header label.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void pnlSavedCharts_Resize(object sender, EventArgs e)
+		{
+			// Save the index of the selected item.
+			int i = (lvSavedCharts.SelectedIndices != null &&
+				lvSavedCharts.SelectedIndices.Count > 0 ? lvSavedCharts.SelectedIndices[0] : 0);
+
+			// This is sort of a kludge, but it's necessary due to the possiblity that
+			// the list view's column header will change size. It turns out that if there
+			// were any items scrolled off the top of the list and the column header is
+			// resized and the new size of the list view will cause the vertical scroll
+			// bar to go away, there will be one or more blank lines at the top of the
+			// list view. Making sure the first item is visible before changing the column
+			// header's size will prevent this. See PA-676.
+			if (lvSavedCharts.Items.Count > 0)
+				lvSavedCharts.EnsureVisible(0);
+
+			// Make sure the list view fills the panel it's (accounting for the fact that
+			// it's also in the panel underneath the hlblSaveCharts control).
+			lvSavedCharts.Size = new Size(pnlSavedCharts.ClientSize.Width,
+				pnlSavedCharts.ClientSize.Height - hlblSavedCharts.Size.Height);
+
+			// Resize the list view's colum header so it fits just
+			// inside the list view's client area.
+			if (hdrSavedCharts.Width != lvSavedCharts.ClientSize.Width - 3)
+				hdrSavedCharts.Width = lvSavedCharts.ClientSize.Width - 3;
+
+			// Make sure the previously selected item is visible.
+			if (i >= 0 && lvSavedCharts.Items.Count > 0)
+				lvSavedCharts.EnsureVisible(i);
 		}
 
 		/// ------------------------------------------------------------------------------------

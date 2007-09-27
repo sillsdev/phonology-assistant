@@ -201,23 +201,26 @@ namespace SIL.Pa
 			this.pnlSavedCharts.MnemonicGeneratesClick = false;
 			this.pnlSavedCharts.Name = "pnlSavedCharts";
 			this.pnlSavedCharts.PaintExplorerBarBackground = false;
+			this.pnlSavedCharts.Resize += new System.EventHandler(this.pnlSavedCharts_Resize);
 			// 
 			// lvSavedCharts
 			// 
+			this.lvSavedCharts.AutoArrange = false;
 			this.lvSavedCharts.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.lvSavedCharts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.hdrSavedCharts});
-			resources.ApplyResources(this.lvSavedCharts, "lvSavedCharts");
 			this.lvSavedCharts.FullRowSelect = true;
 			this.lvSavedCharts.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lvSavedCharts.HideSelection = false;
 			this.lvSavedCharts.LabelEdit = true;
+			resources.ApplyResources(this.lvSavedCharts, "lvSavedCharts");
 			this.lvSavedCharts.MultiSelect = false;
 			this.lvSavedCharts.Name = "lvSavedCharts";
+			this.lvSavedCharts.ShowGroups = false;
 			this.lvSavedCharts.UseCompatibleStateImageBehavior = false;
 			this.lvSavedCharts.View = System.Windows.Forms.View.Details;
 			this.lvSavedCharts.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvSavedCharts_MouseDoubleClick);
-			this.lvSavedCharts.Resize += new System.EventHandler(this.lvSavedCharts_Resize);
+			this.lvSavedCharts.Enter += new System.EventHandler(this.lvSavedCharts_Enter);
 			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
 			this.lvSavedCharts.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvSavedCharts_ItemSelectionChanged);
 			this.lvSavedCharts.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvSavedCharts_AfterLabelEdit);

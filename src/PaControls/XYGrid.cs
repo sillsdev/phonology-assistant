@@ -1284,6 +1284,7 @@ namespace SIL.Pa.Controls
 			AddColumn(false);
 			Rows.Add(1);
 			this[0, 0].ReadOnly = true;
+			Rows[0].Frozen = true;
 			CurrentCell = this[0, 1];
 
 			IsDirty = false;

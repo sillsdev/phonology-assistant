@@ -441,12 +441,15 @@ namespace SIL.Pa.Controls
 
 			if (e.Label != null && item != null)
 			{
-				if (e.Label.Trim() == item.Text || DoesClassNameExist(e.Label, item, true))
-					e.CancelEdit = true;
-				else
+				string newName = e.Label.Trim();
+				if (newName != item.Text && !DoesClassNameExist(newName, item, true))
+				{
+					item.Text = newName;
 					item.IsDirty = true;
+				}
 			}
 
+			e.CancelEdit = true;
 			item.InEditMode = false;
 		}
 
