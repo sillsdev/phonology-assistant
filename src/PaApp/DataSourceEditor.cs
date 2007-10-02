@@ -199,8 +199,8 @@ namespace SIL.Pa
 			if (fieldInfo != null)
 			{
 				string url = string.Format(Properties.Resources.kstidEditFWSourceRecUrlFormat,
-					Environment.MachineName, recEntry[fieldInfo.FieldName],
-					recEntry.DataSource.FwDBName);
+					recEntry.DataSource.FwDataSourceInfo.ServerMachineName,
+					recEntry[fieldInfo.FieldName], recEntry.DataSource.FwDataSourceInfo.DBName);
 
 				// Spaces aren't allowed in the URL. They should be converted to '+'.
 				url = url.Trim().Replace(' ', '+');

@@ -247,12 +247,11 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwDataSourceInfo
 	{
-		[XmlAttribute]
-		public string Server;
-
 		public FwDBUtils.PhoneticStorageMethod PhoneticStorageMethod =
 			FwDBUtils.PhoneticStorageMethod.LexemeForm;
 
+		private string m_server;
+		private string m_serverMachineName;
 		private string m_dbName;
 		private string m_projName;
 		public bool IsMissing = false;
@@ -277,7 +276,7 @@ namespace SIL.Pa.Data
 		public FwDataSourceInfo(string dbName)
 		{
 			m_dbName = dbName;
-			Server = FwQueries.Server;
+			m_server = FwQueries.Server;
 
 			// As of the Summer 2007 release of FW, projects names are now just the DB name.
 			m_projName = dbName;
@@ -299,6 +298,42 @@ namespace SIL.Pa.Data
 			// followed by the DB name in parentheses.
 			string text = Resources.kstidFWDataSourceInfo;
 			return string.Format(text, ProjectName, m_dbName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public string Server
+		{
+			get { return (m_server ?? FwQueries.Server); }
+			set
+			{
+				// Force the loading of the FW queries file.
+				FwQueries.Load();
+
+				if (!string.IsNullOrEmpty(value))
+				{
+					m_server = value;
+
+					// Make sure the global server used for making connections is from
+					// the .pap file, thus overriding the one from the FW query file.
+					FwQueries.s_fwqueries.m_server = value;
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ServerMachineName
+		{
+			get { return (m_serverMachineName ?? Environment.MachineName); }
+			set { m_serverMachineName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -440,7 +475,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public bool HasNameAndServer
 		{
-			get { return (!string.IsNullOrEmpty(m_dbName) && !string.IsNullOrEmpty(Server)); }
+			get { return (!string.IsNullOrEmpty(m_dbName) && !string.IsNullOrEmpty(m_server)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -724,7 +759,7 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwQueries
 	{
-		private static FwQueries s_fwqueries;
+		internal static FwQueries s_fwqueries;
 		private static string s_queryFile;
 
 		[XmlElement("fwregkey")]
@@ -774,7 +809,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void Load()
+		internal static void Load()
 		{
 			if (s_fwqueries == null)
 			{
