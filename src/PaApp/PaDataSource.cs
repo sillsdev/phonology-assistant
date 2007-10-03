@@ -56,7 +56,7 @@ namespace SIL.Pa
 		private List<SFMarkerMapping> m_mappings;
 		private bool m_skipLoading = false;
 		private DataSourceParseType m_parseType = DataSourceParseType.PhoneticOnly;
-		private string m_fwServer;
+		//private string m_fwServer;
 		private string m_fwDBName;
 		private FwDataSourceInfo m_fwSourceInfo = null;
 		private string m_toolboxSortField;
@@ -309,8 +309,20 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
+			return ToString(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get's the data source's file name or database name when the data source is 
+		/// FieldWorks data direct from a FW database.
+		/// </summary>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public string ToString(bool showMachineNameForFwDataSources)
+		{
 			return (m_sourceType == DataSourceType.FW && m_fwSourceInfo != null ?
-				  m_fwSourceInfo.ToString() : DataSourceFile);
+				  m_fwSourceInfo.ToString(showMachineNameForFwDataSources) : DataSourceFile);
 		}
 
 		#region Properties
@@ -372,18 +384,18 @@ namespace SIL.Pa
 			get { return m_fwSourceInfo != null; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the SIL FieldWorks server name. This is set only when an FW data
-		/// source is read in DataSourceReader.cs.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string FwServer
-		{
-			get { return m_fwSourceInfo != null ? m_fwSourceInfo.Server : m_fwServer; }
-			set { m_fwServer = value; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets or sets the SIL FieldWorks server name. This is set only when an FW data
+		///// source is read in DataSourceReader.cs.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[XmlIgnore]
+		//public string FwServer
+		//{
+		//    get { return m_fwSourceInfo != null ? m_fwSourceInfo.Server : m_fwServer; }
+		//    set { m_fwServer = value; }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -19,6 +19,8 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FwDBUtils
 	{
+		private static bool s_showErrorOnConnectionFailure = true;
+
 		public enum FwWritingSystemType
 		{
 			None,
@@ -41,70 +43,81 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FwDataSourceInfo[] FwDataSourceInfoList
+		public static FwDataSourceInfo[] GetFwDataSourceInfoList(string machineName)
 		{
-			get
-			{
-				// Make sure SQL server is running.
-				if (!IsSQLServerStarted)
-					return null;
-				
-				List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
-
-				SmallFadingWnd msgWnd = null;
-				if (ShowMsgWhenGatheringFWInfo)
-					msgWnd = new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
-
-				// Read all the SQL databases from the server's master table.
-				using (SqlConnection connection = FwConnection(FwQueries.MasterTable))
-				{
-					if (connection != null && FwQueries.FwDatabasesSQL != null)
-					{
-						SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
-						
-						// Get all the database names.
-						using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
-						{
-							if (reader != null)
-							{
-								while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-									fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string));
-
-								reader.Close();
-							}
-						}
-
-						connection.Close();
-					}
-				}
-
-				if (msgWnd != null)
-				{
-					msgWnd.CloseFade();
-					msgWnd.Dispose();
-				}
-
-				return (fwDBInfoList.Count == 0 ? null : fwDBInfoList.ToArray());
-			}
+			return GetFwDataSourceInfoList(machineName, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Opens a connection to a SQL server database on the local machine.
+		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static SqlConnection FwConnection(string dbName)
+		public static FwDataSourceInfo[] GetFwDataSourceInfoList(string machineName,
+			bool showErrorOnFailure)
+		{
+			// Make sure SQL server is running.
+			if (!IsSQLServerStarted)
+				return null;
+
+			s_showErrorOnConnectionFailure = showErrorOnFailure;
+			List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
+
+			SmallFadingWnd msgWnd = null;
+			if (ShowMsgWhenGatheringFWInfo)
+				msgWnd = new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
+
+			// Read all the SQL databases from the server's master table.
+			using (SqlConnection connection = FwConnection(FwQueries.MasterTable, machineName))
+			{
+				if (connection != null && FwQueries.FwDatabasesSQL != null)
+				{
+					SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
+
+					// Get all the database names.
+					using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
+					{
+						if (reader != null)
+						{
+							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+								fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, machineName));
+
+							reader.Close();
+						}
+					}
+
+					connection.Close();
+				}
+			}
+
+			if (msgWnd != null)
+			{
+				msgWnd.CloseFade();
+				msgWnd.Dispose();
+			}
+
+			s_showErrorOnConnectionFailure = true;
+			return (fwDBInfoList.Count == 0 ? null : fwDBInfoList.ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Opens a connection to an FW SQL server database on the specified machine.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static SqlConnection FwConnection(string dbName, string machineName)
 		{
 			try
 			{
-				if (StartSQLServer(true))
+				if (!string.IsNullOrEmpty(machineName) && StartSQLServer(true))
 				{
+					string server = FwQueries.GetServer(machineName);
 					string connectionStr = string.Format(FwQueries.ConnectionString,
-						new string[] { FwQueries.Server, dbName, "FWDeveloper", "careful" });
-					
+						new string[] { server, dbName, "FWDeveloper", "careful" });
+
 					SqlConnection connection = new SqlConnection(connectionStr);
 					connection.Open();
 					return connection;
@@ -112,9 +125,12 @@ namespace SIL.Pa.Data
 			}
 			catch (Exception e)
 			{
-				string msg = string.Format(Properties.Resources.kstidSQLConnectionErrMsg,
-					dbName, e.Message);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				if (s_showErrorOnConnectionFailure)
+				{
+					string msg = string.Format(Resources.kstidSQLConnectionErrMsg,
+						dbName, machineName, e.Message);
+					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				}
 			}
 
 			return null;
@@ -135,7 +151,7 @@ namespace SIL.Pa.Data
 
 			if (showMsg)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidSQLServerNotInstalledMsg,
+				STUtils.STMsgBox(Resources.kstidSQLServerNotInstalledMsg,
 					MessageBoxButtons.OK);
 			}
 
@@ -188,7 +204,7 @@ namespace SIL.Pa.Data
 							return true;
 
 						using (SmallFadingWnd msgWnd =
-							new SmallFadingWnd(Properties.Resources.kstidStartingSQLServerMsg))
+							new SmallFadingWnd(Resources.kstidStartingSQLServerMsg))
 						{
 							msgWnd.Show();
 							Application.DoEvents();
@@ -250,8 +266,7 @@ namespace SIL.Pa.Data
 		public FwDBUtils.PhoneticStorageMethod PhoneticStorageMethod =
 			FwDBUtils.PhoneticStorageMethod.LexemeForm;
 
-		private string m_server;
-		private string m_serverMachineName;
+		private string m_machineName;
 		private string m_dbName;
 		private string m_projName;
 		public bool IsMissing = false;
@@ -266,6 +281,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public FwDataSourceInfo()
 		{
+			m_machineName = Environment.MachineName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -273,10 +289,10 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo(string dbName)
+		public FwDataSourceInfo(string dbName, string machineName)
 		{
 			m_dbName = dbName;
-			m_server = FwQueries.Server;
+			m_machineName = machineName;
 
 			// As of the Summer 2007 release of FW, projects names are now just the DB name.
 			m_projName = dbName;
@@ -289,15 +305,30 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
+			return ToString(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ToString(bool includeMachineName)
+		{
+			string text = ProjectName;
+
 			// When the project name is the same as the DB name,
 			// then just return the project name.
-			if (ProjectName.ToLower() == m_dbName.ToLower())
-				return ProjectName;
+			if (ProjectName.ToLower() != m_dbName.ToLower())
+			{
+				// When they're different, return the project name,
+				// followed by the DB name in parentheses.
+				text = string.Format(Resources.kstidFwDataSourceInfo, ProjectName, m_dbName);
+			}
 
-			// When they're different, return the project name,
-			// followed by the DB name in parentheses.
-			string text = Resources.kstidFWDataSourceInfo;
-			return string.Format(text, ProjectName, m_dbName);
+			return (!includeMachineName ||
+				MachineName.ToLower() == Environment.MachineName.ToLower() ? text :
+				string.Format(Resources.kstidFwDataSourceInfoWithMachineName, text, MachineName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,34 +337,10 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Server
+		public string MachineName
 		{
-			get { return (m_server ?? FwQueries.Server); }
-			set
-			{
-				// Force the loading of the FW queries file.
-				FwQueries.Load();
-
-				if (!string.IsNullOrEmpty(value))
-				{
-					m_server = value;
-
-					// Make sure the global server used for making connections is from
-					// the .pap file, thus overriding the one from the FW query file.
-					FwQueries.s_fwqueries.m_server = value;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string ServerMachineName
-		{
-			get { return (m_serverMachineName ?? Environment.MachineName); }
-			set { m_serverMachineName = value; }
+			get { return m_machineName; }
+			set { m_machineName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -372,7 +379,7 @@ namespace SIL.Pa.Data
 				// This commented out code was used to get the FW project's internal name
 				// but FW now just uses the database name as the project name.
 				//if (IsMissing)
-				//    return string.Format(Properties.Resources.kstidFwDBMissing, DBName);
+				//    return string.Format(Resources.kstidFwDBMissing, DBName);
 
 				//if (m_projName == null)
 				//{
@@ -412,7 +419,7 @@ namespace SIL.Pa.Data
 			{
 				byte[] retVal = null;
 
-				using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
+				using (SqlConnection connection = FwDBUtils.FwConnection(DBName, MachineName))
 				{
 					if (connection == null)
 						return null;
@@ -465,17 +472,6 @@ namespace SIL.Pa.Data
 
 			m_dateLastModified = newDateLastModified;
 			return changed;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not all the information for the data source is
-		/// complete.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool HasNameAndServer
-		{
-			get { return (!string.IsNullOrEmpty(m_dbName) && !string.IsNullOrEmpty(m_server)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -655,7 +651,8 @@ namespace SIL.Pa.Data
 
 			try
 			{
-				using (SqlConnection connection = FwDBUtils.FwConnection(m_sourceInfo.DBName))
+				using (SqlConnection connection =
+					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
 				{
 					if (connection != null && !string.IsNullOrEmpty(sql))
 					{
@@ -722,7 +719,8 @@ namespace SIL.Pa.Data
 			
 			try
 			{
-				using (SqlConnection connection = FwDBUtils.FwConnection(m_sourceInfo.DBName))
+				using (SqlConnection connection =
+					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
 				{
 					SqlCommand command = new SqlCommand(sql, connection);
 					using (SqlDataReader reader = command.ExecuteReader())
@@ -767,6 +765,9 @@ namespace SIL.Pa.Data
 
 		[XmlElement("rootdatadirvalue")]
 		public string m_rootDataDirValue;
+
+		[XmlElement("jumpurl")]
+		public string m_jumpUrl;
 
 		[XmlElement("service")]
 		public string m_service;
@@ -831,6 +832,21 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static string ServerFormatString
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries == null || string.IsNullOrEmpty(s_fwqueries.m_server) ?
+					@"{0}\SILFW" : s_fwqueries.m_server);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static string QueryFile
 		{
 			get
@@ -873,6 +889,20 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static string JumpUrl
+		{
+			get
+			{
+				Load();
+				return (s_fwqueries != null ? s_fwqueries.m_jumpUrl : null);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static string Service
 		{
 			get
@@ -892,23 +922,19 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_connectionString : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_connectionString) : null);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Get's the FW server for the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string Server
+		public static string GetServer(string machineName)
 		{
-			get
-			{
-				Load();
-				return string.Format((s_fwqueries != null ?
-					s_fwqueries.m_server : @"{0}\SILFW"), Environment.MachineName);
-			}
+			Load();
+			return string.Format(ServerFormatString, machineName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -949,7 +975,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_fwDatabasesSQL : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_fwDatabasesSQL) : null);
 			}
 		}
 
@@ -963,7 +989,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_projectNameSQL : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_projectNameSQL) : null);
 			}
 		}
 
@@ -977,7 +1003,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_lastModifiedStampSQL : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_lastModifiedStampSQL) : null);
 			}
 		}
 
@@ -991,7 +1017,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_analysisWs : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_analysisWs) : null);
 			}
 		}
 
@@ -1005,7 +1031,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_vernacularWsSQL : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_vernacularWsSQL) : null);
 			}
 		}
 
@@ -1019,7 +1045,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_lexemeFormSQL : null);
+				return (s_fwqueries != null ? CleanString(s_fwqueries.m_lexemeFormSQL) : null);
 			}
 		}
 
@@ -1033,8 +1059,22 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_pronunciationFieldSQL : null);
+				return (s_fwqueries != null ?
+					CleanString(s_fwqueries.m_pronunciationFieldSQL) : null);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string CleanString(string str)
+		{
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\t', ' ');
+			return str.Trim();
 		}
 	}
 

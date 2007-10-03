@@ -207,6 +207,9 @@
     <Compile Include="HTMLWriterBase.cs" />
     <Compile Include="HTMLXYChartWriter.cs" />
     <Compile Include="LocalWindowsHook.cs" />
+    <Compile Include="NetworkTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PaTextPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -472,6 +475,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\XYChartError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Server.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EntireNetwork.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MicrosoftWindowsNetwork.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MyNetworkPlaces.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -109,19 +109,25 @@ namespace SIL.Pa
 					return;
 			}
 
-			FwDataSourceInfo[] fwDBInfoList = FwDBUtils.FwDataSourceInfoList;
-			if (fwDBInfoList != null)
+			if (datasource.FwDataSourceInfo != null)
 			{
-				foreach (FwDataSourceInfo fwDBInfo in fwDBInfoList)
+				FwDataSourceInfo[] fwDBInfoList =
+					FwDBUtils.GetFwDataSourceInfoList(datasource.FwDataSourceInfo.MachineName, false);
+
+				if (fwDBInfoList != null)
 				{
-					if (datasource.FwDBName == fwDBInfo.DBName)
-						return;
+					foreach (FwDataSourceInfo fwDBInfo in fwDBInfoList)
+					{
+						if (datasource.FwDBName == fwDBInfo.DBName)
+							return;
+					}
 				}
+
+				datasource.FwDataSourceInfo.IsMissing = true;
 			}
 
 			MissingFWDatabaseMsgBox.ShowDialog(datasource.FwDBName);
 			datasource.SkipLoading = true;
-			datasource.FwDataSourceInfo.IsMissing = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -143,8 +143,11 @@
     <value>Feature '{0}' already exists.</value>
     <comment>Message displayed when user is trying to add a new feature that already exists.</comment>
   </data>
-  <data name="kstidFWDataSourceInfo" xml:space="preserve">
+  <data name="kstidFwDataSourceInfo" xml:space="preserve">
     <value>{0} - ({1})</value>
+  </data>
+  <data name="kstidFwDataSourceInfoWithMachineName" xml:space="preserve">
+    <value>{0} on '{1}'</value>
   </data>
   <data name="kstidFwDBMissing" xml:space="preserve">
     <value>FieldWorks database '{0}' is missing.</value>
@@ -156,7 +159,7 @@
     <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources.</value>
   </data>
   <data name="kstidSQLConnectionErrMsg" xml:space="preserve">
-    <value>The following error occurred when trying to establish\na connection to the {0} database.\n\n{1}</value>
+    <value>The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}</value>
   </data>
   <data name="kstidSQLServerNotInstalledMsg" xml:space="preserve">
     <value>Access to FieldWorks projects requires SQL Server but it is not installed on this computer.</value>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using SIL.SpeechTools.AudioUtils;
 using SIL.SpeechTools.Utils;
@@ -16,6 +17,43 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class DataSourceEditor
 	{
+		#region Windows API stuff
+		private struct POINTAPI
+		{
+			public int x;
+			public int y;
+		}
+
+		private struct RECT
+		{
+			public int left;
+			public int top;
+			public int right;
+			public int bottom;
+		}
+
+		private struct WINDOWPLACEMENT
+		{
+			public int length;
+			public int flags;
+			public int showCmd;
+			public POINTAPI ptMinPosition;
+			public POINTAPI ptMaxPosition;
+			public RECT rcNormalPosition;
+		}
+
+		private const int RestoreToMaximized = 2;
+		private const int Minimized = 2;
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		private static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+		#endregion
+
 		private static List<Process> s_saProcesses;
 		
 		private readonly bool m_showFwJumpUrlDlg = false;
@@ -195,12 +233,13 @@ namespace SIL.Pa
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.GuidField;
+			string url = SIL.Pa.Data.FwQueries.JumpUrl;
 
-			if (fieldInfo != null)
+			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{
-				string url = string.Format(Properties.Resources.kstidEditFWSourceRecUrlFormat,
-					recEntry.DataSource.FwDataSourceInfo.ServerMachineName,
-					recEntry[fieldInfo.FieldName], recEntry.DataSource.FwDataSourceInfo.DBName);
+				url = string.Format(url, recEntry[fieldInfo.FieldName],
+					recEntry.DataSource.FwDataSourceInfo.MachineName,
+					recEntry.DataSource.FwDataSourceInfo.DBName);
 
 				// Spaces aren't allowed in the URL. They should be converted to '+'.
 				url = url.Trim().Replace(' ', '+');
@@ -217,6 +256,7 @@ namespace SIL.Pa
 						}
 					}
 
+					RestoreAppIfRunning("Flex");
 					Process.Start(url);
 				}
 				catch
@@ -343,6 +383,29 @@ namespace SIL.Pa
 			File.AppendAllText(lstFile, saListFileContent);
 
 			return lstFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void RestoreAppIfRunning(string processName)
+		{
+			Process[] prs = Process.GetProcessesByName(processName);
+
+			if (prs != null && prs.Length > 0)
+			{
+				WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+				placement.length = Marshal.SizeOf(placement);
+				GetWindowPlacement(prs[0].MainWindowHandle, ref placement);
+
+				if (placement.showCmd != Minimized)
+					return;
+
+				bool gotoMax = (placement.flags & RestoreToMaximized) > 0;
+				ShowWindow(prs[0].MainWindowHandle, gotoMax ? 3 : 9);
+			}
 		}
 	}
 }

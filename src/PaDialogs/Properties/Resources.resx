@@ -512,4 +512,12 @@
     <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
+  <data name="kstidMachineHasNoProjectsMsg" xml:space="preserve">
+    <value>{0} has no projects.</value>
+    <comment>Message displayexd in the dialog for choosing an FW data source when the specified computer does not contain any FW projects.</comment>
+  </data>
+  <data name="kstidSearchingForFwDatabasesMsg" xml:space="preserve">
+    <value>Searching...</value>
+    <comment>Message displayed in the dialog for choosing an FW data source when the computer is searching the specified computer for FW databases.</comment>
+  </data>
 </root>

@@ -188,7 +188,7 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the grid with the project's query source specifications.
+		/// Loads the grid with the project's data source specifications.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid(int preferredRow)
@@ -199,7 +199,7 @@ namespace SIL.Pa.Dialogs
 			// Clear the grid and start over.
 			m_grid.Rows.Clear();
 
-			// Check if there are any query sources specified for this project.
+			// Check if there are any data sources specified for this project.
 			if (m_project.DataSources == null || m_project.DataSources.Count == 0)
 				return;
 
@@ -207,7 +207,7 @@ namespace SIL.Pa.Dialogs
 
 			for (int i = 0; i < m_project.DataSources.Count; i++)
 			{
-				m_grid.Rows[i].Cells["sourcefiles"].Value = m_project.DataSources[i].ToString();
+				m_grid.Rows[i].Cells["sourcefiles"].Value = m_project.DataSources[i].ToString(true);
 				m_grid.Rows[i].Cells["type"].Value = m_project.DataSources[i].DataSourceTypeString;
 				m_grid.Rows[i].Cells["xslt"].Value = m_project.DataSources[i].XSLTFile;
 			}
@@ -622,21 +622,24 @@ namespace SIL.Pa.Dialogs
 					return;
 			}
 
-			// See if there are any FW databases on this computer.
-			FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
-			if (fwDataSourceInfo == null)
-			{
-				STUtils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
-					MessageBoxButtons.OK);
+			// This commented out code was used when the program could only look
+			// on the current machine for FieldWorks databases. Now it can look
+			// for remote databases on other computers on a network.
+			//// See if there are any FW databases on this computer.
+			//FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
+			//if (fwDataSourceInfo == null)
+			//{
+			//    STUtils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
+			//        MessageBoxButtons.OK);
 
-				return;
-			}
+			//    return;
+			//}
 
-			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project, fwDataSourceInfo))
+			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
-					if (!ProjectContainsDataSource(dlg.ChosenDatabase.ToString()))
+					if (!ProjectContainsFwDataSource(dlg.ChosenDatabase))
 					{
 						m_project.DataSources.Add(new PaDataSource(dlg.ChosenDatabase));
 						LoadGrid(m_grid.Rows.Count);
@@ -832,7 +835,7 @@ namespace SIL.Pa.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns true if the project contains a query source file with the specified name.
+		/// Returns true if the project contains a data source file with the specified name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool ProjectContainsDataSource(string filename)
@@ -841,6 +844,32 @@ namespace SIL.Pa.Dialogs
 			{
 				if (datasource.ToString().ToLower() == filename.ToLower())
 					return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if the project contains a FW data source with the specified project
+		/// and machine name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ProjectContainsFwDataSource(FwDataSourceInfo fwDataSourceInfo)
+		{
+			string machineName = fwDataSourceInfo.MachineName.ToLower();
+			string projectName = fwDataSourceInfo.ProjectName.ToLower();
+
+			foreach (PaDataSource datasource in m_project.DataSources)
+			{
+				if (datasource.FwDataSourceInfo != null &&
+					datasource.FwDataSourceInfo.MachineName != null &&
+					datasource.FwDataSourceInfo.MachineName.ToLower() == machineName &&
+					datasource.FwDataSourceInfo.ProjectName != null &&
+					datasource.FwDataSourceInfo.ProjectName.ToLower() == projectName)
+				{
+					return true;
+				}
 			}
 
 			return false;

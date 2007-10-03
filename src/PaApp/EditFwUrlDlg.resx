@@ -163,7 +163,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>This dialog is provided as a way to debug the URL used to jump from Phonology Assistant to FieldWorks Language Explorer. Click OK to continue with the jump to Lanaguage Exlporer or cancel to terminate the jump.</value>
+    <value>This dialog is provided as a way to debug the URL used to jump from Phonology Assistant to FieldWorks Language Explorer. Click OK to continue with the jump to Lanaguage Explorer or cancel to terminate the jump.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

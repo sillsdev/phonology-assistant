@@ -140,10 +140,6 @@
     <value>(none)</value>
     <comment>Used for combo box drop-down lists from which no value may be chosen</comment>
   </data>
-  <data name="kstidEditFWSourceRecUrlFormat" xml:space="preserve">
-    <value>silfw://{0}/link?app%3dLanguage+Explorer%26tool%3dlexiconEdit%26guid%3d{1}%26server%3d.%5cSILFW%26database%3d{2} </value>
-    <comment>Probably shouldn't edit this unless you absolutely know what you're doing.</comment>
-  </data>
   <data name="kstidErrorLoadingCacheFiles" xml:space="preserve">
     <value>Error loading cache files: {0}</value>
     <comment>Parameter is the error message thrown by the system.</comment>

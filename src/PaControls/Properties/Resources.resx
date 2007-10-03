@@ -133,6 +133,9 @@
   <data name="kimidDropDownButtonArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DropDownButtonArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kimidEntireNetwork" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EntireNetwork.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidErrorInCell" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XYChartError.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,8 +145,20 @@
   <data name="kimidHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Help.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kimidMicrosoftWindowsNetwork" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MicrosoftWindowsNetwork.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidMinimalPairOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Minimal_pair_options_drop_down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMyNetworkPlaces" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MyNetworkPlaces.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNetworkGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Group.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNetworkServer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -289,6 +304,10 @@
   <data name="kstidEmtpyTabInfoText" xml:space="preserve">
     <value>Define a search pattern above and click Show Results.</value>
   </data>
+  <data name="kstidEntireNetwork" xml:space="preserve">
+    <value>Entire network</value>
+    <comment>Used in the dialog for choosing an FW database</comment>
+  </data>
   <data name="kstidErrorLoadingCharPickerRowsMsg" xml:space="preserve">
     <value>{0} list failed to load.</value>
   </data>
@@ -352,6 +371,10 @@
   </data>
   <data name="kstidIPAChooserGroupVowels" xml:space="preserve">
     <value>Vowels</value>
+  </data>
+  <data name="kstidMyNetworkPlaces" xml:space="preserve">
+    <value>Network places in your area</value>
+    <comment>Used in the dialog for choosing an FW database</comment>
   </data>
   <data name="kstidNewClassName" xml:space="preserve">
     <value>New Class</value>

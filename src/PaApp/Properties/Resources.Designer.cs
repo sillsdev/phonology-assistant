@@ -118,15 +118,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to silfw://{0}/link?app%3dLanguage+Explorer%26tool%3dlexiconEdit%26guid%3d{1}%26server%3d.%5cSILFW%26database%3d{2} .
-        /// </summary>
-        internal static string kstidEditFWSourceRecUrlFormat {
-            get {
-                return ResourceManager.GetString("kstidEditFWSourceRecUrlFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Error loading cache files: {0}.
         /// </summary>
         internal static string kstidErrorLoadingCacheFiles {

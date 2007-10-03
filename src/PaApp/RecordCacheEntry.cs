@@ -137,7 +137,7 @@ namespace SIL.Pa
 			if (field == s_dataSourcePathFieldName)
 			{
 				return (m_dataSource.DataSourceType == DataSourceType.FW &&
-					m_dataSource.FwSourceDirectFromDB ?	null :
+					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.FwDataSourceInfo.MachineName :
 					Path.GetDirectoryName(m_dataSource.DataSourceFile)); 
 			}
 

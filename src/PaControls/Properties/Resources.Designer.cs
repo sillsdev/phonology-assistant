@@ -95,6 +95,13 @@ namespace SIL.Pa.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidEntireNetwork {
+            get {
+                object obj = ResourceManager.GetObject("kimidEntireNetwork", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidErrorInCell {
             get {
                 object obj = ResourceManager.GetObject("kimidErrorInCell", resourceCulture);
@@ -116,9 +123,37 @@ namespace SIL.Pa.Controls.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidMicrosoftWindowsNetwork {
+            get {
+                object obj = ResourceManager.GetObject("kimidMicrosoftWindowsNetwork", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidMinimalPairOptions {
             get {
                 object obj = ResourceManager.GetObject("kimidMinimalPairOptions", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidMyNetworkPlaces {
+            get {
+                object obj = ResourceManager.GetObject("kimidMyNetworkPlaces", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidNetworkGroup {
+            get {
+                object obj = ResourceManager.GetObject("kimidNetworkGroup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidNetworkServer {
+            get {
+                object obj = ResourceManager.GetObject("kimidNetworkServer", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -475,6 +510,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entire network.
+        /// </summary>
+        internal static string kstidEntireNetwork {
+            get {
+                return ResourceManager.GetString("kstidEntireNetwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} list failed to load..
         /// </summary>
         internal static string kstidErrorLoadingCharPickerRowsMsg {
@@ -642,6 +686,15 @@ namespace SIL.Pa.Controls.Properties {
         internal static string kstidIPAChooserGroupVowels {
             get {
                 return ResourceManager.GetString("kstidIPAChooserGroupVowels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network places in your area.
+        /// </summary>
+        internal static string kstidMyNetworkPlaces {
+            get {
+                return ResourceManager.GetString("kstidMyNetworkPlaces", resourceCulture);
             }
         }
         

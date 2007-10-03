@@ -625,6 +625,15 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has no projects..
+        /// </summary>
+        internal static string kstidMachineHasNoProjectsMsg {
+            get {
+                return ResourceManager.GetString("kstidMachineHasNoProjectsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specify field mappings.
         /// </summary>
         internal static string kstidMappingsButtonToolTip {
@@ -792,6 +801,15 @@ namespace SIL.Pa.Dialogs.Properties {
         internal static string kstidSavedChartNameAlreadyExistsOverwriteMsg {
             get {
                 return ResourceManager.GetString("kstidSavedChartNameAlreadyExistsOverwriteMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching....
+        /// </summary>
+        internal static string kstidSearchingForFwDatabasesMsg {
+            get {
+                return ResourceManager.GetString("kstidSearchingForFwDatabasesMsg", resourceCulture);
             }
         }
         

@@ -135,9 +135,18 @@ namespace SIL.Pa.Data.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} - ({1}).
         /// </summary>
-        internal static string kstidFWDataSourceInfo {
+        internal static string kstidFwDataSourceInfo {
             get {
-                return ResourceManager.GetString("kstidFWDataSourceInfo", resourceCulture);
+                return ResourceManager.GetString("kstidFwDataSourceInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} on &apos;{1}&apos;.
+        /// </summary>
+        internal static string kstidFwDataSourceInfoWithMachineName {
+            get {
+                return ResourceManager.GetString("kstidFwDataSourceInfoWithMachineName", resourceCulture);
             }
         }
         
@@ -169,7 +178,7 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following error occurred when trying to establish\na connection to the {0} database.\n\n{1}.
+        ///   Looks up a localized string similar to The following error occurred when trying to establish\na connection to the {0} database on the machine &apos;{1}&apos;.\n\n{2}.
         /// </summary>
         internal static string kstidSQLConnectionErrMsg {
             get {

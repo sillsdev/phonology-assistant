@@ -32,7 +32,14 @@ namespace SIL.Pa.Dialogs
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.lstFwProjects = new System.Windows.Forms.ListBox();
 			this.btnProperties = new System.Windows.Forms.Button();
+			this.tvNetwork = new SIL.Pa.Controls.NetworkTreeView();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.lblNetwork = new System.Windows.Forms.Label();
+			this.lblDB = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -74,18 +81,52 @@ namespace SIL.Pa.Dialogs
 			this.btnProperties.UseVisualStyleBackColor = true;
 			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
 			// 
+			// tvNetwork
+			// 
+			resources.ApplyResources(this.tvNetwork, "tvNetwork");
+			this.tvNetwork.HideSelection = false;
+			this.tvNetwork.Name = "tvNetwork";
+			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNetwork_AfterSelect);
+			// 
+			// splitContainer1
+			// 
+			resources.ApplyResources(this.splitContainer1, "splitContainer1");
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.tvNetwork);
+			this.splitContainer1.Panel1.Controls.Add(this.lblNetwork);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.lstFwProjects);
+			this.splitContainer1.Panel2.Controls.Add(this.lblDB);
+			this.splitContainer1.TabStop = false;
+			// 
+			// lblNetwork
+			// 
+			resources.ApplyResources(this.lblNetwork, "lblNetwork");
+			this.lblNetwork.Name = "lblNetwork";
+			// 
+			// lblDB
+			// 
+			resources.ApplyResources(this.lblDB, "lblDB");
+			this.lblDB.Name = "lblDB";
+			// 
 			// FwProjectsDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.lblMsg);
-			this.Controls.Add(this.lstFwProjects);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Controls.Add(this.splitContainer1);
 			this.Name = "FwProjectsDlg";
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
-			this.Controls.SetChildIndex(this.lstFwProjects, 0);
+			this.Controls.SetChildIndex(this.splitContainer1, 0);
 			this.Controls.SetChildIndex(this.lblMsg, 0);
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.pnlButtons.ResumeLayout(false);
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -96,5 +137,9 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.Label lblMsg;
 		private System.Windows.Forms.ListBox lstFwProjects;
 		private System.Windows.Forms.Button btnProperties;
+		private SIL.Pa.Controls.NetworkTreeView tvNetwork;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.Label lblNetwork;
+		private System.Windows.Forms.Label lblDB;
 	}
 }
