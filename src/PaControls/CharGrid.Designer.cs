@@ -29,7 +29,7 @@ namespace SIL.Pa.Controls
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.m_grid = new CharGridView();
+			this.m_grid = new SIL.Pa.Controls.CharGridView();
 			this.pnlWrapper = new SIL.Pa.Controls.PaPanel();
 			this.pnlGrid = new System.Windows.Forms.Panel();
 			this.m_vsplitter = new System.Windows.Forms.Splitter();
@@ -37,43 +37,11 @@ namespace SIL.Pa.Controls
 			this.m_hsplitter = new System.Windows.Forms.Splitter();
 			this.pnlColHeaderOuter = new System.Windows.Forms.Panel();
 			this.pnlCorner = new System.Windows.Forms.Panel();
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.pnlWrapper.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.pnlColHeaderOuter.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// pnlWrapper
-			// 
-			this.pnlWrapper.AutoScroll = true;
-			this.pnlWrapper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlWrapper.ControlReceivingFocusOnMnemonic = null;
-			this.pnlWrapper.Controls.Add(this.pnlGrid);
-			this.pnlWrapper.Controls.Add(this.m_vsplitter);
-			this.pnlWrapper.Controls.Add(this.pnlRowHeaderOuter);
-			this.pnlWrapper.Controls.Add(this.m_hsplitter);
-			this.pnlWrapper.Controls.Add(this.pnlColHeaderOuter);
-			this.pnlWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlWrapper.DoubleBuffered = false;
-			this.pnlWrapper.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlWrapper.Location = new System.Drawing.Point(0, 0);
-			this.pnlWrapper.MnemonicGeneratesClick = false;
-			this.pnlWrapper.Name = "pnlWrapper";
-			this.pnlWrapper.PaintExplorerBarBackground = false;
-			this.pnlWrapper.Size = new System.Drawing.Size(456, 380);
-			this.pnlWrapper.TabIndex = 1;
-			// 
-			// pnlGrid
-			// 
-			this.pnlGrid.AutoScroll = true;
-			this.pnlGrid.BackColor = System.Drawing.SystemColors.Window;
-			this.pnlGrid.Controls.Add(this.m_grid);
-			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlGrid.Location = new System.Drawing.Point(85, 36);
-			this.pnlGrid.Name = "pnlGrid";
-			this.pnlGrid.Size = new System.Drawing.Size(369, 342);
-			this.pnlGrid.TabIndex = 8;
-			this.pnlGrid.Resize += new System.EventHandler(this.pnlGrid_Resize);
 			// 
 			// m_grid
 			// 
@@ -120,6 +88,40 @@ namespace SIL.Pa.Controls
 			this.m_grid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDoubleClick);
 			this.m_grid.DragDrop += new System.Windows.Forms.DragEventHandler(this.m_grid_DragDrop);
 			this.m_grid.CurrentCellChanged += new System.EventHandler(this.m_grid_CurrentCellChanged);
+			this.m_grid.DragLeave += new System.EventHandler(this.m_grid_DragLeave);
+			// 
+			// pnlWrapper
+			// 
+			this.pnlWrapper.AutoScroll = true;
+			this.pnlWrapper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlWrapper.ClipTextForChildControls = true;
+			this.pnlWrapper.ControlReceivingFocusOnMnemonic = null;
+			this.pnlWrapper.Controls.Add(this.pnlGrid);
+			this.pnlWrapper.Controls.Add(this.m_vsplitter);
+			this.pnlWrapper.Controls.Add(this.pnlRowHeaderOuter);
+			this.pnlWrapper.Controls.Add(this.m_hsplitter);
+			this.pnlWrapper.Controls.Add(this.pnlColHeaderOuter);
+			this.pnlWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlWrapper.DoubleBuffered = false;
+			this.pnlWrapper.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlWrapper.Location = new System.Drawing.Point(0, 0);
+			this.pnlWrapper.MnemonicGeneratesClick = false;
+			this.pnlWrapper.Name = "pnlWrapper";
+			this.pnlWrapper.PaintExplorerBarBackground = false;
+			this.pnlWrapper.Size = new System.Drawing.Size(456, 380);
+			this.pnlWrapper.TabIndex = 1;
+			// 
+			// pnlGrid
+			// 
+			this.pnlGrid.AutoScroll = true;
+			this.pnlGrid.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlGrid.Controls.Add(this.m_grid);
+			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlGrid.Location = new System.Drawing.Point(85, 36);
+			this.pnlGrid.Name = "pnlGrid";
+			this.pnlGrid.Size = new System.Drawing.Size(369, 342);
+			this.pnlGrid.TabIndex = 8;
+			this.pnlGrid.Resize += new System.EventHandler(this.pnlGrid_Resize);
 			// 
 			// m_vsplitter
 			// 
@@ -180,9 +182,9 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.pnlWrapper);
 			this.Name = "CharGrid";
 			this.Size = new System.Drawing.Size(456, 380);
+			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.pnlWrapper.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.pnlColHeaderOuter.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -59,8 +59,8 @@ namespace SIL.Pa.Controls
 			// Add the current machine to the top of the list.
 			NetworkTreeNode node = new NetworkTreeNode();
 			node.ImageIndex = node.SelectedImageIndex = 4;
-			node.Text = Environment.MachineName;
-			node.MachineName = NetworkTreeNode.GetDisplayName(Environment.MachineName);
+			node.Text = NetworkTreeNode.GetDisplayName(Environment.MachineName);
+			node.MachineName = Environment.MachineName;
 			node.NodeType = NetworkTreeNode.NetResTreeNodeType.Machine;
 			Nodes.Add(node);
 

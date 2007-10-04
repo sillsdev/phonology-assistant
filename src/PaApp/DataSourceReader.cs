@@ -126,7 +126,7 @@ namespace SIL.Pa
 				datasource.FwDataSourceInfo.IsMissing = true;
 			}
 
-			MissingFWDatabaseMsgBox.ShowDialog(datasource.FwDBName);
+			MissingFWDatabaseMsgBox.ShowDialog(datasource.ToString(true));
 			datasource.SkipLoading = true;
 		}
 

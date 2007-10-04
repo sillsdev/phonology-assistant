@@ -859,17 +859,41 @@ namespace SIL.Pa.Controls
 			}
 			else if (removedTabGroupWasCurrent)
 			{
-				// When the removed tag group is the current one,
+				// When the removed tab group is the current one,
 				// make sure a remaining group is made current.
-				SearchResultTabGroup newTabGroup =
-					(siblingPaneToRelocate ?? m_resultsPanel.Controls[0]) as SearchResultTabGroup;
-
+				SearchResultTabGroup newTabGroup = FindNewCurrentTabGroup(siblingPaneToRelocate);
 				SearchResultTabGroupChanged(newTabGroup);
 				PaApp.MsgMediator.SendMessage("SearchResultTabGroupChanged", newTabGroup);
 			}
 
 			tabGroup.Dispose();
 			m_splitResults.ResumeLayout();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Find a new current tab group from the control that was relocated (which may be a
+		/// SearchResultTabGroup or it may be a SplitContainer) or, the only
+		/// SearchResultTabGroup left showing (i.e. m_resultsPanel.Controls[0]).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private SearchResultTabGroup FindNewCurrentTabGroup(Control relocatedControl)
+		{
+			if (relocatedControl is SearchResultTabGroup)
+				return relocatedControl as SearchResultTabGroup;
+			
+			if (m_resultsPanel.Controls[0] is SearchResultTabGroup)
+				return m_resultsPanel.Controls[0] as SearchResultTabGroup;
+			
+			if (relocatedControl != null)
+			{
+				SplitContainer tmpSplit = relocatedControl as SplitContainer;
+				if (tmpSplit != null && tmpSplit.Panel2.Controls.Count > 0)
+					return tmpSplit.Panel2.Controls[0] as SearchResultTabGroup;
+			}
+
+			// We should never get this far.
+			return null;
 		}
 
 		#region Methods for performing searches
@@ -1033,8 +1057,8 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a new tab in the specified tab group.
-		/// Once the tab is created, it's selected.
+		/// Creates a new tab in the specified tab group. Once the tab is created,
+		/// it's selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void CreateTab(SearchResultLocation resultLocation, SearchResultView resultView)
@@ -1148,7 +1172,7 @@ namespace SIL.Pa.Controls
 			tabGroup.Size = new Size(split.Panel2.Width, split.Panel2.Height);
 			split.Panel2.Controls.Add(tabGroup);
 
-			// Now, all tab groups that previously existed before creating the new one, need
+			// Now, all tab groups that previously existed before creating the new one need
 			// to be removed from their container and placed in the left or top pane of the
 			// new split container. To do this, just remove the only control (which may well
 			// be a bunch of nested split containers) that exists in the top most panel for

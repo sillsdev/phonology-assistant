@@ -1252,6 +1252,20 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private void m_grid_DragLeave(object sender, EventArgs e)
+		{
+			if (m_cellDraggedOver != null)
+			{
+				m_cellDraggedOver.Tag = null;
+				m_grid.InvalidateCell(m_cellDraggedOver);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void m_grid_DragDrop(object sender, DragEventArgs e)
 		{
 			if (m_cellDraggedOver != null)
