@@ -156,7 +156,7 @@
     <value>Gathering FieldWorks Project Information...</value>
   </data>
   <data name="kstidMissingWsMsg" xml:space="preserve">
-    <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources.</value>
+    <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.</value>
   </data>
   <data name="kstidSQLConnectionErrMsg" xml:space="preserve">
     <value>The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}</value>

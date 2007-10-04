@@ -169,7 +169,7 @@ namespace SIL.Pa.Data.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are no writing system properties specified for the &apos;{0}&apos;\nFieldWorks project. Therefore, no data can be displayed for it.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting &apos;Project Settings&apos;\nfrom the File menu. Then click the button next to the\nproject name in the list of data sources..
+        ///   Looks up a localized string similar to There are no writing system properties specified for the &apos;{0}&apos;\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting &apos;Project Settings&apos;\nfrom the File menu. Then select the project in the data\nsources list and click the &apos;Properties&apos; button..
         /// </summary>
         internal static string kstidMissingWsMsg {
             get {
