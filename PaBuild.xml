@@ -2,7 +2,6 @@
 <BuildProcess ApplicationName="PA" MailServer="mail.jaars.org" MailSender="david_olson@sil.org">
 	<MailRecipients>
 		<MailAddress Address="david_olson@sil.org" />
-		<MailAddress Address="todd_jones@sil.org" />
 	</MailRecipients>
 	<svninfo>
 		<executable>c:\program files\subversion\bin\svn.exe</executable>
