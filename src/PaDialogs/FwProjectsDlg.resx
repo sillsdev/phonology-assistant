@@ -237,7 +237,7 @@
     <value>0</value>
   </data>
   <data name="lblMsg.Text" xml:space="preserve">
-    <value>&amp;Choose the FieldWorks project to use as a data source.</value>
+    <value>Choose the FieldWorks project to use as a data source.</value>
   </data>
   <data name="&gt;&gt;lblMsg.Name" xml:space="preserve">
     <value>lblMsg</value>
