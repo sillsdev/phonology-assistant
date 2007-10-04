@@ -38,15 +38,18 @@ namespace SIL.Pa.Dialogs
 
 			lblMsg.Font = FontHelper.UIFont;
 			lstFwProjects.Font = FontHelper.UIFont;
-
 			lblDB.Font = FontHelper.UIFont;
-			lblDB.Height = FontHelper.UIFont.Height + 10;
 			lblNetwork.Font = FontHelper.UIFont;
+			tvNetwork.Font = FontHelper.UIFont;
+			txtMsg.Font = FontHelper.UIFont;
+
+			txtMsg.Dock = DockStyle.Fill;
+			txtMsg.BringToFront();
+
+			lblDB.Height = FontHelper.UIFont.Height + 10;
 			lblNetwork.Height = FontHelper.UIFont.Height + 10;
 
-			tvNetwork.Font = FontHelper.UIFont;
 			tvNetwork.Load();
-
 			Application.Idle += Application_Idle;
 		}
 
@@ -57,7 +60,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void Application_Idle(object sender, EventArgs e)
 		{
-			btnProperties.Enabled = (ChosenDatabase != null);
+			btnOK.Enabled = btnProperties.Enabled = (ChosenDatabase != null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,13 +147,19 @@ namespace SIL.Pa.Dialogs
 
 			Cursor = Cursors.WaitCursor;
 			btnProperties.Enabled = false;
+			btnOK.Enabled = false;
 			lstFwProjects.SelectedIndex = -1;
 			lstFwProjects.Items.Clear();
-			lstFwProjects.Items.Add(Properties.Resources.kstidSearchingForFwDatabasesMsg);
-			Application.DoEvents();
+			txtMsg.Text = string.Empty;
+			txtMsg.Visible = true;
+			lstFwProjects.Visible = false;
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
+				txtMsg.Text = Properties.Resources.kstidSearchingForFwDatabasesMsg;
+				txtMsg.Visible = true;
+				Application.DoEvents();
+
 				FwDataSourceInfo[] fwDataSourceInfo =
 					FwDBUtils.GetFwDataSourceInfoList(node.MachineName, false);
 
@@ -160,12 +169,13 @@ namespace SIL.Pa.Dialogs
 				{
 					lstFwProjects.Items.AddRange(fwDataSourceInfo);
 					lstFwProjects.SelectedIndex = 0;
+					lstFwProjects.Visible = true;
+					txtMsg.Visible = false;
 				}
 				else
 				{
-					lstFwProjects.Items.Add(string.Format(
-						Properties.Resources.kstidNoFwProjectsFoundMsg,
-						FwQueries.GetServer(node.MachineName)));
+					txtMsg.Text = string.Format(
+						Properties.Resources.kstidNoFwProjectsFoundMsg,	node.MachineName);
 				}
 			}
 

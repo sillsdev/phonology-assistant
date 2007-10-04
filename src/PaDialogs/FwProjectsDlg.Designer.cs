@@ -36,6 +36,7 @@ namespace SIL.Pa.Dialogs
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lblNetwork = new System.Windows.Forms.Label();
 			this.lblDB = new System.Windows.Forms.Label();
+			this.txtMsg = new System.Windows.Forms.TextBox();
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -100,6 +101,7 @@ namespace SIL.Pa.Dialogs
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.txtMsg);
 			this.splitContainer1.Panel2.Controls.Add(this.lstFwProjects);
 			this.splitContainer1.Panel2.Controls.Add(this.lblDB);
 			this.splitContainer1.TabStop = false;
@@ -114,6 +116,13 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblDB, "lblDB");
 			this.lblDB.Name = "lblDB";
 			// 
+			// txtMsg
+			// 
+			this.txtMsg.BackColor = System.Drawing.SystemColors.Window;
+			resources.ApplyResources(this.txtMsg, "txtMsg");
+			this.txtMsg.Name = "txtMsg";
+			this.txtMsg.ReadOnly = true;
+			// 
 			// FwProjectsDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -126,6 +135,7 @@ namespace SIL.Pa.Dialogs
 			this.pnlButtons.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
 			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -141,5 +151,6 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Label lblNetwork;
 		private System.Windows.Forms.Label lblDB;
+		private System.Windows.Forms.TextBox txtMsg;
 	}
 }

@@ -472,7 +472,7 @@
     <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
   </data>
   <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
-    <value>There are no FieldWorks projects found on this computer.</value>
+    <value>No projects found on '{0}'.</value>
   </data>
   <data name="kstidClassCopyNameFormat" xml:space="preserve">
     <value>{0} ({1:D2})</value>

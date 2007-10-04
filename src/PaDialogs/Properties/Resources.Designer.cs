@@ -661,7 +661,7 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are no FieldWorks projects found on this computer..
+        ///   Looks up a localized string similar to No projects found on &apos;{0}&apos;..
         /// </summary>
         internal static string kstidNoFwProjectsFoundMsg {
             get {

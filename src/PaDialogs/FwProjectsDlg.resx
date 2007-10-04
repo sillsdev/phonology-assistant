@@ -117,20 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnProperties.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 7</value>
-  </data>
-  <data name="btnProperties.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 26</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnProperties.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnProperties.Text" xml:space="preserve">
-    <value>&amp;Properties...</value>
-  </data>
   <data name="&gt;&gt;btnProperties.Name" xml:space="preserve">
     <value>btnProperties</value>
   </data>
@@ -143,12 +129,14 @@
   <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 270</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
     <value>451, 40</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -209,6 +197,30 @@
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="btnProperties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 7</value>
+  </data>
+  <data name="btnProperties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 26</value>
+  </data>
+  <data name="btnProperties.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnProperties.Text" xml:space="preserve">
+    <value>&amp;Properties...</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Name" xml:space="preserve">
+    <value>btnProperties</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="lblMsg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -265,7 +277,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;lstFwProjects.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="tvNetwork.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -283,7 +295,7 @@
     <value>tvNetwork</value>
   </data>
   <data name="&gt;&gt;tvNetwork.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.NetworkTreeView, PaControls, Version=1.0.2832.24636, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.NetworkTreeView, PaControls, Version=1.0.2832.39080, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tvNetwork.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -339,6 +351,33 @@
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="txtMsg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>43, 85</value>
+  </data>
+  <data name="txtMsg.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtMsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 96</value>
+  </data>
+  <data name="txtMsg.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="txtMsg.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;txtMsg.Name" xml:space="preserve">
+    <value>txtMsg</value>
+  </data>
+  <data name="&gt;&gt;txtMsg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtMsg.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;txtMsg.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="lblDB.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
@@ -370,7 +409,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;lblDB.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -430,6 +469,6 @@
     <value>FwProjectsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2832.24637, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2833.16673, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
