@@ -93,6 +93,8 @@ namespace SIL.Pa
 			
 			if (PaApp.Project != null)
 				OnDataSourcesModified(PaApp.Project.ProjectName);
+
+			PaApp.MsgMediator.SendMessage("MainViewOpened", this);
 		}
 
 		/// ------------------------------------------------------------------------------------

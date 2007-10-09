@@ -66,7 +66,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		protected ToolStripSeparator m_rufMarkerSeparator;
 
 		// Stores all the images until we're done reading all the command ids.
-		protected Hashtable m_images = new Hashtable();
+		protected Dictionary<string, Image> m_images = new Dictionary<string, Image>();
 
 		// Stores all the commands (and related information). The keys for this collection
 		// are the command id strings from the XML definition file.
@@ -903,8 +903,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				// the command id as the image label.
 				if (imageLabel == null)
 					imageLabel = cmd;
-				if (m_images[imageLabel] != null)
-					cmdInfo.Image = (Image)m_images[imageLabel];
+				if (m_images.ContainsKey(imageLabel))
+					cmdInfo.Image = m_images[imageLabel];
 
                 m_commands[cmd] = cmdInfo;
 
@@ -2364,7 +2364,53 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		#endregion
 
-		#region ITMAdapter AddMenuItem and RemoveSubitems implementation
+		#region ITMAdapter AddCommandItem, AddMenuItem and RemoveSubitems implementation
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds a new command item to the adapter.
+		/// </summary>
+		/// <param name="cmdId">Command ID or name (usually starts with "Cmd")</param>
+		/// <param name="message">item's command message</param>
+		/// <param name="text">text of item (whether menu or toolbar item</param>
+		/// <param name="textAlt">alternate text (trumps text)</param>
+		/// <param name="contextMenuText">context menu text</param>
+		/// <param name="toolTipText">tooltip for item</param>
+		/// <param name="category">category of item</param>
+		/// <param name="statusMsg">status bar message of item</param>
+		/// <param name="shortcutKey">shortcut key for item</param>
+		/// <param name="image">image of item</param>
+		/// ------------------------------------------------------------------------------------
+		public void AddCommandItem(string cmdId, string message, string text, string textAlt,
+			string contextMenuText, string toolTipText, string category, string statusMsg,
+			Keys shortcutKey, string imageLabel, System.Drawing.Image image)
+		{
+			if (m_commands.ContainsKey(cmdId))
+				return;
+
+			CommandInfo cmdInfo = new CommandInfo();
+			cmdInfo.Message = message;
+			cmdInfo.Text = text;
+			cmdInfo.TextAlt = textAlt;
+			cmdInfo.ContextMenuText = contextMenuText;
+			cmdInfo.Category = category;
+			cmdInfo.ToolTip = toolTipText;
+			cmdInfo.ShortcutKey = shortcutKey;
+			cmdInfo.StatusMsg = statusMsg;
+			cmdInfo.Image = image;
+
+			if (image != null)
+				cmdInfo.Image = image;
+			else if (imageLabel != null)
+			{
+				CommandInfo ci;
+				if (m_commands.TryGetValue(imageLabel, out ci))
+					cmdInfo.Image = ci.Image;
+			}
+
+			m_commands[cmdId] = cmdInfo;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds a new submenu item to the menu specified by parentItemName and inserts it
@@ -2383,7 +2429,23 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			item.DropDownOpening += HandleMenuPopups;
 			item.DropDownClosed += HandleDropDownClosed;
 			item.Name = itemProps.Name;
-			item.ShortcutKeys = itemProps.ShortcutKey;
+
+			CommandInfo ci;
+
+			if (itemProps.Text == null)
+			{
+				if (m_commands.TryGetValue(itemProps.CommandId, out ci))
+					itemProps.Text = (ci.TextAlt ?? ci.Text);
+			}
+
+			if (itemProps.ShortcutKey != Keys.None)
+				item.ShortcutKeys = itemProps.ShortcutKey;
+			else
+			{
+				if (m_commands.TryGetValue(itemProps.CommandId, out ci))
+					itemProps.ShortcutKey = ci.ShortcutKey;
+			}
+
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
 
@@ -2783,11 +2845,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (m_images != null)
 			{
-				foreach (DictionaryEntry de in m_images)
-				{
-					if (de.Value is Image)
-						((Image)de.Value).Dispose();
-				}
+				foreach (Image img in m_images.Values)
+					img.Dispose();
 
 				m_images.Clear();
 			}

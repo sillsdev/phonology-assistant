@@ -97,6 +97,28 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds a new command item to the adapter.
+		/// </summary>
+		/// <param name="cmdId">Command ID or name (usually starts with "Cmd")</param>
+		/// <param name="message">item's command message</param>
+		/// <param name="text">text of item (whether menu or toolbar item</param>
+		/// <param name="textAlt">alternate text (trumps text)</param>
+		/// <param name="contextMenuText">context menu text</param>
+		/// <param name="toolTipText">tooltip for item</param>
+		/// <param name="category">category of item</param>
+		/// <param name="statusMsg">status bar message of item</param>
+		/// <param name="shortcutKey">shortcut key for item</param>
+		/// <param name="imageLabel">label of image from TM def. file (if this is
+		/// specified, then the image isn't necessary)</param>
+		/// <param name="image">image of item (if this is specified, then the image isn't
+		/// necessary)</param>
+		/// ------------------------------------------------------------------------------------
+		void AddCommandItem(string cmdId, string message, string text, string textAlt,
+			string contextMenuText, string toolTipText, string category, string statusMsg,
+			Keys shortcutKey, string imageLabel, System.Drawing.Image image);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Removes all the subitems of the specified menu.
 		/// </summary>
 		/// <param name="parentItemName">The name of the item whose subitems will be removed.
