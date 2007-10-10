@@ -23,6 +23,7 @@
 				<Arg>C:\Phonology Assistant\Installer Files\Helps\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\Helps\*.*</Arg>
+				<Arg>c:\Phonology Assistant\output\release\AddOns\*.*</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\distfiles\*.*</Arg>
@@ -73,6 +74,10 @@
 				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\properties\*.*</Arg>
 				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\*.*</Arg>
 				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\release\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\PaFeedbackAddOn\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\PaFeedbackAddOn\properties\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\PaFeedbackAddOn\resources\*.*</Arg>
+				<Arg>c:\Phonology Assistant\src\PaFeedbackAddOn\obj\*.*</Arg>
 			</CommandItem>
 			<!-- Update all the files from the PA Subversion repository -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
@@ -111,6 +116,11 @@
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\output\release\helps\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\helps</Arg>
+			</CommandItem>
+			<!-- Copy Add ons to the folder that's mapped to the installer file's Subversion repository -->
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\output\release\AddOns\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\AddOns</Arg>
 			</CommandItem>
 			<!-- Commit to the installer file repository, all the files to be put in the installer -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">

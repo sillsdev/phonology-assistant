@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipUtils", "src\ZipUtils\Zi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToolsUtils", "src\SpeechToolsUtils\SpeechToolsUtils.csproj", "{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaFeedbackAddOn", "src\PaFeedbackAddOn\PaFeedbackAddOn.csproj", "{30D1FA88-A9EE-41EF-AB8A-479976807B93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
