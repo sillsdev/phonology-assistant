@@ -191,7 +191,7 @@ namespace SIL.Pa.AddOn
 
 			bldr.AppendLine();
 			bldr.AppendLine();
-			bldr.AppendLine("Comments");
+			bldr.AppendLine("Comments/Suggestions");
 			bldr.AppendLine(string.Empty.PadLeft(30, '-'));
 			bldr.Append(txtComments.Text.Trim());
 

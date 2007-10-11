@@ -91,7 +91,7 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Send Feedback.
+        ///   Looks up a localized string similar to &amp;Send Feedback....
         /// </summary>
         internal static string kstidFeedbackMenuText {
             get {

@@ -117,13 +117,811 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>514, 7</value>
+  </data>
+  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 26</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
+    <value>btnCancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnSend.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnSend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>427, 7</value>
+  </data>
+  <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 26</value>
+  </data>
+  <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnSend.Text" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Name" xml:space="preserve">
+    <value>btnSend</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSend.Parent" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 506</value>
+  </data>
+  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>594, 40</value>
+  </data>
+  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="pnlSurveyOuter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="lbl5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lbl5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>372, 50</value>
+  </data>
+  <data name="lbl5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="lbl5.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lbl5.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;lbl5.Name" xml:space="preserve">
+    <value>lbl5</value>
+  </data>
+  <data name="&gt;&gt;lbl5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl5.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lbl5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lbl4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lbl4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>348, 50</value>
+  </data>
+  <data name="lbl4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="lbl4.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lbl4.Text" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;lbl4.Name" xml:space="preserve">
+    <value>lbl4</value>
+  </data>
+  <data name="&gt;&gt;lbl4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl4.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lbl4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbl3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lbl3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>324, 50</value>
+  </data>
+  <data name="lbl3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="lbl3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lbl3.Text" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;lbl3.Name" xml:space="preserve">
+    <value>lbl3</value>
+  </data>
+  <data name="&gt;&gt;lbl3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl3.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lbl3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lbl2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lbl2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>302, 50</value>
+  </data>
+  <data name="lbl2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="lbl2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lbl2.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lbl2.Name" xml:space="preserve">
+    <value>lbl2</value>
+  </data>
+  <data name="&gt;&gt;lbl2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl2.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lbl2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lbl1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lbl1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>279, 50</value>
+  </data>
+  <data name="lbl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 15</value>
+  </data>
+  <data name="lbl1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lbl1.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lbl1.Name" xml:space="preserve">
+    <value>lbl1</value>
+  </data>
+  <data name="&gt;&gt;lbl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl1.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lbl1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblSurveyInstructions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="lblSurveyInstructions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lblSurveyInstructions.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblSurveyInstructions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 2</value>
+  </data>
+  <data name="lblSurveyInstructions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>582, 41</value>
+  </data>
+  <data name="lblSurveyInstructions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblSurveyInstructions.Text" xml:space="preserve">
+    <value>&amp;Please rate the importance of the following proposed features, where 1 is not very important and 5 is very important.</value>
+  </data>
+  <data name="lblSurveyInstructions.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblSurveyInstructions.Name" xml:space="preserve">
+    <value>lblSurveyInstructions</value>
+  </data>
+  <data name="&gt;&gt;lblSurveyInstructions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSurveyInstructions.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;lblSurveyInstructions.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="pnlSurveyInner.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="pnlSurveyInner.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ratingSurveyCtrl11.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 400</value>
+  </data>
+  <data name="ratingSurveyCtrl11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl11.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="ratingSurveyCtrl11.Text" xml:space="preserve">
+    <value>11. Integrated editor for modifying SFM data sources:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl11.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl11</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl11.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl11.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl11.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ratingSurveyCtrl10.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 360</value>
+  </data>
+  <data name="ratingSurveyCtrl10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl10.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="ratingSurveyCtrl10.Text" xml:space="preserve">
+    <value>10. Improved search pattern verification:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl10.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl10</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl10.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl10.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl10.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ratingSurveyCtrl9.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 320</value>
+  </data>
+  <data name="ratingSurveyCtrl9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl9.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="ratingSurveyCtrl9.Text" xml:space="preserve">
+    <value>9. Diacritic and suprasegmental charts:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl9.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl9</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl9.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl9.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl9.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ratingSurveyCtrl8.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
   <data name="ratingSurveyCtrl8.InfoText" xml:space="preserve">
     <value>Example: If the user creates a class of labial plosives (Class A),\nand another class of labial fricative (Class B), improved class\ndefinition support would allow creating a class based on classes\nA and B which represents the union of A and B.</value>
+  </data>
+  <data name="ratingSurveyCtrl8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 280</value>
+  </data>
+  <data name="ratingSurveyCtrl8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl8.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ratingSurveyCtrl8.Text" xml:space="preserve">
+    <value>8. Improved class definition support:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl8.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl8</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl8.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl8.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl8.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ratingSurveyCtrl7.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 240</value>
+  </data>
+  <data name="ratingSurveyCtrl7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl7.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="ratingSurveyCtrl7.Text" xml:space="preserve">
+    <value>7. Speech Analyzer views (e.g. pitch plot):</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl7.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl7</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl7.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl7.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl7.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ratingSurveyCtrl6.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 200</value>
+  </data>
+  <data name="ratingSurveyCtrl6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl6.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ratingSurveyCtrl6.Text" xml:space="preserve">
+    <value>6. RTF export of consonant, vowel, and XY charts:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl6.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl6</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl6.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl6.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl6.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ratingSurveyCtrl5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 160</value>
+  </data>
+  <data name="ratingSurveyCtrl5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl5.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ratingSurveyCtrl5.Text" xml:space="preserve">
+    <value>5. Support for converting legacy data to Unicode (e.g. PA 2 databases):</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl5.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl5</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl5.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl5.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl5.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ratingSurveyCtrl4.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl4.InfoText" xml:space="preserve">
+    <value>This feature would provide a means for users to generate various XY charts\nbased on the phones found in a project’s data sources. For example, after\nhaving specified a series of environments in the first row of a chart, the\nsearch items in the environment column could be automatically filled with\nall the consonants or vowels found in the data.</value>
+  </data>
+  <data name="ratingSurveyCtrl4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 120</value>
+  </data>
+  <data name="ratingSurveyCtrl4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ratingSurveyCtrl4.Text" xml:space="preserve">
+    <value>4. Support for automatic creation of XY charts:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl4.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl4</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl4.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl4.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl4.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ratingSurveyCtrl3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="ratingSurveyCtrl3.InfoText" xml:space="preserve">
     <value>Some user’s SFM data sources contain multiple phonetic\nfields per record and currently PA can only read one. This\nfeature would allow PA to read any number of phonetic\nfields per record. The following SFM record exemplifies a\ncommon practice by including a plural form (\plph) of the\nphonetic word (\ph). \n\n\ref 001\n\ph fut\n\ge foot\n\plph fit</value>
   </data>
+  <data name="ratingSurveyCtrl3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 80</value>
+  </data>
+  <data name="ratingSurveyCtrl3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ratingSurveyCtrl3.Text" xml:space="preserve">
+    <value>3. Support for multiple phonetic fields in SFM/Toolbox data source records:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl3.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl3</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl3.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl3.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl3.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="ratingSurveyCtrl2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ratingSurveyCtrl2.Text" xml:space="preserve">
+    <value>2. Backup &amp;&amp; restore of projects and data sources:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl2.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl2</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl2.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl2.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl2.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="ratingSurveyCtrl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="ratingSurveyCtrl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 0</value>
+  </data>
+  <data name="ratingSurveyCtrl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>570, 40</value>
+  </data>
+  <data name="ratingSurveyCtrl1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="ratingSurveyCtrl1.Text" xml:space="preserve">
+    <value>1. Support for filtering data:</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl1.Name" xml:space="preserve">
+    <value>ratingSurveyCtrl1</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl1.Type" xml:space="preserve">
+    <value>SIL.Pa.AddOn.RatingSurveyCtrl, PaFeedbackAddOn, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl1.Parent" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;ratingSurveyCtrl1.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="pnlSurveyInner.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 71</value>
+  </data>
+  <data name="pnlSurveyInner.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 0, 0, 0</value>
+  </data>
+  <data name="pnlSurveyInner.Size" type="System.Drawing.Size, System.Drawing">
+    <value>592, 223</value>
+  </data>
+  <data name="pnlSurveyInner.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyInner.Name" xml:space="preserve">
+    <value>pnlSurveyInner</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyInner.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyInner.Parent" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyInner.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="pnlSurveyOuter.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlSurveyOuter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 98</value>
+  </data>
+  <data name="pnlSurveyOuter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>594, 297</value>
+  </data>
+  <data name="pnlSurveyOuter.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyOuter.Name" xml:space="preserve">
+    <value>pnlSurveyOuter</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyOuter.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2840.20852, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyOuter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlSurveyOuter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblHeading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="lblHeading.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="lblHeading.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblHeading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 15</value>
+  </data>
+  <data name="lblHeading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>594, 80</value>
+  </data>
+  <data name="lblHeading.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="lblHeading.Text" xml:space="preserve">
-    <value>The information you provide below will be placed in an e-mail in your outbox. It will be sent to the SIL software developers the next time you send e-mail. There is no need to be connected to the internet now and you will have a chance to view the e-mail before it is sent.</value>
+    <value>Your comments and suggestions to the Phonology Assistant development team can be very helpful in determining the future of Phonology Assistant development. The information you provide below will be placed in an e-mail in your outbox. It will be sent to the SIL software developers the next time you send e-mail. There is no need to be connected to the internet now and you will have a chance to view the e-mail before it is sent.</value>
+  </data>
+  <data name="&gt;&gt;lblHeading.Name" xml:space="preserve">
+    <value>lblHeading</value>
+  </data>
+  <data name="&gt;&gt;lblHeading.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblHeading.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lblHeading.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txtComments.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="txtComments.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="txtComments.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 28</value>
+  </data>
+  <data name="txtComments.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtComments.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="txtComments.Size" type="System.Drawing.Size, System.Drawing">
+    <value>584, 67</value>
+  </data>
+  <data name="txtComments.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Name" xml:space="preserve">
+    <value>txtComments</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Parent" xml:space="preserve">
+    <value>pnlComments</value>
+  </data>
+  <data name="&gt;&gt;txtComments.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblComments.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="lblComments.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt, style=Bold</value>
+  </data>
+  <data name="lblComments.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblComments.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 0</value>
+  </data>
+  <data name="lblComments.Size" type="System.Drawing.Size, System.Drawing">
+    <value>583, 22</value>
+  </data>
+  <data name="lblComments.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblComments.Text" xml:space="preserve">
+    <value>&amp;Comments and/or suggestions:</value>
+  </data>
+  <data name="lblComments.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblComments.Name" xml:space="preserve">
+    <value>lblComments</value>
+  </data>
+  <data name="&gt;&gt;lblComments.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblComments.Parent" xml:space="preserve">
+    <value>pnlComments</value>
+  </data>
+  <data name="&gt;&gt;lblComments.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlComments.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="pnlComments.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="pnlComments.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 405</value>
+  </data>
+  <data name="pnlComments.Size" type="System.Drawing.Size, System.Drawing">
+    <value>594, 101</value>
+  </data>
+  <data name="pnlComments.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;pnlComments.Name" xml:space="preserve">
+    <value>pnlComments</value>
+  </data>
+  <data name="&gt;&gt;pnlComments.Type" xml:space="preserve">
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2840.20852, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlComments.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlComments.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>624, 546</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>415, 400</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 15, 15, 0</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Phonology Assistant Feedback Report</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FeedbackReportDlg</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
