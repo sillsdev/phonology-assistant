@@ -188,7 +188,8 @@ namespace SIL.Pa
 
 				PaApp.UpdateProgressBarLabel(string.Format(
 					Properties.Resources.kstidReadingDataSourceProgressLabel,
-					Path.GetFileName(source.DataSourceFile)));
+					(source.FwSourceDirectFromDB && source.FwDataSourceInfo != null ?
+					source.FwDataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
 
 				StreamReader reader = null;
 

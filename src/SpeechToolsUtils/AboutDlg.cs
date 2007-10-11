@@ -401,17 +401,18 @@ namespace SIL.SpeechTools.Utils
 				productName = ((AssemblyTitleAttribute)attributes[0]).Title;
 
 			lblName.Text = productName;
+			Version ver = new Version(Application.ProductVersion);
 
 			lblBuild.Visible = m_showBuildNum;
 			if (m_showBuildNum)
 			{
 				// The build number is just the number of days since 01/01/2000
-				int bldNum = assembly.GetName().Version.Build;
+				int bldNum = ver.Build;
 				DateTime bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
 				lblBuild.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 			}
 
-			string appVersion = assembly.GetName().Version.ToString(2);
+			string appVersion = ver.ToString(3); // assembly.GetName().Version.ToString(2);
 #if DEBUG
 			lblAppVersion.Text = string.Format(m_sAppVersionFmt, appVersion, "(Debug version)",
 				(m_isBetaVersion ? "Beta" : string.Empty));

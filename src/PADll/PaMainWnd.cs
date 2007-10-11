@@ -322,8 +322,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
+			STUtils.UpdateWindow(this.Handle);
 			base.OnActivated(e);
-			Application.DoEvents();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -18,6 +19,7 @@ namespace SIL.Pa.Controls
 	{
 		private ITMAdapter m_mainMenuAdapter;
 		private Control m_view;
+		private bool m_checkForModifiedDataSources = true;
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -66,10 +68,12 @@ namespace SIL.Pa.Controls
 			{
 				System.Threading.Thread.Sleep(10);
 				Opacity += 0.05f;
-				Application.DoEvents();
+				STUtils.UpdateWindow(Handle);
 			}
 
+			m_checkForModifiedDataSources = false;
 			Activate();
+			m_checkForModifiedDataSources = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,6 +87,15 @@ namespace SIL.Pa.Controls
 
 			if (m_mainMenuAdapter != null)
 				m_mainMenuAdapter.AllowUpdates = true;
+		
+			STUtils.UpdateWindow(Handle);
+
+			bool reloadProjectsOnActivate =
+				PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,
+				"reloadprojectsonactivate", true);
+
+			if (PaApp.Project != null && m_checkForModifiedDataSources && reloadProjectsOnActivate)
+				PaApp.Project.CheckForModifiedDataSources();
 		}
 
 		/// ------------------------------------------------------------------------------------

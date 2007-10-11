@@ -33,7 +33,10 @@ namespace SIL.SpeechTools.Utils
 			/// <summary></summary>
 			public int bottom;
 		}
-		
+
+		[DllImport("user32")]
+		public static extern int UpdateWindow(IntPtr hwnd);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern int FindWindowEx(IntPtr hWnd, int hwndChildAfter,
 			string windowClass, string windowName);

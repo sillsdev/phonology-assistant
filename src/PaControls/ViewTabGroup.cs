@@ -745,7 +745,7 @@ namespace SIL.Pa.Controls
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				Application.DoEvents();
+				STUtils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1310,14 +1310,16 @@ namespace SIL.Pa.Controls
 				s_viewSelectionInProgress = true;
 				m_selected = value;
 				Invalidate();
+				STUtils.UpdateWindow(Handle);
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
 				ViewTab adjacentTab = m_owningTabGroup.FindFirstVisibleTabToLeft(this);
 				if (adjacentTab != null)
+				{
 					adjacentTab.Invalidate();
-
-				Application.DoEvents();
+					STUtils.UpdateWindow(adjacentTab.Handle);
+				}
 
 				if (!m_ignoreTabSelection)
 				{

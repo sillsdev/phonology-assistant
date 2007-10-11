@@ -1020,7 +1020,7 @@ namespace SIL.Pa.Controls
 			m_paintDropValidEffect = true;
 			DoubleBuffered = true;
 			Invalidate();
-			Application.DoEvents();
+			STUtils.UpdateWindow(Handle);
 			DoubleBuffered = false;
 		}
 

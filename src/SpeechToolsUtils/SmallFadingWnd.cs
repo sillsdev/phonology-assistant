@@ -37,12 +37,12 @@ namespace SIL.Pa.Data
 			while (Opacity < maxOpacity)
 			{
 				Opacity += 0.05f;
-				Application.DoEvents();
+				SIL.SpeechTools.Utils.STUtils.UpdateWindow(Handle);
 				Thread.Sleep(50);
 			}
 
 			Opacity = maxOpacity;
-			Application.DoEvents();
+			SIL.SpeechTools.Utils.STUtils.UpdateWindow(Handle);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -481,11 +481,25 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void appWindow_Activated(object sender, EventArgs e)
+		{
+			if (PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,
+				"reloadprojectsonactivate", true))
+			{
+				CheckForModifiedDataSources();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Go through the data source files and determine if any have changed since the
 		/// application was deactivated.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void appWindow_Activated(object sender, EventArgs e)
+		public void CheckForModifiedDataSources()
 		{
 			if (m_reloadingProjectInProcess)
 				return;
@@ -527,7 +541,11 @@ namespace SIL.Pa
 
 				if (source.LastModification < latestModification || reloadFWdb)
 				{
-					ReloadDataSources();
+					// Post a message to force the project to be reloaded. Don't reload
+					// it directly because there is an issue when project's are reloaded
+					// (which causes a DoEvents to get called along the way) while still
+					// in window activate events. See PA-440.
+					PaApp.MsgMediator.PostMessage("ReloadProject", null);
 					break;
 				}
 			}

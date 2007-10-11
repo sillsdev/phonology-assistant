@@ -989,7 +989,7 @@ namespace SIL.Pa.Controls
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				Application.DoEvents();
+				STUtils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1560,7 +1560,7 @@ namespace SIL.Pa.Controls
 				{
 					m_selected = value;
 					Invalidate();
-					Application.DoEvents();
+					STUtils.UpdateWindow(Handle);
 
 					if (m_resultView != null)
 					{

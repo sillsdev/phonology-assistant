@@ -73,10 +73,10 @@ namespace SIL.Pa
 		
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
-		public const string kSQLServerOptions = "sqlserver";
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
+		public const string kAppSettingsName = "application";
 
 		private static string s_helpFilePath = null;
 		private static ITMAdapter s_tmAdapter;
