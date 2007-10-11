@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 7</value>
+    <value>486, 7</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
@@ -157,7 +157,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnSend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>427, 7</value>
+    <value>399, 7</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
@@ -184,10 +184,10 @@
     <value>Bottom</value>
   </data>
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 506</value>
+    <value>15, 520</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>594, 40</value>
+    <value>566, 40</value>
   </data>
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -385,7 +385,7 @@
     <value>5, 2</value>
   </data>
   <data name="lblSurveyInstructions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>582, 41</value>
+    <value>554, 41</value>
   </data>
   <data name="lblSurveyInstructions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -421,7 +421,7 @@
     <value>5, 400</value>
   </data>
   <data name="ratingSurveyCtrl11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl11.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -448,7 +448,7 @@
     <value>5, 360</value>
   </data>
   <data name="ratingSurveyCtrl10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl10.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -475,7 +475,7 @@
     <value>5, 320</value>
   </data>
   <data name="ratingSurveyCtrl9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl9.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -505,7 +505,7 @@
     <value>5, 280</value>
   </data>
   <data name="ratingSurveyCtrl8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl8.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -532,7 +532,7 @@
     <value>5, 240</value>
   </data>
   <data name="ratingSurveyCtrl7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl7.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -559,7 +559,7 @@
     <value>5, 200</value>
   </data>
   <data name="ratingSurveyCtrl6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl6.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -586,7 +586,7 @@
     <value>5, 160</value>
   </data>
   <data name="ratingSurveyCtrl5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl5.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -610,13 +610,13 @@
     <value>Top</value>
   </data>
   <data name="ratingSurveyCtrl4.InfoText" xml:space="preserve">
-    <value>This feature would provide a means for users to generate various XY charts\nbased on the phones found in a project’s data sources. For example, after\nhaving specified a series of environments in the first row of a chart, the\nsearch items in the environment column could be automatically filled with\nall the consonants or vowels found in the data.</value>
+    <value>This feature would provide a means for users to generate various XY charts\nbased on the phones found in a project’s data sources. For example, after\nhaving specified a series of environments in the first row of a chart, the\nsearch items in the search items column could be automatically filled with\nall the consonants or vowels found in the data.</value>
   </data>
   <data name="ratingSurveyCtrl4.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 120</value>
   </data>
   <data name="ratingSurveyCtrl4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl4.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -646,7 +646,7 @@
     <value>5, 80</value>
   </data>
   <data name="ratingSurveyCtrl3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl3.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -673,7 +673,7 @@
     <value>5, 40</value>
   </data>
   <data name="ratingSurveyCtrl2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -700,7 +700,7 @@
     <value>5, 0</value>
   </data>
   <data name="ratingSurveyCtrl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 40</value>
+    <value>542, 40</value>
   </data>
   <data name="ratingSurveyCtrl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -727,7 +727,7 @@
     <value>5, 0, 0, 0</value>
   </data>
   <data name="pnlSurveyInner.Size" type="System.Drawing.Size, System.Drawing">
-    <value>592, 223</value>
+    <value>564, 223</value>
   </data>
   <data name="pnlSurveyInner.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -748,10 +748,10 @@
     <value>Lucida Sans, 12world</value>
   </data>
   <data name="pnlSurveyOuter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 98</value>
+    <value>15, 112</value>
   </data>
   <data name="pnlSurveyOuter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>594, 297</value>
+    <value>566, 297</value>
   </data>
   <data name="pnlSurveyOuter.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -781,7 +781,7 @@
     <value>15, 15</value>
   </data>
   <data name="lblHeading.Size" type="System.Drawing.Size, System.Drawing">
-    <value>594, 80</value>
+    <value>566, 94</value>
   </data>
   <data name="lblHeading.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -817,7 +817,7 @@
     <value>Vertical</value>
   </data>
   <data name="txtComments.Size" type="System.Drawing.Size, System.Drawing">
-    <value>584, 67</value>
+    <value>556, 67</value>
   </data>
   <data name="txtComments.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -847,7 +847,7 @@
     <value>5, 0</value>
   </data>
   <data name="lblComments.Size" type="System.Drawing.Size, System.Drawing">
-    <value>583, 22</value>
+    <value>555, 22</value>
   </data>
   <data name="lblComments.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -877,10 +877,10 @@
     <value>Lucida Sans, 12world</value>
   </data>
   <data name="pnlComments.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 405</value>
+    <value>15, 419</value>
   </data>
   <data name="pnlComments.Size" type="System.Drawing.Size, System.Drawing">
-    <value>594, 101</value>
+    <value>566, 101</value>
   </data>
   <data name="pnlComments.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -904,10 +904,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>624, 546</value>
+    <value>596, 560</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>415, 400</value>
+    <value>450, 400</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>15, 15, 15, 0</value>

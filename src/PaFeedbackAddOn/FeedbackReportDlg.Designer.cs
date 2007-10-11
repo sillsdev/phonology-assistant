@@ -232,6 +232,7 @@ namespace SIL.Pa.AddOn
 			// 
 			// lblHeading
 			// 
+			this.lblHeading.AutoEllipsis = true;
 			resources.ApplyResources(this.lblHeading, "lblHeading");
 			this.lblHeading.Name = "lblHeading";
 			// 
