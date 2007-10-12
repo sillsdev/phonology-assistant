@@ -10,8 +10,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-15</MOArticulation>
-    <POArticulation>-15</POArticulation>
+    <MOArticulation>-35</MOArticulation>
+    <POArticulation>-35</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -28,8 +28,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-20</MOArticulation>
-    <POArticulation>-20</POArticulation>
+    <MOArticulation>-40</MOArticulation>
+    <POArticulation>-40</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>128</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -46,8 +46,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>27</DisplayOrder>
-    <MOArticulation>-25</MOArticulation>
-    <POArticulation>-25</POArticulation>
+    <MOArticulation>-30</MOArticulation>
+    <POArticulation>-30</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>2048</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -64,8 +64,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>25</DisplayOrder>
-    <MOArticulation>-30</MOArticulation>
-    <POArticulation>-30</POArticulation>
+    <MOArticulation>-45</MOArticulation>
+    <POArticulation>-45</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>256</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -82,8 +82,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>23</DisplayOrder>
-    <MOArticulation>-35</MOArticulation>
-    <POArticulation>-35</POArticulation>
+    <MOArticulation>-20</MOArticulation>
+    <POArticulation>-20</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -100,8 +100,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>21</DisplayOrder>
-    <MOArticulation>-40</MOArticulation>
-    <POArticulation>-40</POArticulation>
+    <MOArticulation>-25</MOArticulation>
+    <POArticulation>-25</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>512</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -118,8 +118,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>19</DisplayOrder>
-    <MOArticulation>-45</MOArticulation>
-    <POArticulation>-45</POArticulation>
+    <MOArticulation>-15</MOArticulation>
+    <POArticulation>-15</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>1024</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -4058,7 +4058,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1175</MOArticulation>
     <POArticulation>1175</POArticulation>
@@ -4076,7 +4076,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1180</MOArticulation>
     <POArticulation>1180</POArticulation>
@@ -4094,7 +4094,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1185</MOArticulation>
     <POArticulation>1185</POArticulation>
@@ -4112,7 +4112,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1195</MOArticulation>
     <POArticulation>1195</POArticulation>
@@ -4130,7 +4130,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1200</MOArticulation>
     <POArticulation>1200</POArticulation>
@@ -4148,7 +4148,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1205</MOArticulation>
     <POArticulation>1205</POArticulation>
@@ -4166,7 +4166,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1210</MOArticulation>
     <POArticulation>1210</POArticulation>
@@ -4220,7 +4220,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1235</MOArticulation>
     <POArticulation>1235</POArticulation>
@@ -4238,7 +4238,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1245</MOArticulation>
     <POArticulation>1245</POArticulation>
@@ -4256,7 +4256,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1250</MOArticulation>
     <POArticulation>1250</POArticulation>
@@ -4274,7 +4274,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1265</MOArticulation>
     <POArticulation>1265</POArticulation>
@@ -4292,7 +4292,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1190</MOArticulation>
     <POArticulation>1190</POArticulation>
@@ -4310,7 +4310,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1215</MOArticulation>
     <POArticulation>1215</POArticulation>
@@ -4328,7 +4328,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1225</MOArticulation>
     <POArticulation>1225</POArticulation>
@@ -4346,7 +4346,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1230</MOArticulation>
     <POArticulation>1230</POArticulation>
@@ -4382,7 +4382,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1240</MOArticulation>
     <POArticulation>1240</POArticulation>
@@ -4400,7 +4400,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1255</MOArticulation>
     <POArticulation>1255</POArticulation>
@@ -4418,7 +4418,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1275</MOArticulation>
     <POArticulation>1275</POArticulation>
@@ -4436,7 +4436,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1270</MOArticulation>
     <POArticulation>1270</POArticulation>
@@ -4544,7 +4544,7 @@
     <IgnoreType>NotApplicable</IgnoreType>
     <IsBaseChar>false</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
-    <DisplayWDottedCircle>false</DisplayWDottedCircle>
+    <DisplayWDottedCircle>true</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>1220</MOArticulation>
     <POArticulation>1220</POArticulation>
