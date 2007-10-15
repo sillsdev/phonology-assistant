@@ -142,4 +142,7 @@
   <data name="kstidSurveyItemInfoTitle" xml:space="preserve">
     <value>Description:</value>
   </data>
+  <data name="kstidSurveyItemTextFormat" xml:space="preserve">
+    <value>{0}. {1}</value>
+  </data>
 </root>

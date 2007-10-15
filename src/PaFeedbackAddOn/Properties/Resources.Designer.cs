@@ -125,5 +125,14 @@ namespace SIL.Pa.AddOn.Properties {
                 return ResourceManager.GetString("kstidSurveyItemInfoTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}. {1}.
+        /// </summary>
+        internal static string kstidSurveyItemTextFormat {
+            get {
+                return ResourceManager.GetString("kstidSurveyItemTextFormat", resourceCulture);
+            }
+        }
     }
 }

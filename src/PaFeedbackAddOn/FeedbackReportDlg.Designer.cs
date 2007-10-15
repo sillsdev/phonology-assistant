@@ -40,24 +40,12 @@ namespace SIL.Pa.AddOn
 			this.lbl1 = new System.Windows.Forms.Label();
 			this.lblSurveyInstructions = new System.Windows.Forms.Label();
 			this.pnlSurveyInner = new System.Windows.Forms.Panel();
-			this.ratingSurveyCtrl11 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl10 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl9 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl8 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl7 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl6 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl5 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl4 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl3 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl2 = new SIL.Pa.AddOn.RatingSurveyCtrl();
-			this.ratingSurveyCtrl1 = new SIL.Pa.AddOn.RatingSurveyCtrl();
 			this.lblHeading = new System.Windows.Forms.Label();
 			this.pnlComments = new SIL.Pa.Controls.PaPanel();
 			this.txtComments = new System.Windows.Forms.TextBox();
 			this.lblComments = new System.Windows.Forms.Label();
 			this.pnlButtons.SuspendLayout();
 			this.pnlSurveyOuter.SuspendLayout();
-			this.pnlSurveyInner.SuspendLayout();
 			this.pnlComments.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -135,100 +123,8 @@ namespace SIL.Pa.AddOn
 			// pnlSurveyInner
 			// 
 			resources.ApplyResources(this.pnlSurveyInner, "pnlSurveyInner");
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl11);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl10);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl9);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl8);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl7);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl6);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl5);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl4);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl3);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl2);
-			this.pnlSurveyInner.Controls.Add(this.ratingSurveyCtrl1);
 			this.pnlSurveyInner.Name = "pnlSurveyInner";
 			this.pnlSurveyInner.Resize += new System.EventHandler(this.pnlSurveyInner_Resize);
-			// 
-			// ratingSurveyCtrl11
-			// 
-			this.ratingSurveyCtrl11.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl11, "ratingSurveyCtrl11");
-			this.ratingSurveyCtrl11.InfoText = null;
-			this.ratingSurveyCtrl11.Name = "ratingSurveyCtrl11";
-			// 
-			// ratingSurveyCtrl10
-			// 
-			this.ratingSurveyCtrl10.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl10, "ratingSurveyCtrl10");
-			this.ratingSurveyCtrl10.InfoText = "Improved checking and reporting\\nof syntax errors in search patterns.";
-			this.ratingSurveyCtrl10.Name = "ratingSurveyCtrl10";
-			// 
-			// ratingSurveyCtrl9
-			// 
-			this.ratingSurveyCtrl9.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl9, "ratingSurveyCtrl9");
-			this.ratingSurveyCtrl9.InfoText = "These charts would be similar to the suprasegmental\\nand diacritic charts found i" +
-				"n Phonology Assistant 2.0.";
-			this.ratingSurveyCtrl9.Name = "ratingSurveyCtrl9";
-			// 
-			// ratingSurveyCtrl8
-			// 
-			this.ratingSurveyCtrl8.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl8, "ratingSurveyCtrl8");
-			this.ratingSurveyCtrl8.InfoText = resources.GetString("ratingSurveyCtrl8.InfoText");
-			this.ratingSurveyCtrl8.Name = "ratingSurveyCtrl8";
-			// 
-			// ratingSurveyCtrl7
-			// 
-			this.ratingSurveyCtrl7.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl7, "ratingSurveyCtrl7");
-			this.ratingSurveyCtrl7.InfoText = "This would apply to PA records\\nhaving associated audio files.";
-			this.ratingSurveyCtrl7.Name = "ratingSurveyCtrl7";
-			// 
-			// ratingSurveyCtrl6
-			// 
-			this.ratingSurveyCtrl6.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl6, "ratingSurveyCtrl6");
-			this.ratingSurveyCtrl6.InfoText = "Currently these charts can be exported to HTML\\nand only word lists may be export" +
-				"ed to RTF.";
-			this.ratingSurveyCtrl6.Name = "ratingSurveyCtrl6";
-			// 
-			// ratingSurveyCtrl5
-			// 
-			this.ratingSurveyCtrl5.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl5, "ratingSurveyCtrl5");
-			this.ratingSurveyCtrl5.InfoText = null;
-			this.ratingSurveyCtrl5.Name = "ratingSurveyCtrl5";
-			// 
-			// ratingSurveyCtrl4
-			// 
-			this.ratingSurveyCtrl4.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl4, "ratingSurveyCtrl4");
-			this.ratingSurveyCtrl4.InfoText = resources.GetString("ratingSurveyCtrl4.InfoText");
-			this.ratingSurveyCtrl4.Name = "ratingSurveyCtrl4";
-			// 
-			// ratingSurveyCtrl3
-			// 
-			this.ratingSurveyCtrl3.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl3, "ratingSurveyCtrl3");
-			this.ratingSurveyCtrl3.InfoText = resources.GetString("ratingSurveyCtrl3.InfoText");
-			this.ratingSurveyCtrl3.Name = "ratingSurveyCtrl3";
-			// 
-			// ratingSurveyCtrl2
-			// 
-			this.ratingSurveyCtrl2.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl2, "ratingSurveyCtrl2");
-			this.ratingSurveyCtrl2.InfoText = null;
-			this.ratingSurveyCtrl2.Name = "ratingSurveyCtrl2";
-			// 
-			// ratingSurveyCtrl1
-			// 
-			this.ratingSurveyCtrl1.BackColor = System.Drawing.SystemColors.Window;
-			resources.ApplyResources(this.ratingSurveyCtrl1, "ratingSurveyCtrl1");
-			this.ratingSurveyCtrl1.InfoText = "This feature would provide a way to filter a project’s data,\\nthus creating a sub" +
-				"set of a project’s data. When applied,\\nfilters would limit the scope for search" +
-				"ing and charting.";
-			this.ratingSurveyCtrl1.Name = "ratingSurveyCtrl1";
 			// 
 			// lblHeading
 			// 
@@ -284,7 +180,6 @@ namespace SIL.Pa.AddOn
 			this.pnlButtons.ResumeLayout(false);
 			this.pnlSurveyOuter.ResumeLayout(false);
 			this.pnlSurveyOuter.PerformLayout();
-			this.pnlSurveyInner.ResumeLayout(false);
 			this.pnlComments.ResumeLayout(false);
 			this.pnlComments.PerformLayout();
 			this.ResumeLayout(false);
@@ -297,17 +192,6 @@ namespace SIL.Pa.AddOn
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnSend;
 		private SIL.Pa.Controls.PaPanel pnlSurveyOuter;
-		private RatingSurveyCtrl ratingSurveyCtrl4;
-		private RatingSurveyCtrl ratingSurveyCtrl3;
-		private RatingSurveyCtrl ratingSurveyCtrl2;
-		private RatingSurveyCtrl ratingSurveyCtrl1;
-		private RatingSurveyCtrl ratingSurveyCtrl5;
-		private RatingSurveyCtrl ratingSurveyCtrl6;
-		private RatingSurveyCtrl ratingSurveyCtrl7;
-		private RatingSurveyCtrl ratingSurveyCtrl8;
-		private RatingSurveyCtrl ratingSurveyCtrl9;
-		private RatingSurveyCtrl ratingSurveyCtrl10;
-		private RatingSurveyCtrl ratingSurveyCtrl11;
 		private System.Windows.Forms.Panel pnlSurveyInner;
 		private System.Windows.Forms.Label lblSurveyInstructions;
 		private System.Windows.Forms.Label lbl1;

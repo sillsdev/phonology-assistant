@@ -6,6 +6,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.Mail;
+using System.Xml.Serialization;
+using System.Reflection;
+using System.IO;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.AddOn
 {
@@ -18,6 +22,8 @@ namespace SIL.Pa.AddOn
 	{
 		private Label[] m_lblRatings;
 		private int m_launchCount = 0;
+		private List<RatingSurveyCtrl> m_surveyItemCtrls = new List<RatingSurveyCtrl>();
+		private string m_surveyItemsFile;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -31,6 +37,30 @@ namespace SIL.Pa.AddOn
 			InitializeComponent();
 			m_lblRatings = new Label[] { lbl1, lbl2, lbl3, lbl4, lbl5 };
 			PaApp.SettingsHandler.LoadFormProperties(this);
+
+			// Strip off file:/
+			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
+			m_surveyItemsFile = Path.Combine(path, "SurveyItems.xml");
+
+			List<SurveyItem> surveyitems = STUtils.DeserializeData(m_surveyItemsFile,
+				typeof(List<SurveyItem>)) as List<SurveyItem>;
+
+			if (surveyitems == null)
+				return;
+
+			for (int i = 0; i < surveyitems.Count; i++)
+			{
+				RatingSurveyCtrl ctrl = new RatingSurveyCtrl();
+				ctrl.Height = 40;
+				ctrl.Dock = DockStyle.Top;
+				ctrl.InfoText = surveyitems[i].ItemDescription;
+				ctrl.Text = string.Format(Properties.Resources.kstidSurveyItemTextFormat,
+					i + 1, surveyitems[i].ItemText);
+
+				m_surveyItemCtrls.Add(ctrl);
+				pnlSurveyInner.Controls.Add(ctrl);
+				ctrl.BringToFront();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -40,11 +70,8 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			foreach (Control ctrl in pnlSurveyInner.Controls)
-			{
-				if (ctrl is RatingSurveyCtrl)
-					((RatingSurveyCtrl)ctrl).Clear();
-			}
+			foreach (RatingSurveyCtrl ctrl in m_surveyItemCtrls)
+				ctrl.Clear();
 
 			base.OnShown(e);
 			pnlSurveyInner_Resize(null, null);
@@ -105,10 +132,13 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		private void pnlSurveyInner_Resize(object sender, EventArgs e)
 		{
-			for (int i = 0; i < 5; i++)
+			if (m_surveyItemCtrls.Count > 0)
 			{
-				Point pt = ratingSurveyCtrl1.GetChoiceLocation(i);
-				m_lblRatings[i].Left = pnlSurveyOuter.PointToClient(pt).X;
+				for (int i = 0; i < 5; i++)
+				{
+					Point pt = m_surveyItemCtrls[0].GetChoiceLocation(i);
+					m_lblRatings[i].Left = pnlSurveyOuter.PointToClient(pt).X;
+				}
 			}
 		}
 
@@ -144,16 +174,16 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		private bool VerifyRatings()
 		{
-			foreach (Control ctrl in pnlSurveyInner.Controls)
+			foreach (RatingSurveyCtrl ctrl in m_surveyItemCtrls)
 			{
-				if (ctrl is RatingSurveyCtrl && ((RatingSurveyCtrl)ctrl).Rating == 0)
+				if (ctrl.Rating == 0)
 				{
 					string msg = Properties.Resources.kstidMissingRatingMsg;
-					return (SIL.SpeechTools.Utils.STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
+					return (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
 				}
 			}
 
-			return false;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -177,16 +207,10 @@ namespace SIL.Pa.AddOn
 			bldr.AppendLine("Ratings");
 			bldr.AppendLine(string.Empty.PadLeft(30, '-'));
 
-			for (int i = pnlSurveyInner.Controls.Count - 1; i >= 0; i--)
+			foreach (RatingSurveyCtrl ctrl in m_surveyItemCtrls)
 			{
-				if (pnlSurveyInner.Controls[i] is RatingSurveyCtrl)
-				{
-					string item = ((RatingSurveyCtrl)pnlSurveyInner.Controls[i]).Text;
-					bldr.AppendFormat("({0}) - {1}",
-						((RatingSurveyCtrl)pnlSurveyInner.Controls[i]).Rating, item);
-					
-					bldr.AppendLine();
-				}
+				bldr.AppendFormat("({0}) - {1}", ctrl.Rating, ctrl.Text);
+				bldr.AppendLine();
 			}
 
 			bldr.AppendLine();
@@ -197,5 +221,18 @@ namespace SIL.Pa.AddOn
 
 			return bldr.ToString();
 		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class SurveyItem
+	{
+		[XmlAttribute]
+		public string ItemText;
+		[XmlAttribute]
+		public string ItemDescription;
 	}
 }
