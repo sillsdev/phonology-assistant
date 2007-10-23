@@ -1109,10 +1109,13 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
+			bool assumeCVIsPhoneClass =
+				PaApp.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true);
+			
 			// When 'C' is entered then automatically insert "[C]".
 			// When 'V' is entered then automatically insert "[V]".
 			// But only when the previous character is not '['.
-			if (prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
+			if (assumeCVIsPhoneClass && prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
 			{
 				txt.Text = txt.Text.Insert(selStart, ("[" + e.KeyChar + "]"));
 				e.KeyChar = (char)0;

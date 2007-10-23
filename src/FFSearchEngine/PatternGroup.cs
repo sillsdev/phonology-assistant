@@ -461,8 +461,8 @@ namespace SIL.Pa.FFSearchEngine
 			if (string.IsNullOrEmpty(ptrn2))
 				return ptrn1;
 
-			bool containsZorM = (ptrn1.IndexOf("*") >= 0) || (ptrn2.IndexOf("*") >= 0);
-			bool containsOorM = (ptrn1.IndexOf("+") >= 0) || (ptrn2.IndexOf("+") >= 0);
+			bool containsZorM = (ptrn1.IndexOf('*') >= 0) || (ptrn2.IndexOf('*') >= 0);
+			bool containsOorM = (ptrn1.IndexOf('+') >= 0) || (ptrn2.IndexOf('+') >= 0);
 
 			string newPattern = ptrn1 + ptrn2;
 			newPattern = "X" + newPattern.Replace("*", string.Empty);
@@ -935,7 +935,7 @@ namespace SIL.Pa.FFSearchEngine
 			bool foundDiacriticPlaceholder = false;
 			char dottedCircle = DataUtils.kDottedCircleC;
 
-			while ((i = pattern.IndexOf(lookFor, i)) >= 0)
+			while ((i = pattern.IndexOf(lookFor, i, System.StringComparison.Ordinal)) >= 0)
 			{
 				int closeIndex = i;
 				

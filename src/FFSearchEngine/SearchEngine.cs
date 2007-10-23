@@ -587,7 +587,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			while ((start = pattern.IndexOf(DataUtils.kDottedCircleC, start)) >= 0)
 			{
-				int end = pattern.IndexOf("]", start);
+				int end = pattern.IndexOf(']', start);
 				if (end < start)
 					break;
 

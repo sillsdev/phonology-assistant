@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
@@ -223,7 +224,8 @@ namespace SIL.Pa.Data
 			// transcription itself.
 			foreach (KeyValuePair<string, string> kvp in ConversionList)
 			{
-				if (kvp.Key != null && kvp.Value != null && text.IndexOf(kvp.Key) >= 0)
+				if (kvp.Key != null && kvp.Value != null &&
+					text.IndexOf(kvp.Key/*, StringComparison.Ordinal*/) >= 0)
 				{
 					text = text.Replace(kvp.Key, token.ToString());
 					transAndMarkerInfo[token] = kvp;
