@@ -960,6 +960,9 @@ namespace SIL.Pa.Data
 		public ulong Mask0;
 		public ulong Mask1;
 		public ulong BinaryMask;
+		public ulong OverrideMask0;
+		public ulong OverrideMask1;
+		public ulong BinaryOverrideMask;
 		public int ChartColumn;
 		public int ChartGroup;
 
