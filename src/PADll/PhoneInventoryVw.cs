@@ -74,6 +74,8 @@ namespace SIL.Pa
 			hlblAFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblBFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
+			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
+
 			PaApp.IncProgressBar();
 			BuildPhoneGrid();
 			PaApp.IncProgressBar();
@@ -294,6 +296,7 @@ namespace SIL.Pa
 				}
 			}
 
+			AdjustGridRows(gridPhones, "phonegridextrarowheight", 3);
 			gridPhones.IsDirty = false;
 		}
 
@@ -419,8 +422,28 @@ namespace SIL.Pa
 			}
 
 			PaApp.SettingsHandler.LoadGridProperties(gridAmbiguous);
+			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
 			gridAmbiguous.IsDirty = false;
 			chkShowDefaults.Enabled = hasDefaultSequences;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adjusts the rows in the specified grid by letting the grid calculate the row
+		/// heights automatically, then adds an extra amount, found in the settings file,
+		/// to each row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AdjustGridRows(DataGridView grid, string settingsValue, int defaultAmount)
+		{
+			grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+			grid.AutoResizeRows();
+
+			int extraRowHeight =
+				PaApp.SettingsHandler.GetIntSettingsValue(Name, settingsValue, defaultAmount);
+			
+			foreach (DataGridViewRow row in grid.Rows)
+				row.Height += extraRowHeight;
 		}
 
 		#endregion
@@ -1346,7 +1369,7 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This method gets called when the font(s) get changed in the options dialog.
+		/// This method gets called when the font(s) gets changed in the options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
@@ -1360,18 +1383,34 @@ namespace SIL.Pa
 			pgpAmbiguous.Font = FontHelper.UIFont;
 			pgpExperimental.Font = FontHelper.UIFont;
 			pgpPhoneList.Font = FontHelper.UIFont;
+			gridPhones.Font = FontHelper.UIFont;
+			gridAmbiguous.Font = FontHelper.UIFont;
 
 			int y = (pgpAmbiguous.Height - chkShowDefaults.Height) / 2 + 1;
 			chkShowDefaults.Location = new Point(pgpAmbiguous.Width - chkShowDefaults.Width - 3, y);
 
 			gridPhones.Columns["phone"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			gridPhones.Columns["phone"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			foreach (DataGridViewRow row in gridPhones.Rows)
+				row.Cells["phone"].Style.Font = FontHelper.PhoneticFont;
+
 			gridAmbiguous.Columns["seq"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			gridAmbiguous.Columns["seq"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			gridAmbiguous.Columns["base"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			gridAmbiguous.Columns["base"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			gridAmbiguous.Columns["cvpattern"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			gridAmbiguous.Columns["cvpattern"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			
+			foreach (DataGridViewRow row in gridAmbiguous.Rows)
+			{
+				row.Cells["seq"].Style.Font = FontHelper.PhoneticFont;
+				row.Cells["base"].Style.Font = FontHelper.PhoneticFont;
+				row.Cells["cvpattern"].Style.Font = FontHelper.PhoneticFont;
+			}
+
+			AdjustGridRows(gridPhones, "phonegridextrarowheight", 3);
+			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
+			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
 
 			// Return false to allow other windows to update their fonts.
 			return false;

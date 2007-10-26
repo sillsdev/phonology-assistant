@@ -13,11 +13,12 @@ namespace SIL.Pa.Controls
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
 		private bool m_allFeaturesMustMatch = false;
-		private int m_lblHeight = 0;
 		private ulong[] m_aMasks;
 		private ulong m_bMask;
 		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
+		private int m_lblHeight = 0;
+		private readonly int m_extraPhoneHeight = 0;
 		private readonly string m_settingValPrefix;
 		private readonly string m_frmName;
 		private readonly IPACharacterType m_charType;
@@ -43,6 +44,9 @@ namespace SIL.Pa.Controls
 
 			if (!PaApp.DesignMode)
 				base.Font = FontHelper.MakeEticRegFontDerivative(14);
+
+			m_extraPhoneHeight += PaApp.SettingsHandler.GetIntSettingsValue(
+				"phonesinfeatureslists", "extraphoneheight", 3);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -230,6 +234,7 @@ namespace SIL.Pa.Controls
 			lbl.Font = Font;
 			lbl.Text = phone;
 			lbl.Size = lbl.PreferredSize;
+			lbl.Height += m_extraPhoneHeight;
 			lbl.BackColor = Color.Transparent;
 			lbl.Visible = false;
 			lbl.Tag = phoneInfo;

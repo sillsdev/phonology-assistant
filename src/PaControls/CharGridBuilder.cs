@@ -296,7 +296,10 @@ namespace SIL.Pa.Controls
 			// Set the grid's cell width to the widest phone, adding
 			// some padding because the grid renders with padding.
 			if (m_chrGrid != null)
-				m_chrGrid.CellWidth = maxPhoneWidth + 8;
+			{
+				m_chrGrid.CellWidth = maxPhoneWidth +
+					PaApp.SettingsHandler.GetIntSettingsValue("cvchartcells", "extrawidth", 8);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -28,9 +28,9 @@ namespace SIL.Pa.Controls
 
 		public event ItemDragEventHandler ItemDrag;
 
-		private const int kCellHeight = 34;
 		private const int kMinHdrSize = 22;
 
+		private readonly int m_cellHeight; // = 60; //34;
 		private int m_cellWidth = 38;
 		private CharGridHeader m_currentHeader = null;
 		private bool m_searchWhenPhoneDoubleClicked = true;
@@ -58,6 +58,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
+			m_cellHeight =
+				PaApp.SettingsHandler.GetIntSettingsValue("cvchartcells", "height", 36);
+
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
@@ -653,7 +656,7 @@ namespace SIL.Pa.Controls
 			int insertRowIndex = (hdr.LastRow == null ? m_grid.Rows.Count : hdr.LastRow.Index + 1);
 			m_grid.Rows.Insert(insertRowIndex, new DataGridViewRow());
 			DataGridViewRow newRow = m_grid.Rows[insertRowIndex];
-			newRow.Height = kCellHeight;
+			newRow.Height = m_cellHeight;
 			hdr.AddRow(newRow, subheadtext);
 			CalcHeights();
 			return newRow;
@@ -669,7 +672,7 @@ namespace SIL.Pa.Controls
 			m_pnlRowHeaders.SuspendLayout();
 
 			CharGridHeader newHdr = new CharGridHeader(text, false);
-			newHdr.Height = kCellHeight;
+			newHdr.Height = m_cellHeight;
 
 			if (insertIndex == -1)
 			{
@@ -838,7 +841,7 @@ namespace SIL.Pa.Controls
 			m_grid.Width = width + 1;
 
 			if (m_grid.Rows.Count > 0)
-				m_grid.Height = (m_grid.Rows.Count * kCellHeight) + 1;
+				m_grid.Height = (m_grid.Rows.Count * m_cellHeight) + 1;
 		}
 
 		#endregion
@@ -921,8 +924,8 @@ namespace SIL.Pa.Controls
 		{
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
-				if (row.Height != kCellHeight)
-					row.Height = kCellHeight;
+				if (row.Height != m_cellHeight)
+					row.Height = m_cellHeight;
 			}
 		}
 

@@ -72,6 +72,19 @@ namespace SIL.Pa.Controls
 
 			BuildGrid();
 			LoadGrid();
+
+			PaApp.MsgMediator.AddColleague(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			PaApp.MsgMediator.RemoveColleague(this);
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,6 +227,31 @@ namespace SIL.Pa.Controls
 		#region Misc. Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// This method gets called when the font(s) gets changed in the options dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPaFontsChanged(object args)
+		{
+			m_grid.Columns["col0"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			m_grid.Columns["col0"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+
+			foreach (DataGridViewRow row in m_grid.Rows)
+				row.Cells["col0"].Style.Font = FontHelper.PhoneticFont;
+
+			for (int i = kFirstCnvrtToCol; i < m_grid.ColumnCount; i++)
+			{
+				m_grid.Columns[i].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+				m_grid.Columns[i].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+
+				foreach (DataGridViewRow row in m_grid.Rows)
+					row.Cells[i].Style.Font = FontHelper.PhoneticFont;
+			}
+
+			return false;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -333,21 +371,13 @@ namespace SIL.Pa.Controls
 			// empty column (which is for columns as the new row is for rows).
 			if (string.IsNullOrEmpty(m_grid.Rows[e.RowIndex].Cells[0].Value as string))
 			{
-				if (PaApp.MsgMediator != null)
-				{
-					PaApp.MsgMediator.AddColleague(this);
-					PaApp.MsgMediator.PostMessage("RemoveRow", e.RowIndex);
-				}
-				
+				PaApp.MsgMediator.PostMessage("RemoveRow", e.RowIndex);
 				return;
 			}
 			else if (IsRowFull(m_grid.Rows[e.RowIndex]))
 				m_grid.Columns.Add(new RadioButtonColumn());
 			else if (AreLastTwoColumnsEmpty && PaApp.MsgMediator != null)
-			{
-				PaApp.MsgMediator.AddColleague(this);
 				PaApp.MsgMediator.PostMessage("RemoveLastColumn", e.RowIndex);
-			}
 
 			if (e.ColumnIndex > kCnvrtCol)
 			{
@@ -402,9 +432,6 @@ namespace SIL.Pa.Controls
 					OnRemoveLastColumn((int)args);
 			}
 
-			if (PaApp.MsgMediator != null)
-				PaApp.MsgMediator.RemoveColleague(this);
-
 			return true;
 		}
 
@@ -429,9 +456,6 @@ namespace SIL.Pa.Controls
 			{
 				cell.Checked = true;
 			}
-
-			if (PaApp.MsgMediator != null)
-				PaApp.MsgMediator.RemoveColleague(this);
 
 			return true;
 		}

@@ -2655,7 +2655,7 @@ namespace SIL.Pa.Controls
 
 			// Add a little vertical padding.
 			m_defaultRowHeight +=
-				PaApp.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 3);
+				PaApp.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 5);
 
 			// Get rid of all custom row heights (i.e. row heights adjusted by the user).
 			m_customRowHeights = null;

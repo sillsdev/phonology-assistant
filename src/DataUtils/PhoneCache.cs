@@ -362,7 +362,9 @@ namespace SIL.Pa.Data
 		private int m_countAsPrimaryUncertainty = 0;
 		private IPACharacterType m_charType = IPACharacterType.Unknown;
 		private ulong m_binaryMask;
-		private ulong[] m_masks = new ulong[] { 0, 0 }; 
+		private ulong[] m_masks = new ulong[] { 0, 0 };
+		private ulong m_binaryOverrideMask;
+		private ulong[] m_overrideMasks = new ulong[] { 0, 0 }; 
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
@@ -504,7 +506,9 @@ namespace SIL.Pa.Data
 			clone.m_countAsPrimaryUncertainty = m_countAsPrimaryUncertainty;
 			clone.m_charType = m_charType;
 			clone.m_binaryMask = m_binaryMask;
+			clone.m_binaryOverrideMask = m_binaryOverrideMask;
 			clone.m_masks = new ulong[] {m_masks[0], m_masks[1]};
+			clone.m_overrideMasks = new ulong[] {m_overrideMasks[0], m_overrideMasks[1]};
 			clone.m_moaKey = m_moaKey;
 			clone.m_poaKey = m_poaKey;
 			clone.m_baseChar = m_baseChar;
@@ -628,6 +632,19 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets the binary features that get cancelled out when a phone contains this
+		/// phonetic character.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("BOverrideMask")]
+		public ulong BinaryOverrideMask
+		{
+			get { return m_binaryOverrideMask; }
+			set { m_binaryOverrideMask = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets or sets the articulatory feature masks for the phonetic character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -636,6 +653,19 @@ namespace SIL.Pa.Data
 		{
 			get {return m_masks;}
 			set {m_masks = new ulong[] {value[0], value[1] };}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the articulatory features that get cancelled out when a phone
+		/// contains this phonetic character
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("AOverrideMasks")]
+		public ulong[] OverrideMasks
+		{
+			get { return m_overrideMasks; }
+			set { m_overrideMasks = new ulong[] { value[0], value[1] }; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -229,7 +229,7 @@ namespace SIL.Pa.Controls
 				currRowIndex++;
 
 			DataGridViewRow newRow = new DataGridViewRow();
-			newRow.Height = kCellHeight;
+			newRow.Height = m_cellHeight;
 			m_grid.Rows.Insert(currRowIndex, newRow);
 			((CharGridHeader)currRow.Tag).AddRow(m_grid.Rows[currRowIndex]);
 			CalcHeights();
@@ -401,7 +401,7 @@ namespace SIL.Pa.Controls
 
 			CharGridHeader newHdr = CreateRowHeader(string.Empty, newHdrRowIndex);
 			DataGridViewRow newRow = new DataGridViewRow();
-			newRow.Height = kCellHeight;
+			newRow.Height = m_cellHeight;
 
 			m_grid.Rows.Insert(newGridRowIndex, newRow);
 			newHdr.AddRow(m_grid.Rows[newGridRowIndex]);
