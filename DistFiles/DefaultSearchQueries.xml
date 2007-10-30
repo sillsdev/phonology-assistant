@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SearchQueries>
-  <QueryGroup Name="1EgPatterns" Expanded="false" ExpandedInPopup="false">
+  <QueryGroup Name="1ExPatterns" Expanded="false" ExpandedInPopup="false">
     <Queries>
       <SearchQuery version="2" Name="xTarget=SinglePhoneAnywhere" Pattern="tʰ/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
@@ -228,7 +228,7 @@
       </SearchQuery>
     </Queries>
   </QueryGroup>
-  <QueryGroup Name="2EgPatternsDiacritics" Expanded="false" ExpandedInPopup="false">
+  <QueryGroup Name="2ExPatternsDiacritics" Expanded="false" ExpandedInPopup="false">
     <Queries>
       <SearchQuery version="2" Name="xTarget=Diacritic:Specific" Pattern="[[V][◌̃]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
@@ -458,7 +458,7 @@
       </SearchQuery>
     </Queries>
   </QueryGroup>
-  <QueryGroup Name="3EgPatternsArtFeatures" Expanded="false" ExpandedInPopup="false">
+  <QueryGroup Name="3ExPatternsArtFeatures" Expanded="false" ExpandedInPopup="false">
     <Queries>
       <SearchQuery version="2" Name="xTarget=ArtFeatures" Pattern="[[Nasal][Vowel]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
@@ -630,7 +630,7 @@
       </SearchQuery>
     </Queries>
   </QueryGroup>
-  <QueryGroup Name="4EgPatternsBinFeatures" Expanded="false" ExpandedInPopup="false">
+  <QueryGroup Name="4ExPatternsBinFeatures" Expanded="false" ExpandedInPopup="false">
     <Queries>
       <SearchQuery version="2" Name="xTarget=BinFeatures" Pattern="[[+nas][+cons]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
@@ -805,7 +805,7 @@
       </SearchQuery>
     </Queries>
   </QueryGroup>
-  <QueryGroup Name="5EgEnvironments" Expanded="false" ExpandedInPopup="false">
+  <QueryGroup Name="5ExEnvironments" Expanded="false" ExpandedInPopup="false">
     <Queries>
       <SearchQuery version="2" Name="xEnvrnmt=WordInitial" Pattern="[C]/#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>

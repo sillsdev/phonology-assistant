@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfXYChart>
-  <XYChart Name="Word initial and final">
+  <XYChart Name="ExWord initial and final">
     <SearchItems>
       <string>[[C][Voiced]]</string>
       <string>[V]</string>
@@ -134,7 +134,7 @@
       <int>100</int>
     </ColumnWidths>
   </XYChart>
-  <XYChart Name="Consonants">
+  <XYChart Name="ExConsonants">
     <SearchItems>
       <string>[[C][Voiceless]]</string>
       <string>[[C][Voiced]]</string>
@@ -621,7 +621,7 @@
       <int>100</int>
     </ColumnWidths>
   </XYChart>
-  <XYChart Name="Vowels">
+  <XYChart Name="ExVowels">
     <SearchItems>
       <string>[V]</string>
       <string>[[V][+high]]</string>
