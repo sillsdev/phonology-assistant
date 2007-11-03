@@ -75,9 +75,9 @@ namespace SIL.Pa
 
 			Application.DoEvents();
 
-			// Unpack samples if it's never been done before.
-			SampleDataHelper sdhlpr = new SampleDataHelper();
-			sdhlpr.UnpackSampleData();
+			// Unpack training projects if it's never been done before.
+			TrainingProjectsHelper tph = new TrainingProjectsHelper();
+			tph.Setup();
 
 			EnableOptionsMenus(false);
 			EnableUndockMenu(false);
