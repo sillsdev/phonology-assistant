@@ -40,7 +40,8 @@ namespace SIL.Pa
 					return;
 
 				// Can't unpack the samples if the training projects zip file doesn't exist.
-				string zipFile = Path.Combine(Application.StartupPath, tpsi.TrainingProjectsZipFile);
+				string zipFile = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
+				zipFile = Path.Combine(zipFile, tpsi.TrainingProjectsZipFile);
 				if (!File.Exists(zipFile))
 					return;
 
@@ -91,7 +92,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static TrainingProjectSetupInfo Load()
 		{
-			s_tpsPath = Path.Combine(Application.StartupPath, "TrainingProjectsSetup.xml");
+			s_tpsPath = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
+			s_tpsPath = Path.Combine(s_tpsPath, "TrainingProjectsSetup.xml");
 
 			try
 			{

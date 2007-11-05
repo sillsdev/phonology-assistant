@@ -75,6 +75,7 @@ namespace SIL.Pa
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
 		public const string kHelpSubFolder = "Helps";
+		public const string kTrainingSubFolder = "Training";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 
@@ -1816,8 +1817,8 @@ namespace SIL.Pa
 			{
 				if (string.IsNullOrEmpty(s_helpFilePath))
 				{
-					s_helpFilePath = Path.GetDirectoryName(Application.ExecutablePath);
-					s_helpFilePath = Path.Combine(s_helpFilePath, kHelpSubFolder);
+					s_helpFilePath = Application.StartupPath;
+					//s_helpFilePath = Path.Combine(s_helpFilePath, kHelpSubFolder);
 					s_helpFilePath = Path.Combine(s_helpFilePath, kHelpFileName);
 				}
 

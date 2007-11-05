@@ -237,13 +237,15 @@ copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)"
-md "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\Using_Help.chm" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Helps"
-copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Helps"</PreBuildEvent>
+copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\Using_Help.chm" "$(ProjectDir)$(OutDir)"
+md "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>

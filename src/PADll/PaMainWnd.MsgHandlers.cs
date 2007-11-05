@@ -147,8 +147,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void OpenTrainingDocument(string docName)
 		{
-			string path = Path.GetDirectoryName(Application.ExecutablePath);
-			path = Path.Combine(path, PaApp.kHelpSubFolder);
+			string path = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
 			path = Path.Combine(path, docName);
 
 			if (!File.Exists(path))
