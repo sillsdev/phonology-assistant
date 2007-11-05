@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PaFields version="2.1">
 	<Field Name="Phonetic">
-		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+		<Font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>true</IsPhonetic>
@@ -19,7 +19,7 @@
 		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
 	<Field Name="Phonemic">
-		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+		<Font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
@@ -38,7 +38,7 @@
 		<FwWritingSystemType>Vernacular</FwWritingSystemType>
 	</Field>
 	<Field Name="Tone">
-		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+		<Font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>
