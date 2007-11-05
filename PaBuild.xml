@@ -20,9 +20,9 @@
 		<Commands>
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\Installer Files\*.*</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files\Helps\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\Training\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\*.*</Arg>
-				<Arg>c:\Phonology Assistant\output\release\Helps\*.*</Arg>
+				<Arg>c:\Phonology Assistant\output\release\Training\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\AddOns\*.*</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
@@ -114,8 +114,8 @@
 			</CommandItem>
 			<!-- Copy help files to the folder that's mapped to the installer file's Subversion repository -->
 			<CommandItem Command="copy">
-				<Arg>C:\Phonology Assistant\output\release\helps\*.*</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files\helps</Arg>
+				<Arg>C:\Phonology Assistant\output\release\Training\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\Training</Arg>
 			</CommandItem>
 			<!-- Copy Add ons to the folder that's mapped to the installer file's Subversion repository -->
 			<CommandItem Command="copy">
