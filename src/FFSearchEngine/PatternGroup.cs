@@ -225,7 +225,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Are we beginning a sub group?
-				if (pattern[i] == '[' || pattern[i] == '{')
+				if (pattern[i] == '[' || pattern[i] == '{' || pattern[i] == '(')
 				{
 					BeginSubGroup(pattern, ref i);
 					continue;
@@ -244,7 +244,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Are we at the end of a group member?
-				if (pattern[i] == '$' || pattern[i] == ',')
+				if (pattern[i] == '$' || pattern[i] == ',' || pattern[i] == ')')
 				{
 					// We've reached the end of a PatternGroupMember so close it out.
 					CloseCurrentMember();
@@ -338,7 +338,10 @@ namespace SIL.Pa.FFSearchEngine
 				{
 					// Should anything be done here?
 				}
-				
+
+				if (subGroupPattern[0] == '(')
+					subGroup.m_type = GroupType.Sequential;
+
 				m_members.Add(subGroup);
 			}
 		}
@@ -356,7 +359,7 @@ namespace SIL.Pa.FFSearchEngine
 			// The assumption here is that we're pointing to an opening bracket or brace.
 			// Therefore, get the closed counterpart.
 			char openBracket = pattern[i];
-			char closeBracket = (openBracket == '[' ? ']' : '}');
+			char closeBracket = (openBracket == '[' ? ']' : openBracket == '{' ? '}' : ')');
 			int start = i;
 
 			while (i < pattern.Length)
@@ -565,7 +568,6 @@ namespace SIL.Pa.FFSearchEngine
 			// [[C][C][o^h] or [[V][V][o^h] don't make sense to have double con. or vowel in AND group.
 			// For that matter, things like this don't make sense [[C][p]] or [[V][a]] or
 			// Characters in square brakets don't make sense. Ex. [a,b] - a match cannot be both an 'a' AND 'b'
-
 
 			//pattern = pattern.Replace("#", string.Empty);
 			pattern = pattern.Replace(",,", ",");
@@ -1230,16 +1232,21 @@ namespace SIL.Pa.FFSearchEngine
 				if (phones[i] == string.Empty)
 					continue;
 
-				CompareResultType compareResult = SearchGroup(phones[i]);
+				//CompareResultType compareResult = SearchGroup(phones[i]);
+				CompareResultType compareResult = SearchGroup(phones, i, ref results);
 				
 				if (compareResult == CompareResultType.Ignored)
 					continue;
 
 				if (compareResult != CompareResultType.NoMatch)
 				{
-					// Return where the match was found.
-					results[0] = i;
-					results[1] = 1;
+					if (results[0] == -1 || results[1] == -1)
+					{
+						// Return where the match was found.
+						results[0] = i;
+						results[1] = 1;
+					}
+					
 					return true;
 				}
 
@@ -1315,7 +1322,12 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ip, ref results));
+
+				//// Check for a match. If member is null it means the current
+				//// member is a PatternGroup, not a PatternGroupMember.
+				//compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
+				//    ((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
 
 				switch (compareResult)
 				{
@@ -1412,7 +1424,12 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ip, ref results));
+
+				//// Check for a match. If member is null it means the current
+				//// member is a PatternGroup, not a PatternGroupMember.
+				//compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
+				//    ((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
 
 				switch (compareResult)
 				{
@@ -1492,7 +1509,12 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ip, ref results));
+
+				//// Check for a match. If member is null it means the current
+				//// member is a PatternGroup, not a PatternGroupMember.
+				//compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
+				//    ((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
 
 				switch (compareResult)
 				{
@@ -1568,18 +1590,40 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private CompareResultType SearchGroup(string phone)
+		//private CompareResultType SearchGroup(string phone)
+		private CompareResultType SearchGroup(string[] phones, int ip, ref int[] results)
 		{
 			if (m_members == null)
 				return CompareResultType.NoMatch;
-			
+
 			CompareResultType compareResult = CompareResultType.NoMatch;
 
 			foreach (object member in m_members)
 			{
-				compareResult = (member is PatternGroup ?
-					((PatternGroup)member).SearchGroup(phone) :
-					((PatternGroupMember)member).ContainsMatch(phone));
+				
+				
+				
+				PatternGroup group = member as PatternGroup;
+
+				if (group == null)
+					compareResult = ((PatternGroupMember)member).ContainsMatch(phones[ip]);
+				else
+				{
+					if (group.GroupType != GroupType.Sequential)
+						compareResult = group.SearchGroup(phones, ip, ref results);
+					else
+					{
+						if (group.SearchSequentially(phones, ip, ref results))
+							return CompareResultType.Match;
+					}
+				}
+
+
+
+
+				//compareResult = (member is PatternGroup ?
+				//    ((PatternGroup)member).SearchGroup(phones, ref startIndex, ref results) :
+				//    ((PatternGroupMember)member).ContainsMatch(phones[startIndex]));
 
 				if (compareResult == CompareResultType.Ignored ||
 					(compareResult == CompareResultType.Match && m_type != GroupType.And) ||
@@ -1587,6 +1631,25 @@ namespace SIL.Pa.FFSearchEngine
 				{
 					return compareResult;
 				}
+
+			
+			//if (m_members == null)
+			//    return CompareResultType.NoMatch;
+			
+			//CompareResultType compareResult = CompareResultType.NoMatch;
+
+			//foreach (object member in m_members)
+			//{
+			//    compareResult = (member is PatternGroup ?
+			//        ((PatternGroup)member).SearchGroup(phone) :
+			//        ((PatternGroupMember)member).ContainsMatch(phone));
+
+			//    if (compareResult == CompareResultType.Ignored ||
+			//        (compareResult == CompareResultType.Match && m_type != GroupType.And) ||
+			//        (compareResult == CompareResultType.NoMatch && m_type != GroupType.Or))
+			//    {
+			//        return compareResult;
+			//    }
 			}
 
 			// We should only get this far for two reasons. 1) we're an OR group and no

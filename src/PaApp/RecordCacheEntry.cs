@@ -127,7 +127,27 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Unlike GetValue, this method tries to get the value of the specified field and
+		/// when it fails, null is returned and nothing else is tried, nor special handling
+		/// given to certain fields. This method was introduced to fix PA-691.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetValueBasic(string field)
+		{
+			PaFieldValue fieldValue;
+			if (m_fieldValues.TryGetValue(field, out fieldValue))
+			{
+				if (fieldValue.Value != null)
+					return fieldValue.Value;
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the value of the specified field, giving specially handling for certain
+		/// fields or deferring to the record's word entries if necessary.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string GetValue(string field)

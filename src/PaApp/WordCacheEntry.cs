@@ -167,13 +167,21 @@ namespace SIL.Pa
 			// At this point, we know we don't have a value for the specified field or we
 			// do and the value is null.
  
-			// If we're after the CV pattern then build it since it didn't come from the
-			// data source.
 			if (PaApp.Project != null)
 			{
 				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[field];
+				
+				// Are we after the CV pattern?
 				if (fieldInfo != null && fieldInfo.IsCVPattern)
+				{
+					// Check if the CV value is in the record cache. If so, return it.
+					string recEntryVal = m_recEntry.GetValueBasic(field);
+					if (deferToParentRecEntryWhenMissingValue && recEntryVal != null)
+						return recEntryVal;
+
+					// Build the CV pattern since it didn't come from the data source.
 					return (m_phones == null ? null : PaApp.PhoneCache.GetCVPattern(m_phones));
+				}
 			}
 			
 			// If deferToParentRecEntryWhenMissingValue is true then the value returned
