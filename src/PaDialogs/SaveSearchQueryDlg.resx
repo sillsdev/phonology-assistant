@@ -289,7 +289,7 @@
     <value>True</value>
   </data>
   <data name="lblName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -325,7 +325,7 @@
     <value>True</value>
   </data>
   <data name="lblCategories.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblCategories.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -361,7 +361,7 @@
     <value>True</value>
   </data>
   <data name="lblPatternLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblPatternLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

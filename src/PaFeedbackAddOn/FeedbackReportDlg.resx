@@ -439,7 +439,7 @@
     <value>6</value>
   </data>
   <data name="pnlSurveyOuter.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSurveyOuter.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 112</value>
@@ -568,7 +568,7 @@
     <value>Bottom</value>
   </data>
   <data name="pnlComments.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlComments.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 419</value>

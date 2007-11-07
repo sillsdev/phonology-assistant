@@ -595,7 +595,7 @@
     <value>3</value>
   </data>
   <data name="lblSaveManual.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblSaveManual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -703,7 +703,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkSaveManual.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkSaveManual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -739,7 +739,7 @@
     <value>Top</value>
   </data>
   <data name="lblSortInfo.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblSortInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -814,7 +814,7 @@
     <value>True</value>
   </data>
   <data name="lblListType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblListType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1129,7 +1129,7 @@
     <value>2</value>
   </data>
   <data name="lblShowColumns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblShowColumns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1234,7 +1234,7 @@
     <value>1</value>
   </data>
   <data name="lblExplanation.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblExplanation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1267,7 +1267,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkSaveReorderedColumns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkSaveReorderedColumns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1303,7 +1303,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkSaveColHdrHeight.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkSaveColHdrHeight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1339,7 +1339,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkSaveColWidths.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkSaveColWidths.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1402,7 +1402,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkAutoAdjustPhoneticCol.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 9pt</value>
+	<value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkAutoAdjustPhoneticCol.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1510,7 +1510,7 @@
     <value>4</value>
   </data>
   <data name="rbGridLinesHorizontal.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbGridLinesHorizontal.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -1546,7 +1546,7 @@
     <value>0</value>
   </data>
   <data name="rbGridLinesVertical.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbGridLinesVertical.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -1582,7 +1582,7 @@
     <value>1</value>
   </data>
   <data name="rbGridLinesBoth.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbGridLinesBoth.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -1618,7 +1618,7 @@
     <value>2</value>
   </data>
   <data name="rbGridLinesNone.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbGridLinesNone.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -1750,7 +1750,7 @@
     <value>0</value>
   </data>
   <data name="lblShowFields.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblShowFields.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1870,7 +1870,7 @@
     <value>TopLeft</value>
   </data>
   <data name="chkShowDiamondPattern.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="chkShowDiamondPattern.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2872,7 +2872,7 @@
     <value>1</value>
   </data>
   <data name="lblSortFldsHdr.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblSortFldsHdr.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

@@ -160,7 +160,7 @@
     <value>True</value>
   </data>
   <data name="lblToolboxSortField.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblToolboxSortField.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -367,7 +367,7 @@
     <value>True</value>
   </data>
   <data name="lblEditor.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblEditor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -424,7 +424,7 @@
     <value>Top</value>
   </data>
   <data name="pnlMappingsHdg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlMappingsHdg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -454,7 +454,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlMappings.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlMappings.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -562,7 +562,7 @@
     <value>Top</value>
   </data>
   <data name="pnlSrcFileHdg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSrcFileHdg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -592,7 +592,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlSrcFile.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSrcFile.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -685,7 +685,7 @@
     <value>False</value>
   </data>
   <data name="lblFirstInterlinear.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblFirstInterlinear.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -769,7 +769,7 @@
     <value>Top</value>
   </data>
   <data name="pnlParseHdg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlParseHdg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -826,7 +826,7 @@
     <value>0</value>
   </data>
   <data name="pnlSampleInput.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSampleInput.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 275</value>
@@ -856,7 +856,7 @@
     <value>TopLeft</value>
   </data>
   <data name="rbParseOneToOne.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbParseOneToOne.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -892,7 +892,7 @@
     <value>TopLeft</value>
   </data>
   <data name="rbNoParse.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbNoParse.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -928,7 +928,7 @@
     <value>TopLeft</value>
   </data>
   <data name="rbInterlinearize.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbInterlinearize.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -961,7 +961,7 @@
     <value>6</value>
   </data>
   <data name="lblParseType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblParseType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -994,7 +994,7 @@
     <value>TopLeft</value>
   </data>
   <data name="rbParseOnlyPhonetic.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbParseOnlyPhonetic.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1033,7 +1033,7 @@
     <value>True</value>
   </data>
   <data name="lblSampleOutput.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblSampleOutput.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1069,7 +1069,7 @@
     <value>True</value>
   </data>
   <data name="lblSampleInput.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblSampleInput.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1102,7 +1102,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlParseType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlParseType.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

@@ -147,7 +147,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tabControl1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans Unicode, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
@@ -223,7 +223,7 @@
     <value>Fill</value>
   </data>
   <data name="txtOuterMsg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans Unicode, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtOuterMsg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -268,7 +268,7 @@
     <value>Fill</value>
   </data>
   <data name="txtOuterStackTrace.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans Unicode, 9.75pt</value>
+    <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="txtOuterStackTrace.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

@@ -160,7 +160,7 @@
     <value>Top</value>
   </data>
   <data name="pgpPhoneList.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pgpPhoneList.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -190,7 +190,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlPhones.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlPhones.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 10</value>
@@ -316,7 +316,7 @@
     <value>Top</value>
   </data>
   <data name="hlblAFeatures.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblAFeatures.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -346,7 +346,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlAFeatures.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlAFeatures.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -457,7 +457,7 @@
     <value>Top</value>
   </data>
   <data name="hlblBFeatures.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblBFeatures.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -487,7 +487,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlBFeatures.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlBFeatures.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -598,7 +598,7 @@
     <value>Top</value>
   </data>
   <data name="pgpExperimental.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pgpExperimental.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -631,7 +631,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlExperimental.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlExperimental.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 10</value>
@@ -739,7 +739,7 @@
     <value>Top</value>
   </data>
   <data name="pgpAmbiguous.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pgpAmbiguous.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -772,7 +772,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlAmbiguous.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlAmbiguous.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>

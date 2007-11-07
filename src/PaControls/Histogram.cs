@@ -17,6 +17,7 @@ namespace SIL.Pa.Controls
 		private const int kLineGapSize = 25;
 		private const int kPixelsFromTop = 10;
 
+		private bool m_ignoreFixedBorderResize = false;
 		private int m_maxTotalCount = 0;
 		private int m_phoneHeight = 0;
 		private decimal m_barHeightFactor = 0;
@@ -245,7 +246,18 @@ namespace SIL.Pa.Controls
 			pnlBars.Invalidate();
 		}
 
-		private bool m_ignoreFixedBorderResize = false;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ForceLayout()
+		{
+			// This panel is docked filled so setting increasing its width will not change
+			// its width, but it will force the control to layout again, which is what we
+			// need. Kludgy, I know. But the PerformLayout() method does nothing.
+			pnlFixedBorder.Width++;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

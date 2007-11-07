@@ -266,7 +266,7 @@
     <value>Top</value>
   </data>
   <data name="pnlSideBarCaption.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSideBarCaption.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -413,7 +413,7 @@
     <value>Top</value>
   </data>
   <data name="hlblRecentPatterns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Grande, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblRecentPatterns.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -443,7 +443,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlRecentPatterns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlRecentPatterns.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -482,7 +482,7 @@
     <value>Fill</value>
   </data>
   <data name="tvSavedPatterns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Doulos SIL, 12pt</value>
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
   <data name="tvSavedPatterns.ImageIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -647,7 +647,7 @@
     <value>Top</value>
   </data>
   <data name="hlblSavedPatterns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Grande, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblSavedPatterns.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -677,7 +677,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlSavedPatterns.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSavedPatterns.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -845,7 +845,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlRecView.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlRecView.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -1028,7 +1028,7 @@
     <value>Left</value>
   </data>
   <data name="lblCurrPattern.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblCurrPattern.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

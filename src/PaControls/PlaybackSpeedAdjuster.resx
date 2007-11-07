@@ -154,7 +154,7 @@
     <value>Bottom</value>
   </data>
   <data name="lnkPlay.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lnkPlay.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 271</value>
@@ -187,7 +187,7 @@
     <value>Top</value>
   </data>
   <data name="lblValue.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 3</value>

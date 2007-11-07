@@ -225,7 +225,7 @@
     <value>True</value>
   </data>
   <data name="lblMsg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblMsg.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 10</value>

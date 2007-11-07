@@ -198,7 +198,7 @@
     <value>True</value>
   </data>
   <data name="lblProjectValue.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblProjectValue.Location" type="System.Drawing.Point, System.Drawing">
     <value>76, 12</value>
@@ -228,7 +228,7 @@
     <value>True</value>
   </data>
   <data name="lblProject.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblProject.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 12</value>
@@ -258,7 +258,7 @@
     <value>True</value>
   </data>
   <data name="rbPronunField.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbPronunField.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 53</value>
@@ -288,7 +288,7 @@
     <value>True</value>
   </data>
   <data name="rbLexForm.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="rbLexForm.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 28</value>
@@ -319,7 +319,7 @@
     <value>Fill</value>
   </data>
   <data name="grpPhoneticDataStoreType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="grpPhoneticDataStoreType.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -400,7 +400,7 @@
     <value>0</value>
   </data>
   <data name="grpWritingSystems.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="grpWritingSystems.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 38</value>

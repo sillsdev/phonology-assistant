@@ -1734,7 +1734,12 @@ namespace SIL.Pa.Controls
 			if (m_cellInfoPopup.PurposeIndicator == GridCellInfoPopup.Purpose.ExperimentalTranscription)
 				PaApp.MsgMediator.SendMessage("ViewPhoneInventory", null);
 			else if (m_cellInfoPopup.AssociatedCell != null)
+			{
+				if (!Focused)
+					Focus();
+
 				OnEditSourceRecord(m_cellInfoPopup.AssociatedCell.RowIndex);
+			}
 		}
 
 		#endregion

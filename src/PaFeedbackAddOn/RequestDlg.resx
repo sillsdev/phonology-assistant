@@ -181,7 +181,7 @@
     <value>0</value>
   </data>
   <data name="paPanel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="paPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 15</value>

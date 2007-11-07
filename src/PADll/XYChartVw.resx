@@ -178,7 +178,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlRecView.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlRecView.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -386,7 +386,7 @@
     <value>Top</value>
   </data>
   <data name="pnlSideBarCaption.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSideBarCaption.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -482,7 +482,7 @@
     <value>Top</value>
   </data>
   <data name="hlblSavedCharts.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblSavedCharts.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -512,7 +512,7 @@
     <value>Fill</value>
   </data>
   <data name="pnlSavedCharts.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSavedCharts.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -596,7 +596,7 @@
     <value>Horizontal</value>
   </data>
   <data name="lblChartName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 9pt</value>
+    <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="lblChartName.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 5</value>
@@ -629,7 +629,7 @@
     <value>True</value>
   </data>
   <data name="lblChartNameValue.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Doulos SIL, 12pt</value>
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
   <data name="lblChartNameValue.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

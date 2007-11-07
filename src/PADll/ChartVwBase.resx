@@ -175,7 +175,7 @@
     <value>Fill</value>
   </data>
   <data name="m_histogram.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="m_histogram.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 1</value>

@@ -418,7 +418,7 @@
     <value>0</value>
   </data>
   <data name="lvClasses.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="lvClasses.Groups" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
@@ -1018,7 +1018,7 @@
     <value>True</value>
   </data>
   <data name="charExplorer.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="charExplorer.Location" type="System.Drawing.Point, System.Drawing">
     <value>172, 8</value>
@@ -1258,7 +1258,7 @@
     <value>Bottom</value>
   </data>
   <data name="pnlMembers.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlMembers.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 426</value>

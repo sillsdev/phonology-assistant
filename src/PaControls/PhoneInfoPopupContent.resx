@@ -433,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="lblSiblingPhones.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Doulos SIL, 12pt</value>
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
   <data name="lblSiblingPhones.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

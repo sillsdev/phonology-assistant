@@ -86,7 +86,24 @@ namespace SIL.Pa
 
 			PaApp.IncProgressBar();
 			m_histogram.LoadPhones(histogramPhones);
+			PaApp.MsgMediator.PostMessage("LayoutHistogram", Name);
 			PaApp.IncProgressBar();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sometimes the histogram is initially shown without its horizontal scroll bar.
+		/// This will force it to be displayed if it needs to be and this is done after all
+		/// loading and layout is done -- which is the only place I've found when this will
+		/// work.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnLayoutHistogram(object args)
+		{
+			if (m_histogramOn && (args as string) == Name)
+				m_histogram.ForceLayout();
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -351,6 +368,9 @@ namespace SIL.Pa
 					padding = new Padding(padding.Left, padding.Top, padding.Right,
 						(value ? 0 : splitOuter.Panel2.Padding.Bottom));
 					splitOuter.Panel1.Padding = padding;
+
+					if (value)
+						m_histogram.ForceLayout();
 				}
 			}
 		}

@@ -1222,7 +1222,7 @@
     <value>1</value>
   </data>
   <data name="pnlBinary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlBinary.Location" type="System.Drawing.Point, System.Drawing">
     <value>317, 21</value>
@@ -1348,7 +1348,7 @@
     <value>1</value>
   </data>
   <data name="paPanel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="paPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 21</value>

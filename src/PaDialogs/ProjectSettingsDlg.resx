@@ -655,7 +655,7 @@
     <value>Top</value>
   </data>
   <data name="pnlGridHdg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlGridHdg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -682,7 +682,7 @@
     <value>1</value>
   </data>
   <data name="pnlGrid.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Lucida Sans, 12world</value>
+    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 94</value>
