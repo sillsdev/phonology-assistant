@@ -143,7 +143,7 @@
 		<FwWritingSystemType>Analysis</FwWritingSystemType>
 	</Field>
 	<Field Name="CV Pattern">
-		<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+		<Font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
 		<CanBeInterlinear>true</CanBeInterlinear>
 		<IsParsed>true</IsParsed>
 		<IsPhonetic>false</IsPhonetic>

@@ -193,8 +193,8 @@ namespace SIL.Pa
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
 					dlg.Project.ProjectName), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
-					//PaApp.CloseAllForms();
 					LoadProject(dlg.Project.ProjectFileName);
+					UndefinedPhoneticCharactersDlg.Show(dlg.Project.ProjectName, true);
 				}
 			}
 
