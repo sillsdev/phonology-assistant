@@ -9,4 +9,4 @@ Phonology Assistant is distributed as freeware. As such, no warranty or free per
 + Read the service bulletins found in the "SILSoftwareSupport" folder on the SIL Freeware Disc 
 
 + Read the Phonology Assistant web site for the latest information, 
-   http://phonologyassistant.sil.org 
+http://www.sil.org/computing/pa/ 
