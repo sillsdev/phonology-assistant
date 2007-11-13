@@ -791,5 +791,49 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual("d", member.Member);
 			Assert.AreEqual("~", member.DiacriticPattern);
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void DelimitOrGroupTest1()
+		//{
+		//    Assert.AreEqual("{([C][V]),[V]}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[C][V],[V]}"));
+
+		//    Assert.AreEqual("{([C][V]),[C]}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[C][V],[C]}"));
+
+		//    Assert.AreEqual("{[V],([C][V])}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[V],[C][V]}"));
+
+		//    Assert.AreEqual("{[C],([C][V])}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[C],[C][V]}"));
+
+		//    Assert.AreEqual("{([V][C]),(abc[C][V])}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[V][C],abc[C][V]}"));
+
+		//    Assert.AreEqual("{([C]abc[V]),([C][V])}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers", "{[C]abc[V],[C][V]}"));
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void DelimitOrGroupTest2()
+		//{
+		//    Assert.AreEqual("{([C][V]),{(ab),(cd),(ef),{(xy),(yz)},[V]},(mn)}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers",
+		//        "{[C][V],{ab,cd,ef,{xy,yz},[V]},mn}"));
+
+		//    Assert.AreEqual("{{([C][V]),[V]},{(ab),(cd),(ef)}}",
+		//        GetStrResult(typeof(PatternGroup), "DelimitOrGroupMembers",
+		//        "{{[C][V],[V]},{ab,cd,ef}}"));
+		//}
 	}
 }

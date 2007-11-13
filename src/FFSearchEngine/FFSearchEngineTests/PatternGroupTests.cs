@@ -135,33 +135,36 @@ namespace SIL.Pa.FFSearchEngine
 			SearchEngine.PhoneCache["d"].BinaryMask = (4 | 8);
 			SearchEngine.PhoneCache["d"].Masks = new ulong[] { 0, 16 };
 
+			object[] args = new object[] { new string[] { "d" }, 0 };
+
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[{[+high],[-voice]}[C]]");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[{[-high],[+voice]}[C]]");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[[+high][+voice]],[nasal]}");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[[+high][+voice]],[dental]}");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[[[+high][+voice]][nasal]]");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[[[+high][-voice]][nasal]]");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", "d"));
+			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
 
+			args[0] = new string[] { "a" };
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[V]}");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", "a"));
+			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,9 +204,9 @@ namespace SIL.Pa.FFSearchEngine
 
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("{a,b,c,e}");
-			Assert.IsTrue(group.Search("badlerdash", 2, out m_results));
+			Assert.IsTrue(group.Search("balderdash", 2, out m_results));
 			Assert.AreEqual(4, m_results[0]);
-			Assert.IsTrue(group.Search("badlerdash", 5, out m_results));
+			Assert.IsTrue(group.Search("balderdash", 5, out m_results));
 			Assert.AreEqual(7, m_results[0]);
 		}
 
@@ -1652,6 +1655,51 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests searching results when a diacritic place holder is AND'd with an OR group
+		/// containing phones without diacritics.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void DiacriticPlaceholderInOrGroupWithTest1()
+		{
+			MakeMockCacheEntries();
+
+			// Test when ignored diacritics in search item
+			m_query.Pattern = string.Format("{{[t[{0}~]],(bc)}}/*_*", DataUtils.kDottedCircleC);
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bct~de", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(2, m_results[1]);
+
+			m_query.Pattern = string.Format("{{(t[{0}~]),(bt)}}/*_*", DataUtils.kDottedCircleC);
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bct~de", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+
+			m_query.Pattern = string.Format("{{t[{0}~],(bt)}}/*_*", DataUtils.kDottedCircleC);
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bct~de", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+
+			m_query.Pattern = string.Format("{{[t[{0}~]],(bt)}}/*_*", DataUtils.kDottedCircleC);
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(
+				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("ao~bct~de", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a diacritic place holder is AND'd with an OR group
 		/// containing phones with diacritics.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -2036,7 +2084,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests searching for phones in an OR group in the search item and the environments
-		/// before and after.
+		/// before when there's an ignored phone in the env. before.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -2063,8 +2111,209 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(3, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 			Assert.IsFalse(m_engine.SearchWord(out m_results));
+		}
 
-		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching for phones in an OR group in the search item and the environments
+		/// after when there's an ignored phone in the env. after.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupTestInSrchItemAndEnvAfterWithIgnore()
+		{
+			m_query.Pattern = "{e,a}/*_{a,e}";
+			string[] phones = DataUtils.IPACharCache.PhoneticParser("bexagule", false);
+
+			m_engine = new SearchEngine(m_query);
+			Assert.IsFalse(m_engine.SearchWord(phones, out m_results));
+
+			m_query.IgnoredLengthChars = "x";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
+			Assert.AreEqual(1, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+			Assert.IsFalse(m_engine.SearchWord(out m_results));
+
+			m_query.Pattern = "{a,e}/*_{e,a}";
+			phones = DataUtils.IPACharCache.PhoneticParser("bexagule", false);
+
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
+			Assert.AreEqual(1, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+			Assert.IsFalse(m_engine.SearchWord(out m_results));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a sequence of phones is contained in an OR group
+		/// in search item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupWithSequencesTest1()
+		{
+			MakeMockCacheEntries();
+
+			m_query.Pattern = "{m,(bc)}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(2, m_results[1]);
+
+			m_query.Pattern = "{(bc),m}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(2, m_results[1]);
+
+			m_query.Pattern = "{m,(klbc),(klop),(obct),(obop)}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(1, m_results[0]);
+			Assert.AreEqual(4, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a sequence of C or V classes is contained in an
+		/// OR group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupWithSequencesTest2()
+		{
+			MakeMockCacheEntries();
+
+			m_query.Pattern = "{([C][V]),[V]}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(0, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+
+			m_query.Pattern = "{([C][V]),m}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(5, m_results[0]);
+			Assert.AreEqual(2, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a sequence of phones is contained in an OR group
+		/// in preceding environment.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupWithSequencesInPrecedingEnv()
+		{
+			MakeMockCacheEntries();
+
+			m_query.Pattern = "t/{m,(obc),(ob)}_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a sequence of phones is contained in an OR group
+		/// in following environment.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupWithSequencesInFollowingEnv()
+		{
+			MakeMockCacheEntries();
+
+			m_query.Pattern = "b/*_{m,(tde),(ct)}";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests searching results when a sequence of phones is contained in an OR group
+		/// when the data contains ignored phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void OrGroupWithSequencesAndIgnoredPhones()
+		{
+			MakeMockCacheEntries();
+
+			// Verify in search item.
+			m_query.IgnoredLengthChars = "x";
+			m_query.Pattern = "{(oc),(bc)}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobxctde", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(3, m_results[1]);
+
+			// Verify in preceding environment
+			m_query.Pattern = "t/{(oc),(bc)}_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobxctde", false), out m_results));
+
+			Assert.AreEqual(5, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+
+			// Verify in following environment
+			m_query.Pattern = "o/*_{(oc),(bc)}";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobxctde", false), out m_results));
+
+			Assert.AreEqual(1, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests sequences of phones are surrounded by parentheses.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ParentheticalSequencesTest1()
+		{
+			MakeMockCacheEntries();
+
+			m_query.Pattern = "(bct)/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("aobctde", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(3, m_results[1]);
+
+			m_query.Pattern = "a(bcd)([C][V]){x,z}/*_*";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("omnabcdhizstu", false), out m_results));
+
+			Assert.AreEqual(3, m_results[0]);
+			Assert.AreEqual(7, m_results[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------

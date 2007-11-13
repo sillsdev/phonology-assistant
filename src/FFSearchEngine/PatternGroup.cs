@@ -185,7 +185,7 @@ namespace SIL.Pa.FFSearchEngine
 			{
 				if (m_members != null)
 					m_members.Clear();
-				
+
 				m_diacriticPattern = null;
 				s_currDiacriticPlaceholderMaker = kFirstDiacriticPlaceholderMaker;
 				s_diacriticPlaceholders.Clear();
@@ -225,7 +225,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Are we beginning a sub group?
-				if (pattern[i] == '[' || pattern[i] == '{')
+				if (pattern[i] == '[' || pattern[i] == '{' || pattern[i] == '(')
 				{
 					BeginSubGroup(pattern, ref i);
 					continue;
@@ -244,7 +244,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Are we at the end of a group member?
-				if (pattern[i] == '$' || pattern[i] == ',')
+				if (pattern[i] == '$' || pattern[i] == ',' || pattern[i] == ')')
 				{
 					// We've reached the end of a PatternGroupMember so close it out.
 					CloseCurrentMember();
@@ -273,7 +273,42 @@ namespace SIL.Pa.FFSearchEngine
 				m_type = GroupType.Sequential;
 			}
 
+			if (m_rootGroup == this && m_type == GroupType.Sequential)
+			    CollapsNestedSequentialGroups(this);
+
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Usually sequential groups don't contain other sequential groups unless some
+		/// sequences are delimited by parenthese. In that case, then the members of a sub
+		/// sequential group are pulled up so they are sibling members of the parent
+		/// sequential group. This method accomplishes that.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CollapsNestedSequentialGroups(PatternGroup group)
+		{
+			for (int i = 0; i < group.Members.Count; i++)
+			{
+				PatternGroup subGroup = group.Members[i] as PatternGroup;
+
+				if (subGroup != null && subGroup.GroupType == GroupType.Sequential)
+				{
+					for (int j = subGroup.Members.Count - 1; j >= 0; j--)
+					{
+						if (subGroup.Members[j] is PatternGroup &&
+							((PatternGroup)subGroup.Members[j]).GroupType == GroupType.Sequential)
+						{
+							CollapsNestedSequentialGroups((PatternGroup)subGroup.Members[j]);
+						}
+
+						group.Members.Insert(i + 1, subGroup.Members[j]);
+					}
+
+					group.Members.RemoveAt(i);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,7 +373,10 @@ namespace SIL.Pa.FFSearchEngine
 				{
 					// Should anything be done here?
 				}
-				
+
+				if (subGroupPattern[0] == '(')
+					subGroup.m_type = GroupType.Sequential;
+
 				m_members.Add(subGroup);
 			}
 		}
@@ -356,7 +394,7 @@ namespace SIL.Pa.FFSearchEngine
 			// The assumption here is that we're pointing to an opening bracket or brace.
 			// Therefore, get the closed counterpart.
 			char openBracket = pattern[i];
-			char closeBracket = (openBracket == '[' ? ']' : '}');
+			char closeBracket = (openBracket == '[' ? ']' : openBracket == '{' ? '}' : ')');
 			int start = i;
 
 			while (i < pattern.Length)
@@ -566,11 +604,12 @@ namespace SIL.Pa.FFSearchEngine
 			// For that matter, things like this don't make sense [[C][p]] or [[V][a]] or
 			// Characters in square brakets don't make sense. Ex. [a,b] - a match cannot be both an 'a' AND 'b'
 
+			//pattern = DelimitOrGroupMembers(pattern);
 
 			//pattern = pattern.Replace("#", string.Empty);
 			pattern = pattern.Replace(",,", ",");
-			pattern = pattern.Replace("],", "]");
-			pattern = pattern.Replace("},", "}");
+			//pattern = pattern.Replace("],", "]");
+			//pattern = pattern.Replace("},", "}");
 			pattern = pattern.Replace(",+", "+");
 			pattern = pattern.Replace(",-", "-");
 			pattern = FFNormalizer.Normalize(pattern);
@@ -598,6 +637,47 @@ namespace SIL.Pa.FFSearchEngine
 			return true;
 		}
 
+		// ------------------------------------------------------------------------------------
+		// <summary>
+		// This method surrounds all sequences in OR groups with parentheses. Example: the
+		// pattern {ab,[C][V],[V]} is converted to {(ab),([C][V]),[V]}.
+		// </summary>
+		// ------------------------------------------------------------------------------------
+		//private static string DelimitOrGroupMembers(string pattern)
+		//{
+		//    StringBuilder tmpPattern = new StringBuilder();
+		//    Stack<char> braceStack = new Stack<char>();
+
+		//    foreach (char c in pattern)
+		//    {
+		//        if (braceStack.Count > 0 && c == ',')
+		//            tmpPattern.Append("),(");
+		//        else if (c == '{')
+		//        {
+		//            tmpPattern.Append("{(");
+		//            braceStack.Push(c);
+		//        }
+		//        else if (c == '}')
+		//        {
+		//            tmpPattern.Append(")}");
+		//            braceStack.Pop();
+		//        }
+		//        else
+		//            tmpPattern.Append(c);
+		//    }
+
+		//    tmpPattern = tmpPattern.Replace("((", "(");
+		//    tmpPattern = tmpPattern.Replace("))", ")");
+		//    tmpPattern = tmpPattern.Replace("{({", "{{");
+		//    tmpPattern = tmpPattern.Replace("})}", "}}");
+		//    tmpPattern = tmpPattern.Replace("({", "{");
+		//    tmpPattern = tmpPattern.Replace("})", "}");
+		//    tmpPattern = tmpPattern.Replace("([V])", "[V]");
+		//    tmpPattern = tmpPattern.Replace("([C])", "[C]");
+			
+		//    return tmpPattern.ToString();
+		//}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Searches the specified pattern for spaces. If any are found, the pattern is scanned
@@ -1230,16 +1310,21 @@ namespace SIL.Pa.FFSearchEngine
 				if (phones[i] == string.Empty)
 					continue;
 
-				CompareResultType compareResult = SearchGroup(phones[i]);
+				int matchLength;
+				CompareResultType compareResult = SearchGroup(phones, ref i, out matchLength);
 				
 				if (compareResult == CompareResultType.Ignored)
 					continue;
 
 				if (compareResult != CompareResultType.NoMatch)
 				{
-					// Return where the match was found.
-					results[0] = i;
-					results[1] = 1;
+					if (results[0] == -1 || results[1] == -1)
+					{
+						// Return where the match was found.
+						results[0] = i;
+						results[1] = matchLength;
+					}
+					
 					return true;
 				}
 
@@ -1315,7 +1400,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1412,7 +1497,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1492,7 +1577,7 @@ namespace SIL.Pa.FFSearchEngine
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones[ip]));
+					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1568,18 +1653,60 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private CompareResultType SearchGroup(string phone)
+		private CompareResultType SearchGroup(string[] phones, ref int ip)
 		{
+			int matchLength;
+			return SearchGroup(phones, ref ip, out matchLength);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private CompareResultType SearchGroup(string[] phones, ref int ip, out int matchLength)
+		{
+			matchLength = -1;
+
 			if (m_members == null)
 				return CompareResultType.NoMatch;
-			
+
+			int[] results = new int[] { -1, -1 };
 			CompareResultType compareResult = CompareResultType.NoMatch;
 
 			foreach (object member in m_members)
 			{
-				compareResult = (member is PatternGroup ?
-					((PatternGroup)member).SearchGroup(phone) :
-					((PatternGroupMember)member).ContainsMatch(phone));
+				PatternGroup group = member as PatternGroup;
+
+				if (group == null)
+				{
+					compareResult = ((PatternGroupMember)member).ContainsMatch(phones[ip]);
+					matchLength = 1;
+				}
+				else
+				{
+					if (group.GroupType != GroupType.Sequential)
+						compareResult = group.SearchGroup(phones, ref ip, out matchLength);
+					else
+					{
+						if (SearchEngine.IgnoredPhones.Contains(phones[ip]))
+						{
+							if (m_envType == EnvironmentType.Before && ip > 0)
+								ip--;
+							else if (ip < phones.Length - 1)
+								ip++;
+						}
+
+						matchLength = -1;
+						if (group.SearchSequentially(phones, ip, ref results) && results[0] == ip)
+						{
+							matchLength = results[1];
+							return CompareResultType.Match;
+						}
+
+						results[0] = results[1] = -1;
+					}
+				}
 
 				if (compareResult == CompareResultType.Ignored ||
 					(compareResult == CompareResultType.Match && m_type != GroupType.And) ||
