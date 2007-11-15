@@ -72,7 +72,7 @@ namespace SIL.Pa.Dialogs
 			this.rdoClassMembers = new System.Windows.Forms.RadioButton();
 			this.rdoClassName = new System.Windows.Forms.RadioButton();
 			this.lblClassDisplayBehavior = new System.Windows.Forms.Label();
-			this.tpgCVSyllables = new System.Windows.Forms.TabPage();
+			this.tpgCVPatterns = new System.Windows.Forms.TabPage();
 			this.grpDisplayChars = new System.Windows.Forms.GroupBox();
 			this.lblExampleDesc2 = new System.Windows.Forms.Label();
 			this.lblExampleCV = new System.Windows.Forms.Label();
@@ -124,7 +124,7 @@ namespace SIL.Pa.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridRecView)).BeginInit();
 			this.tpgFindPhones.SuspendLayout();
 			this.grpClassSettings.SuspendLayout();
-			this.tpgCVSyllables.SuspendLayout();
+			this.tpgCVPatterns.SuspendLayout();
 			this.grpDisplayChars.SuspendLayout();
 			this.grpTone.SuspendLayout();
 			this.pnlTone.SuspendLayout();
@@ -168,7 +168,7 @@ namespace SIL.Pa.Dialogs
 			this.tabOptions.Controls.Add(this.tpgWordLists);
 			this.tabOptions.Controls.Add(this.tpgRecView);
 			this.tabOptions.Controls.Add(this.tpgFindPhones);
-			this.tabOptions.Controls.Add(this.tpgCVSyllables);
+			this.tabOptions.Controls.Add(this.tpgCVPatterns);
 			this.tabOptions.Controls.Add(this.tpgSorting);
 			this.tabOptions.Controls.Add(this.tpgFonts);
 			this.tabOptions.Controls.Add(this.tpgColors);
@@ -478,18 +478,18 @@ namespace SIL.Pa.Dialogs
 			resources.ApplyResources(this.lblClassDisplayBehavior, "lblClassDisplayBehavior");
 			this.lblClassDisplayBehavior.Name = "lblClassDisplayBehavior";
 			// 
-			// tpgCVSyllables
+			// tpgCVPatterns
 			// 
-			this.tpgCVSyllables.Controls.Add(this.grpDisplayChars);
-			this.tpgCVSyllables.Controls.Add(this.chkTone);
-			this.tpgCVSyllables.Controls.Add(this.grpTone);
-			this.tpgCVSyllables.Controls.Add(this.chkLength);
-			this.tpgCVSyllables.Controls.Add(this.grpLength);
-			this.tpgCVSyllables.Controls.Add(this.chkStress);
-			this.tpgCVSyllables.Controls.Add(this.grpStress);
-			resources.ApplyResources(this.tpgCVSyllables, "tpgCVSyllables");
-			this.tpgCVSyllables.Name = "tpgCVSyllables";
-			this.tpgCVSyllables.UseVisualStyleBackColor = true;
+			this.tpgCVPatterns.Controls.Add(this.grpDisplayChars);
+			this.tpgCVPatterns.Controls.Add(this.chkTone);
+			this.tpgCVPatterns.Controls.Add(this.grpTone);
+			this.tpgCVPatterns.Controls.Add(this.chkLength);
+			this.tpgCVPatterns.Controls.Add(this.grpLength);
+			this.tpgCVPatterns.Controls.Add(this.chkStress);
+			this.tpgCVPatterns.Controls.Add(this.grpStress);
+			resources.ApplyResources(this.tpgCVPatterns, "tpgCVPatterns");
+			this.tpgCVPatterns.Name = "tpgCVPatterns";
+			this.tpgCVPatterns.UseVisualStyleBackColor = true;
 			// 
 			// grpDisplayChars
 			// 
@@ -818,8 +818,8 @@ namespace SIL.Pa.Dialogs
 			this.tpgFindPhones.PerformLayout();
 			this.grpClassSettings.ResumeLayout(false);
 			this.grpClassSettings.PerformLayout();
-			this.tpgCVSyllables.ResumeLayout(false);
-			this.tpgCVSyllables.PerformLayout();
+			this.tpgCVPatterns.ResumeLayout(false);
+			this.tpgCVPatterns.PerformLayout();
 			this.grpDisplayChars.ResumeLayout(false);
 			this.grpDisplayChars.PerformLayout();
 			this.grpTone.ResumeLayout(false);
@@ -867,7 +867,7 @@ namespace SIL.Pa.Dialogs
 		private Button btnMoveRecVwFldDown;
 		private Button btnMoveRecVwFldUp;
 		private Label lblShowFields;
-		private TabPage tpgCVSyllables;
+		private TabPage tpgCVPatterns;
 		public CheckBox chkStress;
 		private GroupBox grpStress;
 		private SIL.Pa.Controls.CharPicker stressPicker;

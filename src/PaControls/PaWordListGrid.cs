@@ -2917,10 +2917,10 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This method gets called when the CV syllables get changed in the options dialog.
+		/// This method gets called when the CV patterns get changed in the options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool OnCVSyllablesChanged(object args)
+		protected virtual bool OnCVPatternsChanged(object args)
 		{
 			PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
 			if (fieldInfo != null)

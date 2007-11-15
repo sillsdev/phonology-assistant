@@ -1886,10 +1886,10 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This method gets called when the CV syllables get changed in the options dialog.
+		/// This method gets called when the CV patterns get changed in the options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnCVSyllablesChanged(object args)
+		protected bool OnCVPatternsChanged(object args)
 		{
 			return OnRecordViewOptionsChanged(args);
 		}

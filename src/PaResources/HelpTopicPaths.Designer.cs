@@ -124,11 +124,11 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/CV_Syllables_tab_Options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/CV_Patterns_tab_Options.htm.
         /// </summary>
-        internal static string hidCVSyllablesOptions {
+        internal static string hidCVPatternsOptions {
             get {
-                return ResourceManager.GetString("hidCVSyllablesOptions", resourceCulture);
+                return ResourceManager.GetString("hidCVPatternsOptions", resourceCulture);
             }
         }
         
@@ -412,7 +412,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Undefined_Characters_in_Class.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Undefined_Characters_in_Class.htm.
         /// </summary>
         internal static string hidUndefinedCharactersInClassDlg {
             get {

@@ -42,7 +42,7 @@ namespace SIL.Pa.Dialogs
 			PaApp.IncProgressBar();
 			InitializeRecViewTab();
 			PaApp.IncProgressBar();
-			InitializeCVSyllablesTab();
+			InitializeCVPatternsTab();
 			PaApp.IncProgressBar();
 			InitializeSortingTab();
 			PaApp.IncProgressBar();
@@ -58,7 +58,7 @@ namespace SIL.Pa.Dialogs
 			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
 			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
 			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
-			m_tabPageHelpTopicIds[tpgCVSyllables] = "hidCVSyllablesOptions";
+			m_tabPageHelpTopicIds[tpgCVPatterns] = "hidCVPatternsOptions";
 			m_tabPageHelpTopicIds[tpgSorting] = "hidSortingOptions";
 			m_tabPageHelpTopicIds[tpgFonts] = "hidFontsOptions";
 
@@ -114,7 +114,7 @@ namespace SIL.Pa.Dialogs
 			SaveWordListTabSettings();
 			SaveRecViewTabSettings();
 			SaveSortingTabSettings();
-			SaveCvSyllablesTabSettings();
+			SaveCvPatternsTabSettings();
 			return true;
 		}
 

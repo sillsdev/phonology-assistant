@@ -91,7 +91,7 @@
     <Compile Include="OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionsDialog.CvSyllablesTab.cs">
+    <Compile Include="OptionsDialog.CvPatternsTab.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OptionsDialog.designer.cs">

@@ -21,12 +21,12 @@ namespace SIL.Pa.Dialogs
 		/// Tab Initialization.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeCVSyllablesTab()
+		private void InitializeCVPatternsTab()
 		{
 			// This tab isn't valid if there is no project loaded.
 			if (PaApp.Project == null)
 			{
-				tabOptions.TabPages.Remove(tpgCVSyllables);
+				tabOptions.TabPages.Remove(tpgCVPatterns);
 				return;
 			}
 
@@ -163,7 +163,7 @@ namespace SIL.Pa.Dialogs
 		/// Save the selected and custom characters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveCvSyllablesTabSettings()
+		private void SaveCvPatternsTabSettings()
 		{
 			txtCustomChars.TextChanged -= txtCustomChars_TextChanged;
 
@@ -181,7 +181,7 @@ namespace SIL.Pa.Dialogs
 			try
 			{
 				PaApp.Project.Save();
-				PaApp.MsgMediator.SendMessage("CVSyllablesChanged", null);
+				PaApp.MsgMediator.SendMessage("CVPatternsChanged", null);
 			}
 			catch { }
 		}

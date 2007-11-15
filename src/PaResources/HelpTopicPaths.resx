@@ -145,8 +145,8 @@
     <value>User_Interface/Menus/File/Custom_Fields.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidCVSyllablesOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/CV_Syllables_tab_Options.htm</value>
+  <data name="hidCVPatternsOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/CV_Patterns_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidDataCorpusView" xml:space="preserve">
@@ -274,7 +274,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedCharactersInClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Undefined_Characters_in_Class.htm</value>
+    <value>User_Interface/Menus/Tools/Classes/Undefined_Characters_in_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedPhoneticCharactersDlg" xml:space="preserve">
