@@ -123,7 +123,6 @@
 				<Arg>C:\Phonology Assistant\output\release\AddOns\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\AddOns</Arg>
 			</CommandItem>
-
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\aux_docs\license.rtf</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\license.rtf</Arg>
