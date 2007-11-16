@@ -126,15 +126,15 @@
 
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\aux_docs\license.rtf</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\license.rtf</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\aux_docs\readme.rtf</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\readme.rtf</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\aux_docs\techsupport.txt</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\techsupport.txt</Arg>
 			</CommandItem>
 
 			<!-- Commit to the installer file repository, all the files to be put in the installer -->
