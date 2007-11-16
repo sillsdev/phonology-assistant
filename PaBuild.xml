@@ -21,6 +21,7 @@
 			<CommandItem Command="del">
 				<Arg>C:\Phonology Assistant\Installer Files\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\Training\*.*</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\AddOns\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\Training\*.*</Arg>
 				<Arg>c:\Phonology Assistant\output\release\AddOns\*.*</Arg>
@@ -88,18 +89,6 @@
 				<Arg>--username david_olson</Arg>
 				<Arg>--password 1cecream</Arg>
 			</CommandItem>
-			<CommandItem Command="copy">
-				<Arg>C:\Phonology Assistant\aux_docs\license.rtf</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files</Arg>
-			</CommandItem>
-			<CommandItem Command="copy">
-				<Arg>C:\Phonology Assistant\aux_docs\readme.rtf</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files</Arg>
-			</CommandItem>
-			<CommandItem Command="copy">
-				<Arg>C:\Phonology Assistant\aux_docs\techsupport.txt</Arg>
-				<Arg>C:\Phonology Assistant\Installer Files</Arg>
-			</CommandItem>
 		</Commands>
 	</PreBuildCommands>
 	<PostBuildCommands>
@@ -134,6 +123,20 @@
 				<Arg>C:\Phonology Assistant\output\release\AddOns\*.*</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\AddOns</Arg>
 			</CommandItem>
+
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\license.rtf</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\readme.rtf</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\techsupport.txt</Arg>
+				<Arg>C:\Phonology Assistant\Installer Files\</Arg>
+			</CommandItem>
+
 			<!-- Commit to the installer file repository, all the files to be put in the installer -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
