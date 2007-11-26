@@ -135,7 +135,6 @@
 				<Arg>C:\Phonology Assistant\aux_docs\readme.rtf</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\readme.rtf</Arg>
 			</CommandItem>
-
 			<!-- Commit to the installer file repository, all the files to be put in the installer -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
