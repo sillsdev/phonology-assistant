@@ -543,6 +543,8 @@ namespace SIL.Pa.Controls
 			{
 				if (m_showMessages)
 					STUtils.STMsgBox(ex.Message);
+
+				return true;
 			}
 
 			return false;
