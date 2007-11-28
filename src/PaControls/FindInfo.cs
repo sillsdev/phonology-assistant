@@ -535,19 +535,15 @@ namespace SIL.Pa.Controls
 
 				if (cell.Visible)
 					m_grid.CurrentCell = cell;
-
-				// Done searching
-				return true;
 			}
 			catch (Exception ex)
 			{
 				if (m_showMessages)
 					STUtils.STMsgBox(ex.Message);
-
-				return true;
 			}
 
-			return false;
+			// Done searching
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
