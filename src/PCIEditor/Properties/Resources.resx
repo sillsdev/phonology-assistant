@@ -240,6 +240,10 @@
   <data name="kstidUnicodeValueTooSmallMsg" xml:space="preserve">
     <value>The Unicode value is too small.\nIt must be larger than U+001F.</value>
   </data>
+  <data name="kstidVersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+    <comment>Format for the version number shown at the top, right corder of the main window.</comment>
+  </data>
   <data name="kstidWriteAccessErrorMsg" xml:space="preserve">
     <value>You do not have write privileges to the folder in which the\nphonetic character inventory is stored (i.e. where {0}\nis located). You must have administrative privileges in order to\nmodify the phonetic character inventory.</value>
   </data>

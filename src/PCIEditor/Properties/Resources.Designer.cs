@@ -421,6 +421,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        internal static string kstidVersionFormat {
+            get {
+                return ResourceManager.GetString("kstidVersionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You do not have write privileges to the folder in which the\nphonetic character inventory is stored (i.e. where {0}\nis located). You must have administrative privileges in order to\nmodify the phonetic character inventory..
         /// </summary>
         internal static string kstidWriteAccessErrorMsg {

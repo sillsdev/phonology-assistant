@@ -147,6 +147,16 @@ namespace SIL.Pa
 		/// AddCharacterDlg Constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public AddCharacterDlg(PCIEditor pciEditor, int newChar) : this(pciEditor, true)
+		{
+			txtHexValue.Text = newChar.ToString("X4");
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// AddCharacterDlg Constructor.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public AddCharacterDlg(PCIEditor pciEditor,  bool addingChar)
 		{
 			InitializeComponent();
@@ -801,7 +811,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			PCIEditor.ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Add_or_Modify_a_Phonetic_Character.htm");
+			PCIEditor.ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Character_Properties.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------

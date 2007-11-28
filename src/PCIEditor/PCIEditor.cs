@@ -42,12 +42,12 @@ namespace SIL.Pa
 
 		private const int kDefaultFeatureColWidth = 225;
 
+		internal SilGrid m_grid;
+		private List<IPACharInfo> m_charInventory;
 		private readonly bool m_amTesting = false;
 		private readonly List<string> unknownCharTypes;
 		private readonly List<string> knownCharTypes;
 		private string m_xmlFilePath = string.Empty;
-		internal SilGrid m_grid;
-		private List<IPACharInfo> m_charInventory;
 		private readonly List<int> m_codePoints = new List<int>();
 		private readonly int invalidCodePoint = 31;
 		private readonly SortedDictionary<int, DataGridViewRow> m_gridDictionary =
@@ -69,6 +69,7 @@ namespace SIL.Pa
 		internal SizableDropDownPanel m_sddpBFeatures;
 		internal CustomDropDown m_bFeatureDropdown;
 		internal FeatureListView m_lvBFeatures;
+		internal int m_startupChar = 0;
 
 		private static SmallFadingWnd s_loadingWnd = null;
 
@@ -85,7 +86,7 @@ namespace SIL.Pa
 
 			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
 
-			string exePath = Path.GetDirectoryName(Application.ExecutablePath);
+			string exePath = Application.StartupPath;
 
 			// This is the poor man's way of determining whether or not the user has
 			// write access to the folder in which the phonetic character inventory
@@ -116,8 +117,26 @@ namespace SIL.Pa
 				return;
 			}
 
+			int startupChar = 0;
+			if (rgArgs != null && rgArgs.Length > 0)
+			{
+				foreach (string arg in rgArgs)
+				{
+					if (arg.ToLower().StartsWith("/edit:"))
+					{
+						string unicodeVal = arg.Substring(6).ToLower();
+						unicodeVal = unicodeVal.Replace("u+", string.Empty);
+						unicodeVal = unicodeVal.Replace("0x", string.Empty);
+						int.TryParse(unicodeVal,
+							System.Globalization.NumberStyles.HexNumber, null, out startupChar);
+						
+						break;
+					}
+				}
+			}
+
 			s_settingsHndlr = new PaSettingsHandler(Path.Combine(exePath, "pcieditor.xml"));
-			PCIEditor editor = new PCIEditor();
+			PCIEditor editor = new PCIEditor(startupChar);
 
 			//if (rgArgs != null && rgArgs.Length > 0)
 			//    editor.OpenFile(rgArgs[0]);
@@ -138,12 +157,32 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PCIEditor(int startupChar) : this()
+		{
+			if (startupChar > 32)
+				m_startupChar = startupChar;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// PCIEditor Constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PCIEditor()
 		{
 			InitializeComponent();
+
+			Version ver = new Version(Application.ProductVersion);
+			string version = string.Format(Properties.Resources.kstidVersionFormat, ver.ToString(3));
+			ToolStripLabel tslbl = new ToolStripLabel(version);
+			tslbl.Alignment = ToolStripItemAlignment.Right;
+			Padding pdg = tslbl.Margin;
+			tslbl.Margin = new Padding(pdg.Left, pdg.Top, 5, pdg.Bottom);
+			tslbl.Font = SystemInformation.MenuFont;
+			mnuMain.Items.Add(tslbl);
 
 			string eticFntName = SettingsHandler.GetStringSettingsValue("phoneticfont", "name", "Doulos SIL");
 			float eticFntSz = SettingsHandler.GetFloatSettingsValue("phoneticfont", "size", 13f);
@@ -248,6 +287,24 @@ namespace SIL.Pa
 				s_loadingWnd.Dispose();
 				s_loadingWnd = null;
 			}
+
+			if (m_startupChar < 32)
+				return;
+
+			foreach (DataGridViewRow row in m_grid.Rows)
+			{
+				if ((int)row.Cells[kCodePoint].Value == m_startupChar)
+				{
+					m_grid.CurrentCell = row.Cells[kHexIPAChar];
+					m_grid.FirstDisplayedCell = m_grid.CurrentCell;
+					btnModify_Click(null, null);
+					m_startupChar = 0;
+					return;
+				}
+			}
+
+			AddChar(m_startupChar);
+			m_startupChar = 0;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1127,8 +1184,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string topicPath)
 		{
-			string helpFilePath = Path.GetDirectoryName(Application.ExecutablePath);
-			helpFilePath = Path.Combine(helpFilePath, "Helps");
+			string helpFilePath = Application.StartupPath;
 			helpFilePath = Path.Combine(helpFilePath, "Phonology_Assistant_Help.chm");
 
 			if (File.Exists(helpFilePath))
@@ -1159,7 +1215,18 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			using (AddCharacterDlg dlg = new AddCharacterDlg(this, true))
+			AddChar(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddChar(int codepoint)
+		{
+			using (AddCharacterDlg dlg = (codepoint == 0 ?
+				new AddCharacterDlg(this, true) : new AddCharacterDlg(this, codepoint)))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CharInfo != null)
 				{
