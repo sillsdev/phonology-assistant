@@ -19,6 +19,8 @@ namespace SIL.Pa.AddOn
 	/// ----------------------------------------------------------------------------------------
 	public class PaAddOnManager : IxCoreColleague
 	{
+		private const string ksilhgcolName = "silhgc";
+
 		private readonly Font m_fntGlyph;
 		private readonly CustomDropDown m_dropDown;
 		private readonly NumberOfPhonesToMatchCtrl m_numPhonesCtrl;
@@ -88,9 +90,38 @@ namespace SIL.Pa.AddOn
 					grid.Columns[0].HeaderCell.Style.Font = m_fntGlyph;
 					grid.Columns[0].HeaderCell.Style.ForeColor = Color.CadetBlue;
 					grid.Columns[0].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-					grid.Columns[0].HeaderText =
-						(DoesGridQualifyForFeature(grid) ? "6" : string.Empty);
+
+					if (DoesGridQualifyForFeature(grid))
+					{
+						grid.Columns[0].Name = ksilhgcolName;
+						grid.Columns[0].HeaderText = "6";
+						grid.Columns[0].SortMode = DataGridViewColumnSortMode.Automatic;
+					}
+					else
+					{
+						grid.Columns[0].Name = string.Empty;
+						grid.Columns[0].HeaderText = string.Empty;
+						grid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+					}
 				}
+			}
+			catch { }
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBeforeWordListSorted(object args)
+		{
+			try
+			{
+				string colName = ((object[])args)[0] as string;
+				if (colName == ksilhgcolName)
+					return true;
 			}
 			catch { }
 
@@ -179,6 +210,7 @@ namespace SIL.Pa.AddOn
 				}
 
 				WordListGroupingBuilder.Group(grid);
+				OnWordListGridSorted(grid);
 			}
 			catch { }
 		}
