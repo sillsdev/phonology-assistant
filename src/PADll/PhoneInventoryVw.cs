@@ -61,6 +61,7 @@ namespace SIL.Pa
 			m_experimentalTransCtrl.TabIndex = pgpExperimental.TabIndex;
 			m_experimentalTransCtrl.Grid.ShowWaterMarkWhenDirty = true;
 			m_experimentalTransCtrl.Grid.GetWaterMarkRect += HandleGetWaterMarkRect;
+			m_experimentalTransCtrl.Grid.RowsAdded += new DataGridViewRowsAddedEventHandler(HandleExperimentalTransCtrlRowsAdded);
 			pnlExperimental.Controls.Add(m_experimentalTransCtrl);
 			m_experimentalTransCtrl.BringToFront();
 			pgpExperimental.ControlReceivingFocusOnMnemonic = m_experimentalTransCtrl.Grid;
@@ -1306,6 +1307,17 @@ namespace SIL.Pa
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the new row has its height set correctly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleExperimentalTransCtrlRowsAdded(object sender,
+			DataGridViewRowsAddedEventArgs e)
+		{
+			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
