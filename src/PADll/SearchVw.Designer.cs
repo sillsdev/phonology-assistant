@@ -409,6 +409,7 @@ namespace SIL.Pa
 			this.ptrnTextBox.OwningView = null;
 			this.ptrnTextBox.SearchQueryCategory = null;
 			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
+			this.ptrnTextBox.SearchOptionsChanged += new System.EventHandler(this.ptrnTextBox_SearchOptionsChanged);
 			this.ptrnTextBox.SizeChanged += new System.EventHandler(this.ptrnTextBox_SizeChanged);
 			// 
 			// lblCurrPattern

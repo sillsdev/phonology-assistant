@@ -2540,6 +2540,16 @@ namespace SIL.Pa.Controls
 			if (Cache == null || Cache.IsEmpty)
 				return;
 
+			object[] args = new object[] {colName, changeSortDirection};
+			if (PaApp.MsgMediator.SendMessage("BeforeWordListSorted", args))
+				return;
+			else
+			{
+				// Do this just in case the message mediator call changed the values.
+				colName = args[0] as string;
+				changeSortDirection = (bool)args[1];
+			}
+
 			// Remove the SortGlyph from the previous sort column header
 			foreach (DataGridViewColumn col in Columns)
 				col.HeaderCell.SortGlyphDirection = SortOrder.None;

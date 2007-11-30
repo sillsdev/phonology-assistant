@@ -22,6 +22,7 @@ namespace SIL.Pa.Controls
 	{
 		public event EventHandler SearchQueryChanged;
 		public event EventHandler PatternTextChanged;
+		public event EventHandler SearchOptionsChanged;
 
 		//private bool m_allowFullSearchPattern = false;
 		//private bool m_ignoreTextChange = false;
@@ -673,6 +674,10 @@ namespace SIL.Pa.Controls
 			if (m_searchOptionsDropDown.OptionsChanged)
 			{
 				m_searchQuery = m_searchOptionsDropDown.SearchQuery;
+
+				if (SearchOptionsChanged != null)
+					SearchOptionsChanged(this, EventArgs.Empty);
+
 				if (SearchQueryChanged != null)
 					SearchQueryChanged(this, EventArgs.Empty);
 			}
