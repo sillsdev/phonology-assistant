@@ -225,7 +225,7 @@ namespace SIL.Pa.Data
 			foreach (KeyValuePair<string, string> kvp in ConversionList)
 			{
 				if (kvp.Key != null && kvp.Value != null &&
-					text.IndexOf(kvp.Key/*, StringComparison.Ordinal*/) >= 0)
+					text.IndexOf(kvp.Key, StringComparison.Ordinal) >= 0)
 				{
 					text = text.Replace(kvp.Key, token.ToString());
 					transAndMarkerInfo[token] = kvp;
