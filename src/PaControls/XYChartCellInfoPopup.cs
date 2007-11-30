@@ -144,9 +144,20 @@ namespace SIL.Pa.Controls
 				{
 					for (int i = 0; i < invalidItems.Count; i++)
 					{
-						bldr.Append(invalidItems[i]);
+						if (msgType != MsgType.BadCharacters)
+							bldr.Append(invalidItems[i]);
+						else
+						{
+							bldr.AppendFormat(
+								Properties.Resources.kstidXYChartPopupInvalidCharFmt,
+								invalidItems[i], ((int)invalidItems[i][0]).ToString("X4"));
+						}
+
 						if (i < invalidItems.Count - 1)
-							bldr.Append(", ");
+						{
+							bldr.Append(msgType == MsgType.BadCharacters ?
+								Environment.NewLine : ", ");
+						}
 					}
 				}
 

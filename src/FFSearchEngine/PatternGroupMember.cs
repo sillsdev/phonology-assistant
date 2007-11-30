@@ -28,6 +28,7 @@ namespace SIL.Pa.FFSearchEngine
 		private string m_member = null;
 		private string m_diacriticPattern = null;
 		private List<char> m_diacriticPatternArray = new List<char>();
+		private List<char> m_undefinedPhoneticChars = new List<char>();
 
 		private StringBuilder m_memberBuilder;
 		private readonly ulong[] m_masks = new ulong[] {0, 0};
@@ -92,6 +93,16 @@ namespace SIL.Pa.FFSearchEngine
 		public ulong[] Masks
 		{
 			get {return m_masks;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a list of undefined phonetic characters found in the member.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<char> UndefinedPhoneticChars
+		{
+			get { return m_undefinedPhoneticChars; }
 		}
 
 		#endregion
@@ -235,8 +246,12 @@ namespace SIL.Pa.FFSearchEngine
 
 			string basePhone;
 			string diacritics;
-			SearchEngine.ParsePhone(phone, out basePhone, out diacritics);
+			m_undefinedPhoneticChars = SearchEngine.ParsePhone(phone, out basePhone, out diacritics);
 
+			// We don't want a null list, even if it's empty.
+			if (m_undefinedPhoneticChars == null)
+				m_undefinedPhoneticChars = new List<char>();
+			
 			// Save the phone with all its diacritics stripped off.
 			m_member = basePhone;
 			m_type = MemberType.SinglePhone;

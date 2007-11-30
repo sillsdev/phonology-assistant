@@ -1057,5 +1057,14 @@ namespace SIL.Pa.Controls.Properties {
                 return ResourceManager.GetString("kstidXYChartPopupInfoSyntaxErrorsMsg", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} (U+{1}).
+        /// </summary>
+        internal static string kstidXYChartPopupInvalidCharFmt {
+            get {
+                return ResourceManager.GetString("kstidXYChartPopupInvalidCharFmt", resourceCulture);
+            }
+        }
     }
 }

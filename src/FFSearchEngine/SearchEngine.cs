@@ -441,36 +441,11 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			get
 			{
-				List<char> badChars = new List<char>();
-
-				StringBuilder bldrPhones = new StringBuilder();
-				bldrPhones.Append(GetPhonesFromMember(m_srchItem));
-				bldrPhones.Append(GetPhonesFromMember(m_envBefore));
-				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
-
-				string[] phones =
-					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true,
-					s_convertPatternWithExperimentalTrans);
-				
-				if (phones != null)
-				{
-					foreach (string phone in phones)
-					{
-						// We only care about phones of length 1, since
-						// undefined characters are only one character in length.
-						if (phone.Length == 1)
-						{
-							if (DataUtils.IPACharCache == null ||
-								DataUtils.IPACharCache[phone] == null ||
-								DataUtils.IPACharCache[phone].IsUndefined)
-							{
-								badChars.Add(phone[0]);
-							}
-						}
-					}
-				}
-
-				return (badChars.Count == 0 ? null : badChars.ToArray());
+				List<char> undefinedChars = new List<char>();
+				undefinedChars.AddRange(GetInvalidCharsFromMember(m_srchItem));
+				undefinedChars.AddRange(GetInvalidCharsFromMember(m_envBefore));
+				undefinedChars.AddRange(GetInvalidCharsFromMember(m_envAfter));
+				return (undefinedChars.Count == 0 ? null : undefinedChars.ToArray());
 			}
 		}
 
@@ -655,31 +630,64 @@ namespace SIL.Pa.FFSearchEngine
 			return phones.ToString();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private List<char> GetInvalidCharsFromMember(PatternGroup grp)
+		{
+			List<char> undefinedChars = new List<char>();
+
+			if (grp != null)
+			{
+				foreach (object obj in grp.Members)
+				{
+					if (obj is PatternGroup)
+						undefinedChars.AddRange(GetInvalidCharsFromMember(obj as PatternGroup));
+					else
+					{
+						PatternGroupMember member = obj as PatternGroupMember;
+						if (member != null)
+							undefinedChars.AddRange(member.UndefinedPhoneticChars);
+					}
+				}
+
+			}
+		
+			return undefinedChars;
+		}
+
 		#region Diacritic Pattern comparer used by pattern group members and pattern groups.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Parses a phone into its base portion and its diacritics.
+		/// Parses a phone into its base portion and its diacritics and returns a list of
+		/// the characters that are not found in the phonetic character inventory, if any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void ParsePhone(string phone, out string basePhone, out string diacritics)
+		public static List<char> ParsePhone(string phone, out string basePhone, out string diacritics)
 		{
 			// First, check if the phone is a tone letter.
 			if (DataUtils.IPACharCache.ToneLetterInfo(phone) != null)
 			{
 				basePhone = phone;
 				diacritics = null;
-				return;
+				return null;
 			}
 
 			StringBuilder sbBasePhone = new StringBuilder();
 			List<char> sbDiacritics = new List<char>(5);
+			List<char> undefinedChars = new List<char>();
 			bool tiebarFound = false;
 
 			foreach (char c in phone)
 			{
 				IPACharInfo charInfo = DataUtils.IPACharCache[c];
 
-				// This should never be null. TODO: log meaningful error if it is.
+				// This should never be null.
+				if (charInfo == null || charInfo.IsUndefined)
+					undefinedChars.Add(c);
+				
 				if (charInfo != null)
 				{
 					// Tie bars are counted as part of the base character.
@@ -702,6 +710,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			basePhone = sbBasePhone.ToString();
 			diacritics = (sbDiacritics.Count == 0 ? null : new string(sbDiacritics.ToArray()));
+			return (undefinedChars.Count == 0 ? null : undefinedChars);
 		}
 		
 		#endregion

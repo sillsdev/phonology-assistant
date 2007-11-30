@@ -520,4 +520,8 @@
   <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
     <value>The search pattern contains\nthe following error(s):</value>
   </data>
+  <data name="kstidXYChartPopupInvalidCharFmt" xml:space="preserve">
+    <value>{0} (U+{1})</value>
+    <comment>Format string for displaying undefined characters in a pattern in an XY chart cell popup.</comment>
+  </data>
 </root>
