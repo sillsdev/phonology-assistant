@@ -447,7 +447,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a search query named &apos;{0}&apos; in the same category..
+        ///   Looks up a localized string similar to There is already a saved search pattern named &apos;{0}&apos; in the same category..
         /// </summary>
         internal static string kstidDuplicateSearchQueryMsg {
             get {
@@ -456,7 +456,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is already a search query named &apos;{0}&apos; in the same category. Would you like it overwritten?.
+        ///   Looks up a localized string similar to There is already a saved search pattern named &apos;{0}&apos; in the same category. Would you like it overwritten?.
         /// </summary>
         internal static string kstidDuplicateSearchQueryQuestion {
             get {
@@ -1023,7 +1023,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This query contains the following\nundefined phonetic character(s)..
+        ///   Looks up a localized string similar to This search pattern contains the following\nundefined phonetic character(s)..
         /// </summary>
         internal static string kstidXYChartPopupInfoBadCharsMsg {
             get {
@@ -1041,7 +1041,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This query contains the following\nphone(s) not found in the current\nproject&apos;s data source(s)..
+        ///   Looks up a localized string similar to This search pattern contains the\nfollowing phone(s) not found in the\ncurrent project&apos;s data source(s)..
         /// </summary>
         internal static string kstidXYChartPopupInfoInvalidPhonesMsg {
             get {
@@ -1050,7 +1050,7 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The search query contains\nthe following error(s):.
+        ///   Looks up a localized string similar to The search pattern contains\nthe following error(s):.
         /// </summary>
         internal static string kstidXYChartPopupInfoSyntaxErrorsMsg {
             get {

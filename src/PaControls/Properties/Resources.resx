@@ -281,10 +281,10 @@
     <value>There is already a category named '{0}'.</value>
   </data>
   <data name="kstidDuplicateSearchQueryMsg" xml:space="preserve">
-    <value>There is already a search query named '{0}' in the same category.</value>
+    <value>There is already a saved search pattern named '{0}' in the same category.</value>
   </data>
   <data name="kstidDuplicateSearchQueryQuestion" xml:space="preserve">
-    <value>There is already a search query named '{0}' in the same category. Would you like it overwritten?</value>
+    <value>There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?</value>
   </data>
   <data name="kstidEmptySearchPatternText" xml:space="preserve">
     <value>Empty</value>
@@ -508,16 +508,16 @@
     <value>(none)</value>
   </data>
   <data name="kstidXYChartPopupInfoBadCharsMsg" xml:space="preserve">
-    <value>This query contains the following\nundefined phonetic character(s).</value>
+    <value>This search pattern contains the following\nundefined phonetic character(s).</value>
   </data>
   <data name="kstidXYChartPopupInfoErrListFormat" xml:space="preserve">
     <value>{0}) {1}\n\n</value>
     <comment>The first argument is a number, the second is the error message. This is the format of the list of errors that may exist for a cell in an XY Chart when the cell contains a white X on a red circle.</comment>
   </data>
   <data name="kstidXYChartPopupInfoInvalidPhonesMsg" xml:space="preserve">
-    <value>This query contains the following\nphone(s) not found in the current\nproject's data source(s).</value>
+    <value>This search pattern contains the\nfollowing phone(s) not found in the\ncurrent project's data source(s).</value>
   </data>
   <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
-    <value>The search query contains\nthe following error(s):</value>
+    <value>The search pattern contains\nthe following error(s):</value>
   </data>
 </root>
