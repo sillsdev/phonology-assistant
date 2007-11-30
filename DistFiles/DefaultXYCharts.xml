@@ -6,7 +6,7 @@
       <string>[V]</string>
       <string>[Plosive]</string>
       <string>[Nasal]</string>
-      <string>{[Trill],[Flap]}</string>
+      <string>{[Trill],[Tap/Flap]}</string>
       <string>[Fricative]</string>
       <string>[Approximant]</string>
       <string>[Close]</string>
@@ -141,7 +141,7 @@
       <string>[[Plosive][Voiceless]]</string>
       <string>[[Plosive][Voiced]]</string>
       <string>[[C][Nasal]]</string>
-      <string>{[Trill],[Flap]}</string>
+      <string>{[Trill],[Tap/Flap]}</string>
       <string>[[Fricative][Voiceless]]</string>
       <string>[[Fricative][Voiced]]</string>
       <string>[Approximant]</string>
