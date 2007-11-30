@@ -202,7 +202,9 @@ namespace SIL.Pa.FFSearchEngine
 			m_type = MemberType.SinglePhone;
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
-			string[] phones = DataUtils.IPACharCache.PhoneticParser(m_member, true);
+			string[] phones = DataUtils.IPACharCache.PhoneticParser(m_member, true,
+				SearchEngine.ConvertPatternWithExperimentalTrans);
+
 			if (phones == null || phones.Length == 0)
 				return null;
 

@@ -39,6 +39,7 @@ namespace SIL.Pa.FFSearchEngine
 		private readonly static List<string> s_ignoredPhones = new List<string>();
 		private readonly static List<char> s_ignoredChars = new List<char>();
 
+		private static bool s_convertPatternWithExperimentalTrans = false;
 		private static bool s_ignoreDiacritics = true;
 		private static Dictionary<string, IPhoneInfo> s_phoneCache;
 		private static bool s_ignoreUndefinedChars = true;
@@ -187,6 +188,18 @@ namespace SIL.Pa.FFSearchEngine
 			}
 
 			return pieces;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the phones in a the search pattern
+		/// should be run through the experimental transcription conversion process.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool ConvertPatternWithExperimentalTrans
+		{
+			get { return s_convertPatternWithExperimentalTrans; }
+			set { s_convertPatternWithExperimentalTrans = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,7 +425,8 @@ namespace SIL.Pa.FFSearchEngine
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 				
 				return (bldrPhones.Length == 0 ? null :
-					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true));
+					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true,
+					s_convertPatternWithExperimentalTrans));
 			}
 		}
 
@@ -435,7 +449,8 @@ namespace SIL.Pa.FFSearchEngine
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 
 				string[] phones =
-					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true);
+					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true,
+					s_convertPatternWithExperimentalTrans);
 				
 				if (phones != null)
 				{

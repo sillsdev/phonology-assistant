@@ -627,6 +627,19 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string[] PhoneticParser(string phonetic, bool normalize,
+			bool convertExperimentalTranscriptions)
+		{
+			Dictionary<int, string[]> uncertainPhones;
+			return PhoneticParser(phonetic, normalize, convertExperimentalTranscriptions,
+				out uncertainPhones);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Parses the specified phonetic string into an array of phones.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] PhoneticParser(string phonetic, bool normalize,
 			out Dictionary<int, string[]> uncertainPhones)
 		{
 			return PhoneticParser(phonetic, normalize, true, out uncertainPhones);

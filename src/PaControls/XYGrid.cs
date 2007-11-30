@@ -152,11 +152,11 @@ namespace SIL.Pa.Controls
 			IsDirty = false;
 			m_loadedLayout = true;
 
+			PaApp.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
+
 			// Go ahead and fill the chart after loading it.
 			if (!IsEmpty)
 				FillChart();
-
-			PaApp.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1312,6 +1312,9 @@ namespace SIL.Pa.Controls
 			if (RowCount <= 1 || ColumnCount <= 1)
 				return;
 
+			if (PaApp.MsgMediator.SendMessage("BeforeXYChartFilled", this))
+				return;
+
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
 			PaApp.InitializeProgressBar(
 				ResourceHelper.GetString("kstidQuerySearchingMsg"), progBarMax);
@@ -1391,6 +1394,10 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
+			SearchEngine.ConvertPatternWithExperimentalTrans =
+				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				"convertpatternswithexperimentaltrans", false);
+			
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
 			string[] phonesInQuery = engine.PhonesInPattern;
 			List<string> phonesNotInData = new List<string>();
@@ -1423,6 +1430,10 @@ namespace SIL.Pa.Controls
 				cell.Value = new XYChartException(query);
 				return;
 			}
+
+			SearchEngine.ConvertPatternWithExperimentalTrans =
+				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				"convertpatternswithexperimentaltrans", false);
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
 			cell.Tag = engine.InvalidCharactersInPattern;
@@ -1946,6 +1957,10 @@ namespace SIL.Pa.Controls
 				SearchQuery modifiedQuery;
 				if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
+
+				SearchEngine.ConvertPatternWithExperimentalTrans =
+					PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+					"convertpatternswithexperimentaltrans", false);
 
 				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
 

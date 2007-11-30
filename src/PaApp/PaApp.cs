@@ -1568,7 +1568,11 @@ namespace SIL.Pa
 
 			if (Project != null)
 				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
-	
+
+			SearchEngine.ConvertPatternWithExperimentalTrans =
+				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				"convertpatternswithexperimentaltrans", false);
+
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 
 			string msg = CombineErrorMessages(modifiedQuery.ErrorMessages.ToArray());
