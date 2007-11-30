@@ -154,7 +154,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidExperimentalTranscriptionsPopup" xml:space="preserve">
-    <value>User_Interface/Word_Lists/Experimental_Transcriptions_Word_Lists.htm</value>
+    <value>User_Interface/Word_Lists/Experimental_transcriptions_ScreenTip.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidFindDlg" xml:space="preserve">
@@ -270,7 +270,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUncertainPhonesPopup" xml:space="preserve">
-    <value>User_Interface/Word_Lists/Uncertain_Phones_Word_Lists.htm</value>
+    <value>User_Interface/Word_Lists/Uncertain_phones_ScreenTip.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidUndefinedCharactersInClassDlg" xml:space="preserve">

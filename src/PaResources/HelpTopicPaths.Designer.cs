@@ -142,7 +142,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_Transcriptions_Word_Lists.htm.
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_transcriptions_ScreenTip.htm.
         /// </summary>
         internal static string hidExperimentalTranscriptionsPopup {
             get {
@@ -403,7 +403,7 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Word_Lists/Uncertain_Phones_Word_Lists.htm.
+        ///   Looks up a localized string similar to User_Interface/Word_Lists/Uncertain_phones_ScreenTip.htm.
         /// </summary>
         internal static string hidUncertainPhonesPopup {
             get {
