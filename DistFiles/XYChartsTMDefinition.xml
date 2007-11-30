@@ -209,7 +209,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="cmnuInsertOneOrMore" commandid="CmdInsertOneOrMore" type="0" displaytype="2"/>
 				<item name="cmnuInsertWordBoundary" commandid="CmdInsertWordBoundary" type="0" displaytype="2"/>
 				<item name="cmnuInsertDiacriticPlaceholder" commandid="CmdInsertDiacriticPlaceholder" type="0" displaytype="2"/>
-				<item name="cmnuInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/>
+				<!-- item name="cmnuInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/ -->
 				<item name="cmnuInsertANDGroup" commandid="CmdInsertANDGroup" type="0" displaytype="2" begingroup="true"/>
 				<item name="cmnuInsertORGroup" commandid="CmdInsertORGroup" type="0" displaytype="2"/>
 			</item>
