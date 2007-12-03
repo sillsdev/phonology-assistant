@@ -755,7 +755,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static Color RecordViewFieldLabelColor
 		{
-			get {return SettingsHandler.GetColorSettingsValue("recordviewcolors", "lable", Color.DarkRed);}
+			get {return SettingsHandler.GetColorSettingsValue("recordviewcolors", "label", Color.DarkRed);}
 			set {SettingsHandler.SaveSettingsValue("recordviewcolors", "label", value);}
 		}
 
