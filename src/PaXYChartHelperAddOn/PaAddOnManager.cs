@@ -162,7 +162,7 @@ namespace SIL.Pa.AddOn
 			m_xyGrid[0, i].Tag = srchItem;
 
 			// Get a phone list sorted by MOA
-			List<string> phoneList = SortedPhones(charType == IPACharacterType.Consonant ?
+			List<string> phoneList = GetSortedPhones(charType == IPACharacterType.Consonant ?
 				IPACharacterType.Consonant : IPACharacterType.Vowel);
 
 			foreach (string phone in phoneList)
@@ -263,7 +263,7 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private List<string> SortedPhones(IPACharacterType charType)
+		private List<string> GetSortedPhones(IPACharacterType charType)
 		{
 			SortedDictionary<string, string> sortedPhonesDict = new SortedDictionary<string, string>();
 
