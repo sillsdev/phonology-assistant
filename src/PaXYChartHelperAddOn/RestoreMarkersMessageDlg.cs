@@ -8,19 +8,23 @@ using System.Windows.Forms;
 
 namespace SIL.Pa.AddOn
 {
-	public partial class BeginChartEditMessageDlg : Form
+	public partial class RestoreMarkersMessageDlg : Form
 	{
+		private bool m_beforeEditing;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static new void Show()
+		public static void Show(bool beforeEditing)
 		{
-			if (!PaApp.SettingsHandler.GetBoolSettingsValue("XYChartHelperAddOn",
-				"dontshowbegineditmsg", false))
+			bool showMsg = !PaApp.SettingsHandler.GetBoolSettingsValue("XYChartHelperAddOn",
+				beforeEditing ? "dontshowbegineditmsg" : "dontshowsavingmsg", false);
+
+			if (showMsg)
 			{
-				using (BeginChartEditMessageDlg dlg = new BeginChartEditMessageDlg())
+				using (RestoreMarkersMessageDlg dlg = new RestoreMarkersMessageDlg(beforeEditing))
 					dlg.ShowDialog();
 			}
 		}
@@ -30,11 +34,24 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public BeginChartEditMessageDlg()
+		public RestoreMarkersMessageDlg()
 		{
 			InitializeComponent();
 			Text = Application.ProductName;
 			picIcon.Image = SystemIcons.Information.ToBitmap();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public RestoreMarkersMessageDlg(bool beforeEditing) : this()
+		{
+			m_beforeEditing = beforeEditing;
+
+			lblmsg.Text = (beforeEditing ? Properties.Resources.kstidBeforeEditingMsg :
+				Properties.Resources.kstidBeforeSavingMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +66,7 @@ namespace SIL.Pa.AddOn
 			if (chkDontShowAgain.Checked)
 			{
 				PaApp.SettingsHandler.SaveSettingsValue("XYChartHelperAddOn",
-					"dontshowbegineditmsg", true);
+					m_beforeEditing ? "dontshowbegineditmsg" : "dontshowsavingmsg", true);
 			}
 		}
 	}

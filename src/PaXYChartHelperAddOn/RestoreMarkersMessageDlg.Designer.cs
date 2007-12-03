@@ -1,6 +1,6 @@
 namespace SIL.Pa.AddOn
 {
-	partial class BeginChartEditMessageDlg
+	partial class RestoreMarkersMessageDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@ namespace SIL.Pa.AddOn
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BeginChartEditMessageDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RestoreMarkersMessageDlg));
 			this.lblmsg = new System.Windows.Forms.Label();
 			this.picIcon = new System.Windows.Forms.PictureBox();
 			this.chkDontShowAgain = new System.Windows.Forms.CheckBox();
@@ -62,7 +62,7 @@ namespace SIL.Pa.AddOn
 			this.btnOK.Name = "btnOK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
-			// BeginChartEditMessageDlg
+			// RestoreMarkersMessageDlg
 			// 
 			this.AcceptButton = this.btnOK;
 			resources.ApplyResources(this, "$this");
@@ -74,7 +74,7 @@ namespace SIL.Pa.AddOn
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.Name = "BeginChartEditMessageDlg";
+			this.Name = "RestoreMarkersMessageDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();

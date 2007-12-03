@@ -20,9 +20,6 @@ namespace SIL.Pa.AddOn
 	/// ----------------------------------------------------------------------------------------
 	public class PaAddOnManager : IxCoreColleague
 	{
-		private const char kOpenAutoFillMarker = '«';
-		private const char kCloseAutoFillMarker = '»';
-
 		private const string kAutoFillToken = "«auto-filled»";
 		private const string kOrigRowToken = "«original-row»";
 		private const string kOrigColToken = "«original-col»";
@@ -58,42 +55,11 @@ namespace SIL.Pa.AddOn
 				m_view = args as XYChartVw;
 				m_xyGrid = ReflectionHelper.GetField(m_view, "m_xyGrid") as XYGrid;
 				m_xyGrid.CellBeginEdit += m_xyGrid_CellBeginEdit;
-				HookSaveChartMessages();
 				SetupAutoFillMarkerMenus();
 			}
 			catch { }
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HookSaveChartMessages()
-		{
-
-
-			//TMItemProperties itemProps = m_view.TMAdapter.GetItemProperties("tbbSaveChartOnMenu");
-
-			//m_view.TMAdapter.AddCommandItem("CmdSaveChartAddOn", "SaveChartAddOn",
-			//    itemProps.Text, null, null, null, null, null, itemProps.ShortcutKey, null,
-			//    itemProps.Image);
-
-			//itemProps.CommandId = "CmdSaveChartAddOn";
-			//itemProps.Update = true;
-			//m_view.TMAdapter.SetItemProperties("tbbSaveChartOnMenu", itemProps);
-
-
-
-
-
-			//cmnuSaveChart
-			//tbbSaveChartOnMenu" commandid="CmdSaveChartOnMenu" type="0" displaytype="2"/>
-			//tbbSaveChartAs" commandid="CmdSaveChartAs" type="0" displaytype="2"/>
-			
-			//OnSaveChart
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -154,7 +120,7 @@ namespace SIL.Pa.AddOn
 			try
 			{
 				STUtils.SetWindowRedraw(m_xyGrid, false, false);
-				RemoveAutoFilledRows();
+				RemoveAutoFilledRowsAndColumns();
 				bool dirtyState = m_xyGrid.IsDirty;
 
 				for (int i = 1; i < m_xyGrid.RowCount; i++)
@@ -222,8 +188,8 @@ namespace SIL.Pa.AddOn
 			{
 				if (m_chartHasBeenAutoFilled)
 				{
-					BeginChartEditMessageDlg.Show();
-					RemoveAutoFilledRows();
+					RestoreMarkersMessageDlg.Show(true);
+					RemoveAutoFilledRowsAndColumns();
 					e.Cancel = true;
 				}
 			}
@@ -232,11 +198,11 @@ namespace SIL.Pa.AddOn
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Removes all the rows in an XY grid that were generated from a previous auto. fill
-		/// procedure.
+		/// Removes all the rows and columns in an XY grid that were generated from a
+		/// previous auto. fill procedure.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void RemoveAutoFilledRows()
+		private void RemoveAutoFilledRowsAndColumns()
 		{
 			bool dirtyState = m_xyGrid.IsDirty;
 
@@ -322,9 +288,8 @@ namespace SIL.Pa.AddOn
 			{
 				if (m_chartHasBeenAutoFilled)
 				{
-					BeginChartEditMessageDlg.Show();
-					RemoveAutoFilledRows();
-					e.Cancel = true;
+					RestoreMarkersMessageDlg.Show(false);
+					RemoveAutoFilledRowsAndColumns();
 				}
 			}
 			catch { }
@@ -337,15 +302,14 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnSaveChartAsAddOn(object args)
+		protected bool OnSaveChartAs(object args)
 		{
 			try
 			{
 				if (m_chartHasBeenAutoFilled)
 				{
-					BeginChartEditMessageDlg.Show();
-					RemoveAutoFilledRows();
-					e.Cancel = true;
+					RestoreMarkersMessageDlg.Show(false);
+					RemoveAutoFilledRowsAndColumns();
 				}
 			}
 			catch { }
