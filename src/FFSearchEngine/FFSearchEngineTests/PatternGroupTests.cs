@@ -58,6 +58,8 @@ namespace SIL.Pa.FFSearchEngine
 
 			m_phoneCache["t"] = new TestPhoneInfo();
 			m_phoneCache["t"].CharType = IPACharacterType.Consonant;
+			m_phoneCache["p"] = new TestPhoneInfo();
+			m_phoneCache["p"].CharType = IPACharacterType.Consonant;
 			m_phoneCache["b"] = new TestPhoneInfo();
 			m_phoneCache["b"].CharType = IPACharacterType.Consonant;
 			m_phoneCache["d"] = new TestPhoneInfo();
@@ -2286,6 +2288,90 @@ namespace SIL.Pa.FFSearchEngine
 				DataUtils.IPACharCache.PhoneticParser("aobxctde", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests fixes for PA-702
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWhenIgnoringStressAndOrGroupInPrecedingEnv()
+		{
+			m_query.Pattern = "[C]/{[C],[V]}_+";
+			m_query.IgnoredStressChars = "'";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("pau'pat", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests fixes for PA-702
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWhenIgnoringStressAndOrGroupInFollowingEnv()
+		{
+			m_query.Pattern = "[V]/+_{[C],[V]}";
+			m_query.IgnoredStressChars = "'";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("phu'pat", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests fixes for PA-702
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWhenIgnoringStressAndAndGroupInPrecedingEnv()
+		{
+			DataUtils.AFeatureCache["close"].Mask = 4;
+			DataUtils.AFeatureCache["close"].MaskNumber = 0;
+			DataUtils.AFeatureCache["back"].Mask = 8;
+			DataUtils.AFeatureCache["back"].MaskNumber = 0;
+			m_phoneCache["u"].Masks = new ulong[] { 4 | 8, 0 };
+			
+			m_query.Pattern = "[C]/[[close],[back]]_+";
+			m_query.IgnoredStressChars = "'";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("pau'pat", false), out m_results));
+
+			Assert.AreEqual(4, m_results[0]);
+			Assert.AreEqual(1, m_results[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests fixes for PA-702
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void SearchWhenIgnoringStressAndAndGroupInFollowingEnv()
+		{
+			DataUtils.AFeatureCache["bilabial"].Mask = 4;
+			DataUtils.AFeatureCache["bilabial"].MaskNumber = 0;
+			DataUtils.AFeatureCache["voiceless"].Mask = 8;
+			DataUtils.AFeatureCache["voiceless"].MaskNumber = 0;
+			m_phoneCache["p"].Masks = new ulong[] { 4 | 8, 0 };
+
+			m_query.Pattern = "[V]/+_[[bilabial],[voiceless]]";
+			m_query.IgnoredStressChars = "'";
+			m_engine = new SearchEngine(m_query);
+			Assert.IsTrue(m_engine.SearchWord(
+				DataUtils.IPACharCache.PhoneticParser("phu'pat", false), out m_results));
+
+			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 		}
 

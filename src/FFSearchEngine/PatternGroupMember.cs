@@ -320,6 +320,9 @@ namespace SIL.Pa.FFSearchEngine
 			if (m_type == MemberType.SinglePhone)
 				return ComparePhones(m_member, phone);
 
+			if (SearchEngine.IgnoredPhones.Contains(phone))
+				return CompareResultType.Ignored;
+
 			if (phone.IndexOf(DataUtils.kTopTieBarC) >= 0 ||
 				phone.IndexOf(DataUtils.kBottomTieBarC) >= 0)
 			{
