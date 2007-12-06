@@ -50,6 +50,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
+      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
+      <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PADll\PaDll.csproj">
       <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
       <Name>PaDll</Name>

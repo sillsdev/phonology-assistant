@@ -7,6 +7,7 @@ using System.Xml;
 using SIL.Pa;
 using SIL.Pa.Data;
 using SIL.Pa.Controls;
+using SIL.Pa.FFSearchEngine;
 using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
@@ -29,6 +30,10 @@ namespace SIL.Pa.AddOn
 		private XYChartVw m_view;
 		private XYGrid m_xyGrid;
 		private bool m_chartHasBeenAutoFilled = false;
+		private List<DataGridViewColumn> m_addedColumns = new List<DataGridViewColumn>();
+		private List<DataGridViewRow> m_addedRows = new List<DataGridViewRow>();
+		private Dictionary<int, string> m_origSrchItems = new Dictionary<int, string>();
+		private Dictionary<int, string> m_origEnvironments = new Dictionary<int, string>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -123,6 +128,18 @@ namespace SIL.Pa.AddOn
 				RemoveAutoFilledRowsAndColumns();
 				bool dirtyState = m_xyGrid.IsDirty;
 
+				for (int i = 1; i < m_xyGrid.ColumnCount; i++)
+				{
+					string environment = m_xyGrid[i, 0].Value as string;
+					if (environment != null)
+					{
+						if (environment.Contains(kAutoFillConMarker))
+							FillCVInEnvironment(IPACharacterType.Consonant, environment, i);
+						else if (environment.Contains(kAutoFillVowMarker))
+							FillCVInEnvironment(IPACharacterType.Vowel, environment, i);
+					}
+				}
+
 				for (int i = 1; i < m_xyGrid.RowCount; i++)
 				{
 					string srchItem = m_xyGrid[0, i].Value as string;
@@ -148,18 +165,56 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void FillCVInSearchItem(IPACharacterType charType, string srchItem, int i)
+		private void FillCVInEnvironment(IPACharacterType charType, string environment, int colIndex)
 		{
 			m_chartHasBeenAutoFilled = true;
 
-			int startIndex = i;
-			string fmt = srchItem.Replace((charType == IPACharacterType.Consonant ?
+			// Save the original environment pattern.
+			m_origEnvironments[colIndex] = environment;
+
+			int startIndex = colIndex;
+			string fmt = environment.Replace((charType == IPACharacterType.Consonant ?
 				kAutoFillConMarker : kAutoFillVowMarker), "{0}");
 
-			// Mark the original row and save the pattern with the auto. fill marker in
-			// the tag property of the first cell in the row (i.e the search item cell).
-			m_xyGrid.Rows[i].Tag = kOrigRowToken;
-			m_xyGrid[0, i].Tag = srchItem;
+			// Get a phone list sorted by MOA
+			List<string> phoneList = GetSortedPhones(charType == IPACharacterType.Consonant ?
+				IPACharacterType.Consonant : IPACharacterType.Vowel);
+
+			SearchQuery query = m_xyGrid.Columns[colIndex].Tag as SearchQuery;
+
+			foreach (string phone in phoneList)
+			{
+				if (colIndex == startIndex)
+					query.Pattern = string.Format(fmt, phone);
+				else
+				{
+					m_xyGrid.Columns.Insert(colIndex, SilGrid.CreateTextBoxColumn(string.Empty));
+					m_xyGrid[colIndex, 0].Value = string.Format(fmt, phone);
+					SearchQuery newQuery = query.Clone();
+					newQuery.Pattern = m_xyGrid[colIndex, 0].Value as string;
+					m_xyGrid.Columns[colIndex].Tag = newQuery;
+					m_addedColumns.Add(m_xyGrid.Columns[colIndex]);
+				}
+
+				m_xyGrid[colIndex++, 0].Value = string.Format(fmt, phone);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FillCVInSearchItem(IPACharacterType charType, string srchItem, int rowIndex)
+		{
+			m_chartHasBeenAutoFilled = true;
+
+			// Save the original search item pattern.
+			m_origSrchItems[rowIndex] = srchItem;
+
+			int startIndex = rowIndex;
+			string fmt = srchItem.Replace((charType == IPACharacterType.Consonant ?
+				kAutoFillConMarker : kAutoFillVowMarker), "{0}");
 
 			// Get a phone list sorted by MOA
 			List<string> phoneList = GetSortedPhones(charType == IPACharacterType.Consonant ?
@@ -167,13 +222,14 @@ namespace SIL.Pa.AddOn
 
 			foreach (string phone in phoneList)
 			{
-				if (i > startIndex)
+				if (rowIndex > startIndex)
 				{
-					m_xyGrid.Rows.InsertCopy(i - 1, i);
-					m_xyGrid.Rows[i].Tag = kAutoFillToken;
+					m_xyGrid.Rows.InsertCopy(rowIndex - 1, rowIndex);
+					m_xyGrid[0, rowIndex].Value = string.Format(fmt, phone);
+					m_addedRows.Add(m_xyGrid.Rows[rowIndex]);
 				}
 
-				m_xyGrid[0, i++].Value = string.Format(fmt, phone);
+				m_xyGrid[0, rowIndex++].Value = string.Format(fmt, phone);
 			}
 		}
 
@@ -204,56 +260,58 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		private void RemoveAutoFilledRowsAndColumns()
 		{
+			if (!m_chartHasBeenAutoFilled)
+				return;
+
 			bool dirtyState = m_xyGrid.IsDirty;
 
-			// Restore the original search environments in the columns and removed
-			// the columns that were auto. generated and filled by this add-on.
-			for (int i = m_xyGrid.ColumnCount - 1; i > 0; i--)
+			// Restore the original search environments in the columns.
+			foreach (KeyValuePair<int, string> kvp in m_origEnvironments)
 			{
 				try
 				{
-					if ((m_xyGrid.Columns[i].Tag as string) == kAutoFillToken)
-						m_xyGrid.Columns.RemoveAt(i);
-					else if ((m_xyGrid.Columns[i].Tag as string) == kOrigColToken)
-					{
-						m_xyGrid[i, 0].Value = m_xyGrid[i, 0].Tag as string;
-						m_xyGrid.Columns[i].Tag = null;
-					}
+					m_xyGrid[kvp.Key, 0].Value = kvp.Value;
+					(m_xyGrid.Columns[kvp.Key].Tag as SearchQuery).Pattern = kvp.Value;
 				}
 				catch { }
 			}
 
-			// Restore the original search items in the rows and removed the
-			// rows that were auto. generated and filled by this add-on.
-			for (int i = m_xyGrid.RowCount - 1; i > 0; i--)
+			// Restore the original search items in the rows.
+			foreach (KeyValuePair<int, string> kvp in m_origSrchItems)
 			{
 				try
 				{
-					if ((m_xyGrid.Rows[i].Tag as string) == kAutoFillToken)
-						m_xyGrid.Rows.RemoveAt(i);
-					else if ((m_xyGrid.Rows[i].Tag as string) == kOrigRowToken)
-					{
-						m_xyGrid[0, i].Value = m_xyGrid[0, i].Tag as string;
-						m_xyGrid.Rows[i].Tag = null;
-					}
+					m_xyGrid[0, kvp.Key].Value = kvp.Value;
+					for (int i = 1; i < m_xyGrid.Rows[kvp.Key].Cells.Count; i++)
+						m_xyGrid.Rows[kvp.Key].Cells[i].Value = null;
 				}
 				catch { }
 			}
 
-			// Now clear out all the result cells since their values probably don't make
-			// sense now that the grid has been restored to its state before it was filled.
-			foreach (DataGridViewRow row in m_xyGrid.Rows)
+			// Remove all the automatically generated columns.
+			foreach (DataGridViewColumn col in m_addedColumns)
 			{
-				if (row.Index == 0 || row.Index == m_xyGrid.NewRowIndex)
-					continue;
-
-				foreach (DataGridViewColumn col in m_xyGrid.Columns)
+				try
 				{
-					if (col.Index > 0)
-						row.Cells[col.Index].Value = null;
+					m_xyGrid.Columns.Remove(col);
 				}
+				catch { }
 			}
 
+			// Remove all the automatically generated rows.
+			foreach (DataGridViewRow row in m_addedRows)
+			{
+				try
+				{
+					m_xyGrid.Rows.Remove(row);
+				}
+				catch { }
+			}
+
+			m_origEnvironments.Clear();
+			m_origSrchItems.Clear();
+			m_addedRows.Clear();
+			m_addedColumns.Clear();
 			m_chartHasBeenAutoFilled = false;
 			m_xyGrid.IsDirty = dirtyState;
 		}
