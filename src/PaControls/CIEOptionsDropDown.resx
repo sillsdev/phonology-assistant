@@ -379,13 +379,13 @@
     <value>24, 63</value>
   </data>
   <data name="rbAfter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 17</value>
+    <value>174, 17</value>
   </data>
   <data name="rbAfter.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="rbAfter.Text" xml:space="preserve">
-    <value>Identical &amp;Following Environments</value>
+    <value>Identical &amp;Following Environment</value>
   </data>
   <data name="rbAfter.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>
@@ -511,6 +511,6 @@
     <value>CIEOptionsDropDown</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SearchOptionsDropDown, PaControls, Version=1.0.2806.14460, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.SearchOptionsDropDown, PaControls, Version=1.0.2895.38451, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

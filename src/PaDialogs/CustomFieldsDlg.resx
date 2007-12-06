@@ -199,7 +199,7 @@
     <value>0</value>
   </data>
   <data name="lblInfo.Text" xml:space="preserve">
-    <value>Define custom fields to hold data from your data source for which there are no appropriate mappings to intrinsic Phonology Assistant fields.</value>
+    <value>If there are Standard Format fields in your data sources for which there are no built-in fields in Phonology Assistant, you may define custom fields. After you have defined custom fields, then map from data source fields to custom fields in the Standard Format Data Source Properties dialog box.</value>
   </data>
   <data name="lblInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -216,9 +216,9 @@
   <data name="&gt;&gt;lblInfo.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>

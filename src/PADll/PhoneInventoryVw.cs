@@ -1321,6 +1321,16 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Make sure the new row has its height set correctly.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void gridAmbiguous_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+		{
+			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Return the location where water marks should be displayed in the grids.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

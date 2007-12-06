@@ -637,7 +637,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		static void CellTextBoxKeyPress(object sender, KeyPressEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine("KeyChar: " + e.KeyChar);
 			// For some reason, it didn't work to directly assign the static delegate
 			// from PatternTextBox to the text box event. So I call it this way.
 			PatternTextBox.txtPatternKeyPress(sender, e);

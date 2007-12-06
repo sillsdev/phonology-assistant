@@ -520,7 +520,7 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are unapplied changes in the phone inventory view. Would you like to save those changes?.
+        ///   Looks up a localized string similar to There are unapplied changes in Phone Inventory view. Would you like to save the changes?.
         /// </summary>
         internal static string kstidUnAppliedPhoneInventoryChangesMsg {
             get {

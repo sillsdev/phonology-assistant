@@ -481,7 +481,7 @@
     <value>0</value>
   </data>
   <data name="lblHeading.Text" xml:space="preserve">
-    <value>Your comments and suggestions to the Phonology Assistant development team can be very helpful in determining the future of Phonology Assistant development. The information you provide below will be placed in an e-mail in your outbox. It will be sent to the SIL software developers the next time you send e-mail. There is no need to be connected to the internet now and you will have a chance to view the e-mail before it is sent.</value>
+    <value>Your comments and suggestions to the Phonology Assistant development team can be very helpful in determining the future of Phonology Assistant development. The information you provide below will be placed in an e-mail message in your outbox. It will be sent to the SIL software developers the next time you send e-mail. There is no need to be connected to the Internet now and you will have a chance to view the e-mail message before it is sent.</value>
   </data>
   <data name="&gt;&gt;lblHeading.Name" xml:space="preserve">
     <value>lblHeading</value>
@@ -591,9 +591,9 @@
   <data name="&gt;&gt;pnlComments.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>

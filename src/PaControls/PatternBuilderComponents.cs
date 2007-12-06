@@ -210,13 +210,10 @@ namespace SIL.Pa.Controls
 			bldr.Build();
 			pnlVowels.Controls.Add(m_vowPicker);
 
-			if (firstTime)
-			{
-				m_conPicker.ItemDrag += ConPickerDragHandler;
-				m_conPicker.ItemClicked += ConPickerClickedHandler;
-				m_vowPicker.ItemDrag += VowPickerDragHandler;
-				m_vowPicker.ItemClicked += VowPickerClickedHandler;
-			}
+			m_conPicker.ItemDrag += ConPickerDragHandler;
+			m_conPicker.ItemClicked += ConPickerClickedHandler;
+			m_vowPicker.ItemDrag += VowPickerDragHandler;
+			m_vowPicker.ItemClicked += VowPickerClickedHandler;
 		}
 
 		/// ------------------------------------------------------------------------------------

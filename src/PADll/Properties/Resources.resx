@@ -300,7 +300,7 @@
     <comment>Used for the tooltip information when moving the mouse over phones in the phone inventory list.</comment>
   </data>
   <data name="kstidUnAppliedPhoneInventoryChangesMsg" xml:space="preserve">
-    <value>There are unapplied changes in the phone inventory view. Would you like to save those changes?</value>
+    <value>There are unapplied changes in Phone Inventory view. Would you like to save the changes?</value>
     <comment>Message displayed when PA is shutting down and there have been unsaved changes made on the phone inventory tab's view.</comment>
   </data>
   <data name="kstidMissingTrainingFileMsg" xml:space="preserve">
