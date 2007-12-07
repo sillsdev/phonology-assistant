@@ -437,7 +437,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void AdjustGridRows(DataGridView grid, string settingsValue, int defaultAmount)
 		{
-			grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+			try
+			{
+				// Sometimes (or maybe always) this throws an exception when
+				// the first row is the only row and is the NewRowIndex row.
+				grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+			}
+			catch { }
+
 			grid.AutoResizeRows();
 
 			int extraRowHeight =
