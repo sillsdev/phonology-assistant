@@ -60,6 +60,8 @@ namespace SIL.Pa.AddOn
 				m_view = args as XYChartVw;
 				m_xyGrid = ReflectionHelper.GetField(m_view, "m_xyGrid") as XYGrid;
 				m_xyGrid.CellBeginEdit += m_xyGrid_CellBeginEdit;
+				m_xyGrid.ColumnRemoved += m_xyGrid_ColumnRemoved;
+				m_xyGrid.RowsRemoved += m_xyGrid_RowsRemoved;
 				SetupAutoFillMarkerMenus();
 			}
 			catch { }
@@ -254,6 +256,45 @@ namespace SIL.Pa.AddOn
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_xyGrid_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)
+		{
+			if (m_chartHasBeenAutoFilled)
+				PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_xyGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		{
+			if (m_chartHasBeenAutoFilled)
+				PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAfterXYGridRowColumnRemoved_AddOn(object args)
+		{
+			try
+			{
+				//RestoreMarkersMessageDlg.Show(true);
+				RemoveAutoFilledRowsAndColumns();
+			}
+			catch { }
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Removes all the rows and columns in an XY grid that were generated from a
 		/// previous auto. fill procedure.
 		/// </summary>
@@ -288,6 +329,10 @@ namespace SIL.Pa.AddOn
 				catch { }
 			}
 
+			// Do this before removing auto. generated rows and columns so our own
+			// delegates to the remove column and row events don't do anything.
+			m_chartHasBeenAutoFilled = false;
+
 			// Remove all the automatically generated columns.
 			foreach (DataGridViewColumn col in m_addedColumns)
 			{
@@ -312,7 +357,6 @@ namespace SIL.Pa.AddOn
 			m_origSrchItems.Clear();
 			m_addedRows.Clear();
 			m_addedColumns.Clear();
-			m_chartHasBeenAutoFilled = false;
 			m_xyGrid.IsDirty = dirtyState;
 		}
 

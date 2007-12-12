@@ -1212,26 +1212,6 @@ namespace SIL.Pa.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool OnUpdateCopyToCurrentPattern(object args)
-		{
-			if (!PaApp.IsFormActive(FindForm()))
-				return false;
-
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null)
-				return false;
-
-			itemProps.Visible = true;
-			itemProps.Enabled = (CurrentQuery != null);
-			itemProps.Update = true;
-			return true;
-		}
-
 		#endregion
 
 		#region IxCoreColleague Members

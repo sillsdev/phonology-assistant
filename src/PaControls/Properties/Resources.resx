@@ -515,10 +515,10 @@
     <comment>The first argument is a number, the second is the error message. This is the format of the list of errors that may exist for a cell in an XY Chart when the cell contains a white X on a red circle.</comment>
   </data>
   <data name="kstidXYChartPopupInfoInvalidPhonesMsg" xml:space="preserve">
-    <value>This search pattern contains the\nfollowing phone(s) not found in the\ncurrent project's data source(s).</value>
+    <value>This search pattern contains the\nfollowing phone(s) not found in\ndata sources in the open project.</value>
   </data>
   <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
-    <value>The search pattern contains\nthe following error(s):</value>
+    <value>This search pattern contains\nthe following error(s):</value>
   </data>
   <data name="kstidXYChartPopupInvalidCharFmt" xml:space="preserve">
     <value>{0} (U+{1})</value>
