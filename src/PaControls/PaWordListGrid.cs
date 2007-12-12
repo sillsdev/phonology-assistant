@@ -1251,6 +1251,22 @@ namespace SIL.Pa.Controls
 			SaveGridChange();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When word list is grouped and the row divider is double-clicked, it causes a crash
+		/// in the DataGridViewCell.MeasureTextSize() method because some object's font
+		/// is being referenced and the font is null. Fix for PA-207
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnRowDividerDoubleClick(DataGridViewRowDividerDoubleClickEventArgs e)
+		{
+			try
+			{
+				base.OnRowDividerDoubleClick(e);
+			}
+			catch { }
+		}
+
 		#endregion
 
 		#region Methods for handling the uncertain phones and experimental transcription popup lists.
