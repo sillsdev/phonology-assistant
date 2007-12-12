@@ -314,6 +314,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
+			rbNoParse.Checked = false;
+			rbParseOnlyPhonetic.Checked = false;
+			rbParseOneToOne.Checked = false;
+			rbInterlinearize.Checked = false;
+
 			rbNoParse.CheckedChanged += HandleReadTypeCheckedChanged;
 			rbParseOnlyPhonetic.CheckedChanged += HandleReadTypeCheckedChanged;
 			rbParseOneToOne.CheckedChanged += HandleReadTypeCheckedChanged;
