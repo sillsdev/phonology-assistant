@@ -2,7 +2,7 @@
 <SearchQueries>
   <QueryGroup Name="1ExPatterns" Expanded="false" ExpandedInPopup="false">
     <Queries>
-      <SearchQuery version="2" Name="xTarget=SinglePhoneAnywhere" Pattern="tʰ/*_*">
+      <SearchQuery version="2" Name="ExTarget=SinglePhoneAnywhere" Pattern="tʰ/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -58,7 +58,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=SetOfPhonesAnywhere" Pattern="{t,tʰ,d}/*_*">
+      <SearchQuery version="2" Name="ExTarget=SetOfPhonesAnywhere" Pattern="{t,tʰ,d}/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -114,7 +114,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=SeqOfPhonesAnywhere" Pattern="t[V][C]/*_*">
+      <SearchQuery version="2" Name="ExTarget=SeqOfPhonesAnywhere" Pattern="t[V][C]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -170,7 +170,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=ConsOrVowelWordInitial" Pattern="{[C],[V]}/#_*">
+      <SearchQuery version="2" Name="ExTarget=ConsOrVowelWordInitial" Pattern="{[C],[V]}/#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -230,7 +230,7 @@
   </QueryGroup>
   <QueryGroup Name="2ExPatternsDiacritics" Expanded="false" ExpandedInPopup="false">
     <Queries>
-      <SearchQuery version="2" Name="xTarget=Diacritic:Specific" Pattern="[[V][◌̃]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=Diacritic:Specific" Pattern="[[V][◌̃]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -286,7 +286,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=Diacritic:AnyDiacriticOnVowel" Pattern="[[V][◌+]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=Diacritic:AnyDiacriticOnVowel" Pattern="[[V][◌+]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -342,7 +342,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=i_IgnoreDiacritics" Pattern="i/*_*">
+      <SearchQuery version="2" Name="ExTarget=i_IgnoreDiacritics" Pattern="i/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -399,7 +399,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=i_DoNotIgnoreDiacritics" Pattern="i/*_*">
+      <SearchQuery version="2" Name="ExTarget=i_DoNotIgnoreDiacritics" Pattern="i/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -460,7 +460,7 @@
   </QueryGroup>
   <QueryGroup Name="3ExPatternsArtFeatures" Expanded="false" ExpandedInPopup="false">
     <Queries>
-      <SearchQuery version="2" Name="xTarget=ArtFeatures" Pattern="[[Nasal][Vowel]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=ArtFeatures" Pattern="[[Nasal][Vowel]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -516,7 +516,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=SeqOfArtFeatures" Pattern="[Nasal][Nasal]/*_*">
+      <SearchQuery version="2" Name="ExTarget=SeqOfArtFeatures" Pattern="[Nasal][Nasal]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -572,7 +572,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=ComplexSeqOfArtFeatures" Pattern="[[Nasal][Consonant]][[Nasal][Vowel]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=ComplexSeqOfArtFeatures" Pattern="[[Nasal][Consonant]][[Nasal][Vowel]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -632,7 +632,7 @@
   </QueryGroup>
   <QueryGroup Name="4ExPatternsBinFeatures" Expanded="false" ExpandedInPopup="false">
     <Queries>
-      <SearchQuery version="2" Name="xTarget=BinFeatures" Pattern="[[+nas][+cons]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=BinFeatures" Pattern="[[+nas][+cons]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -689,7 +689,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=SeqOfBinFeatures" Pattern="[+nas][+nas]/*_*">
+      <SearchQuery version="2" Name="ExTarget=SeqOfBinFeatures" Pattern="[+nas][+nas]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -746,7 +746,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xTarget=ComplexSeqOfBinFeatures" Pattern="[[+nas][+cons]][[+nas][-cons]]/*_*">
+      <SearchQuery version="2" Name="ExTarget=ComplexSeqOfBinFeatures" Pattern="[[+nas][+cons]][[+nas][-cons]]/*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -807,7 +807,7 @@
   </QueryGroup>
   <QueryGroup Name="5ExEnvironments" Expanded="false" ExpandedInPopup="false">
     <Queries>
-      <SearchQuery version="2" Name="xEnvrnmt=WordInitial" Pattern="[C]/#_*">
+      <SearchQuery version="2" Name="ExEnvrnmt=WordInitial" Pattern="[C]/#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -864,7 +864,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xEnvrnmt=WordFinal" Pattern="[C]/*_[#]">
+      <SearchQuery version="2" Name="ExEnvrnmt=WordFinal" Pattern="[C]/*_[#]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -921,7 +921,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xEnvrnmt=Intervocalic" Pattern="[C]/[V]_[V]">
+      <SearchQuery version="2" Name="ExEnvrnmt=Intervocalic" Pattern="[C]/[V]_[V]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -978,7 +978,7 @@
           <string>̆</string>
         </CompleteIgnoredList>
       </SearchQuery>
-      <SearchQuery version="2" Name="xEnvrnmt=SetOfPhonesPreceding" Pattern="[C]/{i,e}_*">
+      <SearchQuery version="2" Name="ExEnvrnmt=SetOfPhonesPreceding" Pattern="[C]/{i,e}_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
