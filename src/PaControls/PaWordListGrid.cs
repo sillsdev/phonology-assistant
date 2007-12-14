@@ -1085,8 +1085,40 @@ namespace SIL.Pa.Controls
 		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
 		{
 			base.OnCellValueNeeded(e);
-			WordListCacheEntry entry = GetWordEntry(e.RowIndex);
-			e.Value = (entry == null ? null : entry[Columns[e.ColumnIndex].DataPropertyName]);
+
+			try
+			{
+				WordListCacheEntry entry = GetWordEntry(e.RowIndex);
+
+				if (entry == null)
+				{
+					e.Value = null;
+					return;
+				}
+				
+				string fieldName = Columns[e.ColumnIndex].DataPropertyName;
+
+				// When the entry is from a data source that was parsed used the one-to-one
+				// option and the field is a parsed field, then handle that case specially.
+				// In that case, we don't want to display the record entry's value when the
+				// word cache entry's value is null. We just want to display nothing. PA-709
+				if (entry.WordCacheEntry.RecordEntry.DataSource.ParseType ==
+					DataSourceParseType.OneToOne)
+				{
+					PaFieldInfo fieldInfo = FieldInfoList[fieldName];
+					if (fieldInfo != null && fieldInfo.IsParsed)
+					{
+						e.Value = entry.WordCacheEntry.GetField(fieldName, false);
+						return;
+					}
+				}
+
+				e.Value = entry[fieldName];
+			}
+			catch
+			{
+				e.Value = Properties.Resources.kstidWordListCellValueError;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

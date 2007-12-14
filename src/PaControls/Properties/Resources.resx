@@ -486,6 +486,10 @@
   <data name="kstidUndockViewToolTip" xml:space="preserve">
     <value>Undock view</value>
   </data>
+  <data name="kstidWordListCellValueError" xml:space="preserve">
+    <value>Error getting data!</value>
+    <comment>Displayed in a word list cell when there was an error retrieving data for the cell. This should never be used, but just in case...</comment>
+  </data>
   <data name="kstidWordListStatusBarText" xml:space="preserve">
     <value>Record {0} of {1}</value>
   </data>

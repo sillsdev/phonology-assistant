@@ -663,7 +663,7 @@ namespace SIL.Pa.Controls
 				{
 					pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 					int dy = rc.Bottom - (m_showMembersAndClassTypeColumns ? 3 : 2);
-					e.Graphics.DrawLine(pen, rc.X, dy, rc.X + width, dy);
+					e.Graphics.DrawLine(pen, rc.X, dy, rc.X + Math.Min(rc.Width, width), dy);
 				}
 			}
 		}

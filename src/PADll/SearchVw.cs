@@ -1025,13 +1025,13 @@ namespace SIL.Pa
 				}
 			}
 
-			// Any text we've got at this point we construct a query from it and begin
-			// dragging it. The pattern text box is only a valid drop target for search
-			// query objects. 
+			// At this point, any text we've got we use to construct a query since
+			// the pattern text box is only a drop target for search query objects.
+			// Then begin dragging.
 			if (dragText != null)
 			{
 				SearchQuery query = new SearchQuery();
-				query.Pattern = dragText;
+				query.Pattern = dragText.Replace(DataUtils.kDottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
 			}

@@ -743,7 +743,8 @@ namespace SIL.Pa
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 	
-				DoDragDrop(dragText, DragDropEffects.Copy);
+				DoDragDrop(dragText.Replace(DataUtils.kDottedCircle, string.Empty),
+					DragDropEffects.Copy);
 			}
 		}
 
