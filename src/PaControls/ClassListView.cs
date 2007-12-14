@@ -316,7 +316,7 @@ namespace SIL.Pa.Controls
 			Items.Clear();
 
 			foreach (SearchClass srchClass in PaApp.Project.SearchClasses)
-				Items.Add(ClassListViewItem.Create(srchClass));
+				Items.Add(ClassListViewItem.Create(srchClass, m_showMembersAndClassTypeColumns));
 		}
 
 		/// ------------------------------------------------------------------------------------

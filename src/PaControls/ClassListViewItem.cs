@@ -453,13 +453,18 @@ namespace SIL.Pa.Controls
 		/// Creates a new list resultView item for the specified search class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static ClassListViewItem Create(SearchClass srchClass)
+		public static ClassListViewItem Create(SearchClass srchClass,
+			bool addMembersAndClassTypeColumns)
 		{
 			ClassListViewItem item = new ClassListViewItem(srchClass.Name);
 			item.Name = kClassNameSubitem;
 			item.ClassType = srchClass.SearchClassType;
-			item.SubItems.Add(srchClass.Pattern);
-			item.SubItems.Add(item.ClassTypeText);
+
+			if (addMembersAndClassTypeColumns)
+			{
+				item.SubItems.Add(srchClass.Pattern);
+				item.SubItems.Add(item.ClassTypeText);
+			}
 
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');
