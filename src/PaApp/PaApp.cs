@@ -79,6 +79,7 @@ namespace SIL.Pa
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 
+		private static string s_breakChars;
 		private static string s_helpFilePath = null;
 		private static ITMAdapter s_tmAdapter;
 		private static ToolStripStatusLabel s_statusBarLabel;
@@ -328,7 +329,7 @@ namespace SIL.Pa
 				for (int i = 0; i < phones.Length; i++)
 				{
 					// Don't bother adding break characters.
-					if (IPACharCache.kBreakChars.Contains(phones[i]))
+					if (BreakChars.Contains(phones[i]))
 						continue;
 
 					if (!s_phoneCache.ContainsKey(phones[i]))
@@ -352,7 +353,7 @@ namespace SIL.Pa
 						// Go through the uncertain phones and add them to the cache.
 						if (entry.ContiansUncertainties)
 						{
-							AddUncertainPhonesToCache(entry.UncertainPhones);
+							AddUncertainPhonesToCache(entry.UncertainPhones[i]);
 							UpdateSiblingUncertaintys(entry.UncertainPhones);
 						}
 					}
@@ -376,23 +377,22 @@ namespace SIL.Pa
 		/// therefore, it will not be added nor its count incremented.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddUncertainPhonesToCache(IDictionary<int, string[]> uncertainPhones)
+		private static void AddUncertainPhonesToCache(string[] uncertainPhoneGroup)
 		{
 			// Go through the uncertain phone groups, skipping the
 			// primary one in each group since that was already added
 			// to the cache above.
-			foreach (string[] uPhones in uncertainPhones.Values)
+			for (int i = 1; i < uncertainPhoneGroup.Length; i++)
 			{
-				for (int i = 1; i < uPhones.Length; i++)
-				{
-					// Don't bother adding break characters.
-					if (!IPACharCache.kBreakChars.Contains(uPhones[i]))
-					{
-						if (!s_phoneCache.ContainsKey(uPhones[i]))
-							s_phoneCache.AddPhone(uPhones[i]);
+				string phone = uncertainPhoneGroup[i];
 
-						s_phoneCache[uPhones[i]].CountAsNonPrimaryUncertainty++;
-					}
+				// Don't bother adding break characters.
+				if (!PaApp.BreakChars.Contains(phone))
+				{
+					if (!s_phoneCache.ContainsKey(phone))
+						s_phoneCache.AddPhone(phone);
+
+					s_phoneCache[phone].CountAsNonPrimaryUncertainty++;
 				}
 			}
 		}
@@ -503,6 +503,25 @@ namespace SIL.Pa
 		}
 
 		#region Misc. Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string BreakChars
+		{
+			get
+			{
+				if (s_breakChars == null)
+				{
+					s_breakChars = SettingsHandler.GetStringSettingsValue(
+						"application", "wordbreakchars", " ");
+				}
+
+				return s_breakChars;
+			}
+		}
+
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the XCore message mediator for the application.

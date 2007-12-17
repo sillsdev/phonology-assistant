@@ -35,7 +35,7 @@ namespace SIL.Pa.Controls
 		private FindDlg m_findDlg;
 		private const string kPhonetic = "Phonetic";
 		private const string kGloss = "Gloss";
-		private const string kCVPattern = "CVPattern";
+		private const string kCVPattern = "CV Pattern";
 		#endregion
 
 		#region Setup/Teardown
@@ -59,6 +59,7 @@ namespace SIL.Pa.Controls
 			m_dataSource.ParseType = DataSourceParseType.Interlinear;
 
 			FindInfo.ShowMessages = false;
+			FwQueries.ShowMsgOnQueryFileLoadFailure = false;
 			CreateWordListGrid();
 
 			m_findDlg = new FindDlg(m_grid);
@@ -112,9 +113,9 @@ namespace SIL.Pa.Controls
 			PaApp.RecordCache = m_recCache;
 			m_cache = new WordListCache();
 
-			AddWords("fib bit ebay bitter drillbit abdiging",						// Phonetic
-							"cvc cvc vcvc cvccvc ccvccbit vcbitcvcvcc",				// Cvc
-							"GLFIB glbitter glebay glbitter drillbit glabitging");	// Gloss
+			AddWords("fib bit ebay bitter drillbit abdiging",			// Phonetic
+				"cvc cvc vcvc cvccvc ccvccbit vcbitcvcvcc",				// Cvc
+				"GLFIB glbitter glebay glbitter drillbit glabitging");	// Gloss
 
 			// Create grid
 			m_grid = new PaWordListGrid(m_cache, GetType(), false);
@@ -131,8 +132,8 @@ namespace SIL.Pa.Controls
 
 			// Set the CVPattern & Gloss column Display Indexes to the correct order
 			// based on the columnsToSearch below.
-			m_grid.Columns[8].DisplayIndex = 1; // use to be 8
-			m_grid.Columns[3].DisplayIndex = 2; // use to be 3
+			m_grid.Columns[8].DisplayIndex = 1;
+			m_grid.Columns[3].DisplayIndex = 2;
 			m_grid.Columns[1].DisplayIndex = 3;
 			m_grid.Columns[2].DisplayIndex = 4;
 			m_grid.Columns[4].DisplayIndex = 5;
@@ -145,16 +146,13 @@ namespace SIL.Pa.Controls
 
 			// Add columns to search
 			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-			FindDlgColItem item;
-					// FindDlgColItem(index, displayIndex, text, fieldName);
-			item = new FindDlgColItem(0, 0, "Phonetic", "Phonetic");
+			FindDlgColItem item = new FindDlgColItem(0, 0, "Phonetic", "Phonetic");
 			columnsToSearch.Add(item);
-			item = new FindDlgColItem(8, 1, "CV Pattern", "CVPattern");
+			item = new FindDlgColItem(8, 1, "CV Pattern", "CV Pattern");
 			columnsToSearch.Add(item);
 			item = new FindDlgColItem(3, 2, "Gloss", "Gloss");
 			columnsToSearch.Add(item);
 			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
-			//InspectGrid();
 		}
 
 		/// ------------------------------------------------------------------------------------

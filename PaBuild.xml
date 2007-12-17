@@ -135,11 +135,23 @@
 				<Arg>C:\Phonology Assistant\aux_docs\readme.rtf</Arg>
 				<Arg>C:\Phonology Assistant\Installer Files\readme.rtf</Arg>
 			</CommandItem>
-			<!-- Commit to the installer file repository, all the files to be put in the installer -->
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\setuppa.rtf</Arg>
+				<Arg>C:\speechtools\Built Installers\PA Package\SIL_PA_30\Phonology Assistant\setuppa.rtf</Arg>
+			</CommandItem>
+		<!-- Commit to the installer file repository, all the files to be put in the installer -->
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
-				<Arg>-m "Automatic PA Build"</Arg>
+				<Arg>-m "Automatic PA Build pt. 1"</Arg>
 				<Arg>"C:\Phonology Assistant\Installer Files"</Arg>
+				<Arg>--non-interactive</Arg>
+				<Arg>--username wenger</Arg>
+				<Arg>--password svnwenger</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>commit</Arg>
+				<Arg>-m "Automatic PA Build pt. 2"</Arg>
+				<Arg>"C:\speechtools\Built Installers\PA Package\SIL_PA_30\Phonology Assistant"</Arg>
 				<Arg>--non-interactive</Arg>
 				<Arg>--username wenger</Arg>
 				<Arg>--password svnwenger</Arg>

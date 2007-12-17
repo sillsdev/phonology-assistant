@@ -141,8 +141,6 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class IPACharCache : Dictionary<int, IPACharInfo>
 	{
-		public const string kBreakChars = " ";
-
 		public enum SortType
 		{
 			MOArticulation,

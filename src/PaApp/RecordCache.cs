@@ -318,8 +318,7 @@ namespace SIL.Pa
 			// field is phonetic or 2) the field should be parsed or 3) both 1 and
 			// 2. When the field should be parsed then split it into individual words.
 			string[] split = (entry.DataSource.ParseType == DataSourceParseType.None ?
-				new string[] {unparsedData} : 
-				unparsedData.Split(IPACharCache.kBreakChars.ToCharArray(),
+				new string[] {unparsedData} : unparsedData.Split(PaApp.BreakChars.ToCharArray(),
 					StringSplitOptions.RemoveEmptyEntries));
 
 			for (int i = 0; i < split.Length; i++)

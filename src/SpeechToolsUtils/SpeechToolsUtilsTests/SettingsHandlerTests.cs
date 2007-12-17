@@ -105,7 +105,8 @@ namespace SIL.SpeechTools.Utils
 		public void LoadFormProperties_NormalState()
 		{
 			string xml = string.Format(m_xmlShell, "<windowstates><window id=\"testwnd\" " +
-				"state=\"Normal\" height=\"150\" width=\"200\" top=\"30\" left=\"20\"/></windowstates>");
+				"state=\"Normal\" height=\"150\" width=\"200\" top=\"30\" left=\"20\" " +
+				"dpi=\"96.0\"/></windowstates>");
 			
 			CreateTempFile(xml);
 
@@ -128,17 +129,11 @@ namespace SIL.SpeechTools.Utils
 		public void LoadFormProperties_MaximizedState()
 		{
 			string xml = string.Format(m_xmlShell, "<windowstates><window id=\"testwnd\" " +
-				"state=\"Maximized\"/></windowstates>");
+				"state=\"Maximized\" dpi=\"96.0\"/></windowstates>");
 
 			CreateTempFile(xml);
-
 			SettingsHandler hndlr = new SettingsHandler(m_tempFilename);
-
 			hndlr.LoadFormProperties(m_frm);
-			Assert.AreEqual(250, m_frm.Width);
-			Assert.AreEqual(250, m_frm.Height);
-			Assert.AreEqual(-10, m_frm.Top);
-			Assert.AreEqual(-10, m_frm.Left);
 			Assert.AreEqual(FormWindowState.Maximized, m_frm.WindowState);
 		}
 	
@@ -196,7 +191,7 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		private static void VerifyWindowNodeContents(SettingsHandler hndlr, Form frm)
 		{
-			hndlr.SaveFormProperties(frm);
+			hndlr.SaveFormProperties(frm, true);
 
 			XmlNode node = hndlr.FindChildNode("/settings/windowstates", "testwnd");
 			Assert.IsNotNull(node);
@@ -219,14 +214,10 @@ namespace SIL.SpeechTools.Utils
 
 			m_frm.WindowState = FormWindowState.Maximized;
 			SettingsHandler hndlr = new SettingsHandler(m_tempFilename);
-			hndlr.SaveFormProperties(m_frm);
+			hndlr.SaveFormProperties(m_frm, true);
 
 			XmlNode node = hndlr.FindChildNode("/settings/windowstates", "testwnd");
 			Assert.IsNotNull(node);
-			Assert.AreEqual(0, XMLHelper.GetIntFromAttribute(node, "width", 0));
-			Assert.AreEqual(0, XMLHelper.GetIntFromAttribute(node, "height", 0));
-			Assert.AreEqual(0, XMLHelper.GetIntFromAttribute(node, "top", 0));
-			Assert.AreEqual(0, XMLHelper.GetIntFromAttribute(node, "left", 0));
 			Assert.AreEqual("Maximized", XMLHelper.GetAttributeValue(node, "state"));
 		}
 
@@ -241,7 +232,7 @@ namespace SIL.SpeechTools.Utils
 			CreateTempFile(m_xmlShell);
 			m_frm.WindowState = FormWindowState.Minimized;
 			SettingsHandler hndlr = new SettingsHandler(m_tempFilename);
-			hndlr.SaveFormProperties(m_frm);
+			hndlr.SaveFormProperties(m_frm, true);
 			Assert.IsNull(hndlr.FindChildNode("/settings/windowstates", "testwnd"));
 		}
 
@@ -266,7 +257,6 @@ namespace SIL.SpeechTools.Utils
 				XmlNode node = hndlr.FindChildNode("/settings/grids", "testgrid");
 				Assert.IsNotNull(node);
 
-				Assert.AreEqual("Sunken", XMLHelper.GetAttributeValue(node, "lines"));
 				Assert.AreEqual(3, node.ChildNodes.Count);
 
 				Assert.AreEqual(grid.ColumnHeadersHeight, XMLHelper.GetIntFromAttribute(node, "colheaderheight", -1));
@@ -300,7 +290,7 @@ namespace SIL.SpeechTools.Utils
 		public void LoadGridProperties()
 		{
 			string xml = string.Format(m_xmlShell, "<grids><grid id=\"testgrid\" " +
-				"lines=\"Raised\" colheaderheight=\"456\">" +
+				"colheaderheight=\"456\" dpi=\"96.0\">" +
 				"<column id=\"col1\" width=\"100\" visible=\"false\"/>" +
 				"<column id=\"col2\" width=\"200\" visible=\"true\" displayindex=\"1\"/>" +
 				"<column id=\"col3\" width=\"300\" visible=\"true\" displayindex=\"0\"/></grid></grids>");
@@ -313,7 +303,6 @@ namespace SIL.SpeechTools.Utils
 				string dummy;
 				hndlr.LoadGridProperties(grid, out dummy);
 
-				Assert.AreEqual(DataGridViewCellBorderStyle.Raised, grid.CellBorderStyle);
 				Assert.AreEqual(456, grid.ColumnHeadersHeight);
 				Assert.AreEqual(100, grid.Columns[0].Width);
 				Assert.IsFalse(grid.Columns[0].Visible);
@@ -378,7 +367,7 @@ namespace SIL.SpeechTools.Utils
 			hndlr.SaveSettingsValue("gumby", "int", 6372);
 			hndlr.SaveSettingsValue("gumby", "bool", true);
 
-			XmlNode node = hndlr.FindChildNode("/settings/windows", "gumby");
+			XmlNode node = hndlr.FindChildNode("/settings/misc", "gumby");
 			Assert.IsNotNull(node);
 			Assert.AreEqual("pokey", XMLHelper.GetAttributeValue(node, "string"));
 			Assert.AreEqual(6372, XMLHelper.GetIntFromAttribute(node, "int", -1));
@@ -393,8 +382,8 @@ namespace SIL.SpeechTools.Utils
 		[Test]
 		public void GetWindowValues()
 		{
-			string xml = string.Format(m_xmlShell, "<windows><window id=\"gumby\" " +
-				"string=\"pokey\" int=\"6372\" bool=\"True\" /></windows>");
+			string xml = string.Format(m_xmlShell, "<misc><setting id=\"gumby\" " +
+				"string=\"pokey\" int=\"6372\" bool=\"True\" /></misc>");
 
 			CreateTempFile(xml);
 

@@ -93,7 +93,19 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public void SaveFormProperties(Form frm)
 		{
-			if (!frm.Visible)
+			SaveFormProperties(frm, false);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves window properties from a form to an XmlDocument.
+		/// </summary>
+		/// <param name="frm">Form to save settings from</param>
+		/// <returns>True on success</returns>
+		/// ------------------------------------------------------------------------------------
+		public void SaveFormProperties(Form frm, bool saveEvenIfFormInvisible)
+		{
+			if (!frm.Visible && !saveEvenIfFormInvisible)
 				return;
 
 			if (m_xmlDoc == null)

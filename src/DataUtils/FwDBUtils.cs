@@ -759,6 +759,7 @@ namespace SIL.Pa.Data
 	{
 		internal static FwQueries s_fwqueries;
 		private static string s_queryFile;
+		private static bool s_showMsgOnQueryFileLoadFailure = true;
 
 		[XmlElement("fwregkey")]
 		public string m_fwRegKey;
@@ -820,11 +821,23 @@ namespace SIL.Pa.Data
 				s_fwqueries = STUtils.DeserializeData(s_queryFile, typeof(FwQueries)) as FwQueries;
 			}
 
-			if (s_fwqueries == null)
+			if (s_fwqueries == null && s_showMsgOnQueryFileLoadFailure)
 			{
 				string filePath = STUtils.PrepFilePathForSTMsgBox(s_queryFile);
 				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public static bool ShowMsgOnQueryFileLoadFailure
+		{
+			get { return s_showMsgOnQueryFileLoadFailure; }
+			set { s_showMsgOnQueryFileLoadFailure = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
