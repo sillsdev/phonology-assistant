@@ -10,8 +10,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-30</MOArticulation>
-    <POArticulation>-30</POArticulation>
+    <MOArticulation>-15</MOArticulation>
+    <POArticulation>-15</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -31,8 +31,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-25</MOArticulation>
-    <POArticulation>-25</POArticulation>
+    <MOArticulation>-20</MOArticulation>
+    <POArticulation>-20</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>128</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -52,8 +52,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>27</DisplayOrder>
-    <MOArticulation>-20</MOArticulation>
-    <POArticulation>-20</POArticulation>
+    <MOArticulation>-25</MOArticulation>
+    <POArticulation>-25</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>2048</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -73,8 +73,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>25</DisplayOrder>
-    <MOArticulation>-15</MOArticulation>
-    <POArticulation>-15</POArticulation>
+    <MOArticulation>-30</MOArticulation>
+    <POArticulation>-30</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>256</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -94,8 +94,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>23</DisplayOrder>
-    <MOArticulation>-5</MOArticulation>
-    <POArticulation>-5</POArticulation>
+    <MOArticulation>-35</MOArticulation>
+    <POArticulation>-35</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>64</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -115,8 +115,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>21</DisplayOrder>
-    <MOArticulation>-35</MOArticulation>
-    <POArticulation>-35</POArticulation>
+    <MOArticulation>-40</MOArticulation>
+    <POArticulation>-40</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>512</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -136,8 +136,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>19</DisplayOrder>
-    <MOArticulation>-10</MOArticulation>
-    <POArticulation>-10</POArticulation>
+    <MOArticulation>-45</MOArticulation>
+    <POArticulation>-45</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>1024</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -182,7 +182,7 @@
     <POArticulation>265</POArticulation>
     <Mask0>8388993</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>696414904829761664</BinaryMask>
+    <BinaryMask>696414904829761665</BinaryMask>
     <OverrideMask0>0</OverrideMask0>
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
@@ -220,8 +220,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-45</MOArticulation>
-    <POArticulation>-45</POArticulation>
+    <MOArticulation>-5</MOArticulation>
+    <POArticulation>-5</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -241,8 +241,8 @@
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>
-    <MOArticulation>-40</MOArticulation>
-    <POArticulation>-40</POArticulation>
+    <MOArticulation>-10</MOArticulation>
+    <POArticulation>-10</POArticulation>
     <Mask0>0</Mask0>
     <Mask1>0</Mask1>
     <BinaryMask>0</BinaryMask>
@@ -1337,7 +1337,7 @@
     <POArticulation>270</POArticulation>
     <Mask0>8388993</Mask0>
     <Mask1>0</Mask1>
-    <BinaryMask>696414904829761664</BinaryMask>
+    <BinaryMask>696414904829761665</BinaryMask>
     <OverrideMask0>0</OverrideMask0>
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
