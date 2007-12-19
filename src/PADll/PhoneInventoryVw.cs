@@ -1269,6 +1269,7 @@ namespace SIL.Pa
 				AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
 
 			LoadAmbiguousGrid();
+			PaApp.MsgMediator.SendMessage("AmbiguousSequencesSaved", ambigSeqList);
 			return true;
 		}
 
@@ -1301,7 +1302,8 @@ namespace SIL.Pa
 					if (phoneCacheEntry != null &&
 						(phoneCacheEntry.Masks[0] != phoneInfo.Masks[0] ||
 						phoneCacheEntry.Masks[1] != phoneInfo.Masks[1] ||
-						phoneCacheEntry.BinaryMask != phoneInfo.BinaryMask))
+						phoneCacheEntry.BinaryMask != phoneInfo.BinaryMask ||
+						phoneCacheEntry.FeaturesAreOverridden))
 					{
 						featureOverrideList[phoneInfo.Phone] = phoneInfo;
 					}
@@ -1310,6 +1312,7 @@ namespace SIL.Pa
 
 			featureOverrideList.Save(PaApp.Project.ProjectPathFilePrefix);
 			gridPhones.IsDirty = false;
+			PaApp.MsgMediator.SendMessage("PhoneFeatureOverridesSaved", featureOverrideList);
 			return true;
 		}
 

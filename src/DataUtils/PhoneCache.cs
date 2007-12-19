@@ -369,6 +369,7 @@ namespace SIL.Pa.Data
 		private char m_baseChar = '\0';
 		private string m_phone;
 		private bool m_isUndefined = false;
+		private bool m_featuresOverridden = false;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -406,9 +407,9 @@ namespace SIL.Pa.Data
 			ulong mask1 = 0;
 
 			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
-			bool phoneFeaturesOverridden = ShouldFeaturesBeOverridden(phone);
+			m_featuresOverridden = ShouldFeaturesBeOverridden(phone);
 
-			if (!phoneIsAmbiguous || !phoneFeaturesOverridden)
+			if (!phoneIsAmbiguous || !m_featuresOverridden)
 			{
 				// Go through each codepoint of the phone, building the feature masks along the way.
 				for (int i = phone.Length - 1; i >= 0; i--)
@@ -425,7 +426,7 @@ namespace SIL.Pa.Data
 							m_baseChar = phone[i];
 						}
 
-						if (!phoneFeaturesOverridden)
+						if (!m_featuresOverridden)
 						{
 							bmask |= charInfo.BinaryMask;
 							mask0 |= charInfo.Mask0;
@@ -435,7 +436,7 @@ namespace SIL.Pa.Data
 				}
 			}
 
-			if (!phoneFeaturesOverridden)
+			if (!m_featuresOverridden)
 			{
 				m_masks = new ulong[] { mask0, mask1 };
 				m_binaryMask = bmask;
@@ -510,6 +511,7 @@ namespace SIL.Pa.Data
 			clone.m_baseChar = m_baseChar;
 			clone.m_siblingUncertainties = new List<string>(m_siblingUncertainties);
 			clone.m_isUndefined = m_isUndefined;
+			clone.m_featuresOverridden = m_featuresOverridden;
 
 			return clone;
 		}
@@ -524,6 +526,17 @@ namespace SIL.Pa.Data
 			return m_phone;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool FeaturesAreOverridden
+		{
+			get { return m_featuresOverridden; }
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This property is only exposed for PhoneInfo instances that are included in

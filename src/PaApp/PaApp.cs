@@ -140,6 +140,18 @@ namespace SIL.Pa
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
 				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
 
+			string val = s_settingsHndlr.GetStringSettingsValue("uncertainphonegroups",
+				"absenceofphonechars", null);
+			
+			if (val != null)
+				IPACharCache.UncertainGroupAbsentPhoneChars = val;
+
+			val = s_settingsHndlr.GetStringSettingsValue("uncertainphonegroups",
+				"absenceofphonecharinpopup", "\u2205");
+				
+			if (val != null)
+				IPACharCache.UncertainGroupAbsentPhoneChar = val;
+				
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = s_settingsHndlr.GetBoolSettingsValue(
 				"fieldworks", "showmsgwhengatheringinfo", false);
 
@@ -426,7 +438,11 @@ namespace SIL.Pa
 						// cache entry we're updating and if it's not a phone already
 						// in the sibling list of the cache entry we're updating.
 						if (j != i && !phoneUpdating.SiblingUncertainties.Contains(uPhones[j]))
-							phoneUpdating.SiblingUncertainties.Add(uPhones[j]);
+						{
+							phoneUpdating.SiblingUncertainties.Add(
+								IPACharCache.UncertainGroupAbsentPhoneChars.Contains(uPhones[j]) ?
+								IPACharCache.UncertainGroupAbsentPhoneChar : uPhones[j]);
+						}
 					}
 				}
 			}

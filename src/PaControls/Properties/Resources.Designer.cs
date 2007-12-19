@@ -483,6 +483,15 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (none).
+        /// </summary>
+        internal static string kstidEmptySiblingUncertainty {
+            get {
+                return ResourceManager.GetString("kstidEmptySiblingUncertainty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (empty tab).
         /// </summary>
         internal static string kstidEmptySrchResultTabText {

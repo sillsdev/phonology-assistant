@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
@@ -96,18 +97,29 @@ namespace SIL.Pa.Controls
 				return false;
 			}
 
-			StringBuilder bldr = new StringBuilder();
-			for (int i = 0; i < siblingUncertainties.Count; i++)
+			// Weed out duplicates.
+			List<string> tmpSiblings = new List<string>();
+			foreach (string sibling in siblingUncertainties)
 			{
+				if (!tmpSiblings.Contains(sibling))
+					tmpSiblings.Add(sibling);
+			}
+
+			// Now build the display string.
+			StringBuilder bldr = new StringBuilder();
+			for (int i = 0; i < tmpSiblings.Count; i++)
+			{
+				string sibling = tmpSiblings[i];
+				
 				string comma = (i > 0 ? ", " : string.Empty);
-				lblSiblingPhones.Text = bldr + comma + siblingUncertainties[i];
+				lblSiblingPhones.Text = bldr + comma + sibling;
 
 				// Determine whether or not to insert a new line or if there's room to
 				// continue adding phones on the current line.
 				bldr.Append(
 					lblSiblingPhones.PreferredWidth <= lblSiblingPhones.Width ?	comma : ",\n");
 
-				bldr.Append(siblingUncertainties[i]);
+				bldr.Append(sibling);
 			}
 
 			// Set the desired height of the sibling phones list and then set the

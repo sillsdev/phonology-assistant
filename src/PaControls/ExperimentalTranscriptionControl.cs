@@ -653,7 +653,7 @@ namespace SIL.Pa.Controls
 			// Commit pending changes in the grid.
 			m_grid.EndEdit();
 
-			ExperimentalTranscriptions experimentaTransList = new ExperimentalTranscriptions();
+			ExperimentalTranscriptions experimentalTransList = new ExperimentalTranscriptions();
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				if (row.Index == m_grid.NewRowIndex)
@@ -678,12 +678,13 @@ namespace SIL.Pa.Controls
 				if (convertToItems.Count > 0)
 					experimentalTrans.TranscriptionsToConvertTo = convertToItems;
 
-				experimentaTransList.Add(experimentalTrans);
+				experimentalTransList.Add(experimentalTrans);
 			}
 
-			experimentaTransList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPACharCache.ExperimentalTranscriptions = experimentaTransList;
+			experimentalTransList.Save(PaApp.Project.ProjectPathFilePrefix);
+			DataUtils.IPACharCache.ExperimentalTranscriptions = experimentalTransList;
 			m_grid.IsDirty = false;
+			PaApp.MsgMediator.SendMessage("ExperimentalTranscriptionsSaved", experimentalTransList);
 		}
 
 		#endregion

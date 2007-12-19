@@ -1482,7 +1482,10 @@ namespace SIL.Pa.Controls
 
 			if (resultCache != null)
 			{
+				UnsubscribeToGridEvents();
 				m_resultView.Initialize(resultCache);
+				UpdateRecordView();
+				SubscribeToGridEvents();
 				m_query = resultCache.SearchQuery;
 			}
 
@@ -1578,14 +1581,14 @@ namespace SIL.Pa.Controls
 							}
 						}
 					}
-
-					HandleResultViewRowEnter(null, null);
 				}
 				else if (m_owningTabGroup.IsCurrent && m_resultView != null &&
 					m_resultView.Grid != null && !m_resultView.Grid.Focused)
 				{
 					m_resultView.Grid.Focus();
 				}
+				
+				UpdateRecordView();
 			}
 		}
 
@@ -1611,7 +1614,7 @@ namespace SIL.Pa.Controls
 					m_query = m_resultView.SearchQuery;
 					m_resultView.Dock = DockStyle.Fill;
 					SubscribeToGridEvents();
-					HandleResultViewRowEnter(null, null);
+					UpdateRecordView();
 				}
 			}
 		}
@@ -1779,6 +1782,7 @@ namespace SIL.Pa.Controls
 				UnsubscribeToGridEvents();
 				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
+				UpdateRecordView();
 			}
 
 			return false;
@@ -1850,26 +1854,12 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Updates the record pane with the raw record query for the current row.
+		/// Updates the record pane with the data source's record for the current row.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleResultViewRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			if (!m_selected)
-				return;
-
-			if (m_owningTabGroup.RecordView == null || m_resultView == null ||
-				!m_owningTabGroup.IsCurrent || m_resultView.Grid == null)
-			{
-				m_owningTabGroup.RecordView.UpdateRecord(null);
-			}
-			else
-			{
-				RecordCacheEntry entry = (e == null ? m_resultView.Grid.GetRecord() :
-					m_resultView.Grid.GetRecord(e.RowIndex));
-
-				m_owningTabGroup.RecordView.UpdateRecord(entry);
-			}
+			UpdateRecordView(e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1880,8 +1870,42 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnWordListGridSorted(object args)
 		{
-			HandleResultViewRowEnter(null, null);
+			UpdateRecordView();
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void UpdateRecordView()
+		{
+			UpdateRecordView(-1);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void UpdateRecordView(int rowIndex)
+		{
+			if (!m_selected || (m_owningTabGroup != null && !m_owningTabGroup.IsCurrent))
+				return;
+
+			if (m_owningTabGroup.RecordView == null || m_resultView == null ||
+				!m_owningTabGroup.IsCurrent || m_resultView.Grid == null)
+			{
+				m_owningTabGroup.RecordView.UpdateRecord(null);
+			}
+			else
+			{
+				RecordCacheEntry entry = (rowIndex < 0 ? m_resultView.Grid.GetRecord() :
+					m_resultView.Grid.GetRecord(rowIndex));
+
+				m_owningTabGroup.RecordView.UpdateRecord(entry);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

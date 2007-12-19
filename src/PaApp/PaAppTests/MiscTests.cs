@@ -28,6 +28,9 @@ namespace SIL.Pa
     [TestFixture]
     public class MiscTests : TestBase
 	{
+		RecordCacheEntry m_recEntry;
+		WordCacheEntry m_entry;
+
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -58,7 +61,10 @@ namespace SIL.Pa
 		[SetUp]
         public void TestSetup()
         {
+			DataUtils.IPACharCache.UndefinedCharacters = null;
 			PaApp.WordCache = new WordCache();
+			m_recEntry = new RecordCacheEntry(true);
+			m_recEntry.DataSource = new PaDataSource();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,12 +88,12 @@ namespace SIL.Pa
 		[Test]
 		public void BuildPhoneCacheTest1()
 		{
-			WordCacheEntry entry = new WordCacheEntry(true);
-			entry["Phonetic"] = "abc";
-			PaApp.WordCache.Add(entry);
-			entry = new WordCacheEntry(true);
-			entry["Phonetic"] = "xyz";
-			PaApp.WordCache.Add(entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "abc";
+			PaApp.WordCache.Add(m_entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "xyz";
+			PaApp.WordCache.Add(m_entry);
 
 			PaApp.BuildPhoneCache();
 
@@ -108,12 +114,12 @@ namespace SIL.Pa
 		[Test]
 		public void BuildPhoneCacheTest2()
 		{
-			WordCacheEntry entry = new WordCacheEntry(true);
-			entry["Phonetic"] = "abc";
-			PaApp.WordCache.Add(entry);
-			entry = new WordCacheEntry(true);
-			entry["Phonetic"] = "axc";
-			PaApp.WordCache.Add(entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "abc";
+			PaApp.WordCache.Add(m_entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "axc";
+			PaApp.WordCache.Add(m_entry);
 
 			PaApp.BuildPhoneCache();
 
@@ -137,9 +143,9 @@ namespace SIL.Pa
 		[Test]
 		public void BuildPhoneCacheWithWordBreaksInPhonetic()
 		{
-			WordCacheEntry entry = new WordCacheEntry(true);
-			entry["Phonetic"] = "ab" + PaApp.BreakChars[0].ToString() + "xy";
-			PaApp.WordCache.Add(entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "ab" + PaApp.BreakChars[0].ToString() + "xy";
+			PaApp.WordCache.Add(m_entry);
 
 			PaApp.BuildPhoneCache();
 
@@ -162,11 +168,9 @@ namespace SIL.Pa
 			DataUtils.IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
 
-			RecordCacheEntry recEntry = new RecordCacheEntry(true);
-			recEntry.DataSource = new PaDataSource();
-			WordCacheEntry entry = new WordCacheEntry(recEntry, true);
-			entry["Phonetic"] = "abXY";
-			PaApp.WordCache.Add(entry);
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "abXY";
+			PaApp.WordCache.Add(m_entry);
 			PaApp.BuildPhoneCache();
 
 			Assert.AreEqual(2, DataUtils.IPACharCache.UndefinedCharacters.Count);
@@ -180,6 +184,192 @@ namespace SIL.Pa
 			Assert.IsFalse((PaApp.PhoneCache["b"] as PhoneInfo).IsUndefined);
 			Assert.IsTrue((PaApp.PhoneCache["X"] as PhoneInfo).IsUndefined);
 			Assert.IsTrue((PaApp.PhoneCache["Y"] as PhoneInfo).IsUndefined);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Simple test for building phone cache with uncertain phone group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithUncertainties1()
+		{
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "ab(t/d)c";
+			PaApp.WordCache.Add(m_entry);
+			PaApp.BuildPhoneCache();
+
+			Assert.AreEqual(5, PaApp.PhoneCache.Count);
+			Assert.IsNotNull(PaApp.PhoneCache["t"]);
+			Assert.IsNotNull(PaApp.PhoneCache["d"]);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["d"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["t"].TotalCount);
+			Assert.AreEqual(0, PaApp.PhoneCache["d"].TotalCount);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Simple test for building phone cache with uncertain phone group, testing that each
+		/// uncertainty's sibling(s) is/are correct.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithUncertainties2()
+		{
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "ab(t/d)c(e/i/o)";
+			PaApp.WordCache.Add(m_entry);
+			PaApp.BuildPhoneCache();
+
+			Assert.AreEqual(8, PaApp.PhoneCache.Count);
+			Assert.IsNotNull(PaApp.PhoneCache["t"]);
+			Assert.IsNotNull(PaApp.PhoneCache["e"]);
+			Assert.IsNotNull(PaApp.PhoneCache["i"]);
+			Assert.IsNotNull(PaApp.PhoneCache["o"]);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["d"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["e"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["i"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["o"].CountAsNonPrimaryUncertainty);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].SiblingUncertainties.Count);
+			Assert.AreEqual(1, PaApp.PhoneCache["d"].SiblingUncertainties.Count);
+			Assert.AreEqual(2, PaApp.PhoneCache["e"].SiblingUncertainties.Count);
+			Assert.AreEqual(2, PaApp.PhoneCache["i"].SiblingUncertainties.Count);
+			Assert.AreEqual(2, PaApp.PhoneCache["o"].SiblingUncertainties.Count);
+
+			Assert.AreEqual("d", PaApp.PhoneCache["t"].SiblingUncertainties[0]);
+			Assert.AreEqual("t", PaApp.PhoneCache["d"].SiblingUncertainties[0]);
+
+			Assert.AreEqual("i", PaApp.PhoneCache["e"].SiblingUncertainties[0]);
+			Assert.AreEqual("o", PaApp.PhoneCache["e"].SiblingUncertainties[1]);
+			Assert.AreEqual("e", PaApp.PhoneCache["i"].SiblingUncertainties[0]);
+			Assert.AreEqual("o", PaApp.PhoneCache["i"].SiblingUncertainties[1]);
+			Assert.AreEqual("e", PaApp.PhoneCache["o"].SiblingUncertainties[0]);
+			Assert.AreEqual("i", PaApp.PhoneCache["o"].SiblingUncertainties[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test for building phone cache with uncertain phone group, when there the
+		/// uncertainties indicate the absence or presence of a phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithEmptySetInUncertaintyGroup1()
+		{
+			VerifyUncertaintyGroup("ab(t/)c");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test for building phone cache with uncertain phone group, when there the
+		/// uncertainties indicate the absence or presence of a phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithEmptySetInUncertaintyGroup2()
+		{
+			VerifyUncertaintyGroup("ab(t/0)c");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test for building phone cache with uncertain phone group, when there the
+		/// uncertainties indicate the absence or presence of a phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithEmptySetInUncertaintyGroup3()
+		{
+			VerifyUncertaintyGroup(string.Format("ab(t/{0})c", IPACharCache.UncertainGroupAbsentPhoneChars));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void VerifyUncertaintyGroup(string phontic)
+		{
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = phontic;
+			PaApp.WordCache.Add(m_entry);
+			PaApp.BuildPhoneCache();
+
+			Assert.AreEqual(4, PaApp.PhoneCache.Count);
+			Assert.IsNotNull(PaApp.PhoneCache["a"]);
+			Assert.IsNotNull(PaApp.PhoneCache["b"]);
+			Assert.IsNotNull(PaApp.PhoneCache["t"]);
+			Assert.IsNotNull(PaApp.PhoneCache["c"]);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["t"].CountAsNonPrimaryUncertainty);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].SiblingUncertainties.Count);
+			Assert.AreEqual(IPACharCache.UncertainGroupAbsentPhoneChar,
+				PaApp.PhoneCache["t"].SiblingUncertainties[0]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test for building phone cache with 2 uncertain phone groups in a word. (This test
+		/// will test that PA-710 is fixed).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups1()
+		{
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z";
+			PaApp.WordCache.Add(m_entry);
+			PaApp.BuildPhoneCache();
+
+			Assert.AreEqual(10, PaApp.PhoneCache.Count);
+			Assert.IsNotNull(PaApp.PhoneCache["t"]);
+			Assert.IsNotNull(PaApp.PhoneCache["u"]);
+			Assert.IsNotNull(PaApp.PhoneCache["i"]);
+
+			Assert.AreEqual(1, PaApp.PhoneCache["t"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["d"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["t"].TotalCount);
+			Assert.AreEqual(0, PaApp.PhoneCache["d"].TotalCount);
+			Assert.AreEqual(1, PaApp.PhoneCache["u"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["i"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["u"].TotalCount);
+			Assert.AreEqual(0, PaApp.PhoneCache["i"].TotalCount);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Test for building phone cache with 3 uncertain phone groups in a word. (This test
+		/// will test that PA-710 is fixed).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups2()
+		{
+			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z(t/d)mn";
+			PaApp.WordCache.Add(m_entry);
+			PaApp.BuildPhoneCache();
+
+			Assert.AreEqual(12, PaApp.PhoneCache.Count);
+			Assert.IsNotNull(PaApp.PhoneCache["t"]);
+			Assert.IsNotNull(PaApp.PhoneCache["u"]);
+			Assert.IsNotNull(PaApp.PhoneCache["i"]);
+
+			Assert.AreEqual(2, PaApp.PhoneCache["t"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(2, PaApp.PhoneCache["d"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["t"].TotalCount);
+			Assert.AreEqual(0, PaApp.PhoneCache["d"].TotalCount);
+			Assert.AreEqual(1, PaApp.PhoneCache["u"].CountAsPrimaryUncertainty);
+			Assert.AreEqual(1, PaApp.PhoneCache["i"].CountAsNonPrimaryUncertainty);
+			Assert.AreEqual(0, PaApp.PhoneCache["u"].TotalCount);
+			Assert.AreEqual(0, PaApp.PhoneCache["i"].TotalCount);
 		}
 
 		/// ------------------------------------------------------------------------------------

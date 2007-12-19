@@ -150,7 +150,6 @@ namespace SIL.Pa.Data
 
 		private static string s_currentPhoneticBeingParsed;
 
-		private const string kEmptySetChars = "0\u2205";
 		private const char kParseTokenMarker = '\u0001';
 		private readonly string m_ambigTokenFmt = kParseTokenMarker + "{0}";
 
@@ -164,6 +163,8 @@ namespace SIL.Pa.Data
 		private string m_cacheFileName = null;
 		private Dictionary<string, IPACharInfo> m_toneLetters = null;
 		private bool m_logUndefinedCharacters = false;
+		private static string s_absentPhoneChars = "0\u2205";
+		private static string s_absentPhoneChar = "\u2205";
 
 		// This is a collection that is created every time the PhoneticParser method is
 		// called and holds all the phones that have been parsed out of a transcription.
@@ -271,7 +272,32 @@ namespace SIL.Pa.Data
 			get { return m_experimentalTransList; }
 			set { m_experimentalTransList = value; }
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The characters recognized by the program as those that, when included in an
+		/// uncertain phone group, indicate the absence of a phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string UncertainGroupAbsentPhoneChars
+		{
+			get { return s_absentPhoneChars; }
+			set { s_absentPhoneChars = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Character displayed in the phone information popup on C and V charts for sibling
+		/// uncertainties that are not a phone (i.e. indicating the possible absence of a
+		/// phone).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string UncertainGroupAbsentPhoneChar
+		{
+			get { return s_absentPhoneChar; }
+			set { s_absentPhoneChar = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the binary feature table from the database into a memory cache.
@@ -860,7 +886,7 @@ namespace SIL.Pa.Data
 					// Save the previous phone, if there is one, checking if the phone is the
 					// empty set character. If it's the empty set, then just save an empty string.
 					tmpPhone = bldrPhone.ToString();
-					if (kEmptySetChars.Contains(tmpPhone))
+					if (s_absentPhoneChars.Contains(tmpPhone))
 						tmpPhone = string.Empty;
 
 					phones.Add(tmpPhone);
@@ -908,7 +934,7 @@ namespace SIL.Pa.Data
 
 			// If the phone is the empty set character just save an empty string.
 			tmpPhone = bldrPhone.ToString();
-			if (kEmptySetChars.Contains(tmpPhone))
+			if (s_absentPhoneChars.Contains(tmpPhone))
 				tmpPhone = string.Empty;
 
 			// Save the last uncertain phone and add the list of uncertain phones to
