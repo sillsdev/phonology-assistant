@@ -170,7 +170,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private string GetFWRootDataDir()
 		{
-			string key = SIL.Pa.Data.FwQueries.FwRegKey;
+			string key = SIL.Pa.Data.FwDBAccessInfo.FwRegKey;
 			if (string.IsNullOrEmpty(key))
 				return null;
 
@@ -179,7 +179,7 @@ namespace SIL.Pa.Controls
 			{
 				if (regKey != null)
 				{
-					return regKey.GetValue(SIL.Pa.Data.FwQueries.RootDataDirValue, null)
+					return regKey.GetValue(SIL.Pa.Data.FwDBAccessInfo.RootDataDirValue, null)
 						as string;
 				}
 			}

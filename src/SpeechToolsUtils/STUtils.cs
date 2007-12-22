@@ -146,7 +146,8 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public static string PrepFilePathForSTMsgBox(string filepath)
 		{
-			return filepath.Replace("\\n", kObjReplacementChar.ToString());
+			return (filepath == null ? string.Empty :
+				filepath.Replace("\\n", kObjReplacementChar.ToString()));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -71,11 +71,11 @@ namespace SIL.Pa.Data
 				msgWnd = new SmallFadingWnd(Resources.kstidGettingFwProjInfoMsg);
 
 			// Read all the SQL databases from the server's master table.
-			using (SqlConnection connection = FwConnection(FwQueries.MasterTable, machineName))
+			using (SqlConnection connection = FwConnection(FwDBAccessInfo.MasterDB, machineName))
 			{
-				if (connection != null && FwQueries.FwDatabasesSQL != null)
+				if (connection != null && FwDBAccessInfo.FwDatabasesSQL != null)
 				{
-					SqlCommand command = new SqlCommand(FwQueries.FwDatabasesSQL, connection);
+					SqlCommand command = new SqlCommand(FwDBAccessInfo.FwDatabasesSQL, connection);
 
 					// Get all the database names.
 					using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
@@ -114,8 +114,8 @@ namespace SIL.Pa.Data
 			{
 				if (!string.IsNullOrEmpty(machineName) && StartSQLServer(true))
 				{
-					string server = FwQueries.GetServer(machineName);
-					string connectionStr = string.Format(FwQueries.ConnectionString,
+					string server = FwDBAccessInfo.GetServer(machineName);
+					string connectionStr = string.Format(FwDBAccessInfo.ConnectionString,
 						new string[] { server, dbName, "FWDeveloper", "careful" });
 
 					SqlConnection connection = new SqlConnection(connectionStr);
@@ -129,6 +129,8 @@ namespace SIL.Pa.Data
 				{
 					string msg = string.Format(Resources.kstidSQLConnectionErrMsg,
 						dbName, machineName, e.Message);
+					
+					
 					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
@@ -145,7 +147,7 @@ namespace SIL.Pa.Data
 		{
 			foreach (ServiceController service in ServiceController.GetServices())
 			{
-				if (service.ServiceName.ToLower() == FwQueries.Service.ToLower())
+				if (service.ServiceName.ToLower() == FwDBAccessInfo.Service.ToLower())
 					return true;
 			}
 
@@ -172,7 +174,7 @@ namespace SIL.Pa.Data
 				
 				try
 				{
-					using (ServiceController svcController = new ServiceController(FwQueries.Service))
+					using (ServiceController svcController = new ServiceController(FwDBAccessInfo.Service))
 						return (svcController.Status == ServiceControllerStatus.Running);
 				}
 				catch { }
@@ -197,7 +199,7 @@ namespace SIL.Pa.Data
 			{
 				try
 				{
-					using (ServiceController svcController = new ServiceController(FwQueries.Service))
+					using (ServiceController svcController = new ServiceController(FwDBAccessInfo.Service))
 					{
 						// If the server instance is already running, we're good.
 						if (svcController.Status == ServiceControllerStatus.Running)
@@ -217,7 +219,7 @@ namespace SIL.Pa.Data
 								svcController.Start();
 
 							svcController.WaitForStatus(ServiceControllerStatus.Running,
-								new TimeSpan(FwQueries.SecsToWaitForDBEngineStartup * (long)10000000));
+								new TimeSpan(FwDBAccessInfo.SecsToWaitForDBEngineStartup * (long)10000000));
 
 							msgWnd.CloseFade();
 						}
@@ -241,7 +243,7 @@ namespace SIL.Pa.Data
 					}
 
 					msg = string.Format(Resources.kstidErrorStartingSQLServer2,
-						FwQueries.SecsToWaitForDBEngineStartup);
+						FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
 					if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question) != DialogResult.Yes)
@@ -250,6 +252,19 @@ namespace SIL.Pa.Data
 					}
 				}
 			}
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal static string CleanString(string str)
+		{
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\t', ' ');
+			return str.Trim();
 		}
 	}
 
@@ -270,7 +285,8 @@ namespace SIL.Pa.Data
 		private string m_dbName;
 		private string m_projName;
 		public bool IsMissing = false;
-		private byte[] m_dateLastModified;
+		private byte[] m_dateLastModified = null;
+		private FwQueries m_queries;
 
 		public List<FwDataSourceWsInfo> WritingSystemInfo;
 
@@ -336,11 +352,32 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FwQueries Queries
+		{
+			get
+			{
+				if (m_queries == null)
+					GetQueries();
+
+				return m_queries;
+			}
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string MachineName
 		{
 			get { return m_machineName; }
-			set { m_machineName = value; }
+			set
+			{
+				m_machineName = value;
+				GetQueries();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -357,9 +394,22 @@ namespace SIL.Pa.Data
 				if (m_dbName != value)
 				{
 					m_dbName = value;
-					if (m_dbName != null)
-						m_dateLastModified = DateLastModified;
+					GetQueries();
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void GetQueries()
+		{
+			if (m_queries == null && m_dbName != null && m_machineName != null)
+			{
+				m_queries = FwQueries.GetQueriesForDB(m_dbName, m_machineName);
+				m_dateLastModified = DateLastModified;
 			}
 		}
 
@@ -376,34 +426,6 @@ namespace SIL.Pa.Data
 				if (m_projName == null)
 					m_projName = DBName;
 
-				// This commented out code was used to get the FW project's internal name
-				// but FW now just uses the database name as the project name.
-				//if (IsMissing)
-				//    return string.Format(Resources.kstidFwDBMissing, DBName);
-
-				//if (m_projName == null)
-				//{
-				//    using (SqlConnection connection = FwDBUtils.FwConnection(DBName))
-				//    {
-				//        if (connection == null)
-				//            return "Error retrieving project name";
-
-				//        SqlCommand command = new SqlCommand(FwQueries.ProjectNameSQL, connection);
-				//        using (SqlDataReader reader = command.ExecuteReader())
-				//        {
-				//            if (reader.HasRows)
-				//            {
-				//                reader.Read();
-				//                m_projName = reader[0] as string;
-				//            }
-
-				//            reader.Close();
-				//        }
-
-				//        connection.Close();
-				//    }
-				//}
-
 				return m_projName;
 			}
 		}
@@ -417,6 +439,9 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
+				if (m_queries == null || m_queries.Error)
+					return null;
+
 				byte[] retVal = null;
 
 				using (SqlConnection connection = FwDBUtils.FwConnection(DBName, MachineName))
@@ -424,7 +449,7 @@ namespace SIL.Pa.Data
 					if (connection == null)
 						return null;
 
-					SqlCommand command = new SqlCommand(FwQueries.LastModifiedStampSQL, connection);
+					SqlCommand command = new SqlCommand(Queries.LastModifiedStampSQL, connection);
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						if (reader.HasRows)
@@ -592,7 +617,7 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				return GetWritingSystems(FwQueries.VernacularWsSQL,
+				return GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL,
 					Resources.kstidErrorRetrievingVernWsMsg);
 			}
 		}
@@ -606,7 +631,7 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				return GetWritingSystems(FwQueries.AnalysisWs,
+				return GetWritingSystems(m_sourceInfo.Queries.AnalysisWs,
 					Resources.kstidErrorRetrievingAnalWsMsg);
 			}
 		}
@@ -676,14 +701,14 @@ namespace SIL.Pa.Data
 				if (wsCollection.Count == 0)
 				{
 					STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-						Path.GetFileName(FwQueries.QueryFile), string.Empty),
+						Path.GetFileName(m_sourceInfo.Queries.QueryFile), string.Empty),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 			catch (Exception e)
 			{
 				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(FwQueries.QueryFile), e.Message),
+					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
@@ -697,10 +722,13 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public bool GetData(DataRetrievedHandler dataRetrievedHdlr)
 		{
+			if (m_sourceInfo.Queries == null || m_sourceInfo.Queries.Error)
+				return false;
+			
 			string errMsg = Resources.kstidErrorRetrievingFwDataMsg;
 			string sql =
 				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
-				FwQueries.LexemeFormSQL : FwQueries.PronunciationFieldSQL);
+				m_sourceInfo.Queries.LexemeFormSQL : m_sourceInfo.Queries.PronunciationFieldSQL);
 
 			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
 			{
@@ -737,7 +765,7 @@ namespace SIL.Pa.Data
 			catch (Exception e)
 			{
 				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(FwQueries.QueryFile), e.Message),
+					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				return false;
@@ -749,17 +777,20 @@ namespace SIL.Pa.Data
 
 	#endregion
 
-	#region FwQueries class
+	#region FwDBAccessInfo class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FwQueries
+	public class FwDBAccessInfo
 	{
-		internal static FwQueries s_fwqueries;
-		private static string s_queryFile;
-		private static bool s_showMsgOnQueryFileLoadFailure = true;
+		internal static FwDBAccessInfo s_dbAccessInfo;
+		private static string s_accessInfoFile;
+		private static bool s_showMsgOnFileLoadFailure = true;
+
+		[XmlElement("longnamecheck")]
+		public string m_longNameCheckSQL;
 
 		[XmlElement("fwregkey")]
 		public string m_fwRegKey;
@@ -782,29 +813,11 @@ namespace SIL.Pa.Data
 		[XmlElement("server")]
 		public string m_server;
 
-		[XmlElement("mastertable")]
-		public string m_masterTable;
+		[XmlElement("masterdatabase")]
+		public string m_masterdb;
 
 		[XmlElement("databases")]
 		public string m_fwDatabasesSQL;
-
-		[XmlElement("projectname")]
-		public string m_projectNameSQL;
-
-		[XmlElement("lastmodifiedstamp")]
-		public string m_lastModifiedStampSQL;
-
-		[XmlElement("analysiswritingsystems")]
-		public string m_analysisWs;
-
-		[XmlElement("veracularwritingsystems")]
-		public string m_vernacularWsSQL;
-
-		[XmlElement("datafromlexemeform")]
-		public string m_lexemeFormSQL;
-
-		[XmlElement("datafrompronunciationfield")]
-		public string m_pronunciationFieldSQL;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -813,18 +826,19 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		internal static void Load()
 		{
-			if (s_fwqueries == null)
+			if (s_dbAccessInfo == null)
 			{
-				// Find the file that contains the queries.
-				s_queryFile = Path.GetDirectoryName(Application.ExecutablePath);
-				s_queryFile = Path.Combine(s_queryFile, "FwSQLQueries.xml");
-				s_fwqueries = STUtils.DeserializeData(s_queryFile, typeof(FwQueries)) as FwQueries;
+				// Find the file that contains information about connecting to an FW database.
+				s_accessInfoFile = Path.GetDirectoryName(Application.ExecutablePath);
+				s_accessInfoFile = Path.Combine(s_accessInfoFile, "FwDBAccessInfo.xml");
+				s_dbAccessInfo =
+					STUtils.DeserializeData(s_accessInfoFile, typeof(FwDBAccessInfo)) as FwDBAccessInfo;
 			}
 
-			if (s_fwqueries == null && s_showMsgOnQueryFileLoadFailure)
+			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
 			{
-				string filePath = STUtils.PrepFilePathForSTMsgBox(s_queryFile);
-				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
+				string filePath = STUtils.PrepFilePathForSTMsgBox(s_accessInfoFile);
+				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
 			}
 		}
 
@@ -834,10 +848,10 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public static bool ShowMsgOnQueryFileLoadFailure
+		public static bool ShowMsgOnFileLoadFailure
 		{
-			get { return s_showMsgOnQueryFileLoadFailure; }
-			set { s_showMsgOnQueryFileLoadFailure = value; }
+			get { return s_showMsgOnFileLoadFailure; }
+			set { s_showMsgOnFileLoadFailure = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -850,8 +864,8 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries == null || string.IsNullOrEmpty(s_fwqueries.m_server) ?
-					@"{0}\SILFW" : s_fwqueries.m_server);
+				return (s_dbAccessInfo == null || string.IsNullOrEmpty(s_dbAccessInfo.m_server) ?
+					@"{0}\SILFW" : s_dbAccessInfo.m_server);
 			}
 		}
 
@@ -860,12 +874,27 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string QueryFile
+		public static string LongNameCheckSQL
 		{
 			get
 			{
 				Load();
-				return s_queryFile;
+				return (s_dbAccessInfo == null ?
+					null : FwDBUtils.CleanString(s_dbAccessInfo.m_longNameCheckSQL));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string DBAccessInfoFile
+		{
+			get
+			{
+				Load();
+				return s_accessInfoFile;
 			}
 		}
 
@@ -879,7 +908,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_fwRegKey : null);
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_fwRegKey : null);
 			}
 		}
 
@@ -893,7 +922,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_rootDataDirValue : null);
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_rootDataDirValue : null);
 			}
 		}
 
@@ -907,10 +936,10 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_jumpUrl : null);
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_jumpUrl : null);
 			}
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -921,7 +950,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_service : "MSSQL$SILFW");
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_service : "MSSQL$SILFW");
 			}
 		}
 
@@ -935,7 +964,8 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_connectionString) : null);
+				return (s_dbAccessInfo != null ?
+					FwDBUtils.CleanString(s_dbAccessInfo.m_connectionString) : null);
 			}
 		}
 
@@ -960,7 +990,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_secsToWaitForDBEngineStartup : 25);
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_secsToWaitForDBEngineStartup : 25);
 			}
 		}
 
@@ -969,12 +999,12 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string MasterTable
+		public static string MasterDB
 		{
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? s_fwqueries.m_masterTable : null);
+				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_masterdb : null);
 			}
 		}
 
@@ -988,8 +1018,55 @@ namespace SIL.Pa.Data
 			get
 			{
 				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_fwDatabasesSQL) : null);
+				return (s_dbAccessInfo != null ?
+					FwDBUtils.CleanString(s_dbAccessInfo.m_fwDatabasesSQL) : null);
 			}
+		}
+	}
+	
+	#endregion
+
+	#region FwQueries class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class FwQueries
+	{
+		internal static FwQueries s_fwLongNameQueries;
+		internal static FwQueries s_fwShortNameQueries;
+		private static bool s_showMsgOnFileLoadFailure = true;
+
+		private bool m_error = false;
+		private string m_queryFile;
+
+		[XmlElement("projectname")]
+		public string m_projectNameSQL;
+
+		[XmlElement("lastmodifiedstamp")]
+		public string m_lastModifiedStampSQL;
+
+		[XmlElement("analysiswritingsystems")]
+		public string m_analysisWs;
+
+		[XmlElement("veracularwritingsystems")]
+		public string m_vernacularWsSQL;
+
+		[XmlElement("datafromlexemeform")]
+		public string m_lexemeFormSQL;
+
+		[XmlElement("datafrompronunciationfield")]
+		public string m_pronunciationFieldSQL;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal FwQueries(bool error)
+		{
+			m_error = error;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -997,13 +1074,50 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string ProjectNameSQL
+		internal static FwQueries GetQueriesForDB(string dbName, string machineName)
 		{
-			get
+			string longNameCheckSQL = FwDBAccessInfo.LongNameCheckSQL;
+
+			if (string.IsNullOrEmpty(dbName) || string.IsNullOrEmpty(longNameCheckSQL))
+				return null;
+
+			FwQueries fwqueries = null;
+
+			using (SqlConnection connection = FwDBUtils.FwConnection(dbName, machineName))
 			{
-				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_projectNameSQL) : null);
+				if (connection != null)
+				{
+					try
+					{
+						SqlCommand command = new SqlCommand(longNameCheckSQL, connection);
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							reader.Close();
+
+							if (s_fwLongNameQueries == null)
+								s_fwLongNameQueries = Load("FwSQLQueries.xml");
+
+							fwqueries = s_fwLongNameQueries;
+						}
+					}
+					catch
+					{
+						if (s_fwShortNameQueries == null)
+						{
+							if (CheckForShortNameFile(dbName, machineName, "FwSQLQueriesShortNames.xml"))
+								s_fwShortNameQueries = Load("FwSQLQueriesShortNames.xml");
+							else
+								s_fwShortNameQueries = new FwQueries(true);
+						}
+
+						fwqueries = s_fwShortNameQueries;
+					}
+
+					connection.Close();
+				}
 			}
+
+			return fwqueries;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1011,13 +1125,21 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string LastModifiedStampSQL
+		private static bool CheckForShortNameFile(string dbName, string machineName, string filename)
 		{
-			get
+			// Find the file that contains the queries.
+			string queryFile = Path.Combine(Application.StartupPath, filename);
+
+			if (!System.IO.File.Exists(queryFile))
 			{
-				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_lastModifiedStampSQL) : null);
+				string path = STUtils.PrepFilePathForSTMsgBox(Application.StartupPath);
+				string[] args = new string[] {dbName, machineName, filename, path, filename};
+				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				return false;
 			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1025,13 +1147,23 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string AnalysisWs
+		private static FwQueries Load(string filename)
 		{
-			get
+			// Find the file that contains the queries.
+			string queryFile = Path.GetDirectoryName(Application.ExecutablePath);
+			queryFile = Path.Combine(queryFile, filename);
+			FwQueries fwqueries = STUtils.DeserializeData(queryFile, typeof(FwQueries)) as FwQueries;
+
+			if (fwqueries != null)
+				fwqueries.m_queryFile = queryFile;
+			else if (s_showMsgOnFileLoadFailure)
 			{
-				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_analysisWs) : null);
+				string filePath = STUtils.PrepFilePathForSTMsgBox(queryFile);
+				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
+				fwqueries = new FwQueries(true);
 			}
+
+			return fwqueries;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1039,13 +1171,10 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string VernacularWsSQL
+		[XmlIgnore]
+		public bool Error
 		{
-			get
-			{
-				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_vernacularWsSQL) : null);
-			}
+			get { return m_error; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1053,13 +1182,11 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string LexemeFormSQL
+		[XmlIgnore]
+		public static bool ShowMsgOnFileLoadFailure
 		{
-			get
-			{
-				Load();
-				return (s_fwqueries != null ? CleanString(s_fwqueries.m_lexemeFormSQL) : null);
-			}
+			get { return s_showMsgOnFileLoadFailure; }
+			set { s_showMsgOnFileLoadFailure = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1067,14 +1194,10 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string PronunciationFieldSQL
+		[XmlIgnore]
+		public string QueryFile
 		{
-			get
-			{
-				Load();
-				return (s_fwqueries != null ?
-					CleanString(s_fwqueries.m_pronunciationFieldSQL) : null);
-			}
+			get	{return m_queryFile;}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1082,12 +1205,65 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string CleanString(string str)
+		[XmlIgnore]
+		public string ProjectNameSQL
 		{
-			str = str.Replace('\n', ' ');
-			str = str.Replace('\n', ' ');
-			str = str.Replace('\t', ' ');
-			return str.Trim();
+			get	{return FwDBUtils.CleanString(m_projectNameSQL);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string LastModifiedStampSQL
+		{
+			get {return FwDBUtils.CleanString(m_lastModifiedStampSQL);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string AnalysisWs
+		{
+			get {return FwDBUtils.CleanString(m_analysisWs);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string VernacularWsSQL
+		{
+			get	{return FwDBUtils.CleanString(m_vernacularWsSQL);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string LexemeFormSQL
+		{
+			get	{return FwDBUtils.CleanString(m_lexemeFormSQL);}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string PronunciationFieldSQL
+		{
+			get	{return FwDBUtils.CleanString(m_pronunciationFieldSQL);}
 		}
 	}
 

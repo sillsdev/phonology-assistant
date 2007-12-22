@@ -233,7 +233,7 @@ namespace SIL.Pa
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.GuidField;
-			string url = SIL.Pa.Data.FwQueries.JumpUrl;
+			string url = SIL.Pa.Data.FwDBAccessInfo.JumpUrl;
 
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{

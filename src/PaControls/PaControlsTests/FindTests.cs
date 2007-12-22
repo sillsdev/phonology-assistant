@@ -59,7 +59,8 @@ namespace SIL.Pa.Controls
 			m_dataSource.ParseType = DataSourceParseType.Interlinear;
 
 			FindInfo.ShowMessages = false;
-			FwQueries.ShowMsgOnQueryFileLoadFailure = false;
+			FwDBAccessInfo.ShowMsgOnFileLoadFailure = false;
+			FwQueries.ShowMsgOnFileLoadFailure = false;
 			CreateWordListGrid();
 
 			m_findDlg = new FindDlg(m_grid);

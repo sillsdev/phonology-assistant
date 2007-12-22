@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FwDBAccessInfo>
 	<!--
-		It's a bit kludgy, but the following table name is checked for existence in the FW database.
-		If it's not found, the assumption is the database contains shortened table and field names, as
-		is the case in databases released (or migrated to) sometime after version 5.0 of FieldWorks.
+		It's a bit kludgy, but if the following query throws an error when executed,
+		then we know the database is either not an FW database or it is but has had
+		its table and field name's shortened.
 	-->
-	<longtablenameforcheck>LanguageProject</longtablenameforcheck>
+	<longnamecheck>SELECT * from LanguageProject</longnamecheck>
 	<fwregkey>Software\SIL\FieldWorks</fwregkey>
 	<rootdatadirvalue>RootDataDir</rootdatadirvalue>
 	<!-- {0} is replaced with the record's guid, {1} is replaced with the machine name, and {2} is replaced with the database name. -->

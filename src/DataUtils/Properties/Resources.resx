@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="kstidErrorLoadingDBAccessInfoMsg" xml:space="preserve">
+    <value>The file that contains information to access FieldWork databases ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
+  </data>
   <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
-    <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added.</value>
+    <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
   </data>
   <data name="kstidErrorRetrievingAnalWsMsg" xml:space="preserve">
     <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
@@ -157,6 +160,9 @@
   </data>
   <data name="kstidMissingWsMsg" xml:space="preserve">
     <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.</value>
+  </data>
+  <data name="kstidShortNameFileMissingMsg" xml:space="preserve">
+    <value>FieldWorks Project: {0}\nServer: {1}\n\nThe version of this FieldWorks project indicates it is too\nrecent to be read by Phonology Assistant. You must\ndownload the file '{2}' from\nthe Phonology Assistant website and copy it to the\nfollowing folder:\n\n{3}\n\nWhen '{4}' is present in that folder,\nyour FieldWorks project can be read by Phonology Assistant.\n\nThe Phonology Assistant website can be found at:\nhttp://www.sil.org/computing/pa/index.htm</value>
   </data>
   <data name="kstidSQLConnectionErrMsg" xml:space="preserve">
     <value>The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}</value>

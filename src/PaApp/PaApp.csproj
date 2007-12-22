@@ -235,6 +235,7 @@ copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(O
 copy "$(TargetDir)..\..\DistFiles\CVChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\FwDBAccessInfo.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"

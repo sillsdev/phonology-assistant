@@ -1,22 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FwQueries>
-	<fwregkey>Software\SIL\FieldWorks</fwregkey>
-	<rootdatadirvalue>RootDataDir</rootdatadirvalue>
-	<!-- {0} is replaced with the record's guid, {1} is replaced with the machine name, and {2} is replaced with the database name. -->
-	<jumpurl>silfw://localhost/link?app%3dLanguage+Explorer%26tool%3dlexiconEdit%26guid%3d{0}%26server%3d{1}%5cSILFW%26database%3d{2}</jumpurl>
-	<service>MSSQL$SILFW</service>
-	<secondstowaitfordbenginestartup>25</secondstowaitfordbenginestartup>
-	<!-- {0} is replaced with the value constructed for the 'server' element below. -->
-	<connectionstring>
-		server={0}; Database={1}; User ID={2}; Password={3}; Connect Timeout=15; Pooling=false;
-	</connectionstring>
-	<!-- {0} is replaced with the machine name. -->
-	<server>{0}\SILFW</server>
-	<mastertable>master</mastertable>
-	<databases>exec sp_GetFWDBs</databases>
 	<!-- The following query is obsolete since DB names are used as project names. -->
 	<projectname>select TOP 1 txt from CmProject_Name</projectname>
-	<lastmodifiedstamp>select top 1 Updstmp from CmObject where class$ in (5002, 5016) order by Updstmp desc</lastmodifiedstamp>
+	<lastmodifiedstamp>
+		select top 1 Updstmp from CmObject where class$ in (5002, 5016) order by Updstmp desc
+	</lastmodifiedstamp>
 	<veracularwritingsystems>
 		SELECT * FROM
 		LanguageProject_VernacularWritingSystems lp
