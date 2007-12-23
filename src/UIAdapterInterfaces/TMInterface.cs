@@ -97,6 +97,20 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds a toolbar item to the specified toolbar.
+		/// </summary>
+		/// <param name="toolBarName">Name of the toolbar in which to add the item.</param>
+		/// <param name="xml">XML string in the "item" format used in TM Definition xml files.
+		/// </param>
+		/// <param name="insertBeforeItem">name of item before which the item will be
+		/// inserted.</param>
+		/// <param name="beginGroupAfter">A flag indicating whether or not to begin a group
+		/// after the item being added.</param>
+		/// ------------------------------------------------------------------------------------
+		void AddToolBarItem(string toolBarName, string xml,	string insertBeforeItem, bool beginGroupAfter);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds a new command item to the adapter.
 		/// </summary>
 		/// <param name="cmdId">Command ID or name (usually starts with "Cmd")</param>

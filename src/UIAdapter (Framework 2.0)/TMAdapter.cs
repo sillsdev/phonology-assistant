@@ -1308,7 +1308,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				}
 				else if (parentItem is ToolStripDropDownItem)
 				{
-					// This will enforce that items on a drop-down don't have a tooltips.
+					// This will enforce that items on a drop-down don't have tooltips.
 					item.ToolTipText = null;
 
 					ToolStripDropDownItem pitem = (ToolStripDropDownItem)parentItem;
@@ -1338,6 +1338,76 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					ReadToolbarItems(node.FirstChild, item);
 
 				node = ReadOverJunk(node.NextSibling);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds a toolbar item to the specified toolbar.
+		/// </summary>
+		/// <param name="toolBarName">Name of the toolbar in which to add the item.</param>
+		/// <param name="xml">XML string in the "item" format used in TM Definition xml files.
+		/// </param>
+		/// <param name="insertBeforeItem">name of item before which the item will be
+		/// inserted.</param>
+		/// <param name="beginGroupAfter">A flag indicating whether or not to begin a group
+		/// after the item being added.</param>
+		/// ------------------------------------------------------------------------------------
+		public void AddToolBarItem(string toolBarName, string xml, string insertBeforeItem,
+			bool beginGroupAfter)
+		{
+			ToolStrip parentItem;
+			ToolStripItem beforeItem = null;
+			int insertIndex = -1;
+			
+			if (!m_bars.TryGetValue(toolBarName, out parentItem))
+				return;
+
+			if (insertBeforeItem != null)
+			{
+				if (!m_items.TryGetValue(insertBeforeItem, out beforeItem))
+					return;
+
+				if (beforeItem.Owner != parentItem)
+					beforeItem = null;
+			
+				if (beforeItem != null)
+					insertIndex = parentItem.Items.IndexOf(beforeItem);
+			}
+
+			// Make sure the string is valid XML.
+			if (!xml.StartsWith("<item "))
+				xml = "<item " + xml;
+
+			if (!xml.EndsWith("/>"))
+				xml += "/>";
+
+			XmlDocument doc = new XmlDocument();
+			doc.InnerXml = xml;
+			ToolStripItem item = ReadSingleItem(doc.FirstChild, parentItem, false);
+
+			// Check if we need to add a begin group item.
+			if (xml.Contains("begingroup=\"true\"") || xml.Contains("begingroup=\"True\"") ||
+				xml.Contains("begingroup=\"TRUE\""))
+			{
+				if (insertIndex >= 0)
+					parentItem.Items.Insert(insertIndex++, new ToolStripSeparator());
+				else
+					parentItem.Items.Add(new ToolStripSeparator());
+			}
+
+			if (insertIndex >= 0)
+				parentItem.Items.Insert(insertIndex++, item);
+			else
+				parentItem.Items.Add(item);
+
+			// Check if we need to add a following begin group item.
+			if (beginGroupAfter)
+			{
+				if (insertIndex >= 0)
+					parentItem.Items.Insert(insertIndex, new ToolStripSeparator());
+				else
+					parentItem.Items.Add(new ToolStripSeparator());
 			}
 		}
 
@@ -2365,7 +2435,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		#endregion
 
 		#region ITMAdapter AddCommandItem, AddMenuItem and RemoveSubitems implementation
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds a new command item to the adapter.

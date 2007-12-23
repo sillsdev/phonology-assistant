@@ -59,10 +59,11 @@ namespace SIL.Pa.AddOn
 			{
 				m_view = args as XYChartVw;
 				m_xyGrid = ReflectionHelper.GetField(m_view, "m_xyGrid") as XYGrid;
-				m_xyGrid.CellBeginEdit += m_xyGrid_CellBeginEdit;
-				m_xyGrid.ColumnRemoved += m_xyGrid_ColumnRemoved;
-				m_xyGrid.RowsRemoved += m_xyGrid_RowsRemoved;
+				//m_xyGrid.CellBeginEdit += m_xyGrid_CellBeginEdit;
+				//m_xyGrid.ColumnRemoved += m_xyGrid_ColumnRemoved;
+				//m_xyGrid.RowsRemoved += m_xyGrid_RowsRemoved;
 				SetupAutoFillMarkerMenus();
+				SetupAddOnToolbarButtons();
 			}
 			catch { }
 
@@ -82,37 +83,59 @@ namespace SIL.Pa.AddOn
 				m_view.TMAdapter.AddCommandItem("CmdInsertAutoFillConMarker", "InsertAutoFillConMarker",
 					menuText, null, null, null, null, null, Keys.None, null, null);
 
-				TMItemProperties autoFillItemProps = new TMItemProperties();
-				autoFillItemProps.BeginGroup = true;
-				autoFillItemProps.CommandId = "CmdInsertAutoFillConMarker";
-				autoFillItemProps.Name = "mnuInsertAutoFillConMarker";
-				autoFillItemProps.Text = null;
-				m_view.TMAdapter.AddMenuItem(autoFillItemProps, "tbbInsertIntoChart", null);
+				TMItemProperties itemProps = new TMItemProperties();
+				itemProps.BeginGroup = true;
+				itemProps.CommandId = "CmdInsertAutoFillConMarker";
+				itemProps.Name = "mnuInsertAutoFillConMarker";
+				itemProps.Text = null;
+				m_view.TMAdapter.AddMenuItem(itemProps, "tbbInsertIntoChart", null);
 
-				autoFillItemProps = new TMItemProperties();
-				autoFillItemProps.BeginGroup = true;
-				autoFillItemProps.CommandId = "CmdInsertAutoFillConMarker";
-				autoFillItemProps.Name = "cmnuInsertAutoFillConMarker";
-				autoFillItemProps.Text = null;
-				m_view.TMAdapter.AddMenuItem(autoFillItemProps, "cmnuInsertIntoChart", null);
+				itemProps = new TMItemProperties();
+				itemProps.BeginGroup = true;
+				itemProps.CommandId = "CmdInsertAutoFillConMarker";
+				itemProps.Name = "cmnuInsertAutoFillConMarker";
+				itemProps.Text = null;
+				m_view.TMAdapter.AddMenuItem(itemProps, "cmnuInsertIntoChart", null);
 
 				menuText = string.Format("{0} Auto. Fill Vowel Marker", kAutoFillVowMarker);
 				m_view.TMAdapter.AddCommandItem("CmdInsertAutoFillVowMarker", "InsertAutoFillVowMarker",
 					menuText, null, null, null, null, null, Keys.None, null, null);
 
-				autoFillItemProps = new TMItemProperties();
-				autoFillItemProps.BeginGroup = false;
-				autoFillItemProps.CommandId = "CmdInsertAutoFillVowMarker";
-				autoFillItemProps.Name = "mnuInsertAutoFillVowMarker";
-				autoFillItemProps.Text = null;
-				m_view.TMAdapter.AddMenuItem(autoFillItemProps, "tbbInsertIntoChart", null);
+				itemProps = new TMItemProperties();
+				itemProps.BeginGroup = false;
+				itemProps.CommandId = "CmdInsertAutoFillVowMarker";
+				itemProps.Name = "mnuInsertAutoFillVowMarker";
+				itemProps.Text = null;
+				m_view.TMAdapter.AddMenuItem(itemProps, "tbbInsertIntoChart", null);
 
-				autoFillItemProps = new TMItemProperties();
-				autoFillItemProps.BeginGroup = false;
-				autoFillItemProps.CommandId = "CmdInsertAutoFillVowMarker";
-				autoFillItemProps.Name = "cmnuInsertAutoFillVowMarker";
-				autoFillItemProps.Text = null;
-				m_view.TMAdapter.AddMenuItem(autoFillItemProps, "cmnuInsertIntoChart", null);
+				itemProps = new TMItemProperties();
+				itemProps.BeginGroup = false;
+				itemProps.CommandId = "CmdInsertAutoFillVowMarker";
+				itemProps.Name = "cmnuInsertAutoFillVowMarker";
+				itemProps.Text = null;
+				m_view.TMAdapter.AddMenuItem(itemProps, "cmnuInsertIntoChart", null);
+			}
+			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetupAddOnToolbarButtons()
+		{
+			try
+			{
+				string tooltip = "Reset Auto. Filled Chart";
+				m_view.TMAdapter.AddCommandItem("CmdResetAutoFilledChart", "ResetAutoFilledChart",
+					"test", null, null, tooltip, null, null, Keys.None, null, null);
+
+				string xml = "name=\"tbbResetAutoFilledChart\" " +
+					"commandid=\"CmdResetAutoFilledChart\" type=\"0\" displaytype=\"1\"";
+
+				m_view.TMAdapter.AddToolBarItem("tbXYChartWnd", xml,
+					"tbbShowCIEResults", true);
 			}
 			catch { }
 		}
@@ -127,7 +150,7 @@ namespace SIL.Pa.AddOn
 			try
 			{
 				STUtils.SetWindowRedraw(m_xyGrid, false, false);
-				RemoveAutoFilledRowsAndColumns();
+				OnResetAutoFilledChart(null);
 				bool dirtyState = m_xyGrid.IsDirty;
 
 				for (int i = 1; i < m_xyGrid.ColumnCount; i++)
@@ -235,74 +258,93 @@ namespace SIL.Pa.AddOn
 			}
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//void m_xyGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		//{
+		//    try
+		//    {
+		//        if (m_chartHasBeenAutoFilled)
+		//        {
+		//            RestoreMarkersMessageDlg.Show(true);
+		//            RemoveAutoFilledRowsAndColumns();
+		//            e.Cancel = true;
+		//        }
+		//    }
+		//    catch { }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//void m_xyGrid_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)
+		//{
+		//    if (m_chartHasBeenAutoFilled)
+		//        PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//void m_xyGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		//{
+		//    if (m_chartHasBeenAutoFilled)
+		//        PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnAfterXYGridRowColumnRemoved_AddOn(object args)
+		//{
+		//    try
+		//    {
+		//        //RestoreMarkersMessageDlg.Show(true);
+		//        OnResetAutoFilledChart(null);
+		//    }
+		//    catch { }
+
+		//    return true;
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_xyGrid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		private List<string> GetSortedPhones(IPACharacterType charType)
 		{
-			try
+			SortedDictionary<string, string> sortedPhonesDict = new SortedDictionary<string, string>();
+
+			foreach (KeyValuePair<string, IPhoneInfo> kvp in PaApp.PhoneCache)
 			{
-				if (m_chartHasBeenAutoFilled)
-				{
-					RestoreMarkersMessageDlg.Show(true);
-					RemoveAutoFilledRowsAndColumns();
-					e.Cancel = true;
-				}
+				if (kvp.Value.CharType == charType)
+					sortedPhonesDict[kvp.Value.MOAKey] = kvp.Key;
 			}
-			catch { }
+
+			return new List<string>(sortedPhonesDict.Values);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_xyGrid_ColumnRemoved(object sender, DataGridViewColumnEventArgs e)
-		{
-			if (m_chartHasBeenAutoFilled)
-				PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_xyGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-		{
-			if (m_chartHasBeenAutoFilled)
-				PaApp.MsgMediator.PostMessage("AfterXYGridRowColumnRemoved_AddOn", null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterXYGridRowColumnRemoved_AddOn(object args)
-		{
-			try
-			{
-				//RestoreMarkersMessageDlg.Show(true);
-				RemoveAutoFilledRowsAndColumns();
-			}
-			catch { }
-
-			return true;
-		}
-
+		#region Message handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Removes all the rows and columns in an XY grid that were generated from a
 		/// previous auto. fill procedure.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void RemoveAutoFilledRowsAndColumns()
+		protected bool OnResetAutoFilledChart(object args)
 		{
 			if (!m_chartHasBeenAutoFilled)
-				return;
+				return false;
 
 			bool dirtyState = m_xyGrid.IsDirty;
 
@@ -358,27 +400,41 @@ namespace SIL.Pa.AddOn
 			m_addedRows.Clear();
 			m_addedColumns.Clear();
 			m_xyGrid.IsDirty = dirtyState;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private List<string> GetSortedPhones(IPACharacterType charType)
+		protected bool OnUpdateResetAutoFilledChart(object args)
 		{
-			SortedDictionary<string, string> sortedPhonesDict = new SortedDictionary<string, string>();
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
 
-			foreach (KeyValuePair<string, IPhoneInfo> kvp in PaApp.PhoneCache)
+			if (itemProps.Enabled != m_chartHasBeenAutoFilled)
 			{
-				if (kvp.Value.CharType == charType)
-					sortedPhonesDict[kvp.Value.MOAKey] = kvp.Key;
+				itemProps.Enabled = m_chartHasBeenAutoFilled;
+				itemProps.Visible = true;
+				itemProps.Update = true;
 			}
 
-			return new List<string>(sortedPhonesDict.Values);
+			return true;
 		}
 
-		#region Message handlers
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clears out the chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnClearChart(object args)
+		{
+			m_chartHasBeenAutoFilled = false;
+			return false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -391,7 +447,7 @@ namespace SIL.Pa.AddOn
 				if (m_chartHasBeenAutoFilled)
 				{
 					RestoreMarkersMessageDlg.Show(false);
-					RemoveAutoFilledRowsAndColumns();
+					OnResetAutoFilledChart(null);
 				}
 			}
 			catch { }
@@ -411,7 +467,7 @@ namespace SIL.Pa.AddOn
 				if (m_chartHasBeenAutoFilled)
 				{
 					RestoreMarkersMessageDlg.Show(false);
-					RemoveAutoFilledRowsAndColumns();
+					OnResetAutoFilledChart(null);
 				}
 			}
 			catch { }
