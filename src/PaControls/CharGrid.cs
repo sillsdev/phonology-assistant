@@ -59,7 +59,7 @@ namespace SIL.Pa.Controls
 		public CharGrid()
 		{
 			m_cellHeight =
-				PaApp.SettingsHandler.GetIntSettingsValue("cvchartcells", "height", 36);
+				PaApp.SettingsHandler.GetIntSettingsValue("cvcharts", "cellheight", 36);
 
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();

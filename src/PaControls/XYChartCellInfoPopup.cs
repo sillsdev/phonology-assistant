@@ -373,6 +373,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public new void Show()
 		{
+			if (m_associatedGrid != null)
+			{
+				Form frm = m_associatedGrid.FindForm();
+				if (frm != null && !frm.ContainsFocus)
+					return;
+			}
+
 			m_popupTimer.Start();
 
 			m_drawLeftArrow = true;

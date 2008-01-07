@@ -51,7 +51,7 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates methods, properties and message handlers for managing a split container
-	/// control that contains search result view tab groups and a raw record view.
+	/// control that contains search result view tab groups and a record view.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class SearchResultsViewManager : IxCoreColleague, IDisposable, IMessageFilter
@@ -1217,12 +1217,19 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void tab_MouseEnter(object sender, EventArgs e)
 		{
+			SearchResultTab tab = sender as SearchResultTab;
+
+			if (tab == null)
+				return;
+
+			Form frm = tab.FindForm();
+			if (frm != null && !frm.ContainsFocus)
+				return;
+			
 			if (m_srchResultTabPopup == null)
 				m_srchResultTabPopup = new SearchResultTabPopup();
 
-			SearchResultTab tab = sender as SearchResultTab;
-			if (tab != null)
-				m_srchResultTabPopup.Show(tab);
+			m_srchResultTabPopup.Show(tab);
 		}
 
 		/// ------------------------------------------------------------------------------------

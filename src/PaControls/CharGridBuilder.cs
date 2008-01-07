@@ -298,7 +298,7 @@ namespace SIL.Pa.Controls
 			if (m_chrGrid != null)
 			{
 				m_chrGrid.CellWidth = maxPhoneWidth +
-					PaApp.SettingsHandler.GetIntSettingsValue("cvchartcells", "extrawidth", 8);
+					PaApp.SettingsHandler.GetIntSettingsValue("cvcharts", "extracellwidth", 8);
 			}
 		}
 

@@ -1196,7 +1196,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChart(object args)
 		{
-			if (!m_xyGrid.IsDirty || !m_activeView)
+			if (!m_activeView)
+				return false;
+
+			// Commit changes and end the edit mode if necessary. Fixes PA-714
+			if (m_xyGrid.IsCurrentCellInEditMode)
+				m_xyGrid.EndEdit();
+
+			if (!m_xyGrid.IsDirty)
 				return false;
 
 			// If the name isn't specified, then use the save as dialog.
@@ -1216,6 +1223,10 @@ namespace SIL.Pa
 		{
 			if (!m_activeView)
 				return false;
+
+			// Commit changes and end the edit mode if necessary. Fixes PA-714
+			if (m_xyGrid.IsCurrentCellInEditMode)
+				m_xyGrid.EndEdit();
 
 			using (SaveXYChartDlg dlg = new SaveXYChartDlg(m_xyGrid, m_savedCharts))
 			{

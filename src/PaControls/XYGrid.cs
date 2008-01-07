@@ -667,23 +667,6 @@ namespace SIL.Pa.Controls
 			if (Columns.Count > 0 && !string.IsNullOrEmpty(this[Columns.Count - 1, 0].Value as string))
 				AddColumn(true);
 
-			if (row == 0 && col > 0 && !string.IsNullOrEmpty(value))
-			{
-				value = value.Trim();
-
-				// Remove any slashes.
-				this[col, row].Value = value.Replace("/", string.Empty);
-		
-				if (value == "*")
-					this[col, row].Value = "*_*";
-				else if (value == "+")
-					this[col, row].Value = "+_+";
-				else if (value.EndsWith("_"))
-					this[col, row].Value += "*";
-				else if (value.IndexOf('_') < 0)
-					this[col, row].Value += "_*";
-			}
-
 			// When an edited search item or environment is different from the previous value
 			// (which we know is the case if we've gotten this far) clear out the result cells
 			// associated with it.
@@ -1301,12 +1284,9 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void FillChart()
 		{
+			// Force any changes that may be pending.
 			if (IsCurrentCellInEditMode)
-			{
-				// Force any changes that may be pending.
-				CommitEdit(DataGridViewDataErrorContexts.Commit);
 				EndEdit();
-			}
 
 			if (RowCount <= 1 || ColumnCount <= 1)
 				return;
@@ -1317,6 +1297,8 @@ namespace SIL.Pa.Controls
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
 			PaApp.InitializeProgressBar(
 				ResourceHelper.GetString("kstidQuerySearchingMsg"), progBarMax);
+
+			FixEnvironments();
 
 			foreach (DataGridViewRow row in Rows)
 			{
@@ -1336,6 +1318,52 @@ namespace SIL.Pa.Controls
 			Cursor = Cursors.Default;
 
 			PaApp.MsgMediator.SendMessage("XYChartFilled", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the environment cells and cleans them up a bit if the user didn't
+		/// enter them completely. Fixes PA-712
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FixEnvironments()
+		{
+			if (PaApp.MsgMediator.SendMessage("XYChartBeginEnvironmentFixes", this))
+				return;
+
+			if (RowCount > 0 && NewRowIndex > 0)
+			{
+				for (int i = 1; i < Columns.Count; i++)
+				{
+					string value = this[i, 0].Value as string;
+					if (value == null)
+						continue;
+					
+					value = value.Trim();
+
+					// Remove any slashes.
+					value = value.Replace("/", string.Empty);
+
+					if (value == "*" || value == "_" || value == string.Empty)
+						value = "*_*";
+					else if (value == "+")
+						value = "+_+";
+					else if (value.EndsWith("_"))
+						value += "*";
+					else if (value.IndexOf('_') < 0)
+						value += "_*";
+
+					this[i, 0].Value = value;
+
+					// Update the column's query.
+					SearchQuery query = Columns[i].Tag as SearchQuery;
+					if (query != null)
+						query.Pattern = this[i, 0].Value as string;
+				}
+			}
+
+			UpdateLayout();
+			PaApp.MsgMediator.SendMessage("XYChartAfterEnvironmentFixes", this);
 		}
 
 		/// ------------------------------------------------------------------------------------

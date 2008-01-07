@@ -13,14 +13,16 @@ namespace SIL.Pa.Controls
 	public partial class Histogram : UserControl, IxCoreColleague
 	{
 		private const int kMagnifiedCharSize = 22;
-		private const int kPhoneLabelWidth = 40;
-		private const int kLineGapSize = 25;
 		private const int kPixelsFromTop = 10;
 
 		private bool m_ignoreFixedBorderResize = false;
 		private int m_maxTotalCount = 0;
 		private int m_phoneHeight = 0;
-		private decimal m_barHeightFactor = 0;
+		private int m_hashMarkIncrement = 0;
+		private readonly int m_barWidth;
+		private readonly int m_phoneLabelWidth;
+		private readonly int m_hashMarkGap;
+		private readonly int m_phoneFontSize;
 		private readonly PhoneInfoPopup m_phoneInfoPopup;
 
 		// Uncomment if the magnified tooltip of a histogram's phone is desired.
@@ -34,6 +36,11 @@ namespace SIL.Pa.Controls
 		public Histogram()
 		{
 			InitializeComponent();
+
+			m_hashMarkGap =	PaApp.SettingsHandler.GetIntSettingsValue("histograms", "hashmarkgap", 20);
+			m_phoneLabelWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelwidth", 40);
+			m_barWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "barwidth", 30);
+			m_phoneFontSize = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelfontsize", 16);
 
 			// Uncomment if the magnified tooltip of a histogram's phone is desired.
 			//m_phoneToolTip = new ToolTip();
@@ -78,7 +85,7 @@ namespace SIL.Pa.Controls
 			{
 				// Create phone labels that appear under the bar.
 				Label lblPhone = new Label();
-				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(16);
+				lblPhone.Font = FontHelper.MakeEticRegFontDerivative(m_phoneFontSize);
 				lblPhone.Text = cgc.Phone;
 				lblPhone.Paint += lbl_Paint;
 				lblPhone.MouseEnter += HandleMouseEnter;
@@ -88,7 +95,7 @@ namespace SIL.Pa.Controls
 				pnlPhones.Controls.Add(lblPhone);
 				m_phoneHeight = lblPhone.Height;
 				lblPhone.AutoSize = false;
-				lblPhone.Size = new Size(kPhoneLabelWidth, m_phoneHeight);
+				lblPhone.Size = new Size(m_phoneLabelWidth, m_phoneHeight);
 				lblPhone.BringToFront();
 
 				// Set the phone's magnified tooltip.
@@ -110,10 +117,10 @@ namespace SIL.Pa.Controls
 				if (histBar.BarValue > m_maxTotalCount)
 					m_maxTotalCount = histBar.BarValue;
 
-				xLocationOffset += kPhoneLabelWidth; // pixels between the characters
+				xLocationOffset += m_phoneLabelWidth; // pixels between the characters
 			}
 
-			pnlPhones.Width = (pnlPhones.Controls.Count * kPhoneLabelWidth);
+			pnlPhones.Width = (pnlPhones.Controls.Count * m_phoneLabelWidth);
 
 			// Account for the fact that each phone's Y location is 2.
 			m_phoneHeight += 2;
@@ -127,7 +134,7 @@ namespace SIL.Pa.Controls
 				pnlScroller.Height += (m_phoneHeight - pnlScroller.ClientSize.Height);
 
 			// Add 5 additional pixels of space between the right-most bar and border
-			pnlBars.Width = (pnlPhones.Controls.Count * kPhoneLabelWidth) + 5;
+			pnlBars.Width = (pnlPhones.Controls.Count * m_phoneLabelWidth) + 5;
 
 			// Force the bars to be resized.
 			pnlFixedBorder_Resize(null, null);
@@ -234,8 +241,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Since the panel the bars are on is not owned by the scrolling panel, make sure the
-		/// left edge of the panel that owns the bars is syncronized with the ipa character
-		/// panel as it is scrolled.
+		/// left edge of the panel that owns the bars is syncronized with the phone panel as
+		/// it is scrolled.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void pnlScroller_Scroll(object sender, ScrollEventArgs e)
@@ -253,9 +260,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ForceLayout()
 		{
-			// This panel is docked filled so setting increasing its width will not change
-			// its width, but it will force the control to layout again, which is what we
-			// need. Kludgy, I know. But the PerformLayout() method does nothing.
+			// This panel is docked filled so increasing its width will not change its
+			// width, but it will force the control to layout again, which is what we
+			// need. Kludgy, I know, but calling the PerformLayout() method does not
+			// force the control to be layed out.
 			pnlFixedBorder.Width++;
 		}
 
@@ -283,20 +291,29 @@ namespace SIL.Pa.Controls
 
 			STUtils.SetWindowRedraw(pnlBars, false, false);
 
-			m_barHeightFactor =
-				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, m_maxTotalCount);
-
 			int xLocationOffset = 0;
+			m_hashMarkIncrement = 0;
+			decimal pixelsPerUnit = 0;
+
+			int numberHashMarks = (int)Math.Round(
+				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, m_hashMarkGap));
+
+			if (numberHashMarks > 0)
+			{
+				m_hashMarkIncrement = (int)Math.Ceiling(decimal.Divide(m_maxTotalCount, numberHashMarks));
+				pixelsPerUnit = decimal.Divide((decimal)m_hashMarkGap, (decimal)m_hashMarkIncrement);
+			}
 
 			// Reposition and resize bars
 			foreach (HistogramBar bar in pnlBars.Controls)
 			{
-				int maxBarHeight = (int)((m_maxTotalCount - bar.BarValue) * m_barHeightFactor);
+				//int barHeight = (int)((m_maxTotalCount - bar.BarValue) * m_barHeightFactor);
+				int barHeight = (int)Math.Floor(pixelsPerUnit * (decimal)bar.BarValue);
 
 				// "5" is the column spacing on either side of a bar
-				Point newLoc = new Point((xLocationOffset + 5), (maxBarHeight + kPixelsFromTop + 1));
-				Size newSize = new Size(30, (int)(bar.BarValue * m_barHeightFactor));
-				xLocationOffset += kPhoneLabelWidth; // pixels between the characters
+				Point newLoc = new Point((xLocationOffset + 5), pnlBars.Bottom - barHeight);
+				Size newSize = new Size(m_barWidth, barHeight);
+				xLocationOffset += m_phoneLabelWidth; // pixels between the characters
 
 				if (newSize != bar.Size)
 					bar.Size = newSize;
@@ -316,7 +333,7 @@ namespace SIL.Pa.Controls
 		#region Painting methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Paint method for IPA Character labels.
+		/// Paint method for phone labels.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void lbl_Paint(object sender, PaintEventArgs e)
@@ -379,7 +396,7 @@ namespace SIL.Pa.Controls
 				e.Graphics.FillRectangle(br, pnlBars.ClientRectangle);
 				g.FillRectangle(br, pnlFixedBorder.ClientRectangle);
 
-				int yLocationOffset = pnlBars.ClientSize.Height - kLineGapSize;
+				int yLocationOffset = pnlBars.ClientSize.Height - m_hashMarkGap;
 
 				while (yLocationOffset > 0)
 				{
@@ -388,7 +405,7 @@ namespace SIL.Pa.Controls
 					Point pt2 = new Point(pnlBars.Width, yLocationOffset);
 
 					e.Graphics.DrawLine(pen, pt1, pt2);
-					yLocationOffset -= kLineGapSize;
+					yLocationOffset -= m_hashMarkGap;
 
 					// Draw the line on the bar panel's owner in case the bar panel
 					// doesn't extend to its owner's right edge.
@@ -414,7 +431,7 @@ namespace SIL.Pa.Controls
 			// Calculate (relative to pnlYaxis) where the bottom of the bar's panel is.
 			Point pt = pnlBars.PointToScreen(new Point(0, pnlBars.ClientSize.Height));
 			pt = pnlYaxis.PointToClient(pt);
-			int yLocationOffset = pt.Y - (int)(kLineGapSize * 1.5);
+			int yLocationOffset = pt.Y - (int)(m_hashMarkGap * 1.5);
 
 			// Calculate (relative to pnlYaxis) where we should stop drawing numbers.
 			pt = pnlBars.PointToScreen(new Point(0, 0));
@@ -422,30 +439,19 @@ namespace SIL.Pa.Controls
 			int minY = pt.Y;
 
 			Rectangle rc =
-				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, kLineGapSize);
+				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, m_hashMarkGap);
 
 			using (StringFormat sf = STUtils.GetStringFormat(true))
 			{
 				sf.Alignment = StringAlignment.Far;
 
-				while ((rc.Top + (rc.Height / 2)) > minY)
+				while ((rc.Top + (rc.Height / 2)) >= minY)
 				{
-					// Must round to 2 decimal places to update the line values more frequently.
-					if (m_barHeightFactor != 0)
-					{
-						horzLineValue += Math.Round((kLineGapSize / m_barHeightFactor), 2);
-						// Show 2 decimal places on the horz line value numbers if the tallest
-						// bar is less than the number of horz lines
-						if (m_maxTotalCount < pnlBars.ClientSize.Height / kLineGapSize)
-							horzLineValString = Math.Round(horzLineValue, 2).ToString();
-						else
-							horzLineValString = Math.Round(horzLineValue).ToString();
-					}
-
-					e.Graphics.DrawString(horzLineValString, FontHelper.UIFont,
+					horzLineValue += m_hashMarkIncrement;
+					e.Graphics.DrawString(horzLineValue.ToString(), FontHelper.UIFont,
 						SystemBrushes.ControlText, rc, sf);
 
-					rc.Y -= kLineGapSize;
+					rc.Y -= m_hashMarkGap;
 				}
 			}
 		}

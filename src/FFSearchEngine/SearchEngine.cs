@@ -96,7 +96,12 @@ namespace SIL.Pa.FFSearchEngine
 				pattern = string.Empty;
 
 			string[] patterns = GetPatternPieces(pattern);
-			
+			if (patterns == null)
+			{
+				m_errors.Add(string.Format(Resources.kstidSyntaxErr, pattern));
+				return;
+			}
+
 			if (patterns.Length == 0 || patterns.Length > 3 ||
 				string.IsNullOrEmpty(patterns[0]) ||
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
@@ -154,40 +159,46 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			// Replace slashes and underscores that occur between square brackets with tokens
 			// that are replaced with the slashes and underscores after the pattern is split up.
-			StringBuilder bldr = new StringBuilder(pattern);
-			Stack<char> bracketBucket = new Stack<char>();
-			for (int i = 0; i < bldr.Length; i++)
+			try
 			{
-				switch (bldr[i])
+				StringBuilder bldr = new StringBuilder(pattern);
+				Stack<char> bracketBucket = new Stack<char>();
+				for (int i = 0; i < bldr.Length; i++)
 				{
-					case '[': bracketBucket.Push(bldr[i]); break;
-					case ']': bracketBucket.Pop(); break;
-					case '/':
-						// When slashes are found inside brackets, replace them with codepoint 1.
-						if (bracketBucket.Count > 0)
-							bldr[i] = (char)1;
-						break;
+					switch (bldr[i])
+					{
+						case '[': bracketBucket.Push(bldr[i]); break;
+						case ']': bracketBucket.Pop(); break;
+						case '/':
+							// When slashes are found inside brackets, replace them with codepoint 1.
+							if (bracketBucket.Count > 0)
+								bldr[i] = (char)1;
+							break;
 
-					case '_':
-						// When underscores are found inside brackets, replace them with codepoint 2.
-						if (bracketBucket.Count > 0)
-							bldr[i] = (char)2;
-						break;
+						case '_':
+							// When underscores are found inside brackets, replace them with codepoint 2.
+							if (bracketBucket.Count > 0)
+								bldr[i] = (char)2;
+							break;
+					}
 				}
-			}
 
-			// Split up the pattern into it's pieces. Three pieces are expected.
-			string[] pieces = bldr.ToString().Split(new char[] { '/', '_' });
-			
-			// Now go through the pieces and put back any slashes
-			// or undersores that were replace by tokens above.
-			for (int i = 0; i < pieces.Length; i++)
-			{
-				pieces[i] = pieces[i].Replace((char)1, '/');
-				pieces[i] = pieces[i].Replace((char)2, '_');
-			}
+				// Split up the pattern into it's pieces. Three pieces are expected.
+				string[] pieces = bldr.ToString().Split(new char[] { '/', '_' });
 
-			return pieces;
+				// Now go through the pieces and put back any slashes
+				// or undersores that were replace by tokens above.
+				for (int i = 0; i < pieces.Length; i++)
+				{
+					pieces[i] = pieces[i].Replace((char)1, '/');
+					pieces[i] = pieces[i].Replace((char)2, '_');
+				}
+
+				return pieces;
+			}
+			catch { }
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

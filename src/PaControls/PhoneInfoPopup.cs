@@ -200,6 +200,23 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ShouldShowPopup(Control ctrl)
+		{
+			if (ctrl == null)
+			{
+				Form frm = ctrl.FindForm();
+				if (frm != null && !frm.ContainsFocus)
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Shows the popup with the specified owning control for the specified histogram bar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -210,6 +227,9 @@ namespace SIL.Pa.Controls
 
 			Debug.Assert(ctrl != null);
 			Debug.Assert(bar != null);
+
+			if (!ShouldShowPopup(ctrl))
+				return;
 
 			m_popupTimer.Start();
 
@@ -241,8 +261,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Shows the popup for a grid cell having the specified display rectangle relative to
-		/// the specified grid
-		/// specified owning control.
+		/// the specified grid specified owning control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Show(Rectangle rcCell)
@@ -251,6 +270,9 @@ namespace SIL.Pa.Controls
 				return;
 
 			Debug.Assert(m_associatedGrid != null);
+
+			if (!ShouldShowPopup(m_associatedGrid))
+				return;
 
 			m_popupTimer.Start();
 			

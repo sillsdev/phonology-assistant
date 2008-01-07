@@ -244,6 +244,10 @@ namespace SIL.Pa.Controls
 			if (m_associatedCell == null || m_associatedGrid == null || m_mouseOver)
 				return;
 
+			Form frm = m_associatedGrid.FindForm();
+			if (frm != null && !frm.ContainsFocus)
+				return;
+
 			// Get the rectangle for the associated cell.
 			Rectangle rc = m_associatedGrid.GetCellDisplayRectangle(
 				m_associatedCell.ColumnIndex, m_associatedCell.RowIndex, false);
