@@ -314,6 +314,25 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the IPACharInfo for the base character in the specified phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IPACharInfo GetBaseCharInfoForPhone(string phone)
+		{
+			if (DataUtils.IPACharCache == null)
+				return null;
+
+			// First check if it's a tone letter since they don't have base characters.
+			IPACharInfo charInfo = DataUtils.IPACharCache.ToneLetterInfo(phone);
+			if (charInfo != null)
+				return charInfo;
+		
+			IPhoneInfo phoneInfo = this[phone];
+			return (phoneInfo == null ? null : DataUtils.IPACharCache[phoneInfo.BaseCharacter]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Sets the CVPatternInfoList for the phone cache. This list should be set to the
 		/// list owned by a PA project when the project is opened.
 		/// </summary>
