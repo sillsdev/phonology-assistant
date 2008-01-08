@@ -1114,6 +1114,31 @@ namespace SIL.Pa
 			}
 			catch { }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Treat the Ctrl+Shift+C as a special copy to the clipboard. When the phone grid
+		/// has focus, Ctrl+Shift+C will copy to the clipboard just the phone in the current
+		/// phone grid row, not the phone and it's count separated by a tab (which is normal
+		/// copy behavior for a phone grid row).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (gridPhones.Focused && gridPhones.CurrentRow != null &&
+				(keyData & Keys.C) == Keys.C && (keyData & Keys.Shift) == Keys.Shift &&
+				(keyData & Keys.Control) == Keys.Control)
+			{
+				IPhoneInfo phoneInfo = gridPhones.CurrentRow.Cells[0].Value as IPhoneInfo;
+				if (phoneInfo != null)
+				{
+					Clipboard.SetText(phoneInfo.ToString(), TextDataFormat.UnicodeText);
+					return true;
+				}
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
 		
 		#region Methods for saving changes
 		/// ------------------------------------------------------------------------------------
