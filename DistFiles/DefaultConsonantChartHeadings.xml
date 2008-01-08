@@ -65,7 +65,7 @@
 		<Heading text="Lateral approximant" Group="7" />
 		<Heading text="Implosives" Group="8" />
 		<Heading text="Clicks" Group="9" />
-		<Heading text="Affricates" Group="11" />
-		<Heading text="Other" Group="10" />
+		<Heading text="Affricates" Group="10" />
+		<Heading text="Other" Group="11" />
 	</RowHeadings>
 </PhoneChart>
