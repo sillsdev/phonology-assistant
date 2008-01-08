@@ -137,7 +137,31 @@ namespace SIL.Pa.Controls
 				}
 			}
 
+			m_phoneList.Sort(CharGridCellComparer);
 			m_phoneLstVwr.LoadPhones(m_phoneList);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Comparer for the phone list sort method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int CharGridCellComparer(CharGridCell x, CharGridCell y)
+		{
+			if (x == y) 
+				return 0;
+
+			if (x == null)
+				return 1;
+
+			if (y == null)
+				return -1;
+
+			if (x.Group == y.Group && x.Column == y.Column)
+				return 0;
+
+			int diff = x.Group - y.Group;
+			return (diff != 0 ? diff : x.Column - y.Column);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,7 +287,7 @@ namespace SIL.Pa.Controls
 
 				// Find the Phone's base character in the IPA character cache
 				// in order to find it's default placement in the chart.
-				IPACharInfo info = GetBaseCharInfoForPhone(phoneInfo.Key);
+				IPACharInfo info = PaApp.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
 
 				if (info != null)
 				{
@@ -279,9 +303,8 @@ namespace SIL.Pa.Controls
 						cgc.SiblingUncertainties =
 							new List<string>(phoneInfo.Value.SiblingUncertainties);
 					}
-					
-					string key = DataUtils.GetMOAKey(phone);
-					tmpPhoneList[key] = cgc;
+
+					tmpPhoneList[DataUtils.GetMOAKey(phone)] = cgc;
 
 					maxPhoneWidth = Math.Max(maxPhoneWidth, TextRenderer.MeasureText(phone,
 						fnt, Size.Empty, flags).Width);
@@ -375,32 +398,48 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Return the IPACharInfo for the phones base character. With the exception of
-		/// ambiguous sequences, the only time this should not be the first character is when
-		/// there's a tie bar or linking suprasegmental involved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private IPACharInfo GetBaseCharInfoForPhone(string phone)
-		{
-			IPACharInfo charInfo = DataUtils.IPACharCache.ToneLetterInfo(phone);
-			if (charInfo != null)
-				return charInfo;
-				
-			IPhoneInfo phoneInfo = PaApp.PhoneCache[phone];
-			return (phoneInfo == null ? null : DataUtils.IPACharCache[phoneInfo.BaseCharacter]);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Place all the phones on the chart.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void PlacePhonesInChart()
 		{
+			List<CharGridCell> newPhonesToPlace = new List<CharGridCell>();
+
 			foreach (CharGridCell cgc in m_phoneList)
 			{
 				if (!cgc.IsPlacedOnChart && cgc.Visible)
-					PlaceSinglePhone(cgc);
+				{
+					if (!PlaceSinglePhone(cgc))
+						newPhonesToPlace.Add(cgc);
+				}
+			}
+
+			if (newPhonesToPlace.Count > 0)
+			{
+				foreach (CharGridCell cgc in newPhonesToPlace)
+					PlaceNewPhone(cgc);
+			}
+
+			FixUpCharInformation();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Goes through the cells in the grid and for those containing CharGridCell objects,
+		/// the CharGridCell object's row is updated to reflect the final row where the phone
+		/// was located in the chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FixUpCharInformation()
+		{
+			foreach (DataGridViewRow row in m_chrGrid.Grid.Rows)
+			{
+				for (int c = 0; c < m_chrGrid.Grid.ColumnCount; c++)
+				{
+					CharGridCell cgc = row.Cells[c].Value as CharGridCell;
+					if (cgc != null)
+						cgc.Row = row.Index;
+				}
 			}
 		}
 
@@ -409,11 +448,11 @@ namespace SIL.Pa.Controls
 		/// Places a single Phone on the chart within the specified header.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void PlaceSinglePhone(CharGridCell cgc)
+		private bool PlaceSinglePhone(CharGridCell cgc)
 		{
 			CharGridHeader hdr = GetHeaderForPhonesGroup(cgc);
 			if (hdr == null || hdr.OwnedRows.Count == 0)
-				return;
+				return true;
 
 			int row = -1;
 			int col = -1;
@@ -453,20 +492,53 @@ namespace SIL.Pa.Controls
 			}
 			else
 			{
-				// If the header didn't have an empty cell at the desired column
-				// in any of the rows belonging to the header, then it's necessary
-				// to add a new row to the header to accomodate the phoneInfo.
-				m_chrGrid.AddRowToHeading(hdr);
-				int desiredCol = (cgc.Column > -1 ? cgc.Column : cgc.DefaultColumn);
-				if (desiredCol >= hdr.LastRow.Cells.Count)
-					desiredCol = hdr.LastRow.Cells.Count - 1;
-				
-				DataGridViewCell cell = hdr.LastRow.Cells[desiredCol];
-				cell.Value = cgc;
-				cgc.Row = hdr.LastRow.Index;
-				cgc.Column = desiredCol;
+				// If the header didn't have an empty cell at the desired column in
+				// any of the rows belonging to the header, then return false which
+				// tells the caller this phone needs to be placed on the chart after
+				// all other phones that don't have the same conflict are placed.
+				return false;
 			}
 
+			cgc.Group = hdr.Group;
+			cgc.IsPlacedOnChart = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void PlaceNewPhone(CharGridCell cgc)
+		{
+			CharGridCell similarCgc = FindSimilarPhone(cgc);
+
+			if (similarCgc != null)
+			{
+				cgc.Group = similarCgc.Group;
+				cgc.Column = similarCgc.Column;
+				cgc.Row = -1;
+				if (PlaceSinglePhone(cgc))
+					return;
+			}
+
+			CharGridHeader hdr = GetHeaderForPhonesGroup(cgc);
+			if (hdr == null || hdr.OwnedRows.Count == 0)
+				return;
+
+			// If the header didn't have an empty cell at the desired column
+			// in any of the rows belonging to the header, then it's necessary
+			// to add a new row to the header to accomodate the phoneInfo.
+			m_chrGrid.AddRowToHeading(hdr);
+			int desiredCol = (cgc.Column > -1 ? cgc.Column : cgc.DefaultColumn);
+			
+			if (desiredCol >= hdr.LastRow.Cells.Count)
+				desiredCol = hdr.LastRow.Cells.Count - 1;
+
+			DataGridViewCell cell = hdr.LastRow.Cells[desiredCol];
+			cell.Value = cgc;
+			cgc.Row = hdr.LastRow.Index;
+			cgc.Column = desiredCol;
 			cgc.Group = hdr.Group;
 			cgc.IsPlacedOnChart = true;
 		}
@@ -486,7 +558,42 @@ namespace SIL.Pa.Controls
 			CharGridCell cgc = grid[col, row].Value as CharGridCell;
 			return (cgc == null || !cgc.Visible);
 		}
-	
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Searches the chart for a cell containing a phone that is similar to the one in
+		/// the specified CharGridCell object.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private CharGridCell FindSimilarPhone(CharGridCell cgc)
+		{
+			IPhoneInfo phoneInfo = PaApp.PhoneCache[cgc.Phone];
+			if (phoneInfo == null)
+				return null;
+
+			if (m_chrGrid.Grid == null || m_chrGrid.Grid.ColumnCount == 0 ||
+				m_chrGrid.Grid.RowCount == 0)
+			{
+				return null;
+			}
+
+			foreach (DataGridViewRow row in m_chrGrid.Grid.Rows)
+			{
+				for (int c = 0; c < m_chrGrid.Grid.ColumnCount; c++)
+				{
+					CharGridCell tmpcgc = row.Cells[c].Value as CharGridCell;
+					if (tmpcgc != null)
+					{
+						IPhoneInfo tmppi = PaApp.PhoneCache[tmpcgc.Phone];
+						if (tmppi != null && tmppi.BaseCharacter == phoneInfo.BaseCharacter)
+							return tmpcgc;
+					}
+				}
+			}
+
+			return null;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Finds the header whose group is the one specified in the specified CharGridCell.

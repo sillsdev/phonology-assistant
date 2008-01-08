@@ -325,6 +325,17 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Reloads a chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPhoneChartArrangementChanged(object args)
+		{
+			RefreshComponents();
+			return false;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Provides a way to force the components to update their fonts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

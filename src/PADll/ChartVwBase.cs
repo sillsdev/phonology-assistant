@@ -111,6 +111,27 @@ namespace SIL.Pa
 		/// Reloads a chart.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnChartPhoneMoved(object args)
+		{
+			try
+			{
+				object[] argArray = args as object[];
+				if (argArray[0] == m_chrGrid)
+				{
+					CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
+					PaApp.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
+				}
+			}
+			catch { }
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reloads a chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void ReloadChart(bool restoreDefault)
 		{
 			if (restoreDefault)
@@ -121,6 +142,8 @@ namespace SIL.Pa
 			m_chrGrid.Reset();
 			Initialize();
 			m_chrGrid.ForceCurrentCellUpdate();
+			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
+			PaApp.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
 		}
 
 		/// ------------------------------------------------------------------------------------

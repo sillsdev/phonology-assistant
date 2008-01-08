@@ -1300,6 +1300,10 @@ namespace SIL.Pa.Controls
 				droppedOnCell.Value = draggedCell.Value;
 				draggedCell.Value = null;
 				m_grid.CurrentCell = droppedOnCell;
+
+				PaApp.MsgMediator.SendMessage("ChartPhoneMoved",
+					new object[] { this, droppedOnCell.Value as CharGridCell,
+					draggedCell, droppedOnCell });
 			}
 		}
 
@@ -1350,7 +1354,7 @@ namespace SIL.Pa.Controls
 			if (beginMove)
 			{
 				if (m_phoneMovingHelper == null)
-					m_phoneMovingHelper = new CellKBMovingCellHelper(m_grid);
+					m_phoneMovingHelper = new CellKBMovingCellHelper(this);
 
 				m_phoneMovingHelper.Reset(cgc, m_grid.CurrentCell as DataGridViewTextBoxCell);
 			}
@@ -1397,6 +1401,7 @@ namespace SIL.Pa.Controls
 		private bool m_drawNoDropIcon = false;
 		private Rectangle m_rcNoDropIcon;
 		private readonly DataGridView m_grid;
+		private readonly CharGrid m_chrGrid;
 		private readonly Color m_defaultCellSelectedBackColor;
 		private readonly Color m_defaultCellSelectedForeColor;
 
@@ -1405,12 +1410,14 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal CellKBMovingCellHelper(DataGridView grid)
+		internal CellKBMovingCellHelper(CharGrid chrGrid)
 		{
-			m_grid = grid;
+			System.Diagnostics.Debug.Assert(chrGrid != null);
+			m_chrGrid = chrGrid;
 
-			if (m_grid != null)
+			if (m_chrGrid.Grid != null)
 			{
+				m_grid = m_chrGrid.Grid;
 				m_grid.Paint += m_grid_Paint;
 				m_grid.CellEnter += m_grid_CellEnter;
 				m_grid.CellLeave += m_grid_CellLeave;
@@ -1498,6 +1505,11 @@ namespace SIL.Pa.Controls
 					SystemSounds.Beep.Play();
 					m_originalCell.Value = m_cgc;
 					m_grid.CurrentCell = m_originalCell;
+				}
+				else
+				{
+					PaApp.MsgMediator.SendMessage("ChartPhoneMoved",
+						new object[] {m_chrGrid, currentCellsCgc, m_originalCell, targetCell});
 				}
 			}
 		}
