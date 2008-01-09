@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("This assembly contains the xCore mediator subset of FieldWork's xCoreInterfaces.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International, Inc.")]
-[assembly: AssemblyProduct("xCoreMediator (FW subset)")]
-[assembly: AssemblyCopyright("Copyright © SIL International, Inc. 2007")]
+[assembly: AssemblyProduct("Phonology Assistant - xCoreMediator (FW subset)")]
+[assembly: AssemblyCopyright("(C) 2008, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

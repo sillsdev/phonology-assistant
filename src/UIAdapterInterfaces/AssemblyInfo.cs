@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("UI Adapter Interface")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("User Interface Adapter Interfaces")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International")]
 [assembly: AssemblyProduct("Phonology Assistant")]
-[assembly: AssemblyCopyright("(C) 2006, SIL International")]
+[assembly: AssemblyCopyright("(C) 2008, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

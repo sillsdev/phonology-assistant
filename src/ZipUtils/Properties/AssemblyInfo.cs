@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Provides Zip file handling routines using ICSharpCode.SharpZipLib.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International, Inc")]
-[assembly: AssemblyProduct("ZipUtils")]
-[assembly: AssemblyCopyright("(C) 2007, SIL International")]
+[assembly: AssemblyProduct("Phonology Assistant's Zip Utilities")]
+[assembly: AssemblyCopyright("(C) 2008, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

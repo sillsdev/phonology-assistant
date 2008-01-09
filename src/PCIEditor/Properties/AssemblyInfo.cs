@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International")]
 [assembly: AssemblyProduct("Phonetic Character Inventory Editor")]
-[assembly: AssemblyCopyright("Copyright © 2008 SIL International")]
+[assembly: AssemblyCopyright("(C) 2008, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

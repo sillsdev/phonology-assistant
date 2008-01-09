@@ -102,7 +102,10 @@ namespace SIL.Pa
 		protected bool OnHelpAbout(object args)
 		{
 			using (AboutDlg dlg = new AboutDlg(true, false))
+			{
+				((IAboutDlg)dlg).ProdVersion = PaApp.ProdVersion;
 				dlg.ShowDialog(this);
+			}
 
 			return true;
 		}

@@ -124,6 +124,7 @@ namespace SIL.Pa
 				s_splashScreen = new SplashScreen(false, false);
 				s_splashScreen.Show();
 				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
+				s_splashScreen.ProdVersion = ProdVersion;
 			}
 
 			InitializePaRegKey();
@@ -156,6 +157,28 @@ namespace SIL.Pa
 				"fieldworks", "showmsgwhengatheringinfo", false);
 
 			ReadAddOns();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// For versions of PA newer than 3.0.1, remove this property and let the splashscreen
+		/// set the version using it's default way. I added this override to the default way
+		/// because I had removed the "Beta" from the splash and about box too early and, as a
+		/// result, there are too many test users with versions of the program labeled 3.0
+		/// that are really beta or test versions. Therefore, I had to build my own version
+		/// 3.0.1 using the Application.ProductVersion property. I could have just set that
+		/// property to (in the properties for the Pa.exe project) but that would mess up
+		/// the third number representing the build number which I want to keep at * so the
+		/// build date is accurate (because that's what the third number is).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ProdVersion
+		{
+			get
+			{
+				Version ver = new Version(Application.ProductVersion);
+				return string.Format("{0}.1", ver.ToString(2));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

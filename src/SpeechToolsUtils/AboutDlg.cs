@@ -142,10 +142,10 @@ namespace SIL.SpeechTools.Utils
 
 		private string m_sAvailableMemoryFmt;
 		private string m_sAppVersionFmt;
+		private string m_buildFmt;
 		private string m_sTitleFmt;
 		private string m_sAvailableDiskSpaceFmt;
-		private string m_buildFmt;
-		private bool m_showBuildNum = false;
+		private bool m_showBuild = false;
 		private bool m_isBetaVersion = false;
 		private Panel panel1;
 		private Label lblBuild;
@@ -178,6 +178,8 @@ namespace SIL.SpeechTools.Utils
 			m_sTitleFmt = Text;
 			m_sAvailableDiskSpaceFmt = lblAvailableDiskSpaceValue.Text;
 			m_buildFmt = lblBuild.Text;
+
+			Initialize();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,10 +187,13 @@ namespace SIL.SpeechTools.Utils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public AboutDlg(bool showBuildNum, bool isBetaVersion) : this()
+		public AboutDlg(bool showBuild, bool isBetaVersion) : this()
 		{
-			m_showBuildNum = showBuildNum;
+			m_showBuild = showBuild;
 			m_isBetaVersion = isBetaVersion;
+
+			InternalSetBuild(null);
+			InternalSetVersionNumber(null);
 		}
 
 		/// ----------------------------------------------------------------------------------------
@@ -349,14 +354,11 @@ namespace SIL.SpeechTools.Utils
 		#region Initialization Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// When the window handle gets created we want to initialize the controls
+		/// Initialize the controls
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		private void Initialize()
 		{
-			base.OnHandleCreated(e);
-
 			try
 			{
 				// Set the Application label to the name of the app
@@ -366,7 +368,7 @@ namespace SIL.SpeechTools.Utils
 				{	
 					// Must be called from COM client
 					strRoot = m_sDriveLetter + ":\\";
-					lblBuild.Visible = m_showBuildNum;
+					lblBuild.Visible = m_showBuild;
 				}
 				else
 				{
@@ -401,25 +403,50 @@ namespace SIL.SpeechTools.Utils
 				productName = ((AssemblyTitleAttribute)attributes[0]).Title;
 
 			lblName.Text = productName;
-			Version ver = new Version(Application.ProductVersion);
+			InternalSetBuild(null);
+			InternalSetVersionNumber(null);
+		}
 
-			lblBuild.Visible = m_showBuildNum;
-			if (m_showBuildNum)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the version number text on the about box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalSetVersionNumber(string version)
+		{
+			if (string.IsNullOrEmpty(version))
+			{
+				Version ver = new Version(Application.ProductVersion);
+				version = ver.ToString(2);
+			}
+#if DEBUG
+			lblAppVersion.Text = string.Format(m_sAppVersionFmt, version,
+				"(Debug version)", (m_isBetaVersion ? "Beta" : string.Empty));
+#else
+			lblAppVersion.Text = string.Format(m_sAppVersionFmt, version,
+				string.Empty, (m_isBetaVersion ? "Beta" : string.Empty));
+#endif
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the build number (or date by default);
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalSetBuild(string build)
+		{
+			lblBuild.Visible = m_showBuild;
+
+			if (!string.IsNullOrEmpty(build))
+				lblBuild.Text = build;
+			else
 			{
 				// The build number is just the number of days since 01/01/2000
+				Version ver = new Version(Application.ProductVersion);
 				int bldNum = ver.Build;
 				DateTime bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
 				lblBuild.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 			}
-
-			string appVersion = ver.ToString(3); // assembly.GetName().Version.ToString(2);
-#if DEBUG
-			lblAppVersion.Text = string.Format(m_sAppVersionFmt, appVersion, "(Debug version)",
-				(m_isBetaVersion ? "Beta" : string.Empty));
-#else
-			lblAppVersion.Text = string.Format(m_sAppVersionFmt, appVersion, string.Empty,
-				(m_isBetaVersion ? "Beta" : string.Empty));
-#endif
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -432,7 +459,7 @@ namespace SIL.SpeechTools.Utils
 			// Get copyright information from assembly info. By doing this we don't have
 			// to update the about dialog each year.
 			string copyright;
-			object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(
+			object[] attributes = Assembly.GetEntryAssembly().GetCustomAttributes(
 				typeof(AssemblyCopyrightAttribute), false);
 
 			// Try to get the copyright from the executing assembly.
@@ -484,7 +511,7 @@ namespace SIL.SpeechTools.Utils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The build description which appears in the Build label on the about dialog box
+		/// The build date which appears in the Build label on the about dialog box
 		/// </summary>
 		/// <remarks>
 		/// .Net clients should not set this. It will be ignored.
@@ -494,8 +521,8 @@ namespace SIL.SpeechTools.Utils
 		{
 			set 
 			{
-				lblBuild.Text = value;
-				m_showBuildNum = true;
+				m_showBuild = true;
+				InternalSetBuild(value);
 			}
 		}
 
@@ -509,16 +536,7 @@ namespace SIL.SpeechTools.Utils
 			set
 			{
 				m_isBetaVersion = value;
-				if (m_tmpProdVersion != null)
-				{
-#if DEBUG
-					lblAppVersion.Text = string.Format(m_sAppVersionFmt, m_tmpProdVersion,
-						"(Debug version)", (m_isBetaVersion ? "Beta" : string.Empty));
-#else
-					lblAppVersion.Text = string.Format(m_sAppVersionFmt, m_tmpProdVersion,
-						string.Empty, (m_isBetaVersion ? "Beta" : string.Empty));
-#endif
-				}
+				InternalSetVersionNumber(m_tmpProdVersion);
 			}
 		}
 
@@ -552,13 +570,7 @@ namespace SIL.SpeechTools.Utils
 			set 
 			{
 				m_tmpProdVersion = value;
-#if DEBUG
-				lblAppVersion.Text = string.Format(m_sAppVersionFmt, value, "(Debug version)",
-					(m_isBetaVersion ? "Beta" : string.Empty));
-#else
-				lblAppVersion.Text = string.Format(m_sAppVersionFmt, value, string.Empty,
-					(m_isBetaVersion ? "Beta" : string.Empty));
-#endif
+				InternalSetVersionNumber(value);
 			}
 		}
 

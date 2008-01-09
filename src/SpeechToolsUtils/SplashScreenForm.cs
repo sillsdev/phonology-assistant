@@ -297,11 +297,18 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public void SetProdVersion(string value)
 		{
+			string version = value;
+			if (string.IsNullOrEmpty(version))
+			{
+				Version ver = new Version(Application.ProductVersion);
+				version = ver.ToString(2);
+			}
+
 #if DEBUG
-			lblVersion.Text = string.Format(m_versionFmt, value, "(Debug version)",
+			lblVersion.Text = string.Format(m_versionFmt, version, "(Debug version)",
 				(m_isBetaVersion ? "Beta" : string.Empty));
 #else
-			lblVersion.Text = string.Format(m_versionFmt, value, string.Empty,
+			lblVersion.Text = string.Format(m_versionFmt, version, string.Empty,
 				(m_isBetaVersion ? "Beta" : string.Empty));
 #endif
 		}
@@ -388,42 +395,39 @@ namespace SIL.SpeechTools.Utils
 						productName = (attributes != null && attributes.Length > 0) ?
 							((AssemblyTitleAttribute)attributes[0]).Title : "Unknown";
 					}
-
+					
 					lblProductName.Text = productName;
 					Text = productName;
-
-					lblBuildNumber.Visible = m_showBuildNum;
-					if (m_showBuildNum)
-					{
-						// The build number is just the number of days since 01/01/2000
-						int bldNum = assembly.GetName().Version.Build;
-						DateTime bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
-						lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
-					}
-
-					// Set the application version text
-					string appVersion = assembly.GetName().Version.ToString(2);
-
-#if DEBUG
-					lblVersion.Text = string.Format(m_versionFmt, appVersion, "(Debug version)",
-						(m_isBetaVersion ? "Beta" : string.Empty));
-#else
-					lblVersion.Text = string.Format(m_versionFmt, appVersion, string.Empty,
-						(m_isBetaVersion ? "Beta" : string.Empty));
-#endif
 				}
+
+				lblBuildNumber.Visible = m_showBuildNum;
+				
+				// The build number is just the number of days since 01/01/2000
+				Version ver = new Version(Application.ProductVersion);
+				DateTime bldDate =
+					new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0));
+				
+				lblBuildNumber.Text =
+					string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
+
+				SetProdVersion(null);
+
 				// Get copyright information from assembly info. By doing this we don't have
 				// to update the splash screen each year.
 				string copyRight;
-				attributes = Assembly.GetExecutingAssembly()
-					.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+
+				if (assembly == null)
+					assembly = Assembly.GetExecutingAssembly();
+
+				attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+				
 				if (attributes != null && attributes.Length > 0)
 					copyRight = ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
 				else
 				{
 					// if we can't find it in the assembly info, use generic one (which 
 					// might be out of date)
-					copyRight = "(C) 2002-2007 SIL International";
+					copyRight = "(C) 2002-2008 SIL International";
 				}
 
 				lblCopyright.Text = string.Format(lblCopyright.Text,
