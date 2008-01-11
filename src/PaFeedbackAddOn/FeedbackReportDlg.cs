@@ -85,15 +85,6 @@ namespace SIL.Pa.AddOn
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			PaApp.SettingsHandler.SaveFormProperties(this);
-
-			if (e.CloseReason == CloseReason.None && DialogResult != DialogResult.Cancel)
-			{
-				if (VerifyRatings())
-					Send();
-				else
-					e.Cancel = true;
-			}
-
 			base.OnFormClosing(e);
 		}
 
@@ -147,16 +138,45 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private void btnSend_Click(object sender, EventArgs e)
+		{
+			if (VerifyRatings())
+				Send();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnCopy_Click(object sender, EventArgs e)
+		{
+			if (!VerifyRatings())
+				return;
+
+			Clipboard.SetText(BuildMessage(), TextDataFormat.UnicodeText);
+			using (CopiedToClipboardDlg dlg = new CopiedToClipboardDlg())
+				dlg.ShowDialog(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void Send()
 		{
 			try
 			{
+				string invalidURIChars = @" /&:$";
 				string mailAddress = Properties.Resources.kstidFeedbackMailAddress;
-				string subject = "PA Feedback Report";
+				string subject = "PA%20Feedback%20Report";
 				string body = BuildMessage();
-				body = body.Replace(System.Environment.NewLine, "%0A");
-				body = body.Replace("\"", "%22");
-				body = body.Replace("&", "%26");
+				body = body.Replace("%", "%25");
+				body = body.Replace(System.Environment.NewLine, "%0D%0A");
+
+				foreach (char c in invalidURIChars)
+					body = body.Replace(c.ToString(), string.Format("%{0}", ((int)c).ToString("X2")));
 
 				System.Diagnostics.Process prs = new System.Diagnostics.Process();
 				prs.StartInfo.FileName = string.Format("mailto:{0}?subject={1}&body={2}",
@@ -200,7 +220,13 @@ namespace SIL.Pa.AddOn
 			bldr.AppendLine();
 			bldr.AppendFormat("Launches: {0}", m_launchCount);
 			bldr.AppendLine();
-			bldr.AppendFormat("Version: {0}", Application.ProductVersion);
+			bldr.AppendFormat("Version: {0}", PaApp.ProdVersion);
+			bldr.AppendLine();
+			
+			Version ver = new Version(Application.ProductVersion);
+			DateTime bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0));
+			bldr.AppendFormat("Build: {0}", bldDate.ToString("dd-MMM-yyyy"));
+
 			bldr.AppendLine();
 			bldr.AppendLine();
 			bldr.AppendLine();
@@ -209,8 +235,13 @@ namespace SIL.Pa.AddOn
 
 			foreach (RatingSurveyCtrl ctrl in m_surveyItemCtrls)
 			{
-				bldr.AppendFormat("({0}) - {1}", ctrl.Rating, ctrl.Text);
-				bldr.AppendLine();
+				try
+				{
+					bldr.AppendFormat("({0}) - {1}", ctrl.Rating,
+						ctrl.Text.Replace("&&", "&").TrimEnd(":".ToCharArray()));
+					bldr.AppendLine();
+				}
+				catch { }
 			}
 
 			bldr.AppendLine();

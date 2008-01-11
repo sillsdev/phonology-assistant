@@ -36,6 +36,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CopiedToClipboardDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CopiedToClipboardDlg.Designer.cs">
+      <DependentUpon>CopiedToClipboardDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="FeedbackReportDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CopiedToClipboardDlg.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CopiedToClipboardDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FeedbackReportDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FeedbackReportDlg.cs</DependentUpon>

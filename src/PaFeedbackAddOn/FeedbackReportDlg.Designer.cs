@@ -30,7 +30,8 @@ namespace SIL.Pa.AddOn
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FeedbackReportDlg));
 			this.pnlButtons = new System.Windows.Forms.Panel();
-			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnCopy = new System.Windows.Forms.Button();
+			this.btnClose = new System.Windows.Forms.Button();
 			this.btnSend = new System.Windows.Forms.Button();
 			this.pnlSurveyOuter = new SIL.Pa.Controls.PaPanel();
 			this.lbl5 = new System.Windows.Forms.Label();
@@ -51,24 +52,32 @@ namespace SIL.Pa.AddOn
 			// 
 			// pnlButtons
 			// 
-			this.pnlButtons.Controls.Add(this.btnCancel);
+			this.pnlButtons.Controls.Add(this.btnCopy);
+			this.pnlButtons.Controls.Add(this.btnClose);
 			this.pnlButtons.Controls.Add(this.btnSend);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Name = "pnlButtons";
 			// 
-			// btnCancel
+			// btnCopy
 			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
+			resources.ApplyResources(this.btnCopy, "btnCopy");
+			this.btnCopy.Name = "btnCopy";
+			this.btnCopy.UseVisualStyleBackColor = true;
+			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+			// 
+			// btnClose
+			// 
+			resources.ApplyResources(this.btnClose, "btnClose");
+			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnClose.Name = "btnClose";
+			this.btnClose.UseVisualStyleBackColor = true;
 			// 
 			// btnSend
 			// 
 			resources.ApplyResources(this.btnSend, "btnSend");
-			this.btnSend.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnSend.Name = "btnSend";
 			this.btnSend.UseVisualStyleBackColor = true;
+			this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
 			// 
 			// pnlSurveyOuter
 			// 
@@ -163,10 +172,9 @@ namespace SIL.Pa.AddOn
 			// 
 			// FeedbackReportDlg
 			// 
-			this.AcceptButton = this.btnSend;
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancel;
+			this.CancelButton = this.btnClose;
 			this.Controls.Add(this.pnlComments);
 			this.Controls.Add(this.pnlSurveyOuter);
 			this.Controls.Add(this.lblHeading);
@@ -189,7 +197,7 @@ namespace SIL.Pa.AddOn
 		#endregion
 
 		private System.Windows.Forms.Panel pnlButtons;
-		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnClose;
 		private System.Windows.Forms.Button btnSend;
 		private SIL.Pa.Controls.PaPanel pnlSurveyOuter;
 		private System.Windows.Forms.Panel pnlSurveyInner;
@@ -203,5 +211,6 @@ namespace SIL.Pa.AddOn
 		private SIL.Pa.Controls.PaPanel pnlComments;
 		private System.Windows.Forms.Label lblComments;
 		private System.Windows.Forms.TextBox txtComments;
+		private System.Windows.Forms.Button btnCopy;
 	}
 }
