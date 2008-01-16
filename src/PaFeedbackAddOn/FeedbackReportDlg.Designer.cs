@@ -32,7 +32,7 @@ namespace SIL.Pa.AddOn
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
-			this.btnSend = new System.Windows.Forms.Button();
+			this.btnCreate = new System.Windows.Forms.Button();
 			this.pnlSurveyOuter = new SIL.Pa.Controls.PaPanel();
 			this.lbl5 = new System.Windows.Forms.Label();
 			this.lbl4 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@ namespace SIL.Pa.AddOn
 			// 
 			this.pnlButtons.Controls.Add(this.btnCopy);
 			this.pnlButtons.Controls.Add(this.btnClose);
-			this.pnlButtons.Controls.Add(this.btnSend);
+			this.pnlButtons.Controls.Add(this.btnCreate);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Name = "pnlButtons";
 			// 
@@ -72,12 +72,12 @@ namespace SIL.Pa.AddOn
 			this.btnClose.Name = "btnClose";
 			this.btnClose.UseVisualStyleBackColor = true;
 			// 
-			// btnSend
+			// btnCreate
 			// 
-			resources.ApplyResources(this.btnSend, "btnSend");
-			this.btnSend.Name = "btnSend";
-			this.btnSend.UseVisualStyleBackColor = true;
-			this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+			resources.ApplyResources(this.btnCreate, "btnCreate");
+			this.btnCreate.Name = "btnCreate";
+			this.btnCreate.UseVisualStyleBackColor = true;
+			this.btnCreate.Click += new System.EventHandler(this.btnSend_Click);
 			// 
 			// pnlSurveyOuter
 			// 
@@ -198,7 +198,7 @@ namespace SIL.Pa.AddOn
 
 		private System.Windows.Forms.Panel pnlButtons;
 		private System.Windows.Forms.Button btnClose;
-		private System.Windows.Forms.Button btnSend;
+		private System.Windows.Forms.Button btnCreate;
 		private SIL.Pa.Controls.PaPanel pnlSurveyOuter;
 		private System.Windows.Forms.Panel pnlSurveyInner;
 		private System.Windows.Forms.Label lblSurveyInstructions;
