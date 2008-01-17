@@ -20,7 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using Microsoft.VisualBasic.Devices;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
@@ -901,68 +900,6 @@ namespace SIL.Pa
 		//}
 
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnWriteIPACache(object args)
-		{
-			DataUtils.IPACharCache.Save();
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Only show this menu if the CTRL and SHIFT key are down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateWriteIPACache(object args)
-		{
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps != null)
-			{
-				Keyboard kb =
-					new Keyboard();
-
-				itemProps.Visible = (kb.CtrlKeyDown && kb.ShiftKeyDown);
-				itemProps.Update = true;
-			}
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save the default field information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnWriteDefaultFieldInfo(object args)
-		{
-			PaApp.FieldInfo.Save();
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Only show this menu if the CTRL and SHIFT key are down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateWriteDefaultFieldInfo(object args)
-		{
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps != null)
-			{
-				Keyboard kb =
-					new Keyboard();
-
-				itemProps.Visible = (kb.CtrlKeyDown && kb.ShiftKeyDown);
-				itemProps.Update = true;
-			}
-
-			return true;
-		}
 
 		///// ------------------------------------------------------------------------------------
 		///// <summary>

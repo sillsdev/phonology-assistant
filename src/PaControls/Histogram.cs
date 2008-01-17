@@ -18,6 +18,7 @@ namespace SIL.Pa.Controls
 		private bool m_ignoreFixedBorderResize = false;
 		private int m_maxTotalCount = 0;
 		private int m_phoneHeight = 0;
+		private int m_extraPhoneHeight = 0;
 		private int m_hashMarkIncrement = 0;
 		private readonly int m_barWidth;
 		private readonly int m_phoneLabelWidth;
@@ -39,6 +40,7 @@ namespace SIL.Pa.Controls
 
 			m_hashMarkGap =	PaApp.SettingsHandler.GetIntSettingsValue("histograms", "hashmarkgap", 20);
 			m_phoneLabelWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelwidth", 40);
+			m_extraPhoneHeight = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "extraphonelabelheight", 5);
 			m_barWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "barwidth", 30);
 			m_phoneFontSize = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelfontsize", 16);
 
@@ -80,6 +82,7 @@ namespace SIL.Pa.Controls
 
 			int xLocationOffset = 0;
 			m_maxTotalCount = 0;
+			m_phoneHeight = 0;
 
 			foreach (CharGridCell cgc in phoneList)
 			{
@@ -91,10 +94,15 @@ namespace SIL.Pa.Controls
 				lblPhone.MouseEnter += HandleMouseEnter;
 				lblPhone.MouseDoubleClick += HandleMouseDoubleClick;
 				lblPhone.Location = new Point(xLocationOffset, 2);
-				lblPhone.AutoSize = true;
-				pnlPhones.Controls.Add(lblPhone);
-				m_phoneHeight = lblPhone.Height;
 				lblPhone.AutoSize = false;
+				pnlPhones.Controls.Add(lblPhone);
+
+				if (m_phoneHeight == 0)
+				{
+					m_phoneHeight = TextRenderer.MeasureText(cgc.Phone, lblPhone.Font).Height +
+						m_extraPhoneHeight;
+				}
+				
 				lblPhone.Size = new Size(m_phoneLabelWidth, m_phoneHeight);
 				lblPhone.BringToFront();
 
@@ -343,6 +351,9 @@ namespace SIL.Pa.Controls
 			if (lbl == null)
 				return;
 
+			TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine |
+				TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
+
 			// Draw the label's text.
 			using (StringFormat sf = STUtils.GetStringFormat(true))
 			{
@@ -366,17 +377,18 @@ namespace SIL.Pa.Controls
 
 				// If fnt is null it means the phone fits into the label without having
 				// to shrink it down. Otherwise, fnt represents a smaller font than lbl.Font
-				// and therefore, it's not referencing lbl.Font so it wil need to be
+				// and therefore, it's not referencing lbl.Font so it will need to be
 				// disposed after drawing the phone.
 				if (fnt == null)
 				{
-					e.Graphics.DrawString(lbl.Text, lbl.Font,
-						SystemBrushes.ControlText, lbl.ClientRectangle, sf);
+					TextRenderer.DrawText(e.Graphics, lbl.Text, lbl.Font,
+						lbl.ClientRectangle, SystemColors.ControlText, flags);
 				}
 				else
 				{
-					e.Graphics.DrawString(lbl.Text, fnt, SystemBrushes.ControlText,
-						lbl.ClientRectangle, sf);
+					TextRenderer.DrawText(e.Graphics, lbl.Text, fnt,
+						lbl.ClientRectangle, SystemColors.ControlText, flags);
+
 					fnt.Dispose();
 				}
 			}

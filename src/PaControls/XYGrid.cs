@@ -550,10 +550,8 @@ namespace SIL.Pa.Controls
 			{
 				if (m.Msg == 0x0100)
 				{
-					Microsoft.VisualBasic.Devices.Keyboard kb =
-						new Microsoft.VisualBasic.Devices.Keyboard();
-
-					if (kb.CtrlKeyDown && m.WParam.ToInt32() == (int)Keys.D0)
+					if ((Control.ModifierKeys & Keys.Control) == Keys.Control &&
+						m.WParam.ToInt32() == (int)Keys.D0)
 					{
 						PatternTextBox.Insert(m_txtBox, DataUtils.kDiacriticPlaceholder);
 						return true;

@@ -7,9 +7,14 @@ using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Subclasses the popup class specifically for a popup displaying a phone's information
+	/// for Consonant and Vowel charts and their histograms.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class PhoneInfoPopup : SilPopup
 	{
-		private bool m_siblingUncertaintiesExist = false;
 		private bool m_drawLeftArrow = true;
 		private bool m_drawArrow = true;
 		private bool m_showRelativeToScreen = false;
@@ -28,7 +33,7 @@ namespace SIL.Pa.Controls
 		public PhoneInfoPopup()
 		{
 			base.DoubleBuffered = true;
-			m_content = new PhoneInfoPopupContent();
+			m_content = new PhoneInfoPopupContent(this);
 			Controls.Add(m_content);
 
 			m_popupTimer = new Timer();
@@ -75,12 +80,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(CharGridCell cgc)
 		{
-			m_content.lblPhone.Text = cgc.Phone;
-			m_content.lblNormallyCount.Text = cgc.TotalCount.ToString();
-			m_content.lblPrimaryCount.Text = cgc.CountAsPrimaryUncertainty.ToString();
-			m_content.lblNonPrimaryCount.Text = cgc.CountAsNonPrimaryUncertainty.ToString();
-			m_content.RefreshFonts();
-			m_siblingUncertaintiesExist = m_content.SetSiblingUncertainties(cgc.SiblingUncertainties);
+			m_content.Initialize(cgc);
 			Size = m_content.Size;
 			m_drawLeftArrow = true;
 			m_drawArrow = true;
@@ -93,30 +93,9 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnPaintBackground(PaintEventArgs e)
+		internal bool DrawArrow
 		{
-			base.OnPaintBackground(e);
-
-			PaintBodyBackground(e.Graphics);
-
-			// Draw the color shading behind the search pattern.
-			Rectangle rc = ClientRectangle;
-			rc.Height = m_content.lblPhone.Bottom + m_content.Padding.Top + 2;
-			PaintHeadingBackground(e.Graphics, rc);
-
-			// Figure out the height of the row that owns the associated cell and calculate
-			// the vertical midpoint in that row. Since the top of the heading is even with
-			// the top of the row containing the associated cell, we can figure out where
-			// the arrow glyph should go so it points to an imaginary line that goes
-			// horizontally through the midpoint of the cell for whom the popup belongs.
-			if (m_associatedGrid != null && m_drawArrow)
-			{
-				int arrowTipsY = m_associatedGrid.Rows[m_associatedCell.RowIndex].Height / 2;
-				PaintArrow(e.Graphics, arrowTipsY, rc, m_drawLeftArrow);
-			}
-
-			if (m_siblingUncertaintiesExist)
-				DrawSeparatorLine(e.Graphics);
+			get { return m_drawArrow; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,25 +103,29 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawSeparatorLine(Graphics g)
+		internal bool DrawLeftArrow
 		{
-			Rectangle rc = ClientRectangle;
-			int dy = m_content.SeparatorLineY;
+			get { return m_drawLeftArrow; }
+		}
 
-			Point pt1 = new Point(rc.Width / 2, dy);
-			Point pt2 = new Point(10, dy);
-			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				kHeadDarkColor, kBodyDarkColor))
-			{
-				g.DrawLine(new Pen(br, 1), pt1, pt2);
-			}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal DataGridViewCell AssociatedCell
+		{
+			get { return m_associatedCell; }
+		}
 
-			pt2 = new Point(rc.Width - 11, dy);
-			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				kHeadDarkColor, kBodyDarkColor))
-			{
-				g.DrawLine(new Pen(br, 1), pt1, pt2);
-			}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal DataGridView AssociatedGrid
+		{
+			get { return m_associatedGrid; }
 		}
 
 		/// ------------------------------------------------------------------------------------

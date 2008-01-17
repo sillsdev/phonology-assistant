@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildProcess ApplicationName="PA Local">
+	<MSBuildInfo exepath="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727">
+		<solutionfile>c:\Phonology Assistant\pa.sln</solutionfile>
+		<projectfile></projectfile>
+		<targets></targets>
+		<properties>Configuration=Release</properties>
+		<loggerclass>DoBuilder.MSBuildLogger</loggerclass>;
+		<loggerassembly>C:\Phonology Assistant\DoBuilder.exe</loggerassembly>
+		<loggerargs>logfile="Build Logs\PaBuild.MSBuild.log"</loggerargs>
+	</MSBuildInfo>
+	<PreBuildCommands>
+		<Commands>
+			<CommandItem Command="rd">
+				<Arg>c:\Phonology Assistant\output\release</Arg>
+			</CommandItem>
+		</Commands>
+	</PreBuildCommands>
+	<PostBuildCommands>
+		<Commands>
+			<CommandItem Command="del">
+				<Arg>c:\Phonology Assistant\output\release\*.tlb</Arg>
+				<!-- Arg>c:\Phonology Assistant\output\release\*.pdb</Arg -->
+				<Arg>c:\Phonology Assistant\output\release\pa.xml</Arg>
+				<Arg>c:\Phonology Assistant\output\release\speechtools.xml</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\aux_docs\Readme.rtf</Arg>
+				<Arg>c:\Phonology Assistant\output\release</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\aux_docs\License.rtf</Arg>
+				<Arg>c:\Phonology Assistant\output\release</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\distfiles\usp10.dll</Arg>
+				<Arg>c:\Phonology Assistant\output\release</Arg>
+			</CommandItem>
+			<CommandItem Command="md">
+				<Arg>c:\Phonology Assistant\output\release\Move To Windows.Fonts</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\distfiles\*.ttf</Arg>
+				<Arg>c:\Phonology Assistant\output\release\Move To Windows.Fonts</Arg>
+			</CommandItem>
+<!--
+			<CommandItem Command="zip">
+				<Arg>C:\Phonology Assistant\DistFiles\SamplePaData.zip</Arg>
+				<Arg>C:\Phonology Assistant\DistFiles\SamplePaData</Arg>
+				<Arg>recurse</Arg>
+				<Arg>.*</Arg>
+				<Arg>(C:\Phonology Assistant\DistFiles\SamplePaData\Settings|C:\Phonology Assistant\DistFiles\SamplePaData\Sound_files)</Arg>
+			</CommandItem>
+-->
+		</Commands>
+	</PostBuildCommands>
+</BuildProcess>

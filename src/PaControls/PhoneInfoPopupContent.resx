@@ -117,47 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblPhone.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lblPhone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 8</value>
-  </data>
-  <data name="lblPhone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblPhone.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblPhone.Text" xml:space="preserve">
-    <value>X</value>
-  </data>
-  <data name="lblPhone.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;lblPhone.Name" xml:space="preserve">
-    <value>lblPhone</value>
-  </data>
-  <data name="&gt;&gt;lblPhone.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblPhone.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblPhone.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="lblNormally.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblNormally.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
   </data>
   <data name="lblNormally.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 57</value>
+    <value>0, 4</value>
   </data>
   <data name="lblNormally.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 15</value>
@@ -175,10 +144,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNormally.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblNormally.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>2</value>
   </data>
   <data name="lblPrimary.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -187,7 +156,7 @@
     <value>Arial, 9pt</value>
   </data>
   <data name="lblPrimary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 75</value>
+    <value>0, 22</value>
   </data>
   <data name="lblPrimary.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 15</value>
@@ -205,10 +174,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblPrimary.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblPrimary.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>0</value>
   </data>
   <data name="lblNonPrimary.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -217,7 +186,7 @@
     <value>Arial, 9pt</value>
   </data>
   <data name="lblNonPrimary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 93</value>
+    <value>0, 40</value>
   </data>
   <data name="lblNonPrimary.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 15</value>
@@ -235,11 +204,12 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNonPrimary.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblNonPrimary.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lblNormallyCount.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -247,7 +217,7 @@
     <value>Arial, 9pt, style=Bold</value>
   </data>
   <data name="lblNormallyCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 57</value>
+    <value>142, 4</value>
   </data>
   <data name="lblNormallyCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 15</value>
@@ -268,10 +238,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNormallyCount.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblNormallyCount.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="lblPrimaryCount.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -280,7 +250,7 @@
     <value>Arial, 9pt, style=Bold</value>
   </data>
   <data name="lblPrimaryCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 75</value>
+    <value>157, 22</value>
   </data>
   <data name="lblPrimaryCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 15</value>
@@ -301,10 +271,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblPrimaryCount.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblPrimaryCount.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1</value>
   </data>
   <data name="lblNonPrimaryCount.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -313,7 +283,7 @@
     <value>Arial, 9pt, style=Bold</value>
   </data>
   <data name="lblNonPrimaryCount.Location" type="System.Drawing.Point, System.Drawing">
-    <value>164, 93</value>
+    <value>157, 40</value>
   </data>
   <data name="lblNonPrimaryCount.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 15</value>
@@ -334,22 +304,22 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblNonPrimaryCount.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlCounts</value>
   </data>
   <data name="&gt;&gt;lblNonPrimaryCount.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
-  <data name="lblCountHeading.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="lblCountHeading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
   </data>
   <data name="lblCountHeading.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt, style=Bold</value>
   </data>
   <data name="lblCountHeading.Location" type="System.Drawing.Point, System.Drawing">
-    <value>61, 8</value>
+    <value>59, 6</value>
   </data>
   <data name="lblCountHeading.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 36</value>
+    <value>143, 37</value>
   </data>
   <data name="lblCountHeading.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -367,40 +337,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCountHeading.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlHeading</value>
   </data>
   <data name="&gt;&gt;lblCountHeading.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
-  <data name="lblBlkWhtBorder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="lblBlkWhtBorder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 6</value>
-  </data>
-  <data name="lblBlkWhtBorder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 40</value>
-  </data>
-  <data name="lblBlkWhtBorder.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="lblBlkWhtBorder.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;lblBlkWhtBorder.Name" xml:space="preserve">
-    <value>lblBlkWhtBorder</value>
-  </data>
-  <data name="&gt;&gt;lblBlkWhtBorder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblBlkWhtBorder.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lblBlkWhtBorder.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="lblUncertaintyHeading.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+  <data name="lblUncertaintyHeading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="lblUncertaintyHeading.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 9pt</value>
@@ -409,16 +352,19 @@
     <value>NoControl</value>
   </data>
   <data name="lblUncertaintyHeading.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 135</value>
+    <value>6, 65</value>
   </data>
   <data name="lblUncertaintyHeading.Size" type="System.Drawing.Size, System.Drawing">
-    <value>201, 52</value>
+    <value>200, 56</value>
   </data>
   <data name="lblUncertaintyHeading.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
   <data name="lblUncertaintyHeading.Text" xml:space="preserve">
     <value>This phone is an uncertain phone occurring in one or more groups with these other uncertain phones:</value>
+  </data>
+  <data name="lblUncertaintyHeading.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;lblUncertaintyHeading.Name" xml:space="preserve">
     <value>lblUncertaintyHeading</value>
@@ -427,10 +373,13 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblUncertaintyHeading.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlInfo</value>
   </data>
   <data name="&gt;&gt;lblUncertaintyHeading.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="lblSiblingPhones.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
   </data>
   <data name="lblSiblingPhones.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -439,10 +388,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblSiblingPhones.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 186</value>
+    <value>6, 121</value>
   </data>
   <data name="lblSiblingPhones.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 29</value>
+    <value>200, 29</value>
   </data>
   <data name="lblSiblingPhones.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -460,10 +409,166 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSiblingPhones.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>pnlInfo</value>
   </data>
   <data name="&gt;&gt;lblSiblingPhones.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="lblMonogram.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblMonogram.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblMonogram.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 1</value>
+  </data>
+  <data name="lblMonogram.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 33</value>
+  </data>
+  <data name="lblMonogram.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblMonogram.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="lblMonogram.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;lblMonogram.Name" xml:space="preserve">
+    <value>lblMonogram</value>
+  </data>
+  <data name="&gt;&gt;lblMonogram.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMonogram.Parent" xml:space="preserve">
+    <value>pnlMonogram</value>
+  </data>
+  <data name="&gt;&gt;lblMonogram.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlMonogram.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="pnlMonogram.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 6</value>
+  </data>
+  <data name="pnlMonogram.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>1, 1, 1, 1</value>
+  </data>
+  <data name="pnlMonogram.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 37</value>
+  </data>
+  <data name="pnlMonogram.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;pnlMonogram.Name" xml:space="preserve">
+    <value>pnlMonogram</value>
+  </data>
+  <data name="&gt;&gt;pnlMonogram.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlMonogram.Parent" xml:space="preserve">
+    <value>pnlHeading</value>
+  </data>
+  <data name="&gt;&gt;pnlMonogram.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlHeading.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlHeading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlHeading.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>13, 6, 10, 6</value>
+  </data>
+  <data name="pnlHeading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 49</value>
+  </data>
+  <data name="pnlHeading.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;pnlHeading.Name" xml:space="preserve">
+    <value>pnlHeading</value>
+  </data>
+  <data name="&gt;&gt;pnlHeading.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlHeading.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlHeading.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pnlInfo.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Name" xml:space="preserve">
+    <value>pnlCounts</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Parent" xml:space="preserve">
+    <value>pnlInfo</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnlInfo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 49</value>
+  </data>
+  <data name="pnlInfo.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 0, 6, 8</value>
+  </data>
+  <data name="pnlInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 158</value>
+  </data>
+  <data name="pnlInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;pnlInfo.Name" xml:space="preserve">
+    <value>pnlInfo</value>
+  </data>
+  <data name="&gt;&gt;pnlInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlInfo.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlInfo.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlCounts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlCounts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
+  </data>
+  <data name="pnlCounts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 65</value>
+  </data>
+  <data name="pnlCounts.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Name" xml:space="preserve">
+    <value>pnlCounts</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.Parent" xml:space="preserve">
+    <value>pnlInfo</value>
+  </data>
+  <data name="&gt;&gt;pnlCounts.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -471,11 +576,14 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 6, 6, 6</value>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 218</value>
+    <value>212, 207</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PhoneInfoPopupContent</value>

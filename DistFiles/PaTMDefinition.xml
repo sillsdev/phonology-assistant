@@ -180,8 +180,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdUnDockView" message="UnDockView"/>
 		<command id="CmdDockView" message="DockView"/>
 		<command id="CmdReloadProject" message="ReloadProject"/>
-		<command id="CmdWriteIPACache" message="WriteIPACache"/>
-		<command id="CmdWriteDefaultFieldInfo" message="WriteDefaultFieldInfo"/>
 	</commands>
 
 	<!-- **************** -->

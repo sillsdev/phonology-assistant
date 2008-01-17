@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildProcess ApplicationName="PA Installer Build" MailServer="mail.jaars.org" MailSender="david_olson@sil.org">
+	<MailRecipients>
+		<MailAddress Address="david_olson@sil.org" />
+	</MailRecipients>
+	<PreBuildCommands>
+		<Commands>
+			<CommandItem Command="rd">
+				<Arg>C:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="md">
+				<Arg>C:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="xcopy">
+				<Arg>/E</Arg>
+				<Arg>"C:\Phonology Assistant\Output\Release\*.*"</Arg>
+				<Arg>"C:\Phonology Assistant\Installer Building\Phonology Assistant"</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers">
+				<Arg>export</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/SpeechToolsCommonFiles.msm"</Arg>
+				<Arg>"SpeechToolsCommonFiles.msm"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers">
+				<Arg>export</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/SpeechToolsCommonFiles.wsm"</Arg>
+				<Arg>"SpeechToolsCommonFiles.wsm"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers">
+				<Arg>update</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/PA WIX"</Arg>
+				<Arg>"PA WIX"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers">
+				<Arg>update</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/PA Package"</Arg>
+				<Arg>"PA Package"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building">
+				<Arg>update</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/External Merge Modules"</Arg>
+				<Arg>"External Merge Modules"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building">
+				<Arg>update</Arg>
+				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/SIL Merge Modules"</Arg>
+				<Arg>"SIL Merge Modules"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="del">
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA WIX\PaWiX*.log</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA WIX\*.wixobj</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>Features.wxs</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>Files.wxs</Arg>
+				<Arg>-sw1044</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>MergeModules.wxs</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>PA.wxs</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>Shortcuts.wxs</Arg>
+				<Arg>-sw1044</Arg>
+			</CommandItem>
+			<CommandItem Command="candle" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+				<Arg>-nologo</Arg>
+				<Arg>UI.wxs</Arg>
+			</CommandItem>
+			<CommandItem Command="light" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers\PA WIX" OutputFile="PaWiXLink.log">
+				<Arg>-nologo</Arg>
+				<Arg>Features.wixobj</Arg>
+				<Arg>Files.wixobj</Arg>
+				<Arg>MergeModules.wixobj</Arg>
+				<Arg>PA.wixobj</Arg>
+				<Arg>Shortcuts.wixobj</Arg>
+				<Arg>UI.wixobj</Arg>
+				<Arg>-out</Arg>
+				<Arg>"Phonology Assistant.msi"</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\SetupPA.rtf</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="del">
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA WIX\*.wixobj</Arg>
+			</CommandItem>
+			<CommandItem Command="rd">
+				<Arg>C:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>commit</Arg>
+				<Arg>-m "Automatic PA Installer Build"</Arg>
+				<Arg>"C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant"</Arg>
+				<Arg>--non-interactive</Arg>
+			</CommandItem>
+		</Commands>
+	</PreBuildCommands>
+	<PostBuildCommands>
+		<Commands>
+		</Commands>
+	</PostBuildCommands>
+</BuildProcess>

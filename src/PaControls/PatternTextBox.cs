@@ -1,10 +1,8 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-//using System.Media;
 using System.Windows.Forms;
 using System.Xml;
-using Microsoft.VisualBasic.Devices;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
@@ -1193,21 +1191,20 @@ namespace SIL.Pa.Controls
 			if (m.Msg != 0x0100)
 				return base.PreProcessMessage(ref m);
 
-			Keyboard kb = new Keyboard();
-
 			// Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
 			// reason we handle {}{} and - (the dash is treated as an underscore) specially
 			// is because the KeyMan IPA keyboard intercepts them for its purposes.
-			if (!kb.CtrlKeyDown)
+			if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
 				return base.PreProcessMessage(ref m);
 
+			bool shiftDown = ((Control.ModifierKeys & Keys.Shift) == Keys.Shift);
 			string toInsert = null;
 			int keyCode = m.WParam.ToInt32();
 
 			if (keyCode == (int)Keys.OemCloseBrackets)
-				toInsert = (kb.ShiftKeyDown ? "}" : "]");
+				toInsert = (shiftDown ? "}" : "]");
 			else if (keyCode == (int)Keys.OemOpenBrackets)
-				toInsert = (kb.ShiftKeyDown ? "{" : "[");
+				toInsert = (shiftDown ? "{" : "[");
 			else if (keyCode == (int)Keys.OemMinus)
 				toInsert = "_";
 			else if (keyCode == (int)Keys.D0)

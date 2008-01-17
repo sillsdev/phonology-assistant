@@ -29,7 +29,6 @@ namespace SIL.Pa.Controls
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PhoneInfoPopupContent));
-			this.lblPhone = new System.Windows.Forms.Label();
 			this.lblNormally = new System.Windows.Forms.Label();
 			this.lblPrimary = new System.Windows.Forms.Label();
 			this.lblNonPrimary = new System.Windows.Forms.Label();
@@ -37,18 +36,18 @@ namespace SIL.Pa.Controls
 			this.lblPrimaryCount = new System.Windows.Forms.Label();
 			this.lblNonPrimaryCount = new System.Windows.Forms.Label();
 			this.lblCountHeading = new System.Windows.Forms.Label();
-			this.lblBlkWhtBorder = new System.Windows.Forms.Label();
 			this.lblUncertaintyHeading = new System.Windows.Forms.Label();
 			this.lblSiblingPhones = new System.Windows.Forms.Label();
+			this.pnlHeading = new System.Windows.Forms.Panel();
+			this.pnlMonogram = new System.Windows.Forms.Panel();
+			this.lblMonogram = new System.Windows.Forms.Label();
+			this.pnlInfo = new System.Windows.Forms.Panel();
+			this.pnlCounts = new System.Windows.Forms.Panel();
+			this.pnlHeading.SuspendLayout();
+			this.pnlMonogram.SuspendLayout();
+			this.pnlInfo.SuspendLayout();
+			this.pnlCounts.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// lblPhone
-			// 
-			resources.ApplyResources(this.lblPhone, "lblPhone");
-			this.lblPhone.BackColor = System.Drawing.Color.Black;
-			this.lblPhone.ForeColor = System.Drawing.Color.White;
-			this.lblPhone.Name = "lblPhone";
-			this.lblPhone.UseCompatibleTextRendering = true;
 			// 
 			// lblNormally
 			// 
@@ -94,24 +93,16 @@ namespace SIL.Pa.Controls
 			// 
 			// lblCountHeading
 			// 
-			resources.ApplyResources(this.lblCountHeading, "lblCountHeading");
+			this.lblCountHeading.AutoEllipsis = true;
 			this.lblCountHeading.BackColor = System.Drawing.Color.Transparent;
+			resources.ApplyResources(this.lblCountHeading, "lblCountHeading");
 			this.lblCountHeading.ForeColor = System.Drawing.Color.Black;
 			this.lblCountHeading.Name = "lblCountHeading";
 			// 
-			// lblBlkWhtBorder
-			// 
-			resources.ApplyResources(this.lblBlkWhtBorder, "lblBlkWhtBorder");
-			this.lblBlkWhtBorder.BackColor = System.Drawing.Color.White;
-			this.lblBlkWhtBorder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lblBlkWhtBorder.ForeColor = System.Drawing.Color.White;
-			this.lblBlkWhtBorder.Name = "lblBlkWhtBorder";
-			this.lblBlkWhtBorder.UseCompatibleTextRendering = true;
-			// 
 			// lblUncertaintyHeading
 			// 
-			resources.ApplyResources(this.lblUncertaintyHeading, "lblUncertaintyHeading");
 			this.lblUncertaintyHeading.BackColor = System.Drawing.Color.Transparent;
+			resources.ApplyResources(this.lblUncertaintyHeading, "lblUncertaintyHeading");
 			this.lblUncertaintyHeading.ForeColor = System.Drawing.Color.Black;
 			this.lblUncertaintyHeading.Name = "lblUncertaintyHeading";
 			// 
@@ -122,24 +113,69 @@ namespace SIL.Pa.Controls
 			this.lblSiblingPhones.Name = "lblSiblingPhones";
 			this.lblSiblingPhones.UseMnemonic = false;
 			// 
+			// pnlHeading
+			// 
+			this.pnlHeading.BackColor = System.Drawing.Color.White;
+			this.pnlHeading.Controls.Add(this.lblCountHeading);
+			this.pnlHeading.Controls.Add(this.pnlMonogram);
+			resources.ApplyResources(this.pnlHeading, "pnlHeading");
+			this.pnlHeading.MinimumSize = new System.Drawing.Size(0, 48);
+			this.pnlHeading.Name = "pnlHeading";
+			this.pnlHeading.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlHeading_Paint);
+			// 
+			// pnlMonogram
+			// 
+			this.pnlMonogram.BackColor = System.Drawing.Color.White;
+			this.pnlMonogram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMonogram.Controls.Add(this.lblMonogram);
+			resources.ApplyResources(this.pnlMonogram, "pnlMonogram");
+			this.pnlMonogram.Name = "pnlMonogram";
+			// 
+			// lblMonogram
+			// 
+			this.lblMonogram.BackColor = System.Drawing.Color.Black;
+			resources.ApplyResources(this.lblMonogram, "lblMonogram");
+			this.lblMonogram.ForeColor = System.Drawing.Color.White;
+			this.lblMonogram.MinimumSize = new System.Drawing.Size(36, 33);
+			this.lblMonogram.Name = "lblMonogram";
+			this.lblMonogram.Paint += new System.Windows.Forms.PaintEventHandler(this.lblPhone_Paint);
+			// 
+			// pnlInfo
+			// 
+			resources.ApplyResources(this.pnlInfo, "pnlInfo");
+			this.pnlInfo.Controls.Add(this.lblSiblingPhones);
+			this.pnlInfo.Controls.Add(this.lblUncertaintyHeading);
+			this.pnlInfo.Controls.Add(this.pnlCounts);
+			this.pnlInfo.Name = "pnlInfo";
+			this.pnlInfo.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlInfo_Paint);
+			// 
+			// pnlCounts
+			// 
+			this.pnlCounts.Controls.Add(this.lblPrimary);
+			this.pnlCounts.Controls.Add(this.lblPrimaryCount);
+			this.pnlCounts.Controls.Add(this.lblNormally);
+			this.pnlCounts.Controls.Add(this.lblNormallyCount);
+			this.pnlCounts.Controls.Add(this.lblNonPrimaryCount);
+			this.pnlCounts.Controls.Add(this.lblNonPrimary);
+			resources.ApplyResources(this.pnlCounts, "pnlCounts");
+			this.pnlCounts.Name = "pnlCounts";
+			this.pnlCounts.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCounts_Paint);
+			// 
 			// PhoneInfoPopupContent
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.Controls.Add(this.lblSiblingPhones);
-			this.Controls.Add(this.lblUncertaintyHeading);
-			this.Controls.Add(this.lblCountHeading);
-			this.Controls.Add(this.lblNonPrimaryCount);
-			this.Controls.Add(this.lblPrimaryCount);
-			this.Controls.Add(this.lblNormallyCount);
-			this.Controls.Add(this.lblNonPrimary);
-			this.Controls.Add(this.lblPrimary);
-			this.Controls.Add(this.lblNormally);
-			this.Controls.Add(this.lblPhone);
-			this.Controls.Add(this.lblBlkWhtBorder);
+			this.Controls.Add(this.pnlInfo);
+			this.Controls.Add(this.pnlHeading);
+			this.MinimumSize = new System.Drawing.Size(214, 2);
 			this.Name = "PhoneInfoPopupContent";
+			this.pnlHeading.ResumeLayout(false);
+			this.pnlMonogram.ResumeLayout(false);
+			this.pnlInfo.ResumeLayout(false);
+			this.pnlCounts.ResumeLayout(false);
+			this.pnlCounts.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -150,13 +186,16 @@ namespace SIL.Pa.Controls
 		private System.Windows.Forms.Label lblNormally;
 		private System.Windows.Forms.Label lblPrimary;
 		private System.Windows.Forms.Label lblNonPrimary;
-		public System.Windows.Forms.Label lblPhone;
 		public System.Windows.Forms.Label lblNormallyCount;
 		public System.Windows.Forms.Label lblPrimaryCount;
 		public System.Windows.Forms.Label lblNonPrimaryCount;
-		private System.Windows.Forms.Label lblCountHeading;
-		public System.Windows.Forms.Label lblBlkWhtBorder;
 		private System.Windows.Forms.Label lblUncertaintyHeading;
 		private System.Windows.Forms.Label lblSiblingPhones;
+		public System.Windows.Forms.Label lblMonogram;
+		private System.Windows.Forms.Panel pnlMonogram;
+		private System.Windows.Forms.Panel pnlInfo;
+		internal System.Windows.Forms.Panel pnlHeading;
+		internal System.Windows.Forms.Label lblCountHeading;
+		private System.Windows.Forms.Panel pnlCounts;
 	}
 }

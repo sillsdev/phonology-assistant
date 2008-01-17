@@ -1,0 +1,1 @@
+dobuilder /p:PaInstallerBuild.xml /l:"Build Logs\PaInstallerBuild.log"

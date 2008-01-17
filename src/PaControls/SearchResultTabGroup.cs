@@ -19,10 +19,6 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SearchResultTabGroup : Panel, IxCoreColleague
 	{
-		// This is the number of pixels of height to add to the tab panel height
-		// in addition to the height of the tab's font height.
-		private const int kTabPanelHeightPadding = 19;
-
 		private bool m_closingTabInProcess = false;
 		private bool m_isCurrentTabGroup = false;
 		private List<SearchResultTab> m_tabs;
@@ -192,11 +188,15 @@ namespace SIL.Pa.Controls
 		{
 			using (Graphics g = CreateGraphics())
 			{
+				int extraTabHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+					"SearchVw", "extrasearchtabheight", 12);
+
 				TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					FontHelper.PhoneticFont, Size.Empty, flags).Height + kTabPanelHeightPadding;
+					FontHelper.PhoneticFont, new Size(int.MaxValue, int.MaxValue),
+					flags).Height + extraTabHeight;
 			}
 
 			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
