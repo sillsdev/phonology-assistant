@@ -40,7 +40,7 @@
     <PlusMask>262144</PlusMask>
     <MinusMask>524288</MinusMask>
   </BFeature>
-  <BFeature Bit="20" Name="nas" FullName="Nasal">
+  <BFeature Bit="20" Name="nasal" FullName="Nasal">
     <PlusMask>1048576</PlusMask>
     <MinusMask>2097152</MinusMask>
   </BFeature>
