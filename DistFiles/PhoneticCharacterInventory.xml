@@ -4874,7 +4874,7 @@
   </IPACharInfo>
   <IPACharInfo Codepoint="7504" IPAChar="ᵐ" HexIPAChar="1D50">
     <Name>Superscript m</Name>
-    <Description />
+    <Description>Superscript m</Description>
     <CharType>Diacritics</CharType>
     <CharSubType>Unknown</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
@@ -4895,7 +4895,7 @@
   </IPACharInfo>
   <IPACharInfo Codepoint="7505" IPAChar="ᵑ" HexIPAChar="1D51">
     <Name>Superscript Eng</Name>
-    <Description />
+    <Description>Superscript Eng</Description>
     <CharType>Diacritics</CharType>
     <CharSubType>Unknown</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
@@ -5084,7 +5084,7 @@
   </IPACharInfo>
   <IPACharInfo Codepoint="7598" IPAChar="ᶮ" HexIPAChar="1DAE">
     <Name>Superscript Left-tail N (at left)</Name>
-    <Description />
+    <Description>Superscript Left-tail N (at left)</Description>
     <CharType>Diacritics</CharType>
     <CharSubType>Unknown</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
