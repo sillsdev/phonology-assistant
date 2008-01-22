@@ -291,7 +291,9 @@ namespace SIL.Pa
 				foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in sortedPhones.Values)
 				{
 					gridPhones.Rows[i].Cells["phone"].Value = phoneInfo.Value;
-					gridPhones.Rows[i++].Cells["count"].Value = phoneInfo.Value.TotalCount;
+					gridPhones.Rows[i++].Cells["count"].Value =
+						phoneInfo.Value.TotalCount + phoneInfo.Value.CountAsPrimaryUncertainty;
+
 					if (i == 0)
 						gridPhones.Rows[0].Selected = true;
 				}

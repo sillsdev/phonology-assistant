@@ -710,7 +710,7 @@ namespace SIL.Pa
 				savSortOptions = m_grid.SortOptions;
 			}
 
-			rtfRecVw.UpdateFonts();
+			rtfRecVw.UpdateRecord(null);
 
 			// Rebuild the contents of the window.
 			LoadWindow();
