@@ -14,6 +14,10 @@
 			<CommandItem Command="rd">
 				<Arg>c:\Phonology Assistant\output\release</Arg>
 			</CommandItem>
+			<CommandItem Command="del">
+				<!-- This prevents a compiler warning that SpeechToolsUtils cannot be unregistered. -->
+				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\*.*</Arg>
+			</CommandItem>
 		</Commands>
 	</PreBuildCommands>
 	<PostBuildCommands>
