@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <windowstates>
+    <window id="PhoneInventoryDlg" state="Normal" left="536" top="262" width="607" height="489" />
+    <window id="SFMarkerMappingDlg" state="Normal" left="282" top="95" width="1163" height="735" />
+    <window id="RegExpressionSearchDlg" state="Normal" left="115" top="120" width="371" height="367" dpi="96" />
+    <window id="XYChartVw" state="Normal" left="124" top="78" width="797" height="820" dpi="96" />
+    <window id="VowelChartVw" state="Normal" left="838" top="70" width="718" height="727" dpi="96" />
+    <window id="ConsonantChartVw" state="Normal" left="885" top="136" width="723" height="782" dpi="96" />
+    <window id="CustomFieldsDlg" state="Normal" left="497" top="347" width="552" height="345" dpi="96" />
+    <window id="FwDataSourcePropertiesDlg" state="Normal" left="569" top="393" width="443" height="477" dpi="96" />
+    <window id="FwProjectsDlg" state="Normal" left="542" top="328" width="496" height="339" dpi="96" />
+    <window id="DataCorpusVw" state="Normal" left="244" top="278" width="777" height="663" dpi="96" />
+    <window id="PhoneInventoryVw" state="Normal" left="903" top="122" width="746" height="791" dpi="96" />
+    <window id="SearchVw" state="Normal" left="138" top="81" width="868" height="856" dpi="96" />
+    <window id="FindDlg" state="Normal" left="1086" top="296" width="437" height="317" dpi="96" />
+    <window id="UndefinedPhoneticCharactersDlg" state="Normal" left="275" top="256" width="714" height="580" dpi="96" />
+    <window id="SFDataSourcePropertiesDlg" state="Normal" left="608" top="71" width="974" height="830" dpi="96" />
+    <window id="ProjectSettingsDlg" state="Normal" left="7" top="527" width="715" height="367" dpi="96" />
+    <window id="OptionsDlg" state="Normal" left="607" top="387" width="569" height="495" dpi="96" />
+    <window id="FeedbackReportDlg" state="Normal" left="529" top="180" width="621" height="626" dpi="96" />
+    <window id="DefineClassDlg" state="Normal" left="680" top="166" width="622" height="751" dpi="96" />
+    <window id="ClassesDlg" state="Normal" left="114" top="254" width="877" height="559" dpi="96" />
+    <window id="PaMainWnd" state="Normal" left="417" top="116" width="957" height="779" dpi="96" />
+    <window id="RtfExportDlg" state="Normal" left="640" top="399" width="400" height="187" dpi="96" />
+  </windowstates>
+  <misc>
+    <setting id="uncertainphonegroups" absenceofphonechars="0∅" absenceofphonecharinpopup="∅" />
+    <setting id="searchengine" convertpatternswithexperimentaltrans="false" />
+    <setting id="typing" assumecvisphoneclass="true" />
+    <setting id="application" reloadprojectsonactivate="true" />
+    <setting id="rtfrecview" useexactlinespacing="false" percentageofexactlineheighttouse="70" />
+    <setting id="fieldworks" showmsgwhengatheringinfo="false" />
+    <setting id="cvpattern" consonantsymbol="C" vowelsymbol="V" />
+    <setting id="minviewwindowsize" width="100" height="100" />
+    <setting id="regexpsearchmode" allow="True" />
+    <setting id="recentlyusedqueries" maxallowed="20" />
+    <setting id="recentlyusedfiles" maxallowed="20" />
+    <setting id="phonesinfeatureslists" extraphoneheight="3" />
+    <setting id="cvcharts" extracellwidth="8" cellheight="36" extrapopupmonogramheight="7" extrapopupuncertainlistheight="5" />
+    <setting id="histograms" hashmarkgap="20" phonelabelwidth="40" extraphonelabelheight="5" barwidth="30" phonelabelfontsize="16" />
+    <setting id="wordlists" editsourceonenterkey="false" editsourceondoublclick="false" verticalrowpadding="5" collapseongrouping="false" collapseonminpairs="false" drawfocusrect="false" chgselonfocusloss="true" />
+    <setting id="phonestomatchforgrouping" after="0" before="3" />
+    <setting id="DataSourceOFD" filter="7" />
+    <setting id="ClassesDlg" col0="290" col1="266" col2="153" sortedcolumn="2" sortorder="Descending" />
+    <setting id="FindDlg" findwhat="[[" matchcase="False" matchentireword="False" startswith="False" regex="True" reverse="False" srchcollapsedgrps="True" />
+    <setting id="RTFExport" lmargin="720" rmargin="720" tmargin="1080" bmargin="1080" papersize="letter" gapbetweencolumns="180" minimumcolwidth="360" trylandscape="true" usecustompaperwidth="false" spacebeforegroupheading="240" brdrundergroupheading="true" />
+    <setting id="HTMLExport" dontshowdialog="True" autolaunch="True" />
+    <setting id="PaMainWnd" lastprojdir="E:\My Documents\Phonology Assistant\Training Projects\Sekpele 3" currentview="SIL.Pa.DataCorpusVw" />
+    <setting id="SearchResultViewGrid" playbackspeed="100" />
+    <setting id="playbackinfo" playbackspeed="100" />
+    <setting id="SFDataSourcePropertiesDlg" splitter="335" />
+    <setting id="DefineClassDlg" chooser0="True" chooser1="True" chooser2="True" chooser3="True" chooser4="True" chooser5="False" chooser6="False" col0="180" col1="205" col2="175" sortedcolumn="-1" sortorder="None" split1="134" split2="274" split3="191" ConVwrShowAll="True" ConVwrCompactView="True" VowVwrShowAll="True" VowVwrCompactView="True" OtherVwrShowAll="True" OtherVwrCompactView="True" />
+    <setting id="RtfExportDlg" editor="C:\WINDOWS\SYSTEM\THREED16.OCX" file="False" fileopen="True" clipboard="False" table="True" tabdelim="False" />
+    <setting id="ruf1" file="E:\My Documents\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3.pap" />
+    <setting id="ruf2" file="C:\Phonology Assistant\TestData\DonCheneyTestData\Artificial2.pap" />
+    <setting id="ruf3" file="C:\Phonology Assistant\TestData\Swahili\Swahili.pap" />
+    <setting id="ruf5" file="C:\Phonology Assistant\TestData\Sena\Sena.pap" />
+    <setting id="ruf6" file="C:\Phonology Assistant\TestData\Lama.pap" />
+    <setting id="lastproject" path="E:\My Documents\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3.pap" />
+    <setting id="DataCorpusVw" playbackspeed="100" splitratio="0.8104575" recordpanevisible="True" />
+    <setting id="ConsonantChartVw" splitratio="0.6519608" histpanevisible="True" />
+    <setting id="VowelChartVw" splitratio="0.6535948" histpanevisible="True" />
+    <setting id="XYChartVw" sidepanelwidth="217" sidepaneldocked="True" chooser0="True" chooser1="False" chooser2="False" chooser3="False" col0="180" sortedcolumn="-1" sortorder="None" recordpanevisible="True" splitratio1="0.3188098" splitratio2="0.5280528" splitratio3="0.5574043" splitratio4="0.3741722" />
+    <setting id="PhoneInventoryVw" phonegridextrarowheight="3" ambiggridextrarowheight="3" exptransgridextrarowheight="2" showdefault="True" splitratio1="0.1754575" splitratio2="0.5709729" splitratio3="0.3652312" splitratio4="0.3153846" />
+    <setting id="SearchVw" sidepanelwidth="282" extrasearchtabheight="12" sidepaneldocked="True" chooser0="True" chooser1="True" chooser2="False" chooser3="False" col0="187" sortedcolumn="-1" sortorder="None" recordpanevisible="True" splitratio1="0.3400638" splitratio2="0.7330896" splitratio3="0.4007353" splitratio4="0.3679245" />
+    <setting id="PhoneInventoryVwAFeatureDropDown" width="998" height="384" />
+    <setting id="UndefinedPhoneticCharactersDlg" splitratio="0.4023324" />
+    <setting id="FwProjectsDlg" splitratio="0.5021368" />
+    <setting id="feedbackaddon" launchcount="649" />
+    <setting id="PhoneInventoryVwBFeatureDropDown" width="567" height="237" />
+    <setting id="ruf4" file="C:\Phonology Assistant\TestData\UncertainProblem\sekpele 5.pap" />
+    <setting id="ruf7" file="C:\Phonology Assistant\PA Student Manual from C. Bartram\sample_lhomi.pap" />
+    <setting id="ruf8" file="C:\Phonology Assistant\TestData\SA Project\SaSource.pap" />
+    <setting id="ruf9" file="C:\Phonology Assistant\TestData\SA Project\SaSource.pap" />
+    <setting id="ruf10" file="C:\Documents and Settings\Olson\My Documents\Phonology Assistant\Sample Project\Sekpele Sample.pap" />
+    <setting id="ruf11" file="C:\Documents and Settings\Olson\My Documents\Phonology Assistant\Lengo.pap" />
+    <setting id="ruf12" file="C:\Documents and Settings\Olson\My Documents\Phonology Assistant\Training Projects\Sekpele 2\Sekpele 2.pap" />
+    <setting id="XYChartHelperAddOn" />
+    <setting id="ruf13" file="C:\Documents and Settings\Olson\My Documents\Phonology Assistant\Training Projects\Sekpele 2\Sekpele 2.pap" />
+    <setting id="ruf14" file="C:\Documents and Settings\Olson\My Documents\Phonology Assistant\Training Projects\Sekpele 2\Sekpele 2.pap" />
+  </misc>
+  <grids>
+    <grid id="SFMarkerMappingsGrid" colheaderheight="38">
+      <column id="marker" visible="True" width="65" displayindex="0" />
+      <column id="arrow" visible="True" width="24" displayindex="1" />
+      <column id="pafield" visible="True" width="111" displayindex="2" />
+      <column id="interlinear" visible="True" width="75" displayindex="3" />
+    </grid>
+    <grid id="CustomFieldsDlgGrid" colheaderheight="38" dpi="96">
+      <column id="name" visible="True" width="135" displayindex="0" />
+      <column id="type" visible="True" width="80" displayindex="1" />
+      <column id="rtl" visible="True" width="72" displayindex="2" />
+      <column id="parsed" visible="True" width="76" displayindex="3" />
+      <column id="interlinear" visible="True" width="113" displayindex="4" />
+      <column id="origfield" visible="False" width="61" displayindex="5" />
+    </grid>
+    <grid id="FwDataSourcePropertiesDlgGrid" colheaderheight="20" dpi="96">
+      <column id="field" visible="True" width="150" displayindex="0" />
+      <column id="wsname" visible="True" width="170" displayindex="1" />
+      <column id="wstype" visible="False" width="100" displayindex="2" />
+    </grid>
+    <grid id="UndefinedPhoneticCharactersDlgCharsGrid" colheaderheight="38" dpi="96">
+      <column id="codepoint" visible="True" width="74" displayindex="0" />
+      <column id="char" visible="True" width="77" displayindex="1" />
+      <column id="count" visible="True" width="56" displayindex="2" />
+    </grid>
+    <grid id="UndefinedPhoneticCharactersDlgWhereGrid" colheaderheight="23" dpi="96">
+      <column id="word" visible="True" width="124" displayindex="0" />
+      <column id="reference" visible="True" width="124" displayindex="1" />
+      <column id="datasource" visible="True" width="124" displayindex="2" />
+    </grid>
+    <grid id="OptionsFontsGrid" colheaderheight="25" dpi="96">
+      <column id="field" visible="True" width="110" displayindex="0" />
+      <column id="font" visible="True" width="160" displayindex="1" />
+      <column id="size" visible="True" width="48" displayindex="2" />
+      <column id="bold" visible="True" width="49" displayindex="3" />
+      <column id="italic" visible="True" width="50" displayindex="4" />
+      <column id="sample" visible="True" width="70" displayindex="5" />
+    </grid>
+    <grid id="SFDataSourcePropertiesDlgGrid" colheaderheight="38" dpi="96">
+      <column id="marker" visible="True" width="75" displayindex="0" />
+      <column id="arrow" visible="True" width="24" displayindex="1" />
+      <column id="pafield" visible="True" width="123" displayindex="2" />
+      <column id="interlinear" visible="True" width="75" displayindex="3" />
+    </grid>
+    <grid id="ProjectSettingsDlgGrid" colheaderheight="23" dpi="96">
+      <column id="sourcefiles" visible="True" width="439" displayindex="0" />
+      <column id="type" visible="True" width="73" displayindex="1" />
+      <column id="xslt" visible="False" width="170" displayindex="2" />
+    </grid>
+    <grid id="ExperimentalTranscriptionsGrid" colheaderheight="12" dpi="96">
+      <column id="col0" visible="True" width="110" displayindex="0" />
+      <column id="col1" visible="True" width="90" displayindex="1" />
+      <column id="col2" visible="True" width="155" displayindex="2" />
+      <column id="col3" visible="True" width="110" displayindex="3" />
+    </grid>
+    <grid id="PhoneInventoryVwAmbigGrid" colheaderheight="38" dpi="96">
+      <column id="seq" visible="True" width="90" displayindex="0" />
+      <column id="convert" visible="True" width="75" displayindex="1" />
+      <column id="base" visible="True" width="75" displayindex="2" />
+      <column id="cvpattern" visible="True" width="70" displayindex="3" />
+      <column id="default" visible="False" width="100" displayindex="4" />
+      <column id="autodefault" visible="False" width="100" displayindex="5" />
+    </grid>
+    <grid id="PhoneInventoryVwPhoneGrid" colheaderheight="23" dpi="96">
+      <column id="phone" visible="True" width="55" displayindex="0" />
+      <column id="count" visible="True" width="55" displayindex="1" />
+    </grid>
+  </grids>
+</settings>

@@ -39,7 +39,6 @@ namespace SIL.Pa.Controls
 		// Writer doesn't recognize it. But it does recognize \chcbpat. Go figure.
 		private const string khighlight = @"{{\chcbpat{0} {1}}}";
 		private const string kparagraph = @"\par\pard";
-		private const string kInvalidEditor = "Invalid Editor";
 		private const int kTwipsPerInch = 1440;
 		private const int kTwipsPerCm = 567;
 		private const int kheadingFontSize = 10;
@@ -863,20 +862,46 @@ namespace SIL.Pa.Controls
 
 			// Open the file with the specified RTF editor
 			if (m_exportTarget == ExportTarget.FileAndOpen)
+				OpenInEditor(filename);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void OpenInEditor(string filename)
+		{
+			Process prs = new Process();
+
+			if (!File.Exists(m_rtfEditor))
+				prs.StartInfo.FileName = filename;
+			else
 			{
-				if (File.Exists(m_rtfEditor))
+				prs.StartInfo.FileName = m_rtfEditor;
+				prs.StartInfo.Arguments = filename;
+			}
+			
+			try
+			{
+				prs.Start();
+			}
+			catch (Exception ex)
+			{
+				string msg;
+
+				if (string.IsNullOrEmpty(m_rtfEditor))
 				{
-					if (m_exportTarget == ExportTarget.FileAndOpen &&
-						!string.IsNullOrEmpty(m_rtfEditor) && filename.Trim().Length != 0)
-					{
-						Process.Start("\"" + m_rtfEditor + "\"", "\"" + filename + "\"");
-					}
+					msg = string.Format(Properties.Resources.kstidRtfOpenError1,
+						filename, ex.Message);
 				}
 				else
 				{
-					string msg = string.Format(Properties.Resources.kstidRtfInvalidEditor, m_rtfEditor);
-					MessageBox.Show(msg, kInvalidEditor, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					msg = string.Format(Properties.Resources.kstidRtfOpenError2,
+						filename, m_rtfEditor, ex.Message);
 				}
+				
+				STUtils.STMsgBox(msg);
 			}
 		}
 

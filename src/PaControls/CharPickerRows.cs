@@ -101,6 +101,8 @@ namespace SIL.Pa.Controls
 			if (phoneList == null)
 				return;
 
+			FixupUnspecifiedRows(phoneList);
+
 			CharPicker currRow;
 			SortedList<int, CharPicker> pickerRows = new SortedList<int, CharPicker>();
 
@@ -129,6 +131,39 @@ namespace SIL.Pa.Controls
 			}
 
 			ResumeLayout(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Go through the phones in the list and for those whose row is not set, try as
+		/// intelligently as possible to figure out the best row in which the phone belongs.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void FixupUnspecifiedRows(List<CharGridCell> phoneList)
+		{
+			foreach (CharGridCell cgc1 in phoneList)
+			{
+				if (!cgc1.Visible || cgc1.Row >= 0)
+					continue;
+
+				IPhoneInfo phoneInfo = PaApp.PhoneCache[cgc1.Phone];
+				if (phoneInfo == null)
+					continue;
+
+				IPACharInfo charInfo = DataUtils.IPACharCache[phoneInfo.BaseCharacter];
+				if (charInfo == null)
+					continue;
+
+				cgc1.Group = charInfo.ChartGroup;
+				foreach (CharGridCell cgc2 in phoneList)
+				{
+					if (cgc1.Group == cgc2.Group && cgc2.Row >= 0 && cgc2.Visible)
+					{
+						cgc1.Row = cgc2.Row;
+						break;
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

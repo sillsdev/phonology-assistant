@@ -157,6 +157,17 @@ namespace SIL.Pa.Controls
 			if (y == null)
 				return -1;
 
+			if (x.Row == -1 || y.Row == -1)
+			{
+				try
+				{
+					IPhoneInfo xpi = PaApp.PhoneCache[x.Phone];
+					IPhoneInfo ypi = PaApp.PhoneCache[y.Phone];
+					return string.CompareOrdinal(xpi.MOAKey, ypi.MOAKey);
+				}
+				catch { }
+			}
+
 			if (x.Group == y.Group && x.Column == y.Column)
 				return 0;
 

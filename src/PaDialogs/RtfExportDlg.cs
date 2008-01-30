@@ -297,11 +297,11 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnExport_Click(object sender, EventArgs e)
 		{
-			if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
-			{
-				STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
-				return;
-			}
+			//if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
+			//{
+			//    STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
+			//    return;
+			//}
 
 			new RtfCreator(m_exportTarget, m_exportFormat, m_grid, m_grid.Cache, m_rtfEditor);
 			Close();
@@ -320,18 +320,31 @@ namespace SIL.Pa.Dialogs
 			dlg.CheckPathExists = true;
 			dlg.Title = Properties.Resources.kstidSetRTFEditorOFDlgTitle;
 			dlg.Filter = Properties.Resources.kstidSetRTFEditorOFDlgFilter;
-			// Set the initial directory to "C:\Program Files"
-			dlg.InitialDirectory = (Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+
+			// Default the initial directory to "C:\Program Files"
+			dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+
+			if (!string.IsNullOrEmpty(m_rtfEditor))
+			{
+				string filename = Path.GetFileName(m_rtfEditor);
+				string path = Path.GetDirectoryName(m_rtfEditor);
+				if (!string.IsNullOrEmpty(path))
+				{
+					dlg.InitialDirectory = path;
+					if (File.Exists(m_rtfEditor))
+						dlg.FileName = filename;
+				}
+			}
+
 			dlg.Multiselect = false;
 			dlg.ShowReadOnly = false;
-			dlg.FilterIndex = 1;
 			dlg.ValidateNames = true;
-			dlg.ShowDialog(this);
-			if (dlg.FileName.Length > 0)
-			{
+			dlg.AddExtension = true;
+			dlg.RestoreDirectory = true;
+			dlg.FilterIndex = 1;
+
+			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.FileName.Length > 0)
 				m_rtfEditor = dlg.FileName;
-				btnExport.Enabled = true;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

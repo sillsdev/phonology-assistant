@@ -861,11 +861,20 @@ namespace SIL.Pa.Controls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No editor exists at: {0}.
+        ///   Looks up a localized string similar to An error occurred trying to open the RTF file.\n\n{0}\n\n{1}.
         /// </summary>
-        internal static string kstidRtfInvalidEditor {
+        internal static string kstidRtfOpenError1 {
             get {
-                return ResourceManager.GetString("kstidRtfInvalidEditor", resourceCulture);
+                return ResourceManager.GetString("kstidRtfOpenError1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}.
+        /// </summary>
+        internal static string kstidRtfOpenError2 {
+            get {
+                return ResourceManager.GetString("kstidRtfOpenError2", resourceCulture);
             }
         }
         

@@ -44,6 +44,16 @@ namespace SIL.Pa.Controls
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
 
+			int fontsize = PaApp.SettingsHandler.GetIntSettingsValue(
+				"searchoptionsdropdown", "pickerlabelfontsize", 0);
+
+			if (fontsize > 0)
+			{
+				stressPicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
+				tonePicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
+				lengthPicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
+			}
+
 			chkStress.Tag = stressPicker;
 			chkTone.Tag = tonePicker;
 			chkLength.Tag = lengthPicker;
@@ -96,18 +106,24 @@ namespace SIL.Pa.Controls
 			// and the group in which they are contained.
 			int dxGrpPickerDiff = grpPadding.Left + grpPadding.Right;
 
+			int extraWidth = PaApp.SettingsHandler.GetIntSettingsValue(
+				"searchoptionsdropdown", "extrapickerlabelwidth", 0);
+
+			int extraHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+				"searchoptionsdropdown", "extrapickerlabelheight", 3);
+
 			// Get the difference between a group's left edge and the
 			// left edge of the check box associated with that group.
 			int dxGrpChkDiff = chkTone.Left - grpTone.Left;
 
-			stressPicker.ItemSize = new Size(stressPicker.PreferredItemHeight,
-				stressPicker.PreferredItemHeight);
+			stressPicker.ItemSize = new Size(stressPicker.PreferredItemHeight + extraWidth,
+				stressPicker.PreferredItemHeight + extraHeight);
 
-			tonePicker.ItemSize = new Size(tonePicker.PreferredItemHeight,
-				tonePicker.PreferredItemHeight);
+			tonePicker.ItemSize = new Size(tonePicker.PreferredItemHeight + extraWidth,
+				tonePicker.PreferredItemHeight + extraHeight);
 
-			lengthPicker.ItemSize = new Size(lengthPicker.PreferredItemHeight,
-				lengthPicker.PreferredItemHeight);
+			lengthPicker.ItemSize = new Size(lengthPicker.PreferredItemHeight + extraWidth,
+				lengthPicker.PreferredItemHeight + extraHeight);
 
 			// Set widths of groups.
 			int maxGrpsWidth = tonePicker.GetPreferredWidth(7) + dxGrpPickerDiff;

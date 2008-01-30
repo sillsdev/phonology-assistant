@@ -1280,7 +1280,7 @@ namespace SIL.Pa.Controls
 				bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
 				
 				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
-					PaApp.PhoneCache.GetCVPattern(Value as string, !isCellForItemToConvert));
+					PaApp.PhoneCache.GetCVPattern(Value as string, false));
 			}
 		}
 	}

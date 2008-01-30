@@ -447,8 +447,13 @@
     <value>Word List:{0}{1}</value>
     <comment>The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name.</comment>
   </data>
-  <data name="kstidRtfInvalidEditor" xml:space="preserve">
-    <value>No editor exists at: {0}</value>
+  <data name="kstidRtfOpenError1" xml:space="preserve">
+    <value>An error occurred trying to open the RTF file.\n\n{0}\n\n{1}</value>
+    <comment>First argument is rtf file; second argument is error message.</comment>
+  </data>
+  <data name="kstidRtfOpenError2" xml:space="preserve">
+    <value>An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}</value>
+    <comment>First argument is rtf file; second argument is the editor; third argument is error message.</comment>
   </data>
   <data name="kstidScrollTabsLeftToolTip" xml:space="preserve">
     <value>Scroll Left</value>

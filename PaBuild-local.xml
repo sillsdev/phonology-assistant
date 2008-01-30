@@ -47,15 +47,21 @@
 				<Arg>c:\Phonology Assistant\distfiles\*.ttf</Arg>
 				<Arg>c:\Phonology Assistant\output\release\Move To Windows.Fonts</Arg>
 			</CommandItem>
-<!--
-			<CommandItem Command="zip">
-				<Arg>C:\Phonology Assistant\DistFiles\SamplePaData.zip</Arg>
-				<Arg>C:\Phonology Assistant\DistFiles\SamplePaData</Arg>
-				<Arg>recurse</Arg>
-				<Arg>.*</Arg>
-				<Arg>(C:\Phonology Assistant\DistFiles\SamplePaData\Settings|C:\Phonology Assistant\DistFiles\SamplePaData\Sound_files)</Arg>
+			<CommandItem Command="del">
+				<Arg>c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip</Arg>
 			</CommandItem>
--->
+			<CommandItem Command="c:\Phonology Assistant\7za" WorkingDirectory="c:\Phonology Assistant\DistFiles">
+				<Arg>a</Arg>
+				<Arg>-r</Arg>
+				<Arg>-tzip</Arg>
+				<Arg>-ssw</Arg>
+				<Arg>"c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip"</Arg>
+				<Arg>"Training Projects\*"</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip</Arg>
+				<Arg>c:\Phonology Assistant\output\release\training</Arg>
+			</CommandItem>
 		</Commands>
 	</PostBuildCommands>
 </BuildProcess>
