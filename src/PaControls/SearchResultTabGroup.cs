@@ -1746,6 +1746,7 @@ namespace SIL.Pa.Controls
 				m_owningTabGroup.RecordView.Clear();
 
 			m_query = new SearchQuery();
+			m_btnCIEOptions.Visible = false;
 			Text = Properties.Resources.kstidEmptySrchResultTabText;
 			AdjustWidth();
 			m_owningTabGroup.AdjustTabContainerWidth();
@@ -2237,7 +2238,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_btnCIEOptions_Click(object sender, EventArgs e)
 		{
-			if (!m_selected)
+			if (!m_selected || !m_owningTabGroup.IsCurrent)
 				m_owningTabGroup.SelectTab(this, true);
 
 			ShowCIEOptions();

@@ -1173,6 +1173,11 @@ namespace SIL.Pa.Controls
 	{
 		private PatternTextBox m_ptrnTxtBox;
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public PatternTextBox OwningPatternTextBoxControl
 		{
 			get { return m_ptrnTxtBox; }

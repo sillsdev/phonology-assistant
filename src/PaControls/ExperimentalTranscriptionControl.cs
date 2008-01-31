@@ -115,7 +115,6 @@ namespace SIL.Pa.Controls
 			m_grid.ColumnHeadersHeightSizeMode =
 				DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			m_grid.RowHeadersVisible = false;
-			m_grid.SelectionMode = DataGridViewSelectionMode.CellSelect;
 			m_grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
 			m_grid.RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
 			m_grid.CellEndEdit += m_grid_CellEndEdit;
@@ -182,16 +181,23 @@ namespace SIL.Pa.Controls
 			foreach (ExperimentalTrans info in expList)
 			{
 				m_grid[0, i].Value = info.ConvertFromItem;
+				bool noneChecked = false;
 
 				// Load the cell indicating whether or not a
 				// conversion will take place for this item.
 				RadioButtonCell cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
 				if (cell != null)
-					cell.Checked = !info.Convert;
+				{
+					cell.Checked = !info.Convert ||
+						string.IsNullOrEmpty(info.CurrentConvertToItem);
+
+					noneChecked = cell.Checked;
+				}
 
 				if (info.TranscriptionsToConvertTo != null)
 				{
-					// Now add the possible experimentaTransList to which the ambiguous item may be converted.
+					// Now add the possible experimentaTransList to
+					// which the ambiguous item may be converted.
 					int col = kFirstCnvrtToCol;
 					foreach (string cnvrtToItem in info.TranscriptionsToConvertTo)
 					{
@@ -203,7 +209,10 @@ namespace SIL.Pa.Controls
 						m_grid[col, i].Value = cnvrtToItem;
 						cell = m_grid[col, i] as RadioButtonCell;
 						if (cell != null)
-							cell.Checked = (cnvrtToItem == info.CurrentConvertToItem);
+						{
+							cell.Checked = (!noneChecked &&
+								cnvrtToItem == info.CurrentConvertToItem);
+						}
 
 						col++;
 					}
@@ -345,8 +354,11 @@ namespace SIL.Pa.Controls
 				RadioButtonCell cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
 				if (cell != null)
 				{
+					bool wasDirty = m_grid.IsDirty;
 					cell.Checked = true;
-					m_grid.IsDirty = false;
+
+					if (!wasDirty)
+						m_grid.IsDirty = false;
 				}
 			}
 		}
@@ -381,8 +393,9 @@ namespace SIL.Pa.Controls
 
 			if (e.ColumnIndex > kCnvrtCol)
 			{
-				// If the cell just edited is one of the convert to experimentaTransList then check it,
-				// on the assumption the user wants the latest of their added/edited experimentaTransList.
+				// If the cell just edited is one of the convert to experimentaTransList
+				// then check it, on the assumption the user wants the latest of their
+				// added/edited experimentaTransList.
 				RadioButtonCell cell = m_grid[e.ColumnIndex, e.RowIndex] as RadioButtonCell;
 				if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					cell.Checked = true;
@@ -921,9 +934,11 @@ namespace SIL.Pa.Controls
 			{
 				RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
 				bool forNoConvertCol = (owningCol != null && owningCol.ForNoConvertColumn);
+				bool hasRadioButton = (owningCol != null && owningCol.ShowRadioButton);
 
-				return (RowIndex < DataGridView.NewRowIndex &&
-					!string.IsNullOrEmpty(Value as string) || forNoConvertCol);
+				return (hasRadioButton && (forNoConvertCol ||
+					(RowIndex < DataGridView.NewRowIndex &&
+					!string.IsNullOrEmpty(Value as string))));
 			}
 		}
 
