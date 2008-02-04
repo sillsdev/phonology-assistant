@@ -6,15 +6,19 @@
 	<PreBuildCommands>
 		<Commands>
 			<CommandItem Command="rd">
-				<Arg>C:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
+				<Arg>c:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="md">
-				<Arg>C:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
+				<Arg>c:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="xcopy">
 				<Arg>/E</Arg>
-				<Arg>"C:\Phonology Assistant\Output\Release\*.*"</Arg>
-				<Arg>"C:\Phonology Assistant\Installer Building\Phonology Assistant"</Arg>
+				<Arg>"c:\Phonology Assistant\Output\Release\*.*"</Arg>
+				<Arg>"c:\Phonology Assistant\Installer Building\Phonology Assistant"</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\aux_docs\License.rtf</Arg>
+				<Arg>c:\Phonology Assistant\Installer Building\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="C:\Phonology Assistant\Installer Building\Installers">
 				<Arg>export</Arg>
@@ -98,7 +102,15 @@
 				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
+				<Arg>C:\Phonology Assistant\aux_docs\Readme.rtf</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
 				<Arg>C:\Phonology Assistant\aux_docs\SetupPA.rtf</Arg>
+				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>c:\Phonology Assistant\aux_docs\Readme.rtf</Arg>
 				<Arg>C:\Phonology Assistant\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="del">

@@ -1,1 +1,1 @@
-dobuilder /p:pabuild-local.xml /l:"Build Logs\PaBuild.log"
+dobuilder /p:PaReleaseBuild.xml /l:"Build Logs\PaBuild.log"
