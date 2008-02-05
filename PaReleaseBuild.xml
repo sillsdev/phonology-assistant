@@ -49,6 +49,7 @@
 				<Arg>-ssw</Arg>
 				<Arg>"$(RootBuildDir)\DistFiles\PaTrainingProjects.zip"</Arg>
 				<Arg>"Training Projects\*"</Arg>
+				<Arg>-x!.svn</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\DistFiles\PaTrainingProjects.zip</Arg>
