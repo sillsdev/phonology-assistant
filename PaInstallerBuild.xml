@@ -5,87 +5,84 @@
 	</MailRecipients>
 	<PreBuildCommands>
 		<Commands>
-			<CommandItem Command="rd">
-				<Arg>$(RootBuildDir)\Installer Building\Phonology Assistant</Arg>
-			</CommandItem>
 			<CommandItem Command="md">
-				<Arg>$(RootBuildDir)\Installer Building\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="xcopy">
 				<Arg>/E</Arg>
 				<Arg>"$(RootBuildDir)\Output\Release\*.*"</Arg>
-				<Arg>"$(RootBuildDir)\Installer Building\Phonology Assistant"</Arg>
+				<Arg>"$(RootBuildDir)\Phonology Assistant"</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\License.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="md">
-				<Arg>$(RootBuildDir)\Installer Building\Installers</Arg>
+				<Arg>$(RootBuildDir)\Installers</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installers">
 				<Arg>export</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/SpeechToolsCommonFiles.msm"</Arg>
 				<Arg>"SpeechToolsCommonFiles.msm"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installers">
 				<Arg>export</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/SpeechToolsCommonFiles.wsm"</Arg>
 				<Arg>"SpeechToolsCommonFiles.wsm"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)">
 				<Arg>export</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/External Merge Modules"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)">
 				<Arg>export</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/SIL Merge Modules"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installers">
 				<Arg>checkout</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/PA WIX"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
-			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers">
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn" WorkingDirectory="$(RootBuildDir)\Installers">
 				<Arg>checkout</Arg>
 				<Arg>"svn://LS-CDBuilder.dallas.sil.org/Speech Tools/Installers/PA Package"</Arg>
 				<Arg>--non-interactive</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA WIX\PaWiX*.log</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA WIX\*.wixobj</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\PaWiX*.log</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\*.wixobj</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>Features.wxs</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>Files.wxs</Arg>
 				<Arg>-sw1044</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>MergeModules.wxs</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>PA.wxs</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>Shortcuts.wxs</Arg>
 				<Arg>-sw1044</Arg>
 			</CommandItem>
-			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXCompile.log">
+			<CommandItem Command="candle" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXCompile.log">
 				<Arg>-nologo</Arg>
 				<Arg>UI.wxs</Arg>
 			</CommandItem>
-			<CommandItem Command="light" WorkingDirectory="$(RootBuildDir)\Installer Building\Installers\PA WIX" OutputFile="PaWiXLink.log">
+			<CommandItem Command="light" WorkingDirectory="$(RootBuildDir)\Installers\PA WIX" OutputFile="PaWiXLink.log">
 				<Arg>-nologo</Arg>
 				<Arg>Features.wixobj</Arg>
 				<Arg>Files.wixobj</Arg>
@@ -97,40 +94,42 @@
 				<Arg>"Phonology Assistant.msi"</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA WIX\Phonology Assistant.msi</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\SetupPA.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA WIX\Phonology Assistant.msi</Arg>
-				<Arg>$(RootBuildDir)\Installer Building\Installers\PA WIX\*.wixobj</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\*.wixobj</Arg>
 			</CommandItem>
 			<CommandItem Command="rd">
-				<Arg>$(RootBuildDir)\Installer Building\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="rd">
-				<Arg>$(RootBuildDir)\Installer Building\External Merge Modules</Arg>
+				<Arg>$(RootBuildDir)\External Merge Modules</Arg>
 			</CommandItem>
 			<CommandItem Command="rd">
-				<Arg>$(RootBuildDir)\Installer Building\SIL Merge Modules</Arg>
+				<Arg>$(RootBuildDir)\SIL Merge Modules</Arg>
 			</CommandItem>
+<!-- Uncomment this CommandItem if the desire is to commit the newly built installer to the SVN repository. >
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
 				<Arg>-m "Automatic PA Installer Build"</Arg>
-				<Arg>"$(RootBuildDir)\Installer Building\Installers\PA Package\SIL_PA_30\Phonology Assistant"</Arg>
-				<Arg>--non-interactive</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant"</Arg>
+				<Arg>&#002D&#002Dnon-interactive</Arg>
 			</CommandItem>
+-->
 		</Commands>
 	</PreBuildCommands>
 	<PostBuildCommands>
