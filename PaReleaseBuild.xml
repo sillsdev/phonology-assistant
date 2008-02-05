@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <BuildProcess ApplicationName="PA Local">
-	<MSBuildInfo exepath="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727">
-		<solutionfile>c:\Phonology Assistant\pa.sln</solutionfile>
+	<MSBuildInfo exepath="$(WinDir)\Microsoft.NET\Framework\v2.0.50727">
+		<solutionfile>$(RootBuildDir)\pa.sln</solutionfile>
 		<projectfile></projectfile>
 		<targets></targets>
 		<properties>Configuration=Release</properties>
 		<loggerclass>DoBuilder.MSBuildLogger</loggerclass>;
-		<loggerassembly>C:\Phonology Assistant\DoBuilder.exe</loggerassembly>
+		<loggerassembly>$(RootBuildDir)\DoBuilder.exe</loggerassembly>
 		<loggerargs>logfile="Build Logs\PaBuild.MSBuild.log"</loggerargs>
 	</MSBuildInfo>
 	<PreBuildCommands>
 		<Commands>
 			<CommandItem Command="rd">
-				<Arg>c:\Phonology Assistant\output\release</Arg>
+				<Arg>$(RootBuildDir)\output\release</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
 				<!-- This prevents a compiler warning that SpeechToolsUtils cannot be unregistered. -->
-				<Arg>C:\Phonology Assistant\src\SpeechToolsUtils\obj\*.*</Arg>
+				<Arg>$(RootBuildDir)\src\SpeechToolsUtils\obj\*.*</Arg>
 			</CommandItem>
 		</Commands>
 	</PreBuildCommands>
 	<PostBuildCommands>
 		<Commands>
 			<CommandItem Command="del">
-				<Arg>c:\Phonology Assistant\output\release\*.tlb</Arg>
-				<!-- Arg>c:\Phonology Assistant\output\release\*.pdb</Arg -->
-				<Arg>c:\Phonology Assistant\output\release\pa.xml</Arg>
-				<Arg>c:\Phonology Assistant\output\release\speechtools.xml</Arg>
+				<Arg>$(RootBuildDir)\output\release\*.tlb</Arg>
+				<!-- Arg>$(RootBuildDir)\output\release\*.pdb</Arg -->
+				<Arg>$(RootBuildDir)\output\release\pa.xml</Arg>
+				<Arg>$(RootBuildDir)\output\release\speechtools.xml</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
-				<Arg>c:\Phonology Assistant\distfiles\usp10.dll</Arg>
-				<Arg>c:\Phonology Assistant\output\release</Arg>
+				<Arg>$(RootBuildDir)\distfiles\usp10.dll</Arg>
+				<Arg>$(RootBuildDir)\output\release</Arg>
 			</CommandItem>
 			<CommandItem Command="md">
-				<Arg>c:\Phonology Assistant\output\release\Move To Windows.Fonts</Arg>
+				<Arg>$(RootBuildDir)\output\release\Move To Windows.Fonts</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
-				<Arg>c:\Phonology Assistant\distfiles\*.ttf</Arg>
-				<Arg>c:\Phonology Assistant\output\release\Move To Windows.Fonts</Arg>
+				<Arg>$(RootBuildDir)\distfiles\*.ttf</Arg>
+				<Arg>$(RootBuildDir)\output\release\Move To Windows.Fonts</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
-				<Arg>c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip</Arg>
+				<Arg>$(RootBuildDir)\DistFiles\PaTrainingProjects.zip</Arg>
 			</CommandItem>
-			<CommandItem Command="c:\Phonology Assistant\7za" WorkingDirectory="c:\Phonology Assistant\DistFiles">
+			<CommandItem Command="$(RootBuildDir)\7za" WorkingDirectory="$(RootBuildDir)\DistFiles">
 				<Arg>a</Arg>
 				<Arg>-r</Arg>
 				<Arg>-tzip</Arg>
 				<Arg>-ssw</Arg>
-				<Arg>"c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip"</Arg>
+				<Arg>"$(RootBuildDir)\DistFiles\PaTrainingProjects.zip"</Arg>
 				<Arg>"Training Projects\*"</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
-				<Arg>c:\Phonology Assistant\DistFiles\PaTrainingProjects.zip</Arg>
-				<Arg>c:\Phonology Assistant\output\release\training</Arg>
+				<Arg>$(RootBuildDir)\DistFiles\PaTrainingProjects.zip</Arg>
+				<Arg>$(RootBuildDir)\output\release\training</Arg>
 			</CommandItem>
 		</Commands>
 	</PostBuildCommands>
