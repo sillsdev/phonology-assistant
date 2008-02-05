@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PaProject ShowUndefinedCharsDlg="true">
+	<ProjectName>Sekpele 3</ProjectName>
+	<Language>Sekpele</Language>
+	<Transcriber>R. Casali</Transcriber>
+	<SpeakerName />
+    <Comments>Data source: Somevi Cyprian Kudjo, Sekpele speaker from eastern Ghana. This data was collected in 2005 but has been modified for training purposes (for example, uncertain phone groups have been added).</Comments>
+	<IgnoreUndefinedCharsInSearches>true</IgnoreUndefinedCharsInSearches>
+	<DataSources>
+		<DataSource>
+			<DataSourceFile>C:\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3.db</DataSourceFile>
+			<DataSourceType>Toolbox</DataSourceType>
+			<ParseType>PhoneticOnly</ParseType>
+			<TotalLinesInFile>700</TotalLinesInFile>
+			<ToolboxSortField>Reference</ToolboxSortField>
+			<Editor />
+			<SFMappings>
+				<Mapping FieldName="RecMrkr" Marker="\ref" IsInterlinear="false" />
+				<Mapping FieldName="Audio File" Marker="\sf" IsInterlinear="false" />
+				<Mapping FieldName="Audio File Length" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Audio File Offset" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Comment" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Country" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="CV Pattern" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Date" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Dialect" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Ethnologue Id" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Family" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Free Translation" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Gloss" Marker="\ge" IsInterlinear="false" />
+				<Mapping FieldName="GUID" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Language Name" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Notebook Ref." Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Orthographic" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Other Gloss" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Part of Speech" Marker="\ps" IsInterlinear="false" />
+				<Mapping FieldName="Phonemic" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Phonetic" Marker="\ph" IsInterlinear="false" />
+				<Mapping FieldName="PluralForm" Marker="\plph" IsInterlinear="false" />
+				<Mapping FieldName="Reference" Marker="\ref" IsInterlinear="false" />
+				<Mapping FieldName="Region" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Secondary Gloss" Marker="\gn" IsInterlinear="false" />
+				<Mapping FieldName="Speaker" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Speaker's Gender" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Tone" Marker="\tn" IsInterlinear="false" />
+				<Mapping FieldName="Transcriber" Marker="" IsInterlinear="false" />
+			</SFMappings>
+		</DataSource>
+		<DataSource>
+			<DataSourceFile>C:\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3 plural nouns.db</DataSourceFile>
+			<DataSourceType>Toolbox</DataSourceType>
+			<ParseType>PhoneticOnly</ParseType>
+			<TotalLinesInFile>310</TotalLinesInFile>
+			<ToolboxSortField>Reference</ToolboxSortField>
+			<Editor />
+			<SFMappings>
+				<Mapping FieldName="RecMrkr" Marker="\ref" IsInterlinear="false" />
+				<Mapping FieldName="Audio File" Marker="\sf" IsInterlinear="false" />
+				<Mapping FieldName="Audio File Length" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Audio File Offset" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Comment" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Country" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="CV Pattern" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Date" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Dialect" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Ethnologue Id" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Family" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Free Translation" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Gloss" Marker="\ge" IsInterlinear="false" />
+				<Mapping FieldName="GUID" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Language Name" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Notebook Ref." Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Orthographic" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Other Gloss" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Part of Speech" Marker="\ps" IsInterlinear="false" />
+				<Mapping FieldName="Phonemic" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Phonetic" Marker="\ph" IsInterlinear="false" />
+				<Mapping FieldName="PluralForm" Marker="\plph" IsInterlinear="false" />
+				<Mapping FieldName="Reference" Marker="\ref" IsInterlinear="false" />
+				<Mapping FieldName="Region" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Secondary Gloss" Marker="\gn" IsInterlinear="false" />
+				<Mapping FieldName="Speaker" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Speaker's Gender" Marker="" IsInterlinear="false" />
+				<Mapping FieldName="Tone" Marker="\tn" IsInterlinear="false" />
+				<Mapping FieldName="Transcriber" Marker="" IsInterlinear="false" />
+			</SFMappings>
+		</DataSource>
+	</DataSources>
+	<CVPatternInfoList>
+		<CVPatternInfo Phone="'" Type="StressSyllable" />
+		<CVPatternInfo Phone="ˈ" Type="StressSyllable" />
+		<CVPatternInfo Phone="ˌ" Type="StressSyllable" />
+		<CVPatternInfo Phone="|" Type="StressSyllable" />
+		<CVPatternInfo Phone="‖" Type="StressSyllable" />
+		<CVPatternInfo Phone="." Type="StressSyllable" />
+		<CVPatternInfo Phone="-" Type="StressSyllable" />
+		<CVPatternInfo Phone="‿" Type="StressSyllable" />
+		<CVPatternInfo Phone="ː" Type="Length" />
+		<CVPatternInfo Phone="ˑ" Type="Length" />
+		<CVPatternInfo Phone="̆" Type="Length" />
+		<CVPatternInfo Phone="̃" Type="NotApplicable" />
+		<CVPatternInfo Phone="ʔ" Type="NotApplicable" />
+	</CVPatternInfoList>
+	<DataCorpusVwSortOptions>
+		<SortType>POA</SortType>
+		<SaveManuallySetSortOptions>false</SaveManuallySetSortOptions>
+		<AdvSortOrder>
+			<int>1</int>
+			<int>0</int>
+			<int>2</int>
+		</AdvSortOrder>
+		<AdvRlOptions>
+			<boolean>true</boolean>
+			<boolean>false</boolean>
+			<boolean>false</boolean>
+		</AdvRlOptions>
+		<SortInformationList>
+			<SortInformation>
+				<FieldInfo Name="Phonetic">
+					<DisplayText>Phonetic</DisplayText>
+					<FwWritingSystemType>Vernacular</FwWritingSystemType>
+					<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+					<RightToLeft>false</RightToLeft>
+					<CanBeInterlinear>true</CanBeInterlinear>
+					<IsParsed>true</IsParsed>
+					<IsPhonetic>true</IsPhonetic>
+					<IsPhonemic>false</IsPhonemic>
+					<IsTone>false</IsTone>
+					<IsOrtho>false</IsOrtho>
+					<IsGloss>false</IsGloss>
+					<IsReference>false</IsReference>
+					<IsCVPattern>false</IsCVPattern>
+					<IsDate>false</IsDate>
+					<FwQueryFieldName>phonetic</FwQueryFieldName>
+					<IsDataSource>false</IsDataSource>
+					<IsDataSourcePath>false</IsDataSourcePath>
+					<IsAudioFile>false</IsAudioFile>
+					<IsAudioOffset>false</IsAudioOffset>
+					<IsAudioLength>false</IsAudioLength>
+					<IsCustom>false</IsCustom>
+					<IsNumeric>false</IsNumeric>
+					<IsGuid>false</IsGuid>
+					<VisibleInGrid>true</VisibleInGrid>
+					<VisibleInRecView>true</VisibleInRecView>
+					<DisplayIndexInGrid>0</DisplayIndexInGrid>
+					<DisplayIndexInRecView>0</DisplayIndexInRecView>
+					<WidthInGrid>100</WidthInGrid>
+				</FieldInfo>
+				<ascending>true</ascending>
+			</SortInformation>
+		</SortInformationList>
+	</DataCorpusVwSortOptions>
+	<SearchVwSortOptions>
+		<SortType>POA</SortType>
+		<SaveManuallySetSortOptions>false</SaveManuallySetSortOptions>
+		<AdvSortOrder>
+			<int>1</int>
+			<int>0</int>
+			<int>2</int>
+		</AdvSortOrder>
+		<AdvRlOptions>
+			<boolean>true</boolean>
+			<boolean>false</boolean>
+			<boolean>false</boolean>
+		</AdvRlOptions>
+		<SortInformationList>
+			<SortInformation>
+				<FieldInfo Name="Phonetic">
+					<DisplayText>Phonetic</DisplayText>
+					<FwWritingSystemType>Vernacular</FwWritingSystemType>
+					<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+					<RightToLeft>false</RightToLeft>
+					<CanBeInterlinear>true</CanBeInterlinear>
+					<IsParsed>true</IsParsed>
+					<IsPhonetic>true</IsPhonetic>
+					<IsPhonemic>false</IsPhonemic>
+					<IsTone>false</IsTone>
+					<IsOrtho>false</IsOrtho>
+					<IsGloss>false</IsGloss>
+					<IsReference>false</IsReference>
+					<IsCVPattern>false</IsCVPattern>
+					<IsDate>false</IsDate>
+					<FwQueryFieldName>phonetic</FwQueryFieldName>
+					<IsDataSource>false</IsDataSource>
+					<IsDataSourcePath>false</IsDataSourcePath>
+					<IsAudioFile>false</IsAudioFile>
+					<IsAudioOffset>false</IsAudioOffset>
+					<IsAudioLength>false</IsAudioLength>
+					<IsCustom>false</IsCustom>
+					<IsNumeric>false</IsNumeric>
+					<IsGuid>false</IsGuid>
+					<VisibleInGrid>true</VisibleInGrid>
+					<VisibleInRecView>true</VisibleInRecView>
+					<DisplayIndexInGrid>0</DisplayIndexInGrid>
+					<DisplayIndexInRecView>0</DisplayIndexInRecView>
+					<WidthInGrid>100</WidthInGrid>
+				</FieldInfo>
+				<ascending>true</ascending>
+			</SortInformation>
+		</SortInformationList>
+	</SearchVwSortOptions>
+	<XYChartVwSortOptions>
+		<SortType>POA</SortType>
+		<SaveManuallySetSortOptions>false</SaveManuallySetSortOptions>
+		<AdvSortOrder>
+			<int>1</int>
+			<int>0</int>
+			<int>2</int>
+		</AdvSortOrder>
+		<AdvRlOptions>
+			<boolean>true</boolean>
+			<boolean>false</boolean>
+			<boolean>false</boolean>
+		</AdvRlOptions>
+		<SortInformationList>
+			<SortInformation>
+				<FieldInfo Name="Phonetic">
+					<DisplayText>Phonetic</DisplayText>
+					<FwWritingSystemType>Vernacular</FwWritingSystemType>
+					<Font Name="Doulos SIL" Size="12" Bold="false" Italic="false" />
+					<RightToLeft>false</RightToLeft>
+					<CanBeInterlinear>true</CanBeInterlinear>
+					<IsParsed>true</IsParsed>
+					<IsPhonetic>true</IsPhonetic>
+					<IsPhonemic>false</IsPhonemic>
+					<IsTone>false</IsTone>
+					<IsOrtho>false</IsOrtho>
+					<IsGloss>false</IsGloss>
+					<IsReference>false</IsReference>
+					<IsCVPattern>false</IsCVPattern>
+					<IsDate>false</IsDate>
+					<FwQueryFieldName>phonetic</FwQueryFieldName>
+					<IsDataSource>false</IsDataSource>
+					<IsDataSourcePath>false</IsDataSourcePath>
+					<IsAudioFile>false</IsAudioFile>
+					<IsAudioOffset>false</IsAudioOffset>
+					<IsAudioLength>false</IsAudioLength>
+					<IsCustom>false</IsCustom>
+					<IsNumeric>false</IsNumeric>
+					<IsGuid>false</IsGuid>
+					<VisibleInGrid>true</VisibleInGrid>
+					<VisibleInRecView>true</VisibleInRecView>
+					<DisplayIndexInGrid>0</DisplayIndexInGrid>
+					<DisplayIndexInRecView>0</DisplayIndexInRecView>
+					<WidthInGrid>100</WidthInGrid>
+				</FieldInfo>
+				<ascending>true</ascending>
+			</SortInformation>
+		</SortInformationList>
+	</XYChartVwSortOptions>
+	<CIEOptions IdenticalType="Both">
+		<SearchQuery version="2">
+			<IsPatternRegExpression>false</IsPatternRegExpression>
+			<ShowAllOccurrences>true</ShowAllOccurrences>
+			<IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+			<IgnoreDiacritics>false</IgnoreDiacritics>
+			<IgnoredStressChars>',ˈ,ˌ,|,‖,.,‿,</IgnoredStressChars>
+			<IgnoredToneChars>˩˥,˥˩,˦˥,˩˨,˦˥˦,˧˩,˥˧,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
+			<IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+			<CompleteIgnoredList>
+				<string>˦˥˦</string>
+				<string>˩˥</string>
+				<string>˥˩</string>
+				<string>˦˥</string>
+				<string>˩˨</string>
+				<string>˧˩</string>
+				<string>˥˧</string>
+				<string>̋</string>
+				<string>́</string>
+				<string>̄</string>
+				<string>̀</string>
+				<string>̏</string>
+				<string>̌</string>
+				<string>̂</string>
+				<string>᷄</string>
+				<string>᷅</string>
+				<string>᷈</string>
+				<string>¹</string>
+				<string>²</string>
+				<string>³</string>
+				<string>⁴</string>
+				<string>⁵</string>
+				<string>⁶</string>
+				<string>⁷</string>
+				<string>⁸</string>
+				<string>⁹</string>
+				<string>˥</string>
+				<string>˦</string>
+				<string>˧</string>
+				<string>˨</string>
+				<string>˩</string>
+				<string>↓</string>
+				<string>↑</string>
+				<string>↗</string>
+				<string>↘</string>
+				<string>'</string>
+				<string>ˈ</string>
+				<string>ˌ</string>
+				<string>|</string>
+				<string>‖</string>
+				<string>.</string>
+				<string>‿</string>
+				<string>ː</string>
+				<string>ˑ</string>
+				<string>̆</string>
+			</CompleteIgnoredList>
+		</SearchQuery>
+	</CIEOptions>
+	<GridLayoutInfo>
+		<GridLines>Single</GridLines>
+		<ColHeaderHeight>34</ColHeaderHeight>
+		<SaveReorderedCols>true</SaveReorderedCols>
+		<SaveAdjustedColHeaderHeight>true</SaveAdjustedColHeaderHeight>
+		<SaveAdjustedColWidths>true</SaveAdjustedColWidths>
+		<AutoAdjustPhoneticCol>true</AutoAdjustPhoneticCol>
+		<AutoAjustedMaxWidth>200</AutoAjustedMaxWidth>
+	</GridLayoutInfo>
+</PaProject>
