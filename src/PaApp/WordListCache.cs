@@ -225,9 +225,8 @@ namespace SIL.Pa
 			if (phones == null || phones.Length == 0)
 				return;
 
-			// If we're adding a search result entry then do some preprocessing first.
-			if (offset >= 0 && length > 0)
-				ProcessSpaces(ref phones, ref offset, length);
+			// Do some preprocessing for spaces before and after.
+			ProcessSpaces(ref phones, ref offset, ref length);
 			
 			m_isForSearchResults = true;
 			newEntry.SearchItemOffset = offset;
@@ -249,41 +248,52 @@ namespace SIL.Pa
 			}
 
 			// Build the search item string.
-			newEntry.SearchItem = string.Join(string.Empty, phones, offset, length);
+			newEntry.SearchItem = (length == 0 ? string.Empty :
+				string.Join(string.Empty, phones, offset, length));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// For search results we want to strip off the initial and/or final space when the
-		/// space is not part of the search item (and will, therefore, not be displayed in
-		/// the highlighted portion of the phontic search result column.
+		/// For search results we want to strip off the initial and/or final space and adjust
+		/// the offset and length as necessary.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void ProcessSpaces(ref string[] phones, ref int offset, int length)
+		private static void ProcessSpaces(ref string[] phones, ref int offset, ref int length)
 		{
-			// Determine whether or not we found a match at the beginning
-			// of the word and whether or not that includes an initial space.
-			bool removeInitialSpace = (offset > 0 && phones[0] == " ");
+			bool changeMade = false;
+			List<string> tmpPhones = new List<string>(phones);
 
-			// Determine whether or not we found a match at the end of
-			// the word and whether or not that includes a final space.
-			bool removeFinalSpace =
-				(offset + length < phones.Length && phones[phones.Length - 1] == " ");
-
-			if (removeInitialSpace || removeFinalSpace)
+			// If there's an initial space, remove it. If the match was found on
+			// that space, then the length includes the space so subtract one
+			// from the length to account for removing the space. If the match
+			// does not include the space, then adjust the offset to account for
+			// the fact that the space was removed.
+			if (tmpPhones[0] == " ")
 			{
-				List<string> tmpPhones = new List<string>(phones);
-				if (removeFinalSpace)
-					tmpPhones.RemoveAt(phones.Length - 1);
-
-				if (removeInitialSpace)
-				{
-					tmpPhones.RemoveAt(0);
+				changeMade = true;
+				tmpPhones.RemoveAt(0);
+				if (offset == 0)
+					length--;
+				else
 					offset--;
-				}
-
-				phones = tmpPhones.ToArray();
 			}
+
+			// If there's a final space, remove it. If the match includes that
+			// space, then adjust the match's length to account for the fact that
+			// the space has been removed.
+			int lastPhone = tmpPhones.Count - 1;
+			if (tmpPhones[lastPhone] == " " && offset + length >= tmpPhones.Count)
+			{
+				changeMade = true;
+				length--;
+				tmpPhones.RemoveAt(lastPhone);
+			}
+
+			if (length < 0)
+				length = 0;
+
+			if (changeMade)
+				phones = tmpPhones.ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------

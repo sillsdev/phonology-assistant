@@ -66,6 +66,7 @@ namespace SIL.Pa.Controls
 		private readonly string m_audioFileOffsetFieldName;
 		private readonly string m_audioFileLengthFieldName;
 		private readonly Bitmap m_spkrImage;
+		private readonly int m_widthOfWrdBoundarySrchRsltMatch;
 
 		private Color m_uncertainPhoneForeColor;
 		private Color m_searchItemBackColor;
@@ -154,6 +155,10 @@ namespace SIL.Pa.Controls
 
 			m_drawFocusRectAroundCurrCell =
 				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
+
+			m_widthOfWrdBoundarySrchRsltMatch =
+				PaApp.SettingsHandler.GetIntSettingsValue("wordlists",
+				"srchresultwidthonwordboundarymatch", 2);
 
 			if (PaApp.TMAdapter != null)
 			{
@@ -1962,7 +1967,7 @@ namespace SIL.Pa.Controls
 			{
 				if (m_cache.IsForSearchResults)
 				{
-					DrawPhoneticFindPhoneResult(e);
+					DrawPhoneticSearchResult(e);
 					e.Handled = true;
 					return;
 				}
@@ -2134,7 +2139,7 @@ namespace SIL.Pa.Controls
 		/// Paints the phonetic column when the grid is displaying find phone results.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawPhoneticFindPhoneResult(DataGridViewCellPaintingEventArgs e)
+		private void DrawPhoneticSearchResult(DataGridViewCellPaintingEventArgs e)
 		{
 			WordListCacheEntry wlentry = GetWordEntry(e.RowIndex);
 			if (wlentry == null)
@@ -2147,10 +2152,24 @@ namespace SIL.Pa.Controls
 			int srchItemLength = wlentry.SearchItemLength;
 			int envAfterOffset = srchItemOffset + srchItemLength;
 
-			// Get the text that makes up the search item.
-			// This is used only to measure it's width.
-			string srchItem = string.Join(string.Empty, wlentry.Phones,
-				srchItemOffset, srchItemLength);
+			// Make sure the search item offset + length doesn't exceed the number of
+			// phones in the entry. This could happen with some searches (see PA-755).
+			if (srchItemOffset + srchItemLength > wlentry.Phones.Length)
+				srchItemLength = Math.Abs(wlentry.Phones.Length - srchItemOffset);
+
+			string srchItem;
+
+			try
+			{
+				// Get the text that makes up the search item.
+				// This is used only to measure it's width.
+				srchItem = string.Join(string.Empty, wlentry.Phones,
+					srchItemOffset, srchItemLength);
+			}
+			catch
+			{
+				srchItem = (wlentry.SearchItem == null ? string.Empty : wlentry.SearchItem);
+			}
 
 			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
@@ -2159,6 +2178,9 @@ namespace SIL.Pa.Controls
 			// Calculate the width of the search item.
 			int itemWidth = TextRenderer.MeasureText(e.Graphics, srchItem,
 				FontHelper.PhoneticFont, Size.Empty, flags).Width;
+
+			if (itemWidth == 0)
+				itemWidth = m_widthOfWrdBoundarySrchRsltMatch;
 
 			// Calculate the center of the cell less half the width of the search item.
 			int itemLeft = rc.X + (rc.Width / 2) - (itemWidth / 2);
@@ -2288,7 +2310,7 @@ namespace SIL.Pa.Controls
 				flags |= TextFormatFlags.Right;
 
 			int i = begin;
-			while (i != end)
+			while (i != end && i < phones.Length)
 			{
 				Color clr = (m_currPaintingCellEntry.ContiansUncertainties &&
 					m_currPaintingCellEntry.UncertainPhones.ContainsKey(i) ?
@@ -2940,7 +2962,7 @@ namespace SIL.Pa.Controls
 						// to be bumped to the end of the column's display list -- and since
 						// they are frozen columns, that leads to bad things. Therefore,
 						// adding hierarchicalGridColumnCount to DisplayIndexInGrid will
-						// make sure the hierarchical grid columns stay to the beginning of
+						// make sure the hierarchical grid columns stay at the beginning of
 						// the displayed columns.
 						col.DisplayIndex =
 							fieldInfo.DisplayIndexInGrid + hierarchicalGridColumnCount;
@@ -2983,12 +3005,122 @@ namespace SIL.Pa.Controls
 			PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
 			if (fieldInfo != null)
 			{
-				DataGridViewColumn col = Columns[fieldInfo.FieldName];
-				if (col != null)
-					InvalidateColumn(col.Index);
+				bool resorted = false;
+
+				if (m_sortOptions != null && m_sortOptions.SortInformationList != null)
+				{
+					// Check if the CV pattern is one of the fields on which the list
+					// is sorted. If it is, then resort the word list. This will also
+					// regroup the list if it's grouped.
+					foreach (SortInformation si in m_sortOptions.SortInformationList)
+					{
+						if (si.FieldInfo == fieldInfo)
+						{
+							Sort(m_sortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+							resorted = true;
+							break;
+						}
+					}
+				}
+
+				if (!resorted)
+				{
+					DataGridViewColumn col = Columns[fieldInfo.FieldName];
+					if (col != null)
+						InvalidateColumn(col.Index);
+				}
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool OnWordListOptionsChanged(object args)
+		{
+			// Calling Load on the GridLayoutInfo will fire multiple calls to
+			// OnColumnDisplayIndexChanged since the load updates all the column display
+			// indexes. That should be prevented here since it will cause the field settings
+			// to get saved each time. Therefore, we set a flag here to prevent the saving
+			// of field settings each time the OnColumnDisplayIndexChanged event is fired.
+			m_suspendSavingColumnChanges = true;
+			PaApp.Project.GridLayoutInfo.Load(this);
+			m_suspendSavingColumnChanges = false;
+
+			// Force users to restart Find when adding or removing columns
+			FindInfo.CanFindAgain = false;
+
+			// This will make sure that if a column was made visible or hidden,
+			// that the row height is recalculated based on the heights of the
+			// fonts in the visible rows.
+			RefreshColumnFonts(false);
+
+			CleanupColumns();
+
+			// Return false so everyone who cares gets a crack at handling the message.
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// After word list options have changed, or the project's fields list has changed
+		/// (e.g. custom fields change), it's possible the grid is grouped on a column that was
+		/// removed or hidden. Therefore, ungroup the list. In addition, there could be columns
+		/// that were removed or hidden and are in the sort options. If that's the case, they
+		/// are removed from the sort options and the list is resorted.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CleanupColumns()
+		{
+			// If the column that was grouped on is no longer visible, then ungroup.
+			if (m_groupByField != null)
+			{
+				if (!Columns.Contains(m_groupByField.FieldName) ||
+					!Columns[m_groupByField.FieldName].Visible)
+				{
+					GroupByField = null;
+				}
+			}
+
+			if (SortOptions == null)
+				return;
+
+			// If the sort options contain any fields whose column was removed, then
+			// remove the field from the sort options and resort the list.
+			bool reSort = false;
+			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
+			{
+				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
+
+				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
+				{
+					SortOptions.SortInformationList.RemoveAt(i);
+					reSort = true;
+				}
+			}
+
+			if (!reSort)
+				return;
+
+			if (SortOptions.SortInformationList.Count > 0)
+			{
+				// Sort on the first column in the sort option's field list.
+				Sort(SortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+				return;
+			}
+
+			// There isn't a column left on which to sort, so pick the first visible column.
+			foreach (DataGridViewColumn col in Columns)
+			{
+				if (col.Visible)
+				{
+					Sort(col, ListSortDirection.Ascending);
+					return;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -3133,95 +3265,6 @@ namespace SIL.Pa.Controls
 			itemProps.Enabled = parentForm.ContainsFocus;
 			itemProps.Update = true;
 			return itemProps.Enabled;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual bool OnWordListOptionsChanged(object args)
-		{
-			// Calling Load on the GridLayoutInfo will fire multiple calls to
-			// OnColumnDisplayIndexChanged since the load updates all the column display
-			// indexes. That should be prevented here since it will cause the field settings
-			// to get saved each time. Therefore, we set a flag here to prevent the saving
-			// of field settings each time the OnColumnDisplayIndexChanged event is fired.
-			m_suspendSavingColumnChanges = true;
-			PaApp.Project.GridLayoutInfo.Load(this);
-			m_suspendSavingColumnChanges = false;
-			
-			// Force users to restart Find when adding or removing columns
-			FindInfo.CanFindAgain = false;
-
-			// This will make sure that if a column was made visible or hidden,
-			// that the row height is recalculated based on the heights of the
-			// fonts in the visible rows.
-			RefreshColumnFonts(false);
-
-			CleanupColumns();
-
-			// Return false so everyone who cares gets a crack at handling the message.
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// After word list options have changed, or the project's fields list has changed
-		/// (e.g. custom fields change), it's possible the grid is grouped on a column that was
-		/// removed or hidden. Therefore, ungroup the list. In addition, there could be columns
-		/// that were removed or hidden and are in the sort options. If that's the case, they
-		/// are removed from the sort options and the list is resorted.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void CleanupColumns()
-		{
-			// If the column that was grouped on is no longer visible, then ungroup.
-			if (m_groupByField != null)
-			{
-				if (!Columns.Contains(m_groupByField.FieldName) ||
-					!Columns[m_groupByField.FieldName].Visible)
-				{
-					GroupByField = null;
-				}
-			}
-
-			if (SortOptions == null)
-				return;
-
-			// If the sort options contain any fields whose column was removed, then
-			// remove the field from the sort options and resort the list.
-			bool reSort = false;
-			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
-			{
-				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
-
-				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
-				{
-					SortOptions.SortInformationList.RemoveAt(i);
-					reSort = true;
-				}
-			}
-
-			if (!reSort)
-				return;
-
-			if (SortOptions.SortInformationList.Count > 0)
-			{
-				// Sort on the first column in the sort option's field list.
-				Sort(SortOptions.SortInformationList[0].FieldInfo.FieldName, false);
-				return;
-			}
-
-			// There isn't a column left on which to sort, so pick the first visible column.
-			foreach (DataGridViewColumn col in Columns)
-			{
-				if (col.Visible)
-				{
-					Sort(col, ListSortDirection.Ascending);
-					return;
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
