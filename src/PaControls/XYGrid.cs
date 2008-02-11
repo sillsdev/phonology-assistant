@@ -1494,8 +1494,14 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			FillChart();
-			return true;
+			if (!IsEmpty)
+			{
+				bool wasDirty = IsDirty;
+				FillChart();
+				IsDirty = wasDirty;
+			}
+
+			return false;
 		}
 
 		#endregion
