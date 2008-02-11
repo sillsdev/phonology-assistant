@@ -126,7 +126,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
-    <value>User_Interface/Word_Lists/Sorting_Word_Lists.htm</value>
+    <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidBinaryFeatureClassDlg" xml:space="preserve">

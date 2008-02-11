@@ -149,6 +149,7 @@
 		<IsPhonetic>false</IsPhonetic>
 		<IsReference>false</IsReference>
 		<IsCVPattern>true</IsCVPattern>
+		<FwQueryFieldName>cvpattern</FwQueryFieldName>
 		<IsDate>false</IsDate>
 		<IsAudioFile>false</IsAudioFile>
 		<IsAudioOffset>false</IsAudioOffset>
