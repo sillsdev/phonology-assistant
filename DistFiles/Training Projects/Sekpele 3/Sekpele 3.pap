@@ -2,9 +2,9 @@
 <PaProject ShowUndefinedCharsDlg="true">
 	<ProjectName>Sekpele 3</ProjectName>
 	<Language>Sekpele</Language>
-	<Transcriber>R. Casali</Transcriber>
+	<Transcriber>Rod Casali with modifications for training purposes.</Transcriber>
 	<SpeakerName />
-    <Comments>Data source: Somevi Cyprian Kudjo, Sekpele speaker from eastern Ghana. This data was collected in 2005 but has been modified for training purposes (for example, uncertain phone groups have been added).</Comments>
+    <Comments>Data source: Somevi Cyprian Kudjo, Sekpele speaker from eastern Ghana. This data was collected in 2005. This data has been modified for training purposes (for example, uncertain phone groups have been added and tone has been removed).</Comments>
 	<IgnoreUndefinedCharsInSearches>true</IgnoreUndefinedCharsInSearches>
 	<DataSources>
 		<DataSource>
@@ -248,64 +248,6 @@
 			</SortInformation>
 		</SortInformationList>
 	</XYChartVwSortOptions>
-	<CIEOptions IdenticalType="Both">
-		<SearchQuery version="2">
-			<IsPatternRegExpression>false</IsPatternRegExpression>
-			<ShowAllOccurrences>true</ShowAllOccurrences>
-			<IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
-			<IgnoreDiacritics>false</IgnoreDiacritics>
-			<IgnoredStressChars>',ˈ,ˌ,|,‖,.,‿,</IgnoredStressChars>
-			<IgnoredToneChars>˩˥,˥˩,˦˥,˩˨,˦˥˦,˧˩,˥˧,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-			<IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
-			<CompleteIgnoredList>
-				<string>˦˥˦</string>
-				<string>˩˥</string>
-				<string>˥˩</string>
-				<string>˦˥</string>
-				<string>˩˨</string>
-				<string>˧˩</string>
-				<string>˥˧</string>
-				<string>̋</string>
-				<string>́</string>
-				<string>̄</string>
-				<string>̀</string>
-				<string>̏</string>
-				<string>̌</string>
-				<string>̂</string>
-				<string>᷄</string>
-				<string>᷅</string>
-				<string>᷈</string>
-				<string>¹</string>
-				<string>²</string>
-				<string>³</string>
-				<string>⁴</string>
-				<string>⁵</string>
-				<string>⁶</string>
-				<string>⁷</string>
-				<string>⁸</string>
-				<string>⁹</string>
-				<string>˥</string>
-				<string>˦</string>
-				<string>˧</string>
-				<string>˨</string>
-				<string>˩</string>
-				<string>↓</string>
-				<string>↑</string>
-				<string>↗</string>
-				<string>↘</string>
-				<string>'</string>
-				<string>ˈ</string>
-				<string>ˌ</string>
-				<string>|</string>
-				<string>‖</string>
-				<string>.</string>
-				<string>‿</string>
-				<string>ː</string>
-				<string>ˑ</string>
-				<string>̆</string>
-			</CompleteIgnoredList>
-		</SearchQuery>
-	</CIEOptions>
 	<GridLayoutInfo>
 		<GridLines>Single</GridLines>
 		<ColHeaderHeight>34</ColHeaderHeight>

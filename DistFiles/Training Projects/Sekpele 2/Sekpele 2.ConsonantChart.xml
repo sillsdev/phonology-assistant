@@ -87,10 +87,10 @@
     <Heading text="Clicks" SubHeadingsVisible="false" Group="9">
       <SubHeading />
     </Heading>
-    <Heading text="Affricates" SubHeadingsVisible="false" Group="11">
+    <Heading text="Affricates" SubHeadingsVisible="false" Group="10">
       <SubHeading />
     </Heading>
-    <Heading text="Other" SubHeadingsVisible="false" Group="10">
+    <Heading text="Other" SubHeadingsVisible="false" Group="11">
       <SubHeading />
       <SubHeading />
     </Heading>
@@ -111,6 +111,9 @@
     <Phone text="f" Visible="true" Row="5" Column="2" Group="4">
       <SiblingUncertainties />
     </Phone>
+    <Phone text="ɱ" Visible="true" Row="2" Column="3" Group="1">
+      <SiblingUncertainties />
+    </Phone>
     <Phone text="d̪" Visible="true" Row="0" Column="5" Group="0">
       <SiblingUncertainties />
     </Phone>
@@ -121,9 +124,6 @@
       <SiblingUncertainties>
         <string>d</string>
       </SiblingUncertainties>
-    </Phone>
-    <Phone text="tʰ" Visible="true" Row="1" Column="6" Group="0">
-      <SiblingUncertainties />
     </Phone>
     <Phone text="s" Visible="true" Row="5" Column="6" Group="4">
       <SiblingUncertainties />
@@ -142,6 +142,9 @@
     <Phone text="tʃ" Visible="true" Row="5" Column="8" Group="4">
       <SiblingUncertainties />
     </Phone>
+    <Phone text="ɲ" Visible="true" Row="2" Column="15" Group="1">
+      <SiblingUncertainties />
+    </Phone>
     <Phone text="j" Visible="true" Row="7" Column="15" Group="6">
       <SiblingUncertainties />
     </Phone>
@@ -157,10 +160,10 @@
     <Phone text="ŋ" Visible="true" Row="2" Column="17" Group="1">
       <SiblingUncertainties />
     </Phone>
-    <Phone text="w" Visible="true" Row="13" Column="17" Group="10">
+    <Phone text="w" Visible="true" Row="7" Column="17" Group="6">
       <SiblingUncertainties />
     </Phone>
-    <Phone text="w̃" Visible="true" Row="14" Column="17" Group="10">
+    <Phone text="w̃" Visible="true" Row="8" Column="17" Group="6">
       <SiblingUncertainties />
     </Phone>
     <Phone text="ʔ" Visible="true" Row="0" Column="22" Group="0">

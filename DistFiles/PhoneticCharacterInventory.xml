@@ -796,7 +796,7 @@
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>17</ChartColumn>
-    <ChartGroup>11</ChartGroup>
+    <ChartGroup>6</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="120" IPAChar="x" HexIPAChar="0078">
     <Name>Lower case X</Name>
@@ -1825,7 +1825,7 @@
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>17</ChartColumn>
-    <ChartGroup>5</ChartGroup>
+    <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="612" IPAChar="ɤ" HexIPAChar="0264">
     <Name>Ram's Horns (Baby Gamma)</Name>
@@ -1867,7 +1867,7 @@
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>15</ChartColumn>
-    <ChartGroup>11</ChartGroup>
+    <ChartGroup>6</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="614" IPAChar="ɦ" HexIPAChar="0266">
     <Name>Hooktop H</Name>
@@ -2308,7 +2308,7 @@
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>7</ChartColumn>
-    <ChartGroup>11</ChartGroup>
+    <ChartGroup>3</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="635" IPAChar="ɻ" HexIPAChar="027B">
     <Name>Turned R, Right Tail</Name>
@@ -2791,7 +2791,7 @@
     <OverrideMask1>0</OverrideMask1>
     <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>13</ChartColumn>
-    <ChartGroup>11</ChartGroup>
+    <ChartGroup>4</ChartGroup>
   </IPACharInfo>
   <IPACharInfo Codepoint="658" IPAChar="ʒ" HexIPAChar="0292">
     <Name>Small Ezh</Name>

@@ -1252,6 +1252,7 @@ namespace SIL.Pa.Controls
 				m_currTab.CieOptionsDropDownContainer.AddControl(m_currTab.CieOptionsDropDown);
 			}
 
+			m_currTab.CieOptionsDropDown.CIEOptions = m_currTab.ResultView.Grid.CIEOptions;
 			m_currTab.CieOptionsDropDownContainer.Closed += m_cieOptionsDropDownContainer_Closed;
 			Point pt = ctrl.PointToScreen(new Point(0, ctrl.Height));
 			m_currTab.CieOptionsDropDownContainer.Show(pt);
