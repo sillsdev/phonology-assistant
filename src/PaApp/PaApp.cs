@@ -1774,7 +1774,7 @@ namespace SIL.Pa
 					// Extract the class name from the query's pattern and
 					// find the SearchClass object having that class name.
 					string className = modifiedQuery.Pattern.Substring(start, i - start + 1);
-					SearchClass srchClass = Project.SearchClasses[className];
+					SearchClass srchClass = Project.SearchClasses.GetSearchClass(className, true);
 					if (srchClass != null)
 						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else

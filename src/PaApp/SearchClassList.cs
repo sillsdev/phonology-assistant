@@ -42,25 +42,37 @@ namespace SIL.Pa
 		/// <summary>
 		/// Gets the SearchClass with the specified name. If the specified class name is
 		/// surrounded by the open and close class brackets, they are stripped off before
-		/// searching the list.
+		/// searching the list. This overload does not ignore case.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchClass this[string className]
 		{
-			get
+			get	{return GetSearchClass(className, false); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the search class object from the list for the specified class name and
+		/// factors in whether or not to ignore case.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchClass GetSearchClass(string className, bool ignoreCase)
+		{
+			// Strip off the brackets if they're there.
+			string modifiedName = className.Replace(PaApp.kOpenClassBracket, string.Empty);
+			modifiedName = modifiedName.Replace(PaApp.kCloseClassBracket, string.Empty);
+
+			if (ignoreCase)
+				modifiedName = modifiedName.ToLower();
+
+			foreach (SearchClass srchClass in this)
 			{
-				// Strip off the brackets if they're there.
-				string modifiedName = className.Replace(PaApp.kOpenClassBracket, string.Empty);
-				modifiedName = modifiedName.Replace(PaApp.kCloseClassBracket, string.Empty);
-
-				foreach (SearchClass srchClass in this)
-				{
-					if (srchClass.Name == modifiedName)
-						return srchClass;
-				}
-
-				return null;
+				string storedName = (ignoreCase ? srchClass.Name.ToLower() : srchClass.Name);
+				if (storedName == modifiedName)
+					return srchClass;
 			}
+
+			return null;
 		}
 		
 		/// ------------------------------------------------------------------------------------

@@ -1,0 +1,1 @@
+dobuilder /p:PaWebArchiveBuild.xml /l:"Build Logs\PaWebArchiveBuild.log"

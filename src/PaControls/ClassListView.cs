@@ -111,7 +111,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void ErasePrevItemDottedLine(ClassListViewItem item)
 		{
-			if (m_prevItem != null)
+			if (m_prevItem != null && m_prevItem.ListView != null)
 			{
 				Rectangle rc = m_prevItem.GetBounds(ItemBoundsPortion.Label);
 				m_prevItem.ListView.Invalidate(rc);
@@ -564,7 +564,7 @@ namespace SIL.Pa.Controls
 			// Ensure the new class doesn't have a duplicate class name
 			foreach (ClassListViewItem item in Items)
 			{
-				if (item.Text.Trim() == className && item != origClassInfo)
+				if (item.Text.Trim().ToLower() == className.ToLower() && item != origClassInfo)
 				{
 					if (showMsg)
 					{

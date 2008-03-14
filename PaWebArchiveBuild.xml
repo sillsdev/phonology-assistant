@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildProcess ApplicationName="PA Web Archive Build">
+	<PreBuildCommands>
+		<Commands>
+			<CommandItem Command="$(RootBuildDir)\7za">
+				<Arg>a</Arg>
+				<Arg>-r</Arg>
+				<Arg>-sfx7z.sfx</Arg>
+				<Arg>-t7z</Arg>
+				<Arg>-mx=9</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0 with .NET.exe"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\*"</Arg>
+			</CommandItem>			
+			<CommandItem Command="$(RootBuildDir)\7za">
+				<Arg>a</Arg>
+				<Arg>-r</Arg>
+				<Arg>-sfx7z.sfx</Arg>
+				<Arg>-t7z</Arg>
+				<Arg>-mx=9</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0 only.exe"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\*"</Arg>
+			</CommandItem>			
+		</Commands>
+	</PreBuildCommands>
+</BuildProcess>

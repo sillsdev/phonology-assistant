@@ -1112,13 +1112,11 @@ namespace SIL.Pa.Controls
 				return;
 			}
 
-			bool assumeCVIsPhoneClass =
-				PaApp.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true);
-			
 			// When 'C' is entered then automatically insert "[C]".
 			// When 'V' is entered then automatically insert "[V]".
-			// But only when the previous character is not '['.
-			if (assumeCVIsPhoneClass && prevChar != '[' && (e.KeyChar == 'C' || e.KeyChar == 'V'))
+			// But only when the insertion point is not in a class name or
+			// binary or articulatory feature.
+			if ((e.KeyChar == 'C' || e.KeyChar == 'V') && SurroundCVInBrackets(txt))
 			{
 				txt.Text = txt.Text.Insert(selStart, ("[" + e.KeyChar + "]"));
 				e.KeyChar = (char)0;
@@ -1136,6 +1134,39 @@ namespace SIL.Pa.Controls
 			//    txtPattern.SelectionStart = selStart;
 			//    m_ignoreTextChange = false;
 			//}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks if the C or V the user just typed should be surrounded by square brackets.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool SurroundCVInBrackets(TextBox txt)
+		{
+			if (!PaApp.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true))
+				return false;
+
+			return (!InsideBraketedGroup(txt, '[', ']') && !InsideBraketedGroup(txt, '<', '>'));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the insertion point in the specified text box is inside
+		/// the set of specified brackets.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool InsideBraketedGroup(TextBox txt, char openBracket, char closeBracket)
+		{
+			for (int i = txt.SelectionStart - 1; i >= 0 && i < txt.Text.Length; i--)
+			{
+				if (txt.Text[i] == closeBracket)
+					break;
+
+				if (txt.Text[i] == openBracket)
+					return true;
+			}
+
+			return false;
 		}
 
 		#endregion

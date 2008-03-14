@@ -95,25 +95,45 @@
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\SetupPA.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\SetupPA.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="del">
 				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
 				<Arg>$(RootBuildDir)\Installers\PA WIX\*.wixobj</Arg>
 			</CommandItem>
-			<CommandItem Command="rd">
+			<CommandItem Command="del">
+				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA WIX\*.wixobj</Arg>
+			</CommandItem>
+<!--			<CommandItem Command="rd">
 				<Arg>$(RootBuildDir)\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="rd">
@@ -121,12 +141,18 @@
 			</CommandItem>
 			<CommandItem Command="rd">
 				<Arg>$(RootBuildDir)\SIL Merge Modules</Arg>
-			</CommandItem>
-<!-- Uncomment this CommandItem if the desire is to commit the newly built installer to the SVN repository. >
+			</CommandItem> -->
+<!-- Uncomment these CommandItems if the desire is to commit the newly built installer to the SVN repository. >
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
 				<Arg>-m "Automatic PA Installer Build"</Arg>
-				<Arg>"$(RootBuildDir)\Installers\PA Package\SIL_PA_30\Phonology Assistant"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant"</Arg>
+				<Arg>&#002D&#002Dnon-interactive</Arg>
+			</CommandItem>
+			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
+				<Arg>commit</Arg>
+				<Arg>-m "Automatic PA Installer Build"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant"</Arg>
 				<Arg>&#002D&#002Dnon-interactive</Arg>
 			</CommandItem>
 -->

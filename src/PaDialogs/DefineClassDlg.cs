@@ -418,8 +418,19 @@ namespace SIL.Pa.Dialogs
 				return false;
 			}
 
-			return (m_classesDlg == null ? true :
-				!m_classesDlg.ClassListView.DoesClassNameExist(txtClassName.Text, m_origClassInfo, true)); 
+			if (m_classesDlg == null)
+				return true;
+
+			bool exists = m_classesDlg.ClassListView.DoesClassNameExist(
+				txtClassName.Text, m_origClassInfo, true);
+			
+			if (exists)
+			{
+				txtClassName.Focus();
+				txtClassName.SelectAll();
+			}
+
+			return !exists;
 		}
 
 		/// ------------------------------------------------------------------------------------

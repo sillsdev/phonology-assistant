@@ -8,7 +8,7 @@
 // </copyright> 
 #endregion
 // 
-// File: MiscTests.cs
+// File: RawRecordViewTests.cs
 // Responsibility: DavidO & ToddJ
 // 
 // <remarks>
@@ -22,7 +22,7 @@ namespace SIL.Pa.Controls
 {
     /// --------------------------------------------------------------------------------
     /// <summary>
-    /// Tests Misc. methods in DBUtils that reqire a database.
+    /// Tests the record view
     /// </summary>
     /// --------------------------------------------------------------------------------
     [TestFixture]
