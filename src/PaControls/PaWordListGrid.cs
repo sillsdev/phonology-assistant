@@ -2493,6 +2493,9 @@ namespace SIL.Pa.Controls
 					ManageNoCIEResultsMessage(true);
 			}
 
+			if (m_cellInfoPopup != null)
+				m_cellInfoPopup.Hide();
+
 			m_backupCache = m_cache;
 			m_cache = cieCache;
 			RefreshRows(true);
@@ -2510,6 +2513,9 @@ namespace SIL.Pa.Controls
 		{
 			if (m_backupCache != null)
 			{
+				if (m_cellInfoPopup != null)
+					m_cellInfoPopup.Hide();
+
 				ManageNoCIEResultsMessage(false);
 				m_cache = m_backupCache;
 				m_backupCache = null;

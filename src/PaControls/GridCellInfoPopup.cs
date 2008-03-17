@@ -410,8 +410,12 @@ namespace SIL.Pa.Controls
 			// the top of the row containing the associated cell, we can figure out where
 			// the arrow glyph should go so it points to an imaginary line that goes
 			// horizontally through the midpoint of the cell for whom the popup belongs.
-			int arrowTipsY = m_associatedGrid.Rows[m_associatedCell.RowIndex].Height / 2;
-			PaintArrow(e.Graphics, arrowTipsY, rc);
+			int rowIndex = (m_associatedCell != null ? m_associatedCell.RowIndex : -1);
+			if (m_associatedGrid != null && rowIndex >= 0 && rowIndex < m_associatedGrid.RowCount)
+			{
+				int arrowTipsY = m_associatedGrid.Rows[rowIndex].Height / 2;
+				PaintArrow(e.Graphics, arrowTipsY, rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

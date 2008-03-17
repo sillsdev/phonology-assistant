@@ -133,7 +133,7 @@
 				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
 				<Arg>$(RootBuildDir)\Installers\PA WIX\*.wixobj</Arg>
 			</CommandItem>
-<!--			<CommandItem Command="rd">
+			<CommandItem Command="rd">
 				<Arg>$(RootBuildDir)\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="rd">
@@ -141,7 +141,7 @@
 			</CommandItem>
 			<CommandItem Command="rd">
 				<Arg>$(RootBuildDir)\SIL Merge Modules</Arg>
-			</CommandItem> -->
+			</CommandItem>
 <!-- Uncomment these CommandItems if the desire is to commit the newly built installer to the SVN repository. >
 			<CommandItem Command="C:\Program Files\Subversion\bin\svn">
 				<Arg>commit</Arg>
