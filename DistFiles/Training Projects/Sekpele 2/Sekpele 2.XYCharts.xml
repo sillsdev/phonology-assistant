@@ -19,9 +19,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -75,9 +75,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -156,9 +156,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -212,9 +212,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -270,7 +270,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -319,7 +319,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -368,7 +368,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -417,7 +417,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -466,7 +466,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -515,7 +515,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -564,7 +564,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <IgnoredStressChars />
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -639,9 +639,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -695,9 +695,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -751,9 +751,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -807,9 +807,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -863,9 +863,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -919,9 +919,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>
@@ -975,9 +975,9 @@
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,</IgnoredStressChars>
+        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
         <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,ˑ,̆,</IgnoredLengthChars>
+        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
         <CompleteIgnoredList>
           <string>˦˥˦</string>
           <string>˥˧</string>

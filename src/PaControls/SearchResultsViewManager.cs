@@ -67,7 +67,7 @@ namespace SIL.Pa.Controls
 		private ITabView m_view;
 		private ITMAdapter m_tmAdapter;
 		private SplitContainer m_splitResults;
-		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
+		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private readonly ISearchResultsViewHost m_srchRsltVwHost;
 		private readonly IRecordView m_recView;
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
@@ -88,9 +88,6 @@ namespace SIL.Pa.Controls
 			m_resultsPanel = splitResults.Panel1;
 			m_recView = recView;
 			PaApp.AddMediatorColleague(this);
-
-			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
-			m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
 			m_resultsPanel.ControlRemoved += this.HandleTabGroupRemoved;
 			Application.AddMessageFilter(this);
 		}
@@ -1338,7 +1335,32 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public PlaybackSpeedAdjuster PlaybackSpeedAdjuster
 		{
-			get { return m_playbackSpeedAdjuster; }
+			get
+			{
+				if (m_playbackSpeedAdjuster == null)
+				{
+					m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
+					m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
+					m_playbackSpeedAdjuster.Disposed += m_playbackSpeedAdjuster_Disposed;
+				}
+				
+				return m_playbackSpeedAdjuster;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The only time this will be disposed before the program terminates is when the
+		/// view is redocked after being undocked. That is because the toolbar/menu adapter
+		/// is disposed and recreated when the view is being redocked. And when the TMAdapter
+		/// is disposed, so are the custom controls it hosts in drop-downs.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_playbackSpeedAdjuster_Disposed(object sender, EventArgs e)
+		{
+			m_playbackSpeedAdjuster.Disposed -= m_playbackSpeedAdjuster_Disposed;
+			m_playbackSpeedAdjuster.lnkPlay.Click -= HandlePlaybackSpeedAdjusterPlayClick;
+			m_playbackSpeedAdjuster = null;
 		}
 
 		/// ------------------------------------------------------------------------------------

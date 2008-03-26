@@ -30,9 +30,9 @@ namespace SIL.Pa.Controls
 		private string m_srchQryCategory;
 		private SearchQuery m_searchQuery;
 		private ITabView m_owningView;
+		private SearchOptionsDropDown m_searchOptionsDropDown;
 		private readonly Image m_downArrow;
 		private readonly Image m_upArrow;
-		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
 		private static readonly char kEmptyPatternChar = '\u25CA';
 
 		/// ------------------------------------------------------------------------------------
@@ -58,7 +58,6 @@ namespace SIL.Pa.Controls
 			txtPattern.Font = FontHelper.PhoneticFont;
 			txtPattern.Tag = this;
 		
-			m_searchOptionsDropDown = new SearchOptionsDropDown();
 			base.BackColor = Color.Transparent;
 			m_searchQuery = new SearchQuery();
 			PaApp.AddMediatorColleague(this);
@@ -118,7 +117,30 @@ namespace SIL.Pa.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public SearchOptionsDropDown SearchOptionsDropDown
 		{
-			get { return m_searchOptionsDropDown; }
+			get
+			{
+				if (m_searchOptionsDropDown == null)
+				{
+					m_searchOptionsDropDown = new SearchOptionsDropDown();
+					m_searchOptionsDropDown.Disposed += m_searchOptionsDropDown_Disposed;
+				}
+				
+				return m_searchOptionsDropDown;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The only time this will be disposed before the program terminates is when the
+		/// view is redocked after being undocked. That is because the toolbar/menu adapter
+		/// is disposed and recreated when the view is being redocked. And when the TMAdapter
+		/// is disposed, so are the custom controls it hosts in drop-downs.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_searchOptionsDropDown_Disposed(object sender, EventArgs e)
+		{
+			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
+			m_searchOptionsDropDown = null;
 		}
 	
 		/// ------------------------------------------------------------------------------------

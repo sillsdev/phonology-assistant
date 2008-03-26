@@ -33,9 +33,9 @@ namespace SIL.Pa.Controls
 		private XYChartLayout m_layout;
 		private ToolTip m_tooltip;
 		private IMessageFilter m_editControlMsgFilter;
+		private SearchOptionsDropDown m_searchOptionsDropDown;
 		private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
-		private readonly SearchOptionsDropDown m_searchOptionsDropDown;
 		private readonly XYChartCellInfoPopup m_cellInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
@@ -46,11 +46,6 @@ namespace SIL.Pa.Controls
 		public XYGrid()
 		{
 			OnPaFontsChanged(null);
-
-			m_searchOptionsDropDown = new SearchOptionsDropDown();
-			m_searchOptionsDropDown.ShowApplyToAll = true;
-			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click += ApplyToAllLinkLabel_Click;
-			m_searchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 
 			m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
 			m_errorInCell = Properties.Resources.kimidErrorInCell;
@@ -188,7 +183,35 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public SearchOptionsDropDown SearchOptionsDropDown
 		{
-			get { return m_searchOptionsDropDown; }
+			get
+			{
+				if (m_searchOptionsDropDown == null)
+				{
+					m_searchOptionsDropDown = new SearchOptionsDropDown();
+					m_searchOptionsDropDown.ShowApplyToAll = true;
+					m_searchOptionsDropDown.ApplyToAllLinkLabel.Click += ApplyToAllLinkLabel_Click;
+					m_searchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
+					m_searchOptionsDropDown.Disposed += m_searchOptionsDropDown_Disposed;
+				}
+				
+				return m_searchOptionsDropDown;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// The only time this will be disposed before the program terminates is when the
+		/// view is redocked after being undocked. That is because the toolbar/menu adapter
+		/// is disposed and recreated when the view is being redocked. And when the TMAdapter
+		/// is disposed, so are the custom controls it hosts in drop-downs.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_searchOptionsDropDown_Disposed(object sender, EventArgs e)
+		{
+			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click -= ApplyToAllLinkLabel_Click;
+			m_searchOptionsDropDown.lnkHelp.Click -= SearchDropDownHelpLink_Click;
+			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
+			m_searchOptionsDropDown = null;
 		}
 		
 		/// ------------------------------------------------------------------------------------

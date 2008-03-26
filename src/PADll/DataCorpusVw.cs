@@ -23,7 +23,7 @@ namespace SIL.Pa
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private bool m_rawRecViewOn = true;
 		private bool m_activeView = false;
-		private readonly PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
+		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private bool m_initialDock = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -44,9 +44,6 @@ namespace SIL.Pa
 
 			if (PaApp.DesignMode)
 				return;
-
-			m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
-			m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
 
 			PaApp.IncProgressBar();
 			LoadToolbar();
@@ -90,9 +87,31 @@ namespace SIL.Pa
 		private Control m_tmAdapter_LoadControlContainerItem(string name)
 		{
 			if (name == "tbbAdjustPlaybackSpeed")
+			{
+				if (m_playbackSpeedAdjuster == null)
+				{
+					m_playbackSpeedAdjuster = new PlaybackSpeedAdjuster();
+					m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
+					m_playbackSpeedAdjuster.Disposed += m_playbackSpeedAdjuster_Disposed;
+				}
+				
+				
 				return m_playbackSpeedAdjuster;
+			}
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_playbackSpeedAdjuster_Disposed(object sender, EventArgs e)
+		{
+			m_playbackSpeedAdjuster.lnkPlay.Click -= HandlePlaybackSpeedAdjusterPlayClick;
+			m_playbackSpeedAdjuster.Disposed -= m_playbackSpeedAdjuster_Disposed;
+			m_playbackSpeedAdjuster = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
