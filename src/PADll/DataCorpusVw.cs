@@ -729,6 +729,11 @@ namespace SIL.Pa
 				savSortOptions = m_grid.SortOptions;
 			}
 
+			// Update the fonts in case a custom field's name
+			// has changed (since each field has it's own font).
+			rtfRecVw.UpdateFonts();
+
+			// Update the record in case we're pointing to a new record or it's data changed.
 			rtfRecVw.UpdateRecord(null);
 
 			// Rebuild the contents of the window.

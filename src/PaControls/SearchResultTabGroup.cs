@@ -1180,7 +1180,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public IRecordView RecordView
 		{
-			get { return m_rsltVwMngr.RecordView; }
+			get { return (m_rsltVwMngr != null ? m_rsltVwMngr.RecordView : null); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1190,7 +1190,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public ITMAdapter TMAdapter
 		{
-			get { return m_rsltVwMngr.TMAdapter; }
+			get { return (m_rsltVwMngr != null ? m_rsltVwMngr.TMAdapter : null); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1493,7 +1493,9 @@ namespace SIL.Pa.Controls
 			if (m_btnCIEOptions.Visible)
 			{
 				FindInfo.CanFindAgain = false;
-				m_btnCIEOptions.Visible = m_resultView.Grid.Cache.IsCIEList;
+				m_btnCIEOptions.Visible = (m_resultView != null &&
+					m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
+					m_resultView.Grid.Cache.IsCIEList);
 			}
 
 			AdjustWidth();
@@ -1782,6 +1784,12 @@ namespace SIL.Pa.Controls
 			if (m_resultView != null)
 			{
 				UnsubscribeToGridEvents();
+
+				// Update the fonts in case a custom field's name
+				// has changed (since each field has it's own font).
+				if (m_owningTabGroup != null && m_owningTabGroup.RecordView != null)
+					m_owningTabGroup.RecordView.UpdateFonts();
+
 				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
 				UpdateRecordView();
