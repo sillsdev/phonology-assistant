@@ -37,10 +37,11 @@ namespace SIL.Pa
 		private ITMAdapter m_tmAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
 		private bool m_sidePanelDocked = true;
+		private bool m_initialDock = true;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private readonly SplitterPanel m_dockedSidePanel;
-		private bool m_initialDock = true;
+		private readonly Keys m_savePatternHotKey = Keys.None;
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
@@ -87,6 +88,10 @@ namespace SIL.Pa
 			
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
 			Disposed += ViewDisposed;
+
+			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
+			if (itemProps != null)
+				m_savePatternHotKey = itemProps.ShortcutKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,6 +117,34 @@ namespace SIL.Pa
 
 			if (splitOuter != null && !splitOuter.IsDisposed)
 				splitOuter.Dispose();
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// There's a problem with Ctrl+S (save search patter) getting recognized when there
+		/// is a search result word list showing. Therefore, we trap it at a lower level.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			// Make sure the user pressed the hotkey for saving a pattern.
+			if (msg.Msg == 0x100 && keyData == m_savePatternHotKey)
+			{
+				// Make sure the button is enabled.
+				TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSavePattern");
+				if (itemProps != null && itemProps.Enabled)
+				{
+					// Make sure the user isn't in the middle of editing a saved pattern's name.
+					if (tvSavedPatterns.SelectedNode == null || !tvSavedPatterns.SelectedNode.IsEditing)
+					{
+						PaApp.MsgMediator.SendMessage("SavePattern", null);
+						return true;
+					}
+				}
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		/// ------------------------------------------------------------------------------------

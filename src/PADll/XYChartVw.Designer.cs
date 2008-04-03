@@ -220,10 +220,11 @@ namespace SIL.Pa
 			this.lvSavedCharts.UseCompatibleStateImageBehavior = false;
 			this.lvSavedCharts.View = System.Windows.Forms.View.Details;
 			this.lvSavedCharts.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvSavedCharts_MouseDoubleClick);
-			this.lvSavedCharts.Enter += new System.EventHandler(this.lvSavedCharts_Enter);
-			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
-			this.lvSavedCharts.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvSavedCharts_ItemSelectionChanged);
 			this.lvSavedCharts.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvSavedCharts_AfterLabelEdit);
+			this.lvSavedCharts.Enter += new System.EventHandler(this.lvSavedCharts_Enter);
+			this.lvSavedCharts.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvSavedCharts_ItemSelectionChanged);
+			this.lvSavedCharts.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvSavedCharts_BeforeLabelEdit);
+			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
 			this.lvSavedCharts.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvSavedCharts_ItemDrag);
 			// 
 			// hlblSavedCharts

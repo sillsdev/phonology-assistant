@@ -26,6 +26,7 @@ namespace SIL.Pa
 
 		private bool m_activeView = false;
 		private bool m_initialDock = true;
+		private bool m_editingSavedChartName = false;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
@@ -34,6 +35,7 @@ namespace SIL.Pa
 		private readonly string m_closeClass = ResourceHelper.GetString("kstidCloseClassSymbol");
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly XYGrid m_xyGrid;
+		private readonly Keys m_saveChartHotKey = Keys.None;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -83,6 +85,10 @@ namespace SIL.Pa
 
 			base.DoubleBuffered = true;
 			Disposed += ViewDisposed;
+
+			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
+			if (itemProps != null)
+				m_saveChartHotKey = itemProps.ShortcutKey;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,6 +156,30 @@ namespace SIL.Pa
 				return m_rsltVwMngr.PlaybackSpeedAdjuster;
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// There's a problem with Ctrl+S (save chart) getting recognized when there is a
+		/// search result word list showing. Therefore, we trap it at a lower level.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			// Make sure the user pressed the hotkey for saving a chart and
+			// that he isn't in the middle of editing a saved chart name.
+			if (msg.Msg == 0x100 && keyData == m_saveChartHotKey && !m_editingSavedChartName)
+			{
+				// Make sure the button is enabled.
+				TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChart");
+				if (itemProps != null && itemProps.Enabled)
+				{
+					PaApp.MsgMediator.SendMessage("SaveChart", null);
+					return true;
+				}
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -855,6 +885,16 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lvSavedCharts_BeforeLabelEdit(object sender, LabelEditEventArgs e)
+		{
+			m_editingSavedChartName = true;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Verify the new saved chart's name is not a duplicate. If not, then save the
 		/// change to disk.
 		/// </summary>
@@ -867,6 +907,7 @@ namespace SIL.Pa
 			if (layout == null || layout.Name == newName || newName == null)
 			{
 				e.CancelEdit = true;
+				m_editingSavedChartName = false;
 				return;
 			}
 
@@ -892,6 +933,7 @@ namespace SIL.Pa
 
 			lvSavedCharts.Items[e.Item].Text = newName;
 			e.CancelEdit = true;
+			m_editingSavedChartName = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1491,5 +1533,6 @@ namespace SIL.Pa
 		}
 
 		#endregion
+
 	}
 }

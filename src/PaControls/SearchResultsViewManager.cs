@@ -205,6 +205,61 @@ namespace SIL.Pa.Controls
 		#region Message mediator message handlers and update handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Handle the logic for all methods OnUpdateEditFind(Next/Previous)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
+		{
+			PaWordListGrid grid = CurrentViewsGrid;
+			
+			if (itemProps == null || !m_view.ActiveView)
+				return false;
+
+			bool enable = (enableAllow && PaApp.Project != null &&
+				grid != null && grid.RowCount > 0);
+
+			if (itemProps.Enabled != enable)
+			{
+				itemProps.Enabled = enable;
+				itemProps.Visible = true;
+				itemProps.Update = true;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFind.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFind(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFindNext.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFindNext(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFindPrevious.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFindPrevious(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

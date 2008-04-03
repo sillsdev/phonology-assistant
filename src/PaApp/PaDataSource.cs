@@ -112,6 +112,38 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Determines whether or not the specified data source matches this data source. A
+		/// match is determined by the data source types and their file names (or project
+		/// name in the case of FW data sources).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Matches(PaDataSource ds, bool treatToolboxAsSFM)
+		{
+			bool typesMatch = (m_sourceType == ds.DataSourceType);
+
+			if (!typesMatch && treatToolboxAsSFM)
+			{
+				// Determine if the TOOLBOX/SFM types match.
+				typesMatch = ((m_sourceType == DataSourceType.Toolbox ||
+					m_sourceType == DataSourceType.SFM) &&
+					(ds.DataSourceType == DataSourceType.Toolbox ||
+					ds.DataSourceType == DataSourceType.SFM));
+			}
+
+			if (!typesMatch)
+				return false;
+
+			if (m_sourceType == DataSourceType.FW)
+			{
+				return (m_fwSourceInfo != null && ds.FwDataSourceInfo != null &&
+					m_fwSourceInfo.ProjectName == ds.FwDataSourceInfo.ProjectName);
+			}
+
+			return (m_file.ToLower() == ds.DataSourceFile.ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Builds a list of mappings for an SFM or Toolbox data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------

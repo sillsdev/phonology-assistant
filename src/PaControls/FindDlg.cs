@@ -175,15 +175,17 @@ namespace SIL.Pa.Controls
 			// 'Match Entire Word' option
 			if (chkMatchEntireWord.Checked)
 			{
+				//findPattern.Insert(0, @"\s[\[\{\(]?");
+				//findPattern.Append(@"[\]\}\)\.]?\s");
 				findPattern.Insert(0, "\\b");
 				findPattern.Append("\\b");
 			}
 
 			// 'Match Case' option
 			if (chkMatchCase.Checked)
-				findPattern.Insert(0, "(?-i)"); // Turn OFF case INsensitivity
+			    findPattern.Insert(0, "(?-i)"); // Turn OFF case INsensitivity
 			else
-				findPattern.Insert(0, "(?i)"); // Turn ON case INsensitivity
+			    findPattern.Insert(0, "(?i)"); // Turn ON case INsensitivity
 
 			return findPattern.ToString();
 		}

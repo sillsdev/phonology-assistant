@@ -555,26 +555,78 @@ namespace SIL.Pa
 			return true;
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnUpdateShowCIEResults(object args)
+		//{
+		//    TMItemProperties itemProps = args as TMItemProperties;
+		//    if (!m_activeView || itemProps == null)
+		//        return false;
+
+		//    if (itemProps.Enabled || itemProps.Checked)
+		//    {
+		//        itemProps.Visible = true;
+		//        itemProps.Enabled = false;
+		//        itemProps.Checked = false;
+		//        itemProps.Update = true;
+		//    }
+
+		//    return true;
+		//}
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Handle the logic for all methods OnUpdateEditFind(Next/Previous)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateShowCIEResults(object args)
+		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			if (itemProps.Enabled || itemProps.Checked)
+			bool enable = (enableAllow && m_grid != null &&
+				m_grid.Cache != null && m_grid.RowCount > 0);
+
+			if (itemProps.Enabled != enable)
 			{
+				itemProps.Enabled = enable;
 				itemProps.Visible = true;
-				itemProps.Enabled = false;
-				itemProps.Checked = false;
 				itemProps.Update = true;
 			}
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFind.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFind(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFindNext.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFindNext(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handle OnUpdateEditFindPrevious.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateEditFindPrevious(object args)
+		{
+			return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
 		}
 
 		/// ------------------------------------------------------------------------------------

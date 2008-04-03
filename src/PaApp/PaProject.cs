@@ -372,18 +372,13 @@ namespace SIL.Pa
 			// Go through each data source in this project.
 			foreach (PaDataSource ds in DataSources)
 			{
-				// Then to through the data sources in the target project. When a data
-				// source in the target project matches one in this project, then update
-				// its last modified time with the one found in this project's data source.
+				// Then go through the data sources in the target project.
+				// When a data source in the target project matches one in this
+				// project, then update the target's last modified time with the
+				// one found in this project's data source.
 				foreach (PaDataSource tgtDs in targetProj.DataSources)
 				{
-					if (tgtDs.DataSourceType != DataSourceType.FW ||
-						!tgtDs.FwSourceDirectFromDB)
-					{
-						if (tgtDs.DataSourceFile == ds.DataSourceFile)
-							tgtDs.LastModification = ds.LastModification;
-					}
-					else if (tgtDs.FwDataSourceInfo.ProjectName == ds.FwDataSourceInfo.ProjectName)
+					if (ds.Matches(tgtDs, true))
 						tgtDs.LastModification = ds.LastModification;
 				}
 			}

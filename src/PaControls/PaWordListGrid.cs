@@ -2847,7 +2847,12 @@ namespace SIL.Pa.Controls
 			}
 			catch
 			{
-				FirstDisplayedScrollingRowIndex = 0;
+				try
+				{
+					if (FirstDisplayedCell != null)
+						FirstDisplayedScrollingRowIndex = 0;
+				}
+				catch { }
 			}
 		}
 
@@ -3123,7 +3128,7 @@ namespace SIL.Pa.Controls
 			{
 				if (col.Visible)
 				{
-					Sort(col, ListSortDirection.Ascending);
+					Sort(col.Name, false);
 					return;
 				}
 			}

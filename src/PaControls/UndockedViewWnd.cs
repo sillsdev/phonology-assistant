@@ -66,9 +66,23 @@ namespace SIL.Pa.Controls
 			// Fade-in the undocked form because it looks cool.
 			while (Opacity < 1.0)
 			{
-				System.Threading.Thread.Sleep(10);
-				Opacity += 0.05f;
-				STUtils.UpdateWindow(Handle);
+				try
+				{
+					System.Threading.Thread.Sleep(10);
+					Opacity += 0.05f;
+				}
+				catch
+				{
+					try
+					{
+						Opacity = 1;
+					}
+					catch { }
+				}
+				finally
+				{
+					STUtils.UpdateWindow(Handle);
+				}
 			}
 
 			m_checkForModifiedDataSources = false;

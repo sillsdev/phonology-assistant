@@ -61,9 +61,6 @@ namespace SIL.Pa.Controls
 			FindInfo.ShowMessages = false;
 			FwDBAccessInfo.ShowMsgOnFileLoadFailure = false;
 			FwQueries.ShowMsgOnFileLoadFailure = false;
-			CreateWordListGrid();
-
-			m_findDlg = new FindDlg(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,7 +81,7 @@ namespace SIL.Pa.Controls
 		[SetUp]
 		public void TestSetup()
 		{
-			ResetStartCell();
+			Initialize();
 			m_findDlg.IsRegularExpression = false;
 			m_findDlg.MatchCase = false;
 			m_findDlg.MatchEntireWord = false;
@@ -99,7 +96,10 @@ namespace SIL.Pa.Controls
 		[TearDown]
 		public void TestTearDown()
 		{
+			if (m_findDlg != null)
+				m_findDlg.Dispose();
 		}
+
 		#endregion
 
 		#region Create PaWordListGrid
@@ -108,15 +108,25 @@ namespace SIL.Pa.Controls
 		/// Build the PaWordListGrid for searching.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CreateWordListGrid()
+		private void Initialize()
+		{
+			Initialize("fib bit ebay bitter drillbit abdiging",
+				"cvc cvc vcvc cvccvc ccvccbit vcbitcvcvcc",
+				"GLFIB glbitter glebay glbitter drillbit glabitging");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Build the PaWordListGrid for searching.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Initialize(string eticWrds, string cvWrds, string glossWrds)
 		{
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			m_cache = new WordListCache();
 
-			AddWords("fib bit ebay bitter drillbit abdiging",			// Phonetic
-				"cvc cvc vcvc cvccvc ccvccbit vcbitcvcvcc",				// Cvc
-				"GLFIB glbitter glebay glbitter drillbit glabitging");	// Gloss
+			AddWords(eticWrds, cvWrds, glossWrds);
 
 			// Create grid
 			m_grid = new PaWordListGrid(m_cache, GetType(), false);
@@ -147,13 +157,13 @@ namespace SIL.Pa.Controls
 
 			// Add columns to search
 			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-			FindDlgColItem item = new FindDlgColItem(0, 0, "Phonetic", "Phonetic");
-			columnsToSearch.Add(item);
-			item = new FindDlgColItem(8, 1, "CV Pattern", "CV Pattern");
-			columnsToSearch.Add(item);
-			item = new FindDlgColItem(3, 2, "Gloss", "Gloss");
-			columnsToSearch.Add(item);
+			columnsToSearch.Add(new FindDlgColItem(0, 0, "Phonetic", "Phonetic"));
+			columnsToSearch.Add(new FindDlgColItem(8, 1, "CV Pattern", "CV Pattern"));
+			columnsToSearch.Add(new FindDlgColItem(3, 2, "Gloss", "Gloss"));
 			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
+
+			m_findDlg = new FindDlg(m_grid);
+			ResetStartCell();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -244,6 +254,22 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Find Tests
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests finding a whole word with a diacritic in a string. See PA-792.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[Ignore("Need fix for PA-792")]
+		public void FindWholeWordWithDiacriticInData()
+		{
+			Initialize("foghorn aeo\u032Fu leghorn", "cvv vvc cvc", "one two three");
+			m_findDlg.MatchEntireWord = true;
+
+			SetSearchString("u");
+			Assert.IsFalse(FindInfo.FindFirst(false)); // Forward find
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests forward & backward Find.

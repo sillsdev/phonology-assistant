@@ -98,12 +98,7 @@ namespace SIL.Pa.Controls
 			m_rsltVwMngr = rsltVwMngr;
 			PaApp.AddMediatorColleague(this);
 
-			if (TMAdapter != null)
-				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
-
-			if (m_pnlHdrBand.ContextMenuStrip != null)
-				m_pnlHdrBand.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
-
+			SetContextMenus();
 			SetToolTips();
 		}
 
@@ -213,7 +208,23 @@ namespace SIL.Pa.Controls
 			m_pnlHdrBand.Invalidate(true);
 		}
 
-		#region Message mediator message handler and update handler methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetContextMenus()
+		{
+			if (m_pnlHdrBand.ContextMenuStrip != null)
+				m_pnlHdrBand.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+
+			if (TMAdapter != null)
+				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
+
+			if (m_pnlHdrBand.ContextMenuStrip != null)
+				m_pnlHdrBand.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -227,6 +238,7 @@ namespace SIL.Pa.Controls
 			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
 		}
 
+		#region Message mediator message handler and update handler methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -234,6 +246,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
+			// Restore the tab group's context menu.
+			SetContextMenus();
+
+			// Restore the context menu for each tab.
+			if (m_tabs != null)
+			{
+				foreach (SearchResultTab tab in m_tabs)
+					tab.SetContextMenus();
+			}
+
 			SetToolTips();
 			return false;
 		}
@@ -1352,12 +1374,7 @@ namespace SIL.Pa.Controls
 			m_owningTabGroup = owningTabControl;
 			m_query = new SearchQuery();
 			PaApp.AddMediatorColleague(this);
-
-			if (m_owningTabGroup.TMAdapter != null)
-				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
-
-			if (base.ContextMenuStrip != null)
-				base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+			SetContextMenus();
 
 			// Prepare the tab's minimal pair options button.
 			Image img = Properties.Resources.kimidMinimalPairOptions;
@@ -1372,6 +1389,31 @@ namespace SIL.Pa.Controls
 			m_btnCIEOptions.MouseLeave += m_btnCIEOptions_MouseLeave;
 			Controls.Add(m_btnCIEOptions);
 			GetTabColors();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void SetContextMenus()
+		{
+			if (base.ContextMenuStrip != null)
+				base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+
+			if (m_owningTabGroup != null && m_owningTabGroup.TMAdapter != null)
+			{
+				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
+
+				if (base.ContextMenuStrip != null)
+					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+
+				if (m_resultView != null && m_resultView.Grid != null)
+				{
+					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+						m_resultView.Grid, "cmnuSearchResultTab");
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

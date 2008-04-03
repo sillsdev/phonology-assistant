@@ -261,10 +261,7 @@ namespace SIL.Pa.Controls
 		public static bool Find(bool findPrevious)
 		{
 			// Has there been a change in the Find direction?
-			if (findPrevious != m_reverseFind)
-				m_changedFindDirection = true;
-			else
-				m_changedFindDirection = false;
+			m_changedFindDirection = (findPrevious != m_reverseFind);
 
 			// Current cell will be null if its column is hidden thru the OptionsDlg>>WordList tab
 			if (m_grid.CurrentCell == null)

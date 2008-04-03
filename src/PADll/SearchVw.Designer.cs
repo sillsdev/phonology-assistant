@@ -194,9 +194,9 @@ namespace SIL.Pa
 			resources.ApplyResources(this.lstRecentPatterns, "lstRecentPatterns");
 			this.lstRecentPatterns.FormattingEnabled = true;
 			this.lstRecentPatterns.Name = "lstRecentPatterns";
-			this.lstRecentPatterns.DoubleClick += new System.EventHandler(this.lstRecentPatterns_DoubleClick);
-			this.lstRecentPatterns.Enter += new System.EventHandler(this.lstRecentPatterns_Enter);
 			this.lstRecentPatterns.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseUp);
+			this.lstRecentPatterns.Enter += new System.EventHandler(this.lstRecentPatterns_Enter);
+			this.lstRecentPatterns.DoubleClick += new System.EventHandler(this.lstRecentPatterns_DoubleClick);
 			this.lstRecentPatterns.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseMove);
 			this.lstRecentPatterns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstRecentPatterns_MouseDown);
 			this.lstRecentPatterns.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstRecentPatterns_KeyDown);
@@ -345,9 +345,9 @@ namespace SIL.Pa
 			this.splitResults.Panel1.BackColor = System.Drawing.SystemColors.Control;
 			resources.ApplyResources(this.splitResults.Panel1, "splitResults.Panel1");
 			this.splitResults.Panel1.Tag = "";
+			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitResults_Panel1_Paint);
 			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragOver);
 			this.splitResults.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragDrop);
-			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitResults_Panel1_Paint);
 			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.splitResults_Panel1_SizeChanged);
 			// 
 			// splitResults.Panel2
@@ -397,8 +397,8 @@ namespace SIL.Pa
 			this.pnlCurrPattern.Controls.Add(this.lblCurrPattern);
 			resources.ApplyResources(this.pnlCurrPattern, "pnlCurrPattern");
 			this.pnlCurrPattern.Name = "pnlCurrPattern";
-			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
 			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
+			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
 			// 
 			// ptrnTextBox
 			// 
@@ -408,8 +408,8 @@ namespace SIL.Pa
 			this.ptrnTextBox.Name = "ptrnTextBox";
 			this.ptrnTextBox.OwningView = null;
 			this.ptrnTextBox.SearchQueryCategory = null;
-			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
 			this.ptrnTextBox.SearchOptionsChanged += new System.EventHandler(this.ptrnTextBox_SearchOptionsChanged);
+			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
 			this.ptrnTextBox.SizeChanged += new System.EventHandler(this.ptrnTextBox_SizeChanged);
 			// 
 			// lblCurrPattern

@@ -485,6 +485,8 @@ namespace SIL.SpeechTools.Utils
 		{
 			uint offset;
 			uint length;
+			uint firstSegOffset = 0;
+			uint lengthSum = 0;
 			string segment;
 			StringBuilder bldr = new StringBuilder();
 			AudioDocWords prevAdw = null;
@@ -493,6 +495,12 @@ namespace SIL.SpeechTools.Utils
 			while (ReadSegment((int)atype, out offset, out length, out segment))
 			{
 				AudioDocWords currWord;
+				
+				// We'll only use lengthSum and firstSegOffset in the case when the first
+				// word's offset isn't the same as the offset of the first phonetic segment. 
+				lengthSum += length;
+				if (bldr.Length == 0)
+					firstSegOffset = offset;
 
 				// When the offset for the current segment matches one already in the
 				// collection of words we know we've come to the beginning of the next
@@ -503,6 +511,18 @@ namespace SIL.SpeechTools.Utils
 					// builder to accept the next word coming down the pike.
 					if (bldr.Length > 0)
 					{
+						// This should only happen when the first word's offset is not the same as
+						// the first phonetic segment's offset. When that happens, we need to add
+						// a word at the beginning of the collection to accomodate the fact that
+						// the audio file contains one or more phonetic segments at the beginning
+						// of the transcription that do not belong to a word.
+						if (prevAdw == null)
+						{
+							prevAdw = new AudioDocWords();
+							prevAdw.AudioLength = lengthSum;
+							words[firstSegOffset] = prevAdw;
+						}
+
 						prevAdw.m_words[atype] = bldr.ToString();
 						bldr.Length = 0;
 					}
