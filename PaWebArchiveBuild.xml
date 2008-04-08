@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<BuildProcess ApplicationName="PA Web Archive Build">
+<BuildProcess ApplicationName="PA Web Self-Extracting Setup Build">
 	<PreBuildCommands>
 		<Commands>
 			<CommandItem Command="del">
-				<Arg>$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0.1 with .Net.exe</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0.1 only.exe</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Phonology Assistant 3.0.1 with .Net.exe</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Phonology Assistant 3.0.1 only.exe</Arg>
 			</CommandItem>
 			<CommandItem Command="md">
 				<Arg>$(RootBuildDir)\Installers\PA Package\TempRoot</Arg>
@@ -24,7 +24,7 @@
 				<Arg>-sfx7z.sfx</Arg>
 				<Arg>-t7z</Arg>
 				<Arg>-mx=9</Arg>
-				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0.1 with .Net.exe"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonology Assistant 3.0.1 with .Net.exe"</Arg>
 				<Arg>"$(RootBuildDir)\Installers\PA Package\TempRoot\*"</Arg>
 				<Arg>-x!.svn</Arg>
 				<Arg>-x!"autorun.*"</Arg>
@@ -47,7 +47,7 @@
 				<Arg>-sfx7z.sfx</Arg>
 				<Arg>-t7z</Arg>
 				<Arg>-mx=9</Arg>
-				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonoloy Assistant 3.0.1 only.exe"</Arg>
+				<Arg>"$(RootBuildDir)\Installers\PA Package\Phonology Assistant 3.0.1 only.exe"</Arg>
 				<Arg>"$(RootBuildDir)\Installers\PA Package\TempRoot\*"</Arg>
 				<Arg>-x!.svn</Arg>
 				<Arg>-x!"autorun.*"</Arg>
