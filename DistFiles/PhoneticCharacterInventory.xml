@@ -3219,7 +3219,7 @@
     <CharType>Consonant</CharType>
     <CharSubType>Pulmonic</CharSubType>
     <IgnoreType>NotApplicable</IgnoreType>
-    <IsBaseChar>false</IsBaseChar>
+    <IsBaseChar>true</IsBaseChar>
     <CanPreceedBaseChar>false</CanPreceedBaseChar>
     <DisplayWDottedCircle>false</DisplayWDottedCircle>
     <DisplayOrder>0</DisplayOrder>

@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToolsUtils", "src\Spe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaFeedbackAddOn", "src\PaFeedbackAddOn\PaFeedbackAddOn.csproj", "{30D1FA88-A9EE-41EF-AB8A-479976807B93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisablePASplashScreen", "src\DisablePASplashScreen\DisablePASplashScreen.csproj", "{B101E338-1CA4-4398-96DE-55DFF283EE70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30D1FA88-A9EE-41EF-AB8A-479976807B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B101E338-1CA4-4398-96DE-55DFF283EE70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B101E338-1CA4-4398-96DE-55DFF283EE70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B101E338-1CA4-4398-96DE-55DFF283EE70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B101E338-1CA4-4398-96DE-55DFF283EE70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

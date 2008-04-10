@@ -925,7 +925,7 @@ namespace SIL.Pa.Controls
 		/// Adds a query in the specified pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void AddPattern(SearchQuery query, string category)
+		public bool AddPattern(SearchQuery query, string category)
 		{
 			bool categoryExists = false;
 
@@ -947,13 +947,14 @@ namespace SIL.Pa.Controls
 				string msg = Properties.Resources.kstidDuplicateSearchQueryQuestion;
 				msg = string.Format(msg, query);
 				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
-					return;
+					return false;
 
 				// User wants to overwrite so delete existing one first.
 				DeletePattern(GetPatternsNode(category, query.ToString()), false);
 			}
 
 			AddPattern(query, false);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

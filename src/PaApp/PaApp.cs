@@ -119,19 +119,11 @@ namespace SIL.Pa
 		/// --------------------------------------------------------------------------------
 		static PaApp()
 		{
-			if (Application.ExecutablePath.ToLower().EndsWith("pa.exe"))
-			{
-				s_splashScreen = new SplashScreen(false, false);
-				s_splashScreen.Show();
-				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
-				s_splashScreen.ProdVersion = ProdVersion;
-			}
-
 			InitializePaRegKey();
-			
-			s_msgMediator = new Mediator();
 			s_settingsFile = Path.Combine(s_defaultProjFolder, "pa.xml");
 			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
+
+			s_msgMediator = new Mediator();
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
@@ -157,6 +149,24 @@ namespace SIL.Pa
 				"fieldworks", "showmsgwhengatheringinfo", false);
 
 			ReadAddOns();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void ShowSplashScreen()
+		{
+			// Show the splash screen only if the show property of the
+			// SplashScreen item in the settings file is not set to false.
+			if (s_settingsHndlr.GetBoolSettingsValue("SplashScreen", "show", true))
+			{
+				s_splashScreen = new SplashScreen(false, false);
+				s_splashScreen.Show();
+				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
+				s_splashScreen.ProdVersion = ProdVersion;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -301,7 +311,7 @@ namespace SIL.Pa
 				projPath = projPath.Substring(0, i);
 			}
 
-			return Path.Combine(projPath, Application.ProductName);
+			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -902,6 +902,8 @@ namespace SIL.Pa
 		private void lvSavedCharts_AfterLabelEdit(object sender, LabelEditEventArgs e)
 		{
 			string newName = (e.Label != null ? e.Label.Trim() : null);
+			if (string.IsNullOrEmpty(newName))
+				newName = null;
 
 			XYChartLayout layout = lvSavedCharts.Items[e.Item].Tag as XYChartLayout;
 			if (layout == null || layout.Name == newName || newName == null)

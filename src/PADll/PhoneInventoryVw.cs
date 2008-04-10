@@ -940,13 +940,23 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private bool ValidateBaseCharacter(int row, string newBaseChar)
 		{
+
+			if (row < 0 || row >= gridAmbiguous.RowCount)
+				return false;
+
 			string msg = null;
-
-			// Make sure a base character was specified.
-			if (string.IsNullOrEmpty(newBaseChar))
-				msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
-
 			string phone = gridAmbiguous["seq", row].Value as string;
+
+			// Check if a base character has been specified.
+			if (string.IsNullOrEmpty(newBaseChar))
+			{
+				// No base character is fine when there isn't a sequence specified.
+				if (string.IsNullOrEmpty(phone))
+					return false;
+
+				// At this point, we know we have a sequence but no base character
+				msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
+			}
 
 			if (msg == null)
 			{
@@ -967,7 +977,18 @@ namespace SIL.Pa
 
 			return false;
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void gridAmbiguous_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		{
+			if (e.ColumnIndex == 1 && e.RowIndex == gridAmbiguous.NewRowIndex)
+				e.Cancel = true;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -975,6 +996,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
+			// Get the ambiguous sequence.
+			string phone = gridAmbiguous["seq", e.RowIndex].Value as string;
+			if (phone != null)
+				phone = phone.Trim();
+
+			if (string.IsNullOrEmpty(phone))
+			{
+				PaApp.MsgMediator.PostMessage("RemoveAmbiguousSeqRow", e.RowIndex);
+				return;
+			}
+
 			// When the base character was edited then automatically determine
 			// the C or V type of the ambiguous sequence.
 			if (e.ColumnIndex == 2)
@@ -985,17 +1017,6 @@ namespace SIL.Pa
 			}
 			else if (e.ColumnIndex == 0)
 			{
-				// Get the edited ambiguous sequence.
-				string phone = gridAmbiguous["seq", e.RowIndex].Value as string;
-				if (phone != null)
-					phone = phone.Trim();
-
-				if (string.IsNullOrEmpty(phone))
-				{
-					PaApp.MsgMediator.PostMessage("RemoveAmbiguousSeqRow", e.RowIndex);
-					return;
-				}
-
 				PhoneInfo phoneInfo = new PhoneInfo(phone);
 
 				string prevBaseChar = gridAmbiguous["base", e.RowIndex].Value as string;
@@ -1025,9 +1046,13 @@ namespace SIL.Pa
 				int rowIndex = (int)args;
 				if (rowIndex >= 0 && rowIndex < gridAmbiguous.RowCountLessNewRow)
 				{
-					gridAmbiguous.Rows.RemoveAt(rowIndex--);
+					gridAmbiguous.Rows.RemoveAt(rowIndex);
+
+					while (rowIndex >= 0 && rowIndex >= gridAmbiguous.RowCount)
+						rowIndex--;
+
 					if (rowIndex >= 0 && rowIndex < gridAmbiguous.RowCountLessNewRow)
-						gridAmbiguous.Rows[rowIndex].Selected = true;
+						gridAmbiguous.CurrentCell = gridAmbiguous["seq", rowIndex];
 				}
 			}
 

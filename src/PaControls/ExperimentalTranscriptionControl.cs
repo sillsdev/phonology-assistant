@@ -117,12 +117,12 @@ namespace SIL.Pa.Controls
 			m_grid.RowHeadersVisible = false;
 			m_grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
 			m_grid.RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
+			m_grid.RowsRemoved += m_grid_RowsRemoved;
 			m_grid.CellEndEdit += m_grid_CellEndEdit;
 			m_grid.CellBeginEdit += m_grid_CellBeginEdit;
 			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			m_grid.CellPainting += m_grid_CellPainting;
 			m_grid.ColumnWidthChanged += m_grid_ColumnWidthChanged;
-			m_grid.KeyDown += m_grid_KeyDown;
 
 			// The sequence-to-convert column.
 			DataGridViewColumn col = new RadioButtonColumn("col0", false, true);
@@ -140,23 +140,6 @@ namespace SIL.Pa.Controls
 			m_grid.BringToFront();
 
 			RefreshHeader();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_grid_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Delete && !m_grid.IsCurrentCellInEditMode &&
-				m_grid.CurrentRow != null && !m_grid.CurrentRow.IsNewRow)
-			{
-				m_grid.Rows.Remove(m_grid.CurrentRow);
-
-				while (AreLastTwoColumnsEmpty)
-					OnRemoveLastColumn(m_grid.CurrentRow.Index);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -326,6 +309,43 @@ namespace SIL.Pa.Controls
 		#region Grid event methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		{
+			// When the steps performed in "RowWasRemoved" were done in this method, there
+			// was a certain case that would cause a crash because because the grid wasn't
+			// finished processing the RowsRemoved event. Therefore, I have moved the steps
+			// I need to perform into a post message handler so the grid can completely
+			// finish its handling of removed rows before I do my part.
+			PaApp.MsgMediator.PostMessage("RowWasRemoved", e.RowIndex);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure there are no more columns than are necessary. The message handler is
+		/// called after the user deletes a row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRowWasRemoved(object args)
+		{
+			if (args.GetType() != typeof(int))
+				return false;
+
+			int rowIndex = (int)args;
+
+			if (rowIndex > 0 && rowIndex == m_grid.NewRowIndex)
+				rowIndex--;
+
+			while (AreLastTwoColumnsEmpty)
+				OnRemoveLastColumn(rowIndex);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Update the cv pattern when the value of the convert check box changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -462,12 +482,15 @@ namespace SIL.Pa.Controls
 
 			int row = (int)args;
 
-			// Now make sure at least one convert to item is checked
-			RadioButtonCell cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
-			if (GetRowsConvertToValue(row) == null && cell != null &&
-				!string.IsNullOrEmpty(cell.Value as string))
+			if (row >= 0 && row < m_grid.NewRowIndex)
 			{
-				cell.Checked = true;
+				// Now make sure at least one convert to item is checked
+				RadioButtonCell cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
+				if (GetRowsConvertToValue(row) == null && cell != null &&
+					!string.IsNullOrEmpty(cell.Value as string))
+				{
+					cell.Checked = true;
+				}
 			}
 
 			return true;

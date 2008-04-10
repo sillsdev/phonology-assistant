@@ -123,8 +123,7 @@ namespace SIL.Pa.Dialogs
 			// Don't bother saving the name if the name and the pattern are identical.
 			m_query.Name = (name != m_query.Pattern ? name : null);
 
-			m_tvSrchPatterns.AddPattern(m_query, cboCategories.Text.Trim());
-			return true;
+			return m_tvSrchPatterns.AddPattern(m_query, cboCategories.Text.Trim());
 		}
 
 		/// ------------------------------------------------------------------------------------

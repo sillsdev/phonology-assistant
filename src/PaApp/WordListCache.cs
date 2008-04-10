@@ -555,6 +555,56 @@ namespace SIL.Pa
 			return clone;
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Compares the contents of this SortOptions object with the one specified.
+		///// TODO: Write some tests for this method. It could be used to fix PA-830.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool AreEqual(SortOptions otherOptions)
+		//{
+		//    if (otherOptions == null)
+		//        return false;
+
+		//    if (m_sortType != otherOptions.m_sortType ||
+		//        m_advancedEnabled != otherOptions.m_advancedEnabled ||
+		//        m_saveManuallySetSortOptions != otherOptions.m_saveManuallySetSortOptions)
+		//    {
+		//        return false;
+		//    }
+
+		//    for (int i = 0; i < m_advSortOptions.Length; i++)
+		//    {
+		//        if (m_advSortOptions[i] != otherOptions.m_advSortOptions[i])
+		//            return false;
+		//    }
+
+		//    for (int i = 0; i < m_advRlOptions.Length; i++)
+		//    {
+		//        if (m_advRlOptions[i] != otherOptions.m_advRlOptions[i])
+		//            return false;
+		//    }
+
+		//    if (m_sortInfoList == null && otherOptions.m_sortInfoList != null ||
+		//        m_sortInfoList != null && otherOptions.m_sortInfoList == null ||
+		//        m_sortInfoList.Count != otherOptions.m_sortInfoList.Count)
+		//    {
+		//        return false;
+		//    }
+
+		//    for (int i = 0; i < m_sortInfoList.Count; i++)
+		//    {
+		//        if (m_sortInfoList[i].ascending != otherOptions.m_sortInfoList[i].ascending ||
+		//            m_sortInfoList[i].FieldInfo.FieldName !=
+		//            otherOptions.m_sortInfoList[i].FieldInfo.FieldName)
+		//        {
+		//            return false;
+		//        }
+		//    }
+
+		//    return true;
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Deserializing a project brings in the field info. list for sort options from the

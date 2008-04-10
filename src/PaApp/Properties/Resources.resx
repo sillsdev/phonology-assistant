@@ -136,6 +136,10 @@
   <data name="kstidDefaultNewProjectName" xml:space="preserve">
     <value>New Project</value>
   </data>
+  <data name="kstidDefaultProjFileFolderName" xml:space="preserve">
+    <value>Phonology Assistant</value>
+    <comment>Name of the default folder in the user's My Documents (on XP) or Documents (on Vista) where PA's settings file and projects are located (the user can save their projects anywhere they like, this is just the default). This is also the folder that contains the subfolder where PA training projects are unpacked.</comment>
+  </data>
   <data name="kstidDropDownNoneEntry" xml:space="preserve">
     <value>(none)</value>
     <comment>Used for combo box drop-down lists from which no value may be chosen</comment>

@@ -134,7 +134,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CharGrid.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CharGrid.Designer.cs">
       <DependentUpon>CharGrid.cs</DependentUpon>
@@ -197,7 +197,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Histogram.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
@@ -229,7 +229,7 @@
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="PhonesInFeatureViewer.Designer.cs">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>

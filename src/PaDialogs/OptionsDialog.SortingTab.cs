@@ -136,7 +136,17 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private bool IsSortOrderTabDirty
 		{
-			get	{return (m_sortingGrid != null && m_sortingGrid.IsDirty);}
+			get
+			{
+				foreach (object item in cboListType.Items)
+				{
+					SortOptionsTypeComboItem sotcbi = item as SortOptionsTypeComboItem;
+					if (sotcbi != null && sotcbi.IsDirty)
+						return true;
+				}
+				
+				return (m_sortingGrid != null && m_sortingGrid.IsDirty);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,6 +251,11 @@ namespace SIL.Pa.Dialogs
 		private void phoneticSortOptions_SortOptionsChanged(SortOptions sortOptions)
 		{
 			m_dirty = true;
+
+			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+
+			if (item != null)
+				item.IsDirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -251,6 +266,11 @@ namespace SIL.Pa.Dialogs
 		private void chkSaveManual_Click(object sender, EventArgs e)
 		{
 			m_dirty = true;
+
+			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+
+			if (item != null)
+				item.IsDirty = true;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -324,6 +344,7 @@ namespace SIL.Pa.Dialogs
 		{
 			private readonly string m_text;
 			private SortOptions m_sortOptions;
+			private bool m_isDirty = false;
 
 			/// ------------------------------------------------------------------------------------
 			/// <summary>
@@ -345,6 +366,17 @@ namespace SIL.Pa.Dialogs
 			{
 				get { return m_sortOptions; }
 				set { m_sortOptions = value; }
+			}
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// 
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			public bool IsDirty
+			{
+				get { return m_isDirty; }
+				set { m_isDirty = value; }
 			}
 
 			/// ------------------------------------------------------------------------------------

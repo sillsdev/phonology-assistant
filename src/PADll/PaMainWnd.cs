@@ -53,8 +53,11 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaMainWnd(string[] commandLineArgs) : this()
+		public PaMainWnd(string[] commandLineArgs, bool showSplashScreen) : this()
 		{
+			if (showSplashScreen)
+				PaApp.ShowSplashScreen();
+
 			sblblMain.Text = string.Empty;
 			PaApp.MainForm = this;
 			PaApp.StatusBarLabel = sblblMain;

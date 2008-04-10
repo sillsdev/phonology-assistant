@@ -786,10 +786,21 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private bool ShowSavePatternDlg(bool canChangeQuerysCategory)
 		{
+			if (ptrnTextBox.SearchQuery == null)
+			{
+				// This should never happen.
+				System.Media.SystemSounds.Beep.Play();
+				return false;
+			}
+
 			using (SaveSearchQueryDlg dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
 				tvSavedPatterns, canChangeQuerysCategory))
 			{
-				if (dlg.ShowDialog(ptrnTextBox.FindForm()) == DialogResult.OK)
+				string saveName = ptrnTextBox.SearchQuery.Name;
+
+				if (dlg.ShowDialog(ptrnTextBox.FindForm()) == DialogResult.Cancel)
+					ptrnTextBox.SearchQuery.Name = saveName;
+				else
 				{
 					if (!string.IsNullOrEmpty(ptrnTextBox.SearchQuery.Name))
 						m_rsltVwMngr.CurrentTabGroup.UpdateCurrentTabsQueryName(ptrnTextBox.SearchQuery.Name);
