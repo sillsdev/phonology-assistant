@@ -688,7 +688,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			if (!m_owningView.ActiveView)
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || (itemProps.ParentControl != m_owningView))
 				return false;
 
 			if (m_searchOptionsDropDown.OptionsChanged)
