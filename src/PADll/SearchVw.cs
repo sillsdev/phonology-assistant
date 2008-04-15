@@ -162,10 +162,10 @@ namespace SIL.Pa
 				OnUpdateRemovePattern(null);
 				OnUpdateClearRecentPatternList(null);
 				tvSavedPatterns.UpdateButtons();
+				ptrnTextBox.TextBox.Focus();
+				ptrnTextBox.TextBox.SelectAll();
 			}
 
-			ptrnTextBox.TextBox.Focus();
-			ptrnTextBox.TextBox.SelectAll();
 			return false;
 		}
 
