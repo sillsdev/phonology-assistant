@@ -13,6 +13,14 @@
 			<CommandItem Command="md">
 				<Arg>$(RootBuildDir)\Installers\PA Package\TempRoot\Phonology Assistant 3.0.1 with .Net</Arg>
 			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\SetupPA.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
 			<CommandItem Command="xcopy">
 				<Arg>/E</Arg>
 				<Arg>"$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\*.*"</Arg>
@@ -35,6 +43,14 @@
 			<!-- Create the self-extractor without .Net 2.0 SP1 -->
 			<CommandItem Command="md">
 				<Arg>$(RootBuildDir)\Installers\PA Package\TempRoot\Phonology Assistant 3.0.1 only</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
+			</CommandItem>
+			<CommandItem Command="copy">
+				<Arg>$(RootBuildDir)\aux_docs\SetupPA.rtf</Arg>
+				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="xcopy">
 				<Arg>/E</Arg>

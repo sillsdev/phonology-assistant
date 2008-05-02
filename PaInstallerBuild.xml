@@ -106,10 +106,6 @@
 				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
 			<CommandItem Command="copy">
-				<Arg>$(RootBuildDir)\aux_docs\Readme.rtf</Arg>
-				<Arg>$(RootBuildDir)\Installers\PA Package\With .NET 2.0 SP1\SIL_PA_30\Phonology Assistant</Arg>
-			</CommandItem>
-			<CommandItem Command="copy">
 				<Arg>$(RootBuildDir)\Installers\PA WIX\Phonology Assistant.msi</Arg>
 				<Arg>$(RootBuildDir)\Installers\PA Package\Without .NET 2.0\SIL_PA_30\Phonology Assistant</Arg>
 			</CommandItem>
