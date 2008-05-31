@@ -109,7 +109,7 @@ namespace SIL.Pa.AddOn
 
 			int filterIndex = 0;
 			return PaApp.SaveFileDialog("zip", Properties.Resources.kstidFileTypesForOFD,
-				ref filterIndex, Properties.Resources.kstidOFDCaption, fileName,
+				ref filterIndex, Properties.Resources.kstidBackupOFDCaption, fileName,
 				PaApp.Project.ProjectPath);
 		}	
 
@@ -170,7 +170,6 @@ namespace SIL.Pa.AddOn
 					lblProgress.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
 					Application.DoEvents();
 					zip.BeginUpdate();
-					//zip.NameTransform = new ZipNameTransform(filename.Substring(0, filename.LastIndexOf("\\")));
 					zip.Add(filename);
 					zip.CommitUpdate();
 				}

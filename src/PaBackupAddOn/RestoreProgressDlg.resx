@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,62 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="kimidBackup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Harddrive.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="kstidBackupCompleteMsg" xml:space="preserve">
-    <value>Backup complete.</value>
-    <comment>Message displayed when the backup is complete.</comment>
-  </data>
-  <data name="kstidBackupFilenameFmt" xml:space="preserve">
-    <value>{0} Backup ({1}).zip</value>
-    <comment>Format string for the name of the backup (i.e. zip) file. The first parameter is the name of the project. The second parameter is the date.</comment>
-  </data>
-  <data name="kstidBackupMenuText" xml:space="preserve">
-    <value>&amp;Backup Project...</value>
-    <comment>Text for backup menu item.</comment>
-  </data>
-  <data name="kstidBackupOFDCaption" xml:space="preserve">
-    <value>Backup File to Create</value>
-    <comment>Caption on dialog asking user the name of zip file to create.</comment>
-  </data>
-  <data name="kstidBrowseForDataSourceFolderDesc" xml:space="preserve">
-    <value>Specify folder in which to restore {0} data source file(s).</value>
-    <comment>Description in the folder browser dialog when specifying the restore folder for data source files. The parameter is the name of the project to restore.</comment>
-  </data>
-  <data name="kstidBrowseForPrjFolderDesc" xml:space="preserve">
-    <value>Specify folder in which to restore {0} project files.</value>
-    <comment>Description in the folder browser dialog when specifying the restore folder for project files. The parameter is the name of the project to restore.</comment>
-  </data>
-  <data name="kstidCloseButtonText" xml:space="preserve">
-    <value>Close</value>
-    <comment>Text on the close button.</comment>
-  </data>
-  <data name="kstidFileTypesForOFD" xml:space="preserve">
-    <value>ZIP File (*.zip)|*.zip|All Files (*.*)|*.*</value>
-    <comment>File types for the dialog asking user the name of the zip file to create.</comment>
-  </data>
-  <data name="kstidLoadPrjMsg" xml:space="preserve">
-    <value>Restore is complete. Would you\nlike to open the restored project?</value>
-  </data>
-  <data name="kstidNoPrjInZipFileMsg" xml:space="preserve">
-    <value>The specified zip file does not appear to contain a Phonology Assistant project.</value>
-  </data>
-  <data name="kstidPrjAlreadyInFolderMsg" xml:space="preserve">
-    <value>There is already a project file by the name of '{0}' in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer 'Yes'\nthen data source files that may already exist will also be overwritten.</value>
-  </data>
-  <data name="kstidReadingBackupFileMsg" xml:space="preserve">
-    <value>Reading backup file...</value>
-  </data>
-  <data name="kstidRestoreMenuText" xml:space="preserve">
-    <value>Res&amp;tore a Project...</value>
-    <comment>Text for restore menu item.</comment>
-  </data>
-  <data name="kstidRestoreOFDCaption" xml:space="preserve">
-    <value>File to Restore</value>
-  </data>
-  <data name="kstidRestoringMsg" xml:space="preserve">
-    <value>Restoring {0}...</value>
-  </data>
 </root>

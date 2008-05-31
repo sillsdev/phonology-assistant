@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOnHelper.cs" />
     <Compile Include="BackupDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +58,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RestoreDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RestoreDlg.Designer.cs">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RestoreProgressDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RestoreProgressDlg.Designer.cs">
+      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +112,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RestoreDlg.resx">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RestoreProgressDlg.resx">
+      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

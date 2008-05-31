@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PaFWDataSourceAddOn")]
-[assembly: AssemblyDescription("This Add-on is for test purposes only and is not supported in any way. Use this at your own risk.")]
+[assembly: AssemblyDescription("Backup and Restore Phonology Assistant 3.x projects")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
 [assembly: AssemblyProduct("PaFWDataSourceAddOn")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyFileVersion("1.0.0")]

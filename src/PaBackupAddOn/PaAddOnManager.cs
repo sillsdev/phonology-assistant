@@ -8,6 +8,7 @@ using SIL.Pa;
 using SIL.Pa.Data;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
+using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.AddOn
 {
@@ -19,7 +20,6 @@ namespace SIL.Pa.AddOn
 	public class PaAddOnManager : IxCoreColleague
 	{
 		private ITMAdapter m_adapter;
-		private TMItemProperties m_backupItemProps;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -48,12 +48,24 @@ namespace SIL.Pa.AddOn
 						Properties.Resources.kstidBackupMenuText, null, null, null, null,
 						null, Keys.None, null, Properties.Resources.kimidBackup);
 
-					m_backupItemProps = new TMItemProperties();
-					m_backupItemProps.BeginGroup = true;
-					m_backupItemProps.CommandId = "CmdBackupProject";
-					m_backupItemProps.Name = "mnuBackupProject";
-					m_backupItemProps.Text = null;
-					m_adapter.AddMenuItem(m_backupItemProps, "mnuFile", "mnuFileExportAs");
+					m_adapter.AddCommandItem("CmdRestoreProject", "RestoreProject",
+						Properties.Resources.kstidRestoreMenuText, null, null, null, null,
+						null, Keys.None, null, null);
+
+					TMItemProperties itemProps = new TMItemProperties();
+					itemProps.CommandId = "CmdBackupProject";
+					itemProps.Name = "mnuBackupProject";
+					itemProps.Text = null;
+					m_adapter.AddMenuItem(itemProps, "mnuFile", "mnuPlayback");
+					
+					itemProps = new TMItemProperties();
+					itemProps.CommandId = "CmdRestoreProject";
+					itemProps.Name = "mnuRestoreProject";
+					itemProps.Text = null;
+					m_adapter.AddMenuItem(itemProps, "mnuFile", "mnuPlayback");
+
+					AddOnHelper.AddSeparatorBeforeMenuItem("mnuPlayback");
+					AddOnHelper.Initialize();
 				}
 			}
 			catch { }
@@ -92,6 +104,17 @@ namespace SIL.Pa.AddOn
 				itemProps.Enabled = enable;
 			}
 
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRestoreProject(object args)
+		{
+			RestoreDlg.Restore();
 			return true;
 		}
 

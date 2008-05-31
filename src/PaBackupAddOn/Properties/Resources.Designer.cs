@@ -77,7 +77,7 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}Backup ({1}).zip.
+        ///   Looks up a localized string similar to {0} Backup ({1}).zip.
         /// </summary>
         internal static string kstidBackupFilenameFmt {
             get {
@@ -86,11 +86,38 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backup Project....
+        ///   Looks up a localized string similar to &amp;Backup Project....
         /// </summary>
         internal static string kstidBackupMenuText {
             get {
                 return ResourceManager.GetString("kstidBackupMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup File to Create.
+        /// </summary>
+        internal static string kstidBackupOFDCaption {
+            get {
+                return ResourceManager.GetString("kstidBackupOFDCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify folder in which to restore {0} data source file(s)..
+        /// </summary>
+        internal static string kstidBrowseForDataSourceFolderDesc {
+            get {
+                return ResourceManager.GetString("kstidBrowseForDataSourceFolderDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify folder in which to restore {0} project files..
+        /// </summary>
+        internal static string kstidBrowseForPrjFolderDesc {
+            get {
+                return ResourceManager.GetString("kstidBrowseForPrjFolderDesc", resourceCulture);
             }
         }
         
@@ -104,7 +131,7 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ZIP Archive|*.zip.
+        ///   Looks up a localized string similar to ZIP File (*.zip)|*.zip|All Files (*.*)|*.*.
         /// </summary>
         internal static string kstidFileTypesForOFD {
             get {
@@ -113,11 +140,65 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backup File to Create.
+        ///   Looks up a localized string similar to Restore is complete. Would you\nlike to open the restored project?.
         /// </summary>
-        internal static string kstidOFDCaption {
+        internal static string kstidLoadPrjMsg {
             get {
-                return ResourceManager.GetString("kstidOFDCaption", resourceCulture);
+                return ResourceManager.GetString("kstidLoadPrjMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified zip file does not appear to contain a Phonology Assistant project..
+        /// </summary>
+        internal static string kstidNoPrjInZipFileMsg {
+            get {
+                return ResourceManager.GetString("kstidNoPrjInZipFileMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a project file by the name of &apos;{0}&apos; in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer &apos;Yes&apos;\nthen data source files that may already exist will also be overwritten..
+        /// </summary>
+        internal static string kstidPrjAlreadyInFolderMsg {
+            get {
+                return ResourceManager.GetString("kstidPrjAlreadyInFolderMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading backup file....
+        /// </summary>
+        internal static string kstidReadingBackupFileMsg {
+            get {
+                return ResourceManager.GetString("kstidReadingBackupFileMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Res&amp;tore a Project....
+        /// </summary>
+        internal static string kstidRestoreMenuText {
+            get {
+                return ResourceManager.GetString("kstidRestoreMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File to Restore.
+        /// </summary>
+        internal static string kstidRestoreOFDCaption {
+            get {
+                return ResourceManager.GetString("kstidRestoreOFDCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restoring {0}....
+        /// </summary>
+        internal static string kstidRestoringMsg {
+            get {
+                return ResourceManager.GetString("kstidRestoringMsg", resourceCulture);
             }
         }
     }
