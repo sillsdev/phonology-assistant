@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PaSADataSourceAddOn")]
-[assembly: AssemblyDescription("This Add-on is for test purposes only and is not supported in any way. Use this at your own risk.")]
+[assembly: AssemblyDescription("Corrects and enhances handling of Speech Analyzer data sources.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
 [assembly: AssemblyProduct("PaSADataSourceAddOn")]
-[assembly: AssemblyCopyright("Copyright © SIL, Inc. 2008")]
+[assembly: AssemblyCopyright("(C) 2008, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
