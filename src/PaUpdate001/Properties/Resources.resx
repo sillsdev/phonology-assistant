@@ -124,6 +124,9 @@
   <data name="FwSQLQueriesShortNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FwSQLQueriesShortNames.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="kstidErrorUpdating" xml:space="preserve">
+    <value>There was an error when trying to apply the update.\nYou may not have sufficient permissions.\n\n{0}</value>
+  </data>
   <data name="kstidInstallFolderMissing" xml:space="preserve">
     <value>The folder in which Phonology Assistant was installed could not be located. Please specify that folder.</value>
   </data>
@@ -137,6 +140,6 @@
     <value>Update has been applied.</value>
   </data>
   <data name="kstidUpdateMsg" xml:space="preserve">
-    <value>This update only affects Phonology Assistant projects containing FieldWorks data sources. It is needed in order for Phonology Assistant to read FieldWorks data sources created or updated using FieldWorks 5.3 or later. In addition, this update corrects two known problems:\n\n1) Under certain circumstances, Phonolgy Assistant does not find all the phonetic data in a FieldWorks database.\n\n2) Under certain circumstances, Phonology Assistant does not recognize that a lexical entry in a FieldWorks database has an associated audio file.</value>
+    <value>This update only affects Phonology Assistant projects containing FieldWorks data sources. It is needed in order for Phonology Assistant to read FieldWorks data sources created or updated using FieldWorks 5.3 or later. In addition, this update corrects two known problems:\n\n1) Under certain circumstances, Phonolgy Assistant does not find all the phonetic data in a FieldWorks database or creates too many records when reading a FieldWorks database.\n\n2) Under certain circumstances, Phonology Assistant does not recognize that a lexical entry in a FieldWorks database has an associated audio file.</value>
   </data>
 </root>

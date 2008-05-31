@@ -68,12 +68,22 @@ namespace SIL.Pa.Updates
 		/// ------------------------------------------------------------------------------------
 		private bool DoUpdate()
 		{
-			string paPath = PaPathFinder.GetPath();
-			if (paPath == null)
-				return false;
+			try
+			{
+				string paPath = PaPathFinder.GetPath();
+				if (paPath == null)
+					return false;
 
-			foreach (string file in m_filesToUpdate)
-				UpdateFile(paPath, file);
+				foreach (string file in m_filesToUpdate)
+					UpdateFile(paPath, file);
+			}
+			catch (Exception e)
+			{
+				string msg = Properties.Resources.kstidErrorUpdating.Replace("\\n", "\n");
+				msg = string.Format(msg, e.Message);
+				MessageBox.Show(msg, Properties.Resources.kstidMsgBoxCaption);
+				return false;
+			}
 
 			return true;
 		}

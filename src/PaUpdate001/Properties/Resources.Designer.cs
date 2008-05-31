@@ -104,6 +104,15 @@ namespace SIL.Pa.Updates.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error when trying to apply the update.\nYou may not have sufficient permissions.\n\n{0}.
+        /// </summary>
+        internal static string kstidErrorUpdating {
+            get {
+                return ResourceManager.GetString("kstidErrorUpdating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The folder in which Phonology Assistant was installed could not be located. Please specify that folder..
         /// </summary>
         internal static string kstidInstallFolderMissing {
@@ -140,7 +149,7 @@ namespace SIL.Pa.Updates.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This update only affects Phonology Assistant projects containing FieldWorks data sources. It is needed in order for Phonology Assistant to read FieldWorks data sources created or updated using FieldWorks 5.3 or later. In addition, this update corrects two known problems:\n\n1) Under certain circumstances, Phonolgy Assistant does not find all the phonetic data in a FieldWorks database.\n\n2) Under certain circumstances, Phonology Assistant does not recognize that a lexical entry in a FieldWorks database has  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to This update only affects Phonology Assistant projects containing FieldWorks data sources. It is needed in order for Phonology Assistant to read FieldWorks data sources created or updated using FieldWorks 5.3 or later. In addition, this update corrects two known problems:\n\n1) Under certain circumstances, Phonolgy Assistant does not find all the phonetic data in a FieldWorks database or creates too many records when reading a FieldWorks database.\n\n2) Under certain circumstances, Phonology Assistant does n [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string kstidUpdateMsg {
             get {

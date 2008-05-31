@@ -49,12 +49,11 @@
 		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst	And mffOrtho.Ws = $orthoWs$
 		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
 		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
-		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst AND lsGloss1.Ws = $gloss1Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst AND lsGloss2.Ws = $gloss2Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst AND lsGloss3.Ws = $gloss3Ws$
-		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
-		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
-		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj	= msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = ls.Id AND lsGloss1.Ws = $gloss1Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = ls.Id AND lsGloss2.Ws = $gloss2Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = ls.Id AND lsGloss3.Ws = $gloss3Ws$
+		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = ls.MorphoSyntaxAnalysis
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
 	</datafromlexemeform>
 	<!-- The text between $ symbols (including the $) is replaced by writing system numbers corresponding to user choices. -->
 	<datafrompronunciationfield>
@@ -88,11 +87,10 @@
 		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $orthoWs$
 		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
 		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
-		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst And lsGloss1.Ws = $gloss1Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst And lsGloss2.Ws = $gloss2Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst And lsGloss3.Ws = $gloss3Ws$
-		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
-		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
-		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech And cpaPOS.Ws = $posWs$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = ls.Id And lsGloss1.Ws = $gloss1Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = ls.Id And lsGloss2.Ws = $gloss2Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = ls.Id And lsGloss3.Ws = $gloss3Ws$
+		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = ls.MorphoSyntaxAnalysis
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$	
 	</datafrompronunciationfield>
 </FwQueries>

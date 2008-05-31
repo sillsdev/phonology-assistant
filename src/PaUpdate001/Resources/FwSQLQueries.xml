@@ -36,25 +36,24 @@
 		FROM LexEntry le
 		LEFT OUTER JOIN LexEntry_LexemeForm lelf ON lelf.Src = le.Id
 		LEFT OUTER JOIN LexEntry_Senses les ON les.Src = le.Id AND les.Ord =
-			(SELECT TOP 1 Ord FROM LexEntry_Senses sub1 WHERE sub1.Src = les.Src ORDER BY Ord)
+		    (SELECT TOP 1 Ord FROM LexEntry_Senses sub1 WHERE sub1.Src = les.Src ORDER BY Ord)
 		LEFT OUTER JOIN LexEntry_Pronunciations lep ON lep.Src = le.Id AND lep.Ord =
-			(SELECT TOP 1 Ord FROM LexEntry_Pronunciations sub2 WHERE sub2.Src = lep.Src ORDER BY Ord)
+		    (SELECT TOP 1 Ord FROM LexEntry_Pronunciations sub2 WHERE sub2.Src = lep.Src ORDER BY Ord)
 		LEFT OUTER JOIN LexPronunciation lp ON lp.Id = lep.Dst
 		LEFT OUTER JOIN LexPronunciation_MediaFiles lpm ON lpm.Src = lp.Id AND lpm.Ord =
-			(SELECT TOP 1 Ord FROM LexPronunciation_MediaFiles sub3 WHERE sub3.Src = lpm.Src ORDER BY Ord)
+		    (SELECT TOP 1 Ord FROM LexPronunciation_MediaFiles sub3 WHERE sub3.Src = lpm.Src ORDER BY Ord)
 		LEFT OUTER JOIN CmMedia cmm ON cmm.Id = lpm.Dst
 		LEFT OUTER JOIN CmFile cmf ON cmf.ID = cmm.MediaFile
 		LEFT OUTER JOIN MoForm_Form mffEtic ON mffEtic.Obj = lelf.Dst And mffEtic.Ws = $phoneticWs$
 		LEFT OUTER JOIN MoForm_Form mffEmic ON mffEmic.Obj = lelf.Dst And mffEmic.Ws = $phonemicWs$
-		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst	And mffOrtho.Ws = $orthoWs$
+		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $orthoWs$
 		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
 		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
-		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst AND lsGloss1.Ws = $gloss1Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst AND lsGloss2.Ws = $gloss2Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst AND lsGloss3.Ws = $gloss3Ws$
-		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
-		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
-		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj	= msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = ls.Id And lsGloss1.Ws = $gloss1Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = ls.Id And lsGloss2.Ws = $gloss2Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = ls.Id And lsGloss3.Ws = $gloss3Ws$
+		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = ls.MorphoSyntaxAnalysis
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
 	</datafromlexemeform>
 	<!-- The text between $ symbols (including the $) is replaced by writing system numbers corresponding to user choices. -->
 	<datafrompronunciationfield>
@@ -88,11 +87,10 @@
 		LEFT OUTER JOIN MoForm_Form mffOrtho ON mffOrtho.Obj = lelf.Dst And mffOrtho.Ws = $orthoWs$
 		LEFT OUTER JOIN CmObject leo ON leo.ID = le.Id
 		LEFT OUTER JOIN LexSense ls ON ls.Id = les.Dst
-		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = les.Dst And lsGloss1.Ws = $gloss1Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = les.Dst And lsGloss2.Ws = $gloss2Ws$
-		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = les.Dst And lsGloss3.Ws = $gloss3Ws$
-		LEFT OUTER JOIN LexEntry_MorphoSyntaxAnalyses lemsa ON lemsa.Src = le.Id
-		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = lemsa.Dst
-		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech And cpaPOS.Ws = $posWs$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss1 ON lsGloss1.Obj = ls.Id And lsGloss1.Ws = $gloss1Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss2 ON lsGloss2.Obj = ls.Id And lsGloss2.Ws = $gloss2Ws$
+		LEFT OUTER JOIN LexSense_Gloss lsGloss3 ON lsGloss3.Obj = ls.Id And lsGloss3.Ws = $gloss3Ws$
+		LEFT OUTER JOIN MoStemMsa msmsa ON msmsa.Id = ls.MorphoSyntaxAnalysis
+		LEFT OUTER JOIN CmPossibility_Abbreviation cpaPOS ON cpaPOS.Obj = msmsa.PartOfSpeech AND cpaPOS.Ws = $posWs$
 	</datafrompronunciationfield>
 </FwQueries>
