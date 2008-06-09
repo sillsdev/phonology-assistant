@@ -1,4 +1,4 @@
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.SearchResultAddOn
 {
 	partial class NumberOfPhonesToMatchCtrl
 	{

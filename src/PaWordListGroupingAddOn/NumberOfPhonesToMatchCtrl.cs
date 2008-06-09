@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.SearchResultAddOn
 {
 	public partial class NumberOfPhonesToMatchCtrl : UserControl
 	{

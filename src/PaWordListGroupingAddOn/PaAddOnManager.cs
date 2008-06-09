@@ -4,13 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Reflection;
+using System.IO;
 using SIL.Pa;
 using SIL.Pa.Controls;
 using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 
-namespace SIL.Pa.AddOn
+// I don't want to use a custom attribute, so I'm
+// kludging what I want by using this attribute.
+[assembly: System.Reflection.AssemblyDefaultAlias("CanBeDisabled")]
+
+namespace SIL.Pa.SearchResultAddOn
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -31,7 +37,9 @@ namespace SIL.Pa.AddOn
 
 		private readonly Dictionary<PaWordListGrid, int> m_numPhonesAfter =
 			new Dictionary<PaWordListGrid, int>();
-		
+
+		private SearchVw m_view;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -39,13 +47,99 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		public PaAddOnManager()
 		{
-			PaApp.AddMediatorColleague(this);
-			m_dropDown = new CustomDropDown();
-			m_numPhonesCtrl = new NumberOfPhonesToMatchCtrl();
-			m_numPhonesCtrl.lnkApply.Click += lnkApply_Click;
-			m_dropDown.AddControl(m_numPhonesCtrl);
+			try
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+				string settingName = Path.GetFileNameWithoutExtension(assembly.CodeBase);
+				if (!PaApp.SettingsHandler.GetBoolSettingsValue(settingName, "Enabled", true))
+					return;
 
-			m_fntGlyph = new Font("Marlett", 9);
+				PaApp.AddMediatorColleague(this);
+				m_dropDown = new CustomDropDown();
+				m_numPhonesCtrl = new NumberOfPhonesToMatchCtrl();
+				m_numPhonesCtrl.lnkApply.Click += lnkApply_Click;
+				m_dropDown.AddControl(m_numPhonesCtrl);
+
+				m_fntGlyph = new Font("Marlett", 9);
+			}
+			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnViewOpened(object args)
+		{
+			try
+			{
+				if (args is SearchVw)
+				{
+					m_view = args as SearchVw;
+					SetupAddOnToolbarButtons();
+				}
+			}
+			catch { }
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetupAddOnToolbarButtons()
+		{
+			try
+			{
+				string tooltip = "CAE Sort";
+				m_view.TMAdapter.AddCommandItem("CmdCAESort", "CAESort",
+					"CAE", null, null, tooltip, null, null, Keys.None, null, null);
+
+				string xml = "name=\"tbbCAESort\" commandid=\"CmdCAESort\" " +
+					"type=\"0\" displaytype=\"1\" begingroup=\"true\"";
+
+				m_view.TMAdapter.AddToolBarItem("tbFFWnd", xml,	"tbbPhoneticSort", true);
+			}
+			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnCAESort(object args)
+		{
+			if (m_view.ResultViewManger == null || m_view.ResultViewManger.CurrentViewsGrid == null)
+				return true;
+
+			PaWordListGrid grid = m_view.ResultViewManger.CurrentViewsGrid;
+			if (grid.IsGroupedByField)
+				grid.GroupByField = null;
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateCAESort(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps != null)
+			{
+				itemProps.Update = true;
+				itemProps.Visible = true;
+				itemProps.Enabled = (m_view.ResultViewManger != null &&
+					m_view.ResultViewManger.CurrentViewsGrid != null);
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
