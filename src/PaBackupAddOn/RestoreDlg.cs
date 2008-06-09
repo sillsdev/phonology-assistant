@@ -41,13 +41,12 @@ namespace SIL.Pa.AddOn
 			if (string.IsNullOrEmpty(zipFile) || !File.Exists(zipFile))
 				return;
 
-			using (RestoreDlg dlg = new RestoreDlg(zipFile))
+			try
 			{
-				if (PaApp.MainForm != null)
+				using (RestoreDlg dlg = new RestoreDlg(zipFile))
 					dlg.ShowDialog(PaApp.MainForm);
-				else
-					dlg.ShowDialog();
 			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,6 +61,14 @@ namespace SIL.Pa.AddOn
 			m_restoreRoot = Path.GetPathRoot(Application.StartupPath);
 			m_fmtProjMsg = lblProject.Text;
 			lblProject.Text = string.Format(m_fmtProjMsg, string.Empty);
+			grid.Name = Name + "Grid";
+
+			try
+			{
+				PaApp.SettingsHandler.LoadFormProperties(this);
+				PaApp.SettingsHandler.LoadGridProperties(grid);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,6 +90,13 @@ namespace SIL.Pa.AddOn
 		{
 			base.OnClosing(e);
 
+			try
+			{
+				PaApp.SettingsHandler.SaveFormProperties(this);
+				PaApp.SettingsHandler.SaveGridProperties(grid);
+			}
+			catch { }
+
 			// Clean up the files in the temp. folder.
 			if (m_tmpFolder != null && Directory.Exists(m_tmpFolder))
 				Directory.Delete(m_tmpFolder, true);
@@ -100,7 +114,8 @@ namespace SIL.Pa.AddOn
 
 			m_progressDlg = new RestoreProgressDlg();
 			m_progressDlg.lblMsg.Text = Properties.Resources.kstidReadingBackupFileMsg;
-			m_progressDlg.Show(this);
+			LocateProgressDlg();
+			m_progressDlg.Show();
 			Application.DoEvents();
 
 			UnpackToTempFolder();
@@ -116,6 +131,7 @@ namespace SIL.Pa.AddOn
 					Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				Close();
+				return;
 			}
 
 			GetDataSourcePathsFromPap();
@@ -123,6 +139,29 @@ namespace SIL.Pa.AddOn
 
 			m_progressDlg.Hide();
 			m_progressDlg.prgressBar.Value = 0;
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// For some reason, setting the progress dialog's start position property to center
+		/// relative to its parent didn't work. Therefore, we'll do it ourselves.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LocateProgressDlg()
+		{
+			m_progressDlg.Top = Top + Math.Max(0, (Height - m_progressDlg.Height) / 2);
+
+			if (m_progressDlg.Width < Width)
+			{
+				m_progressDlg.Left =
+					Left + Math.Max(0, m_progressDlg.Left = (Width - m_progressDlg.Width) / 2);
+			}
+			else
+			{
+				m_progressDlg.Left =
+					Left - Math.Max(0, m_progressDlg.Left = (m_progressDlg.Width - Width) / 2);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -221,11 +260,14 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		private void GetDataSourcePathsFromPap()
 		{
-			PaProject prj = PaProject.Load(m_papPath);
+			string dummy = string.Empty;
+			PaProject prj = PaProject.LoadProjectFileOnly(m_papPath, true, ref dummy); 
 
 			if (prj == null || prj.DataSources == null || prj.DataSources.Count == 0)
 			{
-				// show message
+				MessageBox.Show(this, Properties.Resources.kstidPrjIsEmptyMsg,
+					Application.ProductName, MessageBoxButtons.OK,
+					MessageBoxIcon.Information);
 				return;
 			}
 
@@ -324,7 +366,8 @@ namespace SIL.Pa.AddOn
 
 			m_progressDlg.lblMsg.Text = string.Format(Properties.Resources.kstidRestoringMsg, m_prjName);
 			m_progressDlg.prgressBar.Maximum = m_origPaths.Count + grid.RowCount;
-			m_progressDlg.Show(this);
+			LocateProgressDlg();
+			m_progressDlg.Show();
 			Hide();
 			Application.DoEvents();
 			RestoreProjectFiles();

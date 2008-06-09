@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PaFWDataSourceAddOn")]
-[assembly: AssemblyDescription("Backup and Restore Phonology Assistant 3.x projects")]
+[assembly: AssemblyTitle("Backup and Restore Add-On")]
+[assembly: AssemblyDescription("Backup and restore Phonology Assistant 3.x projects.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
-[assembly: AssemblyProduct("PaFWDataSourceAddOn")]
-[assembly: AssemblyCopyright("Copyright © SIL, Inc. 2008")]
+[assembly: AssemblyProduct("Phonology Assistant Add-On")]
+[assembly: AssemblyCopyright("Copyright © SIL International, 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

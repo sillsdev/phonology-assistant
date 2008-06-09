@@ -30,8 +30,12 @@ namespace SIL.Pa.AddOn
 		{
 			using (BackupDlg dlg = new BackupDlg())
 			{
-				if (!string.IsNullOrEmpty(dlg.m_backupFile))
-					dlg.ShowDialog();
+				try
+				{
+					if (!string.IsNullOrEmpty(dlg.m_backupFile))
+						dlg.ShowDialog(PaApp.MainForm);
+				}
+				catch { }
 			}
 		}
 
@@ -50,7 +54,21 @@ namespace SIL.Pa.AddOn
 
 			m_fmtInfo = lblInfo.Text;
 			m_fmtProgress = lblProgress.Text;
-			Initialize();
+
+			try
+			{
+				// Get all the project's files.
+				m_prjFiles = new List<string>
+					(Directory.GetFiles(PaApp.Project.ProjectPath, PaApp.Project.ProjectName + ".*"));
+
+				GetDataSourceFiles();
+				lblInfo.Text = string.Format(lblInfo.Text, PaApp.Project.ProjectName, m_backupFile);
+				chkIncludeDataSources.Checked = (m_dsFiles.Count > 0);
+				chkIncludeDataSources.Enabled = (m_dsFiles.Count > 0);
+
+				PaApp.SettingsHandler.LoadFormProperties(this);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -58,16 +76,15 @@ namespace SIL.Pa.AddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void Initialize()
+		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			// Get all the project's files.
-			m_prjFiles = new List<string>
-				(Directory.GetFiles(PaApp.Project.ProjectPath, PaApp.Project.ProjectName + ".*"));
+			base.OnFormClosing(e);
 
-			GetDataSourceFiles();
-			lblInfo.Text = string.Format(lblInfo.Text, PaApp.Project.ProjectName, m_backupFile);
-			chkIncludeDataSources.Checked = (m_dsFiles.Count > 0);
-			chkIncludeDataSources.Enabled = (m_dsFiles.Count > 0);
+			try
+			{
+				PaApp.SettingsHandler.SaveFormProperties(this);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,7 +150,7 @@ namespace SIL.Pa.AddOn
 
 			lblInfo.Visible = false;
 			chkIncludeDataSources.Visible = false;
-			btnBkup.Enabled = false;
+			btnBkup.Visible = false;
 			btnCancel.Enabled = false;
 
 			lblProgress.Text = string.Empty;

@@ -167,6 +167,15 @@ namespace SIL.Pa.AddOn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no data sources in the project..
+        /// </summary>
+        internal static string kstidPrjIsEmptyMsg {
+            get {
+                return ResourceManager.GetString("kstidPrjIsEmptyMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reading backup file....
         /// </summary>
         internal static string kstidReadingBackupFileMsg {

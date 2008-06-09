@@ -162,6 +162,9 @@
   <data name="kstidPrjAlreadyInFolderMsg" xml:space="preserve">
     <value>There is already a project file by the name of '{0}' in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer 'Yes'\nthen data source files that may already exist will also be overwritten.</value>
   </data>
+  <data name="kstidPrjIsEmptyMsg" xml:space="preserve">
+    <value>There are no data sources in the project.</value>
+  </data>
   <data name="kstidReadingBackupFileMsg" xml:space="preserve">
     <value>Reading backup file...</value>
   </data>
