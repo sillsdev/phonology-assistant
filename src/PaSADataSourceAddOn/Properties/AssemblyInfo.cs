@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PaSADataSourceAddOn")]
+[assembly: AssemblyTitle("SA Data Source Add-On")]
 [assembly: AssemblyDescription("Corrects and enhances handling of Speech Analyzer data sources.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
-[assembly: AssemblyProduct("PaSADataSourceAddOn")]
-[assembly: AssemblyCopyright("(C) 2008, SIL International")]
+[assembly: AssemblyProduct("Phonology Assistant Add-On")]
+[assembly: AssemblyCopyright("Copyright © SIL International, 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

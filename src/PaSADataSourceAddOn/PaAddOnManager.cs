@@ -4,10 +4,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Reflection;
+using System.IO;
 using SIL.Pa;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using XCore;
+
+// I don't want to use a custom attribute, so I'm
+// kludging what I want by using this attribute.
+[assembly: System.Reflection.AssemblyDefaultAlias("CanBeDisabled")]
 
 namespace SIL.Pa.AddOn
 {
@@ -25,7 +31,14 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		public PaAddOnManager()
 		{
-			PaApp.AddMediatorColleague(this);
+			try
+			{
+				Assembly assembly = Assembly.GetExecutingAssembly();
+				string settingName = Path.GetFileNameWithoutExtension(assembly.CodeBase);
+				if (PaApp.SettingsHandler.GetBoolSettingsValue(settingName, "Enabled", true))
+					PaApp.AddMediatorColleague(this);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
