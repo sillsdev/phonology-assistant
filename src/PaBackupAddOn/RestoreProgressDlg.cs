@@ -6,15 +6,41 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.BackupRestoreAddOn
 {
-	public partial class RestoreProgressDlg : Form
+	public partial class BRProgressDlg : Form
 	{
-		public RestoreProgressDlg()
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public BRProgressDlg()
 		{
 			InitializeComponent();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// For some reason, setting the progress dialog's start position property to center
+		/// relative to its parent didn't work. Therefore, we'll do it ourselves.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void CenterInParent(Form parent)
+		{
+			Top = parent.Top + Math.Max(0, (parent.Height - Height) / 2);
+
+			if (Width < parent.Width)
+				Left = parent.Left + Math.Max(0, Left = (parent.Width - Width) / 2);
+			else
+				Left = parent.Left - Math.Max(0, Left = (Width - parent.Width) / 2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);

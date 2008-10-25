@@ -15,7 +15,7 @@ using XCore;
 // kludging what I want by using this attribute.
 [assembly: System.Reflection.AssemblyDefaultAlias("CanBeDisabled")]
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.SaDataSourceAddOn
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -50,19 +50,26 @@ namespace SIL.Pa.AddOn
 		{
 			PaProject project = args as PaProject;
 
-			if (project == null || project.DataSources == null || project.DataSources.Count == 0)
-				return false;
-
-			// Go through all the data sources and if any one is not an SA data source, then
-			// don't bother fixing up the project so it treats references specially for SA
-			// data sources.
-			foreach (PaDataSource source in project.DataSources)
+			if (project != null && project.DataSources != null && project.DataSources.Count > 0)
 			{
-				if (source.DataSourceType != DataSourceType.SA)
-					return false;
-			}
+				// Go through all the data sources and if any one is not an SA data source, then
+				// do not bother fixing up the project so it treats references specially for SA
+				// data sources.
+				bool fixRefs = true;
+				foreach (PaDataSource source in project.DataSources)
+				{
+					if (source.DataSourceType != DataSourceType.SA)
+					{
+						fixRefs = false;
+						break;
+					}
+				}
 
-			FixReferenceForSAProject(project);
+				if (fixRefs)
+					FixReferenceForSAProject(project);
+			}
+			
+			PaApp.MsgMediator.SendMessage("AfterSaDataSourceAddOnHandledLoadedingDataSources", args);
 			return false;
 		}
 

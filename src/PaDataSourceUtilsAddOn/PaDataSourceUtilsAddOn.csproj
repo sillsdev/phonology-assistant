@@ -2,13 +2,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7BA1B9D2-D3ED-438B-AB67-A766917A1442}</ProjectGuid>
+    <ProjectGuid>{79B02DFC-A519-46F7-8F05-F4D0BD7CE454}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SIL.Pa.AddOn</RootNamespace>
-    <AssemblyName>PaXYChartHelperAddOn</AssemblyName>
+    <RootNamespace>SIL.Pa.DataSourceUtilsAddOn</RootNamespace>
+    <AssemblyName>PaDataSourceUtilsAddOn</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
@@ -40,36 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RestoreMarkersMessageDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RestoreMarkersMessageDlg.Designer.cs">
-      <DependentUpon>RestoreMarkersMessageDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PaAddOnManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProjectSettingsDlgDataSourceSkippingHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SkippedDataSourceList.cs" />
+    <Compile Include="PaAddOnManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
-      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
-      <Name>FFSearchEngine</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PADll\PaDll.csproj">
-      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaDll</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
-      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
-      <Name>SpeechToolsUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
@@ -85,6 +66,26 @@
       <Name>PaControls</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\PaDialogs\PaDialogs.csproj">
+      <Project>{693D71B7-FEF6-488E-B4F5-A2101011F9BE}</Project>
+      <Name>PaDialogs</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PADll\PaDll.csproj">
+      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
+      <Name>PaDll</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaResources\PaResources.csproj">
+      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
+      <Name>PaResources</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
+      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
+      <Name>SpeechToolsUtils</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
@@ -97,15 +98,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RestoreMarkersMessageDlg.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>RestoreMarkersMessageDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

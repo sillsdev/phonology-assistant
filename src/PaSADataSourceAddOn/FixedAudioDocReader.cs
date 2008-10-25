@@ -4,7 +4,7 @@ using System.Text;
 using SIL.SpeechTools;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.SaDataSourceAddOn
 {
 	internal class FixedAudioDocReader
 	{

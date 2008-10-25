@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SIL.Pa.AddOn.Properties {
+namespace SIL.Pa.BackupRestoreAddOn.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SIL.Pa.AddOn.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.AddOn.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.BackupRestoreAddOn.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

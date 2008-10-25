@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SA Data Source Add-On")]
-[assembly: AssemblyDescription("Corrects and enhances handling of Speech Analyzer data sources.")]
+[assembly: AssemblyTitle("Data Source Utilities")]
+[assembly: AssemblyDescription("Provides miscellaneous features for reading data sources.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
 [assembly: AssemblyProduct("Phonology Assistant Add-On")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("CB7F15C3-DFF5-4c57-844A-326C9DD73045")]
+[assembly: Guid("D3A396DF-89CB-42b8-9146-D30668F7FDCC")]
 
 // Version information for an assembly consists of the following four values:
 //

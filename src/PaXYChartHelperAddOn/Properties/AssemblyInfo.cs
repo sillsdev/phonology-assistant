@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PaXYChartHelperAddOn")]
-[assembly: AssemblyDescription("Add-On providing misc. XY Chart fuctionality")]
+[assembly: AssemblyTitle("XY Chart Add-On")]
+[assembly: AssemblyDescription("Provides miscellaneous additional features for XY Charts.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International")]
-[assembly: AssemblyProduct("PaXYChartHelperAddOn")]
-[assembly: AssemblyCopyright("Copyright © SIL International, 2007")]
+[assembly: AssemblyProduct("Phonology Assistant Add-On")]
+[assembly: AssemblyCopyright("Copyright © SIL International, 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1")]
+[assembly: AssemblyFileVersion("1.0.1")]

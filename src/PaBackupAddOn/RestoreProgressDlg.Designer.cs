@@ -1,6 +1,6 @@
-﻿namespace SIL.Pa.AddOn
+﻿namespace SIL.Pa.BackupRestoreAddOn
 {
-	partial class RestoreProgressDlg
+	partial class BRProgressDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RestoreProgressDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BRProgressDlg));
 			this.prgressBar = new System.Windows.Forms.ProgressBar();
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();

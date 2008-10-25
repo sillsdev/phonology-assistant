@@ -16,7 +16,7 @@ using SIL.SpeechTools.Utils;
 // kludging what I want by using this attribute.
 [assembly: System.Reflection.AssemblyDefaultAlias("CanBeDisabled")]
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.BackupRestoreAddOn
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

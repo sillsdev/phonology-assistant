@@ -7,7 +7,7 @@
     <ProjectGuid>{D0C9B903-6EBA-4315-A6E6-D7AFF0152E41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SIL.Pa.AddOn</RootNamespace>
+    <RootNamespace>SIL.Pa.BackupRestoreAddOn</RootNamespace>
     <AssemblyName>PaBackupAddOn</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

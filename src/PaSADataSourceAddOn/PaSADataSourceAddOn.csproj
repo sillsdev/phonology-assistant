@@ -2,12 +2,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CC872E83-FB78-43C7-937C-318D862E5F64}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SIL.Pa.AddOn</RootNamespace>
+    <RootNamespace>SIL.Pa.SaDataSourceAddOn</RootNamespace>
     <AssemblyName>PaSADataSourceAddOn</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

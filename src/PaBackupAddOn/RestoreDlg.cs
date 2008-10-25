@@ -11,7 +11,7 @@ using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.BackupRestoreAddOn
 {
 	public partial class RestoreDlg : Form
 	{
@@ -25,7 +25,7 @@ namespace SIL.Pa.AddOn
 		private string m_tmpFolder;
 		private string m_papPath = null;
 		private List<string> m_origPaths = new List<string>();
-		private RestoreProgressDlg m_progressDlg;
+		private BRProgressDlg m_progressDlg;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -112,9 +112,9 @@ namespace SIL.Pa.AddOn
 			base.OnShown(e);
 			Application.DoEvents();
 
-			m_progressDlg = new RestoreProgressDlg();
+			m_progressDlg = new BRProgressDlg();
 			m_progressDlg.lblMsg.Text = Properties.Resources.kstidReadingBackupFileMsg;
-			LocateProgressDlg();
+			m_progressDlg.CenterInParent(this);
 			m_progressDlg.Show();
 			Application.DoEvents();
 
@@ -139,29 +139,6 @@ namespace SIL.Pa.AddOn
 
 			m_progressDlg.Hide();
 			m_progressDlg.prgressBar.Value = 0;
-		}
-
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// For some reason, setting the progress dialog's start position property to center
-		/// relative to its parent didn't work. Therefore, we'll do it ourselves.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LocateProgressDlg()
-		{
-			m_progressDlg.Top = Top + Math.Max(0, (Height - m_progressDlg.Height) / 2);
-
-			if (m_progressDlg.Width < Width)
-			{
-				m_progressDlg.Left =
-					Left + Math.Max(0, m_progressDlg.Left = (Width - m_progressDlg.Width) / 2);
-			}
-			else
-			{
-				m_progressDlg.Left =
-					Left - Math.Max(0, m_progressDlg.Left = (m_progressDlg.Width - Width) / 2);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -366,7 +343,7 @@ namespace SIL.Pa.AddOn
 
 			m_progressDlg.lblMsg.Text = string.Format(Properties.Resources.kstidRestoringMsg, m_prjName);
 			m_progressDlg.prgressBar.Maximum = m_origPaths.Count + grid.RowCount;
-			LocateProgressDlg();
+			m_progressDlg.CenterInParent(this);
 			m_progressDlg.Show();
 			Hide();
 			Application.DoEvents();

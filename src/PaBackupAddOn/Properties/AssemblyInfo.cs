@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Backup and Restore Add-On")]
-[assembly: AssemblyDescription("Backup and restore Phonology Assistant 3.x projects.")]
+[assembly: AssemblyDescription("Backup and restore Phonology Assistant projects.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL Incorporated")]
 [assembly: AssemblyProduct("Phonology Assistant Add-On")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d24939df-8d85-4744-897b-7ddd00dc6242")]
+[assembly: Guid("7ACFA5C5-B33C-4968-852C-FEF9C294E833")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyFileVersion("1.0.0")]
+[assembly: AssemblyVersion("1.0.1")]
+[assembly: AssemblyFileVersion("1.0.1")]

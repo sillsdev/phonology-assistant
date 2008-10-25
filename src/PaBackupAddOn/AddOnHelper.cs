@@ -7,7 +7,7 @@ using SIL.Pa;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.SpeechTools.Utils;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.BackupRestoreAddOn
 {
 	internal class AddOnHelper
 	{

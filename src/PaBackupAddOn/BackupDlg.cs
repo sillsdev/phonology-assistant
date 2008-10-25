@@ -11,7 +11,7 @@ using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace SIL.Pa.AddOn
+namespace SIL.Pa.BackupRestoreAddOn
 {
 	public partial class BackupDlg : Form
 	{
@@ -20,6 +20,7 @@ namespace SIL.Pa.AddOn
 		private string m_backupFile;
 		private List<string> m_prjFiles;
 		private List<string> m_dsFiles = new List<string>();
+		private BRProgressDlg m_progressDlg;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -137,6 +138,27 @@ namespace SIL.Pa.AddOn
 		/// ------------------------------------------------------------------------------------
 		private void btnBkup_Click(object sender, EventArgs e)
 		{
+			// I'm not sure what I was doing with all these changes. This version of the click
+			// event is very different from version 1.0.0 of the release version of this DLL.
+			// Apparently, I started working on some changes and stopped before they were
+			// finished, and upon returning to the code, I don't recall what I was doing. I
+			// will have to get into the code later to see if I can figure it all out.
+
+			m_progressDlg = new BRProgressDlg();
+			m_progressDlg.lblMsg.Text = string.Empty;
+			m_progressDlg.prgressBar.Maximum = m_prjFiles.Count + m_dsFiles.Count;
+			m_progressDlg.CenterInParent(this);
+			m_progressDlg.Show();
+			Hide();
+			Application.DoEvents();
+			//RestoreProjectFiles();
+			//RestoreDataSources();
+			//m_progressDlg.prgressBar.Value = m_progressDlg.prgressBar.Maximum;
+			//ModifyDataSourcePathsInRestoredProject();
+			m_progressDlg.Hide();
+			//LoadRestoredProject();
+
+			
 			if (!chkIncludeDataSources.Checked)
 				m_dsFiles.Clear();
 
@@ -155,8 +177,8 @@ namespace SIL.Pa.AddOn
 
 			lblProgress.Text = string.Empty;
 			lblProgress.Visible = true;
-			prgBar.Maximum = m_prjFiles.Count + m_dsFiles.Count;
-			prgBar.Visible = true;
+			//prgBar.Maximum = m_prjFiles.Count + m_dsFiles.Count;
+			//prgBar.Visible = true;
 		
 			ZipFile zip = ZipFile.Create(m_backupFile);
 			BackupFileList(zip, m_prjFiles);
@@ -167,10 +189,10 @@ namespace SIL.Pa.AddOn
 
 			btnCancel.Enabled = true;
 			btnCancel.Text = Properties.Resources.kstidCloseButtonText;
-			prgBar.Visible = false;
-			lblProgress.Visible = false;
-			lblInfo.Text = Properties.Resources.kstidBackupCompleteMsg;
-			lblInfo.Visible = true;
+			//prgBar.Visible = false;
+			//lblProgress.Visible = false;
+			//lblInfo.Text = Properties.Resources.kstidBackupCompleteMsg;
+			//lblInfo.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,14 +206,16 @@ namespace SIL.Pa.AddOn
 			{
 				if (File.Exists(filename))
 				{
-					lblProgress.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
+					//lblProgress.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
+					m_progressDlg.lblMsg.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
 					Application.DoEvents();
 					zip.BeginUpdate();
 					zip.Add(filename);
 					zip.CommitUpdate();
 				}
 
-				prgBar.Value++;
+				m_progressDlg.prgressBar.Value++;
+				//prgBar.Value++;
 			}
 		}
 	}
