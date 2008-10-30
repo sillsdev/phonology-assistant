@@ -20,8 +20,6 @@ namespace SIL.Pa.FiltersAddOn
 	{
 		private CustomDropDown m_dropDown = null;
 		private SizableDropDownPanel m_sizablePanel = null;
-		private PaFiltersList m_filters;
-		private PaFilter m_currFilter = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -31,16 +29,6 @@ namespace SIL.Pa.FiltersAddOn
 		public FiltersDropDownCtrl()
 		{
 			InitializeComponent();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FiltersDropDownCtrl(PaFiltersList filters) : this()
-		{
-			m_filters = filters;
 
 			lstFilters.Font = FontHelper.UIFont;
 			lblFilters.Font = FontHelper.UIFont;
@@ -81,15 +69,26 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public void RefreshFilterList()
+		{
+			LoadDropDownFilterList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void LoadDropDownFilterList()
 		{
 			lstFilters.Items.Clear();
 
-			if (m_filters == null || m_filters.Count == 0)
+			PaFiltersList filterList = FilterHelper.FilterList;
+			if (filterList == null || filterList.Count == 0)
 				return;
 
 			lstFilters.Items.Add(Properties.Resources.kstidNoFilterText);
-			foreach (PaFilter filter in m_filters)
+			foreach (PaFilter filter in filterList)
 				lstFilters.Items.Add(filter);
 
 			lstFilters.SelectedIndex = 0;
@@ -112,7 +111,23 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		internal PaFilter CurrentFilter
 		{
-			get { return m_currFilter; }
+			get { return lstFilters.SelectedItem as PaFilter; }
+			set
+			{
+				if (value == null)
+					lstFilters.SelectedIndex = 0;
+				else
+				{
+					for (int i = 0; i < lstFilters.Items.Count; i++)
+					{
+						if (lstFilters.Items[i] == value)
+						{
+							lstFilters.SelectedIndex = i;
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,13 +148,9 @@ namespace SIL.Pa.FiltersAddOn
 		private void lnkDefine_Click(object sender, EventArgs e)
 		{
 			m_dropDown.Close();
-			using (DefineFiltersDlg dlg = new DefineFiltersDlg())
-			{
-				if (dlg.ShowDialog() == DialogResult.OK)
-				{
-					// TODO: update filter list on drop-down.
-				}
-			}
+			string filterName = (CurrentFilter != null ? CurrentFilter.Name : null);
+			using (DefineFiltersDlg dlg = new DefineFiltersDlg(filterName))
+				dlg.ShowDialog();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,16 +166,14 @@ namespace SIL.Pa.FiltersAddOn
 				return;
 
 			if (lstFilters.SelectedItem is PaFilter)
-			{
-				m_currFilter = (PaFilter)lstFilters.SelectedItem;
-				m_currFilter.ApplyFilter();
-			}
+				((PaFilter)lstFilters.SelectedItem).ApplyFilter();
 			else if (lstFilters.SelectedItem.ToString() == Properties.Resources.kstidNoFilterText)
 			{
-				m_currFilter = null;
-				ReclamationBucket.Restore();
-				ReclamationBucket.UpdateViews();
+				FilterHelper.Restore();
+				FilterHelper.FilterApplied(null);
 			}
+
+			PaApp.MsgMediator.SendMessage("FilterApplied", CurrentFilter);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -194,12 +203,12 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		private void lstFilters_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			if (e.Button != MouseButtons.Left)
-				return;
-
-			int i = lstFilters.IndexFromPoint(e.Location);
-			if (i >= 0)
-				lnkApply_Click(null, EventArgs.Empty);
+			if (e.Button == MouseButtons.Left)
+			{
+				int i = lstFilters.IndexFromPoint(e.Location);
+				if (i >= 0)
+					lnkApply_Click(null, EventArgs.Empty);
+			}
 		}
 	}
 }

@@ -82,7 +82,7 @@ namespace SIL.Pa.FiltersAddOn
 					return false;
 			}
 
-			m_guiComponents[frm] = new FilterGUIComponent(frm, m_filters);
+			m_guiComponents[frm] = new FilterGUIComponent(frm);
 			frm.FormClosed += HandleWindowClosed;
 			return false;
 		}
@@ -92,17 +92,13 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleWindowClosed(object sender, FormClosedEventArgs e)
+		private void HandleWindowClosed(object sender, FormClosedEventArgs e)
 		{
 			Form frm = sender as Form;
 			if (frm != null)
 				frm.FormClosed -= HandleWindowClosed;
 
-			if (frm is PaMainWnd && m_filters != null)
-				m_filters.Save();
-
 			FilterGUIComponent fgc;
-
 			if (m_guiComponents.TryGetValue(frm, out fgc))
 			{
 				fgc.Dispose();
@@ -190,7 +186,62 @@ namespace SIL.Pa.FiltersAddOn
 			if (m_filters == null)
 				m_filters = PaFiltersList.Load(project);
 
+			FilterHelper.FilterList = m_filters;
+
 			// TODO: Filter data
+			// PaApp.SettingsHandler.GetStringSettingsValue("filters", "current", null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterApplied(object args)
+		{
+			PaFilter filter = args as PaFilter;
+			int imageWidth = Properties.Resources.kimidFilterSmall.Width;
+
+			// Make sure all the filter controls on each window are updated with the
+			// filter just applied.
+			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
+			{
+				fgc.DropDownCtrl.CurrentFilter = filter;
+				fgc.FilterStatusStripLabel.Visible = (filter != null);
+
+				if (filter == null)
+					continue;
+
+				using (Graphics g = fgc.StatusStrip.CreateGraphics())
+				{
+					fgc.FilterStatusStripLabel.Text = filter.Name;
+
+					int desiredWidth = TextRenderer.MeasureText(filter.Name,
+						fgc.FilterStatusStripLabel.Font).Width + imageWidth + 4;
+
+					fgc.FilterStatusStripLabel.Width =
+						Math.Min(desiredWidth, fgc.StatusStrip.Width / 2);
+				}
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterListUpdated(object args)
+		{
+			m_filters = PaFiltersList.Load();
+			FilterHelper.FilterList = m_filters;
+
+			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
+				fgc.RefreshFilterList();
+
+			// TODO: Reapply the filter that's currently active.
+			return false;
 		}
 
 		#region IxCoreColleague Members
@@ -222,9 +273,32 @@ namespace SIL.Pa.FiltersAddOn
 	/// 
 	/// </summary>
 	/// ------------------------------------------------------------------------------------
-	internal static class ReclamationBucket
+	internal static class FilterHelper
 	{
-		static private WordCache s_unusedWordsCache = new WordCache();
+		private static PaFiltersList s_filters = null;
+		private static WordCache s_unusedWordsCache = new WordCache();
+		private static PaFilter s_currFilter = null;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaFilter CurrentFilter
+		{
+			get { return FilterHelper.s_currFilter; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaFiltersList FilterList
+		{
+			get { return FilterHelper.s_filters; }
+			set { FilterHelper.s_filters = value; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -233,7 +307,7 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		public static WordCache UnusedWordsCache
 		{
-			get { return ReclamationBucket.s_unusedWordsCache; }
+			get { return FilterHelper.s_unusedWordsCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -247,6 +321,7 @@ namespace SIL.Pa.FiltersAddOn
 			if (s_unusedWordsCache.Count > 0 && PaApp.WordCache != null)
 			{
 				PaApp.WordCache.AddRange(s_unusedWordsCache);
+				PaApp.BuildPhoneCache();
 				s_unusedWordsCache.Clear();
 			}
 		}
@@ -256,8 +331,9 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void UpdateViews()
+		public static void FilterApplied(PaFilter filter)
 		{
+			s_currFilter = filter;
 			PaApp.BuildPhoneCache();
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
 		}

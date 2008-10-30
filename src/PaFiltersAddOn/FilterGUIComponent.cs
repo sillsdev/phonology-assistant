@@ -25,17 +25,15 @@ namespace SIL.Pa.FiltersAddOn
 		private ToolStripDropDownButton m_filterButton = null;
 		private ToolStripSeparator m_separator = null;
 		private FiltersDropDownCtrl m_dropDownContent = null;
-		private PaFiltersList m_filters;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FilterGUIComponent(Form frm, PaFiltersList filters)
+		public FilterGUIComponent(Form frm)
 		{
 			m_form = frm;
-			m_filters = filters;
 			SetupFilterToolbarButton();
 			SetupFilterStatusBarLabel();
 		}
@@ -49,7 +47,6 @@ namespace SIL.Pa.FiltersAddOn
 		public void Dispose()
 		{
 			m_form = null;
-			m_filters = null;
 			m_menuStrip = null;
 			m_statusStrip = null;
 
@@ -76,6 +73,49 @@ namespace SIL.Pa.FiltersAddOn
 				m_dropDownContent.Dispose();
 				m_dropDownContent = null;
 			}
+		}
+
+		#endregion
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ToolStripStatusLabel FilterStatusStripLabel
+		{
+			get { return m_statusLbl; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ToolStripDropDownButton FilterToolBarButton
+		{
+			get { return m_filterButton; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public StatusStrip StatusStrip
+		{
+			get { return m_statusStrip; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FiltersDropDownCtrl DropDownCtrl
+		{
+			get { return m_dropDownContent; }
 		}
 
 		#endregion
@@ -109,7 +149,7 @@ namespace SIL.Pa.FiltersAddOn
 				m_separator.Margin = new Padding(0);
 				m_menuStrip.Items.Add(m_separator);
 
-				m_dropDownContent = new FiltersDropDownCtrl(m_filters);
+				m_dropDownContent = new FiltersDropDownCtrl();
 				m_filterButton = new ToolStripDropDownButton(Properties.Resources.kimidFilter);
 				m_filterButton.DropDown = m_dropDownContent.HostingDropDown;
 				m_filterButton.Margin = new Padding(0);
@@ -139,10 +179,11 @@ namespace SIL.Pa.FiltersAddOn
 				if (m_statusStrip == null)
 					return;
 
-				m_statusLbl = new ToolStripStatusLabel("test lagyjbel test test");
+				m_statusLbl = new ToolStripStatusLabel();
 				Padding margin = m_statusLbl.Margin;
 				margin.Right = 3;
 				m_statusLbl.Margin = margin;
+				m_statusLbl.Visible = false;
 				m_statusLbl.AutoSize = false;
 				m_statusLbl.Paint += HandleStatusLabelPaint;
 				m_statusStrip.Items.Add(m_statusLbl);
@@ -187,6 +228,16 @@ namespace SIL.Pa.FiltersAddOn
 			TextFormatFlags flags = TextFormatFlags.EndEllipsis |
 				TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter;
 			TextRenderer.DrawText(e.Graphics, m_statusLbl.Text, m_statusLbl.Font, rc, Color.Black, flags);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RefreshFilterList()
+		{
+			m_dropDownContent.RefreshFilterList();
 		}
 	}
 }
