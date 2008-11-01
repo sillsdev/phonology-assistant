@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils;
 using System.Text.RegularExpressions;
+using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa.FiltersAddOn
 {
@@ -145,7 +146,7 @@ namespace SIL.Pa.FiltersAddOn
 		private string m_name;
 		private List<FilterExpression> m_expressions = new List<FilterExpression>();
 		private bool m_fOrExpressions = false;
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -230,6 +231,29 @@ namespace SIL.Pa.FiltersAddOn
 			}
 
 			FilterHelper.FilterApplied(this);
+			CleanUpExpressionSearchEngines(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method is used after a filter is applied. It goes through the expressions
+		/// and dereferences (so they'll get garbage collected) all the search engines
+		/// created by expressions that are based on other filters.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void CleanUpExpressionSearchEngines(PaFilter filter)
+		{
+			if (filter == null)
+				return;
+
+			foreach (FilterExpression expression in filter.Expressions)
+			{
+				if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn)
+				{
+					CleanUpExpressionSearchEngines(FilterHelper.FilterList[expression.Pattern]);
+					expression.SearchEngine = null;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -243,6 +267,14 @@ namespace SIL.Pa.FiltersAddOn
 
 			foreach (FilterExpression expression in m_expressions)
 			{
+				if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn &&
+					expression.SearchEngine == null)
+				{
+					expression.SearchEngine = FilterHelper.CheckSearchQuery(expression.SearchQuery, false);
+					if (expression.SearchEngine == null)
+						return false;
+				}
+			
 				match = expression.Matches(entry);
 
 				// If the entry matches and we're logically OR'ing the expressions,
@@ -262,7 +294,7 @@ namespace SIL.Pa.FiltersAddOn
 
 	#endregion
 
-	#region FilterElement class
+	#region FilterExpression class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -281,6 +313,9 @@ namespace SIL.Pa.FiltersAddOn
 		private bool m_fieldIsNumeric = false;
 		private bool m_fieldIsFilter = false;
 		private bool m_fieldTypeDetermined = false;
+		private bool m_patternContainsWordBoundaries = false;
+		private SearchQuery m_searchQuery = null;
+		private SearchEngine m_srchEngine = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -298,6 +333,7 @@ namespace SIL.Pa.FiltersAddOn
 			clone.m_fieldIsNumeric = m_fieldIsNumeric;
 			clone.m_fieldIsFilter = m_fieldIsFilter;
 			clone.m_fieldTypeDetermined = m_fieldTypeDetermined;
+			clone.m_searchQuery = (m_searchQuery == null ? null : m_searchQuery.Clone());
 			return clone;
 		}
 
@@ -325,13 +361,19 @@ namespace SIL.Pa.FiltersAddOn
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets or sets the pattern used to filter data. When 'Field' is another filter then
+		/// this is the name of the other filter. When the 'Type' is a phonetic search
+		/// pattern, then this is the the search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string Pattern
 		{
 			get { return m_pattern; }
-			set	{ m_pattern = value; }
+			set
+			{
+				m_pattern = value;
+				m_patternContainsWordBoundaries = (value != null && value.IndexOf('#') >= 0);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -342,7 +384,35 @@ namespace SIL.Pa.FiltersAddOn
 		public ExpressionType ExpressionType
 		{
 			get { return m_expTypep; }
-			set { m_expTypep = value; }
+			set
+			{
+				m_expTypep = value;
+				m_searchQuery = (value == ExpressionType.PhoneticSrchPtrn ?
+					new SearchQuery() : null);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchQuery SearchQuery
+		{
+			get { return m_searchQuery; }
+			set { m_searchQuery = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public SearchEngine SearchEngine
+		{
+			get { return m_srchEngine; }
+			set { m_srchEngine = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -356,6 +426,9 @@ namespace SIL.Pa.FiltersAddOn
 			// the filter and return whether or not the entry matches the filter.
 			if (m_fieldName == OtherFilterField)
 				return MatchesFilter(entry);
+
+			if (m_expTypep == ExpressionType.PhoneticSrchPtrn)
+				return MatchesSearchPattern(entry);
 
 			if (!m_fieldTypeDetermined)
 			{
@@ -401,7 +474,7 @@ namespace SIL.Pa.FiltersAddOn
 				case FilterOperator.LessThan:
 				case FilterOperator.LessThanOrEqual:
 					return MatchesNumeric(entryValue);
-				
+
 				default: break;
 			}
 
@@ -490,6 +563,62 @@ namespace SIL.Pa.FiltersAddOn
 				case FilterOperator.GreaterThanOrEqual: return (date1 >= date2);
 				case FilterOperator.LessThan: return (date1 < date2);
 				case FilterOperator.LessThanOrEqual: return (date1 <= date2);
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool MatchesSearchPattern(WordCacheEntry entry)
+		{
+			if (m_searchQuery == null || string.IsNullOrEmpty(m_pattern))
+				return false;
+
+			string[][] eticWords = new string[1][];
+
+			if (m_searchQuery.IncludeAllUncertainPossibilities && entry.ContiansUncertainties)
+			{
+				// Get a list of all the words (each word being in the form of
+				// an array of phones) that can be derived from all the primary
+				// and non primary uncertainties.
+				eticWords = entry.GetAllPossibleUncertainWords(false);
+				if (eticWords == null)
+					return false;
+			}
+			else
+			{
+				// Not all uncertain possibilities should be included in the search, so
+				// just load up the phones that only include the primary uncertain Phone(s).
+				eticWords[0] = entry.Phones;
+				if (eticWords[0] == null)
+					return false;
+			}
+
+			// If eticWords.Length = 1 then either the word we're searching doesn't contain
+			// uncertain phones or it does but they are only primary uncertain phones. When
+			// eticWords.Length > 1, we know the uncertain phones in the first word are only
+			// primary uncertainities while at least one phone in the remaining words is a
+			// non primary uncertainy.
+			for (int i = 0; i < eticWords.Length; i++)
+			{
+				// If the search pattern contains the word breaking character, then add a
+				// space at the beginning and end of the array of phones so the word breaking
+				// character has something to match at the extremes of the phonetic values.
+				if (m_patternContainsWordBoundaries)
+				{
+					List<string> tmpChars = new List<string>(eticWords[i]);
+					tmpChars.Insert(0, " ");
+					tmpChars.Add(" ");
+					eticWords[i] = tmpChars.ToArray();
+				}
+
+				int[] result;
+				if (m_srchEngine.SearchWord(eticWords[i], out result))
+					return true;
 			}
 
 			return false;

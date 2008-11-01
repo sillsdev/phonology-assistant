@@ -65,6 +65,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
+      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
+      <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\PaControls\PaControls.csproj">
       <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>
       <Name>PaControls</Name>

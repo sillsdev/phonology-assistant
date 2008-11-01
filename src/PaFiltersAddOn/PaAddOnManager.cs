@@ -13,6 +13,7 @@ using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 using System.Drawing.Drawing2D;
+using SIL.Pa.FFSearchEngine;
 
 // I don't want to use a custom attribute, so I'm
 // kludging what I want by using this attribute.
@@ -28,7 +29,6 @@ namespace SIL.Pa.FiltersAddOn
 	public class PaAddOnManager : IxCoreColleague
 	{
 		private Dictionary<Form, FilterGUIComponent> m_guiComponents;
-		private PaFiltersList m_filters;
 		private bool m_fDataFilterAfterReading = false;
 
 		/// ------------------------------------------------------------------------------------
@@ -180,13 +180,8 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			m_fDataFilterAfterReading = true;
 
-			if (project == null)
-				return;
-
-			if (m_filters == null)
-				m_filters = PaFiltersList.Load(project);
-
-			FilterHelper.FilterList = m_filters;
+			if (project != null)
+				FilterHelper.FilterList = PaFiltersList.Load(project);
 
 			// TODO: Filter data
 			// PaApp.SettingsHandler.GetStringSettingsValue("filters", "current", null);
@@ -206,7 +201,7 @@ namespace SIL.Pa.FiltersAddOn
 			// filter just applied.
 			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
 			{
-				fgc.DropDownCtrl.CurrentFilter = filter;
+				fgc.DropDownCtrl.SelectedFilter = filter;
 				fgc.FilterStatusStripLabel.Visible = (filter != null);
 
 				if (filter == null)
@@ -234,13 +229,31 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterListUpdated(object args)
 		{
-			m_filters = PaFiltersList.Load();
-			FilterHelper.FilterList = m_filters;
+			PaFilter prevFilter = FilterHelper.CurrentFilter;
+			FilterHelper.FilterList = PaFiltersList.Load();
 
 			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
 				fgc.RefreshFilterList();
 
-			// TODO: Reapply the filter that's currently active.
+			if (prevFilter != null)
+			{
+				// Because the filter list has been recreated, the previous filter was
+				// orphaned by the recreation of the filter list, we need to find the
+				// new instance of the filter with the same name. If that filter no
+				// longer exists, then we must restore all previously filter entries
+				// (i.e. Restore).
+				PaFilter filter = FilterHelper.FilterList[prevFilter.Name];
+
+				if (filter != null)
+					filter.ApplyFilter();
+				else
+				{
+					FilterHelper.TurnOffFilter();
+					foreach (FilterGUIComponent fgc in m_guiComponents.Values)
+						fgc.FilterStatusStripLabel.Visible = false;
+				}
+			}
+			
 			return false;
 		}
 
@@ -316,6 +329,19 @@ namespace SIL.Pa.FiltersAddOn
 		/// word cache).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static void TurnOffFilter()
+		{
+			Restore();
+			s_currFilter = null;
+			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Restores the filtered out words (i.e. puts them back into the application's
+		/// word cache).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static void Restore()
 		{
 			if (s_unusedWordsCache.Count > 0 && PaApp.WordCache != null)
@@ -336,6 +362,50 @@ namespace SIL.Pa.FiltersAddOn
 			s_currFilter = filter;
 			PaApp.BuildPhoneCache();
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SearchEngine CheckSearchQuery(SearchQuery query, bool showErrMsg)
+		{
+			query.ErrorMessages.Clear();
+			SearchQuery modifiedQuery;
+			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
+				return null;
+
+			if (PaApp.Project != null)
+				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
+
+			SearchEngine.ConvertPatternWithExperimentalTrans =
+				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				"convertpatternswithexperimentaltrans", false);
+
+			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+
+			string[] errors = modifiedQuery.ErrorMessages.ToArray();
+			string msg = ReflectionHelper.GetStrResult(typeof(PaApp),
+				"CombineErrorMessages", errors);
+
+			if (!string.IsNullOrEmpty(msg))
+			{
+				if (showErrMsg)
+					STUtils.STMsgBox(msg);
+
+				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
+				return null;
+			}
+
+			if (!ReflectionHelper.GetBoolResult(typeof(PaApp),
+				"VerifyMiscPatternConditions", new object[] { engine, showErrMsg }))
+			{
+				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
+				return null;
+			}
+
+			return engine;
 		}
 	}
 }

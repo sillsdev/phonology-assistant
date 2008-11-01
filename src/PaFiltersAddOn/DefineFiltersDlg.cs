@@ -7,6 +7,9 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Dialogs;
 using SIL.SpeechTools.Utils;
+using SIL.Pa.Controls;
+using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa.FiltersAddOn
 {
@@ -17,7 +20,15 @@ namespace SIL.Pa.FiltersAddOn
 	/// ----------------------------------------------------------------------------------------
 	public partial class DefineFiltersDlg : OKCancelDlgBase
 	{
+		private const string kFieldCol = "Field";
+		private const string kOpCol = "Operator";
+		private const string kValueCol = "Value";
+		private const string kTypeCol = "Type";
+
+		private int m_gridRowHeight = 0;
 		private string m_currFilterName;
+		private DropDownFiltersListBox m_filterDropDown;
+		private CustomDropDown m_queryDropDown;
 		private Dictionary<FilterOperator, string> m_operatorToText;
 		private Dictionary<string, FilterOperator> m_textToOperator;
 		private Dictionary<ExpressionType, string> m_expTypeToText;
@@ -32,13 +43,14 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			InitializeComponent();
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DefineFiltersDlg(string currFilterName) : this()
+		public DefineFiltersDlg(string currFilterName)
+			: this()
 		{
 			m_operatorToText = new Dictionary<FilterOperator, string>();
 			m_textToOperator = new Dictionary<string, FilterOperator>();
@@ -49,7 +61,6 @@ namespace SIL.Pa.FiltersAddOn
 				m_operatorToText[op] = enumDisplayText;
 				m_textToOperator[enumDisplayText] = op;
 			}
-
 
 			m_expTypeToText = new Dictionary<ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, ExpressionType>();
@@ -83,6 +94,7 @@ namespace SIL.Pa.FiltersAddOn
 			rbAnd.Left = rbOr.Left - rbAnd.Width - 5;
 			lblAndOr.Left = rbAnd.Left - lblAndOr.Width - 5;
 
+			m_filterDropDown = new DropDownFiltersListBox();
 			BuildGrid();
 			LoadFilters();
 		}
@@ -106,17 +118,12 @@ namespace SIL.Pa.FiltersAddOn
 				int splitDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", 0);
 				if (splitDistance > 0)
 					splitFilters.SplitterDistance = splitDistance;
-
 			}
 			catch { }
 
-			//if (lvFilters.SelectedItems.Count > 0)
-			//    lvFilters.FocusedItem = lvFilters.SelectedItems[0];
-
-			//lvFilters_ItemSelectionChanged(null, null);
 			lvFilters.Focus();
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -160,6 +167,7 @@ namespace SIL.Pa.FiltersAddOn
 		private void BuildGrid()
 		{
 			m_grid.AllowUserToAddRows = true;
+			m_grid.AllowUserToResizeRows = false;
 			m_grid.AllowUserToDeleteRows = true;
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.AllowUserToResizeColumns = true;
@@ -167,42 +175,82 @@ namespace SIL.Pa.FiltersAddOn
 
 			List<string> fieldNames = new List<string>();
 			foreach (PaFieldInfo fieldInfo in PaApp.FieldInfo)
+			{
 				fieldNames.Add(fieldInfo.DisplayText);
+				m_gridRowHeight = Math.Max(fieldInfo.Font.Height, m_gridRowHeight);
+			}
 
 			// Add the "field" that represents another filter, rather than a field in the data.
 			fieldNames.Add(FilterExpression.OtherFilterField);
 
-			DataGridViewColumn col = SilGrid.CreateDropDownListComboBoxColumn("Field", fieldNames);
+			DataGridViewColumn col = SilGrid.CreateDropDownListComboBoxColumn(kFieldCol, fieldNames);
+			col.HeaderText = Properties.Resources.kstidFieldColHdgText;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 135;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_grid.Columns.Add(col);
 
-			col = SilGrid.CreateDropDownListComboBoxColumn("Operator", new List<string>(m_operatorToText.Values));
+			col = SilGrid.CreateDropDownListComboBoxColumn(kOpCol, new List<string>(m_operatorToText.Values));
+			col.HeaderText = Properties.Resources.kstidOperatorColHdgText;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_grid.Columns.Add(col);
 
-			col = SilGrid.CreateTextBoxColumn("Value");
+			col = SilGrid.CreateSilButtonColumn(kValueCol);
+			((SilButtonColumn)col).UseComboButtonStyle = true;
+			((SilButtonColumn)col).ButtonClicked += HandleValueColumnButtonClicked;
+			col.HeaderText = Properties.Resources.kstidValueColHdgText;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			m_grid.Columns.Add(col);
 
-			col = SilGrid.CreateDropDownListComboBoxColumn("Type", new List<string>(m_expTypeToText.Values));
+			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol, new List<string>(m_expTypeToText.Values));
+			col.HeaderText = Properties.Resources.kstidTypeColHdgText;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_grid.Columns.Add(col);
+
 			m_grid.AutoResizeColumn(2, DataGridViewAutoSizeColumnMode.ColumnHeader);
 			m_grid.AutoResizeColumn(3, DataGridViewAutoSizeColumnMode.ColumnHeader);
-
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.ColumnHeadersHeight += 4;
 			PaApp.SettingsHandler.LoadGridProperties(m_grid);
 			m_grid.IsDirty = false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadExpressions(PaFilter filter)
+		{
+			bool wasDirty = m_grid.IsDirty;
+			m_grid.RowValidated -= m_grid_RowValidated;
+			m_grid.CellValidated -= m_grid_CellValidated;
+			m_grid.Rows.Clear();
+
+			if (filter != null && filter.Expressions.Count > 0)
+			{
+				foreach (FilterExpression expression in filter.Expressions)
+				{
+					string fieldName = expression.FieldName;
+					if (fieldName != FilterExpression.OtherFilterField)
+						fieldName = PaApp.FieldInfo[fieldName].DisplayText;
+
+					m_grid.Rows.Add(fieldName, m_operatorToText[expression.Operator],
+						expression.Pattern, m_expTypeToText[expression.ExpressionType]);
+				}
+			}
+
+			m_grid.RowValidated += m_grid_RowValidated;
+			m_grid.CellValidated += m_grid_CellValidated;
+			m_grid.IsDirty = wasDirty;
+		}
+
+		#region Expression Grid control events
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -218,29 +266,135 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadExpressions(PaFilter filter)
+		private void m_grid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{
-			bool wasDirty = m_grid.IsDirty;
-			m_grid.RowValidated -= m_grid_RowValidated;
-			m_grid.Rows.Clear();
-
-			if (filter == null || filter.Expressions.Count == 0)
-				return;
-
-			foreach (FilterExpression expression in filter.Expressions)
+			if (e.ColumnIndex == 2)
 			{
-				string fieldName = expression.FieldName;
-				if (fieldName != FilterExpression.OtherFilterField)
-					fieldName = PaApp.FieldInfo[fieldName].DisplayText;
-
-				m_grid.Rows.Add(fieldName, m_operatorToText[expression.Operator],
-					expression.Pattern,	m_expTypeToText[expression.ExpressionType]);
+				string fieldName = m_grid[kFieldCol, e.RowIndex].Value as string;
+				PaFieldInfo fieldInfo = PaApp.FieldInfo[fieldName];
+				e.CellStyle.Font = (fieldInfo != null ? fieldInfo.Font : FontHelper.UIFont);
 			}
-
-			m_grid.RowValidated += m_grid_RowValidated;
-			m_grid.IsDirty = wasDirty;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+		{
+			DataGridViewComboBoxColumn col = m_grid.Columns[kFieldCol] as DataGridViewComboBoxColumn;
+			e.Row.Cells[kFieldCol].Value = col.Items[0];
+			col = m_grid.Columns[kOpCol] as DataGridViewComboBoxColumn;
+			e.Row.Cells[kOpCol].Value = col.Items[0];
+			col = m_grid.Columns[kTypeCol] as DataGridViewComboBoxColumn;
+			e.Row.Cells[kTypeCol].Value = col.Items[0];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_KeyDown(object sender, KeyEventArgs e)
+		{
+			DataGridViewCell cell = m_grid.CurrentCell;
+
+			if (cell != null && cell.ColumnIndex == 2 && e.Alt && e.KeyCode == Keys.Down)
+			{
+				e.Handled = true;
+				HandleValueColumnButtonClicked(m_grid,
+					new DataGridViewCellMouseEventArgs(2, cell.RowIndex, 0, 0,
+						new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0)));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleValueColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			string expType = m_grid[kTypeCol, e.RowIndex].Value as string;
+
+			if (string.IsNullOrEmpty(expType))
+				return;
+
+			if ((m_grid[kFieldCol, e.RowIndex].Value as string) == FilterExpression.OtherFilterField)
+			{
+				if (FilterHelper.FilterList.Count != 0)
+					m_filterDropDown.Show(m_grid[kValueCol, e.RowIndex]);
+			}
+			else if (expType == m_expTypeToText[ExpressionType.PhoneticSrchPtrn])
+			{
+				SearchQuery query = m_grid[kTypeCol, e.RowIndex].Tag as SearchQuery;
+				SearchOptionsDropDown sodd = new SearchOptionsDropDown(query);
+				m_queryDropDown = new CustomDropDown();
+				m_queryDropDown.Closed += m_queryDropDown_Closed;
+				m_queryDropDown.AddControl(sodd);
+				Rectangle rc = m_grid.GetCellDisplayRectangle(2, e.RowIndex, false);
+				rc.Y += rc.Height;
+				m_queryDropDown.Show(m_grid.PointToScreen(rc.Location));
+			}
+			else
+			{
+				m_filterDropDown.Show(m_grid[kValueCol, e.RowIndex],
+					m_grid[kFieldCol, e.RowIndex].Value as string);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_queryDropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+		{
+			m_queryDropDown.Closed -= m_queryDropDown_Closed;
+			m_queryDropDown = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_RowValidated(object sender, DataGridViewCellEventArgs e)
+		{
+			PaFilter filter = CurrentFilter;
+
+			if (filter != null)
+			{
+				filter.Expressions.Clear();
+				foreach (DataGridViewRow row in m_grid.Rows)
+				{
+					if (row.Index != m_grid.NewRowIndex)
+						filter.Expressions.Add(GetExpressionFromRow(row));
+				}
+			}
+
+			m_grid.IsDirty = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_grid_CellValidated(object sender, DataGridViewCellEventArgs e)
+		{
+			string expType = m_grid[kTypeCol, e.RowIndex].Value as string;
+			if (!string.IsNullOrEmpty(expType))
+			{
+				if (m_grid[kTypeCol, e.RowIndex].Tag == null)
+					m_grid[kTypeCol, e.RowIndex].Tag = new SearchQuery();
+			}
+		}
+
+		#endregion
+
+		#region Filter ListView control events
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -266,13 +420,22 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleLogicalExpressionRelationshipChange(object sender, EventArgs e)
+		private void lvFilters_AfterLabelEdit(object sender, LabelEditEventArgs e)
 		{
-			if (CurrentFilter != null)
+			PaFilter filter = lvFilters.Items[e.Item].Tag as PaFilter;
+			if (filter == null || e.Label == null || filter.Name == e.Label)
+				return;
+
+			if (FilterNameExists(e.Label))
 			{
-				CurrentFilter.OrExpressions = rbOr.Checked;
-				m_dirty = true;
+				string msg = string.Format(Properties.Resources.kstidFilterNameExistsMsg, e.Label);
+				STUtils.STMsgBox(msg);
+				e.CancelEdit = true;
+				return;
 			}
+
+			m_dirty = true;
+			filter.Name = e.Label;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -280,37 +443,17 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		private void lvFilters_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.ColumnIndex == 2 && e.CellStyle.Font != m_grid.Columns[2].DefaultCellStyle.Font)
-				e.CellStyle.Font = m_grid.Columns[2].DefaultCellStyle.Font;
+			if (e.KeyCode == Keys.F2 && lvFilters.FocusedItem != null)
+				lvFilters.FocusedItem.BeginEdit();
+			else if (e.KeyCode == Keys.Delete)
+				btnRemove_Click(null, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_grid_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
-		{
-			DataGridViewComboBoxColumn col = m_grid.Columns[0] as DataGridViewComboBoxColumn;
-			e.Row.Cells[0].Value = col.Items[0];
-			col = m_grid.Columns[1] as DataGridViewComboBoxColumn;
-			e.Row.Cells[1].Value = col.Items[0];
-			col = m_grid.Columns[3] as DataGridViewComboBoxColumn;
-			e.Row.Cells[3].Value = col.Items[0];
-		}
+		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void splitFilter_SplitterMoved(object sender, SplitterEventArgs e)
-		{
-			hdrFilter.Width = lvFilters.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 4;
-		}
-
+		#region Add, Copy, Remove button events
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -382,27 +525,20 @@ namespace SIL.Pa.FiltersAddOn
 			}
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvFilters_AfterLabelEdit(object sender, LabelEditEventArgs e)
+		void HandleLogicalExpressionRelationshipChange(object sender, EventArgs e)
 		{
-			PaFilter filter = lvFilters.Items[e.Item].Tag as PaFilter;
-			if (filter == null || e.Label == null || filter.Name == e.Label)
-				return;
-
-			if (FilterNameExists(e.Label))
+			if (CurrentFilter != null)
 			{
-				string msg = string.Format(Properties.Resources.kstidFilterNameExistsMsg, e.Label);
-				STUtils.STMsgBox(msg);
-				e.CancelEdit = true;
-				return;
+				CurrentFilter.OrExpressions = rbOr.Checked;
+				m_dirty = true;
 			}
-
-			m_dirty = true;
-			filter.Name = e.Label;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -410,22 +546,9 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvFilters_KeyDown(object sender, KeyEventArgs e)
+		private void splitFilter_SplitterMoved(object sender, SplitterEventArgs e)
 		{
-			if (e.KeyCode == Keys.F2 && lvFilters.FocusedItem != null)
-				lvFilters.FocusedItem.BeginEdit();
-			else if (e.KeyCode == Keys.Delete)
-				btnRemove_Click(null, null);
-		}
-	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_grid_RowValidated(object sender, DataGridViewCellEventArgs e)
-		{
-
+			hdrFilter.Width = lvFilters.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 4;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -437,8 +560,8 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			FilterExpression expression = new FilterExpression();
 
-			string fieldName = row.Cells[0].Value as string;
-			
+			string fieldName = row.Cells[kFieldCol].Value as string;
+
 			if (fieldName != FilterExpression.OtherFilterField)
 			{
 				PaFieldInfo fieldInfo =
@@ -449,10 +572,28 @@ namespace SIL.Pa.FiltersAddOn
 			}
 
 			expression.FieldName = fieldName;
-			expression.Operator = m_textToOperator[row.Cells[1].Value as string];
-			expression.Pattern = row.Cells[2].Value as string;
-			expression.ExpressionType = m_textToExpType[row.Cells[3].Value as string];
+			expression.Operator = m_textToOperator[row.Cells[kOpCol].Value as string];
+			expression.Pattern = row.Cells[kValueCol].Value as string;
+			expression.ExpressionType = m_textToExpType[row.Cells[kTypeCol].Value as string];
+
+			if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn)
+			{
+				SearchQuery query = row.Cells[kTypeCol].Tag as SearchQuery;
+				expression.SearchQuery = (query == null ? new SearchQuery() : query);
+				expression.SearchQuery.Pattern = expression.Pattern;
+			}
+
 			return expression;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool IsDirty
+		{
+			get { return m_dirty || m_grid.IsDirty; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -465,10 +606,49 @@ namespace SIL.Pa.FiltersAddOn
 			PaApp.SettingsHandler.SaveFormProperties(this);
 			PaApp.SettingsHandler.SaveGridProperties(m_grid);
 			PaApp.SettingsHandler.SaveSettingsValue(Name, "split", splitFilters.SplitterDistance);
+		}
 
-			if (!IsDirty && !m_grid.IsDirty || DialogResult != DialogResult.OK)
-				return;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool Verify()
+		{
+			// Commit pending changes in the grid.
+			m_grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
+			foreach (ListViewItem item in lvFilters.Items)
+			{
+				PaFilter filter = item.Tag as PaFilter;
+				if (filter != null)
+				{
+					foreach (FilterExpression expression in filter.Expressions)
+					{
+						if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn &&
+							FilterHelper.CheckSearchQuery(expression.SearchQuery, true) == null)
+						{
+							lvFilters.SelectedItems.Clear();
+							lvFilters.FocusedItem = item;
+							item.Selected = true;
+							m_grid.Focus();
+							return false;
+						}
+					}
+
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool SaveChanges()
+		{
 			PaFiltersList filterList = new PaFiltersList();
 			foreach (ListViewItem item in lvFilters.Items)
 			{
@@ -477,8 +657,11 @@ namespace SIL.Pa.FiltersAddOn
 					filterList.Add(filter);
 			}
 
+			// TODO: Validate expressions with search queries.
+
 			filterList.Save();
 			PaApp.MsgMediator.SendMessage("FilterListUpdated", null);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -496,7 +679,7 @@ namespace SIL.Pa.FiltersAddOn
 				while (FilterNameExists(nameToCopy))
 					nameToCopy = string.Format(fmt, nameToCopy);
 
-				return nameToCopy;		
+				return nameToCopy;
 			}
 
 			fmt = Properties.Resources.kstidNewFilterName;
@@ -532,7 +715,191 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		private PaFilter CurrentFilter
 		{
-			get {return (lvFilters.FocusedItem == null ? null : lvFilters.FocusedItem.Tag as PaFilter);}
+			get { return (lvFilters.FocusedItem == null ? null : lvFilters.FocusedItem.Tag as PaFilter); }
 		}
 	}
+
+	#region DropDownFiltersListBox class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	internal class DropDownFiltersListBox : ListBox
+	{
+		private DataGridViewCell m_cell;
+		private CustomDropDown m_dropDown;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal DropDownFiltersListBox()
+		{
+			m_dropDown = new CustomDropDown();
+			m_dropDown.AutoCloseWhenMouseLeaves = false;
+			m_dropDown.Closed += m_dropDown_Closed;
+			m_dropDown.AddControl(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal bool IsDroppedDown
+		{
+			get { return m_cell != null; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void Close()
+		{
+			m_dropDown.Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_dropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+		{
+			m_cell = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void Show(DataGridViewCell cell)
+		{
+			Items.Clear();
+			Font = FontHelper.UIFont;
+
+			string cellValue = cell.Value as string;
+			foreach (PaFilter filter in FilterHelper.FilterList)
+			{
+				Items.Add(filter.Name);
+				if (cellValue == filter.Name)
+					SelectedIndex = Items.Count - 1;
+			}
+
+			if (SelectedIndex < 0)
+				SelectedIndex = 0;
+
+			m_cell = cell;
+			int col = cell.ColumnIndex;
+			int row = cell.RowIndex;
+			Width = cell.DataGridView.Columns[col].Width;
+			Height = (Math.Min(Items.Count, 10) * Font.Height) + 4;
+			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
+			rc.Y += rc.Height;
+			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
+			Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void Show(DataGridViewCell cell, string field)
+		{
+			PaFieldInfo fieldInfo = PaApp.FieldInfo[field];
+			if (fieldInfo == null)
+				return;
+
+			Items.Clear();
+			Font = fieldInfo.Font;
+
+			SortedDictionary<string, bool> list = new SortedDictionary<string, bool>();
+			foreach (WordCacheEntry entry in PaApp.WordCache)
+			{
+				string val = entry[field];
+				if (!string.IsNullOrEmpty(val))
+					list[val] = true;
+			}
+
+			if (list.Count == 0)
+				return;
+
+			string cellValue = cell.Value as string;
+			foreach (string val in list.Keys)
+			{
+				Items.Add(val);
+				if (cellValue == val)
+					SelectedIndex = Items.Count - 1;
+			}
+
+			if (SelectedIndex < 0)
+				SelectedIndex = 0;
+
+			m_cell = cell;
+			int col = cell.ColumnIndex;
+			int row = cell.RowIndex;
+			Width = cell.DataGridView.Columns[col].Width;
+			Height = (Math.Min(Items.Count, 10) * Font.Height) + 4;
+			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
+			rc.Y += rc.Height;
+			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
+			Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+
+			int i = IndexFromPoint(e.Location);
+			if (i >= 0 && i != SelectedIndex)
+				SelectedIndex = i;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			base.OnMouseClick(e);
+
+			int i = IndexFromPoint(e.Location);
+			if (i >= 0)
+				m_cell.Value = Items[i] as string;
+
+			m_dropDown.Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+
+			if (e.KeyCode == Keys.Escape)
+				m_dropDown.Close();
+			else if (e.KeyCode == Keys.Return && SelectedItem != null)
+			{
+				m_cell.Value = SelectedItem as string;
+				m_dropDown.Close();
+			}
+		}
+	}
+
+	#endregion
 }

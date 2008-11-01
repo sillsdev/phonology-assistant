@@ -126,7 +126,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
     <value>pnlButtons</value>
@@ -253,7 +253,7 @@
     <value>hlblFilters</value>
   </data>
   <data name="&gt;&gt;hlblFilters.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.3223.18768, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.3226.18184, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
@@ -280,7 +280,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.3223.18768, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.3226.18184, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
@@ -436,16 +436,16 @@
     <value>True</value>
   </data>
   <data name="lblAndOr.Location" type="System.Drawing.Point, System.Drawing">
-    <value>195, 8</value>
+    <value>176, 8</value>
   </data>
   <data name="lblAndOr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 13</value>
+    <value>202, 13</value>
   </data>
   <data name="lblAndOr.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="lblAndOr.Text" xml:space="preserve">
-    <value>Logical Relationship of Expressions:</value>
+    <value>Logical relationship between expressions:</value>
   </data>
   <data name="&gt;&gt;lblAndOr.Name" xml:space="preserve">
     <value>lblAndOr</value>
@@ -568,7 +568,7 @@
     <value>8</value>
   </data>
   <data name="splitFilters.TabIndex" type="System.Int32, mscorlib">
-    <value>104</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;splitFilters.Name" xml:space="preserve">
     <value>splitFilters</value>
@@ -607,6 +607,6 @@
     <value>DefineFiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.3224.17693, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.3226.18513, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

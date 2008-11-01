@@ -109,7 +109,7 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal PaFilter CurrentFilter
+		internal PaFilter SelectedFilter
 		{
 			get { return lstFilters.SelectedItem as PaFilter; }
 			set
@@ -137,6 +137,7 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		void m_dropDown_Opened(object sender, EventArgs e)
 		{
+			SelectedFilter = FilterHelper.CurrentFilter;
 			lstFilters.Focus();
 		}
 
@@ -148,7 +149,7 @@ namespace SIL.Pa.FiltersAddOn
 		private void lnkDefine_Click(object sender, EventArgs e)
 		{
 			m_dropDown.Close();
-			string filterName = (CurrentFilter != null ? CurrentFilter.Name : null);
+			string filterName = (SelectedFilter != null ? SelectedFilter.Name : null);
 			using (DefineFiltersDlg dlg = new DefineFiltersDlg(filterName))
 				dlg.ShowDialog();
 		}
@@ -173,7 +174,7 @@ namespace SIL.Pa.FiltersAddOn
 				FilterHelper.FilterApplied(null);
 			}
 
-			PaApp.MsgMediator.SendMessage("FilterApplied", CurrentFilter);
+			PaApp.MsgMediator.SendMessage("FilterApplied", SelectedFilter);
 		}
 
 		/// ------------------------------------------------------------------------------------

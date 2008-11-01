@@ -105,6 +105,7 @@
 			// 
 			this.splitFilters.Panel2.Controls.Add(this.m_grid);
 			this.splitFilters.Panel2.Controls.Add(this.pnlFilterOptions);
+			this.splitFilters.TabStop = false;
 			this.splitFilters.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitFilter_SplitterMoved);
 			// 
 			// pnlFilters
@@ -190,6 +191,7 @@
 			this.m_grid.ColumnHeadersHeightChanged += new System.EventHandler(this.m_grid_ColumnHeadersHeightChanged);
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
 			this.m_grid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.m_grid_DefaultValuesNeeded);
+			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
 			// 
 			// pnlFilterOptions
 			// 

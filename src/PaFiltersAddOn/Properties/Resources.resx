@@ -199,4 +199,20 @@
     <value>Regular Expression</value>
     <comment>Filter expression type</comment>
   </data>
+  <data name="kstidFieldColHdgText" xml:space="preserve">
+    <value>Field</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidOperatorColHdgText" xml:space="preserve">
+    <value>Operator</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidTypeColHdgText" xml:space="preserve">
+    <value>Type</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidValueColHdgText" xml:space="preserve">
+    <value>Value</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
 </root>

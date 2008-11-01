@@ -147,6 +147,15 @@ namespace SIL.Pa.FiltersAddOn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string kstidFieldColHdgText {
+            get {
+                return ResourceManager.GetString("kstidFieldColHdgText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The filter &apos;{0}&apos; already exists..
         /// </summary>
         internal static string kstidFilterNameExistsMsg {
@@ -237,6 +246,15 @@ namespace SIL.Pa.FiltersAddOn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator.
+        /// </summary>
+        internal static string kstidOperatorColHdgText {
+            get {
+                return ResourceManager.GetString("kstidOperatorColHdgText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (OTHER FILTER).
         /// </summary>
         internal static string kstidOtherFilterFieldName {
@@ -278,6 +296,24 @@ namespace SIL.Pa.FiltersAddOn.Properties {
         internal static string kstidRegExp {
             get {
                 return ResourceManager.GetString("kstidRegExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string kstidTypeColHdgText {
+            get {
+                return ResourceManager.GetString("kstidTypeColHdgText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string kstidValueColHdgText {
+            get {
+                return ResourceManager.GetString("kstidValueColHdgText", resourceCulture);
             }
         }
     }
