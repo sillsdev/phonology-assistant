@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lvFilters = new System.Windows.Forms.ListView();
@@ -41,9 +42,11 @@
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.pnlFilterOptions = new System.Windows.Forms.Panel();
+			this.chkShowHide = new System.Windows.Forms.CheckBox();
 			this.lblAndOr = new System.Windows.Forms.Label();
 			this.rbOr = new System.Windows.Forms.RadioButton();
 			this.rbAnd = new System.Windows.Forms.RadioButton();
+			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitFilters.Panel1.SuspendLayout();
 			this.splitFilters.Panel2.SuspendLayout();
@@ -195,30 +198,41 @@
 			// 
 			// pnlFilterOptions
 			// 
+			this.pnlFilterOptions.Controls.Add(this.chkShowHide);
 			this.pnlFilterOptions.Controls.Add(this.lblAndOr);
 			this.pnlFilterOptions.Controls.Add(this.rbOr);
 			this.pnlFilterOptions.Controls.Add(this.rbAnd);
 			resources.ApplyResources(this.pnlFilterOptions, "pnlFilterOptions");
 			this.pnlFilterOptions.Name = "pnlFilterOptions";
 			// 
+			// chkShowHide
+			// 
+			resources.ApplyResources(this.chkShowHide, "chkShowHide");
+			this.chkShowHide.BackColor = System.Drawing.Color.Transparent;
+			this.chkShowHide.Name = "chkShowHide";
+			this.chkShowHide.UseVisualStyleBackColor = false;
+			// 
 			// lblAndOr
 			// 
 			resources.ApplyResources(this.lblAndOr, "lblAndOr");
+			this.lblAndOr.BackColor = System.Drawing.Color.Transparent;
 			this.lblAndOr.Name = "lblAndOr";
 			// 
 			// rbOr
 			// 
 			resources.ApplyResources(this.rbOr, "rbOr");
+			this.rbOr.BackColor = System.Drawing.Color.Transparent;
 			this.rbOr.Name = "rbOr";
 			this.rbOr.TabStop = true;
-			this.rbOr.UseVisualStyleBackColor = true;
+			this.rbOr.UseVisualStyleBackColor = false;
 			// 
 			// rbAnd
 			// 
 			resources.ApplyResources(this.rbAnd, "rbAnd");
+			this.rbAnd.BackColor = System.Drawing.Color.Transparent;
 			this.rbAnd.Name = "rbAnd";
 			this.rbAnd.TabStop = true;
-			this.rbAnd.UseVisualStyleBackColor = true;
+			this.rbAnd.UseVisualStyleBackColor = false;
 			// 
 			// DefineFiltersDlg
 			// 
@@ -257,5 +271,7 @@
 		private System.Windows.Forms.Label lblAndOr;
 		private System.Windows.Forms.RadioButton rbOr;
 		private System.Windows.Forms.RadioButton rbAnd;
+		private System.Windows.Forms.CheckBox chkShowHide;
+		private System.Windows.Forms.ToolTip m_tooltip;
 	}
 }

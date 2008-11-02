@@ -146,7 +146,8 @@ namespace SIL.Pa.FiltersAddOn
 		private string m_name;
 		private List<FilterExpression> m_expressions = new List<FilterExpression>();
 		private bool m_fOrExpressions = false;
-		
+		private bool m_fShowInToolbarList = true;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -173,6 +174,18 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			get { return m_name; }
 			set { m_name = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public bool ShowInToolbarList
+		{
+			get { return m_fShowInToolbarList; }
+			set { m_fShowInToolbarList = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -459,6 +472,7 @@ namespace SIL.Pa.FiltersAddOn
 
 			switch (m_operator)
 			{
+				case FilterOperator.Matches:
 				case FilterOperator.Equals: return entryValue.Equals(m_pattern, StringComparison.InvariantCulture);
 				case FilterOperator.NotEquals: return !entryValue.Equals(m_pattern, StringComparison.InvariantCulture);
 				case FilterOperator.Contains: return entryValue.Contains(m_pattern);
@@ -472,9 +486,7 @@ namespace SIL.Pa.FiltersAddOn
 				case FilterOperator.GreaterThan:
 				case FilterOperator.GreaterThanOrEqual:
 				case FilterOperator.LessThan:
-				case FilterOperator.LessThanOrEqual:
-					return MatchesNumeric(entryValue);
-
+				case FilterOperator.LessThanOrEqual: return MatchesNumeric(entryValue);
 				default: break;
 			}
 
@@ -523,6 +535,7 @@ namespace SIL.Pa.FiltersAddOn
 
 			switch (m_operator)
 			{
+				case FilterOperator.Matches:
 				case FilterOperator.Equals: return (num1 == num2);
 				case FilterOperator.NotEquals: return (num1 != num2);
 				case FilterOperator.GreaterThan: return (num1 > num2);
@@ -557,6 +570,7 @@ namespace SIL.Pa.FiltersAddOn
 
 			switch (m_operator)
 			{
+				case FilterOperator.Matches:
 				case FilterOperator.Equals: return date1.Equals(date2);
 				case FilterOperator.NotEquals: return !date1.Equals(date2);
 				case FilterOperator.GreaterThan: return (date1 > date2);

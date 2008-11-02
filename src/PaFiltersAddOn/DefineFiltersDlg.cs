@@ -29,6 +29,7 @@ namespace SIL.Pa.FiltersAddOn
 		private string m_currFilterName;
 		private DropDownFiltersListBox m_filterDropDown;
 		private CustomDropDown m_queryDropDown;
+		private ImageList m_images;
 		private Dictionary<FilterOperator, string> m_operatorToText;
 		private Dictionary<string, FilterOperator> m_textToOperator;
 		private Dictionary<ExpressionType, string> m_expTypeToText;
@@ -76,9 +77,9 @@ namespace SIL.Pa.FiltersAddOn
 			hlblFilters.Font = FontHelper.UIFont;
 			lvFilters.Font = FontHelper.UIFont;
 			m_grid.Font = FontHelper.UIFont;
-			lblAndOr.Font = FontHelper.UIFont;
-			rbAnd.Font = FontHelper.UIFont;
-			rbOr.Font = FontHelper.UIFont;
+			//lblAndOr.Font = FontHelper.UIFont;
+			//rbAnd.Font = FontHelper.UIFont;
+			//rbOr.Font = FontHelper.UIFont;
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
@@ -88,12 +89,21 @@ namespace SIL.Pa.FiltersAddOn
 
 			splitFilter_SplitterMoved(null, null);
 
-			rbAnd.Top = rbOr.Top = (int)(((decimal)pnlFilterOptions.Height - rbOr.Height) / 2);
-			lblAndOr.Top = (int)(((decimal)pnlFilterOptions.Height - lblAndOr.Height) / 2);
-			rbOr.Left = pnlFilterOptions.Width - rbOr.Width - 5;
-			rbAnd.Left = rbOr.Left - rbAnd.Width - 5;
-			lblAndOr.Left = rbAnd.Left - lblAndOr.Width - 5;
+			//rbAnd.Top = rbOr.Top = (int)(((decimal)pnlFilterOptions.Height - rbOr.Height) / 2);
+			//lblAndOr.Top = (int)(((decimal)pnlFilterOptions.Height - lblAndOr.Height) / 2);
+			//rbOr.Left = pnlFilterOptions.Width - rbOr.Width - 5;
+			//rbAnd.Left = rbOr.Left - rbAnd.Width - 5;
+			//lblAndOr.Left = rbAnd.Left - lblAndOr.Width - 5;
 
+			m_images = new ImageList();
+			m_images.Images.Add(Properties.Resources.kimidFilter);
+			m_images.Images.Add(Properties.Resources.kimidGrayFilter);
+			m_images.ColorDepth = ColorDepth.Depth32Bit;
+			m_images.ImageSize = new Size(16, 16);
+			lvFilters.SmallImageList = m_images;
+
+			string tip = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidShowFilterToolTipText);
+			m_tooltip.SetToolTip(chkShowHide, tip);
 			m_filterDropDown = new DropDownFiltersListBox();
 			BuildGrid();
 			LoadFilters();
@@ -137,6 +147,7 @@ namespace SIL.Pa.FiltersAddOn
 			foreach (PaFilter filter in filterList)
 			{
 				ListViewItem item = new ListViewItem(filter.Name);
+				item.ImageIndex = (filter.ShowInToolbarList ? 0 : 1);
 				item.Tag = filter;
 				lvFilters.Items.Add(item);
 				if (FilterHelper.CurrentFilter != null && filter.Name == FilterHelper.CurrentFilter.Name)
@@ -229,7 +240,7 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			bool wasDirty = m_grid.IsDirty;
 			m_grid.RowValidated -= m_grid_RowValidated;
-			m_grid.CellValidated -= m_grid_CellValidated;
+			m_grid.CurrentCellDirtyStateChanged -= m_grid_CurrentCellDirtyStateChanged;
 			m_grid.Rows.Clear();
 
 			if (filter != null && filter.Expressions.Count > 0)
@@ -246,7 +257,7 @@ namespace SIL.Pa.FiltersAddOn
 			}
 
 			m_grid.RowValidated += m_grid_RowValidated;
-			m_grid.CellValidated += m_grid_CellValidated;
+			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			m_grid.IsDirty = wasDirty;
 		}
 
@@ -311,7 +322,14 @@ namespace SIL.Pa.FiltersAddOn
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Handles the event when the user has clicked on the drop-down button in a value
+		/// cell. The object dropped-down depends on the expression type. If the expression
+		/// type is normal, then the drop-down contains a list of field values found in the
+		/// cache for the field specified in the field column. If the expression type is a
+		/// phonetic search, then the drop-down is a search query options drop-down for the
+		/// query that better be stored in the tag property of the current row's expression
+		/// type cell. If the expression type is a regular expression, then their is no
+		/// drop-down.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleValueColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
@@ -366,6 +384,7 @@ namespace SIL.Pa.FiltersAddOn
 
 			if (filter != null)
 			{
+				// Save all the expressions for the current filter.
 				filter.Expressions.Clear();
 				foreach (DataGridViewRow row in m_grid.Rows)
 				{
@@ -382,13 +401,60 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_CellValidated(object sender, DataGridViewCellEventArgs e)
+		void m_grid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-			string expType = m_grid[kTypeCol, e.RowIndex].Value as string;
-			if (!string.IsNullOrEmpty(expType))
+			if (m_grid.CurrentCell == null)
+				return;
+
+			int row = m_grid.CurrentCell.RowIndex;
+			int col = m_grid.CurrentCell.ColumnIndex;
+
+			// Commit the edit if the column is one of the combo box columns.
+			if (col == 0 || col == 1 || col == 3)
 			{
-				if (m_grid[kTypeCol, e.RowIndex].Tag == null)
-					m_grid[kTypeCol, e.RowIndex].Tag = new SearchQuery();
+				m_grid.CurrentCellDirtyStateChanged -= m_grid_CurrentCellDirtyStateChanged;
+				m_grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+				m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
+			}
+
+			// Get the expression type from the type column.
+			string expType = m_grid[kTypeCol, row].Value as string;
+			if (string.IsNullOrEmpty(expType) || col != 3)
+				return;
+
+			if (m_textToExpType[expType] == ExpressionType.PhoneticSrchPtrn)
+			{
+				// When the expression type is a phonetic search, create a search query
+				// object in which the expression's search query options will be stored.
+				// These are the options that will be displayed on the search query options
+				// drop-down when the user clicks on this row's (i.e. e.RowIndex) value
+				// column drop-down button.
+				if (m_grid[kTypeCol, row].Tag == null)
+					m_grid[kTypeCol, row].Tag = new SearchQuery();
+
+				// Force the field to be phonetic and the operation to be a match, then
+				// set those cells to readonly because those values are the only valid
+				// ones for the phonetic search pattern expression type.
+				m_grid[kFieldCol, row].Value = PaApp.FieldInfo.PhoneticField.DisplayText;
+				m_grid[kOpCol, row].Value = m_operatorToText[FilterOperator.Matches];
+				m_grid[kFieldCol, row].ReadOnly = true;
+				m_grid[kOpCol, row].ReadOnly = true;
+			}
+			else if (m_textToExpType[expType] == ExpressionType.RegExp)
+			{
+				// Force the operation to be match, since that's the only valid operation
+				// for regular exp. expression types. Then make sure the field cell is
+				// editable, but not the operation cell.
+				m_grid[kOpCol, row].Value = m_operatorToText[FilterOperator.Matches];
+				m_grid[kFieldCol, row].ReadOnly = false;
+				m_grid[kOpCol, row].ReadOnly = true;
+			}
+			else
+			{
+				// The expression type is normal, so make sure the field and operation
+				// cells are editable.
+				m_grid[kFieldCol, row].ReadOnly = false;
+				m_grid[kOpCol, row].ReadOnly = false;
 			}
 		}
 
@@ -402,17 +468,21 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		private void lvFilters_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
-			rbOr.CheckedChanged -= new EventHandler(HandleLogicalExpressionRelationshipChange);
+			chkShowHide.CheckedChanged -= chkShowHide_CheckedChanged;
+			rbOr.CheckedChanged -= HandleLogicalExpressionRelationshipChange;
 			PaFilter filter = CurrentFilter;
 			LoadExpressions(filter);
+			
 			if (filter != null)
 			{
+				chkShowHide.Checked = filter.ShowInToolbarList;
 				rbAnd.Checked = !filter.OrExpressions;
 				rbOr.Checked = filter.OrExpressions;
 			}
 
-			lblAndOr.Enabled = rbOr.Enabled = rbAnd.Enabled = (filter != null);
-			rbOr.CheckedChanged += new EventHandler(HandleLogicalExpressionRelationshipChange);
+			chkShowHide.Enabled = lblAndOr.Enabled = rbOr.Enabled = rbAnd.Enabled = (filter != null);
+			chkShowHide.CheckedChanged += chkShowHide_CheckedChanged;
+			rbOr.CheckedChanged += HandleLogicalExpressionRelationshipChange;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -526,6 +596,22 @@ namespace SIL.Pa.FiltersAddOn
 		}
 
 		#endregion
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void chkShowHide_CheckedChanged(object sender, EventArgs e)
+		{
+			if (CurrentFilter != null)
+			{
+				CurrentFilter.ShowInToolbarList = chkShowHide.Checked;
+				lvFilters.FocusedItem.ImageIndex = (chkShowHide.Checked ? 0 : 1);
+				m_dirty = true;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -844,7 +930,7 @@ namespace SIL.Pa.FiltersAddOn
 			m_cell = cell;
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
-			Width = cell.DataGridView.Columns[col].Width;
+			Width = Math.Min(150, cell.DataGridView.Columns[col].Width);
 			Height = (Math.Min(Items.Count, 10) * Font.Height) + 4;
 			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;

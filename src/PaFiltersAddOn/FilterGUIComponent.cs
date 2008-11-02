@@ -152,13 +152,14 @@ namespace SIL.Pa.FiltersAddOn
 				m_dropDownContent = new FiltersDropDownCtrl();
 				m_filterButton = new ToolStripDropDownButton(Properties.Resources.kimidFilter);
 				m_filterButton.DropDown = m_dropDownContent.HostingDropDown;
+				m_filterButton.Click += m_filterButton_Click;
 				m_filterButton.Margin = new Padding(0);
 				m_filterButton.Alignment = ToolStripItemAlignment.Right;
 				m_menuStrip.Items.Add(m_filterButton);
 			}
 			catch { }
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

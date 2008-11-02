@@ -74,6 +74,13 @@ namespace SIL.Pa.FiltersAddOn.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidGrayFilter {
+            get {
+                object obj = ResourceManager.GetObject("kimidGrayFilter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Begins with.
         /// </summary>
@@ -296,6 +303,15 @@ namespace SIL.Pa.FiltersAddOn.Properties {
         internal static string kstidRegExp {
             get {
                 return ResourceManager.GetString("kstidRegExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check to display this filter in the\nfilter toolbar button’s drop-down list..
+        /// </summary>
+        internal static string kstidShowFilterToolTipText {
+            get {
+                return ResourceManager.GetString("kstidShowFilterToolTipText", resourceCulture);
             }
         }
         

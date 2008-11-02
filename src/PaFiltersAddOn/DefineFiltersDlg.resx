@@ -119,10 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 276</value>
+    <value>10, 274</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>702, 40</value>
+    <value>700, 40</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
@@ -141,7 +141,7 @@
     <value>1</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>536, 7</value>
+    <value>534, 7</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -159,7 +159,7 @@
     <value>1</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>450, 7</value>
+    <value>448, 7</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -177,7 +177,7 @@
     <value>2</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>622, 7</value>
+    <value>620, 7</value>
   </data>
   <data name="btnHelp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -208,7 +208,7 @@
     <value>0, 28</value>
   </data>
   <data name="lvFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 205</value>
+    <value>216, 203</value>
   </data>
   <data name="lvFilters.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -271,7 +271,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 235</value>
+    <value>218, 233</value>
   </data>
   <data name="pnlFilters.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -367,7 +367,7 @@
     <value>Bottom</value>
   </data>
   <data name="pnlButtons2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 235</value>
+    <value>0, 233</value>
   </data>
   <data name="pnlButtons2.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 31</value>
@@ -412,7 +412,7 @@
     <value>22</value>
   </data>
   <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 235</value>
+    <value>474, 213</value>
   </data>
   <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -429,20 +429,56 @@
   <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="chkShowHide.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="chkShowHide.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="chkShowHide.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
+  <data name="chkShowHide.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 6</value>
+  </data>
+  <data name="chkShowHide.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 24</value>
+  </data>
+  <data name="chkShowHide.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="chkShowHide.Text" xml:space="preserve">
+    <value>&amp;Show in filter tool bar drop-down list:</value>
+  </data>
+  <data name="&gt;&gt;chkShowHide.Name" xml:space="preserve">
+    <value>chkShowHide</value>
+  </data>
+  <data name="&gt;&gt;chkShowHide.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkShowHide.Parent" xml:space="preserve">
+    <value>pnlFilterOptions</value>
+  </data>
+  <data name="&gt;&gt;chkShowHide.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="lblAndOr.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="lblAndOr.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lblAndOr.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
   <data name="lblAndOr.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 8</value>
+    <value>172, 30</value>
   </data>
   <data name="lblAndOr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 13</value>
+    <value>206, 13</value>
   </data>
   <data name="lblAndOr.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblAndOr.Text" xml:space="preserve">
     <value>Logical relationship between expressions:</value>
@@ -457,25 +493,28 @@
     <value>pnlFilterOptions</value>
   </data>
   <data name="&gt;&gt;lblAndOr.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="rbOr.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="rbOr.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="rbOr.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
   </data>
   <data name="rbOr.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="rbOr.Location" type="System.Drawing.Point, System.Drawing">
-    <value>437, 6</value>
+    <value>431, 28</value>
   </data>
   <data name="rbOr.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 17</value>
+    <value>37, 17</value>
   </data>
   <data name="rbOr.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="rbOr.Text" xml:space="preserve">
     <value>&amp;Or</value>
@@ -490,22 +529,25 @@
     <value>pnlFilterOptions</value>
   </data>
   <data name="&gt;&gt;rbOr.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="rbAnd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="rbAnd.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="rbAnd.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 8.25pt</value>
+  </data>
   <data name="rbAnd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>387, 6</value>
+    <value>382, 28</value>
   </data>
   <data name="rbAnd.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 17</value>
   </data>
   <data name="rbAnd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="rbAnd.Text" xml:space="preserve">
     <value>A&amp;nd</value>
@@ -520,16 +562,16 @@
     <value>pnlFilterOptions</value>
   </data>
   <data name="&gt;&gt;rbAnd.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="pnlFilterOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
   </data>
   <data name="pnlFilterOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 235</value>
+    <value>0, 213</value>
   </data>
   <data name="pnlFilterOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>476, 31</value>
+    <value>474, 51</value>
   </data>
   <data name="pnlFilterOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -559,7 +601,7 @@
     <value>1</value>
   </data>
   <data name="splitFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>702, 266</value>
+    <value>700, 264</value>
   </data>
   <data name="splitFilters.SplitterDistance" type="System.Int32, mscorlib">
     <value>218</value>
@@ -582,6 +624,9 @@
   <data name="&gt;&gt;splitFilters.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -589,7 +634,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>722, 316</value>
+    <value>720, 314</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>550, 230</value>
@@ -602,6 +647,12 @@
   </data>
   <data name="&gt;&gt;hdrFilter.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_tooltip.Name" xml:space="preserve">
+    <value>m_tooltip</value>
+  </data>
+  <data name="&gt;&gt;m_tooltip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>DefineFiltersDlg</value>

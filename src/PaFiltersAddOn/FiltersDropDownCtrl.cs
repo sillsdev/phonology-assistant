@@ -89,7 +89,10 @@ namespace SIL.Pa.FiltersAddOn
 
 			lstFilters.Items.Add(Properties.Resources.kstidNoFilterText);
 			foreach (PaFilter filter in filterList)
-				lstFilters.Items.Add(filter);
+			{
+				if (filter.ShowInToolbarList)
+					lstFilters.Items.Add(filter);
+			}
 
 			lstFilters.SelectedIndex = 0;
 		}

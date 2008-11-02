@@ -291,6 +291,7 @@ namespace SIL.Pa.FiltersAddOn
 		private static PaFiltersList s_filters = null;
 		private static WordCache s_unusedWordsCache = new WordCache();
 		private static PaFilter s_currFilter = null;
+		private static PaFilter s_prevFilter = null;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -300,6 +301,16 @@ namespace SIL.Pa.FiltersAddOn
 		public static PaFilter CurrentFilter
 		{
 			get { return FilterHelper.s_currFilter; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaFilter PreviousFilter
+		{
+			get { return FilterHelper.s_prevFilter; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -332,6 +343,7 @@ namespace SIL.Pa.FiltersAddOn
 		public static void TurnOffFilter()
 		{
 			Restore();
+			s_prevFilter = s_currFilter;
 			s_currFilter = null;
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
 		}
