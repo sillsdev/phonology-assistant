@@ -55,11 +55,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\PaApp\PaApp.csproj">
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
       <Name>PaApp</Name>

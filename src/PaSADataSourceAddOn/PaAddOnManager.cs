@@ -10,6 +10,7 @@ using SIL.Pa;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using XCore;
+using SIL.Pa.AddOns;
 
 // I don't want to use a custom attribute, so I'm
 // kludging what I want by using this attribute.
@@ -34,44 +35,102 @@ namespace SIL.Pa.SaDataSourceAddOn
 			try
 			{
 				Assembly assembly = Assembly.GetExecutingAssembly();
+				if (!VerifyAddOnMediatorExists(assembly))
+					return;
+
 				string settingName = Path.GetFileNameWithoutExtension(assembly.CodeBase);
 				if (PaApp.SettingsHandler.GetBoolSettingsValue(settingName, "Enabled", true))
+				{
 					PaApp.AddMediatorColleague(this);
+
+					// Register to receive notification after data sources have been loaded.
+					// Use the add-on mediator (as opposed to just responding to the
+					// OnAfterDataSourcesLoaded message) because we want to make sure that
+					// all other add-ons who want to have processed the message.
+					AddOnMediator.RegisterForDataSourcesLoadedMsg(100, this);
+				}
 			}
 			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Determines whether or not the PaAddOnMediator.dll assembly exists in the add-on
+		/// folder. Returns true if it does. This add-on depends on the existence of that
+		/// assembly.
+		/// </summary>
+		/// <param name="assembly">This add-on's assembly object.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyAddOnMediatorExists(Assembly assembly)
+		{
+			string assemblyPath = Path.GetDirectoryName(assembly.Location);
+			if (!File.Exists(Path.Combine(assemblyPath, "PaAddOnMediator.dll")))
+			{
+				string msg = Properties.Resources.kstidAddOnMediatorMissingMsg;
+				msg = string.Format(msg, Path.GetFileName(assembly.Location), assemblyPath);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method is called by the AddOnMediator because this class was registered to
+		/// respond to the OnAfterDataSourcesLoaded message via the AddOnMediator.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterLoadingDataSources(object args)
+		protected void AfterDataSourcesLoaded(object args)
 		{
 			PaProject project = args as PaProject;
 
-			if (project != null && project.DataSources != null && project.DataSources.Count > 0)
-			{
-				// Go through all the data sources and if any one is not an SA data source, then
-				// do not bother fixing up the project so it treats references specially for SA
-				// data sources.
-				bool fixRefs = true;
-				foreach (PaDataSource source in project.DataSources)
-				{
-					if (source.DataSourceType != DataSourceType.SA)
-					{
-						fixRefs = false;
-						break;
-					}
-				}
+			if (project == null || project.DataSources == null || project.DataSources.Count == 0)
+				return;
 
-				if (fixRefs)
-					FixReferenceForSAProject(project);
+			// Go through all the data sources and if any one is not an SA data source, then
+			// do not bother fixing up the project so it treats references specially for SA
+			// data sources.
+			foreach (PaDataSource source in project.DataSources)
+			{
+				if (source.DataSourceType != DataSourceType.SA)
+					return;
 			}
-			
-			PaApp.MsgMediator.SendMessage("AfterSaDataSourceAddOnHandledLoadedingDataSources", args);
-			return false;
+
+			FixReferenceForSAProject(project);
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnAfterLoadingDataSources(object args)
+		//{
+		//    PaProject project = args as PaProject;
+
+		//    if (project != null && project.DataSources != null && project.DataSources.Count > 0)
+		//    {
+		//        // Go through all the data sources and if any one is not an SA data source, then
+		//        // do not bother fixing up the project so it treats references specially for SA
+		//        // data sources.
+		//        bool fixRefs = true;
+		//        foreach (PaDataSource source in project.DataSources)
+		//        {
+		//            if (source.DataSourceType != DataSourceType.SA)
+		//            {
+		//                fixRefs = false;
+		//                break;
+		//            }
+		//        }
+
+		//        if (fixRefs)
+		//            FixReferenceForSAProject(project);
+		//    }
+			
+		//    return false;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

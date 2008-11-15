@@ -327,7 +327,6 @@ namespace SIL.Pa.FiltersAddOn
 			// filter just applied.
 			foreach (FilterGUIComponent fgc in s_guiComponents.Values)
 			{
-				//fgc.DropDownCtrl.SelectedFilter = s_currFilter;
 				fgc.FilterStatusStripLabel.Visible = (s_currFilter != null);
 
 				if (s_currFilter == null)
