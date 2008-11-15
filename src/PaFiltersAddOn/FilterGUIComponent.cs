@@ -25,7 +25,6 @@ namespace SIL.Pa.FiltersAddOn
 		private MenuStrip m_menuStrip = null;
 		private ToolStripDropDownButton m_filterButton = null;
 		private ToolStripSeparator m_separator = null;
-		private FiltersDropDownCtrl m_dropDownContent = null;
 		private ITMAdapter m_adapter = null;
 
 		/// ------------------------------------------------------------------------------------
@@ -77,12 +76,6 @@ namespace SIL.Pa.FiltersAddOn
 				m_separator.Dispose();
 				m_separator = null;
 			}
-
-			if (m_dropDownContent != null)
-			{
-				m_dropDownContent.Dispose();
-				m_dropDownContent = null;
-			}
 		}
 
 		#endregion
@@ -118,16 +111,6 @@ namespace SIL.Pa.FiltersAddOn
 			get { return m_statusStrip; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FiltersDropDownCtrl DropDownCtrl
-		{
-			get { return m_dropDownContent; }
-		}
-
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -159,9 +142,7 @@ namespace SIL.Pa.FiltersAddOn
 				m_separator.Margin = new Padding(0);
 				m_menuStrip.Items.Add(m_separator);
 
-				//m_dropDownContent = new FiltersDropDownCtrl();
 				m_filterButton = new ToolStripDropDownButton(Properties.Resources.kimidFilter);
-				//m_filterButton.DropDown = m_dropDownContent.HostingDropDown;
 				m_filterButton.Margin = new Padding(0);
 				m_filterButton.Alignment = ToolStripItemAlignment.Right;
 				m_filterButton.DropDown.ItemClicked += HandleFilterButtonItemClicked;
@@ -275,30 +256,30 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		public void RefreshFilterList()
 		{
-			//m_dropDownContent.RefreshFilterList();
-
 			m_filterButton.DropDown.Items.Clear();
-			m_filterButton.DropDown.Items.Add(Properties.Resources.kstidNoFilterText);
-			m_filterButton.DropDown.Items.Add(new ToolStripSeparator());
+
+			m_filterButton.DropDown.Items.Add(Properties.Resources.kstidFiltersMenuText,
+				Properties.Resources.kimidDefineFilters);
 
 			PaFiltersList filterList = FilterHelper.FilterList;
 			if (filterList == null || filterList.Count == 0)
 				return;
 
-			foreach (PaFilter filter in filterList)
+			m_filterButton.DropDown.Items.Insert(0, new ToolStripSeparator());
+
+			for (int i = filterList.Count - 1; i >= 0; i--)
 			{
-				if (filter.ShowInToolbarList)
+				if (filterList[i].ShowInToolbarList)
 				{
-					ToolStripMenuItem item = new ToolStripMenuItem(filter.Name);
-					item.Tag = filter;
-					m_filterButton.DropDown.Items.Add(item);
+					ToolStripMenuItem item = new ToolStripMenuItem(filterList[i].Name);
+					item.Tag = filterList[i];
+					m_filterButton.DropDown.Items.Insert(0, item);
 				}
 			}
 
-			m_filterButton.DropDown.Items.Add(new ToolStripSeparator());
-			m_filterButton.DropDown.Items.Add(Properties.Resources.kstidFiltersMenuText,
-				Properties.Resources.kimidDefineFilters);
-			
+			m_filterButton.DropDown.Items.Insert(0, new ToolStripSeparator());
+			m_filterButton.DropDown.Items.Insert(0,
+				new ToolStripMenuItem(Properties.Resources.kstidNoFilterText));
 		}
 
 		/// ------------------------------------------------------------------------------------

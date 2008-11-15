@@ -545,6 +545,7 @@ namespace SIL.Pa.FiltersAddOn
 			lvFilters.Focus();
 			item.BeginEdit();
 			m_dirty = true;
+			btnRemove.Enabled = btnCopy.Enabled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -589,7 +590,10 @@ namespace SIL.Pa.FiltersAddOn
 			m_dirty = true;
 
 			if (index < 0)
-				btnRemove.Enabled = false;
+			{
+				btnRemove.Enabled = btnCopy.Enabled = false;
+				m_grid.Rows.Clear();
+			}
 			else
 			{
 				lvFilters.FocusedItem.Selected = true;

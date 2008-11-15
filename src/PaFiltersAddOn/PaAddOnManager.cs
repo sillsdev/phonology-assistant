@@ -30,6 +30,8 @@ namespace SIL.Pa.FiltersAddOn
 	/// ----------------------------------------------------------------------------------------
 	public class PaAddOnManager : IxCoreColleague
 	{
+		private string m_startupFilterName = null;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -56,6 +58,9 @@ namespace SIL.Pa.FiltersAddOn
 					// (i.e. PaSADataSourceAddOn), it may influence what records are
 					// filtered out.
 					AddOnMediator.RegisterForDataSourcesLoadedMsg(1000, this);
+
+					m_startupFilterName = 
+						PaApp.SettingsHandler.GetStringSettingsValue("PaFiltersAddOn", "currfilter", null);
 				}
 			}
 			catch { }
@@ -143,7 +148,21 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			PaProject project = args as PaProject;
 			if (project != null)
+			{
 				FilterHelper.UpdateDisplayedFilterLists(PaFiltersList.Load(project), false);
+
+				// The first time we read the data sources, check if there was a filter
+				// applied when the user closed down PA the last time. If so, then apply
+				// it now. (m_startupFilterName will only be non null the first time the
+				// data sources are read after startup.
+				if (!string.IsNullOrEmpty(m_startupFilterName))
+				{
+					PaFilter filter = FilterHelper.FilterList[m_startupFilterName];
+					if (filter != null)
+						FilterHelper.ApplyFilter(filter);
+					m_startupFilterName = null;
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -312,6 +331,9 @@ namespace SIL.Pa.FiltersAddOn
 
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
 			UpdateFilterGuiComponents();
+
+			PaApp.SettingsHandler.SaveSettingsValue("PaFiltersAddOn", "currfilter",
+				(filter != null ? filter.Name : string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
