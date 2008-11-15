@@ -57,7 +57,7 @@ namespace SIL.Pa.AddOn
 				string title = string.Empty;
 				string desc = string.Empty;
 				string filename = Path.GetFileName(assembly.CodeBase);
-				string version = assembly.GetName().Version.ToString();
+				string version = assembly.GetName().Version.ToString(3);
 
 				// Get the Add-on's title.
 				object[] obj = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
@@ -147,15 +147,11 @@ namespace SIL.Pa.AddOn
 			if (e.RowIndex < 0)
 				return;
 
+			e.Handled = true;
 			DataGridViewPaintParts paintParts = DataGridViewPaintParts.All;
 			paintParts &= ~DataGridViewPaintParts.Focus;
 
-			if (!grid.Rows[e.RowIndex].Selected)
-			{
-				// Draw default everything but focus rectangle.
-				e.Paint(e.ClipBounds, paintParts);
-			}
-			else
+			if (grid.Rows[e.RowIndex].Selected)
 			{
 				// Draw default everything but focus rectangle and background.
 				paintParts &= ~DataGridViewPaintParts.Background;
@@ -174,7 +170,6 @@ namespace SIL.Pa.AddOn
 			}
 
 			e.Paint(e.ClipBounds, paintParts);
-			e.Handled = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
