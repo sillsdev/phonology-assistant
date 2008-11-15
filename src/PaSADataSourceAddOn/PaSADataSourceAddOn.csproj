@@ -51,6 +51,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PaAddOnMediator\PaAddOnMediator.csproj">
+      <Project>{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}</Project>
+      <Name>PaAddOnMediator</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaApp\PaApp.csproj">
+      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
+      <Name>PaApp</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
