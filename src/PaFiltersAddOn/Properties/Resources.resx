@@ -222,4 +222,14 @@
   <data name="kimidGrayFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GrayFilter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kstidFiltersMenuText" xml:space="preserve">
+    <value>&amp;Filters...</value>
+    <comment>Menu text for item that displays the dialog to define filters.</comment>
+  </data>
+  <data name="kimidDefineFilters" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FilterDlg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidAddOnMediatorMissingMsg" xml:space="preserve">
+    <value>The add-on {0} requires the file PaAddOnMediator.dll.\nMake sure it exists in the folder:\n\n{1}</value>
+  </data>
 </root>

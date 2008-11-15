@@ -226,9 +226,8 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void ApplyFilter()
+		public void Apply()
 		{
-			FilterHelper.Restore();
 			WordCache cache = PaApp.WordCache;
 
 			if (cache != null)
@@ -243,7 +242,6 @@ namespace SIL.Pa.FiltersAddOn
 				}
 			}
 
-			FilterHelper.FilterApplied(this);
 			CleanUpExpressionSearchEngines(this);
 		}
 

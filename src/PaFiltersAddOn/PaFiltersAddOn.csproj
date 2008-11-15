@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOnHelper.cs" />
     <Compile Include="DefineFiltersDlg.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DefineFiltersDlg.Designer.cs">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
@@ -57,6 +58,7 @@
     </Compile>
     <Compile Include="PaAddOnManager.cs">
     </Compile>
+    <Compile Include="PaButtonCell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -65,9 +67,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
+      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
+      <Name>DataUtils</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
       <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaAddOnMediator\PaAddOnMediator.csproj">
+      <Project>{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}</Project>
+      <Name>PaAddOnMediator</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\PaApp\PaApp.csproj">
+      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
+      <Name>PaApp</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PaControls\PaControls.csproj">
@@ -88,16 +105,6 @@
     <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PaApp\PaApp.csproj">
-      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
-      <Name>PaApp</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
@@ -134,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GrayFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FilterDlg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

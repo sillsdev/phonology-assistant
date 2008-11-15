@@ -82,12 +82,12 @@ namespace SIL.Pa.FiltersAddOn
 		private void LoadDropDownFilterList()
 		{
 			lstFilters.Items.Clear();
+			lstFilters.Items.Add(Properties.Resources.kstidNoFilterText);
 
 			PaFiltersList filterList = FilterHelper.FilterList;
 			if (filterList == null || filterList.Count == 0)
 				return;
 
-			lstFilters.Items.Add(Properties.Resources.kstidNoFilterText);
 			foreach (PaFilter filter in filterList)
 			{
 				if (filter.ShowInToolbarList)
@@ -166,18 +166,8 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			m_dropDown.Close();
 
-			if (lstFilters.SelectedItem == null)
-				return;
-
-			if (lstFilters.SelectedItem is PaFilter)
-				((PaFilter)lstFilters.SelectedItem).ApplyFilter();
-			else if (lstFilters.SelectedItem.ToString() == Properties.Resources.kstidNoFilterText)
-			{
-				FilterHelper.Restore();
-				FilterHelper.FilterApplied(null);
-			}
-
-			PaApp.MsgMediator.SendMessage("FilterApplied", SelectedFilter);
+			if (lstFilters.SelectedItem != null)
+				FilterHelper.ApplyFilter(lstFilters.SelectedItem as PaFilter);
 		}
 
 		/// ------------------------------------------------------------------------------------

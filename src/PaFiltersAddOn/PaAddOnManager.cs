@@ -14,6 +14,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 using System.Drawing.Drawing2D;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.AddOns;
 
 // I don't want to use a custom attribute, so I'm
 // kludging what I want by using this attribute.
@@ -21,6 +22,7 @@ using SIL.Pa.FFSearchEngine;
 
 namespace SIL.Pa.FiltersAddOn
 {
+	#region PaAddOnManager class for the Filter Add-On
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Add-On for filtering feature.
@@ -28,9 +30,6 @@ namespace SIL.Pa.FiltersAddOn
 	/// ----------------------------------------------------------------------------------------
 	public class PaAddOnManager : IxCoreColleague
 	{
-		private Dictionary<Form, FilterGUIComponent> m_guiComponents;
-		private bool m_fDataFilterAfterReading = false;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -41,11 +40,48 @@ namespace SIL.Pa.FiltersAddOn
 			try
 			{
 				Assembly assembly = Assembly.GetExecutingAssembly();
-				string settingName = Path.GetFileNameWithoutExtension(assembly.CodeBase);
+				if (!VerifyAddOnMediatorExists(assembly))
+					return;
+
+				string settingName = Path.GetFileNameWithoutExtension(assembly.Location);
 				if (PaApp.SettingsHandler.GetBoolSettingsValue(settingName, "Enabled", true))
+				{
 					PaApp.AddMediatorColleague(this);
+
+					// Register to receive notification after data sources have been loaded.
+					// Use the add-on mediator (as opposed to just responding to the
+					// OnAfterDataSourcesLoaded message) because we want to make sure that
+					// all other add-ons who want to have processed the message. That's
+					// because if some other add-on changes the data in the cache
+					// (i.e. PaSADataSourceAddOn), it may influence what records are
+					// filtered out.
+					AddOnMediator.RegisterForDataSourcesLoadedMsg(1000, this);
+				}
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the PaAddOnMediator.dll assembly exists in the add-on
+		/// folder. Returns true if it does. This add-on depends on the existence of that
+		/// assembly.
+		/// </summary>
+		/// <param name="assembly">This add-on's assembly object.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyAddOnMediatorExists(Assembly assembly)
+		{
+			string assemblyPath = Path.GetDirectoryName(assembly.Location);
+			if (!File.Exists(Path.Combine(assemblyPath, "PaAddOnMediator.dll")))
+			{
+				string msg = Properties.Resources.kstidAddOnMediatorMissingMsg;
+				msg = string.Format(msg, Path.GetFileName(assembly.Location), assemblyPath);
+				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return false;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,11 +92,8 @@ namespace SIL.Pa.FiltersAddOn
 		protected bool OnMainViewOpened(object args)
 		{
 			if (args is PaMainWnd)
-			{
-				m_guiComponents = new Dictionary<Form, FilterGUIComponent>();
 				OnViewUndocked(args);
-			}
-			
+
 			return false;
 		}
 
@@ -71,7 +104,7 @@ namespace SIL.Pa.FiltersAddOn
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
-			if (!(args is Control) || m_guiComponents == null)
+			if (!(args is Control) || FilterHelper.GuiComponents == null)
 				return false;
 
 			Form frm = args as Form;
@@ -82,7 +115,7 @@ namespace SIL.Pa.FiltersAddOn
 					return false;
 			}
 
-			m_guiComponents[frm] = new FilterGUIComponent(frm);
+			FilterHelper.GiveWindowFilterGuiComponents(frm);
 			frm.FormClosed += HandleWindowClosed;
 			return false;
 		}
@@ -98,12 +131,7 @@ namespace SIL.Pa.FiltersAddOn
 			if (frm != null)
 				frm.FormClosed -= HandleWindowClosed;
 
-			FilterGUIComponent fgc;
-			if (m_guiComponents.TryGetValue(frm, out fgc))
-			{
-				fgc.Dispose();
-				m_guiComponents.Remove(frm);
-			}
+			FilterHelper.RemoveFilterGuiComponentsFromWindow(frm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,80 +139,11 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnBeforeLoadingDataSources(object args)
+		protected void AfterDataSourcesLoaded(object args)
 		{
-			m_fDataFilterAfterReading = false;
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterLoadingDataSources(object args)
-		{
-			// The only time we get here and this flag is true, should be when the SA data
-			// source add-on is enabled and has already done its thing and sent the
-			// AfterSaDataSourceAddOnHandledLoadedingDataSources message, in which case
-			// we know we've already filtered the data since we handle that message.
-			if (m_fDataFilterAfterReading)
-				return false;
-
-			// If we've gotten to this point, we know one of two things. 1) either the
-			// SA data source add-on is not loaded or enabled, or 2) it is loaded, but
-			// our handler for the AfterLoadingDataSources message got called before the
-			// SA data source add-on's handler for the AfterLoadingDataSources message.
-			// In the case of the latter, we need to check if the if the SA data source
-			// add-on is loaded and enabled, and if it is, do nothing here because it
-			// will get done in our handler for the
-			// AfterSaDataSourceAddOnHandledLoadedingDataSources message. Otherwise,
-			// go ahead and filter the data.
-			bool fSaAddOnEnabled = false;
-			foreach (Assembly assembly in PaApp.AddOnAssemblys)
-			{
-				string filename = Path.GetFileName(assembly.CodeBase);
-				filename = Path.GetFileNameWithoutExtension(filename);
-				if (filename.ToLower() == "pasadatasourceaddon")
-				{
-					fSaAddOnEnabled = PaApp.SettingsHandler.GetBoolSettingsValue(
-						filename, "Enabled", true);
-
-					break;
-				}
-			}
-
-			if (!fSaAddOnEnabled)
-				FilterData(args as PaProject);
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnAfterSaDataSourceAddOnHandledLoadedingDataSources(object args)
-		{
-			FilterData(args as PaProject);
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void FilterData(PaProject project)
-		{
-			m_fDataFilterAfterReading = true;
-
+			PaProject project = args as PaProject;
 			if (project != null)
-				FilterHelper.FilterList = PaFiltersList.Load(project);
-
-			// TODO: Filter data
-			// PaApp.SettingsHandler.GetStringSettingsValue("filters", "current", null);
+				FilterHelper.UpdateDisplayedFilterLists(PaFiltersList.Load(project), false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -192,68 +151,14 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnFilterApplied(object args)
+		protected bool OnDisplayFilterDlg(object args)
 		{
-			PaFilter filter = args as PaFilter;
-			int imageWidth = Properties.Resources.kimidFilterSmall.Width;
-
-			// Make sure all the filter controls on each window are updated with the
-			// filter just applied.
-			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
-			{
-				fgc.DropDownCtrl.SelectedFilter = filter;
-				fgc.FilterStatusStripLabel.Visible = (filter != null);
-
-				if (filter == null)
-					continue;
-
-				using (Graphics g = fgc.StatusStrip.CreateGraphics())
-				{
-					fgc.FilterStatusStripLabel.Text = filter.Name;
-
-					int desiredWidth = TextRenderer.MeasureText(filter.Name,
-						fgc.FilterStatusStripLabel.Font).Width + imageWidth + 4;
-
-					fgc.FilterStatusStripLabel.Width =
-						Math.Min(desiredWidth, fgc.StatusStrip.Width / 2);
-				}
-			}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnFilterListUpdated(object args)
-		{
-			PaFilter prevFilter = FilterHelper.CurrentFilter;
-			FilterHelper.FilterList = PaFiltersList.Load();
-
-			foreach (FilterGUIComponent fgc in m_guiComponents.Values)
-				fgc.RefreshFilterList();
-
-			if (prevFilter != null)
-			{
-				// Because the filter list has been recreated, the previous filter was
-				// orphaned by the recreation of the filter list, we need to find the
-				// new instance of the filter with the same name. If that filter no
-				// longer exists, then we must restore all previously filter entries
-				// (i.e. Restore).
-				PaFilter filter = FilterHelper.FilterList[prevFilter.Name];
-
-				if (filter != null)
-					filter.ApplyFilter();
-				else
-				{
-					FilterHelper.TurnOffFilter();
-					foreach (FilterGUIComponent fgc in m_guiComponents.Values)
-						fgc.FilterStatusStripLabel.Visible = false;
-				}
-			}
+			string filterName =
+				(FilterHelper.CurrentFilter != null ? FilterHelper.CurrentFilter.Name : null);
 			
+			using (DefineFiltersDlg dlg = new DefineFiltersDlg(filterName))
+				dlg.ShowDialog();
+
 			return false;
 		}
 
@@ -281,6 +186,9 @@ namespace SIL.Pa.FiltersAddOn
 		#endregion
 	}
 
+	#endregion
+
+	#region FilterHelper static class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -291,7 +199,18 @@ namespace SIL.Pa.FiltersAddOn
 		private static PaFiltersList s_filters = null;
 		private static WordCache s_unusedWordsCache = new WordCache();
 		private static PaFilter s_currFilter = null;
-		private static PaFilter s_prevFilter = null;
+		private static Dictionary<Form, FilterGUIComponent> s_guiComponents =
+			new Dictionary<Form,FilterGUIComponent>();
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Dictionary<Form, FilterGUIComponent> GuiComponents
+		{
+			get { return FilterHelper.s_guiComponents; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -308,20 +227,9 @@ namespace SIL.Pa.FiltersAddOn
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PaFilter PreviousFilter
-		{
-			get { return FilterHelper.s_prevFilter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static PaFiltersList FilterList
 		{
 			get { return FilterHelper.s_filters; }
-			set { FilterHelper.s_filters = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -336,18 +244,110 @@ namespace SIL.Pa.FiltersAddOn
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Restores the filtered out words (i.e. puts them back into the application's
-		/// word cache).
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void TurnOffFilter()
+		public static void GiveWindowFilterGuiComponents(Form frm)
+		{
+			s_guiComponents[frm] = new FilterGUIComponent(frm);
+			s_guiComponents[frm].RefreshFilterList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void RemoveFilterGuiComponentsFromWindow(Form frm)
+		{
+			FilterGUIComponent fgc;
+			if (s_guiComponents.TryGetValue(frm, out fgc))
+			{
+				fgc.Dispose();
+				s_guiComponents.Remove(frm);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates each of the filter drop-downs created for the PA main window and all the
+		/// undocked windows. When restorePrevFilter is true, if there is currently a filter
+		/// applied, it will be reapplied after the lists are updated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UpdateDisplayedFilterLists(PaFiltersList filterList,
+			bool restorePrevFilter)
+		{
+			PaFilter prevFilter = s_currFilter;
+			s_filters = (filterList != null ? filterList : PaFiltersList.Load());
+
+			foreach (FilterGUIComponent fgc in s_guiComponents.Values)
+				fgc.RefreshFilterList();
+
+			if (prevFilter != null)
+			{
+				// Because the filter list has been recreated, the previous filter was
+				// orphaned by the recreation of the filter list, we need to find the
+				// new instance of the filter with the same name. If that filter no
+				// longer exists, then we must turn off filtering (i.e. Restore).
+				ApplyFilter(s_filters[prevFilter.Name]);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void ApplyFilter(PaFilter filter)
 		{
 			Restore();
-			s_prevFilter = s_currFilter;
-			s_currFilter = null;
+			s_currFilter = filter;
+
+			if (filter != null)
+			{
+				filter.Apply();
+				PaApp.BuildPhoneCache();
+			}
+
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
+			UpdateFilterGuiComponents();
 		}
-	
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void UpdateFilterGuiComponents()
+		{
+			int imageWidth = Properties.Resources.kimidFilterSmall.Width;
+
+			// Make sure all the filter controls on each window are updated with the
+			// filter just applied.
+			foreach (FilterGUIComponent fgc in s_guiComponents.Values)
+			{
+				//fgc.DropDownCtrl.SelectedFilter = s_currFilter;
+				fgc.FilterStatusStripLabel.Visible = (s_currFilter != null);
+
+				if (s_currFilter == null)
+					continue;
+
+				fgc.FilterStatusStripLabel.Text = s_currFilter.Name;
+				
+				// Uncomment this section to make the filter label on the status bar
+				// auto-sized to the filter's name.
+				//using (Graphics g = fgc.StatusStrip.CreateGraphics())
+				//{
+				//    int desiredWidth = TextRenderer.MeasureText(s_currFilter.Name,
+				//        fgc.FilterStatusStripLabel.Font).Width + imageWidth + 4;
+
+				//    fgc.FilterStatusStripLabel.Width =
+				//        Math.Min(desiredWidth, fgc.StatusStrip.Width / 2);
+				//}
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Restores the filtered out words (i.e. puts them back into the application's
@@ -362,18 +362,6 @@ namespace SIL.Pa.FiltersAddOn
 				PaApp.BuildPhoneCache();
 				s_unusedWordsCache.Clear();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void FilterApplied(PaFilter filter)
-		{
-			s_currFilter = filter;
-			PaApp.BuildPhoneCache();
-			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -420,4 +408,6 @@ namespace SIL.Pa.FiltersAddOn
 			return engine;
 		}
 	}
+
+	#endregion
 }

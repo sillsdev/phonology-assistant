@@ -60,6 +60,13 @@ namespace SIL.Pa.FiltersAddOn.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidDefineFilters {
+            get {
+                object obj = ResourceManager.GetObject("kimidDefineFilters", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidFilter {
             get {
                 object obj = ResourceManager.GetObject("kimidFilter", resourceCulture);
@@ -78,6 +85,15 @@ namespace SIL.Pa.FiltersAddOn.Properties {
             get {
                 object obj = ResourceManager.GetObject("kimidGrayFilter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The add-on {0} requires the file PaAddOnMediator.dll.\nMake sure it exists in the folder:\n\n{1}.
+        /// </summary>
+        internal static string kstidAddOnMediatorMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidAddOnMediatorMissingMsg", resourceCulture);
             }
         }
         
@@ -168,6 +184,15 @@ namespace SIL.Pa.FiltersAddOn.Properties {
         internal static string kstidFilterNameExistsMsg {
             get {
                 return ResourceManager.GetString("kstidFilterNameExistsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Filters....
+        /// </summary>
+        internal static string kstidFiltersMenuText {
+            get {
+                return ResourceManager.GetString("kstidFiltersMenuText", resourceCulture);
             }
         }
         

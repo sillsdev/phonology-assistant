@@ -10,6 +10,9 @@ using SIL.SpeechTools.Utils;
 using SIL.Pa.Controls;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
+using System.Reflection;
+using System.Windows.Forms.VisualStyles;
+using System.Drawing.Drawing2D;
 
 namespace SIL.Pa.FiltersAddOn
 {
@@ -53,6 +56,9 @@ namespace SIL.Pa.FiltersAddOn
 		public DefineFiltersDlg(string currFilterName)
 			: this()
 		{
+			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
+
+			// Create lists that map the FilterOperator enumeration to it's string equivalent and back
 			m_operatorToText = new Dictionary<FilterOperator, string>();
 			m_textToOperator = new Dictionary<string, FilterOperator>();
 			foreach (FilterOperator op in Enum.GetValues(typeof(FilterOperator)))
@@ -63,6 +69,7 @@ namespace SIL.Pa.FiltersAddOn
 				m_textToOperator[enumDisplayText] = op;
 			}
 
+			// Create lists that map the ExpressionType enumeration to it's string equivalent and back
 			m_expTypeToText = new Dictionary<ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, ExpressionType>();
 			foreach (ExpressionType op in Enum.GetValues(typeof(ExpressionType)))
@@ -77,9 +84,6 @@ namespace SIL.Pa.FiltersAddOn
 			hlblFilters.Font = FontHelper.UIFont;
 			lvFilters.Font = FontHelper.UIFont;
 			m_grid.Font = FontHelper.UIFont;
-			//lblAndOr.Font = FontHelper.UIFont;
-			//rbAnd.Font = FontHelper.UIFont;
-			//rbOr.Font = FontHelper.UIFont;
 			PaApp.SettingsHandler.LoadFormProperties(this);
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
@@ -87,14 +91,12 @@ namespace SIL.Pa.FiltersAddOn
 			btnOK.Left = btnCancel.Left;
 			btnCancel.Left = btnHelp.Left;
 
+			int buttonGap = btnCancel.Left - btnOK.Right;
+			btnApplyNow.Left = btnOK.Left - btnApplyNow.Width - (buttonGap * 3);
+
 			splitFilter_SplitterMoved(null, null);
 
-			//rbAnd.Top = rbOr.Top = (int)(((decimal)pnlFilterOptions.Height - rbOr.Height) / 2);
-			//lblAndOr.Top = (int)(((decimal)pnlFilterOptions.Height - lblAndOr.Height) / 2);
-			//rbOr.Left = pnlFilterOptions.Width - rbOr.Width - 5;
-			//rbAnd.Left = rbOr.Left - rbAnd.Width - 5;
-			//lblAndOr.Left = rbAnd.Left - lblAndOr.Width - 5;
-
+			// Create an image list that is used by the filters list view.
 			m_images = new ImageList();
 			m_images.Images.Add(Properties.Resources.kimidFilter);
 			m_images.Images.Add(Properties.Resources.kimidGrayFilter);
@@ -208,9 +210,9 @@ namespace SIL.Pa.FiltersAddOn
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_grid.Columns.Add(col);
 
-			col = SilGrid.CreateSilButtonColumn(kValueCol);
-			((SilButtonColumn)col).UseComboButtonStyle = true;
-			((SilButtonColumn)col).ButtonClicked += HandleValueColumnButtonClicked;
+			col = new PaButtonColumn(kValueCol);
+			((PaButtonColumn)col).UseComboButtonStyle = true;
+			((PaButtonColumn)col).ButtonClicked += HandleValueColumnButtonClicked;
 			col.HeaderText = Properties.Resources.kstidValueColHdgText;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
@@ -597,7 +599,25 @@ namespace SIL.Pa.FiltersAddOn
 
 		#endregion
 
-
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnApplyNow_Click(object sender, EventArgs e)
+		{
+			if (CurrentFilter != null)
+			{
+				if (IsDirty)
+				{
+					if (!Verify() || !SaveChanges())
+						return;
+				}
+					
+				FilterHelper.ApplyFilter(CurrentFilter);
+			}
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -635,6 +655,29 @@ namespace SIL.Pa.FiltersAddOn
 		private void splitFilter_SplitterMoved(object sender, SplitterEventArgs e)
 		{
 			hdrFilter.Width = lvFilters.ClientSize.Width - SystemInformation.VerticalScrollBarWidth - 4;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void pnlFilterOptions_Paint(object sender, PaintEventArgs e)
+		{
+			Color clr1 = SystemColors.ControlLight;
+			Color clr2 = SystemColors.ControlDark;
+			Rectangle rc = pnlFilterOptions.ClientRectangle;
+			using (LinearGradientBrush br = new LinearGradientBrush(rc, clr1, clr2, LinearGradientMode.Vertical))
+				e.Graphics.FillRectangle(br, rc);
+
+			// Draw a border around 3 sides: left, right and bottom.
+			using (Pen pen = new Pen(VisualStyleInformation.TextControlBorder))
+			{
+				Point[] pts = new Point[] {new Point(0, 0), new Point(0, rc.Height - 1),
+					new Point(rc.Width - 1, rc.Height - 1), new	Point(rc.Width - 1, 0)};
+
+				e.Graphics.DrawLines(pen, pts);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -691,7 +734,7 @@ namespace SIL.Pa.FiltersAddOn
 		{
 			PaApp.SettingsHandler.SaveFormProperties(this);
 			PaApp.SettingsHandler.SaveGridProperties(m_grid);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "split", splitFilters.SplitterDistance);
+			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitter", splitFilters.SplitterDistance);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -711,6 +754,7 @@ namespace SIL.Pa.FiltersAddOn
 				{
 					foreach (FilterExpression expression in filter.Expressions)
 					{
+						// Make sure expressions based on phonetic search patterns are valid.
 						if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn &&
 							FilterHelper.CheckSearchQuery(expression.SearchQuery, true) == null)
 						{
@@ -746,7 +790,9 @@ namespace SIL.Pa.FiltersAddOn
 			// TODO: Validate expressions with search queries.
 
 			filterList.Save();
-			PaApp.MsgMediator.SendMessage("FilterListUpdated", null);
+			FilterHelper.UpdateDisplayedFilterLists(filterList, true);
+			m_dirty = false;
+			m_grid.IsDirty = false;
 			return true;
 		}
 
@@ -802,6 +848,35 @@ namespace SIL.Pa.FiltersAddOn
 		private PaFilter CurrentFilter
 		{
 			get { return (lvFilters.FocusedItem == null ? null : lvFilters.FocusedItem.Tag as PaFilter); }
+		}
+
+		private void m_grid_Enter(object sender, EventArgs e)
+		{
+
+		}
+
+		private void m_grid_Leave(object sender, EventArgs e)
+		{
+			//btnRemoveExp.Enabled = false;
+		}
+
+		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			btnRemoveExp.Enabled = (e.RowIndex != m_grid.NewRowIndex);
+		}
+
+		private void btnRemoveExp_Click(object sender, EventArgs e)
+		{
+			if (m_grid.CurrentRow == null || m_grid.CurrentRow.Index < 0 ||
+				m_grid.CurrentRow.Index == m_grid.NewRowIndex)
+			{
+				System.Media.SystemSounds.Beep.Play();
+			}
+
+			int i = m_grid.CurrentRow.Index;
+			m_grid.Rows.RemoveAt(i);
+			while (i > 0 && i >= m_grid.RowCount) i--;
+			m_grid.CurrentCell = m_grid[0, i];
 		}
 	}
 
@@ -884,7 +959,7 @@ namespace SIL.Pa.FiltersAddOn
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
 			Width = cell.DataGridView.Columns[col].Width;
-			Height = (Math.Min(Items.Count, 10) * Font.Height) + 4;
+			Height = (Math.Min(Items.Count, 15) * Font.Height) + 4;
 			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;
 			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
@@ -913,8 +988,13 @@ namespace SIL.Pa.FiltersAddOn
 					list[val] = true;
 			}
 
-			if (list.Count == 0)
-				return;
+			// Make sure to include values that are filtered out.
+			foreach (WordCacheEntry entry in FilterHelper.UnusedWordsCache)
+			{
+				string val = entry[field];
+				if (!string.IsNullOrEmpty(val))
+					list[val] = true;
+			}
 
 			string cellValue = cell.Value as string;
 			foreach (string val in list.Keys)
@@ -924,14 +1004,15 @@ namespace SIL.Pa.FiltersAddOn
 					SelectedIndex = Items.Count - 1;
 			}
 
-			if (SelectedIndex < 0)
+			if (SelectedIndex < 0 && list.Count > 0)
 				SelectedIndex = 0;
 
 			m_cell = cell;
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
-			Width = Math.Min(150, cell.DataGridView.Columns[col].Width);
-			Height = (Math.Min(Items.Count, 10) * Font.Height) + 4;
+			IntegralHeight = (list.Count > 0);
+			Width = Math.Max(150, cell.DataGridView.Columns[col].Width);
+			Height = (list.Count == 0 ? 18 : (Math.Min(Items.Count, 15) * Font.Height) + 4);
 			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;
 			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));

@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
@@ -46,7 +46,9 @@
 			this.lblAndOr = new System.Windows.Forms.Label();
 			this.rbOr = new System.Windows.Forms.RadioButton();
 			this.rbAnd = new System.Windows.Forms.RadioButton();
+			this.btnRemoveExp = new System.Windows.Forms.Button();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.btnApplyNow = new System.Windows.Forms.Button();
 			this.pnlButtons.SuspendLayout();
 			this.splitFilters.Panel1.SuspendLayout();
 			this.splitFilters.Panel2.SuspendLayout();
@@ -59,7 +61,12 @@
 			// 
 			// pnlButtons
 			// 
+			this.pnlButtons.Controls.Add(this.btnApplyNow);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
+			this.pnlButtons.Controls.SetChildIndex(this.btnApplyNow, 0);
+			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
+			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
+			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
 			// 
 			// btnCancel
 			// 
@@ -191,7 +198,10 @@
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
 			this.m_grid.WaterMark = "!";
+			this.m_grid.Enter += new System.EventHandler(this.m_grid_Enter);
+			this.m_grid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_RowEnter);
 			this.m_grid.ColumnHeadersHeightChanged += new System.EventHandler(this.m_grid_ColumnHeadersHeightChanged);
+			this.m_grid.Leave += new System.EventHandler(this.m_grid_Leave);
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
 			this.m_grid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.m_grid_DefaultValuesNeeded);
 			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
@@ -202,13 +212,15 @@
 			this.pnlFilterOptions.Controls.Add(this.lblAndOr);
 			this.pnlFilterOptions.Controls.Add(this.rbOr);
 			this.pnlFilterOptions.Controls.Add(this.rbAnd);
+			this.pnlFilterOptions.Controls.Add(this.btnRemoveExp);
 			resources.ApplyResources(this.pnlFilterOptions, "pnlFilterOptions");
 			this.pnlFilterOptions.Name = "pnlFilterOptions";
+			this.pnlFilterOptions.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlFilterOptions_Paint);
 			// 
 			// chkShowHide
 			// 
-			resources.ApplyResources(this.chkShowHide, "chkShowHide");
 			this.chkShowHide.BackColor = System.Drawing.Color.Transparent;
+			resources.ApplyResources(this.chkShowHide, "chkShowHide");
 			this.chkShowHide.Name = "chkShowHide";
 			this.chkShowHide.UseVisualStyleBackColor = false;
 			// 
@@ -233,6 +245,20 @@
 			this.rbAnd.Name = "rbAnd";
 			this.rbAnd.TabStop = true;
 			this.rbAnd.UseVisualStyleBackColor = false;
+			// 
+			// btnRemoveExp
+			// 
+			resources.ApplyResources(this.btnRemoveExp, "btnRemoveExp");
+			this.btnRemoveExp.Name = "btnRemoveExp";
+			this.btnRemoveExp.UseVisualStyleBackColor = true;
+			this.btnRemoveExp.Click += new System.EventHandler(this.btnRemoveExp_Click);
+			// 
+			// btnApplyNow
+			// 
+			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
+			this.btnApplyNow.Name = "btnApplyNow";
+			this.btnApplyNow.UseVisualStyleBackColor = true;
+			this.btnApplyNow.Click += new System.EventHandler(this.btnApplyNow_Click);
 			// 
 			// DefineFiltersDlg
 			// 
@@ -273,5 +299,7 @@
 		private System.Windows.Forms.RadioButton rbAnd;
 		private System.Windows.Forms.CheckBox chkShowHide;
 		private System.Windows.Forms.ToolTip m_tooltip;
+		private System.Windows.Forms.Button btnApplyNow;
+		private System.Windows.Forms.Button btnRemoveExp;
 	}
 }
