@@ -1,0 +1,175 @@
+﻿using System.Drawing;
+using System.Xml.Serialization;
+using System.IO;
+
+namespace SIL.Localize.Localizer
+{
+	#region LocalizerProject class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class LocalizerProject
+	{
+		private const string kPrjFileNamePrefix = "LocalizerProject.";
+
+		private string m_srcPath;
+		private string m_cultureId;
+		private SerializableFont m_fntSrc;
+		private SerializableFont m_fntTrans;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public LocalizerProject()
+		{
+			m_fntSrc = new SerializableFont(
+				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
+
+			m_fntTrans = new SerializableFont(
+				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public string CultureId
+		{
+			get { return m_cultureId; }
+			set { m_cultureId = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string SourcePath
+		{
+			get { return m_srcPath; }
+			set { m_srcPath = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Font SourceTextFont
+		{
+			get { return (m_fntSrc == null ? null : m_fntSrc.Font); }
+			set
+			{
+				if (m_fntSrc != null)
+					m_fntSrc.Dispose();
+
+				m_fntSrc = new SerializableFont(value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Font TranslationFont
+		{
+			get { return (m_fntTrans == null ? null : m_fntTrans.Font); }
+			set
+			{
+				if (m_fntTrans != null)
+					m_fntTrans.Dispose();
+
+				m_fntTrans = new SerializableFont(value);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Used only for serialization. Use SourceTextFont property for use in the program.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("SourceTextFont")]
+		public SerializableFont SrcTextFont
+		{
+			get { return m_fntSrc; }
+			set { m_fntSrc = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Used only for serialization. Use TranslationFont property for use in the program.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("TranslationFont")]
+		public SerializableFont TransFont
+		{
+			get { return m_fntTrans; }
+			set { m_fntTrans = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string Filename
+		{
+			get { return kPrjFileNamePrefix + CultureId + ".lop"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public LocalizerProject Clone()
+		{
+			LocalizerProject clone = new LocalizerProject();
+			clone.m_srcPath = m_srcPath;
+			clone.m_cultureId = m_cultureId;
+			clone.m_fntSrc = m_fntSrc.Clone();
+			clone.m_fntTrans = m_fntTrans.Clone();
+			return clone;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Create(string path)
+		{
+			// TODO: Verify that project doesn't already exist in specified path.
+			Directory.CreateDirectory(path);
+			return Save(path);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public bool Save(string path)
+		{
+			if (string.IsNullOrEmpty(m_cultureId) || string.IsNullOrEmpty(path))
+				return false;
+
+			Program.SerializeData(path, this);
+			return true;
+		}
+	}
+
+	#endregion
+}
