@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
 using System.Xml.Serialization;
+using SIL.Localize.LocalizingUtils;
 
 namespace SIL.Localize.Localizer
 {

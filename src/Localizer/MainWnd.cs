@@ -19,9 +19,8 @@ namespace SIL.Localize.Localizer
 	public partial class MainWnd : Form
 	{
 		private LocalizerProject m_currProject = null;
-		private List<ResXEntry> m_resxEntries;
+		private List<ResourceEntry> m_resourceEntries;
 		private string m_currProjectFile;
-		private SortedDictionary<string, AssemblyResXList> m_resxInfoList;
 		private int m_defaultLineHeight = 0;
 
 		/// ------------------------------------------------------------------------------------
@@ -124,6 +123,8 @@ namespace SIL.Localize.Localizer
 			//if (defaultGridRowHeight > 0)
 			//    m_defaultLineHeight = Properties.Settings.Default.defaultGridRowHeight;
 
+			m_defaultLineHeight = 0;
+
 			foreach (DataGridViewColumn col in m_grid.Columns)
 			{
 				Font fnt = (col.DefaultCellStyle.Font ?? m_grid.Font);
@@ -203,13 +204,24 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void mnuNewProject_Click(object sender, EventArgs e)
 		{
+			DialogResult result = DialogResult.Cancel;
+
 			using (ProjectDlg dlg = new ProjectDlg(null))
 			{
-				if (dlg.ShowDialog(this) == DialogResult.OK)
-				{
+				result = dlg.ShowDialog(this);
+				if (result == DialogResult.OK)
 					m_currProject = dlg.Project;
-					LoadTree();
-				}
+			}
+
+			if (result == DialogResult.OK)
+			{
+				ResXReader reader = new ResXReader();
+				m_currProject.AssemblyInfoList =
+					reader.Read(m_currProject.SourcePath, sslProgressBar, progressBar);
+				
+				LoadTree();
+				SetFonts();
+				CalcRowHeight();
 			}
 		}
 
@@ -275,29 +287,7 @@ namespace SIL.Localize.Localizer
 
 			// Save the project file (i.e. .lop)
 			m_currProject.Save(m_currProjectFile);
-
-			// Save the resx resource files.
-			SaveResXEntries(tvResXList.Nodes, TargetResXPath);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="nodes"></param>
-		/// <param name="path"></param>
-		/// ------------------------------------------------------------------------------------
-		private void SaveResXEntries(TreeNodeCollection nodes, string path)
-		{
-			foreach (TreeNode node in nodes)
-			{
-				if (node.Tag is ResXInfo)
-					((ResXInfo)node.Tag).Save(path, m_currProject.CultureId);
-				
-				SaveResXEntries(node.Nodes, path);
-			}
-		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -309,27 +299,7 @@ namespace SIL.Localize.Localizer
 		private void tbbCompile_Click(object sender, EventArgs e)
 		{
 			tbbSave_Click(null, null);
-
-			foreach (TreeNode assemblyNode in tvResXList.Nodes)
-			{
-				if (assemblyNode.Nodes.Count == 0)
-					continue;
-
-				List<string> resourceFiles = new List<string>();
-				foreach (TreeNode node in assemblyNode.Nodes)
-				{
-					ResXInfo resxInfo = node.Tag as ResXInfo;
-					if (resxInfo != null && !string.IsNullOrEmpty(resxInfo.ResourceFile))
-						resourceFiles.Add(resxInfo.ResourceFile);
-				}
-
-				if (resourceFiles.Count > 0)
-				{
-					LocalizingHelper.CompileLocalizedAssembly(m_currProject.CultureId,
-						TargetResXPath,	assemblyNode.Text, resourceFiles.ToArray(),
-						@"c:\phonology assistant\output\release");
-				}
-			}
+			m_currProject.Compile(@"c:\phonology assistant\output\release");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -368,17 +338,6 @@ namespace SIL.Localize.Localizer
 			//    (splitSrcTrans.Panel1Collapsed && splitSrcTrans.Panel2Collapsed);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void mnuCopyPrjResXFiles_Click(object sender, EventArgs e)
-		{
-			using (CopyProjectResXFilesDlg dlg = new CopyProjectResXFilesDlg())
-				dlg.ShowDialog(this);
-		}
-
 		#region Grid events
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -389,9 +348,9 @@ namespace SIL.Localize.Localizer
 		{
 			e.Value = string.Empty;
 
-			if (m_resxEntries != null && m_resxEntries.Count > 0 && e.RowIndex < m_resxEntries.Count)
+			if (m_resourceEntries != null && m_resourceEntries.Count > 0 && e.RowIndex < m_resourceEntries.Count)
 			{
-				ResXEntry entry = m_resxEntries[e.RowIndex];
+				ResourceEntry entry = m_resourceEntries[e.RowIndex];
 				switch (e.ColumnIndex)
 				{
 					case 0: e.Value = entry.StringId; break;
@@ -410,9 +369,9 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (m_resxEntries != null && m_resxEntries.Count > 0 && e.RowIndex < m_resxEntries.Count)
+			if (m_resourceEntries != null && m_resourceEntries.Count > 0 && e.RowIndex < m_resourceEntries.Count)
 			{
-				ResXEntry entry = m_resxEntries[e.RowIndex];
+				ResourceEntry entry = m_resourceEntries[e.RowIndex];
 				if (e.ColumnIndex == 2)
 					entry.TargetText = e.Value as string;
 				else if (e.ColumnIndex == 3)
@@ -466,11 +425,11 @@ namespace SIL.Localize.Localizer
 		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			int index = e.RowIndex;
-			if (m_resxEntries != null && index < m_resxEntries.Count && index >= 0)
+			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
 			{
-				txtSrcText.TextBox.Text = m_resxEntries[index].SourceText;
-				txtTranslation.TextBox.Text = m_resxEntries[index].TargetText;
-				txtComment.TextBox.Text = m_resxEntries[index].Comment;
+				txtSrcText.TextBox.Text = m_resourceEntries[index].SourceText;
+				txtTranslation.TextBox.Text = m_resourceEntries[index].TargetText;
+				txtComment.TextBox.Text = m_resourceEntries[index].Comment;
 			}
 		}
 
@@ -484,10 +443,10 @@ namespace SIL.Localize.Localizer
 		private void txtTranslation_Validated(object sender, EventArgs e)
 		{
 			int index = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : -1);
-			if (m_resxEntries != null && index < m_resxEntries.Count && index >= 0)
+			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
 			{
 				string translation = txtTranslation.TextBox.Text.Trim();
-				m_resxEntries[index].TargetText = translation;
+				m_resourceEntries[index].TargetText = translation;
 				m_grid.InvalidateRow(m_grid.CurrentRow.Index);
 			}
 		}
@@ -500,14 +459,14 @@ namespace SIL.Localize.Localizer
 		private void txtComment_Validated(object sender, EventArgs e)
 		{
 			int index = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : -1);
-			if (m_resxEntries != null && index < m_resxEntries.Count && index >= 0)
+			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
 			{
 				string comment = txtComment.TextBox.Text.Trim();
 				comment = comment.Replace("\r\n", " ");
 				comment = comment.Replace("\n\r", " ");
 				comment = comment.Replace("\r", " ");
 				comment = comment.Replace("\n", " ");
-				m_resxEntries[index].Comment = comment;
+				m_resourceEntries[index].Comment = comment;
 				m_grid.InvalidateRow(m_grid.CurrentRow.Index);
 			}
 		}
@@ -530,24 +489,23 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void LoadTree()
 		{
+
+	
+			
 			tvResXList.Nodes.Clear();
 
 			if (m_currProject == null)
 				return;
 
-			m_resxInfoList = LocalizingHelper.ReadResXFiles(m_currProject.SourcePath);
-			if (m_resxInfoList == null || m_resxInfoList.Count == 0)
-				return;
-
 			// Go through all the assemblies in the project.
-			foreach (string assembly in m_resxInfoList.Keys)
+			foreach (AssemblyResourceInfo assembly in m_currProject.AssemblyInfoList)
 			{
-				TreeNode assemNode = new TreeNode(assembly);
+				TreeNode assemNode = new TreeNode(assembly.AssemblyName);
 
 				// Now go through the resx files found in the assembly.
-				foreach (ResXInfo info in m_resxInfoList[assembly])
+				foreach (RessourceInfo info in assembly.ResourceInfoList)
 				{
-					TreeNode resxNode = new TreeNode(Path.GetFileName(info.ResxFile));
+					TreeNode resxNode = new TreeNode(info.ResourceName);
 					resxNode.Tag = info;
 					assemNode.Nodes.Add(resxNode);
 				}
@@ -563,17 +521,31 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void tvResXList_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			m_grid.RowCount = 0;
-			m_resxEntries = null;
+			//m_grid.RowCount = 0;
+			//m_resxEntries = null;
 
-			ResXInfo resxInfo = (e.Node == null ? null : e.Node.Tag as ResXInfo);
+			//ResXInfo resxInfo = (e.Node == null ? null : e.Node.Tag as ResXInfo);
+			//if (resxInfo == null)
+			//    return;
+
+			//m_resxEntries = resxInfo.GetStringEntries(TargetResXPath);
+			//if (m_resxEntries != null && m_resxEntries.Count > 0)
+			//{
+			//    m_grid.RowCount = m_resxEntries.Count;
+			//    m_grid.CurrentCell = m_grid[2, 0];
+			//}
+
+			m_grid.RowCount = 0;
+			m_resourceEntries = null;
+
+			RessourceInfo resxInfo = (e.Node == null ? null : e.Node.Tag as RessourceInfo);
 			if (resxInfo == null)
 				return;
 
-			m_resxEntries = resxInfo.GetStringEntries(TargetResXPath);
-			if (m_resxEntries != null && m_resxEntries.Count > 0)
+			m_resourceEntries = resxInfo.StringEntries;
+			if (m_resourceEntries != null && m_resourceEntries.Count > 0)
 			{
-				m_grid.RowCount = m_resxEntries.Count;
+				m_grid.RowCount = m_resourceEntries.Count;
 				m_grid.CurrentCell = m_grid[2, 0];
 			}
 		}
@@ -585,14 +557,14 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void tbbGoogleTranslate_Click(object sender, EventArgs e)
 		{
-			if (m_resxEntries.Count == 0)
+			if (m_resourceEntries.Count == 0)
 				return;
 
 			GoogleTranslator translator = GoogleTranslator.Create(m_currProject.CultureId);
 			if (translator == null)
 				return;
 
-			foreach (ResXEntry entry in m_resxEntries)
+			foreach (ResourceEntry entry in m_resourceEntries)
 			{
 				string text = entry.SourceText;
 				if (text == null)

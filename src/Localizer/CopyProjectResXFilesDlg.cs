@@ -34,13 +34,13 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			base.OnFormClosing(e);
-			if (btnOK.Enabled && DialogResult == DialogResult.OK)
-			{
-				Cursor = Cursors.WaitCursor;
-				LocalizingHelper.CopyProjectResXFiles(txtSrc.Text.Trim(), txtDest.Text.Trim());
-				Cursor = Cursors.Default;
-			}
+			//base.OnFormClosing(e);
+			//if (btnOK.Enabled && DialogResult == DialogResult.OK)
+			//{
+			//    Cursor = Cursors.WaitCursor;
+			//    LocalizingHelper.CopyProjectResXFiles(txtSrc.Text.Trim(), txtDest.Text.Trim());
+			//    Cursor = Cursors.Default;
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

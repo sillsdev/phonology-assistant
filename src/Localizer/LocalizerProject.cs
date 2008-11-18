@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Xml.Serialization;
 using System.IO;
+using SIL.Localize.LocalizingUtils;
 
 namespace SIL.Localize.Localizer
 {
@@ -18,6 +19,7 @@ namespace SIL.Localize.Localizer
 		private string m_cultureId;
 		private SerializableFont m_fntSrc;
 		private SerializableFont m_fntTrans;
+		private AssemblyResourceInfoList m_assemblyInfoList;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -132,6 +134,17 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public AssemblyResourceInfoList AssemblyInfoList
+		{
+			get { return m_assemblyInfoList; }
+			set { m_assemblyInfoList = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public LocalizerProject Clone()
 		{
 			LocalizerProject clone = new LocalizerProject();
@@ -140,18 +153,6 @@ namespace SIL.Localize.Localizer
 			clone.m_fntSrc = m_fntSrc.Clone();
 			clone.m_fntTrans = m_fntTrans.Clone();
 			return clone;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Create(string path)
-		{
-			// TODO: Verify that project doesn't already exist in specified path.
-			Directory.CreateDirectory(path);
-			return Save(path);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -168,6 +169,16 @@ namespace SIL.Localize.Localizer
 
 			Program.SerializeData(path, this);
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Compile(string outputPath)
+		{
+			m_assemblyInfoList.Compile(m_cultureId, outputPath);
 		}
 	}
 

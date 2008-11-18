@@ -63,9 +63,9 @@
 			this.lblSrc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblSrc.Location = new System.Drawing.Point(16, 56);
 			this.lblSrc.Name = "lblSrc";
-			this.lblSrc.Size = new System.Drawing.Size(186, 14);
+			this.lblSrc.Size = new System.Drawing.Size(275, 14);
 			this.lblSrc.TabIndex = 2;
-			this.lblSrc.Text = "&Source Language Resource Files:";
+			this.lblSrc.Text = "&Folder to scan for source language resource files:";
 			// 
 			// btnSrcFont
 			// 
