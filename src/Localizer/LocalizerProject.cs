@@ -15,6 +15,9 @@ namespace SIL.Localize.Localizer
 	{
 		private const string kPrjFileNamePrefix = "LocalizerProject.";
 
+		private bool m_scanResXFiles = false;
+		private string m_prjName;
+		private string m_exePath;
 		private string m_srcPath;
 		private string m_cultureId;
 		private SerializableFont m_fntSrc;
@@ -41,6 +44,18 @@ namespace SIL.Localize.Localizer
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
+		public string ProjectName
+		{
+			get { return m_prjName; }
+			set { m_prjName = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
 		public string CultureId
 		{
 			get { return m_cultureId; }
@@ -52,10 +67,10 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SourcePath
+		public bool ScanResXFiles
 		{
-			get { return m_srcPath; }
-			set { m_srcPath = value; }
+			get { return m_scanResXFiles; }
+			set { m_scanResXFiles = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,6 +131,28 @@ namespace SIL.Localize.Localizer
 		{
 			get { return m_fntTrans; }
 			set { m_fntTrans = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ExePath
+		{
+			get { return m_exePath; }
+			set { m_exePath = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string SourcePath
+		{
+			get { return m_srcPath; }
+			set { m_srcPath = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

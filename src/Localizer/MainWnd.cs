@@ -104,10 +104,17 @@ namespace SIL.Localize.Localizer
 		{
 			if (m_currProject != null)
 			{
-				m_grid.Columns[1].DefaultCellStyle.Font = m_currProject.SourceTextFont;
-				m_grid.Columns[2].DefaultCellStyle.Font = m_currProject.TranslationFont;
-				txtSrcText.TextBox.Font = m_currProject.SourceTextFont;
-				txtTranslation.TextBox.Font = m_currProject.TranslationFont;
+				if (m_currProject.SourceTextFont != null)
+				{
+					m_grid.Columns[1].DefaultCellStyle.Font = m_currProject.SourceTextFont;
+					txtSrcText.TextBox.Font = m_currProject.SourceTextFont;
+				}
+
+				if (m_currProject.TranslationFont != null)
+				{
+					m_grid.Columns[2].DefaultCellStyle.Font = m_currProject.TranslationFont;
+					txtTranslation.TextBox.Font = m_currProject.TranslationFont;
+				}
 			}
 		}
 
@@ -211,6 +218,8 @@ namespace SIL.Localize.Localizer
 				result = dlg.ShowDialog(this);
 				if (result == DialogResult.OK)
 					m_currProject = dlg.Project;
+
+				dlg.Hide();
 			}
 
 			if (result == DialogResult.OK)
@@ -222,6 +231,7 @@ namespace SIL.Localize.Localizer
 				LoadTree();
 				SetFonts();
 				CalcRowHeight();
+				m_currProjectFile = null;
 			}
 		}
 
@@ -279,10 +289,11 @@ namespace SIL.Localize.Localizer
 
 			if (m_currProjectFile == null)
 			{
-				if (fldrBrowser.ShowDialog(this) != DialogResult.OK)
+				saveFileDlg.FileName = m_currProject.ProjectName + ".lop";
+				if (saveFileDlg.ShowDialog(this) != DialogResult.OK)
 					return;
 
-				m_currProjectFile = Path.Combine(fldrBrowser.SelectedPath, m_currProject.Filename);
+				m_currProjectFile = saveFileDlg.FileName;
 			}
 
 			// Save the project file (i.e. .lop)
@@ -293,13 +304,33 @@ namespace SIL.Localize.Localizer
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+		/// ------------------------------------------------------------------------------------
+		private void mnuSaveAs_Click(object sender, EventArgs e)
+		{
+			if (m_currProjectFile == null)
+				mnuSave_Click(null, null);
+			else
+			{
+				saveFileDlg.FileName = m_currProjectFile;
+				if (saveFileDlg.ShowDialog(this) != DialogResult.OK)
+					return;
+
+				m_currProjectFile = saveFileDlg.FileName;
+			}
+
+			// Save the project file (i.e. .lop)
+			m_currProject.Save(m_currProjectFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void tbbCompile_Click(object sender, EventArgs e)
 		{
 			tbbSave_Click(null, null);
-			m_currProject.Compile(@"c:\phonology assistant\output\release");
+			m_currProject.Compile(Path.GetDirectoryName(m_currProject.ExePath));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -489,13 +520,16 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void LoadTree()
 		{
-
-	
-			
-			tvResXList.Nodes.Clear();
+			m_grid.RowCount = 0;
+			txtSrcText.TextBox.Text = string.Empty;
+			txtTranslation.TextBox.Text = string.Empty;
+			txtComment.TextBox.Text = string.Empty;
+			tvResources.Nodes.Clear();
 
 			if (m_currProject == null)
 				return;
+
+			TreeNode headNode = new TreeNode(m_currProject.ProjectName);
 
 			// Go through all the assemblies in the project.
 			foreach (AssemblyResourceInfo assembly in m_currProject.AssemblyInfoList)
@@ -510,8 +544,11 @@ namespace SIL.Localize.Localizer
 					assemNode.Nodes.Add(resxNode);
 				}
 
-				tvResXList.Nodes.Add(assemNode);
+				headNode.Nodes.Add(assemNode);
 			}
+
+			tvResources.Nodes.Add(headNode);
+			headNode.Expand();
 		}
 	
 		/// ------------------------------------------------------------------------------------
@@ -567,7 +604,7 @@ namespace SIL.Localize.Localizer
 			foreach (ResourceEntry entry in m_resourceEntries)
 			{
 				string text = entry.SourceText;
-				if (text == null)
+				if (!string.IsNullOrEmpty(entry.TargetText) || text == null)
 					continue;
 
 				// ENHANCE: should probably be smarter about removing ampersands.
