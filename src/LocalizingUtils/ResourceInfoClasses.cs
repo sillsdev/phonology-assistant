@@ -7,6 +7,18 @@ using System.ComponentModel.Design;
 
 namespace SIL.Localize.LocalizingUtils
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public enum TranslationStatus
+	{
+		Untranslated,
+		Unreviewed,
+		Completed
+	}
+	
 	#region RessourceInfo class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -16,6 +28,7 @@ namespace SIL.Localize.LocalizingUtils
 	public class RessourceInfo
 	{
 		private string m_resourceName = null;
+		private bool m_deleted = false;
 		private List<ResourceEntry> m_stringEntries = null;
 		
 		/// ------------------------------------------------------------------------------------
@@ -48,6 +61,18 @@ namespace SIL.Localize.LocalizingUtils
 		{
 			get { return m_resourceName; }
 			set { m_resourceName = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public bool Deleted
+		{
+			get { return m_deleted; }
+			set { m_deleted = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -165,6 +190,8 @@ namespace SIL.Localize.LocalizingUtils
 	{
 		[XmlAttribute]
 		public string StringId = null;
+		[XmlAttribute]
+		public TranslationStatus TranslationStatus = TranslationStatus.Untranslated;
 		public string SourceText = null;
 		public string TargetText = null;
 		public string Comment = null;
