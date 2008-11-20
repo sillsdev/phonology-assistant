@@ -38,6 +38,24 @@ namespace SIL.Localize.Localizer
 				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public LocalizerProject Clone()
+		//{
+		//    LocalizerProject clone = new LocalizerProject();
+		//    clone.m_scanResXFiles = m_scanResXFiles;
+		//    clone.m_prjName = m_prjName;
+		//    clone.m_cultureId = m_cultureId;
+		//    clone.m_exePath = m_exePath;
+		//    clone.m_srcPath = m_srcPath;
+		//    clone.m_fntSrc = m_fntSrc.Clone();
+		//    clone.m_fntTrans = m_fntTrans.Clone();
+		//    return clone;
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -175,21 +193,6 @@ namespace SIL.Localize.Localizer
 		{
 			get { return m_assemblyInfoList; }
 			set { m_assemblyInfoList = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public LocalizerProject Clone()
-		{
-			LocalizerProject clone = new LocalizerProject();
-			clone.m_srcPath = m_srcPath;
-			clone.m_cultureId = m_cultureId;
-			clone.m_fntSrc = m_fntSrc.Clone();
-			clone.m_fntTrans = m_fntTrans.Clone();
-			return clone;
 		}
 
 		/// ------------------------------------------------------------------------------------

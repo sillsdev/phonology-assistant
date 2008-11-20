@@ -59,5 +59,26 @@ namespace SIL.Localize.Localizer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap kimidCompleted {
+            get {
+                object obj = ResourceManager.GetObject("kimidCompleted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidUnreviewed {
+            get {
+                object obj = ResourceManager.GetObject("kimidUnreviewed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidUntranslated {
+            get {
+                object obj = ResourceManager.GetObject("kimidUntranslated", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

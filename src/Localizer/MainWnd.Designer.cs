@@ -28,19 +28,22 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWnd));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.m_mainmenu = new System.Windows.Forms.MenuStrip();
 			this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNewProject = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuProjectSettings = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_toolstrip = new System.Windows.Forms.ToolStrip();
@@ -51,10 +54,6 @@
 			this.tbbShowTransPane = new System.Windows.Forms.ToolStripButton();
 			this.tbbCompile = new System.Windows.Forms.ToolStripButton();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
-			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.SourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.m_statusbar = new System.Windows.Forms.StatusStrip();
 			this.sslProgressBar = new System.Windows.Forms.ToolStripStatusLabel();
 			this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -66,11 +65,17 @@
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
-			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-			this.mnuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+			this.Status = new System.Windows.Forms.DataGridViewImageColumn();
+			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.SourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
 			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
 			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
+			this.cmnuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuUnreviewed = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuCompleted = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -87,6 +92,7 @@
 			this.splitSrcTrans.Panel1.SuspendLayout();
 			this.splitSrcTrans.Panel2.SuspendLayout();
 			this.splitSrcTrans.SuspendLayout();
+			this.cmnuGrid.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// m_mainmenu
@@ -130,6 +136,11 @@
 			this.mnuOpenProject.Text = "&Open Project...";
 			this.mnuOpenProject.Click += new System.EventHandler(this.mnuOpenProject_Click);
 			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 6);
+			// 
 			// mnuProjectSettings
 			// 
 			this.mnuProjectSettings.Name = "mnuProjectSettings";
@@ -150,6 +161,13 @@
 			this.mnuSave.Size = new System.Drawing.Size(203, 22);
 			this.mnuSave.Text = "&Save";
 			this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
+			// 
+			// mnuSaveAs
+			// 
+			this.mnuSaveAs.Name = "mnuSaveAs";
+			this.mnuSaveAs.Size = new System.Drawing.Size(203, 22);
+			this.mnuSaveAs.Text = "Save &As...";
+			this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
 			// 
 			// toolStripMenuItem1
 			// 
@@ -256,28 +274,30 @@
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.m_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Status,
             this.ResourceId,
             this.SourceText,
             this.Translation,
             this.Comment});
-			dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.m_grid.DefaultCellStyle = dataGridViewCellStyle10;
+			this.m_grid.ContextMenuStrip = this.cmnuGrid;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.m_grid.DefaultCellStyle = dataGridViewCellStyle5;
 			this.m_grid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_grid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
 			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
@@ -294,43 +314,12 @@
 			this.m_grid.VirtualMode = true;
 			this.m_grid.WaterMark = "!";
 			this.m_grid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_RowEnter);
+			this.m_grid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellValidated);
 			this.m_grid.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			this.m_grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValueNeeded);
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
 			this.m_grid.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValuePushed);
 			this.m_grid.RowHeightInfoPushed += new System.Windows.Forms.DataGridViewRowHeightInfoPushedEventHandler(this.m_grid_RowHeightInfoPushed);
-			// 
-			// ResourceId
-			// 
-			this.ResourceId.HeaderText = "Resource Id";
-			this.ResourceId.Name = "ResourceId";
-			this.ResourceId.ReadOnly = true;
-			this.ResourceId.Width = 125;
-			// 
-			// SourceText
-			// 
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.SourceText.DefaultCellStyle = dataGridViewCellStyle7;
-			this.SourceText.HeaderText = "Source Text";
-			this.SourceText.Name = "SourceText";
-			this.SourceText.ReadOnly = true;
-			this.SourceText.Width = 150;
-			// 
-			// Translation
-			// 
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Translation.DefaultCellStyle = dataGridViewCellStyle8;
-			this.Translation.HeaderText = "Translation";
-			this.Translation.Name = "Translation";
-			this.Translation.Width = 150;
-			// 
-			// Comment
-			// 
-			dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Comment.DefaultCellStyle = dataGridViewCellStyle9;
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.Width = 150;
 			// 
 			// m_statusbar
 			// 
@@ -459,17 +448,45 @@
 			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
 			this.saveFileDlg.Title = "Save Project";
 			// 
-			// toolStripMenuItem2
+			// Status
 			// 
-			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 6);
+			this.Status.HeaderText = "Status";
+			this.Status.Name = "Status";
+			this.Status.ReadOnly = true;
+			this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Status.Width = 75;
 			// 
-			// mnuSaveAs
+			// ResourceId
 			// 
-			this.mnuSaveAs.Name = "mnuSaveAs";
-			this.mnuSaveAs.Size = new System.Drawing.Size(203, 22);
-			this.mnuSaveAs.Text = "Save &As...";
-			this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
+			this.ResourceId.HeaderText = "Resource Id";
+			this.ResourceId.Name = "ResourceId";
+			this.ResourceId.ReadOnly = true;
+			this.ResourceId.Width = 125;
+			// 
+			// SourceText
+			// 
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.SourceText.DefaultCellStyle = dataGridViewCellStyle2;
+			this.SourceText.HeaderText = "Source Text";
+			this.SourceText.Name = "SourceText";
+			this.SourceText.ReadOnly = true;
+			this.SourceText.Width = 150;
+			// 
+			// Translation
+			// 
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.Translation.DefaultCellStyle = dataGridViewCellStyle3;
+			this.Translation.HeaderText = "Translation";
+			this.Translation.Name = "Translation";
+			this.Translation.Width = 150;
+			// 
+			// Comment
+			// 
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.Comment.DefaultCellStyle = dataGridViewCellStyle4;
+			this.Comment.HeaderText = "Comment";
+			this.Comment.Name = "Comment";
+			this.Comment.Width = 150;
 			// 
 			// txtSrcText
 			// 
@@ -576,6 +593,30 @@
 			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
 			// 
+			// cmnuGrid
+			// 
+			this.cmnuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuUnreviewed,
+            this.cmnuCompleted});
+			this.cmnuGrid.Name = "cmnuGrid";
+			this.cmnuGrid.Size = new System.Drawing.Size(194, 48);
+			// 
+			// cmnuUnreviewed
+			// 
+			this.cmnuUnreviewed.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidUnreviewed;
+			this.cmnuUnreviewed.Name = "cmnuUnreviewed";
+			this.cmnuUnreviewed.Size = new System.Drawing.Size(193, 22);
+			this.cmnuUnreviewed.Text = "Mark as &Unreviewed";
+			this.cmnuUnreviewed.Click += new System.EventHandler(this.cmnuUnreviewed_Click);
+			// 
+			// cmnuCompleted
+			// 
+			this.cmnuCompleted.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidCompleted;
+			this.cmnuCompleted.Name = "cmnuCompleted";
+			this.cmnuCompleted.Size = new System.Drawing.Size(193, 22);
+			this.cmnuCompleted.Text = "Mark as &Completed";
+			this.cmnuCompleted.Click += new System.EventHandler(this.cmnuCompleted_Click);
+			// 
 			// MainWnd
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -608,6 +649,7 @@
 			this.splitSrcTrans.Panel1.ResumeLayout(false);
 			this.splitSrcTrans.Panel2.ResumeLayout(false);
 			this.splitSrcTrans.ResumeLayout(false);
+			this.cmnuGrid.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -640,10 +682,6 @@
 		private LabeledTextBox txtSrcText;
 		private LabeledTextBox txtTranslation;
 		private LabeledTextBox txtComment;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ResourceId;
-		private System.Windows.Forms.DataGridViewTextBoxColumn SourceText;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Translation;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
 		private System.Windows.Forms.ToolStripButton tbbShowSrcTextPane;
 		private System.Windows.Forms.ToolStripButton tbbShowTransPane;
 		private System.Windows.Forms.ToolStripButton tbbCompile;
@@ -652,6 +690,14 @@
 		private System.Windows.Forms.SaveFileDialog saveFileDlg;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem mnuSaveAs;
+		private System.Windows.Forms.DataGridViewImageColumn Status;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ResourceId;
+		private System.Windows.Forms.DataGridViewTextBoxColumn SourceText;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Translation;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+		private System.Windows.Forms.ContextMenuStrip cmnuGrid;
+		private System.Windows.Forms.ToolStripMenuItem cmnuUnreviewed;
+		private System.Windows.Forms.ToolStripMenuItem cmnuCompleted;
 	}
 }
 

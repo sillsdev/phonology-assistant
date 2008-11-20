@@ -18,6 +18,12 @@ namespace SIL.Localize.Localizer
 	/// ----------------------------------------------------------------------------------------
 	public partial class MainWnd : Form
 	{
+		private const int kStatusCol = 0;
+		private const int kIdCol = 1;
+		private const int kSrcCol = 2;
+		private const int kTransCol = 3;
+		private const int kCmntCol = 4;
+
 		private LocalizerProject m_currProject = null;
 		private List<ResourceEntry> m_resourceEntries;
 		private string m_currProjectFile;
@@ -296,7 +302,7 @@ namespace SIL.Localize.Localizer
 				m_currProjectFile = saveFileDlg.FileName;
 			}
 
-			// Save the project file (i.e. .lop)
+			// Save the project file.
 			m_currProject.Save(m_currProjectFile);
 		}
 
@@ -318,7 +324,7 @@ namespace SIL.Localize.Localizer
 				m_currProjectFile = saveFileDlg.FileName;
 			}
 
-			// Save the project file (i.e. .lop)
+			// Save the project file.
 			m_currProject.Save(m_currProjectFile);
 		}
 
@@ -384,10 +390,15 @@ namespace SIL.Localize.Localizer
 				ResourceEntry entry = m_resourceEntries[e.RowIndex];
 				switch (e.ColumnIndex)
 				{
-					case 0: e.Value = entry.StringId; break;
-					case 1: e.Value = entry.SourceText; break;
-					case 2: e.Value = entry.TargetText; break;
-					case 3: e.Value = entry.Comment; break;
+					case kIdCol: e.Value = entry.StringId; break;
+					case kSrcCol: e.Value = entry.SourceText; break;
+					case kTransCol: e.Value = entry.TargetText; break;
+					case kCmntCol: e.Value = entry.Comment; break;
+					case kStatusCol:
+						string imageId = "kimid" + entry.TranslationStatus.ToString();
+						e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
+						break;
+					
 					default: e.Value = string.Empty; break;
 				}
 			}
@@ -403,9 +414,9 @@ namespace SIL.Localize.Localizer
 			if (m_resourceEntries != null && m_resourceEntries.Count > 0 && e.RowIndex < m_resourceEntries.Count)
 			{
 				ResourceEntry entry = m_resourceEntries[e.RowIndex];
-				if (e.ColumnIndex == 2)
+				if (e.ColumnIndex == kTransCol)
 					entry.TargetText = e.Value as string;
-				else if (e.ColumnIndex == 3)
+				else if (e.ColumnIndex == kCmntCol)
 					entry.Comment = e.Value as string;
 			}
 		}
@@ -417,7 +428,7 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.ColumnIndex == 1 || e.ColumnIndex == 2 &&
+			if (e.ColumnIndex == kSrcCol || e.ColumnIndex == kTransCol &&
 				m_grid.Columns[e.ColumnIndex].DefaultCellStyle.Font != null)
 			{
 				e.CellStyle.Font = m_grid.Columns[e.ColumnIndex].DefaultCellStyle.Font;
@@ -583,7 +594,7 @@ namespace SIL.Localize.Localizer
 			if (m_resourceEntries != null && m_resourceEntries.Count > 0)
 			{
 				m_grid.RowCount = m_resourceEntries.Count;
-				m_grid.CurrentCell = m_grid[2, 0];
+				m_grid.CurrentCell = m_grid[kTransCol, 0];
 			}
 		}
 
@@ -618,6 +629,55 @@ namespace SIL.Localize.Localizer
 			}
 
 			m_grid.Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuUnreviewed_Click(object sender, EventArgs e)
+		{
+			if (m_grid.CurrentRow == null)
+				return;
+
+			m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Unreviewed;
+			m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuCompleted_Click(object sender, EventArgs e)
+		{
+			if (m_grid.CurrentRow == null)
+				return;
+
+			m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Completed;
+			m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellValidated(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex != kTransCol || e.RowIndex < 0)
+				return;
+
+			string cellValue = m_grid[kTransCol, e.RowIndex].Value as string;
+			TranslationStatus currStatus = m_resourceEntries[e.RowIndex].TranslationStatus;
+
+			if (string.IsNullOrEmpty(cellValue))
+				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Untranslated;
+			else if (currStatus == TranslationStatus.Untranslated)
+				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Unreviewed;
+
+			m_grid.InvalidateCell(kStatusCol, e.RowIndex);
 		}
 	}
 }
