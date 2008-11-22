@@ -27,6 +27,64 @@ namespace SIL.Localize.LocalizingUtils
 		/// <summary>
 		/// 
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public AssemblyResourceInfo this[string assemblyName]
+		{
+			get
+			{
+				foreach (AssemblyResourceInfo info in this)
+				{
+					if (info.AssemblyName == assemblyName)
+						return info;
+				}
+
+				return null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public new void Sort()
+		{
+			base.Sort(LocalizingHelper.AssemblyResourceInfoComparer);
+			foreach (AssemblyResourceInfo info in this)
+				info.Sort();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Merge(AssemblyResourceInfoList arInfoList)
+		{
+			if (arInfoList == null)
+				return false;
+
+			bool merged = false;
+
+			foreach (AssemblyResourceInfo info in arInfoList)
+			{
+				AssemblyResourceInfo matchedValue = this[info.AssemblyName];
+				if (matchedValue == null && info.ResourceInfoList.Count > 0)
+				{
+					Add(info);
+					merged = true;
+				}
+				else if (matchedValue.Merge(info.ResourceInfoList))
+					merged = true;
+			}
+
+			return merged;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="cultureId"></param>
 		/// <param name="exePath"></param>
 		/// ------------------------------------------------------------------------------------
@@ -50,7 +108,7 @@ namespace SIL.Localize.LocalizingUtils
 		private string m_assemblyFolder;
 		private string m_assemblyName;
 		private string m_rootNamespace;
-		private List<RessourceInfo> m_resourceInfoList;
+		private List<ResourceInfo> m_resourceInfoList;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -69,9 +127,29 @@ namespace SIL.Localize.LocalizingUtils
 		internal AssemblyResourceInfo(string assemblyFolder)
 		{
 			m_assemblyFolder = assemblyFolder;
-			m_resourceInfoList = new List<RessourceInfo>();
+			m_resourceInfoList = new List<ResourceInfo>();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ResourceInfo this[string resourceName]
+		{
+			get
+			{
+				foreach (ResourceInfo resInfo in m_resourceInfoList)
+				{
+					if (resInfo.ResourceName == resourceName)
+						return resInfo;
+				}
+			
+				return null;
+			}
+		}
+
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -113,10 +191,51 @@ namespace SIL.Localize.LocalizingUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<RessourceInfo> ResourceInfoList
+		public List<ResourceInfo> ResourceInfoList
 		{
 			get { return m_resourceInfoList; }
 			set { m_resourceInfoList = value; }
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Sort()
+		{
+			m_resourceInfoList.Sort(LocalizingHelper.ResourceInfoComparer);
+			foreach (ResourceInfo info in m_resourceInfoList)
+				info.Sort();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal bool Merge(List<ResourceInfo> resInfoList)
+		{
+			if (resInfoList == null)
+				return false;
+
+			bool merged = false;
+
+			foreach (ResourceInfo resInfo in resInfoList)
+			{
+				ResourceInfo matchingValue = this[resInfo.ResourceName];
+				if (matchingValue == null && resInfo.StringEntries.Count > 0)
+				{
+					m_resourceInfoList.Add(resInfo);
+					merged = true;
+				}
+				else if (matchingValue.Merge(resInfo))
+					merged = true;
+			}
+
+			return merged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,7 +251,7 @@ namespace SIL.Localize.LocalizingUtils
 
 			// Build the binary resource files.
 			List<string> binaryResFiles = new List<string>();
-			foreach (RessourceInfo resInfo in m_resourceInfoList)
+			foreach (ResourceInfo resInfo in m_resourceInfoList)
 			{
 				string binRes = resInfo.BuildBinaryResourceFile(cultureId, tmpPath);
 				if (!string.IsNullOrEmpty(binRes))

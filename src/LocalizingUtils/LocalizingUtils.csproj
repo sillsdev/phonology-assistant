@@ -41,7 +41,9 @@
     <Compile Include="GoogleTranslator.cs" />
     <Compile Include="LocalizingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResDllReader.cs" />
     <Compile Include="ResourceInfoClasses.cs" />
+    <Compile Include="ResReaderBase.cs" />
     <Compile Include="ResXReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

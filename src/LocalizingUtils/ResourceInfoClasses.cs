@@ -4,6 +4,7 @@ using System.Collections;
 using System.Xml.Serialization;
 using System.IO;
 using System.ComponentModel.Design;
+using System.Reflection;
 
 namespace SIL.Localize.LocalizingUtils
 {
@@ -19,16 +20,16 @@ namespace SIL.Localize.LocalizingUtils
 		Completed
 	}
 	
-	#region RessourceInfo class
+	#region ResourceInfo class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class RessourceInfo
+	public class ResourceInfo
 	{
 		private string m_resourceName = null;
-		private bool m_deleted = false;
+		private bool m_ommitted = false;
 		private List<ResourceEntry> m_stringEntries = null;
 		
 		/// ------------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ namespace SIL.Localize.LocalizingUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RessourceInfo()
+		public ResourceInfo()
 		{
 		}
 
@@ -45,12 +46,31 @@ namespace SIL.Localize.LocalizingUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RessourceInfo(string resPath, string resFileName)
+		public ResourceInfo(string resName)
 		{
-			m_resourceName = resFileName;
-			m_stringEntries = ReadStringEntries(resPath);
+			m_resourceName = resName;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ResourceEntry this[string stringId]
+		{
+			get
+			{
+				foreach (ResourceEntry entry in m_stringEntries)
+				{
+					if (entry.StringId == stringId)
+						return entry;
+				}
+
+				return null;
+			}
+		}
+
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -69,10 +89,10 @@ namespace SIL.Localize.LocalizingUtils
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool Deleted
+		public bool Ommitted
 		{
-			get { return m_deleted; }
-			set { m_deleted = value; }
+			get { return m_ommitted; }
+			set { m_ommitted = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,45 +129,16 @@ namespace SIL.Localize.LocalizingUtils
 			}
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private List<ResourceEntry> ReadStringEntries(string resXPath)
+		public void Sort()
 		{
-			List<ResourceEntry> stringEntries = new List<ResourceEntry>();
-
-			ResXResourceReader reader = new ResXResourceReader(resXPath);
-			if (reader == null)
-				return stringEntries;
-
-			reader.UseResXDataNodes = true;
-			IDictionaryEnumerator dict = reader.GetEnumerator();
-
-			while (dict.MoveNext())
-			{
-				ResXDataNode node = dict.Value as ResXDataNode;
-				if (node == null || node.Name.StartsWith(">>"))
-					continue;
-
-				try
-				{
-					object value = node.GetValue((ITypeResolutionService)null);
-					if (value != null && value.GetType() == typeof(string))
-					{
-						ResourceEntry entry = new ResourceEntry();
-						entry.Comment = node.Comment;
-						entry.StringId = node.Name;
-						entry.SourceText = value as string;
-						stringEntries.Add(entry);
-					}
-				}
-				catch { }
-			}
-
-			reader.Close();
-			return stringEntries;
+			m_stringEntries.Sort(LocalizingHelper.ResourceEntryComparer);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,6 +166,31 @@ namespace SIL.Localize.LocalizingUtils
 			}
 
 			return binResFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal bool Merge(ResourceInfo resInfo)
+		{
+			if (resInfo == null)
+				return false;
+
+			bool merged = false;
+
+			foreach (ResourceEntry entry in resInfo.StringEntries)
+			{
+				ResourceEntry matchingValue = this[entry.StringId];
+				if (matchingValue == null)
+				{
+					m_stringEntries.Add(entry);
+					merged = true;
+				}
+			}
+
+			return merged;
 		}
 	}
 

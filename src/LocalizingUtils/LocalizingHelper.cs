@@ -96,5 +96,35 @@ namespace SIL.Localize.LocalizingUtils
 			errors = errs.ToArray();
 			return false;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int AssemblyResourceInfoComparer(AssemblyResourceInfo x, AssemblyResourceInfo y)
+		{
+			return string.Compare(x.AssemblyName, y.AssemblyName);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int ResourceInfoComparer(ResourceInfo x, ResourceInfo y)
+		{
+			return string.Compare(x.ResourceName, y.ResourceName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int ResourceEntryComparer(ResourceEntry x, ResourceEntry y)
+		{
+			return string.Compare(x.StringId, y.StringId);
+		}
 	}
 }
