@@ -54,7 +54,16 @@
 			this.tbbShowTransPane = new System.Windows.Forms.ToolStripButton();
 			this.tbbCompile = new System.Windows.Forms.ToolStripButton();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
+			this.Status = new System.Windows.Forms.DataGridViewImageColumn();
+			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.SourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.cmnuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuUnreviewed = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuCompleted = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_statusbar = new System.Windows.Forms.StatusStrip();
+			this.sslMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sslProgressBar = new System.Windows.Forms.ToolStripStatusLabel();
 			this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
@@ -62,23 +71,17 @@
 			this.splitEntries = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTransCmt = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTrans = new System.Windows.Forms.SplitContainer();
-			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
-			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
-			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
-			this.Status = new System.Windows.Forms.DataGridViewImageColumn();
-			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.SourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
 			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
 			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
-			this.cmnuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.cmnuUnreviewed = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmnuCompleted = new System.Windows.Forms.ToolStripMenuItem();
+			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
+			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
+			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
+			this.tbbRescan = new System.Windows.Forms.ToolStripButton();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
+			this.cmnuGrid.SuspendLayout();
 			this.m_statusbar.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
@@ -92,7 +95,6 @@
 			this.splitSrcTrans.Panel1.SuspendLayout();
 			this.splitSrcTrans.Panel2.SuspendLayout();
 			this.splitSrcTrans.SuspendLayout();
-			this.cmnuGrid.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// m_mainmenu
@@ -188,7 +190,8 @@
             this.tbbShowCommentsPane,
             this.tbbShowSrcTextPane,
             this.tbbShowTransPane,
-            this.tbbCompile});
+            this.tbbCompile,
+            this.tbbRescan});
 			this.m_toolstrip.Location = new System.Drawing.Point(0, 24);
 			this.m_toolstrip.Name = "m_toolstrip";
 			this.m_toolstrip.Size = new System.Drawing.Size(816, 25);
@@ -256,12 +259,12 @@
 			// 
 			// tbbCompile
 			// 
-			this.tbbCompile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tbbCompile.Image = ((System.Drawing.Image)(resources.GetObject("tbbCompile.Image")));
+			this.tbbCompile.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidCompile;
 			this.tbbCompile.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tbbCompile.Name = "tbbCompile";
-			this.tbbCompile.Size = new System.Drawing.Size(59, 22);
+			this.tbbCompile.Size = new System.Drawing.Size(75, 22);
 			this.tbbCompile.Text = "Compile";
+			this.tbbCompile.ToolTipText = "Compile Translations";
 			this.tbbCompile.Click += new System.EventHandler(this.tbbCompile_Click);
 			// 
 			// m_grid
@@ -314,16 +317,82 @@
 			this.m_grid.VirtualMode = true;
 			this.m_grid.WaterMark = "!";
 			this.m_grid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_RowEnter);
-			this.m_grid.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellValidated);
+			this.m_grid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDown);
 			this.m_grid.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			this.m_grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValueNeeded);
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
+			this.m_grid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.m_grid_CellValidating);
 			this.m_grid.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValuePushed);
 			this.m_grid.RowHeightInfoPushed += new System.Windows.Forms.DataGridViewRowHeightInfoPushedEventHandler(this.m_grid_RowHeightInfoPushed);
+			// 
+			// Status
+			// 
+			this.Status.HeaderText = "Status";
+			this.Status.Name = "Status";
+			this.Status.ReadOnly = true;
+			this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Status.Width = 75;
+			// 
+			// ResourceId
+			// 
+			this.ResourceId.HeaderText = "Resource Id";
+			this.ResourceId.Name = "ResourceId";
+			this.ResourceId.ReadOnly = true;
+			this.ResourceId.Width = 125;
+			// 
+			// SourceText
+			// 
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.SourceText.DefaultCellStyle = dataGridViewCellStyle2;
+			this.SourceText.HeaderText = "Source Text";
+			this.SourceText.Name = "SourceText";
+			this.SourceText.ReadOnly = true;
+			this.SourceText.Width = 150;
+			// 
+			// Translation
+			// 
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.Translation.DefaultCellStyle = dataGridViewCellStyle3;
+			this.Translation.HeaderText = "Translation";
+			this.Translation.Name = "Translation";
+			this.Translation.Width = 150;
+			// 
+			// Comment
+			// 
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.Comment.DefaultCellStyle = dataGridViewCellStyle4;
+			this.Comment.HeaderText = "Comment";
+			this.Comment.Name = "Comment";
+			this.Comment.Width = 150;
+			// 
+			// cmnuGrid
+			// 
+			this.cmnuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuUnreviewed,
+            this.cmnuCompleted});
+			this.cmnuGrid.Name = "cmnuGrid";
+			this.cmnuGrid.Size = new System.Drawing.Size(194, 48);
+			// 
+			// cmnuUnreviewed
+			// 
+			this.cmnuUnreviewed.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidUnreviewed;
+			this.cmnuUnreviewed.Name = "cmnuUnreviewed";
+			this.cmnuUnreviewed.Size = new System.Drawing.Size(193, 22);
+			this.cmnuUnreviewed.Text = "Mark as &Unreviewed";
+			this.cmnuUnreviewed.Click += new System.EventHandler(this.cmnuUnreviewed_Click);
+			// 
+			// cmnuCompleted
+			// 
+			this.cmnuCompleted.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidCompleted;
+			this.cmnuCompleted.Name = "cmnuCompleted";
+			this.cmnuCompleted.Size = new System.Drawing.Size(193, 22);
+			this.cmnuCompleted.Text = "Mark as &Completed";
+			this.cmnuCompleted.Click += new System.EventHandler(this.cmnuCompleted_Click);
 			// 
 			// m_statusbar
 			// 
 			this.m_statusbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sslMain,
             this.sslProgressBar,
             this.progressBar});
 			this.m_statusbar.Location = new System.Drawing.Point(0, 486);
@@ -331,15 +400,21 @@
 			this.m_statusbar.Size = new System.Drawing.Size(816, 22);
 			this.m_statusbar.TabIndex = 3;
 			// 
+			// sslMain
+			// 
+			this.sslMain.Name = "sslMain";
+			this.sslMain.Size = new System.Drawing.Size(801, 17);
+			this.sslMain.Spring = true;
+			this.sslMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// sslProgressBar
 			// 
-			this.sslProgressBar.AutoSize = false;
 			this.sslProgressBar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.sslProgressBar.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.sslProgressBar.Name = "sslProgressBar";
-			this.sslProgressBar.Size = new System.Drawing.Size(300, 17);
+			this.sslProgressBar.Size = new System.Drawing.Size(16, 17);
 			this.sslProgressBar.Text = "#";
-			this.sslProgressBar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.sslProgressBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.sslProgressBar.Visible = false;
 			// 
 			// progressBar
@@ -432,61 +507,6 @@
 			this.splitSrcTrans.Size = new System.Drawing.Size(522, 70);
 			this.splitSrcTrans.SplitterDistance = 246;
 			this.splitSrcTrans.TabIndex = 0;
-			// 
-			// openFileDlg
-			// 
-			this.openFileDlg.DefaultExt = "lop";
-			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
-			// 
-			// fldrBrowser
-			// 
-			this.fldrBrowser.Description = "Specify where to save your project.";
-			// 
-			// saveFileDlg
-			// 
-			this.saveFileDlg.DefaultExt = "lop";
-			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
-			this.saveFileDlg.Title = "Save Project";
-			// 
-			// Status
-			// 
-			this.Status.HeaderText = "Status";
-			this.Status.Name = "Status";
-			this.Status.ReadOnly = true;
-			this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Status.Width = 75;
-			// 
-			// ResourceId
-			// 
-			this.ResourceId.HeaderText = "Resource Id";
-			this.ResourceId.Name = "ResourceId";
-			this.ResourceId.ReadOnly = true;
-			this.ResourceId.Width = 125;
-			// 
-			// SourceText
-			// 
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.SourceText.DefaultCellStyle = dataGridViewCellStyle2;
-			this.SourceText.HeaderText = "Source Text";
-			this.SourceText.Name = "SourceText";
-			this.SourceText.ReadOnly = true;
-			this.SourceText.Width = 150;
-			// 
-			// Translation
-			// 
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Translation.DefaultCellStyle = dataGridViewCellStyle3;
-			this.Translation.HeaderText = "Translation";
-			this.Translation.Name = "Translation";
-			this.Translation.Width = 150;
-			// 
-			// Comment
-			// 
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Comment.DefaultCellStyle = dataGridViewCellStyle4;
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.Width = 150;
 			// 
 			// txtSrcText
 			// 
@@ -593,29 +613,31 @@
 			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
 			// 
-			// cmnuGrid
+			// openFileDlg
 			// 
-			this.cmnuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmnuUnreviewed,
-            this.cmnuCompleted});
-			this.cmnuGrid.Name = "cmnuGrid";
-			this.cmnuGrid.Size = new System.Drawing.Size(194, 48);
+			this.openFileDlg.DefaultExt = "lop";
+			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
 			// 
-			// cmnuUnreviewed
+			// fldrBrowser
 			// 
-			this.cmnuUnreviewed.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidUnreviewed;
-			this.cmnuUnreviewed.Name = "cmnuUnreviewed";
-			this.cmnuUnreviewed.Size = new System.Drawing.Size(193, 22);
-			this.cmnuUnreviewed.Text = "Mark as &Unreviewed";
-			this.cmnuUnreviewed.Click += new System.EventHandler(this.cmnuUnreviewed_Click);
+			this.fldrBrowser.Description = "Specify where to save your project.";
 			// 
-			// cmnuCompleted
+			// saveFileDlg
 			// 
-			this.cmnuCompleted.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidCompleted;
-			this.cmnuCompleted.Name = "cmnuCompleted";
-			this.cmnuCompleted.Size = new System.Drawing.Size(193, 22);
-			this.cmnuCompleted.Text = "Mark as &Completed";
-			this.cmnuCompleted.Click += new System.EventHandler(this.cmnuCompleted_Click);
+			this.saveFileDlg.DefaultExt = "lop";
+			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
+			this.saveFileDlg.Title = "Save Project";
+			// 
+			// tbbRescan
+			// 
+			this.tbbRescan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tbbRescan.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidRescan;
+			this.tbbRescan.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tbbRescan.Name = "tbbRescan";
+			this.tbbRescan.Size = new System.Drawing.Size(23, 22);
+			this.tbbRescan.Text = "Rescan";
+			this.tbbRescan.ToolTipText = "Rescan Source Resources";
+			this.tbbRescan.Click += new System.EventHandler(this.tbbRescan_Click);
 			// 
 			// MainWnd
 			// 
@@ -626,6 +648,7 @@
 			this.Controls.Add(this.m_toolstrip);
 			this.Controls.Add(this.m_mainmenu);
 			this.Controls.Add(this.splitOuter);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.m_mainmenu;
 			this.Name = "MainWnd";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -635,6 +658,7 @@
 			this.m_toolstrip.ResumeLayout(false);
 			this.m_toolstrip.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
+			this.cmnuGrid.ResumeLayout(false);
 			this.m_statusbar.ResumeLayout(false);
 			this.m_statusbar.PerformLayout();
 			this.splitOuter.Panel1.ResumeLayout(false);
@@ -649,7 +673,6 @@
 			this.splitSrcTrans.Panel1.ResumeLayout(false);
 			this.splitSrcTrans.Panel2.ResumeLayout(false);
 			this.splitSrcTrans.ResumeLayout(false);
-			this.cmnuGrid.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -698,6 +721,8 @@
 		private System.Windows.Forms.ContextMenuStrip cmnuGrid;
 		private System.Windows.Forms.ToolStripMenuItem cmnuUnreviewed;
 		private System.Windows.Forms.ToolStripMenuItem cmnuCompleted;
+		private System.Windows.Forms.ToolStripStatusLabel sslMain;
+		private System.Windows.Forms.ToolStripButton tbbRescan;
 	}
 }
 

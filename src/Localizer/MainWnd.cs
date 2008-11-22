@@ -28,6 +28,8 @@ namespace SIL.Localize.Localizer
 		private List<ResourceEntry> m_resourceEntries;
 		private string m_currProjectFile;
 		private int m_defaultLineHeight = 0;
+		private string m_fmtWndText;
+		private string m_wndText;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,7 +39,10 @@ namespace SIL.Localize.Localizer
 		public MainWnd()
 		{
 			InitializeComponent();
+			m_fmtWndText = Properties.Resources.kstidMainWndTitleFmt;
+			m_wndText = Text;
 
+			// Restore column widths from settings file.
 			foreach (DataGridViewColumn c in m_grid.Columns)
 			{
 				string settingName = string.Format("colWidth{0}", c.Index);
@@ -67,38 +72,20 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal string TargetResXPath
-		{
-			get
-			{
-				// TODO: Add some error checking.
-				string path = Path.GetDirectoryName(m_currProjectFile);
-				return Path.Combine(path, m_currProject.CultureId);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadProject(string fileName)
 		{
 			// TODO: Check if a project is already open and not saved.
-			if (!File.Exists(fileName))
-				return;
-
-			m_currProject =
-				Program.DeserializeData(fileName, typeof(LocalizerProject)) as LocalizerProject;
+			m_currProject = LocalizerProject.Load(fileName);
 
 			// TODO: Show error if null.
-			if (m_currProject == null)
-				return;
-
-			m_currProjectFile = fileName;
-			LoadTree();
-			SetFonts();
-			CalcRowHeight();
+			if (m_currProject != null)
+			{
+				m_currProjectFile = fileName;
+				LoadTree();
+				SetFonts();
+				CalcRowHeight();
+				Text = string.Format(m_fmtWndText, m_currProject.ProjectName, m_wndText);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -228,17 +215,17 @@ namespace SIL.Localize.Localizer
 				dlg.Hide();
 			}
 
-			if (result == DialogResult.OK)
-			{
-				ResXReader reader = new ResXReader();
-				m_currProject.AssemblyInfoList =
-					reader.Read(m_currProject.SourcePath, sslProgressBar, progressBar);
-				
-				LoadTree();
-				SetFonts();
-				CalcRowHeight();
-				m_currProjectFile = null;
-			}
+			if (result != DialogResult.OK)
+				return;
+
+			m_currProject.Scan(sslProgressBar, progressBar);
+			LoadTree();
+			SetFonts();
+			CalcRowHeight();
+			m_currProjectFile = null;
+
+			// Force the project to be saved now.
+			mnuSave_Click(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -326,6 +313,20 @@ namespace SIL.Localize.Localizer
 
 			// Save the project file.
 			m_currProject.Save(m_currProjectFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void tbbRescan_Click(object sender, EventArgs e)
+		{
+			if (m_currProject != null && m_currProject.ReScan(sslProgressBar, progressBar))
+			{
+				LoadTree();
+				CalcRowHeight();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -475,6 +476,46 @@ namespace SIL.Localize.Localizer
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
+				m_grid.Rows[e.RowIndex] != m_grid.CurrentRow && e.RowIndex >= 0 &&
+				e.RowIndex < m_grid.RowCount && e.Button == MouseButtons.Right)
+			{
+				m_grid.CurrentCell = m_grid[e.ColumnIndex, e.RowIndex];
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+		{
+			if (e.ColumnIndex != kTransCol || e.RowIndex < 0)
+				return;
+			
+			string oldValue = m_grid[kTransCol, e.RowIndex].Value as string;
+			string newValue = e.FormattedValue as string;
+			if (oldValue == newValue)
+				return;
+
+			TranslationStatus currStatus = m_resourceEntries[e.RowIndex].TranslationStatus;
+
+			if (string.IsNullOrEmpty(newValue))
+				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Untranslated;
+			else if (currStatus == TranslationStatus.Untranslated)
+				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Unreviewed;
+
+			m_grid.InvalidateCell(kStatusCol, e.RowIndex);
+		}
+	
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -548,7 +589,7 @@ namespace SIL.Localize.Localizer
 				TreeNode assemNode = new TreeNode(assembly.AssemblyName);
 
 				// Now go through the resx files found in the assembly.
-				foreach (RessourceInfo info in assembly.ResourceInfoList)
+				foreach (ResourceInfo info in assembly.ResourceInfoList)
 				{
 					TreeNode resxNode = new TreeNode(info.ResourceName);
 					resxNode.Tag = info;
@@ -586,7 +627,7 @@ namespace SIL.Localize.Localizer
 			m_grid.RowCount = 0;
 			m_resourceEntries = null;
 
-			RessourceInfo resxInfo = (e.Node == null ? null : e.Node.Tag as RessourceInfo);
+			ResourceInfo resxInfo = (e.Node == null ? null : e.Node.Tag as ResourceInfo);
 			if (resxInfo == null)
 				return;
 
@@ -652,32 +693,11 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void cmnuCompleted_Click(object sender, EventArgs e)
 		{
-			if (m_grid.CurrentRow == null)
-				return;
-
-			m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Completed;
-			m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellValidated(object sender, DataGridViewCellEventArgs e)
-		{
-			if (e.ColumnIndex != kTransCol || e.RowIndex < 0)
-				return;
-
-			string cellValue = m_grid[kTransCol, e.RowIndex].Value as string;
-			TranslationStatus currStatus = m_resourceEntries[e.RowIndex].TranslationStatus;
-
-			if (string.IsNullOrEmpty(cellValue))
-				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Untranslated;
-			else if (currStatus == TranslationStatus.Untranslated)
-				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Unreviewed;
-
-			m_grid.InvalidateCell(kStatusCol, e.RowIndex);
+			if (m_grid.CurrentRow != null)
+			{
+				m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Completed;
+				m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+			}
 		}
 	}
 }

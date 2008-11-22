@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using System.IO;
 using SIL.Localize.LocalizingUtils;
+using System.Windows.Forms;
 
 namespace SIL.Localize.Localizer
 {
@@ -56,6 +57,7 @@ namespace SIL.Localize.Localizer
 		//    return clone;
 		//}
 
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -195,12 +197,90 @@ namespace SIL.Localize.Localizer
 			set { m_assemblyInfoList = value; }
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public static LocalizerProject Load(string fileName)
+		{
+			if (!File.Exists(fileName))
+				return null;
+
+			LocalizerProject project =
+				Program.DeserializeData(fileName, typeof(LocalizerProject)) as LocalizerProject;
+
+			if (project != null)
+				project.m_assemblyInfoList.Sort();
+
+			return project;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Scan()
+		{
+			m_assemblyInfoList = InternalScan(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Scan(ToolStripStatusLabel sslProgressBar, ToolStripProgressBar progressBar)
+		{
+			m_assemblyInfoList = InternalScan(sslProgressBar, progressBar);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ReScan(ToolStripStatusLabel sslProgressBar, ToolStripProgressBar progressBar)
+		{
+			if (!m_assemblyInfoList.Merge(InternalScan(sslProgressBar, progressBar)))
+				return false;
+
+			m_assemblyInfoList.Sort();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected AssemblyResourceInfoList InternalScan(ToolStripStatusLabel sslProgressBar,
+			ToolStripProgressBar progressBar)
+		{
+			AssemblyResourceInfoList arInfoList;
+
+			if (m_scanResXFiles)
+			{
+				ResXReader resXRreader = new ResXReader();
+				arInfoList = resXRreader.Read(m_srcPath, sslProgressBar, progressBar);
+			}
+			else
+			{
+				ResDllReader dllRreader = new ResDllReader();
+				arInfoList = dllRreader.Read(m_srcPath, sslProgressBar, progressBar);
+			}
+
+			arInfoList.Sort();
+			return arInfoList;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool Save(string path)
 		{

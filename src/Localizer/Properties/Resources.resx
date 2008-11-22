@@ -118,13 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidCompile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Compile.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidCompleted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Completed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidRescan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Rescan.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidUnreviewed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unreviewed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidUntranslated" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Untranslated.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidMainWndTitleFmt" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>This is the format string for the window title of the main application window. The first parameter is the name of the loaded project and the second is the name of the application.</comment>
   </data>
 </root>

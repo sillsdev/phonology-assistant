@@ -60,9 +60,23 @@ namespace SIL.Localize.Localizer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidCompile {
+            get {
+                object obj = ResourceManager.GetObject("kimidCompile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidCompleted {
             get {
                 object obj = ResourceManager.GetObject("kimidCompleted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidRescan {
+            get {
+                object obj = ResourceManager.GetObject("kimidRescan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -78,6 +92,15 @@ namespace SIL.Localize.Localizer.Properties {
             get {
                 object obj = ResourceManager.GetObject("kimidUntranslated", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - {1}.
+        /// </summary>
+        internal static string kstidMainWndTitleFmt {
+            get {
+                return ResourceManager.GetString("kstidMainWndTitleFmt", resourceCulture);
             }
         }
     }

@@ -138,6 +138,7 @@
 			// cboTarget
 			// 
 			this.cboTarget.DropDownHeight = 250;
+			this.cboTarget.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboTarget.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cboTarget.FormattingEnabled = true;
 			this.cboTarget.IntegralHeight = false;
