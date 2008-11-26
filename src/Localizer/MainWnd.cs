@@ -27,6 +27,8 @@ namespace SIL.Localize.Localizer
 		private LocalizerProject m_currProject = null;
 		private List<ResourceEntry> m_resourceEntries;
 		private string m_currProjectFile;
+		private string m_currAssembly;
+		private ResourceInfo m_currResInfo;
 		private int m_defaultLineHeight = 0;
 		private string m_fmtWndText;
 		private string m_wndText;
@@ -103,10 +105,10 @@ namespace SIL.Localize.Localizer
 					txtSrcText.TextBox.Font = m_currProject.SourceTextFont;
 				}
 
-				if (m_currProject.TranslationFont != null)
+				if (m_currProject.TargetLangFont != null)
 				{
-					m_grid.Columns[2].DefaultCellStyle.Font = m_currProject.TranslationFont;
-					txtTranslation.TextBox.Font = m_currProject.TranslationFont;
+					m_grid.Columns[2].DefaultCellStyle.Font = m_currProject.TargetLangFont;
+					txtTranslation.TextBox.Font = m_currProject.TargetLangFont;
 				}
 			}
 		}
@@ -253,6 +255,7 @@ namespace SIL.Localize.Localizer
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
+					//m_currProject.ReScan(sslProgressBar, progressBar);
 					SetFonts();
 					CalcRowHeight();
 					m_grid.Invalidate();
@@ -394,7 +397,17 @@ namespace SIL.Localize.Localizer
 					case kIdCol: e.Value = entry.StringId; break;
 					case kSrcCol: e.Value = entry.SourceText; break;
 					case kTransCol: e.Value = entry.TargetText; break;
-					case kCmntCol: e.Value = entry.Comment; break;
+					
+					case kCmntCol:
+						if (!string.IsNullOrEmpty(entry.Comment))
+							e.Value = entry.Comment;
+						else if (entry.StringId != null && m_currProject.ResourceCatalog != null)
+						{
+							e.Value = m_currProject.ResourceCatalog.GetComment(
+								m_currAssembly, m_currResInfo.ResourceName, entry.StringId);
+						}
+						break;
+					
 					case kStatusCol:
 						string imageId = "kimid" + entry.TranslationStatus.ToString();
 						e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
@@ -470,9 +483,9 @@ namespace SIL.Localize.Localizer
 			int index = e.RowIndex;
 			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
 			{
-				txtSrcText.TextBox.Text = m_resourceEntries[index].SourceText;
-				txtTranslation.TextBox.Text = m_resourceEntries[index].TargetText;
-				txtComment.TextBox.Text = m_resourceEntries[index].Comment;
+				txtSrcText.TextBox.Text = m_grid[kSrcCol, e.RowIndex].Value as string;
+				txtTranslation.TextBox.Text = m_grid[kTransCol, e.RowIndex].Value as string;
+				txtComment.TextBox.Text = m_grid[kCmntCol, e.RowIndex].Value as string;
 			}
 		}
 
@@ -627,11 +640,18 @@ namespace SIL.Localize.Localizer
 			m_grid.RowCount = 0;
 			m_resourceEntries = null;
 
-			ResourceInfo resxInfo = (e.Node == null ? null : e.Node.Tag as ResourceInfo);
-			if (resxInfo == null)
+			if (e.Node.Level == 1)
+				m_currAssembly = e.Node.Text;
+			else if (e.Node.Level == 2)
+				m_currAssembly = e.Node.Parent.Text;
+			else
+				m_currAssembly = null;
+
+			m_currResInfo = (e.Node == null ? null : e.Node.Tag as ResourceInfo);
+			if (m_currResInfo == null)
 				return;
 
-			m_resourceEntries = resxInfo.StringEntries;
+			m_resourceEntries = m_currResInfo.StringEntries;
 			if (m_resourceEntries != null && m_resourceEntries.Count > 0)
 			{
 				m_grid.RowCount = m_resourceEntries.Count;

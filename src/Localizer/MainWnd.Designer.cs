@@ -53,6 +53,7 @@
 			this.tbbShowSrcTextPane = new System.Windows.Forms.ToolStripButton();
 			this.tbbShowTransPane = new System.Windows.Forms.ToolStripButton();
 			this.tbbCompile = new System.Windows.Forms.ToolStripButton();
+			this.tbbRescan = new System.Windows.Forms.ToolStripButton();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
 			this.Status = new System.Windows.Forms.DataGridViewImageColumn();
 			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,7 +78,6 @@
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
-			this.tbbRescan = new System.Windows.Forms.ToolStripButton();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -266,6 +266,17 @@
 			this.tbbCompile.Text = "Compile";
 			this.tbbCompile.ToolTipText = "Compile Translations";
 			this.tbbCompile.Click += new System.EventHandler(this.tbbCompile_Click);
+			// 
+			// tbbRescan
+			// 
+			this.tbbRescan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tbbRescan.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidRescan;
+			this.tbbRescan.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tbbRescan.Name = "tbbRescan";
+			this.tbbRescan.Size = new System.Drawing.Size(23, 22);
+			this.tbbRescan.Text = "Rescan";
+			this.tbbRescan.ToolTipText = "Rescan Source Resources";
+			this.tbbRescan.Click += new System.EventHandler(this.tbbRescan_Click);
 			// 
 			// m_grid
 			// 
@@ -627,17 +638,6 @@
 			this.saveFileDlg.DefaultExt = "lop";
 			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
 			this.saveFileDlg.Title = "Save Project";
-			// 
-			// tbbRescan
-			// 
-			this.tbbRescan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbbRescan.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidRescan;
-			this.tbbRescan.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tbbRescan.Name = "tbbRescan";
-			this.tbbRescan.Size = new System.Drawing.Size(23, 22);
-			this.tbbRescan.Text = "Rescan";
-			this.tbbRescan.ToolTipText = "Rescan Source Resources";
-			this.tbbRescan.Click += new System.EventHandler(this.tbbRescan_Click);
 			// 
 			// MainWnd
 			// 

@@ -28,10 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.txtSrc = new System.Windows.Forms.TextBox();
+			this.components = new System.ComponentModel.Container();
 			this.lblSrc = new System.Windows.Forms.Label();
 			this.btnSrcFont = new System.Windows.Forms.Button();
-			this.btnSrc = new System.Windows.Forms.Button();
+			this.btnAdd = new System.Windows.Forms.Button();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
@@ -47,38 +47,38 @@
 			this.txtPrjName = new System.Windows.Forms.TextBox();
 			this.txtExe = new System.Windows.Forms.TextBox();
 			this.lblExe = new System.Windows.Forms.Label();
-			this.rbScanResx = new System.Windows.Forms.RadioButton();
-			this.rbScanDll = new System.Windows.Forms.RadioButton();
 			this.btnExe = new System.Windows.Forms.Button();
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
+			this.lstSrcPaths = new System.Windows.Forms.ListBox();
+			this.btnRemove = new System.Windows.Forms.Button();
+			this.btnScan = new System.Windows.Forms.Button();
+			this.cmnuScan = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuScanForDlls = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuScanForResx = new System.Windows.Forms.ToolStripMenuItem();
+			this.progressBar = new System.Windows.Forms.ProgressBar();
+			this.lblScanning = new System.Windows.Forms.Label();
+			this.lblResCatalog = new System.Windows.Forms.Label();
+			this.btnResCatalog = new System.Windows.Forms.Button();
+			this.txtResCatalog = new System.Windows.Forms.TextBox();
+			this.cmnuScan.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// txtSrc
-			// 
-			this.txtSrc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.txtSrc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtSrc.Location = new System.Drawing.Point(15, 296);
-			this.txtSrc.Name = "txtSrc";
-			this.txtSrc.Size = new System.Drawing.Size(361, 22);
-			this.txtSrc.TabIndex = 14;
 			// 
 			// lblSrc
 			// 
+			this.lblSrc.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lblSrc.AutoSize = true;
 			this.lblSrc.BackColor = System.Drawing.Color.Transparent;
 			this.lblSrc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSrc.Location = new System.Drawing.Point(16, 279);
+			this.lblSrc.Location = new System.Drawing.Point(16, 225);
 			this.lblSrc.Name = "lblSrc";
-			this.lblSrc.Size = new System.Drawing.Size(267, 14);
-			this.lblSrc.TabIndex = 13;
-			this.lblSrc.Text = "&Folder to Scan for Source Language Resources:";
+			this.lblSrc.Size = new System.Drawing.Size(277, 14);
+			this.lblSrc.TabIndex = 16;
+			this.lblSrc.Text = "&Assemblies (i.e. DLLs) to Scan for Source Strings:";
 			// 
 			// btnSrcFont
 			// 
-			this.btnSrcFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSrcFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnSrcFont.Location = new System.Drawing.Point(381, 134);
+			this.btnSrcFont.Location = new System.Drawing.Point(287, 80);
 			this.btnSrcFont.Name = "btnSrcFont";
 			this.btnSrcFont.Size = new System.Drawing.Size(28, 22);
 			this.btnSrcFont.TabIndex = 6;
@@ -86,41 +86,41 @@
 			this.btnSrcFont.UseVisualStyleBackColor = true;
 			this.btnSrcFont.Click += new System.EventHandler(this.btnSrcFont_Click);
 			// 
-			// btnSrc
+			// btnAdd
 			// 
-			this.btnSrc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSrc.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnSrc.Location = new System.Drawing.Point(381, 296);
-			this.btnSrc.Name = "btnSrc";
-			this.btnSrc.Size = new System.Drawing.Size(28, 22);
-			this.btnSrc.TabIndex = 15;
-			this.btnSrc.Text = "...";
-			this.btnSrc.UseVisualStyleBackColor = true;
-			this.btnSrc.Click += new System.EventHandler(this.btnSrc_Click);
+			this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btnAdd.Location = new System.Drawing.Point(562, 242);
+			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.Size = new System.Drawing.Size(75, 26);
+			this.btnAdd.TabIndex = 18;
+			this.btnAdd.Text = "&Add";
+			this.btnAdd.UseVisualStyleBackColor = true;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// fldrBrowser
 			// 
+			this.fldrBrowser.Description = "Scan for Resources";
 			this.fldrBrowser.ShowNewFolderButton = false;
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.Location = new System.Drawing.Point(253, 357);
+			this.btnOK.Location = new System.Drawing.Point(481, 435);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 26);
-			this.btnOK.TabIndex = 18;
+			this.btnOK.TabIndex = 23;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(334, 357);
+			this.btnCancel.Location = new System.Drawing.Point(562, 435);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 26);
-			this.btnCancel.TabIndex = 19;
+			this.btnCancel.TabIndex = 24;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
@@ -129,7 +129,7 @@
 			this.lblTarget.AutoSize = true;
 			this.lblTarget.BackColor = System.Drawing.Color.Transparent;
 			this.lblTarget.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblTarget.Location = new System.Drawing.Point(16, 63);
+			this.lblTarget.Location = new System.Drawing.Point(334, 9);
 			this.lblTarget.Name = "lblTarget";
 			this.lblTarget.Size = new System.Drawing.Size(105, 14);
 			this.lblTarget.TabIndex = 2;
@@ -142,9 +142,9 @@
 			this.cboTarget.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cboTarget.FormattingEnabled = true;
 			this.cboTarget.IntegralHeight = false;
-			this.cboTarget.Location = new System.Drawing.Point(15, 80);
+			this.cboTarget.Location = new System.Drawing.Point(333, 26);
 			this.cboTarget.Name = "cboTarget";
-			this.cboTarget.Size = new System.Drawing.Size(253, 22);
+			this.cboTarget.Size = new System.Drawing.Size(304, 22);
 			this.cboTarget.Sorted = true;
 			this.cboTarget.TabIndex = 3;
 			// 
@@ -153,7 +153,7 @@
 			this.lblSrcTextFont.AutoSize = true;
 			this.lblSrcTextFont.BackColor = System.Drawing.Color.Transparent;
 			this.lblSrcTextFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSrcTextFont.Location = new System.Drawing.Point(16, 117);
+			this.lblSrcTextFont.Location = new System.Drawing.Point(16, 63);
 			this.lblSrcTextFont.Name = "lblSrcTextFont";
 			this.lblSrcTextFont.Size = new System.Drawing.Size(108, 14);
 			this.lblSrcTextFont.TabIndex = 4;
@@ -161,14 +161,12 @@
 			// 
 			// txtSrcTextFont
 			// 
-			this.txtSrcTextFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtSrcTextFont.BackColor = System.Drawing.Color.Beige;
 			this.txtSrcTextFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtSrcTextFont.Location = new System.Drawing.Point(15, 134);
+			this.txtSrcTextFont.Location = new System.Drawing.Point(15, 80);
 			this.txtSrcTextFont.Name = "txtSrcTextFont";
 			this.txtSrcTextFont.ReadOnly = true;
-			this.txtSrcTextFont.Size = new System.Drawing.Size(361, 22);
+			this.txtSrcTextFont.Size = new System.Drawing.Size(267, 22);
 			this.txtSrcTextFont.TabIndex = 5;
 			this.txtSrcTextFont.TabStop = false;
 			// 
@@ -177,11 +175,11 @@
 			this.lblTransFont.AutoSize = true;
 			this.lblTransFont.BackColor = System.Drawing.Color.Transparent;
 			this.lblTransFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblTransFont.Location = new System.Drawing.Point(16, 171);
+			this.lblTransFont.Location = new System.Drawing.Point(334, 63);
 			this.lblTransFont.Name = "lblTransFont";
-			this.lblTransFont.Size = new System.Drawing.Size(99, 14);
+			this.lblTransFont.Size = new System.Drawing.Size(134, 14);
 			this.lblTransFont.TabIndex = 7;
-			this.lblTransFont.Text = "&Translation Font:";
+			this.lblTransFont.Text = "&Target Language Font:";
 			// 
 			// txtTransFont
 			// 
@@ -189,10 +187,10 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTransFont.BackColor = System.Drawing.Color.Beige;
 			this.txtTransFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTransFont.Location = new System.Drawing.Point(15, 188);
+			this.txtTransFont.Location = new System.Drawing.Point(333, 80);
 			this.txtTransFont.Name = "txtTransFont";
 			this.txtTransFont.ReadOnly = true;
-			this.txtTransFont.Size = new System.Drawing.Size(361, 22);
+			this.txtTransFont.Size = new System.Drawing.Size(271, 22);
 			this.txtTransFont.TabIndex = 8;
 			this.txtTransFont.TabStop = false;
 			// 
@@ -200,7 +198,7 @@
 			// 
 			this.btnTransFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnTransFont.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnTransFont.Location = new System.Drawing.Point(381, 188);
+			this.btnTransFont.Location = new System.Drawing.Point(609, 80);
 			this.btnTransFont.Name = "btnTransFont";
 			this.btnTransFont.Size = new System.Drawing.Size(28, 22);
 			this.btnTransFont.TabIndex = 9;
@@ -229,7 +227,7 @@
 			this.txtPrjName.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtPrjName.Location = new System.Drawing.Point(15, 26);
 			this.txtPrjName.Name = "txtPrjName";
-			this.txtPrjName.Size = new System.Drawing.Size(253, 22);
+			this.txtPrjName.Size = new System.Drawing.Size(300, 22);
 			this.txtPrjName.TabIndex = 1;
 			// 
 			// txtExe
@@ -237,9 +235,9 @@
 			this.txtExe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtExe.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtExe.Location = new System.Drawing.Point(15, 242);
+			this.txtExe.Location = new System.Drawing.Point(15, 134);
 			this.txtExe.Name = "txtExe";
-			this.txtExe.Size = new System.Drawing.Size(361, 22);
+			this.txtExe.Size = new System.Drawing.Size(589, 22);
 			this.txtExe.TabIndex = 11;
 			// 
 			// lblExe
@@ -247,41 +245,17 @@
 			this.lblExe.AutoSize = true;
 			this.lblExe.BackColor = System.Drawing.Color.Transparent;
 			this.lblExe.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblExe.Location = new System.Drawing.Point(16, 225);
+			this.lblExe.Location = new System.Drawing.Point(16, 117);
 			this.lblExe.Name = "lblExe";
-			this.lblExe.Size = new System.Drawing.Size(181, 14);
+			this.lblExe.Size = new System.Drawing.Size(307, 14);
 			this.lblExe.TabIndex = 10;
-			this.lblExe.Text = "&Executable Program to Localize:";
-			// 
-			// rbScanResx
-			// 
-			this.rbScanResx.AutoSize = true;
-			this.rbScanResx.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rbScanResx.Location = new System.Drawing.Point(19, 324);
-			this.rbScanResx.Name = "rbScanResx";
-			this.rbScanResx.Size = new System.Drawing.Size(107, 18);
-			this.rbScanResx.TabIndex = 16;
-			this.rbScanResx.TabStop = true;
-			this.rbScanResx.Text = "Scan .&resx Files";
-			this.rbScanResx.UseVisualStyleBackColor = true;
-			// 
-			// rbScanDll
-			// 
-			this.rbScanDll.AutoSize = true;
-			this.rbScanDll.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.rbScanDll.Location = new System.Drawing.Point(179, 324);
-			this.rbScanDll.Name = "rbScanDll";
-			this.rbScanDll.Size = new System.Drawing.Size(148, 18);
-			this.rbScanDll.TabIndex = 17;
-			this.rbScanDll.TabStop = true;
-			this.rbScanDll.Text = "Scan .exe and .&dll Files";
-			this.rbScanDll.UseVisualStyleBackColor = true;
+			this.lblExe.Text = "&Executable Program of the Application Being Localized:";
 			// 
 			// btnExe
 			// 
 			this.btnExe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnExe.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnExe.Location = new System.Drawing.Point(381, 242);
+			this.btnExe.Location = new System.Drawing.Point(609, 134);
 			this.btnExe.Name = "btnExe";
 			this.btnExe.Size = new System.Drawing.Size(28, 22);
 			this.btnExe.TabIndex = 12;
@@ -292,8 +266,117 @@
 			// openFileDlg
 			// 
 			this.openFileDlg.DefaultExt = "exe";
-			this.openFileDlg.Filter = "Program Files (*.exe)|*.exe|All Files (*.*)|*.*";
-			this.openFileDlg.Title = "Executable Program to Localize";
+			// 
+			// lstSrcPaths
+			// 
+			this.lstSrcPaths.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.lstSrcPaths.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lstSrcPaths.HorizontalScrollbar = true;
+			this.lstSrcPaths.IntegralHeight = false;
+			this.lstSrcPaths.ItemHeight = 14;
+			this.lstSrcPaths.Location = new System.Drawing.Point(15, 242);
+			this.lstSrcPaths.Name = "lstSrcPaths";
+			this.lstSrcPaths.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.lstSrcPaths.Size = new System.Drawing.Size(535, 180);
+			this.lstSrcPaths.TabIndex = 17;
+			// 
+			// btnRemove
+			// 
+			this.btnRemove.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btnRemove.Location = new System.Drawing.Point(562, 274);
+			this.btnRemove.Name = "btnRemove";
+			this.btnRemove.Size = new System.Drawing.Size(75, 26);
+			this.btnRemove.TabIndex = 19;
+			this.btnRemove.Text = "&Remove";
+			this.btnRemove.UseVisualStyleBackColor = true;
+			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+			// 
+			// btnScan
+			// 
+			this.btnScan.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btnScan.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnScan.Location = new System.Drawing.Point(562, 318);
+			this.btnScan.Name = "btnScan";
+			this.btnScan.Size = new System.Drawing.Size(75, 26);
+			this.btnScan.TabIndex = 20;
+			this.btnScan.Text = "S&can";
+			this.btnScan.UseVisualStyleBackColor = true;
+			this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
+			// 
+			// cmnuScan
+			// 
+			this.cmnuScan.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuScanForDlls,
+            this.cmnuScanForResx});
+			this.cmnuScan.Name = "cmnuScan";
+			this.cmnuScan.Size = new System.Drawing.Size(249, 48);
+			// 
+			// cmnuScanForDlls
+			// 
+			this.cmnuScanForDlls.Name = "cmnuScanForDlls";
+			this.cmnuScanForDlls.Size = new System.Drawing.Size(248, 22);
+			this.cmnuScanForDlls.Text = "Scan a Folder for .&DLL Files...";
+			// 
+			// cmnuScanForResx
+			// 
+			this.cmnuScanForResx.Name = "cmnuScanForResx";
+			this.cmnuScanForResx.Size = new System.Drawing.Size(248, 22);
+			this.cmnuScanForResx.Text = "Scan a Folder for .&Resx Files...";
+			// 
+			// progressBar
+			// 
+			this.progressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.progressBar.Location = new System.Drawing.Point(90, 438);
+			this.progressBar.Name = "progressBar";
+			this.progressBar.Size = new System.Drawing.Size(355, 20);
+			this.progressBar.TabIndex = 22;
+			this.progressBar.Visible = false;
+			// 
+			// lblScanning
+			// 
+			this.lblScanning.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.lblScanning.AutoSize = true;
+			this.lblScanning.BackColor = System.Drawing.Color.Transparent;
+			this.lblScanning.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblScanning.Location = new System.Drawing.Point(16, 441);
+			this.lblScanning.Name = "lblScanning";
+			this.lblScanning.Size = new System.Drawing.Size(68, 14);
+			this.lblScanning.TabIndex = 21;
+			this.lblScanning.Text = "Scanning...";
+			this.lblScanning.Visible = false;
+			// 
+			// lblResCatalog
+			// 
+			this.lblResCatalog.AutoSize = true;
+			this.lblResCatalog.BackColor = System.Drawing.Color.Transparent;
+			this.lblResCatalog.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblResCatalog.Location = new System.Drawing.Point(16, 171);
+			this.lblResCatalog.Name = "lblResCatalog";
+			this.lblResCatalog.Size = new System.Drawing.Size(246, 14);
+			this.lblResCatalog.TabIndex = 13;
+			this.lblResCatalog.Text = "&Resource Catalog (for resource comments):";
+			// 
+			// btnResCatalog
+			// 
+			this.btnResCatalog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnResCatalog.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnResCatalog.Location = new System.Drawing.Point(609, 188);
+			this.btnResCatalog.Name = "btnResCatalog";
+			this.btnResCatalog.Size = new System.Drawing.Size(28, 22);
+			this.btnResCatalog.TabIndex = 15;
+			this.btnResCatalog.Text = "...";
+			this.btnResCatalog.UseVisualStyleBackColor = true;
+			this.btnResCatalog.Click += new System.EventHandler(this.btnResCatalog_Click);
+			// 
+			// txtResCatalog
+			// 
+			this.txtResCatalog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtResCatalog.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtResCatalog.Location = new System.Drawing.Point(15, 188);
+			this.txtResCatalog.Name = "txtResCatalog";
+			this.txtResCatalog.Size = new System.Drawing.Size(589, 22);
+			this.txtResCatalog.TabIndex = 14;
 			// 
 			// ProjectDlg
 			// 
@@ -301,34 +384,40 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(421, 395);
-			this.Controls.Add(this.btnExe);
-			this.Controls.Add(this.rbScanDll);
-			this.Controls.Add(this.rbScanResx);
-			this.Controls.Add(this.lblExe);
-			this.Controls.Add(this.txtExe);
+			this.ClientSize = new System.Drawing.Size(649, 473);
+			this.Controls.Add(this.lblResCatalog);
+			this.Controls.Add(this.btnResCatalog);
+			this.Controls.Add(this.txtResCatalog);
 			this.Controls.Add(this.txtPrjName);
+			this.Controls.Add(this.lstSrcPaths);
+			this.Controls.Add(this.btnRemove);
+			this.Controls.Add(this.lblScanning);
+			this.Controls.Add(this.progressBar);
+			this.Controls.Add(this.btnScan);
+			this.Controls.Add(this.lblExe);
+			this.Controls.Add(this.btnExe);
 			this.Controls.Add(this.lblPrjName);
-			this.Controls.Add(this.btnTransFont);
+			this.Controls.Add(this.txtExe);
 			this.Controls.Add(this.txtTransFont);
+			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.lblTransFont);
+			this.Controls.Add(this.btnTransFont);
 			this.Controls.Add(this.txtSrcTextFont);
 			this.Controls.Add(this.lblSrcTextFont);
+			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.cboTarget);
 			this.Controls.Add(this.lblTarget);
-			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnOK);
-			this.Controls.Add(this.btnSrc);
+			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.btnSrcFont);
 			this.Controls.Add(this.lblSrc);
-			this.Controls.Add(this.txtSrc);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ProjectDlg";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Localization Project";
+			this.Text = "Project Settings";
+			this.cmnuScan.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -336,10 +425,9 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox txtSrc;
 		private System.Windows.Forms.Label lblSrc;
 		private System.Windows.Forms.Button btnSrcFont;
-		private System.Windows.Forms.Button btnSrc;
+		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.FolderBrowserDialog fldrBrowser;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
@@ -355,9 +443,18 @@
 		private System.Windows.Forms.TextBox txtPrjName;
 		private System.Windows.Forms.TextBox txtExe;
 		private System.Windows.Forms.Label lblExe;
-		private System.Windows.Forms.RadioButton rbScanResx;
-		private System.Windows.Forms.RadioButton rbScanDll;
 		private System.Windows.Forms.Button btnExe;
 		private System.Windows.Forms.OpenFileDialog openFileDlg;
+		private System.Windows.Forms.ListBox lstSrcPaths;
+		private System.Windows.Forms.Button btnRemove;
+		private System.Windows.Forms.Button btnScan;
+		private System.Windows.Forms.ContextMenuStrip cmnuScan;
+		private System.Windows.Forms.ToolStripMenuItem cmnuScanForDlls;
+		private System.Windows.Forms.ToolStripMenuItem cmnuScanForResx;
+		private System.Windows.Forms.ProgressBar progressBar;
+		private System.Windows.Forms.Label lblScanning;
+		private System.Windows.Forms.Label lblResCatalog;
+		private System.Windows.Forms.Button btnResCatalog;
+		private System.Windows.Forms.TextBox txtResCatalog;
 	}
 }

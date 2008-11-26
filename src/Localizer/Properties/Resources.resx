@@ -137,4 +137,28 @@
     <value>{0} - {1}</value>
     <comment>This is the format string for the window title of the main application window. The first parameter is the name of the loaded project and the second is the name of the application.</comment>
   </data>
+  <data name="kstidOFDCatFileTitle" xml:space="preserve">
+    <value>Resource Catalog</value>
+    <comment>Caption for open file dialog when specifying a resouce catalog file.</comment>
+  </data>
+  <data name="kstidOFDCatFilter" xml:space="preserve">
+    <value>Resource Catalog (*.rcc)|*.rcc|XML Files (*.xml)|*.xml|All Files (*.*)|*.*</value>
+    <comment>Open file dialog format string when specifying a resource catalog for resource comments.</comment>
+  </data>
+  <data name="kstidOFDExeFileTitle" xml:space="preserve">
+    <value>Executable Program to Localize</value>
+    <comment>Caption for open file dialog when specifying the EXE file on the project settings dialog box.</comment>
+  </data>
+  <data name="kstidOFDExeFilter" xml:space="preserve">
+    <value>Program Files (*.exe)|*.exe|All Files (*.*)|*.*</value>
+    <comment>Open file dialog format string when specifying the EXE file on the project settings dialog box.</comment>
+  </data>
+  <data name="kstidOFDResFilesTitle" xml:space="preserve">
+    <value>File Containing Resources</value>
+    <comment>Caption for open file dialog when specifying a resouce file (i.e. .dll, .resx, etc.) on the project settings dialog box.</comment>
+  </data>
+  <data name="kstidOFDResFilter" xml:space="preserve">
+    <value>Assemblies (*.dll)|*.dll|XML Resource Files (*.resx)|*.resx|Program Files (*.exe)|*.exe|All Files (*.*)|*.*</value>
+    <comment>Open file dialog format string when specifying a resource file (i.e. .dll, .resx, etc.) on the project settings dialog box.</comment>
+  </data>
 </root>

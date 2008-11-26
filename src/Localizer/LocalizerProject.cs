@@ -3,6 +3,7 @@ using System.Xml.Serialization;
 using System.IO;
 using SIL.Localize.LocalizingUtils;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace SIL.Localize.Localizer
 {
@@ -16,14 +17,15 @@ namespace SIL.Localize.Localizer
 	{
 		private const string kPrjFileNamePrefix = "LocalizerProject.";
 
-		private bool m_scanResXFiles = false;
 		private string m_prjName;
-		private string m_exePath;
-		private string m_srcPath;
 		private string m_cultureId;
+		private string m_exePath;
+		private string m_resCatalogPath;
+		private List<string> m_srcPaths;
 		private SerializableFont m_fntSrc;
-		private SerializableFont m_fntTrans;
+		private SerializableFont m_fntTarget;
 		private AssemblyResourceInfoList m_assemblyInfoList;
+		private ResourceCatalog m_resCatalog;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -35,27 +37,9 @@ namespace SIL.Localize.Localizer
 			m_fntSrc = new SerializableFont(
 				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
 
-			m_fntTrans = new SerializableFont(
+			m_fntTarget = new SerializableFont(
 				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public LocalizerProject Clone()
-		//{
-		//    LocalizerProject clone = new LocalizerProject();
-		//    clone.m_scanResXFiles = m_scanResXFiles;
-		//    clone.m_prjName = m_prjName;
-		//    clone.m_cultureId = m_cultureId;
-		//    clone.m_exePath = m_exePath;
-		//    clone.m_srcPath = m_srcPath;
-		//    clone.m_fntSrc = m_fntSrc.Clone();
-		//    clone.m_fntTrans = m_fntTrans.Clone();
-		//    return clone;
-		//}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -87,17 +71,6 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ScanResXFiles
-		{
-			get { return m_scanResXFiles; }
-			set { m_scanResXFiles = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public Font SourceTextFont
 		{
@@ -117,15 +90,15 @@ namespace SIL.Localize.Localizer
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public Font TranslationFont
+		public Font TargetLangFont
 		{
-			get { return (m_fntTrans == null ? null : m_fntTrans.Font); }
+			get { return (m_fntTarget == null ? null : m_fntTarget.Font); }
 			set
 			{
-				if (m_fntTrans != null)
-					m_fntTrans.Dispose();
+				if (m_fntTarget != null)
+					m_fntTarget.Dispose();
 
-				m_fntTrans = new SerializableFont(value);
+				m_fntTarget = new SerializableFont(value);
 			}
 		}
 
@@ -143,14 +116,14 @@ namespace SIL.Localize.Localizer
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Used only for serialization. Use TranslationFont property for use in the program.
+		/// Used only for serialization. Use TargetLangFont property for use in the program.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("TranslationFont")]
-		public SerializableFont TransFont
+		[XmlElement("TargetLangFont")]
+		public SerializableFont TargetFont
 		{
-			get { return m_fntTrans; }
-			set { m_fntTrans = value; }
+			get { return m_fntTarget; }
+			set { m_fntTarget = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -169,10 +142,15 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SourcePath
+		public string ResourceCatalogPath
 		{
-			get { return m_srcPath; }
-			set { m_srcPath = value; }
+			get { return m_resCatalogPath; }
+			set
+			{
+				m_resCatalogPath = value;
+				if (File.Exists(m_resCatalogPath))
+					m_resCatalog = ResourceCatalog.Load(m_resCatalogPath);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,10 +158,11 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string Filename
+		[XmlArrayItem("File")]
+		public List<string> SourceFiles
 		{
-			get { return kPrjFileNamePrefix + CultureId + ".lop"; }
+			get { return m_srcPaths; }
+			set { m_srcPaths = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,6 +174,17 @@ namespace SIL.Localize.Localizer
 		{
 			get { return m_assemblyInfoList; }
 			set { m_assemblyInfoList = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public ResourceCatalog ResourceCatalog
+		{
+			get { return m_resCatalog; }
 		}
 
 		#endregion
@@ -210,7 +200,7 @@ namespace SIL.Localize.Localizer
 				return null;
 
 			LocalizerProject project =
-				Program.DeserializeData(fileName, typeof(LocalizerProject)) as LocalizerProject;
+				LocalizingHelper.DeserializeData(fileName, typeof(LocalizerProject)) as LocalizerProject;
 
 			if (project != null)
 				project.m_assemblyInfoList.Sort();
@@ -261,18 +251,8 @@ namespace SIL.Localize.Localizer
 			ToolStripProgressBar progressBar)
 		{
 			AssemblyResourceInfoList arInfoList;
-
-			if (m_scanResXFiles)
-			{
-				ResXReader resXRreader = new ResXReader();
-				arInfoList = resXRreader.Read(m_srcPath, sslProgressBar, progressBar);
-			}
-			else
-			{
-				ResDllReader dllRreader = new ResDllReader();
-				arInfoList = dllRreader.Read(m_srcPath, sslProgressBar, progressBar);
-			}
-
+			ResDllReader dllRreader = new ResDllReader(m_srcPaths);
+			arInfoList = dllRreader.Read(null, sslProgressBar, progressBar);
 			arInfoList.Sort();
 			return arInfoList;
 		}
@@ -287,7 +267,7 @@ namespace SIL.Localize.Localizer
 			if (string.IsNullOrEmpty(m_cultureId) || string.IsNullOrEmpty(path))
 				return false;
 
-			Program.SerializeData(path, this);
+			LocalizingHelper.SerializeData(path, this);
 			return true;
 		}
 

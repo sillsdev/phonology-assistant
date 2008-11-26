@@ -41,35 +41,29 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ProjectDlg(LocalizerProject project)
-			: this()
+		public ProjectDlg(LocalizerProject project)	: this()
 		{
 			m_isPrjNew = (project == null);
 			m_project = (project ?? new LocalizerProject());
+			openFileDlg.InitialDirectory = string.Empty;
 
 			txtPrjName.Enabled = m_isPrjNew;
 			cboTarget.Enabled = m_isPrjNew;
-			txtExe.Enabled = m_isPrjNew;
-			txtSrc.Enabled = m_isPrjNew;
-			btnExe.Enabled = m_isPrjNew;
-			btnSrc.Enabled = m_isPrjNew;
-			rbScanResx.Enabled = m_isPrjNew;
-			rbScanDll.Enabled = m_isPrjNew;
 			fntDlg.ShowEffects = false;
 
 			Font fntSrcText;
 			Font fntTrans;
 
+			// REVIEW: Should this be windows-only cultures;
+			// only installed cutures; all cultures, etc.?
+			foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures))
+			{
+				if (!ci.EnglishName.StartsWith("Invariant Language"))
+					cboTarget.Items.Add(ci);
+			}
+
 			if (m_isPrjNew)
 			{
-				// REVIEW: Should this be windows-only cultures;
-				// only installed cutures; all cultures, etc.?
-				foreach (CultureInfo ci in CultureInfo.GetCultures(CultureTypes.AllCultures))
-				{
-					if (!ci.EnglishName.StartsWith("Invariant Language"))
-						cboTarget.Items.Add(ci);
-				}
-
 				fntSrcText = new Font("Tahoma", 9f, FontStyle.Regular, GraphicsUnit.Point);
 				fntTrans = fntSrcText;
 			}
@@ -78,9 +72,12 @@ namespace SIL.Localize.Localizer
 				txtPrjName.Text = m_project.ProjectName;
 				cboTarget.Text = CultureInfo.GetCultureInfo(m_project.CultureId).DisplayName;
 				txtExe.Text = m_project.ExePath;
-				txtSrc.Text = m_project.SourcePath;
+				txtResCatalog.Text = m_project.ResourceCatalogPath;
 				fntSrcText = m_project.SourceTextFont;
-				fntTrans = m_project.TranslationFont;
+				fntTrans = m_project.TargetLangFont;
+
+				foreach (string path in m_project.SourceFiles)
+					lstSrcPaths.Items.Add(path);
 			}
 
 			txtSrcTextFont.Tag = fntSrcText;
@@ -90,9 +87,6 @@ namespace SIL.Localize.Localizer
 			txtTransFont.Tag = fntTrans;
 			txtTransFont.Text = string.Format(kfmtFont, fntTrans.Name,
 				fntTrans.Style.ToString(), fntTrans.SizeInPoints);
-
-			rbScanResx.Checked = m_project.ScanResXFiles;
-			rbScanDll.Checked = !m_project.ScanResXFiles;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,8 +96,6 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			// TODO: Verify source path exists and that destination path is in valid format.
-
 			base.OnFormClosing(e);
 			
 			if (btnOK.Enabled && DialogResult == DialogResult.OK)
@@ -118,13 +110,16 @@ namespace SIL.Localize.Localizer
 				{
 					m_project.ProjectName = txtPrjName.Text.Trim();
 					m_project.CultureId = cboTarget.SelectedItem.ToString();
-					m_project.ExePath = txtExe.Text.Trim();
-					m_project.SourcePath = txtSrc.Text.Trim();
-					m_project.ScanResXFiles = rbScanResx.Checked;
 				}
 
+				m_project.SourceFiles = new List<string>();
+				foreach (string path in lstSrcPaths.Items)
+					m_project.SourceFiles.Add(path);
+
 				m_project.SourceTextFont = txtSrcTextFont.Tag as Font;
-				m_project.TranslationFont = txtTransFont.Tag as Font;
+				m_project.TargetLangFont = txtTransFont.Tag as Font;
+				m_project.ExePath = txtExe.Text.Trim();
+				m_project.ResourceCatalogPath = txtResCatalog.Text.Trim();
 			}
 		}
 
@@ -153,10 +148,10 @@ namespace SIL.Localize.Localizer
 				msg = "You must specify the program file to localize.";
 				txtExe.Focus();
 			}
-			else if (txtSrc.Text.Trim() == string.Empty)
+			else if (lstSrcPaths.Items.Count == 0)
 			{
-				msg = "You must specify the source folder to scan for resources.";
-				txtSrc.Focus();
+				msg = "You must specify one or more resource files.";
+				btnAdd.Focus();
 			}
 
 			if (msg != null)
@@ -221,11 +216,95 @@ namespace SIL.Localize.Localizer
 			if (File.Exists(txtExe.Text.Trim()))
 				openFileDlg.FileName = txtExe.Text.Trim();
 
+			openFileDlg.Title = Properties.Resources.kstidOFDExeFileTitle;
+			openFileDlg.Filter = Properties.Resources.kstidOFDExeFilter;
+			openFileDlg.Multiselect = false;
+
+			if (txtExe.Text != string.Empty)
+				openFileDlg.FileName = txtExe.Text;
+
 			if (openFileDlg.ShowDialog() == DialogResult.OK)
-			{
 				txtExe.Text = openFileDlg.FileName;
-				if (txtSrc.Text.Trim() == string.Empty)
-					txtSrc.Text = Path.GetDirectoryName(openFileDlg.FileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnResCatalog_Click(object sender, EventArgs e)
+		{
+			openFileDlg.Title = Properties.Resources.kstidOFDCatFileTitle;
+			openFileDlg.Filter = Properties.Resources.kstidOFDCatFilter;
+			openFileDlg.Multiselect = false;
+
+			if (txtResCatalog.Text != string.Empty)
+				openFileDlg.FileName = txtResCatalog.Text;
+
+			if (openFileDlg.ShowDialog() == DialogResult.OK)
+				txtResCatalog.Text = openFileDlg.FileName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnAdd_Click(object sender, EventArgs e)
+		{
+			if (File.Exists(txtExe.Text.Trim()) && openFileDlg.InitialDirectory == string.Empty)
+				openFileDlg.InitialDirectory = Path.GetDirectoryName(txtExe.Text.Trim());
+
+			openFileDlg.Title = Properties.Resources.kstidOFDResFilesTitle;
+			openFileDlg.Filter = Properties.Resources.kstidOFDResFilter;
+			openFileDlg.Multiselect = true;
+
+			if (openFileDlg.ShowDialog() == DialogResult.OK)
+				AddFilesToList(openFileDlg.FileNames);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnRemove_Click(object sender, EventArgs e)
+		{
+			if (lstSrcPaths.SelectedItems.Count < 0)
+				return;
+
+			int i = lstSrcPaths.SelectedIndex;
+
+			List<string> selPaths = new List<string>();
+			foreach (string path in lstSrcPaths.SelectedItems)
+				selPaths.Add(path);
+
+			foreach (string path in selPaths)
+				lstSrcPaths.Items.Remove(path);
+
+			while (i >= lstSrcPaths.Items.Count && i >= 0)
+				i--;
+
+			if (i >= 0)
+				lstSrcPaths.SelectedIndex = i;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnScan_Click(object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty(fldrBrowser.SelectedPath) && txtExe.Text != string.Empty)
+				fldrBrowser.SelectedPath = Path.GetDirectoryName(txtExe.Text);
+
+			if (fldrBrowser.ShowDialog(this) == DialogResult.OK)
+			{
+				AddFilesToList(Directory.GetFiles(fldrBrowser.SelectedPath, "*.exe",
+					SearchOption.AllDirectories));
+				AddFilesToList(Directory.GetFiles(fldrBrowser.SelectedPath, "*.dll",
+					SearchOption.AllDirectories));
 			}
 		}
 
@@ -234,17 +313,37 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnSrc_Click(object sender, EventArgs e)
+		private void AddFilesToList(string[] paths)
 		{
-			// TODO: Internationalize
-			fldrBrowser.Description = "Specify the folder containing the source language resources.";
-			fldrBrowser.ShowNewFolderButton = false;
+			if (paths == null || paths.Length == 0)
+				return;
 
-			if (Directory.Exists(txtSrc.Text.Trim()))
-				fldrBrowser.SelectedPath = txtSrc.Text.Trim();
+			progressBar.Maximum = paths.Length;
+			progressBar.Value = 0;
+			progressBar.Visible = true;
+			lblScanning.Visible = true;
 
-			if (fldrBrowser.ShowDialog(this) == DialogResult.OK)
-				txtSrc.Text = fldrBrowser.SelectedPath;
+			foreach (string newPath in paths)
+			{
+				progressBar.Value++;
+				Application.DoEvents();
+
+				bool inList = false;
+				foreach (string prevPath in lstSrcPaths.Items)
+				{
+					if (newPath == prevPath)
+					{
+						inList = true;
+						break;
+					}
+				}
+
+				if (!inList && File.Exists(newPath))
+					lstSrcPaths.Items.Add(newPath);
+			}
+		
+			progressBar.Visible = false;
+			lblScanning.Visible = false;
 		}
 	}
 

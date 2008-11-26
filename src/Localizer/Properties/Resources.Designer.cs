@@ -103,5 +103,59 @@ namespace SIL.Localize.Localizer.Properties {
                 return ResourceManager.GetString("kstidMainWndTitleFmt", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource Catalog.
+        /// </summary>
+        internal static string kstidOFDCatFileTitle {
+            get {
+                return ResourceManager.GetString("kstidOFDCatFileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource Catalog (*.rcc)|*.rcc|XML Files (*.xml)|*.xml|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string kstidOFDCatFilter {
+            get {
+                return ResourceManager.GetString("kstidOFDCatFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executable Program to Localize.
+        /// </summary>
+        internal static string kstidOFDExeFileTitle {
+            get {
+                return ResourceManager.GetString("kstidOFDExeFileTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Files (*.exe)|*.exe|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string kstidOFDExeFilter {
+            get {
+                return ResourceManager.GetString("kstidOFDExeFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Containing Resources.
+        /// </summary>
+        internal static string kstidOFDResFilesTitle {
+            get {
+                return ResourceManager.GetString("kstidOFDResFilesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assemblies (*.dll)|*.dll|XML Resource Files (*.resx)|*.resx|Program Files (*.exe)|*.exe|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string kstidOFDResFilter {
+            get {
+                return ResourceManager.GetString("kstidOFDResFilter", resourceCulture);
+            }
+        }
     }
 }
