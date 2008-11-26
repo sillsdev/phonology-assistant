@@ -84,7 +84,7 @@ namespace SIL.Localize.LocalizingUtils
 			{
 				try
 				{
-					string rootNamespace = VerifyNamespace(resx, assemblyInfo.RootNamespace);
+					string rootNamespace = LocalizingHelper.VerifyNamespace(resx, assemblyInfo.RootNamespace);
 					string internalResName = Path.GetFileName(resx);
 					internalResName = rootNamespace + "." + internalResName;
 					internalResName = internalResName.Replace(".resx", string.Empty);
@@ -94,38 +94,6 @@ namespace SIL.Localize.LocalizingUtils
 				}
 				catch { }
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks to see if the resx file has a designer file with it. If it does, then get
-		/// the namespace from it rather than use the default root namespace for the project.
-		/// </summary>
-		/// <returns>Returns the namespace found in the designer file, if there is one.
-		/// Otherwise, the default namespace is returned.</returns>
-		/// ------------------------------------------------------------------------------------
-		private string VerifyNamespace(string resxFullPath, string defaultNamespace)
-		{
-			string resxFile = Path.GetFileNameWithoutExtension(resxFullPath);
-			string resxPath = Path.GetDirectoryName(resxFullPath);
-
-			string[] designerFiles = Directory.GetFiles(resxPath,
-				resxFile + ".designer.*", SearchOption.TopDirectoryOnly);
-
-			if (designerFiles == null || designerFiles.Length == 0)
-				return defaultNamespace;
-
-			string fileContents = File.ReadAllText(designerFiles[0]);
-			int i = fileContents.IndexOf("namespace ", StringComparison.Ordinal);
-			if (i >= 0)
-			{
-				int eol = fileContents.IndexOf('\n', i);
-				defaultNamespace = fileContents.Substring(i + 10, eol - (i + 10));
-				defaultNamespace = defaultNamespace.Replace("{", string.Empty);
-				defaultNamespace = defaultNamespace.Trim();
-			}
-
-			return defaultNamespace;
 		}
 
 		/// ------------------------------------------------------------------------------------

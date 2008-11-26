@@ -18,9 +18,8 @@ namespace SIL.Localize.LocalizingUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="rootPath">Path (and all its children) to search for .resx files.
 		/// ------------------------------------------------------------------------------------
-		public AssemblyResourceInfoList Read(string rootPath, ToolStripStatusLabel ssl,
+		public virtual AssemblyResourceInfoList Read(string rootPath, ToolStripStatusLabel ssl,
 			ToolStripProgressBar progressBar)
 		{
 			AssemblyResourceInfoList assemInfoList = GetAssemblyInfoList(rootPath);

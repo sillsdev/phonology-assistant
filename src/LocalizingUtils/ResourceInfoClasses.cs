@@ -29,7 +29,7 @@ namespace SIL.Localize.LocalizingUtils
 	public class ResourceInfo
 	{
 		private string m_resourceName = null;
-		private bool m_ommitted = false;
+		private bool m_omitted = false;
 		private List<ResourceEntry> m_stringEntries = null;
 		
 		/// ------------------------------------------------------------------------------------
@@ -89,10 +89,10 @@ namespace SIL.Localize.LocalizingUtils
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool Ommitted
+		public bool Omitted
 		{
-			get { return m_ommitted; }
-			set { m_ommitted = value; }
+			get { return m_omitted; }
+			set { m_omitted = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

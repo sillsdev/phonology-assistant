@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Collections;
 using System.ComponentModel.Design;
 using System.Net;
+using System.Xml.Serialization;
 
 namespace SIL.Localize.LocalizingUtils
 {
@@ -99,6 +100,38 @@ namespace SIL.Localize.LocalizingUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Checks to see if the resx file has a designer file with it. If it does, then get
+		/// the namespace from it rather than use the default root namespace for the project.
+		/// </summary>
+		/// <returns>Returns the namespace found in the designer file, if there is one.
+		/// Otherwise, the default namespace is returned.</returns>
+		/// ------------------------------------------------------------------------------------
+		public static string VerifyNamespace(string resxFullPath, string defaultNamespace)
+		{
+			string resxFile = Path.GetFileNameWithoutExtension(resxFullPath);
+			string resxPath = Path.GetDirectoryName(resxFullPath);
+
+			string[] designerFiles = Directory.GetFiles(resxPath,
+				resxFile + ".designer.*", SearchOption.TopDirectoryOnly);
+
+			if (designerFiles == null || designerFiles.Length == 0)
+				return defaultNamespace;
+
+			string fileContents = File.ReadAllText(designerFiles[0]);
+			int i = fileContents.IndexOf("namespace ", StringComparison.Ordinal);
+			if (i >= 0)
+			{
+				int eol = fileContents.IndexOf('\n', i);
+				defaultNamespace = fileContents.Substring(i + 10, eol - (i + 10));
+				defaultNamespace = defaultNamespace.Replace("{", string.Empty);
+				defaultNamespace = defaultNamespace.Trim();
+			}
+
+			return defaultNamespace;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -126,5 +159,75 @@ namespace SIL.Localize.LocalizingUtils
 		{
 			return string.Compare(x.StringId, y.StringId);
 		}
+
+		#region Methods for XML serializing and deserializing data
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to the specified file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SerializeData(string path, object data)
+		{
+			try
+			{
+				using (TextWriter writer = new StreamWriter(path))
+				{
+					XmlSerializerNamespaces nameSpace = new XmlSerializerNamespaces();
+					nameSpace.Add(string.Empty, string.Empty);
+					XmlSerializer serializer = new XmlSerializer(data.GetType());
+					serializer.Serialize(writer, data, nameSpace);
+					writer.Close();
+				}
+
+				return true;
+			}
+			catch { }
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes data from the specified file to an object of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static object DeserializeData(string filename, Type type)
+		{
+			Exception e;
+			return (DeserializeData(filename, type, out e));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes data from the specified file to an object of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static object DeserializeData(string path, Type type, out Exception e)
+		{
+			object data;
+			e = null;
+
+			try
+			{
+				if (!File.Exists(path))
+					return null;
+
+				using (TextReader reader = new StreamReader(path))
+				{
+					XmlSerializer deserializer = new XmlSerializer(type);
+					data = deserializer.Deserialize(reader);
+					reader.Close();
+				}
+			}
+			catch (Exception outEx)
+			{
+				data = null;
+				e = outEx;
+			}
+
+			return data;
+		}
+
+		#endregion
 	}
 }

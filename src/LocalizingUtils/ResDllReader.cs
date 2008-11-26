@@ -17,6 +17,19 @@ namespace SIL.Localize.LocalizingUtils
 	/// ----------------------------------------------------------------------------------------
 	public class ResDllReader : ResReaderBase
 	{
+		private List<string> m_srcPaths;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="srcPaths"></param>
+		/// ------------------------------------------------------------------------------------
+		public ResDllReader(List<string> srcPaths)
+		{
+			m_srcPaths = srcPaths;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get information about each project found in the specified root path.
@@ -27,8 +40,16 @@ namespace SIL.Localize.LocalizingUtils
 		/// ------------------------------------------------------------------------------------
 		protected override AssemblyResourceInfoList GetAssemblyInfoList(string rootPath)
 		{
-			// Find all the DLLs in the root folder and all its subfolders.
-			string[] dllFiles = Directory.GetFiles(rootPath, "*.dll", SearchOption.AllDirectories);
+			string[] dllFiles;
+
+			if (m_srcPaths != null)
+				dllFiles = m_srcPaths.ToArray();
+			else
+			{
+				// Find all the DLLs in the root folder and all its subfolders.
+				dllFiles = Directory.GetFiles(rootPath, "*.dll", SearchOption.AllDirectories);
+			}
+			
 			if (dllFiles == null || dllFiles.Length == 0)
 				return null;
 
