@@ -279,14 +279,15 @@
 			this.lstSrcPaths.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lstSrcPaths.Size = new System.Drawing.Size(535, 180);
 			this.lstSrcPaths.TabIndex = 17;
+			this.lstSrcPaths.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstSrcPaths_KeyDown);
 			// 
 			// btnRemove
 			// 
 			this.btnRemove.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.btnRemove.Location = new System.Drawing.Point(562, 274);
+			this.btnRemove.Location = new System.Drawing.Point(562, 318);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(75, 26);
-			this.btnRemove.TabIndex = 19;
+			this.btnRemove.TabIndex = 20;
 			this.btnRemove.Text = "&Remove";
 			this.btnRemove.UseVisualStyleBackColor = true;
 			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -295,10 +296,10 @@
 			// 
 			this.btnScan.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.btnScan.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnScan.Location = new System.Drawing.Point(562, 318);
+			this.btnScan.Location = new System.Drawing.Point(562, 274);
 			this.btnScan.Name = "btnScan";
 			this.btnScan.Size = new System.Drawing.Size(75, 26);
-			this.btnScan.TabIndex = 20;
+			this.btnScan.TabIndex = 19;
 			this.btnScan.Text = "S&can";
 			this.btnScan.UseVisualStyleBackColor = true;
 			this.btnScan.Click += new System.EventHandler(this.btnScan_Click);

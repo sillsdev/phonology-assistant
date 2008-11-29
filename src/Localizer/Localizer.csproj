@@ -54,6 +54,10 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.2.2864.18696, Culture=neutral, PublicKeyToken=d481317c817cec47, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CopyProjectResXFilesDlg.cs">
@@ -161,6 +165,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Rescan.png" />
+    <None Include="Undo.png" />
+    <None Include="Google.png" />
+    <None Include="Redo.png" />
+    <None Include="Save.png" />
     <Content Include="World.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

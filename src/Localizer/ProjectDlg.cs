@@ -268,10 +268,24 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private void lstSrcPaths_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Delete)
+				btnRemove_Click(null, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
 			if (lstSrcPaths.SelectedItems.Count < 0)
+			{
+				System.Media.SystemSounds.Beep.Play();
 				return;
+			}
 
 			int i = lstSrcPaths.SelectedIndex;
 

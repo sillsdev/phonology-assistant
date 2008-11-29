@@ -74,9 +74,37 @@ namespace SIL.Localize.Localizer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidGoogle {
+            get {
+                object obj = ResourceManager.GetObject("kimidGoogle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidRedo {
+            get {
+                object obj = ResourceManager.GetObject("kimidRedo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidRescan {
             get {
                 object obj = ResourceManager.GetObject("kimidRescan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidSave {
+            get {
+                object obj = ResourceManager.GetObject("kimidSave", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidUndo {
+            get {
+                object obj = ResourceManager.GetObject("kimidUndo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -92,6 +120,15 @@ namespace SIL.Localize.Localizer.Properties {
             get {
                 object obj = ResourceManager.GetObject("kimidUntranslated", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string kstidCancelGoogleTransButtonText {
+            get {
+                return ResourceManager.GetString("kstidCancelGoogleTransButtonText", resourceCulture);
             }
         }
         
@@ -155,6 +192,15 @@ namespace SIL.Localize.Localizer.Properties {
         internal static string kstidOFDResFilter {
             get {
                 return ResourceManager.GetString("kstidOFDResFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource Entry {0} of {1}.
+        /// </summary>
+        internal static string kstidStatusBarFmt {
+            get {
+                return ResourceManager.GetString("kstidStatusBarFmt", resourceCulture);
             }
         }
     }

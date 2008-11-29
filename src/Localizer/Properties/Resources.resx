@@ -124,14 +124,30 @@
   <data name="kimidCompleted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Completed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kimidGoogle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Google.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidRedo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Redo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidRescan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Rescan.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSave" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidUndo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Undo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidUnreviewed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Unreviewed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kimidUntranslated" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Untranslated.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidCancelGoogleTransButtonText" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Text on the button to cancel a Google translation process.</comment>
   </data>
   <data name="kstidMainWndTitleFmt" xml:space="preserve">
     <value>{0} - {1}</value>
@@ -160,5 +176,9 @@
   <data name="kstidOFDResFilter" xml:space="preserve">
     <value>Assemblies (*.dll)|*.dll|XML Resource Files (*.resx)|*.resx|Program Files (*.exe)|*.exe|All Files (*.*)|*.*</value>
     <comment>Open file dialog format string when specifying a resource file (i.e. .dll, .resx, etc.) on the project settings dialog box.</comment>
+  </data>
+  <data name="kstidStatusBarFmt" xml:space="preserve">
+    <value>Resource Entry {0} of {1}</value>
+    <comment>The format text for the text in the status bar telling the user what resource entry he's on out of the total in the list. The first parameter is the number of the current row, and the second is the total number of rows in the list.</comment>
   </data>
 </root>

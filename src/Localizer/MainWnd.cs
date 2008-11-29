@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using WeifenLuo.WinFormsUI.Docking;
 using SIL.SpeechTools.Utils;
 using SIL.Localize.LocalizingUtils;
 
@@ -19,19 +20,28 @@ namespace SIL.Localize.Localizer
 	public partial class MainWnd : Form
 	{
 		private const int kStatusCol = 0;
-		private const int kIdCol = 1;
-		private const int kSrcCol = 2;
-		private const int kTransCol = 3;
-		private const int kCmntCol = 4;
+		private const int kAsmCol = 1;
+		private const int kResCol = 2;
+		private const int kIdCol = 3;
+		private const int kSrcCol = 4;
+		private const int kTransCol = 5;
+		private const int kCmntCol = 6;
+
+		private const int kPrjNode = 0;
+		private const int kAsmNode = 1;
+		private const int kResNode = 2;
 
 		private LocalizerProject m_currProject = null;
-		private List<ResourceEntry> m_resourceEntries;
 		private string m_currProjectFile;
-		private string m_currAssembly;
-		private ResourceInfo m_currResInfo;
 		private int m_defaultLineHeight = 0;
 		private string m_fmtWndText;
 		private string m_wndText;
+		private bool m_showComments = true;
+		private bool m_showSrcText = true;
+		private bool m_showTrans = true;
+		private Button m_btnCancelGoogleTranslate;
+		private ToolStripControlHost m_cancelGoogleButtonHost;
+		private bool m_googleTranslationTerminated;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -55,6 +65,7 @@ namespace SIL.Localize.Localizer
 				catch { }
 			}
 
+			m_grid.MultiSelect = true;
 			m_grid.AllowUserToOrderColumns = true;
 			m_grid.AllowUserToResizeRows = true;
 			m_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -67,6 +78,43 @@ namespace SIL.Localize.Localizer
 			Point pt = Properties.Settings.Default.mainWndLocation;
 			if (pt != Point.Empty)
 				Location = pt;
+
+			InitializeCancelGoogleTranslationButton();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InitializeCancelGoogleTranslationButton()
+		{
+			m_btnCancelGoogleTranslate = new Button();
+			m_btnCancelGoogleTranslate.Text = Properties.Resources.kstidCancelGoogleTransButtonText;
+			
+			int width = TextRenderer.MeasureText(m_btnCancelGoogleTranslate.Text,
+				m_btnCancelGoogleTranslate.Font).Width;
+			
+			m_btnCancelGoogleTranslate.Size = new Size(width, 22);
+			m_cancelGoogleButtonHost = new ToolStripControlHost(m_btnCancelGoogleTranslate);
+			m_cancelGoogleButtonHost.Visible = false;
+			m_statusbar.Items.Add(m_cancelGoogleButtonHost);
+
+			m_btnCancelGoogleTranslate.Click += delegate
+			{
+				m_googleTranslationTerminated = true;
+			};
+
+			m_btnCancelGoogleTranslate.MouseEnter += delegate
+			{
+				UseWaitCursor = false;
+			};
+
+			m_btnCancelGoogleTranslate.MouseLeave += delegate
+			{
+				if (!m_googleTranslationTerminated)
+					UseWaitCursor = true;
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,13 +149,13 @@ namespace SIL.Localize.Localizer
 			{
 				if (m_currProject.SourceTextFont != null)
 				{
-					m_grid.Columns[1].DefaultCellStyle.Font = m_currProject.SourceTextFont;
+					m_grid.Columns[kSrcCol].DefaultCellStyle.Font = m_currProject.SourceTextFont;
 					txtSrcText.TextBox.Font = m_currProject.SourceTextFont;
 				}
 
 				if (m_currProject.TargetLangFont != null)
 				{
-					m_grid.Columns[2].DefaultCellStyle.Font = m_currProject.TargetLangFont;
+					m_grid.Columns[kTransCol].DefaultCellStyle.Font = m_currProject.TargetLangFont;
 					txtTranslation.TextBox.Font = m_currProject.TargetLangFont;
 				}
 			}
@@ -198,6 +246,62 @@ namespace SIL.Localize.Localizer
 
 			Properties.Settings.Default.Save();
 		}
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string CurrentAssembly
+		{
+			get
+			{
+				TreeNode node = tvResources.SelectedNode;
+				if (node != null)
+				{
+					if (node.Level == kAsmNode)
+						return node.Text;
+					if (node.Level == kResNode)
+						return node.Parent.Text;
+				}
+
+				if (m_grid.CurrentRow != null)
+				{
+					ResourceEntry entry = GetResourceEntry(m_grid.CurrentRow.Index);
+					if (entry != null)
+						return entry.OwningAssembly.AssemblyName;
+				}
+
+				return null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string CurrentResource
+		{
+			get
+			{
+				TreeNode node = tvResources.SelectedNode;
+				if (node.Level == kResNode)
+					return node.Text;
+
+				if (m_grid.CurrentRow != null)
+				{
+					ResourceEntry entry = GetResourceEntry(m_grid.CurrentRow.Index);
+					if (entry != null)
+						return entry.OwningResource.ResourceName;
+				}
+
+				return null;
+			}
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -348,11 +452,10 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tbbShowCommentsPane_Click(object sender, EventArgs e)
+		private void mnuShowSrcTextPane_Click(object sender, EventArgs e)
 		{
-			splitSrcTransCmt.Panel2Collapsed = !tbbShowCommentsPane.Checked;
-			//splitEntries.Panel2Collapsed = (splitSrcTrans.Panel1Collapsed && splitSrcTransCmt.Panel2Collapsed &&
-			//    splitSrcTrans.Panel2Collapsed);
+			m_showSrcText = !m_showSrcText;
+			HandleVisibleChangeForSrcTransPanes();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -360,11 +463,10 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tbbShowSrcTextPane_Click(object sender, EventArgs e)
+		private void mnuShowTransPane_Click(object sender, EventArgs e)
 		{
-			splitSrcTrans.Panel1Collapsed = !tbbShowSrcTextPane.Checked;
-			//splitSrcTransCmt.Panel1Collapsed =
-			//    (splitSrcTrans.Panel1Collapsed && splitSrcTrans.Panel2Collapsed);
+			m_showTrans = !m_showTrans;
+			HandleVisibleChangeForSrcTransPanes();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -372,11 +474,36 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tbbShowTransPane_Click(object sender, EventArgs e)
+		private void mnuShowCommentPane_Click(object sender, EventArgs e)
 		{
-			splitSrcTrans.Panel2Collapsed = !tbbShowTransPane.Checked;
-			//splitSrcTransCmt.Panel1Collapsed =
-			//    (splitSrcTrans.Panel1Collapsed && splitSrcTrans.Panel2Collapsed);
+			m_showComments = !m_showComments;
+			HandleVisibleChangeForSrcTransPanes();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void mnuView_DropDownOpening(object sender, EventArgs e)
+		{
+			mnuShowSrcTextPane.Checked = m_showSrcText;
+			mnuShowTransPane.Checked = m_showTrans;
+			mnuShowCommentPane.Checked = m_showComments;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleVisibleChangeForSrcTransPanes()
+		{
+			splitEntries.Panel2Collapsed = (!m_showSrcText && !m_showTrans && !m_showComments);
+			splitSrcTransCmt.Panel1Collapsed = (!m_showSrcText && !m_showTrans);
+			splitSrcTransCmt.Panel2Collapsed = !m_showComments;
+			splitSrcTrans.Panel1Collapsed = !m_showSrcText;
+			splitSrcTrans.Panel2Collapsed = !m_showTrans;
 		}
 
 		#region Grid events
@@ -387,34 +514,39 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
+			if (m_grid.CurrentRow is SilHierarchicalGridRow)
+				return;
+	
 			e.Value = string.Empty;
 
-			if (m_resourceEntries != null && m_resourceEntries.Count > 0 && e.RowIndex < m_resourceEntries.Count)
+			ResourceEntry entry = GetResourceEntry(e.RowIndex);
+			if (entry == null)
+				return;
+
+			switch (e.ColumnIndex)
 			{
-				ResourceEntry entry = m_resourceEntries[e.RowIndex];
-				switch (e.ColumnIndex)
-				{
-					case kIdCol: e.Value = entry.StringId; break;
-					case kSrcCol: e.Value = entry.SourceText; break;
-					case kTransCol: e.Value = entry.TargetText; break;
-					
-					case kCmntCol:
-						if (!string.IsNullOrEmpty(entry.Comment))
-							e.Value = entry.Comment;
-						else if (entry.StringId != null && m_currProject.ResourceCatalog != null)
-						{
-							e.Value = m_currProject.ResourceCatalog.GetComment(
-								m_currAssembly, m_currResInfo.ResourceName, entry.StringId);
-						}
-						break;
-					
-					case kStatusCol:
-						string imageId = "kimid" + entry.TranslationStatus.ToString();
-						e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
-						break;
-					
-					default: e.Value = string.Empty; break;
-				}
+				case kAsmCol: e.Value = entry.OwningAssembly.AssemblyName; break;
+				case kResCol: e.Value = entry.OwningResource.ResourceName; break;
+				case kIdCol: e.Value = entry.StringId; break;
+				case kSrcCol: e.Value = entry.SourceText; break;
+				case kTransCol: e.Value = entry.TargetText; break;
+
+				case kStatusCol:
+					string imageId = "kimid" + entry.TranslationStatus.ToString();
+					e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
+					break;
+
+				case kCmntCol:
+					if (!string.IsNullOrEmpty(entry.Comment))
+						e.Value = entry.Comment;
+					else if (entry.StringId != null && m_currProject.ResourceCatalog != null)
+					{
+						e.Value = m_currProject.ResourceCatalog.GetComment(
+							CurrentAssembly, CurrentResource, entry.StringId);
+					}
+					break;
+
+				default: e.Value = string.Empty; break;
 			}
 		}
 
@@ -425,12 +557,13 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
-			if (m_resourceEntries != null && m_resourceEntries.Count > 0 && e.RowIndex < m_resourceEntries.Count)
+			ResourceEntry entry = GetResourceEntry(e.RowIndex);
+			if (entry != null)
 			{
-				ResourceEntry entry = m_resourceEntries[e.RowIndex];
-				if (e.ColumnIndex == kTransCol)
-					entry.TargetText = e.Value as string;
-				else if (e.ColumnIndex == kCmntCol)
+				// When the translation value is being pushed, we don't update the
+				// underlying source here because that should already have been done
+				// when the cell is validated.
+				if (e.ColumnIndex == kCmntCol)
 					entry.Comment = e.Value as string;
 			}
 		}
@@ -480,12 +613,19 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			int index = e.RowIndex;
-			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
+			if (m_grid.CurrentRow is SilHierarchicalGridRow)
+			{
+				sslMain.Text = string.Empty;
+				txtSrcText.TextBox.Text = string.Empty;
+				txtTranslation.TextBox.Text = string.Empty;
+				txtComment.TextBox.Text = string.Empty;
+			}
+			else
 			{
 				txtSrcText.TextBox.Text = m_grid[kSrcCol, e.RowIndex].Value as string;
 				txtTranslation.TextBox.Text = m_grid[kTransCol, e.RowIndex].Value as string;
 				txtComment.TextBox.Text = m_grid[kCmntCol, e.RowIndex].Value as string;
+				SetStatusBarText(e.RowIndex);
 			}
 		}
 
@@ -500,7 +640,8 @@ namespace SIL.Localize.Localizer
 				m_grid.Rows[e.RowIndex] != m_grid.CurrentRow && e.RowIndex >= 0 &&
 				e.RowIndex < m_grid.RowCount && e.Button == MouseButtons.Right)
 			{
-				m_grid.CurrentCell = m_grid[e.ColumnIndex, e.RowIndex];
+				if (!(m_grid.CurrentRow is SilHierarchicalGridRow))
+					m_grid.CurrentCell = m_grid[e.ColumnIndex, e.RowIndex];
 			}
 		}
 
@@ -511,22 +652,8 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
 		{
-			if (e.ColumnIndex != kTransCol || e.RowIndex < 0)
-				return;
-			
-			string oldValue = m_grid[kTransCol, e.RowIndex].Value as string;
-			string newValue = e.FormattedValue as string;
-			if (oldValue == newValue)
-				return;
-
-			TranslationStatus currStatus = m_resourceEntries[e.RowIndex].TranslationStatus;
-
-			if (string.IsNullOrEmpty(newValue))
-				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Untranslated;
-			else if (currStatus == TranslationStatus.Untranslated)
-				m_resourceEntries[e.RowIndex].TranslationStatus = TranslationStatus.Unreviewed;
-
-			m_grid.InvalidateCell(kStatusCol, e.RowIndex);
+			if (e.ColumnIndex == kTransCol && e.RowIndex >= 0)
+				UpdateEntryStatus(e.RowIndex, e.FormattedValue as string);
 		}
 	
 		#endregion
@@ -536,13 +663,20 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void txtTranslation_Validated(object sender, EventArgs e)
+		private void txtComment_Validated(object sender, EventArgs e)
 		{
-			int index = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : -1);
-			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
+			if (m_grid.CurrentRow == null)
+				return;
+
+			ResourceEntry entry = GetResourceEntry(m_grid.CurrentRow.Index);
+			if (entry != null)
 			{
-				string translation = txtTranslation.TextBox.Text.Trim();
-				m_resourceEntries[index].TargetText = translation;
+				string comment = txtComment.TextBox.Text.Trim();
+				comment = comment.Replace("\r\n", " ");
+				comment = comment.Replace("\n\r", " ");
+				comment = comment.Replace("\r", " ");
+				comment = comment.Replace("\n", " ");
+				entry.Comment = comment;
 				m_grid.InvalidateRow(m_grid.CurrentRow.Index);
 			}
 		}
@@ -552,18 +686,33 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void txtComment_Validated(object sender, EventArgs e)
+		private void txtTranslation_Validated(object sender, EventArgs e)
 		{
-			int index = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : -1);
-			if (m_resourceEntries != null && index < m_resourceEntries.Count && index >= 0)
+			if (m_grid.CurrentRow != null)
+				UpdateEntryStatus(m_grid.CurrentRow.Index, txtTranslation.TextBox.Text.Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="row"></param>
+		/// <param name="newValue"></param>
+		/// ------------------------------------------------------------------------------------
+		private void UpdateEntryStatus(int row, string newValue)
+		{
+			ResourceEntry entry = GetResourceEntry(row);
+			if (entry != null && entry.TargetText != newValue)
 			{
-				string comment = txtComment.TextBox.Text.Trim();
-				comment = comment.Replace("\r\n", " ");
-				comment = comment.Replace("\n\r", " ");
-				comment = comment.Replace("\r", " ");
-				comment = comment.Replace("\n", " ");
-				m_resourceEntries[index].Comment = comment;
-				m_grid.InvalidateRow(m_grid.CurrentRow.Index);
+				entry.TargetText = newValue;
+				TranslationStatus currStatus = entry.TranslationStatus;
+
+				if (string.IsNullOrEmpty(newValue))
+					entry.TranslationStatus = TranslationStatus.Untranslated;
+				else if (currStatus == TranslationStatus.Untranslated)
+					entry.TranslationStatus = TranslationStatus.Unreviewed;
+
+				m_grid.InvalidateRow(row);
 			}
 		}
 
@@ -621,42 +770,21 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tvResXList_AfterSelect(object sender, TreeViewEventArgs e)
+		private void tvResources_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			//m_grid.RowCount = 0;
-			//m_resxEntries = null;
+			m_grid.RowCount = GetResourceEntryCount(e.Node);
+			m_grid.Columns[kAsmCol].Visible = (e.Node.Level == kPrjNode);
+			m_grid.Columns[kResCol].Visible = (e.Node.Level == kPrjNode || e.Node.Level == kAsmNode);
 
-			//ResXInfo resxInfo = (e.Node == null ? null : e.Node.Tag as ResXInfo);
-			//if (resxInfo == null)
-			//    return;
-
-			//m_resxEntries = resxInfo.GetStringEntries(TargetResXPath);
-			//if (m_resxEntries != null && m_resxEntries.Count > 0)
-			//{
-			//    m_grid.RowCount = m_resxEntries.Count;
-			//    m_grid.CurrentCell = m_grid[2, 0];
-			//}
-
-			m_grid.RowCount = 0;
-			m_resourceEntries = null;
-
-			if (e.Node.Level == 1)
-				m_currAssembly = e.Node.Text;
-			else if (e.Node.Level == 2)
-				m_currAssembly = e.Node.Parent.Text;
+			if (m_grid.RowCount == 0)
+				sslMain.Text = string.Empty;
 			else
-				m_currAssembly = null;
-
-			m_currResInfo = (e.Node == null ? null : e.Node.Tag as ResourceInfo);
-			if (m_currResInfo == null)
-				return;
-
-			m_resourceEntries = m_currResInfo.StringEntries;
-			if (m_resourceEntries != null && m_resourceEntries.Count > 0)
 			{
-				m_grid.RowCount = m_resourceEntries.Count;
 				m_grid.CurrentCell = m_grid[kTransCol, 0];
+				SetStatusBarText(0);
 			}
+
+			m_grid.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -664,17 +792,55 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void tbbGoogleTranslate_Click(object sender, EventArgs e)
+		private void tbbGoogleTranslate_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
-			if (m_resourceEntries.Count == 0)
+			if (m_grid.RowCount == 0)
 				return;
 
+			m_grid.EndEdit();
+			if (m_grid.CurrentCell != null && m_grid.CurrentCell.ColumnIndex == kTransCol)
+				m_grid.CurrentCell = m_grid[kStatusCol, m_grid.CurrentCell.RowIndex];
+
+			tbbGoogleTranslate.DropDown.Close();
+			Application.DoEvents();
+			GoogleTranslate(e.ClickedItem == mnuGoggleTransSelected);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void GoogleTranslate(bool onlySelected)
+		{
 			GoogleTranslator translator = GoogleTranslator.Create(m_currProject.CultureId);
 			if (translator == null)
 				return;
 
-			foreach (ResourceEntry entry in m_resourceEntries)
+			m_googleTranslationTerminated = false;
+			progressBar.Value = 0;
+			progressBar.Maximum = m_grid.RowCount;
+			sslProgressBar.Visible = true;
+			progressBar.Visible = true;
+			m_cancelGoogleButtonHost.Visible = true;
+			UseWaitCursor = true;
+
+			foreach (DataGridViewRow row in m_grid.Rows)
 			{
+				if (m_googleTranslationTerminated)
+					break;
+
+				if (onlySelected && !row.Selected)
+					continue;
+
+				ResourceEntry entry = GetResourceEntry(row.Index);
+				if (entry == null)
+					continue;
+
+				progressBar.Value++;
+				sslProgressBar.Text = entry.StringId;
+				Application.DoEvents();
+
 				string text = entry.SourceText;
 				if (!string.IsNullOrEmpty(entry.TargetText) || text == null)
 					continue;
@@ -686,10 +852,17 @@ namespace SIL.Localize.Localizer
 				text = text.Replace("~~", "&");
 				text = translator.TranslateText(text);
 				if (!string.IsNullOrEmpty(text))
+				{
 					entry.TargetText = text;
+					entry.TranslationStatus = TranslationStatus.Unreviewed;
+				}
 			}
 
 			m_grid.Invalidate();
+			UseWaitCursor = false;
+			sslProgressBar.Visible = false;
+			progressBar.Visible = false;
+			m_cancelGoogleButtonHost.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -702,8 +875,12 @@ namespace SIL.Localize.Localizer
 			if (m_grid.CurrentRow == null)
 				return;
 
-			m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Unreviewed;
-			m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+			ResourceEntry entry = GetResourceEntry(m_grid.CurrentRow.Index);
+			if (entry != null)
+			{
+				entry.TranslationStatus = TranslationStatus.Unreviewed;
+				m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -715,9 +892,87 @@ namespace SIL.Localize.Localizer
 		{
 			if (m_grid.CurrentRow != null)
 			{
-				m_resourceEntries[m_grid.CurrentRow.Index].TranslationStatus = TranslationStatus.Completed;
-				m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+				ResourceEntry entry = GetResourceEntry(m_grid.CurrentRow.Index);
+				if (entry != null)
+				{
+					entry.TranslationStatus = TranslationStatus.Completed;
+					m_grid.InvalidateCell(kStatusCol, m_grid.CurrentRow.Index);
+				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetStatusBarText(int row)
+		{
+			sslMain.Text = string.Format(Properties.Resources.kstidStatusBarFmt,
+				row + 1, m_grid.RowCount);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="i"></param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		private ResourceEntry GetResourceEntry(int i)
+		{
+			if (tvResources.SelectedNode == null || m_currProject == null ||
+				m_currProject.AssemblyInfoList == null)
+			{
+				return null;
+			}
+
+			if (tvResources.SelectedNode.Level == 0)
+				return m_currProject.AssemblyInfoList.GetResourceEntry(i);
+
+			if (tvResources.SelectedNode.Level == 1)
+			{
+				string assembly = tvResources.SelectedNode.Text;
+				return m_currProject.AssemblyInfoList[assembly][i];
+			}
+			if (tvResources.SelectedNode.Level == 2)
+			{
+				string assembly = tvResources.SelectedNode.Parent.Text;
+				string resource = tvResources.SelectedNode.Text;
+				return m_currProject.AssemblyInfoList[assembly][resource][i];
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int GetResourceEntryCount()
+		{
+			return GetResourceEntryCount(tvResources.SelectedNode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private int GetResourceEntryCount(TreeNode node)
+		{
+			if (node == null || m_currProject == null || m_currProject.AssemblyInfoList == null)
+				return 0;
+
+			switch (node.Level)
+			{
+				case kPrjNode: return m_currProject.AssemblyInfoList.StringEntryCount;
+				case kAsmNode: return m_currProject.AssemblyInfoList[CurrentAssembly].StringEntryCount;
+				case kResNode: return m_currProject.AssemblyInfoList[CurrentAssembly][CurrentResource].StringEntryCount;
+			}
+
+			return 0;
 		}
 	}
 }

@@ -202,8 +202,11 @@ namespace SIL.Localize.Localizer
 			LocalizerProject project =
 				LocalizingHelper.DeserializeData(fileName, typeof(LocalizerProject)) as LocalizerProject;
 
-			if (project != null)
+			if (project != null && project.m_assemblyInfoList != null)
+			{
 				project.m_assemblyInfoList.Sort();
+				project.m_assemblyInfoList.SetBackReferences();
+			}
 
 			return project;
 		}

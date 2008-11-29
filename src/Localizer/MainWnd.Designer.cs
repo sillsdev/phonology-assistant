@@ -29,12 +29,12 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWnd));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWnd));
 			this.m_mainmenu = new System.Windows.Forms.MenuStrip();
 			this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNewProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,20 +46,27 @@
 			this.mnuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuShowSrcTextPane = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuShowTransPane = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuShowCommentPane = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuTools = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuGoogleTranslate = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_toolstrip = new System.Windows.Forms.ToolStrip();
 			this.tbbSave = new System.Windows.Forms.ToolStripButton();
-			this.tbbGoogleTranslate = new System.Windows.Forms.ToolStripButton();
-			this.tbbShowCommentsPane = new System.Windows.Forms.ToolStripButton();
-			this.tbbShowSrcTextPane = new System.Windows.Forms.ToolStripButton();
-			this.tbbShowTransPane = new System.Windows.Forms.ToolStripButton();
+			this.tbbGoogleTranslate = new System.Windows.Forms.ToolStripDropDownButton();
+			this.mnuGoggleTransSelected = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuGoogleTransAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.tbbCompile = new System.Windows.Forms.ToolStripButton();
 			this.tbbRescan = new System.Windows.Forms.ToolStripButton();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
-			this.Status = new System.Windows.Forms.DataGridViewImageColumn();
-			this.ResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.SourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Translation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colStatus = new System.Windows.Forms.DataGridViewImageColumn();
+			this.colAssembly = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colResource = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colResourceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colSourceText = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colTranslation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.cmnuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuUnreviewed = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuCompleted = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,12 +79,13 @@
 			this.splitEntries = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTransCmt = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTrans = new System.Windows.Forms.SplitContainer();
-			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
+			this.tsContainer = new System.Windows.Forms.ToolStripContainer();
+			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -95,12 +103,17 @@
 			this.splitSrcTrans.Panel1.SuspendLayout();
 			this.splitSrcTrans.Panel2.SuspendLayout();
 			this.splitSrcTrans.SuspendLayout();
+			this.tsContainer.ContentPanel.SuspendLayout();
+			this.tsContainer.TopToolStripPanel.SuspendLayout();
+			this.tsContainer.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// m_mainmenu
 			// 
 			this.m_mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuFile});
+            this.mnuFile,
+            this.mnuView,
+            this.mnuTools});
 			this.m_mainmenu.Location = new System.Drawing.Point(0, 0);
 			this.m_mainmenu.Name = "m_mainmenu";
 			this.m_mainmenu.Size = new System.Drawing.Size(816, 24);
@@ -157,7 +170,7 @@
 			// 
 			// mnuSave
 			// 
-			this.mnuSave.Image = ((System.Drawing.Image)(resources.GetObject("mnuSave.Image")));
+			this.mnuSave.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidSave;
 			this.mnuSave.Name = "mnuSave";
 			this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.mnuSave.Size = new System.Drawing.Size(203, 22);
@@ -182,26 +195,72 @@
 			this.mnuExit.Size = new System.Drawing.Size(203, 22);
 			this.mnuExit.Text = "E&xit";
 			// 
+			// mnuView
+			// 
+			this.mnuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuShowSrcTextPane,
+            this.mnuShowTransPane,
+            this.mnuShowCommentPane});
+			this.mnuView.Name = "mnuView";
+			this.mnuView.Size = new System.Drawing.Size(49, 20);
+			this.mnuView.Text = "&View";
+			this.mnuView.DropDownOpening += new System.EventHandler(this.mnuView_DropDownOpening);
+			// 
+			// mnuShowSrcTextPane
+			// 
+			this.mnuShowSrcTextPane.Name = "mnuShowSrcTextPane";
+			this.mnuShowSrcTextPane.Size = new System.Drawing.Size(212, 22);
+			this.mnuShowSrcTextPane.Text = "Show &Source Text Pane";
+			this.mnuShowSrcTextPane.Click += new System.EventHandler(this.mnuShowSrcTextPane_Click);
+			// 
+			// mnuShowTransPane
+			// 
+			this.mnuShowTransPane.Name = "mnuShowTransPane";
+			this.mnuShowTransPane.Size = new System.Drawing.Size(212, 22);
+			this.mnuShowTransPane.Text = "Show &Translation Pane";
+			this.mnuShowTransPane.Click += new System.EventHandler(this.mnuShowTransPane_Click);
+			// 
+			// mnuShowCommentPane
+			// 
+			this.mnuShowCommentPane.Name = "mnuShowCommentPane";
+			this.mnuShowCommentPane.Size = new System.Drawing.Size(212, 22);
+			this.mnuShowCommentPane.Text = "Show &Comment Pane";
+			this.mnuShowCommentPane.Click += new System.EventHandler(this.mnuShowCommentPane_Click);
+			// 
+			// mnuTools
+			// 
+			this.mnuTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuGoogleTranslate});
+			this.mnuTools.Name = "mnuTools";
+			this.mnuTools.Size = new System.Drawing.Size(51, 20);
+			this.mnuTools.Text = "&Tools";
+			// 
+			// mnuGoogleTranslate
+			// 
+			this.mnuGoogleTranslate.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidGoogle;
+			this.mnuGoogleTranslate.Name = "mnuGoogleTranslate";
+			this.mnuGoogleTranslate.Size = new System.Drawing.Size(210, 22);
+			this.mnuGoogleTranslate.Text = "Translate Using Google";
+			// 
 			// m_toolstrip
 			// 
+			this.m_toolstrip.Dock = System.Windows.Forms.DockStyle.None;
 			this.m_toolstrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbbSave,
             this.tbbGoogleTranslate,
-            this.tbbShowCommentsPane,
-            this.tbbShowSrcTextPane,
-            this.tbbShowTransPane,
             this.tbbCompile,
             this.tbbRescan});
-			this.m_toolstrip.Location = new System.Drawing.Point(0, 24);
+			this.m_toolstrip.Location = new System.Drawing.Point(0, 0);
 			this.m_toolstrip.Name = "m_toolstrip";
 			this.m_toolstrip.Size = new System.Drawing.Size(816, 25);
+			this.m_toolstrip.Stretch = true;
 			this.m_toolstrip.TabIndex = 1;
 			this.m_toolstrip.Text = "toolStrip1";
 			// 
 			// tbbSave
 			// 
 			this.tbbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbbSave.Image = ((System.Drawing.Image)(resources.GetObject("tbbSave.Image")));
+			this.tbbSave.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidSave;
 			this.tbbSave.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tbbSave.Name = "tbbSave";
 			this.tbbSave.Size = new System.Drawing.Size(23, 22);
@@ -210,52 +269,29 @@
 			// 
 			// tbbGoogleTranslate
 			// 
-			this.tbbGoogleTranslate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.tbbGoogleTranslate.Image = ((System.Drawing.Image)(resources.GetObject("tbbGoogleTranslate.Image")));
+			this.tbbGoogleTranslate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tbbGoogleTranslate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuGoggleTransSelected,
+            this.mnuGoogleTransAll});
+			this.tbbGoogleTranslate.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidGoogle;
 			this.tbbGoogleTranslate.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.tbbGoogleTranslate.Name = "tbbGoogleTranslate";
-			this.tbbGoogleTranslate.Size = new System.Drawing.Size(79, 22);
+			this.tbbGoogleTranslate.Size = new System.Drawing.Size(29, 22);
 			this.tbbGoogleTranslate.Text = "Use Google";
-			this.tbbGoogleTranslate.Click += new System.EventHandler(this.tbbGoogleTranslate_Click);
+			this.tbbGoogleTranslate.ToolTipText = "Translate Using Google";
+			this.tbbGoogleTranslate.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tbbGoogleTranslate_DropDownItemClicked);
 			// 
-			// tbbShowCommentsPane
+			// mnuGoggleTransSelected
 			// 
-			this.tbbShowCommentsPane.Checked = true;
-			this.tbbShowCommentsPane.CheckOnClick = true;
-			this.tbbShowCommentsPane.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.tbbShowCommentsPane.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbbShowCommentsPane.Image = ((System.Drawing.Image)(resources.GetObject("tbbShowCommentsPane.Image")));
-			this.tbbShowCommentsPane.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tbbShowCommentsPane.Name = "tbbShowCommentsPane";
-			this.tbbShowCommentsPane.Size = new System.Drawing.Size(23, 22);
-			this.tbbShowCommentsPane.ToolTipText = "Show Comments Pane";
-			this.tbbShowCommentsPane.Click += new System.EventHandler(this.tbbShowCommentsPane_Click);
+			this.mnuGoggleTransSelected.Name = "mnuGoggleTransSelected";
+			this.mnuGoggleTransSelected.Size = new System.Drawing.Size(168, 22);
+			this.mnuGoggleTransSelected.Text = "&Selected Row(s)";
 			// 
-			// tbbShowSrcTextPane
+			// mnuGoogleTransAll
 			// 
-			this.tbbShowSrcTextPane.Checked = true;
-			this.tbbShowSrcTextPane.CheckOnClick = true;
-			this.tbbShowSrcTextPane.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.tbbShowSrcTextPane.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbbShowSrcTextPane.Image = ((System.Drawing.Image)(resources.GetObject("tbbShowSrcTextPane.Image")));
-			this.tbbShowSrcTextPane.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tbbShowSrcTextPane.Name = "tbbShowSrcTextPane";
-			this.tbbShowSrcTextPane.Size = new System.Drawing.Size(23, 22);
-			this.tbbShowSrcTextPane.ToolTipText = "Show Source Text Pane";
-			this.tbbShowSrcTextPane.Click += new System.EventHandler(this.tbbShowSrcTextPane_Click);
-			// 
-			// tbbShowTransPane
-			// 
-			this.tbbShowTransPane.Checked = true;
-			this.tbbShowTransPane.CheckOnClick = true;
-			this.tbbShowTransPane.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.tbbShowTransPane.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tbbShowTransPane.Image = ((System.Drawing.Image)(resources.GetObject("tbbShowTransPane.Image")));
-			this.tbbShowTransPane.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tbbShowTransPane.Name = "tbbShowTransPane";
-			this.tbbShowTransPane.Size = new System.Drawing.Size(23, 22);
-			this.tbbShowTransPane.ToolTipText = "Show Translation Pane";
-			this.tbbShowTransPane.Click += new System.EventHandler(this.tbbShowTransPane_Click);
+			this.mnuGoogleTransAll.Name = "mnuGoogleTransAll";
+			this.mnuGoogleTransAll.Size = new System.Drawing.Size(168, 22);
+			this.mnuGoogleTransAll.Text = "&All Rows";
 			// 
 			// tbbCompile
 			// 
@@ -298,11 +334,13 @@
 			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.m_grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Status,
-            this.ResourceId,
-            this.SourceText,
-            this.Translation,
-            this.Comment});
+            this.colStatus,
+            this.colAssembly,
+            this.colResource,
+            this.colResourceId,
+            this.colSourceText,
+            this.colTranslation,
+            this.colComment});
 			this.m_grid.ContextMenuStrip = this.cmnuGrid;
 			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
@@ -323,7 +361,7 @@
 			this.m_grid.RowHeadersWidth = 22;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
-			this.m_grid.Size = new System.Drawing.Size(522, 307);
+			this.m_grid.Size = new System.Drawing.Size(539, 306);
 			this.m_grid.TabIndex = 2;
 			this.m_grid.VirtualMode = true;
 			this.m_grid.WaterMark = "!";
@@ -336,45 +374,57 @@
 			this.m_grid.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValuePushed);
 			this.m_grid.RowHeightInfoPushed += new System.Windows.Forms.DataGridViewRowHeightInfoPushedEventHandler(this.m_grid_RowHeightInfoPushed);
 			// 
-			// Status
+			// colStatus
 			// 
-			this.Status.HeaderText = "Status";
-			this.Status.Name = "Status";
-			this.Status.ReadOnly = true;
-			this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Status.Width = 75;
+			this.colStatus.HeaderText = "Status";
+			this.colStatus.Name = "colStatus";
+			this.colStatus.ReadOnly = true;
+			this.colStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.colStatus.Width = 75;
 			// 
-			// ResourceId
+			// colAssembly
 			// 
-			this.ResourceId.HeaderText = "Resource Id";
-			this.ResourceId.Name = "ResourceId";
-			this.ResourceId.ReadOnly = true;
-			this.ResourceId.Width = 125;
+			this.colAssembly.HeaderText = "Assembly";
+			this.colAssembly.Name = "colAssembly";
+			this.colAssembly.ReadOnly = true;
 			// 
-			// SourceText
+			// colResource
+			// 
+			this.colResource.HeaderText = "Resource";
+			this.colResource.Name = "colResource";
+			this.colResource.ReadOnly = true;
+			// 
+			// colResourceId
+			// 
+			this.colResourceId.HeaderText = "Resource Id";
+			this.colResourceId.Name = "colResourceId";
+			this.colResourceId.ReadOnly = true;
+			this.colResourceId.Width = 125;
+			// 
+			// colSourceText
 			// 
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.SourceText.DefaultCellStyle = dataGridViewCellStyle2;
-			this.SourceText.HeaderText = "Source Text";
-			this.SourceText.Name = "SourceText";
-			this.SourceText.ReadOnly = true;
-			this.SourceText.Width = 150;
+			this.colSourceText.DefaultCellStyle = dataGridViewCellStyle2;
+			this.colSourceText.HeaderText = "Source Text";
+			this.colSourceText.Name = "colSourceText";
+			this.colSourceText.ReadOnly = true;
+			this.colSourceText.Width = 150;
 			// 
-			// Translation
+			// colTranslation
 			// 
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Translation.DefaultCellStyle = dataGridViewCellStyle3;
-			this.Translation.HeaderText = "Translation";
-			this.Translation.Name = "Translation";
-			this.Translation.Width = 150;
+			this.colTranslation.DefaultCellStyle = dataGridViewCellStyle3;
+			this.colTranslation.HeaderText = "Translation";
+			this.colTranslation.Name = "colTranslation";
+			this.colTranslation.Width = 150;
 			// 
-			// Comment
+			// colComment
 			// 
 			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.Comment.DefaultCellStyle = dataGridViewCellStyle4;
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.Width = 150;
+			this.colComment.DefaultCellStyle = dataGridViewCellStyle4;
+			this.colComment.HeaderText = "Comment";
+			this.colComment.Name = "colComment";
+			this.colComment.Width = 150;
 			// 
 			// cmnuGrid
 			// 
@@ -414,7 +464,7 @@
 			// sslMain
 			// 
 			this.sslMain.Name = "sslMain";
-			this.sslMain.Size = new System.Drawing.Size(801, 17);
+			this.sslMain.Size = new System.Drawing.Size(569, 17);
 			this.sslMain.Spring = true;
 			this.sslMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -430,45 +480,47 @@
 			// 
 			// progressBar
 			// 
+			this.progressBar.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(175, 16);
 			this.progressBar.Visible = false;
 			// 
 			// splitOuter
 			// 
-			this.splitOuter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.splitOuter.Location = new System.Drawing.Point(12, 52);
+			this.splitOuter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitOuter.Location = new System.Drawing.Point(0, 0);
 			this.splitOuter.Name = "splitOuter";
 			// 
 			// splitOuter.Panel1
 			// 
 			this.splitOuter.Panel1.Controls.Add(this.tvResources);
+			this.splitOuter.Panel1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			// 
 			// splitOuter.Panel2
 			// 
 			this.splitOuter.Panel2.Controls.Add(this.splitEntries);
-			this.splitOuter.Size = new System.Drawing.Size(792, 431);
-			this.splitOuter.SplitterDistance = 264;
+			this.splitOuter.Panel2.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+			this.splitOuter.Size = new System.Drawing.Size(816, 437);
+			this.splitOuter.SplitterDistance = 271;
 			this.splitOuter.SplitterWidth = 6;
 			this.splitOuter.TabIndex = 4;
+			this.splitOuter.TabStop = false;
 			// 
 			// tvResources
 			// 
 			this.tvResources.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvResources.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tvResources.HideSelection = false;
-			this.tvResources.Location = new System.Drawing.Point(0, 0);
+			this.tvResources.Location = new System.Drawing.Point(0, 5);
 			this.tvResources.Name = "tvResources";
-			this.tvResources.Size = new System.Drawing.Size(264, 431);
+			this.tvResources.Size = new System.Drawing.Size(271, 432);
 			this.tvResources.TabIndex = 0;
-			this.tvResources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvResXList_AfterSelect);
+			this.tvResources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvResources_AfterSelect);
 			// 
 			// splitEntries
 			// 
 			this.splitEntries.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitEntries.Location = new System.Drawing.Point(0, 0);
+			this.splitEntries.Location = new System.Drawing.Point(0, 5);
 			this.splitEntries.Name = "splitEntries";
 			this.splitEntries.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
@@ -479,10 +531,11 @@
 			// splitEntries.Panel2
 			// 
 			this.splitEntries.Panel2.Controls.Add(this.splitSrcTransCmt);
-			this.splitEntries.Size = new System.Drawing.Size(522, 431);
-			this.splitEntries.SplitterDistance = 307;
+			this.splitEntries.Size = new System.Drawing.Size(539, 432);
+			this.splitEntries.SplitterDistance = 306;
 			this.splitEntries.SplitterWidth = 6;
 			this.splitEntries.TabIndex = 3;
+			this.splitEntries.TabStop = false;
 			// 
 			// splitSrcTransCmt
 			// 
@@ -498,9 +551,10 @@
 			// splitSrcTransCmt.Panel2
 			// 
 			this.splitSrcTransCmt.Panel2.Controls.Add(this.txtComment);
-			this.splitSrcTransCmt.Size = new System.Drawing.Size(522, 118);
-			this.splitSrcTransCmt.SplitterDistance = 70;
+			this.splitSrcTransCmt.Size = new System.Drawing.Size(539, 120);
+			this.splitSrcTransCmt.SplitterDistance = 69;
 			this.splitSrcTransCmt.TabIndex = 1;
+			this.splitSrcTransCmt.TabStop = false;
 			// 
 			// splitSrcTrans
 			// 
@@ -515,114 +569,10 @@
 			// splitSrcTrans.Panel2
 			// 
 			this.splitSrcTrans.Panel2.Controls.Add(this.txtTranslation);
-			this.splitSrcTrans.Size = new System.Drawing.Size(522, 70);
-			this.splitSrcTrans.SplitterDistance = 246;
+			this.splitSrcTrans.Size = new System.Drawing.Size(539, 69);
+			this.splitSrcTrans.SplitterDistance = 252;
 			this.splitSrcTrans.TabIndex = 0;
-			// 
-			// txtSrcText
-			// 
-			this.txtSrcText.BackColor = System.Drawing.Color.Red;
-			this.txtSrcText.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// 
-			// 
-			this.txtSrcText.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
-			this.txtSrcText.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.txtSrcText.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtSrcText.HeadingLabel.Location = new System.Drawing.Point(1, 1);
-			this.txtSrcText.HeadingLabel.Name = "lblHeading";
-			this.txtSrcText.HeadingLabel.Size = new System.Drawing.Size(244, 18);
-			this.txtSrcText.HeadingLabel.TabIndex = 0;
-			this.txtSrcText.HeadingLabel.Text = "Source Text";
-			this.txtSrcText.Location = new System.Drawing.Point(0, 0);
-			this.txtSrcText.Name = "txtSrcText";
-			this.txtSrcText.Padding = new System.Windows.Forms.Padding(1);
-			this.txtSrcText.Size = new System.Drawing.Size(246, 70);
-			this.txtSrcText.TabIndex = 0;
-			// 
-			// 
-			// 
-			this.txtSrcText.TextBox.BackColor = System.Drawing.SystemColors.Window;
-			this.txtSrcText.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.txtSrcText.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtSrcText.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtSrcText.TextBox.Location = new System.Drawing.Point(1, 19);
-			this.txtSrcText.TextBox.Multiline = true;
-			this.txtSrcText.TextBox.Name = "txtText";
-			this.txtSrcText.TextBox.ReadOnly = true;
-			this.txtSrcText.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtSrcText.TextBox.Size = new System.Drawing.Size(244, 50);
-			this.txtSrcText.TextBox.TabIndex = 1;
-			// 
-			// txtTranslation
-			// 
-			this.txtTranslation.BackColor = System.Drawing.Color.Red;
-			this.txtTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// 
-			// 
-			this.txtTranslation.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
-			this.txtTranslation.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.txtTranslation.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTranslation.HeadingLabel.Location = new System.Drawing.Point(1, 1);
-			this.txtTranslation.HeadingLabel.Name = "lblHeading";
-			this.txtTranslation.HeadingLabel.Size = new System.Drawing.Size(270, 18);
-			this.txtTranslation.HeadingLabel.TabIndex = 0;
-			this.txtTranslation.HeadingLabel.Text = "&Translation";
-			this.txtTranslation.Location = new System.Drawing.Point(0, 0);
-			this.txtTranslation.Name = "txtTranslation";
-			this.txtTranslation.Padding = new System.Windows.Forms.Padding(1);
-			this.txtTranslation.Size = new System.Drawing.Size(272, 70);
-			this.txtTranslation.TabIndex = 1;
-			// 
-			// 
-			// 
-			this.txtTranslation.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.txtTranslation.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtTranslation.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTranslation.TextBox.Location = new System.Drawing.Point(1, 19);
-			this.txtTranslation.TextBox.Multiline = true;
-			this.txtTranslation.TextBox.Name = "txtText";
-			this.txtTranslation.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtTranslation.TextBox.Size = new System.Drawing.Size(270, 50);
-			this.txtTranslation.TextBox.TabIndex = 1;
-			this.txtTranslation.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
-			this.txtTranslation.TextBox.Validated += new System.EventHandler(this.txtTranslation_Validated);
-			// 
-			// txtComment
-			// 
-			this.txtComment.BackColor = System.Drawing.Color.Red;
-			this.txtComment.Dock = System.Windows.Forms.DockStyle.Fill;
-			// 
-			// 
-			// 
-			this.txtComment.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
-			this.txtComment.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
-			this.txtComment.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtComment.HeadingLabel.Location = new System.Drawing.Point(1, 1);
-			this.txtComment.HeadingLabel.Name = "lblHeading";
-			this.txtComment.HeadingLabel.Size = new System.Drawing.Size(520, 18);
-			this.txtComment.HeadingLabel.TabIndex = 0;
-			this.txtComment.HeadingLabel.Text = "&Comment";
-			this.txtComment.Location = new System.Drawing.Point(0, 0);
-			this.txtComment.Name = "txtComment";
-			this.txtComment.Padding = new System.Windows.Forms.Padding(1);
-			this.txtComment.Size = new System.Drawing.Size(522, 44);
-			this.txtComment.TabIndex = 2;
-			// 
-			// 
-			// 
-			this.txtComment.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.txtComment.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtComment.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtComment.TextBox.Location = new System.Drawing.Point(1, 19);
-			this.txtComment.TextBox.Multiline = true;
-			this.txtComment.TextBox.Name = "txtText";
-			this.txtComment.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtComment.TextBox.Size = new System.Drawing.Size(520, 24);
-			this.txtComment.TextBox.TabIndex = 1;
-			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
-			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
+			this.splitSrcTrans.TabStop = false;
 			// 
 			// openFileDlg
 			// 
@@ -639,15 +589,136 @@
 			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
 			this.saveFileDlg.Title = "Save Project";
 			// 
+			// tsContainer
+			// 
+			// 
+			// tsContainer.ContentPanel
+			// 
+			this.tsContainer.ContentPanel.Controls.Add(this.splitOuter);
+			this.tsContainer.ContentPanel.Size = new System.Drawing.Size(816, 437);
+			this.tsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tsContainer.Location = new System.Drawing.Point(0, 24);
+			this.tsContainer.Name = "tsContainer";
+			this.tsContainer.Size = new System.Drawing.Size(816, 462);
+			this.tsContainer.TabIndex = 5;
+			// 
+			// tsContainer.TopToolStripPanel
+			// 
+			this.tsContainer.TopToolStripPanel.Controls.Add(this.m_toolstrip);
+			// 
+			// txtSrcText
+			// 
+			this.txtSrcText.BackColor = System.Drawing.Color.Red;
+			this.txtSrcText.Dock = System.Windows.Forms.DockStyle.Fill;
+			// 
+			// 
+			// 
+			this.txtSrcText.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
+			this.txtSrcText.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.txtSrcText.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtSrcText.HeadingLabel.Location = new System.Drawing.Point(1, 1);
+			this.txtSrcText.HeadingLabel.Name = "lblHeading";
+			this.txtSrcText.HeadingLabel.Size = new System.Drawing.Size(250, 18);
+			this.txtSrcText.HeadingLabel.TabIndex = 0;
+			this.txtSrcText.HeadingLabel.Text = "Source Text";
+			this.txtSrcText.Location = new System.Drawing.Point(0, 0);
+			this.txtSrcText.Name = "txtSrcText";
+			this.txtSrcText.Padding = new System.Windows.Forms.Padding(1);
+			this.txtSrcText.Size = new System.Drawing.Size(252, 69);
+			this.txtSrcText.TabIndex = 0;
+			// 
+			// 
+			// 
+			this.txtSrcText.TextBox.BackColor = System.Drawing.SystemColors.Window;
+			this.txtSrcText.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.txtSrcText.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtSrcText.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtSrcText.TextBox.Location = new System.Drawing.Point(1, 19);
+			this.txtSrcText.TextBox.Multiline = true;
+			this.txtSrcText.TextBox.Name = "txtText";
+			this.txtSrcText.TextBox.ReadOnly = true;
+			this.txtSrcText.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtSrcText.TextBox.Size = new System.Drawing.Size(250, 49);
+			this.txtSrcText.TextBox.TabIndex = 1;
+			// 
+			// txtTranslation
+			// 
+			this.txtTranslation.BackColor = System.Drawing.Color.Red;
+			this.txtTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
+			// 
+			// 
+			// 
+			this.txtTranslation.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
+			this.txtTranslation.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.txtTranslation.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTranslation.HeadingLabel.Location = new System.Drawing.Point(1, 1);
+			this.txtTranslation.HeadingLabel.Name = "lblHeading";
+			this.txtTranslation.HeadingLabel.Size = new System.Drawing.Size(281, 18);
+			this.txtTranslation.HeadingLabel.TabIndex = 0;
+			this.txtTranslation.HeadingLabel.Text = "&Translation";
+			this.txtTranslation.Location = new System.Drawing.Point(0, 0);
+			this.txtTranslation.Name = "txtTranslation";
+			this.txtTranslation.Padding = new System.Windows.Forms.Padding(1);
+			this.txtTranslation.Size = new System.Drawing.Size(283, 69);
+			this.txtTranslation.TabIndex = 1;
+			// 
+			// 
+			// 
+			this.txtTranslation.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.txtTranslation.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtTranslation.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTranslation.TextBox.Location = new System.Drawing.Point(1, 19);
+			this.txtTranslation.TextBox.Multiline = true;
+			this.txtTranslation.TextBox.Name = "txtText";
+			this.txtTranslation.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtTranslation.TextBox.Size = new System.Drawing.Size(281, 49);
+			this.txtTranslation.TextBox.TabIndex = 1;
+			this.txtTranslation.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
+			this.txtTranslation.TextBox.Validated += new System.EventHandler(this.txtTranslation_Validated);
+			// 
+			// txtComment
+			// 
+			this.txtComment.BackColor = System.Drawing.Color.Red;
+			this.txtComment.Dock = System.Windows.Forms.DockStyle.Fill;
+			// 
+			// 
+			// 
+			this.txtComment.HeadingLabel.BackColor = System.Drawing.SystemColors.Window;
+			this.txtComment.HeadingLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.txtComment.HeadingLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtComment.HeadingLabel.Location = new System.Drawing.Point(1, 1);
+			this.txtComment.HeadingLabel.Name = "lblHeading";
+			this.txtComment.HeadingLabel.Size = new System.Drawing.Size(537, 18);
+			this.txtComment.HeadingLabel.TabIndex = 0;
+			this.txtComment.HeadingLabel.Text = "&Comment";
+			this.txtComment.Location = new System.Drawing.Point(0, 0);
+			this.txtComment.Name = "txtComment";
+			this.txtComment.Padding = new System.Windows.Forms.Padding(1);
+			this.txtComment.Size = new System.Drawing.Size(539, 47);
+			this.txtComment.TabIndex = 2;
+			// 
+			// 
+			// 
+			this.txtComment.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.txtComment.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtComment.TextBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtComment.TextBox.Location = new System.Drawing.Point(1, 19);
+			this.txtComment.TextBox.Multiline = true;
+			this.txtComment.TextBox.Name = "txtText";
+			this.txtComment.TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtComment.TextBox.Size = new System.Drawing.Size(537, 27);
+			this.txtComment.TextBox.TabIndex = 1;
+			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
+			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
+			// 
 			// MainWnd
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(816, 508);
+			this.Controls.Add(this.tsContainer);
 			this.Controls.Add(this.m_statusbar);
-			this.Controls.Add(this.m_toolstrip);
 			this.Controls.Add(this.m_mainmenu);
-			this.Controls.Add(this.splitOuter);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.m_mainmenu;
 			this.Name = "MainWnd";
@@ -673,6 +744,11 @@
 			this.splitSrcTrans.Panel1.ResumeLayout(false);
 			this.splitSrcTrans.Panel2.ResumeLayout(false);
 			this.splitSrcTrans.ResumeLayout(false);
+			this.tsContainer.ContentPanel.ResumeLayout(false);
+			this.tsContainer.TopToolStripPanel.ResumeLayout(false);
+			this.tsContainer.TopToolStripPanel.PerformLayout();
+			this.tsContainer.ResumeLayout(false);
+			this.tsContainer.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -697,32 +773,40 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuSave;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem mnuExit;
-		private System.Windows.Forms.ToolStripButton tbbGoogleTranslate;
 		private System.Windows.Forms.SplitContainer splitEntries;
-		private System.Windows.Forms.ToolStripButton tbbShowCommentsPane;
 		private System.Windows.Forms.SplitContainer splitSrcTransCmt;
 		private System.Windows.Forms.SplitContainer splitSrcTrans;
 		private LabeledTextBox txtSrcText;
 		private LabeledTextBox txtTranslation;
 		private LabeledTextBox txtComment;
-		private System.Windows.Forms.ToolStripButton tbbShowSrcTextPane;
-		private System.Windows.Forms.ToolStripButton tbbShowTransPane;
 		private System.Windows.Forms.ToolStripButton tbbCompile;
 		private System.Windows.Forms.ToolStripStatusLabel sslProgressBar;
 		private System.Windows.Forms.ToolStripProgressBar progressBar;
 		private System.Windows.Forms.SaveFileDialog saveFileDlg;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem mnuSaveAs;
-		private System.Windows.Forms.DataGridViewImageColumn Status;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ResourceId;
-		private System.Windows.Forms.DataGridViewTextBoxColumn SourceText;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Translation;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
 		private System.Windows.Forms.ContextMenuStrip cmnuGrid;
 		private System.Windows.Forms.ToolStripMenuItem cmnuUnreviewed;
 		private System.Windows.Forms.ToolStripMenuItem cmnuCompleted;
 		private System.Windows.Forms.ToolStripStatusLabel sslMain;
 		private System.Windows.Forms.ToolStripButton tbbRescan;
+		private System.Windows.Forms.ToolStripMenuItem mnuView;
+		private System.Windows.Forms.ToolStripMenuItem mnuShowSrcTextPane;
+		private System.Windows.Forms.ToolStripMenuItem mnuShowTransPane;
+		private System.Windows.Forms.ToolStripMenuItem mnuShowCommentPane;
+		private System.Windows.Forms.ToolStripMenuItem mnuTools;
+		private System.Windows.Forms.ToolStripMenuItem mnuGoogleTranslate;
+		private System.Windows.Forms.DataGridViewImageColumn colStatus;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colAssembly;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colResource;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colResourceId;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colSourceText;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colTranslation;
+		private System.Windows.Forms.DataGridViewTextBoxColumn colComment;
+		private System.Windows.Forms.ToolStripContainer tsContainer;
+		private System.Windows.Forms.ToolStripDropDownButton tbbGoogleTranslate;
+		private System.Windows.Forms.ToolStripMenuItem mnuGoggleTransSelected;
+		private System.Windows.Forms.ToolStripMenuItem mnuGoogleTransAll;
 	}
 }
 
