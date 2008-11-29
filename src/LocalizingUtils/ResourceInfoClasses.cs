@@ -30,7 +30,8 @@ namespace SIL.Localize.LocalizingUtils
 	{
 		private string m_resourceName = null;
 		private bool m_omitted = false;
-		private List<ResourceEntry> m_stringEntries = null;
+		private List<ResourceEntry> m_stringEntries;
+		private AssemblyResourceInfo m_owningAssembly;
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,6 +50,7 @@ namespace SIL.Localize.LocalizingUtils
 		public ResourceInfo(string resName)
 		{
 			m_resourceName = resName;
+			m_stringEntries = new List<ResourceEntry>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,6 +70,16 @@ namespace SIL.Localize.LocalizingUtils
 
 				return null;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ResourceEntry this[int i]
+		{
+			get { return (i >= 0 && i < m_stringEntries.Count ? m_stringEntries[i] : null); }
 		}
 
 		#region Properties
@@ -129,7 +141,46 @@ namespace SIL.Localize.LocalizingUtils
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public AssemblyResourceInfo OwningAssembly
+		{
+			get { return m_owningAssembly; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int StringEntryCount
+		{
+			get { return m_stringEntries.Count; }
+		}
+
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void SetBackReferences(AssemblyResourceInfo assembly)
+		{
+			m_owningAssembly = assembly;
+
+			if (m_stringEntries == null)
+				return;
+
+			foreach (ResourceEntry entry in m_stringEntries)
+			{
+				entry.OwningAssembly = assembly;
+				entry.OwningResource = this;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -192,6 +243,16 @@ namespace SIL.Localize.LocalizingUtils
 
 			return merged;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return m_resourceName;
+		}
 	}
 
 	#endregion
@@ -207,10 +268,49 @@ namespace SIL.Localize.LocalizingUtils
 		[XmlAttribute]
 		public string StringId = null;
 		[XmlAttribute]
+		public bool Omitted = false;
+		[XmlAttribute]
 		public TranslationStatus TranslationStatus = TranslationStatus.Untranslated;
 		public string SourceText = null;
 		public string TargetText = null;
 		public string Comment = null;
+
+		private AssemblyResourceInfo m_owningAssembly;
+		private ResourceInfo m_OwningResource;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public AssemblyResourceInfo OwningAssembly
+		{
+			get { return m_owningAssembly; }
+			internal set { m_owningAssembly = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public ResourceInfo OwningResource
+		{
+			get { return m_OwningResource; }
+			internal set { m_OwningResource = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return StringId;
+		}
 	}
 
 	#endregion

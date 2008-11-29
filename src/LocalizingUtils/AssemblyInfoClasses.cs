@@ -47,11 +47,64 @@ namespace SIL.Localize.LocalizingUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public int StringEntryCount
+		{
+			get
+			{
+				int count = 0;
+				foreach (AssemblyResourceInfo info in this)
+					count += info.StringEntryCount;
+
+				return count;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ResourceEntry GetResourceEntry(int i)
+		{
+			int upperIndex = 0;
+			int lowerIndex = 0;
+			foreach (AssemblyResourceInfo info in this)
+			{
+				upperIndex += info.StringEntryCount;
+				if (i < upperIndex)
+					return info[i - lowerIndex];
+
+				lowerIndex = upperIndex;
+			}
+
+			return null;
+		}
+		
+		//             |          v            |
+		// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public new void Sort()
 		{
 			base.Sort(LocalizingHelper.AssemblyResourceInfoComparer);
 			foreach (AssemblyResourceInfo info in this)
 				info.Sort();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetBackReferences()
+		{
+			foreach (AssemblyResourceInfo assembly in this)
+				assembly.SetBackReferences();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,6 +158,7 @@ namespace SIL.Localize.LocalizingUtils
 	/// ----------------------------------------------------------------------------------------
 	public class AssemblyResourceInfo
 	{
+		private bool m_omitted = false;
 		private string m_assemblyFolder;
 		private string m_assemblyName;
 		private string m_rootNamespace;
@@ -149,6 +203,30 @@ namespace SIL.Localize.LocalizingUtils
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ResourceEntry this[int i]
+		{
+			get
+			{
+				int upperIndex = 0;
+				int lowerIndex = 0;
+				foreach (ResourceInfo resource in m_resourceInfoList)
+				{
+					upperIndex += resource.StringEntryCount;
+					if (i < upperIndex)
+						return resource[i - lowerIndex];
+
+					lowerIndex = upperIndex;
+				}
+
+				return null;
+			}
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -160,6 +238,18 @@ namespace SIL.Localize.LocalizingUtils
 		{
 			get { return m_assemblyFolder; }
 			set { m_assemblyFolder = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public string AssemblyName
+		{
+			get { return m_assemblyName; }
+			set { m_assemblyName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -180,10 +270,10 @@ namespace SIL.Localize.LocalizingUtils
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string AssemblyName
+		public bool Omitted
 		{
-			get { return m_assemblyName; }
-			set { m_assemblyName = value; }
+			get { return m_omitted; }
+			set { m_omitted = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,7 +287,38 @@ namespace SIL.Localize.LocalizingUtils
 			set { m_resourceInfoList = value; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int StringEntryCount
+		{
+			get 
+			{
+				int count = 0;
+				foreach (ResourceInfo resource in m_resourceInfoList)
+					count += resource.StringEntryCount;
+
+				return count;
+			}
+		}
+
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal void SetBackReferences()
+		{
+			if (m_resourceInfoList != null)
+			{
+				foreach (ResourceInfo resource in m_resourceInfoList)
+					resource.SetBackReferences(this);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -273,6 +394,16 @@ namespace SIL.Localize.LocalizingUtils
 				Directory.Delete(tmpPath);
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return m_assemblyName;
 		}
 	}
 
