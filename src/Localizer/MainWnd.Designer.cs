@@ -50,13 +50,17 @@
 			this.mnuShowSrcTextPane = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuShowTransPane = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuShowCommentPane = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+			this.mnuShowOmittedItems = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuTools = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuGoogleTranslate = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_toolstrip = new System.Windows.Forms.ToolStrip();
 			this.tbbSave = new System.Windows.Forms.ToolStripButton();
+			this.toolStripButton1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tbbGoogleTranslate = new System.Windows.Forms.ToolStripDropDownButton();
 			this.mnuGoggleTransSelected = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuGoogleTransAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.tbbCompile = new System.Windows.Forms.ToolStripButton();
 			this.tbbRescan = new System.Windows.Forms.ToolStripButton();
 			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
@@ -70,22 +74,27 @@
 			this.cmnuGrid = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuUnreviewed = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuCompleted = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+			this.cmnuOmitResourceItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_statusbar = new System.Windows.Forms.StatusStrip();
 			this.sslMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sslProgressBar = new System.Windows.Forms.ToolStripStatusLabel();
 			this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.tvResources = new System.Windows.Forms.TreeView();
+			this.cmnuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.cmnuOmitAssembly = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmnuOmitResource = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitEntries = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTransCmt = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTrans = new System.Windows.Forms.SplitContainer();
+			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
 			this.tsContainer = new System.Windows.Forms.ToolStripContainer();
-			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -94,6 +103,7 @@
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
+			this.cmnuTree.SuspendLayout();
 			this.splitEntries.Panel1.SuspendLayout();
 			this.splitEntries.Panel2.SuspendLayout();
 			this.splitEntries.SuspendLayout();
@@ -200,7 +210,9 @@
 			this.mnuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShowSrcTextPane,
             this.mnuShowTransPane,
-            this.mnuShowCommentPane});
+            this.mnuShowCommentPane,
+            this.toolStripMenuItem4,
+            this.mnuShowOmittedItems});
 			this.mnuView.Name = "mnuView";
 			this.mnuView.Size = new System.Drawing.Size(49, 20);
 			this.mnuView.Text = "&View";
@@ -209,23 +221,35 @@
 			// mnuShowSrcTextPane
 			// 
 			this.mnuShowSrcTextPane.Name = "mnuShowSrcTextPane";
-			this.mnuShowSrcTextPane.Size = new System.Drawing.Size(212, 22);
-			this.mnuShowSrcTextPane.Text = "Show &Source Text Pane";
+			this.mnuShowSrcTextPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowSrcTextPane.Text = "&Source Text Pane";
 			this.mnuShowSrcTextPane.Click += new System.EventHandler(this.mnuShowSrcTextPane_Click);
 			// 
 			// mnuShowTransPane
 			// 
 			this.mnuShowTransPane.Name = "mnuShowTransPane";
-			this.mnuShowTransPane.Size = new System.Drawing.Size(212, 22);
-			this.mnuShowTransPane.Text = "Show &Translation Pane";
+			this.mnuShowTransPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowTransPane.Text = "&Translation Pane";
 			this.mnuShowTransPane.Click += new System.EventHandler(this.mnuShowTransPane_Click);
 			// 
 			// mnuShowCommentPane
 			// 
 			this.mnuShowCommentPane.Name = "mnuShowCommentPane";
-			this.mnuShowCommentPane.Size = new System.Drawing.Size(212, 22);
-			this.mnuShowCommentPane.Text = "Show &Comment Pane";
+			this.mnuShowCommentPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowCommentPane.Text = "&Comment Pane";
 			this.mnuShowCommentPane.Click += new System.EventHandler(this.mnuShowCommentPane_Click);
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(172, 6);
+			// 
+			// mnuShowOmittedItems
+			// 
+			this.mnuShowOmittedItems.Name = "mnuShowOmittedItems";
+			this.mnuShowOmittedItems.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowOmittedItems.Text = "&Omitted Items";
+			this.mnuShowOmittedItems.Click += new System.EventHandler(this.mnuShowOmittedItems_Click);
 			// 
 			// mnuTools
 			// 
@@ -247,7 +271,9 @@
 			this.m_toolstrip.Dock = System.Windows.Forms.DockStyle.None;
 			this.m_toolstrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbbSave,
+            this.toolStripButton1,
             this.tbbGoogleTranslate,
+            this.toolStripSeparator1,
             this.tbbCompile,
             this.tbbRescan});
 			this.m_toolstrip.Location = new System.Drawing.Point(0, 0);
@@ -266,6 +292,11 @@
 			this.tbbSave.Size = new System.Drawing.Size(23, 22);
 			this.tbbSave.Text = "toolStripButton1";
 			this.tbbSave.Click += new System.EventHandler(this.tbbSave_Click);
+			// 
+			// toolStripButton1
+			// 
+			this.toolStripButton1.Name = "toolStripButton1";
+			this.toolStripButton1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// tbbGoogleTranslate
 			// 
@@ -292,6 +323,11 @@
 			this.mnuGoogleTransAll.Name = "mnuGoogleTransAll";
 			this.mnuGoogleTransAll.Size = new System.Drawing.Size(168, 22);
 			this.mnuGoogleTransAll.Text = "&All Rows";
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
 			// tbbCompile
 			// 
@@ -430,9 +466,11 @@
 			// 
 			this.cmnuGrid.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmnuUnreviewed,
-            this.cmnuCompleted});
+            this.cmnuCompleted,
+            this.toolStripMenuItem3,
+            this.cmnuOmitResourceItem});
 			this.cmnuGrid.Name = "cmnuGrid";
-			this.cmnuGrid.Size = new System.Drawing.Size(194, 48);
+			this.cmnuGrid.Size = new System.Drawing.Size(194, 98);
 			// 
 			// cmnuUnreviewed
 			// 
@@ -450,6 +488,19 @@
 			this.cmnuCompleted.Text = "Mark as &Completed";
 			this.cmnuCompleted.Click += new System.EventHandler(this.cmnuCompleted_Click);
 			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(190, 6);
+			// 
+			// cmnuOmitResourceItem
+			// 
+			this.cmnuOmitResourceItem.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidOmitted;
+			this.cmnuOmitResourceItem.Name = "cmnuOmitResourceItem";
+			this.cmnuOmitResourceItem.Size = new System.Drawing.Size(193, 22);
+			this.cmnuOmitResourceItem.Text = "&Omit";
+			this.cmnuOmitResourceItem.Click += new System.EventHandler(this.cmnuOmitResourceItem_Click);
+			// 
 			// m_statusbar
 			// 
 			this.m_statusbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -464,7 +515,7 @@
 			// sslMain
 			// 
 			this.sslMain.Name = "sslMain";
-			this.sslMain.Size = new System.Drawing.Size(569, 17);
+			this.sslMain.Size = new System.Drawing.Size(801, 17);
 			this.sslMain.Spring = true;
 			this.sslMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -508,6 +559,7 @@
 			// 
 			// tvResources
 			// 
+			this.tvResources.ContextMenuStrip = this.cmnuTree;
 			this.tvResources.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvResources.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tvResources.HideSelection = false;
@@ -516,6 +568,29 @@
 			this.tvResources.Size = new System.Drawing.Size(271, 432);
 			this.tvResources.TabIndex = 0;
 			this.tvResources.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvResources_AfterSelect);
+			this.tvResources.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tvResources_MouseDown);
+			// 
+			// cmnuTree
+			// 
+			this.cmnuTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmnuOmitAssembly,
+            this.cmnuOmitResource});
+			this.cmnuTree.Name = "cmnuTree";
+			this.cmnuTree.Size = new System.Drawing.Size(164, 48);
+			this.cmnuTree.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmnuTree_ItemClicked);
+			this.cmnuTree.Opening += new System.ComponentModel.CancelEventHandler(this.cmnuTree_Opening);
+			// 
+			// cmnuOmitAssembly
+			// 
+			this.cmnuOmitAssembly.Name = "cmnuOmitAssembly";
+			this.cmnuOmitAssembly.Size = new System.Drawing.Size(163, 22);
+			this.cmnuOmitAssembly.Text = "&Omit Assembly";
+			// 
+			// cmnuOmitResource
+			// 
+			this.cmnuOmitResource.Name = "cmnuOmitResource";
+			this.cmnuOmitResource.Size = new System.Drawing.Size(163, 22);
+			this.cmnuOmitResource.Text = "&Omit Resource";
 			// 
 			// splitEntries
 			// 
@@ -573,38 +648,6 @@
 			this.splitSrcTrans.SplitterDistance = 252;
 			this.splitSrcTrans.TabIndex = 0;
 			this.splitSrcTrans.TabStop = false;
-			// 
-			// openFileDlg
-			// 
-			this.openFileDlg.DefaultExt = "lop";
-			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
-			// 
-			// fldrBrowser
-			// 
-			this.fldrBrowser.Description = "Specify where to save your project.";
-			// 
-			// saveFileDlg
-			// 
-			this.saveFileDlg.DefaultExt = "lop";
-			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
-			this.saveFileDlg.Title = "Save Project";
-			// 
-			// tsContainer
-			// 
-			// 
-			// tsContainer.ContentPanel
-			// 
-			this.tsContainer.ContentPanel.Controls.Add(this.splitOuter);
-			this.tsContainer.ContentPanel.Size = new System.Drawing.Size(816, 437);
-			this.tsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tsContainer.Location = new System.Drawing.Point(0, 24);
-			this.tsContainer.Name = "tsContainer";
-			this.tsContainer.Size = new System.Drawing.Size(816, 462);
-			this.tsContainer.TabIndex = 5;
-			// 
-			// tsContainer.TopToolStripPanel
-			// 
-			this.tsContainer.TopToolStripPanel.Controls.Add(this.m_toolstrip);
 			// 
 			// txtSrcText
 			// 
@@ -711,6 +754,38 @@
 			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
 			// 
+			// openFileDlg
+			// 
+			this.openFileDlg.DefaultExt = "lop";
+			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
+			// 
+			// fldrBrowser
+			// 
+			this.fldrBrowser.Description = "Specify where to save your project.";
+			// 
+			// saveFileDlg
+			// 
+			this.saveFileDlg.DefaultExt = "lop";
+			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
+			this.saveFileDlg.Title = "Save Project";
+			// 
+			// tsContainer
+			// 
+			// 
+			// tsContainer.ContentPanel
+			// 
+			this.tsContainer.ContentPanel.Controls.Add(this.splitOuter);
+			this.tsContainer.ContentPanel.Size = new System.Drawing.Size(816, 437);
+			this.tsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tsContainer.Location = new System.Drawing.Point(0, 24);
+			this.tsContainer.Name = "tsContainer";
+			this.tsContainer.Size = new System.Drawing.Size(816, 462);
+			this.tsContainer.TabIndex = 5;
+			// 
+			// tsContainer.TopToolStripPanel
+			// 
+			this.tsContainer.TopToolStripPanel.Controls.Add(this.m_toolstrip);
+			// 
 			// MainWnd
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -735,6 +810,7 @@
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
+			this.cmnuTree.ResumeLayout(false);
 			this.splitEntries.Panel1.ResumeLayout(false);
 			this.splitEntries.Panel2.ResumeLayout(false);
 			this.splitEntries.ResumeLayout(false);
@@ -807,6 +883,15 @@
 		private System.Windows.Forms.ToolStripDropDownButton tbbGoogleTranslate;
 		private System.Windows.Forms.ToolStripMenuItem mnuGoggleTransSelected;
 		private System.Windows.Forms.ToolStripMenuItem mnuGoogleTransAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripButton1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+		private System.Windows.Forms.ToolStripMenuItem cmnuOmitResourceItem;
+		private System.Windows.Forms.ContextMenuStrip cmnuTree;
+		private System.Windows.Forms.ToolStripMenuItem cmnuOmitAssembly;
+		private System.Windows.Forms.ToolStripMenuItem cmnuOmitResource;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+		private System.Windows.Forms.ToolStripMenuItem mnuShowOmittedItems;
 	}
 }
 

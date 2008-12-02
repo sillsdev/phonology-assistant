@@ -81,6 +81,13 @@ namespace SIL.Localize.Localizer.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidOmitted {
+            get {
+                object obj = ResourceManager.GetObject("kimidOmitted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidRedo {
             get {
                 object obj = ResourceManager.GetObject("kimidRedo", resourceCulture);

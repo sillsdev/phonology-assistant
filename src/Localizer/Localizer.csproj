@@ -169,6 +169,7 @@
     <None Include="Google.png" />
     <None Include="Redo.png" />
     <None Include="Save.png" />
+    <None Include="Omitted.png" />
     <Content Include="World.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

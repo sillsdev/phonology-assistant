@@ -39,9 +39,11 @@ namespace SIL.Localize.Localizer
 		private bool m_showComments = true;
 		private bool m_showSrcText = true;
 		private bool m_showTrans = true;
+		private bool m_showOmittedItems = false;
 		private Button m_btnCancelGoogleTranslate;
 		private ToolStripControlHost m_cancelGoogleButtonHost;
 		private bool m_googleTranslationTerminated;
+		private List<int> m_indexes;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -206,6 +208,9 @@ namespace SIL.Localize.Localizer
 				splitEntries.SplitterDistance = (int)(splitEntries.Height * ratio);
 			}
 			catch { }
+
+			m_showOmittedItems = Properties.Settings.Default.showOmittedItems;
+			m_showComments = Properties.Settings.Default.showCommentPane;
 
 			string projFile = Properties.Settings.Default.lastLoadedProject;
 			if (!string.IsNullOrEmpty(projFile))
@@ -452,6 +457,20 @@ namespace SIL.Localize.Localizer
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private void mnuShowOmittedItems_Click(object sender, EventArgs e)
+		{
+			m_showOmittedItems = !m_showOmittedItems;
+			string key = (tvResources.SelectedNode != null ? tvResources.SelectedNode.Name : null);
+			LoadTree();
+			TreeNode[] nodes = tvResources.Nodes.Find(key, true);
+			tvResources.SelectedNode = (nodes.Length > 0 ? nodes[0] : tvResources.Nodes[0]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void mnuShowSrcTextPane_Click(object sender, EventArgs e)
 		{
 			m_showSrcText = !m_showSrcText;
@@ -490,6 +509,7 @@ namespace SIL.Localize.Localizer
 			mnuShowSrcTextPane.Checked = m_showSrcText;
 			mnuShowTransPane.Checked = m_showTrans;
 			mnuShowCommentPane.Checked = m_showComments;
+			mnuShowOmittedItems.Checked = m_showOmittedItems;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -518,7 +538,6 @@ namespace SIL.Localize.Localizer
 				return;
 	
 			e.Value = string.Empty;
-
 			ResourceEntry entry = GetResourceEntry(e.RowIndex);
 			if (entry == null)
 				return;
@@ -532,8 +551,13 @@ namespace SIL.Localize.Localizer
 				case kTransCol: e.Value = entry.TargetText; break;
 
 				case kStatusCol:
-					string imageId = "kimid" + entry.TranslationStatus.ToString();
-					e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
+					if (entry.Omitted)
+						e.Value = Properties.Resources.kimidOmitted;
+					else
+					{
+						string imageId = "kimid" + entry.TranslationStatus.ToString();
+						e.Value = Properties.Resources.ResourceManager.GetObject(imageId);
+					}
 					break;
 
 				case kCmntCol:
@@ -580,6 +604,10 @@ namespace SIL.Localize.Localizer
 			{
 				e.CellStyle.Font = m_grid.Columns[e.ColumnIndex].DefaultCellStyle.Font;
 			}
+
+			ResourceEntry entry = GetResourceEntry(e.RowIndex);
+			if (entry != null && entry.Omitted)
+				e.CellStyle.ForeColor = SystemColors.GrayText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -734,6 +762,8 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void LoadTree()
 		{
+			m_grid.SuspendLayout();
+			tvResources.BeginUpdate();
 			m_grid.RowCount = 0;
 			txtSrcText.TextBox.Text = string.Empty;
 			txtTranslation.TextBox.Text = string.Empty;
@@ -744,25 +774,40 @@ namespace SIL.Localize.Localizer
 				return;
 
 			TreeNode headNode = new TreeNode(m_currProject.ProjectName);
+			headNode.Name = headNode.Text;
 
 			// Go through all the assemblies in the project.
 			foreach (AssemblyResourceInfo assembly in m_currProject.AssemblyInfoList)
 			{
-				TreeNode assemNode = new TreeNode(assembly.AssemblyName);
+				if (assembly.Omitted && !m_showOmittedItems)
+					continue;
+
+				TreeNode asmNode = new TreeNode(assembly.AssemblyName);
+				asmNode.Name = asmNode.Text;
+				asmNode.ForeColor =
+					(assembly.Omitted ? SystemColors.GrayText : SystemColors.WindowText);
 
 				// Now go through the resx files found in the assembly.
 				foreach (ResourceInfo info in assembly.ResourceInfoList)
 				{
-					TreeNode resxNode = new TreeNode(info.ResourceName);
-					resxNode.Tag = info;
-					assemNode.Nodes.Add(resxNode);
+					if (!info.Omitted || m_showOmittedItems)
+					{
+						TreeNode resNode = new TreeNode(info.ResourceName);
+						resNode.Name = resNode.Text;
+						resNode.ForeColor = (info.Omitted ?
+							SystemColors.GrayText : SystemColors.WindowText);
+
+						asmNode.Nodes.Add(resNode);
+					}
 				}
 
-				headNode.Nodes.Add(assemNode);
+				headNode.Nodes.Add(asmNode);
 			}
 
 			tvResources.Nodes.Add(headNode);
 			headNode.Expand();
+			m_grid.ResumeLayout();
+			tvResources.EndUpdate();
 		}
 	
 		/// ------------------------------------------------------------------------------------
@@ -772,7 +817,17 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private void tvResources_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			m_grid.RowCount = GetResourceEntryCount(e.Node);
+			m_indexes = new List<int>();
+			int count = GetResourceEntryCount(e.Node);
+			int level = e.Node.Level;
+			for (int i = 0; i < count; i++)
+			{
+				ResourceEntry entry = GetResourceEntry(i, e.Node);
+				if (entry != null && (!entry.Omitted || m_showOmittedItems))
+					m_indexes.Add(i);
+			}
+
+			m_grid.RowCount = m_indexes.Count;
 			m_grid.Columns[kAsmCol].Visible = (e.Node.Level == kPrjNode);
 			m_grid.Columns[kResCol].Visible = (e.Node.Level == kPrjNode || e.Node.Level == kAsmNode);
 
@@ -921,24 +976,36 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private ResourceEntry GetResourceEntry(int i)
 		{
-			if (tvResources.SelectedNode == null || m_currProject == null ||
-				m_currProject.AssemblyInfoList == null)
-			{
-				return null;
-			}
+			if (m_indexes != null)
+				i = m_indexes[i];
 
-			if (tvResources.SelectedNode.Level == 0)
+			return GetResourceEntry(i, tvResources.SelectedNode);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="i"></param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		private ResourceEntry GetResourceEntry(int i, TreeNode node)
+		{
+			if (node == null || m_currProject == null || m_currProject.AssemblyInfoList == null)
+				return null;
+
+			if (node.Level == kPrjNode)
 				return m_currProject.AssemblyInfoList.GetResourceEntry(i);
 
-			if (tvResources.SelectedNode.Level == 1)
+			if (node.Level == kAsmNode)
 			{
-				string assembly = tvResources.SelectedNode.Text;
+				string assembly = node.Text;
 				return m_currProject.AssemblyInfoList[assembly][i];
 			}
-			if (tvResources.SelectedNode.Level == 2)
+			if (node.Level == kResNode)
 			{
-				string assembly = tvResources.SelectedNode.Parent.Text;
-				string resource = tvResources.SelectedNode.Text;
+				string assembly = node.Parent.Text;
+				string resource = node.Text;
 				return m_currProject.AssemblyInfoList[assembly][resource][i];
 			}
 
@@ -973,6 +1040,82 @@ namespace SIL.Localize.Localizer
 			}
 
 			return 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void tvResources_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				TreeViewHitTestInfo tvhti = tvResources.HitTest(e.Location);
+				if (tvhti != null && tvhti.Node != null && tvResources.SelectedNode != tvhti.Node)
+					tvResources.SelectedNode = tvhti.Node;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuTree_Opening(object sender, CancelEventArgs e)
+		{
+			cmnuOmitAssembly.Visible = true;
+			cmnuOmitAssembly.Enabled = false;
+			cmnuOmitResource.Visible = false;
+
+			if (tvResources.SelectedNode == null)
+				return;
+
+			if (tvResources.SelectedNode.Level == kAsmNode)
+				cmnuOmitAssembly.Enabled = true;
+			else if (tvResources.SelectedNode.Level == kResNode)
+			{
+				cmnuOmitAssembly.Visible = false;
+				cmnuOmitResource.Visible = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void cmnuTree_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		{
+			TreeNode node = tvResources.SelectedNode;
+			bool omitted = false;
+
+			if (node.Level == kAsmNode)
+			{
+				omitted = !m_currProject.AssemblyInfoList[node.Text].Omitted; 
+				m_currProject.AssemblyInfoList[node.Text].Omitted = omitted;
+			}
+			else if (node.Level == kResNode)
+			{
+				omitted = !m_currProject.AssemblyInfoList[node.Parent.Text][node.Text].Omitted;
+				m_currProject.AssemblyInfoList[node.Parent.Text][node.Text].Omitted = omitted;
+			}
+
+			if (m_showOmittedItems)
+				node.ForeColor = (omitted ? SystemColors.GrayText : SystemColors.WindowText);
+			else
+			{
+				TreeNode newNode = node.PrevVisibleNode;
+				node.Parent.Nodes.Remove(node);
+				tvResources.SelectedNode = newNode;
+			}
+		}
+
+		private void cmnuOmitResourceItem_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

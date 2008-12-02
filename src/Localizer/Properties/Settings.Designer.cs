@@ -166,5 +166,41 @@ namespace SIL.Localize.Localizer.Properties {
                 this["showCommentPane"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public int colWidth4 {
+            get {
+                return ((int)(this["colWidth4"]));
+            }
+            set {
+                this["colWidth4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150")]
+        public int colWidth5 {
+            get {
+                return ((int)(this["colWidth5"]));
+            }
+            set {
+                this["colWidth5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showOmittedItems {
+            get {
+                return ((bool)(this["showOmittedItems"]));
+            }
+            set {
+                this["showOmittedItems"] = value;
+            }
+        }
     }
 }
