@@ -15,6 +15,7 @@ namespace SIL.Localize.LocalizingUtils
 	/// ----------------------------------------------------------------------------------------
 	public enum TranslationStatus
 	{
+		Omitted,
 		Untranslated,
 		Unreviewed,
 		Completed
@@ -103,7 +104,7 @@ namespace SIL.Localize.LocalizingUtils
 		[XmlAttribute]
 		public bool Omitted
 		{
-			get { return m_omitted; }
+			get { return m_omitted || (m_owningAssembly != null && m_owningAssembly.Omitted); }
 			set { m_omitted = value; }
 		}
 
@@ -267,16 +268,51 @@ namespace SIL.Localize.LocalizingUtils
 	{
 		[XmlAttribute]
 		public string StringId = null;
-		[XmlAttribute]
-		public bool Omitted = false;
-		[XmlAttribute]
-		public TranslationStatus TranslationStatus = TranslationStatus.Untranslated;
 		public string SourceText = null;
 		public string TargetText = null;
 		public string Comment = null;
 
+		private TranslationStatus m_status = TranslationStatus.Untranslated;
 		private AssemblyResourceInfo m_owningAssembly;
 		private ResourceInfo m_OwningResource;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute]
+		public TranslationStatus TranslationStatus
+		{
+			get { return m_status; }
+			set { m_status = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool Omitted
+		{
+			get
+			{
+				return (m_status == TranslationStatus.Omitted ||
+					(m_owningAssembly != null && m_owningAssembly.Omitted) ||
+					(m_OwningResource != null && m_OwningResource.Omitted));
+			}
+			set
+			{
+				if (value)
+					m_status = TranslationStatus.Omitted;
+				else
+				{
+					m_status = (string.IsNullOrEmpty(TargetText) ?
+						TranslationStatus.Untranslated : TranslationStatus.Unreviewed);
+				}
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
