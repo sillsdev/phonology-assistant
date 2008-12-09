@@ -606,8 +606,12 @@ namespace SIL.Localize.Localizer
 			}
 
 			ResourceEntry entry = GetResourceEntry(e.RowIndex);
-			if (entry != null && entry.Omitted)
+			bool omitted = (entry != null && entry.Omitted);
+			if (omitted)
 				e.CellStyle.ForeColor = SystemColors.GrayText;
+
+			m_grid[kTransCol, e.RowIndex].ReadOnly = omitted;
+			m_grid[kCmntCol, e.RowIndex].ReadOnly = omitted;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -976,10 +980,10 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		private ResourceEntry GetResourceEntry(int i)
 		{
-			if (m_indexes != null)
-				i = m_indexes[i];
-
-			return GetResourceEntry(i, tvResources.SelectedNode);
+			if (m_indexes == null || i < 0 || i >= m_indexes.Count)
+				return null;
+			
+			return GetResourceEntry(m_indexes[i], tvResources.SelectedNode);
 		}
 	
 		/// ------------------------------------------------------------------------------------
