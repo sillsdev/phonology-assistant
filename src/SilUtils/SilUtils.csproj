@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SilUtils</RootNamespace>
+    <AssemblyName>SilUtils</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Output\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Output\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="ExceptionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionViewer.Designer.cs">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FontHelper.cs" />
+    <Compile Include="GridCellPiecePainter.cs" />
+    <Compile Include="NoActivateWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaintingHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SettingsHandler.cs" />
+    <Compile Include="SilButtonCell.cs" />
+    <Compile Include="SilGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SilHierarchicalGridParts.cs" />
+    <Compile Include="SilPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SilPopup.designer.cs">
+      <DependentUpon>SilPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SmallFadingWnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SmallFadingWnd.Designer.cs">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen.cs" />
+    <Compile Include="SplashScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="STUtils.cs" />
+    <Compile Include="XMLHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutDlg.resx">
+      <DependentUpon>AboutDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionViewer.resx">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SilPopup.resx">
+      <DependentUpon>SilPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SmallFadingWnd.resx">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreenForm.resx">
+      <DependentUpon>SplashScreenForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Collapse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kimidSilLogo.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
