@@ -355,30 +355,14 @@ namespace SilUtils
 		{
 			try
 			{
-				string strRoot = Application.ExecutablePath.Substring(0, 2);
+				SetVersionInformation();
+				
+				// Set the title bar text
+				Text = string.Format(m_sTitleFmt, Application.ProductName);
+				lblBuild.Visible = m_showBuild;
 
-				// Must be called from COM client
-				if (!string.IsNullOrEmpty(m_sDriveLetter))
-					strRoot = m_sDriveLetter;
-
-				if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString()))
-					strRoot += Path.VolumeSeparatorChar;
-
-				// Set the Application label to the name of the app
-				Assembly assembly = Assembly.GetEntryAssembly();
-				if (assembly == null)
-					lblBuild.Visible = m_showBuild;
-				else
-				{
-					SetVersionInformation(assembly);
-
-					// Set the title bar text
-					Text = string.Format(m_sTitleFmt, Application.ProductName);
-				}
-
-				strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;
+				SetMemoryAndDiskInformation();
 				SetCopyrightInformation();
-				SetMemoryAndDiskInformation(strRoot);
 			}
 			catch
 			{
@@ -391,8 +375,12 @@ namespace SilUtils
 		/// Sets the application's version information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetVersionInformation(Assembly assembly)
+		private void SetVersionInformation()
 		{
+			Assembly assembly = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
+			if (assembly == null)
+				return;
+
 			object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
 			
 			string productName = Application.ProductName;
@@ -482,8 +470,19 @@ namespace SilUtils
 		/// Fills in the memory usage and disk space information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetMemoryAndDiskInformation(string strRoot)
+		private void SetMemoryAndDiskInformation()
 		{
+			string strRoot = Application.ExecutablePath.Substring(0, 2);
+
+			// Must be called from COM client
+			if (!string.IsNullOrEmpty(m_sDriveLetter))
+				strRoot = m_sDriveLetter;
+
+			if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString()))
+				strRoot += Path.VolumeSeparatorChar;
+
+			strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;
+
 			// Set the memory information in MB.
 			Utils.MemoryStatus ms = new Utils.MemoryStatus();
 			Utils.GlobalMemoryStatus(ref ms);
@@ -527,7 +526,7 @@ namespace SilUtils
 		{
 			set 
 			{
-				m_showBuild = true;
+				m_showBuild = !string.IsNullOrEmpty(value);
 				InternalSetBuild(value);
 			}
 		}
@@ -609,7 +608,7 @@ namespace SilUtils
 			set
 			{
 				m_sDriveLetter = value;
-				Initialize();
+				SetMemoryAndDiskInformation();
 			}
 		}
 
