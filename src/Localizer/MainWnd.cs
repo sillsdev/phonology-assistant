@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using WeifenLuo.WinFormsUI.Docking;
 using SIL.SpeechTools.Utils;
 using SIL.Localize.LocalizingUtils;
 
@@ -151,14 +148,16 @@ namespace SIL.Localize.Localizer
 			{
 				if (m_currProject.SourceTextFont != null)
 				{
-					m_grid.Columns[kSrcCol].DefaultCellStyle.Font = m_currProject.SourceTextFont;
 					txtSrcText.TextBox.Font = m_currProject.SourceTextFont;
+					m_grid.Columns[kSrcCol].DefaultCellStyle.Font =
+						m_currProject.SourceTextFont.Clone() as Font;
 				}
 
 				if (m_currProject.TargetLangFont != null)
 				{
-					m_grid.Columns[kTransCol].DefaultCellStyle.Font = m_currProject.TargetLangFont;
 					txtTranslation.TextBox.Font = m_currProject.TargetLangFont;
+					m_grid.Columns[kTransCol].DefaultCellStyle.Font = 
+						m_currProject.TargetLangFont.Clone() as Font;
 				}
 			}
 		}
@@ -609,11 +608,23 @@ namespace SIL.Localize.Localizer
 			bool omitted = (entry != null && entry.Omitted);
 			if (omitted)
 				e.CellStyle.ForeColor = SystemColors.GrayText;
-
-			m_grid[kTransCol, e.RowIndex].ReadOnly = omitted;
-			m_grid[kCmntCol, e.RowIndex].ReadOnly = omitted;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void m_grid_CellEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex == kTransCol || e.ColumnIndex == kCmntCol)
+			{
+				ResourceEntry entry = GetResourceEntry(e.RowIndex);
+				m_grid[kTransCol, e.RowIndex].ReadOnly = (entry != null && entry.Omitted);
+				m_grid[kCmntCol, e.RowIndex].ReadOnly = (entry != null && entry.Omitted);
+			}
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -1074,15 +1085,20 @@ namespace SIL.Localize.Localizer
 			cmnuOmitAssembly.Enabled = false;
 			cmnuOmitResource.Visible = false;
 
-			if (tvResources.SelectedNode == null)
+			TreeNode node = tvResources.SelectedNode;
+			if (node == null)
 				return;
 
-			if (tvResources.SelectedNode.Level == kAsmNode)
+			if (node.Level == kAsmNode)
+			{
 				cmnuOmitAssembly.Enabled = true;
-			else if (tvResources.SelectedNode.Level == kResNode)
+				cmnuOmitAssembly.Checked = m_currProject.AssemblyInfoList[node.Text].Omitted;
+			}
+			else if (node.Level == kResNode)
 			{
 				cmnuOmitAssembly.Visible = false;
 				cmnuOmitResource.Visible = true;
+				cmnuOmitResource.Checked = m_currProject.AssemblyInfoList[node.Parent.Text][node.Text].Omitted;
 			}
 		}
 
@@ -1108,7 +1124,10 @@ namespace SIL.Localize.Localizer
 			}
 
 			if (m_showOmittedItems)
+			{
 				node.ForeColor = (omitted ? SystemColors.GrayText : SystemColors.WindowText);
+				m_grid.Invalidate();
+			}
 			else
 			{
 				TreeNode newNode = node.PrevVisibleNode;

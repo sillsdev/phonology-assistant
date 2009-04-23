@@ -4,6 +4,7 @@ using System.IO;
 using SIL.Localize.LocalizingUtils;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System;
 
 namespace SIL.Localize.Localizer
 {
@@ -13,7 +14,7 @@ namespace SIL.Localize.Localizer
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class LocalizerProject
+	public class LocalizerProject : IDisposable
 	{
 		private const string kPrjFileNamePrefix = "LocalizerProject.";
 
@@ -22,8 +23,9 @@ namespace SIL.Localize.Localizer
 		private string m_exePath;
 		private string m_resCatalogPath;
 		private List<string> m_srcPaths;
-		private SerializableFont m_fntSrc;
-		private SerializableFont m_fntTarget;
+		private Font m_fntSrc;
+		private Font m_fntTarget;
+
 		private AssemblyResourceInfoList m_assemblyInfoList;
 		private ResourceCatalog m_resCatalog;
 
@@ -34,13 +36,30 @@ namespace SIL.Localize.Localizer
 		/// ------------------------------------------------------------------------------------
 		public LocalizerProject()
 		{
-			m_fntSrc = new SerializableFont(
-				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
-
-			m_fntTarget = new SerializableFont(
-				new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point));
+			m_fntSrc = new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point);
+			m_fntTarget = new Font("Tahoma", 9.0f, FontStyle.Regular, GraphicsUnit.Point);
 		}
 
+		#region IDisposable Members
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (m_fntSrc != null)
+				m_fntSrc.Dispose();
+
+			if (m_fntTarget != null)
+				m_fntTarget.Dispose();
+
+			m_fntSrc = null;
+			m_fntTarget = null;
+		}
+
+		#endregion
+	
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -74,14 +93,14 @@ namespace SIL.Localize.Localizer
 		[XmlIgnore]
 		public Font SourceTextFont
 		{
-			get { return (m_fntSrc == null ? null : m_fntSrc.Font); }
+			get { return m_fntSrc; }
 			set
 			{
-				if (m_fntSrc != null)
+				if (m_fntSrc != null && m_fntSrc != value)
 					m_fntSrc.Dispose();
 
-				m_fntSrc = new SerializableFont(value);
-			}
+				m_fntSrc = value;
+			} 
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,14 +111,14 @@ namespace SIL.Localize.Localizer
 		[XmlIgnore]
 		public Font TargetLangFont
 		{
-			get { return (m_fntTarget == null ? null : m_fntTarget.Font); }
+			get { return m_fntTarget; }
 			set
 			{
-				if (m_fntTarget != null)
+				if (m_fntTarget != null && m_fntTarget != value)
 					m_fntTarget.Dispose();
 
-				m_fntTarget = new SerializableFont(value);
-			}
+				m_fntTarget = value;
+			} 
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,8 +129,20 @@ namespace SIL.Localize.Localizer
 		[XmlElement("SourceTextFont")]
 		public SerializableFont SrcTextFont
 		{
-			get { return m_fntSrc; }
-			set { m_fntSrc = value; }
+			get { return new SerializableFont(m_fntSrc); }
+			set
+			{
+				if (value == null)
+					return;
+
+				FontStyle style = FontStyle.Regular;
+				if (value.Italic)
+					style |= FontStyle.Italic;
+				if (value.Bold)
+					style |= FontStyle.Bold;
+
+				m_fntSrc = new Font(value.Name, value.Size, style);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,8 +153,20 @@ namespace SIL.Localize.Localizer
 		[XmlElement("TargetLangFont")]
 		public SerializableFont TargetFont
 		{
-			get { return m_fntTarget; }
-			set { m_fntTarget = value; }
+			get { return new SerializableFont(m_fntTarget); }
+			set
+			{
+				if (value == null)
+					return;
+
+				FontStyle style = FontStyle.Regular;
+				if (value.Italic)
+					style |= FontStyle.Italic;
+				if (value.Bold)
+					style |= FontStyle.Bold;
+
+				m_fntTarget = new Font(value.Name, value.Size, style);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

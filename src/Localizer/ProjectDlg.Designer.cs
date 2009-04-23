@@ -93,7 +93,7 @@
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(75, 26);
 			this.btnAdd.TabIndex = 18;
-			this.btnAdd.Text = "&Add";
+			this.btnAdd.Text = "&Add...";
 			this.btnAdd.UseVisualStyleBackColor = true;
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
@@ -300,7 +300,7 @@
 			this.btnScan.Name = "btnScan";
 			this.btnScan.Size = new System.Drawing.Size(75, 26);
 			this.btnScan.TabIndex = 19;
-			this.btnScan.Text = "S&can";
+			this.btnScan.Text = "S&can...";
 			this.btnScan.UseVisualStyleBackColor = true;
 			this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
 			// 
@@ -310,18 +310,18 @@
             this.cmnuScanForDlls,
             this.cmnuScanForResx});
 			this.cmnuScan.Name = "cmnuScan";
-			this.cmnuScan.Size = new System.Drawing.Size(249, 48);
+			this.cmnuScan.Size = new System.Drawing.Size(226, 48);
 			// 
 			// cmnuScanForDlls
 			// 
 			this.cmnuScanForDlls.Name = "cmnuScanForDlls";
-			this.cmnuScanForDlls.Size = new System.Drawing.Size(248, 22);
+			this.cmnuScanForDlls.Size = new System.Drawing.Size(225, 22);
 			this.cmnuScanForDlls.Text = "Scan a Folder for .&DLL Files...";
 			// 
 			// cmnuScanForResx
 			// 
 			this.cmnuScanForResx.Name = "cmnuScanForResx";
-			this.cmnuScanForResx.Size = new System.Drawing.Size(248, 22);
+			this.cmnuScanForResx.Size = new System.Drawing.Size(225, 22);
 			this.cmnuScanForResx.Text = "Scan a Folder for .&Resx Files...";
 			// 
 			// progressBar

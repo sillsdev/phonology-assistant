@@ -88,13 +88,13 @@
 			this.splitEntries = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTransCmt = new System.Windows.Forms.SplitContainer();
 			this.splitSrcTrans = new System.Windows.Forms.SplitContainer();
-			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
-			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.openFileDlg = new System.Windows.Forms.OpenFileDialog();
 			this.fldrBrowser = new System.Windows.Forms.FolderBrowserDialog();
 			this.saveFileDlg = new System.Windows.Forms.SaveFileDialog();
 			this.tsContainer = new System.Windows.Forms.ToolStripContainer();
+			this.txtSrcText = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtTranslation = new SIL.Localize.Localizer.LabeledTextBox();
+			this.txtComment = new SIL.Localize.Localizer.LabeledTextBox();
 			this.m_mainmenu.SuspendLayout();
 			this.m_toolstrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -149,7 +149,7 @@
 			// mnuNewProject
 			// 
 			this.mnuNewProject.Name = "mnuNewProject";
-			this.mnuNewProject.Size = new System.Drawing.Size(203, 22);
+			this.mnuNewProject.Size = new System.Drawing.Size(212, 22);
 			this.mnuNewProject.Text = "&New Project...";
 			this.mnuNewProject.Click += new System.EventHandler(this.mnuNewProject_Click);
 			// 
@@ -157,52 +157,52 @@
 			// 
 			this.mnuOpenProject.Name = "mnuOpenProject";
 			this.mnuOpenProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.mnuOpenProject.Size = new System.Drawing.Size(203, 22);
+			this.mnuOpenProject.Size = new System.Drawing.Size(212, 22);
 			this.mnuOpenProject.Text = "&Open Project...";
 			this.mnuOpenProject.Click += new System.EventHandler(this.mnuOpenProject_Click);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(209, 6);
 			// 
 			// mnuProjectSettings
 			// 
 			this.mnuProjectSettings.Name = "mnuProjectSettings";
-			this.mnuProjectSettings.Size = new System.Drawing.Size(203, 22);
+			this.mnuProjectSettings.Size = new System.Drawing.Size(212, 22);
 			this.mnuProjectSettings.Text = "&Project Settings...";
 			this.mnuProjectSettings.Click += new System.EventHandler(this.mnuProjectSettings_Click);
 			// 
 			// mnuSep1
 			// 
 			this.mnuSep1.Name = "mnuSep1";
-			this.mnuSep1.Size = new System.Drawing.Size(200, 6);
+			this.mnuSep1.Size = new System.Drawing.Size(209, 6);
 			// 
 			// mnuSave
 			// 
 			this.mnuSave.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidSave;
 			this.mnuSave.Name = "mnuSave";
 			this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.mnuSave.Size = new System.Drawing.Size(203, 22);
+			this.mnuSave.Size = new System.Drawing.Size(212, 22);
 			this.mnuSave.Text = "&Save";
 			this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
 			// 
 			// mnuSaveAs
 			// 
 			this.mnuSaveAs.Name = "mnuSaveAs";
-			this.mnuSaveAs.Size = new System.Drawing.Size(203, 22);
+			this.mnuSaveAs.Size = new System.Drawing.Size(212, 22);
 			this.mnuSaveAs.Text = "Save &As...";
 			this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(200, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(209, 6);
 			// 
 			// mnuExit
 			// 
 			this.mnuExit.Name = "mnuExit";
-			this.mnuExit.Size = new System.Drawing.Size(203, 22);
+			this.mnuExit.Size = new System.Drawing.Size(212, 22);
 			this.mnuExit.Text = "E&xit";
 			// 
 			// mnuView
@@ -221,33 +221,33 @@
 			// mnuShowSrcTextPane
 			// 
 			this.mnuShowSrcTextPane.Name = "mnuShowSrcTextPane";
-			this.mnuShowSrcTextPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowSrcTextPane.Size = new System.Drawing.Size(184, 22);
 			this.mnuShowSrcTextPane.Text = "&Source Text Pane";
 			this.mnuShowSrcTextPane.Click += new System.EventHandler(this.mnuShowSrcTextPane_Click);
 			// 
 			// mnuShowTransPane
 			// 
 			this.mnuShowTransPane.Name = "mnuShowTransPane";
-			this.mnuShowTransPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowTransPane.Size = new System.Drawing.Size(184, 22);
 			this.mnuShowTransPane.Text = "&Translation Pane";
 			this.mnuShowTransPane.Click += new System.EventHandler(this.mnuShowTransPane_Click);
 			// 
 			// mnuShowCommentPane
 			// 
 			this.mnuShowCommentPane.Name = "mnuShowCommentPane";
-			this.mnuShowCommentPane.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowCommentPane.Size = new System.Drawing.Size(184, 22);
 			this.mnuShowCommentPane.Text = "&Comment Pane";
 			this.mnuShowCommentPane.Click += new System.EventHandler(this.mnuShowCommentPane_Click);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-			this.toolStripMenuItem4.Size = new System.Drawing.Size(172, 6);
+			this.toolStripMenuItem4.Size = new System.Drawing.Size(181, 6);
 			// 
 			// mnuShowOmittedItems
 			// 
 			this.mnuShowOmittedItems.Name = "mnuShowOmittedItems";
-			this.mnuShowOmittedItems.Size = new System.Drawing.Size(175, 22);
+			this.mnuShowOmittedItems.Size = new System.Drawing.Size(184, 22);
 			this.mnuShowOmittedItems.Text = "&Omitted Items";
 			this.mnuShowOmittedItems.Click += new System.EventHandler(this.mnuShowOmittedItems_Click);
 			// 
@@ -263,7 +263,7 @@
 			// 
 			this.mnuGoogleTranslate.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidGoogle;
 			this.mnuGoogleTranslate.Name = "mnuGoogleTranslate";
-			this.mnuGoogleTranslate.Size = new System.Drawing.Size(210, 22);
+			this.mnuGoogleTranslate.Size = new System.Drawing.Size(219, 22);
 			this.mnuGoogleTranslate.Text = "Translate Using Google";
 			// 
 			// m_toolstrip
@@ -315,13 +315,13 @@
 			// mnuGoggleTransSelected
 			// 
 			this.mnuGoggleTransSelected.Name = "mnuGoggleTransSelected";
-			this.mnuGoggleTransSelected.Size = new System.Drawing.Size(168, 22);
+			this.mnuGoggleTransSelected.Size = new System.Drawing.Size(177, 22);
 			this.mnuGoggleTransSelected.Text = "&Selected Row(s)";
 			// 
 			// mnuGoogleTransAll
 			// 
 			this.mnuGoogleTransAll.Name = "mnuGoogleTransAll";
-			this.mnuGoogleTransAll.Size = new System.Drawing.Size(168, 22);
+			this.mnuGoogleTransAll.Size = new System.Drawing.Size(177, 22);
 			this.mnuGoogleTransAll.Text = "&All Rows";
 			// 
 			// toolStripSeparator1
@@ -408,6 +408,7 @@
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
 			this.m_grid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.m_grid_CellValidating);
 			this.m_grid.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_grid_CellValuePushed);
+			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEnter);
 			this.m_grid.RowHeightInfoPushed += new System.Windows.Forms.DataGridViewRowHeightInfoPushedEventHandler(this.m_grid_RowHeightInfoPushed);
 			// 
 			// colStatus
@@ -470,13 +471,13 @@
             this.toolStripMenuItem3,
             this.cmnuOmitResourceItem});
 			this.cmnuGrid.Name = "cmnuGrid";
-			this.cmnuGrid.Size = new System.Drawing.Size(194, 98);
+			this.cmnuGrid.Size = new System.Drawing.Size(203, 76);
 			// 
 			// cmnuUnreviewed
 			// 
 			this.cmnuUnreviewed.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidUnreviewed;
 			this.cmnuUnreviewed.Name = "cmnuUnreviewed";
-			this.cmnuUnreviewed.Size = new System.Drawing.Size(193, 22);
+			this.cmnuUnreviewed.Size = new System.Drawing.Size(202, 22);
 			this.cmnuUnreviewed.Text = "Mark as &Unreviewed";
 			this.cmnuUnreviewed.Click += new System.EventHandler(this.cmnuUnreviewed_Click);
 			// 
@@ -484,20 +485,20 @@
 			// 
 			this.cmnuCompleted.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidCompleted;
 			this.cmnuCompleted.Name = "cmnuCompleted";
-			this.cmnuCompleted.Size = new System.Drawing.Size(193, 22);
+			this.cmnuCompleted.Size = new System.Drawing.Size(202, 22);
 			this.cmnuCompleted.Text = "Mark as &Completed";
 			this.cmnuCompleted.Click += new System.EventHandler(this.cmnuCompleted_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(190, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(199, 6);
 			// 
 			// cmnuOmitResourceItem
 			// 
 			this.cmnuOmitResourceItem.Image = global::SIL.Localize.Localizer.Properties.Resources.kimidOmitted;
 			this.cmnuOmitResourceItem.Name = "cmnuOmitResourceItem";
-			this.cmnuOmitResourceItem.Size = new System.Drawing.Size(193, 22);
+			this.cmnuOmitResourceItem.Size = new System.Drawing.Size(202, 22);
 			this.cmnuOmitResourceItem.Text = "&Omit";
 			this.cmnuOmitResourceItem.Click += new System.EventHandler(this.cmnuOmitResourceItem_Click);
 			// 
@@ -576,20 +577,20 @@
             this.cmnuOmitAssembly,
             this.cmnuOmitResource});
 			this.cmnuTree.Name = "cmnuTree";
-			this.cmnuTree.Size = new System.Drawing.Size(164, 48);
+			this.cmnuTree.Size = new System.Drawing.Size(173, 48);
 			this.cmnuTree.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmnuTree_ItemClicked);
 			this.cmnuTree.Opening += new System.ComponentModel.CancelEventHandler(this.cmnuTree_Opening);
 			// 
 			// cmnuOmitAssembly
 			// 
 			this.cmnuOmitAssembly.Name = "cmnuOmitAssembly";
-			this.cmnuOmitAssembly.Size = new System.Drawing.Size(163, 22);
+			this.cmnuOmitAssembly.Size = new System.Drawing.Size(172, 22);
 			this.cmnuOmitAssembly.Text = "&Omit Assembly";
 			// 
 			// cmnuOmitResource
 			// 
 			this.cmnuOmitResource.Name = "cmnuOmitResource";
-			this.cmnuOmitResource.Size = new System.Drawing.Size(163, 22);
+			this.cmnuOmitResource.Size = new System.Drawing.Size(172, 22);
 			this.cmnuOmitResource.Text = "&Omit Resource";
 			// 
 			// splitEntries
@@ -648,6 +649,38 @@
 			this.splitSrcTrans.SplitterDistance = 252;
 			this.splitSrcTrans.TabIndex = 0;
 			this.splitSrcTrans.TabStop = false;
+			// 
+			// openFileDlg
+			// 
+			this.openFileDlg.DefaultExt = "lop";
+			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
+			// 
+			// fldrBrowser
+			// 
+			this.fldrBrowser.Description = "Specify where to save your project.";
+			// 
+			// saveFileDlg
+			// 
+			this.saveFileDlg.DefaultExt = "lop";
+			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
+			this.saveFileDlg.Title = "Save Project";
+			// 
+			// tsContainer
+			// 
+			// 
+			// tsContainer.ContentPanel
+			// 
+			this.tsContainer.ContentPanel.Controls.Add(this.splitOuter);
+			this.tsContainer.ContentPanel.Size = new System.Drawing.Size(816, 437);
+			this.tsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tsContainer.Location = new System.Drawing.Point(0, 24);
+			this.tsContainer.Name = "tsContainer";
+			this.tsContainer.Size = new System.Drawing.Size(816, 462);
+			this.tsContainer.TabIndex = 5;
+			// 
+			// tsContainer.TopToolStripPanel
+			// 
+			this.tsContainer.TopToolStripPanel.Controls.Add(this.m_toolstrip);
 			// 
 			// txtSrcText
 			// 
@@ -753,38 +786,6 @@
 			this.txtComment.TextBox.TabIndex = 1;
 			this.txtComment.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleTextBoxKeyDown);
 			this.txtComment.TextBox.Validated += new System.EventHandler(this.txtComment_Validated);
-			// 
-			// openFileDlg
-			// 
-			this.openFileDlg.DefaultExt = "lop";
-			this.openFileDlg.Filter = "Localizer Project Files (*.lop)|*.lop|All Files (*.*)|*.*";
-			// 
-			// fldrBrowser
-			// 
-			this.fldrBrowser.Description = "Specify where to save your project.";
-			// 
-			// saveFileDlg
-			// 
-			this.saveFileDlg.DefaultExt = "lop";
-			this.saveFileDlg.Filter = "Localizer Project (*.lop)|*.lop|All Files (*.*)|*.*";
-			this.saveFileDlg.Title = "Save Project";
-			// 
-			// tsContainer
-			// 
-			// 
-			// tsContainer.ContentPanel
-			// 
-			this.tsContainer.ContentPanel.Controls.Add(this.splitOuter);
-			this.tsContainer.ContentPanel.Size = new System.Drawing.Size(816, 437);
-			this.tsContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tsContainer.Location = new System.Drawing.Point(0, 24);
-			this.tsContainer.Name = "tsContainer";
-			this.tsContainer.Size = new System.Drawing.Size(816, 462);
-			this.tsContainer.TabIndex = 5;
-			// 
-			// tsContainer.TopToolStripPanel
-			// 
-			this.tsContainer.TopToolStripPanel.Controls.Add(this.m_toolstrip);
 			// 
 			// MainWnd
 			// 
