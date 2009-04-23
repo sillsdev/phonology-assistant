@@ -61,7 +61,7 @@
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(75, 26);
 			this.btnAdd.TabIndex = 15;
-			this.btnAdd.Text = "&Add";
+			this.btnAdd.Text = "&Add...";
 			this.btnAdd.UseVisualStyleBackColor = true;
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
@@ -147,7 +147,7 @@
 			this.btnScan.Name = "btnScan";
 			this.btnScan.Size = new System.Drawing.Size(75, 26);
 			this.btnScan.TabIndex = 17;
-			this.btnScan.Text = "S&can";
+			this.btnScan.Text = "S&can...";
 			this.btnScan.UseVisualStyleBackColor = true;
 			this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
 			// 
