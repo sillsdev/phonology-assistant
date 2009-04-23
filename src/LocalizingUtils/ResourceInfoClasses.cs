@@ -101,11 +101,23 @@ namespace SIL.Localize.LocalizingUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
+		[XmlIgnore]
 		public bool Omitted
 		{
 			get { return m_omitted || (m_owningAssembly != null && m_owningAssembly.Omitted); }
 			set { m_omitted = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("Omitted")]
+		public bool OmittedForSerialization
+		{
+			get { return m_omitted; }
+			set { Omitted = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
