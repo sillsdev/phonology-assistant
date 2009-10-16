@@ -1,7 +1,0 @@
-C:\Projects\Phonology Assistant\Output\Release\AddOns\PaFWDataSourceAddOn.dll
-C:\Projects\Phonology Assistant\Output\Release\AddOns\PaFWDataSourceAddOn.pdb
-C:\Projects\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\ResolveAssemblyReference.cache
-C:\Projects\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\SIL.Pa.AddOn.QueryResultOutputDlg.resources
-C:\Projects\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\PaFWDataSourceAddOn.csproj.GenerateResource.Cache
-C:\Projects\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\PaFWDataSourceAddOn.dll
-C:\Projects\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\PaFWDataSourceAddOn.pdb
