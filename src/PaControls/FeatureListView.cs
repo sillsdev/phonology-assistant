@@ -6,8 +6,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -563,7 +563,7 @@ namespace SIL.Pa.Controls
 			string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
 
 			// Make sure the user really wants to do this.
-			if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				DataUtils.AFeatureCache.Delete(info.Name, false);
 				int newIndex = item.Index;

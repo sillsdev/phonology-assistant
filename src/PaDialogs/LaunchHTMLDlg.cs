@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -47,7 +47,7 @@ namespace SIL.Pa.Dialogs
 			}
 			catch (Exception e)
 			{
-				STUtils.STMsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 		

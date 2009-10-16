@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using SilEncConverters22;
+using System;
 
 namespace SIL.SpeechTools.Utils
 {
@@ -12,6 +13,22 @@ namespace SIL.SpeechTools.Utils
 		private const string kdefaultEticEmicConverterFilename = "Asap2Unicode.tec";
 		private const string kPersistedInfoFilename = "SaTransConverters.xml";
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the path to the SIL software folder within the user's "My Documents" folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string SASettingsPath
+		{
+			get
+			{
+				string saSettingsPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+				saSettingsPath = Path.Combine(saSettingsPath, @"SIL\Speech Analyzer");
+
+				return saSettingsPath;
+			}
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the transcription converter object having the specified name.
@@ -38,10 +55,10 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public static TransConverterInfo Load()
 		{
-			string filename = Path.Combine(STUtils.SASettingsPath,
+			string filename = Path.Combine(SASettingsPath,
 				kPersistedInfoFilename);
 			
-			TransConverterInfo info = STUtils.DeserializeData(
+			TransConverterInfo info = SilUtils.Utils.DeserializeData(
 				filename, typeof(TransConverterInfo)) as TransConverterInfo;
 
 			if (info == null)
@@ -60,10 +77,10 @@ namespace SIL.SpeechTools.Utils
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			string filename = Path.Combine(STUtils.SASettingsPath,
+			string filename = Path.Combine(SASettingsPath,
 				kPersistedInfoFilename);
 
-			STUtils.SerializeData(filename, this);
+			SilUtils.Utils.SerializeData(filename, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,12 +139,12 @@ namespace SIL.SpeechTools.Utils
 		{
 			// Check if the converter exists in the repository and is assigned to 
 			// the transcription if the transcription's converter is unspecified.
-			EncConverter converter = STUtils.GetConverter(transConverter.Converter);
+			EncConverter converter = GetConverter(transConverter.Converter);
 
 			if (converter == null)
 			{
 				// If the converter doesn't exist in the repository try the filename.
-				converter = STUtils.GetConverter(transConverter.Filename);
+				converter = GetConverter(transConverter.Filename);
 
 				if (converter != null)
 				{
@@ -138,10 +155,10 @@ namespace SIL.SpeechTools.Utils
 				{
 					// If that doesn't exist either add the converter
 					string converterFilename =
-						Path.Combine(STUtils.SASettingsPath, transConverter.Filename);
+						Path.Combine(SASettingsPath, transConverter.Filename);
 					if (!File.Exists(converterFilename))
 						return false;
-					STUtils.EncodingConverters.Add(transConverter.Converter, converterFilename,
+					EncodingConverters.Add(transConverter.Converter, converterFilename,
 						ConvType.Unknown, string.Empty, string.Empty, ProcessTypeFlags.DontKnow);
 				}
 			}
@@ -149,6 +166,42 @@ namespace SIL.SpeechTools.Utils
 			return true;
 		}
 
+		private static EncConverters s_ec = null;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the collection of encoding converters from the encoding converter repository
+		/// installed on the computer. The setter is only for setting it to null;
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static EncConverters EncodingConverters
+		{
+			get
+			{
+				if (s_ec == null)
+					s_ec = new EncConverters();
+
+				return s_ec;
+			}
+			set
+			{
+				if (value == null)
+					s_ec = value;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the encoding converter for the specified mapping (or encoding converter name).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static EncConverter GetConverter(string mapping)
+		{
+			if (EncodingConverters == null)
+				return null;
+
+			return (EncodingConverters[mapping] as EncConverter);
+		}
 	}
 
 	/// ----------------------------------------------------------------------------------------

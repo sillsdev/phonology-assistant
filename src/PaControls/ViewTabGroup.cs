@@ -8,8 +8,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -306,7 +306,7 @@ namespace SIL.Pa.Controls
 				m_pnlTabs.Left = 0; 
 			
 			ViewTab tab = new ViewTab(this, img, viewType);
-			tab.Text = STUtils.RemoveAcceleratorPrefix(text);
+			tab.Text = SilUtils.Utils.RemoveAcceleratorPrefix(text);
 			tab.HelpToolTipText = helptootip;
 			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
@@ -745,7 +745,7 @@ namespace SIL.Pa.Controls
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				STUtils.UpdateWindow(m_pnlTabs.Handle);
+				SilUtils.Utils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1037,7 +1037,7 @@ namespace SIL.Pa.Controls
 
 			if (!(m_viewsControl is ITabView))
 			{
-				STUtils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
+				SilUtils.Utils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
 					m_viewType));
 			}
 
@@ -1099,7 +1099,7 @@ namespace SIL.Pa.Controls
 				return;
 
 			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
-			STUtils.SetWindowRedraw(m_owningTabGroup, false, false);
+			SilUtils.Utils.SetWindowRedraw(m_owningTabGroup, false, false);
 			Visible = true;
 			
 			m_owningTabGroup.ViewWasDocked(this);
@@ -1113,7 +1113,7 @@ namespace SIL.Pa.Controls
 			m_owningTabGroup.SelectTab(this);
 			m_ignoreTabSelection = false;
 
-			STUtils.SetWindowRedraw(m_owningTabGroup, true, true);
+			SilUtils.Utils.SetWindowRedraw(m_owningTabGroup, true, true);
 			m_viewsControl.Focus();
 			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
 			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
@@ -1146,7 +1146,7 @@ namespace SIL.Pa.Controls
 				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
 			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
-			string caption = STUtils.RemoveAcceleratorPrefix(Text);
+			string caption = SilUtils.Utils.RemoveAcceleratorPrefix(Text);
 			m_viewsForm.Text = string.Format(Properties.Resources.kstidUndockedViewCaption,
 				PaApp.Project.ProjectName, caption, Application.ProductName);
 			
@@ -1310,7 +1310,7 @@ namespace SIL.Pa.Controls
 				s_viewSelectionInProgress = true;
 				m_selected = value;
 				Invalidate();
-				STUtils.UpdateWindow(Handle);
+				SilUtils.Utils.UpdateWindow(Handle);
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
@@ -1318,7 +1318,7 @@ namespace SIL.Pa.Controls
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
-					STUtils.UpdateWindow(adjacentTab.Handle);
+					SilUtils.Utils.UpdateWindow(adjacentTab.Handle);
 				}
 
 				if (!m_ignoreTabSelection)

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -35,12 +34,12 @@ namespace SIL.Pa.Data
 			PhoneFeatureOverrides overrides = new PhoneFeatureOverrides();
 
 			// Get the default list of overrides.
-			List<PhoneInfo> defaultList = STUtils.DeserializeData(kDefaultOverrideFile,
+			List<PhoneInfo> defaultList = SilUtils.Utils.DeserializeData(kDefaultOverrideFile,
 				typeof(List<PhoneInfo>)) as List<PhoneInfo>;
 
 			// Get the project-specific list of overrides.
 			string filename = BuildFileName(projectFileName);
-			List<PhoneInfo> projectList = STUtils.DeserializeData(filename,
+			List<PhoneInfo> projectList = SilUtils.Utils.DeserializeData(filename,
 				typeof(List<PhoneInfo>)) as List<PhoneInfo>;
 
 			// Move the phones from the List<> to a dictionary.
@@ -81,7 +80,7 @@ namespace SIL.Pa.Data
 				overrideList.Add(phoneInfo);
 
 			string filename = BuildFileName(projectFileName);
-			STUtils.SerializeData(filename, overrideList);
+			SilUtils.Utils.SerializeData(filename, overrideList);
 		}
 
 		/// ------------------------------------------------------------------------------------

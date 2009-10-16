@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -34,7 +34,7 @@ namespace SIL.Pa.Controls
 		public ExplorerBarItem(string text, Control hostedControl)
 		{
 			m_button = new Button();
-			m_button.Text = STUtils.ConvertLiteralNewLines(text);
+			m_button.Text = SilUtils.Utils.ConvertLiteralNewLines(text);
 			string[] lines = m_button.Text.Split("\n".ToCharArray());
 			m_button.Dock = DockStyle.Top;
 			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);

@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -83,13 +83,13 @@ namespace SIL.Pa.Dialogs
 				LoadGrid(-1);
 			}
 
-			STUtils.WaitCursors(true);
+			SilUtils.Utils.WaitCursors(true);
 			FwDataSourcePrep();
 			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
 
 			m_dirty = m_newProject;
 			m_grid.IsDirty = false;
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 
 			UpdateButtonStates();
 			Disposed += ProjectSettingsDlg_Disposed;
@@ -411,7 +411,7 @@ namespace SIL.Pa.Dialogs
 						// No XSLT file was specified
 						offendingIndex = i;
 						msg = string.Format(Properties.Resources.kstidDataSourceNoXSLT,
-							STUtils.PrepFilePathForSTMsgBox(m_project.DataSources[i].DataSourceFile));
+							SilUtils.Utils.PrepFilePathForSTMsgBox(m_project.DataSources[i].DataSourceFile));
 						break;
 					}
 					else if (!m_project.DataSources[i].MappingsExist &&
@@ -440,7 +440,7 @@ namespace SIL.Pa.Dialogs
 
 			if (msg != null)
 			{
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				// Give the appropriate control focus.
 				if (offendingCtrl != null)
@@ -629,7 +629,7 @@ namespace SIL.Pa.Dialogs
 			//FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
 			//if (fwDataSourceInfo == null)
 			//{
-			//    STUtils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
+			//    SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
 			//        MessageBoxButtons.OK);
 
 			//    return;
@@ -667,7 +667,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			if (STUtils.STMsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
+			if (SilUtils.Utils.STMsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				List<int> indexesToDelete = new List<int>();
@@ -745,8 +745,8 @@ namespace SIL.Pa.Dialogs
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(filename))
 			{
-				string filePath = STUtils.PrepFilePathForSTMsgBox(filename);
-				STUtils.STMsgBox(
+				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(filename);
+				SilUtils.Utils.STMsgBox(
 					string.Format(Properties.Resources.kstidFileMissingMsg, filePath),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -903,7 +903,7 @@ namespace SIL.Pa.Dialogs
 		//    if (btn == null)
 		//        return;
 
-		//    using (StringFormat sf = STUtils.GetStringFormat(true))
+		//    using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
 		//    using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
 		//    {
 		//        e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -23,7 +23,7 @@ namespace SIL.Pa.Dialogs
 		{
 			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 8);
 
-			STUtils.WaitCursors(true);
+			SilUtils.Utils.WaitCursors(true);
 			InitializeComponent();
 			
 			// Remove this until we implement it.
@@ -72,7 +72,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 			base.OnShown(e);
 			PaApp.UninitializeProgressBar();
 		}

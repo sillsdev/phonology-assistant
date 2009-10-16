@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -855,7 +855,7 @@ namespace SIL.Pa.Controls
 				}
 				catch (Exception ex)
 				{
-					STUtils.STMsgBox(ex.Message);
+					SilUtils.Utils.STMsgBox(ex.Message);
 					return;
 				}
 			}
@@ -901,7 +901,7 @@ namespace SIL.Pa.Controls
 						filename, m_rtfEditor, ex.Message);
 				}
 				
-				STUtils.STMsgBox(msg);
+				SilUtils.Utils.STMsgBox(msg);
 			}
 		}
 

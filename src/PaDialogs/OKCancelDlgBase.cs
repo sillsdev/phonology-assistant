@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -59,7 +59,7 @@ namespace SIL.Pa.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			STUtils.UpdateWindow(Handle);
+			SilUtils.Utils.UpdateWindow(Handle);
 
 			// At this point, the opacity should be zero. Now that we're shown and the handles
 			// are all created, show the form at full opacity. This will avoid visible layout
@@ -69,7 +69,7 @@ namespace SIL.Pa.Dialogs
 			// This is needed because some dialogs have PaPanels whose border
 			// doesn't get fully painted properly when the opacity goes to full.
 			Invalidate(true);
-			STUtils.UpdateWindow(Handle);
+			SilUtils.Utils.UpdateWindow(Handle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ namespace SIL.Pa.Dialogs
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				DialogResult result = STUtils.STMsgBox(
+				DialogResult result = SilUtils.Utils.STMsgBox(
 					ResourceHelper.GetString("kstidSaveChangesMsg"),
 					MessageBoxButtons.YesNoCancel);
 

@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.Win32;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using ZipUtils;
 
 namespace SIL.Pa
@@ -97,7 +97,7 @@ namespace SIL.Pa
 
 			try
 			{
-				TrainingProjectSetupInfo tpsi = STUtils.DeserializeData(
+				TrainingProjectSetupInfo tpsi = SilUtils.Utils.DeserializeData(
 					s_tpsPath, typeof(TrainingProjectSetupInfo)) as TrainingProjectSetupInfo;
 
 				return tpsi;
@@ -148,7 +148,7 @@ namespace SIL.Pa
 			if (!File.Exists(papFilePath))
 				return;
 
-			PaProject prj = STUtils.DeserializeData(papFilePath, typeof(PaProject)) as PaProject;
+			PaProject prj = SilUtils.Utils.DeserializeData(papFilePath, typeof(PaProject)) as PaProject;
 			if (prj == null)
 				return;
 
@@ -162,7 +162,7 @@ namespace SIL.Pa
 				}
 			}
 
-			STUtils.SerializeData(papFilePath, prj);
+			SilUtils.Utils.SerializeData(papFilePath, prj);
 			PaApp.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
 		}
 	}

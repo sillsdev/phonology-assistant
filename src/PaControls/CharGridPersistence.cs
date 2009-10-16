@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 using SIL.Pa.Data;
 
 namespace SIL.Pa.Controls
@@ -25,7 +24,7 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool Load(CharGridBuilder chrGridBldr, IPACharacterType chrType)
 		{
-			string filename = STUtils.GetLocalPath(chrType == IPACharacterType.Consonant ?
+			string filename = SilUtils.Utils.GetLocalPath(chrType == IPACharacterType.Consonant ?
 				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile, true);
 
 			return Load(chrGridBldr, filename);
@@ -197,7 +196,7 @@ namespace SIL.Pa.Controls
 			cgp.StoreHeaders(chrGrid, true);
 			cgp.StoreHeaders(chrGrid, false);
 
-			STUtils.SerializeData(filename, cgp);
+			SilUtils.Utils.SerializeData(filename, cgp);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,7 +282,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			CharGridPersistence cgp =
-				STUtils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
+				SilUtils.Utils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
 
 			if (cgp == null || cgp.ColHeadings.Count == 0 || cgp.RowHeadings.Count == 0)
 				return false;
@@ -308,7 +307,7 @@ namespace SIL.Pa.Controls
 				return false;
 
 			CharGridPersistence cgp =
-				STUtils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
+				SilUtils.Utils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
 
 			if (cgp == null || cgp.ColHeadings.Count == 0 || cgp.RowHeadings.Count == 0)
 				return false;

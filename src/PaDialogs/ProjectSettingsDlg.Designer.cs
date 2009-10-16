@@ -50,7 +50,7 @@ namespace SIL.Pa.Dialogs
 			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlGrid = new SIL.Pa.Controls.PaPanel();
-			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
+			this.m_grid = new SilUtils.SilGrid();
 			this.pnlGridHdg = new SIL.Pa.Controls.PaGradientPanel();
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
@@ -304,7 +304,7 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
 		private SIL.Pa.Controls.PaPanel pnlGrid;
 		private SIL.Pa.Controls.PaGradientPanel pnlGridHdg;
-		private SIL.SpeechTools.Utils.SilGrid m_grid;
+		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
 	}
 }

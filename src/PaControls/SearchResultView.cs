@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {

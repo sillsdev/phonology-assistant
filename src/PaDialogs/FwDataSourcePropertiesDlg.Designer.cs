@@ -37,7 +37,7 @@ namespace SIL.Pa.Dialogs
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
-			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
+			this.m_grid = new SilUtils.SilGrid();
 			this.pnlButtons.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.grpPhoneticDataStoreType.SuspendLayout();
@@ -177,6 +177,6 @@ namespace SIL.Pa.Dialogs
 		private System.Windows.Forms.RadioButton rbLexForm;
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
-		private SIL.SpeechTools.Utils.SilGrid m_grid;
+		private SilUtils.SilGrid m_grid;
 	}
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			// At this point, we know we have a valid XML file. Now check if it's PAXML.
 			PaXMLContent paxmlContent =
-				STUtils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
+				SilUtils.Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
 
 			if (paxmlContent == null)
 				m_sourceType = DataSourceType.XML;

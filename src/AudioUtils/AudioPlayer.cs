@@ -5,8 +5,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SIL.SpeechTools.AudioUtils.Properties;
+using SilUtils;
 using SIL.SpeechTools.Utils;
+using SIL.SpeechTools.AudioUtils.Properties;
+
 
 namespace SIL.SpeechTools.AudioUtils
 {
@@ -173,7 +175,7 @@ namespace SIL.SpeechTools.AudioUtils
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				STUtils.STMsgBox(Resources.kstidSAMissingMsg);
+				SilUtils.Utils.STMsgBox(Resources.kstidSAMissingMsg);
 				return null;
 			}
 
@@ -182,8 +184,8 @@ namespace SIL.SpeechTools.AudioUtils
 				new object[] { callingApp, soundFile, speed,
 					(from >= 0 ? from.ToString() : string.Empty),
 					(to >= 0 && to > from ? to.ToString() : string.Empty)});
-			
-			saListFileContent = STUtils.ConvertLiteralNewLines(saListFileContent);
+
+			saListFileContent = SilUtils.Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
 			m_lstFile = Path.GetTempFileName();

@@ -142,7 +142,7 @@ namespace SIL.Pa.AddOn
 			if (m_infoTip != null && !string.IsNullOrEmpty(m_infoText))
 			{
 				Point pt = picInfo.PointToClient(MousePosition);
-				string tip = SIL.SpeechTools.Utils.STUtils.ConvertLiteralNewLines(m_infoText);
+				string tip = SilUtils.Utils.ConvertLiteralNewLines(m_infoText);
 				m_infoTip.Show(tip, picInfo, pt.X, picInfo.Height + 3);
 			}
 		}

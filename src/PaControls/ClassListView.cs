@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -521,9 +521,9 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				IntPtr hwnd = new IntPtr(STUtils.FindWindowEx(Handle, 0, "SysHeader32", null));
-				STUtils.RECT rc;
-				return (STUtils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
+				IntPtr hwnd = new IntPtr(SilUtils.Utils.FindWindowEx(Handle, 0, "SysHeader32", null));
+				SilUtils.Utils.RECT rc;
+				return (SilUtils.Utils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
 			}
 		}
 
@@ -568,7 +568,7 @@ namespace SIL.Pa.Controls
 				{
 					if (showMsg)
 					{
-						STUtils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
+						SilUtils.Utils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
 							className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 					

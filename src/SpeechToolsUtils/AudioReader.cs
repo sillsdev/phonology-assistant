@@ -368,7 +368,7 @@ namespace SIL.SpeechTools.Utils
 
 			// TODO: When code exists to read wave files in batch mode, then move this so
 			// it's done after all wave files are read and converted.
-			STUtils.EncodingConverters = null;
+			TransConverterInfo.EncodingConverters = null;
 
 			m_writer.Commit(m_backupAudioFile);
 			m_writer.Close();
@@ -399,12 +399,12 @@ namespace SIL.SpeechTools.Utils
 				{
 					// If there's a splash screen open, then close it before showing the
 					// dialog. Otherwise, the dialog will popup behind the splash screen.
-					if (STUtils.s_splashScreen != null)
-						STUtils.s_splashScreen.Close();
+					SilUtils.Utils.ForceCloseOfSplashScreen();
 
 					DialogResult res = dlg.ShowDialog();
 					if (res == DialogResult.Cancel)
 						return false;
+					
 					m_backupAudioFile = dlg.BackupAudioFile;
 					m_transConverters.Save();
 				}
@@ -772,7 +772,7 @@ namespace SIL.SpeechTools.Utils
 			}
 
 			// Get the encoding converter used for the specified chunk.
-			return STUtils.GetConverter(m_transConverters[chunkId].Converter);
+			return TransConverterInfo.GetConverter(m_transConverters[chunkId].Converter);
 		}
 
 		/// ------------------------------------------------------------------------------------

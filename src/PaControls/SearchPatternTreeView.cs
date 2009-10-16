@@ -6,8 +6,8 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -457,7 +457,7 @@ namespace SIL.Pa.Controls
 			{
 				if (node.Tag is SearchQueryGroup && node != renamedNode && node.Text == newName)
 				{
-					STUtils.STMsgBox(
+					SilUtils.Utils.STMsgBox(
 						string.Format(Properties.Resources.kstidDuplicateSearchCategoryMsg,
 						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -489,7 +489,7 @@ namespace SIL.Pa.Controls
 			{
 				if (node.Tag is SearchQuery && node != renamedNode && node.Text == newName)
 				{
-					STUtils.STMsgBox(
+					SilUtils.Utils.STMsgBox(
 						string.Format(Properties.Resources.kstidDuplicateSearchQueryMsg,
 						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -800,7 +800,7 @@ namespace SIL.Pa.Controls
 				return;
 
 			string msg = string.Format(Properties.Resources.kstidDeleteFFCategoryConfirmationMsg, node.Text);
-			if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			// Remove group from cache.
@@ -833,7 +833,7 @@ namespace SIL.Pa.Controls
 				string msg = string.Format(
 					Properties.Resources.kstidDeleteFFPatternConfirmationMsg, node.Text);
 
-				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 			}
 
@@ -946,7 +946,7 @@ namespace SIL.Pa.Controls
 				// Pattern exisits so ask user if he wants to overwrite.
 				string msg = Properties.Resources.kstidDuplicateSearchQueryQuestion;
 				msg = string.Format(msg, query);
-				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return false;
 
 				// User wants to overwrite so delete existing one first.
@@ -969,7 +969,7 @@ namespace SIL.Pa.Controls
 
 			if (Nodes == null || Nodes.Count == 0)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidAddSearchCategoryBeforeSave,
+				SilUtils.Utils.STMsgBox(Properties.Resources.kstidAddSearchCategoryBeforeSave,
 					MessageBoxButtons.OK);
 
 				return;

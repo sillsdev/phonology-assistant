@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Data.Properties;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -68,7 +67,7 @@ namespace SIL.Pa.Data
 			AFeatureCache cache = new AFeatureCache(projectFileName);
 
 			// Deserialize to a list because Dictionaries are not deserializable.
-			List<AFeature> tmpList = STUtils.DeserializeData(cache.CacheFileName,
+			List<AFeature> tmpList = SilUtils.Utils.DeserializeData(cache.CacheFileName,
 				typeof(List<AFeature>)) as List<AFeature>;
 
 			if (tmpList == null)
@@ -110,7 +109,7 @@ namespace SIL.Pa.Data
 			foreach (KeyValuePair<int, AFeature> feature in tmpSortedList)
 				tmpList.Add(feature.Value);
 
-			STUtils.SerializeData(m_cacheFileName, tmpList);
+			SilUtils.Utils.SerializeData(m_cacheFileName, tmpList);
 			tmpSortedList.Clear();
 			tmpList.Clear();
 		}
@@ -128,7 +127,7 @@ namespace SIL.Pa.Data
 			{
 				if (showMsgWhenAlreadyExists)
 				{
-					STUtils.STMsgBox(
+					SilUtils.Utils.STMsgBox(
 						string.Format(Resources.kstidFeatureExistsMsg, name),
 						MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
@@ -219,7 +218,7 @@ namespace SIL.Pa.Data
 			{
 				if (showMsgWhenCantDelete)
 				{
-					STUtils.STMsgBox(
+					SilUtils.Utils.STMsgBox(
 						string.Format(Resources.kstidFeatureCantBeDeletedMsg, name),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -756,7 +756,7 @@ namespace SIL.Pa.Controls
 				using (SolidBrush br = new SolidBrush(ColorHelper.LightLightHighlight))
 					e.Graphics.FillRectangle(br, lbl.ClientRectangle);
 
-				using (StringFormat sf = STUtils.GetStringFormat(m_isForColumns))
+				using (StringFormat sf = SilUtils.Utils.GetStringFormat(m_isForColumns))
 				using (SolidBrush br = new SolidBrush(lbl.ForeColor))
 				{
 					// Turn on wrapping

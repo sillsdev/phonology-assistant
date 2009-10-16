@@ -26,7 +26,7 @@ using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -50,7 +50,7 @@ namespace SIL.Pa
 			if (!File.Exists(filename))
 			{
 				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
-				STUtils.STMsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
+				SilUtils.Utils.STMsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation);
 			}
 			else if (PaApp.Project == null || PaApp.Project.ProjectFileName != filename)
@@ -101,10 +101,7 @@ namespace SIL.Pa
 		protected bool OnHelpAbout(object args)
 		{
 			using (AboutDlg dlg = new AboutDlg(true, false))
-			{
-				((IAboutDlg)dlg).ProdVersion = PaApp.ProdVersion;
 				dlg.ShowDialog(this);
-			}
 
 			return true;
 		}
@@ -155,9 +152,9 @@ namespace SIL.Pa
 			if (!File.Exists(path))
 			{
 				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
-					STUtils.PrepFilePathForSTMsgBox(path));
+					SilUtils.Utils.PrepFilePathForSTMsgBox(path));
 
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -191,7 +188,7 @@ namespace SIL.Pa
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				if (STUtils.STMsgBox(
+				if (SilUtils.Utils.STMsgBox(
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
 					dlg.Project.ProjectName), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
@@ -264,7 +261,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void FullProjectReload()
 		{
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 
 			PaProject project = PaProject.Load(PaApp.Project.ProjectFileName, this);
 			if (project != null)
@@ -281,7 +278,7 @@ namespace SIL.Pa
 				PaApp.MsgMediator.SendMessage("DataSourcesModified", project);
 			}
 
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

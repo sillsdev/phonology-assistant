@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {

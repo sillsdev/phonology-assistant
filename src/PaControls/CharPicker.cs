@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -501,7 +501,7 @@ namespace SIL.Pa.Controls
 				Properties.Resources.kstidCharPickerTooltipLong,
 				charInfo.Name, charInfo.Description);
 
-			return STUtils.ConvertLiteralNewLines(tooltip);
+			return SilUtils.Utils.ConvertLiteralNewLines(tooltip);
 		}
 
 		/// ------------------------------------------------------------------------------------

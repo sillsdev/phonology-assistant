@@ -10,7 +10,7 @@ using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -63,7 +63,7 @@ namespace SIL.Pa
 			ptrnTextBox.OwningView = this;
 			LoadToolbarAndContextMenus();
 
-			lblCurrPattern.Text = STUtils.ConvertLiteralNewLines(lblCurrPattern.Text);
+			lblCurrPattern.Text = SilUtils.Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
 			PaApp.IncProgressBar();
 
 			SetToolTips();
@@ -377,7 +377,7 @@ namespace SIL.Pa
 
 			string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
-				STUtils.SerializeData(path, recentList);
+				SilUtils.Utils.SerializeData(path, recentList);
 			else
 				File.Delete(path);
 
@@ -486,7 +486,7 @@ namespace SIL.Pa
 		{
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
-			m_tooltip.SetToolTip(ptrnTextBox.TextBox, STUtils.ConvertLiteralNewLines(tip));
+			m_tooltip.SetToolTip(ptrnTextBox.TextBox, SilUtils.Utils.ConvertLiteralNewLines(tip));
 
 			System.ComponentModel.ComponentResourceManager resources =
 				new System.ComponentModel.ComponentResourceManager(GetType());
@@ -543,7 +543,7 @@ namespace SIL.Pa
 			try
 			{
 				string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
-				List<SearchQuery> recentList = STUtils.DeserializeData(path,
+				List<SearchQuery> recentList = SilUtils.Utils.DeserializeData(path,
 					typeof(List<SearchQuery>)) as List<SearchQuery>;
 
 				if (recentList != null)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.SpeechTools.Utils.Properties;
 using SilEncConverters22;
+using SilUtils;
 
 namespace SIL.SpeechTools.Utils
 {
@@ -125,11 +126,11 @@ namespace SIL.SpeechTools.Utils
 					cmnuConverters.Items.RemoveAt(i);
 			}
 
-			if (STUtils.EncodingConverters == null)
+			if (TransConverterInfo.EncodingConverters == null)
 				return;
 
 			// Load the converters into the popup menu.
-			foreach (string mapping in STUtils.EncodingConverters.Mappings)
+			foreach (string mapping in TransConverterInfo.EncodingConverters.Mappings)
 			{
 				cmnuConverters.Items.Insert(cmnuConverters.Items.Count - 2,
 					new ToolStripMenuItem(mapping));
@@ -216,7 +217,7 @@ namespace SIL.SpeechTools.Utils
 				m_grid.CurrentRow.Cells["converter"].Value = e.ClickedItem.Text;
 			else
 			{
-				if (STUtils.EncodingConverters == null)
+				if (TransConverterInfo.EncodingConverters == null)
 					return;
 				
 				// At this point, we know the user clicked the browse option.
@@ -235,18 +236,18 @@ namespace SIL.SpeechTools.Utils
 
 				try
 				{
-					if (STUtils.GetConverter(dlg.FileName) == null)
+					if (TransConverterInfo.GetConverter(dlg.FileName) == null)
 					{
 						// Add a converter for the default mapping file and make it's name the same as the
 						// default mapping file's name.
-						STUtils.EncodingConverters.Add(Path.GetFileName(dlg.FileName),
+						TransConverterInfo.EncodingConverters.Add(Path.GetFileName(dlg.FileName),
 							dlg.FileName, ConvType.Unknown, string.Empty, string.Empty,
 							ProcessTypeFlags.DontKnow);
 					}
 				}
 				catch (Exception exp)
 				{
-					STUtils.STMsgBox(exp.Message, MessageBoxButtons.OK);
+					SilUtils.Utils.STMsgBox(exp.Message, MessageBoxButtons.OK);
 				}
 
 				// The converter must be OK so save it in the grid and

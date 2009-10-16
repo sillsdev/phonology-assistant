@@ -10,8 +10,8 @@ using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.SpeechTools.AudioUtils;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -1906,7 +1906,7 @@ namespace SIL.Pa.Controls
 					int height = TextRenderer.MeasureText("!", fnt).Height;
 					if (height < rc.Height)
 					{
-						using (StringFormat sf = STUtils.GetStringFormat(true))
+						using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
 							path.AddString("!", family, (int)FontStyle.Bold, size, rc, sf);
 
 						break;
@@ -2477,7 +2477,7 @@ namespace SIL.Pa.Controls
 			// This should never happen.
 			if (cieCache == null)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
+				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
 				return false;
 			}
 
@@ -2537,7 +2537,7 @@ namespace SIL.Pa.Controls
 			if (!show && m_noCIEResultsMsg == null)
 				return;
 			
-			STUtils.SetWindowRedraw(this, false, false);
+			SilUtils.Utils.SetWindowRedraw(this, false, false);
 
 			if (!show)
 			{
@@ -2558,7 +2558,7 @@ namespace SIL.Pa.Controls
 				m_noCIEResultsMsg.AutoSize = false;
 				m_noCIEResultsMsg.Dock = DockStyle.Fill;
 				m_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-				m_noCIEResultsMsg.Text = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidNoMinimalPairsMsg);
+				m_noCIEResultsMsg.Text = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidNoMinimalPairsMsg);
 				m_noCIEResultsMsg.BackColor = Color.Transparent;
 				m_noCIEResultsMsg.MouseDown += delegate { Focus(); };
 				Controls.Add(m_noCIEResultsMsg);
@@ -2566,7 +2566,7 @@ namespace SIL.Pa.Controls
 				PaApp.MsgMediator.SendMessage("NoCIEResultsShowing", this);
 			}
 
-			STUtils.SetWindowRedraw(this, true, true);
+			SilUtils.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2692,7 +2692,7 @@ namespace SIL.Pa.Controls
 			if (!IsGroupedByField && (!m_cache.IsCIEList || m_cache.IsEmpty))
 				return;
 
-			STUtils.SetWindowRedraw(this, false, false);
+			SilUtils.Utils.SetWindowRedraw(this, false, false);
 	
 			// All the Sorted row groups were either expanded or collapsed
 			m_ToggleGroupExpansion = true;
@@ -2719,7 +2719,7 @@ namespace SIL.Pa.Controls
 			PaApp.IncProgressBar(RowCount);
 			PaApp.UninitializeProgressBar();
 			m_ToggleGroupExpansion = false;
-			STUtils.SetWindowRedraw(this, true, true);
+			SilUtils.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

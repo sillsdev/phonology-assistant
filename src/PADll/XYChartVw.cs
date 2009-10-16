@@ -10,7 +10,7 @@ using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -202,7 +202,7 @@ namespace SIL.Pa
 		{
 			string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
 
-			m_savedCharts = STUtils.DeserializeData(filename,
+			m_savedCharts = SilUtils.Utils.DeserializeData(filename,
 				typeof(List<XYChartLayout>)) as List<XYChartLayout>;
 
 			if (m_savedCharts == null)
@@ -226,7 +226,7 @@ namespace SIL.Pa
 			if (m_savedCharts != null)
 			{
 				string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
-				STUtils.SerializeData(filename, m_savedCharts);
+				SilUtils.Utils.SerializeData(filename, m_savedCharts);
 			}
 		}
 
@@ -254,7 +254,7 @@ namespace SIL.Pa
 					{
 						string msg = string.Format(
 							Properties.Resources.kstidSavedChartNameAlreadyExistsMsg, nameToCheck);
-						STUtils.STMsgBox(msg);
+						SilUtils.Utils.STMsgBox(msg);
 					}
 					
 					return savedLayout;
@@ -626,7 +626,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(row, col, SearchResultLocation.CurrentTabGroup);
 			else
-				STUtils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
+				SilUtils.Utils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -648,7 +648,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(m_xyGrid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			else
-				STUtils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
+				SilUtils.Utils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 
 			e.Handled = true;
 		}
@@ -792,7 +792,7 @@ namespace SIL.Pa
 				return;
 
 			string msg = Properties.Resources.kstidConfirmSavedChartRemoval;
-			if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			XYChartLayout layout = lvSavedCharts.SelectedItems[0].Tag as XYChartLayout;

@@ -8,8 +8,8 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {

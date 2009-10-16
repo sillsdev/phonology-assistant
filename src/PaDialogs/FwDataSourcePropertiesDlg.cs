@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -353,7 +353,7 @@ namespace SIL.Pa.Dialogs
 					return true;
 			}
 
-			STUtils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg);
+			SilUtils.Utils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg);
 			return false;
 		}
 

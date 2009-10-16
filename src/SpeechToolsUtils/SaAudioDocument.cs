@@ -250,9 +250,9 @@ namespace SIL.SpeechTools.Utils
 			if (!File.Exists(audioFilePath))
 			{
 				string msg = string.Format(Resources.kstidWaveFileNotFound,
-					STUtils.PrepFilePathForSTMsgBox(audioFilePath));
+					SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
 
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
 				return null;
 			}
 
@@ -274,12 +274,12 @@ namespace SIL.SpeechTools.Utils
 				// Get the transcription data from the companion transcription file.
 				Exception e;
 				s_audioFileLoading = audioFilePath;
-				doc = STUtils.DeserializeData(transcriptionFile,
+				doc = SilUtils.Utils.DeserializeData(transcriptionFile,
 					typeof(SaAudioDocument), out e) as SaAudioDocument;
 
 				if (e != null)
 				{
-					ExceptionViewer viewer = new ExceptionViewer(e);
+					SilUtils.ExceptionViewer viewer = new SilUtils.ExceptionViewer(e);
 					viewer.ShowDialog();
 					return null;
 				}
@@ -328,8 +328,8 @@ namespace SIL.SpeechTools.Utils
 				string transFileNameOnly = Path.ChangeExtension(audioFileNameOnly, ".saxml");
 				string msg = Resources.kstidReadOnlyFolderMsg;
 				msg = string.Format(msg, audioFileNameOnly, audioFileNameOnly, transFileNameOnly);
-				msg = STUtils.ConvertLiteralNewLines(msg);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				msg = SilUtils.Utils.ConvertLiteralNewLines(msg);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
 
 				using (FolderBrowserDialog dlg = new FolderBrowserDialog())
 				{
@@ -363,7 +363,7 @@ namespace SIL.SpeechTools.Utils
 				AudioFile = audioFile;
 			}
 
-			return STUtils.SerializeData(TranscriptionFile, this);
+			return SilUtils.Utils.SerializeData(TranscriptionFile, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -572,9 +572,9 @@ namespace SIL.SpeechTools.Utils
 				if (!File.Exists(value))
 				{
 					string msg = string.Format(Resources.kstidWaveFileNotFound,
-						STUtils.PrepFilePathForSTMsgBox(value));
+						SilUtils.Utils.PrepFilePathForSTMsgBox(value));
 
-					STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
 					return;
 				}
 

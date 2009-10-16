@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -319,7 +318,7 @@ namespace SIL.Pa.Data
 			
 			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
 			// (i.e. IPACharCache) isn't serializable nor deserializable.
-			List<IPACharInfo> tmpCache = STUtils.DeserializeData(
+			List<IPACharInfo> tmpCache = SilUtils.Utils.DeserializeData(
 				cache.CacheFileName, typeof(List<IPACharInfo>)) as List<IPACharInfo>;
 
 			if (tmpCache == null)
@@ -352,7 +351,7 @@ namespace SIL.Pa.Data
 		{
 			// Copy the items into a temp list because Dictionaries cannot be serialized.
 			List<IPACharInfo> tmpCache = ToList(false);
-			STUtils.SerializeData(m_cacheFileName, tmpCache);
+			SilUtils.Utils.SerializeData(m_cacheFileName, tmpCache);
 		}
 
 		/// ------------------------------------------------------------------------------------

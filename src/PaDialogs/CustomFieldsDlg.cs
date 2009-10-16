@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -262,7 +262,7 @@ namespace SIL.Pa.Dialogs
 			// *******
 			//Rectangle rc = e.CellBounds;
 			//e.PaintBackground(rc, false);
-			//using (StringFormat sf = STUtils.GetStringFormat(true))
+			//using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
 			//{
 			//    e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 			//    e.Graphics.DrawString((e.RowIndex + 1).ToString(), FontHelper.UIFont,
@@ -322,7 +322,7 @@ namespace SIL.Pa.Dialogs
 				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
-					STUtils.STMsgBox(string.Format(
+					SilUtils.Utils.STMsgBox(string.Format(
 						Properties.Resources.kstidCustomFieldExistsMsg, fieldName1),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -339,7 +339,7 @@ namespace SIL.Pa.Dialogs
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
 					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
-						STUtils.STMsgBox(string.Format(
+						SilUtils.Utils.STMsgBox(string.Format(
 							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -147,7 +147,7 @@ namespace SIL.Pa.Controls
 			if (PaApp.DesignMode)
 				return;
 
-			STUtils.SetWindowRedraw(this, false, false);
+			SilUtils.Utils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
 			foreach (IPACharacterTypeInfo typeInfo in m_typesToShow)
@@ -184,7 +184,7 @@ namespace SIL.Pa.Controls
 
 			Dock = DockStyle.Fill;
 			LayoutPickers(false);
-			STUtils.SetWindowRedraw(this, true, true);
+			SilUtils.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ namespace SIL.Pa.Controls
 		private void LayoutPickers(bool suspendDraw)
 		{
 			if (suspendDraw)
-				STUtils.SetWindowRedraw(this, false, false);
+				SilUtils.Utils.SetWindowRedraw(this, false, false);
 
 			foreach (ExplorerBarItem item in Items)
 			{
@@ -205,7 +205,7 @@ namespace SIL.Pa.Controls
 			}
 
 			if (suspendDraw)
-				STUtils.SetWindowRedraw(this, true, true);
+				SilUtils.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -9,7 +9,6 @@ using System.Net.Mail;
 using System.Xml.Serialization;
 using System.Reflection;
 using System.IO;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.AddOn
 {
@@ -42,7 +41,7 @@ namespace SIL.Pa.AddOn
 			string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
 			m_surveyItemsFile = Path.Combine(path, "SurveyItems.xml");
 
-			List<SurveyItem> surveyitems = STUtils.DeserializeData(m_surveyItemsFile,
+			List<SurveyItem> surveyitems = SilUtils.Utils.DeserializeData(m_surveyItemsFile,
 				typeof(List<SurveyItem>)) as List<SurveyItem>;
 
 			if (surveyitems == null)
@@ -199,7 +198,7 @@ namespace SIL.Pa.AddOn
 				if (ctrl.Rating == 0)
 				{
 					string msg = Properties.Resources.kstidMissingRatingMsg;
-					return (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
+					return (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes);
 				}
 			}
 
@@ -215,12 +214,14 @@ namespace SIL.Pa.AddOn
 		{
 			StringBuilder bldr = new StringBuilder();
 
+			string version = new Version(Application.ProductVersion).ToString(2);
+			
 			bldr.AppendLine("Phonology Assistant Feedback Report");
 			bldr.AppendFormat("Date: {0}", DateTime.Now.ToLongDateString());
 			bldr.AppendLine();
 			bldr.AppendFormat("Launches: {0}", m_launchCount);
 			bldr.AppendLine();
-			bldr.AppendFormat("Version: {0}", PaApp.ProdVersion);
+			bldr.AppendFormat("Version: {0}", version);
 			bldr.AppendLine();
 			
 			Version ver = new Version(Application.ProductVersion);

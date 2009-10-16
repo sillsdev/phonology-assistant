@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -116,7 +116,7 @@ namespace SIL.Pa.Controls
 					msgType = MsgType.Exception;
 				
 				InitializeLabels(msgType);
-				m_lblInfo.Text = STUtils.ConvertLiteralNewLines(informationMsg);
+				m_lblInfo.Text = SilUtils.Utils.ConvertLiteralNewLines(informationMsg);
 			}
 			else
 			{
@@ -197,7 +197,7 @@ namespace SIL.Pa.Controls
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 
-			m_lblMsg.Text = STUtils.ConvertLiteralNewLines(msg);
+			m_lblMsg.Text = SilUtils.Utils.ConvertLiteralNewLines(msg);
 			if (msgType == MsgType.Exception)
 				m_lblMsg.Text = m_lblMsg.Text.Replace("\n", " ");
 

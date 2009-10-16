@@ -9,8 +9,8 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -823,7 +823,7 @@ namespace SIL.Pa.Controls
 					Rectangle rc = GetCellDisplayRectangle(col, row, false);
 					rc.X = rc.Right - 7;
 					rc.Y = rc.Bottom - 7;
-					m_tooltip.Show(STUtils.ConvertLiteralNewLines(text), this, rc.Location);
+					m_tooltip.Show(SilUtils.Utils.ConvertLiteralNewLines(text), this, rc.Location);
 				}
 
 				return;
@@ -1023,7 +1023,7 @@ namespace SIL.Pa.Controls
 			m_paintDropValidEffect = true;
 			DoubleBuffered = true;
 			Invalidate();
-			STUtils.UpdateWindow(Handle);
+			SilUtils.Utils.UpdateWindow(Handle);
 			DoubleBuffered = false;
 		}
 
@@ -2030,7 +2030,7 @@ namespace SIL.Pa.Controls
 			if (string.IsNullOrEmpty(m_queryErrorMsg))
 				m_queryErrorMsg = "Unkown Error.";
 
-			m_queryErrorMsg = STUtils.ConvertLiteralNewLines(m_queryErrorMsg);
+			m_queryErrorMsg = SilUtils.Utils.ConvertLiteralNewLines(m_queryErrorMsg);
 			m_queryErrorMsg = m_queryErrorMsg.TrimEnd("\n\r".ToCharArray());
 		}
 

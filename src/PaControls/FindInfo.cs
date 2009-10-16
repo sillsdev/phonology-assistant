@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -414,7 +414,7 @@ namespace SIL.Pa.Controls
 				if (m_iRow == m_startRow && !m_firstMatch)
 				{
 					if (m_showMessages)
-						STUtils.STMsgBox(Properties.Resources.kstidFindDataNotFound + m_findText);
+						SilUtils.Utils.STMsgBox(Properties.Resources.kstidFindDataNotFound + m_findText);
 					
 					return true;
 				}
@@ -536,7 +536,7 @@ namespace SIL.Pa.Controls
 			catch (Exception ex)
 			{
 				if (m_showMessages)
-					STUtils.STMsgBox(ex.Message);
+					SilUtils.Utils.STMsgBox(ex.Message);
 			}
 
 			// Done searching
@@ -567,7 +567,7 @@ namespace SIL.Pa.Controls
 				{
 					// Display message that all records have been searched
 					if (m_showMessages)
-						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
+						SilUtils.Utils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
 					m_firstMatchedRow = cell.RowIndex;
 					m_firstMatchedCol = cell.ColumnIndex;
 				}
@@ -584,7 +584,7 @@ namespace SIL.Pa.Controls
 					m_doneFinding = true;
 					// Display message that all records have been searched
 					if (m_showMessages)
-						STUtils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
+						SilUtils.Utils.STMsgBox(Properties.Resources.kstidFindDoneSearching);
 					return true;
 				}
 				else

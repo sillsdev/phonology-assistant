@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {

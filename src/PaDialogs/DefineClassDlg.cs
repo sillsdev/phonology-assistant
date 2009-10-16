@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -36,7 +36,7 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
-			STUtils.WaitCursors(true);
+			SilUtils.Utils.WaitCursors(true);
 			InitializeComponent();
 
 			lblClassName.Font = FontHelper.UIFont;
@@ -331,7 +331,7 @@ namespace SIL.Pa.Dialogs
 
 			charExplorer.LoadSettings(Name);
 			UpdateCharacterViewers();
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 
 			base.OnShown(e);
 		}
@@ -413,7 +413,7 @@ namespace SIL.Pa.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				STUtils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+				SilUtils.Utils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}

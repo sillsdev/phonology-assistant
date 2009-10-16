@@ -22,7 +22,7 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -182,7 +182,7 @@ namespace SIL.Pa
 				PaApp.Project.EnsureSortOptionsSaved();
 
 			PaApp.ProjectLoadInProcess = true;
-			STUtils.WaitCursors(true);
+			SilUtils.Utils.WaitCursors(true);
 			PaProject project = PaProject.Load(projectFileName, this);
 
 			if (project != null)
@@ -223,7 +223,7 @@ namespace SIL.Pa
 
 			BackColor = vwTabGroup.BackColor;
 			PaApp.ProjectLoadInProcess = false;
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
-			STUtils.UpdateWindow(this.Handle);
+			SilUtils.Utils.UpdateWindow(this.Handle);
 			base.OnActivated(e);
 		}
 

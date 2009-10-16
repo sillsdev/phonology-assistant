@@ -27,7 +27,7 @@ namespace SIL.Pa.AddOn
 				InitializeComponent();
 				string msg = Properties.Resources.kstidFeedbackRequestMsg.Replace("\\r", "\r");
 				msg = msg.Replace("\\n", "\n");
-				txtRequest.Text = SIL.SpeechTools.Utils.STUtils.ConvertLiteralNewLines(msg);
+				txtRequest.Text = SilUtils.Utils.ConvertLiteralNewLines(msg);
 			}
 			catch { }
 		}

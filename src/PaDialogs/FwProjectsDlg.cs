@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {

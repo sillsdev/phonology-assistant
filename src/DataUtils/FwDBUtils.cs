@@ -7,7 +7,7 @@ using System.ServiceProcess;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Data.Properties;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -129,9 +129,9 @@ namespace SIL.Pa.Data
 				{
 					string msg = string.Format(Resources.kstidSQLConnectionErrMsg,
 						dbName, machineName, e.Message);
-					
-					
-					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+
+					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 
@@ -153,7 +153,7 @@ namespace SIL.Pa.Data
 
 			if (showMsg)
 			{
-				STUtils.STMsgBox(Resources.kstidSQLServerNotInstalledMsg,
+				SilUtils.Utils.STMsgBox(Resources.kstidSQLServerNotInstalledMsg,
 					MessageBoxButtons.OK);
 			}
 
@@ -238,14 +238,14 @@ namespace SIL.Pa.Data
 					// Check if we've timed out.
 					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
 					{
-						STUtils.STMsgBox(string.Format(Resources.kstidErrorStartingSQLServer1, msg));
+						SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorStartingSQLServer1, msg));
 						return false;
 					}
 
 					msg = string.Format(Resources.kstidErrorStartingSQLServer2,
 						FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
-					if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo,
+					if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question) != DialogResult.Yes)
 					{
 						return false;
@@ -529,7 +529,7 @@ namespace SIL.Pa.Data
 			if (IsMissing)
 			{
 				string msg = string.Format(Resources.kstidFwDBMissing, DBName);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 	}
@@ -700,14 +700,14 @@ namespace SIL.Pa.Data
 				// There should be at least one writing system defined.
 				if (wsCollection.Count == 0)
 				{
-					STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+					SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 						Path.GetFileName(m_sourceInfo.Queries.QueryFile), string.Empty),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 			catch (Exception e)
 			{
-				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
@@ -735,7 +735,7 @@ namespace SIL.Pa.Data
 				errMsg = string.Format(Resources.kstidMissingWsMsg,
 					m_sourceInfo.ProjectName);
 
-				STUtils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;
 			}
 
@@ -764,7 +764,7 @@ namespace SIL.Pa.Data
 			}
 			catch (Exception e)
 			{
-				STUtils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -832,13 +832,13 @@ namespace SIL.Pa.Data
 				s_accessInfoFile = Path.GetDirectoryName(Application.ExecutablePath);
 				s_accessInfoFile = Path.Combine(s_accessInfoFile, "FwDBAccessInfo.xml");
 				s_dbAccessInfo =
-					STUtils.DeserializeData(s_accessInfoFile, typeof(FwDBAccessInfo)) as FwDBAccessInfo;
+					SilUtils.Utils.DeserializeData(s_accessInfoFile, typeof(FwDBAccessInfo)) as FwDBAccessInfo;
 			}
 
 			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
 			{
-				string filePath = STUtils.PrepFilePathForSTMsgBox(s_accessInfoFile);
-				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
+				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(s_accessInfoFile);
+				SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
 			}
 		}
 
@@ -1141,10 +1141,10 @@ namespace SIL.Pa.Data
 
 			if (!System.IO.File.Exists(queryFile))
 			{
-				string path = STUtils.PrepFilePathForSTMsgBox(Application.StartupPath);
+				string path = SilUtils.Utils.PrepFilePathForSTMsgBox(Application.StartupPath);
 				string[] args = new string[] {dbName, machineName, filename, path, filename};
 				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
 				return false;
 			}
 
@@ -1161,14 +1161,14 @@ namespace SIL.Pa.Data
 			// Find the file that contains the queries.
 			string queryFile = Path.GetDirectoryName(Application.ExecutablePath);
 			queryFile = Path.Combine(queryFile, filename);
-			FwQueries fwqueries = STUtils.DeserializeData(queryFile, typeof(FwQueries)) as FwQueries;
+			FwQueries fwqueries = SilUtils.Utils.DeserializeData(queryFile, typeof(FwQueries)) as FwQueries;
 
 			if (fwqueries != null)
 				fwqueries.m_queryFile = queryFile;
 			else if (s_showMsgOnFileLoadFailure)
 			{
-				string filePath = STUtils.PrepFilePathForSTMsgBox(queryFile);
-				STUtils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
+				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(queryFile);
+				SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
 				fwqueries = new FwQueries(true);
 			}
 

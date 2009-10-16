@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -100,7 +100,7 @@ namespace SIL.Pa.Controls
 			{
 				if (m_reloadError)
 				{
-					STUtils.STMsgBox("Error: " + e.Message);
+					SilUtils.Utils.STMsgBox("Error: " + e.Message);
 					return null;
 				}
 
@@ -131,7 +131,7 @@ namespace SIL.Pa.Controls
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
-					STUtils.STMsgBox(string.Format(
+					SilUtils.Utils.STMsgBox(string.Format(
 						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType));
 					return;
 				}

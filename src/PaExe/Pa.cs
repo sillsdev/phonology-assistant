@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
+//using SilUtils;
 
 namespace SIL.Pa
 {
@@ -32,7 +33,7 @@ namespace SIL.Pa
 						}
 						catch (Exception e)
 						{
-							STUtils.STMsgBox(e.Message + "\n\nUsing default culture.");
+							SilUtils.Utils.STMsgBox(e.Message + "\n\nUsing default culture.");
 						}
 
 						args.RemoveAt(i);

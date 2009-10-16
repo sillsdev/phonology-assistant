@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -81,7 +80,7 @@ namespace SIL.Pa.Controls
 				}
 				finally
 				{
-					STUtils.UpdateWindow(Handle);
+					SilUtils.Utils.UpdateWindow(Handle);
 				}
 			}
 
@@ -102,7 +101,7 @@ namespace SIL.Pa.Controls
 			if (m_mainMenuAdapter != null)
 				m_mainMenuAdapter.AllowUpdates = true;
 		
-			STUtils.UpdateWindow(Handle);
+			SilUtils.Utils.UpdateWindow(Handle);
 
 			bool reloadProjectsOnActivate =
 				PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,

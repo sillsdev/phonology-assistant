@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa;
 using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
 using SIL.FieldWorks.Common.UIAdapters;
 using XCore;
 

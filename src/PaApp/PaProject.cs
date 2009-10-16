@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
+using SilUtils;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
@@ -236,7 +237,7 @@ namespace SIL.Pa
 			if (!File.Exists(projFileName))
 			{
 				errorMsg = string.Format(Properties.Resources.kstidProjectFileNonExistent,
-					STUtils.PrepFilePathForSTMsgBox(projFileName));
+					SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName));
 			}
 
 			string tmpProjPathFilePrefix = Path.GetFullPath(projFileName);
@@ -261,7 +262,7 @@ namespace SIL.Pa
 			}
 			else
 			{
-				STUtils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				project = null;
 			}
 
@@ -280,7 +281,7 @@ namespace SIL.Pa
 
 			try
 			{
-				project = STUtils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
+				project = SilUtils.Utils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
 				project.LoadFieldInfo();
@@ -292,16 +293,16 @@ namespace SIL.Pa
 				if (project == null)
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-						STUtils.PrepFilePathForSTMsgBox(projFileName));
+						SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName));
 				}
 				else
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-						STUtils.PrepFilePathForSTMsgBox(projFileName), e.Message);
+						SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName), e.Message);
 				}
 
 				if (showErrors)
-					STUtils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				project = null;
 			}
@@ -406,7 +407,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				STUtils.STMsgBox(
+				SilUtils.Utils.STMsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
 					m_name, e.Message));
 			}
@@ -503,9 +504,9 @@ namespace SIL.Pa
 			// Especially if the chain of events that triggered displaying the message box was
 			// started in this method. In that case, we'd get into an infinite loop of
 			// displaying the message box.
-			if (STUtils.MessageBoxJustShown)
+			if (SilUtils.Utils.MessageBoxJustShown)
 			{
-				STUtils.MessageBoxJustShown = false;
+				SilUtils.Utils.MessageBoxJustShown = false;
 				return;
 			}
 
@@ -596,7 +597,7 @@ namespace SIL.Pa
 				m_queryGroups.Save(this);
 
 			if (m_fileName != null)
-				STUtils.SerializeData(m_fileName, this);
+				SilUtils.Utils.SerializeData(m_fileName, this);
 
 			if (m_newProject)
 			{

@@ -6,8 +6,8 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -165,7 +165,7 @@ namespace SIL.Pa.Dialogs
 			}
 			catch (ArgumentException err)
 			{
-				STUtils.STMsgBox(err.Message);
+				SilUtils.Utils.STMsgBox(err.Message);
 
 				if (prevFont == null)
 					return;

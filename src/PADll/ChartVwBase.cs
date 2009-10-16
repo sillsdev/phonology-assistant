@@ -10,7 +10,7 @@ using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa

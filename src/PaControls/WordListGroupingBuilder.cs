@@ -1,6 +1,6 @@
 using System;
 using System.Drawing;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -146,10 +146,10 @@ namespace SIL.Pa.Controls
 		{
 			if (grid != null)
 			{
-				STUtils.SetWindowRedraw(grid, false, false);
+				SilUtils.Utils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalGroup();
-				STUtils.SetWindowRedraw(grid, true, true);
+				SilUtils.Utils.SetWindowRedraw(grid, true, true);
 				grid.Invalidate();
 
 				if (grid.GroupByField != null)
@@ -166,10 +166,10 @@ namespace SIL.Pa.Controls
 		{
 			if (grid != null)
 			{
-				STUtils.SetWindowRedraw(grid, false, false);
+				SilUtils.Utils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalUnGroup();
-				STUtils.SetWindowRedraw(grid, true, true);
+				SilUtils.Utils.SetWindowRedraw(grid, true, true);
 				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}

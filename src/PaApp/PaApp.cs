@@ -27,7 +27,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -165,31 +165,30 @@ namespace SIL.Pa
 				s_splashScreen = new SplashScreen(false, false);
 				s_splashScreen.Show();
 				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
-				s_splashScreen.ProdVersion = ProdVersion;
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// For versions of PA newer than 3.0.1, remove this property and let the splashscreen
-		/// set the version using it's default way. I added this override to the default way
-		/// because I had removed the "Beta" from the splash and about box too early and, as a
-		/// result, there are too many test users with versions of the program labeled 3.0
-		/// that are really beta or test versions. Therefore, I had to build my own version
-		/// 3.0.1 using the Application.ProductVersion property. I could have just set that
-		/// property to (in the properties for the Pa.exe project) but that would mess up
-		/// the third number representing the build number which I want to keep at * so the
-		/// build date is accurate (because that's what the third number is).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string ProdVersion
-		{
-			get
-			{
-				Version ver = new Version(Application.ProductVersion);
-				return string.Format("{0}.1", ver.ToString(2));
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// For versions of PA newer than 3.0.1, remove this property and let the splashscreen
+		///// set the version using it's default way. I added this override to the default way
+		///// because I had removed the "Beta" from the splash and about box too early and, as a
+		///// result, there are too many test users with versions of the program labeled 3.0
+		///// that are really beta or test versions. Therefore, I had to build my own version
+		///// 3.0.1 using the Application.ProductVersion property. I could have just set that
+		///// property to (in the properties for the Pa.exe project) but that would mess up
+		///// the third number representing the build number which I want to keep at * so the
+		///// build date is accurate (because that's what the third number is).
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static string ProdVersion
+		//{
+		//    get
+		//    {
+		//        Version ver = new Version(Application.ProductVersion);
+		//        return string.Format("{0}.1", ver.ToString(2));
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1306,7 +1305,7 @@ namespace SIL.Pa
 				lbl.Visible = bar.Visible = true;
 				s_activeProgBarLabel = lbl;
 				s_activeProgressBar = bar;
-				STUtils.WaitCursors(true);
+				SilUtils.Utils.WaitCursors(true);
 			}
 
 			return s_progressBar;
@@ -1344,7 +1343,7 @@ namespace SIL.Pa
 
 			s_activeProgBarLabel = null;
 			s_activeProgressBar = null;
-			STUtils.WaitCursors(false);
+			SilUtils.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1647,7 +1646,7 @@ namespace SIL.Pa
 			if (!string.IsNullOrEmpty(msg))
 			{
 				if (showErrMsg)
-					STUtils.STMsgBox(msg);
+					SilUtils.Utils.STMsgBox(msg);
 
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
 				resultCount = -1;
@@ -1796,7 +1795,7 @@ namespace SIL.Pa
 
 						if (showMsgOnErr)
 						{
-							STUtils.STMsgBox(errorMsg, MessageBoxButtons.OK,
+							SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK,
 								   MessageBoxIcon.Exclamation);
 						}
 
@@ -1834,7 +1833,7 @@ namespace SIL.Pa
 				msg = CombineErrorMessages(engine.ErrorMessages);
 
 			if (msg != null && showErrMsg)
-				STUtils.STMsgBox(msg);
+				SilUtils.Utils.STMsgBox(msg);
 
 			return (msg == null);
 		}
@@ -1920,9 +1919,9 @@ namespace SIL.Pa
 			else
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
-					STUtils.PrepFilePathForSTMsgBox(s_helpFilePath));
+					SilUtils.Utils.PrepFilePathForSTMsgBox(s_helpFilePath));
 				
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 	}

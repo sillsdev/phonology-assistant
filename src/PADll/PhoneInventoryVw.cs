@@ -7,7 +7,7 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -487,7 +487,7 @@ namespace SIL.Pa
 			if (PhoneFeaturesChanged || AmbiguousSequencesChanged || m_experimentalTransCtrl.Grid.IsDirty)
 			{
 				string msg = Properties.Resources.kstidUnAppliedPhoneInventoryChangesMsg;
-				DialogResult rslt = STUtils.STMsgBox(msg, MessageBoxButtons.YesNoCancel);
+				DialogResult rslt = SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNoCancel);
 				if (rslt == DialogResult.Cancel)
 					return true;
 
@@ -924,7 +924,7 @@ namespace SIL.Pa
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
 
-					STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return true;
 				}
 			}
@@ -971,7 +971,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;
 			}
 
@@ -1078,7 +1078,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}
 		}
@@ -1111,7 +1111,7 @@ namespace SIL.Pa
 				tip = string.Format(Properties.Resources.kstidPhoneInventoryPhoneInfo,
 					tip.Substring(0, tip.Length - 2));
 
-				tip = STUtils.ConvertLiteralNewLines(tip);
+				tip = SilUtils.Utils.ConvertLiteralNewLines(tip);
 
 				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
 				Point pt = gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));

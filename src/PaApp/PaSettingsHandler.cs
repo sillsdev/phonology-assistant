@@ -1,4 +1,4 @@
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {

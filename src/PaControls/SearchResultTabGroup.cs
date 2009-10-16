@@ -7,8 +7,8 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -1011,7 +1011,7 @@ namespace SIL.Pa.Controls
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				STUtils.UpdateWindow(m_pnlTabs.Handle);
+				SilUtils.Utils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1608,7 +1608,7 @@ namespace SIL.Pa.Controls
 				{
 					m_selected = value;
 					Invalidate();
-					STUtils.UpdateWindow(Handle);
+					SilUtils.Utils.UpdateWindow(Handle);
 
 					if (m_resultView != null)
 					{

@@ -1,8 +1,8 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -10,6 +10,27 @@
     <RootNamespace>SIL.SpeechTools.Utils</RootNamespace>
     <AssemblyName>SpeechToolsUtils</AssemblyName>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +55,13 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SilEncConverters22" />
+    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -42,64 +69,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ColorHelper.cs" />
-    <Compile Include="ExceptionViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExceptionViewer.designer.cs">
-      <DependentUpon>ExceptionViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FontHelper.cs" />
-    <Compile Include="GridCellPiecePainter.cs" />
     <Compile Include="MusicXML.cs" />
-    <Compile Include="NoActivateWnd.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SaAudioDocument.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SilButtonCell.cs" />
-    <Compile Include="SilGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SilHierarchicalGridParts.cs" />
-    <Compile Include="SilPopup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SilPopup.designer.cs">
-      <DependentUpon>SilPopup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SmallFadingWnd.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SmallFadingWnd.designer.cs">
-      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SplashScreen.cs">
-    </Compile>
     <Compile Include="ISaAudioDocumentReader.cs" />
     <Compile Include="ISaAudioDocumentWriter.cs" />
-    <Compile Include="PaintingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SplashScreenForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="SaDatabase.cs" />
     <Compile Include="SaAudioDocumentReader.cs" />
     <Compile Include="SaAudioDocumentWriter.cs" />
-    <Compile Include="SettingsHandler.cs" />
     <Compile Include="SpeechToolsSettingsHandler.cs" />
-    <Compile Include="STUtils.cs">
-    </Compile>
     <Compile Include="AudioReader.cs" />
     <Compile Include="TransConverter.cs" />
     <Compile Include="TransConvertersDlg.cs">
@@ -108,37 +93,12 @@
     <Compile Include="TransConvertersDlg.designer.cs">
       <DependentUpon>TransConvertersDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="XMLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AboutDlg.resx">
-      <DependentUpon>AboutDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExceptionViewer.resx">
-      <DependentUpon>ExceptionViewer.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SilPopup.resx">
-      <DependentUpon>SilPopup.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SmallFadingWnd.resx">
-      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreen.resx">
-      <DependentUpon>SplashScreen.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SplashScreenForm.resx">
-      <DependentUpon>SplashScreenForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TransConvertersDlg.resx">
       <DependentUpon>TransConvertersDlg.cs</DependentUpon>
@@ -146,13 +106,31 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\kimidSilLogo.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Collapse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Expand.png" />
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

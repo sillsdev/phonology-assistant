@@ -2,15 +2,27 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class GridCellInfoPopup : SilPopup
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public enum Purpose
 		{
+			/// <summary></summary>
 			ExperimentalTranscription,
+			/// <summary></summary>
 			UncertainPossibilities
 		}
 

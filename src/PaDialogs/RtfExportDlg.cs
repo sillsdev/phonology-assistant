@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -299,7 +299,7 @@ namespace SIL.Pa.Dialogs
 		{
 			//if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
 			//{
-			//    STUtils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
+			//    SilUtils.Utils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
 			//    return;
 			//}
 

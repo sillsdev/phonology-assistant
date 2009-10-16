@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Controls;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -52,7 +52,7 @@ namespace SIL.Pa.Dialogs
 				// Ensure any renamed classes don't have empty class names
 				if (item.Text == string.Empty)
 				{
-					STUtils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+					SilUtils.Utils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -30,7 +29,7 @@ namespace SIL.Pa.Data
 		{
 			string filename = BuildFileName(projectFileName);
 			
-			ExperimentalTranscriptions experimentalTrans = STUtils.DeserializeData(filename,
+			ExperimentalTranscriptions experimentalTrans = SilUtils.Utils.DeserializeData(filename,
 				typeof(ExperimentalTranscriptions)) as ExperimentalTranscriptions;
 
 			// This should never need to be done, but just in case there are entries in
@@ -56,7 +55,7 @@ namespace SIL.Pa.Data
 		public void Save(string projectFileName)
 		{
 			string filename = BuildFileName(projectFileName);
-			STUtils.SerializeData(filename, this);
+			SilUtils.Utils.SerializeData(filename, this);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -50,7 +50,7 @@ namespace SIL.SpeechTools.Utils
 
 			// Load the contents of the database into the cache.
 			s_docCache =
-				STUtils.DeserializeData(fullDbPath, typeof(SaDocumentCache)) as SaDocumentCache;
+				SilUtils.Utils.DeserializeData(fullDbPath, typeof(SaDocumentCache)) as SaDocumentCache;
 
 			if (s_docCache == null)
 				return false;
@@ -82,7 +82,7 @@ namespace SIL.SpeechTools.Utils
 
 			try
 			{
-				STUtils.SerializeData(s_dbPath, s_docCache);
+				SilUtils.Utils.SerializeData(s_dbPath, s_docCache);
 			}
 			catch { }
 

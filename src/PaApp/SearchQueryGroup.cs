@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -46,7 +46,7 @@ namespace SIL.Pa
 
 			if (File.Exists(filename))
 			{
-				srchQueries = STUtils.DeserializeData(filename,
+				srchQueries = SilUtils.Utils.DeserializeData(filename,
 					typeof(SearchQueryGroupList)) as SearchQueryGroupList;
 			}
 
@@ -101,7 +101,7 @@ namespace SIL.Pa
 			if (project != null)
 			{
 				string filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
-				STUtils.SerializeData(filename, this);
+				SilUtils.Utils.SerializeData(filename, this);
 			}
 		}
 

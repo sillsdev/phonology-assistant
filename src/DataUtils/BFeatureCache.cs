@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Data
 {
@@ -74,7 +72,7 @@ namespace SIL.Pa.Data
 			BFeatureCache cache = new BFeatureCache(projectFileName);
 
 			// Deserialize to a list because Dictionaries are not deserializable.
-			List<BFeature> tmpList = STUtils.DeserializeData(cache.CacheFileName,
+			List<BFeature> tmpList = SilUtils.Utils.DeserializeData(cache.CacheFileName,
 				typeof(List<BFeature>)) as List<BFeature>;
 
 			if (tmpList == null)
@@ -119,7 +117,7 @@ namespace SIL.Pa.Data
 			foreach (KeyValuePair<int, BFeature> feature in tmpSortedList)
 				tmpList.Add(feature.Value);
 
-			STUtils.SerializeData(m_cacheFileName, tmpList);
+			SilUtils.Utils.SerializeData(m_cacheFileName, tmpList);
 			tmpSortedList.Clear();
 			tmpList.Clear();
 		}

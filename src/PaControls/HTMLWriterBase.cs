@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Xsl;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa.Controls
 {
@@ -74,8 +73,8 @@ namespace SIL.Pa.Controls
 
 			if (!File.Exists(m_xslFileBase))
 			{
-				string filePath = STUtils.PrepFilePathForSTMsgBox(m_xslFileBase);
-				STUtils.STMsgBox(
+				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(m_xslFileBase);
+				SilUtils.Utils.STMsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
 					filePath));
 				return false;
@@ -220,7 +219,7 @@ namespace SIL.Pa.Controls
 			catch (Exception e)
 			{
 				// Of course, you know we should never get here. :o)
-				STUtils.STMsgBox(e.Message);
+				SilUtils.Utils.STMsgBox(e.Message);
 			}
 			finally
 			{
@@ -270,7 +269,7 @@ namespace SIL.Pa.Controls
 				{
 					CultureInfo ci =
 						CultureInfo.CreateSpecificCulture("en");
-					STUtils.TryFloatParse(
+					SilUtils.Utils.TryFloatParse(
 						xslContent.Substring(open, closed - open), ci, out altSize);
 				}
 			}

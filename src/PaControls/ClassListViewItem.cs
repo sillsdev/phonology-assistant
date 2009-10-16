@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {

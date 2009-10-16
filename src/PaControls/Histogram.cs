@@ -5,8 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.FFSearchEngine;
-using SIL.SpeechTools.Utils;
 using XCore;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -297,7 +297,7 @@ namespace SIL.Pa.Controls
 				m_ignoreFixedBorderResize = false;
 			}
 
-			STUtils.SetWindowRedraw(pnlBars, false, false);
+			SilUtils.Utils.SetWindowRedraw(pnlBars, false, false);
 
 			int xLocationOffset = 0;
 			m_hashMarkIncrement = 0;
@@ -330,7 +330,7 @@ namespace SIL.Pa.Controls
 					bar.Location = newLoc;
 			}
 
-			STUtils.SetWindowRedraw(pnlBars, true, true);
+			SilUtils.Utils.SetWindowRedraw(pnlBars, true, true);
 
 			pnlScroller_Scroll(null, new ScrollEventArgs(ScrollEventType.EndScroll,
 				-pnlScroller.AutoScrollPosition.X));
@@ -355,7 +355,7 @@ namespace SIL.Pa.Controls
 				TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
 
 			// Draw the label's text.
-			using (StringFormat sf = STUtils.GetStringFormat(true))
+			using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
 			{
 				e.Graphics.FillRectangle(SystemBrushes.Control, lbl.ClientRectangle);
 
@@ -453,7 +453,7 @@ namespace SIL.Pa.Controls
 			Rectangle rc =
 				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, m_hashMarkGap);
 
-			using (StringFormat sf = STUtils.GetStringFormat(true))
+			using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
 			{
 				sf.Alignment = StringAlignment.Far;
 

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -101,7 +100,7 @@ namespace SIL.Pa
 
 			if (File.Exists(filename))
 			{
-				srchClasses = STUtils.DeserializeData(filename,
+				srchClasses = SilUtils.Utils.DeserializeData(filename,
 					typeof(SearchClassList)) as SearchClassList;
 			}
 
@@ -147,7 +146,7 @@ namespace SIL.Pa
 			if (project != null)
 			{
 				string filename = project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
-				STUtils.SerializeData(filename, this);
+				SilUtils.Utils.SerializeData(filename, this);
 			}
 		}
 		

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
@@ -76,7 +76,7 @@ namespace SIL.Pa.Dialogs
 			if (string.IsNullOrEmpty(text))
 			{
 				string msg = Properties.Resources.kstidNoSavedChartNameMsg;
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -87,7 +87,7 @@ namespace SIL.Pa.Dialogs
 			{
 				string msg = Properties.Resources.kstidSavedChartNameAlreadyExistsOverwriteMsg;
 				msg = string.Format(msg, text);
-				if (STUtils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 					m_layoutToOverwrite = existingLayout;
 				else
 				{

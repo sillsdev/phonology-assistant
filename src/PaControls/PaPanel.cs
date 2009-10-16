@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -70,7 +70,7 @@ namespace SIL.Pa.Controls
 			base.OnClientSizeChanged(e);
 
 			if (m_overrideBorderDrawing)
-				STUtils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
+				SilUtils.Utils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

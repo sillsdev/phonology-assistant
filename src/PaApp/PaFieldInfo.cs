@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -429,7 +429,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				PaFieldInfoList fieldInfoList = STUtils.DeserializeData("DefaultFieldInfo.xml",
+				PaFieldInfoList fieldInfoList = SilUtils.Utils.DeserializeData("DefaultFieldInfo.xml",
 					typeof(PaFieldInfoList)) as PaFieldInfoList;
 
 				if (fieldInfoList != null)
@@ -482,7 +482,7 @@ namespace SIL.Pa
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
 
 			// Get the project specific field information.
-			PaFieldInfoList fieldInfoList = STUtils.DeserializeData(filename,
+			PaFieldInfoList fieldInfoList = SilUtils.Utils.DeserializeData(filename,
 				typeof(PaFieldInfoList)) as PaFieldInfoList;
 
 			if (fieldInfoList != null)
@@ -623,7 +623,7 @@ namespace SIL.Pa
 				return;
 
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
-			STUtils.SerializeData(filename, this);
+			SilUtils.Utils.SerializeData(filename, this);
 			ManageVersion(filename, false);
 		}
 
@@ -634,7 +634,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			STUtils.SerializeData("DefaultFieldInfo.xml", this);
+			SilUtils.Utils.SerializeData("DefaultFieldInfo.xml", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
