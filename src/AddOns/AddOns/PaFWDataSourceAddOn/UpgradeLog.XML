@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="PaFWDataSourceAddOn">
+</Property><Property Name="Solution File" Value="C:\Phonology Assistant\src\PaFWDataSourceAddOn\PaFWDataSourceAddOn.sln">
+</Property><Property Name="Date" Value="Thursday, May 15, 2008">
+</Property><Property Name="Time" Value="13:08:41 PM">
+</Property></Properties><Event ErrorLevel="0" Project="PaFWDataSourceAddOn" Source="PaFWDataSourceAddOn.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="PaFWDataSourceAddOn" Source="PaFWDataSourceAddOn.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="PaFWDataSourceAddOn" Source="PaFWDataSourceAddOn.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

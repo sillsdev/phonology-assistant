@@ -1,0 +1,10 @@
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Debug\ResolveAssemblyReference.cache
+C:\Phonology Assistant\Output\Debug\AddOns\PaSADataSourceAddOn.dll
+C:\Phonology Assistant\Output\Debug\AddOns\PaSADataSourceAddOn.pdb
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Debug\PaSADataSourceAddOn.dll
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Debug\PaSADataSourceAddOn.pdb
+C:\Phonology Assistant\Output\Release\AddOns\PaSADataSourceAddOn.dll
+C:\Phonology Assistant\Output\Release\AddOns\PaSADataSourceAddOn.pdb
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Release\ResolveAssemblyReference.cache
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Release\PaSADataSourceAddOn.dll
+C:\Phonology Assistant\src\PaSADataSourceAddOn\obj\Release\PaSADataSourceAddOn.pdb
