@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using SilUtils;
-//using SilUtils;
 
 namespace SIL.Pa
 {
