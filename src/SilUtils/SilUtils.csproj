@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="FontHelper.cs" />
     <Compile Include="GridCellPiecePainter.cs" />
+    <Compile Include="MsgDispatcher.cs" />
     <Compile Include="NoActivateWnd.cs">
       <SubType>Form</SubType>
     </Compile>

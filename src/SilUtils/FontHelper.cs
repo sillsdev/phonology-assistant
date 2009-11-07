@@ -172,6 +172,55 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Creates a string containing three pieces of information about the specified font:
+		/// the name, size and style.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string FontToString(Font fnt)
+		{
+			if (fnt == null)
+				return null;
+
+			return fnt.Name + ", " + fnt.SizeInPoints + ", " + fnt.Style;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a font object with the specified properties. If an error occurs while
+		/// making the font (e.g. because the font doesn't support a particular style) a
+		/// fallback scheme is used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Font MakeFont(string fontString)
+		{
+			if (fontString == null)
+				return SystemFonts.DefaultFont;
+
+			string name = SystemFonts.DefaultFont.FontFamily.Name;
+			float size = SystemFonts.DefaultFont.SizeInPoints;
+			FontStyle style = FontStyle.Regular;
+
+			string[] parts = fontString.Split(',');
+			if (parts.Length > 0)
+				name = parts[0];
+
+			if (parts.Length > 1)
+				float.TryParse(parts[1], out size);
+
+			if (parts.Length > 2)
+			{
+				try
+				{
+					style = (FontStyle)Enum.Parse(typeof(FontStyle), parts[2]);
+				}
+				catch { }
+			}
+
+			return MakeFont(name, size, style);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Creates a font object with the specified properties. If an error occurs while
 		/// making the font (e.g. because the font doesn't support a particular style) a
 		/// fallback scheme is used.

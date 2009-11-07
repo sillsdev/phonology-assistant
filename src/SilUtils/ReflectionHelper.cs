@@ -306,7 +306,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		private static object Invoke(object binding, string name, object[] args, BindingFlags flags)
 		{
-			flags |= BindingFlags.NonPublic;
+			flags |= (BindingFlags.NonPublic | BindingFlags.Public);
 
 			try
 			{
