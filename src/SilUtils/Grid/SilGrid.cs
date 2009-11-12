@@ -250,6 +250,42 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// When a cell is in the edit mode and all the text in the edit control is selected,
+		/// pressing the home key changes the cell to the first cell in the row and pressing
+		/// the end key changes the cell to the last cell in the row. This seems counter
+		/// intuitive. I would expect the cursor to move to the beginning or end of the text
+		/// within the edit control, therefore, this method will trap those two keys and
+		/// force this desired behavior, then eat the key message as though it wasn't
+		/// dispatched.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Home || keyData == Keys.End &&
+				IsCurrentCellInEditMode && EditingControl is TextBox)
+			{
+				var txtBox = ((TextBox)EditingControl);
+				
+				// Only override the default behavior when all
+				// the text in the edit control is selected.
+				if (txtBox.SelectedText == txtBox.Text)
+				{
+					if (keyData == Keys.Home)
+						txtBox.SelectionStart = 0;
+					else
+						txtBox.SelectionStart = txtBox.Text.Length;
+
+					txtBox.SelectionLength = 0;
+					msg.Msg = 0;
+					return true;
+				}
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// In order to achieve double buffering without the problem that arises from having
 		/// double buffering on while sizing rows and columns or dragging columns around,
 		/// monitor when the mouse goes down and turn off double buffering when it goes down

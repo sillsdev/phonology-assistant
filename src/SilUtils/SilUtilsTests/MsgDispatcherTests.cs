@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Windows.Forms;
 using NUnit.Framework;
 
 namespace SilUtils
@@ -26,7 +25,7 @@ namespace SilUtils
 		{
 			m_dispatcher = new MessageDispatcher();
 			m_receiver = new ReceiverBase();
-			m_dispatcher.AddDispatchReceiver(m_receiver);
+			m_dispatcher.AddReceiver(m_receiver);
 		}
 
 		///--------------------------------------------------------------------------------------
@@ -35,16 +34,26 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void TestReceiverAddedAndRemoved()
+		public void ReceiverAddedAndRemoved()
 		{
-			m_dispatcher.AddDispatchReceiver(this);
-			
-			var receiverList =
-				ReflectionHelper.GetField(m_dispatcher, "m_dispatchReceivers") as HashSet<object>;
-			
-			Assert.IsTrue(receiverList.Contains(this));
-			m_dispatcher.RemoveDispatchReceiver(this);
-			Assert.IsFalse(receiverList.Contains(this));
+			m_dispatcher.AddReceiver(this);
+			Assert.IsTrue(m_dispatcher.HasReceiver(this));
+			m_dispatcher.RemoveReceiver(this);
+			Assert.IsFalse(m_dispatcher.HasReceiver(this));
+		}
+
+		///--------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that receiver classes are removed from the dispatcher when they are disposed.
+		/// </summary>
+		///--------------------------------------------------------------------------------------
+		[Test]
+		public void ReceiverRemovedWhenDisposed()
+		{
+			m_dispatcher.AddReceiver(m_receiver);
+			Assert.IsTrue(m_dispatcher.HasReceiver(m_receiver));
+			m_receiver.Dispose();
+			Assert.IsFalse(m_dispatcher.HasReceiver(m_receiver));
 		}
 
 		///--------------------------------------------------------------------------------------
@@ -53,7 +62,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void TestAllReceiversCalled()
+		public void AllReceiversCalled()
 		{
 			var msgs = new[] { "PublicMsgHandled", "PrivateMsgHandled",
 				"ProtectedMsgHandled", "InternalMsgHandled" };
@@ -79,7 +88,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void TestReceiverArgs()
+		public void ReceiverArgsReceived()
 		{
 			Assert.IsNull(m_receiver.Args);
 			Assert.IsNull(m_receiver.Sender);
@@ -99,12 +108,12 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void TestDispatchingInterupted()
+		public void DispatchingInterupted()
 		{
 			var firstReceiver = new ReceiverReturningTrue();
-			m_dispatcher.RemoveDispatchReceiver(m_receiver);
-			m_dispatcher.AddDispatchReceiver(firstReceiver);
-			m_dispatcher.AddDispatchReceiver(m_receiver);
+			m_dispatcher.RemoveReceiver(m_receiver);
+			m_dispatcher.AddReceiver(firstReceiver);
+			m_dispatcher.AddReceiver(m_receiver);
 
 			Assert.IsNull(firstReceiver.Args);
 			Assert.IsNull(firstReceiver.Sender);
@@ -118,6 +127,100 @@ namespace SilUtils
 			Assert.IsNull(m_receiver.Sender);
 			Assert.AreEqual("Aaaaahhhh!", firstReceiver.Args);
 			Assert.AreEqual(this, firstReceiver.Sender);
+		}
+
+		///--------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that when dispatching messages, the sender of the message is not included
+		/// in the message dispatching.
+		/// </summary>
+		///--------------------------------------------------------------------------------------
+		[Test]
+		public void SkipSender()
+		{
+			var receiver2 = new ReceiverReturningTrue();
+			m_dispatcher.AddReceiver(receiver2);
+
+			Assert.IsNull(receiver2.Args);
+			Assert.IsNull(receiver2.Sender);
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+
+			// Call without the skip flag, since the default behavior is to skip.
+			m_dispatcher.SendMessage("ProtectedMsgHandled", m_receiver, "Eeee!");
+
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+			Assert.AreEqual("Eeee!", receiver2.Args);
+			Assert.AreEqual(m_receiver, receiver2.Sender);
+
+			receiver2.Args = null;
+			receiver2.Sender = null;
+
+			// Call with the skip flag.
+			m_dispatcher.SendMessage("ProtectedMsgHandled", m_receiver, "Eeee!", true);
+
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+			Assert.AreEqual("Eeee!", receiver2.Args);
+			Assert.AreEqual(m_receiver, receiver2.Sender);
+		}
+
+		///--------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that when dispatching messages, the sender of the message is included
+		/// in the message dispatching.
+		/// </summary>
+		///--------------------------------------------------------------------------------------
+		[Test]
+		public void IncludeSender()
+		{
+			var receiver2 = new ReceiverReturningTrue();
+			m_dispatcher.AddReceiver(receiver2);
+
+			Assert.IsNull(receiver2.Args);
+			Assert.IsNull(receiver2.Sender);
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+
+			// Call without the skip flag, expecting that default behavior is to skip.
+			m_dispatcher.SendMessage("ProtectedMsgHandled", m_receiver, "Eeee!");
+
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+			Assert.AreEqual("Eeee!", receiver2.Args);
+			Assert.AreEqual(m_receiver, receiver2.Sender);
+
+			receiver2.Args = null;
+			receiver2.Sender = null;
+
+			// Now call with the skip flag set to false.
+			m_dispatcher.SendMessage("ProtectedMsgHandled", m_receiver, "Eeee!", false);
+
+			Assert.AreEqual("Eeee!", m_receiver.Args);
+			Assert.AreEqual(m_receiver, m_receiver.Sender);
+			Assert.AreEqual("Eeee!", receiver2.Args);
+			Assert.AreEqual(m_receiver, receiver2.Sender);
+		}
+
+		///--------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests that suspending message dispatching actually works.
+		/// </summary>
+		///--------------------------------------------------------------------------------------
+		[Test]
+		public void DispatchingSuspended()
+		{
+			Assert.IsNull(m_receiver.Args);
+			Assert.IsNull(m_receiver.Sender);
+
+			m_dispatcher.SendMessage("InternalMsgHandled", this, null);
+			Assert.AreEqual(this, m_receiver.Sender);
+			m_receiver.Sender = null;
+
+			m_dispatcher.SuspendDispatching = true;
+			m_dispatcher.SendMessage("InternalMsgHandled", this, null);
+			Assert.IsNull(m_receiver.Sender);
 		}
 	}
 
@@ -146,10 +249,10 @@ namespace SilUtils
 	#region ReceiverBase class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// 
+	/// Inherit from Control so the class supports the Dispose event.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	internal class ReceiverBase
+	internal class ReceiverBase : Control
 	{
 		internal object Args {get; set; }
 		internal object Sender {get; set; }

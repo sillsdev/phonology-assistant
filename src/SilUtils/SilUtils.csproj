@@ -54,8 +54,13 @@
       <DependentUpon>ExceptionViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="FontHelper.cs" />
-    <Compile Include="GridCellPiecePainter.cs" />
-    <Compile Include="MsgDispatcher.cs" />
+    <Compile Include="Grid\GridCellPiecePainter.cs" />
+    <Compile Include="Grid\SilButtonCell.cs" />
+    <Compile Include="Grid\SilGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Grid\SilHierarchicalGridParts.cs" />
+    <Compile Include="MessageDispatcher.cs" />
     <Compile Include="NoActivateWnd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,11 +73,6 @@
     </Compile>
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SettingsHandler.cs" />
-    <Compile Include="SilButtonCell.cs" />
-    <Compile Include="SilGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SilHierarchicalGridParts.cs" />
     <Compile Include="SilPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>

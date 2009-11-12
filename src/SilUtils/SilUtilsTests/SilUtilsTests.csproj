@@ -60,6 +60,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\..\fwr\Bin\NUnit\bin\nunit.framework.dll</HintPath>
@@ -67,7 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="MsgDispatcherTests.cs" />
+    <Compile Include="MsgDispatcherTests.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
