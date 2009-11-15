@@ -261,27 +261,79 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (keyData == Keys.Home || keyData == Keys.End &&
-				IsCurrentCellInEditMode && EditingControl is TextBox)
+			if (IsCurrentCellInEditMode && EditingControl is TextBox)
 			{
 				var txtBox = ((TextBox)EditingControl);
-				
-				// Only override the default behavior when all
-				// the text in the edit control is selected.
-				if (txtBox.SelectedText == txtBox.Text)
-				{
-					if (keyData == Keys.Home)
-						txtBox.SelectionStart = 0;
-					else
-						txtBox.SelectionStart = txtBox.Text.Length;
 
-					txtBox.SelectionLength = 0;
-					msg.Msg = 0;
+				// Only override the default behavior when all the text in the edit control is selected.
+				if (keyData == Keys.Home || keyData == Keys.End && txtBox.SelectedText == txtBox.Text)
+				{
+					ProcessHomeAndEndKeys(txtBox, keyData);
 					return true;
 				}
+
+				if (keyData == Keys.Up && ProcessUpKey(txtBox))
+					return true;
+
+				if (keyData == Keys.Down && ProcessDownKey(txtBox))
+					return true;
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Processes the home and end keys.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ProcessHomeAndEndKeys(TextBox txtBox, Keys keys)
+		{
+			txtBox.SelectionStart = (keys == Keys.Home ? 0 : txtBox.Text.Length);
+			txtBox.SelectionLength = 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Processes up key when a grid cell is in the edit mode. This overrides the default
+		/// behavior in a grid cell when it's being edited so using the up arrow will move the
+		/// IP up one line rather than moving to the previous row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool ProcessUpKey(TextBox txtBox)
+		{
+			// Don't override the default behavior if all the text is selected.
+			if (txtBox.SelectedText == txtBox.Text)
+				return false;
+
+			Point pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
+			
+			if (pt.Y == 0)
+				return false;
+			
+			pt.Y -= TextRenderer.MeasureText("x", txtBox.Font).Height;
+			txtBox.SelectionStart = txtBox.GetCharIndexFromPosition(pt);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Processes down key when a grid cell is in the edit mode. This overrides the default
+		/// behavior in a grid cell when it's being edited so using the down arrow will move the
+		/// IP down one line rather than moving to the next row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool ProcessDownKey(TextBox txtBox)
+		{
+			// Don't override the default behavior if all the text is selected.
+			if (txtBox.SelectedText == txtBox.Text)
+				return false;
+
+			int chrIndex = txtBox.SelectionStart;
+			Point pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
+			pt.Y += TextRenderer.MeasureText("x", txtBox.Font).Height;
+			txtBox.SelectionStart = txtBox.GetCharIndexFromPosition(pt);
+			return (chrIndex != txtBox.SelectionStart);
 		}
 
 		/// ------------------------------------------------------------------------------------

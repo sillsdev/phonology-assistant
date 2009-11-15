@@ -56,6 +56,12 @@
     <Compile Include="Controls\NoActivateWnd.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\OutlookBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OutlookBar.Designer.cs">
+      <DependentUpon>OutlookBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SilPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExceptionViewer.resx">
       <DependentUpon>ExceptionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OutlookBar.resx">
+      <DependentUpon>OutlookBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SilPopup.resx">
       <DependentUpon>SilPopup.cs</DependentUpon>
