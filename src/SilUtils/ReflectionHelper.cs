@@ -317,11 +317,9 @@ namespace SilUtils
 					return ((binding as Type).InvokeMember(name,
 						flags | BindingFlags.Static, null, binding, args));
 				}
-				else
-				{
-					return binding.GetType().InvokeMember(name,
-						flags | BindingFlags.Instance, null, binding, args);
-				}
+
+				return binding.GetType().InvokeMember(name,
+					flags | BindingFlags.Instance, null, binding, args);
 			}
 			catch { }
 

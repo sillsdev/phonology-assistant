@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace SIL.SpeechTools.TestUtils
+namespace SIL.Pa.TestUtils
 {
 	/// <summary>
 	/// Summary description for TestSFFileBuilder.

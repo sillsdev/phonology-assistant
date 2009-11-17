@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace SIL.Pa.Data
@@ -10,11 +9,11 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class BFeatureCache : SortedDictionary<string, BFeature>
+	public class BFeatureCache : FeatureCacheBase<BFeature>
 	{
 		public const string kDefaultBFeatureCacheFile = "DefaultBFeatures.xml";
 		public const string kBFeatureCacheFile = "BFeatures.xml";
-		private string m_cacheFileName = null;
+		private string m_cacheFileName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -33,7 +32,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private static string BuildFileName(string projectFileName, bool mustExist)
 		{
-			string filename = (projectFileName == null ? string.Empty : projectFileName);
+			string filename = (projectFileName ?? string.Empty);
 			filename += (filename.EndsWith(".") ? string.Empty : ".") + kBFeatureCacheFile;
 
 			if (!File.Exists(filename) && mustExist)
@@ -69,19 +68,34 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static BFeatureCache Load(string projectFileName)
 		{
-			BFeatureCache cache = new BFeatureCache(projectFileName);
+			var cache = new BFeatureCache(projectFileName);
 
 			// Deserialize to a list because Dictionaries are not deserializable.
-			List<BFeature> tmpList = SilUtils.Utils.DeserializeData(cache.CacheFileName,
+			var tmpList = SilUtils.Utils.DeserializeData(cache.CacheFileName,
 				typeof(List<BFeature>)) as List<BFeature>;
 
 			if (tmpList == null)
 				return null;
 
-			foreach (BFeature feature in tmpList)
+			int bit = 0;
+			foreach (BFeature plusFeature in tmpList)
 			{
-				if (feature.Name != null)
-					cache[feature.Name] = feature;
+				if (plusFeature.Name == null)
+					continue;
+				
+				BFeature minusFeature = plusFeature.Clone();
+
+				plusFeature.Name = "+" + plusFeature.Name;
+				plusFeature.FullName = "+" + plusFeature.FullName;
+				plusFeature.Bit = bit++;
+				plusFeature.IsPlus = true;
+
+				minusFeature.Name = "-" + minusFeature.Name;
+				minusFeature.FullName = "-" + minusFeature.FullName;
+				minusFeature.Bit = bit++;
+
+				cache[plusFeature.Name.ToLower()] = plusFeature;
+				cache[minusFeature.Name.ToLower()] = minusFeature;
 			}
 
 			tmpList.Clear();
@@ -106,13 +120,13 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			// Copy cache to a sorted list (sorted by bit), then to a list because
-			// Dictionaries cannot be serialized.
-			SortedList<int, BFeature> tmpSortedList = new SortedList<int, BFeature>();
-			List<BFeature> tmpList = new List<BFeature>();
+			// Copy cache to a sorted list (sorted by either one of the bits), then
+			// to a list because Dictionaries cannot be serialized.
+			var tmpSortedList = new SortedList<int, BFeature>();
+			var tmpList = new List<BFeature>();
 
-			foreach (KeyValuePair<string, BFeature> feature in this)
-				tmpSortedList[feature.Value.Bit] = feature.Value;
+			//foreach (KeyValuePair<string, BFeature> feature in this)
+			//    tmpSortedList[feature.Value.PlusBit] = feature.Value;
 
 			foreach (KeyValuePair<int, BFeature> feature in tmpSortedList)
 				tmpList.Add(feature.Value);
@@ -120,107 +134,6 @@ namespace SIL.Pa.Data
 			SilUtils.Utils.SerializeData(m_cacheFileName, tmpList);
 			tmpSortedList.Clear();
 			tmpList.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public new BFeature this[string featureName]
-		{
-			get
-			{
-				featureName = CleanUpFeatureName(featureName);
-				BFeature feature;
-
-				if (TryGetValue(featureName, out feature))
-					return feature;
-
-				// If we failed to get a feature object from the specified name, then check
-				// if the name is the full name of a feature by going through the collection
-				// to see if one of their full names matches featureName.
-				foreach (BFeature feat in this.Values)
-				{
-					if (featureName == feat.FullName.ToLower())
-						return feat;
-				}
-
-				return null;
-			}
-			set
-			{
-				if (featureName != null)
-				{
-					featureName = CleanUpFeatureName(featureName);
-					if (featureName.Length > 0)
-						base[featureName] = value;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string CleanUpFeatureName(string featureName)
-		{
-			if (featureName == null)
-				return string.Empty;
-
-			featureName = featureName.Trim().ToLower();
-			featureName = featureName.Replace("[", string.Empty);
-			featureName = featureName.Replace("]", string.Empty);
-			if (featureName[0] == '+' || featureName[0] == '-')
-				featureName = featureName.Substring(1);
-
-			return featureName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets an array of feature names for the features in the specified mask.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] GetFeatureList(ulong mask)
-		{
-			List<string> featureList = new List<string>();
-
-			foreach (KeyValuePair<string, BFeature> feature in this)
-			{
-				if ((mask & feature.Value.PlusMask) > 0)
-					featureList.Add("+" + feature.Value.Name);
-
-				if ((mask & feature.Value.MinusMask) > 0)
-					featureList.Add("-" + feature.Value.Name);
-			}
-
-			return featureList.ToArray();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a string representing all the features in the specified mask. The feature
-		/// names are joined and delimited by a comma and space.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetFeaturesText(ulong mask)
-		{
-			string[] featureList = GetFeatureList(mask);
-			StringBuilder bldrfeatures = new StringBuilder();
-
-			foreach (string feature in featureList)
-			{
-				bldrfeatures.Append(feature);
-				bldrfeatures.Append(", ");
-			}
-
-			// Remove the last comma and space.
-			if (bldrfeatures.Length >= 2)
-				bldrfeatures.Length -= 2;
-
-			return (bldrfeatures.ToString());
 		}
 	}
 
@@ -230,13 +143,21 @@ namespace SIL.Pa.Data
 	/// A class defining an object to store the information for a single binary feature.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class BFeature
+	public class BFeature : FeatureBase
 	{
-		private int m_bit;
-		private string m_name;
-		private string m_fullname;
-		private ulong m_plusMask;
-		private ulong m_minusMask;
+		private bool m_isPlus;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clones the specified binary feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public BFeature Clone()
+		{
+			var clone = Clone(new BFeature()) as BFeature;
+			clone.m_isPlus = m_isPlus;
+			return clone;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -251,60 +172,14 @@ namespace SIL.Pa.Data
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets or sets a value indicating whether the feature is plus. If not, it is minus.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public int Bit
+		[XmlIgnore]
+		public bool IsPlus
 		{
-			get { return m_bit; }
-			set { m_bit = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string FullName
-		{
-			get { return (string.IsNullOrEmpty(m_fullname) ? Name : m_fullname); }
-			set { m_fullname = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ulong PlusMask
-		{
-			get { return m_plusMask; }
-			set { m_plusMask = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ulong MinusMask
-		{
-			get { return m_minusMask; }
-			set { m_minusMask = value; }
+			get { return m_isPlus; }
+			internal set { m_isPlus = value; }
 		}
 
 		#endregion

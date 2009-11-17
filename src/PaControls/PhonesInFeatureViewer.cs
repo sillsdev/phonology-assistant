@@ -12,13 +12,13 @@ namespace SIL.Pa.Controls
 		private bool m_showAll;
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
-		private bool m_allFeaturesMustMatch = false;
-		private ulong[] m_aMasks;
-		private ulong m_bMask;
+		private bool m_allFeaturesMustMatch;
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
 		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
-		private int m_lblHeight = 0;
-		private readonly int m_extraPhoneHeight = 0;
+		private int m_lblHeight;
+		private readonly int m_extraPhoneHeight;
 		private readonly string m_settingValPrefix;
 		private readonly string m_frmName;
 		private readonly IPACharacterType m_charType;

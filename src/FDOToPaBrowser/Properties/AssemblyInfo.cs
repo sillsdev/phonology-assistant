@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("FDOToPaBrowser")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Allows user to browse data pulled from a FieldWorks database for use in Phonology Assistant.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jaars, Inc.")]
+[assembly: AssemblyCompany("SIL International")]
 [assembly: AssemblyProduct("FDOToPaBrowser")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2009")]
+[assembly: AssemblyCopyright("Copyright © SIL International, 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

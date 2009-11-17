@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace SIL.SpeechTools.TestUtils
+namespace SIL.Pa.TestUtils
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

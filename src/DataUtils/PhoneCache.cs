@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
+using System.Collections;
 
 namespace SIL.Pa.Data
 {
@@ -15,10 +16,6 @@ namespace SIL.Pa.Data
 	{
 		public const string kDefaultChartSupraSegsToIgnore = "\u0300\u0301\u0302\u0304" +
 			"\u0306\u030b\u030c\u030f\u1dc4\u1dc5\u1dc8\u203f";
-
-		private static List<CVPatternInfo> s_cvPatternInfoList;
-		private static AmbiguousSequences s_ambiguousSeqList = null;
-		private static PhoneFeatureOverrides s_featureOverrides = null;
 
 		private readonly string m_conSymbol = "C";
 		private readonly string m_vowSymbol = "V";
@@ -268,40 +265,28 @@ namespace SIL.Pa.Data
 			if (featureName.Length == 0)
 				return string.Empty;
 
+			bool isBinary = (featureName.StartsWith("+") || featureName.StartsWith("-"));
 			StringBuilder bldr = new StringBuilder();
-
-			bool isPlus = (featureName[0] == '+');
-			bool isMinus = (featureName[0] == '-');
-
-			if (isPlus || isMinus)
+			int  bit = -1;
+			if (isBinary)
 			{
 				BFeature bfeature = DataUtils.BFeatureCache[featureName];
 				if (bfeature != null)
-				{
-					foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
-					{
-						if ((isPlus && (bfeature.PlusMask & kvp.Value.BinaryMask) > 0) ||
-							(isMinus && (bfeature.MinusMask & kvp.Value.BinaryMask) > 0))
-						{
-							bldr.Append(kvp.Key);
-							bldr.Append(',');
-						}
-					}
-				}
+					bit = bfeature.Bit;
 			}
 			else
 			{
 				AFeature afeature = DataUtils.AFeatureCache[featureName];
 				if (afeature != null)
+					bit = afeature.Bit;
+			}
+
+			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+			{
+				if ((isBinary && kvp.Value.BMask[bit]) || (!isBinary && kvp.Value.AMask[bit]))
 				{
-					foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
-					{
-						if ((kvp.Value.Masks[afeature.MaskNumber] & afeature.Mask) > 0)
-						{
-							bldr.Append(kvp.Key);
-							bldr.Append(',');
-						}
-					}
+					bldr.Append(kvp.Key);
+					bldr.Append(',');
 				}
 			}
 
@@ -337,33 +322,21 @@ namespace SIL.Pa.Data
 		/// list owned by a PA project when the project is opened.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<CVPatternInfo> CVPatternInfoList
-		{
-			get { return s_cvPatternInfoList; }
-			set { s_cvPatternInfoList = value; }
-		}
+		public static List<CVPatternInfo> CVPatternInfoList { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the list of phones whose features should be overridden.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PhoneFeatureOverrides FeatureOverrides
-		{
-			get { return s_featureOverrides; }
-			set { s_featureOverrides = value; }
-		}
+		public static PhoneFeatureOverrides FeatureOverrides { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the list of ambiguous sequences used while adding phones to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static AmbiguousSequences AmbiguousSequences
-		{
-			get { return s_ambiguousSeqList; }
-			set { s_ambiguousSeqList = value; }
-		}
+		public static AmbiguousSequences AmbiguousSequences { get; set; }
 	}
 
 	#endregion
@@ -380,8 +353,8 @@ namespace SIL.Pa.Data
 		private int m_countAsNonPrimaryUncertainty = 0;
 		private int m_countAsPrimaryUncertainty = 0;
 		private IPACharacterType m_charType = IPACharacterType.Unknown;
-		private ulong m_binaryMask;
-		private ulong[] m_masks = new ulong[] { 0, 0 }; 
+		private FeatureMask m_aMask = new FeatureMask(DataUtils.AFeatureCache.Count);
+		private FeatureMask m_bMask = new FeatureMask(DataUtils.BFeatureCache.Count);
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
@@ -421,44 +394,33 @@ namespace SIL.Pa.Data
 			if (string.IsNullOrEmpty(phone))
 				return;
 
-			ulong bmask = 0;
-			ulong mask0 = 0;
-			ulong mask1 = 0;
-
 			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
 			m_featuresOverridden = ShouldFeaturesBeOverridden(phone);
 
-			if (!phoneIsAmbiguous || !m_featuresOverridden)
+			if (phoneIsAmbiguous && m_featuresOverridden)
+				return;
+			
+			// Go through each codepoint of the phone, building the feature masks along the way.
+			for (int i = phone.Length - 1; i >= 0; i--)
 			{
-				// Go through each codepoint of the phone, building the feature masks along the way.
-				for (int i = phone.Length - 1; i >= 0; i--)
+				IPACharInfo charInfo = DataUtils.IPACharCache[phone[i]];
+				if (charInfo == null)
+					continue;
+				
+				// This will make the final base char in the phone the one that determines
+				// what type of phone this is. If the phone is an ambiguous sequence, then
+				// it has already had it's character type and base character specified.
+				if (!phoneIsAmbiguous && charInfo.IsBaseChar)
 				{
-					IPACharInfo charInfo = DataUtils.IPACharCache[phone[i]];
-					if (charInfo != null)
-					{
-						// This will make the final base char in the phone the one that determines
-						// what type of phone this is. If the phone is an ambiguous sequence, then
-						// it has already had it's character type and base character specified.
-						if (!phoneIsAmbiguous && charInfo.IsBaseChar)
-						{
-							m_charType = charInfo.CharType;
-							m_baseChar = phone[i];
-						}
-
-						if (!m_featuresOverridden)
-						{
-							bmask |= charInfo.BinaryMask;
-							mask0 |= charInfo.Mask0;
-							mask1 |= charInfo.Mask1;
-						}
-					}
+					m_charType = charInfo.CharType;
+					m_baseChar = phone[i];
 				}
-			}
 
-			if (!m_featuresOverridden)
-			{
-				m_masks = new ulong[] { mask0, mask1 };
-				m_binaryMask = bmask;
+				if (!m_featuresOverridden)
+				{
+					m_aMask |= charInfo.AMask;
+					m_bMask |= charInfo.BMask;
+				}
 			}
 		}
 
@@ -506,8 +468,8 @@ namespace SIL.Pa.Data
 			if (phoneInfo == null)
 				return false;
 
-			m_masks = new ulong[] {phoneInfo.Masks[0], phoneInfo.Masks[1]};
-			m_binaryMask = phoneInfo.BinaryMask;
+			m_aMask = phoneInfo.AMask.Clone();
+			m_bMask = phoneInfo.BMask.Clone();
 			return true;
 		}
 
@@ -523,15 +485,15 @@ namespace SIL.Pa.Data
 			clone.m_countAsNonPrimaryUncertainty = m_countAsNonPrimaryUncertainty;
 			clone.m_countAsPrimaryUncertainty = m_countAsPrimaryUncertainty;
 			clone.m_charType = m_charType;
-			clone.m_binaryMask = m_binaryMask;
-			clone.m_masks = new ulong[] {m_masks[0], m_masks[1]};
 			clone.m_moaKey = m_moaKey;
 			clone.m_poaKey = m_poaKey;
 			clone.m_baseChar = m_baseChar;
 			clone.m_siblingUncertainties = new List<string>(m_siblingUncertainties);
 			clone.m_isUndefined = m_isUndefined;
 			clone.m_featuresOverridden = m_featuresOverridden;
-
+			clone.m_aMask = m_aMask.Clone();
+			clone.m_bMask = m_bMask.Clone();
+			
 			return clone;
 		}
 
@@ -651,23 +613,47 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("BMask")]
-		public ulong BinaryMask
+		[XmlIgnore]
+		public FeatureMask AMask
 		{
-			get { return m_binaryMask; }
-			set { m_binaryMask = value; }
+			get { return m_aMask; }
+			internal set { m_aMask = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the articulatory feature masks for the phonetic character.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("AMasks")]
-		public ulong[] Masks
+		[XmlIgnore]
+		public FeatureMask BMask
 		{
-			get {return m_masks;}
-			set {m_masks = new ulong[] {value[0], value[1] };}
+			get { return m_bMask;}
+			internal set { m_bMask = value;}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("ArticulatoryFeatures")]
+		public List<string> AFeatures
+		{
+			get { return DataUtils.AFeatureCache.GetFeatureList(m_aMask); }
+			set { m_aMask = DataUtils.AFeatureCache.GetMask(value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("BinaryFeatures")]
+		public List<string> BFeatures
+		{
+			get { return DataUtils.BFeatureCache.GetFeatureList(m_bMask); }
+			set { m_bMask = DataUtils.BFeatureCache.GetMask(value); }
 		}
 
 		/// ------------------------------------------------------------------------------------

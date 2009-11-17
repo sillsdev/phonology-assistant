@@ -16,7 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
-using SIL.SpeechTools.TestUtils;
+using SIL.Pa.TestUtils;
 
 namespace SIL.Pa.Data
 {
@@ -83,7 +83,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AmbiguousSeqSortTest_DifferentLengths()
+		public void SortTest_DifferentLengths()
 		{
 			m_ambigSeqList.Add("12");
 			m_ambigSeqList.Add("123");
@@ -105,7 +105,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AmbiguousSeqSortTest_WithSameLengths()
+		public void SortTest_WithSameLengths()
 		{
 			m_ambigSeqList.Add("12");
 			m_ambigSeqList.Add("123");
@@ -131,7 +131,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AmbiguousSeqSortTest_WhenAssignedToCache()
+		public void SortTest_WhenAssignedToCache()
 		{
 			m_ambigSeqList.Add("12");
 			m_ambigSeqList.Add("123");

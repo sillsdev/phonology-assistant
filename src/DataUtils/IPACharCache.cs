@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using System.Collections;
 
 namespace SIL.Pa.Data
 {
@@ -976,6 +977,9 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class IPACharInfo
 	{
+		[XmlIgnore]
+		public bool IsUndefined = false;
+
 		[XmlAttribute]
 		public int Codepoint;
 		[XmlAttribute]
@@ -1002,8 +1006,48 @@ namespace SIL.Pa.Data
 		public int ChartColumn;
 		public int ChartGroup;
 
+		[XmlArray("ArticulatoryFeatures")]
+		public List<string> AFeatures;
+
+		[XmlArray("BinaryFeatures")]
+		public List<string> BFeatures;
+
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the articulatory features mask.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool IsUndefined = false;
+		public FeatureMask AMask
+		{
+			get
+			{
+				if (m_aMask == null)
+					m_aMask = DataUtils.AFeatureCache.GetMask(AFeatures);
+
+				return m_aMask;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the binary features mask.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FeatureMask BMask
+		{
+			get
+			{
+				if (m_bMask == null)
+					m_bMask = DataUtils.BFeatureCache.GetMask(BFeatures);
+
+				return m_bMask;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

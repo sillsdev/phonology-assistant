@@ -43,6 +43,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisablePASplashScreen", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtils", "src\SilUtils\SilUtils.csproj", "{87F94FCC-BC32-4203-A919-115F4FF43FF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataUtilsTests", "src\DataUtils\DataUtilsTests\DataUtilsTests.csproj", "{181D25E7-ED67-4F11-A454-9CFF90DE75FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "src\TestUtils\TestUtils.csproj", "{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,14 @@ Global
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{181D25E7-ED67-4F11-A454-9CFF90DE75FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{181D25E7-ED67-4F11-A454-9CFF90DE75FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{181D25E7-ED67-4F11-A454-9CFF90DE75FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{181D25E7-ED67-4F11-A454-9CFF90DE75FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -92,13 +92,13 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void MergeWithPhoneCache(PhoneCache phoneCache)
 		{
-			foreach (KeyValuePair<string, IPhoneInfo> kvpPhoneInfo in this)
+			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
 			{
-				IPhoneInfo phoneCacheEntry = phoneCache[kvpPhoneInfo.Key];
+				IPhoneInfo phoneCacheEntry = phoneCache[kvp.Key];
 				if (phoneCacheEntry != null)
 				{
-					phoneCacheEntry.BinaryMask = kvpPhoneInfo.Value.BinaryMask;
-					phoneCacheEntry.Masks = kvpPhoneInfo.Value.Masks;
+					((PhoneInfo)phoneCacheEntry).AMask = kvp.Value.AMask.Clone();
+					((PhoneInfo)phoneCacheEntry).BMask = kvp.Value.BMask.Clone();
 				}
 			}
 		}

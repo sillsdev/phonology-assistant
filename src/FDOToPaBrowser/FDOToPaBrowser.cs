@@ -7,8 +7,19 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace SIL.Pa
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// This program allows the user to browse the data pulled from a FW database for use in
+	/// Phonology Assistant.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class FDOToPaBrowser : ObjectBrowser.ObjectBrowser
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FDOToPaBrowser"/> class.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public FDOToPaBrowser()
 		{
 			InitializeComponent();

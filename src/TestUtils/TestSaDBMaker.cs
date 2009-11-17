@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace SIL.SpeechTools.TestUtils
+namespace SIL.Pa.TestUtils
 {
 	/// <summary>
 	/// Summary description for TestDBMaker.
