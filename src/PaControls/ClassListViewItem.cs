@@ -424,9 +424,17 @@ namespace SIL.Pa.Controls
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');
 
-			if (srchClass.SearchClassType != SearchClassType.Phones)
+			if (srchClass.SearchClassType == SearchClassType.Articulatory)
+			{
+				item.Mask = DataUtils.AFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
-	
+			}
+			else if (srchClass.SearchClassType == SearchClassType.Binary)
+			{
+				item.Mask = DataUtils.BFeatureCache.GetEmptyMask();
+				GetMasksFromPattern(item, srchClass.Pattern);
+			}
+
 			return item;
 		}
 

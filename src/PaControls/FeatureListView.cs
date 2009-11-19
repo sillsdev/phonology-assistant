@@ -737,25 +737,25 @@ namespace SIL.Pa.Controls
 			set { m_emphasizeCheckedItems = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the currently selected item in the list is
-		/// a custom feature. Note: this property only applies to articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public bool IsCurrentFeatureCustom
-		{
-			get
-			{
-				if (m_featureType == PaApp.FeatureType.Binary || SelectedItems.Count == 0)
-					return false;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a value indicating whether or not the currently selected item in the list is
+		///// a custom feature. Note: this property only applies to articulatory features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		//[Browsable(false)]
+		//public bool IsCurrentFeatureCustom
+		//{
+		//    get
+		//    {
+		//        if (m_featureType == PaApp.FeatureType.Binary || SelectedItems.Count == 0)
+		//            return false;
 
-				FeatureItemInfo info = SelectedItems[0].Tag as FeatureItemInfo;
-				return (info == null ? false : info.IsCustom);
-			}
-		}
+		//        FeatureItemInfo info = SelectedItems[0].Tag as FeatureItemInfo;
+		//        return (info == null ? false : info.IsCustom);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -980,7 +980,6 @@ namespace SIL.Pa.Controls
 		internal int PlusBit;
 		internal int MinusBit;
 		internal bool IsBinary;
-		internal bool IsCustom;
 		internal bool Checked;
 		internal BinaryFeatureValue TriStateValue = BinaryFeatureValue.None;
 		internal object CacheEntry;
