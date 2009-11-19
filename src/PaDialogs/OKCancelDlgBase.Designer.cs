@@ -28,6 +28,7 @@ namespace SIL.Pa.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OKCancelDlgBase));
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
@@ -41,66 +42,44 @@ namespace SIL.Pa.Dialogs
 			this.pnlButtons.Controls.Add(this.btnHelp);
 			this.pnlButtons.Controls.Add(this.btnCancel);
 			this.pnlButtons.Controls.Add(this.btnOK);
-			this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.pnlButtons.Location = new System.Drawing.Point(10, 231);
+			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Name = "pnlButtons";
-			this.pnlButtons.Size = new System.Drawing.Size(378, 40);
-			this.pnlButtons.TabIndex = 101;
 			// 
 			// btnHelp
 			// 
-			this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnHelp.Location = new System.Drawing.Point(298, 7);
+			resources.ApplyResources(this.btnHelp, "btnHelp");
 			this.btnHelp.Name = "btnHelp";
-			this.btnHelp.Size = new System.Drawing.Size(80, 26);
-			this.btnHelp.TabIndex = 3;
-			this.btnHelp.Text = "Help";
 			this.btnHelp.UseVisualStyleBackColor = true;
 			this.btnHelp.Click += new System.EventHandler(this.InternalHandleHelpClick);
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.btnCancel, "btnCancel");
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnCancel.Location = new System.Drawing.Point(212, 7);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(80, 26);
-			this.btnCancel.TabIndex = 2;
-			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			resources.ApplyResources(this.btnOK, "btnOK");
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnOK.Location = new System.Drawing.Point(126, 7);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(80, 26);
-			this.btnOK.TabIndex = 1;
-			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			// 
 			// OKCancelDlgBase
 			// 
 			this.AcceptButton = this.btnOK;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(398, 271);
 			this.Controls.Add(this.pnlButtons);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OKCancelDlgBase";
-			this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "OKCancelDlgBase";
 			this.pnlButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
 
