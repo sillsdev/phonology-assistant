@@ -204,9 +204,9 @@ namespace SIL.Pa.Data
 		{
 			var fmask1 = new FeatureMask(100);
 			var fmask2 = new FeatureMask(200);
-			fmask1 |= fmask2;
+			Assert.IsNotNull(fmask1 | fmask2);
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Verifies the AndResult method.
@@ -373,7 +373,7 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Tests the OR method.
+		/// Tests the OR operator.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -403,6 +403,136 @@ namespace SIL.Pa.Data
 			Assert.IsTrue(fmask1[70]);
 			Assert.IsTrue(fmask1[80]);
 			Assert.IsTrue(fmask1[90]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the == operator.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equal()
+		{
+			var fmask1 = new FeatureMask(100);
+			var fmask2 = new FeatureMask(100);
+
+			fmask1[10] = true;
+			fmask1[20] = true;
+			fmask1[70] = true;
+			fmask1[90] = true;
+			var masks = (UInt64[])ReflectionHelper.GetField(fmask1, "m_masks");
+			Assert.IsTrue(masks[0] > 0);
+			Assert.IsTrue(masks[1] > 0);
+
+			fmask2[10] = true;
+			fmask2[20] = true;
+			fmask2[70] = true;
+			fmask2[90] = true;
+			masks = (UInt64[])ReflectionHelper.GetField(fmask2, "m_masks");
+			Assert.IsTrue(masks[0] > 0);
+			Assert.IsTrue(masks[1] > 0);
+
+			Assert.IsTrue(fmask1 == fmask2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the == operator when masks have different number of bits in them.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equal_WithDiffSizes()
+		{
+			var fmask1 = new FeatureMask(10);
+			var fmask2 = new FeatureMask(20);
+			fmask1[5] = true;
+			fmask2[5] = true;
+			Assert.IsFalse(fmask1 == fmask2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the == operator when one or both masks are null.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Equal_WithNull()
+		{
+			FeatureMask fmask1 = null;
+			FeatureMask fmask2 = null;
+			Assert.IsTrue(fmask1 == fmask2);
+
+			fmask1 = new FeatureMask(1);
+			Assert.IsFalse(fmask1 == fmask2);
+
+			fmask1 = null;
+			fmask2 = new FeatureMask(1);
+			Assert.IsFalse(fmask1 == fmask2);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the != operator.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void NotEqual()
+		{
+			var fmask1 = new FeatureMask(100);
+			var fmask2 = new FeatureMask(100);
+
+			fmask1[10] = true;
+			fmask1[20] = true;
+			fmask1[70] = true;
+			fmask1[90] = true;
+			var masks = (UInt64[])ReflectionHelper.GetField(fmask1, "m_masks");
+			Assert.IsTrue(masks[0] > 0);
+			Assert.IsTrue(masks[1] > 0);
+
+			fmask2[11] = true;
+			fmask2[21] = true;
+			fmask2[70] = true;
+			fmask2[90] = true;
+			masks = (UInt64[])ReflectionHelper.GetField(fmask2, "m_masks");
+			Assert.IsTrue(masks[0] > 0);
+			Assert.IsTrue(masks[1] > 0);
+
+			Assert.IsTrue(fmask1 != fmask2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the != operator when masks have different number of bits in them.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void NotEqual_WithDiffSizes()
+		{
+			var fmask1 = new FeatureMask(10);
+			var fmask2 = new FeatureMask(20);
+			fmask1[5] = true;
+			fmask2[5] = true;
+			Assert.IsTrue(fmask1 != fmask2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the != operator when one or both masks are null.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void NotEqual_WithNull()
+		{
+			FeatureMask fmask1 = null;
+			FeatureMask fmask2 = null;
+			Assert.IsFalse(fmask1 != fmask2);
+
+			fmask1 = new FeatureMask(1);
+			Assert.IsTrue(fmask1 != fmask2);
+
+			fmask1 = null;
+			fmask2 = new FeatureMask(1);
+			Assert.IsTrue(fmask1 != fmask2);
 		}
 	}
 }

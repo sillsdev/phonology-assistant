@@ -183,14 +183,8 @@
   <data name="kstidFileTypeXSLT" xml:space="preserve">
     <value>XSLT Files (*.xslt)|*.xslt</value>
   </data>
-  <data name="kstidMinusFeatureSymbol" xml:space="preserve">
-    <value>-</value>
-  </data>
   <data name="kstidOpenClassSymbol" xml:space="preserve">
     <value>&lt;</value>
-  </data>
-  <data name="kstidPlusFeatureSymbol" xml:space="preserve">
-    <value>+</value>
   </data>
   <data name="kstidQuerySearchingMsg" xml:space="preserve">
     <value>Searching...</value>

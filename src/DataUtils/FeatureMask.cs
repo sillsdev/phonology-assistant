@@ -177,6 +177,76 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Returns a hash code for this instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override bool Equals(object obj)
+		{
+			return ((obj as FeatureMask) == this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Compares two FeatureMasks for equivalancy.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool operator ==(FeatureMask m1, FeatureMask m2)
+		{
+			if ((object)m1 == null && (object)m2 == null)
+				return true;
+
+			if ((object)m1 == null || (object)m2 == null)
+				return false;
+
+			if (m1.Size != m2.Size)
+				return false;
+
+			for (int i = 0; i < m1.m_maskCount; i++)
+			{
+				if (m1.m_masks[i] != m2.m_masks[i])
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Compares two FeatureMasks for non equivalancy.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool operator !=(FeatureMask m1, FeatureMask m2)
+		{
+			if ((object)m1 == null && (object)m2 == null)
+				return false;
+
+			if ((object)m1 == null || (object)m2 == null)
+				return true;
+
+			if (m1.Size != m2.Size)
+				return true;
+
+			for (int i = 0; i < m1.m_maskCount; i++)
+			{
+				if (m1.m_masks[i] != m2.m_masks[i])
+					return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents this instance.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -191,8 +261,10 @@ namespace SIL.Pa.Data
 			}
 
 			// Get rid of trailing comma and space.
-			bldr.Length -= 2;
-			return bldr.ToString();
+			if (bldr.Length > 2)
+				bldr.Length -= 2;
+
+			return (bldr.Length == 0 ? "Empty" : bldr.ToString());
 		}
 	}
 

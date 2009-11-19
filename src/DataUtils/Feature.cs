@@ -18,13 +18,13 @@ using System.Xml.Serialization;
 
 namespace SIL.Pa.Data
 {
-	#region FeatureBase
+	#region Feature
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FeatureBase
+	public class Feature
 	{
 		protected int m_bit;
 		protected string m_name;
@@ -35,8 +35,9 @@ namespace SIL.Pa.Data
 		/// Clones the specified binary feature.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureBase Clone(FeatureBase clone)
+		public Feature Clone()
 		{
+			var clone = new Feature();
 			clone.m_bit = m_bit;
 			clone.m_name = m_name;
 			clone.m_fullname = m_fullname;

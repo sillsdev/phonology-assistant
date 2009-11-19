@@ -992,7 +992,7 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			string tmpPattern = pattern.ToLower();
 
-			foreach (KeyValuePair<string, AFeature> info in DataUtils.AFeatureCache)
+			foreach (KeyValuePair<string, Feature> info in DataUtils.AFeatureCache)
 			{
 				string feature = "[" + info.Value.Name.ToLower();
 				if (!CommaDelimitBracketedMember(feature, tmpPattern, ref modifiedPtrn))
@@ -1269,7 +1269,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public bool Search(string[] phones, int startIndex, out int[] results)
 		{
-			results = new int[] {-1, -1};
+			results = new[] {-1, -1};
 
 			if (phones == null)
 			{
@@ -1671,7 +1671,7 @@ namespace SIL.Pa.FFSearchEngine
 			if (m_members == null)
 				return CompareResultType.NoMatch;
 
-			int[] results = new int[] { -1, -1 };
+			int[] results = new[] { -1, -1 };
 			CompareResultType compareResult = CompareResultType.NoMatch;
 
 			foreach (object member in m_members)

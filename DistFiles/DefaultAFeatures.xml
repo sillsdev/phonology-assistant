@@ -1,294 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfAFeature>
-	<AFeature>
+<ArrayOfFeature>
+	<Feature>
 		<Name>Consonant</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Vowel</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Voiceless</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Voiced</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Bilabial</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Labiodental</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Dental</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Alveolar</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Postalveolar</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Retroflex</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Palatal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Velar</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Uvular</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Pharyngeal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Glottal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Plosive</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Nasal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Trill</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Tap/Flap</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Fricative</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Lateral Fricative</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Approximant</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Lateral Approximant</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Click</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Voiced Implosive</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Ejective</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Labial</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Epiglottal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Lateral</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Affricate</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Double Articulation</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Front</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Near Front</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Central</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Near-back</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Back</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Close</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Near-close</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Close-mid</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Mid</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Open-mid</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Near-open</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Open</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Aspirated</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>More Rounded</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Less Rounded</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Advanced</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Retracted</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Centralized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Mid-centralized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Syllabic</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Non-syllabic</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Rhoticity</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Breathy Voiced</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Creaky Voiced</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Linguolabial</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Raised</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Lowered</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Advanced Tongue Root</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Retracted Tongue Root</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Apical</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Laminal</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Release</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>No Audible Release</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Extra High Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>High Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Mid Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Low Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Extra Low Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>High Falling Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>High Rising Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Low Falling Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Low Rising Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Tone Falling</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Tone Rising</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Rising-Falling Tone</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Downstep</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Upstep</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Global Rise</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Global Fall</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Primary Stress</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Secondary Stress</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Long</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Half-long</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Extra-short</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Minor (foot) Group</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Major (intonation) Group</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Syllable Break</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Linking (absence of break)</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Rounded</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Unrounded</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Labialized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Velarized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Palatized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Pharyngelized</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Base Consonant</Name>
-	</AFeature>
-	<AFeature>
+	</Feature>
+	<Feature>
 		<Name>Base Vowel</Name>
-	</AFeature>
-</ArrayOfAFeature>
+	</Feature>
+</ArrayOfFeature>

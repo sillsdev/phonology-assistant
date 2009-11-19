@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using SIL.Pa.Data;
-using SIL.SpeechTools.TestUtils;
+using SIL.Pa.TestUtils;
 
 namespace SIL.Pa.FFSearchEngine
 {

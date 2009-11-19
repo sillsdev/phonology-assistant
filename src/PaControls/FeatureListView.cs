@@ -20,20 +20,20 @@ namespace SIL.Pa.Controls
 	{
 		private const int kMaxColWidth = 210;
 
-		public delegate void FeatureChangedHandler(object sender, ulong[] newMasks);
+		public delegate void FeatureChangedHandler(object sender, FeatureMask newMask);
 		public event FeatureChangedHandler FeatureChanged;
 
 		public delegate void CustomDoubleClickHandler(object sender, string feature);
 		public event CustomDoubleClickHandler CustomDoubleClick;
 
 		private bool m_allowDoubleClickToChangeCheckState = true;
-		private bool m_isDirty = false;
-		private bool m_ignoreCheckChanges = false;
+		private bool m_isDirty;
+		private bool m_ignoreCheckChanges;
 		private bool m_emphasizeCheckedItems = true;
 		private Size m_chkBoxSize = new Size(13, 13);
 		private Color m_glyphColor = Color.Black;
-		private readonly ulong[] m_currMasks = new ulong[] { 0, 0 };
-		private readonly ulong[] m_backupCurrMasks = new ulong[] { 0, 0 };
+		private FeatureMask m_currMask;
+		private FeatureMask m_backupCurrMask;
 		private readonly PaApp.FeatureType m_featureType;
 		private readonly Font m_checkedItemFont;
 		private readonly CustomDropDown m_hostingDropDown;
@@ -216,10 +216,7 @@ namespace SIL.Pa.Controls
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			if (keyData == Keys.Escape && m_hostingDropDown != null)
-			{
-				m_currMasks[0] = m_backupCurrMasks[0];
-				m_currMasks[1] = m_backupCurrMasks[1];
-			}
+				m_currMask = m_backupCurrMask.Clone();
 
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
@@ -261,7 +258,7 @@ namespace SIL.Pa.Controls
 					else
 					{
 						info.Name = newName;
-						((AFeature)info.CacheEntry).Name = newName;
+						((Feature)info.CacheEntry).Name = newName;
 						m_isDirty = true;
 					}
 				}
@@ -313,8 +310,6 @@ namespace SIL.Pa.Controls
 
 			if (info != null)
 			{
-				m_currMasks[0] = m_currMasks[1] = 0;
-
 				if (m_featureType == PaApp.FeatureType.Articulatory)
 					SetCurrentArticulatoryFeatureMaskInfo(info);
 				else
@@ -323,7 +318,7 @@ namespace SIL.Pa.Controls
 				Invalidate(Items[e.Index].Bounds);
 
 				if (FeatureChanged != null)
-					FeatureChanged(this, m_currMasks);
+					FeatureChanged(this, m_currMask);
 			}
 		}
 
@@ -335,44 +330,34 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetCurrentArticulatoryFeatureMaskInfo(FeatureItemInfo info)
 		{
-			// First set the new value of the feature.
 			info.Checked = !info.Checked;
-
-			// Now rebuild the current articulatory feature masks.
-			foreach (ListViewItem item in Items)
-			{
-				FeatureItemInfo fi = item.Tag as FeatureItemInfo;
-				if (fi != null && fi.Name != null && fi.Checked)
-					m_currMasks[fi.MaskNum] |= fi.Mask;
-			}
+			m_currMask[info.Bit] = info.Checked;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Cycles through the binary features, building the masks for those that are plus'd
-		/// or minus'd.
+		/// Set the current mask based on the state of the feature's list view item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetCurrentBinaryFeatureMaskInfo(FeatureItemInfo info)
 		{
-			// First set the new value of the feature.
 			if (info.TriStateValue == BinaryFeatureValue.None)
-				info.TriStateValue = BinaryFeatureValue.Plus;
-			else if (info.TriStateValue == BinaryFeatureValue.Plus)
-				info.TriStateValue = BinaryFeatureValue.Minus;
-			else
-				info.TriStateValue = BinaryFeatureValue.None;
-
-			// Now rebuild the current binary feature mask.
-			foreach (ListViewItem item in Items)
 			{
-				FeatureItemInfo fi = item.Tag as FeatureItemInfo;
-				if (fi != null && fi.Name != null &&
-					fi.TriStateValue != BinaryFeatureValue.None)
-				{
-					m_currMasks[0] |= (fi.TriStateValue == BinaryFeatureValue.Plus ?
-						fi.PlusMask : fi.MinusMask);
-				}
+				info.TriStateValue = BinaryFeatureValue.Plus;
+				m_currMask[info.MinusBit] = false;
+				m_currMask[info.PlusBit] = true;
+			}
+			else if (info.TriStateValue == BinaryFeatureValue.Plus)
+			{
+				info.TriStateValue = BinaryFeatureValue.Minus;
+				m_currMask[info.MinusBit] = true;
+				m_currMask[info.PlusBit] = false;
+			}
+			else
+			{
+				info.TriStateValue = BinaryFeatureValue.None;
+				m_currMask[info.MinusBit] = false;
+				m_currMask[info.PlusBit] = false;
 			}
 		}
 
@@ -469,7 +454,7 @@ namespace SIL.Pa.Controls
 		/// Draw normal checked/unchecked check box (for articulatory features).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawFeatureState(Graphics g, FeatureItemInfo info, Point pt)
+		private static void DrawFeatureState(Graphics g, FeatureItemInfo info, Point pt)
 		{
 			CheckBoxRenderer.DrawCheckBox(g, pt, (info != null && info.Checked ?
 				CheckBoxState.CheckedNormal : CheckBoxState.UncheckedNormal));
@@ -505,78 +490,78 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Methods for adding and removing custom articulatory feature
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds a custom articulatory feature to the list of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void AddCustomArticulatoryFeature()
-		{
-			if (CanCustomFeaturesBeAdded)
-			{
-				int i = 1;
-				string newName = Properties.Resources.kstidDefaultNewCustomFeatureName;
-				while (DataUtils.AFeatureCache.FeatureExits(newName, false))
-					newName = Properties.Resources.kstidDefaultNewCustomFeatureName + i++;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Adds a custom articulatory feature to the list of articulatory features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void AddCustomArticulatoryFeature()
+		//{
+		//    if (CanCustomFeaturesBeAdded)
+		//    {
+		//        int i = 1;
+		//        string newName = Properties.Resources.kstidDefaultNewCustomFeatureName;
+		//        while (DataUtils.AFeatureCache.FeatureExits(newName, false))
+		//            newName = Properties.Resources.kstidDefaultNewCustomFeatureName + i++;
 
-				// Feature should never come back null since
-				// we ensured the new feature would be unique.
-				AFeature feature = DataUtils.AFeatureCache.Add(newName, false);
-				if (feature == null)
-					return;
+		//        // Feature should never come back null since
+		//        // we ensured the new feature would be unique.
+		//        AFeature feature = DataUtils.AFeatureCache.Add(newName, false);
+		//        if (feature == null)
+		//            return;
 
-				FeatureItemInfo info = new FeatureItemInfo();
-				info.Name = newName;
-				info.Mask = feature.Mask;
-				info.MaskNum = feature.MaskNumber;
-				info.IsCustom = feature.IsCustomFeature;
-				info.CacheEntry = feature;
+		//        FeatureItemInfo info = new FeatureItemInfo();
+		//        info.Name = newName;
+		//        info.Mask = feature.Mask;
+		//        info.MaskNum = feature.MaskNumber;
+		//        info.IsCustom = feature.IsCustomFeature;
+		//        info.CacheEntry = feature;
 
-				// Now add a list resultView item for the new feature and put the user in the edit mode.
-				ListViewItem item = new ListViewItem(newName);
-				item.Checked = false;
-				Items.Add(item);
-				item.EnsureVisible();
-				item.Selected = true;
-				item.Tag = info;
-				Application.DoEvents();
-				item.BeginEdit();
-				m_isDirty = true;
-			}
-		}
+		//        // Now add a list resultView item for the new feature and put the user in the edit mode.
+		//        ListViewItem item = new ListViewItem(newName);
+		//        item.Checked = false;
+		//        Items.Add(item);
+		//        item.EnsureVisible();
+		//        item.Selected = true;
+		//        item.Tag = info;
+		//        Application.DoEvents();
+		//        item.BeginEdit();
+		//        m_isDirty = true;
+		//    }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Removes a custom articulatory feature to the list of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void RemoveCustomArticulatoryFeature()
-		{
-			if (!IsCurrentFeatureCustom)
-				return;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Removes a custom articulatory feature to the list of articulatory features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void RemoveCustomArticulatoryFeature()
+		//{
+		//    if (!IsCurrentFeatureCustom)
+		//        return;
 
-			ListViewItem item = SelectedItems[0];
-			FeatureItemInfo info = item.Tag as FeatureItemInfo;
-			if (info == null)
-				return;
+		//    ListViewItem item = SelectedItems[0];
+		//    FeatureItemInfo info = item.Tag as FeatureItemInfo;
+		//    if (info == null)
+		//        return;
 
-			string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
+		//    string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
 
-			// Make sure the user really wants to do this.
-			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
-			{
-				DataUtils.AFeatureCache.Delete(info.Name, false);
-				int newIndex = item.Index;
+		//    // Make sure the user really wants to do this.
+		//    if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+		//    {
+		//        DataUtils.AFeatureCache.Delete(info.Name, false);
+		//        int newIndex = item.Index;
 
-				// Remove the item from the list resultView and set the new selected item to
-				// the most logical feature near the one deleted.
-				Focus();
-				item.Remove();
-				SelectedItems.Clear();
-				SelectedIndices.Add((newIndex < Items.Count ? newIndex : Items.Count - 1));
-				m_isDirty = true;
-			}
-		}
+		//        // Remove the item from the list resultView and set the new selected item to
+		//        // the most logical feature near the one deleted.
+		//        Focus();
+		//        item.Remove();
+		//        SelectedItems.Clear();
+		//        SelectedIndices.Add((newIndex < Items.Count ? newIndex : Items.Count - 1));
+		//        m_isDirty = true;
+		//    }
+		//}
 
 		#endregion
 
@@ -593,7 +578,7 @@ namespace SIL.Pa.Controls
 		{
 			get
 			{
-				string fmt = "[{0}]";
+				const string fmt = "[{0}]";
 				List<string> features = new List<string>();
 				foreach (ListViewItem item in Items)
 				{
@@ -658,18 +643,13 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		public ulong[] CurrentMasks
+		public FeatureMask CurrentMask
 		{
-			get {return m_currMasks;}
+			get {return m_currMask;}
 			set
 			{
-				m_currMasks[0] = value[0];
-				m_currMasks[1] = value[1];
-				
-				// These are used when the list view is hosted on a drop-down control and the
-				// user presses Esc. The original mask values will be restored at that point.
-				m_backupCurrMasks[0] = value[0];
-				m_backupCurrMasks[1] = value[1];
+				m_backupCurrMask = m_currMask;
+				m_currMask = value;
 
 				// Loop through items in the feature list and set their state according to
 				// the specified mask.
@@ -680,12 +660,12 @@ namespace SIL.Pa.Controls
 						continue;
 
 					if (m_featureType == PaApp.FeatureType.Articulatory)
-						info.Checked = ((m_currMasks[info.MaskNum] & info.Mask) != 0);
+						info.Checked = (m_currMask[info.Bit]);
 					else
 					{
-						if ((m_currMasks[0] & info.PlusMask) != 0)
+						if (m_currMask[info.PlusBit])
 							info.TriStateValue = BinaryFeatureValue.Plus;
-						else if ((m_currMasks[0] & info.MinusMask) != 0)
+						else if (m_currMask[info.MinusBit])
 							info.TriStateValue = BinaryFeatureValue.Minus;
 						else
 							info.TriStateValue = BinaryFeatureValue.None;
@@ -779,22 +759,6 @@ namespace SIL.Pa.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the maximum number of custom articulatory
-		/// features have been added. Note: this property only applies to articulatory
-		/// features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool CanCustomFeaturesBeAdded
-		{
-			get
-			{
-				return (m_featureType == PaApp.FeatureType.Articulatory &&
-					DataUtils.AFeatureCache.CanAddCustomFeature);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets a value indicating whether or not a feature name or a feature value in the
 		/// list has changed.
 		/// </summary>
@@ -859,8 +823,6 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Reset()
 		{
-			//m_featureInfo.Clear();
-			//m_featureInfo = null;
 			Load();
 			m_isDirty = false;
 		}
@@ -920,21 +882,16 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (KeyValuePair<string, AFeature> feature in DataUtils.AFeatureCache)
+			foreach (KeyValuePair<string, Feature> feature in DataUtils.AFeatureCache)
 			{
-				if (!feature.Value.IsBlank)
-				{
-					FeatureItemInfo info = new FeatureItemInfo();
-					info.Name = feature.Value.Name;
-					info.FullName = feature.Value.FullName;
-					info.MaskNum = feature.Value.MaskNumber;
-					info.Mask = feature.Value.Mask;
-					info.IsCustom = feature.Value.IsCustomFeature;
-					info.CacheEntry = feature.Value;
-					ListViewItem item = new ListViewItem(info.Name);
-					item.Tag = info;
-					Items.Add(item);
-				}
+				FeatureItemInfo info = new FeatureItemInfo();
+				info.Name = feature.Value.Name;
+				info.FullName = feature.Value.FullName;
+				info.Bit = feature.Value.Bit;
+				info.CacheEntry = feature.Value;
+				ListViewItem item = new ListViewItem(info.Name);
+				item.Tag = info;
+				Items.Add(item);
 			}
 
 			AdjustColumnWidth();
@@ -947,14 +904,17 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (KeyValuePair<string, BFeature> feature in DataUtils.BFeatureCache)
+			foreach (Feature feature in DataUtils.BFeatureCache.PlusFeatures)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
-				info.Name = feature.Value.Name;
-				info.FullName = feature.Value.FullName;
-				info.PlusMask = feature.Value.PlusMask;
-				info.MinusMask = feature.Value.MinusMask;
-				info.CacheEntry = feature.Value;
+				string name = feature.Name.Substring(1);
+				string fullname = feature.Name.Substring(1);
+				info.Name = name;
+				info.FullName = fullname;
+				info.PlusBit = feature.Bit;
+				info.MinusBit = DataUtils.BFeatureCache.GetOppositeFeature(feature).Bit;
+				info.IsBinary = true;
+				info.CacheEntry = feature;
 				ListViewItem item = new ListViewItem(info.Name);
 				item.Tag = info;
 				Items.Add(item);
@@ -1016,12 +976,12 @@ namespace SIL.Pa.Controls
 	{
 		internal string Name;
 		internal string FullName;
-		internal int MaskNum;
-		internal ulong Mask = 0;
-		internal ulong MinusMask = 0;
-		internal ulong PlusMask = 0;
-		internal bool IsCustom = false;
-		internal bool Checked = false;
+		internal int Bit;
+		internal int PlusBit;
+		internal int MinusBit;
+		internal bool IsBinary;
+		internal bool IsCustom;
+		internal bool Checked;
 		internal BinaryFeatureValue TriStateValue = BinaryFeatureValue.None;
 		internal object CacheEntry;
 	}

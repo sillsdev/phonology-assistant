@@ -232,29 +232,11 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -.
-        /// </summary>
-        internal static string kstidMinusFeatureSymbol {
-            get {
-                return ResourceManager.GetString("kstidMinusFeatureSymbol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;.
         /// </summary>
         internal static string kstidOpenClassSymbol {
             get {
                 return ResourceManager.GetString("kstidOpenClassSymbol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to +.
-        /// </summary>
-        internal static string kstidPlusFeatureSymbol {
-            get {
-                return ResourceManager.GetString("kstidPlusFeatureSymbol", resourceCulture);
             }
         }
         

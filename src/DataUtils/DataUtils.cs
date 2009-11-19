@@ -59,12 +59,13 @@ namespace SIL.Pa.Data
 		/// by projectFileName.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void LoadAFeatureCache(string projectFileName)
+		public static void LoadAFeatureCache(string projFilePrefix)
 		{
-			if (s_aFeatureCache != null)
-				s_aFeatureCache.Clear();
+			// NOTE: For now, the projFilePrefix is not used. Use it if
+			// we ever want to store features at the project level.
 
-			s_aFeatureCache = AFeatureCache.Load(projectFileName);
+			s_aFeatureCache = new AFeatureCache();
+			s_aFeatureCache.Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,12 +74,13 @@ namespace SIL.Pa.Data
 		/// by projectFileName.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void LoadBFeatureCache(string projectFileName)
+		public static void LoadBFeatureCache(string projFilePrefix)
 		{
-			if (s_bFeatureCache != null)
-				s_bFeatureCache.Clear();
+			// NOTE: For now, the projFilePrefix is not used. Use it if
+			// we ever want to store features at the project level.
 
-			s_bFeatureCache = BFeatureCache.Load(projectFileName);
+			s_bFeatureCache = new BFeatureCache();
+			s_bFeatureCache.Load();
 		}
 
 		#endregion
@@ -125,7 +127,10 @@ namespace SIL.Pa.Data
 			get
 			{
 				if (s_aFeatureCache == null)
-					s_aFeatureCache = AFeatureCache.Load();
+				{
+					s_aFeatureCache = new AFeatureCache();
+					s_aFeatureCache.Load();
+				}
 
 				return s_aFeatureCache;
 			}
@@ -141,8 +146,10 @@ namespace SIL.Pa.Data
 			get
 			{
 				if (s_bFeatureCache == null)
-					s_bFeatureCache = BFeatureCache.Load();
-
+				{
+					s_bFeatureCache = new BFeatureCache();
+					s_bFeatureCache.Load();
+				}
 				return s_bFeatureCache;
 			}
 		}

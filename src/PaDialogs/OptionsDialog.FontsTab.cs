@@ -16,7 +16,7 @@ namespace SIL.Pa.Dialogs
 	{
 		private SilGrid m_fontGrid;
 		private const string kSampleText = "Abc123";
-		private bool m_fontChanged = false;
+		private bool m_fontChanged;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -111,8 +111,6 @@ namespace SIL.Pa.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadFonts()
 		{
-			string sampleCol = Properties.Resources.kstidFontGridSample;
-
 			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo.SortedList)
 			{
 				if (fieldInfo.Font == null)
@@ -123,7 +121,7 @@ namespace SIL.Pa.Dialogs
 					fieldInfo.Font.Italic, kSampleText});
 
 				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Tag = fieldInfo.Font;
-				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Cells[sampleCol].Style.Font = fieldInfo.Font;
+				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Cells["sample"].Style.Font = fieldInfo.Font;
 			}
 		}
 

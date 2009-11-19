@@ -743,11 +743,11 @@ namespace SIL.Pa
 			if (phoneInfo == null)
 				return;
 
-			string features = DataUtils.AFeatureCache.GetFeaturesText(phoneInfo.Masks);
+			string features = DataUtils.AFeatureCache.GetFeaturesText(phoneInfo.AMask);
 			if (!string.IsNullOrEmpty(features))
 				txtAFeatures.Text = features.Replace(", ", "\r\n");
 
-			features = DataUtils.BFeatureCache.GetFeaturesText(phoneInfo.BinaryMask);
+			features = DataUtils.BFeatureCache.GetFeaturesText(phoneInfo.BMask);
 			if (!string.IsNullOrEmpty(features))
 				txtBFeatures.Text = features.Replace(", ", "\r\n");
 		}
@@ -769,7 +769,7 @@ namespace SIL.Pa
 			{
 				string shortName = txtBFeatures.Lines[line];
 
-				BFeature feature = DataUtils.BFeatureCache[shortName];
+				Feature feature = DataUtils.BFeatureCache[shortName];
 				if (feature != null && feature.Name.ToLower() != feature.FullName.ToLower())
 				{
 					if (feature != m_bFeatureToolTip.Tag)
@@ -803,7 +803,7 @@ namespace SIL.Pa
 			PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
 			if (phoneInfo != null)
 			{
-				m_lvAFeatures.CurrentMasks = phoneInfo.Masks;
+				m_lvAFeatures.CurrentMask = phoneInfo.AMask.Clone();
 				Rectangle rc = hlblAFeatures.DisplayRectangle;
 				Point pt = new Point(rc.Left, rc.Bottom);
 				pt = pnlAFeatures.PointToScreen(pt);
@@ -823,15 +823,15 @@ namespace SIL.Pa
 				return;
 
 			PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
-			if (phoneInfo != null)
-			{
-				m_lvBFeatures.CurrentMasks = new ulong[] { phoneInfo.BinaryMask, 0 };
-				Rectangle rc = hlblBFeatures.DisplayRectangle;
-				Point pt = new Point(rc.Left, rc.Bottom);
-				pt = pnlBFeatures.PointToScreen(pt);
-				m_bFeatureDropdown.Show(pt);
-				m_lvBFeatures.Focus();
-			}
+			if (phoneInfo == null)
+				return;
+			
+			m_lvBFeatures.CurrentMask = phoneInfo.BMask.Clone();
+			Rectangle rc = hlblBFeatures.DisplayRectangle;
+			Point pt = new Point(rc.Left, rc.Bottom);
+			pt = pnlBFeatures.PointToScreen(pt);
+			m_bFeatureDropdown.Show(pt);
+			m_lvBFeatures.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -852,20 +852,17 @@ namespace SIL.Pa
 
 			if (lv == m_lvAFeatures)
 			{
-				if (phoneInfo.Masks[0] == m_lvAFeatures.CurrentMasks[0] &&
-					phoneInfo.Masks[1] == m_lvAFeatures.CurrentMasks[1])
-				{
+				if (phoneInfo.AMask == m_lvAFeatures.CurrentMask)
 					return;
-				}
 
-				phoneInfo.Masks = m_lvAFeatures.CurrentMasks;
+				phoneInfo.AMask = m_lvAFeatures.CurrentMask.Clone();
 			}
 			else
 			{
-				if (phoneInfo.BinaryMask == m_lvBFeatures.CurrentMasks[0])
+				if (phoneInfo.BMask == m_lvBFeatures.CurrentMask)
 					return;
 
-				phoneInfo.BinaryMask = m_lvBFeatures.CurrentMasks[0];
+				phoneInfo.BMask = m_lvBFeatures.CurrentMask.Clone();
 			}
 
 			UpdatePhonesFeatureText(phoneInfo);
@@ -1185,11 +1182,9 @@ namespace SIL.Pa
 						continue;
 
 					IPhoneInfo cachePhoneInfo = PaApp.PhoneCache[phoneInfo.Phone];
-
 					if (cachePhoneInfo == null ||
-						phoneInfo.BinaryMask != cachePhoneInfo.BinaryMask ||
-						phoneInfo.Masks[0] != cachePhoneInfo.Masks[0] ||
-						phoneInfo.Masks[1] != cachePhoneInfo.Masks[1])
+						phoneInfo.AMask != cachePhoneInfo.AMask ||
+						phoneInfo.BMask != cachePhoneInfo.BMask)
 					{
 						return true;
 					}
@@ -1344,21 +1339,22 @@ namespace SIL.Pa
 			{
 				// Get the phone from the grid.
 				PhoneInfo phoneInfo = row.Cells["phone"].Value as PhoneInfo;
-				if (phoneInfo != null)
+				if (phoneInfo == null)
+					continue;
+
+				// Find the grid phone's entry in the application's phone cache. If the
+				// features in the grid phone are different from those in the phone
+				// cache entry, then add the phone from the grid to our temporary list
+				// of phone features to override.
+				IPhoneInfo phoneCacheEntry = PaApp.PhoneCache[phoneInfo.Phone];
+				if (phoneCacheEntry == null)
+					continue;
+
+				if (phoneCacheEntry.AMask != phoneInfo.AMask ||
+					phoneCacheEntry.BMask != phoneInfo.BMask ||
+					phoneCacheEntry.FeaturesAreOverridden)
 				{
-					// Find the grid phone's entry in the application's phone cache. If the
-					// features in the grid phone are different from those in the phone
-					// cache entry, then add the phone from the grid to our temporary list
-					// of phone features to override.
-					IPhoneInfo phoneCacheEntry = PaApp.PhoneCache[phoneInfo.Phone];
-					if (phoneCacheEntry != null &&
-						(phoneCacheEntry.Masks[0] != phoneInfo.Masks[0] ||
-						phoneCacheEntry.Masks[1] != phoneInfo.Masks[1] ||
-						phoneCacheEntry.BinaryMask != phoneInfo.BinaryMask ||
-						phoneCacheEntry.FeaturesAreOverridden))
-					{
-						featureOverrideList[phoneInfo.Phone] = phoneInfo;
-					}
+					featureOverrideList[phoneInfo.Phone] = phoneInfo;
 				}
 			}
 

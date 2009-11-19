@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Dialogs;
@@ -14,7 +13,7 @@ namespace SIL.Pa
 	public partial class AddCharacterDlg : OKCancelDlgBase
 	{
 		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+#=*%CV" +
-			DataUtils.kOrc.ToString() + DataUtils.kDottedCircle;
+			DataUtils.kOrc + DataUtils.kDottedCircle;
 
 		private const string kInvalidPhoneticCharsDisplay =
 			"{ } [ ] <> ( ) , $ _ % # / + = * C V\n\nU+25CC and U+FFFC";
@@ -137,8 +136,8 @@ namespace SIL.Pa
 		private readonly string m_saveAFeatureDropDownName;
 		private readonly string m_saveBFeatureDropDownName;
 		private IPACharInfo m_charInfo;
-		private ulong[] m_masks = new ulong[] { 0, 0 };
-		private ulong m_binaryMask = 0;
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
 		#endregion
 
 		#region Constructor
@@ -219,10 +218,10 @@ namespace SIL.Pa
 			row = pciEditor.m_grid.CurrentRow;
 			if (row.Tag is IPACharInfo)
 			{
-				m_binaryMask = ((IPACharInfo)row.Tag).BinaryMask;
-				m_masks = new ulong[] {((IPACharInfo)row.Tag).Mask0, ((IPACharInfo)row.Tag).Mask1};
-				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_binaryMask);
-				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_masks);
+				m_aMask = ((IPACharInfo)row.Tag).AMask.Clone();
+				m_bMask = ((IPACharInfo)row.Tag).BMask.Clone();
+				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_aMask);
+				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_bMask);
 			}
 
 			// Identity
@@ -392,7 +391,7 @@ namespace SIL.Pa
 		/// Load the MOA and POA combo boxes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadMoaPoaComboBoxes(SilGrid charGrid)
+		private void LoadMoaPoaComboBoxes(DataGridView charGrid)
 		{
 			foreach (DataGridViewRow gridRow in charGrid.Rows)
 			{
@@ -615,11 +614,8 @@ namespace SIL.Pa
 			m_charInfo.IPAChar = lblChar.Text;
 			m_charInfo.Name = txtCharName.Text;
 			m_charInfo.Description = txtCharDesc.Text;
-			m_charInfo.BinaryMask = m_binaryMask;
-			
-			// Features
-			m_charInfo.Mask0 = m_masks[0];
-			m_charInfo.Mask1 = m_masks[1];
+			m_charInfo.AMask = m_aMask;
+			m_charInfo.BMask = m_bMask;
 
 			// Types - remove the spaces in the Type strings
 			m_charInfo.CharType = (IPACharacterType)Enum.Parse(
@@ -710,7 +706,7 @@ namespace SIL.Pa
 				}
 				catch
 				{
-					SilUtils.Utils.STMsgBox(Resources.kstidInvalidUnicodeValueMsg,
+					Utils.STMsgBox(Resources.kstidInvalidUnicodeValueMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -718,7 +714,7 @@ namespace SIL.Pa
 				int codePoint = int.Parse(txtHexValue.Text.Trim(), NumberStyles.HexNumber);
 				if (codePoint <= invalidCodePoint)
 				{
-					SilUtils.Utils.STMsgBox(Resources.kstidUnicodeValueTooSmallMsg,
+					Utils.STMsgBox(Resources.kstidUnicodeValueTooSmallMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -726,7 +722,7 @@ namespace SIL.Pa
 				// Make sure the codePoint is unique
 				if (m_codePoints.Contains(codePoint))
 				{
-					SilUtils.Utils.STMsgBox(string.Format(Resources.kstidDuplicateCharMsg,
+					Utils.STMsgBox(string.Format(Resources.kstidDuplicateCharMsg,
 						txtHexValue.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -736,8 +732,8 @@ namespace SIL.Pa
 				{
 					if (codePoint == c)
 					{
-						SilUtils.Utils.STMsgBox(string.Format(
-							Properties.Resources.kstidUnicodeValueIsReservedMsg,
+						Utils.STMsgBox(string.Format(
+							Resources.kstidUnicodeValueIsReservedMsg,
 							txtHexValue.Text, kInvalidPhoneticCharsDisplay),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					
@@ -770,9 +766,9 @@ namespace SIL.Pa
 				missingFields = missingFields.Replace("&", string.Empty);
 				missingFields = missingFields.Replace("~~", "&");
 				missingFields = missingFields.Replace(":", string.Empty);
-				missingFields = missingFields.TrimEnd(new char[] { ',', ' ' });
+				missingFields = missingFields.TrimEnd(new[] { ',', ' ' });
 				missingFields = string.Format(Resources.kstidMissingFieldsMsg, missingFields);
-				SilUtils.Utils.STMsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.STMsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
 
@@ -875,7 +871,7 @@ namespace SIL.Pa
 		private void btnArticulatory_Click(object sender, EventArgs e)
 		{
 			// Use the drop-down from the main form's grid.
-			m_pciEditor.m_lvAFeatures.CurrentMasks = m_masks;
+			m_pciEditor.m_lvAFeatures.CurrentMask = m_aMask.Clone();
 			Point pt = new Point(0, hlblArticulatory.Height);
 			pt = hlblArticulatory.PointToScreen(pt);
 			m_pciEditor.m_aFeatureDropdown.Show(pt);
@@ -890,7 +886,7 @@ namespace SIL.Pa
 		private void btnBinary_Click(object sender, EventArgs e)
 		{
 			// Use the drop-down from the main form's grid.
-			m_pciEditor.m_lvBFeatures.CurrentMasks = new ulong[] {m_binaryMask, 0};
+			m_pciEditor.m_lvBFeatures.CurrentMask = m_bMask.Clone();
 			Point pt = new Point(0, hlblBinary.Height);
 			pt = hlblBinary.PointToScreen(pt);
 			m_pciEditor.m_bFeatureDropdown.Show(pt);
@@ -905,17 +901,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void m_aFeatureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
-			if (m_pciEditor.m_lvAFeatures.CurrentMasks[0] == m_masks[0] &&
-				m_pciEditor.m_lvAFeatures.CurrentMasks[1] == m_masks[1])
+			if (m_pciEditor.m_lvAFeatures.CurrentMask != m_aMask)
 			{
-				return;
+				m_aMask = m_pciEditor.m_lvAFeatures.CurrentMask;
+				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_aMask);
+				m_dirty = true;
 			}
-
-			m_masks = new ulong[] {m_pciEditor.m_lvAFeatures.CurrentMasks[0],
-				m_pciEditor.m_lvAFeatures.CurrentMasks[1]};
-
-			txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_masks);
-			m_dirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -926,10 +917,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void m_bFeatureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
-			if (m_pciEditor.m_lvBFeatures.CurrentMasks[0] != m_binaryMask)
+			if (m_pciEditor.m_lvBFeatures.CurrentMask != m_bMask)
 			{
-				m_binaryMask = m_pciEditor.m_lvBFeatures.CurrentMasks[0];
-				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_binaryMask);
+				m_bMask = m_pciEditor.m_lvBFeatures.CurrentMask;
+				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_bMask);
 				m_dirty = true;
 			}
 		}

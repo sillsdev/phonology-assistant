@@ -36,15 +36,14 @@ namespace SIL.Pa
 		private const string kUnknown = "Unknown";
 		// These values of these fields should be left at zero
 		private const string kDisplayOrder = "DisplayOrder";
-		private const string kMask0 = "Mask0";
-		private const string kMask1 = "Mask1";
-		private const string kBinaryMask = "BinaryMask";
+		private const string kAMask = "AMask";
+		private const string kBMask = "BMask";
 
 		private const int kDefaultFeatureColWidth = 225;
 
 		internal SilGrid m_grid;
 		private List<IPACharInfo> m_charInventory;
-		private readonly bool m_amTesting = false;
+		private readonly bool m_amTesting;
 		private readonly List<string> unknownCharTypes;
 		private readonly List<string> knownCharTypes;
 		private string m_xmlFilePath = string.Empty;
@@ -69,9 +68,9 @@ namespace SIL.Pa
 		internal SizableDropDownPanel m_sddpBFeatures;
 		internal CustomDropDown m_bFeatureDropdown;
 		internal FeatureListView m_lvBFeatures;
-		internal int m_startupChar = 0;
+		internal int m_startupChar;
 
-		private static SmallFadingWnd s_loadingWnd = null;
+		private static SmallFadingWnd s_loadingWnd;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -84,7 +83,7 @@ namespace SIL.Pa
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
+			s_loadingWnd = new SmallFadingWnd(Resources.kstidLoadingProgramMsg);
 
 			string exePath = Application.StartupPath;
 
@@ -101,7 +100,7 @@ namespace SIL.Pa
 			{
 				string msg = string.Format(Resources.kstidWriteAccessErrorMsg,
 					Path.GetFileName(Application.ExecutablePath));
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -111,9 +110,9 @@ namespace SIL.Pa
 			string inventoryPath = Path.Combine(exePath, kInventoryFile);
 			if (!File.Exists(inventoryPath))
 			{
-				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(inventoryPath);
+				string filePath = Utils.PrepFilePathForSTMsgBox(inventoryPath);
 				string msg = string.Format(Resources.kstidInventoryFileMissing, filePath);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -176,7 +175,7 @@ namespace SIL.Pa
 			InitializeComponent();
 
 			Version ver = new Version(Application.ProductVersion);
-			string version = string.Format(Properties.Resources.kstidVersionFormat, ver.ToString(3));
+			string version = string.Format(Resources.kstidVersionFormat, ver.ToString(3));
 			ToolStripLabel tslbl = new ToolStripLabel(version);
 			tslbl.Alignment = ToolStripItemAlignment.Right;
 			Padding pdg = tslbl.Margin;
@@ -202,6 +201,8 @@ namespace SIL.Pa
 			unknownCharTypes.Add("Breaking");
 
 			s_settingsHndlr.LoadFormProperties(this);
+
+			m_amTesting = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -336,23 +337,21 @@ namespace SIL.Pa
 
 			bool changed;
 
-			if (sender == m_bFeatureDropdown)
+			if (sender == m_aFeatureDropdown)
 			{
-				changed = (charInfo.BinaryMask != lv.CurrentMasks[0]);
-				charInfo.BinaryMask = lv.CurrentMasks[0];
-				m_grid.CurrentRow.Cells[kBinaryMask].Value = lv.CurrentMasks[0];
-				m_grid.CurrentRow.Cells[kBFeatures].Value =
-					DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
+				changed = (charInfo.AMask != lv.CurrentMask);
+				charInfo.AMask = lv.CurrentMask;
+				m_grid.CurrentRow.Cells[kAMask].Value = lv.CurrentMask;
+				m_grid.CurrentRow.Cells[kAFeatures].Value =
+					DataUtils.AFeatureCache.GetFeaturesText(lv.CurrentMask);
 			}
 			else
 			{
-				changed = (charInfo.Mask0 != lv.CurrentMasks[0] || charInfo.Mask1 != lv.CurrentMasks[1]);
-				charInfo.Mask0 = lv.CurrentMasks[0];
-				charInfo.Mask1 = lv.CurrentMasks[1];
-				m_grid.CurrentRow.Cells[kMask0].Value = lv.CurrentMasks[0];
-				m_grid.CurrentRow.Cells[kMask1].Value = lv.CurrentMasks[1];
-				m_grid.CurrentRow.Cells[kAFeatures].Value =
-					DataUtils.AFeatureCache.GetFeaturesText(lv.CurrentMasks);
+				changed = (charInfo.BMask != lv.CurrentMask);
+				charInfo.BMask = lv.CurrentMask;
+				m_grid.CurrentRow.Cells[kBMask].Value = lv.CurrentMask;
+				m_grid.CurrentRow.Cells[kBFeatures].Value =
+					DataUtils.BFeatureCache.GetFeaturesText(charInfo.BMask);
 			}
 
 			if (!m_dirty)
@@ -403,16 +402,15 @@ namespace SIL.Pa
 				info.DisplayOrder = (int)row.Cells[kDisplayOrder].Value;
 				info.MOArticulation = (int)row.Cells[kMOA].Value;
 				info.POArticulation = (int)row.Cells[kPOA].Value;
-				info.Mask0 = (ulong)row.Cells[kMask0].Value;
-				info.Mask1 = (ulong)row.Cells[kMask1].Value;
-				info.BinaryMask = (ulong)row.Cells[kBinaryMask].Value;
+				info.AMask = (FeatureMask)row.Cells[kAMask].Value;
+				info.BMask = (FeatureMask)row.Cells[kBMask].Value;
 				info.ChartColumn = (int)row.Cells[kChartColumn].Value;
 				info.ChartGroup = (int)row.Cells[kChartGroup].Value;
 
 				tmpCache.Add(info);
 			}
 
-			SilUtils.Utils.SerializeData(m_xmlFilePath, tmpCache);
+			Utils.SerializeData(m_xmlFilePath, tmpCache);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -633,11 +631,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
-			DataGridViewColumn col;
-
 			// Add the HexIpa field column.
-			col = SilGrid.CreateTextBoxColumn(kHexIPAChar);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridHexIpa);
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kHexIPAChar);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridHexIpa);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ReadOnly = true;
 			col.Frozen = true;
@@ -647,7 +643,7 @@ namespace SIL.Pa
 
 			// Add the IpaChar field column.
 			col = SilGrid.CreateTextBoxColumn(kIpaChar);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridIpaChar);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridIpaChar);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
@@ -704,21 +700,21 @@ namespace SIL.Pa
 
 			// Add the Can preceed base character check box column.
 			col = SilGrid.CreateCheckBoxColumn(kCanPreceedBaseChar);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridCanPreceedBase);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridCanPreceedBase);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the DisplayWDottedCircle check box column.
 			col = SilGrid.CreateCheckBoxColumn(kDisplayWDottedCircle);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridWDotCircle);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridWDotCircle);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the Display Order column.
 			col = SilGrid.CreateTextBoxColumn(kDisplayOrder);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridDisplayOrder);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridDisplayOrder);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.Visible = false;	// Currently, not used.
 			m_grid.Columns.Add(col);
@@ -741,24 +737,19 @@ namespace SIL.Pa
 				col.Visible = false;
 			m_grid.Columns.Add(col);
 
-			// Add the Mask0 field (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kMask0);
+			// Add the articulatory Mask field (NOT a visible column).
+			col = SilGrid.CreateTextBoxColumn(kAMask);
 			col.Visible = false;
 			m_grid.Columns.Add(col);
 
-			// Add the Mask1 field (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kMask1);
-			col.Visible = false;
-			m_grid.Columns.Add(col);
-
-			// Add the BinaryMask field (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kBinaryMask);
+			// Add the binary Mask field (NOT a visible column).
+			col = SilGrid.CreateTextBoxColumn(kBMask);
 			col.Visible = false;
 			m_grid.Columns.Add(col);
 
 			// Add the ChartColumn column.
 			col = SilGrid.CreateTextBoxColumn(kChartColumn);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridChartColumn);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridChartColumn);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -767,7 +758,7 @@ namespace SIL.Pa
 
 			// Add the ChartGroup column.
 			col = SilGrid.CreateTextBoxColumn(kChartGroup);
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Resources.kstidIpaGridChartGroup);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridChartGroup);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(int);
 			if (!m_amTesting)
@@ -812,13 +803,13 @@ namespace SIL.Pa
 			{
 				cdd = m_aFeatureDropdown;
 				lv = m_lvAFeatures;
-				lv.CurrentMasks = new ulong[] { charInfo.Mask0, charInfo.Mask1 };
+				lv.CurrentMask = charInfo.AMask.Clone();
 			}
 			else if (m_grid.Columns[e.ColumnIndex].Name == kBFeatures)
 			{
 				cdd = m_bFeatureDropdown;
 				lv = m_lvBFeatures;
-				lv.CurrentMasks = new ulong[] { charInfo.BinaryMask, 0 };
+				lv.CurrentMask = charInfo.BMask.Clone();
 			}
 			else
 				return;
@@ -909,12 +900,10 @@ namespace SIL.Pa
 			row.Cells[kChartGroup].Value = charInfo.ChartGroup;
 
 			// Features
-			ulong[] features = new ulong[] { charInfo.Mask0, charInfo.Mask1 };
-			row.Cells[kAFeatures].Value = DataUtils.AFeatureCache.GetFeaturesText(features);
-			row.Cells[kBFeatures].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BinaryMask);
-			row.Cells[kMask0].Value = charInfo.Mask0;
-			row.Cells[kMask1].Value = charInfo.Mask1;
-			row.Cells[kBinaryMask].Value = charInfo.BinaryMask;
+			row.Cells[kAFeatures].Value = DataUtils.AFeatureCache.GetFeaturesText(charInfo.AMask);
+			row.Cells[kBFeatures].Value = DataUtils.BFeatureCache.GetFeaturesText(charInfo.BMask);
+			row.Cells[kAMask].Value = charInfo.AMask;
+			row.Cells[kBMask].Value = charInfo.BMask;
 
 			row.Tag = charInfo;
 
@@ -947,19 +936,19 @@ namespace SIL.Pa
 			// Make sure the file exists
 			if (!File.Exists(m_xmlFilePath))
 			{
-				string path = SilUtils.Utils.PrepFilePathForSTMsgBox(m_xmlFilePath);
+				string path = Utils.PrepFilePathForSTMsgBox(m_xmlFilePath);
 				string msg = string.Format(Resources.kstidIpaGridErrNoFile, path);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
-			m_charInventory = SilUtils.Utils.DeserializeData(m_xmlFilePath,
+			m_charInventory = Utils.DeserializeData(m_xmlFilePath,
 				 typeof(List<IPACharInfo>)) as List<IPACharInfo>;
 
 			// Make sure the format is correct
 			if (m_charInventory == null)
 			{
-				SilUtils.Utils.STMsgBox(Resources.kstidIpaGridErrBadXmlFormat,
+				Utils.STMsgBox(Resources.kstidIpaGridErrBadXmlFormat,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -1191,9 +1180,9 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), helpFilePath, topicPath);
 			else
 			{
-				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(helpFilePath);
+				string filePath = Utils.PrepFilePathForSTMsgBox(helpFilePath);
 				string msg = string.Format(Resources.kstidHelpFileMissingMsg, filePath);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 
@@ -1261,7 +1250,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (SilUtils.Utils.STMsgBox(Resources.kstidIpaGridDeletion,
+			if (Utils.STMsgBox(Resources.kstidIpaGridDeletion,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				m_grid.Rows.Remove(m_grid.CurrentRow);

@@ -25,18 +25,18 @@ namespace SIL.Pa.FFSearchEngine
 	public class PatternGroupMember
 	{
 		private MemberType m_type;
-		private string m_member = null;
-		private string m_diacriticPattern = null;
-		private List<char> m_diacriticPatternArray = new List<char>();
+		private string m_member;
+		private string m_diacriticPattern;
 		private List<char> m_undefinedPhoneticChars = new List<char>();
 
 		private StringBuilder m_memberBuilder;
-		private readonly ulong[] m_masks = new ulong[] {0, 0};
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
 
 		// This variable is only set when the member's type is SinglePhone or IPACharacterRun
 		// and is only used to the ToString() method can properly display the member as it
 		// was before the phone was stripped of it's diacritics.
-		private string m_singlePhoneForToString = null;
+		private string m_singlePhoneForToString;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -85,14 +85,24 @@ namespace SIL.Pa.FFSearchEngine
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the masks for the pattern member. When the member's MemberType is not Binary
-		/// or Articulator, then this property is irrelevant. Otherwise, if the MemberType is
-		/// Binary only the first element in Masks is relevant.
+		/// Gets the masks for the pattern member. When the member's MemberType is not a
+		/// Articulatory feature, then this property is irrelevant.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ulong[] Masks
+		public FeatureMask AMask
 		{
-			get {return m_masks;}
+			get { return m_aMask; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the masks for the pattern member. When the member's MemberType is not a
+		/// Binary feature, then this property is irrelevant.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureMask BMask
+		{
+			get { return m_bMask; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,10 +157,7 @@ namespace SIL.Pa.FFSearchEngine
 				CloseClassMember();
 			else
 			{
-				AFeature feature = DataUtils.AFeatureCache[m_member];
-				if (feature != null)
-					CloseArticulatoryFeatureMember(feature);
-				else
+				if (!CloseArticulatoryFeatureMember())
 					return ClosePhoneRunMember();
 			}
 
@@ -166,11 +173,7 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			m_type = MemberType.Binary;
 			m_member = m_member.ToLower();
-
-			// Find the feature in the cache.
-			BFeature feature = DataUtils.BFeatureCache[m_member];
-			if (feature != null)
-				m_masks[0] = (m_member.StartsWith("+") ? feature.PlusMask : feature.MinusMask);
+			m_bMask = DataUtils.BFeatureCache.GetMask(m_member);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,11 +181,17 @@ namespace SIL.Pa.FFSearchEngine
 		/// Closes a member whose type will be articulatory feature.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CloseArticulatoryFeatureMember(AFeature feature)
+		private bool CloseArticulatoryFeatureMember()
 		{
-			m_type = MemberType.Articulatory;
-			m_member = m_member.ToLower();
-			m_masks[feature.MaskNumber] = feature.Mask;
+			if (DataUtils.AFeatureCache.FeatureExits(m_member))
+			{
+				m_type = MemberType.Articulatory;
+				m_member = m_member.ToLower();
+				m_aMask = DataUtils.AFeatureCache.GetMask(m_member);
+				return true;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -246,12 +255,11 @@ namespace SIL.Pa.FFSearchEngine
 
 			string basePhone;
 			string diacritics;
-			m_undefinedPhoneticChars = SearchEngine.ParsePhone(phone, out basePhone, out diacritics);
-
-			// We don't want a null list, even if it's empty.
-			if (m_undefinedPhoneticChars == null)
-				m_undefinedPhoneticChars = new List<char>();
 			
+			// Don't want a null list, even if it's empty.
+			m_undefinedPhoneticChars =
+				SearchEngine.ParsePhone(phone, out basePhone, out diacritics) ?? new List<char>();
+
 			// Save the phone with all its diacritics stripped off.
 			m_member = basePhone;
 			m_type = MemberType.SinglePhone;
@@ -315,7 +323,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private CompareResultType ContainsMatch(string phone,
-			Dictionary<string, IPhoneInfo> phoneCache)
+			IDictionary<string, IPhoneInfo> phoneCache)
 		{
 			if (m_type == MemberType.SinglePhone)
 				return ComparePhones(m_member, phone);
@@ -352,16 +360,13 @@ namespace SIL.Pa.FFSearchEngine
 					break;
 			
 				case MemberType.Binary:
-					if ((phoneInfo.BinaryMask & m_masks[0]) != 0)
+					if (phoneInfo.BMask.AndResult(m_bMask))
 						compareResult = CompareResultType.Match;
 					break;
 				
 				case MemberType.Articulatory:
-					if (((phoneInfo.Masks[0] & m_masks[0]) != 0) ||
-						((phoneInfo.Masks[1] & m_masks[1]) != 0))
-					{
+					if (phoneInfo.AMask.AndResult(m_aMask))
 						compareResult = CompareResultType.Match;
-					}
 					break;
 			}
 
@@ -434,7 +439,7 @@ namespace SIL.Pa.FFSearchEngine
 			if (patternPhone != basePhone)
 				return CompareResultType.NoMatch;
 
-			bool match = CompareDiacritics(m_diacriticPattern, phonesDiacritics ?? null, false);
+			bool match = CompareDiacritics(m_diacriticPattern, phonesDiacritics, false);
 			return (match ? CompareResultType.Match : CompareResultType.NoMatch);
 		}
 

@@ -28,11 +28,9 @@ namespace SIL.Pa.Controls
 		public SearchClassType ClassType = SearchClassType.Phones;
 		public bool AllowEdit = true;
 		public bool ANDFeatures = true;
-		public bool IsDirty = false;
-		public bool InEditMode = false;
-		private readonly ulong[] m_masks = new ulong[2];
-		private readonly string m_plusSymbol = ResourceHelper.GetString("kstidPlusFeatureSymbol");
-		private readonly string m_minusSymbol = ResourceHelper.GetString("kstidMinusFeatureSymbol");
+		public bool IsDirty;
+		public bool InEditMode;
+		private FeatureMask m_mask;
 
 		#region Constructor and Copy method
 		/// ------------------------------------------------------------------------------------
@@ -81,7 +79,7 @@ namespace SIL.Pa.Controls
 			ClassType = item.ClassType;
 			ANDFeatures = item.ANDFeatures;
 			AllowEdit = item.AllowEdit;
-			Masks = item.Masks;
+			Mask = item.Mask.Clone();
 			Pattern = item.Pattern;
 			Tag = item.Tag;
 
@@ -109,14 +107,10 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		public ulong[] Masks
+		public FeatureMask Mask
 		{
-			get {return m_masks;}
-			set
-			{
-				m_masks[0] = value[0];
-				m_masks[1] = value[1];
-			}
+			get { return m_mask; }
+			set { m_mask = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,10 +211,10 @@ namespace SIL.Pa.Controls
 			get
 			{
 				if (ClassType == SearchClassType.Articulatory)
-					return GetArticulatoryFeaturesStrings(Masks);
+					return DataUtils.AFeatureCache.GetFeatureList(Mask).ToArray();
 
 				if (ClassType == SearchClassType.Binary)
-					return GetBinaryFeaturesStrings(Masks[0]);
+					return DataUtils.BFeatureCache.GetFeatureList(Mask).ToArray();
 
 				return null;
 			}
@@ -261,8 +255,8 @@ namespace SIL.Pa.Controls
 				{
 					// Get the features that make up this class.
 					members = (ClassType == SearchClassType.Articulatory ?
-						GetArticulatoryFeaturesStrings(Masks) :
-						GetBinaryFeaturesStrings(Masks[0]));
+						DataUtils.AFeatureCache.GetFeatureList(Mask).ToArray() :
+						DataUtils.BFeatureCache.GetFeatureList(Mask).ToArray());
 
 					brackets = kFeatureBracketing;
 				}
@@ -340,45 +334,6 @@ namespace SIL.Pa.Controls
 
 		//    return (string[])classes.ToArray(typeof(string));
 		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns an array of feature names of those features contained in the specified
-		/// masks.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string[] GetArticulatoryFeaturesStrings(ulong[] masks)
-		{
-			List<string> features = new List<string>();
-
-			foreach (KeyValuePair<string, AFeature> feature in DataUtils.AFeatureCache)
-			{
-				if ((masks[feature.Value.MaskNumber] & feature.Value.Mask) > 0)
-					features.Add(feature.Value.Name);
-			}
-
-			return features.ToArray();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns an array of feature names of those features contained in the specified mask.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string[] GetBinaryFeaturesStrings(ulong mask)
-		{
-			List<string> features = new List<string>();
-
-			foreach (KeyValuePair<string, BFeature> feature in DataUtils.BFeatureCache)
-			{
-				if ((mask & feature.Value.PlusMask) > 0)
-					features.Add(m_plusSymbol + feature.Value.Name);
-				else if ((mask & feature.Value.MinusMask) > 0)
-					features.Add(m_minusSymbol + feature.Value.Name);
-			}
-
-			return features.ToArray();
-		}
 
 		#endregion
 
@@ -482,8 +437,8 @@ namespace SIL.Pa.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void GetMasksFromPattern(ClassListViewItem item, string pattern)
 		{
-			item.Masks[0] = item.Masks[1] = 0;
-
+			item.Mask.Clear();
+			
 			pattern = pattern.Replace("][", ",");
 			pattern = pattern.Replace("],]", ",");
 			pattern = pattern.Replace("[", string.Empty);
@@ -497,29 +452,12 @@ namespace SIL.Pa.Controls
 			
 			foreach (string feature in features)
 			{
-				string modfiedFeature = feature.Trim();
-
-				if (item.ClassType == SearchClassType.Articulatory)
-				{
-					if (DataUtils.AFeatureCache.ContainsKey(modfiedFeature))
-					{
-						int masknum = DataUtils.AFeatureCache[modfiedFeature].MaskNumber;
-						item.Masks[masknum] |= DataUtils.AFeatureCache[modfiedFeature].Mask;
-					}
-				}
-				else
-				{
-					// Get the + or - and then strip it off the feature;
-					char sign = modfiedFeature[0];
-					string modifiedFeature = modfiedFeature.Substring(1);
-
-					if (DataUtils.BFeatureCache.ContainsKey(modifiedFeature))
-					{
-						item.Masks[0] |= (sign == '+' ?
-							DataUtils.BFeatureCache[modifiedFeature].PlusMask :
-							DataUtils.BFeatureCache[modifiedFeature].MinusMask);
-					}
-				}
+				Feature feat = (item.ClassType == SearchClassType.Articulatory ?
+					DataUtils.AFeatureCache[feature] :
+					DataUtils.BFeatureCache[feature]);
+					
+				if (feat != null)
+					item.Mask[feat.Bit] = true;
 			}
 		}
 		

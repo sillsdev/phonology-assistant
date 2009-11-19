@@ -64,11 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmbiguousSequenceTests.cs" />
+    <Compile Include="BFeatureCacheTests.cs" />
     <Compile Include="CVPatternTests.cs" />
     <Compile Include="ExperimentalTranscriptionTests.cs" />
-    <Compile Include="FeatureBaseTests.cs" />
     <Compile Include="FeatureCacheBaseTests.cs" />
     <Compile Include="FeatureMaskTests.cs" />
+    <Compile Include="FeatureTests.cs" />
     <Compile Include="PhoneCacheTests.cs" />
     <Compile Include="PhoneticParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

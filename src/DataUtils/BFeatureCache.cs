@@ -1,6 +1,8 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -9,181 +11,140 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class BFeatureCache : FeatureCacheBase<BFeature>
+	public class BFeatureCache : FeatureCacheBase
 	{
-		public const string kDefaultBFeatureCacheFile = "DefaultBFeatures.xml";
-		public const string kBFeatureCacheFile = "BFeatures.xml";
-		private string m_cacheFileName;
-
+		#region Overridden Properties/Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the file name from which features are deserialized and serialized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal BFeatureCache(string projectFileName)
+		protected override string FileName
 		{
-			m_cacheFileName = BuildFileName(projectFileName, true);
+			get { return "DefaultBFeatures.xml"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Builds the name from which to load or save the cache file.
+		/// Gets the file name affix used for binary feature files specific to a project. This
+		/// is only used if features are saved by project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName, bool mustExist)
+		protected override string FileNameAffix
 		{
-			string filename = (projectFileName ?? string.Empty);
-			filename += (filename.EndsWith(".") ? string.Empty : ".") + kBFeatureCacheFile;
-
-			if (!File.Exists(filename) && mustExist)
-				filename = kDefaultBFeatureCacheFile;
-
-			return filename;
+			get { return ".BFeatures.xml"; }
 		}
-
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string CacheFileName
+		protected override void LoadFromList(List<Feature> list)
 		{
-			get { return m_cacheFileName; }
-		}
+			Debug.Assert(list != null);
+			Clear();
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the binary feature table from the database into a memory cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache Load()
-		{
-			return Load(null);
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the binary feature table from the database into a memory cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache Load(string projectFileName)
-		{
-			var cache = new BFeatureCache(projectFileName);
+			// This will add all the plus features.
+			base.LoadFromList(list);
 
-			// Deserialize to a list because Dictionaries are not deserializable.
-			var tmpList = SilUtils.Utils.DeserializeData(cache.CacheFileName,
-				typeof(List<BFeature>)) as List<BFeature>;
-
-			if (tmpList == null)
-				return null;
-
-			int bit = 0;
-			foreach (BFeature plusFeature in tmpList)
+			// Now add the minus features.
+			int bit = list.Count;
+			foreach (Feature plusFeature in list)
 			{
 				if (plusFeature.Name == null)
 					continue;
-				
-				BFeature minusFeature = plusFeature.Clone();
 
-				plusFeature.Name = "+" + plusFeature.Name;
-				plusFeature.FullName = "+" + plusFeature.FullName;
-				plusFeature.Bit = bit++;
-				plusFeature.IsPlus = true;
+				Feature minusFeature = plusFeature.Clone();
 
-				minusFeature.Name = "-" + minusFeature.Name;
-				minusFeature.FullName = "-" + minusFeature.FullName;
 				minusFeature.Bit = bit++;
-
-				cache[plusFeature.Name.ToLower()] = plusFeature;
-				cache[minusFeature.Name.ToLower()] = minusFeature;
+				minusFeature.Name = "-" + minusFeature.Name.Substring(1);
+				string fullName = ReflectionHelper.GetField(minusFeature, "m_fullname") as string;
+				if (fullName != null)
+					minusFeature.FullName = "-" + fullName.Substring(1);
+				
+				Add(minusFeature);
 			}
-
-			tmpList.Clear();
-			return (cache.Count == 0 ? null : cache);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Saves the cache to it's XML file.
+		/// Cleans up a binary feature name before adding it to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Save(string projectFileName)
+		protected override string CleanNameForLoad(string name)
 		{
-			m_cacheFileName = BuildFileName(projectFileName, false);
-			Save();
-		}
+			name = base.CleanNameForLoad(name);
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the cache to it's XML file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save()
-		{
-			// Copy cache to a sorted list (sorted by either one of the bits), then
-			// to a list because Dictionaries cannot be serialized.
-			var tmpSortedList = new SortedList<int, BFeature>();
-			var tmpList = new List<BFeature>();
+			if (name == null)
+				return null;
 
-			//foreach (KeyValuePair<string, BFeature> feature in this)
-			//    tmpSortedList[feature.Value.PlusBit] = feature.Value;
+			name = name.Trim();
 
-			foreach (KeyValuePair<int, BFeature> feature in tmpSortedList)
-				tmpList.Add(feature.Value);
+			if (name.StartsWith("-"))
+				name = name.Substring(1);
 
-			SilUtils.Utils.SerializeData(m_cacheFileName, tmpList);
-			tmpSortedList.Clear();
-			tmpList.Clear();
-		}
-	}
+			if (!name.StartsWith("+"))
+				name = "+" + name;
 
-	#region BFeature class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// A class defining an object to store the information for a single binary feature.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class BFeature : FeatureBase
-	{
-		private bool m_isPlus;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clones the specified binary feature.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public BFeature Clone()
-		{
-			var clone = Clone(new BFeature()) as BFeature;
-			clone.m_isPlus = m_isPlus;
-			return clone;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return FullName;
-		}
-
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether the feature is plus. If not, it is minus.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool IsPlus
-		{
-			get { return m_isPlus; }
-			internal set { m_isPlus = value; }
+			return name;
 		}
 
 		#endregion
-	}
 
-	#endregion
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a collection of the plus features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<Feature> PlusFeatures
+		{
+			get
+			{
+				return (from feat in Values
+						where feat.Name.StartsWith("+")
+						select feat).ToList();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a collection of the minus features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<Feature> MinusFeatures
+		{
+			get
+			{
+				return (from feat in Values
+						where feat.Name.StartsWith("-")
+						select feat).ToList();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the opposite feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Feature GetOppositeFeature(Feature feature)
+		{
+			return (feature == null ? null : GetOppositeFeature(feature.Name));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the opposite feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Feature GetOppositeFeature(string featName)
+		{
+			if (string.IsNullOrEmpty(featName))
+				return null;
+
+			StringBuilder name = new StringBuilder(featName);
+			name[0] = (name[0] == '+' ? '-' : '+');
+			return this[name.ToString()];
+		}
+	}
 }

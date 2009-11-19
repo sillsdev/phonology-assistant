@@ -29,7 +29,7 @@ namespace SIL.Pa.Data
 	[TestFixture]
 	public class FeatureCacheBaseTests : TestBase
 	{
-		private FeatureCacheBase<FeatureBase> m_fcache;
+		private FeatureCacheBase m_cache;
 		private readonly List<string> m_fNames =
 			new List<string> { "Bananas", "Cheese", "Ham", "Onions", "Peppers", "Pickles" };
 
@@ -42,20 +42,33 @@ namespace SIL.Pa.Data
 		[SetUp]
 		public void TestSetup()
 		{
-			m_fcache = new FeatureCacheBase<FeatureBase>();
+			m_cache = new FeatureCacheBase();
 			
 			// Create a bunch of features and add them to the feature cache.
 			int bit = 0;
 			foreach (string name in m_fNames)
 			{
-				var feat = new FeatureBase { Name = name };
+				var feat = new Feature { Name = name };
 				ReflectionHelper.SetProperty(feat, "Bit", bit++);
-				string cleanName = ReflectionHelper.GetStrResult(m_fcache.GetType(), "CleanUpFeatureName", name);
-				m_fcache.Add(cleanName, feat);
+				string cleanName = ReflectionHelper.GetStrResult(m_cache.GetType(), "CleanUpFeatureName", name);
+				m_cache.Add(cleanName, feat);
 			}
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the CleanNameForLoad method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void CleanNameForLoad()
+		{
+			Assert.IsNull(ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", null));
+			Assert.AreEqual("dog", ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", "   dog "));
+			Assert.AreEqual("cat", ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", "cat "));
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -67,7 +80,7 @@ namespace SIL.Pa.Data
 		public void IntIndexer_Get()
 		{
 			for (int i = 0; i < m_fNames.Count; i++)
-				Assert.AreEqual(m_fNames[i], m_fcache[i].Name);
+				Assert.AreEqual(m_fNames[i], m_cache[i].Name);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -79,15 +92,15 @@ namespace SIL.Pa.Data
 		[Test]
 		public void StringIndexer_Set()
 		{
-			m_fcache.Clear();
+			m_cache.Clear();
 
 			foreach (string name in m_fNames)
-				m_fcache[name] = new FeatureBase { Name = name };
+				m_cache[name] = new Feature { Name = name };
 
-			Assert.AreEqual(m_fNames.Count, m_fcache.Values.Count);
+			Assert.AreEqual(m_fNames.Count, m_cache.Values.Count);
 
 			int i = 0;
-			foreach (FeatureBase feat in m_fcache.Values)
+			foreach (Feature feat in m_cache.Values)
 				Assert.AreEqual(m_fNames[i++], feat.Name);
 		}
 
@@ -101,7 +114,7 @@ namespace SIL.Pa.Data
 		public void StringIndexer_Get()
 		{
 			for (int i = 0; i < m_fNames.Count; i++)
-				Assert.AreEqual(m_fNames[i], m_fcache[m_fNames[i]].Name);
+				Assert.AreEqual(m_fNames[i], m_cache[m_fNames[i]].Name);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -114,12 +127,35 @@ namespace SIL.Pa.Data
 		public void NullIndexer_GetAndSet()
 		{
 			// Test the null setter.
-			int count = m_fcache.Count;
-			m_fcache[null] = new FeatureBase();
-			Assert.AreEqual(count, m_fcache.Count);
+			int count = m_cache.Count;
+			m_cache[null] = new Feature();
+			Assert.AreEqual(count, m_cache.Count);
 
 			// Test a null getter.
-			Assert.IsNull(m_fcache[null]);
+			Assert.IsNull(m_cache[null]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the Add method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Add()
+		{
+			int count = m_cache.Count;
+	
+			m_cache.Add(null);
+			Assert.AreEqual(count, m_cache.Count);
+
+			var feat = new Feature();
+			m_cache.Add(feat);
+			Assert.AreEqual(count, m_cache.Count);
+
+			feat.Name = "+Camel";
+			m_cache.Add(feat);
+			Assert.AreEqual(count + 1, m_cache.Count);
+			Assert.IsNotNull(m_cache["+Camel"]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,7 +167,7 @@ namespace SIL.Pa.Data
 		public void CleanUpFeatureName()
 		{
 			string fname = "[UGLY FEATURE]";
-			string cleanName = ReflectionHelper.GetStrResult(m_fcache.GetType(), "CleanUpFeatureName", fname);
+			string cleanName = ReflectionHelper.GetStrResult(m_cache.GetType(), "CleanUpFeatureName", fname);
 			Assert.AreEqual("ugly feature", cleanName);
 		}
 
@@ -143,12 +179,12 @@ namespace SIL.Pa.Data
 		[Test]
 		public void FeatureExists()
 		{
-			Assert.IsFalse(m_fcache.FeatureExits("Beef", false));
-			Assert.IsFalse(m_fcache.FeatureExits("Chicken", false));
-			Assert.IsFalse(m_fcache.FeatureExits(null, false));
+			Assert.IsFalse(m_cache.FeatureExits("Beef", false));
+			Assert.IsFalse(m_cache.FeatureExits("Chicken", false));
+			Assert.IsFalse(m_cache.FeatureExits(null, false));
 
 			for (int i = 0; i < m_fNames.Count; i++)
-				Assert.IsTrue(m_fcache.FeatureExits(m_fNames[i], false));
+				Assert.IsTrue(m_cache.FeatureExits(m_fNames[i], false));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -159,12 +195,12 @@ namespace SIL.Pa.Data
 		[Test]
 		public void GetFeatureList()
 		{
-			var fmask = new FeatureMask(m_fcache.Count);
+			var fmask = new FeatureMask(m_cache.Count);
 			fmask[m_fNames.IndexOf("Onions")] = true;
 			fmask[m_fNames.IndexOf("Ham")] = true;
 			fmask[m_fNames.IndexOf("Cheese")] = true;
 
-			List<string> list = m_fcache.GetFeatureList(fmask);
+			List<string> list = m_cache.GetFeatureList(fmask);
 			Assert.AreEqual(3, list.Count);
 			Assert.AreEqual("Cheese", list[0]);
 			Assert.AreEqual("Ham", list[1]);
@@ -179,12 +215,12 @@ namespace SIL.Pa.Data
 		[Test]
 		public void GetFeatureText()
 		{
-			var fmask = new FeatureMask(m_fcache.Count);
+			var fmask = new FeatureMask(m_cache.Count);
 			fmask[m_fNames.IndexOf("Onions")] = true;
 			fmask[m_fNames.IndexOf("Ham")] = true;
 			fmask[m_fNames.IndexOf("Cheese")] = true;
 
-			Assert.AreEqual("Cheese, Ham, Onions", m_fcache.GetFeaturesText(fmask));
+			Assert.AreEqual("Cheese, Ham, Onions", m_cache.GetFeaturesText(fmask));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,11 +229,46 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetMask()
+		public void GetMask_FromString()
+		{
+			var fmask = m_cache.GetMask("Peppers");
+			Assert.IsTrue(fmask[m_fNames.IndexOf("Peppers")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Pickles")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Bananas")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Onions")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Ham")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Cheese")]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetMask method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMask_FromFeature()
+		{
+			var feat = m_cache["Pickles"];
+			var fmask = m_cache.GetMask(feat);
+			Assert.IsTrue(fmask[m_fNames.IndexOf("Pickles")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Bananas")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Peppers")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Onions")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Ham")]);
+			Assert.IsFalse(fmask[m_fNames.IndexOf("Cheese")]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the GetMask method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetMask_FromList()
 		{
 			var list = new List<string> {"Pickles", "Bananas", "Peppers"};
 
-			var fmask = m_fcache.GetMask(list);
+			var fmask = m_cache.GetMask(list);
 			Assert.IsTrue(fmask[m_fNames.IndexOf("Pickles")]);
 			Assert.IsTrue(fmask[m_fNames.IndexOf("Bananas")]);
 			Assert.IsTrue(fmask[m_fNames.IndexOf("Peppers")]);

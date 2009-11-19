@@ -300,44 +300,16 @@ namespace SIL.Pa.Controls
 			if (phoneInfo == null)
 				return false;
 
-			if (m_srchClassType != SearchClassType.Articulatory)
-			{
-				if (m_bMask == 0)
-					return false;
+			FeatureMask mask1 =
+				(m_srchClassType == SearchClassType.Articulatory ? m_aMask : m_bMask);
 
-				if (!m_allFeaturesMustMatch)
-				{
-					// Not all features need to be present in the phone. Only one.
-					return ((phoneInfo.BinaryMask & m_bMask) > 0);
-				}
+			FeatureMask mask2 = (m_srchClassType == SearchClassType.Articulatory ?
+				phoneInfo.AMask : phoneInfo.BMask);
 
-				// All features must be found in the phone for a match.
-				return ((phoneInfo.BinaryMask & m_bMask) == m_bMask &&
-					m_bMask > 0 && phoneInfo.BinaryMask > 0);
-			}
-
-			if (m_aMasks[0] == 0 && m_aMasks[1] == 0)
+			if (mask1.IsEmpty)
 				return false;
 
-			return (m_allFeaturesMustMatch ?
-				(phoneInfo.Masks[0] & m_aMasks[0]) == m_aMasks[0] &&
-				(phoneInfo.Masks[1] & m_aMasks[1]) == m_aMasks[1] :
-				(phoneInfo.Masks[0] & m_aMasks[0]) > 0 ||
-				(phoneInfo.Masks[1] & m_aMasks[1]) > 0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the viewer's current binary mask. Calling this method will also set the
-		/// viewer's current search class type to Binary.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SetBMask(ulong mask, bool allFeaturesMustMatch)
-		{
-			m_bMask = mask;
-			m_allFeaturesMustMatch = allFeaturesMustMatch;
-			m_srchClassType = SearchClassType.Binary;
-			LayoutPhones();
+			return (m_allFeaturesMustMatch ? mask1 == mask2 : mask1.AndResult(mask2));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -346,11 +318,25 @@ namespace SIL.Pa.Controls
 		/// the viewer's current search class type to Articulatory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SetAMasks(ulong[] masks, bool allFeaturesMustMatch)
+		public void SetAMasks(FeatureMask mask, bool allFeaturesMustMatch)
 		{
-			m_aMasks = masks;
+			m_aMask = mask;
 			m_allFeaturesMustMatch = allFeaturesMustMatch;
 			m_srchClassType = SearchClassType.Articulatory;
+			LayoutPhones();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the viewer's current binary mask. Calling this method will also set the
+		/// viewer's current search class type to Binary.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetBMask(FeatureMask mask, bool allFeaturesMustMatch)
+		{
+			m_bMask = mask;
+			m_allFeaturesMustMatch = allFeaturesMustMatch;
+			m_srchClassType = SearchClassType.Binary;
 			LayoutPhones();
 		}
 

@@ -14,8 +14,8 @@ namespace SilUtils
 	public static class Utils
 	{
 		public const char kObjReplacementChar = '\uFFFC';
-		internal static ISplashScreen s_splashScreen = null;
-		private static bool s_msgBoxJustShown = false;
+		internal static ISplashScreen s_splashScreen;
+		private static bool s_msgBoxJustShown;
 
 		#region Windows 32 stuff
 		/// <summary></summary>

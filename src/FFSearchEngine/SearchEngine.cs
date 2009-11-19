@@ -39,7 +39,7 @@ namespace SIL.Pa.FFSearchEngine
 		private readonly static List<string> s_ignoredPhones = new List<string>();
 		private readonly static List<char> s_ignoredChars = new List<char>();
 
-		private static bool s_convertPatternWithExperimentalTrans = false;
+		private static bool s_convertPatternWithExperimentalTrans;
 		private static bool s_ignoreDiacritics = true;
 		private static Dictionary<string, IPhoneInfo> s_phoneCache;
 		private static bool s_ignoreUndefinedChars = true;
@@ -50,8 +50,8 @@ namespace SIL.Pa.FFSearchEngine
 		private readonly string m_envBeforeStr = string.Empty;
 		private readonly string m_envAfterStr = string.Empty;
 		private readonly string m_srchItemStr = string.Empty;
-		private string[] m_phones = null;
-		int m_matchIndex = 0;
+		private string[] m_phones;
+		int m_matchIndex;
 
 		private readonly List<string> m_errors = new List<string>();
 
@@ -114,9 +114,9 @@ namespace SIL.Pa.FFSearchEngine
 			}
 
 			if (patterns.Length < 2)
-				patterns = new string[] { patterns[0], "*", "*" };
+				patterns = new[] { patterns[0], "*", "*" };
 			else if (patterns.Length < 3)
-				patterns = new string[] { patterns[0], patterns[1], "*" };
+				patterns = new[] { patterns[0], patterns[1], "*" };
 
 			if (string.IsNullOrEmpty(patterns[1]))
 				patterns[1] = "*";
@@ -155,7 +155,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// slashes and underscores that may be part of feature names (e.g. Tap/Flap).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string[] GetPatternPieces(string pattern)
+		private static string[] GetPatternPieces(string pattern)
 		{
 			// Replace slashes and underscores that occur between square brackets with tokens
 			// that are replaced with the slashes and underscores after the pattern is split up.
@@ -184,7 +184,7 @@ namespace SIL.Pa.FFSearchEngine
 				}
 
 				// Split up the pattern into it's pieces. Three pieces are expected.
-				string[] pieces = bldr.ToString().Split(new char[] { '/', '_' });
+				string[] pieces = bldr.ToString().Split(new[] { '/', '_' });
 
 				// Now go through the pieces and put back any slashes
 				// or undersores that were replace by tokens above.
@@ -558,11 +558,11 @@ namespace SIL.Pa.FFSearchEngine
 		/// Get rid of all +binary feature names in the specified string.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string RemovePlusBinaryFeatures(string pattern)
+		private static string RemovePlusBinaryFeatures(string pattern)
 		{
 			pattern = pattern.ToLower();
 
-			foreach (BFeature feature in DataUtils.BFeatureCache.Values)
+			foreach (Feature feature in DataUtils.BFeatureCache.Values)
 			{
 				// Remove those whose short name was specified.
 				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
@@ -582,7 +582,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// its enclosing closed square bracket.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string RemoveDiacriticPlaceholderModifiers(string pattern)
+		private static string RemoveDiacriticPlaceholderModifiers(string pattern)
 		{
 			int start = 0;
 
@@ -606,7 +606,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetPhonesFromMember(PatternGroup grp)
+		private static string GetPhonesFromMember(PatternGroup grp)
 		{
 			StringBuilder phones = new StringBuilder();
 
@@ -646,7 +646,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private List<char> GetInvalidCharsFromMember(PatternGroup grp)
+		private static List<char> GetInvalidCharsFromMember(PatternGroup grp)
 		{
 			List<char> undefinedChars = new List<char>();
 
@@ -733,7 +733,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public bool SearchWord(string phonetic, out int[] result)
 		{
-			result = new int[] { -1, -1 };
+			result = new[] { -1, -1 };
 
 			if (DataUtils.IPACharCache == null)
 				return false;
@@ -762,14 +762,14 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		public bool SearchWord(out int[] result)
 		{
-			result = new int[] {-1, -1};
+			result = new[] {-1, -1};
 
 			if (m_phones == null)
 				return false;
 
 			while (m_matchIndex < m_phones.Length)
 			{
-				result = new int[] { -1, -1 };
+				result = new[] { -1, -1 };
 
 				// First, look for the search item.
 				if (m_srchItem == null || !m_srchItem.Search(m_phones, m_matchIndex, out result))

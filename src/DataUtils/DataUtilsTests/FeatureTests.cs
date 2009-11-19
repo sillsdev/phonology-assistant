@@ -8,7 +8,7 @@
 // </copyright> 
 #endregion
 // 
-// File: FeatureBaseTests.cs
+// File: FeatureTests.cs
 // Responsibility: D. Olson
 // 
 // <remarks>
@@ -25,7 +25,7 @@ namespace SIL.Pa.Data
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class FeatureBaseTests
+	public class FeatureTests
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -35,10 +35,10 @@ namespace SIL.Pa.Data
 		[Test]
 		public void Clone()
 		{
-			var feat1 = new FeatureBase { Name = "Dogs", FullName = "Big Dogs" };
+			var feat1 = new Feature { Name = "Dogs", FullName = "Big Dogs" };
 			ReflectionHelper.SetProperty(feat1, "Bit", 46);
 
-			var feat2 = feat1.Clone(new FeatureBase());
+			var feat2 = feat1.Clone();
 			Assert.AreEqual("Dogs", feat2.Name);
 			Assert.AreEqual("Big Dogs", feat2.FullName);
 			Assert.AreEqual(46, feat2.Bit);

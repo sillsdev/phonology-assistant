@@ -16,13 +16,13 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class DefineClassDlg : OKCancelDlgBase
 	{
-		private bool m_splitterSettingsLoaded = false;
+		private bool m_splitterSettingsLoaded;
 		private PhonesInFeatureViewer m_conViewer;
 		private PhonesInFeatureViewer m_vowViewer;
 		private PhonesInFeatureViewer m_otherPhonesViewer;
 		private readonly ClassesDlg m_classesDlg;
 		private readonly ClassListViewItem m_classInfo;
-		private readonly ClassListViewItem m_origClassInfo = null;
+		private readonly ClassListViewItem m_origClassInfo;
 		private readonly FeatureListView m_lvArticulatoryFeatures;
 		private readonly FeatureListView m_lvBinaryFeatures;
 		private readonly Dictionary<SearchClassType, Control> m_ctrls =
@@ -135,8 +135,8 @@ namespace SIL.Pa.Dialogs
 			}
 
 			txtClassName.Text = m_classInfo.Text;
-			m_lvArticulatoryFeatures.CurrentMasks = m_classInfo.Masks;
-			m_lvBinaryFeatures.CurrentMasks = m_classInfo.Masks;
+			m_lvArticulatoryFeatures.CurrentMask = m_classInfo.Mask;
+			m_lvBinaryFeatures.CurrentMask = m_classInfo.Mask;
 
 			SetupControlsForType();
 			UpdateCharacterViewers();
@@ -531,9 +531,9 @@ namespace SIL.Pa.Dialogs
 		/// Handle the user choosing a feature.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleFeatureChanged(object sender, ulong[] newMasks)
+		void HandleFeatureChanged(object sender, FeatureMask newMask)
 		{
-			m_classInfo.Masks = newMasks;
+			m_classInfo.Mask = newMask;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
 			UpdateCharacterViewers();
@@ -592,29 +592,16 @@ namespace SIL.Pa.Dialogs
 		{
 			if (m_classInfo.ClassType == SearchClassType.Binary)
 			{
-				m_conViewer.SetBMask(m_classInfo.Masks[0], m_classInfo.ANDFeatures);
-				m_vowViewer.SetBMask(m_classInfo.Masks[0], m_classInfo.ANDFeatures);
-				m_otherPhonesViewer.SetBMask(m_classInfo.Masks[0], m_classInfo.ANDFeatures);
+				m_conViewer.SetBMask(m_classInfo.Mask, m_classInfo.ANDFeatures);
+				m_vowViewer.SetBMask(m_classInfo.Mask, m_classInfo.ANDFeatures);
+				m_otherPhonesViewer.SetBMask(m_classInfo.Mask, m_classInfo.ANDFeatures);
 			}
 			else if (m_classInfo.ClassType == SearchClassType.Articulatory)
 			{
-				m_conViewer.SetAMasks(m_classInfo.Masks, m_classInfo.ANDFeatures);
-				m_vowViewer.SetAMasks(m_classInfo.Masks, m_classInfo.ANDFeatures);
-				m_otherPhonesViewer.SetAMasks(m_classInfo.Masks, m_classInfo.ANDFeatures);
+				m_conViewer.SetAMasks(m_classInfo.Mask, m_classInfo.ANDFeatures);
+				m_vowViewer.SetAMasks(m_classInfo.Mask, m_classInfo.ANDFeatures);
+				m_otherPhonesViewer.SetAMasks(m_classInfo.Mask, m_classInfo.ANDFeatures);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set a flag indicating whether or not the cancel button was pressed. That's because
-		/// in the form's closing event, we don't know if a DialogResult of Cancel is due to
-		/// the user clicking on the cancel button or closing the form in some other way
-		/// beside clicking on the OK button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			m_cancelButtonPressed = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -634,11 +621,11 @@ namespace SIL.Pa.Dialogs
 				//if (m_classInfo.ClassType == ClassType.OtherClasses)
 				//    m_classInfo.OtherClassIds = null;
 				//else
-					m_classInfo.Masks = new ulong[] {0, 0};
+					m_classInfo.Mask.Clear();
 					
 				// Fix for PA-555
-				m_lvArticulatoryFeatures.CurrentMasks = new ulong[] { 0, 0 };
-				m_lvBinaryFeatures.CurrentMasks = new ulong[] { 0, 0 };
+				m_lvArticulatoryFeatures.CurrentMask.Clear();
+				m_lvBinaryFeatures.CurrentMask.Clear();
 			}
 		}
 

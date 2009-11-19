@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using SIL.Pa.Data;
-using SIL.SpeechTools.TestUtils;
+using SIL.Pa.TestUtils;
+using System.Collections.Generic;
 
 namespace SIL.Pa.FFSearchEngine
 {
@@ -56,45 +57,45 @@ namespace SIL.Pa.FFSearchEngine
 			m_query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = m_query;
 
-			m_phoneCache["t"] = new TestPhoneInfo();
+			m_phoneCache["t"] = new PhoneInfo();
 			m_phoneCache["t"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["p"] = new TestPhoneInfo();
+			m_phoneCache["p"] = new PhoneInfo();
 			m_phoneCache["p"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["b"] = new TestPhoneInfo();
+			m_phoneCache["b"] = new PhoneInfo();
 			m_phoneCache["b"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["d"] = new TestPhoneInfo();
+			m_phoneCache["d"] = new PhoneInfo();
 			m_phoneCache["d"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["h"] = new TestPhoneInfo();
+			m_phoneCache["h"] = new PhoneInfo();
 			m_phoneCache["h"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["s"] = new TestPhoneInfo();
+			m_phoneCache["s"] = new PhoneInfo();
 			m_phoneCache["s"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["x"] = new TestPhoneInfo();
+			m_phoneCache["x"] = new PhoneInfo();
 			m_phoneCache["x"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["g"] = new TestPhoneInfo();
+			m_phoneCache["g"] = new PhoneInfo();
 			m_phoneCache["g"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["l"] = new TestPhoneInfo();
+			m_phoneCache["l"] = new PhoneInfo();
 			m_phoneCache["l"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["k"] = new TestPhoneInfo();
+			m_phoneCache["k"] = new PhoneInfo();
 			m_phoneCache["k"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["m"] = new TestPhoneInfo();
+			m_phoneCache["m"] = new PhoneInfo();
 			m_phoneCache["m"].CharType = IPACharacterType.Consonant;
-			m_phoneCache["n"] = new TestPhoneInfo();
+			m_phoneCache["n"] = new PhoneInfo();
 			m_phoneCache["n"].CharType = IPACharacterType.Consonant;
 
-			m_phoneCache["a"] = new TestPhoneInfo();
+			m_phoneCache["a"] = new PhoneInfo();
 			m_phoneCache["a"].CharType = IPACharacterType.Vowel;
-			m_phoneCache["e"] = new TestPhoneInfo();
+			m_phoneCache["e"] = new PhoneInfo();
 			m_phoneCache["e"].CharType = IPACharacterType.Vowel;
-			m_phoneCache["i"] = new TestPhoneInfo();
+			m_phoneCache["i"] = new PhoneInfo();
 			m_phoneCache["i"].CharType = IPACharacterType.Vowel;
-			m_phoneCache["o"] = new TestPhoneInfo();
+			m_phoneCache["o"] = new PhoneInfo();
 			m_phoneCache["o"].CharType = IPACharacterType.Vowel;
-			m_phoneCache["u"] = new TestPhoneInfo();
+			m_phoneCache["u"] = new PhoneInfo();
 			m_phoneCache["u"].CharType = IPACharacterType.Vowel;
 
-			m_phoneCache["."] = new TestPhoneInfo();
+			m_phoneCache["."] = new PhoneInfo();
 			m_phoneCache["."].CharType = IPACharacterType.Suprasegmentals;
-			m_phoneCache["'"] = new TestPhoneInfo();
+			m_phoneCache["'"] = new PhoneInfo();
 			m_phoneCache["'"].CharType = IPACharacterType.Suprasegmentals;
 
 			SearchEngine.PhoneCache = m_phoneCache;
@@ -128,16 +129,12 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void SearchNonSequentialGroupsTest_1()
 		{
-			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			DataUtils.BFeatureCache["voice"].MinusMask = 8;
-			DataUtils.AFeatureCache["nasal"].Mask = 17;
-			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
+			// Put mock data in the articulatory and binary features of the phone.
+			PhoneInfo phoneInfo = (PhoneInfo)SearchEngine.PhoneCache["d"];
+			phoneInfo.BFeatures = new List<string> { "+high", "-voice" };
+			phoneInfo.AFeatures = new List<string> { "nasal" };
 
-			SearchEngine.PhoneCache["d"].BinaryMask = (4 | 8);
-			SearchEngine.PhoneCache["d"].Masks = new ulong[] { 0, 16 };
-
-			object[] args = new object[] { new string[] { "d" }, 0 };
+			object[] args = new object[] { new[] { "d" }, 0 };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[{[+high],[-voice]}[C]]");
@@ -163,7 +160,7 @@ namespace SIL.Pa.FFSearchEngine
 			group.Parse("[[[+high][-voice]][nasal]]");
 			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
 
-			args[0] = new string[] { "a" };
+			args[0] = new[] { "a" };
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[V]}");
 			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
@@ -179,15 +176,10 @@ namespace SIL.Pa.FFSearchEngine
 		public void SearchNonSequentialGroupsTest_SrchItem()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			DataUtils.BFeatureCache["voice"].MinusMask = 8;
-			DataUtils.AFeatureCache["nasal"].Mask = 17;
-			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
-
-			m_phoneCache["b"].BinaryMask = 0;
-			m_phoneCache["d"].BinaryMask = (4 | 8);
-			m_phoneCache["d"].Masks = new ulong[] { 0, 16 };
-			m_phoneCache["a"].BinaryMask = 0;
+			((PhoneInfo)m_phoneCache["b"]).BFeatures = new List<string>();
+			((PhoneInfo)m_phoneCache["a"]).BFeatures = new List<string>();
+			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).AFeatures = new List<string> { "+dental" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("[{a,b,c,d}[+high]]");
@@ -198,7 +190,8 @@ namespace SIL.Pa.FFSearchEngine
 			group.Parse("[{a,b,c,e}[+high]]");
 			Assert.IsFalse(group.Search("bad", 0, out m_results));
 
-			m_phoneCache["a"].BinaryMask = (4 | 8);
+			((PhoneInfo)m_phoneCache["a"]).BFeatures = new List<string> { "+high", "-voice" };
+			//m_phoneCache["a"].BinaryMask = (4 | 8);
 			group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("[{a,b,c,e}[+high]]");
 			Assert.IsTrue(group.Search("bad", 1, out m_results));
@@ -254,11 +247,8 @@ namespace SIL.Pa.FFSearchEngine
 		public void SearchSequentialGroupsTest_SrchItem()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			DataUtils.AFeatureCache["nasal"].Mask = 17;
-			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
-			m_phoneCache["d"].BinaryMask = (4 | 8);
-			m_phoneCache["a"].Masks = new ulong[] { 0, 16 };
+			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("der[+high]");
@@ -301,8 +291,7 @@ namespace SIL.Pa.FFSearchEngine
 		public void SearchSequentialGroupsTest_EnvBefore()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			m_phoneCache["d"].BinaryMask = (4 | 8);
+			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Before);
 			group.Parse("der[+high]");
@@ -330,8 +319,7 @@ namespace SIL.Pa.FFSearchEngine
 		public void SearchForWordInitial()
 		{
 			// Put mock data in the feature cache.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			m_phoneCache["b"].BinaryMask = (4 | 8);
+			((PhoneInfo)m_phoneCache["b"]).BFeatures = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Before);
 			group.Parse("#{d,r}");
@@ -367,8 +355,7 @@ namespace SIL.Pa.FFSearchEngine
 		public void SearchForWordFinal()
 		{
 			// Put mock data in the feature cache.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			m_phoneCache["h"].BinaryMask = (4 | 8);
+			((PhoneInfo)m_phoneCache["h"]).BFeatures = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{d,h}#");
@@ -549,7 +536,7 @@ namespace SIL.Pa.FFSearchEngine
 			// Treat digits as mock diacritics. (0 and 1 cannot be used because they're used
 			// as part of the pattern parsing process.)
 			AddMockDiacritics("23456789");
-			AddMockPhones(new string[] {"a", "e", "c", "i", "o", "c2", "c23", "c234",
+			AddMockPhones(new[] {"a", "e", "c", "i", "o", "c2", "c23", "c234",
 				"c2345", "c2356", "c23456", "c234567"}, IPACharacterType.Consonant);
 
 			TestDiacriticPattern("[[C][{0}*]]/*_*", "c", true);
@@ -574,7 +561,7 @@ namespace SIL.Pa.FFSearchEngine
 			// Treat digits as mock diacritics. (0 and 1 cannot be used because they're used
 			// as part of the pattern parsing process.)
 			AddMockDiacritics("23456789");
-			AddMockPhones(new string[] {"a", "e", "c", "i", "o", "c2", "c23", "c32",
+			AddMockPhones(new[] {"a", "e", "c", "i", "o", "c2", "c23", "c32",
 				"c234",	"c2345", "c2356", "c23456", "c234567"}, IPACharacterType.Consonant);
 
 			//TestDiacriticPattern("[[C][{0}+]]/*_*", "c", false);
@@ -1602,7 +1589,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(1, m_results[1]);
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("o~^/*_*", DataUtils.kDottedCircle);
+			m_query.Pattern = "o~^/*_*";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsFalse(
 				m_engine.SearchWord(DataUtils.IPACharCache.PhoneticParser("abo^cd", false), out m_results));
@@ -1762,15 +1749,9 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			MakeMockCacheEntries();
 
-			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			DataUtils.BFeatureCache["voice"].MinusMask = 8;
-
-			DataUtils.AFeatureCache["nasal"].Mask = 16;
-			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
-			m_phoneCache["a"].Masks = new ulong[] { 0, 16 };
-			m_phoneCache["o~"].Masks = new ulong[] { 0, 16 };
-
+			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["o~"]).AFeatures = new List<string> { "nasal" };
+	
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[nasal][{0}~]/*_*", DataUtils.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
@@ -1791,14 +1772,10 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			MakeMockCacheEntries();
 
-			// Put mock data in the articulatory and binary feature caches.
-			DataUtils.BFeatureCache["high"].PlusMask = 4;
-			DataUtils.AFeatureCache["nasal"].Mask = 16;
-			DataUtils.AFeatureCache["nasal"].MaskNumber = 1;
-			m_phoneCache["a"].BinaryMask = 4;
-			m_phoneCache["a"].Masks = new ulong[] { 0, 16 };
-			m_phoneCache["o~"].BinaryMask = 4;
-			m_phoneCache["o~"].Masks = new ulong[] { 0, 16 };
+			((PhoneInfo)m_phoneCache["a"]).BFeatures = new List<string> { "+high" };
+			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["o~"]).BFeatures = new List<string> { "+high" };
+			((PhoneInfo)m_phoneCache["o~"]).AFeatures = new List<string> { "nasal" };
 
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[[+high][nasal]][{0}~]/*_*", DataUtils.kDottedCircleC);
@@ -2335,12 +2312,8 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void SearchWhenIgnoringStressAndAndGroupInPrecedingEnv()
 		{
-			DataUtils.AFeatureCache["close"].Mask = 4;
-			DataUtils.AFeatureCache["close"].MaskNumber = 0;
-			DataUtils.AFeatureCache["back"].Mask = 8;
-			DataUtils.AFeatureCache["back"].MaskNumber = 0;
-			m_phoneCache["u"].Masks = new ulong[] { 4 | 8, 0 };
-			
+			((PhoneInfo)m_phoneCache["u"]).AFeatures = new List<string> { "close", "back" };
+
 			m_query.Pattern = "[C]/[[close],[back]]_+";
 			m_query.IgnoredStressChars = "'";
 			m_engine = new SearchEngine(m_query);
@@ -2359,11 +2332,7 @@ namespace SIL.Pa.FFSearchEngine
 		[Test]
 		public void SearchWhenIgnoringStressAndAndGroupInFollowingEnv()
 		{
-			DataUtils.AFeatureCache["bilabial"].Mask = 4;
-			DataUtils.AFeatureCache["bilabial"].MaskNumber = 0;
-			DataUtils.AFeatureCache["voiceless"].Mask = 8;
-			DataUtils.AFeatureCache["voiceless"].MaskNumber = 0;
-			m_phoneCache["p"].Masks = new ulong[] { 4 | 8, 0 };
+			((PhoneInfo)m_phoneCache["p"]).AFeatures = new List<string> { "bilabial", "voiceless" };
 
 			m_query.Pattern = "[V]/+_[[bilabial],[voiceless]]";
 			m_query.IgnoredStressChars = "'";
@@ -2410,8 +2379,8 @@ namespace SIL.Pa.FFSearchEngine
 		private void MakeMockCacheEntries()
 		{
 			AddMockDiacritics("~^");
-			AddMockPhones(new string[] { "t~", "t^", "t~^" }, IPACharacterType.Consonant);
-			AddMockPhones(new string[] { "o~", "o^", "o~^" }, IPACharacterType.Vowel);
+			AddMockPhones(new[] { "t~", "t^", "t~^" }, IPACharacterType.Consonant);
+			AddMockPhones(new[] { "o~", "o^", "o~^" }, IPACharacterType.Vowel);
 
 			if (DataUtils.IPACharCache[' '] == null)
 			{
@@ -2429,7 +2398,7 @@ namespace SIL.Pa.FFSearchEngine
 		/// diacritic.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddMockDiacritics(string diacritics)
+		private static void AddMockDiacritics(string diacritics)
 		{
 			foreach (char c in diacritics)
 			{
@@ -2440,7 +2409,7 @@ namespace SIL.Pa.FFSearchEngine
 					charInfo.CharType = IPACharacterType.Diacritics;
 					charInfo.IsBaseChar = false;
 					charInfo.IPAChar = c.ToString();
-					DataUtils.IPACharCache.Add((int)c, charInfo);
+					DataUtils.IPACharCache.Add(c, charInfo);
 				}
 			}
 		}
@@ -2450,13 +2419,13 @@ namespace SIL.Pa.FFSearchEngine
 		/// Adds the specified phones to the phone cache with the specified char. type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void AddMockPhones(string[] phones, IPACharacterType type)
+		private void AddMockPhones(IEnumerable<string> phones, IPACharacterType type)
 		{
 			foreach (string phone in phones)
 			{
 				if (!m_phoneCache.ContainsKey(phone))
 				{
-					TestPhoneInfo phoneInfo = new TestPhoneInfo();
+					PhoneInfo phoneInfo = new PhoneInfo();
 					phoneInfo.CharType = type;
 					m_phoneCache[phone] = phoneInfo;
 				}

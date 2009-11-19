@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using System.Collections;
 
 namespace SIL.Pa.Data
 {
@@ -36,7 +35,7 @@ namespace SIL.Pa.Data
 	/// IPA phone types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharacterType : int
+	public enum IPACharacterType
 	{
 		Unknown = 0,
 		Consonant = 1,
@@ -51,7 +50,7 @@ namespace SIL.Pa.Data
 	/// IPA phone Subtypes.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharacterSubType : int
+	public enum IPACharacterSubType
 	{
 		Unknown = 0,
 		Pulmonic = 1,
@@ -66,7 +65,7 @@ namespace SIL.Pa.Data
 	/// Types used for grouping characters to ignore in find phone searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharIgnoreTypes : int
+	public enum IPACharIgnoreTypes
 	{
 		NotApplicable = 0,
 		StressSyllable = 1,
@@ -84,8 +83,8 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class UndefinedPhoneticCharactersInfoList : List<UndefinedPhoneticCharactersInfo>
 	{
-		public string CurrentDataSourceName = null;
-		public string CurrentReference = null;
+		public string CurrentDataSourceName;
+		public string CurrentReference;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -153,16 +152,16 @@ namespace SIL.Pa.Data
 		private const char kParseTokenMarker = '\u0001';
 		private readonly string m_ambigTokenFmt = kParseTokenMarker + "{0}";
 
-		private ExperimentalTranscriptions m_experimentalTransList = null;
-		private AmbiguousSequences m_sortedAmbiguousSeqList = null;
-		private AmbiguousSequences m_unsortedAmbiguousSeqList = null;
+		private ExperimentalTranscriptions m_experimentalTransList;
+		private AmbiguousSequences m_sortedAmbiguousSeqList;
+		private AmbiguousSequences m_unsortedAmbiguousSeqList;
 		private UndefinedPhoneticCharactersInfoList m_undefinedCharacters;
 
 		public const string kDefaultIPACharCacheFile = "PhoneticCharacterInventory.xml";
 		public const string kIPACharCacheFile = "PhoneticCharacterInventory.xml";
-		private string m_cacheFileName = null;
-		private Dictionary<string, IPACharInfo> m_toneLetters = null;
-		private bool m_logUndefinedCharacters = false;
+		private string m_cacheFileName;
+		private Dictionary<string, IPACharInfo> m_toneLetters;
+		private bool m_logUndefinedCharacters;
 		private static string s_absentPhoneChars = "0\u2205";
 		private static string s_absentPhoneChar = "\u2205";
 
@@ -179,7 +178,7 @@ namespace SIL.Pa.Data
 		{
 			m_experimentalTransList = new ExperimentalTranscriptions();
 			m_unsortedAmbiguousSeqList = new AmbiguousSequences();
-			m_cacheFileName = BuildFileName(projectFileName, true);
+			m_cacheFileName = BuildFileName(projectFileName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,16 +186,18 @@ namespace SIL.Pa.Data
 		/// Builds the name from which to load or save the cache file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName, bool mustExist)
+		private static string BuildFileName(string projectFileName)
 		{
-			string filename = (projectFileName ?? string.Empty);
-			filename += (filename.EndsWith(".") ? string.Empty : ".") + kIPACharCacheFile;
+			//string filename = (projectFileName ?? string.Empty);
+			//filename += (filename.EndsWith(".") ? string.Empty : ".") + kIPACharCacheFile;
 
 			// Uncomment if phonetic inventories can exist at the project level.
 			//if (!File.Exists(filename) && mustExist)
-				filename = kDefaultIPACharCacheFile;
+			//	filename = kDefaultIPACharCacheFile;
 
-			return filename;
+			//return filename;
+
+			return kDefaultIPACharCacheFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -248,7 +249,7 @@ namespace SIL.Pa.Data
 			/// cache that are made up of multiple code points. When it comes to parsing a
 			/// phonetic string into its phones, tone letters need to be treated as
 			/// ambiguous sequences.
-			if (m_sortedAmbiguousSeqList != null && m_toneLetters != null)
+			if (m_toneLetters != null)
 			{
 				foreach (IPACharInfo info in m_toneLetters.Values)
 				{
@@ -339,7 +340,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void Save(string projectFileName)
 		{
-			m_cacheFileName = BuildFileName(projectFileName, false);
+			m_cacheFileName = BuildFileName(projectFileName);
 			Save();
 		}
 
@@ -775,7 +776,7 @@ namespace SIL.Pa.Data
 				// If we've encountered a non base character but nothing precedes it,
 				// then it must be a diacritic at the beginning of the phonetic
 				// transcription so just put it with the following characters.
-				if (ciPrev == null && ciCurr != null && !ciCurr.IsBaseChar)
+				if (ciPrev == null && !ciCurr.IsBaseChar)
 					continue;
 
 				// Is the previous codepoint special in that it's not a base character
@@ -978,7 +979,7 @@ namespace SIL.Pa.Data
 	public class IPACharInfo
 	{
 		[XmlIgnore]
-		public bool IsUndefined = false;
+		public bool IsUndefined;
 
 		[XmlAttribute]
 		public int Codepoint;
@@ -997,24 +998,46 @@ namespace SIL.Pa.Data
 		public int DisplayOrder;
 		public int MOArticulation;
 		public int POArticulation;
-		public ulong Mask0;
-		public ulong Mask1;
-		public ulong BinaryMask;
-		public ulong OverrideMask0;
-		public ulong OverrideMask1;
-		public ulong BinaryOverrideMask;
 		public int ChartColumn;
 		public int ChartGroup;
 
-		[XmlArray("ArticulatoryFeatures")]
-		public List<string> AFeatures;
-
-		[XmlArray("BinaryFeatures")]
-		public List<string> BFeatures;
-
+		private List<string> m_aFeatures;
+		private List<string> m_bFeatures;
 		private FeatureMask m_aMask;
 		private FeatureMask m_bMask;
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("ArticulatoryFeatures")]
+		public List<string> AFeatures
+		{
+			get
+			{
+				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
+					DataUtils.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+			}
+			set { m_aFeatures = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("BinaryFeatures")]
+		public List<string> BFeatures
+		{
+			get 
+			{
+				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
+					DataUtils.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+			}
+			set { m_bFeatures = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the articulatory features mask.
@@ -1025,11 +1048,16 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_aMask == null)
-					m_aMask = DataUtils.AFeatureCache.GetMask(AFeatures);
+				if (m_aMask == null || m_aMask.IsEmpty)
+				{
+					m_aMask = DataUtils.AFeatureCache.GetMask(m_aFeatures);
+					if (m_aFeatures != null && m_aFeatures.Count > 0)
+						m_aFeatures = null;
+				}
 
 				return m_aMask;
 			}
+			set { m_aMask = (value ?? DataUtils.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1042,11 +1070,16 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_bMask == null)
-					m_bMask = DataUtils.BFeatureCache.GetMask(BFeatures);
-
+				if (m_bMask == null || m_bMask.IsEmpty)
+				{
+					m_bMask = DataUtils.BFeatureCache.GetMask(m_bFeatures);
+					if (m_bFeatures != null && m_bFeatures.Count > 0)
+						m_bFeatures = null;
+				}
+				
 				return m_bMask;
 			}
+			set { m_bMask = (value ?? DataUtils.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

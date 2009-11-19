@@ -18,15 +18,15 @@ namespace SIL.Pa
 	public class PaProject : IDisposable
 	{
 		private Form m_appWindow;
-		private bool m_newProject = false;
-		private bool m_reloadingProjectInProcess = false;
+		private bool m_newProject;
+		private bool m_reloadingProjectInProcess;
 		private string m_name = Properties.Resources.kstidDefaultNewProjectName;
-		private string m_fileName = null;
-		private string m_language = null;
-		private string m_transcriber = null;
-		private string m_speakerName = null;
-		private string m_comments = null;
-		private string m_alternateAudioFileFolder = null;
+		private string m_fileName;
+		private string m_language;
+		private string m_transcriber;
+		private string m_speakerName;
+		private string m_comments;
+		private string m_alternateAudioFileFolder;
 		private List<PaDataSource> m_dataSources = new List<PaDataSource>();
 		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
@@ -123,8 +123,8 @@ namespace SIL.Pa
 		public void MigrateFwDatasourceFieldNames()
 		{
 			// Only change these names. The others are just converted to lowercase.
-			List<string> oldNames = new List<string>(new string[] {"Gloss", "GlossOther1", "GlossOther2"});
-			List<string> newNames = new List<string>(new string[] {"gloss1", "gloss2", "gloss3"});
+			var oldNames = new List<string>(new[] {"Gloss", "GlossOther1", "GlossOther2"});
+			var newNames = new List<string>(new[] {"gloss1", "gloss2", "gloss3"});
 
 			foreach (PaDataSource source in m_dataSources)
 			{
@@ -430,8 +430,8 @@ namespace SIL.Pa
 
 				try
 				{
-					BindingFlags flags = BindingFlags.SetProperty | BindingFlags.Static |
-						BindingFlags.Public;
+					BindingFlags flags = BindingFlags.SetProperty |
+						BindingFlags.Static | BindingFlags.Public;
 
 					MemberInfo[] mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
 					if (mi != null && mi.Length > 0)
@@ -449,18 +449,18 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string LoadCacheFiles(string projPathFilePrefix)
+		private static string LoadCacheFiles(string projFilePrefix)
 		{
 			PaApp.InitializeProgressBar(Properties.Resources.kstidReadingCacheFiles, 3);
 
 			try
 			{
 				// Load the caches.
-				DataUtils.LoadIPACharCache(projPathFilePrefix);
+				DataUtils.LoadIPACharCache(projFilePrefix);
 				PaApp.IncProgressBar();
-				DataUtils.LoadAFeatureCache(projPathFilePrefix);
+				DataUtils.LoadAFeatureCache(projFilePrefix);
 				PaApp.IncProgressBar();
-				DataUtils.LoadBFeatureCache(projPathFilePrefix);
+				DataUtils.LoadBFeatureCache(projFilePrefix);
 				PaApp.IncProgressBar();
 			}
 			catch (Exception e)
@@ -882,8 +882,7 @@ namespace SIL.Pa
 		public bool ShowDiamondsInEmptySearchPattern
 		{
 			get	{ return m_showDiamondsInEmptySearchPattern;}
-			set {/*m_showDiamondsInEmptySearchPattern = value;*/
-			}
+			set { /*m_showDiamondsInEmptySearchPattern = value;*/ }
 		}
 
 		/// ------------------------------------------------------------------------------------

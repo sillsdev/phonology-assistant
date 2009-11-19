@@ -14,11 +14,16 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using SIL.Pa.Data.Properties;
 using System.Windows.Forms;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -27,14 +32,146 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FeatureCacheBase<T> : SortedDictionary<string, T> where T : FeatureBase
+	public class FeatureCacheBase : SortedDictionary<string, Feature>
 	{
+		#region Methods for loading and saving
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the file name from which features are deserialized and serialized.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string FileName
+		{
+			get { throw new NotImplementedException("FileName"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the file name affix used for feature files specific to a project. This is
+		/// only used if features are saved by project.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string FileNameAffix
+		{
+			get { throw new NotImplementedException("FileNameAffix"); }
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full file name path by combining the path of the executing assembly and
+		/// the instances FileName.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected string FullFileNamePath
+		{
+			get { return Path.Combine(FilePath, FileName); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full file name path by combining the path of the executing assembly and
+		/// the instances FileName.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string FilePath
+		{
+			get
+			{
+				string asmPath = Assembly.GetExecutingAssembly().CodeBase;
+
+				// Strip off "file:" and then all the slashes that follow.
+				asmPath = asmPath.Substring(5);
+				asmPath = asmPath.TrimStart('/');
+				
+				return Path.GetDirectoryName(asmPath);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the binary feature table from the database into a memory cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual bool Load()
+		{
+			var tmpList = Utils.DeserializeData(FullFileNamePath, typeof(List<Feature>)) as List<Feature>;
+
+			if (tmpList == null)
+				return false;
+
+			LoadFromList(tmpList);
+			return true;
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads binary features from the specified list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void LoadFromList(List<Feature> list)
+		{
+			Debug.Assert(list != null);
+			Clear();
+
+			int bit = 0;
+			foreach (Feature feature in list)
+			{
+				if (feature.Name != null)
+				{
+					feature.Name = CleanNameForLoad(feature.Name);
+					string fullName = ReflectionHelper.GetField(feature, "m_fullname") as string;
+					feature.FullName = CleanNameForLoad(fullName);
+					feature.Bit = bit++;
+					Add(feature);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Cleans up a feature name before adding it to the cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string CleanNameForLoad(string name)
+		{
+			return (name == null ? null : name.Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the cache to it's XML file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Save()
+		{
+			Save(null);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the cache to it's XML file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Save(string fileprefix)
+		{
+			string filename = FullFileNamePath;
+			if (fileprefix != null)
+			{
+				filename = fileprefix + FileNameAffix;
+				filename = Path.Combine(FilePath, filename);
+			}
+			
+			Utils.SerializeData(filename, Values.ToList());
+		}
+	
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the feature for the specified bit.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public T this[int bit]
+		public Feature this[int bit]
 		{
 			get	{ return Values.FirstOrDefault(feature => feature.Bit == bit);	}
 		}
@@ -44,7 +181,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public new T this[string featureName]
+		public new Feature this[string featureName]
 		{
 			get
 			{
@@ -52,14 +189,14 @@ namespace SIL.Pa.Data
 					return null;
 
 				featureName = CleanUpFeatureName(featureName);
-				T feature;
+				Feature feature;
 				if (TryGetValue(featureName, out feature))
 					return feature;
 
 				// If we failed to get a feature object from the specified name, then check
 				// if the name is the full name of a feature by going through the collection
 				// to see if one of their full names matches featureName.
-				foreach (T feat in Values)
+				foreach (Feature feat in Values)
 				{
 					if (featureName == feat.FullName.ToLower())
 						return feat;
@@ -80,6 +217,17 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds the specified feature to the cache, using the feature's name as its key.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Add(Feature feature)
+		{
+			if (feature != null && !string.IsNullOrEmpty(feature.Name))
+				this[feature.Name] = feature;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -88,9 +236,20 @@ namespace SIL.Pa.Data
 			if (featureName == null)
 				return string.Empty;
 
-			featureName = featureName.Trim().ToLower();
 			featureName = featureName.Replace("[", string.Empty);
-			return featureName.Replace("]", string.Empty);
+			featureName = featureName.Replace("]", string.Empty);
+			return featureName.Trim().ToLower();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the cache contains a feature having the
+		/// specified name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool FeatureExits(string featureName)
+		{
+			return FeatureExits(featureName, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,8 +267,7 @@ namespace SIL.Pa.Data
 
 			if (showMsgWhenExists)
 			{
-				SilUtils.Utils.STMsgBox(
-					string.Format(Resources.kstidFeatureExistsMsg, featureName),
+				Utils.STMsgBox(string.Format(Resources.kstidFeatureExistsMsg, featureName),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
@@ -123,6 +281,9 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public List<string> GetFeatureList(FeatureMask mask)
 		{
+			if (mask == null)
+				return new List<string>();
+
 			return new List<string>(from feature in Values
 									where mask[feature.Bit]
 									select feature.Name);
@@ -154,18 +315,57 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a mask initialized with as many bits as there are cache items.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureMask GetEmptyMask()
+		{
+			return new FeatureMask(Count);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a mask for the specified feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureMask GetMask(string fname)
+		{
+			return GetMask(this[fname]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes a feature mask having a single bit set that corresponds to the specified
+		/// feature.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureMask GetMask(Feature feature)
+		{
+			var mask = GetEmptyMask();
+
+			if (feature != null)
+				mask[feature.Bit] = true;
+
+			return mask;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the mask for the specified list of feature names.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FeatureMask GetMask(List<string> features)
 		{
-			FeatureMask mask = new FeatureMask(Count);
+			FeatureMask mask = GetEmptyMask();
 
-			foreach (string fname in features)
+			if (features != null)
 			{
-				T feature = this[fname];
-				if (feature != null)
-					mask[feature.Bit] = true;
+				foreach (string fname in features)
+				{
+					Feature feature = this[fname];
+					if (feature != null)
+						mask[feature.Bit] = true;
+				}
 			}
 
 			return mask;

@@ -71,7 +71,7 @@
     <Compile Include="BFeatureCache.cs" />
     <Compile Include="DataUtils.cs" />
     <Compile Include="ExperimentalTranscriptions.cs" />
-    <Compile Include="FeatureBase.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="FeatureCacheBase.cs" />
     <Compile Include="FeatureMask.cs" />
     <Compile Include="FFNormalizer.cs" />

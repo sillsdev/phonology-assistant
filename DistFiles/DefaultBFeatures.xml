@@ -1,131 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfBFeature>
-	<BFeature>
+<ArrayOfFeature>
+	<Feature>
 		<Name>cons</Name>
 		<FullName>Consonantal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>syll</Name>
 		<FullName>Syllabic</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>son</Name>
 		<FullName>Sonorant</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>high</Name>
 		<FullName>High</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>back</Name>
 		<FullName>Back</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>low</Name>
 		<FullName>Low</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>ant</Name>
 		<FullName>Anterior</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>COR</Name>
 		<FullName>Coronal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>voice</Name>
 		<FullName>Voice</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Continuant articulatory</Name>
 		<FullName>Continuant articulatory</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>nas</Name>
 		<FullName>Nasal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>strid</Name>
 		<FullName>Strident</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>lat</Name>
 		<FullName>Lateral</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>rnd</Name>
 		<FullName>Round</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>ATR</Name>
 		<FullName>ATR</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Delayed release</Name>
 		<FullName>Delayed release</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Hyper anterior</Name>
 		<FullName>Hyper anterior</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>LAB</Name>
 		<FullName>Labial</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Epiglottal</Name>
 		<FullName>Epiglottal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>distr</Name>
 		<FullName>Distributed</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>DORS</Name>
 		<FullName>Dorsal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>spread</Name>
 		<FullName>Spread glottis</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>constr</Name>
 		<FullName>Constricted glottis (pressure)</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Front</Name>
 		<FullName>Front</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Implosive</Name>
 		<FullName>Implosive</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>PHAR</Name>
 		<FullName>Pharyngeal</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>cont</Name>
 		<FullName>Continuant acoustic</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>Labio-dental</Name>
 		<FullName>Labio-dental</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>long</Name>
 		<FullName>Long</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>approx</Name>
 		<FullName>Approximant</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>tense</Name>
 		<FullName>Tense</FullName>
-	</BFeature>
-	<BFeature>
+	</Feature>
+	<Feature>
 		<Name>RTR</Name>
 		<FullName>RTR</FullName>
-	</BFeature>
-</ArrayOfBFeature>
+	</Feature>
+</ArrayOfFeature>

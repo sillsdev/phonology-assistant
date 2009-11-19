@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
-using System.Collections;
 
 namespace SIL.Pa.Data
 {
@@ -270,13 +269,13 @@ namespace SIL.Pa.Data
 			int  bit = -1;
 			if (isBinary)
 			{
-				BFeature bfeature = DataUtils.BFeatureCache[featureName];
+				Feature bfeature = DataUtils.BFeatureCache[featureName];
 				if (bfeature != null)
 					bit = bfeature.Bit;
 			}
 			else
 			{
-				AFeature afeature = DataUtils.AFeatureCache[featureName];
+				Feature afeature = DataUtils.AFeatureCache[featureName];
 				if (afeature != null)
 					bit = afeature.Bit;
 			}
@@ -349,19 +348,19 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class PhoneInfo : IPhoneInfo
 	{
-		private int m_totalCount = 0;
-		private int m_countAsNonPrimaryUncertainty = 0;
-		private int m_countAsPrimaryUncertainty = 0;
+		private int m_totalCount;
+		private int m_countAsNonPrimaryUncertainty;
+		private int m_countAsPrimaryUncertainty;
 		private IPACharacterType m_charType = IPACharacterType.Unknown;
-		private FeatureMask m_aMask = new FeatureMask(DataUtils.AFeatureCache.Count);
-		private FeatureMask m_bMask = new FeatureMask(DataUtils.BFeatureCache.Count);
+		private FeatureMask m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
+		private FeatureMask m_bMask = DataUtils.BFeatureCache.GetEmptyMask();
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
 		private char m_baseChar = '\0';
 		private string m_phone;
-		private bool m_isUndefined = false;
-		private bool m_featuresOverridden = false;
+		private bool m_isUndefined;
+		private bool m_featuresOverridden;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -544,7 +543,7 @@ namespace SIL.Pa.Data
 		public char BaseCharacter
 		{
 		    get { return m_baseChar; }
-		    set { ; }
+		    set { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -617,7 +616,7 @@ namespace SIL.Pa.Data
 		public FeatureMask AMask
 		{
 			get { return m_aMask; }
-			internal set { m_aMask = value; }
+			set { m_aMask = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -629,7 +628,7 @@ namespace SIL.Pa.Data
 		public FeatureMask BMask
 		{
 			get { return m_bMask;}
-			internal set { m_bMask = value;}
+			set { m_bMask = value;}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -671,14 +670,11 @@ namespace SIL.Pa.Data
 
 				if (m_moaKey == null)
 				{
-					m_moaKey = DataUtils.GetMOAKey(m_phone);
-
-					// When we don't get a key back, then set the key to an empty string which
+					// If we don't get a key back, then set the key to an empty string which
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					if (m_moaKey == null)
-						m_moaKey = string.Empty;
+					m_moaKey = DataUtils.GetMOAKey(m_phone) ?? string.Empty;
 				}
 
 				return (m_moaKey == string.Empty ? null : m_moaKey);
@@ -700,14 +696,11 @@ namespace SIL.Pa.Data
 
 				if (m_poaKey == null)
 				{
-					m_poaKey = DataUtils.GetPOAKey(m_phone);
-
 					// When we don't get a key back, then set the key to an empty string which
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					if (m_poaKey == null)
-						m_poaKey = string.Empty;
+					m_poaKey = DataUtils.GetPOAKey(m_phone) ?? string.Empty;
 				}
 
 				return (m_poaKey == string.Empty ? null : m_poaKey);
@@ -725,7 +718,7 @@ namespace SIL.Pa.Data
 		public bool IsUndefined
 		{
 			get { return m_isUndefined; }
-			internal set { m_isUndefined = true; }
+			internal set { m_isUndefined = value; }
 		}
 	}
 
@@ -740,8 +733,8 @@ namespace SIL.Pa.Data
 	public class CVPatternInfo
 	{
 		private string m_phone;
-		private string m_leftSideDiacritics = null;
-		private string m_rightSideDiacritics = null;
+		private string m_leftSideDiacritics;
+		private string m_rightSideDiacritics;
 		private IPACharIgnoreTypes m_patternType = IPACharIgnoreTypes.NotApplicable;
 
 		#region static methods
