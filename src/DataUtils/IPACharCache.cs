@@ -1,10 +1,27 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2009, SIL International. All Rights Reserved.
+// <copyright from='2009' to='2009' company='SIL International'>
+//		Copyright (c) 2009, SIL International. All Rights Reserved.   
+//    
+//		Distributable under the terms of either the Common Public License or the
+//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+// </copyright> 
+#endregion
+// 
+// File: IPACharCache.cs
+// Responsibility: D. Olson
+// 
+// <remarks>
+// </remarks>
+// ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 
 namespace SIL.Pa.Data
 {
+	#region IPACharacterTypeInfo struct
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Wraps the IPA character type and sub type into a single object for passing both pieces
@@ -28,6 +45,8 @@ namespace SIL.Pa.Data
 			SubType = subType;
 		}
 	}
+
+	#endregion
 
 	#region Enumerations
 	/// ----------------------------------------------------------------------------------------
@@ -75,62 +94,7 @@ namespace SIL.Pa.Data
 	
 	#endregion
 
-	#region UndefinedPhoneticCharactersInfoList and UndefinedPhoneticCharactersInfo classes
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class UndefinedPhoneticCharactersInfoList : List<UndefinedPhoneticCharactersInfo>
-	{
-		public string CurrentDataSourceName;
-		public string CurrentReference;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds an individual code point that is not defined in the IPA character cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Add(char c, string transcription)
-		{
-			if (!string.IsNullOrEmpty(transcription))
-			{
-				UndefinedPhoneticCharactersInfo ucpInfo = new UndefinedPhoneticCharactersInfo();
-				Add(ucpInfo);
-				ucpInfo.Character = c;
-				ucpInfo.SourceName = CurrentDataSourceName;
-				ucpInfo.Reference = CurrentReference;
-				ucpInfo.Transcription = transcription;
-			}
-		}
-	}
-
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Contains information about a code point read from a data source that cannot be found
-	/// in the IPA character cache.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class UndefinedPhoneticCharactersInfo
-	{
-		public char Character;
-		public string Transcription;
-		public string SourceName;
-		public string Reference;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return Character.ToString();
-		}
-	}
-
-	#endregion
-
+	#region IPACharCache class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// An in-memory cache of the IPACharacters table. As of Feb. 13, 2007 the file from which
@@ -352,8 +316,11 @@ namespace SIL.Pa.Data
 		public void Save()
 		{
 			// Copy the items into a temp list because Dictionaries cannot be serialized.
-			List<IPACharInfo> tmpCache = ToList(false);
-			SilUtils.Utils.SerializeData(m_cacheFileName, tmpCache);
+			var list = (from info in Values
+						where !info.IsUndefined
+						select info).ToList();
+			
+			SilUtils.Utils.SerializeData(m_cacheFileName, list);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -361,9 +328,9 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadFromList(List<IPACharInfo> tmpCache)
+		public void LoadFromList(List<IPACharInfo> list)
 		{
-			if (tmpCache == null || tmpCache.Count == 0)
+			if (list == null || list.Count == 0)
 				return;
 			
 			Clear();
@@ -372,7 +339,7 @@ namespace SIL.Pa.Data
 				m_toneLetters.Clear();
 
 			// Copy the items from the list to the "real" cache.
-			foreach (IPACharInfo info in tmpCache)
+			foreach (IPACharInfo info in list)
 			{
 				this[info.Codepoint] = info;
 				
@@ -423,35 +390,6 @@ namespace SIL.Pa.Data
 			IPACharInfo charInfo;
 			return (m_toneLetters != null && m_toneLetters.TryGetValue(phone, out charInfo) ?
 				charInfo : null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns the cache in a collection of IPACharInfo objects in the form of a generic
-		/// List (i.e. List<IPACharInfo>).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<IPACharInfo> ToList()
-		{
-			return ToList(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns the cache in a collection of IPACharInfo objects in the form of a generic
-		/// List (i.e. List<IPACharInfo>).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<IPACharInfo> ToList(bool includeUndefined)
-		{
-			List<IPACharInfo> tmpCache = new List<IPACharInfo>();
-			foreach (KeyValuePair<int, IPACharInfo> info in this)
-			{
-				if (!info.Value.IsUndefined || includeUndefined)
-					tmpCache.Add(info.Value);
-			}
-
-			return tmpCache;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -971,125 +909,5 @@ namespace SIL.Pa.Data
 		#endregion
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Stores information about IPA characters.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class IPACharInfo
-	{
-		[XmlIgnore]
-		public bool IsUndefined;
-
-		[XmlAttribute]
-		public int Codepoint;
-		[XmlAttribute]
-		public string IPAChar;
-		[XmlAttribute]
-		public string HexIPAChar;
-		public string Name;
-		public string Description;
-		public IPACharacterType CharType;
-		public IPACharacterSubType CharSubType;
-		public IPACharIgnoreTypes IgnoreType;
-		public bool IsBaseChar;
-		public bool CanPreceedBaseChar;
-		public bool DisplayWDottedCircle;
-		public int DisplayOrder;
-		public int MOArticulation;
-		public int POArticulation;
-		public int ChartColumn;
-		public int ChartGroup;
-
-		private List<string> m_aFeatures;
-		private List<string> m_bFeatures;
-		private FeatureMask m_aMask;
-		private FeatureMask m_bMask;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlArray("ArticulatoryFeatures")]
-		public List<string> AFeatures
-		{
-			get
-			{
-				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					DataUtils.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
-			}
-			set { m_aFeatures = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlArray("BinaryFeatures")]
-		public List<string> BFeatures
-		{
-			get 
-			{
-				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					DataUtils.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
-			}
-			set { m_bFeatures = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the articulatory features mask.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public FeatureMask AMask
-		{
-			get
-			{
-				if (m_aMask == null || m_aMask.IsEmpty)
-				{
-					m_aMask = DataUtils.AFeatureCache.GetMask(m_aFeatures);
-					if (m_aFeatures != null && m_aFeatures.Count > 0)
-						m_aFeatures = null;
-				}
-
-				return m_aMask;
-			}
-			set { m_aMask = (value ?? DataUtils.AFeatureCache.GetEmptyMask()); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the binary features mask.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public FeatureMask BMask
-		{
-			get
-			{
-				if (m_bMask == null || m_bMask.IsEmpty)
-				{
-					m_bMask = DataUtils.BFeatureCache.GetMask(m_bFeatures);
-					if (m_bFeatures != null && m_bFeatures.Count > 0)
-						m_bFeatures = null;
-				}
-				
-				return m_bMask;
-			}
-			set { m_bMask = (value ?? DataUtils.BFeatureCache.GetEmptyMask()); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return string.Format("{0}: U+{1:X4}, {2}, {3}", IPAChar, Codepoint, Name, Description);
-		}
-	}
+	#endregion
 }

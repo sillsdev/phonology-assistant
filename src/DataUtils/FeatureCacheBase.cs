@@ -19,7 +19,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using SIL.Pa.Data.Properties;
 using System.Windows.Forms;
@@ -64,27 +63,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		protected string FullFileNamePath
 		{
-			get { return Path.Combine(FilePath, FileName); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full file name path by combining the path of the executing assembly and
-		/// the instances FileName.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string FilePath
-		{
-			get
-			{
-				string asmPath = Assembly.GetExecutingAssembly().CodeBase;
-
-				// Strip off "file:" and then all the slashes that follow.
-				asmPath = asmPath.Substring(5);
-				asmPath = asmPath.TrimStart('/');
-				
-				return Path.GetDirectoryName(asmPath);
-			}
+			get { return Path.Combine(Utils.GetMyAssemblyPath(), FileName); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,12 +73,12 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public virtual bool Load()
 		{
-			var tmpList = Utils.DeserializeData(FullFileNamePath, typeof(List<Feature>)) as List<Feature>;
+			var list = Utils.DeserializeData(FullFileNamePath, typeof(List<Feature>)) as List<Feature>;
 
-			if (tmpList == null)
+			if (list == null)
 				return false;
 
-			LoadFromList(tmpList);
+			LoadFromList(list);
 			return true;
 		}
 	
@@ -158,7 +137,7 @@ namespace SIL.Pa.Data
 			if (fileprefix != null)
 			{
 				filename = fileprefix + FileNameAffix;
-				filename = Path.Combine(FilePath, filename);
+				filename = Path.Combine(Utils.GetMyAssemblyPath(), filename);
 			}
 			
 			Utils.SerializeData(filename, Values.ToList());

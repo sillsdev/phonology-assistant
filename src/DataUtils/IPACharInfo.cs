@@ -1,0 +1,146 @@
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2009, SIL International. All Rights Reserved.
+// <copyright from='2009' to='2009' company='SIL International'>
+//		Copyright (c) 2009, SIL International. All Rights Reserved.   
+//    
+//		Distributable under the terms of either the Common Public License or the
+//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+// </copyright> 
+#endregion
+// 
+// File: IPACharInfo.cs
+// Responsibility: D. Olson
+// 
+// <remarks>
+// </remarks>
+// ---------------------------------------------------------------------------------------------
+using System.Collections.Generic;
+using System.Xml.Serialization;
+
+namespace SIL.Pa.Data
+{
+	#region IPACharInfo class
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Stores information about IPA characters.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class IPACharInfo
+	{
+		[XmlIgnore]
+		public bool IsUndefined;
+
+		[XmlAttribute]
+		public int Codepoint;
+		[XmlAttribute]
+		public string IPAChar;
+		[XmlAttribute]
+		public string HexIPAChar;
+		public string Name;
+		public string Description;
+		public IPACharacterType CharType;
+		public IPACharacterSubType CharSubType;
+		public IPACharIgnoreTypes IgnoreType;
+		public bool IsBaseChar;
+		public bool CanPreceedBaseChar;
+		public bool DisplayWDottedCircle;
+		public int DisplayOrder;
+		public int MOArticulation;
+		public int POArticulation;
+		public int ChartColumn;
+		public int ChartGroup;
+
+		private List<string> m_aFeatures;
+		private List<string> m_bFeatures;
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("ArticulatoryFeatures")]
+		public List<string> AFeatures
+		{
+			get
+			{
+				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
+					DataUtils.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+			}
+			set { m_aFeatures = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("BinaryFeatures")]
+		public List<string> BFeatures
+		{
+			get
+			{
+				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
+					DataUtils.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+			}
+			set { m_bFeatures = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the articulatory features mask.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FeatureMask AMask
+		{
+			get
+			{
+				if (m_aMask == null || m_aMask.IsEmpty)
+				{
+					m_aMask = DataUtils.AFeatureCache.GetMask(m_aFeatures);
+					if (m_aFeatures != null && m_aFeatures.Count > 0)
+						m_aFeatures = null;
+				}
+
+				return m_aMask;
+			}
+			set { m_aMask = (value ?? DataUtils.AFeatureCache.GetEmptyMask()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the binary features mask.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FeatureMask BMask
+		{
+			get
+			{
+				if (m_bMask == null || m_bMask.IsEmpty)
+				{
+					m_bMask = DataUtils.BFeatureCache.GetMask(m_bFeatures);
+					if (m_bFeatures != null && m_bFeatures.Count > 0)
+						m_bFeatures = null;
+				}
+
+				return m_bMask;
+			}
+			set { m_bMask = (value ?? DataUtils.BFeatureCache.GetEmptyMask()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return string.Format("{0}: U+{1:X4}, {2}, {3}", IPAChar, Codepoint, Name, Description);
+		}
+	}
+
+	#endregion
+}
