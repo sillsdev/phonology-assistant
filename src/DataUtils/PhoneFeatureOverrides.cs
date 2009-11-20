@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -7,10 +8,10 @@ namespace SIL.Pa.Data
 	/// the result of performing a bitwise OR on the features of each codepoint making up the
 	/// phone. Therefore, phones in this list have their features overridden.
 	/// ----------------------------------------------------------------------------------------
-	public class PhoneFeatureOverrides : PhoneCache
+	public class FeatureOverrides : PhoneCache
 	{
 		public const string kDefaultOverrideFile = "DefaultPhoneFeatureOverrides.xml";
-		public const string kOverrideFile = "PhoneFeatureOverrides.xml";
+		public const string kOverrideFile = "PhFeatureOverrides.xml";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -29,17 +30,13 @@ namespace SIL.Pa.Data
 		/// Loads the default and project-specific list of overriding phone features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PhoneFeatureOverrides Load(string projectFileName)
+		public static FeatureOverrides Load(string projectFileName)
 		{
-			PhoneFeatureOverrides overrides = new PhoneFeatureOverrides();
-
-			// Get the default list of overrides.
-			List<PhoneInfo> defaultList = SilUtils.Utils.DeserializeData(kDefaultOverrideFile,
-				typeof(List<PhoneInfo>)) as List<PhoneInfo>;
+			FeatureOverrides overrides = new FeatureOverrides();
 
 			// Get the project-specific list of overrides.
 			string filename = BuildFileName(projectFileName);
-			List<PhoneInfo> projectList = SilUtils.Utils.DeserializeData(filename,
+			List<PhoneInfo> projectList = Utils.DeserializeData(filename,
 				typeof(List<PhoneInfo>)) as List<PhoneInfo>;
 
 			// Move the phones from the List<> to a dictionary.
@@ -47,20 +44,6 @@ namespace SIL.Pa.Data
 			{
 				foreach (PhoneInfo phoneInfo in projectList)
 					overrides[phoneInfo.Phone] = phoneInfo;
-			}
-
-			// Combine the default list with the project specific list. If the same phone
-			// is found in both lists, the project-specific instance takes precedence over
-			// the default one.
-			if (defaultList != null)
-			{
-				// Add those phones from the default list that aren't found in the
-				// project-specific list.
-				foreach (PhoneInfo phoneInfo in defaultList)
-				{
-					if (!overrides.ContainsKey(phoneInfo.Phone))
-						overrides[phoneInfo.Phone] = phoneInfo;
-				}
 			}
 
 			return (overrides.Count == 0 ? null : overrides);
@@ -80,7 +63,7 @@ namespace SIL.Pa.Data
 				overrideList.Add(phoneInfo);
 
 			string filename = BuildFileName(projectFileName);
-			SilUtils.Utils.SerializeData(filename, overrideList);
+			Utils.SerializeData(filename, overrideList);
 		}
 
 		/// ------------------------------------------------------------------------------------
