@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="kstidFFSliderPanelText" xml:space="preserve">
+    <value>Patterns &amp; Pattern Building</value>
+  </data>
+  <data name="kstidPAFilesCaptionOFD" xml:space="preserve">
+    <value>Open {0} Project File</value>
+  </data>
+  <data name="kstidWordListWindowCaption" xml:space="preserve">
+    <value>{0} ({1} Records)</value>
+    <comment>word list window caption for non search results. Parameter 0 is langauge name, parameter 1 is for the number of records in the list</comment>
+  </data>
+  <data name="kstidVowChartHTMLChartType" xml:space="preserve">
+    <value>Vowels</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidVowelChartViewToolTip" xml:space="preserve">
+    <value>Vowel Chart View (Ctrl+Alt+V)</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidCut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cut.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidSavedChartNameAlreadyExistsMsg" xml:space="preserve">
+    <value>There is already a saved chart with the name "{0}".</value>
+  </data>
+  <data name="kstidXYChartFillChartMsg" xml:space="preserve">
+    <value>You must first choose "Fill Chart" before seeing search results.</value>
+  </data>
+  <data name="kimidDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidConChartHTMLChartType" xml:space="preserve">
+    <value>Consonants</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kimidNewPatternCategory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New_category_for_saved_patterns.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidMainWindowCaption" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>Parameter 0 is project name; parameter 1 is application name (i.e. Phonology Assistant)</comment>
+  </data>
+  <data name="kstidXYChartsViewToolTip" xml:space="preserve">
+    <value>XY Charts View (Ctrl+Alt+X)</value>
+  </data>
+  <data name="kstidXYChartsSliderPanelText" xml:space="preserve">
+    <value>Charts &amp; Chart Building</value>
+  </data>
+  <data name="kstidConsonantChartViewToolTip" xml:space="preserve">
+    <value>Consonant Chart View (Ctrl+Alt+C)</value>
+  </data>
+  <data name="kstidSearchViewToolTip" xml:space="preserve">
+    <value>Search View (Ctrl+Alt+S)</value>
+  </data>
+  <data name="kstidPAXMLExportCaptionSFD" xml:space="preserve">
+    <value>Export to {0} XML</value>
+    <comment>Caption for save file dialog for PA XML export</comment>
+  </data>
+  <data name="kstidDataCorpusHTMLFileName" xml:space="preserve">
+    <value>{0}-DataCorpus.html</value>
+    <comment>Default name for the HTML export file for HTML output of a data corpus view. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kimidPaste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Paste.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidCopy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidHideRecPaneToolTip" xml:space="preserve">
+    <value>Hide record pane</value>
+  </data>
+  <data name="kstidConfirmSavedChartRemoval" xml:space="preserve">
+    <value>Are you sure you want to remove the saved chart?</value>
+  </data>
+  <data name="kstidConChartHTMLFileName" xml:space="preserve">
+    <value>{0}-ConsonantChart.html</value>
+    <comment>Default name for the HTML export file for HTML output of a consonant chart. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kstidLoadNewProjectQuestion" xml:space="preserve">
+    <value>Would you like to load the '{0}' project?</value>
+    <comment>Question asked of user after they create a new PA project.</comment>
+  </data>
+  <data name="kimidFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidDataCorpusHTMLChartType" xml:space="preserve">
+    <value>Data Corpus</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidDataCorpusViewToolTip" xml:space="preserve">
+    <value>Data Corpus View (Ctrl+Alt+D)</value>
+  </data>
+  <data name="kstidSearchResultWordListWindowCaption" xml:space="preserve">
+    <value>Search Results ({0} Records)</value>
+    <comment>word list window caption for search results. Parameter 0 is for the number of records in the list</comment>
+  </data>
+  <data name="kstidSearchPatternTooltip" xml:space="preserve">
+    <value>Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]</value>
+    <comment>Tooltip for search pattern text box in the find phone window.</comment>
+  </data>
+  <data name="kstidVowChartHTMLFileName" xml:space="preserve">
+    <value>{0}-VowelChart.html</value>
+    <comment>Default name for the HTML export file for HTML output of a vowel chart. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kstidShowRecPaneToolTip" xml:space="preserve">
+    <value>Show record pane</value>
+  </data>
+  <data name="kstidSavedChartNameAlreadyExistsOverwriteMsg" xml:space="preserve">
+    <value>There is already a saved chart with the name "{0}".\nDo you want it overwritten?</value>
+  </data>
+  <data name="kstidConsonantChartViewText" xml:space="preserve">
+    <value>Consonant Chart</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidDataCorpusViewText" xml:space="preserve">
+    <value>Data Corpus</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidSearchViewText" xml:space="preserve">
+    <value>Search</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidVowelChartViewText" xml:space="preserve">
+    <value>Vowel Chart</value>
+    <comment>Used in progress bar textwhen view is being initialized</comment>
+  </data>
+  <data name="kstidXYChartsViewText" xml:space="preserve">
+    <value>XY Charts</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kimidRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidClearList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clear_list.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidPhoneInventoryViewText" xml:space="preserve">
+    <value>Phone Inventory</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidPhoneInventoryViewToolTip" xml:space="preserve">
+    <value>Phone Inventory View (Ctrl+Alt+P)</value>
+  </data>
+  <data name="kstidExperimentalTransGridCol1" xml:space="preserve">
+    <value>Transcribed in source as:</value>
+    <comment>Heading in experimental transcription grid.</comment>
+  </data>
+  <data name="kstidExperimentalTransGridCol2" xml:space="preserve">
+    <value>Convert to one of the following options:</value>
+    <comment>Heading in experimental transcription grid.</comment>
+  </data>
+  <data name="kstidAmbiguousBaseCharHdg" xml:space="preserve">
+    <value>Base Character</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousBaseCharMissingMsg" xml:space="preserve">
+    <value>You must specify a base character.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousBaseCharNotInTransMsg" xml:space="preserve">
+    <value>Your base character must be contained\nwithin its associated ambiguous sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousConvertHdg" xml:space="preserve">
+    <value>Treat as one unit?</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousCVPatternHdg" xml:space="preserve">
+    <value>CV Pattern</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqHdg" xml:space="preserve">
+    <value>Sequence</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousTransMissingMsg" xml:space="preserve">
+    <value>A base character may not be specified\nuntil you have specified an ambiguous sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidPhoneInventoryPhoneInfo" xml:space="preserve">
+    <value>Unicode Values:\n{0}</value>
+    <comment>Used for the tooltip information when moving the mouse over phones in the phone inventory list.</comment>
+  </data>
+  <data name="kstidUnAppliedPhoneInventoryChangesMsg" xml:space="preserve">
+    <value>There are unapplied changes in Phone Inventory view. Would you like to save the changes?</value>
+    <comment>Message displayed when PA is shutting down and there have been unsaved changes made on the phone inventory tab's view.</comment>
+  </data>
+  <data name="kstidMissingTrainingFileMsg" xml:space="preserve">
+    <value>The training file '{0}' is missing.</value>
+  </data>
+  <data name="kimidPaLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PA_Logo-Dim.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidConsonantChartViewHelpToolTip" xml:space="preserve">
+    <value>Consonant Chart View Help</value>
+  </data>
+  <data name="kstidDataCorpusViewHelpToolTip" xml:space="preserve">
+    <value>Data Corpus View Help</value>
+  </data>
+  <data name="kstidPhoneInventoryViewHelpToolTip" xml:space="preserve">
+    <value>Phone Inventory View Help</value>
+  </data>
+  <data name="kstidSearchViewHelpToolTip" xml:space="preserve">
+    <value>Search View Help</value>
+  </data>
+  <data name="kstidVowelChartViewHelpToolTip" xml:space="preserve">
+    <value>Vowel Chart View Help</value>
+  </data>
+  <data name="kstidXYChartsViewHelpToolTip" xml:space="preserve">
+    <value>XY Charts View Help</value>
+  </data>
+  <data name="kstidXYChartHTMLChartType" xml:space="preserve">
+    <value>XY Chart</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidXYChartHTMLFileName" xml:space="preserve">
+    <value>{0}-{1}XYChart.html</value>
+    <comment>First parameter is language name, second is XY chart name</comment>
+  </data>
+  <data name="kstidAmbiguousSeqCantDeleteDefaultMsg" xml:space="preserve">
+    <value>Default sequences may not be deleted.</value>
+    <comment>Message shown when trying to delete default ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg1" xml:space="preserve">
+    <value>That sequence already exists.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg2" xml:space="preserve">
+    <value>That sequence already exists as a default sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidRecentlyUsedProjectMissingMsg" xml:space="preserve">
+    <value>The project file '{0}' is missing.</value>
+    <comment>Message displayed when a recently used project file is chosen (i.e. .pap file) and it no longer exists.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqCantDeleteAutoGenMsg" xml:space="preserve">
+    <value>This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat as one Unit?’check box.</value>
+    <comment>Message shown when trying to delete an auto. generated ambiguous sequences.</comment>
+  </data>
+</root>
