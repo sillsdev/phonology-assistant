@@ -573,7 +573,7 @@ namespace SIL.Pa
 			DataUtils.IPACharCache.AmbiguousSequences =
 				AmbiguousSequences.Load(ProjectPathFilePrefix);
 			
-			PhoneCache.FeatureOverrides = PhoneFeatureOverrides.Load(ProjectPathFilePrefix);
+			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
 			PaApp.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();

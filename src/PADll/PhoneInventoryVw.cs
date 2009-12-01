@@ -305,7 +305,7 @@ namespace SIL.Pa
 
 		#endregion
 
-		#region Build and load ambiguous experimentaTransList grid
+		#region Build and load ambiguous seq. grid
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -1333,7 +1333,7 @@ namespace SIL.Pa
 				return false;
 			}
 
-			PhoneFeatureOverrides featureOverrideList = new PhoneFeatureOverrides();
+			FeatureOverrides featureOverrideList = new FeatureOverrides();
 
 			foreach (DataGridViewRow row in gridPhones.Rows)
 			{

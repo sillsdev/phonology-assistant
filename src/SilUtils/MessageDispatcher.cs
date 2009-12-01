@@ -35,7 +35,7 @@ namespace SilUtils
 		//}
 
 		//private string m_msgCurrentlyBeingDispateched = null;
-		private HashSet<object> m_dispatchReceivers = new HashSet<object>();
+		private readonly HashSet<object> m_dispatchReceivers = new HashSet<object>();
 		//private List<QueuedMsg> m_msgQueue = new List<QueuedMsg>();
 
 		/// ------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		private static bool DoesReceiverHaveMatchingHandler(object receiver, string msg)
 		{
-			BindingFlags flags = BindingFlags.Instance |
+			const BindingFlags flags = BindingFlags.Instance |
 				BindingFlags.NonPublic | BindingFlags.Public;
 
 			MethodInfo mi = receiver.GetType().GetMethod(msg, flags);

@@ -75,6 +75,7 @@
     <Compile Include="Feature.cs" />
     <Compile Include="FeatureCacheBase.cs" />
     <Compile Include="FeatureMask.cs" />
+    <Compile Include="FeatureOverrides.cs" />
     <Compile Include="FFNormalizer.cs" />
     <Compile Include="FwDBUtils.cs" />
     <Compile Include="IPACharInfo.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="PhoneCache.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PhoneFeatureOverrides.cs" />
     <Compile Include="PhoneInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

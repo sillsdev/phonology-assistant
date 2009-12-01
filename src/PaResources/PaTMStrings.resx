@@ -642,7 +642,7 @@
   </data>
   <data name="kstidWriteIPACacheText" xml:space="preserve">
     <value>Write IPA Cache</value>
-    <comment>Hidden menu item. Don't translate.</comment>
+    <comment>Hidden menu item. Do not translate.</comment>
   </data>
   <data name="kstidFindPreviousText" xml:space="preserve">
     <value>Find &amp;Previous</value>
@@ -650,7 +650,7 @@
   </data>
   <data name="kstidWriteDefaultFieldInfoText" xml:space="preserve">
     <value>Write Default Field Information</value>
-    <comment>Hidden menu item. Don't translate.</comment>
+    <comment>Hidden menu item. Do not translate.</comment>
   </data>
   <data name="kstidDataCorpusText" xml:space="preserve">
     <value>&amp;Data Corpus</value>
@@ -909,5 +909,17 @@
   <data name="kstidRegExpressionSrchDlgToolTip" xml:space="preserve">
     <value>Regular Expression Search Dialog</value>
     <comment>Hidden feature</comment>
+  </data>
+  <data name="kstidAmbiguousSequencesText" xml:space="preserve">
+    <value>&amp;Ambiguous Sequences...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidExperimentalTranscriptionsText" xml:space="preserve">
+    <value>&amp;Experimental Transcriptions...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidFeaturesText" xml:space="preserve">
+    <value>&amp;Features...</value>
+    <comment>Menu item text</comment>
   </data>
 </root>

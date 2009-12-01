@@ -2,15 +2,14 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Resources;
-using SilUtils;
 
 namespace SIL.Pa.Dialogs
 {
 	public partial class OKCancelDlgBase : Form
 	{
-		protected bool m_cancelButtonPressed = false;
-		protected bool m_dirty = false;
-		private bool m_changesWereMade = false;
+		protected bool m_cancelButtonPressed;
+		protected bool m_dirty;
+		private bool m_changesWereMade;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -315,7 +314,7 @@ namespace SIL.Pa.Dialogs
 	public class DlgSendMessageInfo
 	{
 		public Form Dialog;
-		public bool IsDirty = false;
+		public bool IsDirty;
 		public object Tag;
 
 		// When Continue comes back from the send message as false, this value determines whether

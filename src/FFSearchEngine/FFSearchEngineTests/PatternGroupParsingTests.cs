@@ -344,7 +344,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(MemberType.Binary, groupMember.MemberType);
 			Assert.AreEqual("-dors", groupMember.Member);
 			FeatureMask mask = DataUtils.BFeatureCache.GetMask("-dors");
-			Assert.IsTrue(groupMember.BMask.AndResult(mask));
+			Assert.IsTrue(groupMember.BMask.ContainsOneOrMore(mask));
 
 			// Nested within the first group should be 2 other groups.
 			PatternGroup nestedGroup = group.Members[0] as PatternGroup;
@@ -382,7 +382,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(MemberType.Binary, groupMember.MemberType);
 			Assert.AreEqual("+high", groupMember.Member);
 			mask = DataUtils.BFeatureCache.GetMask("+high");
-			Assert.IsTrue(groupMember.BMask.AndResult(mask));
+			Assert.IsTrue(groupMember.BMask.ContainsOneOrMore(mask));
 
 			// Verify the second member of the nested, nested group.
 			groupMember = nestedGroup2.Members[1] as PatternGroupMember;
@@ -390,7 +390,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(MemberType.Articulatory, groupMember.MemberType);
 			Assert.AreEqual("dental", groupMember.Member);
 			mask = DataUtils.AFeatureCache.GetMask("dental");
-			Assert.IsTrue(groupMember.AMask.AndResult(mask));
+			Assert.IsTrue(groupMember.AMask.ContainsOneOrMore(mask));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,7 +471,7 @@ namespace SIL.Pa.FFSearchEngine
 			Assert.AreEqual(MemberType.Binary, groupMember.MemberType);
 			Assert.AreEqual("+high", groupMember.Member);
 			FeatureMask mask = DataUtils.BFeatureCache.GetMask("+high");
-			Assert.IsTrue(groupMember.BMask.AndResult(mask));
+			Assert.IsTrue(groupMember.BMask.ContainsOneOrMore(mask));
 
 			groupMember = group.Members[1] as PatternGroupMember;
 			Assert.IsNotNull(groupMember);

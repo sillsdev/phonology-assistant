@@ -153,6 +153,9 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" category="kstidViewCategory" shortcutkey="CtrlUp"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane" category="kstidViewCategory"/>
 		<command id="CmdDefineClasses" message="DefineClasses" category="kstidToolsCategory"/>
+		<command id="CmdAmbiguousSequences" message="AmbiguousSequences" category="kstidToolsCategory"/>
+		<command id="CmdExperimentalTranscriptions" message="ExperimentalTranscriptions" category="kstidToolsCategory"/>
+		<command id="CmdFeatures" message="Features" category="kstidToolsCategory"/>
 		<command id="CmdUndefinedCharacters" message="UndefinedCharacters" category="kstidToolsCategory"/>
 		<command id="CmdOptions" message="ToolsOptions" category="kstidToolsCategory"/>
 		<command id="CmdCascade" message="WindowCascade" category="kstidWindowCategory"/>
@@ -243,7 +246,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<!--   TOOLS MENU  -->
 		<!-- *************** -->
 		<item name="mnuTools" commandid="CmdTools">
+			<item name="mnuFeatures" commandid="CmdFeatures" />
 			<item name="mnuDefClasses" commandid="CmdDefineClasses" />
+			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences" begingroup="true"/>
+			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
 			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
 			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
 		</item>

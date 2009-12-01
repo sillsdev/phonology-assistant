@@ -28,6 +28,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatternBuilderComponents));
 			this.tabPatternBlding = new System.Windows.Forms.TabControl();
 			this.tpgCons = new System.Windows.Forms.TabPage();
 			this.pnlConsonants = new SIL.Pa.Controls.PaPanel();
@@ -54,149 +55,107 @@ namespace SIL.Pa.Controls
 			this.tabPatternBlding.Controls.Add(this.tpgClasses);
 			this.tabPatternBlding.Controls.Add(this.tpgAFeatures);
 			this.tabPatternBlding.Controls.Add(this.tpgBFeatures);
-			this.tabPatternBlding.Dock = System.Windows.Forms.DockStyle.Fill;
+			resources.ApplyResources(this.tabPatternBlding, "tabPatternBlding");
 			this.tabPatternBlding.HotTrack = true;
-			this.tabPatternBlding.Location = new System.Drawing.Point(0, 0);
 			this.tabPatternBlding.Name = "tabPatternBlding";
 			this.tabPatternBlding.SelectedIndex = 0;
-			this.tabPatternBlding.ShowToolTips = true;
-			this.tabPatternBlding.Size = new System.Drawing.Size(216, 214);
-			this.tabPatternBlding.TabIndex = 1;
 			this.tabPatternBlding.ClientSizeChanged += new System.EventHandler(this.tabPatternBlding_ClientSizeChanged);
 			// 
 			// tpgCons
 			// 
 			this.tpgCons.Controls.Add(this.pnlConsonants);
-			this.tpgCons.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgCons, "tpgCons");
 			this.tpgCons.Name = "tpgCons";
-			this.tpgCons.Padding = new System.Windows.Forms.Padding(5);
-			this.tpgCons.Size = new System.Drawing.Size(208, 186);
-			this.tpgCons.TabIndex = 1;
-			this.tpgCons.Text = "Con.";
-			this.tpgCons.ToolTipText = "Consonants";
 			this.tpgCons.UseVisualStyleBackColor = true;
 			// 
 			// pnlConsonants
 			// 
-			this.pnlConsonants.AutoScroll = true;
+			resources.ApplyResources(this.pnlConsonants, "pnlConsonants");
 			this.pnlConsonants.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlConsonants.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlConsonants.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlConsonants.ClipTextForChildControls = true;
+			this.pnlConsonants.ControlReceivingFocusOnMnemonic = null;
 			this.pnlConsonants.DoubleBuffered = false;
-			this.pnlConsonants.Location = new System.Drawing.Point(5, 5);
+			this.pnlConsonants.MnemonicGeneratesClick = false;
 			this.pnlConsonants.Name = "pnlConsonants";
 			this.pnlConsonants.PaintExplorerBarBackground = false;
-			this.pnlConsonants.Size = new System.Drawing.Size(198, 176);
-			this.pnlConsonants.TabIndex = 0;
 			// 
 			// tpgVows
 			// 
 			this.tpgVows.Controls.Add(this.pnlVowels);
-			this.tpgVows.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgVows, "tpgVows");
 			this.tpgVows.Name = "tpgVows";
-			this.tpgVows.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgVows.Size = new System.Drawing.Size(208, 186);
-			this.tpgVows.TabIndex = 4;
-			this.tpgVows.Text = "Vow.";
-			this.tpgVows.ToolTipText = "Vowels";
 			this.tpgVows.UseVisualStyleBackColor = true;
 			// 
 			// pnlVowels
 			// 
-			this.pnlVowels.AutoScroll = true;
+			resources.ApplyResources(this.pnlVowels, "pnlVowels");
 			this.pnlVowels.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlVowels.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlVowels.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlVowels.ClipTextForChildControls = true;
+			this.pnlVowels.ControlReceivingFocusOnMnemonic = null;
 			this.pnlVowels.DoubleBuffered = false;
-			this.pnlVowels.Location = new System.Drawing.Point(3, 3);
+			this.pnlVowels.MnemonicGeneratesClick = false;
 			this.pnlVowels.Name = "pnlVowels";
 			this.pnlVowels.PaintExplorerBarBackground = false;
-			this.pnlVowels.Size = new System.Drawing.Size(202, 180);
-			this.pnlVowels.TabIndex = 2;
 			// 
 			// tpgOther
 			// 
 			this.tpgOther.Controls.Add(this.charExplorer);
-			this.tpgOther.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgOther, "tpgOther");
 			this.tpgOther.Name = "tpgOther";
-			this.tpgOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tpgOther.Size = new System.Drawing.Size(208, 186);
-			this.tpgOther.TabIndex = 5;
-			this.tpgOther.Text = "Other";
-			this.tpgOther.ToolTipText = "Suprasegmentals and diacritics";
 			this.tpgOther.UseVisualStyleBackColor = true;
 			// 
 			// charExplorer
 			// 
-			this.charExplorer.AutoScroll = true;
+			resources.ApplyResources(this.charExplorer, "charExplorer");
 			this.charExplorer.BackColor = System.Drawing.SystemColors.Window;
 			this.charExplorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.charExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.charExplorer.ClipTextForChildControls = true;
+			this.charExplorer.ControlReceivingFocusOnMnemonic = null;
 			this.charExplorer.DoubleBuffered = false;
-			this.charExplorer.Location = new System.Drawing.Point(3, 3);
+			this.charExplorer.MnemonicGeneratesClick = false;
 			this.charExplorer.Name = "charExplorer";
 			this.charExplorer.PaintExplorerBarBackground = false;
-			this.charExplorer.Size = new System.Drawing.Size(202, 180);
-			this.charExplorer.TabIndex = 0;
 			// 
 			// tpgClasses
 			// 
 			this.tpgClasses.Controls.Add(this.lvClasses);
-			this.tpgClasses.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgClasses, "tpgClasses");
 			this.tpgClasses.Name = "tpgClasses";
-			this.tpgClasses.Padding = new System.Windows.Forms.Padding(5);
-			this.tpgClasses.Size = new System.Drawing.Size(208, 186);
-			this.tpgClasses.TabIndex = 0;
-			this.tpgClasses.Text = "Classes";
 			this.tpgClasses.UseVisualStyleBackColor = true;
 			// 
 			// lvClasses
 			// 
 			this.lvClasses.AppliesTo = SIL.Pa.Controls.ClassListView.ListApplicationType.SearchViewWnd;
-			this.lvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvClasses.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.FullRowSelect = true;
-			this.lvClasses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Clickable;
 			this.lvClasses.HideSelection = false;
-			this.lvClasses.Location = new System.Drawing.Point(5, 5);
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
 			this.lvClasses.OwnerDraw = true;
 			this.lvClasses.ShowMembersAndTypeColumns = false;
-			this.lvClasses.Size = new System.Drawing.Size(198, 176);
-			this.lvClasses.TabIndex = 0;
 			this.lvClasses.UseCompatibleStateImageBehavior = false;
 			this.lvClasses.View = System.Windows.Forms.View.Details;
 			// 
 			// tpgAFeatures
 			// 
-			this.tpgAFeatures.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgAFeatures, "tpgAFeatures");
 			this.tpgAFeatures.Name = "tpgAFeatures";
-			this.tpgAFeatures.Padding = new System.Windows.Forms.Padding(5);
-			this.tpgAFeatures.Size = new System.Drawing.Size(208, 186);
-			this.tpgAFeatures.TabIndex = 2;
-			this.tpgAFeatures.Text = "Art. Features";
-			this.tpgAFeatures.ToolTipText = "Articulatory Features";
 			this.tpgAFeatures.UseVisualStyleBackColor = true;
 			// 
 			// tpgBFeatures
 			// 
-			this.tpgBFeatures.Location = new System.Drawing.Point(4, 24);
+			resources.ApplyResources(this.tpgBFeatures, "tpgBFeatures");
 			this.tpgBFeatures.Name = "tpgBFeatures";
-			this.tpgBFeatures.Padding = new System.Windows.Forms.Padding(5);
-			this.tpgBFeatures.Size = new System.Drawing.Size(208, 186);
-			this.tpgBFeatures.TabIndex = 3;
-			this.tpgBFeatures.Text = "Bin. Features";
-			this.tpgBFeatures.ToolTipText = "Binary Features";
 			this.tpgBFeatures.UseVisualStyleBackColor = true;
 			// 
 			// PatternBuilderComponents
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tabPatternBlding);
 			this.Name = "PatternBuilderComponents";
-			this.Size = new System.Drawing.Size(216, 214);
 			this.tabPatternBlding.ResumeLayout(false);
 			this.tpgCons.ResumeLayout(false);
 			this.tpgVows.ResumeLayout(false);

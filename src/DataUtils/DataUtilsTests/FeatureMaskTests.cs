@@ -177,22 +177,6 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Verifies that calling the AndResult method throws an exception when the number
-		/// of bits in the masks are different.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		[ExpectedException(ExceptionType = typeof(ArgumentException),
-			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
-		public void AndResult_WithDiffSizeBits()
-		{
-			var fmask1 = new FeatureMask(100);
-			var fmask2 = new FeatureMask(200);
-			fmask1.AndResult(fmask2);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Verifies that calling the OR method throws an exception when the number
 		/// of bits in the masks are different.
 		/// </summary>
@@ -206,32 +190,95 @@ namespace SIL.Pa.Data
 			var fmask2 = new FeatureMask(200);
 			Assert.IsNotNull(fmask1 | fmask2);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Verifies the AndResult method.
+		/// Verifies that calling the OR method throws an exception when the number
+		/// of bits in the masks are different.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void AndResult()
+		[ExpectedException(ExceptionType = typeof(ArgumentException),
+			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
+		public void ContainsAll_WithDiffSizeBits()
+		{
+			var fmask1 = new FeatureMask(100);
+			var fmask2 = new FeatureMask(200);
+			Assert.IsNotNull(fmask1.ContainsAll(fmask2));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies that calling the OR method throws an exception when the number
+		/// of bits in the masks are different.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		[ExpectedException(ExceptionType = typeof(ArgumentException),
+			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
+		public void ContainsOneOrMore_WithDiffSizeBits()
+		{
+			var fmask1 = new FeatureMask(100);
+			var fmask2 = new FeatureMask(200);
+			Assert.IsNotNull(fmask1.ContainsOneOrMore(fmask2));
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies the ContainsAll method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ContainsAll()
 		{
 			var fmask1 = new FeatureMask(100);
 			var fmask2 = new FeatureMask(100);
 
 			fmask1[45] = true;
+			fmask1[50] = true;
+			fmask1[75] = true;
+			Assert.IsFalse(fmask1.ContainsAll(fmask2));
+
+			fmask2[45] = true;
+			Assert.IsTrue(fmask1.ContainsAll(fmask2));
+
+			fmask2[50] = true;
+			Assert.IsTrue(fmask1.ContainsAll(fmask2));
+
 			fmask2[75] = true;
-			Assert.IsFalse(fmask1.AndResult(fmask2));
+			Assert.IsTrue(fmask1.ContainsAll(fmask2));
+
+			fmask2[90] = true;
+			Assert.IsFalse(fmask1.ContainsAll(fmask2));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Verifies the ContainsOneOrMore method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void ContainsOneOrMore()
+		{
+			var fmask1 = new FeatureMask(100);
+			var fmask2 = new FeatureMask(100);
+
+			Assert.IsFalse(fmask1.ContainsOneOrMore(fmask2));
+
+			fmask1[45] = true;
+			fmask2[75] = true;
+			Assert.IsFalse(fmask1.ContainsOneOrMore(fmask2));
 
 			fmask1[75] = true;
 			fmask2[45] = true;
-			Assert.IsTrue(fmask1.AndResult(fmask2));
+			Assert.IsTrue(fmask1.ContainsOneOrMore(fmask2));
 
 			fmask1[45] = false;
-			Assert.IsTrue(fmask1.AndResult(fmask2));
+			Assert.IsTrue(fmask1.ContainsOneOrMore(fmask2));
 
 			fmask1.Clear();
 			fmask2.Clear();
-			Assert.IsFalse(fmask1.AndResult(fmask2));
+			Assert.IsFalse(fmask1.ContainsOneOrMore(fmask2));
 
 			// Overlap by one bit.
 			for (int i = 60; i <= 64; i++)
@@ -240,7 +287,7 @@ namespace SIL.Pa.Data
 			for (int i = 64; i < 70; i++)
 				fmask2[i] = true;
 
-			Assert.IsTrue(fmask1.AndResult(fmask2));
+			Assert.IsTrue(fmask1.ContainsOneOrMore(fmask2));
 		}
 
 		/// ------------------------------------------------------------------------------------

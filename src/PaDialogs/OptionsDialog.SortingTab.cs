@@ -12,7 +12,7 @@ namespace SIL.Pa.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
-		SortOptionsTypeComboItem m_prevListType = null;
+		SortOptionsTypeComboItem m_prevListType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,10 +37,9 @@ namespace SIL.Pa.Dialogs
 			chkSaveManual.Font = FontHelper.UIFont;
 			lblSaveManual.Font = FontHelper.UIFont;
 
-			SortOptionsTypeComboItem item;
+			SortOptionsTypeComboItem item = new SortOptionsTypeComboItem(
+				cboListType.Items[0].ToString(), PaApp.Project.DataCorpusVwSortOptions.Clone());
 
-			item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),
-				PaApp.Project.DataCorpusVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
 
@@ -55,7 +54,8 @@ namespace SIL.Pa.Dialogs
 			cboListType.Items.Add(item);
 
 			BuildGrid();
-			
+
+			cboListType.Left = lblListType.Right + 10;
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
 
@@ -344,7 +344,7 @@ namespace SIL.Pa.Dialogs
 		{
 			private readonly string m_text;
 			private SortOptions m_sortOptions;
-			private bool m_isDirty = false;
+			private bool m_isDirty;
 
 			/// ------------------------------------------------------------------------------------
 			/// <summary>

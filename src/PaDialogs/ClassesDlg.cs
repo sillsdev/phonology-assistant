@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Controls;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.Dialogs
@@ -26,6 +25,7 @@ namespace SIL.Pa.Dialogs
 			lvClasses.Load();
 			lvClasses.LoadSettings(Name);
 			lvClasses_SelectedIndexChanged(null, null);
+			lvClasses.Font = FontHelper.UIFont;
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -284,19 +284,6 @@ namespace SIL.Pa.Dialogs
 			newItem.Selected = true;
 			newItem.IsDirty = true;
 			return newItem;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set a flag indicating whether or not the cancel button was pressed. That's because
-		/// in the form's closing event, we don't know if a DialogResult of Cancel is due to
-		/// the user clicking on the cancel button or closing the form in some other way
-		/// beside clicking on the OK button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			m_cancelButtonPressed = true;
 		}
 	}
 }

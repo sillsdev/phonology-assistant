@@ -24,9 +24,9 @@ namespace SIL.Pa
 	{
 		private const string kSavedChartsFile = "XYCharts.xml";
 
-		private bool m_activeView = false;
+		private bool m_activeView;
 		private bool m_initialDock = true;
-		private bool m_editingSavedChartName = false;
+		private bool m_editingSavedChartName;
 		private SlidingPanel m_slidingPanel;
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
@@ -89,6 +89,8 @@ namespace SIL.Pa
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
 			if (itemProps != null)
 				m_saveChartHotKey = itemProps.ShortcutKey;
+
+			lblChartNameValue.Left = lblChartName.Right + 10;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -555,7 +557,7 @@ namespace SIL.Pa
 			System.ComponentModel.ComponentResourceManager resources =
 				new System.ComponentModel.ComponentResourceManager(GetType());
 
-			m_tooltip = new System.Windows.Forms.ToolTip(components);
+			m_tooltip = new ToolTip(components);
 			m_tooltip.SetToolTip(btnRemoveSavedChart, resources.GetString("btnRemoveSavedChart.ToolTip"));
 
 			btnAutoHide.SetToolTips();

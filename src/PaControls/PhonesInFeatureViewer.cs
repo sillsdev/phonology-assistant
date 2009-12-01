@@ -13,8 +13,8 @@ namespace SIL.Pa.Controls
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
 		private bool m_allFeaturesMustMatch;
-		private FeatureMask m_aMask;
-		private FeatureMask m_bMask;
+		private FeatureMask m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
+		private FeatureMask m_bMask = DataUtils.BFeatureCache.GetEmptyMask();
 		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
 		private int m_lblHeight;
@@ -41,6 +41,7 @@ namespace SIL.Pa.Controls
 			base.DoubleBuffered = true;
 			base.BackColor = Color.Transparent;
 			m_lableRows = new SortedList<int, List<Label>>();
+			header.Font = FontHelper.UIFont;
 
 			if (!PaApp.DesignMode)
 				base.Font = FontHelper.MakeEticRegFontDerivative(14);
@@ -309,7 +310,7 @@ namespace SIL.Pa.Controls
 			if (mask1.IsEmpty)
 				return false;
 
-			return (m_allFeaturesMustMatch ? mask1 == mask2 : mask1.AndResult(mask2));
+			return (m_allFeaturesMustMatch ? mask2.ContainsAll(mask1) : mask2.ContainsOneOrMore(mask1));
 		}
 
 		/// ------------------------------------------------------------------------------------

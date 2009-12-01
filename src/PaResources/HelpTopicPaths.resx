@@ -293,4 +293,8 @@
     <value>User_Interface/Views/XY_Charts/XY_Charts_view.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidAmbiguousSequencesDlg" xml:space="preserve">
+    <value>User_Interface/Views/Phone_Inventory/Ambiguous_Sequences.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
 </root>

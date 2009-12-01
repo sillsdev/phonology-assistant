@@ -31,8 +31,6 @@ namespace SIL.Pa.Data
 		private int m_countAsNonPrimaryUncertainty;
 		private int m_countAsPrimaryUncertainty;
 		private IPACharacterType m_charType = IPACharacterType.Unknown;
-		private FeatureMask m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
-		private FeatureMask m_bMask = DataUtils.BFeatureCache.GetEmptyMask();
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
@@ -40,6 +38,11 @@ namespace SIL.Pa.Data
 		private string m_phone;
 		private bool m_isUndefined;
 		private bool m_featuresOverridden;
+		
+		private List<string> m_aFeatures;
+		private List<string> m_bFeatures;
+		private FeatureMask m_aMask;
+		private FeatureMask m_bMask;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -55,8 +58,7 @@ namespace SIL.Pa.Data
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(string phone)
-			: this(phone, false)
+		public PhoneInfo(string phone) : this(phone, false)
 		{
 		}
 
@@ -78,6 +80,9 @@ namespace SIL.Pa.Data
 
 			if (phoneIsAmbiguous && m_featuresOverridden)
 				return;
+
+			m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
+			m_bMask = DataUtils.BFeatureCache.GetEmptyMask();
 
 			// Go through each codepoint of the phone, building the feature masks along the way.
 			foreach (char c in phone)
@@ -289,50 +294,80 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets or sets the articulatory features mask.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public FeatureMask AMask
 		{
-			get { return m_aMask; }
-			set { m_aMask = value; }
+			get
+			{
+				if (m_aMask == null || m_aMask.IsEmpty)
+				{
+					m_aMask = DataUtils.AFeatureCache.GetMask(m_aFeatures);
+					if (m_aFeatures != null && m_aFeatures.Count > 0)
+						m_aFeatures = null;
+				}
+
+				return m_aMask;
+			}
+			set { m_aMask = (value ?? DataUtils.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets or sets the binary features mask.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public FeatureMask BMask
 		{
-			get { return m_bMask; }
-			set { m_bMask = value; }
+			get
+			{
+				if (m_bMask == null || m_bMask.IsEmpty)
+				{
+					m_bMask = DataUtils.BFeatureCache.GetMask(m_bFeatures);
+					if (m_bFeatures != null && m_bFeatures.Count > 0)
+						m_bFeatures = null;
+				}
+
+				return m_bMask;
+			}
+			set { m_bMask = (value ?? DataUtils.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the articulatory features.
+		/// Gets or sets the list of articulatory features for the phone. This is only used
+		/// for phones whose features are overridden.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlArray("ArticulatoryFeatures")]
 		public List<string> AFeatures
 		{
-			get { return DataUtils.AFeatureCache.GetFeatureList(m_aMask); }
-			set { m_aMask = DataUtils.AFeatureCache.GetMask(value); }
+			get
+			{
+				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
+					DataUtils.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+			}
+			set { m_aFeatures = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the binary features.
+		/// Gets or sets the list of binary features for the phone. This is only used
+		/// for phones whose features are overridden.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlArray("BinaryFeatures")]
 		public List<string> BFeatures
 		{
-			get { return DataUtils.BFeatureCache.GetFeatureList(m_bMask); }
-			set { m_bMask = DataUtils.BFeatureCache.GetMask(value); }
+			get
+			{
+				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
+					DataUtils.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+			}
+			set { m_bFeatures = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

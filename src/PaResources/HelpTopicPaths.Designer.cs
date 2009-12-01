@@ -70,6 +70,15 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Phone_Inventory/Ambiguous_Sequences.htm.
+        /// </summary>
+        internal static string hidAmbiguousSequencesDlg {
+            get {
+                return ResourceManager.GetString("hidAmbiguousSequencesDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Articulatory_Features_Class.htm.
         /// </summary>
         internal static string hidArticulatoryFeatureClassDlg {

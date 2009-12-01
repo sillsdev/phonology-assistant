@@ -28,6 +28,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartOptionsDropDown));
 			this.lblSSegsToIgnore = new System.Windows.Forms.Label();
 			this.lnkRefresh = new System.Windows.Forms.LinkLabel();
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
@@ -39,68 +40,42 @@ namespace SIL.Pa.Controls
 			// lblSSegsToIgnore
 			// 
 			this.lblSSegsToIgnore.AutoEllipsis = true;
-			this.lblSSegsToIgnore.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblSSegsToIgnore.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSSegsToIgnore.Location = new System.Drawing.Point(0, 0);
+			resources.ApplyResources(this.lblSSegsToIgnore, "lblSSegsToIgnore");
 			this.lblSSegsToIgnore.Name = "lblSSegsToIgnore";
-			this.lblSSegsToIgnore.Size = new System.Drawing.Size(165, 28);
-			this.lblSSegsToIgnore.TabIndex = 1;
-			this.lblSSegsToIgnore.Text = "Ignored Suprasegmentals";
-			this.lblSSegsToIgnore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lnkRefresh
 			// 
-			this.lnkRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lnkRefresh.AutoSize = true;
-			this.lnkRefresh.Location = new System.Drawing.Point(10, 80);
+			resources.ApplyResources(this.lnkRefresh, "lnkRefresh");
 			this.lnkRefresh.Name = "lnkRefresh";
-			this.lnkRefresh.Size = new System.Drawing.Size(72, 13);
-			this.lnkRefresh.TabIndex = 3;
 			this.lnkRefresh.TabStop = true;
-			this.lnkRefresh.Text = "Refresh Chart";
 			// 
 			// lnkHelp
 			// 
-			this.lnkHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.lnkHelp.AutoSize = true;
-			this.lnkHelp.Location = new System.Drawing.Point(126, 80);
+			resources.ApplyResources(this.lnkHelp, "lnkHelp");
 			this.lnkHelp.Name = "lnkHelp";
-			this.lnkHelp.Size = new System.Drawing.Size(29, 13);
-			this.lnkHelp.TabIndex = 4;
 			this.lnkHelp.TabStop = true;
-			this.lnkHelp.Text = "Help";
 			this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHelp_LinkClicked);
 			// 
 			// pnlPicker
 			// 
 			this.pnlPicker.Controls.Add(this.pickerIgnore);
-			this.pnlPicker.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlPicker.Location = new System.Drawing.Point(0, 28);
+			resources.ApplyResources(this.pnlPicker, "pnlPicker");
 			this.pnlPicker.Name = "pnlPicker";
-			this.pnlPicker.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-			this.pnlPicker.Size = new System.Drawing.Size(165, 44);
-			this.pnlPicker.TabIndex = 5;
 			// 
 			// pickerIgnore
 			// 
-			this.pickerIgnore.AutoSize = false;
+			resources.ApplyResources(this.pickerIgnore, "pickerIgnore");
 			this.pickerIgnore.AutoSizeItems = false;
 			this.pickerIgnore.BackColor = System.Drawing.Color.Transparent;
 			this.pickerIgnore.CheckItemsOnClick = true;
-			this.pickerIgnore.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pickerIgnore.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.pickerIgnore.ItemSize = new System.Drawing.Size(30, 30);
 			this.pickerIgnore.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.pickerIgnore.Location = new System.Drawing.Point(10, 0);
 			this.pickerIgnore.Name = "pickerIgnore";
-			this.pickerIgnore.Padding = new System.Windows.Forms.Padding(0);
-			this.pickerIgnore.Size = new System.Drawing.Size(145, 44);
-			this.pickerIgnore.TabIndex = 2;
-			this.pickerIgnore.Text = "charPicker1";
 			// 
 			// ChartOptionsDropDown
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -109,8 +84,6 @@ namespace SIL.Pa.Controls
 			this.Controls.Add(this.lnkRefresh);
 			this.Controls.Add(this.lblSSegsToIgnore);
 			this.Name = "ChartOptionsDropDown";
-			this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
-			this.Size = new System.Drawing.Size(165, 102);
 			this.pnlPicker.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();

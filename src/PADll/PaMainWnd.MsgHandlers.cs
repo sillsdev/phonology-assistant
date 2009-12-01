@@ -602,8 +602,54 @@ namespace SIL.Pa
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="args"></param>
-		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAmbiguousSequences(object args)
+		{
+			using (var dlg = new AmbiguousSequencesDlg())
+				dlg.ShowDialog(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAmbiguousSequences(object args)
+		{
+			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExperimentalTranscriptions(object args)
+		{
+			using (var dlg = new ExperimentalTranscriptionsDlg())
+				dlg.ShowDialog(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExperimentalTranscriptions(object args)
+		{
+			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDefineClasses(object args)
 		{

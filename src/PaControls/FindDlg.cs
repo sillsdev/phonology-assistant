@@ -12,17 +12,18 @@ namespace SIL.Pa.Controls
 {
 	public partial class FindDlg : Form
 	{
+		private const int kMaxSavedFindPatterns = 20;
+
 		#region Member Variables
-		private bool m_cancel = false;
-		private int m_dyHeightClientHeight = 0;
+		private bool m_cancel;
+		private int m_dyHeightClientHeight;
 		private int m_optionsPanelHeight;
-		private bool m_prevMatchCaseValue = false;
-		private readonly int m_maxSavedFindPatterns = 20;
+		private bool m_prevMatchCaseValue;
 		private readonly PaWordListGrid m_grid;
 		private static readonly ArrayList m_findWhatItems = new ArrayList();
 		private static readonly List<string> s_colsToFindIn = new List<string>();
 		private readonly List<char> m_reservedRegexChars =
-			new List<char>(new char[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
+			new List<char>(new[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
 
 		# endregion
 
@@ -199,7 +200,7 @@ namespace SIL.Pa.Controls
 		{
 			if (!m_findWhatItems.Contains(cboFindWhat.Text))
 				m_findWhatItems.Add(cboFindWhat.Text);
-			if (m_findWhatItems.Count > m_maxSavedFindPatterns)
+			if (m_findWhatItems.Count > kMaxSavedFindPatterns)
 				m_findWhatItems.RemoveAt(0);
 
 			FindInfo.Grid = m_grid;
@@ -331,6 +332,7 @@ namespace SIL.Pa.Controls
 			Height = pnlFindWhat.Height + m_optionsPanelHeight +
 				pnlButtons.Height + m_dyHeightClientHeight;
 
+			base.OnShown(e);
 		}
 
 		#endregion

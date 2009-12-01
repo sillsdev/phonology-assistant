@@ -28,6 +28,9 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureMask
 	{
+		private const string kBitSizeMismatchMsg = "Bit count mismatch: both masks must contain same number of bits.";
+		private const string kBitOutOfRangeMsg = "bit {0} is out of range. Bit must be >= 0 and < {1}.";
+
 		private readonly UInt64[] m_masks;
 		private readonly int m_size;
 		private readonly int m_maskCount;
@@ -94,10 +97,7 @@ namespace SIL.Pa.Data
 			get
 			{
 				if (bit >= m_size || bit < 0)
-				{
-					throw new IndexOutOfRangeException("bit " + bit +
-						" is out of range. Bit must be >= 0 and < " + m_size + ".");
-				}
+					throw new IndexOutOfRangeException(string.Format(kBitOutOfRangeMsg, bit, m_size));
 
 				int actualBit;
 				int maskNum = Math.DivRem(bit, 64, out actualBit);
@@ -108,10 +108,7 @@ namespace SIL.Pa.Data
 			set
 			{
 				if (bit >= m_size || bit < 0)
-				{
-					throw new IndexOutOfRangeException("bit " + bit +
-						" is out of range. Bit must be >= 0 and < " + m_size + ".");
-				}
+					throw new IndexOutOfRangeException(string.Format(kBitOutOfRangeMsg, bit, m_size));
 
 				int actualBit;
 				int maskNum = Math.DivRem(bit, 64, out actualBit);
@@ -138,14 +135,37 @@ namespace SIL.Pa.Data
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Ands the mask with the specified mask and returns a value indicating whether or
-		/// not the bitwise AND operation yields a non-zero result.
+		/// Returns a value indicating whether or not all the features in the specified mask
+		/// are contained within this mask instance.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AndResult(FeatureMask mask)
+		public bool ContainsAll(FeatureMask mask)
 		{
 			if (m_maskCount != mask.m_maskCount)
-				throw new ArgumentException("Bit count mismatch: both masks must contain same number of bits.");
+				throw new ArgumentException(kBitSizeMismatchMsg);
+
+			if (mask.IsEmpty)
+				return false;
+
+			for (int i = 0; i < m_maskCount; i++)
+			{
+				if ((m_masks[i] & mask.m_masks[i]) != mask.m_masks[i])
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether or not one or more features in the specified
+		/// mask are contained within this mask instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ContainsOneOrMore(FeatureMask mask)
+		{
+			if (m_maskCount != mask.m_maskCount)
+				throw new ArgumentException(kBitSizeMismatchMsg);
 
 			for (int i = 0; i < m_maskCount; i++)
 			{
@@ -165,7 +185,7 @@ namespace SIL.Pa.Data
 		public static FeatureMask operator |(FeatureMask m1, FeatureMask m2)
 		{
 			if (m1.m_size != m2.m_size)
-				throw new ArgumentException("Bit count mismatch: both masks must contain same number of bits.");
+				throw new ArgumentException(kBitSizeMismatchMsg);
 
 			var result = new FeatureMask(m1.m_size);
 

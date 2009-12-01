@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SilUtils;
 
 namespace SIL.Pa.Data
@@ -10,8 +11,7 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureOverrides : PhoneCache
 	{
-		public const string kDefaultOverrideFile = "DefaultPhoneFeatureOverrides.xml";
-		public const string kOverrideFile = "PhFeatureOverrides.xml";
+		public const string kOverrideFile = "FeatureOverrides.xml";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,21 +32,17 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static FeatureOverrides Load(string projectFileName)
 		{
-			FeatureOverrides overrides = new FeatureOverrides();
-
-			// Get the project-specific list of overrides.
 			string filename = BuildFileName(projectFileName);
-			List<PhoneInfo> projectList = Utils.DeserializeData(filename,
-				typeof(List<PhoneInfo>)) as List<PhoneInfo>;
+			var list = Utils.DeserializeData(filename, typeof(List<PhoneInfo>)) as List<PhoneInfo>;
 
-			// Move the phones from the List<> to a dictionary.
-			if (projectList != null && projectList.Count > 0)
-			{
-				foreach (PhoneInfo phoneInfo in projectList)
-					overrides[phoneInfo.Phone] = phoneInfo;
-			}
+			if (list == null || list.Count == 0)
+				return null;
 
-			return (overrides.Count == 0 ? null : overrides);
+			var overrides = new FeatureOverrides();
+			foreach (PhoneInfo phoneInfo in list)
+				overrides[phoneInfo.Phone] = phoneInfo;
+
+			return overrides;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,14 +52,9 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public void Save(string projectFileName)
 		{
-			List<PhoneInfo> overrideList = new List<PhoneInfo>();
-
 			// Move the entries into a list because dictionaries are not serializable.
-			foreach (PhoneInfo phoneInfo in Values)
-				overrideList.Add(phoneInfo);
-
-			string filename = BuildFileName(projectFileName);
-			Utils.SerializeData(filename, overrideList);
+			var list = Values.Select(x => x as PhoneInfo).ToList();
+			Utils.SerializeData(BuildFileName(projectFileName), list);
 		}
 
 		/// ------------------------------------------------------------------------------------

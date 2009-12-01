@@ -313,10 +313,10 @@
     <value>11</value>
   </data>
   <data name="txtProjName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 12</value>
+    <value>130, 12</value>
   </data>
   <data name="txtProjName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 20</value>
+    <value>156, 20</value>
   </data>
   <data name="txtProjName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -334,10 +334,10 @@
     <value>10</value>
   </data>
   <data name="txtTranscriber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 64</value>
+    <value>130, 64</value>
   </data>
   <data name="txtTranscriber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 20</value>
+    <value>156, 20</value>
   </data>
   <data name="txtTranscriber.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -358,10 +358,10 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="txtSpeaker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 12</value>
+    <value>405, 12</value>
   </data>
   <data name="txtSpeaker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 20</value>
+    <value>157, 20</value>
   </data>
   <data name="txtSpeaker.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -382,7 +382,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="txtComments.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 38</value>
+    <value>405, 38</value>
   </data>
   <data name="txtComments.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -391,7 +391,7 @@
     <value>Vertical</value>
   </data>
   <data name="txtComments.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 46</value>
+    <value>157, 46</value>
   </data>
   <data name="txtComments.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -547,10 +547,10 @@
     <value>1</value>
   </data>
   <data name="txtLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>110, 38</value>
+    <value>130, 38</value>
   </data>
   <data name="txtLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 20</value>
+    <value>156, 20</value>
   </data>
   <data name="txtLanguage.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -600,26 +600,26 @@
   <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>129, 17</value>
   </metadata>
-  <data name="cmnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
-  </data>
-  <data name="cmnuAddOtherDataSource.Text" xml:space="preserve">
-    <value>&amp;Non FieldWorks Data Source...</value>
-  </data>
-  <data name="cmnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 22</value>
-  </data>
-  <data name="cmnuAddFwDataSource.Text" xml:space="preserve">
-    <value>&amp;FieldWorks Data Source...</value>
-  </data>
   <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 48</value>
+    <value>207, 48</value>
   </data>
   <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
     <value>cmnuAdd</value>
   </data>
   <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cmnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 22</value>
+  </data>
+  <data name="cmnuAddOtherDataSource.Text" xml:space="preserve">
+    <value>&amp;Non FieldWorks Data Source...</value>
+  </data>
+  <data name="cmnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>206, 22</value>
+  </data>
+  <data name="cmnuAddFwDataSource.Text" xml:space="preserve">
+    <value>&amp;FieldWorks Data Source...</value>
   </data>
   <data name="pnlGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -643,7 +643,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2707.19833, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -673,7 +673,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2707.29009, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -697,7 +697,7 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2707.29009, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>$this</value>
@@ -745,6 +745,6 @@
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2707.29141, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.1.3615.17926, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

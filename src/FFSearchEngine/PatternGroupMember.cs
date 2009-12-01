@@ -359,13 +359,13 @@ namespace SIL.Pa.FFSearchEngine
 						compareResult = CompareResultType.Match;
 					break;
 			
-				case MemberType.Binary:
-					if (phoneInfo.BMask.AndResult(m_bMask))
+				case MemberType.Articulatory:
+					if (phoneInfo.AMask.ContainsOneOrMore(m_aMask))
 						compareResult = CompareResultType.Match;
 					break;
 				
-				case MemberType.Articulatory:
-					if (phoneInfo.AMask.AndResult(m_aMask))
+				case MemberType.Binary:
+					if (phoneInfo.BMask.ContainsOneOrMore(m_bMask))
 						compareResult = CompareResultType.Match;
 					break;
 			}

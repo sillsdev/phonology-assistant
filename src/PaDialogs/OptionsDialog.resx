@@ -289,7 +289,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -850,7 +850,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1504,7 +1504,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1627,7 +1627,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1747,7 +1747,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -1876,7 +1876,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.3015.19583, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -2086,7 +2086,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.0.3022.19418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2170,7 +2170,7 @@
     <value>XY Chart Search Results</value>
   </data>
   <data name="cboListType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 54</value>
+    <value>151, 54</value>
   </data>
   <data name="cboListType.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 23</value>
@@ -2311,6 +2311,6 @@
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.3022.19679, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.1.3615.17926, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

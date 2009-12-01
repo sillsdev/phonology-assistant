@@ -876,9 +876,7 @@ namespace SIL.Pa
 				if (!string.IsNullOrEmpty(m_displayText))
 					return m_displayText;
 
-				string text = PaFieldsDisplayText.ResourceManager.GetString(
-					"kstid" + m_fieldName, PaFieldsDisplayText.Culture);
-
+				string text = PaFieldsDisplayText.ResourceManager.GetString("kstid" + m_fieldName);
 				return (string.IsNullOrEmpty(text) ? m_fieldName : text);
 			}
 			set { m_displayText = value; }

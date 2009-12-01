@@ -520,4 +520,48 @@
     <value>Searching...</value>
     <comment>Message displayed in the dialog for choosing an FW data source when the computer is searching the specified computer for FW databases.</comment>
   </data>
+  <data name="kstidAmbiguousBaseCharHdg" xml:space="preserve">
+    <value>Base Character</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousBaseCharMissingMsg" xml:space="preserve">
+    <value>You must specify a base character.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousBaseCharNotInTransMsg" xml:space="preserve">
+    <value>Your base character must be contained\nwithin its associated ambiguous sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousConvertHdg" xml:space="preserve">
+    <value>Treat as one unit?</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousCVPatternHdg" xml:space="preserve">
+    <value>CV Pattern</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqCantDeleteAutoGenMsg" xml:space="preserve">
+    <value>This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat as one Unit?’check box.</value>
+    <comment>Message shown when trying to delete an auto. generated ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqCantDeleteDefaultMsg" xml:space="preserve">
+    <value>Default sequences may not be deleted.</value>
+    <comment>Message shown when trying to delete default ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg1" xml:space="preserve">
+    <value>That sequence already exists.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqDuplicateMsg2" xml:space="preserve">
+    <value>That sequence already exists as a default sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
+  <data name="kstidAmbiguousSeqHdg" xml:space="preserve">
+    <value>Sequence</value>
+    <comment>Heading for the ambiguous sequence grid.</comment>
+  </data>
+  <data name="kstidAmbiguousTransMissingMsg" xml:space="preserve">
+    <value>A base character may not be specified\nuntil you have specified an ambiguous sequence.</value>
+    <comment>Message shown when editing ambiguous sequences.</comment>
+  </data>
 </root>

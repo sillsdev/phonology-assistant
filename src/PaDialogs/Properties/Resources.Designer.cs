@@ -145,6 +145,105 @@ namespace SIL.Pa.Dialogs.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base Character.
+        /// </summary>
+        internal static string kstidAmbiguousBaseCharHdg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousBaseCharHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a base character..
+        /// </summary>
+        internal static string kstidAmbiguousBaseCharMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousBaseCharMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your base character must be contained\nwithin its associated ambiguous sequence..
+        /// </summary>
+        internal static string kstidAmbiguousBaseCharNotInTransMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousBaseCharNotInTransMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Treat as one unit?.
+        /// </summary>
+        internal static string kstidAmbiguousConvertHdg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousConvertHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CV Pattern.
+        /// </summary>
+        internal static string kstidAmbiguousCVPatternHdg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousCVPatternHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the &apos;Treat as one Unit?’check box..
+        /// </summary>
+        internal static string kstidAmbiguousSeqCantDeleteAutoGenMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqCantDeleteAutoGenMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default sequences may not be deleted..
+        /// </summary>
+        internal static string kstidAmbiguousSeqCantDeleteDefaultMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqCantDeleteDefaultMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to That sequence already exists..
+        /// </summary>
+        internal static string kstidAmbiguousSeqDuplicateMsg1 {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqDuplicateMsg1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to That sequence already exists as a default sequence..
+        /// </summary>
+        internal static string kstidAmbiguousSeqDuplicateMsg2 {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqDuplicateMsg2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sequence.
+        /// </summary>
+        internal static string kstidAmbiguousSeqHdg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousSeqHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A base character may not be specified\nuntil you have specified an ambiguous sequence..
+        /// </summary>
+        internal static string kstidAmbiguousTransMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidAmbiguousTransMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Articulatory Features.
         /// </summary>
         internal static string kstidArticulatoryFeatureClassDlgHdg {

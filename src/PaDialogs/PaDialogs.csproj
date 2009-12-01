@@ -73,6 +73,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmbiguousSequencesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AmbiguousSequencesDlg.Designer.cs">
+      <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClassesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,12 @@
     </Compile>
     <Compile Include="DefineClassDlg.Designer.cs">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExperimentalTranscriptionsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExperimentalTranscriptionsDlg.Designer.cs">
+      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
@@ -186,6 +198,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AmbiguousSequencesDlg.resx">
+      <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClassesDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ClassesDlg.cs</DependentUpon>
@@ -197,6 +212,9 @@
     <EmbeddedResource Include="DefineClassDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExperimentalTranscriptionsDlg.resx">
+      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FwDataSourcePropertiesDlg.resx">
       <SubType>Designer</SubType>

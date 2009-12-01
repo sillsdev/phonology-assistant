@@ -35,7 +35,7 @@ namespace SIL.Pa
 	public partial class PaMainWnd : Form, IxCoreColleague
 	{
 		private ITMAdapter m_tmAdapter;
-		private bool m_shuttingDown = false;
+		private bool m_shuttingDown;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------

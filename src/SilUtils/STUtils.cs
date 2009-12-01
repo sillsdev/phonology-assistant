@@ -147,6 +147,25 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Makes relPath relative to fixedPath, but only if relPath is rooted.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MakeRelativePath(string fixedPath, string relPath)
+		{
+			Uri uriPrjFilePath = new Uri(fixedPath);
+			if (Path.IsPathRooted(relPath))
+			{
+				Uri path1 = new Uri(relPath);
+				relPath = uriPrjFilePath.MakeRelativeUri(path1).ToString();
+				relPath = relPath.Replace('/', Path.DirectorySeparatorChar);
+				relPath = relPath.Replace("%20", " ");
+			}
+
+			return relPath;
+		}
+			
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Since a file path may contain '\n' and passing a string to STMsgBox will convert
 		/// those to a new line character (which would not be good for a file path), this
 		/// method will go through the specified file path and prepare it to be properly
@@ -342,7 +361,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string GetLocalPath(string filename, bool mustExist)
 		{
-			return GetLocalPath(Assembly.GetExecutingAssembly(), filename, mustExist);
+			return GetLocalPath(Assembly.GetCallingAssembly(), filename, mustExist);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -358,7 +377,7 @@ namespace SilUtils
 
 			// If the file cannot be found in the application's startup
 			// path (which is probably only the case when running tests),
-			// look in the path where this class' assembly is located.
+			// look in the path where the specified assembly is located.
 			if (!File.Exists(path) && mustExist)
 			{
 				// CodeBase prepends "file:/", which must be removed.
@@ -367,6 +386,23 @@ namespace SilUtils
 			}
 
 			return path;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path of the assembly in which exists the method that called this
+		/// method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetMyAssemblyPath()
+		{
+			string asmPath = Assembly.GetCallingAssembly().CodeBase;
+
+			// Strip off "file:" and all the slashes that follow.
+			asmPath = asmPath.Substring(5);
+			asmPath = asmPath.TrimStart('/');
+
+			return Path.GetDirectoryName(asmPath);
 		}
 
 		#region Methods for XML serializing and deserializing data

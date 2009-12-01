@@ -167,6 +167,7 @@ namespace SIL.Pa.Dialogs
 			lblToolboxSortField.Font = FontHelper.UIFont;
 			lblToolboxSortField.Top = (pnlToolboxSortField.Height - lblToolboxSortField.Height) / 2;
 			cboToolboxSortField.Top = (pnlToolboxSortField.Height - cboToolboxSortField.Height) / 2;
+			cboToolboxSortField.Left = lblToolboxSortField.Right + 10;
 
 			string sortField = m_datasource.ToolboxSortField;
 
@@ -299,9 +300,11 @@ namespace SIL.Pa.Dialogs
 			{
 				if (rbNoParse.Checked)
 					return DataSourceParseType.None;
-				else if (rbParseOneToOne.Checked)
+				
+				if (rbParseOneToOne.Checked)
 					return DataSourceParseType.OneToOne;
-				else if (rbInterlinearize.Checked)
+				
+				if (rbInterlinearize.Checked)
 					return DataSourceParseType.Interlinear;
 
 				return DataSourceParseType.PhoneticOnly;
@@ -470,7 +473,8 @@ namespace SIL.Pa.Dialogs
 						Application.ProductName);
 					break;
 				}
-				else if (!string.IsNullOrEmpty(mapping.Marker))
+				
+				if (!string.IsNullOrEmpty(mapping.Marker))
 					count++;
 			}
 
@@ -577,7 +581,7 @@ namespace SIL.Pa.Dialogs
 		{
 			get
 			{
-				return (cboToolboxSortField.SelectedIndex == 0 ? null :
+				return (cboToolboxSortField.SelectedIndex <= 0 ? null :
 					((PaFieldInfo)cboToolboxSortField.SelectedItem).FieldName);
 			}
 		}
@@ -618,7 +622,7 @@ namespace SIL.Pa.Dialogs
 		/// Drop-down the SFM column's combo box when the SFM column cell's become current.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_CellEnter(object sender, DataGridViewCellEventArgs e)
+		private static void m_grid_CellEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0 && e.ColumnIndex == 0)
 				SendKeys.Send("%{DOWN}");

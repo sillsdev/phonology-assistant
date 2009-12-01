@@ -57,6 +57,30 @@ namespace SIL.FdoToPaInterfaces
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a value indicating whether or not the writing system is the default
+		/// vernacular writing system.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool IsDefaultVernacular { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the writing system is the default
+		/// analysis writing system.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool IsDefaultAnalysis { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the writing system is the default
+		/// pronunciation writing system.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool IsDefaultPronunciation { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the name of the default body text font.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
