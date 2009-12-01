@@ -122,10 +122,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PADll\PaDll.csproj">
+    <ProjectReference Include="..\PaUI\PaUI.csproj">
       <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaDll</Name>
-      <Private>False</Private>
+      <Name>PaUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
       <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
