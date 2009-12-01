@@ -20,7 +20,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SilUtils;
 using XCore;
@@ -106,7 +105,7 @@ namespace SIL.Pa
 		/// default UI font, then read it and use it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetUIFont()
+		private static void SetUIFont()
 		{
 			string fontEntry = "UIFont";
 
@@ -325,7 +324,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
-			SilUtils.Utils.UpdateWindow(this.Handle);
+			SilUtils.Utils.UpdateWindow(Handle);
 			base.OnActivated(e);
 		}
 

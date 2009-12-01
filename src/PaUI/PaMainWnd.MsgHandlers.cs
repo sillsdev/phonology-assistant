@@ -23,7 +23,6 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
@@ -144,7 +143,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void OpenTrainingDocument(string docName)
+		private static void OpenTrainingDocument(string docName)
 		{
 			string path = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
 			path = Path.Combine(path, docName);

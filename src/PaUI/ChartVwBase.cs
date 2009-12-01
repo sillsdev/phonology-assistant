@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
-using SilUtils;
 using XCore;
 
 namespace SIL.Pa
@@ -30,8 +26,8 @@ namespace SIL.Pa
 		protected string m_htmlChartName;
 		private string m_persistedInfoFilename;
 		private bool m_histogramOn = true;
-		private bool m_activeView = false;
 		private bool m_initialDock = true;
+		private bool m_activeView;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -549,7 +545,7 @@ namespace SIL.Pa
 				parentItemProps.Image = childItemProps.Image;
 				parentItemProps.Visible = true;
 				parentItemProps.Update = true;
-				parentItemProps.Tag = new string[] {environment, toolbarItemName};
+				parentItemProps.Tag = new[] {environment, toolbarItemName};
 				m_tmAdapter.SetItemProperties("tbbChartPhoneSearch", parentItemProps);
 			}
 		}

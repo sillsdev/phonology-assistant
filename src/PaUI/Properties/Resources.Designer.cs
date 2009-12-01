@@ -60,9 +60,30 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidBothGridLines {
+            get {
+                object obj = ResourceManager.GetObject("kimidBothGridLines", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidButtonDropDownArrow {
+            get {
+                object obj = ResourceManager.GetObject("kimidButtonDropDownArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidClearList {
             get {
                 object obj = ResourceManager.GetObject("kimidClearList", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidClearPattern {
+            get {
+                object obj = ResourceManager.GetObject("kimidClearPattern", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,9 +116,51 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap kimidHorizontalGridLines {
+            get {
+                object obj = ResourceManager.GetObject("kimidHorizontalGridLines", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidInformation {
+            get {
+                object obj = ResourceManager.GetObject("kimidInformation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidInsertintopattern {
+            get {
+                object obj = ResourceManager.GetObject("kimidInsertintopattern", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidMoveDown {
+            get {
+                object obj = ResourceManager.GetObject("kimidMoveDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidMoveUp {
+            get {
+                object obj = ResourceManager.GetObject("kimidMoveUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidNewPatternCategory {
             get {
                 object obj = ResourceManager.GetObject("kimidNewPatternCategory", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidNoGridLines {
+            get {
+                object obj = ResourceManager.GetObject("kimidNoGridLines", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -119,6 +182,27 @@ namespace SIL.Pa.Properties {
         internal static System.Drawing.Bitmap kimidRefresh {
             get {
                 object obj = ResourceManager.GetObject("kimidRefresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidSearchOptions {
+            get {
+                object obj = ResourceManager.GetObject("kimidSearchOptions", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidShowResults {
+            get {
+                object obj = ResourceManager.GetObject("kimidShowResults", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap kimidVerticalGridLines {
+            get {
+                object obj = ResourceManager.GetObject("kimidVerticalGridLines", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,6 +307,51 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Articulatory Features.
+        /// </summary>
+        internal static string kstidArticulatoryFeatureClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidArticulatoryFeatureClassDlgHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Binary Features.
+        /// </summary>
+        internal static string kstidBinaryFeatureClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidBinaryFeatureClassDlgHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Character.
+        /// </summary>
+        internal static string kstidCharHdg {
+            get {
+                return ResourceManager.GetString("kstidCharHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1:D2}).
+        /// </summary>
+        internal static string kstidClassCopyNameFormat {
+            get {
+                return ResourceManager.GetString("kstidClassCopyNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy of {0}.
+        /// </summary>
+        internal static string kstidClassCopyOfPrefix {
+            get {
+                return ResourceManager.GetString("kstidClassCopyOfPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Consonants.
         /// </summary>
         internal static string kstidConChartHTMLChartType {
@@ -277,6 +406,105 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count.
+        /// </summary>
+        internal static string kstidCountHdg {
+            get {
+                return ResourceManager.GetString("kstidCountHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The custom field &apos;{0}&apos; occurs multiple times in the list..
+        /// </summary>
+        internal static string kstidCustomFieldDupMsg {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldDupMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A field by the name of &apos;{0}&apos; already exists..
+        /// </summary>
+        internal static string kstidCustomFieldExistsMsg {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldExistsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can Field be Interlinear?.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgInterlinear {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgInterlinear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Field Name.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgName {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Field Parsed?.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgParsed {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgParsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right to Left.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgRTL {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgRTL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Type.
+        /// </summary>
+        internal static string kstidCustomFieldGridHdgType {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridHdgType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date/Time.
+        /// </summary>
+        internal static string kstidCustomFieldGridTypeDate {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridTypeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numeric.
+        /// </summary>
+        internal static string kstidCustomFieldGridTypeNumeric {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridTypeNumeric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        internal static string kstidCustomFieldGridTypeText {
+            get {
+                return ResourceManager.GetString("kstidCustomFieldGridTypeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Corpus.
         /// </summary>
         internal static string kstidDataCorpusHTMLChartType {
@@ -322,6 +550,168 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the selected data source(s)?.
+        /// </summary>
+        internal static string kstidDataSourceDeleteConfirmation {
+            get {
+                return ResourceManager.GetString("kstidDataSourceDeleteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        internal static string kstidDataSourceGridSourcFile {
+            get {
+                return ResourceManager.GetString("kstidDataSourceGridSourcFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string kstidDataSourceGridType {
+            get {
+                return ResourceManager.GetString("kstidDataSourceGridType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XSLT.
+        /// </summary>
+        internal static string kstidDataSourceGridXSLT {
+            get {
+                return ResourceManager.GetString("kstidDataSourceGridXSLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Source.
+        /// </summary>
+        internal static string kstidDataSourceHdg {
+            get {
+                return ResourceManager.GetString("kstidDataSourceHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a language name..
+        /// </summary>
+        internal static string kstidDataSourceNoLangName {
+            get {
+                return ResourceManager.GetString("kstidDataSourceNoLangName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify field mappings for\n\n&apos;{0}&apos;.\n\nSelect it in the Data Sources list and click &apos;Properties&apos;..
+        /// </summary>
+        internal static string kstidDataSourceNoMappings {
+            get {
+                return ResourceManager.GetString("kstidDataSourceNoMappings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a project name..
+        /// </summary>
+        internal static string kstidDataSourceNoProjName {
+            get {
+                return ResourceManager.GetString("kstidDataSourceNoProjName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify an XSLT file for &apos;{0}&apos;.
+        /// </summary>
+        internal static string kstidDataSourceNoXSLT {
+            get {
+                return ResourceManager.GetString("kstidDataSourceNoXSLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Data Source File(s).
+        /// </summary>
+        internal static string kstidDataSourceOpenFileCaption {
+            get {
+                return ResourceManager.GetString("kstidDataSourceOpenFileCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose XSLT to Transform Data Source.
+        /// </summary>
+        internal static string kstidDataSourceOpenFileXSLTCaption {
+            get {
+                return ResourceManager.GetString("kstidDataSourceOpenFileXSLTCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        internal static string kstidDataSourcePropertiesButtonText {
+            get {
+                return ResourceManager.GetString("kstidDataSourcePropertiesButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Consonants.
+        /// </summary>
+        internal static string kstidDefClassPhoneHdrCon {
+            get {
+                return ResourceManager.GetString("kstidDefClassPhoneHdrCon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Other Phones.
+        /// </summary>
+        internal static string kstidDefClassPhoneHdrOther {
+            get {
+                return ResourceManager.GetString("kstidDefClassPhoneHdrOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Vowels.
+        /// </summary>
+        internal static string kstidDefClassPhoneHdrVow {
+            get {
+                return ResourceManager.GetString("kstidDefClassPhoneHdrVow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot have an empty Class Name.
+        /// </summary>
+        internal static string kstidDefineClassEmptyClassName {
+            get {
+                return ResourceManager.GetString("kstidDefineClassEmptyClassName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ascending?.
+        /// </summary>
+        internal static string kstidDefineSortOrderAscendingCol {
+            get {
+                return ResourceManager.GetString("kstidDefineSortOrderAscendingCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Column.
+        /// </summary>
+        internal static string kstidDefineSortOrderColumnCol {
+            get {
+                return ResourceManager.GetString("kstidDefineSortOrderColumnCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transcribed in source as:.
         /// </summary>
         internal static string kstidExperimentalTransGridCol1 {
@@ -349,11 +739,185 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; is missing..
+        /// </summary>
+        internal static string kstidFileMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidFileMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        internal static string kstidFindSelectAll {
+            get {
+                return ResourceManager.GetString("kstidFindSelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bold.
+        /// </summary>
+        internal static string kstidFontGridBold {
+            get {
+                return ResourceManager.GetString("kstidFontGridBold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string kstidFontGridDBField {
+            get {
+                return ResourceManager.GetString("kstidFontGridDBField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Font Name.
+        /// </summary>
+        internal static string kstidFontGridFontName {
+            get {
+                return ResourceManager.GetString("kstidFontGridFontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Italic.
+        /// </summary>
+        internal static string kstidFontGridItalic {
+            get {
+                return ResourceManager.GetString("kstidFontGridItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        internal static string kstidFontGridSample {
+            get {
+                return ResourceManager.GetString("kstidFontGridSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string kstidFontGridSize {
+            get {
+                return ResourceManager.GetString("kstidFontGridSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The writing system for the phonetic field has not been specified for the FieldWorks data source &apos;{0}&apos;.\n\nSelect the FieldWorks data source and click the properties button..
+        /// </summary>
+        internal static string kstidFwDataSourceWsMissingMsg {
+            get {
+                return ResourceManager.GetString("kstidFwDataSourceWsMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a writing system for at least one field..
+        /// </summary>
+        internal static string kstidFwMissingWsMsg {
+            get {
+                return ResourceManager.GetString("kstidFwMissingWsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify Properties.
+        /// </summary>
+        internal static string kstidFwPropsButtonToolTip {
+            get {
+                return ResourceManager.GetString("kstidFwPropsButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string kstidFwWsFieldHdg {
+            get {
+                return ResourceManager.GetString("kstidFwWsFieldHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (none).
+        /// </summary>
+        internal static string kstidFwWsNoneSpecified {
+            get {
+                return ResourceManager.GetString("kstidFwWsNoneSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing System.
+        /// </summary>
+        internal static string kstidFwWsWsHdg {
+            get {
+                return ResourceManager.GetString("kstidFwWsWsHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide record pane.
         /// </summary>
         internal static string kstidHideRecPaneToolTip {
             get {
                 return ResourceManager.GetString("kstidHideRecPaneToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+        ///\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
+        ///\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
+        ///\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}.
+        /// </summary>
+        internal static string kstidInterlinearSampleInput {
+            get {
+                return ResourceManager.GetString("kstidInterlinearSampleInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n.
+        /// </summary>
+        internal static string kstidInterlinearSampleOutput {
+            get {
+                return ResourceManager.GetString("kstidInterlinearSampleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid phonetic character..
+        /// </summary>
+        internal static string kstidInvalidPhoneticCharMsg {
+            get {
+                return ResourceManager.GetString("kstidInvalidPhoneticCharMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The first Toolbox sort field specified was\nnot mapped. It must have a mapping..
+        /// </summary>
+        internal static string kstidInvalidToolboxSortFieldSpecified {
+            get {
+                return ResourceManager.GetString("kstidInvalidToolboxSortFieldSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading Options....
+        /// </summary>
+        internal static string kstidLoadingOptionsProgressBarText {
+            get {
+                return ResourceManager.GetString("kstidLoadingOptionsProgressBarText", resourceCulture);
             }
         }
         
@@ -367,11 +931,38 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has no projects..
+        /// </summary>
+        internal static string kstidMachineHasNoProjectsMsg {
+            get {
+                return ResourceManager.GetString("kstidMachineHasNoProjectsMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} - {1}.
         /// </summary>
         internal static string kstidMainWindowCaption {
             get {
                 return ResourceManager.GetString("kstidMainWindowCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify field mappings.
+        /// </summary>
+        internal static string kstidMappingsButtonToolTip {
+            get {
+                return ResourceManager.GetString("kstidMappingsButtonToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must first specify an RTF editor..
+        /// </summary>
+        internal static string kstidMissingRTFEditorMsg {
+            get {
+                return ResourceManager.GetString("kstidMissingRTFEditorMsg", resourceCulture);
             }
         }
         
@@ -385,6 +976,87 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Project Settings.
+        /// </summary>
+        internal static string kstidNewProjectSettingsDlgCaption {
+            get {
+                return ResourceManager.GetString("kstidNewProjectSettingsDlgCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No projects found on &apos;{0}&apos;..
+        /// </summary>
+        internal static string kstidNoFwProjectsFoundMsg {
+            get {
+                return ResourceManager.GetString("kstidNoFwProjectsFoundMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hi ni nini/this what.
+        /// </summary>
+        internal static string kstidNoParseSampleOutput {
+            get {
+                return ResourceManager.GetString("kstidNoParseSampleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a name for your XY chart..
+        /// </summary>
+        internal static string kstidNoSavedChartNameMsg {
+            get {
+                return ResourceManager.GetString("kstidNoSavedChartNameMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a category for your saved pattern..
+        /// </summary>
+        internal static string kstidNoSavedPatternCategoryMsg {
+            get {
+                return ResourceManager.GetString("kstidNoSavedPatternCategoryMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a name for your saved pattern..
+        /// </summary>
+        internal static string kstidNoSavedPatternNameMsg {
+            get {
+                return ResourceManager.GetString("kstidNoSavedPatternNameMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (none).
+        /// </summary>
+        internal static string kstidNoToolboxSortField {
+            get {
+                return ResourceManager.GetString("kstidNoToolboxSortField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option causes parsing of phonetic,\nphonemic, tone, orthographic, part of speech\nand custom fields specified as being parsed..
+        /// </summary>
+        internal static string kstidOneToOneParsingToolTip {
+            get {
+                return ResourceManager.GetString("kstidOneToOneParsingToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hi/this#ni/what#nini/.
+        /// </summary>
+        internal static string kstidOneToOneSampleOutput {
+            get {
+                return ResourceManager.GetString("kstidOneToOneSampleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open {0} Project File.
         /// </summary>
         internal static string kstidPAFilesCaptionOFD {
@@ -394,11 +1066,38 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save {0} Project File.
+        /// </summary>
+        internal static string kstidPAFilesCaptionSFD {
+            get {
+                return ResourceManager.GetString("kstidPAFilesCaptionSFD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to hi/this what#ni/this what#nini/this what.
+        /// </summary>
+        internal static string kstidParsePhoneticSampleOutput {
+            get {
+                return ResourceManager.GetString("kstidParsePhoneticSampleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to {0} XML.
         /// </summary>
         internal static string kstidPAXMLExportCaptionSFD {
             get {
                 return ResourceManager.GetString("kstidPAXMLExportCaptionSFD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phones.
+        /// </summary>
+        internal static string kstidPhoneClassDlgHdg {
+            get {
+                return ResourceManager.GetString("kstidPhoneClassDlgHdg", resourceCulture);
             }
         }
         
@@ -439,11 +1138,47 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Project Settings.
+        /// </summary>
+        internal static string kstidProjectSettingsDlgCaption {
+            get {
+                return ResourceManager.GetString("kstidProjectSettingsDlgCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The project file &apos;{0}&apos; is missing..
         /// </summary>
         internal static string kstidRecentlyUsedProjectMissingMsg {
             get {
                 return ResourceManager.GetString("kstidRecentlyUsedProjectMissingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference.
+        /// </summary>
+        internal static string kstidReferenceHdg {
+            get {
+                return ResourceManager.GetString("kstidReferenceHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to restore the default feature names and default character features definitions? This operation cannot be undone..
+        /// </summary>
+        internal static string kstidRestoreDefaultFeatureMsg {
+            get {
+                return ResourceManager.GetString("kstidRestoreDefaultFeatureMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}.
+        /// </summary>
+        internal static string kstidSampleInput {
+            get {
+                return ResourceManager.GetString("kstidSampleInput", resourceCulture);
             }
         }
         
@@ -462,6 +1197,24 @@ namespace SIL.Pa.Properties {
         internal static string kstidSavedChartNameAlreadyExistsOverwriteMsg {
             get {
                 return ResourceManager.GetString("kstidSavedChartNameAlreadyExistsOverwriteMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is already a saved chart with the name &quot;{0}&quot;.\nDo you want it overwritten?.
+        /// </summary>
+        internal static string kstidSavedChartNameAlreadyExistsOverwriteMsg1 {
+            get {
+                return ResourceManager.GetString("kstidSavedChartNameAlreadyExistsOverwriteMsg1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Searching....
+        /// </summary>
+        internal static string kstidSearchingForFwDatabasesMsg {
+            get {
+                return ResourceManager.GetString("kstidSearchingForFwDatabasesMsg", resourceCulture);
             }
         }
         
@@ -511,6 +1264,123 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string kstidSetRTFEditorOFDlgFilter {
+            get {
+                return ResourceManager.GetString("kstidSetRTFEditorOFDlgFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set RTF Editor....
+        /// </summary>
+        internal static string kstidSetRTFEditorOFDlgTitle {
+            get {
+                return ResourceManager.GetString("kstidSetRTFEditorOFDlgTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Format Data Source Editor.
+        /// </summary>
+        internal static string kstidSFMEditorCaptionOFD {
+            get {
+                return ResourceManager.GetString("kstidSFMEditorCaptionOFD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interlinear Field?.
+        /// </summary>
+        internal static string kstidSFMMappingGridInterlinear {
+            get {
+                return ResourceManager.GetString("kstidSFMMappingGridInterlinear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To this Field.
+        /// </summary>
+        internal static string kstidSFMMappingGridPaField {
+            get {
+                return ResourceManager.GetString("kstidSFMMappingGridPaField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a marker for the field &apos;{0}&apos;. .
+        /// </summary>
+        internal static string kstidSFMMappingMissingError {
+            get {
+                return ResourceManager.GetString("kstidSFMMappingMissingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map this marker....
+        /// </summary>
+        internal static string kstidSFMMappingsGridMarker {
+            get {
+                return ResourceManager.GetString("kstidSFMMappingsGridMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify a marker for the &apos;Record Marker&apos; in order for {0} to identify the beginning of each record..
+        /// </summary>
+        internal static string kstidSFMMissingRecMarkerMapping {
+            get {
+                return ResourceManager.GetString("kstidSFMMissingRecMarkerMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify what is each record&apos;s first interlinear field..
+        /// </summary>
+        internal static string kstidSFMNoFirstInterlinearField {
+            get {
+                return ResourceManager.GetString("kstidSFMNoFirstInterlinearField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (none).
+        /// </summary>
+        internal static string kstidSFMNoFirstInterlinearFieldItem {
+            get {
+                return ResourceManager.GetString("kstidSFMNoFirstInterlinearFieldItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following field(s) have been specified as interlinear fields but need to be mapped to markers. {0}{1}.
+        /// </summary>
+        internal static string kstidSFMNomappingForInterlinearField {
+            get {
+                return ResourceManager.GetString("kstidSFMNomappingForInterlinearField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must specify at least one field mapping other than one for the &apos;Record Marker&apos;..
+        /// </summary>
+        internal static string kstidSFMNoMappingsSpecified {
+            get {
+                return ResourceManager.GetString("kstidSFMNoMappingsSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped..
+        /// </summary>
+        internal static string kstidSFMUnecessaryFirstInterlinearField {
+            get {
+                return ResourceManager.GetString("kstidSFMUnecessaryFirstInterlinearField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show record pane.
         /// </summary>
         internal static string kstidShowRecPaneToolTip {
@@ -525,6 +1395,60 @@ namespace SIL.Pa.Properties {
         internal static string kstidUnAppliedPhoneInventoryChangesMsg {
             get {
                 return ResourceManager.GetString("kstidUnAppliedPhoneInventoryChangesMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0} occurrences).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtLong {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0} occur.).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtMed {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtMed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ({0}).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgCountFmtShort {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgCountFmtShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - (U+{1:X4}).
+        /// </summary>
+        internal static string kstidUndefPhoneticCharsGridGroupHdgFmt {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticCharsGridGroupHdgFmt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to U+{0:X4}.
+        /// </summary>
+        internal static string kstidUndefPhoneticChartsGridCodePointColFmt {
+            get {
+                return ResourceManager.GetString("kstidUndefPhoneticChartsGridCodePointColFmt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unicode\nNumber.
+        /// </summary>
+        internal static string kstidUnicodeNumHdg {
+            get {
+                return ResourceManager.GetString("kstidUnicodeNumHdg", resourceCulture);
             }
         }
         
@@ -574,11 +1498,38 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transcription.
+        /// </summary>
+        internal static string kstidWordHdg {
+            get {
+                return ResourceManager.GetString("kstidWordHdg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} ({1} Records).
         /// </summary>
         internal static string kstidWordListWindowCaption {
             get {
                 return ResourceManager.GetString("kstidWordListWindowCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ....
+        /// </summary>
+        internal static string kstidXSLTColButtonText {
+            get {
+                return ResourceManager.GetString("kstidXSLTColButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify XSLT.
+        /// </summary>
+        internal static string kstidXSLTColButtonToolTip {
+            get {
+                return ResourceManager.GetString("kstidXSLTColButtonToolTip", resourceCulture);
             }
         }
         

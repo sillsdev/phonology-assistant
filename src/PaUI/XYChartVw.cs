@@ -7,7 +7,6 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;

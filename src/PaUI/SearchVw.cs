@@ -8,7 +8,6 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.FFSearchEngine;
 using SilUtils;
 using XCore;
@@ -33,7 +32,7 @@ namespace SIL.Pa
 
 		private const string kRecentlyUsedPatternFile = "RecentlyUsedPatterns.xml";
 
-		private bool m_activeView = false;
+		private bool m_activeView;
 		private ITMAdapter m_tmAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
 		private bool m_sidePanelDocked = true;
@@ -286,7 +285,7 @@ namespace SIL.Pa
 		/// patterns. If false, then the class' members are shown.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool ShowClassNames
+		private static bool ShowClassNames
 		{
 			get { return (PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns); }
 		}
@@ -820,7 +819,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void SearchDropDownHelpLink_Click(object sender, EventArgs e)
+		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
 			PaApp.ShowHelpTopic("hidSearchOptionsSearchView");
 		}

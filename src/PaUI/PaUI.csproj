@@ -10,7 +10,7 @@
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>PaDll</AssemblyName>
+    <AssemblyName>PaUI</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
@@ -142,11 +142,6 @@
       <Name>PaControls</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PaDialogs\PaDialogs.csproj">
-      <Project>{693D71B7-FEF6-488E-B4F5-A2101011F9BE}</Project>
-      <Name>PaDialogs</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\PaResources\PaResources.csproj">
       <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
       <Name>PaResources</Name>
@@ -176,6 +171,123 @@
     </Compile>
     <Compile Include="DataCorpusVw.Designer.cs">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AmbiguousSequencesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AmbiguousSequencesDlg.designer.cs">
+      <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ClassesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ClassesDlg.designer.cs">
+      <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\CustomFieldsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CustomFieldsDlg.designer.cs">
+      <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DefineClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DefineClassDlg.designer.cs">
+      <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ExperimentalTranscriptionsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ExperimentalTranscriptionsDlg.designer.cs">
+      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FwDataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FwDataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FwProjectsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FwProjectsDlg.Designer.cs">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\LaunchHTMLDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\LaunchHTMLDlg.Designer.cs">
+      <DependentUpon>LaunchHTMLDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OKCancelDlgBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OKCancelDlgBase.Designer.cs">
+      <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.CvPatternsTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.Designer.cs">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.FindPhonesTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.FontsTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.RecViewTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.SortingTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OptionsDialog.WordListTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ProjectSettingsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ProjectSettingsDlg.Designer.cs">
+      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RtfExportDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SaveSearchQueryDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SaveSearchQueryDlg.Designer.cs">
+      <DependentUpon>SaveSearchQueryDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SaveXYChartDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SaveXYChartDlg.Designer.cs">
+      <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SFDataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SFDataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\UndefinedCharactersInClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\UndefinedCharactersInClassDlg.designer.cs">
+      <DependentUpon>UndefinedCharactersInClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\UndefinedPhoneticCharactersDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\UndefinedPhoneticCharactersDlg.Designer.cs">
+      <DependentUpon>UndefinedPhoneticCharactersDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchVw.cs">
       <SubType>UserControl</SubType>
@@ -241,6 +353,57 @@
     <EmbeddedResource Include="DataCorpusVw.resx">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\AmbiguousSequencesDlg.resx">
+      <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ClassesDlg.resx">
+      <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\CustomFieldsDlg.resx">
+      <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DefineClassDlg.resx">
+      <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ExperimentalTranscriptionsDlg.resx">
+      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FwDataSourcePropertiesDlg.resx">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FwProjectsDlg.resx">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\LaunchHTMLDlg.resx">
+      <DependentUpon>LaunchHTMLDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OKCancelDlgBase.resx">
+      <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ProjectSettingsDlg.resx">
+      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\RtfExportDlg.resx">
+      <DependentUpon>RtfExportDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SaveSearchQueryDlg.resx">
+      <DependentUpon>SaveSearchQueryDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SaveXYChartDlg.resx">
+      <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\SFDataSourcePropertiesDlg.resx">
+      <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\UndefinedCharactersInClassDlg.resx">
+      <DependentUpon>UndefinedCharactersInClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\UndefinedPhoneticCharactersDlg.resx">
+      <DependentUpon>UndefinedPhoneticCharactersDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PhoneInventoryVw.resx">
       <SubType>Designer</SubType>
@@ -308,6 +471,42 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search_options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show_Horizontal_Grid_Lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show_results.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show_Vertical_and_Horizontal_Grid_Lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show_Vertical_Grid_Lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ButtonDropDownArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Clear_pattern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hide_Grid_Lines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Insert_into_pattern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Move_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Move_up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Controls;
-using SIL.Pa.Dialogs;
 using XCore;
 
 namespace SIL.Pa
@@ -22,7 +21,7 @@ namespace SIL.Pa
 		private ITMAdapter m_tmAdapter;
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private bool m_rawRecViewOn = true;
-		private bool m_activeView = false;
+		private bool m_activeView;
 		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private bool m_initialDock = true;
 
@@ -878,7 +877,7 @@ namespace SIL.Pa
 				PaApp.Project.Language);
 
 			string outputFileName = HTMLGridWriter.Export(m_grid, defaultHTMLFileName,
-				new string[] { Properties.Resources.kstidDataCorpusHTMLChartType });
+				new[] { Properties.Resources.kstidDataCorpusHTMLChartType });
 
 			if (File.Exists(outputFileName))
 				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);

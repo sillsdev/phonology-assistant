@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("PaDll")]
-[assembly: AssemblyDescription("Phonology Assistant Main Assembly")]
+[assembly: AssemblyTitle("PaUI")]
+[assembly: AssemblyDescription("Phonology Assistant Main Assembly (Contains UI components)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL International")]
 [assembly: AssemblyProduct("Phonology Assistant")]
