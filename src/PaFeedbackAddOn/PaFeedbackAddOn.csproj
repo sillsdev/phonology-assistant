@@ -107,11 +107,6 @@
       <Name>PaControls</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PADll\PaDll.csproj">
-      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaDll</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
