@@ -40,12 +40,12 @@ namespace SIL.Pa
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlSummary = new SIL.Pa.Controls.PaPanel();
+			this.pnlSummary = new SIL.Pa.PaPanel();
 			this.m_gridChars = new SilUtils.SilGrid();
-			this.pgpChars = new SIL.Pa.Controls.PaGradientPanel();
-			this.pnlDetails = new SIL.Pa.Controls.PaPanel();
+			this.pgpChars = new SIL.Pa.PaGradientPanel();
+			this.pnlDetails = new SIL.Pa.PaPanel();
 			this.m_gridWhere = new SilUtils.SilGrid();
-			this.pgpWhere = new SIL.Pa.Controls.PaGradientPanel();
+			this.pgpWhere = new SIL.Pa.PaGradientPanel();
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -286,10 +286,10 @@ namespace SIL.Pa
 		private System.Windows.Forms.CheckBox chkIgnoreInSearches;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private SilUtils.SilGrid m_gridWhere;
-		private SIL.Pa.Controls.PaPanel pnlSummary;
-		private SIL.Pa.Controls.PaGradientPanel pgpChars;
-		private SIL.Pa.Controls.PaPanel pnlDetails;
-		private SIL.Pa.Controls.PaGradientPanel pgpWhere;
+		private SIL.Pa.PaPanel pnlSummary;
+		private SIL.Pa.PaGradientPanel pgpChars;
+		private SIL.Pa.PaPanel pnlDetails;
+		private SIL.Pa.PaGradientPanel pgpWhere;
 
 
 	}

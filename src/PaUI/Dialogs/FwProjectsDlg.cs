@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.Pa.Controls;
 using SilUtils;
 
 namespace SIL.Pa

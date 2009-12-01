@@ -151,10 +151,6 @@
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PaControls\PaControls.csproj">
-      <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>
-      <Name>PaControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

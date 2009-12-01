@@ -1,9 +1,7 @@
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using SIL.Pa.Controls;
 using SilUtils;
 
 namespace SIL.Pa

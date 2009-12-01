@@ -30,8 +30,8 @@ namespace SIL.Pa
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataCorpusVw));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.paPanel1 = new SIL.Pa.Controls.PaPanel();
-			this.rtfRecVw = new SIL.Pa.Controls.RtfRecordView();
+			this.paPanel1 = new SIL.Pa.PaPanel();
+			this.rtfRecVw = new SIL.Pa.RtfRecordView();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.paPanel1.SuspendLayout();
@@ -91,8 +91,8 @@ namespace SIL.Pa
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitOuter;
-		private SIL.Pa.Controls.PaPanel paPanel1;
-		private SIL.Pa.Controls.RtfRecordView rtfRecVw;
+		private SIL.Pa.PaPanel paPanel1;
+		private SIL.Pa.RtfRecordView rtfRecVw;
 
 	}
 }

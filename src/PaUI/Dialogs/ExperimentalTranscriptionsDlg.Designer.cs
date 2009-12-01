@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExperimentalTranscriptionsDlg));
-			this.pnlGrid = new SIL.Pa.Controls.PaPanel();
+			this.pnlGrid = new SIL.Pa.PaPanel();
 			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -75,7 +75,7 @@ namespace SIL.Pa
 
 		#endregion
 
-		private SIL.Pa.Controls.PaPanel pnlGrid;
+		private SIL.Pa.PaPanel pnlGrid;
 
 
 	}

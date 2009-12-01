@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SilUtils;
 using XCore;

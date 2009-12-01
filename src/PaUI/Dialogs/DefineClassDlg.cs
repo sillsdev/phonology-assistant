@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.Pa.Controls;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SilUtils;

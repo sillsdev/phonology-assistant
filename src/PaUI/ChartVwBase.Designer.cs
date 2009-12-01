@@ -31,8 +31,8 @@ namespace SIL.Pa
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartVwBase));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.m_chrGrid = new SIL.Pa.Controls.CharGrid();
-			this.m_histogram = new SIL.Pa.Controls.Histogram();
+			this.m_chrGrid = new SIL.Pa.CharGrid();
+			this.m_histogram = new SIL.Pa.Histogram();
 			this.m_toopTip = new System.Windows.Forms.ToolTip(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
@@ -84,9 +84,9 @@ namespace SIL.Pa
 		#endregion
 
 		private System.Windows.Forms.ToolTip m_toopTip;
-		protected SIL.Pa.Controls.CharGrid m_chrGrid;
+		protected SIL.Pa.CharGrid m_chrGrid;
 		private System.Windows.Forms.SplitContainer splitOuter;
-		private SIL.Pa.Controls.Histogram m_histogram;
+		private SIL.Pa.Histogram m_histogram;
 
 	}
 }

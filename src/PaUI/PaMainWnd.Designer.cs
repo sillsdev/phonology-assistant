@@ -72,7 +72,7 @@ namespace SIL.Pa
 			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
-			this.vwTabGroup = new SIL.Pa.Controls.ViewTabGroup();
+			this.vwTabGroup = new SIL.Pa.ViewTabGroup();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -134,6 +134,6 @@ namespace SIL.Pa
 		private ToolStripProgressBar sbProgress;
 		public StatusStrip statusStrip;
 		private ToolStripStatusLabel sblblProgress;
-		private SIL.Pa.Controls.ViewTabGroup vwTabGroup;
+		private SIL.Pa.ViewTabGroup vwTabGroup;
 	}
 }

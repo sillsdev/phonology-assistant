@@ -49,9 +49,9 @@ namespace SIL.Pa
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.pnlGrid = new SIL.Pa.Controls.PaPanel();
+			this.pnlGrid = new SIL.Pa.PaPanel();
 			this.m_grid = new SilUtils.SilGrid();
-			this.pnlGridHdg = new SIL.Pa.Controls.PaGradientPanel();
+			this.pnlGridHdg = new SIL.Pa.PaGradientPanel();
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
@@ -305,8 +305,8 @@ namespace SIL.Pa
 		private System.Windows.Forms.ContextMenuStrip cmnuAdd;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddOtherDataSource;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
-		private SIL.Pa.Controls.PaPanel pnlGrid;
-		private SIL.Pa.Controls.PaGradientPanel pnlGridHdg;
+		private SIL.Pa.PaPanel pnlGrid;
+		private SIL.Pa.PaGradientPanel pnlGridHdg;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
 	}
