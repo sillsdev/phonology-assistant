@@ -89,15 +89,6 @@ namespace SIL.Pa.Dialogs
 				row.Height += extraRowHeight;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the grid with the ambiguous items information from the project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadGrid()
-		{
-		}
-
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

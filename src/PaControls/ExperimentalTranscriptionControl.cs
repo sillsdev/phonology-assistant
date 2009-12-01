@@ -312,7 +312,7 @@ namespace SIL.Pa.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+		static void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
 		{
 			// When the steps performed in "RowWasRemoved" were done in this method, there
 			// was a certain case that would cause a crash because because the grid wasn't
@@ -406,7 +406,8 @@ namespace SIL.Pa.Controls
 				PaApp.MsgMediator.PostMessage("RemoveRow", e.RowIndex);
 				return;
 			}
-			else if (IsRowFull(m_grid.Rows[e.RowIndex]))
+			
+			if (IsRowFull(m_grid.Rows[e.RowIndex]))
 				m_grid.Columns.Add(new RadioButtonColumn());
 			else if (AreLastTwoColumnsEmpty && PaApp.MsgMediator != null)
 				PaApp.MsgMediator.PostMessage("RemoveLastColumn", e.RowIndex);
@@ -517,7 +518,7 @@ namespace SIL.Pa.Controls
 		/// Custom draw column headers.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		private static void m_grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 				return;
@@ -717,10 +718,11 @@ namespace SIL.Pa.Controls
 				experimentalTransList.Add(experimentalTrans);
 			}
 
+			PaApp.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
 			experimentalTransList.Save(PaApp.Project.ProjectPathFilePrefix);
 			DataUtils.IPACharCache.ExperimentalTranscriptions = experimentalTransList;
 			m_grid.IsDirty = false;
-			PaApp.MsgMediator.SendMessage("ExperimentalTranscriptionsSaved", experimentalTransList);
+			PaApp.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
 		}
 
 		#endregion
@@ -759,7 +761,7 @@ namespace SIL.Pa.Controls
 	{
 		private bool m_includeCVPattern = true;
 		private bool m_showRadioButton = true;
-		private readonly bool m_forNoConvertColumn = false;
+		private readonly bool m_forNoConvertColumn;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -876,12 +878,12 @@ namespace SIL.Pa.Controls
 	public class RadioButtonCell : DataGridViewTextBoxCell
 	{
 		private const int m_rbDimension = 14;
-		private bool m_checked = false;
-		private bool m_mouseOverRadioButton = false;
+		private bool m_checked;
+		private bool m_mouseOverRadioButton;
 		private bool m_enabled = true;
 		private readonly Font m_fntCV = FontHelper.UIFont;
 
-		private static readonly TextFormatFlags s_cellFmtFlags =
+		private const TextFormatFlags kCellFmtFlags =
 			TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter |
 			TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
 
@@ -1110,12 +1112,12 @@ namespace SIL.Pa.Controls
 			if (rcCVPattern != Rectangle.Empty)
 			{
 				TextRenderer.DrawText(g, CVPattern, m_fntCV, rcCVPattern,
-					clrText, s_cellFmtFlags | TextFormatFlags.EndEllipsis);
+					clrText, kCellFmtFlags | TextFormatFlags.EndEllipsis);
 			}
 
 			// Draw text
 			TextRenderer.DrawText(g, formattedValue as string, style.Font,
-				rcText, clrText, s_cellFmtFlags | TextFormatFlags.EndEllipsis);
+				rcText, clrText, kCellFmtFlags | TextFormatFlags.EndEllipsis);
 
 			DrawCVPatternSeparatorLines(g, bounds, rcCVPattern);
 		}
@@ -1213,12 +1215,13 @@ namespace SIL.Pa.Controls
 		/// Gets the rectangle for the radio button and the text, given the specified cell
 		/// bounds.
 		/// </summary>
+		/// <param name="g">The graphics object</param>
 		/// <param name="bounds">The rectangle of the entire cell.</param>
 		/// <param name="rcrb">The returned rectangle for the radio button.</param>
 		/// <param name="rcText">The returned rectangle for the text.</param>
-		/// <param name="rcCVPattern"></param>
+		/// <param name="rcCVPattern">The rc CV pattern.</param>
 		/// ------------------------------------------------------------------------------------
-		private void GetRectangles(Graphics g, Rectangle bounds, out Rectangle rcrb,
+		private void GetRectangles(IDeviceContext g, Rectangle bounds, out Rectangle rcrb,
 			out Rectangle rcText, out Rectangle rcCVPattern)
 		{
 			rcCVPattern = GetCVPatternRectangle(g, bounds);
@@ -1240,10 +1243,11 @@ namespace SIL.Pa.Controls
 		/// <summary>
 		/// Gets the rectangle in which this cell's CV pattern is to be drawn.
 		/// </summary>
+		/// <param name="g">The graphics object.</param>
 		/// <param name="bounds">The bounding rectangle for the entire cell.</param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GetCVPatternRectangle(Graphics g, Rectangle bounds)
+		private Rectangle GetCVPatternRectangle(IDeviceContext g, Rectangle bounds)
 		{
 			if (!ShowCVPattern || DataGridView == null ||
 				DataGridView.Rows.Count == 0 || g == null)
@@ -1259,7 +1263,7 @@ namespace SIL.Pa.Controls
 				if (cell != null)
 				{
 					Size sz = TextRenderer.MeasureText(g, cell.CVPattern,
-						m_fntCV, Size.Empty, s_cellFmtFlags);
+						m_fntCV, Size.Empty, kCellFmtFlags);
 
 					maxWidth = Math.Max(maxWidth, sz.Width);
 				}
@@ -1314,8 +1318,8 @@ namespace SIL.Pa.Controls
 			{
 				// Make sure that when getting the CV pattern for the item to convert, we
 				// first don't convert it using it's own experimental transcription.
-				RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
-				bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
+				//RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
+				//bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
 				
 				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
 					PaApp.PhoneCache.GetCVPattern(Value as string, false));

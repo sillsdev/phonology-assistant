@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
@@ -274,13 +273,11 @@ namespace SIL.Pa.Dialogs
 				}
 			}
 
+			PaApp.MsgMediator.SendMessage("BeforeAmbiguousSequencesSaved", ambigSeqList);
 			ambigSeqList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPACharCache.AmbiguousSequences =
-				AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
-
+			DataUtils.IPACharCache.AmbiguousSequences = AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
+			PaApp.MsgMediator.SendMessage("AfterAmbiguousSequencesSaved", ambigSeqList);
 			PaApp.Project.ReloadDataSources();
-
-			//PaApp.MsgMediator.SendMessage("AmbiguousSequencesSaved", ambigSeqList);
 			return true;
 		}
 

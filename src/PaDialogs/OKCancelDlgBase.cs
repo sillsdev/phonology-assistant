@@ -45,6 +45,7 @@ namespace SIL.Pa.Dialogs
 			}
 
 			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			PaApp.MsgMediator.SendMessage("OKCancelDlgHandleCreated", this);
 
 			if (Parent is Form)
 				((Form)Parent).AddOwnedForm(this);
