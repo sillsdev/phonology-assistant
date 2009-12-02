@@ -1192,7 +1192,11 @@ namespace SIL.Pa
 		void m_grid_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left && m_grid.CurrentRow != null)
-				btnModify_Click(null, null);
+			{
+				DataGridView.HitTestInfo hti = m_grid.HitTest(e.X, e.Y);
+				if (hti != null && hti.RowIndex == m_grid.CurrentRow.Index)
+					btnModify_Click(null, null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

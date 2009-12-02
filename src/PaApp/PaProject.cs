@@ -5,8 +5,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
-using SilUtils;
 using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -237,7 +237,7 @@ namespace SIL.Pa
 			if (!File.Exists(projFileName))
 			{
 				errorMsg = string.Format(Properties.Resources.kstidProjectFileNonExistent,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName));
+					Utils.PrepFilePathForSTMsgBox(projFileName));
 			}
 
 			string tmpProjPathFilePrefix = Path.GetFullPath(projFileName);
@@ -262,7 +262,7 @@ namespace SIL.Pa
 			}
 			else
 			{
-				SilUtils.Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				project = null;
 			}
 
@@ -281,7 +281,7 @@ namespace SIL.Pa
 
 			try
 			{
-				project = SilUtils.Utils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
+				project = Utils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
 				project.LoadFieldInfo();
@@ -293,16 +293,16 @@ namespace SIL.Pa
 				if (project == null)
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-						SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName));
+						Utils.PrepFilePathForSTMsgBox(projFileName));
 				}
 				else
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-						SilUtils.Utils.PrepFilePathForSTMsgBox(projFileName), e.Message);
+						Utils.PrepFilePathForSTMsgBox(projFileName), e.Message);
 				}
 
 				if (showErrors)
-					SilUtils.Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				project = null;
 			}
@@ -407,7 +407,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.MsgBox(
+				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
 					m_name, e.Message));
 			}
@@ -430,14 +430,14 @@ namespace SIL.Pa
 
 				try
 				{
-					BindingFlags flags = BindingFlags.SetProperty |
+					const BindingFlags kFlags = BindingFlags.SetProperty |
 						BindingFlags.Static | BindingFlags.Public;
 
 					MemberInfo[] mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
 					if (mi != null && mi.Length > 0)
 					{
 						typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
-								flags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
+								kFlags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
 					}
 				}
 				catch { }
@@ -504,9 +504,9 @@ namespace SIL.Pa
 			// Especially if the chain of events that triggered displaying the message box was
 			// started in this method. In that case, we'd get into an infinite loop of
 			// displaying the message box.
-			if (SilUtils.Utils.MessageBoxJustShown)
+			if (Utils.MessageBoxJustShown)
 			{
-				SilUtils.Utils.MessageBoxJustShown = false;
+				Utils.MessageBoxJustShown = false;
 				return;
 			}
 
@@ -597,7 +597,7 @@ namespace SIL.Pa
 				m_queryGroups.Save(this);
 
 			if (m_fileName != null)
-				SilUtils.Utils.SerializeData(m_fileName, this);
+				Utils.SerializeData(m_fileName, this);
 
 			if (m_newProject)
 			{

@@ -39,14 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\fwr\Bin\NUnit\bin\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="PaApp, Version=1.1.3622.27809, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Output\Debug\PaApp.dll</HintPath>
-    </Reference>
-    <Reference Include="PaUI, Version=1.1.3622.28979, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Output\Debug\PaUI.dll</HintPath>
-    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Output\Debug\SilUtils.dll</HintPath>
@@ -76,6 +68,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawRecordViewTests.cs" />
     <Compile Include="RtfCreatorTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PaApp\PaApp.csproj">
+      <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
+      <Name>PaApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaUI.csproj">
+      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
+      <Name>PaUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

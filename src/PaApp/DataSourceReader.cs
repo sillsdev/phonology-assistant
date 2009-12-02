@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
-using SilUtils;
 using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
@@ -27,7 +26,7 @@ namespace SIL.Pa
 		protected List<SFMarkerMapping> m_mappings;
 		protected Dictionary<string, List<string>> m_fieldsForMarkers;
 		protected List<string> m_interlinearFields;
-		protected int m_totalLinesToRead = 0;
+		protected int m_totalLinesToRead;
 		protected ToolStripProgressBar m_progressBar;
 
 		/// ------------------------------------------------------------------------------------
@@ -77,7 +76,7 @@ namespace SIL.Pa
 		/// already started.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CheckNeedForSQLServer(IEnumerable<PaDataSource> dataSources)
+		private static void CheckNeedForSQLServer(IEnumerable<PaDataSource> dataSources)
 		{
 			bool alreadyTriedToStartSQLServer = false;
 
@@ -99,7 +98,7 @@ namespace SIL.Pa
 		/// Verifies the existence of the specified FW data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CheckExistenceOfFWDatabase(PaDataSource datasource)
+		private static void CheckExistenceOfFWDatabase(PaDataSource datasource)
 		{
 			if (datasource == null)
 				return;
@@ -137,7 +136,7 @@ namespace SIL.Pa
 		/// file path the user specified as the relocated data source file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetMissingDataSourceAction(string dataSourceFile)
+		private static string GetMissingDataSourceAction(string dataSourceFile)
 		{
 			if (MissingDataSourceMsgBox.ShowDialog(dataSourceFile) == DialogResult.Cancel)
 				return null;
@@ -512,8 +511,8 @@ namespace SIL.Pa
 			if (m_project.FieldInfo == null)
 				return;
 
-			BindingFlags flags = BindingFlags.GetProperty | BindingFlags.Instance |
-				BindingFlags.Public;
+			const BindingFlags kFlags = BindingFlags.GetProperty |
+				BindingFlags.Instance | BindingFlags.Public;
 			
 			foreach (PaFieldInfo fieldInfo in m_project.FieldInfo)
 			{
@@ -523,7 +522,7 @@ namespace SIL.Pa
 				try
 				{
 					object value = typeof(SaAudioDocumentReader).InvokeMember(
-						fieldInfo.SaFieldName, flags, null, reader, null);
+						fieldInfo.SaFieldName, kFlags, null, reader, null);
 
 					if (value != null)
 						m_recCacheEntry.SetValue(fieldInfo.FieldName, value.ToString());
@@ -655,7 +654,7 @@ namespace SIL.Pa
 		/// where record breaks are.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetRecordMarkerSFM(PaDataSource source)
+		private static string GetRecordMarkerSFM(PaDataSource source)
 		{
 			foreach (SFMarkerMapping mapping in source.SFMappings)
 			{
@@ -741,7 +740,7 @@ namespace SIL.Pa
 		/// for playing, if any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string ParseSoundFileName(string fileName, out long startPoint, out long endPoint)
+		private static string ParseSoundFileName(string fileName, out long startPoint, out long endPoint)
 		{
 			startPoint = 0L;
 			endPoint = 0L;
@@ -758,7 +757,7 @@ namespace SIL.Pa
 			// Check if the end of the file name string is one of the common audio file types.
 			// If so, there's no sense in checking for start and end points since the entire
 			// string ends with a file extension.
-			foreach (string ext in new string[] {".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc"})
+			foreach (string ext in new[] {".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc"})
 			{
 				if (fileName.ToLower().EndsWith(ext))
 					return fileName;
