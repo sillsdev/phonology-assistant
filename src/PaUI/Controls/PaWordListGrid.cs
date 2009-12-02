@@ -7,10 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.SpeechTools.AudioUtils;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -2477,7 +2474,7 @@ namespace SIL.Pa
 			// This should never happen.
 			if (cieCache == null)
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
 				return false;
 			}
 
@@ -3901,15 +3898,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the message target.

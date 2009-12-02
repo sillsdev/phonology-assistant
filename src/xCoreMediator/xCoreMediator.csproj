@@ -60,37 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Choice.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ChoiceGroup.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Command.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FwTempFile.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IFWDisposable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ImageCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IUIAdapter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IxCoreColleague.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="List.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Mediator.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MessageSequencer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,25 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertyTable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Set.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SILExceptions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="StringTable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Win32Wrappers.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="xCoreInterfaces.Designer.cs" />
-    <Compile Include="XmlUtils.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

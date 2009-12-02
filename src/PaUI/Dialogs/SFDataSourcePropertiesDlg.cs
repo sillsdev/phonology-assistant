@@ -4,11 +4,8 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.Pa.Resources;
 using SilUtils;
-using XCore;
-
 
 namespace SIL.Pa
 {
@@ -490,7 +487,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
 
@@ -826,17 +823,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		public IxCoreColleague[] GetMessageTargets()
 		{
 			return (new IxCoreColleague[] {this});

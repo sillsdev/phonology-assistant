@@ -14,12 +14,11 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System.Collections.Generic;
 using System.Windows.Forms;
 using NUnit.Framework;
-using SIL.SpeechTools.TestUtils;
+using SIL.Pa.TestUtils;
 
-namespace SIL.Pa.Controls
+namespace SIL.Pa
 {
 	/// --------------------------------------------------------------------------------
 	/// <summary>

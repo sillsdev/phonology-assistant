@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.Properties;
 using SilUtils;
 
@@ -706,7 +705,7 @@ namespace SIL.Pa
 				}
 				catch
 				{
-					Utils.STMsgBox(Resources.kstidInvalidUnicodeValueMsg,
+					Utils.MsgBox(Resources.kstidInvalidUnicodeValueMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -714,7 +713,7 @@ namespace SIL.Pa
 				int codePoint = int.Parse(txtHexValue.Text.Trim(), NumberStyles.HexNumber);
 				if (codePoint <= invalidCodePoint)
 				{
-					Utils.STMsgBox(Resources.kstidUnicodeValueTooSmallMsg,
+					Utils.MsgBox(Resources.kstidUnicodeValueTooSmallMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -722,7 +721,7 @@ namespace SIL.Pa
 				// Make sure the codePoint is unique
 				if (m_codePoints.Contains(codePoint))
 				{
-					Utils.STMsgBox(string.Format(Resources.kstidDuplicateCharMsg,
+					Utils.MsgBox(string.Format(Resources.kstidDuplicateCharMsg,
 						txtHexValue.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -732,7 +731,7 @@ namespace SIL.Pa
 				{
 					if (codePoint == c)
 					{
-						Utils.STMsgBox(string.Format(
+						Utils.MsgBox(string.Format(
 							Resources.kstidUnicodeValueIsReservedMsg,
 							txtHexValue.Text, kInvalidPhoneticCharsDisplay),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -768,7 +767,7 @@ namespace SIL.Pa
 				missingFields = missingFields.Replace(":", string.Empty);
 				missingFields = missingFields.TrimEnd(new[] { ',', ' ' });
 				missingFields = string.Format(Resources.kstidMissingFieldsMsg, missingFields);
-				Utils.STMsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
 

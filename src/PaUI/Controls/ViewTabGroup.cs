@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -20,8 +16,8 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel, IxCoreColleague
 	{
-		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
+		private const TextFormatFlags kTxtFmtFlags = TextFormatFlags.VerticalCenter |
+			TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
 		private bool m_isCurrentTabControl = false;
 		private List<ViewTab> m_tabs;
@@ -120,7 +116,7 @@ namespace SIL.Pa
 			using (Graphics g = CreateGraphics())
 			{
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					s_tabFont, Size.Empty, m_txtFmtFlags).Height + 24;
+					s_tabFont, Size.Empty, kTxtFmtFlags).Height + 24;
 			}
 
 			Controls.Add(m_pnlHdrBand);
@@ -316,7 +312,7 @@ namespace SIL.Pa
 			using (Graphics g = CreateGraphics())
 			{
 				tab.Width = TextRenderer.MeasureText(g, text, tab.Font,
-					Size.Empty, m_txtFmtFlags).Width;
+					Size.Empty, kTxtFmtFlags).Width;
 				
 				if (img != null)
 					tab.Width += (img.Width + 5);
@@ -911,17 +907,6 @@ namespace SIL.Pa
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the message target.
 		/// </summary>
 		/// <returns></returns>
@@ -1037,7 +1022,7 @@ namespace SIL.Pa
 
 			if (!(m_viewsControl is ITabView))
 			{
-				SilUtils.Utils.STMsgBox(string.Format("Error: {0} is not based on ITabView!",
+				SilUtils.Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!",
 					m_viewType));
 			}
 

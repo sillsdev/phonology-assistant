@@ -332,6 +332,7 @@ namespace SIL.Pa
 			Height = pnlFindWhat.Height + m_optionsPanelHeight +
 				pnlButtons.Height + m_dyHeightClientHeight;
 
+			cboFindWhat.AutoCompleteSource = AutoCompleteSource.ListItems;
 			base.OnShown(e);
 		}
 

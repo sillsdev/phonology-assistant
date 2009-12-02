@@ -16,7 +16,7 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System.Windows.Forms;
-using XCore;
+using SilUtils;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {

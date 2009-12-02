@@ -219,7 +219,7 @@ namespace SIL.Pa.TestUtils
 		/// ------------------------------------------------------------------------------------
 		private object Invoke(object binding, string name, object[] args, BindingFlags flags)
 		{
-			flags |= BindingFlags.NonPublic;
+			flags |= (BindingFlags.NonPublic | BindingFlags.Public);
 
 			// If binding is a Type then assume invoke on a static method, property or field.
 			// Otherwise invoke on an instance method, property or field.
@@ -228,11 +228,9 @@ namespace SIL.Pa.TestUtils
 				return ((binding as Type).InvokeMember(name,
 					flags | BindingFlags.Static, null, binding, args));
 			}
-			else
-			{
+			
 				return binding.GetType().InvokeMember(name,
 					flags | BindingFlags.Instance, null, binding, args);
-			}
 		}
 	}
 }

@@ -16,12 +16,13 @@
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Drawing;
 using NUnit.Framework;
 using SIL.Pa.Data;
-using SIL.SpeechTools.TestUtils;
-using SIL.SpeechTools.Utils;
+using SIL.Pa.TestUtils;
+using SilUtils;
 
-namespace SIL.Pa.Controls
+namespace SIL.Pa
 {
 	[TestFixture]
 	public class FindTests : TestBase
@@ -61,16 +62,6 @@ namespace SIL.Pa.Controls
 			FindInfo.ShowMessages = false;
 			FwDBAccessInfo.ShowMsgOnFileLoadFailure = false;
 			FwQueries.ShowMsgOnFileLoadFailure = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close and delete the test database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureTearDown]
-		public void FixtureTearDown()
-		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -152,6 +143,7 @@ namespace SIL.Pa.Controls
 			m_grid.Columns[6].DisplayIndex = 7;
 			m_grid.Columns[7].DisplayIndex = 8;
 
+			SetField(typeof(FindInfo), "s_reverseFind", false);
 			SetField(m_grid, "m_suspendSavingColumnChanges", false);
 			FindInfo.Grid = m_grid;
 
@@ -204,42 +196,16 @@ namespace SIL.Pa.Controls
 		#endregion
 
 		#region Debugging / Testing
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Inspect the Grid values for TESTING clarity :)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InspectGrid()
-		{
-			int m_iRow, m_iColumn;
-			string cellValue = string.Empty;
-			DataGridViewCell gridCell;
 
-			for (m_iRow = 0; m_iRow < FindInfo.Grid.Rows.Count; m_iRow++)
-			{
-				for (m_iColumn = 0; m_iColumn < FindInfo.ColumnsToSearch.Length; m_iColumn++)
-				{
-					gridCell = FindInfo.Grid[
-						FindInfo.ColumnsToSearch[m_iColumn].ColIndex, FindInfo.Grid.Rows[m_iRow].Index];
-					if (gridCell.Value != null)
-						cellValue = gridCell.Value.ToString();
-					cellValue = string.Empty;
-				}
-			}
-		}
-		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests Current Cell's Location.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool IsCurrCellLocation(int rowIndex, int columnIndex)
+		private static bool IsCurrCellLocation(int rowIndex, int columnIndex)
 		{
-			if (FindInfo.Grid.CurrentCell.RowIndex != rowIndex)
-				return false;
-			if (FindInfo.Grid.CurrentCell.ColumnIndex != columnIndex)
-				return false;
-			return true;
+			return (FindInfo.Grid.CurrentCellAddress.X == columnIndex &&
+				FindInfo.Grid.CurrentCellAddress.Y == rowIndex);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -247,7 +213,7 @@ namespace SIL.Pa.Controls
 		/// Reset the starting grid cell.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ResetStartCell()
+		private static void ResetStartCell()
 		{
 			FindInfo.Grid.CurrentCell = FindInfo.Grid[0, 0];
 		}
@@ -367,12 +333,12 @@ namespace SIL.Pa.Controls
 		{
 			SetSearchString("glbitter");
 
-			Assert.AreEqual(true, FindInfo.FindFirst(false)); // Forward find
-			Assert.AreEqual(true, IsCurrCellLocation(1,3));
-			Assert.AreEqual(true, FindInfo.Find(false)); // Forward find
-			Assert.AreEqual(true, IsCurrCellLocation(3,3));
-			Assert.AreEqual(true, FindInfo.Find(true)); // Backward find
-			Assert.AreEqual(true, IsCurrCellLocation(1,3));
+			Assert.IsTrue(FindInfo.FindFirst(false), "Did not find first forward"); // Forward find
+			Assert.IsTrue(IsCurrCellLocation(1, 3), "Curr. Cell Location is not 1,3");
+			Assert.IsTrue(FindInfo.Find(false), "Did not find next forward"); // Forward find
+			Assert.IsTrue(IsCurrCellLocation(3, 3), "Curr. Cell Location is not 3,3");
+			Assert.IsTrue(FindInfo.Find(true), "Did not find backward"); // Backward find
+			Assert.IsTrue(IsCurrCellLocation(1, 3), "Curr. Cell Location is not 1,3");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -445,17 +411,18 @@ namespace SIL.Pa.Controls
 		public void MatchCaseTest()
 		{
 			SetSearchString("glfib");
-			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 3));
+			m_findDlg.MatchCase = false;
+			Assert.IsTrue(FindInfo.Find(false));
+			Assert.IsTrue(IsCurrCellLocation(0, 3));
 
 			m_findDlg.MatchCase = true;
 
 			SetSearchString("glfib");
-			Assert.AreEqual(false, FindInfo.FindFirst(false));
+			Assert.IsFalse(FindInfo.FindFirst(false));
 
 			SetSearchString("GLFIB");
-			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0,3));
+			Assert.IsTrue(FindInfo.Find(false));
+			Assert.IsTrue(IsCurrCellLocation(0, 3));
 		}
 
 		/// ------------------------------------------------------------------------------------

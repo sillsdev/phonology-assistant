@@ -5,9 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Controls;
 using SIL.Pa.Data;
-using SIL.Pa.Dialogs;
 using SIL.Pa.Properties;
 using SilUtils;
 
@@ -100,7 +98,7 @@ namespace SIL.Pa
 			{
 				string msg = string.Format(Resources.kstidWriteAccessErrorMsg,
 					Path.GetFileName(Application.ExecutablePath));
-				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -112,7 +110,7 @@ namespace SIL.Pa
 			{
 				string filePath = Utils.PrepFilePathForSTMsgBox(inventoryPath);
 				string msg = string.Format(Resources.kstidInventoryFileMissing, filePath);
-				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -938,7 +936,7 @@ namespace SIL.Pa
 			{
 				string path = Utils.PrepFilePathForSTMsgBox(m_xmlFilePath);
 				string msg = string.Format(Resources.kstidIpaGridErrNoFile, path);
-				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -948,7 +946,7 @@ namespace SIL.Pa
 			// Make sure the format is correct
 			if (m_charInventory == null)
 			{
-				Utils.STMsgBox(Resources.kstidIpaGridErrBadXmlFormat,
+				Utils.MsgBox(Resources.kstidIpaGridErrBadXmlFormat,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -1182,7 +1180,7 @@ namespace SIL.Pa
 			{
 				string filePath = Utils.PrepFilePathForSTMsgBox(helpFilePath);
 				string msg = string.Format(Resources.kstidHelpFileMissingMsg, filePath);
-				Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 
@@ -1250,7 +1248,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
-			if (Utils.STMsgBox(Resources.kstidIpaGridDeletion,
+			if (Utils.MsgBox(Resources.kstidIpaGridDeletion,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				m_grid.Rows.Remove(m_grid.CurrentRow);

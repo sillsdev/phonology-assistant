@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.Pa.FFSearchEngine;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -471,15 +469,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

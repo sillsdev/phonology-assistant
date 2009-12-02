@@ -322,7 +322,7 @@ namespace SIL.Pa
 				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
-					SilUtils.Utils.STMsgBox(string.Format(
+					SilUtils.Utils.MsgBox(string.Format(
 						Properties.Resources.kstidCustomFieldExistsMsg, fieldName1),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -339,7 +339,7 @@ namespace SIL.Pa
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
 					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
-						SilUtils.Utils.STMsgBox(string.Format(
+						SilUtils.Utils.MsgBox(string.Format(
 							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

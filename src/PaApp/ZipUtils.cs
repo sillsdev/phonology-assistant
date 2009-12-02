@@ -2,8 +2,13 @@ using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace ZipUtils
+namespace SIL.Pa
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class ZipHelper
 	{
 		/// ------------------------------------------------------------------------------------

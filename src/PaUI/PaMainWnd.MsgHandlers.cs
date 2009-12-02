@@ -19,13 +19,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -48,7 +46,7 @@ namespace SIL.Pa
 			if (!File.Exists(filename))
 			{
 				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
-				SilUtils.Utils.STMsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
+				SilUtils.Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation);
 			}
 			else if (PaApp.Project == null || PaApp.Project.ProjectFileName != filename)
@@ -152,7 +150,7 @@ namespace SIL.Pa
 				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
 					SilUtils.Utils.PrepFilePathForSTMsgBox(path));
 
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -186,7 +184,7 @@ namespace SIL.Pa
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				if (SilUtils.Utils.STMsgBox(
+				if (SilUtils.Utils.MsgBox(
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
 					dlg.Project.ProjectName), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
@@ -888,17 +886,6 @@ namespace SIL.Pa
 		//}
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the message target.

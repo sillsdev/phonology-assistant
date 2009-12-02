@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -1307,17 +1306,6 @@ namespace SIL.Pa
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the message target.
 		/// </summary>
 		/// <returns></returns>
@@ -2361,17 +2349,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the message target.

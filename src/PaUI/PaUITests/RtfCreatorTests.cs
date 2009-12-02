@@ -15,10 +15,8 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
 using NUnit.Framework;
-using SIL.SpeechTools.TestUtils;
+using SIL.Pa.TestUtils;
 
 namespace SIL.Pa.Controls
 {

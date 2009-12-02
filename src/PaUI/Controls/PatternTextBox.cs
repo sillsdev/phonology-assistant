@@ -6,7 +6,6 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -1195,15 +1194,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the message target.

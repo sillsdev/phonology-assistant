@@ -74,7 +74,7 @@ namespace SIL.Pa
 			if (!File.Exists(m_xslFileBase))
 			{
 				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(m_xslFileBase);
-				SilUtils.Utils.STMsgBox(
+				SilUtils.Utils.MsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
 					filePath));
 				return false;
@@ -219,7 +219,7 @@ namespace SIL.Pa
 			catch (Exception e)
 			{
 				// Of course, you know we should never get here. :o)
-				SilUtils.Utils.STMsgBox(e.Message);
+				SilUtils.Utils.MsgBox(e.Message);
 			}
 			finally
 			{

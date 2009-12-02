@@ -105,7 +105,7 @@ namespace SIL.Pa
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				DialogResult result = SilUtils.Utils.STMsgBox(
+				DialogResult result = SilUtils.Utils.MsgBox(
 					ResourceHelper.GetString("kstidSaveChangesMsg"),
 					MessageBoxButtons.YesNoCancel);
 

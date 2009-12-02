@@ -100,7 +100,7 @@ namespace SIL.Pa
 			{
 				if (m_reloadError)
 				{
-					SilUtils.Utils.STMsgBox("Error: " + e.Message);
+					SilUtils.Utils.MsgBox("Error: " + e.Message);
 					return null;
 				}
 
@@ -131,7 +131,7 @@ namespace SIL.Pa
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
-					SilUtils.Utils.STMsgBox(string.Format(
+					SilUtils.Utils.MsgBox(string.Format(
 						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType));
 					return;
 				}

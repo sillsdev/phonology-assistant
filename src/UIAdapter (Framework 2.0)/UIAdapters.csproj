@@ -123,14 +123,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SilUtils\SilUtils.csproj">
+      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
+      <Name>SilUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
       <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

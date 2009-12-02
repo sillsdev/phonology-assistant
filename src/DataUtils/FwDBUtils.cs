@@ -131,7 +131,7 @@ namespace SIL.Pa.Data
 						dbName, machineName, e.Message);
 
 
-					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 
@@ -153,7 +153,7 @@ namespace SIL.Pa.Data
 
 			if (showMsg)
 			{
-				SilUtils.Utils.STMsgBox(Resources.kstidSQLServerNotInstalledMsg,
+				SilUtils.Utils.MsgBox(Resources.kstidSQLServerNotInstalledMsg,
 					MessageBoxButtons.OK);
 			}
 
@@ -238,14 +238,14 @@ namespace SIL.Pa.Data
 					// Check if we've timed out.
 					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
 					{
-						SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorStartingSQLServer1, msg));
+						SilUtils.Utils.MsgBox(string.Format(Resources.kstidErrorStartingSQLServer1, msg));
 						return false;
 					}
 
 					msg = string.Format(Resources.kstidErrorStartingSQLServer2,
 						FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
-					if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo,
+					if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question) != DialogResult.Yes)
 					{
 						return false;
@@ -529,7 +529,7 @@ namespace SIL.Pa.Data
 			if (IsMissing)
 			{
 				string msg = string.Format(Resources.kstidFwDBMissing, DBName);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 	}
@@ -700,14 +700,14 @@ namespace SIL.Pa.Data
 				// There should be at least one writing system defined.
 				if (wsCollection.Count == 0)
 				{
-					SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+					SilUtils.Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 						Path.GetFileName(m_sourceInfo.Queries.QueryFile), string.Empty),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				SilUtils.Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
@@ -735,7 +735,7 @@ namespace SIL.Pa.Data
 				errMsg = string.Format(Resources.kstidMissingWsMsg,
 					m_sourceInfo.ProjectName);
 
-				SilUtils.Utils.STMsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;
 			}
 
@@ -764,7 +764,7 @@ namespace SIL.Pa.Data
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.STMsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				SilUtils.Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -838,7 +838,7 @@ namespace SIL.Pa.Data
 			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
 			{
 				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(s_accessInfoFile);
-				SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
+				SilUtils.Utils.MsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
 			}
 		}
 
@@ -1144,7 +1144,7 @@ namespace SIL.Pa.Data
 				string path = SilUtils.Utils.PrepFilePathForSTMsgBox(Application.StartupPath);
 				string[] args = new string[] {dbName, machineName, filename, path, filename};
 				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return false;
 			}
 
@@ -1168,7 +1168,7 @@ namespace SIL.Pa.Data
 			else if (s_showMsgOnFileLoadFailure)
 			{
 				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(queryFile);
-				SilUtils.Utils.STMsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
+				SilUtils.Utils.MsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
 				fwqueries = new FwQueries(true);
 			}
 

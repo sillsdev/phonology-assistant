@@ -412,7 +412,7 @@ namespace SIL.Pa
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}

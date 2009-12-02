@@ -9,7 +9,6 @@ using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -202,7 +201,7 @@ namespace SIL.Pa
 		{
 			string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
 
-			m_savedCharts = SilUtils.Utils.DeserializeData(filename,
+			m_savedCharts = Utils.DeserializeData(filename,
 				typeof(List<XYChartLayout>)) as List<XYChartLayout>;
 
 			if (m_savedCharts == null)
@@ -226,7 +225,7 @@ namespace SIL.Pa
 			if (m_savedCharts != null)
 			{
 				string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
-				SilUtils.Utils.SerializeData(filename, m_savedCharts);
+				Utils.SerializeData(filename, m_savedCharts);
 			}
 		}
 
@@ -254,7 +253,7 @@ namespace SIL.Pa
 					{
 						string msg = string.Format(
 							Properties.Resources.kstidSavedChartNameAlreadyExistsMsg, nameToCheck);
-						SilUtils.Utils.STMsgBox(msg);
+						Utils.MsgBox(msg);
 					}
 					
 					return savedLayout;
@@ -626,7 +625,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(row, col, SearchResultLocation.CurrentTabGroup);
 			else
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
+				Utils.MsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -648,7 +647,7 @@ namespace SIL.Pa
 			if (m_xyGrid.IsCurrentCellValidForSearch)
 				Search(m_xyGrid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			else
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidXYChartFillChartMsg);
+				Utils.MsgBox(Properties.Resources.kstidXYChartFillChartMsg);
 
 			e.Handled = true;
 		}
@@ -792,7 +791,7 @@ namespace SIL.Pa
 				return;
 
 			string msg = Properties.Resources.kstidConfirmSavedChartRemoval;
-			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			XYChartLayout layout = lvSavedCharts.SelectedItems[0].Tag as XYChartLayout;

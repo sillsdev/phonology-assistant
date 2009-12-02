@@ -75,7 +75,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(text))
 			{
 				string msg = Properties.Resources.kstidNoSavedChartNameMsg;
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -86,7 +86,7 @@ namespace SIL.Pa
 			{
 				string msg = Properties.Resources.kstidSavedChartNameAlreadyExistsOverwriteMsg;
 				msg = string.Format(msg, text);
-				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 					m_layoutToOverwrite = existingLayout;
 				else
 				{

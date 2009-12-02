@@ -96,7 +96,7 @@ namespace SIL.SpeechTools.Utils
 						string msg = string.Format(Resources.kstidWaveFileNotFound,
 							SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
 
-						SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+						SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 						return false;
 					}
 
@@ -105,7 +105,7 @@ namespace SIL.SpeechTools.Utils
 						string msg = string.Format(Resources.kstidInvalidWaveFile,
 							SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
 
-						SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+						SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 						return false;
 					}
 
@@ -124,7 +124,7 @@ namespace SIL.SpeechTools.Utils
 				string msg = string.Format(Resources.kstidErrorInitializingDocReader,
 					e.Message);
 
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return false;
 			}
 
@@ -144,7 +144,7 @@ namespace SIL.SpeechTools.Utils
 			if (!SaDatabase.Load())
 				return;
 
-			SilUtils.Utils.STMsgBox(Resources.kstidOldDbConverionMsg, MessageBoxButtons.OK);
+			SilUtils.Utils.MsgBox(Resources.kstidOldDbConverionMsg, MessageBoxButtons.OK);
 			bool allConverted = true;
 
 			for (int i = SaDatabase.Cache.Count - 1; i >= 0; i--)
@@ -153,7 +153,7 @@ namespace SIL.SpeechTools.Utils
 				{
 					string msg = Resources.kstidOldDbAudioFileMissingMsg;
 					msg = string.Format(msg, SaDatabase.Cache[i].AudioFile);
-					if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+					if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 						SaDatabase.Cache.RemoveAt(i);
 					else
 						allConverted = false;

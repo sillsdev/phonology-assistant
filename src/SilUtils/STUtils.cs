@@ -183,9 +183,9 @@ namespace SilUtils
 		/// Displays a speech tools message box with just an OK button and an information icon.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DialogResult STMsgBox(string msg)
+		public static DialogResult MsgBox(string msg)
 		{
-			return STMsgBox(msg, MessageBoxButtons.OK);
+			return MsgBox(msg, MessageBoxButtons.OK);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,7 +193,7 @@ namespace SilUtils
 		/// Displays a speech tools message box with an icon that is determined by the buttons.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DialogResult STMsgBox(string msg, MessageBoxButtons buttons)
+		public static DialogResult MsgBox(string msg, MessageBoxButtons buttons)
 		{
 			MessageBoxIcon icon;
 
@@ -204,7 +204,7 @@ namespace SilUtils
 			else
 				icon = MessageBoxIcon.Information;
 
-			return STMsgBox(msg, buttons, icon);
+			return MsgBox(msg, buttons, icon);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ namespace SilUtils
 		/// Displays a speech tools message box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DialogResult STMsgBox(string msg, MessageBoxButtons buttons, MessageBoxIcon icon)
+		public static DialogResult MsgBox(string msg, MessageBoxButtons buttons, MessageBoxIcon icon)
 		{
 			// If there a splash screen showing, then close it. Otherwise,
 			// the message box will popup behind the splash screen.
@@ -227,7 +227,7 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a flag indicating whether or not the STMsgBox method was just used
+		/// Gets or sets a flag indicating whether or not the MsgBox method was just used
 		/// to display a message box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ namespace SilUtils
 				silSwPath = Path.Combine(silSwPath, @"SIL Software");
 
 				// Check if an entry in the registry specifies the path. If not, create it.
-				string keyName = @"Software\SIL";
+				const string keyName = @"Software\SIL";
 				RegistryKey key = Registry.CurrentUser.CreateSubKey(keyName);
 
 				if (key != null)
@@ -328,7 +328,7 @@ namespace SilUtils
 				string silSwCommonFilesPath = Path.Combine(SilSoftwarePath, "Common Files");
 
 				// Check if an entry in the registry specifies the path. If not, create it.
-				string keyName = @"Software\SIL";
+				const string keyName = @"Software\SIL";
 				RegistryKey key = Registry.CurrentUser.CreateSubKey(keyName);
 
 				if (key != null)

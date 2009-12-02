@@ -18,14 +18,14 @@ namespace SIL.Pa
 	public class RecordCacheEntry
 	{
 		private readonly int m_id;
-		private readonly bool m_canBeEditedInToolbox = false;
+		private readonly bool m_canBeEditedInToolbox;
 		private PaDataSource m_dataSource;
-		private bool m_needsParsing = false;
-		private string m_firstInterlinearField = null;
+		private bool m_needsParsing;
+		private string m_firstInterlinearField;
 		private List<string> m_interlinearFields;
 		private List<WordCacheEntry> m_wordEntries;
 		private Dictionary<string, PaFieldValue> m_fieldValues;
-		private object m_tag = null;
+		private object m_tag;
 		
 		// These three variables are for records associated with SA audio files.
 		private int m_channels;
@@ -37,7 +37,7 @@ namespace SIL.Pa
 
 		private static string s_dataSourceFieldName;
 		private static string s_dataSourcePathFieldName;
-		private static int s_counter = 0;
+		private static int s_counter;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

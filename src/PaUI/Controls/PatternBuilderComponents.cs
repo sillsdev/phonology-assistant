@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.Pa.Data;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -355,16 +353,6 @@ namespace SIL.Pa
 		public IxCoreColleague[] GetMessageTargets()
 		{
 			return new IxCoreColleague[] {this};
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-			// Not used in PA
 		}
 
 		#endregion

@@ -16,6 +16,7 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,12 +25,19 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using SIL.FieldWorks.Common.Utils;
-using SIL.Utils;
-// for StringDictionary
 
 namespace XCore
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public interface IxCoreColleague
+	{
+		IxCoreColleague[] GetMessageTargets();
+	}
+	
 	/// <summary>
 	/// Add this attribute to a class to say the mediator should dispose of it
 	/// if it is still a coleague of the mediator when that is disposed.
@@ -37,15 +45,14 @@ namespace XCore
 	/// </summary>
 	public class MediatorDisposeAttribute : Attribute
 	{
-		public MediatorDisposeAttribute()
-		{
-		}
 	}
 
+	/// --------------------------------------------------------------------------------------------
 	/// <summary>
 	/// Summary description for Mediator.
 	/// </summary>
-	public sealed class Mediator : IFWDisposable
+	/// --------------------------------------------------------------------------------------------
+	public sealed class Mediator : IDisposable
 	{
 		#region PendingMessageItem
 
@@ -139,23 +146,30 @@ namespace XCore
 		#endregion
 
 		#region Data members
+		
 		// testing to have list of IxCoreColleagues that are disposed now
-		private Set<string> m_disposedColleagues = new Set<string>();
+		private HashSet<string> m_disposedColleagues = new HashSet<string>();
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the disposed colleague.
+		/// </summary>
+		/// <param name="hashKey">The hash key.</param>
+		/// ------------------------------------------------------------------------------------
 		public void AddDisposedColleague(string hashKey)
 		{
 			CheckDisposed();
+			
 			if (!m_disposedColleagues.Contains(hashKey))
 			{
 				m_disposedColleagues.Add(hashKey);
 				Debug.WriteLine("@@Added "+hashKey);
 			}
 		}
+
 		public bool IsDisposedColleague(string hashKey) { return m_disposedColleagues.Contains(hashKey); }
-		private void ClearDisposedColleagues() { m_disposedColleagues.Clear(); }
 		private bool m_processMessages = true;
-		private PropertyTable m_propertyTable;
-		private CommandSet m_commandSet;
-		private Set<IxCoreColleague> m_colleagues = new Set<IxCoreColleague>();
+		private HashSet<IxCoreColleague> m_colleagues = new HashSet<IxCoreColleague>();
 		private IxCoreColleague m_temporaryColleague;
 		private Dictionary<string, string> m_pathVariables = new Dictionary<string, string>();
 		/// <summary>
@@ -187,11 +201,10 @@ namespace XCore
 		private long m_MethodChecks;	// total number of calls to the IsMethodNOTonColleague method
 #endif
 
-
 		/// <summary>keeps a list of classes (colleagues) and the methods that it doesn't contain</summary>
-		private Dictionary<string, Set<string>> m_MethodsNOTonColleagues;	// key=colleague.ToString(), value=Set of methods of methods
+		private Dictionary<string, HashSet<string>> m_MethodsNOTonColleagues;	// key=colleague.ToString(), value=Set of methods of methods
 		/// <summary>Set of method names that are implemented by any colleague</summary>
-		private Set<string> m_MethodsOnAnyColleague;
+		private HashSet<string> m_MethodsOnAnyColleague;
 		#endregion
 
 		#region Construction and Initialization
@@ -202,9 +215,8 @@ namespace XCore
 		/// -----------------------------------------------------------------------------------
 		public Mediator()
 		{
-			m_propertyTable = new PropertyTable(this);
-			m_MethodsNOTonColleagues = new Dictionary<string, Set<string>>();
-			m_MethodsOnAnyColleague = new Set<string>();
+			m_MethodsNOTonColleagues = new Dictionary<string, HashSet<string>>();
+			m_MethodsOnAnyColleague = new HashSet<string>();
 
 			// NOTE: to set the trace level, create a config file like the following and set 
 			// it there. Values are: Off=0, Error=1, Warning=2, Info=3, Verbose=4.
@@ -250,17 +262,6 @@ namespace XCore
 
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <remarks> this needs to be done separately from construction because the mediator is
-		/// handed to the CommandSet when it is constructed.</remarks>
-		/// <param name="commandset"></param>
-		public void Initialize(CommandSet commandset)
-		{
-			CheckDisposed();
-			m_commandSet = commandset;
-		}
 		#endregion
 
 		#region IDisposable & Co. implementation
@@ -269,24 +270,20 @@ namespace XCore
 		/// <summary>
 		/// True, if the object has been disposed.
 		/// </summary>
-		private bool m_isDisposed = false;
+		private bool m_isDisposed;
 
-		/// <summary>
-		/// See if the object has been disposed.
-		/// </summary>
-		public bool IsDisposed
-		{
-			get { return m_isDisposed; }
-		}
-
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Throw if the IsDisposed property is true
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void CheckDisposed()
 		{
-			if (IsDisposed)
+			if (m_isDisposed)
 				throw new ObjectDisposedException("Mediator", "This object is being used after it has been disposed: this is an Error.");
 		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Finalizer, in case client doesn't dispose it.
 		/// Force Dispose(false) if not already called (i.e. m_isDisposed is true)
@@ -294,16 +291,19 @@ namespace XCore
 		/// <remarks>
 		/// In case some clients forget to dispose it directly.
 		/// </remarks>
+		/// ------------------------------------------------------------------------------------
 		~Mediator()
 		{
 			Dispose(false);
 			// The base class finalizer is called automatically.
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
 		/// </summary>
 		/// <remarks>Must not be virtual.</remarks>
+		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			Dispose(true);
@@ -315,27 +315,27 @@ namespace XCore
 			GC.SuppressFinalize(this);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Executes in two distinct scenarios.
-		/// 
 		/// 1. If disposing is true, the method has been called directly
 		/// or indirectly by a user's code via the Dispose method.
 		/// Both managed and unmanaged resources can be disposed.
-		/// 
-		/// 2. If disposing is false, the method has been called by the 
-		/// runtime from inside the finalizer and you should not reference (access) 
+		/// 2. If disposing is false, the method has been called by the
+		/// runtime from inside the finalizer and you should not reference (access)
 		/// other managed objects, as they already have been garbage collected.
 		/// Only unmanaged resources can be disposed.
 		/// </summary>
-		/// <param name="disposing"></param>
+		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources;
+		/// <c>false</c> to release only unmanaged resources.</param>
 		/// <remarks>
 		/// If any exceptions are thrown, that is fine.
 		/// If the method is being done in a finalizer, it will be ignored.
 		/// If it is thrown by client code calling Dispose,
 		/// it needs to be handled by fixing the bug.
-		/// 
 		/// If subclasses override this method, they should call the base implementation.
 		/// </remarks>
+		/// ------------------------------------------------------------------------------------
 		private void Dispose(bool disposing)
 		{
 			//Debug.WriteLineIf(!disposing, "****************** " + GetType().Name + " 'disposing' is false. ******************");
@@ -350,7 +350,7 @@ namespace XCore
 				// Use a copy of the m_colleagues Set,
 				// since the Dispose methods on the colleague should remove itself from m_colleagues,
 				// which will cause an exception to be throw (list changed while spinning through it.
-				Set<IxCoreColleague> copyOfColleagues = new Set<IxCoreColleague>(m_colleagues.ToArray());
+				HashSet<IxCoreColleague> copyOfColleagues = new HashSet<IxCoreColleague>(m_colleagues);
 				m_colleagues.Clear(); // Just get rid of them now.
 				foreach (IxCoreColleague icc in copyOfColleagues)
 				{
@@ -359,21 +359,12 @@ namespace XCore
 						// Is the class marked with [XCore.MediatorDispose],
 						// or is it in the temporary colleague holder?
 						object[] attrs = icc.GetType().GetCustomAttributes(typeof(MediatorDisposeAttribute), true);
-						if ((attrs != null && attrs.Length > 0)
-							|| m_temporaryColleague == icc)
-						{
+						if ((attrs != null && attrs.Length > 0) || m_temporaryColleague == icc)
 							(icc as IDisposable).Dispose();
-						}
 					}
 				}
 				copyOfColleagues.Clear();
-				if (m_propertyTable != null)
-					m_propertyTable.Dispose();
-				if (m_commandSet != null)
-				{
-					m_commandSet.Dispose();
-					m_commandSet.Clear();
-				}
+
 				if (m_pathVariables != null)
 					m_pathVariables.Clear();
 				if (m_disposedColleagues != null)
@@ -404,8 +395,6 @@ namespace XCore
 			m_pendingMessages = null;
 			m_disposedColleagues = null;
 			m_temporaryColleague = null;
-			m_propertyTable = null;
-			m_commandSet = null;
 			m_colleagues = null;
 			m_pathVariables = null;
 /* It is illegal to try to access managed stuff in this part of the Dispose method.
@@ -422,9 +411,15 @@ namespace XCore
 		#endregion IDisposable & Co. implementation
 
 		#region Defered processing Queue items & implementation
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Retrieve a copy of the current queue of pending messages
 		/// </summary>
+		/// <param name="message">The message.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is message in pending queue] [the specified message]; otherwise, <c>false</c>.
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		public bool IsMessageInPendingQueue(string message)
 		{
 			CheckDisposed();
@@ -436,6 +431,12 @@ namespace XCore
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether [process messages].
+		/// </summary>
+		/// <value><c>true</c> if [process messages]; otherwise, <c>false</c>.</value>
+		/// ------------------------------------------------------------------------------------
 		public bool ProcessMessages
 		{
 			get
@@ -450,9 +451,12 @@ namespace XCore
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set the handle for the main window
 		/// </summary>
+		/// <value>The main window.</value>
+		/// ------------------------------------------------------------------------------------
 		public Form MainWindow
 		{
 			set
@@ -468,6 +472,7 @@ namespace XCore
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set this to true immediately if the mediator needs to post messages to one specific window.  If this is set
 		/// to true, then you must set the MainWindow property to the handle of the main window.  Then, after the application
@@ -476,6 +481,10 @@ namespace XCore
 		/// BroadcastPendingItems() will need to be called some time after the OnHandleCreated method is finished.
 		/// No broadcasts will be sent until both MainWindow has been set and BroadcastPendingItems() has been called.
 		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [specific to one main window]; otherwise, <c>false</c>.
+		/// </value>
+		/// ------------------------------------------------------------------------------------
 		public bool SpecificToOneMainWindow
 		{
 			set
@@ -493,7 +502,11 @@ namespace XCore
 		private bool m_safeToBroadcast = true;
 		private IntPtr m_mainWndPtr = IntPtr.Zero;
 
-		/// <summary>This posts a WM_BROADCAST... msg to the main app window</summary>
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This posts a WM_BROADCAST... msg to the main app window
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void AddWindowMessage()
 		{
 			if (!ProcessMessages)
@@ -514,8 +527,12 @@ namespace XCore
 			PostMessage(mainWndPtr, WM_BROADCAST_ITEM_INQUEUE, 0, 0);
 		}
 
-		/// <summary>Add an item to the queue and let the app know an item is present to be processed.</summary>
-		/// <param name="item"></param>
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add an item to the queue and let the app know an item is present to be processed.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// ------------------------------------------------------------------------------------
 		private void AddQueueItem(QueueItem item)
 		{
 			if (m_specificToOneMainWindow && (m_mainWndPtr == IntPtr.Zero || !m_safeToBroadcast))
@@ -550,6 +567,11 @@ namespace XCore
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Broadcasts the pending items.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void BroadcastPendingItems()
 		{
 			CheckDisposed();
@@ -572,13 +594,24 @@ namespace XCore
 				AddQueueItem(pendingCopy);
 			}
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the job items.
+		/// </summary>
+		/// <value>The job items.</value>
+		/// ------------------------------------------------------------------------------------
 		private int JobItems
 		{ 
 			get { return m_jobs.Count; }
 		}	// queue count
-		
-		/// <summary>Debugging method to show the items on the queue that are new.</summary>
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Debugging method to show the items on the queue that are new.
+		/// </summary>
+		/// <param name="startPos">The start pos.</param>
+		/// ------------------------------------------------------------------------------------
 		private void ShowJobItems(int startPos)
 		{
 			if (showPendingMsgsSwitch.Level == TraceLevel.Verbose)	// only do this if verbose setting
@@ -599,6 +632,12 @@ namespace XCore
 		}
 
 //		[Conditional("DEBUG")]
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Debugs the MSG.
+		/// </summary>
+		/// <param name="msg">The MSG.</param>
+		/// ------------------------------------------------------------------------------------
 		private void DebugMsg(string msg)
 		{
 			// create the initial info:
@@ -614,6 +653,13 @@ namespace XCore
 			Debug.WriteLine(msgOut.ToString());
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds the debug MSG.
+		/// </summary>
+		/// <param name="msg">The MSG.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		private string BuildDebugMsg(string msg)
 		{
 			// create the initial info:
@@ -629,8 +675,12 @@ namespace XCore
 			return msgOut.ToString();
 		}
 
-		/// <summary>Process one of the items in the deferred queue and don't be re-entrant.</summary>
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Process one of the items in the deferred queue and don't be re-entrant.
+		/// </summary>
 		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		public bool ProcessItem()
 		{
 			CheckDisposed();
@@ -688,6 +738,7 @@ namespace XCore
 		#endregion
 
 		#region MethodNOTonColleague helper methods
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Keep a running list of methods that don't exist on objects.  This is static during the life of the object.
 		/// Also assumes that the cost of storing the data structures are cheaper than the repeated calls to try to
@@ -695,12 +746,13 @@ namespace XCore
 		/// </summary>
 		/// <param name="method">name of method(EX:OnPropertyChanged)</param>
 		/// <param name="colleague">name of class(EX:XCore.MockupDialogLauncher)</param>
+		/// ------------------------------------------------------------------------------------
 		private void AddMethodNOTonColleague(string method, string colleague)
 		{
-			Set<string> methods = null;
+			HashSet<string> methods = null;
 			if (!m_MethodsNOTonColleagues.TryGetValue(colleague, out methods))
 			{
-				methods = new Set<string>();
+				methods = new HashSet<string>();
 				m_MethodsNOTonColleagues[colleague] = methods;
 			}
 
@@ -708,13 +760,17 @@ namespace XCore
 				m_MethodsCount = methods.Count;	// max depth on the methods of all colleagues
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This routine will check the hash of classes (colleagues) and see if the method is listed as not
 		/// being defined for the given class.
 		/// </summary>
-		/// <param name="method"></param>
-		/// <param name="colleague"></param>
-		/// <returns></returns>
+		/// <param name="method">The method.</param>
+		/// <param name="colleague">The colleague.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is method NO ton colleague] [the specified method]; otherwise, <c>false</c>.
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		private bool IsMethodNOTonColleague(string method, string colleague)
 		{
 #if DEBUG
@@ -726,13 +782,16 @@ namespace XCore
 		#endregion
 
 		#region command dispatching stuff
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// call this method on any object (which implements it) that we can find
 		/// Note that unlike SendMessage(),
 		/// this does not care if anyone claims to have "handled" the message.
 		/// It will keep sending messages to everyone.
 		/// </summary>
-		/// <param name="methodName"></param>
+		/// <param name="methodName">Name of the method.</param>
+		/// <param name="stringParam">The string param.</param>
+		/// ------------------------------------------------------------------------------------
 		public void BroadcastString(string methodName, string stringParam)
 		{
 			CheckDisposed();
@@ -765,7 +824,7 @@ namespace XCore
 			if (!ProcessMessages)
 				return true;
 
-			bool result = false;
+			bool result;
 			try
 			{
 				/// Have seen a stack situation that the Mediator has been disposed of after returning from this call...
@@ -821,8 +880,8 @@ namespace XCore
 				{
 					// Didn't find it so far, so it must be a method not previously called.
 					// Check if anybody implements it.
-					if (!InvokeOnColleagues(methodName, new Type[] {typeof(object)},
-						new Object[] { new Object() }, true, true))		//we are just checking, don't invoke anything
+					if (!InvokeOnColleagues(methodName, new[] {typeof(object)},
+						new[] { new Object() }, true, true))		//we are just checking, don't invoke anything
 					{
 						return false;
 					}
@@ -830,77 +889,23 @@ namespace XCore
 				Log("Invoked " + messageName);
 			}
 
-			return InvokeOnColleagues(methodName, new Type[] { typeof(object) }, 
-				new Object[] { parameter }, true, false);		
+			return InvokeOnColleagues(methodName, new[] { typeof(object) }, 
+				new[] { parameter }, true, false);		
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
-		/// <param name="returnValue"></param>
-		/// ------------------------------------------------------------------------------------
-		public void SendMessage(string messageName, object parameter, 
-			ref UIItemDisplayProperties returnValue)
-		{
-			CheckDisposed();
-
-			if (!ProcessMessages)
-				return;
-
-			//this happens on OnIdle(), so 
-			// it's better to leave commented out
-			//TraceVerboseLine("Mediator Looking for listeners for Msg: "+messageName);
-			//NB: I could not figure out how to get this to find the method only if the method includes a
-			// "ref" parameter, as is the case here, if I specified the types.
-			//	Therefore, we supply "null" here.
-		
-			InvokeOnColleagues("On" + messageName, 
-				null, // types see note above
-				new Object[] { parameter, returnValue },
-				true, false);		
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <remarks> see all comments in the other SendMessage() method, which apply here.</remarks>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
-		/// <param name="returnValue"></param>
-		public void SendMessage(string messageName, object parameter, 
-			ref UIListDisplayProperties returnValue)
-		{
-			CheckDisposed();
-
-			if (!ProcessMessages)
-				return;
-
-			Trace.WriteLineIf(showPendingMsgsSwitch.TraceVerbose,
-				BuildDebugMsg("Looking for listeners for Msg: " + messageName),
-				showPendingMsgsSwitch.DisplayName);
-
-			//NB: I could not figure out how to get this to find the method only if the method 
-			// includes a "ref" parameter, as is the case here, if I specified the types.
-			//	Therefore, we supply "null" here.
-		
-			InvokeOnColleagues("On" + messageName,
-				null, // types see note above
-				new Object[] { parameter, returnValue },
-				true, false);		
-		}
-
 		/// <summary>
 		/// This method is a cross of the broadcast and sendmessage types.  It will send
 		/// the message to everyone right now with out stoping when it's handled.  This is
 		/// provided for places where the previous broadcast functionality is needed, or
 		/// when it's not clear and is desired as a first step.
 		/// </summary>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
-		/// <returns>true if one or more colleagues handled the message, else false</returns>
+		/// <param name="messageName">Name of the message.</param>
+		/// <param name="parameter">The parameter.</param>
+		/// <returns>
+		/// true if one or more colleagues handled the message, else false
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		public bool SendMessageToAllNow(string messageName, object parameter)
 		{
 			CheckDisposed();
@@ -908,16 +913,18 @@ namespace XCore
 			if (!ProcessMessages)
 				return true;
 
-			return InvokeOnColleagues("On" + messageName, new Type[] {typeof(object)}, 
-				new Object[] { parameter }, false, false);		
+			return InvokeOnColleagues("On" + messageName, new[] {typeof(object)}, 
+				new[] { parameter }, false, false);		
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This method is a replacement message for the SendMessage when the return value isn't 
+		/// This method is a replacement message for the SendMessage when the return value isn't
 		/// actually used.  It allows those messages to be defered for a different message (later).
 		/// </summary>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
+		/// <param name="messageName">Name of the message.</param>
+		/// <param name="parameter">The parameter.</param>
+		/// ------------------------------------------------------------------------------------
 		public void SendMessageDefered(string messageName, object parameter)
 		{
 			CheckDisposed();
@@ -930,8 +937,8 @@ namespace XCore
 				Debug.Fail("The convention is to send messages without the 'On' prefix. " +
 					"That is added by the message sending code.");
 #endif
-			AddQueueItem(new QueueItem("On" + messageName, new Type[] {typeof(object)},
-				new Object[] { parameter }, true, false));
+			AddQueueItem(new QueueItem("On" + messageName, new[] {typeof(object)},
+				new[] { parameter }, true, false));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -950,7 +957,7 @@ namespace XCore
 
 			// If the queue is empty then subscribe to the idle event to process messages
 			if (m_pendingMessages.Count == 0)
-				Application.Idle += new EventHandler(PostMessageApplication_Idle);
+				Application.Idle += PostMessageApplication_Idle;
 
 			// Add this message to the queue
 			m_pendingMessages.Enqueue(new PendingMessageItem(messageName, parameter));
@@ -1011,18 +1018,20 @@ namespace XCore
 				new Object[] { parameter }, false, false);		
 #else
 			AddQueueItem(new QueueItem("On"+messageName, new Type[] {typeof(object)}, 
-				new Object[] { parameter }, false, false));
+				new[] { parameter }, false, false));
 			return false;
 #endif
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is a deferred message, but it's not sent to everyone, it is sent until
 		/// it is handled.
 		/// </summary>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
+		/// <param name="messageName">Name of the message.</param>
+		/// <param name="parameter">The parameter.</param>
 		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		public bool BroadcastMessageUntilHandled(string messageName, object parameter)
 		{
 			CheckDisposed();
@@ -1034,14 +1043,19 @@ namespace XCore
 #endif
 
 			AddQueueItem(new QueueItem("On"+messageName, new Type[] {typeof(object)}, 
-				new Object[] { parameter }, true, false));
+				new[] { parameter }, true, false));
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Check to see if there would be someone who would receive this command if it was given right now.
 		/// </summary>
-		/// <param name="messageName"></param>
+		/// <param name="messageName">Name of the message.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified message name has receiver; otherwise, <c>false</c>.
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		public bool HasReceiver(string messageName)
 		{
 			CheckDisposed();
@@ -1061,17 +1075,21 @@ namespace XCore
 							
 
 			return InvokeOnColleagues("On"+messageName, new Type[] {typeof(object)},
-				new Object[] { new Object() }, //we just make a dummy object here, since we won't really be invoking anything
+				new[] { new Object() }, //we just make a dummy object here, since we won't really be invoking anything
 				true,	//meaningless in this context
 				true);		//we are just checking, don't invoke anything
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Sends the cancellable message.
 		/// </summary>
-		/// <param name="messageName"></param>
-		/// <param name="parameter"></param>
-		/// <returns>true if the message was canceled, otherwise false.</returns>
+		/// <param name="messageName">Name of the message.</param>
+		/// <param name="parameter">The parameter.</param>
+		/// <returns>
+		/// true if the message was canceled, otherwise false.
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		public bool SendCancellableMessage(string messageName, object parameter)
 		{
 			CheckDisposed();
@@ -1083,7 +1101,7 @@ namespace XCore
 			CancelEventArgs cancelArguments = new  CancelEventArgs(false);
 			InvokeOnColleagues("On"+messageName, 
 				null, // types see note above
-				new Object[] { parameter, cancelArguments },
+				new[] { parameter, cancelArguments },
 				true, false);		
 			return cancelArguments.Cancel;
 		}
@@ -1123,7 +1141,7 @@ namespace XCore
 				//iterating over this list, which is not allowed if we simply use an enumerater.
 				IxCoreColleague[] targets = m_colleagues.ToArray();
 				//to catch infinite loops
-				Set<int> previous = new Set<int>(); // The int is the HashCode of some IxCoreColleague target.
+				HashSet<int> previous = new HashSet<int>(); // The int is the HashCode of some IxCoreColleague target.
 
 				// ms-help://MS.MSDNQTR.v80.en/MS.MSDN.v80/MS.NETDEV.v10.en/dnpag/html/scalenetchapt13.htm
 				// .."foreach introduces both managed heap and virtual function overhead..
@@ -1185,17 +1203,23 @@ namespace XCore
 		}
 
 		static long m_invokeCount = 0;
+		
 		//static System.Diagnostics.Stopwatch ttime = new Stopwatch();
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Invokes the recursively.
 		/// </summary>
-		/// <param name="colleague"></param>
-		/// <param name="methodName"></param>
-		/// <param name="parameterTypes"></param>
-		/// <param name="parameterList"></param>
+		/// <param name="colleague">The colleague.</param>
+		/// <param name="methodName">Name of the method.</param>
+		/// <param name="parameterTypes">The parameter types.</param>
+		/// <param name="parameterList">The parameter list.</param>
 		/// <param name="previous">to catch infinite loops</param>
+		/// <param name="stopWhenHandled">if set to <c>true</c> [stop when handled].</param>
+		/// <param name="justCheckingForReceivers">if set to <c>true</c> [just checking for receivers].</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		private bool InvokeRecursively(IxCoreColleague colleague, string methodName, Type[] parameterTypes,
-			object[] parameterList, Set<int> previous, bool stopWhenHandled, bool justCheckingForReceivers)
+			object[] parameterList, HashSet<int> previous, bool stopWhenHandled, bool justCheckingForReceivers)
 		{
 
 			if (!ProcessMessages)
@@ -1299,6 +1323,13 @@ namespace XCore
 			return handled;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Colleagues the has been disposed.
+		/// </summary>
+		/// <param name="target">The target.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		private bool ColleagueHasBeenDisposed(IxCoreColleague target)
 		{
 			bool hasBeenDisposed = false;
@@ -1340,16 +1371,21 @@ namespace XCore
 			return hasBeenDisposed;
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Checks for matching message.
 		/// </summary>
-		/// <param name="target"></param>
-		/// <param name="methodName"></param>
+		/// <param name="target">The target.</param>
+		/// <param name="methodName">Name of the method.</param>
 		/// <param name="parameterTypes">Currently, use null here if you have a ref param</param>
-		/// <param name="parameterList"></param>
-		/// <returns>null or the MethodInfo if a matching one was found</returns>
+		/// <param name="parameterList">The parameter list.</param>
+		/// <param name="previous">The previous.</param>
+		/// <returns>
+		/// null or the MethodInfo if a matching one was found
+		/// </returns>
+		/// ------------------------------------------------------------------------------------
 		private MethodInfo CheckForMatchingMessage(IxCoreColleague target, string methodName, Type[] parameterTypes,
-			object[] parameterList, Set<int> previous)
+			object[] parameterList, HashSet<int> previous)
 		{
 #if false
 			//tostring here is too expensive to leave lying around
@@ -1394,6 +1430,15 @@ namespace XCore
 		/// </summary>
 		class DisposedInAnotherFrameException : Exception {}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Invokes the method.
+		/// </summary>
+		/// <param name="target">The target.</param>
+		/// <param name="mi">The mi.</param>
+		/// <param name="parameterList">The parameter list.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
 		private object InvokeMethod(IxCoreColleague target, MethodInfo mi, object[] parameterList)
 		{
 			if (!ProcessMessages)
@@ -1461,14 +1506,6 @@ namespace XCore
 				//distinguish visually. (John Hatton)
 				Debug.Fail("The method '"+mi.Name+"' was found but couldn't be invoked. Maybe has the wrong signature?", error.Message);
 			}
-//			catch(ConfigurationException error)
-//			{
-//				throw error; //already has good user notification message in it
-//			}
-//			catch(RuntimeConfigurationException error)
-//			{
-//				throw error; //already has good user notification message in it
-//			}
 			catch(TargetInvocationException error)
 			{
 				Exception inner = error.InnerException;	//unwrap, for example, a ConfigurationException
@@ -1501,69 +1538,6 @@ namespace XCore
 				//SIL.Utils.ErrorReporter.ReportException(new ApplicationException(s, inner));
 			}
 			return null;
-		}
-
-		#endregion
-
-		#region  properties
-
-		public CommandSet CommandSet
-		{
-			get
-			{
-				CheckDisposed();
-				return m_commandSet;
-			}
-		}
-
-		public PropertyTable PropertyTable
-		{
-			get
-			{
-				CheckDisposed();
-				return m_propertyTable;
-			}
-		}
-
-		/// <summary>
-		/// a look up table for getting the correct version of strings that the user will see.
-		/// </summary>
-		public StringTable StringTbl
-		{
-			get
-			{
-				CheckDisposed();
-				object table = PropertyTable.GetValue("stringTable");
-				if (table == null)
-					throw new ConfigurationException("Could not get the StringTable. Make sure there is at least an 'strings-en.xml' in the configuration directory.");
-				return (StringTable)table;
-			}
-			set
-			{
-				PropertyTable.SetProperty("stringTable", value);
-				PropertyTable.SetPropertyPersistence("stringTable", false);
-			}
-		}
-
-		/// <summary>
-		/// Check whether we have a string table stored and available for use.
-		/// </summary>
-		public bool HasStringTable
-		{
-			get
-			{
-				object table = PropertyTable.GetValue("stringTable");
-				return table != null;
-			}
-		}
-
-		public Dictionary<string, string> PathVariables
-		{
-			get
-			{
-				CheckDisposed();
-				return m_pathVariables;
-			}
 		}
 
 		#endregion

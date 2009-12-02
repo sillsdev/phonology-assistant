@@ -440,7 +440,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				// Give the appropriate control focus.
 				if (offendingCtrl != null)
@@ -629,7 +629,7 @@ namespace SIL.Pa
 			//FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
 			//if (fwDataSourceInfo == null)
 			//{
-			//    SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
+			//    SilUtils.Utils.MsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
 			//        MessageBoxButtons.OK);
 
 			//    return;
@@ -667,7 +667,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			if (SilUtils.Utils.STMsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
+			if (SilUtils.Utils.MsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				List<int> indexesToDelete = new List<int>();
@@ -746,7 +746,7 @@ namespace SIL.Pa
 			if (!File.Exists(filename))
 			{
 				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(filename);
-				SilUtils.Utils.STMsgBox(
+				SilUtils.Utils.MsgBox(
 					string.Format(Properties.Resources.kstidFileMissingMsg, filePath),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

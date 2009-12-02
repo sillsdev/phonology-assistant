@@ -325,6 +325,15 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Speech Analyzer is required to playback utterances at speeds other than 100%.\nHowever, Speech Analyzer cannot be found. Please make sure it is installed..
+        /// </summary>
+        internal static string kstidSAMissingMsgWSpeedRef {
+            get {
+                return ResourceManager.GetString("kstidSAMissingMsgWSpeedRef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error saving records: {0}.
         /// </summary>
         internal static string kstidSavingRecordCacheError {

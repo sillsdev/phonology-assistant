@@ -163,7 +163,7 @@ namespace SIL.Pa
 			}
 			catch (ArgumentException err)
 			{
-				SilUtils.Utils.STMsgBox(err.Message);
+				SilUtils.Utils.MsgBox(err.Message);
 
 				if (prevFont == null)
 					return;

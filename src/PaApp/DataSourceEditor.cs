@@ -5,8 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
-using SIL.SpeechTools.AudioUtils;
-using SilUtils;
 
 namespace SIL.Pa
 {
@@ -56,7 +54,7 @@ namespace SIL.Pa
 
 		private static List<Process> s_saProcesses;
 		
-		private readonly bool m_showFwJumpUrlDlg = false;
+		private readonly bool m_showFwJumpUrlDlg;
 		private readonly string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
 			"[AudioFiles]\nFile0={1}\n[BeginningWAVOffsets]\nOffset0={2}\n" +
 			"[EndingWAVOffsets]\nOffset0={3}\n[Commands]\nCommand0=SelectFile(0)";
@@ -93,7 +91,7 @@ namespace SIL.Pa
 			else if (sourceType == DataSourceType.SA)
 				EditRecordInSA(wcentry, callingApp);
 			else
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,7 +142,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -168,7 +166,7 @@ namespace SIL.Pa
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
 					SilUtils.Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
 				
-				SilUtils.Utils.STMsgBox(msg);
+				SilUtils.Utils.MsgBox(msg);
 			    return;
 			}
 
@@ -177,7 +175,7 @@ namespace SIL.Pa
 			// Get the record field whose value will tell us what record to jump to.
 			if (string.IsNullOrEmpty(sortField))
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
 				return;
 			}
 
@@ -186,7 +184,7 @@ namespace SIL.Pa
 			if (fieldInfo == null)
 			{
 				string msg = Properties.Resources.kstidInvalidToolboxSortField;
-				SilUtils.Utils.STMsgBox(string.Format(msg, sortField));
+				SilUtils.Utils.MsgBox(string.Format(msg, sortField));
 				return;
 			}
 
@@ -278,7 +276,7 @@ namespace SIL.Pa
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.AudioFileField;
 			if (fieldInfo == null)
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoAudioField);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoAudioField);
 				return;
 			}
 
@@ -286,7 +284,7 @@ namespace SIL.Pa
 			string audioFile = wcentry[fieldInfo.FieldName];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidAudioFileMissingMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
 				return;
 			}
 
@@ -294,7 +292,7 @@ namespace SIL.Pa
 			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidSAMissingMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidSAMissingMsg);
 				return;
 			}
 

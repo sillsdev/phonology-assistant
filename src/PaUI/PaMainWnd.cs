@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -181,7 +180,7 @@ namespace SIL.Pa
 				PaApp.Project.EnsureSortOptionsSaved();
 
 			PaApp.ProjectLoadInProcess = true;
-			SilUtils.Utils.WaitCursors(true);
+			Utils.WaitCursors(true);
 			PaProject project = PaProject.Load(projectFileName, this);
 
 			if (project != null)

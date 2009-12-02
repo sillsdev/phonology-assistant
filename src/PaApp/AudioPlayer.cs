@@ -7,10 +7,8 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using SilUtils;
 using SIL.SpeechTools.Utils;
-using SIL.SpeechTools.AudioUtils.Properties;
 
-
-namespace SIL.SpeechTools.AudioUtils
+namespace SIL.Pa
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -28,10 +26,10 @@ namespace SIL.SpeechTools.AudioUtils
 			int responseBufferLength, IntPtr hwndCallback);
 
 		private const string kDeviceName = "SILAudio";
-		private static bool s_playbackInProgress = false;
+		private static bool s_playbackInProgress;
 
 		private string m_lstFile;
-		private string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\nShowWindow=Hide\n" +
+		private const string kSaListFileContentFmt = "[Settings]\nCallingApp={0}\nShowWindow=Hide\n" +
 			"[AudioFiles]\nFile0={1}\n[Commands]\nCommand0=SelectFile(0)\n" +
 			"Command1=Playback({2},,{3},{4})\nCommand2=Return(1)";
 
@@ -62,13 +60,11 @@ namespace SIL.SpeechTools.AudioUtils
 			// First, make sure playback is stopped.
 			Stop();
 
-			int err;
-			string command;
 			StringBuilder buffer = new StringBuilder(128);
 
 			// Open audio device
-			command = "open \"" + soundFile + "\" type mpegvideo alias " + kDeviceName;
-			err = mciSendString(command, IntPtr.Zero, 0, IntPtr.Zero);
+			string command = "open \"" + soundFile + "\" type mpegvideo alias " + kDeviceName;
+			int err = mciSendString(command, IntPtr.Zero, 0, IntPtr.Zero);
 
 			if (err != 0)
 				return;
@@ -131,7 +127,7 @@ namespace SIL.SpeechTools.AudioUtils
 			int bytesPerSample = (bitsPerSample / 8) * channels;
 			long bytesPerSecond = bytesPerSample * samplesPerSec;
 
-			return (long)(((double)byteVal / (double)bytesPerSecond) * 1000f);
+			return (long)((byteVal / (double)bytesPerSecond) * 1000f);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,17 +171,17 @@ namespace SIL.SpeechTools.AudioUtils
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				SilUtils.Utils.STMsgBox(Resources.kstidSAMissingMsg);
+				Utils.MsgBox(Properties.Resources.kstidSAMissingMsgWSpeedRef);
 				return null;
 			}
 
 			// Create the contents for the SA list file.
-			string saListFileContent = string.Format(m_saListFileContentFmt,
+			string saListFileContent = string.Format(kSaListFileContentFmt,
 				new object[] { callingApp, soundFile, speed,
 					(from >= 0 ? from.ToString() : string.Empty),
 					(to >= 0 && to > from ? to.ToString() : string.Empty)});
 
-			saListFileContent = SilUtils.Utils.ConvertLiteralNewLines(saListFileContent);
+			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
 			m_lstFile = Path.GetTempFileName();
@@ -196,7 +192,7 @@ namespace SIL.SpeechTools.AudioUtils
 			prs.StartInfo.FileName = "\"" + saLoc + "\"";
 			prs.StartInfo.Arguments = "-l " + m_lstFile;
 			prs.EnableRaisingEvents = true;
-			prs.Exited += new EventHandler(SA_Exited);
+			prs.Exited += SA_Exited;
 			prs.Start();
 
 			return prs;

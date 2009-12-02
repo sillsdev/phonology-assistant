@@ -133,7 +133,7 @@
     <value>13, 7</value>
   </data>
   <data name="lblFindWhat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 16</value>
+    <value>65, 15</value>
   </data>
   <data name="lblFindWhat.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -193,7 +193,7 @@
     <value>12, 22</value>
   </data>
   <data name="chkMatchCase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 20</value>
+    <value>91, 19</value>
   </data>
   <data name="chkMatchCase.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -280,7 +280,7 @@
     <value>12, 75</value>
   </data>
   <data name="chkMatchEntireWord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>154, 20</value>
+    <value>147, 19</value>
   </data>
   <data name="chkMatchEntireWord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -310,7 +310,7 @@
     <value>12, 153</value>
   </data>
   <data name="chkRegEx.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 20</value>
+    <value>165, 19</value>
   </data>
   <data name="chkRegEx.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -343,7 +343,7 @@
     <value>12, 49</value>
   </data>
   <data name="chkStartsWith.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 20</value>
+    <value>84, 19</value>
   </data>
   <data name="chkStartsWith.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -376,7 +376,7 @@
     <value>12, 127</value>
   </data>
   <data name="chkSrchCollapsedGrps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 20</value>
+    <value>166, 19</value>
   </data>
   <data name="chkSrchCollapsedGrps.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -409,7 +409,7 @@
     <value>12, 101</value>
   </data>
   <data name="chkReverseSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 20</value>
+    <value>113, 19</value>
   </data>
   <data name="chkReverseSearch.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -475,7 +475,7 @@
     <value>13, 1</value>
   </data>
   <data name="lblSearchColumns.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 16</value>
+    <value>136, 15</value>
   </data>
   <data name="lblSearchColumns.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -598,7 +598,7 @@
     <value>fldSelGridSrchCols</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.0.2742.22966, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.FieldSelectorGrid, PaUI, Version=1.1.3622.38217, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Parent" xml:space="preserve">
     <value>pnlColumnOptions</value>

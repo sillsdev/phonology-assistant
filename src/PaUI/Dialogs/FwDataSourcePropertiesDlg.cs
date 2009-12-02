@@ -353,7 +353,7 @@ namespace SIL.Pa
 					return true;
 			}
 
-			SilUtils.Utils.STMsgBox(Properties.Resources.kstidFwMissingWsMsg);
+			SilUtils.Utils.MsgBox(Properties.Resources.kstidFwMissingWsMsg);
 			return false;
 		}
 

@@ -92,6 +92,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -118,6 +122,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioPlayer.cs" />
     <Compile Include="CacheSortComparer.cs" />
     <Compile Include="DataSourceEditor.cs" />
     <Compile Include="DataSourceReader.cs" />
@@ -168,13 +173,9 @@
     <Compile Include="WordCacheEntry.cs" />
     <Compile Include="WordListCache.cs" />
     <Compile Include="WordListCacheEntry.cs" />
+    <Compile Include="ZipUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AudioUtils\AudioUtils.csproj">
-      <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
-      <Name>AudioUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
@@ -192,14 +193,6 @@
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZipUtils\ZipUtils.csproj">
-      <Project>{1F5778DC-6335-417F-B527-48582B81666D}</Project>
-      <Name>ZipUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

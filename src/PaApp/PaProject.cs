@@ -262,7 +262,7 @@ namespace SIL.Pa
 			}
 			else
 			{
-				SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				project = null;
 			}
 
@@ -302,7 +302,7 @@ namespace SIL.Pa
 				}
 
 				if (showErrors)
-					SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					SilUtils.Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				project = null;
 			}
@@ -407,7 +407,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.STMsgBox(
+				SilUtils.Utils.MsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
 					m_name, e.Message));
 			}

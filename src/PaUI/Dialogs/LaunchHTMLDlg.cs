@@ -47,7 +47,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.STMsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 		

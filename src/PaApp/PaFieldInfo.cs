@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -23,9 +22,9 @@ namespace SIL.Pa
 		[XmlAttribute]
 		public string Value;
 		[XmlAttribute]
-		public bool IsFirstLineInterlinearField = false;
+		public bool IsFirstLineInterlinearField;
 		[XmlAttribute]
-		public bool IsSubordinateInterlinearField = false;
+		public bool IsSubordinateInterlinearField;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -74,15 +73,6 @@ namespace SIL.Pa
 		private PaFieldInfo m_audioFileField;
 
 		private const float kCurrVersion = 2.2f;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaFieldInfoList() : base()
-		{
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -429,7 +419,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				PaFieldInfoList fieldInfoList = SilUtils.Utils.DeserializeData("DefaultFieldInfo.xml",
+				PaFieldInfoList fieldInfoList = Utils.DeserializeData("DefaultFieldInfo.xml",
 					typeof(PaFieldInfoList)) as PaFieldInfoList;
 
 				if (fieldInfoList != null)
@@ -482,13 +472,13 @@ namespace SIL.Pa
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
 
 			// Get the project specific field information.
-			PaFieldInfoList fieldInfoList = SilUtils.Utils.DeserializeData(filename,
+			PaFieldInfoList fieldInfoList = Utils.DeserializeData(filename,
 				typeof(PaFieldInfoList)) as PaFieldInfoList;
 
 			if (fieldInfoList != null)
 			{
 				doCleanup = true;
-				float version = fieldInfoList.ManageVersion(filename, true);
+				float version = ManageVersion(filename, true);
 				migrate = (version < kCurrVersion);
 			}
 			else
@@ -597,7 +587,7 @@ namespace SIL.Pa
 		/// whose field info. version is earlier than 2.1.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void MigrateFieldNames(PaFieldInfoList fieldInfoList, PaProject project)
+		private static void MigrateFieldNames(IEnumerable<PaFieldInfo> fieldInfoList, PaProject project)
 		{
 			if (project != null)
 			{
@@ -619,12 +609,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Save(PaProject project)
 		{
-			if (project == null)
-				return;
-
-			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
-			SilUtils.Utils.SerializeData(filename, this);
-			ManageVersion(filename, false);
+			if (project != null)
+			{
+				string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
+				Utils.SerializeData(filename, this);
+				ManageVersion(filename, false);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -634,7 +624,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			SilUtils.Utils.SerializeData("DefaultFieldInfo.xml", this);
+			Utils.SerializeData("DefaultFieldInfo.xml", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -646,7 +636,7 @@ namespace SIL.Pa
 		/// variables and properties in classes derived from List<>, which this class is.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private float ManageVersion(string filename, bool getVer)
+		private static float ManageVersion(string filename, bool getVer)
 		{
 			try
 			{
@@ -745,27 +735,27 @@ namespace SIL.Pa
 
 		private string m_fieldName;
 		private string m_displayText;
-		private bool m_isRightToLeft = false;
-		private bool m_canBeInterlinear = false;
-		private bool m_isPhonetic = false;
-		private bool m_isPhonemic = false;
-		private bool m_isTone = false;
-		private bool m_isOrtho = false;
-		private bool m_isGloss = false;
-		private bool m_isReference = false;
-		private bool m_isCVPattern = false;
-		private bool m_isDate = false;
+		private bool m_isRightToLeft;
+		private bool m_canBeInterlinear;
+		private bool m_isPhonetic;
+		private bool m_isPhonemic;
+		private bool m_isTone;
+		private bool m_isOrtho;
+		private bool m_isGloss;
+		private bool m_isReference;
+		private bool m_isCVPattern;
+		private bool m_isDate;
 		private string m_fwQueryFieldName;
-		private bool m_isFwField = false;
-		private bool m_isDataSource = false;
-		private bool m_isDataSourcePath = false;
-		private bool m_isAudioFile = false;
-		private bool m_isAudioOffset = false;
-		private bool m_isAudioLength = false;
-		private bool m_isCustom = false;
-		private bool m_isParsed = false;
-		private bool m_isNumeric = false;
-		private bool m_isGuid = false;
+		private bool m_isFwField;
+		private bool m_isDataSource;
+		private bool m_isDataSourcePath;
+		private bool m_isAudioFile;
+		private bool m_isAudioOffset;
+		private bool m_isAudioLength;
+		private bool m_isCustom;
+		private bool m_isParsed;
+		private bool m_isNumeric;
+		private bool m_isGuid;
 		private FwDBUtils.FwWritingSystemType m_fwWs = FwDBUtils.FwWritingSystemType.None;
 		private Font m_font = FontHelper.UIFont;
 		private string m_saField;

@@ -247,7 +247,7 @@ namespace SIL.SpeechTools.Utils
 				}
 				catch (Exception exp)
 				{
-					SilUtils.Utils.STMsgBox(exp.Message, MessageBoxButtons.OK);
+					SilUtils.Utils.MsgBox(exp.Message, MessageBoxButtons.OK);
 				}
 
 				// The converter must be OK so save it in the grid and

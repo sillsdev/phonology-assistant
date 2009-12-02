@@ -62,11 +62,6 @@
       <HintPath>..\..\..\Output\Debug\PaApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="PaDialogs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Output\Debug\PaDialogs.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -146,6 +141,10 @@
     <ProjectReference Include="..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaUI\PaUI.csproj">
+      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
+      <Name>PaUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>

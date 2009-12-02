@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
-using XCore;
 using SilUtils;
 
 namespace SIL.Pa
@@ -457,7 +456,7 @@ namespace SIL.Pa
 			{
 				if (node.Tag is SearchQueryGroup && node != renamedNode && node.Text == newName)
 				{
-					SilUtils.Utils.STMsgBox(
+					SilUtils.Utils.MsgBox(
 						string.Format(Properties.Resources.kstidDuplicateSearchCategoryMsg,
 						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -489,7 +488,7 @@ namespace SIL.Pa
 			{
 				if (node.Tag is SearchQuery && node != renamedNode && node.Text == newName)
 				{
-					SilUtils.Utils.STMsgBox(
+					SilUtils.Utils.MsgBox(
 						string.Format(Properties.Resources.kstidDuplicateSearchQueryMsg,
 						newName), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -800,7 +799,7 @@ namespace SIL.Pa
 				return;
 
 			string msg = string.Format(Properties.Resources.kstidDeleteFFCategoryConfirmationMsg, node.Text);
-			if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+			if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			// Remove group from cache.
@@ -833,7 +832,7 @@ namespace SIL.Pa
 				string msg = string.Format(
 					Properties.Resources.kstidDeleteFFPatternConfirmationMsg, node.Text);
 
-				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 			}
 
@@ -946,7 +945,7 @@ namespace SIL.Pa
 				// Pattern exisits so ask user if he wants to overwrite.
 				string msg = Properties.Resources.kstidDuplicateSearchQueryQuestion;
 				msg = string.Format(msg, query);
-				if (SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 					return false;
 
 				// User wants to overwrite so delete existing one first.
@@ -969,7 +968,7 @@ namespace SIL.Pa
 
 			if (Nodes == null || Nodes.Count == 0)
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidAddSearchCategoryBeforeSave,
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidAddSearchCategoryBeforeSave,
 					MessageBoxButtons.OK);
 
 				return;
@@ -1216,17 +1215,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the message target.

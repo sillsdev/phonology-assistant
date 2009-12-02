@@ -117,10 +117,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\AudioUtils\AudioUtils.csproj">
-      <Project>{4D4175D2-D8F6-44D8-89CF-02013226AF54}</Project>
-      <Name>AudioUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
@@ -146,25 +142,9 @@
       <Name>PaResources</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ChartVwBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ChartVwBase.Designer.cs">
-      <DependentUpon>ChartVwBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConsonantChartVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ConsonantChartVw.Designer.cs">
-      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\CharGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -385,12 +365,6 @@
     <Compile Include="Controls\XYGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataCorpusVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DataCorpusVw.Designer.cs">
-      <DependentUpon>DataCorpusVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\AmbiguousSequencesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -514,12 +488,6 @@
     <Compile Include="Dialogs\UndefinedPhoneticCharactersDlg.Designer.cs">
       <DependentUpon>UndefinedPhoneticCharactersDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="SearchVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SearchVw.Designer.cs">
-      <DependentUpon>SearchVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="PaMainWnd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -529,33 +497,53 @@
     <Compile Include="PaMainWnd.MsgHandlers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PhoneInventoryVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PhoneInventoryVw.Designer.cs">
-      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="VowelChartVw.cs">
+    <Compile Include="Views\ChartVwBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="VowelChartVw.Designer.cs">
+    <Compile Include="Views\ChartVwBase.designer.cs">
+      <DependentUpon>ChartVwBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConsonantChartVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ConsonantChartVw.designer.cs">
+      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataCorpusVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\DataCorpusVw.designer.cs">
+      <DependentUpon>DataCorpusVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhoneInventoryVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\PhoneInventoryVw.designer.cs">
+      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\SearchVw.designer.cs">
+      <DependentUpon>SearchVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VowelChartVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\VowelChartVw.designer.cs">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
     </Compile>
-    <Compile Include="XYChartVw.cs">
+    <Compile Include="Views\XYChartVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="XYChartVw.Designer.cs">
+    <Compile Include="Views\XYChartVw.designer.cs">
       <DependentUpon>XYChartVw.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SearchVw.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SearchVw.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PaMainWnd.resx">
       <DependentUpon>PaMainWnd.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -567,14 +555,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ChartVwBase.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ChartVwBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConsonantChartVw.resx">
-      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CharGrid.resx">
       <DependentUpon>CharGrid.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -637,10 +617,6 @@
     <EmbeddedResource Include="Controls\UndockedViewWnd.resx">
       <DependentUpon>UndockedViewWnd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataCorpusVw.resx">
-      <DependentUpon>DataCorpusVw.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AmbiguousSequencesDlg.resx">
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -695,17 +671,26 @@
     <EmbeddedResource Include="Dialogs\UndefinedPhoneticCharactersDlg.resx">
       <DependentUpon>UndefinedPhoneticCharactersDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhoneInventoryVw.resx">
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Views\ChartVwBase.resx">
+      <DependentUpon>ChartVwBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ConsonantChartVw.resx">
+      <DependentUpon>ConsonantChartVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\DataCorpusVw.resx">
+      <DependentUpon>DataCorpusVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PhoneInventoryVw.resx">
       <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VowelChartVw.resx">
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="Views\SearchVw.resx">
+      <DependentUpon>SearchVw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\VowelChartVw.resx">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="XYChartVw.resx">
+    <EmbeddedResource Include="Views\XYChartVw.resx">
       <DependentUpon>XYChartVw.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -865,6 +850,7 @@
     <None Include="Resources\Speaker.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

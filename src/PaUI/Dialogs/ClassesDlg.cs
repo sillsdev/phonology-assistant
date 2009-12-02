@@ -51,7 +51,7 @@ namespace SIL.Pa
 				// Ensure any renamed classes don't have empty class names
 				if (item.Text == string.Empty)
 				{
-					SilUtils.Utils.STMsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+					SilUtils.Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}

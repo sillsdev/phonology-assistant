@@ -116,7 +116,7 @@ namespace SIL.Pa
 			{
 				filename = SilUtils.Utils.PrepFilePathForSTMsgBox(filename);
 
-				SilUtils.Utils.STMsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
+				SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
 					filename, e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
@@ -149,7 +149,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.STMsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
+				SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
 					e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}

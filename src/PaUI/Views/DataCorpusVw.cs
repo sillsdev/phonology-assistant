@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using XCore;
+using SilUtils;
 
 namespace SIL.Pa
 {

@@ -28,7 +28,6 @@ using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -80,7 +79,7 @@ namespace SIL.Pa
 		public const string kAppSettingsName = "application";
 
 		private static string s_breakChars;
-		private static string s_helpFilePath = null;
+		private static string s_helpFilePath;
 		private static ITMAdapter s_tmAdapter;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
@@ -90,7 +89,7 @@ namespace SIL.Pa
 		private static Form s_mainForm;
 		private static ITabView s_currentView;
 		private static Type s_currentViewType;
-		private static bool s_projectLoadInProcess = false;
+		private static bool s_projectLoadInProcess;
 		private static PaProject s_project;
 		private static RecordCache s_recCache;
 		private static WordCache s_wordCache;
@@ -431,7 +430,7 @@ namespace SIL.Pa
 				string phone = uncertainPhoneGroup[i];
 
 				// Don't bother adding break characters.
-				if (!PaApp.BreakChars.Contains(phone))
+				if (!BreakChars.Contains(phone))
 				{
 					if (!s_phoneCache.ContainsKey(phone))
 						s_phoneCache.AddPhone(phone);
@@ -1305,7 +1304,7 @@ namespace SIL.Pa
 				lbl.Visible = bar.Visible = true;
 				s_activeProgBarLabel = lbl;
 				s_activeProgressBar = bar;
-				SilUtils.Utils.WaitCursors(true);
+				Utils.WaitCursors(true);
 			}
 
 			return s_progressBar;
@@ -1343,7 +1342,7 @@ namespace SIL.Pa
 
 			s_activeProgBarLabel = null;
 			s_activeProgressBar = null;
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1637,7 +1636,7 @@ namespace SIL.Pa
 				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 
 			SearchEngine.ConvertPatternWithExperimentalTrans =
-				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
@@ -1646,7 +1645,7 @@ namespace SIL.Pa
 			if (!string.IsNullOrEmpty(msg))
 			{
 				if (showErrMsg)
-					SilUtils.Utils.STMsgBox(msg);
+					Utils.MsgBox(msg);
 
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
 				resultCount = -1;
@@ -1795,7 +1794,7 @@ namespace SIL.Pa
 
 						if (showMsgOnErr)
 						{
-							SilUtils.Utils.STMsgBox(errorMsg, MessageBoxButtons.OK,
+							Utils.MsgBox(errorMsg, MessageBoxButtons.OK,
 								   MessageBoxIcon.Exclamation);
 						}
 
@@ -1833,7 +1832,7 @@ namespace SIL.Pa
 				msg = CombineErrorMessages(engine.ErrorMessages);
 
 			if (msg != null && showErrMsg)
-				SilUtils.Utils.STMsgBox(msg);
+				Utils.MsgBox(msg);
 
 			return (msg == null);
 		}
@@ -1919,9 +1918,9 @@ namespace SIL.Pa
 			else
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(s_helpFilePath));
+					Utils.PrepFilePathForSTMsgBox(s_helpFilePath));
 				
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 	}

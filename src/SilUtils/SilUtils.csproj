@@ -85,6 +85,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Grid\SilHierarchicalGridParts.cs" />
+    <Compile Include="Mediator.cs" />
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="PaintingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

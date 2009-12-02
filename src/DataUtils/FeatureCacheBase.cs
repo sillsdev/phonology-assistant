@@ -246,7 +246,7 @@ namespace SIL.Pa.Data
 
 			if (showMsgWhenExists)
 			{
-				Utils.STMsgBox(string.Format(Resources.kstidFeatureExistsMsg, featureName),
+				Utils.MsgBox(string.Format(Resources.kstidFeatureExistsMsg, featureName),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 

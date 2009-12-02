@@ -1,6 +1,7 @@
 //#define TESTMS
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.Utils;
@@ -69,7 +70,7 @@ namespace XCore
 		}
 
 		// Set uses a Dictionary for fast lookup.
-		static Set<int> msgs;
+		static HashSet<int> msgs;
 
 		/// <summary>Create the Set just once</summary>
 		private static void CreateSet()
@@ -78,7 +79,7 @@ namespace XCore
 			{
 				if (msgs != null)
 					return;
-				msgs = new Set<int>(s_seqMessages);
+				msgs = new HashSet<int>(s_seqMessages);
 			}
 		}
 

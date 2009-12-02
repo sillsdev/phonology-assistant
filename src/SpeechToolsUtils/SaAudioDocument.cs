@@ -252,7 +252,7 @@ namespace SIL.SpeechTools.Utils
 				string msg = string.Format(Resources.kstidWaveFileNotFound,
 					SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
 
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return null;
 			}
 
@@ -329,7 +329,7 @@ namespace SIL.SpeechTools.Utils
 				string msg = Resources.kstidReadOnlyFolderMsg;
 				msg = string.Format(msg, audioFileNameOnly, audioFileNameOnly, transFileNameOnly);
 				msg = SilUtils.Utils.ConvertLiteralNewLines(msg);
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 
 				using (FolderBrowserDialog dlg = new FolderBrowserDialog())
 				{
@@ -574,7 +574,7 @@ namespace SIL.SpeechTools.Utils
 					string msg = string.Format(Resources.kstidWaveFileNotFound,
 						SilUtils.Utils.PrepFilePathForSTMsgBox(value));
 
-					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK);
+					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 					return;
 				}
 

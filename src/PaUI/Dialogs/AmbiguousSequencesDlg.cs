@@ -2,7 +2,6 @@ using System;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -389,7 +388,7 @@ namespace SIL.Pa
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
 
-					SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return true;
 				}
 			}
@@ -436,7 +435,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;
 			}
 
@@ -543,7 +542,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}
 		}

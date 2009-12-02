@@ -200,7 +200,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static void CallMethod(object binding, string methodName, object arg1, object arg2)
 		{
-			object[] args = new object[] {arg1, arg2};
+			object[] args = new[] {arg1, arg2};
 			GetResult(binding, methodName, args);
 		}
 
@@ -212,7 +212,7 @@ namespace SilUtils
 		public static void CallMethod(object binding, string methodName, object arg1,
 			object arg2, object arg3)
 		{
-			object[] args = new object[] { arg1, arg2, arg3 };
+			object[] args = new[] { arg1, arg2, arg3 };
 			GetResult(binding, methodName, args);
 		}
 
@@ -224,7 +224,7 @@ namespace SilUtils
 		public static void CallMethod(object binding, string methodName, object arg1,
 			object arg2, object arg3, object arg4)
 		{
-			object[] args = new object[] { arg1, arg2, arg3, arg4 };
+			object[] args = new[] { arg1, arg2, arg3, arg4 };
 			GetResult(binding, methodName, args);
 		}
 
@@ -245,7 +245,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static object GetResult(object binding, string methodName, object args)
 		{
-			return Invoke(binding, methodName, new object[] { args }, BindingFlags.InvokeMethod);
+			return Invoke(binding, methodName, new[] { args }, BindingFlags.InvokeMethod);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -265,7 +265,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static void SetProperty(object binding, string propertyName, object args)
 		{
-			Invoke(binding, propertyName, new object[] { args }, BindingFlags.SetProperty);
+			Invoke(binding, propertyName, new[] { args }, BindingFlags.SetProperty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -275,7 +275,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static void SetField(object binding, string fieldName, object args)
 		{
-			Invoke(binding, fieldName, new object[] { args }, BindingFlags.SetField);
+			Invoke(binding, fieldName, new[] { args }, BindingFlags.SetField);
 		}
 
 		/// ------------------------------------------------------------------------------------

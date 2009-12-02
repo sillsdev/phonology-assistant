@@ -568,7 +568,7 @@ namespace SIL.Pa
 				{
 					if (showMsg)
 					{
-						SilUtils.Utils.STMsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
+						SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
 							className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 					

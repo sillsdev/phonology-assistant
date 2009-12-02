@@ -32,7 +32,7 @@ namespace SIL.Pa
 						}
 						catch (Exception e)
 						{
-							SilUtils.Utils.STMsgBox(e.Message + "\n\nUsing default culture.");
+							SilUtils.Utils.MsgBox(e.Message + "\n\nUsing default culture.");
 						}
 
 						args.RemoveAt(i);

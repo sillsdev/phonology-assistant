@@ -135,7 +135,7 @@ namespace SIL.Pa
 			string queryName = txtName.Text.Trim();
 			if (string.IsNullOrEmpty(queryName))
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -144,7 +144,7 @@ namespace SIL.Pa
 			string categoryName = cboCategories.Text.Trim();
 			if (string.IsNullOrEmpty(categoryName))
 			{
-				SilUtils.Utils.STMsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
+				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;

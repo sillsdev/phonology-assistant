@@ -219,6 +219,9 @@
   <data name="kstidSAMissingMsg" xml:space="preserve">
     <value>Speech Analyzer cannot be found. Please make sure it is installed.</value>
   </data>
+  <data name="kstidSAMissingMsgWSpeedRef" xml:space="preserve">
+    <value>Speech Analyzer is required to playback utterances at speeds other than 100%.\nHowever, Speech Analyzer cannot be found. Please make sure it is installed.</value>
+  </data>
   <data name="kstidSavingRecordCacheError" xml:space="preserve">
     <value>Error saving records: {0}</value>
     <comment>Message displayed if there was an error saving the records to an XML file.</comment>

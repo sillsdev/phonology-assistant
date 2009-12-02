@@ -126,10 +126,6 @@
       <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
       <Name>PaUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

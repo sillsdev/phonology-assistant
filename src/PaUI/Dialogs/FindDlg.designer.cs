@@ -85,7 +85,6 @@ namespace SIL.Pa
 			// cboFindWhat
 			// 
 			resources.ApplyResources(this.cboFindWhat, "cboFindWhat");
-			this.cboFindWhat.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.cboFindWhat.Name = "cboFindWhat";
 			// 
 			// chkMatchEntireWord

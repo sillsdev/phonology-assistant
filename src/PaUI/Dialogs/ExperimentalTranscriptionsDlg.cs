@@ -1,9 +1,6 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Data;
 using SilUtils;
-using XCore;
 
 namespace SIL.Pa
 {
@@ -14,7 +11,7 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public partial class ExperimentalTranscriptionsDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
+		private readonly ExperimentalTranscriptionControl m_experimentalTransCtrl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

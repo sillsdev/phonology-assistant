@@ -8,7 +8,7 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
-using XCore;
+using SilUtils;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {
@@ -20,21 +20,21 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// ----------------------------------------------------------------------------------------
 	internal class CommandInfo
 	{
-		internal string Message = null;
-		internal string TextId = null;
+		internal string Message;
+		internal string TextId;
 		internal string Text = "?Unknown?";
-		internal string TextAltId = null;
-		internal string TextAlt = null;
-		internal string ContextMenuTextId = null;
-		internal string ContextMenuText = null;
-		internal string ToolTipId = null;
-		internal string ToolTip = null;
-		internal string CategoryId = null;
-		internal string Category = null;
-		internal string StatusMsgId = null;
-		internal string StatusMsg = null;
+		internal string TextAltId;
+		internal string TextAlt;
+		internal string ContextMenuTextId;
+		internal string ContextMenuText;
+		internal string ToolTipId;
+		internal string ToolTip;
+		internal string CategoryId;
+		internal string Category;
+		internal string StatusMsgId;
+		internal string StatusMsg;
 		internal Keys ShortcutKey = Keys.None;
-		internal Image Image = null;
+		internal Image Image;
 	}
 
 	#endregion
@@ -73,11 +73,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		private Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
 
 		// This is true while we are reading the XML block of context menus.
-		protected bool m_readingContextMenuDef = false;
+		protected bool m_readingContextMenuDef;
 
 		protected int m_currentToolbarParentItemType = -1;
 		protected bool m_allowUndocking = true;
-		protected string m_settingsFilePrefix = null;
+		protected string m_settingsFilePrefix;
 		protected ArrayList m_menusWithShortcuts = new ArrayList();
 		protected bool m_allowuUpdates = true;
 		protected DateTime m_itemUpdateTime = DateTime.Now;
@@ -88,7 +88,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		// Stores the item on the View menu that's the parent for the list of
 		// toolbars.
-		protected ToolStripMenuItem m_toolbarListItem = null;
+		protected ToolStripMenuItem m_toolbarListItem;
 
 		// Resource Manager for localized toolbar and menu strings.
 		protected ArrayList m_rmlocalStrings = new ArrayList();
@@ -335,7 +335,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// files.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CheckDefinitionDates(string[] definitions)
+		private void CheckDefinitionDates(IEnumerable<string> definitions)
 		{
 			DateTime newestDefDateTime = new DateTime(0);
 
@@ -472,7 +472,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			get 
 			{
-				m_appsRegKeyPath = m_appsRegKeyPath.TrimEnd(new char[] {'\\'});
+				m_appsRegKeyPath = m_appsRegKeyPath.TrimEnd(new[] {'\\'});
 				return Registry.CurrentUser.CreateSubKey(
 					m_appsRegKeyPath + @"\ToolBarAdapterVersions\" + m_settingsFilePrefix);
 			}
@@ -736,7 +736,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				return;
 
 			ImageList images = GetImageListFromResourceAssembly(assemblyPath, className, field);
-			string[] imageLabels = labels.Split(new char[] {',', '\r', '\n', '\t'});
+			string[] imageLabels = labels.Split(new[] {',', '\r', '\n', '\t'});
 			int i = 0;
 			foreach (string label in imageLabels)
 			{
@@ -1357,7 +1357,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			bool beginGroupAfter)
 		{
 			ToolStrip parentItem;
-			ToolStripItem beforeItem = null;
+			ToolStripItem beforeItem;
 			int insertIndex = -1;
 			
 			if (!m_bars.TryGetValue(toolBarName, out parentItem))
@@ -2448,11 +2448,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="category">category of item</param>
 		/// <param name="statusMsg">status bar message of item</param>
 		/// <param name="shortcutKey">shortcut key for item</param>
+		/// <param name="imageLabel"></param>
 		/// <param name="image">image of item</param>
 		/// ------------------------------------------------------------------------------------
 		public void AddCommandItem(string cmdId, string message, string text, string textAlt,
 			string contextMenuText, string toolTipText, string category, string statusMsg,
-			Keys shortcutKey, string imageLabel, System.Drawing.Image image)
+			Keys shortcutKey, string imageLabel, Image image)
 		{
 			if (m_commands.ContainsKey(cmdId))
 				return;

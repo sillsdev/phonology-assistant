@@ -297,7 +297,7 @@ namespace SIL.Pa
 		{
 			//if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
 			//{
-			//    SilUtils.Utils.STMsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
+			//    SilUtils.Utils.MsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
 			//    return;
 			//}
 
