@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class ExperimentalTranscriptionsDlg
 	{
@@ -29,7 +29,7 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExperimentalTranscriptionsDlg));
-			this.pnlGrid = new SIL.Pa.PaPanel();
+			this.pnlGrid = new SIL.Pa.UI.Controls.PaPanel();
 			this.pnlButtons.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -75,7 +75,7 @@ namespace SIL.Pa
 
 		#endregion
 
-		private SIL.Pa.PaPanel pnlGrid;
+		private SIL.Pa.UI.Controls.PaPanel pnlGrid;
 
 
 	}

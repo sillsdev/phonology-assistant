@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -17,7 +16,7 @@ namespace SIL.Pa
 	{
 		private int m_defaultRowHeight;
 		private UndefinedPhoneticCharactersInfoList m_currUdpcil;
-		private Dictionary<char, UndefinedPhoneticCharactersInfoList> m_udpciList;
+		private readonly Dictionary<char, UndefinedPhoneticCharactersInfoList> m_udpciList;
 		private readonly string m_infoFmt;
 		private readonly string m_codepointColFmt =
 			Properties.Resources.kstidUndefPhoneticChartsGridCodePointColFmt;
@@ -150,13 +149,13 @@ namespace SIL.Pa
 
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidUnicodeNumHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidUnicodeNumHdg);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_gridChars.Columns.Add(col);
 
 			// Add the sample column.
 			col = SilGrid.CreateTextBoxColumn("char");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidCharHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidCharHdg);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
@@ -164,7 +163,7 @@ namespace SIL.Pa
 
 			// Add the count number column.
 			col = SilGrid.CreateTextBoxColumn("count");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidCountHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidCountHdg);
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			m_gridChars.Columns.Add(col);
@@ -185,19 +184,19 @@ namespace SIL.Pa
 			m_gridWhere.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("word");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidWordHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidWordHdg);
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			m_gridWhere.Columns.Add(col);
 
 			// Add the reference column.
 			col = SilGrid.CreateTextBoxColumn("reference");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidReferenceHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidReferenceHdg);
 			m_gridWhere.Columns.Add(col);
 
 			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
-			col.HeaderText = SilUtils.Utils.ConvertLiteralNewLines(Properties.Resources.kstidDataSourceHdg);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidDataSourceHdg);
 			m_gridWhere.Columns.Add(col);
 
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -232,7 +231,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadCharGrid(UndefinedPhoneticCharactersInfoList list)
 		{
-			SilUtils.Utils.WaitCursors(true);
+			Utils.WaitCursors(true);
 			m_gridChars.Rows.Clear();
 			
 			DataGridViewRow prevRow = null;
@@ -264,7 +263,7 @@ namespace SIL.Pa
 
 			m_gridChars.AutoResizeColumns();
 			m_gridChars.CurrentCell = m_gridChars[0, 0];
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -272,7 +271,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int CompareUndefinedCharValues(UndefinedPhoneticCharactersInfo x,
+		private static int CompareUndefinedCharValues(UndefinedPhoneticCharactersInfo x,
 			UndefinedPhoneticCharactersInfo y)
 		{
 			if (x == null && y == null)
@@ -365,7 +364,7 @@ namespace SIL.Pa
 		{
 			base.OnHandleCreated(e);
 
-			SilUtils.Utils.CenterFormInScreen(this);
+			Utils.CenterFormInScreen(this);
 			float splitRatio =
 				PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
 
@@ -423,9 +422,9 @@ namespace SIL.Pa
 
 			using (Graphics g = lblInfo.CreateGraphics())
 			{
-				TextFormatFlags flags = TextFormatFlags.NoClipping | TextFormatFlags.WordBreak;
+				const TextFormatFlags kFlags = TextFormatFlags.NoClipping | TextFormatFlags.WordBreak;
 				Size propSz = new Size(lblInfo.Width, int.MaxValue);
-				Size sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, flags);
+				Size sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, kFlags);
 				lblInfo.Height = sz.Height + 15;
 			}
 		}

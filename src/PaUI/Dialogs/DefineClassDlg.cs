@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -35,7 +36,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
-			SilUtils.Utils.WaitCursors(true);
+			Utils.WaitCursors(true);
 			InitializeComponent();
 
 			lblClassName.Font = FontHelper.UIFont;
@@ -330,7 +331,7 @@ namespace SIL.Pa
 
 			charExplorer.LoadSettings(Name);
 			UpdateCharacterViewers();
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 
 			base.OnShown(e);
 		}
@@ -412,7 +413,7 @@ namespace SIL.Pa
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+				Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}

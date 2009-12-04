@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Drawing.Text;
 using SIL.Pa.Resources;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	public partial class OptionsDlg
 	{
@@ -43,7 +43,7 @@ namespace SIL.Pa
 			this.tabOptions = new System.Windows.Forms.TabControl();
 			this.tpgWordLists = new System.Windows.Forms.TabPage();
 			this.grpColSettings = new System.Windows.Forms.GroupBox();
-			this.fldSelGridWrdList = new SIL.Pa.FieldSelectorGrid();
+			this.fldSelGridWrdList = new SIL.Pa.UI.Controls.FieldSelectorGrid();
 			this.btnMoveColDown = new System.Windows.Forms.Button();
 			this.btnMoveColUp = new System.Windows.Forms.Button();
 			this.lblShowColumns = new System.Windows.Forms.Label();
@@ -61,7 +61,7 @@ namespace SIL.Pa
 			this.rbGridLinesNone = new System.Windows.Forms.RadioButton();
 			this.tpgRecView = new System.Windows.Forms.TabPage();
 			this.grpFieldSettings = new System.Windows.Forms.GroupBox();
-			this.fldSelGridRecView = new SIL.Pa.FieldSelectorGrid();
+			this.fldSelGridRecView = new SIL.Pa.UI.Controls.FieldSelectorGrid();
 			this.lblShowFields = new System.Windows.Forms.Label();
 			this.btnMoveRecVwFldDown = new System.Windows.Forms.Button();
 			this.btnMoveRecVwFldUp = new System.Windows.Forms.Button();
@@ -84,15 +84,15 @@ namespace SIL.Pa
 			this.chkTone = new System.Windows.Forms.CheckBox();
 			this.grpTone = new System.Windows.Forms.GroupBox();
 			this.pnlTone = new System.Windows.Forms.Panel();
-			this.tonePicker = new SIL.Pa.CharPicker();
+			this.tonePicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.chkLength = new System.Windows.Forms.CheckBox();
 			this.grpLength = new System.Windows.Forms.GroupBox();
 			this.pnlLength = new System.Windows.Forms.Panel();
-			this.lengthPicker = new SIL.Pa.CharPicker();
+			this.lengthPicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.chkStress = new System.Windows.Forms.CheckBox();
 			this.grpStress = new System.Windows.Forms.GroupBox();
 			this.pnlStress = new System.Windows.Forms.Panel();
-			this.stressPicker = new SIL.Pa.CharPicker();
+			this.stressPicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.tpgSorting = new System.Windows.Forms.TabPage();
 			this.lblSaveManual = new System.Windows.Forms.Label();
 			this.grpColSortOptions = new System.Windows.Forms.GroupBox();
@@ -103,7 +103,7 @@ namespace SIL.Pa
 			this.chkSaveManual = new System.Windows.Forms.CheckBox();
 			this.lblSortInfo = new System.Windows.Forms.Label();
 			this.grpPhoneticSortOptions = new System.Windows.Forms.GroupBox();
-			this.phoneticSortOptions = new SIL.Pa.SortOptionsDropDown();
+			this.phoneticSortOptions = new SIL.Pa.UI.Controls.SortOptionsDropDown();
 			this.lblListType = new System.Windows.Forms.Label();
 			this.cboListType = new System.Windows.Forms.ComboBox();
 			this.tpgFonts = new System.Windows.Forms.TabPage();
@@ -753,7 +753,7 @@ namespace SIL.Pa
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
 			this.phoneticSortOptions.ShowAdvancedOptions = true;
 			this.phoneticSortOptions.ShowHelpLink = false;
-			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.SortOptionsDropDown.SortOptionsChangedHandler(this.phoneticSortOptions_SortOptionsChanged);
+			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.phoneticSortOptions_SortOptionsChanged);
 			// 
 			// lblListType
 			// 
@@ -871,13 +871,13 @@ namespace SIL.Pa
 		private TabPage tpgCVPatterns;
 		public CheckBox chkStress;
 		private GroupBox grpStress;
-		private SIL.Pa.CharPicker stressPicker;
+		private SIL.Pa.UI.Controls.CharPicker stressPicker;
 		public CheckBox chkLength;
 		private GroupBox grpLength;
-		private SIL.Pa.CharPicker lengthPicker;
+		private SIL.Pa.UI.Controls.CharPicker lengthPicker;
 		public CheckBox chkTone;
 		private GroupBox grpTone;
-		private SIL.Pa.CharPicker tonePicker;
+		private SIL.Pa.UI.Controls.CharPicker tonePicker;
 		private GroupBox grpDisplayChars;
 		private TextBox txtCustomChars;
 		private Label lblInstruction;
@@ -896,10 +896,10 @@ namespace SIL.Pa
 		private Label lblSortInfo;
 		private SilUtils.SilGrid m_sortingGrid;
 		private CheckBox chkSaveManual;
-		private SIL.Pa.FieldSelectorGrid fldSelGridRecView;
-		private SIL.Pa.SortOptionsDropDown phoneticSortOptions;
+		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridRecView;
+		private SIL.Pa.UI.Controls.SortOptionsDropDown phoneticSortOptions;
 		private GroupBox grpColSettings;
-		private SIL.Pa.FieldSelectorGrid fldSelGridWrdList;
+		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridWrdList;
 		private Button btnMoveColDown;
 		private Button btnMoveColUp;
 		private Label lblShowColumns;

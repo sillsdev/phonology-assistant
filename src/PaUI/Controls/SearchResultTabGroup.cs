@@ -4,12 +4,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -18,8 +17,8 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class SearchResultTabGroup : Panel, IxCoreColleague
 	{
-		private bool m_closingTabInProcess = false;
-		private bool m_isCurrentTabGroup = false;
+		private bool m_closingTabInProcess;
+		private bool m_isCurrentTabGroup;
 		private List<SearchResultTab> m_tabs;
 		private SearchResultTab m_currTab;
 		internal Panel m_pnlHdrBand;
@@ -27,8 +26,8 @@ namespace SIL.Pa
 		private XButton m_btnLeft;
 		private XButton m_btnRight;
 		internal ToolTip m_tooltip;
-		private SearchResultTab m_contextMenuTab = null;
-		private SearchResultTabGroup m_contextMenuTabGroup = null;
+		private SearchResultTab m_contextMenuTab;
+		private SearchResultTabGroup m_contextMenuTabGroup;
 		private readonly XButton m_btnClose;
 		private readonly Panel m_pnlTabs;
 		private readonly Panel m_pnlClose;
@@ -185,12 +184,11 @@ namespace SIL.Pa
 				int extraTabHeight = PaApp.SettingsHandler.GetIntSettingsValue(
 					"SearchVw", "extrasearchtabheight", 12);
 
-				TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
-				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
-					FontHelper.PhoneticFont, new Size(int.MaxValue, int.MaxValue),
-					flags).Height + extraTabHeight;
+				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X", FontHelper.PhoneticFont,
+					new Size(int.MaxValue, int.MaxValue), kFlags).Height + extraTabHeight;
 			}
 
 			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
@@ -354,7 +352,7 @@ namespace SIL.Pa
 		{
 			base.OnPaint(e);
 
-			TextFormatFlags flags = TextFormatFlags.WordBreak | TextFormatFlags.NoPadding |
+			const TextFormatFlags kFlags = TextFormatFlags.WordBreak | TextFormatFlags.NoPadding |
 				TextFormatFlags.EndEllipsis | TextFormatFlags.HorizontalCenter |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping;
 
@@ -366,7 +364,7 @@ namespace SIL.Pa
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
 				TextRenderer.DrawText(e.Graphics,
-					Properties.Resources.kstidEmtpyTabInfoText, fnt, rc, clr, flags);
+					Properties.Resources.kstidEmtpyTabInfoText, fnt, rc, clr, kFlags);
 			}
 
 			PaApp.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
@@ -1010,7 +1008,7 @@ namespace SIL.Pa
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				SilUtils.Utils.UpdateWindow(m_pnlTabs.Handle);
+				Utils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1328,15 +1326,15 @@ namespace SIL.Pa
 		// The combined left and right margins of the image. 
 		private const int kleftImgMargin = 6;
 
+		private readonly XButton m_btnCIEOptions;
 		private Point m_mouseDownLocation = Point.Empty;
-		private bool m_mouseOver = false;
-		private bool m_selected = false;
+		private bool m_mouseOver;
+		private bool m_selected;
 		private SearchResultTabGroup m_owningTabGroup;
 		private SearchResultView m_resultView;
 		private SearchQuery m_query;
-		private bool m_tabTextClipped = false;
+		private bool m_tabTextClipped ;
 		private Image m_image;
-		private XButton m_btnCIEOptions;
 		private ToolTip m_CIEButtonToolTip;
 		private CustomDropDown m_cieOptionsDropDownContainer;
 		private CIEOptionsDropDown m_cieOptionsDropDown;
@@ -1596,7 +1594,7 @@ namespace SIL.Pa
 				{
 					m_selected = value;
 					Invalidate();
-					SilUtils.Utils.UpdateWindow(Handle);
+					Utils.UpdateWindow(Handle);
 
 					if (m_resultView != null)
 					{
@@ -1740,14 +1738,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal void AdjustWidth()
 		{
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
 			int width;
 
 			// Get the text's width.
 			using (Graphics g = CreateGraphics())
-				width = TextRenderer.MeasureText(g, Text, Font, Size.Empty, flags).Width;
+				width = TextRenderer.MeasureText(g, Text, Font, Size.Empty, kFlags).Width;
 
 			// Add a little for good measure.
 			width += 6;
@@ -2142,7 +2140,7 @@ namespace SIL.Pa
 
 			// Establish the points that outline the region for the tab outline (which
 			// also marks off it's interior).
-			Point[] pts = new Point[] {
+			Point[] pts = new[] {
 				new Point(0, rc.Bottom), new Point(0, rc.Top + topMargin + 3),
 				new Point(3, topMargin), new Point(rc.Right - 4, topMargin),
 				new Point(rc.Right - 1, rc.Top + topMargin + 3),
@@ -2396,7 +2394,7 @@ namespace SIL.Pa
 		{
 			Rectangle rc = ClientRectangle;
 
-			Point[] pts = new Point[] {new Point(rc.X, rc.Bottom),
+			Point[] pts = new[] {new Point(rc.X, rc.Bottom),
 		        new Point(rc.X, rc.Y + 3), new Point(rc.X + 3, rc.Y),
 		        new Point(rc.Right - 4, rc.Y), new Point(rc.Right - 1, rc.Y + 3),
 		        new Point(rc.Right - 1, rc.Bottom)};

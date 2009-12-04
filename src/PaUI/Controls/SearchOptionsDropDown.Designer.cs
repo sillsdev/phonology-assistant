@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	partial class SearchOptionsDropDown
 	{
@@ -33,13 +33,13 @@ namespace SIL.Pa
 			this.chkShowAllWords = new System.Windows.Forms.CheckBox();
 			this.chkStress = new System.Windows.Forms.CheckBox();
 			this.grpStress = new System.Windows.Forms.GroupBox();
-			this.stressPicker = new SIL.Pa.CharPicker();
+			this.stressPicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.chkTone = new System.Windows.Forms.CheckBox();
 			this.grpTone = new System.Windows.Forms.GroupBox();
-			this.tonePicker = new SIL.Pa.CharPicker();
+			this.tonePicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.chkLength = new System.Windows.Forms.CheckBox();
 			this.grpLength = new System.Windows.Forms.GroupBox();
-			this.lengthPicker = new SIL.Pa.CharPicker();
+			this.lengthPicker = new SIL.Pa.UI.Controls.CharPicker();
 			this.lnkApplyToAll = new System.Windows.Forms.LinkLabel();
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
 			this.grpUncertainties = new System.Windows.Forms.GroupBox();
@@ -90,7 +90,7 @@ namespace SIL.Pa
 			this.stressPicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.stressPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.stressPicker.Name = "stressPicker";
-			this.stressPicker.CharPicked += new SIL.Pa.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			this.stressPicker.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
 			// 
 			// chkTone
 			// 
@@ -118,7 +118,7 @@ namespace SIL.Pa
 			this.tonePicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.tonePicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.tonePicker.Name = "tonePicker";
-			this.tonePicker.CharPicked += new SIL.Pa.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			this.tonePicker.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
 			// 
 			// chkLength
 			// 
@@ -146,7 +146,7 @@ namespace SIL.Pa
 			this.lengthPicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.lengthPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.lengthPicker.Name = "lengthPicker";
-			this.lengthPicker.CharPicked += new SIL.Pa.CharPicker.CharPickedHandler(this.HandleCharChecked);
+			this.lengthPicker.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
 			// 
 			// lnkApplyToAll
 			// 

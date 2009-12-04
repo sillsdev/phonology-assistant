@@ -1,6 +1,6 @@
 using SIL.Pa.Data;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

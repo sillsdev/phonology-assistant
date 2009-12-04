@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -756,7 +756,7 @@ namespace SIL.Pa
 				using (SolidBrush br = new SolidBrush(ColorHelper.LightLightHighlight))
 					e.Graphics.FillRectangle(br, lbl.ClientRectangle);
 
-				using (StringFormat sf = SilUtils.Utils.GetStringFormat(m_isForColumns))
+				using (StringFormat sf = Utils.GetStringFormat(m_isForColumns))
 				using (SolidBrush br = new SolidBrush(lbl.ForeColor))
 				{
 					// Turn on wrapping

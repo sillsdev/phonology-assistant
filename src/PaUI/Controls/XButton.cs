@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -13,15 +13,16 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class XButton : Label
 	{
-		private bool m_drawLeftArrowButton = false;
-		private bool m_drawRightArrowButton = false;
-		private bool m_drawEmpty = false;
-		private bool m_canBeChecked = false;
-		private bool m_checked = false;
-		private bool m_mouseDown = false;
-		private bool m_mouseOver = false;
+		private bool m_drawLeftArrowButton;
+		private bool m_drawRightArrowButton;
+		private bool m_drawEmpty;
+		private bool m_canBeChecked;
+		private bool m_checked;
+		private bool m_mouseDown;
+		private bool m_mouseOver;
 		private PaintState m_state = PaintState.Normal;
-		private readonly TextFormatFlags m_txtFmtflags = TextFormatFlags.NoPadding |
+		
+		private const TextFormatFlags fTxtFmtflags = TextFormatFlags.NoPadding |
 			TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
 			TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 			TextFormatFlags.PreserveGraphicsClipping;
@@ -271,13 +272,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void DrawText(PaintEventArgs e)
 		{
-			TextFormatFlags flags = TextFormatFlags.NoPrefix |
+			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			Color clr = (Enabled ? ForeColor : SystemColors.GrayText);
-			TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, clr, flags);
+			TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, clr, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,7 +294,7 @@ namespace SIL.Pa
 				SystemColors.ControlText);
 
 			// The 'r' in the Marlette font is the close button symbol 'X'
-			TextRenderer.DrawText(e.Graphics, "r", Font, rc, clr, m_txtFmtflags);
+			TextRenderer.DrawText(e.Graphics, "r", Font, rc, clr, fTxtFmtflags);
 
 			// Draw the border around the button.
 			rc.Width--;
@@ -354,7 +355,7 @@ namespace SIL.Pa
 			Color clr = (Enabled ? SystemColors.ControlText : SystemColors.GrayText);
 
 			// The 'r' in the Marlette font is the close button symbol 'X'
-			TextRenderer.DrawText(e.Graphics, arrowGlyph, Font, rc,	clr, m_txtFmtflags);
+			TextRenderer.DrawText(e.Graphics, arrowGlyph, Font, rc,	clr, fTxtFmtflags);
 		}
 
 		/// ------------------------------------------------------------------------------------

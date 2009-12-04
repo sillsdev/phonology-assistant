@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	partial class DataCorpusVw
 	{
@@ -30,8 +30,8 @@ namespace SIL.Pa
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataCorpusVw));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.paPanel1 = new SIL.Pa.PaPanel();
-			this.rtfRecVw = new SIL.Pa.RtfRecordView();
+			this.paPanel1 = new SIL.Pa.UI.Controls.PaPanel();
+			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.paPanel1.SuspendLayout();
@@ -91,8 +91,7 @@ namespace SIL.Pa
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitOuter;
-		private SIL.Pa.PaPanel paPanel1;
-		private SIL.Pa.RtfRecordView rtfRecVw;
-
+		private SIL.Pa.UI.Controls.PaPanel paPanel1;
+		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
 	}
 }

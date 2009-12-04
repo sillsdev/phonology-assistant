@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using SIL.Pa.FFSearchEngine;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public partial class Histogram : UserControl, IxCoreColleague
 	{
@@ -295,7 +295,7 @@ namespace SIL.Pa
 				m_ignoreFixedBorderResize = false;
 			}
 
-			SilUtils.Utils.SetWindowRedraw(pnlBars, false, false);
+			Utils.SetWindowRedraw(pnlBars, false, false);
 
 			int xLocationOffset = 0;
 			m_hashMarkIncrement = 0;
@@ -328,7 +328,7 @@ namespace SIL.Pa
 					bar.Location = newLoc;
 			}
 
-			SilUtils.Utils.SetWindowRedraw(pnlBars, true, true);
+			Utils.SetWindowRedraw(pnlBars, true, true);
 
 			pnlScroller_Scroll(null, new ScrollEventArgs(ScrollEventType.EndScroll,
 				-pnlScroller.AutoScrollPosition.X));
@@ -353,7 +353,7 @@ namespace SIL.Pa
 				TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
 
 			// Draw the label's text.
-			using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
+			using (StringFormat sf = Utils.GetStringFormat(true))
 			{
 				e.Graphics.FillRectangle(SystemBrushes.Control, lbl.ClientRectangle);
 
@@ -451,7 +451,7 @@ namespace SIL.Pa
 			Rectangle rc =
 				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, m_hashMarkGap);
 
-			using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
+			using (StringFormat sf = Utils.GetStringFormat(true))
 			{
 				sf.Alignment = StringAlignment.Far;
 

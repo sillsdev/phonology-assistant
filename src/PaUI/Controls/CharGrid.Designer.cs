@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	partial class CharGrid
 	{
@@ -29,8 +29,8 @@ namespace SIL.Pa
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.m_grid = new SIL.Pa.CharGridView();
-			this.pnlWrapper = new SIL.Pa.PaPanel();
+			this.m_grid = new SIL.Pa.UI.Controls.CharGridView();
+			this.pnlWrapper = new SIL.Pa.UI.Controls.PaPanel();
 			this.pnlGrid = new System.Windows.Forms.Panel();
 			this.m_vsplitter = new System.Windows.Forms.Splitter();
 			this.pnlRowHeaderOuter = new System.Windows.Forms.Panel();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Data;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -84,7 +85,7 @@ namespace SIL.Pa
 			try
 			{
 				PaXMLContent paxmlcontent =
-					SilUtils.Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
+					Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
 
 				RecordCache cache = (paxmlcontent == null ? null : paxmlcontent.Cache);
 
@@ -114,9 +115,9 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				filename = SilUtils.Utils.PrepFilePathForSTMsgBox(filename);
+				filename = Utils.PrepFilePathForSTMsgBox(filename);
 
-				SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
+				Utils.MsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
 					filename, e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
@@ -145,11 +146,11 @@ namespace SIL.Pa
 				if (paxmlcontent.CustomFields.Count == 0)
 					paxmlcontent.CustomFields = null;
 
-				SilUtils.Utils.SerializeData(filename, paxmlcontent);
+				Utils.SerializeData(filename, paxmlcontent);
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
+				Utils.MsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
 					e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
@@ -460,7 +461,7 @@ namespace SIL.Pa
 			if (!File.Exists(s_tmpFilename))
 				return null;
 
-			List<TempRecordCacheEntry> tmpList = SilUtils.Utils.DeserializeData(s_tmpFilename,
+			List<TempRecordCacheEntry> tmpList = Utils.DeserializeData(s_tmpFilename,
 				typeof(List<TempRecordCacheEntry>)) as List<TempRecordCacheEntry>;
 
 			if (tmpList == null)
@@ -491,7 +492,7 @@ namespace SIL.Pa
 			foreach (KeyValuePair<int, string> entry in s_cache)
 				tmpList.Add(new TempRecordCacheEntry(entry.Key, entry.Value));
 
-			SilUtils.Utils.SerializeData(s_tmpFilename, tmpList);
+			Utils.SerializeData(s_tmpFilename, tmpList);
 			s_cache.Clear();
 			tmpList.Clear();
 			s_cache = null;

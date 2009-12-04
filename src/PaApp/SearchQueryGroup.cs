@@ -46,7 +46,7 @@ namespace SIL.Pa
 
 			if (File.Exists(filename))
 			{
-				srchQueries = SilUtils.Utils.DeserializeData(filename,
+				srchQueries = Utils.DeserializeData(filename,
 					typeof(SearchQueryGroupList)) as SearchQueryGroupList;
 			}
 
@@ -101,7 +101,7 @@ namespace SIL.Pa
 			if (project != null)
 			{
 				string filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
-				SilUtils.Utils.SerializeData(filename, this);
+				Utils.SerializeData(filename, this);
 			}
 		}
 

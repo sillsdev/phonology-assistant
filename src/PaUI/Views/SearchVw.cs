@@ -9,8 +9,10 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SilUtils;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -60,7 +62,7 @@ namespace SIL.Pa
 			ptrnTextBox.OwningView = this;
 			LoadToolbarAndContextMenus();
 
-			lblCurrPattern.Text = SilUtils.Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
+			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
 			PaApp.IncProgressBar();
 
 			SetToolTips();
@@ -249,14 +251,15 @@ namespace SIL.Pa
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
-			pnlSideBarCaption.Text =
-				Properties.Resources.kstidFFSliderPanelText.Replace(" & ", " && ");
+
+			locExtender.AddObjectToLocalize(pnlSideBarCaption,
+				"kstidSearchVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
-			
-			m_slidingPanel = new SlidingPanel(Properties.Resources.kstidFFSliderPanelText,
-				this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+
+			m_slidingPanel = new SlidingPanel("kstidSearchVwUndockedSideBarTabText", this,
+				splitSideBarOuter, pnlSliderPlaceholder, Name);
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);
@@ -374,7 +377,7 @@ namespace SIL.Pa
 
 			string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
-				SilUtils.Utils.SerializeData(path, recentList);
+				Utils.SerializeData(path, recentList);
 			else
 				File.Delete(path);
 
@@ -483,21 +486,8 @@ namespace SIL.Pa
 		{
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
-			m_tooltip.SetToolTip(ptrnTextBox.TextBox, SilUtils.Utils.ConvertLiteralNewLines(tip));
-
-			System.ComponentModel.ComponentResourceManager resources =
-				new System.ComponentModel.ComponentResourceManager(GetType());
-			
-			m_tooltip.SetToolTip(btnClearRecentList, resources.GetString("btnClearRecentList.ToolTip"));
-			m_tooltip.SetToolTip(btnRemoveFromRecentList, resources.GetString("btnRemoveFromRecentList.ToolTip"));
-			m_tooltip.SetToolTip(btnCategoryNew, resources.GetString("btnCategoryNew.ToolTip"));
-			m_tooltip.SetToolTip(btnCategoryCut, resources.GetString("btnCategoryCut.ToolTip"));
-			m_tooltip.SetToolTip(btnCategoryPaste, resources.GetString("btnCategoryPaste.ToolTip"));
-			m_tooltip.SetToolTip(btnCategoryCopy, resources.GetString("btnCategoryCopy.ToolTip"));
-			m_tooltip.SetToolTip(btnRefresh, resources.GetString("btnRefresh.ToolTip"));
-
-			btnAutoHide.SetToolTips();
-			btnDock.SetToolTips();
+			m_tooltip.SetToolTip(ptrnTextBox.TextBox, Utils.ConvertLiteralNewLines(tip));
+			locExtender.RefreshToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -540,7 +530,7 @@ namespace SIL.Pa
 			try
 			{
 				string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
-				List<SearchQuery> recentList = SilUtils.Utils.DeserializeData(path,
+				List<SearchQuery> recentList = Utils.DeserializeData(path,
 					typeof(List<SearchQuery>)) as List<SearchQuery>;
 
 				if (recentList != null)

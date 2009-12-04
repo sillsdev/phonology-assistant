@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -92,7 +93,7 @@ namespace SIL.Pa
 
 			try
 			{
-				TrainingProjectSetupInfo tpsi = SilUtils.Utils.DeserializeData(
+				TrainingProjectSetupInfo tpsi = Utils.DeserializeData(
 					s_tpsPath, typeof(TrainingProjectSetupInfo)) as TrainingProjectSetupInfo;
 
 				return tpsi;
@@ -143,7 +144,7 @@ namespace SIL.Pa
 			if (!File.Exists(papFilePath))
 				return;
 
-			PaProject prj = SilUtils.Utils.DeserializeData(papFilePath, typeof(PaProject)) as PaProject;
+			PaProject prj = Utils.DeserializeData(papFilePath, typeof(PaProject)) as PaProject;
 			if (prj == null)
 				return;
 
@@ -157,7 +158,7 @@ namespace SIL.Pa
 				}
 			}
 
-			SilUtils.Utils.SerializeData(papFilePath, prj);
+			Utils.SerializeData(papFilePath, prj);
 			PaApp.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
 		}
 	}

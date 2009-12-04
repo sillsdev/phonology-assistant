@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class UndefinedPhoneticCharactersDlg
 	{
@@ -40,12 +40,12 @@ namespace SIL.Pa
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlSummary = new SIL.Pa.PaPanel();
+			this.pnlSummary = new SIL.Pa.UI.Controls.PaPanel();
 			this.m_gridChars = new SilUtils.SilGrid();
-			this.pgpChars = new SIL.Pa.PaGradientPanel();
-			this.pnlDetails = new SIL.Pa.PaPanel();
+			this.pgpChars = new SIL.Pa.UI.Controls.PaGradientPanel();
+			this.pnlDetails = new SIL.Pa.UI.Controls.PaPanel();
 			this.m_gridWhere = new SilUtils.SilGrid();
-			this.pgpWhere = new SIL.Pa.PaGradientPanel();
+			this.pgpWhere = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -286,10 +286,10 @@ namespace SIL.Pa
 		private System.Windows.Forms.CheckBox chkIgnoreInSearches;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private SilUtils.SilGrid m_gridWhere;
-		private SIL.Pa.PaPanel pnlSummary;
-		private SIL.Pa.PaGradientPanel pgpChars;
-		private SIL.Pa.PaPanel pnlDetails;
-		private SIL.Pa.PaGradientPanel pgpWhere;
+		private SIL.Pa.UI.Controls.PaPanel pnlSummary;
+		private SIL.Pa.UI.Controls.PaGradientPanel pgpChars;
+		private SIL.Pa.UI.Controls.PaPanel pnlDetails;
+		private SIL.Pa.UI.Controls.PaGradientPanel pgpWhere;
 
 
 	}

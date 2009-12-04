@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	partial class VowelChartVw
 	{

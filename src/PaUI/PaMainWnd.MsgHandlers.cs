@@ -23,9 +23,12 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
+using SIL.Pa.UI.Views;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -46,7 +49,7 @@ namespace SIL.Pa
 			if (!File.Exists(filename))
 			{
 				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
-				SilUtils.Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
+				Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation);
 			}
 			else if (PaApp.Project == null || PaApp.Project.ProjectFileName != filename)
@@ -148,9 +151,9 @@ namespace SIL.Pa
 			if (!File.Exists(path))
 			{
 				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(path));
+					Utils.PrepFilePathForSTMsgBox(path));
 
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -184,7 +187,7 @@ namespace SIL.Pa
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				if (SilUtils.Utils.MsgBox(
+				if (Utils.MsgBox(
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
 					dlg.Project.ProjectName), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
@@ -257,7 +260,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void FullProjectReload()
 		{
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 
 			PaProject project = PaProject.Load(PaApp.Project.ProjectFileName, this);
 			if (project != null)
@@ -274,7 +277,7 @@ namespace SIL.Pa
 				PaApp.MsgMediator.SendMessage("DataSourcesModified", project);
 			}
 
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

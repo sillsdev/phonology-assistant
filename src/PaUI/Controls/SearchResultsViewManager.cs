@@ -9,7 +9,7 @@ using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

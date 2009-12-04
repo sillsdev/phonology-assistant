@@ -2,8 +2,9 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Resources;
+using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	public partial class OKCancelDlgBase : Form
 	{
@@ -59,7 +60,7 @@ namespace SIL.Pa
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			SilUtils.Utils.UpdateWindow(Handle);
+			Utils.UpdateWindow(Handle);
 
 			// At this point, the opacity should be zero. Now that we're shown and the handles
 			// are all created, show the form at full opacity. This will avoid visible layout
@@ -69,7 +70,7 @@ namespace SIL.Pa
 			// This is needed because some dialogs have PaPanels whose border
 			// doesn't get fully painted properly when the opacity goes to full.
 			Invalidate(true);
-			SilUtils.Utils.UpdateWindow(Handle);
+			Utils.UpdateWindow(Handle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,7 +106,7 @@ namespace SIL.Pa
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				DialogResult result = SilUtils.Utils.MsgBox(
+				DialogResult result = Utils.MsgBox(
 					ResourceHelper.GetString("kstidSaveChangesMsg"),
 					MessageBoxButtons.YesNoCancel);
 

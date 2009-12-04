@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -44,7 +45,7 @@ namespace SIL.Pa.Data
 			string filename = Path.Combine(Application.StartupPath, kstidNormalizationExceptionsFile);
 			if (File.Exists(filename))
 			{
-				s_exceptionsList = SilUtils.Utils.DeserializeData(filename,
+				s_exceptionsList = Utils.DeserializeData(filename,
 					typeof(List<NormalizationException>)) as List<NormalizationException>;
 			}
 		}

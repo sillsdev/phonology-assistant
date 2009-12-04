@@ -10,7 +10,7 @@ using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -821,7 +821,7 @@ namespace SIL.Pa
 					Rectangle rc = GetCellDisplayRectangle(col, row, false);
 					rc.X = rc.Right - 7;
 					rc.Y = rc.Bottom - 7;
-					m_tooltip.Show(SilUtils.Utils.ConvertLiteralNewLines(text), this, rc.Location);
+					m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
 				}
 
 				return;
@@ -1021,7 +1021,7 @@ namespace SIL.Pa
 			m_paintDropValidEffect = true;
 			DoubleBuffered = true;
 			Invalidate();
-			SilUtils.Utils.UpdateWindow(Handle);
+			Utils.UpdateWindow(Handle);
 			DoubleBuffered = false;
 		}
 
@@ -2017,7 +2017,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(m_queryErrorMsg))
 				m_queryErrorMsg = "Unkown Error.";
 
-			m_queryErrorMsg = SilUtils.Utils.ConvertLiteralNewLines(m_queryErrorMsg);
+			m_queryErrorMsg = Utils.ConvertLiteralNewLines(m_queryErrorMsg);
 			m_queryErrorMsg = m_queryErrorMsg.TrimEnd("\n\r".ToCharArray());
 		}
 

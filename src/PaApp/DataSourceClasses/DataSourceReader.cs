@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -235,9 +236,9 @@ namespace SIL.Pa
 					{
 						string msg =
 							string.Format(Properties.Resources.kstidErrorProcessingDataSourceFile,
-							SilUtils.Utils.PrepFilePathForSTMsgBox(source.DataSourceFile));
+							Utils.PrepFilePathForSTMsgBox(source.DataSourceFile));
 
-						SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						PaApp.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
 					}
 				}
@@ -245,9 +246,9 @@ namespace SIL.Pa
 				{
 					string msg = string.Format(
 						Properties.Resources.kstidErrorReadingDataSourceFile,
-						SilUtils.Utils.PrepFilePathForSTMsgBox(source.DataSourceFile), e.Message);
+						Utils.PrepFilePathForSTMsgBox(source.DataSourceFile), e.Message);
 
-					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 				finally
 				{
@@ -775,7 +776,7 @@ namespace SIL.Pa
 			
 			// Try to convert the value to a numeric.
 			float fTime2;
-			if (!SilUtils.Utils.TryFloatParse(sTime2, out fTime2))
+			if (!Utils.TryFloatParse(sTime2, out fTime2))
 				return fileName;
 
 			// Remove from the file name string the text removed that represents a numeric value.
@@ -797,7 +798,7 @@ namespace SIL.Pa
 
 			// Try to convert the value to a numeric.
 			float fTime1;
-			if (!SilUtils.Utils.TryFloatParse(sTime1, out fTime1))
+			if (!Utils.TryFloatParse(sTime1, out fTime1))
 			{
 				// Assume the time was specified in seconds. We want it in milliseconds.
 				// The parse attempt failed so just make the start and end times the same.

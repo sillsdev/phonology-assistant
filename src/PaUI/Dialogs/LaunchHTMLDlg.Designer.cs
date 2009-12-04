@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class LaunchHTMLDlg
 	{

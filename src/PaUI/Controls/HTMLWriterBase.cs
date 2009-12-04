@@ -8,8 +8,9 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Xsl;
 using SIL.Pa.Resources;
+using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -73,8 +74,8 @@ namespace SIL.Pa
 
 			if (!File.Exists(m_xslFileBase))
 			{
-				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(m_xslFileBase);
-				SilUtils.Utils.MsgBox(
+				string filePath = Utils.PrepFilePathForSTMsgBox(m_xslFileBase);
+				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
 					filePath));
 				return false;
@@ -219,7 +220,7 @@ namespace SIL.Pa
 			catch (Exception e)
 			{
 				// Of course, you know we should never get here. :o)
-				SilUtils.Utils.MsgBox(e.Message);
+				Utils.MsgBox(e.Message);
 			}
 			finally
 			{
@@ -269,7 +270,7 @@ namespace SIL.Pa
 				{
 					CultureInfo ci =
 						CultureInfo.CreateSpecificCulture("en");
-					SilUtils.Utils.TryFloatParse(
+					Utils.TryFloatParse(
 						xslContent.Substring(open, closed - open), ci, out altSize);
 				}
 			}

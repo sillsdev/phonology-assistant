@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -262,7 +262,7 @@ namespace SIL.Pa
 			// *******
 			//Rectangle rc = e.CellBounds;
 			//e.PaintBackground(rc, false);
-			//using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
+			//using (StringFormat sf = Utils.GetStringFormat(true))
 			//{
 			//    e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 			//    e.Graphics.DrawString((e.RowIndex + 1).ToString(), FontHelper.UIFont,
@@ -322,7 +322,7 @@ namespace SIL.Pa
 				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
-					SilUtils.Utils.MsgBox(string.Format(
+					Utils.MsgBox(string.Format(
 						Properties.Resources.kstidCustomFieldExistsMsg, fieldName1),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -339,7 +339,7 @@ namespace SIL.Pa
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
 					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
-						SilUtils.Utils.MsgBox(string.Format(
+						Utils.MsgBox(string.Format(
 							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

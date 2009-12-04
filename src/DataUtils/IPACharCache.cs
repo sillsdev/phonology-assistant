@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SilUtils;
 
 namespace SIL.Pa.Data
 {
@@ -284,7 +285,7 @@ namespace SIL.Pa.Data
 			
 			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
 			// (i.e. IPACharCache) isn't serializable nor deserializable.
-			List<IPACharInfo> tmpCache = SilUtils.Utils.DeserializeData(
+			List<IPACharInfo> tmpCache = Utils.DeserializeData(
 				cache.CacheFileName, typeof(List<IPACharInfo>)) as List<IPACharInfo>;
 
 			if (tmpCache == null)
@@ -320,7 +321,7 @@ namespace SIL.Pa.Data
 						where !info.IsUndefined
 						select info).ToList();
 			
-			SilUtils.Utils.SerializeData(m_cacheFileName, list);
+			Utils.SerializeData(m_cacheFileName, list);
 		}
 
 		/// ------------------------------------------------------------------------------------

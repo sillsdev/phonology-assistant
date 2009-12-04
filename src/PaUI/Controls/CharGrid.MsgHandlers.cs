@@ -3,7 +3,7 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

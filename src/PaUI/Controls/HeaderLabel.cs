@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public class HeaderLabel : PaTextPanel
 	{

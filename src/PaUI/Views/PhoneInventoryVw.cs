@@ -6,9 +6,10 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -17,7 +18,7 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public partial class PhoneInventoryVw : UserControl, IxCoreColleague, ITabView
 	{
-		private bool m_activeView = false;
+		private bool m_activeView;
 		private SizableDropDownPanel m_sddpAFeatures;
 		private CustomDropDown m_aFeatureDropdown;
 		private FeatureListView m_lvAFeatures;
@@ -59,7 +60,7 @@ namespace SIL.Pa
 			m_experimentalTransCtrl.TabIndex = pgpExperimental.TabIndex;
 			m_experimentalTransCtrl.Grid.ShowWaterMarkWhenDirty = true;
 			m_experimentalTransCtrl.Grid.GetWaterMarkRect += HandleGetWaterMarkRect;
-			m_experimentalTransCtrl.Grid.RowsAdded += new DataGridViewRowsAddedEventHandler(HandleExperimentalTransCtrlRowsAdded);
+			m_experimentalTransCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
 			pnlExperimental.Controls.Add(m_experimentalTransCtrl);
 			m_experimentalTransCtrl.BringToFront();
 			pgpExperimental.ControlReceivingFocusOnMnemonic = m_experimentalTransCtrl.Grid;
@@ -485,7 +486,7 @@ namespace SIL.Pa
 			if (PhoneFeaturesChanged || AmbiguousSequencesChanged || m_experimentalTransCtrl.Grid.IsDirty)
 			{
 				string msg = Properties.Resources.kstidUnAppliedPhoneInventoryChangesMsg;
-				DialogResult rslt = SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
+				DialogResult rslt = Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
 				if (rslt == DialogResult.Cancel)
 					return true;
 
@@ -919,7 +920,7 @@ namespace SIL.Pa
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
 						Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
 
-					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return true;
 				}
 			}
@@ -966,7 +967,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return true;
 			}
 
@@ -1073,7 +1074,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}
 		}
@@ -1106,7 +1107,7 @@ namespace SIL.Pa
 				tip = string.Format(Properties.Resources.kstidPhoneInventoryPhoneInfo,
 					tip.Substring(0, tip.Length - 2));
 
-				tip = SilUtils.Utils.ConvertLiteralNewLines(tip);
+				tip = Utils.ConvertLiteralNewLines(tip);
 
 				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
 				Point pt = gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));

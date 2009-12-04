@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class DefineClassDlg
 	{
@@ -34,12 +34,12 @@ namespace SIL.Pa
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitPhoneViewers = new System.Windows.Forms.SplitContainer();
 			this.splitCV = new System.Windows.Forms.SplitContainer();
-			this.lvClasses = new SIL.Pa.ClassListView();
-			this.charExplorer = new SIL.Pa.IPACharacterExplorer();
+			this.lvClasses = new SIL.Pa.UI.Controls.ClassListView();
+			this.charExplorer = new SIL.Pa.UI.Controls.IPACharacterExplorer();
 			this.txtClassName = new System.Windows.Forms.TextBox();
 			this.lblClassName = new System.Windows.Forms.Label();
 			this.lblClassType = new System.Windows.Forms.Label();
-			this.pnlMembers = new SIL.Pa.PaGradientPanel();
+			this.pnlMembers = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.txtMembers = new System.Windows.Forms.TextBox();
 			this.lblMembers = new System.Windows.Forms.Label();
 			this.rdoOr = new System.Windows.Forms.RadioButton();
@@ -124,7 +124,7 @@ namespace SIL.Pa
 			// lvClasses
 			// 
 			this.lvClasses.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-			this.lvClasses.AppliesTo = SIL.Pa.ClassListView.ListApplicationType.DefineClassesDialog;
+			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.DefineClassesDialog;
 			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
@@ -205,7 +205,7 @@ namespace SIL.Pa
 			this.charExplorer.MnemonicGeneratesClick = false;
 			this.charExplorer.Name = "charExplorer";
 			this.charExplorer.PaintExplorerBarBackground = false;
-			this.charExplorer.CharPicked += new SIL.Pa.CharPicker.CharPickedHandler(this.HandleIPACharPicked);
+			this.charExplorer.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleIPACharPicked);
 			// 
 			// txtClassName
 			// 
@@ -313,13 +313,13 @@ namespace SIL.Pa
 		private System.Windows.Forms.TextBox txtClassName;
 		private System.Windows.Forms.Label lblClassName;
 		private System.Windows.Forms.Label lblClassType;
-		private SIL.Pa.IPACharacterExplorer charExplorer;
-		private SIL.Pa.PaGradientPanel pnlMembers;
+		private SIL.Pa.UI.Controls.IPACharacterExplorer charExplorer;
+		private SIL.Pa.UI.Controls.PaGradientPanel pnlMembers;
 		private System.Windows.Forms.TextBox txtMembers;
 		private System.Windows.Forms.RadioButton rdoAnd;
 		private System.Windows.Forms.RadioButton rdoOr;
 		private System.Windows.Forms.Label lblMembers;
-		private SIL.Pa.ClassListView lvClasses;
+		private SIL.Pa.UI.Controls.ClassListView lvClasses;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitCV;
 		private System.Windows.Forms.SplitContainer splitPhoneViewers;

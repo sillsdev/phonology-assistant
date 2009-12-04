@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	#region FwDataSourcePropertiesDlg class
 	/// ----------------------------------------------------------------------------------------
@@ -353,7 +353,7 @@ namespace SIL.Pa
 					return true;
 			}
 
-			SilUtils.Utils.MsgBox(Properties.Resources.kstidFwMissingWsMsg);
+			Utils.MsgBox(Properties.Resources.kstidFwMissingWsMsg);
 			return false;
 		}
 

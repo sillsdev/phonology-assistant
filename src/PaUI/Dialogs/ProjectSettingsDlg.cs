@@ -8,7 +8,7 @@ using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -83,13 +83,13 @@ namespace SIL.Pa
 				LoadGrid(-1);
 			}
 
-			SilUtils.Utils.WaitCursors(true);
+			Utils.WaitCursors(true);
 			FwDataSourcePrep();
 			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
 
 			m_dirty = m_newProject;
 			m_grid.IsDirty = false;
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 
 			UpdateButtonStates();
 			Disposed += ProjectSettingsDlg_Disposed;
@@ -240,16 +240,6 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_EnterLeave(object sender, EventArgs e)
-		{
-			UpdateButtonStates();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
 		{
 			UpdateButtonStates();
@@ -284,7 +274,7 @@ namespace SIL.Pa
 		{
 			bool enableRemoveButton = ((m_grid.CurrentRow != null &&
 				m_grid.CurrentRow.Index < m_project.DataSources.Count) ||
-				(m_grid.SelectedRows != null && m_grid.SelectedRows.Count > 0));
+				(m_grid.SelectedRows.Count > 0));
 			
 			if (enableRemoveButton != btnRemove.Enabled)
 				btnRemove.Enabled = enableRemoveButton;
@@ -293,7 +283,7 @@ namespace SIL.Pa
 
 			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < m_project.DataSources.Count)
 			{
-				if (m_grid.SelectedRows == null || m_grid.SelectedRows.Count <= 1)
+				if (m_grid.SelectedRows.Count <= 1)
 				{
 					PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
 
@@ -411,10 +401,11 @@ namespace SIL.Pa
 						// No XSLT file was specified
 						offendingIndex = i;
 						msg = string.Format(Properties.Resources.kstidDataSourceNoXSLT,
-							SilUtils.Utils.PrepFilePathForSTMsgBox(m_project.DataSources[i].DataSourceFile));
+							Utils.PrepFilePathForSTMsgBox(m_project.DataSources[i].DataSourceFile));
 						break;
 					}
-					else if (!m_project.DataSources[i].MappingsExist &&
+					
+					if (!m_project.DataSources[i].MappingsExist &&
 						(m_project.DataSources[i].DataSourceType == DataSourceType.SFM ||
 						m_project.DataSources[i].DataSourceType == DataSourceType.Toolbox))
 					{
@@ -424,7 +415,8 @@ namespace SIL.Pa
 							m_project.DataSources[i].DataSourceFile);
 						break;
 					}
-					else if (m_project.DataSources[i].DataSourceType == DataSourceType.FW &&
+					
+					if (m_project.DataSources[i].DataSourceType == DataSourceType.FW &&
 						m_project.DataSources[i].FwSourceDirectFromDB &&
 						!m_project.DataSources[i].FwDataSourceInfo.HasWritingSystemInfo(
 							m_project.FieldInfo.PhoneticField.FwQueryFieldName))
@@ -440,7 +432,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				// Give the appropriate control focus.
 				if (offendingCtrl != null)
@@ -550,19 +542,6 @@ namespace SIL.Pa
 		#region Button click handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set a flag indicating whether or not the cancel button was pressed. That's because
-		/// in the form's closing event, we don't know if a DialogResult of Cancel is due to
-		/// the user clicking on the cancel button or closing the form in some other way
-		/// beside clicking on the OK button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			m_cancelButtonPressed = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Show the open file dialog so the user may specify a non FieldWorks data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -629,7 +608,7 @@ namespace SIL.Pa
 			//FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
 			//if (fwDataSourceInfo == null)
 			//{
-			//    SilUtils.Utils.MsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
+			//    Utils.MsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
 			//        MessageBoxButtons.OK);
 
 			//    return;
@@ -667,7 +646,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnRemove_Click(object sender, EventArgs e)
 		{
-			if (SilUtils.Utils.MsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
+			if (Utils.MsgBox(Properties.Resources.kstidDataSourceDeleteConfirmation,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				List<int> indexesToDelete = new List<int>();
@@ -745,8 +724,8 @@ namespace SIL.Pa
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(filename))
 			{
-				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(filename);
-				SilUtils.Utils.MsgBox(
+				string filePath = Utils.PrepFilePathForSTMsgBox(filename);
+				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidFileMissingMsg, filePath),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -903,7 +882,7 @@ namespace SIL.Pa
 		//    if (btn == null)
 		//        return;
 
-		//    using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
+		//    using (StringFormat sf = Utils.GetStringFormat(true))
 		//    using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
 		//    {
 		//        e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;

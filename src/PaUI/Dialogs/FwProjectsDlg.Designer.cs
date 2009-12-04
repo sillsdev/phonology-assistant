@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class FwProjectsDlg
 	{
@@ -32,7 +32,7 @@ namespace SIL.Pa
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.lstFwProjects = new System.Windows.Forms.ListBox();
 			this.btnProperties = new System.Windows.Forms.Button();
-			this.tvNetwork = new SIL.Pa.NetworkTreeView();
+			this.tvNetwork = new SIL.Pa.UI.Controls.NetworkTreeView();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lblNetwork = new System.Windows.Forms.Label();
 			this.lblDB = new System.Windows.Forms.Label();
@@ -147,7 +147,7 @@ namespace SIL.Pa
 		private System.Windows.Forms.Label lblMsg;
 		private System.Windows.Forms.ListBox lstFwProjects;
 		private System.Windows.Forms.Button btnProperties;
-		private SIL.Pa.NetworkTreeView tvNetwork;
+		private SIL.Pa.UI.Controls.NetworkTreeView tvNetwork;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Label lblNetwork;
 		private System.Windows.Forms.Label lblDB;

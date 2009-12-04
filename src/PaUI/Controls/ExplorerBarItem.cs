@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -18,7 +18,7 @@ namespace SIL.Pa
 		public event EventHandler Expanded;
 
 		private int m_controlsExpandedHeight;
-		private bool m_drawHot = false;
+		private bool m_drawHot;
 		private bool m_expanded = true;
 		private bool m_gradientButton = true;
 		private Color m_buttonBackColor = Color.Empty;
@@ -34,11 +34,13 @@ namespace SIL.Pa
 		public ExplorerBarItem(string text, Control hostedControl)
 		{
 			m_button = new Button();
-			m_button.Text = SilUtils.Utils.ConvertLiteralNewLines(text);
-			string[] lines = m_button.Text.Split("\n".ToCharArray());
 			m_button.Dock = DockStyle.Top;
 			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-			m_button.Height = 13 + (m_button.Font.Height * lines.Length);
+			m_button.TextChanged += m_button_TextChanged;
+			m_button.Text = text;
+			//m_button.Text = Utils.ConvertLiteralNewLines(text);
+			//string[] lines = m_button.Text.Split('\n');
+			//m_button.Height = 13 + (m_button.Font.Height * lines.Length);
 			m_button.Cursor = Cursors.Hand;
 			m_button.Click += m_button_Click;
 			m_button.Paint += m_button_Paint;
@@ -70,6 +72,7 @@ namespace SIL.Pa
 				m_button.Paint -= m_button_Paint;
 				m_button.MouseEnter -= m_button_MouseEnter;
 				m_button.MouseLeave -= m_button_MouseLeave;
+				m_button.TextChanged -= m_button_TextChanged;
 				m_button.Dispose();
 			}
 
@@ -185,6 +188,20 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Handles the TextChanged event of the m_button control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_button_TextChanged(object sender, EventArgs e)
+		{
+			string[] lines = m_button.Text.Split('\n');
+			m_button.Height = 13 + (m_button.Font.Height * lines.Length);
+
+			if (m_control != null)
+				SetHostedControlHeight(m_control.Height);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Redraw button in normal state when mouse moves leaves it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -220,12 +237,12 @@ namespace SIL.Pa
 			Rectangle rc = m_button.ClientRectangle;
 
 			// Draw the item's text.
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.EndEllipsis;
 
 			rc.Inflate(-2, 0);
 			TextRenderer.DrawText(e.Graphics, m_button.Text, m_button.Font,
-				rc, SystemColors.WindowText, flags);
+				rc, SystemColors.WindowText, kFlags);
 			rc.Inflate(2, 0);
 
 			// Draw a line separating the button area from what collapses and expands below it.

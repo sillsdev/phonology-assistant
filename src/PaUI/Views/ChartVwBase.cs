@@ -6,9 +6,11 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

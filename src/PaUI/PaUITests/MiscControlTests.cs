@@ -17,6 +17,7 @@
 using System.Windows.Forms;
 using NUnit.Framework;
 using SIL.Pa.TestUtils;
+using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa
 {

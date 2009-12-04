@@ -146,6 +146,9 @@
   <data name="rtfRecVw.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>116, 17</value>
+  </metadata>
   <data name="rtfRecVw.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>
@@ -166,7 +169,7 @@
     <value>rtfRecVw</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.RtfRecordView, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Parent" xml:space="preserve">
     <value>pnlRecView</value>
@@ -196,7 +199,7 @@
     <value>pnlRecView</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Parent" xml:space="preserve">
     <value>splitResults.Panel2</value>
@@ -271,7 +274,7 @@
     <value>ptrnBldrComponent</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PatternBuilderComponents, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
     <value>pnlTabClassDef</value>
@@ -320,6 +323,9 @@
         6FggWiGliWUY6AcACtpiU8hcnXEAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="btnDock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="btnDock.Location" type="System.Drawing.Point, System.Drawing">
     <value>153, 2</value>
   </data>
@@ -333,7 +339,7 @@
     <value>btnDock</value>
   </data>
   <data name="&gt;&gt;btnDock.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.DockButton, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDock.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -367,14 +373,11 @@
   <data name="btnAutoHide.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="btnAutoHide.Text" xml:space="preserve">
-    <value>autoHideButton1</value>
-  </data>
   <data name="&gt;&gt;btnAutoHide.Name" xml:space="preserve">
     <value>btnAutoHide</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.AutoHideButton, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -401,7 +404,7 @@
     <value>pnlSideBarCaption</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaGradientPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Parent" xml:space="preserve">
     <value>splitSideBarOuter.Panel1</value>
@@ -460,17 +463,11 @@
   <data name="btnRemoveSavedChart.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="btnRemoveSavedChart.ToolTip" xml:space="preserve">
-    <value>Remove Saved Chart</value>
-  </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Name" xml:space="preserve">
     <value>btnRemoveSavedChart</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.XButton, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Parent" xml:space="preserve">
     <value>hlblSavedCharts</value>
@@ -500,7 +497,7 @@
     <value>hlblSavedCharts</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.HeaderLabel, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Parent" xml:space="preserve">
     <value>pnlSavedCharts</value>
@@ -527,7 +524,7 @@
     <value>pnlSavedCharts</value>
   </data>
   <data name="&gt;&gt;pnlSavedCharts.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.3014.28124, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSavedCharts.Parent" xml:space="preserve">
     <value>splitSideBarOuter.Panel2</value>
@@ -598,6 +595,9 @@
   <data name="lblChartName.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
+  <data name="lblChartName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblChartName.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 5</value>
   </data>
@@ -635,7 +635,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblChartNameValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 90</value>
+    <value>89, 258</value>
   </data>
   <data name="lblChartNameValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 20</value>
@@ -799,30 +799,6 @@
   <data name="&gt;&gt;pnlOuter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="sblblMain.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="sblblMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 19</value>
-  </data>
-  <data name="sblblMain.Text" xml:space="preserve">
-    <value>#</value>
-  </data>
-  <data name="sblblMain.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="sblblProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 19</value>
-  </data>
-  <data name="sblblProgress.Text" xml:space="preserve">
-    <value>#</value>
-  </data>
-  <data name="sbProgress.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="sbProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 18</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -838,29 +814,11 @@
   <data name="&gt;&gt;hdrSavedCharts.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;m_tooltip.Name" xml:space="preserve">
-    <value>m_tooltip</value>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
   </data>
-  <data name="&gt;&gt;m_tooltip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;sblblMain.Name" xml:space="preserve">
-    <value>sblblMain</value>
-  </data>
-  <data name="&gt;&gt;sblblMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;sblblProgress.Name" xml:space="preserve">
-    <value>sblblProgress</value>
-  </data>
-  <data name="&gt;&gt;sblblProgress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;sbProgress.Name" xml:space="preserve">
-    <value>sbProgress</value>
-  </data>
-  <data name="&gt;&gt;sbProgress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>XYChartVw</value>

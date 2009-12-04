@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Resources;
 using System.Windows.Forms;
-using SIL.Pa.Controls;
+using SIL.Pa.UI.Controls.Controls;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public partial class ColorPickerMatrix : UserControl
 	{

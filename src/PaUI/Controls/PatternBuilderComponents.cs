@@ -5,8 +5,13 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class PatternBuilderComponents : UserControl, IxCoreColleague
 	{
 		public ItemDragEventHandler ConPickerDragHandler;
@@ -37,21 +42,26 @@ namespace SIL.Pa
 		{
 			InitializeComponent();
 			PaApp.AddMediatorColleague(this);
-
-			Disposed += PatternBuilderComponents_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Remove ourselves from the mediator list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void PatternBuilderComponents_Disposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= PatternBuilderComponents_Disposed;
-			PaApp.RemoveMediatorColleague(this);
+			if (disposing)
+			{
+				if (components != null)
+					components.Dispose();
+
+				PaApp.RemoveMediatorColleague(this);
+			}
+
+			base.Dispose(disposing);
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

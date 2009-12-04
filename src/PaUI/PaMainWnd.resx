@@ -118,15 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>40, 30</value>
+    <value>0, 514</value>
   </metadata>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="sblblMain.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>104, 67</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="sblblMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>548, 19</value>
+    <value>549, 19</value>
   </data>
   <data name="sblblMain.Text" xml:space="preserve">
     <value>#</value>
@@ -135,7 +138,7 @@
     <value>MiddleLeft</value>
   </data>
   <data name="sblblProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 19</value>
+    <value>18, 19</value>
   </data>
   <data name="sblblProgress.Text" xml:space="preserve">
     <value>#</value>
@@ -187,7 +190,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ViewTabGroup, PaControls, Version=1.0.2706.19462, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, PaUI, Version=1.1.3624.40283, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -806,6 +809,12 @@
   </data>
   <data name="&gt;&gt;sbProgress.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PaMainWnd</value>

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

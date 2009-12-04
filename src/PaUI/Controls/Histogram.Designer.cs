@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	partial class Histogram
 	{
@@ -32,9 +32,9 @@ namespace SIL.Pa
 			this.pnlPhones = new System.Windows.Forms.Panel();
 			this.lblBarValue = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.pnlFixedBorder = new SIL.Pa.PaPanel();
-			this.pnlBars = new SIL.Pa.PaPanel();
-			this.pnlYaxis = new SIL.Pa.PaPanel();
+			this.pnlFixedBorder = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlBars = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlYaxis = new SIL.Pa.UI.Controls.PaPanel();
 			this.pnlScroller.SuspendLayout();
 			this.pnlFixedBorder.SuspendLayout();
 			this.SuspendLayout();

@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -16,9 +16,9 @@ namespace SIL.Pa
 		private static int s_numberOfBeforePhonesToMatchCIE = -1;
 		private static int s_numberOfAfterPhonesToMatchCIE = -1;
 
-		private readonly PaWordListGrid m_grid;
 		private Font m_headingFont;
-		WordListCache m_cache;
+		private readonly PaWordListGrid m_grid;
+		private readonly WordListCache m_cache;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -146,10 +146,10 @@ namespace SIL.Pa
 		{
 			if (grid != null)
 			{
-				SilUtils.Utils.SetWindowRedraw(grid, false, false);
+				Utils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalGroup();
-				SilUtils.Utils.SetWindowRedraw(grid, true, true);
+				Utils.SetWindowRedraw(grid, true, true);
 				grid.Invalidate();
 
 				if (grid.GroupByField != null)
@@ -166,10 +166,10 @@ namespace SIL.Pa
 		{
 			if (grid != null)
 			{
-				SilUtils.Utils.SetWindowRedraw(grid, false, false);
+				Utils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalUnGroup();
-				SilUtils.Utils.SetWindowRedraw(grid, true, true);
+				Utils.SetWindowRedraw(grid, true, true);
 				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}
@@ -378,11 +378,11 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string CompareEnvironments(WordListCacheEntry prevEntry,
+		private static string CompareEnvironments(WordListCacheEntry prevEntry,
 			WordListCacheEntry currEntry, bool matchBefore, bool rightToLeft,
 			int numberPhonesToMatch)
 		{
-			int x, y, startP, startC;
+			int x, y;
 			int endP, endC;
 			int inc = (rightToLeft ? -1 : 1);
 			string[] phonesP = prevEntry.Phones;
@@ -399,9 +399,9 @@ namespace SIL.Pa
 				if (string.IsNullOrEmpty(prevEntry.EnvironmentBefore))
 					return "#";
 
-				x = startP = (rightToLeft ? prevEntry.SearchItemOffset - 1 : 0);
+				x = (rightToLeft ? prevEntry.SearchItemOffset - 1 : 0);
 				endP = (rightToLeft ? -1 : prevEntry.SearchItemOffset);
-				y = startC = (rightToLeft ? currEntry.SearchItemOffset - 1 : 0);
+				y = (rightToLeft ? currEntry.SearchItemOffset - 1 : 0);
 				endC = (rightToLeft ? -1 : currEntry.SearchItemOffset);
 			}
 			else
@@ -415,14 +415,14 @@ namespace SIL.Pa
 				if (string.IsNullOrEmpty(prevEntry.EnvironmentAfter))
 					return "#";
 
-				x = startP = (rightToLeft ? phonesP.Length - 1 :
+				x = (rightToLeft ? phonesP.Length - 1 :
 					prevEntry.SearchItemOffset + prevEntry.SearchItemLength);
 
 				endP = (rightToLeft ?
 					prevEntry.SearchItemOffset + prevEntry.SearchItemLength - 1 :
 					phonesP.Length);
 
-				y = startC = (rightToLeft ? phonesC.Length - 1 :
+				y = (rightToLeft ? phonesC.Length - 1 :
 					currEntry.SearchItemOffset + currEntry.SearchItemLength);
 
 				endC = (rightToLeft ?
@@ -486,11 +486,11 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetHeadingTextFromEntry(WordListCacheEntry entry, bool matchBefore,
+		private static string GetHeadingTextFromEntry(WordListCacheEntry entry, bool matchBefore,
 			bool rightToLeft, int numberPhonesToMatch)
 		{
 			int phonesToInclude = numberPhonesToMatch;
-			int start = 0;
+			int start;
 
 			if (matchBefore)
 			{
@@ -523,7 +523,7 @@ namespace SIL.Pa
 			for (int i = start; phonesToInclude > 0; i++, phonesToInclude--)
 				heading.Append(entry.Phones[i]);
 
-			return (rightToLeft ? "..." : string.Empty) + heading.ToString() +
+			return (rightToLeft ? "..." : string.Empty) + heading +
 				(!rightToLeft ? "..." : string.Empty);
 		}
 

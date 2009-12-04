@@ -2,9 +2,10 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -25,7 +26,7 @@ namespace SIL.Pa
 		{
 			InitializeComponent();
 
-			lblCategories.Text = SilUtils.Utils.ConvertLiteralNewLines(lblCategories.Text);
+			lblCategories.Text = Utils.ConvertLiteralNewLines(lblCategories.Text);
 
 			lblPatternLabel.Font = FontHelper.UIFont;
 			lblName.Font = FontHelper.UIFont;
@@ -38,11 +39,11 @@ namespace SIL.Pa
 			AdjustLabelLocations();
 
 			string tipText = m_toolTip.GetToolTip(cboCategories);
-			tipText = SilUtils.Utils.ConvertLiteralNewLines(tipText);
+			tipText = Utils.ConvertLiteralNewLines(tipText);
 			m_toolTip.SetToolTip(cboCategories, tipText);
 
 			tipText = m_toolTip.GetToolTip(txtName);
-			tipText = SilUtils.Utils.ConvertLiteralNewLines(tipText);
+			tipText = Utils.ConvertLiteralNewLines(tipText);
 			m_toolTip.SetToolTip(txtName, tipText);
 
 			foreach (SearchQueryGroup group in PaApp.Project.SearchQueryGroups)
@@ -135,7 +136,7 @@ namespace SIL.Pa
 			string queryName = txtName.Text.Trim();
 			if (string.IsNullOrEmpty(queryName))
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
+				Utils.MsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -144,7 +145,7 @@ namespace SIL.Pa
 			string categoryName = cboCategories.Text.Trim();
 			if (string.IsNullOrEmpty(categoryName))
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
+				Utils.MsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;

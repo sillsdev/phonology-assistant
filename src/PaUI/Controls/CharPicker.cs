@@ -7,7 +7,7 @@ using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -38,7 +38,7 @@ namespace SIL.Pa
 		public event ItemDragEventHandler ItemDrag;
 		private Size m_itemSize = new Size(30, 32);
 		private bool m_checkItemsOnClick = true;
-		private bool m_autoSizeItems = false;
+		private bool m_autoSizeItems;
 		private SortedDictionary<int, PickerItemInfo> m_charsToLoad;
 		private Point m_itemMouseDownPoint;
 		private float m_fontSize = 14;
@@ -317,7 +317,7 @@ namespace SIL.Pa
 		/// of the toolstrip when the tool strip is on a tab page or tab control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void PaintWithTabPageBackground(Graphics g, VisualStyleElement element)
+		private void PaintWithTabPageBackground(IDeviceContext g, VisualStyleElement element)
 		{
 			VisualStyleRenderer renderer = new VisualStyleRenderer(element);
 			Rectangle crc = ClientRectangle;
@@ -501,7 +501,7 @@ namespace SIL.Pa
 				Properties.Resources.kstidCharPickerTooltipLong,
 				charInfo.Name, charInfo.Description);
 
-			return SilUtils.Utils.ConvertLiteralNewLines(tooltip);
+			return Utils.ConvertLiteralNewLines(tooltip);
 		}
 
 		/// ------------------------------------------------------------------------------------

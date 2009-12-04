@@ -8,9 +8,11 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -303,14 +305,15 @@ namespace SIL.Pa
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
-			pnlSideBarCaption.Text =
-				Properties.Resources.kstidXYChartsSliderPanelText.Replace(" & ", " && ");
+
+			locExtender.AddObjectToLocalize(pnlSideBarCaption,
+				"kstidXYChartsVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel(Properties.Resources.kstidXYChartsSliderPanelText,
-				this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+			m_slidingPanel = new SlidingPanel("kstidXYChartsVwUndockedSideBarTabText", this,
+				splitSideBarOuter, pnlSliderPlaceholder, Name);
 
 			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();
@@ -524,7 +527,7 @@ namespace SIL.Pa
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
 					LoadToolbarAndContextMenus();
-					SetToolTips();
+					locExtender.RefreshToolTips();
 				}
 			}
 
@@ -539,26 +542,9 @@ namespace SIL.Pa
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				SetToolTips();
+				locExtender.RefreshToolTips();
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetToolTips()
-		{
-			System.ComponentModel.ComponentResourceManager resources =
-				new System.ComponentModel.ComponentResourceManager(GetType());
-
-			m_tooltip = new ToolTip(components);
-			m_tooltip.SetToolTip(btnRemoveSavedChart, resources.GetString("btnRemoveSavedChart.ToolTip"));
-
-			btnAutoHide.SetToolTips();
-			btnDock.SetToolTips();
 		}
 
 		#endregion

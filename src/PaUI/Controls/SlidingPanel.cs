@@ -7,16 +7,16 @@ using System.Windows.Forms;
 using Timer=System.Windows.Forms.Timer;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public class SlidingPanel : Panel
 	{
 		private const int kContainerPadding = 5;
 
 		private bool m_slideFromLeft = true;
-		private bool m_sliderOpen = false;
-		private bool m_resizeInProcess = false;
-		private bool m_freeze = false;
+		private bool m_sliderOpen;
+		private bool m_resizeInProcess;
+		private bool m_freeze;
 		private int m_leftEdgeWhenClosed;
 		private int m_leftEdgeWhenOpened;
 		private int m_slidingIncrement;
@@ -30,8 +30,8 @@ namespace SIL.Pa
 		private readonly Panel m_pnlPlaceholder;
 		private readonly Control m_hostedControl;
 		private readonly Control m_owningContainer;
-		private readonly string m_tabText;
-		private readonly bool m_opening = false;
+		//private readonly string m_tabText;
+		//private readonly bool m_opening;
 		private readonly string m_settingName;
 
 		/// ------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SlidingPanel(string tabText, Control owningContainer, Control control,
+		public SlidingPanel(string id, Control owningContainer, Control control,
 			Panel pnlPlaceHolder, string settingName)
 		{
 			SuspendLayout();
@@ -47,7 +47,7 @@ namespace SIL.Pa
 			base.Cursor = Cursors.Default;
 			base.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
 
-			m_tabText = tabText;
+			//m_tabText = tabText;
 			m_owningContainer = owningContainer;
 			m_hostedControl = control;
 			m_owningContainer.SuspendLayout();
@@ -67,6 +67,8 @@ namespace SIL.Pa
 			m_hostedControl.ResumeLayout(false);
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(m_lblTab, id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,14 +163,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void m_pnlPlaceholder_SizeChanged(object sender, EventArgs e)
 		{
-			TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter |
-				TextFormatFlags.LeftAndRightPadding | TextFormatFlags.HorizontalCenter |
-				TextFormatFlags.NoPrefix;
+			const TextFormatFlags kFlags = TextFormatFlags.SingleLine |
+				TextFormatFlags.VerticalCenter | TextFormatFlags.LeftAndRightPadding |
+				TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix;
 
 			Size sz;
 			using (Graphics g = CreateGraphics())
 			{
-				sz = TextRenderer.MeasureText(g, m_tabText, FontHelper.UIFont, Size.Empty, flags);
+				sz = TextRenderer.MeasureText(g, m_lblTab.Text, FontHelper.UIFont, Size.Empty, kFlags);
 				sz.Height += 15;
 			}
 
@@ -500,7 +502,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		void m_pnlContainer_MouseDown(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && m_sizingRectangle.Contains(e.Location) && !m_opening)
+			if (e.Button == MouseButtons.Left && m_sizingRectangle.Contains(e.Location) /*&& !m_opening */)
 			{
 				m_owningContainer.SuspendLayout();
 				m_resizeInProcess = true;
@@ -645,14 +647,14 @@ namespace SIL.Pa
 			if (m_slideFromLeft)
 			{
 				// When on left side.
-				pts = new Point[] {new Point(0, 0), new Point(rc.Right - 3, 0),
+				pts = new[] {new Point(0, 0), new Point(rc.Right - 3, 0),
 				    new Point(rc.Right - 1, 2), new	Point(rc.Right - 1, rc.Bottom - 3),
 				    new	Point(rc.Right - 3, rc.Bottom - 1), new Point(0, rc.Bottom - 1)};
 			}
 			else
 			{
 				// When on right side.
-				pts = new Point[] {new Point(rc.Right - 1, 0), new Point(2, 0),
+				pts = new[] {new Point(rc.Right - 1, 0), new Point(2, 0),
 					new Point(0, 2), new Point(0, rc.Bottom - 3),
 					new	Point(2, rc.Bottom - 1), new Point(rc.Right - 1, rc.Bottom - 1)};
 			}
@@ -667,14 +669,14 @@ namespace SIL.Pa
 			else
 				e.Graphics.DrawLine(SystemPens.ControlLight, rc.Right - 1, 1, rc.Right - 1, rc.Bottom - 2);
 
-			using (StringFormat sf = SilUtils.Utils.GetStringFormat(true))
+			using (StringFormat sf = Utils.GetStringFormat(true))
 			using (SolidBrush br = new SolidBrush(Enabled ?
 				SystemColors.ControlText : SystemColors.GrayText))
 			{
 				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 				sf.FormatFlags |= StringFormatFlags.DirectionVertical;
 				sf.HotkeyPrefix = HotkeyPrefix.None;
-				e.Graphics.DrawString(m_tabText, FontHelper.UIFont, br, rc, sf);
+				e.Graphics.DrawString(m_lblTab.Text, FontHelper.UIFont, br, rc, sf);
 			}
 		}
 

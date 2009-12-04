@@ -3,7 +3,7 @@ using System.Drawing;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	public partial class OptionsDlg
 	{

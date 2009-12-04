@@ -15,7 +15,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	#region Class HookEventArgs
 	public class HookEventArgs : EventArgs

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -23,7 +23,7 @@ namespace SIL.Pa
 		{
 			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 8);
 
-			SilUtils.Utils.WaitCursors(true);
+			Utils.WaitCursors(true);
 			InitializeComponent();
 			
 			// Remove this until we implement it.
@@ -72,7 +72,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 			base.OnShown(e);
 			PaApp.UninitializeProgressBar();
 		}

@@ -24,6 +24,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
@@ -31,6 +32,7 @@ using SilUtils;
 
 namespace SIL.Pa
 {
+	#region ITabView interface
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -44,6 +46,9 @@ namespace SIL.Pa
 		ITMAdapter TMAdapter { get;}
 	}
 
+	#endregion
+
+	#region IUndockedViewWnd interface
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -56,6 +61,8 @@ namespace SIL.Pa
 		ToolStripStatusLabel StatusBarLabel { get;}
 		StatusStrip StatusBar { get; }
 	}
+
+	#endregion
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -104,6 +111,7 @@ namespace SIL.Pa
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly Size s_minViewWindowSize;
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
+		private static LocalizationExtender s_locExtender;
 
 		// The PA add-on DLL provides undocumented features, if it exists in the pa.exe
 		// folder. The add-on manager class is the class in the DLL that links PA with
@@ -121,8 +129,8 @@ namespace SIL.Pa
 			InitializePaRegKey();
 			s_settingsFile = Path.Combine(s_defaultProjFolder, "pa.xml");
 			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
-
 			s_msgMediator = new Mediator();
+			s_locExtender = new LocalizationExtender();
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
@@ -577,6 +585,17 @@ namespace SIL.Pa
 		public static Mediator MsgMediator
 		{
 			get { return s_msgMediator; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the gloval localization extender for the application. This extender is used
+		/// for all the stuff not added via the forms designer.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static LocalizationExtender LocalizationExtender
+		{
+			get { return s_locExtender; }
 		}
 
 		/// ------------------------------------------------------------------------------------

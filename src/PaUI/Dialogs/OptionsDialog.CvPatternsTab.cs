@@ -6,8 +6,9 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
+using SIL.Pa.UI.Controls;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	public partial class OptionsDlg
 	{

@@ -7,7 +7,7 @@ using System.Windows.Forms.VisualStyles;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -19,7 +19,7 @@ namespace SIL.Pa
 		private const TextFormatFlags kTxtFmtFlags = TextFormatFlags.VerticalCenter |
 			TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
-		private bool m_isCurrentTabControl = false;
+		private bool m_isCurrentTabControl;
 		private List<ViewTab> m_tabs;
 		private ViewTab m_currTab;
 		private PaGradientPanel m_pnlCaption;
@@ -302,7 +302,7 @@ namespace SIL.Pa
 				m_pnlTabs.Left = 0; 
 			
 			ViewTab tab = new ViewTab(this, img, viewType);
-			tab.Text = SilUtils.Utils.RemoveAcceleratorPrefix(text);
+			tab.Text = Utils.RemoveAcceleratorPrefix(text);
 			tab.HelpToolTipText = helptootip;
 			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
@@ -483,17 +483,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUnDockView(object args)
 		{
-			m_btnUndock_Click(null, null);
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Undocks the current tab's view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnUndock_Click(object sender, EventArgs e)
-		{
 			int visibleCount = 0;
 
 			foreach (Control ctrl in m_pnlTabs.Controls)
@@ -505,6 +494,8 @@ namespace SIL.Pa
 			// Don't undock the last tab.
 			if (m_currTab != null && visibleCount > 1)
 				m_currTab.IsViewDocked = false;
+			
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -528,10 +519,7 @@ namespace SIL.Pa
 			Application.DoEvents();
 
 			// One of these has to succeed.
-			ViewTab newTab = FindFirstVisibleTabToLeft(tab);
-			if (newTab == null)
-				newTab = FindFirstVisibleTabToRight(tab);
-
+			ViewTab newTab = FindFirstVisibleTabToLeft(tab) ?? FindFirstVisibleTabToRight(tab);
 			if (newTab != null)
 				SelectTab(newTab);
 
@@ -741,7 +729,7 @@ namespace SIL.Pa
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				SilUtils.Utils.UpdateWindow(m_pnlTabs.Handle);
+				Utils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -764,13 +752,13 @@ namespace SIL.Pa
 			rc.X += 6;
 			rc.Width -= 6;
 
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left |
 				TextFormatFlags.HidePrefix | TextFormatFlags.EndEllipsis |
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, m_captionText, m_pnlCaption.Font,
-				rc, SystemColors.ActiveCaptionText, flags);
+				rc, SystemColors.ActiveCaptionText, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -926,18 +914,18 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTab : Label
 	{
-		private static bool s_viewSelectionInProgress = false;
-		private bool m_ignoreTabSelection = false;
+		private static bool s_viewSelectionInProgress;
+		private bool m_ignoreTabSelection;
 		private Point m_mouseDownLocation = Point.Empty;
-		private bool m_mouseOver = false;
-		private bool m_selected = false;
+		private bool m_mouseOver;
+		private bool m_selected;
 		private ViewTabGroup m_owningTabGroup;
 		private readonly Image m_image;
-		private Control m_viewsControl = null;
-		private UndockedViewWnd m_viewsForm = null;
-		private readonly Type m_viewType = null;
-		private bool m_viewDocked = false;
-		private bool m_undockingInProgress = false;
+		private Control m_viewsControl;
+		private UndockedViewWnd m_viewsForm;
+		private readonly Type m_viewType;
+		private bool m_viewDocked;
+		private bool m_undockingInProgress;
 		private string m_helpToolTipText = string.Empty;
 		private string m_helpTopicId;
 
@@ -950,7 +938,7 @@ namespace SIL.Pa
 		/// its parent window (i.e. the main application window) to become activated, which
 		/// is the normal behavior when a view is docked.
 		/// </summary>
-		private static bool s_undockingInProgress = false;
+		private static bool s_undockingInProgress;
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1022,7 +1010,7 @@ namespace SIL.Pa
 
 			if (!(m_viewsControl is ITabView))
 			{
-				SilUtils.Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!",
+				Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!",
 					m_viewType));
 			}
 
@@ -1084,7 +1072,7 @@ namespace SIL.Pa
 				return;
 
 			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
-			SilUtils.Utils.SetWindowRedraw(m_owningTabGroup, false, false);
+			Utils.SetWindowRedraw(m_owningTabGroup, false, false);
 			Visible = true;
 			
 			m_owningTabGroup.ViewWasDocked(this);
@@ -1098,7 +1086,7 @@ namespace SIL.Pa
 			m_owningTabGroup.SelectTab(this);
 			m_ignoreTabSelection = false;
 
-			SilUtils.Utils.SetWindowRedraw(m_owningTabGroup, true, true);
+			Utils.SetWindowRedraw(m_owningTabGroup, true, true);
 			m_viewsControl.Focus();
 			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
 			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
@@ -1131,7 +1119,7 @@ namespace SIL.Pa
 				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
 			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
-			string caption = SilUtils.Utils.RemoveAcceleratorPrefix(Text);
+			string caption = Utils.RemoveAcceleratorPrefix(Text);
 			m_viewsForm.Text = string.Format(Properties.Resources.kstidUndockedViewCaption,
 				PaApp.Project.ProjectName, caption, Application.ProductName);
 			
@@ -1295,7 +1283,7 @@ namespace SIL.Pa
 				s_viewSelectionInProgress = true;
 				m_selected = value;
 				Invalidate();
-				SilUtils.Utils.UpdateWindow(Handle);
+				Utils.UpdateWindow(Handle);
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
@@ -1303,7 +1291,7 @@ namespace SIL.Pa
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
-					SilUtils.Utils.UpdateWindow(adjacentTab.Handle);
+					Utils.UpdateWindow(adjacentTab.Handle);
 				}
 
 				if (!m_ignoreTabSelection)
@@ -1446,7 +1434,7 @@ namespace SIL.Pa
 			// First, fill the entire background with the control color.
 			g.FillRectangle(SystemBrushes.Control, rc);
 
-			Point[] pts = new Point[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
+			Point[] pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
 				new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
 				new Point(rc.Right - 1, rc.Bottom)};
 
@@ -1499,9 +1487,9 @@ namespace SIL.Pa
 		/// Draw the tab's text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawText(Graphics g)
+		private void DrawText(IDeviceContext g)
 		{
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.WordEllipsis |
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
 				TextFormatFlags.HidePrefix | TextFormatFlags.PreserveGraphicsClipping;
@@ -1526,7 +1514,7 @@ namespace SIL.Pa
 				rc.Height -= 2;
 			}
 
-			TextRenderer.DrawText(g, Text, Font, rc, clrText, flags);
+			TextRenderer.DrawText(g, Text, Font, rc, clrText, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

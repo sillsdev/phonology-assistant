@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
 namespace SIL.Pa

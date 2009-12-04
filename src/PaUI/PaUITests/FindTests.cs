@@ -15,11 +15,11 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
 using NUnit.Framework;
 using SIL.Pa.Data;
 using SIL.Pa.TestUtils;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
 namespace SIL.Pa

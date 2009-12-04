@@ -2,9 +2,10 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// <summary>
 	/// Summary description for RtfExportDlg.
@@ -297,7 +298,7 @@ namespace SIL.Pa
 		{
 			//if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
 			//{
-			//    SilUtils.Utils.MsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
+			//    Utils.MsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
 			//    return;
 			//}
 

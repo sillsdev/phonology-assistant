@@ -129,6 +129,9 @@
   <data name="pnlConsonants.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 11world</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="pnlConsonants.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
@@ -142,7 +145,7 @@
     <value>pnlConsonants</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.1.3611.25552, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3624.39344, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Parent" xml:space="preserve">
     <value>tpgCons</value>
@@ -202,7 +205,7 @@
     <value>pnlVowels</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.1.3611.25552, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3624.39344, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Parent" xml:space="preserve">
     <value>tpgVows</value>
@@ -262,7 +265,7 @@
     <value>charExplorer</value>
   </data>
   <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.IPACharacterExplorer, PaControls, Version=1.1.3611.25552, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, PaUI, Version=1.1.3624.39344, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
     <value>tpgOther</value>
@@ -319,7 +322,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.1.3611.25552, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3624.39344, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>tpgClasses</value>
@@ -449,6 +452,12 @@
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 214</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PatternBuilderComponents</value>

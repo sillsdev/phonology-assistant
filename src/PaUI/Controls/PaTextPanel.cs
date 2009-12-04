@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -21,8 +21,8 @@ namespace SIL.Pa
 				TextFormatFlags.LeftAndRightPadding | TextFormatFlags.HidePrefix |
 				TextFormatFlags.PreserveGraphicsClipping;
 
-		private bool m_mnemonicGeneratesClick = false;
-		private Control m_ctrlRcvingFocusOnMnemonic = null;
+		private bool m_mnemonicGeneratesClick;
+		private Control m_ctrlRcvingFocusOnMnemonic;
 		private Rectangle m_rcText;
 		private bool m_clipTextForChildControls = true;
 

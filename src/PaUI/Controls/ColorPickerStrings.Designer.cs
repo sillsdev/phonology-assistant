@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SIL.Pa.Controls {
+namespace SIL.Pa.UI.Controls.Controls {
     using System;
     
     

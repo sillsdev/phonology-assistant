@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -147,7 +147,7 @@ namespace SIL.Pa
 			if (PaApp.DesignMode)
 				return;
 
-			SilUtils.Utils.SetWindowRedraw(this, false, false);
+			Utils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
 			foreach (IPACharacterTypeInfo typeInfo in m_typesToShow)
@@ -184,7 +184,7 @@ namespace SIL.Pa
 
 			Dock = DockStyle.Fill;
 			LayoutPickers(false);
-			SilUtils.Utils.SetWindowRedraw(this, true, true);
+			Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ namespace SIL.Pa
 		private void LayoutPickers(bool suspendDraw)
 		{
 			if (suspendDraw)
-				SilUtils.Utils.SetWindowRedraw(this, false, false);
+				Utils.SetWindowRedraw(this, false, false);
 
 			foreach (ExplorerBarItem item in Items)
 			{
@@ -205,7 +205,7 @@ namespace SIL.Pa
 			}
 
 			if (suspendDraw)
-				SilUtils.Utils.SetWindowRedraw(this, true, true);
+				Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,13 +216,17 @@ namespace SIL.Pa
 		private void LoadConsonants(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerConsonant = new CharPicker();
+			m_pickerConsonant.Name = "chrPickerConsonants";
 			m_pickerConsonant.CharPicked += HandleCharPicked;
 			m_pickerConsonant.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerConsonant.ItemDrag += HandleCharacterItemDrag;
 			m_pickerConsonant.LoadCharacterType(typeInfo);
 			m_pickerConsonant.CheckItemsOnClick = false;
 			m_pickerConsonant.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupConsonants, m_pickerConsonant);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupConsonants, m_pickerConsonant);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidConsonantsCharPicker");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -233,13 +237,17 @@ namespace SIL.Pa
 		private void LoadNonPulmonics(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerNonPulmonics = new CharPicker();
+			m_pickerNonPulmonics.Name = "chrPickerNonPulmonics";
 			m_pickerNonPulmonics.CharPicked += HandleCharPicked;
 			m_pickerNonPulmonics.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerNonPulmonics.ItemDrag += HandleCharacterItemDrag;
 			m_pickerNonPulmonics.LoadCharacterType(typeInfo);
 			m_pickerNonPulmonics.CheckItemsOnClick = false;
 			m_pickerNonPulmonics.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupNonPulmonics, m_pickerNonPulmonics);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupNonPulmonics, m_pickerNonPulmonics);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidNonPulmonicsCharPicker");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -250,13 +258,17 @@ namespace SIL.Pa
 		private void LoadOthers(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerOther = new CharPicker();
+			m_pickerOther.Name = "chrPickerOthers";
 			m_pickerOther.CharPicked += HandleCharPicked;
 			m_pickerOther.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerOther.ItemDrag += HandleCharacterItemDrag;
 			m_pickerOther.LoadCharacterType(typeInfo);
 			m_pickerOther.CheckItemsOnClick = false;
 			m_pickerOther.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupOtherSymbols, m_pickerOther);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupOtherSymbols, m_pickerOther);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidOtherSymbolsCharPicker");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,13 +279,17 @@ namespace SIL.Pa
 		private void LoadVowels(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerVowel = new CharPicker();
+			m_pickerVowel.Name = "chrPickerVowels";
 			m_pickerVowel.CharPicked += HandleCharPicked;
 			m_pickerVowel.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerVowel.ItemDrag += HandleCharacterItemDrag;
 			m_pickerVowel.LoadCharacterType(typeInfo);
 			m_pickerVowel.CheckItemsOnClick = false;
 			m_pickerVowel.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupVowels, m_pickerVowel);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupVowels, m_pickerVowel);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidVowelsCharPicker");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -284,6 +300,7 @@ namespace SIL.Pa
 		private void LoadDiacritics(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerDiacritics = new CharPicker();
+			m_pickerDiacritics.Name = "chrPickerDiacritics";
 			m_pickerDiacritics.CharPicked += HandleCharPicked;
 			m_pickerDiacritics.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerDiacritics.ItemDrag += HandleCharacterItemDrag;
@@ -291,7 +308,10 @@ namespace SIL.Pa
 			
 			m_pickerDiacritics.CheckItemsOnClick = false;
 			m_pickerDiacritics.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupDiacritics, m_pickerDiacritics);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupDiacritics, m_pickerDiacritics);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidDiacriticsCharPicker");
 
 			// Enlarge the font and cell size
 			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, m_bigFontSize);
@@ -306,6 +326,7 @@ namespace SIL.Pa
 		private void LoadSSegs(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerSSeg = new CharPicker();
+			m_pickerSSeg.Name = "chrPickerSSegs";
 			m_pickerSSeg.CharPicked += HandleCharPicked;
 			m_pickerSSeg.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerSSeg.ItemDrag += HandleCharacterItemDrag;
@@ -313,7 +334,10 @@ namespace SIL.Pa
 			
 			m_pickerSSeg.CheckItemsOnClick = false;
 			m_pickerSSeg.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupSuprasegmentals, m_pickerSSeg);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupSuprasegmentals, m_pickerSSeg);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidSSegsCharPicker");
 
 			// Enlarge the font and cell size
 			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, m_bigFontSize);
@@ -328,6 +352,7 @@ namespace SIL.Pa
 		private void LoadTone(IPACharacterTypeInfo typeInfo)
 		{
 			m_pickerTone = new CharPicker();
+			m_pickerTone.Name = "chrPickerTone";
 			m_pickerTone.CharPicked += HandleCharPicked;
 			m_pickerTone.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerTone.ItemDrag += HandleCharacterItemDrag;
@@ -335,7 +360,10 @@ namespace SIL.Pa
 
 			m_pickerTone.CheckItemsOnClick = false;
 			m_pickerTone.AutoSizeItems = true;
-			Add(Properties.Resources.kstidIPAChooserGroupTone, m_pickerTone);
+			ExplorerBarItem item =
+				Add(Properties.Resources.kstidIPAChooserGroupTone, m_pickerTone);
+
+			PaApp.LocalizationExtender.AddObjectToLocalize(item.Button, "kstidToneCharPicker");
 
 			// Enlarge the font and cell size
 			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, m_bigFontSize);

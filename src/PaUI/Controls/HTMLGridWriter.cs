@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

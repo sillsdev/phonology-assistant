@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Views
 {
 	partial class XYChartVw
 	{
@@ -31,29 +31,26 @@ namespace SIL.Pa
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SIL.Pa.PaPanel();
-			this.rtfRecVw = new SIL.Pa.RtfRecordView();
+			this.pnlRecView = new SIL.Pa.UI.Controls.PaPanel();
+			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
-			this.ptrnBldrComponent = new SIL.Pa.PatternBuilderComponents();
-			this.pnlSideBarCaption = new SIL.Pa.PaGradientPanel();
-			this.btnDock = new SIL.Pa.DockButton();
-			this.btnAutoHide = new SIL.Pa.AutoHideButton();
-			this.pnlSavedCharts = new SIL.Pa.PaPanel();
+			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
+			this.pnlSideBarCaption = new SIL.Pa.UI.Controls.PaGradientPanel();
+			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
+			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
+			this.pnlSavedCharts = new SIL.Pa.UI.Controls.PaPanel();
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
 			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
-			this.hlblSavedCharts = new SIL.Pa.HeaderLabel();
-			this.btnRemoveSavedChart = new SIL.Pa.XButton();
+			this.hlblSavedCharts = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.btnRemoveSavedChart = new SIL.Pa.UI.Controls.XButton();
 			this.splitChart = new System.Windows.Forms.SplitContainer();
 			this.lblChartName = new System.Windows.Forms.Label();
 			this.lblChartNameValue = new System.Windows.Forms.Label();
-			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
-			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.splitResults.Panel2.SuspendLayout();
 			this.splitResults.SuspendLayout();
 			this.pnlRecView.SuspendLayout();
@@ -71,6 +68,7 @@ namespace SIL.Pa
 			this.splitChart.Panel2.SuspendLayout();
 			this.splitChart.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitResults
@@ -97,6 +95,10 @@ namespace SIL.Pa
 			this.pnlRecView.Controls.Add(this.rtfRecVw);
 			resources.ApplyResources(this.pnlRecView, "pnlRecView");
 			this.pnlRecView.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
+			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
+			this.locExtender.SetLocalizationPriority(this.pnlRecView, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlRecView, "XYChartVw.pnlRecView");
 			this.pnlRecView.MnemonicGeneratesClick = false;
 			this.pnlRecView.Name = "pnlRecView";
 			this.pnlRecView.PaintExplorerBarBackground = false;
@@ -106,6 +108,10 @@ namespace SIL.Pa
 			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
 			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			resources.ApplyResources(this.rtfRecVw, "rtfRecVw");
+			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
+			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
+			this.locExtender.SetLocalizationPriority(this.rtfRecVw, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rtfRecVw, "XYChartVw.rtfRecVw");
 			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
 			this.rtfRecVw.TabStop = false;
@@ -149,6 +155,10 @@ namespace SIL.Pa
 			// ptrnBldrComponent
 			// 
 			resources.ApplyResources(this.ptrnBldrComponent, "ptrnBldrComponent");
+			this.locExtender.SetLocalizableToolTip(this.ptrnBldrComponent, null);
+			this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
+			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "XYChartVw.PatternBuilderComponents");
 			this.ptrnBldrComponent.Name = "ptrnBldrComponent";
 			// 
 			// pnlSideBarCaption
@@ -160,6 +170,10 @@ namespace SIL.Pa
 			this.pnlSideBarCaption.Controls.Add(this.btnAutoHide);
 			resources.ApplyResources(this.pnlSideBarCaption, "pnlSideBarCaption");
 			this.pnlSideBarCaption.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
+			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, null);
+			this.locExtender.SetLocalizationPriority(this.pnlSideBarCaption, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "XYChartVw.pnlSideBarCaption");
 			this.pnlSideBarCaption.MakeDark = false;
 			this.pnlSideBarCaption.MnemonicGeneratesClick = false;
 			this.pnlSideBarCaption.Name = "pnlSideBarCaption";
@@ -174,6 +188,10 @@ namespace SIL.Pa
 			this.btnDock.DrawEmpty = false;
 			this.btnDock.DrawLeftArrowButton = false;
 			this.btnDock.DrawRightArrowButton = false;
+			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
+			this.locExtender.SetLocalizationComment(this.btnDock, null);
+			this.locExtender.SetLocalizationPriority(this.btnDock, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.btnDock, "XYChartVw.btnDock");
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Click += new System.EventHandler(this.btnDock_Click);
 			// 
@@ -186,6 +204,10 @@ namespace SIL.Pa
 			this.btnAutoHide.DrawEmpty = false;
 			this.btnAutoHide.DrawLeftArrowButton = false;
 			this.btnAutoHide.DrawRightArrowButton = false;
+			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
+			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
+			this.locExtender.SetLocalizationPriority(this.btnAutoHide, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.btnAutoHide, "XYChartVw.btnAutoHide");
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Click += new System.EventHandler(this.btnAutoHide_Click);
 			// 
@@ -198,6 +220,10 @@ namespace SIL.Pa
 			this.pnlSavedCharts.Controls.Add(this.hlblSavedCharts);
 			resources.ApplyResources(this.pnlSavedCharts, "pnlSavedCharts");
 			this.pnlSavedCharts.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlSavedCharts, null);
+			this.locExtender.SetLocalizationComment(this.pnlSavedCharts, null);
+			this.locExtender.SetLocalizationPriority(this.pnlSavedCharts, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSavedCharts, "XYChartVw.pnlSavedCharts");
 			this.pnlSavedCharts.MnemonicGeneratesClick = false;
 			this.pnlSavedCharts.Name = "pnlSavedCharts";
 			this.pnlSavedCharts.PaintExplorerBarBackground = false;
@@ -227,12 +253,22 @@ namespace SIL.Pa
 			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
 			this.lvSavedCharts.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvSavedCharts_ItemDrag);
 			// 
+			// hdrSavedCharts
+			// 
+			this.locExtender.SetLocalizableToolTip(this.hdrSavedCharts, null);
+			this.locExtender.SetLocalizationComment(this.hdrSavedCharts, null);
+			this.locExtender.SetLocalizationPriority(this.hdrSavedCharts, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.hdrSavedCharts, "XYChartVw.lvSavedCharts");
+			// 
 			// hlblSavedCharts
 			// 
 			this.hlblSavedCharts.ClipTextForChildControls = true;
 			this.hlblSavedCharts.ControlReceivingFocusOnMnemonic = null;
 			this.hlblSavedCharts.Controls.Add(this.btnRemoveSavedChart);
 			resources.ApplyResources(this.hlblSavedCharts, "hlblSavedCharts");
+			this.locExtender.SetLocalizableToolTip(this.hlblSavedCharts, null);
+			this.locExtender.SetLocalizationComment(this.hlblSavedCharts, null);
+			this.locExtender.SetLocalizingId(this.hlblSavedCharts, "XYChartVw.hlblSavedCharts");
 			this.hlblSavedCharts.MnemonicGeneratesClick = false;
 			this.hlblSavedCharts.Name = "hlblSavedCharts";
 			this.hlblSavedCharts.ShowWindowBackgroudOnTopAndRightEdge = true;
@@ -247,8 +283,12 @@ namespace SIL.Pa
 			this.btnRemoveSavedChart.DrawLeftArrowButton = false;
 			this.btnRemoveSavedChart.DrawRightArrowButton = false;
 			this.btnRemoveSavedChart.Image = global::SIL.Pa.Properties.Resources.kimidDelete;
+			this.locExtender.SetLocalizableToolTip(this.btnRemoveSavedChart, "Remove Saved Chart");
+			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the XY charts view. The button is on the right s" +
+					"ide of the heading over the saved charts list.");
+			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "XYChartVw.btnRemoveSavedChart");
 			this.btnRemoveSavedChart.Name = "btnRemoveSavedChart";
-			this.m_tooltip.SetToolTip(this.btnRemoveSavedChart, resources.GetString("btnRemoveSavedChart.ToolTip"));
 			this.btnRemoveSavedChart.Click += new System.EventHandler(this.btnRemoveSavedChart_Click);
 			// 
 			// splitChart
@@ -270,11 +310,18 @@ namespace SIL.Pa
 			// lblChartName
 			// 
 			resources.ApplyResources(this.lblChartName, "lblChartName");
+			this.locExtender.SetLocalizableToolTip(this.lblChartName, null);
+			this.locExtender.SetLocalizationComment(this.lblChartName, null);
+			this.locExtender.SetLocalizingId(this.lblChartName, "XYChartVw.lblChartName");
 			this.lblChartName.Name = "lblChartName";
 			// 
 			// lblChartNameValue
 			// 
 			resources.ApplyResources(this.lblChartNameValue, "lblChartNameValue");
+			this.locExtender.SetLocalizableToolTip(this.lblChartNameValue, null);
+			this.locExtender.SetLocalizationComment(this.lblChartNameValue, null);
+			this.locExtender.SetLocalizationPriority(this.lblChartNameValue, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblChartNameValue, "XYChartVw.lblChartNameValue");
 			this.lblChartNameValue.Name = "lblChartNameValue";
 			// 
 			// pnlSliderPlaceholder
@@ -288,32 +335,16 @@ namespace SIL.Pa
 			resources.ApplyResources(this.pnlOuter, "pnlOuter");
 			this.pnlOuter.Name = "pnlOuter";
 			// 
-			// sblblMain
-			// 
-			resources.ApplyResources(this.sblblMain, "sblblMain");
-			this.sblblMain.Name = "sblblMain";
-			this.sblblMain.Spring = true;
-			// 
-			// sblblProgress
-			// 
-			this.sblblProgress.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-			this.sblblProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-			this.sblblProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
-			this.sblblProgress.Name = "sblblProgress";
-			resources.ApplyResources(this.sblblProgress, "sblblProgress");
-			// 
-			// sbProgress
-			// 
-			resources.ApplyResources(this.sbProgress, "sbProgress");
-			this.sbProgress.Name = "sbProgress";
-			// 
 			// XYChartVw
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pnlOuter);
 			this.Controls.Add(this.pnlSliderPlaceholder);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "XYChartVw.XYChartVw");
 			this.Name = "XYChartVw";
 			this.splitResults.Panel2.ResumeLayout(false);
 			this.splitResults.ResumeLayout(false);
@@ -333,35 +364,33 @@ namespace SIL.Pa
 			this.splitChart.Panel2.ResumeLayout(false);
 			this.splitChart.ResumeLayout(false);
 			this.pnlOuter.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.ToolTip m_tooltip;
 		private System.Windows.Forms.SplitContainer splitSideBarOuter;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitResults;
-		private SIL.Pa.PaPanel pnlRecView;
-		private SIL.Pa.RtfRecordView rtfRecVw;
+		private SIL.Pa.UI.Controls.PaPanel pnlRecView;
+		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
-		private SIL.Pa.PaGradientPanel pnlSideBarCaption;
+		private SIL.Pa.UI.Controls.PaGradientPanel pnlSideBarCaption;
 		private System.Windows.Forms.Panel pnlTabClassDef;
 		private System.Windows.Forms.Panel pnlOuter;
 		private System.Windows.Forms.SplitContainer splitChart;
-		private SIL.Pa.HeaderLabel hlblSavedCharts;
-		private SIL.Pa.PaPanel pnlSavedCharts;
+		private SIL.Pa.UI.Controls.HeaderLabel hlblSavedCharts;
+		private SIL.Pa.UI.Controls.PaPanel pnlSavedCharts;
 		private System.Windows.Forms.ListView lvSavedCharts;
 		private System.Windows.Forms.ColumnHeader hdrSavedCharts;
-		private SIL.Pa.AutoHideButton btnAutoHide;
-		private SIL.Pa.DockButton btnDock;
-		private SIL.Pa.XButton btnRemoveSavedChart;
-		private SIL.Pa.PatternBuilderComponents ptrnBldrComponent;
+		private SIL.Pa.UI.Controls.AutoHideDockButton btnAutoHide;
+		private SIL.Pa.UI.Controls.AutoHideDockButton btnDock;
+		private SIL.Pa.UI.Controls.XButton btnRemoveSavedChart;
+		private SIL.Pa.UI.Controls.PatternBuilderComponents ptrnBldrComponent;
 		private System.Windows.Forms.Label lblChartName;
-		private System.Windows.Forms.ToolStripStatusLabel sblblMain;
-		private System.Windows.Forms.ToolStripStatusLabel sblblProgress;
-		private System.Windows.Forms.ToolStripProgressBar sbProgress;
 		private System.Windows.Forms.Label lblChartNameValue;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

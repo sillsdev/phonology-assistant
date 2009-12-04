@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
+using SIL.Pa.UI;
 using SilUtils;
 
 namespace SIL.Pa
@@ -32,7 +33,7 @@ namespace SIL.Pa
 						}
 						catch (Exception e)
 						{
-							SilUtils.Utils.MsgBox(e.Message + "\n\nUsing default culture.");
+							Utils.MsgBox(e.Message + "\n\nUsing default culture.");
 						}
 
 						args.RemoveAt(i);

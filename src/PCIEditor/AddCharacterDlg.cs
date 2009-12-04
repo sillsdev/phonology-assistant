@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
 namespace SIL.Pa

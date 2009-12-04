@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

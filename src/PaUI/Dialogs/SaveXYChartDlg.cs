@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -15,7 +16,7 @@ namespace SIL.Pa
 	{
 		private readonly XYGrid m_xyGrid;
 		private readonly List<XYChartLayout> m_savedCharts;
-		private XYChartLayout m_layoutToOverwrite = null;
+		private XYChartLayout m_layoutToOverwrite;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -75,7 +76,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(text))
 			{
 				string msg = Properties.Resources.kstidNoSavedChartNameMsg;
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -86,7 +87,7 @@ namespace SIL.Pa
 			{
 				string msg = Properties.Resources.kstidSavedChartNameAlreadyExistsOverwriteMsg;
 				msg = string.Format(msg, text);
-				if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 					m_layoutToOverwrite = existingLayout;
 				else
 				{

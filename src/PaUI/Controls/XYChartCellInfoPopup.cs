@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public class XYChartCellInfoPopup : SilPopup
 	{
@@ -23,10 +23,10 @@ namespace SIL.Pa
 		private bool m_drawArrow = true;
 		private Timer m_popupTimer;
 		private Point m_popupLocation;
-		private Font m_eticBold;
-		private Font m_eticMsg;
 		private DataGridViewCell m_associatedCell;
 		private readonly DataGridView m_associatedGrid;
+		private readonly Font m_eticBold;
+		private readonly Font m_eticMsg;
 		private readonly Label m_lblMsg;
 		private readonly Label m_lblPattern;
 		private readonly Label m_lblInfo;
@@ -116,7 +116,7 @@ namespace SIL.Pa
 					msgType = MsgType.Exception;
 				
 				InitializeLabels(msgType);
-				m_lblInfo.Text = SilUtils.Utils.ConvertLiteralNewLines(informationMsg);
+				m_lblInfo.Text = Utils.ConvertLiteralNewLines(informationMsg);
 			}
 			else
 			{
@@ -181,7 +181,7 @@ namespace SIL.Pa
 			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
 			m_lblPattern.Font = m_eticBold;
 
-			string msg = null;
+			string msg;
 
 			if (msgType == MsgType.Other || msgType == MsgType.Exception)
 			{
@@ -197,7 +197,7 @@ namespace SIL.Pa
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 
-			m_lblMsg.Text = SilUtils.Utils.ConvertLiteralNewLines(msg);
+			m_lblMsg.Text = Utils.ConvertLiteralNewLines(msg);
 			if (msgType == MsgType.Exception)
 				m_lblMsg.Text = m_lblMsg.Text.Replace("\n", " ");
 
@@ -218,10 +218,10 @@ namespace SIL.Pa
 		{
 			int maxWidth = (int)(m_lblMsg.Width * 1.1);
 			Size sz = new Size(maxWidth, int.MaxValue);
-			TextFormatFlags flags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
+			const TextFormatFlags kFlags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
 
 			m_lblInfo.TextAlign = ContentAlignment.MiddleLeft;
-			sz = TextRenderer.MeasureText(m_lblInfo.Text, m_lblInfo.Font, sz, flags);
+			sz = TextRenderer.MeasureText(m_lblInfo.Text, m_lblInfo.Font, sz, kFlags);
 			sz.Height += 8;
 			return sz;
 		}

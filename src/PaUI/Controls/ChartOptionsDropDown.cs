@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public partial class ChartOptionsDropDown : UserControl
 	{

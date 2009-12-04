@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	public partial class LaunchHTMLDlg : Form
 	{
@@ -47,7 +47,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				SilUtils.Utils.MsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(e.Message, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
 		

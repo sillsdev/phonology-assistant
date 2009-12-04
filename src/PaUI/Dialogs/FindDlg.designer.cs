@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class FindDlg
 	{
@@ -47,7 +47,7 @@ namespace SIL.Pa
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.pnlFindWhat = new System.Windows.Forms.Panel();
 			this.pnlColumnOptions = new System.Windows.Forms.Panel();
-			this.fldSelGridSrchCols = new SIL.Pa.FieldSelectorGrid();
+			this.fldSelGridSrchCols = new SIL.Pa.UI.Controls.FieldSelectorGrid();
 			this.gbOptions.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
 			this.pnlFindWhat.SuspendLayout();
@@ -207,7 +207,7 @@ namespace SIL.Pa
 			this.fldSelGridSrchCols.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.fldSelGridSrchCols.ShowWaterMarkWhenDirty = false;
 			this.fldSelGridSrchCols.WaterMark = "!";
-			this.fldSelGridSrchCols.AfterUserChangedValue += new SIL.Pa.FieldSelectorGrid.AfterUserChangedValueHandler(this.fldSelGridSrchCols_AfterUserChangedValue);
+			this.fldSelGridSrchCols.AfterUserChangedValue += new SIL.Pa.UI.Controls.FieldSelectorGrid.AfterUserChangedValueHandler(this.fldSelGridSrchCols_AfterUserChangedValue);
 			// 
 			// FindDlg
 			// 
@@ -256,7 +256,7 @@ namespace SIL.Pa
 		private System.Windows.Forms.Panel pnlButtons;
 		private System.Windows.Forms.Panel pnlFindWhat;
 		private System.Windows.Forms.Panel pnlColumnOptions;
-		private SIL.Pa.FieldSelectorGrid fldSelGridSrchCols;
+		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridSrchCols;
 		private System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.CheckBox chkSrchCollapsedGrps;
 	}

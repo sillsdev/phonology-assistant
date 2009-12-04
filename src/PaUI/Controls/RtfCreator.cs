@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	public class RtfCreator
 	{
@@ -855,7 +855,7 @@ namespace SIL.Pa
 				}
 				catch (Exception ex)
 				{
-					SilUtils.Utils.MsgBox(ex.Message);
+					Utils.MsgBox(ex.Message);
 					return;
 				}
 			}
@@ -901,7 +901,7 @@ namespace SIL.Pa
 						filename, m_rtfEditor, ex.Message);
 				}
 				
-				SilUtils.Utils.MsgBox(msg);
+				Utils.MsgBox(msg);
 			}
 		}
 

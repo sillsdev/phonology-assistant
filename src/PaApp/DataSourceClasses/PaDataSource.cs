@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			// At this point, we know we have a valid XML file. Now check if it's PAXML.
 			PaXMLContent paxmlContent =
-				SilUtils.Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
+				Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
 
 			if (paxmlContent == null)
 				m_sourceType = DataSourceType.XML;

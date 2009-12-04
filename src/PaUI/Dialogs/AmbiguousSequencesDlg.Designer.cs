@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class AmbiguousSequencesDlg
 	{
@@ -30,7 +30,7 @@ namespace SIL.Pa
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbiguousSequencesDlg));
-			this.pnlGrid = new SIL.Pa.PaPanel();
+			this.pnlGrid = new SIL.Pa.UI.Controls.PaPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.chkShowDefaults = new System.Windows.Forms.CheckBox();
 			this.pnlButtons.SuspendLayout();
@@ -135,7 +135,7 @@ namespace SIL.Pa
 
 		#endregion
 
-		private SIL.Pa.PaPanel pnlGrid;
+		private SIL.Pa.UI.Controls.PaPanel pnlGrid;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.CheckBox chkShowDefaults;
 

@@ -7,7 +7,7 @@ using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using SIL.Pa.Resources;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// --------------------------------------------------------------------------------
 	/// <summary>
@@ -131,7 +131,7 @@ namespace SIL.Pa
 			// than helpful. So it's removed for now. If the text is ever rewritten to
 			// be more understandable and still fits on a reasonable-sized tooltip
 			// then this can be uncommented. (PA-660)
-			//string tooltip = SilUtils.Utils.ConvertLiteralNewLines(
+			//string tooltip = Utils.ConvertLiteralNewLines(
 			//    Properties.Resources.kstidOneToOneParsingToolTip);
 
 			//m_tooltip.SetToolTip(rbParseOneToOne, tooltip);
@@ -487,7 +487,7 @@ namespace SIL.Pa
 
 			if (msg != null)
 			{
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
 
@@ -692,7 +692,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void lblFilename_Paint(object sender, PaintEventArgs e)
 		{
-			using (StringFormat sf = SilUtils.Utils.GetStringFormat(false))
+			using (StringFormat sf = Utils.GetStringFormat(false))
 			{
 				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 				sf.Trimming = StringTrimming.EllipsisPath;

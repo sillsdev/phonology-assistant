@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -16,8 +12,8 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public partial class UndockedViewWnd : Form, IUndockedViewWnd
 	{
+		private readonly Control m_view;
 		private ITMAdapter m_mainMenuAdapter;
-		private Control m_view;
 		private bool m_checkForModifiedDataSources = true;
 		
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +76,7 @@ namespace SIL.Pa
 				}
 				finally
 				{
-					SilUtils.Utils.UpdateWindow(Handle);
+					Utils.UpdateWindow(Handle);
 				}
 			}
 
@@ -101,7 +97,7 @@ namespace SIL.Pa
 			if (m_mainMenuAdapter != null)
 				m_mainMenuAdapter.AllowUpdates = true;
 		
-			SilUtils.Utils.UpdateWindow(Handle);
+			Utils.UpdateWindow(Handle);
 
 			bool reloadProjectsOnActivate =
 				PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,

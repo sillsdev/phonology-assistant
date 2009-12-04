@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	#region ClassListViewToolTip class
 	/// ----------------------------------------------------------------------------------------
@@ -521,9 +521,9 @@ namespace SIL.Pa
 		{
 			get
 			{
-				IntPtr hwnd = new IntPtr(SilUtils.Utils.FindWindowEx(Handle, 0, "SysHeader32", null));
-				SilUtils.Utils.RECT rc;
-				return (SilUtils.Utils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
+				IntPtr hwnd = new IntPtr(Utils.FindWindowEx(Handle, 0, "SysHeader32", null));
+				Utils.RECT rc;
+				return (Utils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
 			}
 		}
 
@@ -568,7 +568,7 @@ namespace SIL.Pa
 				{
 					if (showMsg)
 					{
-						SilUtils.Utils.MsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
+						Utils.MsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
 							className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 					

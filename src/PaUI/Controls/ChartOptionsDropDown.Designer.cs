@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	partial class ChartOptionsDropDown
 	{
@@ -33,7 +33,7 @@ namespace SIL.Pa
 			this.lnkRefresh = new System.Windows.Forms.LinkLabel();
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
 			this.pnlPicker = new System.Windows.Forms.Panel();
-			this.pickerIgnore = new SIL.Pa.CharPicker();
+			this.pickerIgnore = new SIL.Pa.UI.Controls.CharPicker();
 			this.pnlPicker.SuspendLayout();
 			this.SuspendLayout();
 			// 

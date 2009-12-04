@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SilUtils;
 
 /// --------------------------------------------------------------------------------------------
 /// Contains classes for handling ambiguous sequences. These classes replace what's in the file
@@ -47,7 +48,7 @@ namespace SIL.Pa.Data
 		public static AmbiguousSequences Load(string projectFileName)
 		{
 			// Get the default list of sequences.
-			AmbiguousSequences defaultList = SilUtils.Utils.DeserializeData(kDefaultSequenceFile,
+			AmbiguousSequences defaultList = Utils.DeserializeData(kDefaultSequenceFile,
 				typeof(AmbiguousSequences)) as AmbiguousSequences;
 
 			// Make sure there is a default list.
@@ -61,7 +62,7 @@ namespace SIL.Pa.Data
 			string filename = BuildFileName(projectFileName);
 
 			// Get the project-specific sequences.
-			AmbiguousSequences projectList = SilUtils.Utils.DeserializeData(filename,
+			AmbiguousSequences projectList = Utils.DeserializeData(filename,
 				typeof(AmbiguousSequences)) as AmbiguousSequences;
 
 			if (projectList != null && projectList.Count > 0)
@@ -204,7 +205,7 @@ namespace SIL.Pa.Data
 					tmpList.RemoveAt(i);
 			}
 
-			SilUtils.Utils.SerializeData(BuildFileName(projectFileName), tmpList);
+			Utils.SerializeData(BuildFileName(projectFileName), tmpList);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	partial class ClassesDlg
 	{
@@ -34,7 +34,7 @@ namespace SIL.Pa
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnModify = new System.Windows.Forms.Button();
-			this.lvClasses = new SIL.Pa.ClassListView();
+			this.lvClasses = new SIL.Pa.UI.Controls.ClassListView();
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,7 +97,7 @@ namespace SIL.Pa
 			// 
 			// lvClasses
 			// 
-			this.lvClasses.AppliesTo = SIL.Pa.ClassListView.ListApplicationType.ClassesDialog;
+			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.ClassesDialog;
 			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.HideSelection = false;
@@ -160,7 +160,7 @@ namespace SIL.Pa
 		protected System.Windows.Forms.Button btnCopy;
 		protected System.Windows.Forms.Button btnAdd;
 		protected System.Windows.Forms.Button btnModify;
-		private SIL.Pa.ClassListView lvClasses;
+		private SIL.Pa.UI.Controls.ClassListView lvClasses;
 		private System.Windows.Forms.ContextMenuStrip cmnuAdd;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;

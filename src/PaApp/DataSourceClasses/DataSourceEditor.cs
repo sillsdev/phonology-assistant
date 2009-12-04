@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using SilUtils;
 
 namespace SIL.Pa
 {
@@ -91,7 +92,7 @@ namespace SIL.Pa
 			else if (sourceType == DataSourceType.SA)
 				EditRecordInSA(wcentry, callingApp);
 			else
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
+				Utils.MsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,19 +131,19 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidDataSourceEditorMissingMsg,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.Editor));
+					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
 			{
-				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -164,9 +165,9 @@ namespace SIL.Pa
 			if (!IsToolboxRunning)
 			{
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
 				
-				SilUtils.Utils.MsgBox(msg);
+				Utils.MsgBox(msg);
 			    return;
 			}
 
@@ -175,7 +176,7 @@ namespace SIL.Pa
 			// Get the record field whose value will tell us what record to jump to.
 			if (string.IsNullOrEmpty(sortField))
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
+				Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
 				return;
 			}
 
@@ -184,7 +185,7 @@ namespace SIL.Pa
 			if (fieldInfo == null)
 			{
 				string msg = Properties.Resources.kstidInvalidToolboxSortField;
-				SilUtils.Utils.MsgBox(string.Format(msg, sortField));
+				Utils.MsgBox(string.Format(msg, sortField));
 				return;
 			}
 
@@ -202,8 +203,8 @@ namespace SIL.Pa
 			regKey.SetValue(null, jumpValue, RegistryValueKind.String);
 
 			// Inform anyone who cares (namely Toolbox) that a jump is being requested.
-			uint WM_SANTA_FE_FOCUS = SilUtils.Utils.RegisterWindowMessage("SantaFeFocus");
-			SilUtils.Utils.PostMessage(SilUtils.Utils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
+			uint WM_SANTA_FE_FOCUS = Utils.RegisterWindowMessage("SantaFeFocus");
+			Utils.PostMessage(Utils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,7 +277,7 @@ namespace SIL.Pa
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.AudioFileField;
 			if (fieldInfo == null)
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidNoAudioField);
+				Utils.MsgBox(Properties.Resources.kstidNoAudioField);
 				return;
 			}
 
@@ -284,7 +285,7 @@ namespace SIL.Pa
 			string audioFile = wcentry[fieldInfo.FieldName];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
+				Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
 				return;
 			}
 
@@ -292,7 +293,7 @@ namespace SIL.Pa
 			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				SilUtils.Utils.MsgBox(Properties.Resources.kstidSAMissingMsg);
+				Utils.MsgBox(Properties.Resources.kstidSAMissingMsg);
 				return;
 			}
 
@@ -374,7 +375,7 @@ namespace SIL.Pa
 			// Create the contents for the SA list file.
 			string saListFileContent = string.Format(m_saListFileContentFmt,
 				new object[] { callingApp, audioFile, offset, offset + length });
-			saListFileContent = SilUtils.Utils.ConvertLiteralNewLines(saListFileContent);
+			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
 			string lstFile = Path.GetTempFileName();

@@ -1,9 +1,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -51,7 +52,7 @@ namespace SIL.Pa
 				// Ensure any renamed classes don't have empty class names
 				if (item.Text == string.Empty)
 				{
-					SilUtils.Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
+					Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}

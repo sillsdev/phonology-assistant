@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -70,7 +70,7 @@ namespace SIL.Pa
 			base.OnClientSizeChanged(e);
 
 			if (m_overrideBorderDrawing)
-				SilUtils.Utils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
+				Utils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------

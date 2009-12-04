@@ -5,7 +5,7 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -163,7 +163,7 @@ namespace SIL.Pa
 			}
 			catch (ArgumentException err)
 			{
-				SilUtils.Utils.MsgBox(err.Message);
+				Utils.MsgBox(err.Message);
 
 				if (prevFont == null)
 					return;

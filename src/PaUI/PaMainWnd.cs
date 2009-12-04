@@ -21,9 +21,10 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
+using SIL.Pa.UI.Views;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -106,24 +107,24 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void SetUIFont()
 		{
-			string fontEntry = "UIFont";
+			const string kFontEntry = "UIFont";
 
-			string name = PaApp.SettingsHandler.GetStringSettingsValue(fontEntry, "name", null);
+			string name = PaApp.SettingsHandler.GetStringSettingsValue(kFontEntry, "name", null);
 			if (name == null)
 				return;
 
-			float size = PaApp.SettingsHandler.GetFloatSettingsValue(fontEntry, "size",
+			float size = PaApp.SettingsHandler.GetFloatSettingsValue(kFontEntry, "size",
 				SystemInformation.MenuFont.SizeInPoints);
 
 			FontStyle style = FontStyle.Regular;
 
 			if (PaApp.SettingsHandler.GetBoolSettingsValue(
-				fontEntry, "bold", SystemInformation.MenuFont.Bold))
+				kFontEntry, "bold", SystemInformation.MenuFont.Bold))
 			{
 				style |= FontStyle.Bold;
 			}
 
-			if (PaApp.SettingsHandler.GetBoolSettingsValue(fontEntry, "italic",
+			if (PaApp.SettingsHandler.GetBoolSettingsValue(kFontEntry, "italic",
 				SystemInformation.MenuFont.Italic))
 			{
 				style |= FontStyle.Italic;
@@ -221,7 +222,7 @@ namespace SIL.Pa
 
 			BackColor = vwTabGroup.BackColor;
 			PaApp.ProjectLoadInProcess = false;
-			SilUtils.Utils.WaitCursors(false);
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -323,7 +324,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
-			SilUtils.Utils.UpdateWindow(Handle);
+			Utils.UpdateWindow(Handle);
 			base.OnActivated(e);
 		}
 

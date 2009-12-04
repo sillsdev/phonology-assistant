@@ -96,6 +96,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Localization Project\Output\Debug\LocalizationUtils.dll</HintPath>
+    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -120,9 +124,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioPlayer.cs" />
-    <Compile Include="CacheSortComparer.cs" />
-    <Compile Include="DataSourceEditor.cs" />
-    <Compile Include="DataSourceReader.cs" />
+    <Compile Include="CacheClasses\CacheSortComparer.cs" />
+    <Compile Include="CacheClasses\RecordCache.cs" />
+    <Compile Include="CacheClasses\RecordCacheEntry.cs" />
+    <Compile Include="CacheClasses\WordCache.cs" />
+    <Compile Include="CacheClasses\WordCacheEntry.cs" />
+    <Compile Include="CacheClasses\WordListCache.cs" />
+    <Compile Include="CacheClasses\WordListCacheEntry.cs" />
+    <Compile Include="DataSourceClasses\DataSourceEditor.cs" />
+    <Compile Include="DataSourceClasses\DataSourceReader.cs" />
+    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.designer.cs">
+      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\MissingFWDatabaseMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSourceClasses\MissingFWDatabaseMsgBox.designer.cs">
+      <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\PaDataSource.cs" />
+    <Compile Include="DataSourceClasses\SFMarkerMapping.cs" />
     <Compile Include="EditFwUrlDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,18 +154,6 @@
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="CIEBuilder.cs" />
-    <Compile Include="MissingDataSourceMsgBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MissingDataSourceMsgBox.Designer.cs">
-      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MissingFWDatabaseMsgBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MissingFWDatabaseMsgBox.designer.cs">
-      <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="PaFieldInfo.cs" />
     <Compile Include="PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -149,12 +161,9 @@
       <DependentUpon>PaFieldsDisplayText.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecordCache.cs" />
-    <Compile Include="RecordCacheEntry.cs" />
     <Compile Include="PaApp.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PaDataSource.cs" />
     <Compile Include="PaProject.cs" />
     <Compile Include="PaSettingsHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -165,11 +174,6 @@
     <Compile Include="TrainingProjectsHelper.cs" />
     <Compile Include="SearchClassList.cs" />
     <Compile Include="SearchQueryGroup.cs" />
-    <Compile Include="SFMarkerMapping.cs" />
-    <Compile Include="WordCache.cs" />
-    <Compile Include="WordCacheEntry.cs" />
-    <Compile Include="WordListCache.cs" />
-    <Compile Include="WordListCacheEntry.cs" />
     <Compile Include="ZipUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,17 +201,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataSourceClasses\MissingDataSourceMsgBox.resx">
+      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataSourceClasses\MissingFWDatabaseMsgBox.resx">
+      <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditFwUrlDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MissingDataSourceMsgBox.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MissingFWDatabaseMsgBox.resx">
-      <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PaFieldsDisplayText.resx">
       <SubType>Designer</SubType>

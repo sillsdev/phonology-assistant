@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Xml;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

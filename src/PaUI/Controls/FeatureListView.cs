@@ -9,7 +9,7 @@ using SIL.Pa.Data;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -548,7 +548,7 @@ namespace SIL.Pa
 		//    string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
 
 		//    // Make sure the user really wants to do this.
-		//    if (SilUtils.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+		//    if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 		//    {
 		//        DataUtils.AFeatureCache.Delete(info.Name, false);
 		//        int newIndex = item.Index;

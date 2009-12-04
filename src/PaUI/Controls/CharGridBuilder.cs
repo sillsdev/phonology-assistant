@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Controls
 {
 	#region IPhoneListViewer interface
 	public interface IPhoneListViewer
@@ -100,7 +100,7 @@ namespace SIL.Pa
 			{
 				if (m_reloadError)
 				{
-					SilUtils.Utils.MsgBox("Error: " + e.Message);
+					Utils.MsgBox("Error: " + e.Message);
 					return null;
 				}
 
@@ -131,7 +131,7 @@ namespace SIL.Pa
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
-					SilUtils.Utils.MsgBox(string.Format(
+					Utils.MsgBox(string.Format(
 						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType));
 					return;
 				}

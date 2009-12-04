@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 
-namespace SIL.Pa
+namespace SIL.Pa.UI.Dialogs
 {
 	/// --------------------------------------------------------------------------------
 	/// <summary>
@@ -41,21 +41,21 @@ namespace SIL.Pa
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.scImport = new System.Windows.Forms.SplitContainer();
-			this.pnlMappingsHdg = new SIL.Pa.PaGradientPanel();
+			this.pnlMappingsHdg = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.pnlEditor = new System.Windows.Forms.Panel();
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.lblEditor = new System.Windows.Forms.Label();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
-			this.pnlSrcFileHdg = new SIL.Pa.PaGradientPanel();
+			this.pnlSrcFileHdg = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.lblFilename = new System.Windows.Forms.Label();
 			this.cboFirstInterlinear = new System.Windows.Forms.ComboBox();
 			this.lblFirstInterlinear = new System.Windows.Forms.Label();
-			this.pnlParseType = new SIL.Pa.PaPanel();
+			this.pnlParseType = new SIL.Pa.UI.Controls.PaPanel();
 			this.gridSampleOutput = new System.Windows.Forms.DataGridView();
 			this.Phonetic = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Gloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.POS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.pnlSampleInput = new SIL.Pa.PaPanel();
+			this.pnlSampleInput = new SIL.Pa.UI.Controls.PaPanel();
 			this.rtfSampleInput = new System.Windows.Forms.RichTextBox();
 			this.rbParseOneToOne = new System.Windows.Forms.RadioButton();
 			this.rbNoParse = new System.Windows.Forms.RadioButton();
@@ -65,14 +65,14 @@ namespace SIL.Pa
 			this.lblSampleOutput = new System.Windows.Forms.Label();
 			this.lblSampleInput = new System.Windows.Forms.Label();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.pnlParseHdg = new SIL.Pa.PaGradientPanel();
+			this.pnlParseHdg = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.pnlToolboxSortField = new System.Windows.Forms.Panel();
 			this.lblToolboxSortField = new System.Windows.Forms.Label();
-			this.pnlMappings = new SIL.Pa.PaPanel();
-			this.pnlSrcFile = new SIL.Pa.PaPanel();
+			this.pnlMappings = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlSrcFile = new SIL.Pa.UI.Controls.PaPanel();
 			this.pnlButtons.SuspendLayout();
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
@@ -486,7 +486,7 @@ namespace SIL.Pa
 		private Label lblFilename;
 		private Label lblFirstInterlinear;
 		private ComboBox cboFirstInterlinear;
-		private SIL.Pa.PaPanel pnlParseType;
+		private SIL.Pa.UI.Controls.PaPanel pnlParseType;
 		private Label lblParseType;
 		private SplitContainer splitOuter;
 		private RadioButton rbParseOneToOne;
@@ -494,7 +494,7 @@ namespace SIL.Pa
 		private RadioButton rbInterlinearize;
 		private RadioButton rbParseOnlyPhonetic;
 		private RichTextBox rtfSampleInput;
-		private SIL.Pa.PaPanel pnlSampleInput;
+		private SIL.Pa.UI.Controls.PaPanel pnlSampleInput;
 		private DataGridView gridSampleOutput;
 		private Label lblSampleInput;
 		private Label lblSampleOutput;
@@ -511,10 +511,10 @@ namespace SIL.Pa
 		private Label lblEditor;
 		private TextBox txtEditor;
 		private Button btnBrowse;
-		private SIL.Pa.PaGradientPanel pnlParseHdg;
-		private SIL.Pa.PaGradientPanel pnlMappingsHdg;
-		private SIL.Pa.PaGradientPanel pnlSrcFileHdg;
-		private SIL.Pa.PaPanel pnlMappings;
-		private SIL.Pa.PaPanel pnlSrcFile;
+		private SIL.Pa.UI.Controls.PaGradientPanel pnlParseHdg;
+		private SIL.Pa.UI.Controls.PaGradientPanel pnlMappingsHdg;
+		private SIL.Pa.UI.Controls.PaGradientPanel pnlSrcFileHdg;
+		private SIL.Pa.UI.Controls.PaPanel pnlMappings;
+		private SIL.Pa.UI.Controls.PaPanel pnlSrcFile;
 	}
 }
