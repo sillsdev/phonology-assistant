@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Threading;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using Timer=System.Windows.Forms.Timer;
 using SilUtils;
 
@@ -68,7 +69,7 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
 
-			PaApp.LocalizationExtender.AddObjectToLocalize(m_lblTab, id);
+			LocalizationExtender.LocalizeObject(m_lblTab, id);
 		}
 
 		/// ------------------------------------------------------------------------------------

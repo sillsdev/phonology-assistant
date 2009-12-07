@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
@@ -52,7 +53,7 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaMainWnd(string[] commandLineArgs, bool showSplashScreen) : this()
+		public PaMainWnd(bool showSplashScreen) : this()
 		{
 			if (showSplashScreen)
 				PaApp.ShowSplashScreen();
@@ -86,8 +87,12 @@ namespace SIL.Pa.UI
 
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.
-			if (commandLineArgs != null && commandLineArgs.Length > 0)
-				LoadProject(commandLineArgs[0]);
+			string projArg = (from args in Environment.GetCommandLineArgs()
+						where args.StartsWith("/o:") || args.StartsWith("-o:")
+						select args).FirstOrDefault();
+
+			if (projArg != null)
+				LoadProject(projArg.Substring(3));
 			else
 				LoadProject(PaApp.SettingsHandler.LastProject);
 

@@ -335,6 +335,10 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.pnlOuter, "pnlOuter");
 			this.pnlOuter.Name = "pnlOuter";
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Views.XY Charts";
+			// 
 			// XYChartVw
 			// 
 			resources.ApplyResources(this, "$this");

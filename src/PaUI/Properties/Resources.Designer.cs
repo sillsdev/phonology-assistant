@@ -1233,15 +1233,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patterns &amp; Pattern Building.
-        /// </summary>
-        internal static string kstidFFSliderPanelText {
-            get {
-                return ResourceManager.GetString("kstidFFSliderPanelText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is missing..
         /// </summary>
         internal static string kstidFileMissingMsg {
@@ -2573,15 +2564,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidXYChartPopupInvalidCharFmt {
             get {
                 return ResourceManager.GetString("kstidXYChartPopupInvalidCharFmt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Charts &amp; Chart Building.
-        /// </summary>
-        internal static string kstidXYChartsSliderPanelText {
-            get {
-                return ResourceManager.GetString("kstidXYChartsSliderPanelText", resourceCulture);
             }
         }
         

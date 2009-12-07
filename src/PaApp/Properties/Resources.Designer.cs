@@ -280,15 +280,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project file &apos;{0}&apos; doesn&apos;t exist..
-        /// </summary>
-        internal static string kstidProjectFileNonExistent {
-            get {
-                return ResourceManager.GetString("kstidProjectFileNonExistent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Reading Cache Files.
         /// </summary>
         internal static string kstidReadingCacheFiles {

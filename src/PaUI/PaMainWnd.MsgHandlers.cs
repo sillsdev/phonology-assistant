@@ -703,7 +703,7 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnViewFindPhones(object args)
+		protected bool OnViewSearch(object args)
 		{
 			SearchVw vw = vwTabGroup.ActivateView(typeof(SearchVw)) as SearchVw;
 

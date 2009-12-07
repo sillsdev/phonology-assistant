@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SilUtils;
@@ -176,7 +177,10 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbarAndContextMenus()
 		{
 			if (m_tmAdapter != null)
+			{
+				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
+			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -187,6 +191,7 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
+				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				string[] defs = new string[1];
@@ -252,7 +257,7 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			locExtender.AddObjectToLocalize(pnlSideBarCaption,
+			LocalizationExtender.LocalizeObject(pnlSideBarCaption,
 				"kstidSearchVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
@@ -487,7 +492,7 @@ namespace SIL.Pa.UI.Views
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
 			m_tooltip.SetToolTip(ptrnTextBox.TextBox, Utils.ConvertLiteralNewLines(tip));
-			locExtender.RefreshToolTips();
+			LocalizationExtender.RefreshToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------

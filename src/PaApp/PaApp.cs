@@ -76,7 +76,11 @@ namespace SIL.Pa
 			Articulatory,
 			Binary
 		}
-		
+
+		public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
+		public const string kLocalizationGroupUICtrls = "User Interface Controls";
+		public const string kLocalizationGroupInfoMsg = "Information Messages";
+
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
 		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
@@ -1139,15 +1143,17 @@ namespace SIL.Pa
 
 			if (adapter != null)
 			{
+				PrepareAdapterForLocalizationSupport(adapter);
+
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "PaTMDefinition.xml");
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
 				adapter.RecentFilesList = RecentlyUsedProjectList;
 				adapter.RecentlyUsedItemChosen += delegate(string filename)
-              	{
-              		 MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename);
-              	};
+				{
+					MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename);
+				};
 			}
 
 			if (s_defaultMenuAdapters == null)
@@ -1155,6 +1161,48 @@ namespace SIL.Pa
 
 			s_defaultMenuAdapters.Add(adapter);
 			return adapter;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Prepares the adapter for localization support.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.InitializeItem += HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
+		/// the specified adapter for localization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.InitializeItem -= HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles localizing a toolbar/menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void HandleLocalizingTMItem(ref TMItemProperties itemProps)
+		{
+			string id = itemProps.CommandId;
+			
+			if (id.StartsWith("Cmd"))
+				id = id.Substring(3);
+
+			id = "ToolbarMenuItem." + id;
+			
+			itemProps.Text = LocalizationExtender.GetLocalizedText(id, itemProps.Text, null,
+				kLocalizationGroupTMItems, LocalizationCategory.ToolbarMenuOrStatusBarItem,
+				LocalizationPriority.High);
+
+			itemProps.Tooltip = LocalizationExtender.GetLocalizedToolTipText(id);
 		}
 
 		/// ------------------------------------------------------------------------------------

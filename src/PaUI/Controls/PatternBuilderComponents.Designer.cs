@@ -174,6 +174,10 @@ namespace SIL.Pa.UI.Controls
 			this.tpgBFeatures.Name = "tpgBFeatures";
 			this.tpgBFeatures.UseVisualStyleBackColor = true;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "User Interface Controls.Pattern Building Components";
+			// 
 			// PatternBuilderComponents
 			// 
 			resources.ApplyResources(this, "$this");

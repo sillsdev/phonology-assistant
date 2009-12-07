@@ -129,6 +129,10 @@ namespace SIL.Pa.UI
 			this.locExtender.SetLocalizingId(this.vwTabGroup, "PaMainWnd.vwTabGroup");
 			this.vwTabGroup.Name = "vwTabGroup";
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Main Windows";
+			// 
 			// PaMainWnd
 			// 
 			resources.ApplyResources(this, "$this");

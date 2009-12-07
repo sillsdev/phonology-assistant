@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
@@ -122,7 +123,10 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbarAndContextMenus()
 		{
 			if (m_tmAdapter != null)
+			{
+				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
+			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -134,6 +138,7 @@ namespace SIL.Pa.UI.Views
 			if (m_tmAdapter == null)
 				return;
 
+			PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			string[] defs = new string[1];
@@ -306,7 +311,7 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			locExtender.AddObjectToLocalize(pnlSideBarCaption,
+			LocalizationExtender.LocalizeObject(pnlSideBarCaption,
 				"kstidXYChartsVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
@@ -526,8 +531,7 @@ namespace SIL.Pa.UI.Views
 					// do with tooltips. They seem to form an attachment, somehow, with the
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
-					LoadToolbarAndContextMenus();
-					locExtender.RefreshToolTips();
+					LocalizationExtender.RefreshToolTips();
 				}
 			}
 
@@ -542,7 +546,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				locExtender.RefreshToolTips();
+				LocalizationExtender.RefreshToolTips();
 
 			return false;
 		}

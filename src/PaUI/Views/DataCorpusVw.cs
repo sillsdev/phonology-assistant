@@ -62,7 +62,10 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbar()
 		{
 			if (m_tmAdapter != null)
+			{
+				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
+			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -71,6 +74,7 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
+				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "DataCorpusTMDefinition.xml");
@@ -94,7 +98,6 @@ namespace SIL.Pa.UI.Views
 					m_playbackSpeedAdjuster.lnkPlay.Click += HandlePlaybackSpeedAdjusterPlayClick;
 					m_playbackSpeedAdjuster.Disposed += m_playbackSpeedAdjuster_Disposed;
 				}
-				
 				
 				return m_playbackSpeedAdjuster;
 			}

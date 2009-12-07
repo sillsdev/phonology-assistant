@@ -43,7 +43,7 @@ namespace SIL.Pa
 
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new PaMainWnd(args.ToArray(), true));
+				Application.Run(new PaMainWnd(true));
 			}
 			catch (Exception e)
 			{

@@ -169,7 +169,7 @@
     <value>rtfRecVw</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Parent" xml:space="preserve">
     <value>pnlRecView</value>
@@ -199,7 +199,7 @@
     <value>pnlRecView</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlRecView.Parent" xml:space="preserve">
     <value>splitResults.Panel2</value>
@@ -274,7 +274,7 @@
     <value>ptrnBldrComponent</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
     <value>pnlTabClassDef</value>
@@ -339,7 +339,7 @@
     <value>btnDock</value>
   </data>
   <data name="&gt;&gt;btnDock.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDock.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -377,7 +377,7 @@
     <value>btnAutoHide</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -404,7 +404,7 @@
     <value>pnlSideBarCaption</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaGradientPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaGradientPanel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Parent" xml:space="preserve">
     <value>splitSideBarOuter.Panel1</value>
@@ -467,7 +467,7 @@
     <value>btnRemoveSavedChart</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Parent" xml:space="preserve">
     <value>hlblSavedCharts</value>
@@ -497,7 +497,7 @@
     <value>hlblSavedCharts</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Parent" xml:space="preserve">
     <value>pnlSavedCharts</value>
@@ -524,7 +524,7 @@
     <value>pnlSavedCharts</value>
   </data>
   <data name="&gt;&gt;pnlSavedCharts.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3625.16315, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSavedCharts.Parent" xml:space="preserve">
     <value>splitSideBarOuter.Panel2</value>
@@ -635,7 +635,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblChartNameValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 258</value>
+    <value>89, 342</value>
   </data>
   <data name="lblChartNameValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 20</value>

@@ -201,9 +201,6 @@
   <data name="kstidPatternParsingErrorMsg" xml:space="preserve">
     <value>The following error(s) occurred when parsing the search pattern:\n\n{0}</value>
   </data>
-  <data name="kstidProjectFileNonExistent" xml:space="preserve">
-    <value>Project file '{0}' doesn't exist.</value>
-  </data>
   <data name="kstidReadingCacheFiles" xml:space="preserve">
     <value>Reading Cache Files</value>
     <comment>Progress bar text when reading cache files when loading a project</comment>

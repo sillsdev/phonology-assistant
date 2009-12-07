@@ -1750,6 +1750,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
 					((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
 				}
+
+
 			}
 
 			if (GetBoolFromAttribute(node, "toolbarlist"))

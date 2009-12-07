@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using SilUtils;
@@ -236,8 +237,14 @@ namespace SIL.Pa
 
 			if (!File.Exists(projFileName))
 			{
-				errorMsg = string.Format(Properties.Resources.kstidProjectFileNonExistent,
-					Utils.PrepFilePathForSTMsgBox(projFileName));
+				string cmnt = "Message displayed when an attempt is made to open a " +
+					"non existant project file. The parameter is the project file name.";
+
+				errorMsg = LocalizationExtender.GetLocalizedText("kstidProjectFileNonExistent",
+					"Project file '{0}' does not exist.", cmnt, PaApp.kLocalizationGroupInfoMsg,
+					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
+				
+				errorMsg = string.Format(errorMsg, Utils.PrepFilePathForSTMsgBox(projFileName));
 			}
 
 			string tmpProjPathFilePrefix = Path.GetFullPath(projFileName);

@@ -154,13 +154,17 @@ namespace SIL.Pa.UI.Views
 				return;
 
 			if (m_tmAdapter != null)
+			{
+				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
+			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 			m_chrGrid.TMAdapter = m_tmAdapter;
 
 			if (m_tmAdapter != null)
 			{
+				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
 				defs[0] = Path.Combine(Application.StartupPath, "CVChartsTMDefinition.xml");

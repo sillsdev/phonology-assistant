@@ -34,19 +34,11 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
-			this.splitSideBarInner = new System.Windows.Forms.SplitContainer();
-			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
-			this.btnRefresh = new System.Windows.Forms.Button();
-			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
-			this.pnlCurrPattern = new System.Windows.Forms.Panel();
-			this.lblCurrPattern = new System.Windows.Forms.Label();
-			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
 			this.pnlSideBarCaption = new SIL.Pa.UI.Controls.PaGradientPanel();
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
+			this.splitSideBarInner = new System.Windows.Forms.SplitContainer();
 			this.pnlRecentPatterns = new SIL.Pa.UI.Controls.PaPanel();
 			this.lstRecentPatterns = new System.Windows.Forms.ListBox();
 			this.hlblRecentPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
@@ -59,9 +51,17 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCut = new SIL.Pa.UI.Controls.XButton();
 			this.btnCategoryPaste = new SIL.Pa.UI.Controls.XButton();
 			this.btnCategoryCopy = new SIL.Pa.UI.Controls.XButton();
+			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SIL.Pa.UI.Controls.PaPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
+			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
+			this.btnRefresh = new System.Windows.Forms.Button();
+			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
+			this.pnlCurrPattern = new System.Windows.Forms.Panel();
 			this.ptrnTextBox = new SIL.Pa.UI.Controls.PatternTextBox();
+			this.lblCurrPattern = new System.Windows.Forms.Label();
+			this.pnlOuter = new System.Windows.Forms.Panel();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -69,20 +69,20 @@ namespace SIL.Pa.UI.Views
 			this.splitSideBarOuter.Panel2.SuspendLayout();
 			this.splitSideBarOuter.SuspendLayout();
 			this.pnlTabClassDef.SuspendLayout();
+			this.pnlSideBarCaption.SuspendLayout();
 			this.splitSideBarInner.Panel1.SuspendLayout();
 			this.splitSideBarInner.Panel2.SuspendLayout();
 			this.splitSideBarInner.SuspendLayout();
-			this.splitResults.Panel2.SuspendLayout();
-			this.splitResults.SuspendLayout();
-			this.pnlCurrPattern.SuspendLayout();
-			this.pnlOuter.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.pnlSideBarCaption.SuspendLayout();
 			this.pnlRecentPatterns.SuspendLayout();
 			this.hlblRecentPatterns.SuspendLayout();
 			this.pnlSavedPatterns.SuspendLayout();
 			this.hlblSavedPatterns.SuspendLayout();
+			this.splitResults.Panel2.SuspendLayout();
+			this.splitResults.SuspendLayout();
 			this.pnlRecView.SuspendLayout();
+			this.pnlCurrPattern.SuspendLayout();
+			this.pnlOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -120,83 +120,6 @@ namespace SIL.Pa.UI.Views
 			this.pnlTabClassDef.Controls.Add(this.ptrnBldrComponent);
 			resources.ApplyResources(this.pnlTabClassDef, "pnlTabClassDef");
 			this.pnlTabClassDef.Name = "pnlTabClassDef";
-			// 
-			// splitSideBarInner
-			// 
-			resources.ApplyResources(this.splitSideBarInner, "splitSideBarInner");
-			this.splitSideBarInner.Name = "splitSideBarInner";
-			// 
-			// splitSideBarInner.Panel1
-			// 
-			this.splitSideBarInner.Panel1.Controls.Add(this.pnlRecentPatterns);
-			// 
-			// splitSideBarInner.Panel2
-			// 
-			this.splitSideBarInner.Panel2.Controls.Add(this.pnlSavedPatterns);
-			this.splitSideBarInner.TabStop = false;
-			// 
-			// splitResults
-			// 
-			resources.ApplyResources(this.splitResults, "splitResults");
-			this.splitResults.Name = "splitResults";
-			// 
-			// splitResults.Panel1
-			// 
-			this.splitResults.Panel1.AllowDrop = true;
-			this.splitResults.Panel1.BackColor = System.Drawing.SystemColors.Control;
-			resources.ApplyResources(this.splitResults.Panel1, "splitResults.Panel1");
-			this.splitResults.Panel1.Tag = "";
-			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitResults_Panel1_Paint);
-			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragOver);
-			this.splitResults.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragDrop);
-			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.splitResults_Panel1_SizeChanged);
-			// 
-			// splitResults.Panel2
-			// 
-			this.splitResults.Panel2.Controls.Add(this.pnlRecView);
-			// 
-			// btnRefresh
-			// 
-			resources.ApplyResources(this.btnRefresh, "btnRefresh");
-			this.btnRefresh.Image = global::SIL.Pa.Properties.Resources.kimidRefresh;
-			this.locExtender.SetLocalizableToolTip(this.btnRefresh, "Refresh Results");
-			this.locExtender.SetLocalizationComment(this.btnRefresh, "Button to refresh search results. The button is to the right of the search patter" +
-					"n text box at the top of the search view.");
-			this.locExtender.SetLocalizationPriority(this.btnRefresh, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.btnRefresh, "SearchVw.btnRefresh");
-			this.btnRefresh.Name = "btnRefresh";
-			this.btnRefresh.UseVisualStyleBackColor = true;
-			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-			// 
-			// pnlSliderPlaceholder
-			// 
-			resources.ApplyResources(this.pnlSliderPlaceholder, "pnlSliderPlaceholder");
-			this.pnlSliderPlaceholder.Name = "pnlSliderPlaceholder";
-			// 
-			// pnlCurrPattern
-			// 
-			this.pnlCurrPattern.Controls.Add(this.btnRefresh);
-			this.pnlCurrPattern.Controls.Add(this.ptrnTextBox);
-			this.pnlCurrPattern.Controls.Add(this.lblCurrPattern);
-			resources.ApplyResources(this.pnlCurrPattern, "pnlCurrPattern");
-			this.pnlCurrPattern.Name = "pnlCurrPattern";
-			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
-			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
-			// 
-			// lblCurrPattern
-			// 
-			resources.ApplyResources(this.lblCurrPattern, "lblCurrPattern");
-			this.lblCurrPattern.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.lblCurrPattern, null);
-			this.locExtender.SetLocalizationComment(this.lblCurrPattern, "Text next to search pattern text box in search view.");
-			this.locExtender.SetLocalizingId(this.lblCurrPattern, "SearchVw.lblCurrPattern");
-			this.lblCurrPattern.Name = "lblCurrPattern";
-			// 
-			// pnlOuter
-			// 
-			this.pnlOuter.Controls.Add(this.splitOuter);
-			resources.ApplyResources(this.pnlOuter, "pnlOuter");
-			this.pnlOuter.Name = "pnlOuter";
 			// 
 			// ptrnBldrComponent
 			// 
@@ -256,6 +179,20 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizingId(this.btnAutoHide, "SearchVw.btnAutoHide");
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Click += new System.EventHandler(this.btnAutoHide_Click);
+			// 
+			// splitSideBarInner
+			// 
+			resources.ApplyResources(this.splitSideBarInner, "splitSideBarInner");
+			this.splitSideBarInner.Name = "splitSideBarInner";
+			// 
+			// splitSideBarInner.Panel1
+			// 
+			this.splitSideBarInner.Panel1.Controls.Add(this.pnlRecentPatterns);
+			// 
+			// splitSideBarInner.Panel2
+			// 
+			this.splitSideBarInner.Panel2.Controls.Add(this.pnlSavedPatterns);
+			this.splitSideBarInner.TabStop = false;
 			// 
 			// pnlRecentPatterns
 			// 
@@ -456,6 +393,26 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCopy.Name = "btnCategoryCopy";
 			this.btnCategoryCopy.Click += new System.EventHandler(this.btnCategoryCopy_Click);
 			// 
+			// splitResults
+			// 
+			resources.ApplyResources(this.splitResults, "splitResults");
+			this.splitResults.Name = "splitResults";
+			// 
+			// splitResults.Panel1
+			// 
+			this.splitResults.Panel1.AllowDrop = true;
+			this.splitResults.Panel1.BackColor = System.Drawing.SystemColors.Control;
+			resources.ApplyResources(this.splitResults.Panel1, "splitResults.Panel1");
+			this.splitResults.Panel1.Tag = "";
+			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitResults_Panel1_Paint);
+			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragOver);
+			this.splitResults.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.splitResults_Panel1_DragDrop);
+			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.splitResults_Panel1_SizeChanged);
+			// 
+			// splitResults.Panel2
+			// 
+			this.splitResults.Panel2.Controls.Add(this.pnlRecView);
+			// 
 			// pnlRecView
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
@@ -486,6 +443,34 @@ namespace SIL.Pa.UI.Views
 			this.rtfRecVw.ReadOnly = true;
 			this.rtfRecVw.TabStop = false;
 			// 
+			// btnRefresh
+			// 
+			resources.ApplyResources(this.btnRefresh, "btnRefresh");
+			this.btnRefresh.Image = global::SIL.Pa.Properties.Resources.kimidRefresh;
+			this.locExtender.SetLocalizableToolTip(this.btnRefresh, "Refresh Results");
+			this.locExtender.SetLocalizationComment(this.btnRefresh, "Button to refresh search results. The button is to the right of the search patter" +
+					"n text box at the top of the search view.");
+			this.locExtender.SetLocalizationPriority(this.btnRefresh, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.btnRefresh, "SearchVw.btnRefresh");
+			this.btnRefresh.Name = "btnRefresh";
+			this.btnRefresh.UseVisualStyleBackColor = true;
+			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+			// 
+			// pnlSliderPlaceholder
+			// 
+			resources.ApplyResources(this.pnlSliderPlaceholder, "pnlSliderPlaceholder");
+			this.pnlSliderPlaceholder.Name = "pnlSliderPlaceholder";
+			// 
+			// pnlCurrPattern
+			// 
+			this.pnlCurrPattern.Controls.Add(this.btnRefresh);
+			this.pnlCurrPattern.Controls.Add(this.ptrnTextBox);
+			this.pnlCurrPattern.Controls.Add(this.lblCurrPattern);
+			resources.ApplyResources(this.pnlCurrPattern, "pnlCurrPattern");
+			this.pnlCurrPattern.Name = "pnlCurrPattern";
+			this.pnlCurrPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCurrPattern_Paint);
+			this.pnlCurrPattern.Resize += new System.EventHandler(this.pnlCurrPattern_Resize);
+			// 
 			// ptrnTextBox
 			// 
 			resources.ApplyResources(this.ptrnTextBox, "ptrnTextBox");
@@ -501,6 +486,25 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox.SearchOptionsChanged += new System.EventHandler(this.ptrnTextBox_SearchOptionsChanged);
 			this.ptrnTextBox.PatternTextChanged += new System.EventHandler(this.ptrnTextBox_PatternTextChanged);
 			this.ptrnTextBox.SizeChanged += new System.EventHandler(this.ptrnTextBox_SizeChanged);
+			// 
+			// lblCurrPattern
+			// 
+			resources.ApplyResources(this.lblCurrPattern, "lblCurrPattern");
+			this.lblCurrPattern.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblCurrPattern, null);
+			this.locExtender.SetLocalizationComment(this.lblCurrPattern, "Text next to search pattern text box in search view.");
+			this.locExtender.SetLocalizingId(this.lblCurrPattern, "SearchVw.lblCurrPattern");
+			this.lblCurrPattern.Name = "lblCurrPattern";
+			// 
+			// pnlOuter
+			// 
+			this.pnlOuter.Controls.Add(this.splitOuter);
+			resources.ApplyResources(this.pnlOuter, "pnlOuter");
+			this.pnlOuter.Name = "pnlOuter";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Views.Search";
 			// 
 			// SearchVw
 			// 
@@ -521,20 +525,20 @@ namespace SIL.Pa.UI.Views
 			this.splitSideBarOuter.Panel2.ResumeLayout(false);
 			this.splitSideBarOuter.ResumeLayout(false);
 			this.pnlTabClassDef.ResumeLayout(false);
+			this.pnlSideBarCaption.ResumeLayout(false);
 			this.splitSideBarInner.Panel1.ResumeLayout(false);
 			this.splitSideBarInner.Panel2.ResumeLayout(false);
 			this.splitSideBarInner.ResumeLayout(false);
-			this.splitResults.Panel2.ResumeLayout(false);
-			this.splitResults.ResumeLayout(false);
-			this.pnlCurrPattern.ResumeLayout(false);
-			this.pnlOuter.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.pnlSideBarCaption.ResumeLayout(false);
 			this.pnlRecentPatterns.ResumeLayout(false);
 			this.hlblRecentPatterns.ResumeLayout(false);
 			this.pnlSavedPatterns.ResumeLayout(false);
 			this.hlblSavedPatterns.ResumeLayout(false);
+			this.splitResults.Panel2.ResumeLayout(false);
+			this.splitResults.ResumeLayout(false);
 			this.pnlRecView.ResumeLayout(false);
+			this.pnlCurrPattern.ResumeLayout(false);
+			this.pnlOuter.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
