@@ -325,12 +325,12 @@ namespace SIL.Pa.UI.Views
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = Properties.Resources.kstidAmbiguousSeqHdg;
+			//col.HeaderText = Properties.Resources.kstidAmbiguousSeqHdg;
 			gridAmbiguous.Columns.Add(col);
 
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
-			col.HeaderText = Properties.Resources.kstidAmbiguousConvertHdg;
+			//col.HeaderText = Properties.Resources.kstidAmbiguousConvertHdg;
 			col.CellTemplate.ValueType = typeof(bool);
 			gridAmbiguous.Columns.Add(col);
 
@@ -339,7 +339,7 @@ namespace SIL.Pa.UI.Views
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = Properties.Resources.kstidAmbiguousBaseCharHdg;
+			//col.HeaderText = Properties.Resources.kstidAmbiguousBaseCharHdg;
 			gridAmbiguous.Columns.Add(col);
 
 			col = SilGrid.CreateTextBoxColumn("cvpattern");
@@ -348,7 +348,7 @@ namespace SIL.Pa.UI.Views
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = Properties.Resources.kstidAmbiguousCVPatternHdg;
+			//col.HeaderText = Properties.Resources.kstidAmbiguousCVPatternHdg;
 			gridAmbiguous.Columns.Add(col);
 
 			col = SilGrid.CreateCheckBoxColumn("default");
@@ -905,25 +905,25 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private bool ValidateSequence(int row, string newSeq)
 		{
-			// Make sure a unit was specified.
-			//if (string.IsNullOrEmpty(newUnit))
-			//    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
+			//// Make sure a unit was specified.
+			////if (string.IsNullOrEmpty(newUnit))
+			////    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
 
-			for (int i = 0; i < gridAmbiguous.NewRowIndex; i++)
-			{
-				if (i != row && gridAmbiguous[0, i].Value as string == newSeq)
-				{
-					bool isDefault = ((bool)gridAmbiguous["default", row].Value ||
-						(bool)gridAmbiguous["autodefault", row].Value);
+			//for (int i = 0; i < gridAmbiguous.NewRowIndex; i++)
+			//{
+			//    if (i != row && gridAmbiguous[0, i].Value as string == newSeq)
+			//    {
+			//        bool isDefault = ((bool)gridAmbiguous["default", row].Value ||
+			//            (bool)gridAmbiguous["autodefault", row].Value);
 
-					string msg = (isDefault ?
-						Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
-						Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
+			//        string msg = (isDefault ?
+			//            Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
+			//            Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
 
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return true;
-				}
-			}
+			//        Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//        return true;
+			//    }
+			//}
 
 			return false;
 		}
@@ -936,40 +936,39 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private bool ValidateBaseCharacter(int row, string newBaseChar)
 		{
+			//if (row < 0 || row >= gridAmbiguous.RowCount)
+			//    return false;
 
-			if (row < 0 || row >= gridAmbiguous.RowCount)
-				return false;
+			//string msg = null;
+			//string phone = gridAmbiguous["seq", row].Value as string;
 
-			string msg = null;
-			string phone = gridAmbiguous["seq", row].Value as string;
+			//// Check if a base character has been specified.
+			//if (string.IsNullOrEmpty(newBaseChar))
+			//{
+			//    // No base character is fine when there isn't a sequence specified.
+			//    if (string.IsNullOrEmpty(phone))
+			//        return false;
 
-			// Check if a base character has been specified.
-			if (string.IsNullOrEmpty(newBaseChar))
-			{
-				// No base character is fine when there isn't a sequence specified.
-				if (string.IsNullOrEmpty(phone))
-					return false;
+			//    // At this point, we know we have a sequence but no base character
+			//    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
+			//}
 
-				// At this point, we know we have a sequence but no base character
-				msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
-			}
+			//if (msg == null)
+			//{
+			//    // Make sure there is an ambiguous sequence before specifying a base character.
+			//    if (string.IsNullOrEmpty(phone))
+			//        msg = Properties.Resources.kstidAmbiguousTransMissingMsg;
+			//}
 
-			if (msg == null)
-			{
-				// Make sure there is an ambiguous sequence before specifying a base character.
-				if (string.IsNullOrEmpty(phone))
-					msg = Properties.Resources.kstidAmbiguousTransMissingMsg;
-			}
+			//// Make sure the new base character is part of the ambiguous sequence.
+			//if (msg == null && phone != null && !phone.Contains(newBaseChar))
+			//    msg = Properties.Resources.kstidAmbiguousBaseCharNotInTransMsg;
 
-			// Make sure the new base character is part of the ambiguous sequence.
-			if (msg == null && phone != null && !phone.Contains(newBaseChar))
-				msg = Properties.Resources.kstidAmbiguousBaseCharNotInTransMsg;
-
-			if (msg != null)
-			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return true;
-			}
+			//if (msg != null)
+			//{
+			//    Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//    return true;
+			//}
 
 			return false;
 		}
@@ -1062,21 +1061,21 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void gridAmbiguous_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
 		{
-			if (e.Row == null)
-				return;
+			//if (e.Row == null)
+			//    return;
 
-			string msg = null;
+			//string msg = null;
 
-			if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
-				msg = Properties.Resources.kstidAmbiguousSeqCantDeleteAutoGenMsg;
-			else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
-				msg = Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg;
+			//if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
+			//    msg = Properties.Resources.kstidAmbiguousSeqCantDeleteAutoGenMsg;
+			//else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
+			//    msg = Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg;
 
-			if (msg != null)
-			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				e.Cancel = true;
-			}
+			//if (msg != null)
+			//{
+			//    Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//    e.Cancel = true;
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

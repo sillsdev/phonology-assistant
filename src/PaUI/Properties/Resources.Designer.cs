@@ -378,119 +378,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Base Character.
-        /// </summary>
-        internal static string kstidAmbiguousBaseCharHdg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousBaseCharHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must specify a base character..
-        /// </summary>
-        internal static string kstidAmbiguousBaseCharMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousBaseCharMissingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Your base character must be contained\nwithin its associated ambiguous sequence..
-        /// </summary>
-        internal static string kstidAmbiguousBaseCharNotInTransMsg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousBaseCharNotInTransMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Treat as one unit?.
-        /// </summary>
-        internal static string kstidAmbiguousConvertHdg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousConvertHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CV Pattern.
-        /// </summary>
-        internal static string kstidAmbiguousCVPatternHdg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousCVPatternHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the &apos;Treat as one Unit?’check box..
-        /// </summary>
-        internal static string kstidAmbiguousSeqCantDeleteAutoGenMsg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousSeqCantDeleteAutoGenMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Default sequences may not be deleted..
-        /// </summary>
-        internal static string kstidAmbiguousSeqCantDeleteDefaultMsg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousSeqCantDeleteDefaultMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to That sequence already exists..
-        /// </summary>
-        internal static string kstidAmbiguousSeqDuplicateMsg1 {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousSeqDuplicateMsg1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to That sequence already exists as a default sequence..
-        /// </summary>
-        internal static string kstidAmbiguousSeqDuplicateMsg2 {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousSeqDuplicateMsg2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sequence.
-        /// </summary>
-        internal static string kstidAmbiguousSeqHdg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousSeqHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A base character may not be specified\nuntil you have specified an ambiguous sequence..
-        /// </summary>
-        internal static string kstidAmbiguousTransMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidAmbiguousTransMissingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Automatically Hide.
         /// </summary>
         internal static string kstidAutoHideToolTip {
             get {
                 return ResourceManager.GetString("kstidAutoHideToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Experimental transcription(s){0}converted in this entry:.
-        /// </summary>
-        internal static string kstidCellInfoExperimentalTransHdgText {
-            get {
-                return ResourceManager.GetString("kstidCellInfoExperimentalTransHdgText", resourceCulture);
             }
         }
         
@@ -617,33 +509,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidClassListSingleMemberToolTipHdg {
             get {
                 return ResourceManager.GetString("kstidClassListSingleMemberToolTipHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        internal static string kstidClassListViewClassTypeText {
-            get {
-                return ResourceManager.GetString("kstidClassListViewClassTypeText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Members.
-        /// </summary>
-        internal static string kstidClassListViewMembersText {
-            get {
-                return ResourceManager.GetString("kstidClassListViewMembersText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Name.
-        /// </summary>
-        internal static string kstidClassListViewNameText {
-            get {
-                return ResourceManager.GetString("kstidClassListViewNameText", resourceCulture);
             }
         }
         
@@ -1143,15 +1008,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Entire network.
-        /// </summary>
-        internal static string kstidEntireNetwork {
-            get {
-                return ResourceManager.GetString("kstidEntireNetwork", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} list failed to load..
         /// </summary>
         internal static string kstidErrorLoadingCharPickerRowsMsg {
@@ -1166,51 +1022,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidExpandingGroups {
             get {
                 return ResourceManager.GetString("kstidExpandingGroups", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transcribed in source as:.
-        /// </summary>
-        internal static string kstidExperimentalTransGridCol1 {
-            get {
-                return ResourceManager.GetString("kstidExperimentalTransGridCol1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Convert to one of the following options:.
-        /// </summary>
-        internal static string kstidExperimentalTransGridCol2 {
-            get {
-                return ResourceManager.GetString("kstidExperimentalTransGridCol2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to None.
-        /// </summary>
-        internal static string kstidExperimentalTransGridDontConvertText {
-            get {
-                return ResourceManager.GetString("kstidExperimentalTransGridDontConvertText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transcribed in source as:.
-        /// </summary>
-        internal static string kstidExperimentalTransHdg1 {
-            get {
-                return ResourceManager.GetString("kstidExperimentalTransHdg1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Convert to one of these options:.
-        /// </summary>
-        internal static string kstidExperimentalTransHdg2 {
-            get {
-                return ResourceManager.GetString("kstidExperimentalTransHdg2", resourceCulture);
             }
         }
         

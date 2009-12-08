@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -272,8 +273,12 @@ namespace SIL.Pa.UI.Controls
 			// Add the column for the class name.
 			ColumnHeader hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
-			hdr.Text = Properties.Resources.kstidClassListViewNameText;
 			hdr.Width = 180;
+			hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewNameColumn",
+				"Name", "Name column heading for list of classes",
+				PaApp.kLocalizationGroupUICtrls + "." + "Class List",
+				LocalizationCategory.Other, LocalizationPriority.High);
+			
 			Columns.Add(hdr);
 
 			if (m_showMembersAndClassTypeColumns)
@@ -290,15 +295,23 @@ namespace SIL.Pa.UI.Controls
 				// Add a column for the pattern of the class.
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kMemberSubitem;
-				hdr.Text = Properties.Resources.kstidClassListViewMembersText;
 				hdr.Width = 205;
+				hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewMembersColumn",
+					"Members", "Members column heading for list of classes",
+					PaApp.kLocalizationGroupUICtrls + "." + "Class List",
+					LocalizationCategory.Other, LocalizationPriority.High);
+				
 				Columns.Add(hdr);
 
 				// Add a column for the text showing what the class is based on.
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kBasedOnSubitem;
-				hdr.Text = Properties.Resources.kstidClassListViewClassTypeText;
 				hdr.Width = 175;
+				hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewTypeColumn",
+					"Type", "Type column heading for list of classes",
+					PaApp.kLocalizationGroupUICtrls + "." + "Class List",
+					LocalizationCategory.Other, LocalizationPriority.High);
+				
 				Columns.Add(hdr);
 			}
 		}

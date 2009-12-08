@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using SIL.Localize.LocalizationUtils;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -226,10 +227,15 @@ namespace SIL.Pa.UI.Controls
 			if (NodeType == NetResTreeNodeType.PlacesInArea)
 			{
 				childNode = new NetworkTreeNode();
-				childNode.Text = Properties.Resources.kstidEntireNetwork;
 				childNode.NodeType = NetResTreeNodeType.Group;
 				childNode.ImageIndex = childNode.SelectedImageIndex = 0;
 				childNode.Nodes.Add(NewDummyNode);
+				childNode.Text = LocalizationManager.GetLocalizedText(
+					"EntireNetworkNode", "Entire network", "Text in the network tree used " +
+					"when trying to locate a FieldWorks project older than version 7.0.",
+					"Dialog Boxes.FieldWorks Project", LocalizationCategory.Other,
+					LocalizationPriority.Medium);
+
 				Nodes.Add(childNode);
 
 				netRes = FindSameDomainResource(null);

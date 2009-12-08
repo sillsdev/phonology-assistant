@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SilUtils;
 
@@ -66,8 +67,17 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			lblSourceHdg.Text = Properties.Resources.kstidExperimentalTransHdg1;
-			lblTargetHdg.Text = Properties.Resources.kstidExperimentalTransHdg2;
+			lblSourceHdg.Text = "Transcribed in source as:";
+			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTransControlHdg1",
+				null, "Heading in experimental transcriptions control.",
+				"Dialog Boxes.Experimental Trans", LocalizationCategory.TextBoxOrLabel,
+				LocalizationPriority.High);
+
+			lblTargetHdg.Text = "Convert to one of these options:";
+			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTransControlHdg2",
+				null, "Heading in experimental transcriptions control.",
+				"Dialog Boxes.Experimental Trans", LocalizationCategory.TextBoxOrLabel,
+				LocalizationPriority.High);
 
 			BuildGrid();
 			LoadGrid();
@@ -881,6 +891,7 @@ namespace SIL.Pa.UI.Controls
 		private bool m_mouseOverRadioButton;
 		private bool m_enabled = true;
 		private readonly Font m_fntCV = FontHelper.UIFont;
+		private readonly string m_noneText;
 
 		private const TextFormatFlags kCellFmtFlags =
 			TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter |
@@ -895,6 +906,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (PaApp.Project.FieldInfo.CVPatternField != null)
 				m_fntCV = PaApp.Project.FieldInfo.CVPatternField.Font;
+
+			m_noneText = LocalizationManager.GetLocalizedText(
+				"ExperimentalTransGridDontConvertText", "None", "Text in the experimental " +
+				"transcription list of experimental transcription dialog box.",
+				"Dialog Boxes.Experimental Trans", LocalizationCategory.Other,
+				LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1078,7 +1095,7 @@ namespace SIL.Pa.UI.Controls
 			bool forNoConvertCol = (owningCol != null && owningCol.ForNoConvertColumn);
 			if (forNoConvertCol)
 			{
-				formattedValue = Properties.Resources.kstidExperimentalTransGridDontConvertText;
+				formattedValue = m_noneText;
 				m_enabled = (rowIndex != DataGridView.NewRowIndex);
 			}
 

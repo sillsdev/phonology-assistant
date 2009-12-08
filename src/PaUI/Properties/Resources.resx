@@ -253,42 +253,6 @@
   <data name="kstidPhoneInventoryViewToolTip" xml:space="preserve">
     <value>Phone Inventory View (Ctrl+Alt+P)</value>
   </data>
-  <data name="kstidExperimentalTransGridCol1" xml:space="preserve">
-    <value>Transcribed in source as:</value>
-    <comment>Heading in experimental transcription grid.</comment>
-  </data>
-  <data name="kstidExperimentalTransGridCol2" xml:space="preserve">
-    <value>Convert to one of the following options:</value>
-    <comment>Heading in experimental transcription grid.</comment>
-  </data>
-  <data name="kstidAmbiguousBaseCharHdg" xml:space="preserve">
-    <value>Base Character</value>
-    <comment>Heading for the ambiguous sequence grid.</comment>
-  </data>
-  <data name="kstidAmbiguousBaseCharMissingMsg" xml:space="preserve">
-    <value>You must specify a base character.</value>
-    <comment>Message shown when editing ambiguous sequences.</comment>
-  </data>
-  <data name="kstidAmbiguousBaseCharNotInTransMsg" xml:space="preserve">
-    <value>Your base character must be contained\nwithin its associated ambiguous sequence.</value>
-    <comment>Message shown when editing ambiguous sequences.</comment>
-  </data>
-  <data name="kstidAmbiguousConvertHdg" xml:space="preserve">
-    <value>Treat as one unit?</value>
-    <comment>Heading for the ambiguous sequence grid.</comment>
-  </data>
-  <data name="kstidAmbiguousCVPatternHdg" xml:space="preserve">
-    <value>CV Pattern</value>
-    <comment>Heading for the ambiguous sequence grid.</comment>
-  </data>
-  <data name="kstidAmbiguousSeqHdg" xml:space="preserve">
-    <value>Sequence</value>
-    <comment>Heading for the ambiguous sequence grid.</comment>
-  </data>
-  <data name="kstidAmbiguousTransMissingMsg" xml:space="preserve">
-    <value>A base character may not be specified\nuntil you have specified an ambiguous sequence.</value>
-    <comment>Message shown when editing ambiguous sequences.</comment>
-  </data>
   <data name="kstidPhoneInventoryPhoneInfo" xml:space="preserve">
     <value>Unicode Values:\n{0}</value>
     <comment>Used for the tooltip information when moving the mouse over phones in the phone inventory list.</comment>
@@ -329,25 +293,9 @@
     <value>{0}-{1}XYChart.html</value>
     <comment>First parameter is language name, second is XY chart name</comment>
   </data>
-  <data name="kstidAmbiguousSeqCantDeleteDefaultMsg" xml:space="preserve">
-    <value>Default sequences may not be deleted.</value>
-    <comment>Message shown when trying to delete default ambiguous sequences.</comment>
-  </data>
-  <data name="kstidAmbiguousSeqDuplicateMsg1" xml:space="preserve">
-    <value>That sequence already exists.</value>
-    <comment>Message shown when editing ambiguous sequences.</comment>
-  </data>
-  <data name="kstidAmbiguousSeqDuplicateMsg2" xml:space="preserve">
-    <value>That sequence already exists as a default sequence.</value>
-    <comment>Message shown when editing ambiguous sequences.</comment>
-  </data>
   <data name="kstidRecentlyUsedProjectMissingMsg" xml:space="preserve">
     <value>The project file '{0}' is missing.</value>
     <comment>Message displayed when a recently used project file is chosen (i.e. .pap file) and it no longer exists.</comment>
-  </data>
-  <data name="kstidAmbiguousSeqCantDeleteAutoGenMsg" xml:space="preserve">
-    <value>This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat as one Unit?’check box.</value>
-    <comment>Message shown when trying to delete an auto. generated ambiguous sequences.</comment>
   </data>
   <data name="kstidCharHdg" xml:space="preserve">
     <value>Character</value>
@@ -808,14 +756,6 @@
   <data name="kstidAddSearchCategoryBeforeSave" xml:space="preserve">
     <value>Before saving a search pattern, you must first add a category to the saved pattern list.</value>
   </data>
-  <data name="kstidAutoHideToolTip" xml:space="preserve">
-    <value>Automatically Hide</value>
-    <comment>Tooltip for the sliding panel auto. hide button</comment>
-  </data>
-  <data name="kstidCellInfoExperimentalTransHdgText" xml:space="preserve">
-    <value>Experimental transcription(s){0}converted in this entry:</value>
-    <comment>Heading text for the experimental transcription popup. The parameter is for a line break.</comment>
-  </data>
   <data name="kstidCellInfoLnkCmdExperimentalTransText" xml:space="preserve">
     <value>Settings</value>
     <comment>Text for command link on the experimental transcription items cell popup</comment>
@@ -856,18 +796,6 @@
   <data name="kstidClassListSingleMemberToolTipHdg" xml:space="preserve">
     <value>Member:</value>
     <comment>Heading for the tooltip used to display the member of a class containing a single feature.</comment>
-  </data>
-  <data name="kstidClassListViewClassTypeText" xml:space="preserve">
-    <value>Type</value>
-    <comment>Header text for Class Listview controls</comment>
-  </data>
-  <data name="kstidClassListViewMembersText" xml:space="preserve">
-    <value>Members</value>
-    <comment>Header text for Class Listview controls</comment>
-  </data>
-  <data name="kstidClassListViewNameText" xml:space="preserve">
-    <value>Name</value>
-    <comment>Header text for Class Listview controls</comment>
   </data>
   <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
     <value>Close Active Tab</value>
@@ -922,27 +850,11 @@
   <data name="kstidEmtpyTabInfoText" xml:space="preserve">
     <value>Define a search pattern above and click Show Results.</value>
   </data>
-  <data name="kstidEntireNetwork" xml:space="preserve">
-    <value>Entire network</value>
-    <comment>Used in the dialog for choosing an FW database</comment>
-  </data>
   <data name="kstidErrorLoadingCharPickerRowsMsg" xml:space="preserve">
     <value>{0} list failed to load.</value>
   </data>
   <data name="kstidExpandingGroups" xml:space="preserve">
     <value>Expanding groups...</value>
-  </data>
-  <data name="kstidExperimentalTransGridDontConvertText" xml:space="preserve">
-    <value>None</value>
-    <comment>Text in the experimental transcriptions list indicating no conversion will take place for the item.</comment>
-  </data>
-  <data name="kstidExperimentalTransHdg1" xml:space="preserve">
-    <value>Transcribed in source as:</value>
-    <comment>Heading in experimental transcriptions control</comment>
-  </data>
-  <data name="kstidExperimentalTransHdg2" xml:space="preserve">
-    <value>Convert to one of these options:</value>
-    <comment>Heading in experimental transcriptions control</comment>
   </data>
   <data name="kstidFindDataNotFound" xml:space="preserve">
     <value>The following specified text was not found: </value>
@@ -1150,5 +1062,9 @@
   <data name="kstidXYChartPopupInvalidCharFmt" xml:space="preserve">
     <value>{0} (U+{1})</value>
     <comment>Format string for displaying undefined characters in a pattern in an XY chart cell popup.</comment>
+  </data>
+  <data name="kstidAutoHideToolTip" xml:space="preserve">
+    <value>Automatically Hide</value>
+    <comment>Tooltip for the sliding panel auto. hide button</comment>
   </data>
 </root>

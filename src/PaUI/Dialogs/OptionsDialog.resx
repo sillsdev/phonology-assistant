@@ -124,6 +124,9 @@
   <data name="picSaveInfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>444, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="picSaveInfo.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 7</value>
@@ -289,7 +292,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -308,12 +311,6 @@
   </data>
   <data name="btnMoveColDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>239, 17</value>
-  </metadata>
-  <data name="btnMoveColDown.ToolTip" xml:space="preserve">
-    <value>Move down</value>
   </data>
   <data name="&gt;&gt;btnMoveColDown.Name" xml:space="preserve">
     <value>btnMoveColDown</value>
@@ -338,9 +335,6 @@
   </data>
   <data name="btnMoveColUp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="btnMoveColUp.ToolTip" xml:space="preserve">
-    <value>Move up</value>
   </data>
   <data name="&gt;&gt;btnMoveColUp.Name" xml:space="preserve">
     <value>btnMoveColUp</value>
@@ -581,9 +575,6 @@
   </data>
   <data name="nudMaxEticColWidth.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="nudMaxEticColWidth.ToolTip" xml:space="preserve">
-    <value>Maximum automatically calculated phonetic column width</value>
   </data>
   <data name="nudMaxEticColWidth.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -850,7 +841,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -903,9 +894,6 @@
   <data name="btnMoveRecVwFldDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="btnMoveRecVwFldDown.ToolTip" xml:space="preserve">
-    <value>Move down</value>
-  </data>
   <data name="&gt;&gt;btnMoveRecVwFldDown.Name" xml:space="preserve">
     <value>btnMoveRecVwFldDown</value>
   </data>
@@ -929,9 +917,6 @@
   </data>
   <data name="btnMoveRecVwFldUp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="btnMoveRecVwFldUp.ToolTip" xml:space="preserve">
-    <value>Move up</value>
   </data>
   <data name="&gt;&gt;btnMoveRecVwFldUp.Name" xml:space="preserve">
     <value>btnMoveRecVwFldUp</value>
@@ -1480,7 +1465,7 @@
     <value>True</value>
   </data>
   <metadata name="tonePicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>130, 17</value>
   </metadata>
   <data name="tonePicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1504,7 +1489,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1600,7 +1585,7 @@
     <value>True</value>
   </data>
   <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>126, 17</value>
+    <value>17, 17</value>
   </metadata>
   <data name="lengthPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1627,7 +1612,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1723,7 +1708,7 @@
     <value>True</value>
   </data>
   <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>234, 17</value>
   </metadata>
   <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1747,7 +1732,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -1896,9 +1881,6 @@
   <data name="btnMoveSortFieldUp.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="btnMoveSortFieldUp.ToolTip" xml:space="preserve">
-    <value>Move up</value>
-  </data>
   <data name="&gt;&gt;btnMoveSortFieldUp.Name" xml:space="preserve">
     <value>btnMoveSortFieldUp</value>
   </data>
@@ -1955,9 +1937,6 @@
   </data>
   <data name="btnMoveSortFieldDown.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="btnMoveSortFieldDown.ToolTip" xml:space="preserve">
-    <value>Move down</value>
   </data>
   <data name="&gt;&gt;btnMoveSortFieldDown.Name" xml:space="preserve">
     <value>btnMoveSortFieldDown</value>
@@ -2086,7 +2065,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2379,16 +2358,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Options</value>
   </data>
-  <data name="&gt;&gt;m_toolTip.Name" xml:space="preserve">
-    <value>m_toolTip</value>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
   </data>
-  <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

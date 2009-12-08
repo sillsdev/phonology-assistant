@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblMsg.Font = FontHelper.UIFont;
 			lstFwProjects.Font = FontHelper.UIFont;
-			lblDB.Font = FontHelper.UIFont;
+			lblProjects.Font = FontHelper.UIFont;
 			lblNetwork.Font = FontHelper.UIFont;
 			tvNetwork.Font = FontHelper.UIFont;
 			txtMsg.Font = FontHelper.UIFont;
@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Dialogs
 			txtMsg.Dock = DockStyle.Fill;
 			txtMsg.BringToFront();
 
-			lblDB.Height = FontHelper.UIFont.Height + 10;
+			lblProjects.Height = FontHelper.UIFont.Height + 10;
 			lblNetwork.Height = FontHelper.UIFont.Height + 10;
 
 			tvNetwork.Load();
