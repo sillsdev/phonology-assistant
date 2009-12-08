@@ -28,12 +28,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OKCancelDlgBase));
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -48,6 +51,9 @@ namespace SIL.Pa.UI.Dialogs
 			// btnHelp
 			// 
 			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, "Help button text on all OK/Cancel dialog boxes.");
+			this.locExtender.SetLocalizingId(this.btnHelp, "OKCancelDlgBase.btnHelp");
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.UseVisualStyleBackColor = true;
 			this.btnHelp.Click += new System.EventHandler(this.InternalHandleHelpClick);
@@ -56,6 +62,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, "Cancel button text on all OK/Cancel dialog boxes.");
+			this.locExtender.SetLocalizingId(this.btnCancel, "OKCancelDlgBase.btnCancel");
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -64,8 +73,15 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.btnOK, "btnOK");
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, "OK button text on all OK/Cancel dialog boxes.");
+			this.locExtender.SetLocalizingId(this.btnOK, "OKCancelDlgBase.btnOK");
 			this.btnOK.Name = "btnOK";
 			this.btnOK.UseVisualStyleBackColor = true;
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes.Base OK/Cancel";
 			// 
 			// OKCancelDlgBase
 			// 
@@ -74,6 +90,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
 			this.Controls.Add(this.pnlButtons);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "OKCancelDlgBase");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OKCancelDlgBase";
@@ -81,6 +101,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.pnlButtons.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -91,6 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected System.Windows.Forms.Button btnCancel;
 		protected System.Windows.Forms.Button btnOK;
 		protected System.Windows.Forms.Button btnHelp;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 
 
 

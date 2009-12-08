@@ -233,7 +233,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of consonants from which to choose " +
 				"in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "ConsonantsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "ConsonantsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 		}
 
@@ -258,7 +258,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of non pulmonic consonants from which to choose " +
 				"in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "NonPulmonicsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "NonPulmonicsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 		}
 
@@ -283,7 +283,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of other symbols from which to choose " +
 				"in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "OtherSymbolsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "OtherSymbolsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 		}
 
@@ -308,7 +308,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of vowels from which to choose " +
 				"in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "VowelsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "VowelsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 		}
         
@@ -334,7 +334,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of diacritics from which to choose " +
 				"in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "DiacriticsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "DiacriticsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 
 			// Enlarge the font and cell size
@@ -364,7 +364,7 @@ namespace SIL.Pa.UI.Controls
 			string cmnt = "Text on heading above list of suprasegmentals from which to " +
 				"choose in side bar of search and XY chart views.";
 
-			LocalizationExtender.LocalizeObject(item.Button, "SSegsCharChooserHeading",
+			LocalizationManager.LocalizeObject(item.Button, "SSegsCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 
 			// Enlarge the font and cell size
@@ -393,8 +393,8 @@ namespace SIL.Pa.UI.Controls
 
 			string cmnt = "Text on heading above list of tones and accents from which " +
 				"to choose in side bar of search and XY chart views.";
-			
-			LocalizationExtender.LocalizeObject(item.Button, "ToneCharChooserHeading",
+
+			LocalizationManager.LocalizeObject(item.Button, "ToneCharChooserHeading",
 				null, cmnt, kLocalizationGroup, LocalizationCategory.Other, LocalizationPriority.High);
 
 			// Enlarge the font and cell size

@@ -46,6 +46,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// to a recently used file being chosen.</summary>
 	public delegate void RecentlyUsedItemChosenHandler(string filename);
 
+	/// <summary>Handler for allowing applications to localize a toolbar/menu item.</summary>
+	public delegate void LocalizeItemHandler(object item, string id, TMItemProperties itemProps);
+
 	#region TMItemProperties Class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -61,42 +61,6 @@ namespace SIL.Pa.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Articulatory features.
-        /// </summary>
-        internal static string kstidClassTypeArticulatoryFeatures {
-            get {
-                return ResourceManager.GetString("kstidClassTypeArticulatoryFeatures", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Binary features.
-        /// </summary>
-        internal static string kstidClassTypeBinaryFeatures {
-            get {
-                return ResourceManager.GetString("kstidClassTypeBinaryFeatures", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Other classes.
-        /// </summary>
-        internal static string kstidClassTypeOtherClasses {
-            get {
-                return ResourceManager.GetString("kstidClassTypeOtherClasses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phones.
-        /// </summary>
-        internal static string kstidClassTypePhones {
-            get {
-                return ResourceManager.GetString("kstidClassTypePhones", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &gt;.
         /// </summary>
         internal static string kstidCloseClassSymbol {

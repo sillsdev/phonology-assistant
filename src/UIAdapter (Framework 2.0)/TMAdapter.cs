@@ -138,6 +138,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public event RecentlyUsedItemChosenHandler RecentlyUsedItemChosen;
 		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Event fired when the adapter offers the toolbar/menu item to the application for
+		/// localization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public event LocalizeItemHandler LocalizeItem;
+	
 		#endregion
 
 		#region Adapter initialization
@@ -1750,8 +1758,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
 					((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
 				}
-
-
 			}
 
 			if (GetBoolFromAttribute(node, "toolbarlist"))
@@ -1791,6 +1797,16 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			// Save all initializatons by updating the item.
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
+
+			if (LocalizeItem != null)
+			{
+				string id = commandid;
+				if (id.StartsWith("Cmd"))
+					id = id.Substring(3);
+
+				id = "ToolbarMenuItem." + id;
+				LocalizeItem(item, id, itemProps);
+			}
 
 			m_items[name] = item;
 		}

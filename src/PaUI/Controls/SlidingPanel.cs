@@ -69,7 +69,7 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
 
-			LocalizationExtender.LocalizeObject(m_lblTab, id);
+			LocalizationManager.LocalizeObject(m_lblTab, id);
 		}
 
 		/// ------------------------------------------------------------------------------------

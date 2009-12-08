@@ -269,6 +269,15 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		event RecentlyUsedItemChosenHandler RecentlyUsedItemChosen;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Event fired when the adapter offers the toolbar/menu item to the application for
+		/// localization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		event LocalizeItemHandler LocalizeItem;
+		
 		#endregion
 
 		#region Properties

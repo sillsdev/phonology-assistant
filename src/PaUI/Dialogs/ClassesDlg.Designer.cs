@@ -39,8 +39,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddBinFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -60,25 +62,40 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnCancel
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizingId(this.btnCancel, "OKCancelDlgBase.btnCancel");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizingId(this.btnOK, "OKCancelDlgBase.btnOK");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizingId(this.btnHelp, "OKCancelDlgBase.btnHelp");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// btnDelete
 			// 
 			resources.ApplyResources(this.btnDelete, "btnDelete");
+			this.locExtender.SetLocalizableToolTip(this.btnDelete, null);
+			this.locExtender.SetLocalizationComment(this.btnDelete, null);
+			this.locExtender.SetLocalizingId(this.btnDelete, "ClassesDlg.btnDelete");
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// btnCopy
 			// 
 			resources.ApplyResources(this.btnCopy, "btnCopy");
+			this.locExtender.SetLocalizableToolTip(this.btnCopy, null);
+			this.locExtender.SetLocalizationComment(this.btnCopy, null);
+			this.locExtender.SetLocalizingId(this.btnCopy, "ClassesDlg.btnCopy");
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
 			// 
@@ -86,12 +103,18 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.btnAdd, "btnAdd");
 			this.btnAdd.Image = global::SIL.Pa.Properties.Resources.kimidButtonDropDownArrow;
+			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
+			this.locExtender.SetLocalizationComment(this.btnAdd, null);
+			this.locExtender.SetLocalizingId(this.btnAdd, "ClassesDlg.btnAdd");
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnModify
 			// 
 			resources.ApplyResources(this.btnModify, "btnModify");
+			this.locExtender.SetLocalizableToolTip(this.btnModify, null);
+			this.locExtender.SetLocalizationComment(this.btnModify, null);
+			this.locExtender.SetLocalizingId(this.btnModify, "ClassesDlg.btnModify");
 			this.btnModify.Name = "btnModify";
 			this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
 			// 
@@ -101,14 +124,17 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.HideSelection = false;
+			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
+			this.locExtender.SetLocalizationComment(this.lvClasses, null);
+			this.locExtender.SetLocalizingId(this.lvClasses, "ClassesDlg.lvClasses");
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
 			this.lvClasses.OwnerDraw = true;
 			this.lvClasses.ShowMembersAndTypeColumns = true;
 			this.lvClasses.UseCompatibleStateImageBehavior = false;
 			this.lvClasses.View = System.Windows.Forms.View.Details;
-			this.lvClasses.DoubleClick += new System.EventHandler(this.lvClasses_DoubleClick);
 			this.lvClasses.SelectedIndexChanged += new System.EventHandler(this.lvClasses_SelectedIndexChanged);
+			this.lvClasses.DoubleClick += new System.EventHandler(this.lvClasses_DoubleClick);
 			this.lvClasses.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvClasses_KeyDown);
 			// 
 			// cmnuAdd
@@ -117,27 +143,44 @@ namespace SIL.Pa.UI.Dialogs
             this.cmnuAddCharClass,
             this.cmnuAddArtFeatureClass,
             this.cmnuAddBinFeatureClass});
+			this.locExtender.SetLocalizableToolTip(this.cmnuAdd, null);
+			this.locExtender.SetLocalizationComment(this.cmnuAdd, null);
+			this.locExtender.SetLocalizationPriority(this.cmnuAdd, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cmnuAdd, "cmnuAdd.cmnuAdd");
 			this.cmnuAdd.Name = "cmnuAdd";
 			this.cmnuAdd.ShowImageMargin = false;
 			resources.ApplyResources(this.cmnuAdd, "cmnuAdd");
 			// 
 			// cmnuAddCharClass
 			// 
+			this.locExtender.SetLocalizableToolTip(this.cmnuAddCharClass, null);
+			this.locExtender.SetLocalizationComment(this.cmnuAddCharClass, "Text on add button drop-down on classes dialog box.");
+			this.locExtender.SetLocalizingId(this.cmnuAddCharClass, "ClassesDlg.cmnuAddCharClass");
 			this.cmnuAddCharClass.Name = "cmnuAddCharClass";
 			resources.ApplyResources(this.cmnuAddCharClass, "cmnuAddCharClass");
 			this.cmnuAddCharClass.Click += new System.EventHandler(this.cmnuAddCharClass_Click);
 			// 
 			// cmnuAddArtFeatureClass
 			// 
+			this.locExtender.SetLocalizableToolTip(this.cmnuAddArtFeatureClass, null);
+			this.locExtender.SetLocalizationComment(this.cmnuAddArtFeatureClass, "Text on add button drop-down on classes dialog box.");
+			this.locExtender.SetLocalizingId(this.cmnuAddArtFeatureClass, "ClassesDlg.cmnuAddArtFeatureClass");
 			this.cmnuAddArtFeatureClass.Name = "cmnuAddArtFeatureClass";
 			resources.ApplyResources(this.cmnuAddArtFeatureClass, "cmnuAddArtFeatureClass");
 			this.cmnuAddArtFeatureClass.Click += new System.EventHandler(this.cmnuAddArtFeatureClass_Click);
 			// 
 			// cmnuAddBinFeatureClass
 			// 
+			this.locExtender.SetLocalizableToolTip(this.cmnuAddBinFeatureClass, null);
+			this.locExtender.SetLocalizationComment(this.cmnuAddBinFeatureClass, "Text on add button drop-down on classes dialog box.");
+			this.locExtender.SetLocalizingId(this.cmnuAddBinFeatureClass, "ClassesDlg.cmnuAddBinFeatureClass");
 			this.cmnuAddBinFeatureClass.Name = "cmnuAddBinFeatureClass";
 			resources.ApplyResources(this.cmnuAddBinFeatureClass, "cmnuAddBinFeatureClass");
 			this.cmnuAddBinFeatureClass.Click += new System.EventHandler(this.cmnuAddBinFeatureClass_Click);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes.Classes";
 			// 
 			// ClassesDlg
 			// 
@@ -145,11 +188,15 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.lvClasses);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, "Title of classes dialog box.");
+			this.locExtender.SetLocalizingId(this, "ClassesDlg");
 			this.Name = "ClassesDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lvClasses, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -165,5 +212,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

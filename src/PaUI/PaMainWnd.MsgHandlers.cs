@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
@@ -37,6 +38,17 @@ namespace SIL.Pa.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class PaMainWnd
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			LocalizationManager.ReapplyLocalizationsToAllObjects();
+			return false;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

@@ -117,22 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="kstidClassTypeArticulatoryFeatures" xml:space="preserve">
-    <value>Articulatory features</value>
-    <comment>Used for Classes and Define Classes dialog boxes</comment>
-  </data>
-  <data name="kstidClassTypeBinaryFeatures" xml:space="preserve">
-    <value>Binary features</value>
-    <comment>Used for Classes and Define Classes dialog boxes</comment>
-  </data>
-  <data name="kstidClassTypeOtherClasses" xml:space="preserve">
-    <value>Other classes</value>
-    <comment>Used for Classes and Define Classes dialog boxes</comment>
-  </data>
-  <data name="kstidClassTypePhones" xml:space="preserve">
-    <value>Phones</value>
-    <comment>Used for Classes and Define Classes dialog boxes</comment>
-  </data>
   <data name="kstidCloseClassSymbol" xml:space="preserve">
     <value>&gt;</value>
   </data>

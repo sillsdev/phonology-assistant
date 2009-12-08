@@ -289,7 +289,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -310,7 +310,7 @@
     <value>3</value>
   </data>
   <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>239, 17</value>
   </metadata>
   <data name="btnMoveColDown.ToolTip" xml:space="preserve">
     <value>Move down</value>
@@ -850,7 +850,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.FieldSelectorGrid, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1504,7 +1504,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1600,7 +1600,7 @@
     <value>True</value>
   </data>
   <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>126, 17</value>
   </metadata>
   <data name="lengthPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1627,7 +1627,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1723,7 +1723,7 @@
     <value>True</value>
   </data>
   <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>0, 0</value>
+    <value>17, 17</value>
   </metadata>
   <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1747,7 +1747,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -2086,7 +2086,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.SortOptionsDropDown, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2268,6 +2268,84 @@
   <data name="&gt;&gt;tpgColors.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="cboUILanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>179, 34</value>
+  </data>
+  <data name="cboUILanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 21</value>
+  </data>
+  <data name="cboUILanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;cboUILanguage.Name" xml:space="preserve">
+    <value>cboUILanguage</value>
+  </data>
+  <data name="&gt;&gt;cboUILanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboUILanguage.Parent" xml:space="preserve">
+    <value>tpgUI</value>
+  </data>
+  <data name="&gt;&gt;cboUILanguage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblUILanguage.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblUILanguage.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="lblUILanguage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 34</value>
+  </data>
+  <data name="lblUILanguage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 15</value>
+  </data>
+  <data name="lblUILanguage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblUILanguage.Text" xml:space="preserve">
+    <value>User Interface Language:</value>
+  </data>
+  <data name="&gt;&gt;lblUILanguage.Name" xml:space="preserve">
+    <value>lblUILanguage</value>
+  </data>
+  <data name="&gt;&gt;lblUILanguage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblUILanguage.Parent" xml:space="preserve">
+    <value>tpgUI</value>
+  </data>
+  <data name="&gt;&gt;lblUILanguage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tpgUI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgUI.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgUI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 382</value>
+  </data>
+  <data name="tpgUI.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="tpgUI.Text" xml:space="preserve">
+    <value>User Interface</value>
+  </data>
+  <data name="&gt;&gt;tpgUI.Name" xml:space="preserve">
+    <value>tpgUI</value>
+  </data>
+  <data name="&gt;&gt;tpgUI.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgUI.Parent" xml:space="preserve">
+    <value>tabOptions</value>
+  </data>
+  <data name="&gt;&gt;tpgUI.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="tabOptions.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
@@ -2311,6 +2389,6 @@
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.1.3615.17926, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3628.35692, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

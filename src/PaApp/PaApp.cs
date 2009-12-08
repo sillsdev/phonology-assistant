@@ -79,7 +79,9 @@ namespace SIL.Pa
 
 		public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
 		public const string kLocalizationGroupUICtrls = "User Interface Controls";
+		public const string kLocalizationGroupDialogs = "Dialog Boxes";
 		public const string kLocalizationGroupInfoMsg = "Information Messages";
+		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
 		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
 		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
@@ -1170,7 +1172,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
 		{
-			adapter.InitializeItem += HandleLocalizingTMItem;
+			adapter.LocalizeItem += HandleLocalizingTMItem;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1181,7 +1183,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
 		{
-			adapter.InitializeItem -= HandleLocalizingTMItem;
+			adapter.LocalizeItem -= HandleLocalizingTMItem;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1189,20 +1191,11 @@ namespace SIL.Pa
 		/// Handles localizing a toolbar/menu item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static void HandleLocalizingTMItem(ref TMItemProperties itemProps)
+		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
 		{
-			string id = itemProps.CommandId;
-			
-			if (id.StartsWith("Cmd"))
-				id = id.Substring(3);
-
-			id = "ToolbarMenuItem." + id;
-			
-			itemProps.Text = LocalizationExtender.GetLocalizedText(id, itemProps.Text, null,
-				kLocalizationGroupTMItems, LocalizationCategory.ToolbarMenuOrStatusBarItem,
-				LocalizationPriority.High);
-
-			itemProps.Tooltip = LocalizationExtender.GetLocalizedToolTipText(id);
+			LocalizationManager.LocalizeObject(item, id, itemProps.Tooltip,
+				"Toolbar or Menu item", kLocalizationGroupTMItems,
+				LocalizationCategory.ToolbarMenuOrStatusBarItem, LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------

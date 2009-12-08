@@ -257,7 +257,7 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			LocalizationExtender.LocalizeObject(pnlSideBarCaption,
+			LocalizationManager.LocalizeObject(pnlSideBarCaption,
 				"kstidSearchVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
@@ -492,7 +492,7 @@ namespace SIL.Pa.UI.Views
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
 			m_tooltip.SetToolTip(ptrnTextBox.TextBox, Utils.ConvertLiteralNewLines(tip));
-			LocalizationExtender.RefreshToolTips();
+			LocalizationManager.RefreshToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SilUtils;
@@ -142,13 +143,22 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return ResourceHelper.GetString("kstidClassTypePhones");
+						return LocalizationManager.GetLocalizedText("PhonesClassTypeLabel",
+							"Phones", "Label on the define classes dialog box indicating class type",
+							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
+							LocalizationPriority.High);
 
 					case SearchClassType.Articulatory:
-						return ResourceHelper.GetString("kstidClassTypeArticulatoryFeatures");
+						return LocalizationManager.GetLocalizedText("ArticulatoryFeaturesClassTypeLabel",
+							"Articulatory features", "Articulatory features class type label.",
+							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
+							LocalizationPriority.High);
 
 					case SearchClassType.Binary:
-						return ResourceHelper.GetString("kstidClassTypeBinaryFeatures");
+						return LocalizationManager.GetLocalizedText("BinaryFeaturesClassTypeLabel",
+							"Binary features", "Binary features class type label.",
+							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
+							LocalizationPriority.High);
 				
 					default:
 						return null;

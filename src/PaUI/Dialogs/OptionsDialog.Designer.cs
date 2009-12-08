@@ -108,9 +108,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboListType = new System.Windows.Forms.ComboBox();
 			this.tpgFonts = new System.Windows.Forms.TabPage();
 			this.tpgColors = new System.Windows.Forms.TabPage();
+			this.tpgUI = new System.Windows.Forms.TabPage();
+			this.lblUILanguage = new System.Windows.Forms.Label();
 			this.picSaveInfo = new System.Windows.Forms.PictureBox();
 			this.lblSaveInfo = new System.Windows.Forms.Label();
 			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.cboUILanguage = new System.Windows.Forms.ComboBox();
 			this.pnlButtons.SuspendLayout();
 			this.tabOptions.SuspendLayout();
 			this.tpgWordLists.SuspendLayout();
@@ -136,6 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
 			this.grpPhoneticSortOptions.SuspendLayout();
+			this.tpgUI.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -172,6 +176,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tabOptions.Controls.Add(this.tpgSorting);
 			this.tabOptions.Controls.Add(this.tpgFonts);
 			this.tabOptions.Controls.Add(this.tpgColors);
+			this.tabOptions.Controls.Add(this.tpgUI);
 			this.tabOptions.HotTrack = true;
 			this.tabOptions.Name = "tabOptions";
 			this.tabOptions.SelectedIndex = 0;
@@ -784,6 +789,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgColors.Name = "tpgColors";
 			this.tpgColors.UseVisualStyleBackColor = true;
 			// 
+			// tpgUI
+			// 
+			this.tpgUI.Controls.Add(this.cboUILanguage);
+			this.tpgUI.Controls.Add(this.lblUILanguage);
+			resources.ApplyResources(this.tpgUI, "tpgUI");
+			this.tpgUI.Name = "tpgUI";
+			this.tpgUI.UseVisualStyleBackColor = true;
+			// 
+			// lblUILanguage
+			// 
+			resources.ApplyResources(this.lblUILanguage, "lblUILanguage");
+			this.lblUILanguage.Name = "lblUILanguage";
+			// 
 			// picSaveInfo
 			// 
 			resources.ApplyResources(this.picSaveInfo, "picSaveInfo");
@@ -795,6 +813,12 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblSaveInfo, "lblSaveInfo");
 			this.lblSaveInfo.Name = "lblSaveInfo";
+			// 
+			// cboUILanguage
+			// 
+			this.cboUILanguage.FormattingEnabled = true;
+			resources.ApplyResources(this.cboUILanguage, "cboUILanguage");
+			this.cboUILanguage.Name = "cboUILanguage";
 			// 
 			// OptionsDlg
 			// 
@@ -834,6 +858,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).EndInit();
 			this.grpPhoneticSortOptions.ResumeLayout(false);
+			this.tpgUI.ResumeLayout(false);
+			this.tpgUI.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).EndInit();
 			this.ResumeLayout(false);
 
@@ -910,5 +936,8 @@ namespace SIL.Pa.UI.Dialogs
 		private Panel pnlStress;
 		private Panel pnlLength;
 		private Panel pnlTone;
+		private TabPage tpgUI;
+		private Label lblUILanguage;
+		private ComboBox cboUILanguage;
 	}
 }

@@ -240,7 +240,7 @@ namespace SIL.Pa
 				string cmnt = "Message displayed when an attempt is made to open a " +
 					"non existant project file. The parameter is the project file name.";
 
-				errorMsg = LocalizationExtender.GetLocalizedText("kstidProjectFileNonExistent",
+				errorMsg = LocalizationManager.GetLocalizedText("kstidProjectFileNonExistent",
 					"Project file '{0}' does not exist.", cmnt, PaApp.kLocalizationGroupInfoMsg,
 					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 				

@@ -124,6 +124,9 @@
   <data name="btnModify.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>119, 21</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnModify.Location" type="System.Drawing.Point, System.Drawing">
     <value>86, 7</value>
@@ -247,10 +250,10 @@
     <value>5</value>
   </data>
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 417</value>
+    <value>10, 412</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>599, 40</value>
+    <value>617, 40</value>
   </data>
   <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -265,10 +268,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>519, 7</value>
+    <value>537, 7</value>
   </data>
   <data name="btnHelp.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -286,7 +289,7 @@
     <value>6</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>347, 7</value>
+    <value>365, 7</value>
   </data>
   <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -304,7 +307,7 @@
     <value>3</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>433, 7</value>
+    <value>451, 7</value>
   </data>
   <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -331,7 +334,7 @@
     <value>10, 10</value>
   </data>
   <data name="lvClasses.Size" type="System.Drawing.Size, System.Drawing">
-    <value>599, 407</value>
+    <value>617, 402</value>
   </data>
   <data name="lvClasses.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -340,37 +343,37 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.ClassListView, PaControls, Version=1.0.2762.41349, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3628.42457, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lvClasses.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
-  <data name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing">
+  <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>19, 21</value>
-  </data>
+  </metadata>
   <data name="cmnuAddCharClass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="cmnuAddCharClass.Text" xml:space="preserve">
     <value>&amp;Phones Class...</value>
   </data>
   <data name="cmnuAddArtFeatureClass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="cmnuAddArtFeatureClass.Text" xml:space="preserve">
     <value>&amp;Articulatory Features Class...</value>
   </data>
   <data name="cmnuAddBinFeatureClass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 22</value>
+    <value>193, 22</value>
   </data>
   <data name="cmnuAddBinFeatureClass.Text" xml:space="preserve">
     <value>&amp;Binary Features Class...</value>
   </data>
   <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 70</value>
+    <value>194, 70</value>
   </data>
   <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
     <value>cmnuAdd</value>
@@ -378,14 +381,14 @@
   <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>619, 457</value>
+    <value>637, 452</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>645, 375</value>
@@ -411,10 +414,16 @@
   <data name="&gt;&gt;cmnuAddBinFeatureClass.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ClassesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2762.41351, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3628.42457, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

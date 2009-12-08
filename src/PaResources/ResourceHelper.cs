@@ -11,8 +11,8 @@ namespace SIL.Pa.Resources
 	/// ----------------------------------------------------------------------------------------
 	public partial class ResourceHelper : Form
 	{
-		private static ResourceManager s_stringResources = null;
-		private static ResourceManager s_helpResources = null;
+		private static ResourceManager s_stringResources;
+		private static ResourceManager s_helpResources;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

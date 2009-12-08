@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 8);
+			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 9);
 
 			Utils.WaitCursors(true);
 			InitializeComponent();
@@ -45,6 +45,8 @@ namespace SIL.Pa.UI.Dialogs
 			InitializeCVPatternsTab();
 			PaApp.IncProgressBar();
 			InitializeSortingTab();
+			PaApp.IncProgressBar();
+			InitializeUserInterfaceTab();
 			PaApp.IncProgressBar();
 
 			PaApp.SettingsHandler.LoadFormProperties(this, true);
@@ -98,7 +100,8 @@ namespace SIL.Pa.UI.Dialogs
 			get
 			{
 				return (m_dirty || IsFontsTabDirty || /*IsFindPhoneTabDirty || */
-					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty);
+					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty ||
+					IsUserInterfaceTabDirty);
 			}
 		}
 
@@ -115,6 +118,7 @@ namespace SIL.Pa.UI.Dialogs
 			SaveRecViewTabSettings();
 			SaveSortingTabSettings();
 			SaveCvPatternsTabSettings();
+			SaveUserInterfaceTabSettings();
 			return true;
 		}
 

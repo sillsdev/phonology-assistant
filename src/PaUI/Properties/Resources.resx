@@ -349,14 +349,6 @@
     <value>This ambiguous sequence was automatically generated based\non phonetic transcriptions found in one or more data sources.\nAutomatically generated ambiguous sequences may not be\ndeleted. If you do not want Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat as one Unit?’check box.</value>
     <comment>Message shown when trying to delete an auto. generated ambiguous sequences.</comment>
   </data>
-  <data name="kstidArticulatoryFeatureClassDlgHdg" xml:space="preserve">
-    <value>Articulatory Features</value>
-    <comment>Caption of class definition dialog for an articulatory features class</comment>
-  </data>
-  <data name="kstidBinaryFeatureClassDlgHdg" xml:space="preserve">
-    <value>Binary Features</value>
-    <comment>Caption of class definition dialog for an binary features class</comment>
-  </data>
   <data name="kstidCharHdg" xml:space="preserve">
     <value>Character</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
@@ -601,10 +593,6 @@
   <data name="kstidParsePhoneticSampleOutput" xml:space="preserve">
     <value>hi/this what#ni/this what#nini/this what</value>
     <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
-  </data>
-  <data name="kstidPhoneClassDlgHdg" xml:space="preserve">
-    <value>Phones</value>
-    <comment>Caption of class definition dialog for an phone class</comment>
   </data>
   <data name="kstidProjectSettingsDlgCaption" xml:space="preserve">
     <value>Project Settings</value>

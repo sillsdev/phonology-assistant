@@ -477,29 +477,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Articulatory Features.
-        /// </summary>
-        internal static string kstidArticulatoryFeatureClassDlgHdg {
-            get {
-                return ResourceManager.GetString("kstidArticulatoryFeatureClassDlgHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Automatically Hide.
         /// </summary>
         internal static string kstidAutoHideToolTip {
             get {
                 return ResourceManager.GetString("kstidAutoHideToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Binary Features.
-        /// </summary>
-        internal static string kstidBinaryFeatureClassDlgHdg {
-            get {
-                return ResourceManager.GetString("kstidBinaryFeatureClassDlgHdg", resourceCulture);
             }
         }
         
@@ -1772,15 +1754,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidPAXMLExportCaptionSFD {
             get {
                 return ResourceManager.GetString("kstidPAXMLExportCaptionSFD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phones.
-        /// </summary>
-        internal static string kstidPhoneClassDlgHdg {
-            get {
-                return ResourceManager.GetString("kstidPhoneClassDlgHdg", resourceCulture);
             }
         }
         

@@ -311,7 +311,7 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			LocalizationExtender.LocalizeObject(pnlSideBarCaption,
+			LocalizationManager.LocalizeObject(pnlSideBarCaption,
 				"kstidXYChartsVwDockedSideBarHeadingText");
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
@@ -531,7 +531,7 @@ namespace SIL.Pa.UI.Views
 					// do with tooltips. They seem to form an attachment, somehow, with the
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
-					LocalizationExtender.RefreshToolTips();
+					LocalizationManager.RefreshToolTips();
 				}
 			}
 
@@ -546,7 +546,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				LocalizationExtender.RefreshToolTips();
+				LocalizationManager.RefreshToolTips();
 
 			return false;
 		}
