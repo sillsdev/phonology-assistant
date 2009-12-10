@@ -16,12 +16,12 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class ClassListViewToolTip : ToolTip
 	{
-		private Font m_titleFont = new Font(FontHelper.UIFont, FontStyle.Bold);
+		private readonly Font m_titleFont = new Font(FontHelper.UIFont, FontStyle.Bold);
+		private readonly Control m_ctrl;
 		private Point m_contentLocation = Point.Empty;
 		private string m_tipText;
 		private ClassListViewItem m_item;
 		private ClassListViewItem m_prevItem;
-		private Control m_ctrl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				string[] features = item.FeatureNames;
-				m_tipText = (features != null ? string.Join("\n", features) : string.Empty);
+				m_tipText = (features != null ? string.Join(Environment.NewLine, features) : string.Empty);
 			}
 
 			m_item = item;
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 				pt.Y = rc.Bottom + 3;
 			}
 
-			base.Show(m_tipText, m_ctrl, pt);
+			Show(m_tipText, m_ctrl, pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ namespace SIL.Pa.UI.Controls
 			ErasePrevItemDottedLine(null);
 			
 			if (m_ctrl != null)
-				base.Hide(m_ctrl);
+				Hide(m_ctrl);
 
 			m_item = null;
 		}
@@ -135,7 +135,7 @@ namespace SIL.Pa.UI.Controls
 				ToolTipTitle = Properties.Resources.kstidClassListPhoneMembersToolTipHdg;
 			else
 			{
-				if (m_tipText.IndexOf('\n') < 0)
+				if (m_tipText.IndexOf(Environment.NewLine) < 0)
 					ToolTipTitle = Properties.Resources.kstidClassListSingleMemberToolTipHdg;
 				else
 				{
@@ -169,11 +169,11 @@ namespace SIL.Pa.UI.Controls
 			TextRenderer.DrawText(e.Graphics, ToolTipTitle, m_titleFont,
 				new Point(4, 4), SystemColors.InfoText);
 
-			TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding |
+			const TextFormatFlags kFlags = TextFormatFlags.LeftAndRightPadding |
 				TextFormatFlags.WordBreak;
 
 			TextRenderer.DrawText(e.Graphics, m_tipText, m_item.ClassMembersFont,
-				m_contentLocation, SystemColors.InfoText, flags);
+				m_contentLocation, SystemColors.InfoText, kFlags);
 		}
 	}
 
@@ -203,11 +203,11 @@ namespace SIL.Pa.UI.Controls
 
 		// This boolean keeps track of whether they're classes to delete when the
 		// SaveChanges() method goes to save all the changes made to the class list.
-		private bool m_deletedClass = false;
+		private bool m_deletedClass;
 
 		private ListApplicationType m_appliesTo = ListApplicationType.ClassesDialog;
 		private bool m_showMembersAndClassTypeColumns = true;
-		internal Font PhoneticFont = null;
+		internal Font PhoneticFont;
 		private SortOrder m_sortOrder = SortOrder.None;
 		private int m_sortColumn = -1;
 		private readonly ClassListViewToolTip m_tooltip;
@@ -274,8 +274,9 @@ namespace SIL.Pa.UI.Controls
 			ColumnHeader hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
-			hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewNameColumn",
-				"Name", "Name column heading for list of classes",
+			hdr.Text = "Name";
+			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg",
+				null, "Name column heading for list of classes",
 				PaApp.kLocalizationGroupUICtrls + "." + "Class List",
 				LocalizationCategory.Other, LocalizationPriority.High);
 			
@@ -286,7 +287,7 @@ namespace SIL.Pa.UI.Controls
 				PhoneticFont = (FontHelper.PhoneticFont.SizeInPoints <= 10 ?
 					FontHelper.PhoneticFont : FontHelper.MakeFont(FontHelper.PhoneticFont, 10));
 
-				// This will force the height of items to fit the larger of the phonetic or
+				// This will force the height of items to fit the larger of the ponetic or
 				// UI fonts. I realize this is sort of a kludge, but it's a workable one.
 				int itemHeight = Math.Max(PhoneticFont.Height, FontHelper.UIFont.Height);
 				SmallImageList = new ImageList();
@@ -296,10 +297,11 @@ namespace SIL.Pa.UI.Controls
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kMemberSubitem;
 				hdr.Width = 205;
-				hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewMembersColumn",
-					"Members", "Members column heading for list of classes",
-					PaApp.kLocalizationGroupUICtrls + "." + "Class List",
-					LocalizationCategory.Other, LocalizationPriority.High);
+				hdr.Text = "Members";
+				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg",
+					 null, "Members column heading for list of classes",
+					 PaApp.kLocalizationGroupUICtrls + "." + "Class List",
+					 LocalizationCategory.Other, LocalizationPriority.High);
 				
 				Columns.Add(hdr);
 
@@ -307,10 +309,11 @@ namespace SIL.Pa.UI.Controls
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kBasedOnSubitem;
 				hdr.Width = 175;
-				hdr.Text = LocalizationManager.GetLocalizedText("ClassListViewTypeColumn",
-					"Type", "Type column heading for list of classes",
-					PaApp.kLocalizationGroupUICtrls + "." + "Class List",
-					LocalizationCategory.Other, LocalizationPriority.High);
+				hdr.Text = "Type";
+				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg",
+					 null, "Type column heading for list of classes",
+					 PaApp.kLocalizationGroupUICtrls + "." + "Class List",
+					 LocalizationCategory.Other, LocalizationPriority.High);
 				
 				Columns.Add(hdr);
 			}

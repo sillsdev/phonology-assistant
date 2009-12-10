@@ -907,7 +907,7 @@ namespace SIL.Pa.UI.Controls
 			if (PaApp.Project.FieldInfo.CVPatternField != null)
 				m_fntCV = PaApp.Project.FieldInfo.CVPatternField.Font;
 
-			m_noneText = LocalizationManager.GetLocalizedText(
+			m_noneText = LocalizationManager.LocalizeString(
 				"ExperimentalTransGridDontConvertText", "None", "Text in the experimental " +
 				"transcription list of experimental transcription dialog box.",
 				"Dialog Boxes.Experimental Trans", LocalizationCategory.Other,

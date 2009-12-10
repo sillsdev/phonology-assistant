@@ -230,35 +230,32 @@ namespace SIL.Pa
 		/// project file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PaProject Load(string projFileName, Form appWindow)
+		public static PaProject Load(string prjFileName, Form appWindow)
 		{
-			string errorMsg = null;
+			string msg = null;
 			PaProject project = null;
 
-			if (!File.Exists(projFileName))
+			if (!File.Exists(prjFileName))
 			{
-				string cmnt = "Message displayed when an attempt is made to open a " +
-					"non existant project file. The parameter is the project file name.";
-
-				errorMsg = LocalizationManager.GetLocalizedText("kstidProjectFileNonExistent",
-					"Project file '{0}' does not exist.", cmnt, PaApp.kLocalizationGroupInfoMsg,
+				msg = LocalizationManager.LocalizeString("kstidProjectFileNonExistent",
+					"Project file '{0}' does not exist.", "Message displayed when an " +
+					"attempt is made to open a non existant project file. The parameter " +
+					"is the project file name.", PaApp.kLocalizationGroupInfoMsg,
 					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 				
-				errorMsg = string.Format(errorMsg, Utils.PrepFilePathForSTMsgBox(projFileName));
+				msg = string.Format(msg, Utils.PrepFilePathForSTMsgBox(prjFileName));
 			}
 
-			string tmpProjPathFilePrefix = Path.GetFullPath(projFileName);
-			int i = tmpProjPathFilePrefix.LastIndexOf(".");
-			if (i >= 0)
-				tmpProjPathFilePrefix = tmpProjPathFilePrefix.Remove(i);
+			string prjFolder = Path.GetDirectoryName(Path.GetFullPath(prjFileName));
+			string tmpProjPathFilePrefix = Path.Combine(prjFolder, Path.GetFileNameWithoutExtension(prjFileName));
 
-			if (errorMsg == null)
-				errorMsg = LoadCacheFiles(tmpProjPathFilePrefix);
+			if (msg == null)
+				msg = LoadCacheFiles(tmpProjPathFilePrefix);
 
-			if (errorMsg == null)
-				project = LoadProjectFileOnly(projFileName, false, ref errorMsg);
+			if (msg == null)
+				project = LoadProjectFileOnly(prjFileName, false, ref msg);
 
-			if (errorMsg == null)
+			if (msg == null)
 			{
 				project.LoadDataSources();
 				if (appWindow != null)
@@ -269,7 +266,7 @@ namespace SIL.Pa
 			}
 			else
 			{
-				Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				project = null;
 			}
 

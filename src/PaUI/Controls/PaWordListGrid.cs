@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
-			m_fwRootDataDir = GetFWRootDataDir();
+			m_fwRootDataDir = GetFwRootDataDir();
 
 			m_drawFocusRectAroundCurrCell =
 				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
@@ -172,9 +172,9 @@ namespace SIL.Pa.UI.Controls
 		/// Get the location where FW tucks away data.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetFWRootDataDir()
+		private static string GetFwRootDataDir()
 		{
-			string key = SIL.Pa.Data.FwDBAccessInfo.FwRegKey;
+			string key = Data.FwDBAccessInfo.FwRegKey;
 			if (string.IsNullOrEmpty(key))
 				return null;
 
@@ -183,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (regKey != null)
 				{
-					return regKey.GetValue(SIL.Pa.Data.FwDBAccessInfo.RootDataDirValue, null)
+					return regKey.GetValue(Data.FwDBAccessInfo.RootDataDirValue, null)
 						as string;
 				}
 			}
@@ -451,7 +451,7 @@ namespace SIL.Pa.UI.Controls
 			SortedList<int, WordCacheEntry> entries = new SortedList<int, WordCacheEntry>();
 
 			// Go through the selected rows collection.
-			if (SelectedRows != null && SelectedRows.Count > 0)
+			if (SelectedRows.Count > 0)
 			{
 				foreach (DataGridViewRow row in SelectedRows)
 				{
@@ -560,7 +560,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool TryToFindAudioFile(WordCacheEntry entry, string audioFilePath,
+		private static bool TryToFindAudioFile(WordCacheEntry entry, string audioFilePath,
 			string rootPath)
 		{
 			if (string.IsNullOrEmpty(rootPath) || string.IsNullOrEmpty(audioFilePath))
@@ -1602,7 +1602,7 @@ namespace SIL.Pa.UI.Controls
 			int widestExperimentalTrans = GetWidestExperimentalTrancription(experimentalTrans);
 
 			int hdgWidth;
-			string hdgText = LocalizationManager.GetLocalizedText("CellInfoExperimentalTransHdgText",
+			string hdgText = LocalizationManager.LocalizeString("CellInfoExperimentalTransHdgText",
 				"Experimental transcription(s)\nconverted in this entry:",
 				"Heading text on experimental transcription popup in word lists.",
 				PaApp.kLocalizationGroupUICtrls + ".Word Lists", LocalizationCategory.Other,
@@ -1637,7 +1637,8 @@ namespace SIL.Pa.UI.Controls
 		private static int GetWidestExperimentalTrancription(
 			Dictionary<string, string> experimentalTrans)
 		{
-			TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.LeftAndRightPadding;
+			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix |
+				TextFormatFlags.LeftAndRightPadding;
 
 			// Determine the width of each experimental transcription and the width of the
 			// string it was converted to. Determine the maximum of all the widths.
@@ -1645,10 +1646,10 @@ namespace SIL.Pa.UI.Controls
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
 				int itemWidth = TextRenderer.MeasureText(item.Key,
-					FontHelper.PhoneticFont, Size.Empty, flags).Width;
+					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
 
 				itemWidth += TextRenderer.MeasureText(item.Value,
-					FontHelper.PhoneticFont, Size.Empty, flags).Width;
+					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
 
 				maxWidth = Math.Max(itemWidth, maxWidth);
 			}
@@ -1678,7 +1679,7 @@ namespace SIL.Pa.UI.Controls
 		/// Draw the list of possible words in the uncertainty popup.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawUncertaintyPopupList(Graphics g)
+		private void DrawUncertaintyPopupList(IDeviceContext g)
 		{
 			string[][] possibleWords = m_cellInfoPopup.CacheEntry.GetAllPossibleUncertainWords(true);
 			if (possibleWords == null)
@@ -1686,7 +1687,7 @@ namespace SIL.Pa.UI.Controls
 
 			Rectangle rc = m_cellInfoPopup.FirstItemRectangle;
 
-			TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left | TextFormatFlags.NoPadding;
 
 			// Draw each word.
@@ -1706,11 +1707,11 @@ namespace SIL.Pa.UI.Controls
 						ph = ph.Substring(1);
 					}
 
-					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont, rc, clrText, flags);
+					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont, rc, clrText, kFlags);
 
 					// Figure out where the next phone should be drawn.
 					int phoneWidth = TextRenderer.MeasureText(g, ph,
-						FontHelper.PhoneticFont, Size.Empty, flags).Width;
+						FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
 
 					rc.X += phoneWidth;
 				}
@@ -1733,7 +1734,7 @@ namespace SIL.Pa.UI.Controls
 			if (experimentalTrans == null)
 				return;
 
-			TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
+			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left | TextFormatFlags.NoPadding |
 				TextFormatFlags.LeftAndRightPadding;
 
@@ -1743,7 +1744,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
 				TextRenderer.DrawText(g, item.Key, FontHelper.PhoneticFont, rc,
-					Color.Black, flags);
+					Color.Black, kFlags);
 
 				Size sz = TextRenderer.MeasureText(g, item.Key, FontHelper.PhoneticFont);
 
@@ -1754,13 +1755,13 @@ namespace SIL.Pa.UI.Controls
 					Point pt1 = new Point(rc.X + sz.Width + 12, rc.Y + (sz.Height / 2));
 					Point pt2 = new Point(pt1.X - 5, pt1.Y - 5);
 					Point pt3 = new Point(pt1.X - 5, pt1.Y + 5);
-					g.FillPolygon(br, new Point[] { pt1, pt2, pt3 });
+					g.FillPolygon(br, new[] { pt1, pt2, pt3 });
 				}
 
 				Rectangle rcTmp = rc;
 				rcTmp.X += sz.Width + 15;
 				TextRenderer.DrawText(g, item.Value, FontHelper.PhoneticFont, rcTmp,
-					Color.Black, flags);
+					Color.Black, kFlags);
 
 				rc.Y += rc.Height;
 			}
@@ -2130,12 +2131,12 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(soundFilePath))
 				return;
 
-			TextFormatFlags flags = TextFormatFlags.PathEllipsis | TextFormatFlags.NoPrefix |
+			const TextFormatFlags kFlags = TextFormatFlags.PathEllipsis | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, soundFilePath, e.CellStyle.Font, e.CellBounds,
-				GetCurrentCellDrawForeColor(e.ColumnIndex), flags);
+				GetCurrentCellDrawForeColor(e.ColumnIndex), kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2172,16 +2173,16 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch
 			{
-				srchItem = (wlentry.SearchItem == null ? string.Empty : wlentry.SearchItem);
+				srchItem = (wlentry.SearchItem ?? string.Empty);
 			}
 
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
+			const TextFormatFlags kFlags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			// Calculate the width of the search item.
 			int itemWidth = TextRenderer.MeasureText(e.Graphics, srchItem,
-				FontHelper.PhoneticFont, Size.Empty, flags).Width;
+				FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
 
 			if (itemWidth == 0)
 				itemWidth = m_widthOfWrdBoundarySrchRsltMatch;
@@ -2192,7 +2193,7 @@ namespace SIL.Pa.UI.Controls
 			// Draw the background color for the search item and the search item's phones.
 			DrawSearchItemBackground(e.Graphics, rc, itemWidth, itemLeft);
 			DrawSearchItemPhones(e.Graphics, wlentry.Phones, rc, srchItemOffset,
-				envAfterOffset, flags, itemLeft);
+				envAfterOffset, kFlags, itemLeft);
 
 			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
 
@@ -2200,7 +2201,7 @@ namespace SIL.Pa.UI.Controls
 			rc.X = itemLeft + itemWidth;
 			rc.Width = e.CellBounds.Right - (itemLeft + itemWidth);
 			DrawPhones(e.Graphics, wlentry.Phones, envAfterOffset, wlentry.Phones.Length,
-				rc, clrText, flags, true);
+				rc, clrText, kFlags, true);
 
 			if (itemLeft > e.CellBounds.X)
 			{
@@ -2208,7 +2209,7 @@ namespace SIL.Pa.UI.Controls
 				rc.X = e.CellBounds.X;
 				rc.Width = itemLeft - e.CellBounds.X;
 				DrawPhones(e.Graphics, wlentry.Phones, srchItemOffset - 1, -1,
-					rc, clrText, flags, false);
+					rc, clrText, kFlags, false);
 			}
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, wlentry.WordCacheEntry);
@@ -2245,7 +2246,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawSearchItemPhones(Graphics g, string[] phones, Rectangle cellBounds,
+		private void DrawSearchItemPhones(IDeviceContext g, string[] phones, Rectangle cellBounds,
 			int begin, int end, TextFormatFlags flags, int left)
 		{
 			Color clrText = (m_currPaintingCellSelected && !Focused ?
@@ -2270,7 +2271,7 @@ namespace SIL.Pa.UI.Controls
 				if (rc.Width >= cellBounds.Width)
 					rc.Width = cellBounds.Width - 1;
 
-				DrawPhones(g, new string[] { "..." }, 0, 1, rc, clrText, flags, true);
+				DrawPhones(g, new[] { "..." }, 0, 1, rc, clrText, flags, true);
 			}
 		}
 
@@ -2284,7 +2285,7 @@ namespace SIL.Pa.UI.Controls
 			Rectangle rc = e.CellBounds;
 			PaintCell(e, false);
 
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
+			const TextFormatFlags kFlags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.Left | TextFormatFlags.PreserveGraphicsClipping;
 
@@ -2293,7 +2294,7 @@ namespace SIL.Pa.UI.Controls
 			rc.X += 4;
 			rc.Width -= 4;
 			DrawPhones(e.Graphics, m_currPaintingCellEntry.Phones, 0,
-				m_currPaintingCellEntry.Phones.Length, rc, clrText, flags, true);
+				m_currPaintingCellEntry.Phones.Length, rc, clrText, kFlags, true);
 
 			DrawIndicatorCornerGlyphs(e.Graphics, e.CellBounds, m_currPaintingCellEntry);
 		}
@@ -2304,8 +2305,8 @@ namespace SIL.Pa.UI.Controls
 		/// direction, using the specified color, in the specified rectangle.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawPhones(Graphics g, string[] phones, int begin, int end, Rectangle rc,
-			Color clrText, TextFormatFlags flags, bool drawForward)
+		private void DrawPhones(IDeviceContext g, string[] phones, int begin, int end,
+			Rectangle rc, Color clrText, TextFormatFlags flags, bool drawForward)
 		{
 			if (begin == end)
 				return;
@@ -2379,7 +2380,7 @@ namespace SIL.Pa.UI.Controls
 			using (LinearGradientBrush br =
 				new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
 			{
-				g.FillPolygon(br, new Point[] { pt1, pt2, ptCorner });
+				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
 			}
 
 			if (s_showTopRightHotState)
@@ -2387,7 +2388,7 @@ namespace SIL.Pa.UI.Controls
 				pt2.Y += 9;
 				pt1.X -= 10;
 				using (SolidBrush sbr = new SolidBrush(Color.FromArgb(100, Color.DarkRed)))
-					g.FillPolygon(sbr, new Point[] { pt1, pt2, ptCorner });
+					g.FillPolygon(sbr, new[] { pt1, pt2, ptCorner });
 			}
 		}
 
@@ -2405,7 +2406,7 @@ namespace SIL.Pa.UI.Controls
 			using (LinearGradientBrush br =
 				new LinearGradientBrush(pt1, pt2, Color.LightGreen, Color.DarkGreen))
 			{
-				g.FillPolygon(br, new Point[] { pt1, pt2, ptCorner });
+				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
 			}
 
 			if (s_showBottomRightHotState)
@@ -2413,7 +2414,7 @@ namespace SIL.Pa.UI.Controls
 				pt2.Y -= 10;
 				pt1.X -= 10;
 				using (SolidBrush sbr = new SolidBrush(Color.FromArgb(100, Color.DarkGreen)))
-					g.FillPolygon(sbr, new Point[] { pt1, pt2, ptCorner });
+					g.FillPolygon(sbr, new[] { pt1, pt2, ptCorner });
 			}
 		}
 
@@ -2623,12 +2624,10 @@ namespace SIL.Pa.UI.Controls
 			object[] args = new object[] {colName, changeSortDirection};
 			if (PaApp.MsgMediator.SendMessage("BeforeWordListSorted", args))
 				return;
-			else
-			{
-				// Do this just in case the message mediator call changed the values.
-				colName = args[0] as string;
-				changeSortDirection = (bool)args[1];
-			}
+			
+			// Do this just in case the message mediator call changed the values.
+			colName = args[0] as string;
+			changeSortDirection = (bool)args[1];
 
 			// Remove the SortGlyph from the previous sort column header
 			foreach (DataGridViewColumn col in Columns)
@@ -3927,7 +3926,7 @@ namespace SIL.Pa.UI.Controls
 	public class PaCacheGridRow : DataGridViewRow
 	{
 		private int m_cacheEntryIndex = -1;
-		private SilHierarchicalGridRow m_parentRow = null;
+		private SilHierarchicalGridRow m_parentRow;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

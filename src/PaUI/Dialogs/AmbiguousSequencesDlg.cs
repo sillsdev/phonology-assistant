@@ -53,6 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			AdjustGridRows();
+			InitStrings();
 			PaApp.AddMediatorColleague(this);
 		}
 
@@ -64,9 +65,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// strings database.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void InitStrings()
+		private void InitStrings()
 		{
-			LocalizationManager.GetLocalizedText(kCantDeleteAutoGen,
+			LocalizationManager.LocalizeString(kCantDeleteAutoGen,
 				"This ambiguous sequence was automatically generated based\non phonetic " +
 				"transcriptions found in one or more data sources.\nAutomatically " +
 				"generated ambiguous sequences may not be\ndeleted. If you do not want " +
@@ -76,36 +77,36 @@ namespace SIL.Pa.UI.Dialogs
 				"dialog box.", locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.GetLocalizedText(kCantDeleteDefault,
+			LocalizationManager.LocalizeString(kCantDeleteDefault,
 				"Default sequences may not be deleted.", "Message displayed when trying " +
 				"to delete a default ambiguous sequence in the ambiguous sequence " +
 				"dialog box.", locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.GetLocalizedText(kBaseCharMissing,
+			LocalizationManager.LocalizeString(kBaseCharMissing,
 				"You must specify a base character.", "Message displayed when trying to " +
 				"save ambiguous sequences in the ambiguous sequences dialog box, when one " +
 				"or more sequence does not have a base character specified.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.Medium);
-		
-			LocalizationManager.GetLocalizedText(kBaseCharNotInTrans, 
+
+			LocalizationManager.LocalizeString(kBaseCharNotInTrans, 
 				"Your base character must be contained\nwithin its associated ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.GetLocalizedText(kTransMissing, "A base character may not " +
+			LocalizationManager.LocalizeString(kTransMissing, "A base character may not " +
 				"be specified\nuntil you have specified an ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.GetLocalizedText(kDuplicateSeq1, "That sequence already exists.",
+			LocalizationManager.LocalizeString(kDuplicateSeq1, "That sequence already exists.",
 				"Message displayed in ambiguous sequences dialog box when identical sequences exist.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other, LocalizationPriority.Medium);
 
-			LocalizationManager.GetLocalizedText(kDuplicateSeq2,
+			LocalizationManager.LocalizeString(kDuplicateSeq2,
 				"That sequence already exists as a default sequence.", "Message displayed in " +
 				"ambiguous sequences dialog box when a user-added sequence is identical to a " +
 				"default sequences.", locExtender.LocalizationGroup, LocalizationCategory.Other,
@@ -143,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.GetLocalizedText("AmbiguousSeqColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousSeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -153,7 +154,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
 			col.CellTemplate.ValueType = typeof(bool);
-			col.HeaderText = LocalizationManager.GetLocalizedText("AmbiguousConvertColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousConvertColumnHdg",
 				"Treat as one unit?", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -165,7 +166,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.GetLocalizedText("AmbiguousBaseCharColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousBaseCharColumnHdg",
 				"Base Character", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -178,7 +179,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.GetLocalizedText("AmbiguousCVPatternColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousCVPatternColumnHdg",
 				"CV Pattern", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -466,8 +467,8 @@ namespace SIL.Pa.UI.Dialogs
 						(bool)m_grid["autodefault", row].Value);
 
 					string msg = (isDefault ?
-						LocalizationManager.GetLocalizedText(kDuplicateSeq2) :
-						LocalizationManager.GetLocalizedText(kDuplicateSeq1));
+						LocalizationManager.GetString(kDuplicateSeq2) :
+						LocalizationManager.GetString(kDuplicateSeq1));
 
 					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return true;
@@ -500,19 +501,19 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 
 				// At this point, we know we have a sequence but no base character
-				msg = LocalizationManager.GetLocalizedText(kBaseCharMissing);
+				msg = LocalizationManager.GetString(kBaseCharMissing);
 			}
 
 			if (msg == null)
 			{
 				// Make sure there is an ambiguous sequence before specifying a base character.
 				if (string.IsNullOrEmpty(phone))
-					msg = LocalizationManager.GetLocalizedText(kTransMissing);
+					msg = LocalizationManager.GetString(kTransMissing);
 			}
 
 			// Make sure the new base character is part of the ambiguous sequence.
 			if (msg == null && phone != null && !phone.Contains(newBaseChar))
-				msg = LocalizationManager.GetLocalizedText(kBaseCharNotInTrans);
+				msg = LocalizationManager.GetString(kBaseCharNotInTrans);
 
 			if (msg != null)
 			{
@@ -617,9 +618,9 @@ namespace SIL.Pa.UI.Dialogs
 			string msg = null;
 
 			if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
-				msg = LocalizationManager.GetLocalizedText(kCantDeleteAutoGen);
+				msg = LocalizationManager.GetString(kCantDeleteAutoGen);
 			else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
-				msg = LocalizationManager.GetLocalizedText(kCantDeleteDefault);
+				msg = LocalizationManager.GetString(kCantDeleteDefault);
 
 			if (msg != null)
 			{

@@ -143,19 +143,19 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return LocalizationManager.GetLocalizedText("PhonesClassTypeLabel",
+						return LocalizationManager.LocalizeString("PhonesClassTypeLabel",
 							"Phones", "Label on the define classes dialog box indicating class type",
 							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
 							LocalizationPriority.High);
 
 					case SearchClassType.Articulatory:
-						return LocalizationManager.GetLocalizedText("ArticulatoryFeaturesClassTypeLabel",
+						return LocalizationManager.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
 							"Articulatory features", "Articulatory features class type label.",
 							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
 							LocalizationPriority.High);
 
 					case SearchClassType.Binary:
-						return LocalizationManager.GetLocalizedText("BinaryFeaturesClassTypeLabel",
+						return LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
 							"Binary features", "Binary features class type label.",
 							PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
 							LocalizationPriority.High);

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
-using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -116,40 +115,40 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					Text = LocalizationManager.GetLocalizedText("PhoneClassDialogCaption",
+					Text = LocalizationManager.LocalizeString("PhoneClassDialogCaption",
 						"Phones", "Title for the dialog box in which a class is " +
 						"defined that is based on phones.",
 						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.GetLocalizedText("PhonesClassTypeLabel",
+					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
 						"Phones", "Phone class type label.", PaApp.kLocalizationGroupMisc,
 						LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
 					
 					break;
 
 				case SearchClassType.Articulatory:
-					Text = LocalizationManager.GetLocalizedText("ArticulatoryFeatureClassDialogCaption",
+					Text = LocalizationManager.LocalizeString("ArticulatoryFeatureClassDialogCaption",
 						"Articulatory Features", "Title for the dialog box in which a class is " +
 						"defined that is based on articulatory features.",
 						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.GetLocalizedText("ArticulatoryFeaturesClassTypeLabel",
-						"Articulatory features", "Articulatory features class type label.",
-						PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
-						LocalizationPriority.High);
+					lblClassTypeValue.Text = LocalizationManager.LocalizeString(
+						"ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
+						"Articulatory features class type label.", PaApp.kLocalizationGroupMisc,
+						LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
 
 					break;
 				
 				case SearchClassType.Binary:
-					Text = LocalizationManager.GetLocalizedText("BinaryFeatureClassDialogCaption",
+					Text = LocalizationManager.LocalizeString("BinaryFeatureClassDialogCaption",
 						"Binary Features", "Title for the dialog box in which a class is " +
 						"defined that is based on binary features.",
 						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.GetLocalizedText("BinaryFeaturesClassTypeLabel",
+					lblClassTypeValue.Text = LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
 						"Binary features", "Binary features class type label.",
 						PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
 						LocalizationPriority.High);

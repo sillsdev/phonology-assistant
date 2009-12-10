@@ -20,16 +20,6 @@ namespace SIL.Pa.UI.Dialogs
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
-			InitStrings();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Allows subclasses to initialize via the LocalizationManager.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual void InitStrings()
-		{
 		}
 
 		/// ------------------------------------------------------------------------------------

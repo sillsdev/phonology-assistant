@@ -1013,12 +1013,13 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// cboUILanguage
 			// 
+			this.cboUILanguage.DropDownHeight = 200;
 			this.cboUILanguage.FormattingEnabled = true;
+			resources.ApplyResources(this.cboUILanguage, "cboUILanguage");
 			this.locExtender.SetLocalizableToolTip(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationPriority(this.cboUILanguage, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboUILanguage, "OptionsDlg.cboUILanguage");
-			resources.ApplyResources(this.cboUILanguage, "cboUILanguage");
 			this.cboUILanguage.Name = "cboUILanguage";
 			// 
 			// lblUILanguage

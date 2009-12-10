@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using SIL.Localize.LocalizationUtils;
@@ -107,10 +106,10 @@ namespace SIL.Pa.UI.Controls
 		public NetworkTreeNode.ResourceType dwType = 0;
 		public NetworkTreeNode.ResourceDisplayType dwDisplayType = 0;
 		public NetworkTreeNode.ResourceUsage dwUsage = 0;
-		public string lpLocalName = null;
-		public string lpRemoteName = null;
-		public string lpComment = null;
-		public string lpProvider = null;
+		public string lpLocalName;
+		public string lpRemoteName;
+		public string lpComment;
+		public string lpProvider;
 	}
 
 	#endregion
@@ -197,7 +196,7 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		internal bool Populated = false;
+		internal bool Populated;
 		internal NETRESOURCE NetResource;
 		internal NetResTreeNodeType NodeType;
 		public string MachineName;
@@ -230,7 +229,7 @@ namespace SIL.Pa.UI.Controls
 				childNode.NodeType = NetResTreeNodeType.Group;
 				childNode.ImageIndex = childNode.SelectedImageIndex = 0;
 				childNode.Nodes.Add(NewDummyNode);
-				childNode.Text = LocalizationManager.GetLocalizedText(
+				childNode.Text = LocalizationManager.LocalizeString(
 					"EntireNetworkNode", "Entire network", "Text in the network tree used " +
 					"when trying to locate a FieldWorks project older than version 7.0.",
 					"Dialog Boxes.FieldWorks Project", LocalizationCategory.Other,
@@ -331,12 +330,11 @@ namespace SIL.Pa.UI.Controls
 
 			uint bufferSize = 16384;
 			IntPtr buffer = Marshal.AllocHGlobal((int)bufferSize);
-			IntPtr handle = IntPtr.Zero;
-			ErrorCodes result;
+			IntPtr handle;
 			uint cEntries = 1;
 			List<NETRESOURCE> netResources = new List<NETRESOURCE>();
 
-			result = WNetOpenEnum(ResourceScope.RESOURCE_GLOBALNET,
+			ErrorCodes result = WNetOpenEnum(ResourceScope.RESOURCE_GLOBALNET,
 				ResourceType.RESOURCETYPE_ANY, ResourceUsage.RESOURCEUSAGE_ALL,
 				parentNetRes, out handle);
 
@@ -351,17 +349,14 @@ namespace SIL.Pa.UI.Controls
 						NETRESOURCE netRes = new NETRESOURCE();
 						Marshal.PtrToStructure(buffer, netRes);
 
-						if (netRes != null)
+						if (netRes.lpRemoteName == NetworkTreeView.s_msWindowsNetworkName &&
+							netRes.dwDisplayType == ResourceDisplayType.RESOURCEDISPLAYTYPE_NETWORK)
 						{
-							if (netRes.lpRemoteName == NetworkTreeView.s_msWindowsNetworkName &&
-								netRes.dwDisplayType == ResourceDisplayType.RESOURCEDISPLAYTYPE_NETWORK)
-							{
-								netResources.AddRange(GetChildResources(netRes));
-							}
-							else
-							{
-								netResources.Add(netRes);
-							}
+							netResources.AddRange(GetChildResources(netRes));
+						}
+						else
+						{
+							netResources.Add(netRes);
 						}
 					}
 					else if (result != ErrorCodes.ERROR_NO_MORE_ITEMS)
@@ -372,7 +367,7 @@ namespace SIL.Pa.UI.Controls
 				WNetCloseEnum(handle);
 			}
 
-			Marshal.FreeHGlobal((IntPtr)buffer);
+			Marshal.FreeHGlobal(buffer);
 			return netResources;
 		}
 
@@ -390,12 +385,11 @@ namespace SIL.Pa.UI.Controls
 
 			uint bufferSize = 16384;
 			IntPtr buffer = Marshal.AllocHGlobal((int)bufferSize);
-			IntPtr handle = IntPtr.Zero;
-			ErrorCodes result;
+			IntPtr handle;
 			uint cEntries = 1;
 			NETRESOURCE retRes = null;
 
-			result = WNetOpenEnum(scope, ResourceType.RESOURCETYPE_ANY,
+			ErrorCodes result = WNetOpenEnum(scope, ResourceType.RESOURCETYPE_ANY,
 				ResourceUsage.RESOURCEUSAGE_ALL, parentNetRes, out handle);
 
 			if (result == ErrorCodes.NO_ERROR)
@@ -408,9 +402,6 @@ namespace SIL.Pa.UI.Controls
 					{
 						NETRESOURCE netRes = new NETRESOURCE();
 						Marshal.PtrToStructure(buffer, netRes);
-
-						if (netRes == null)
-							continue;
 
 						if (netRes.dwDisplayType != ResourceDisplayType.RESOURCEDISPLAYTYPE_SERVER &&
 							netRes.dwDisplayType != ResourceDisplayType.RESOURCEDISPLAYTYPE_GROUP &&
@@ -433,7 +424,7 @@ namespace SIL.Pa.UI.Controls
 				WNetCloseEnum(handle);
 			}
 
-			Marshal.FreeHGlobal((IntPtr)buffer);
+			Marshal.FreeHGlobal(buffer);
 			return retRes;
 		}
 	}

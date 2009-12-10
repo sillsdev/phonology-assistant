@@ -292,7 +292,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -841,7 +841,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1489,7 +1489,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1612,7 +1612,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1732,7 +1732,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -2065,7 +2065,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2247,6 +2247,9 @@
   <data name="&gt;&gt;tpgColors.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="cboUILanguage.IntegralHeight" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="cboUILanguage.Location" type="System.Drawing.Point, System.Drawing">
     <value>179, 34</value>
   </data>
@@ -2368,6 +2371,6 @@
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3629.28525, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
