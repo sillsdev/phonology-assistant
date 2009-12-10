@@ -145,7 +145,7 @@
     <value>pnlConsonants</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Parent" xml:space="preserve">
     <value>tpgCons</value>
@@ -205,7 +205,7 @@
     <value>pnlVowels</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Parent" xml:space="preserve">
     <value>tpgVows</value>
@@ -265,7 +265,7 @@
     <value>charExplorer</value>
   </data>
   <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, PaUI, Version=1.1.3631.30336, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
     <value>tpgOther</value>
@@ -322,7 +322,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3627.27669, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3631.30336, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>tpgClasses</value>

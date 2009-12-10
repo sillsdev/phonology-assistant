@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Controls
 {
 	partial class Histogram
@@ -32,9 +34,9 @@ namespace SIL.Pa.UI.Controls
 			this.pnlPhones = new System.Windows.Forms.Panel();
 			this.lblBarValue = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.pnlFixedBorder = new SIL.Pa.UI.Controls.PaPanel();
-			this.pnlBars = new SIL.Pa.UI.Controls.PaPanel();
-			this.pnlYaxis = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlFixedBorder = new SilPanel();
+			this.pnlBars = new SilPanel();
+			this.pnlYaxis = new SilPanel();
 			this.pnlScroller.SuspendLayout();
 			this.pnlFixedBorder.SuspendLayout();
 			this.SuspendLayout();
@@ -142,10 +144,10 @@ namespace SIL.Pa.UI.Controls
 
 		private System.Windows.Forms.Panel pnlScroller;
 		private System.Windows.Forms.Panel pnlPhones;
-		private PaPanel pnlFixedBorder;
-		private PaPanel pnlBars;
+		private SilPanel pnlFixedBorder;
+		private SilPanel pnlBars;
 		private System.Windows.Forms.Label lblBarValue;
-		private PaPanel pnlYaxis;
+		private SilPanel pnlYaxis;
 		private System.Windows.Forms.Panel panel1;
 	}
 }

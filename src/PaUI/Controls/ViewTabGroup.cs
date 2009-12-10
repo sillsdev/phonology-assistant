@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -22,7 +23,7 @@ namespace SIL.Pa.UI.Controls
 		private bool m_isCurrentTabControl;
 		private List<ViewTab> m_tabs;
 		private ViewTab m_currTab;
-		private PaGradientPanel m_pnlCaption;
+		private SilGradientPanel m_pnlCaption;
 		private Panel m_pnlHdrBand;
 		private Panel m_pnlTabs;
 		private Panel m_pnlUndock;
@@ -148,7 +149,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetupCaptionPanel()
 		{
-			m_pnlCaption = new PaGradientPanel();
+			m_pnlCaption = new SilGradientPanel();
 			m_pnlCaption.Height = 28;
 			m_pnlCaption.Dock = DockStyle.Top;
 			m_pnlCaption.MakeDark = true;
@@ -847,7 +848,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public PaGradientPanel CaptionPanel
+		public SilGradientPanel CaptionPanel
 		{
 			get { return m_pnlCaption; }
 		}

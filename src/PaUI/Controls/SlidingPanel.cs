@@ -5,6 +5,7 @@ using System.Drawing.Text;
 using System.Threading;
 using System.Windows.Forms;
 using SIL.Localize.LocalizationUtils;
+using SilUtils.Controls;
 using Timer=System.Windows.Forms.Timer;
 using SilUtils;
 
@@ -24,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 		private Rectangle m_sizingRectangle;
 		private SizingLine m_sizingLine;
 		private Label m_lblTab;
-		private PaPanel m_pnlContainer;
+		private SilPanel m_pnlContainer;
 		private Timer m_tmrMouseLocationMonitor;
 		private Timer m_tmrCloser;
 		private Timer m_tmrOpener;
@@ -87,7 +88,7 @@ namespace SIL.Pa.UI.Controls
 			m_lblTab.Click += m_pnlTab_Click;
 			Controls.Add(m_lblTab);
 
-			m_pnlContainer = new PaPanel();
+			m_pnlContainer = new SilPanel();
 			m_pnlContainer.Padding = new Padding(kContainerPadding);
 			m_pnlContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
 			m_pnlContainer.Visible = false;

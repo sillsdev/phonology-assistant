@@ -292,7 +292,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -841,7 +841,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1465,7 +1465,7 @@
     <value>True</value>
   </data>
   <metadata name="tonePicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>130, 17</value>
+    <value>0, 0</value>
   </metadata>
   <data name="tonePicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1489,7 +1489,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1585,7 +1585,7 @@
     <value>True</value>
   </data>
   <metadata name="lengthPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>0, 0</value>
   </metadata>
   <data name="lengthPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1612,7 +1612,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1708,7 +1708,7 @@
     <value>True</value>
   </data>
   <metadata name="stressPicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>234, 17</value>
+    <value>0, 0</value>
   </metadata>
   <data name="stressPicker.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1732,7 +1732,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -2065,7 +2065,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2371,6 +2371,6 @@
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3630.41685, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

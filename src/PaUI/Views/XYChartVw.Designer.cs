@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Views
 {
 	partial class XYChartVw
@@ -31,16 +33,16 @@ namespace SIL.Pa.UI.Views
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlRecView = new SilUtils.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
 			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
-			this.pnlSideBarCaption = new SIL.Pa.UI.Controls.PaGradientPanel();
+			this.pnlSideBarCaption = new SilUtils.Controls.SilGradientPanel();
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
-			this.pnlSavedCharts = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlSavedCharts = new SilUtils.Controls.SilPanel();
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
 			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
 			this.hlblSavedCharts = new SIL.Pa.UI.Controls.HeaderLabel();
@@ -89,6 +91,7 @@ namespace SIL.Pa.UI.Views
 			// pnlRecView
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlRecView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlRecView.ClipTextForChildControls = true;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
@@ -163,6 +166,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSideBarCaption
 			// 
+			this.pnlSideBarCaption.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ControlReceivingFocusOnMnemonic = null;
@@ -213,6 +217,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSavedCharts
 			// 
+			this.pnlSavedCharts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSavedCharts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSavedCharts.ClipTextForChildControls = true;
 			this.pnlSavedCharts.ControlReceivingFocusOnMnemonic = null;
@@ -337,7 +342,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Views.XY Charts";
+			this.locExtender.LocalizationGroup = "Views";
 			// 
 			// XYChartVw
 			// 
@@ -348,7 +353,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "XYChartVw.XYChartVw");
+			this.locExtender.SetLocalizingId(this, "XYChartVw");
 			this.Name = "XYChartVw";
 			this.splitResults.Panel2.ResumeLayout(false);
 			this.splitResults.ResumeLayout(false);
@@ -378,15 +383,15 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.SplitContainer splitSideBarOuter;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitResults;
-		private SIL.Pa.UI.Controls.PaPanel pnlRecView;
+		private SilPanel pnlRecView;
 		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
-		private SIL.Pa.UI.Controls.PaGradientPanel pnlSideBarCaption;
+		private SilGradientPanel pnlSideBarCaption;
 		private System.Windows.Forms.Panel pnlTabClassDef;
 		private System.Windows.Forms.Panel pnlOuter;
 		private System.Windows.Forms.SplitContainer splitChart;
 		private SIL.Pa.UI.Controls.HeaderLabel hlblSavedCharts;
-		private SIL.Pa.UI.Controls.PaPanel pnlSavedCharts;
+		private SilPanel pnlSavedCharts;
 		private System.Windows.Forms.ListView lvSavedCharts;
 		private System.Windows.Forms.ColumnHeader hdrSavedCharts;
 		private SIL.Pa.UI.Controls.AutoHideDockButton btnAutoHide;

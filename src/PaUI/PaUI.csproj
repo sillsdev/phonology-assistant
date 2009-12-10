@@ -256,15 +256,6 @@
     <Compile Include="Controls\NetworkTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\PaGradientPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\PaPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\PaTextPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\PatternBuilderComponents.cs">
       <SubType>UserControl</SubType>
     </Compile>

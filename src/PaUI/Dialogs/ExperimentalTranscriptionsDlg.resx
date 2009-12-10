@@ -205,7 +205,7 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PaPanel, PaUI, Version=1.1.3629.16595, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>$this</value>
@@ -235,6 +235,6 @@
     <value>ExperimentalTranscriptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3629.16595, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

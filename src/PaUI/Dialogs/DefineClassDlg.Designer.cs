@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Dialogs
 {
 	partial class DefineClassDlg
@@ -39,7 +41,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtClassName = new System.Windows.Forms.TextBox();
 			this.lblClassName = new System.Windows.Forms.Label();
 			this.lblClassType = new System.Windows.Forms.Label();
-			this.pnlMembers = new SIL.Pa.UI.Controls.PaGradientPanel();
+			this.pnlMembers = new SilGradientPanel();
 			this.txtMembers = new System.Windows.Forms.TextBox();
 			this.lblMembers = new System.Windows.Forms.Label();
 			this.rdoOr = new System.Windows.Forms.RadioButton();
@@ -314,7 +316,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblClassName;
 		private System.Windows.Forms.Label lblClassType;
 		private SIL.Pa.UI.Controls.IPACharacterExplorer charExplorer;
-		private SIL.Pa.UI.Controls.PaGradientPanel pnlMembers;
+		private SilGradientPanel pnlMembers;
 		private System.Windows.Forms.TextBox txtMembers;
 		private System.Windows.Forms.RadioButton rdoAnd;
 		private System.Windows.Forms.RadioButton rdoOr;

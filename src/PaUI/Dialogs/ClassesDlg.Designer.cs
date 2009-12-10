@@ -108,6 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.Image = global::SIL.Pa.Properties.Resources.kimidButtonDropDownArrow;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, "Text on add button drop-down on classes dialog box.");
+			this.locExtender.SetLocalizationPriority(this.btnAdd, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnAdd, "ClassesDlg.btnAdd");
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -185,7 +186,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Classes";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// ClassesDlg
 			// 
@@ -195,7 +196,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.lvClasses);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ClassesDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "ClassesDlg.WindowTitle");
 			this.Name = "ClassesDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lvClasses, 0);

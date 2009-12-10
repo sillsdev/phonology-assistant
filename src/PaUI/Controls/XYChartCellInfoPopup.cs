@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

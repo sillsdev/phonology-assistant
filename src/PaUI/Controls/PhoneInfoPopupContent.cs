@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Data;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

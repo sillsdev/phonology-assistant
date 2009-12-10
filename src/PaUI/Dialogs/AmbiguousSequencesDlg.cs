@@ -13,13 +13,13 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class AmbiguousSequencesDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private const string kCantDeleteDefault = "CantDeleteDefaultAmbiguousSeqMsg";
-		private const string kCantDeleteAutoGen = "CantDeleteAutoGenAmbiguousSeqMsg";
-		private const string kBaseCharMissing = "AmbiguousSeqBaseCharMissingMsg";
-		private const string kBaseCharNotInTrans = "AmbiguousSeqBaseCharNotInTransMsg";
-		private const string kTransMissing = "AmbiguousTransMissingMsg";
-		private const string kDuplicateSeq1 = "AmbiguousDuplicateSeqMsg1";
-		private const string kDuplicateSeq2 = "AmbiguousDuplicateSeqMsg2";
+		private const string kCantDeleteDefault = "AmbiguousSequencesDlg.CantDeleteDefaultAmbiguousSeqMsg";
+		private const string kCantDeleteAutoGen = "AmbiguousSequencesDlg.CantDeleteAutoGenAmbiguousSeqMsg";
+		private const string kBaseCharMissing = "AmbiguousSequencesDlg.AmbiguousSeqBaseCharMissingMsg";
+		private const string kBaseCharNotInTrans = "AmbiguousSequencesDlg.AmbiguousSeqBaseCharNotInTransMsg";
+		private const string kTransMissing = "AmbiguousSequencesDlg.AmbiguousTransMissingMsg";
+		private const string kDuplicateSeq1 = "AmbiguousSequencesDlg.AmbiguousDuplicateSeqMsg1";
+		private const string kDuplicateSeq2 = "AmbiguousSequencesDlg.AmbiguousDuplicateSeqMsg2";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousSeqColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousSeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -154,7 +154,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
 			col.CellTemplate.ValueType = typeof(bool);
-			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousConvertColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousConvertColumnHdg",
 				"Treat as one unit?", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -166,7 +166,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousBaseCharColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousBaseCharColumnHdg",
 				"Base Character", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -179,7 +179,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString("AmbiguousCVPatternColumnHdg",
+			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousCVPatternColumnHdg",
 				"CV Pattern", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);

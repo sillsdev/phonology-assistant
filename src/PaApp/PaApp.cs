@@ -163,7 +163,55 @@ namespace SIL.Pa
 				"fieldworks", "showmsgwhengatheringinfo", false);
 
 			ReadAddOns();
+
+			LocalizeItemDlg.SetDialogplitterPosition += LocalizeItemDlg_SetDialogplitterPosition;
+			LocalizeItemDlg.SaveDialogplitterPosition += LocalizeItemDlg_SaveDialogplitterPosition;
+			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
+			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 		}
+
+		#region event handlers for saving and restoring localization dialog settings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the localization dialog's size and location.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void LocalizeItemDlg_SetDialogBounds(LocalizeItemDlg dlg)
+		{
+			SettingsHandler.LoadFormProperties(dlg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves localization dialog size and location.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void LocalizeItemDlg_SaveDialogBounds(LocalizeItemDlg dlg)
+		{
+			SettingsHandler.SaveFormProperties(dlg);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns the saved splitter distance value for Localizing dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static int LocalizeItemDlg_SetDialogplitterPosition()
+		{
+			return SettingsHandler.GetIntSettingsValue("LocalizeDlg", "splitdistance", 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Saves the splitter distance value for Localizing dialog box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void LocalizeItemDlg_SaveDialogplitterPosition(int pos)
+		{
+			SettingsHandler.SaveSettingsValue("LocalizeDlg", "splitdistance", pos);
+		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -319,7 +367,7 @@ namespace SIL.Pa
 				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
 					return Path.GetDirectoryName(Application.ExecutablePath);
 
-				projPath = projPath.TrimEnd("\\".ToCharArray());
+				projPath = projPath.TrimEnd('\\');
 				int i = projPath.LastIndexOf('\\');
 				projPath = projPath.Substring(0, i);
 			}

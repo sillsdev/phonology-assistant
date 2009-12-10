@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Controls
 {
 	partial class PatternBuilderComponents
@@ -19,9 +21,9 @@ namespace SIL.Pa.UI.Controls
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatternBuilderComponents));
 			this.tabPatternBlding = new System.Windows.Forms.TabControl();
 			this.tpgCons = new System.Windows.Forms.TabPage();
-			this.pnlConsonants = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlConsonants = new SilUtils.Controls.SilPanel();
 			this.tpgVows = new System.Windows.Forms.TabPage();
-			this.pnlVowels = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlVowels = new SilUtils.Controls.SilPanel();
 			this.tpgOther = new System.Windows.Forms.TabPage();
 			this.charExplorer = new SIL.Pa.UI.Controls.IPACharacterExplorer();
 			this.tpgClasses = new System.Windows.Forms.TabPage();
@@ -65,6 +67,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.pnlConsonants, "pnlConsonants");
 			this.pnlConsonants.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlConsonants.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlConsonants.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlConsonants.ClipTextForChildControls = true;
 			this.pnlConsonants.ControlReceivingFocusOnMnemonic = null;
@@ -91,6 +94,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.pnlVowels, "pnlVowels");
 			this.pnlVowels.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlVowels.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlVowels.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlVowels.ClipTextForChildControls = true;
 			this.pnlVowels.ControlReceivingFocusOnMnemonic = null;
@@ -117,6 +121,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.charExplorer, "charExplorer");
 			this.charExplorer.BackColor = System.Drawing.SystemColors.Window;
+			this.charExplorer.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.charExplorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.charExplorer.ClipTextForChildControls = true;
 			this.charExplorer.ControlReceivingFocusOnMnemonic = null;
@@ -176,7 +181,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "User Interface Controls.Pattern Building Components";
+			this.locExtender.LocalizationGroup = "User Interface Controls";
 			// 
 			// PatternBuilderComponents
 			// 
@@ -202,9 +207,9 @@ namespace SIL.Pa.UI.Controls
 
 		private System.Windows.Forms.TabControl tabPatternBlding;
 		private System.Windows.Forms.TabPage tpgCons;
-		private PaPanel pnlConsonants;
+		private SilPanel pnlConsonants;
 		private System.Windows.Forms.TabPage tpgVows;
-		private PaPanel pnlVowels;
+		private SilPanel pnlVowels;
 		private System.Windows.Forms.TabPage tpgOther;
 		private IPACharacterExplorer charExplorer;
 		private System.Windows.Forms.TabPage tpgClasses;

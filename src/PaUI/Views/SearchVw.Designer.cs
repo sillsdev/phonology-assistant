@@ -1,4 +1,6 @@
 using SIL.Pa.UI.Controls;
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Views
 {
 	partial class SearchVw
@@ -35,16 +37,16 @@ namespace SIL.Pa.UI.Views
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
 			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
-			this.pnlSideBarCaption = new SIL.Pa.UI.Controls.PaGradientPanel();
+			this.pnlSideBarCaption = new SilUtils.Controls.SilGradientPanel();
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.splitSideBarInner = new System.Windows.Forms.SplitContainer();
-			this.pnlRecentPatterns = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlRecentPatterns = new SilUtils.Controls.SilPanel();
 			this.lstRecentPatterns = new System.Windows.Forms.ListBox();
 			this.hlblRecentPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
 			this.btnClearRecentList = new SIL.Pa.UI.Controls.XButton();
 			this.btnRemoveFromRecentList = new SIL.Pa.UI.Controls.XButton();
-			this.pnlSavedPatterns = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlSavedPatterns = new SilUtils.Controls.SilPanel();
 			this.tvSavedPatterns = new SIL.Pa.UI.Controls.SearchPatternTreeView();
 			this.hlblSavedPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
 			this.btnCategoryNew = new SIL.Pa.UI.Controls.XButton();
@@ -52,7 +54,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryPaste = new SIL.Pa.UI.Controls.XButton();
 			this.btnCategoryCopy = new SIL.Pa.UI.Controls.XButton();
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlRecView = new SilUtils.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnRefresh = new System.Windows.Forms.Button();
@@ -132,6 +134,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSideBarCaption
 			// 
+			this.pnlSideBarCaption.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ControlReceivingFocusOnMnemonic = null;
@@ -196,6 +199,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlRecentPatterns
 			// 
+			this.pnlRecentPatterns.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlRecentPatterns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlRecentPatterns.ClipTextForChildControls = true;
 			this.pnlRecentPatterns.ControlReceivingFocusOnMnemonic = null;
@@ -274,6 +278,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSavedPatterns
 			// 
+			this.pnlSavedPatterns.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSavedPatterns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSavedPatterns.ClipTextForChildControls = true;
 			this.pnlSavedPatterns.ControlReceivingFocusOnMnemonic = null;
@@ -416,6 +421,7 @@ namespace SIL.Pa.UI.Views
 			// pnlRecView
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlRecView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlRecView.ClipTextForChildControls = true;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
@@ -504,7 +510,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Views.Search";
+			this.locExtender.LocalizationGroup = "Views";
 			// 
 			// SearchVw
 			// 
@@ -516,7 +522,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "SearchVw.SearchVw");
+			this.locExtender.SetLocalizingId(this, "SearchVw");
 			this.Name = "SearchVw";
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
@@ -551,13 +557,13 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitSideBarInner;
 		private System.Windows.Forms.ListBox lstRecentPatterns;
-		private PaPanel pnlRecentPatterns;
-		private PaPanel pnlSavedPatterns;
+		private SilPanel pnlRecentPatterns;
+		private SilPanel pnlSavedPatterns;
 		private System.Windows.Forms.SplitContainer splitResults;
-		private PaPanel pnlRecView;
+		private SilPanel pnlRecView;
 		private RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
-		private PaGradientPanel pnlSideBarCaption;
+		private SilGradientPanel pnlSideBarCaption;
 		private XButton btnCategoryNew;
 		private XButton btnCategoryCut;
 		private XButton btnCategoryCopy;

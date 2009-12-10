@@ -893,16 +893,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (cmdInfo.ContextMenuTextId != null)
 					cmdInfo.ContextMenuText = GetStringFromResource(cmdInfo.ContextMenuTextId);
 
-				if (cmdInfo.CategoryId != null)
-					cmdInfo.Category = GetStringFromResource(cmdInfo.CategoryId);
-
 				if (cmdInfo.ToolTipId != null)
-					cmdInfo.ToolTip = GetStringFromResource(cmdInfo.ToolTipId);
-				
+					cmdInfo.ToolTip = GetStringFromResource(cmdInfo.ToolTipId, null);
+
 				if (cmdInfo.StatusMsgId != null)
 					cmdInfo.StatusMsg = GetStringFromResource(cmdInfo.ToolTipId);
 
-				if (cmdInfo.StatusMsg == null || cmdInfo.StatusMsg == string.Empty)
+				if (string.IsNullOrEmpty(cmdInfo.StatusMsg))
 					cmdInfo.StatusMsg = GetStringFromResource("kstidDefaultStatusBarMsg");
 
 				cmdInfo.ShortcutKey = ParseShortcutKeyString(shortcut);
@@ -2427,10 +2424,18 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="kstid"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		protected string GetStringFromResource(string kstid)
+		{
+			return GetStringFromResource(kstid, kstid);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected string GetStringFromResource(string kstid, string defaultValue)
 		{
 			if (kstid == null || kstid.Trim() == string.Empty)
 				return null;
@@ -2444,10 +2449,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					break;
 			}
 				
-			if (localizedStr == null || localizedStr == string.Empty)
-				localizedStr = kstid;
+			if (string.IsNullOrEmpty(localizedStr))
+				localizedStr = defaultValue;
 			
-			return localizedStr.Trim();
+			return (localizedStr != null ? localizedStr.Trim() : null);
 		}
 
 		#endregion

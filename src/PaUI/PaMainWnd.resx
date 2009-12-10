@@ -190,7 +190,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ViewTabGroup, PaUI, Version=1.1.3627.28788, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>

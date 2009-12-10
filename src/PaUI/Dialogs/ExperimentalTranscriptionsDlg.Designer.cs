@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Dialogs
 {
 	partial class ExperimentalTranscriptionsDlg
@@ -30,7 +32,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExperimentalTranscriptionsDlg));
-			this.pnlGrid = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -66,6 +68,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlGrid
 			// 
+			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGrid.ClipTextForChildControls = true;
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
@@ -81,7 +84,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Experimental Transcriptions";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// ExperimentalTranscriptionsDlg
 			// 
@@ -90,7 +93,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ExperimentalTranscriptionsDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "ExperimentalTranscriptionsDlg.WindowTitle");
 			this.Name = "ExperimentalTranscriptionsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
@@ -102,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		private SIL.Pa.UI.Controls.PaPanel pnlGrid;
+		private SilPanel pnlGrid;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 
 

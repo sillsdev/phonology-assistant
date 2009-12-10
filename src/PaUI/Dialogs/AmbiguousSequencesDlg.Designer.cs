@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Dialogs
 {
 	partial class AmbiguousSequencesDlg
@@ -31,7 +33,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbiguousSequencesDlg));
-			this.pnlGrid = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.chkShowDefaults = new System.Windows.Forms.CheckBox();
 			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
@@ -76,6 +78,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlGrid
 			// 
+			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGrid.ClipTextForChildControls = true;
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
@@ -84,6 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "AmbiguousSequencesDlg.pnlGrid");
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
@@ -145,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Ambiguous Sequences";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// AmbiguousSequencesDlg
 			// 
@@ -154,7 +158,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "AmbiguousSequencesDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "AmbiguousSequencesDlg.WindowTitle");
 			this.Name = "AmbiguousSequencesDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
@@ -169,11 +174,9 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		private SIL.Pa.UI.Controls.PaPanel pnlGrid;
+		private SilPanel pnlGrid;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.CheckBox chkShowDefaults;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
-
-
 	}
 }

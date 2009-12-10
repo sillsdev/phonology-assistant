@@ -62,11 +62,20 @@
     <Compile Include="Controls\OutlookBar.Designer.cs">
       <DependentUpon>OutlookBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SilGradientPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SilPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SilPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SilPopup.designer.cs">
       <DependentUpon>SilPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SilTextPanel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\SmallFadingWnd.cs">
       <SubType>Form</SubType>

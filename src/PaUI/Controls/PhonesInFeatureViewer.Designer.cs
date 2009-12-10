@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Controls
 {
 	partial class PhonesInFeatureViewer
@@ -35,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 			this.mnuSep = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuCompact = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuExpanded = new System.Windows.Forms.ToolStripMenuItem();
-			this.pnlOuter = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlOuter = new SilPanel();
 			this.pnlExpandedView = new System.Windows.Forms.Panel();
 			this.header = new SIL.Pa.UI.Controls.HeaderLabel();
 			this.btnDropDownArrow = new SIL.Pa.UI.Controls.XButton();
@@ -136,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		private PaPanel pnlOuter;
+		private SilPanel pnlOuter;
 		private HeaderLabel header;
 		private XButton btnDropDownArrow;
 		private System.Windows.Forms.ContextMenuStrip cmnuViewOptions;

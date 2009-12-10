@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Controls
 {
 	partial class CharGrid
@@ -30,7 +32,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.m_grid = new SIL.Pa.UI.Controls.CharGridView();
-			this.pnlWrapper = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlWrapper = new SilPanel();
 			this.pnlGrid = new System.Windows.Forms.Panel();
 			this.m_vsplitter = new System.Windows.Forms.Splitter();
 			this.pnlRowHeaderOuter = new System.Windows.Forms.Panel();
@@ -193,7 +195,7 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		private CharGridView m_grid;
-		private PaPanel pnlWrapper;
+		private SilPanel pnlWrapper;
 		private System.Windows.Forms.Panel pnlCorner;
 		private System.Windows.Forms.Panel pnlColHeaderOuter;
 		private System.Windows.Forms.Splitter m_hsplitter;

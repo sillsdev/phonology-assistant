@@ -216,7 +216,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSettings.Controls.Add(this.lblShowColumns);
 			this.locExtender.SetLocalizableToolTip(this.grpColSettings, null);
 			this.locExtender.SetLocalizationComment(this.grpColSettings, "Frame text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.grpColSettings, "OptionsDlg.grpColSettings");
+			this.locExtender.SetLocalizingId(this.grpColSettings, "OptionsDlg.WordListTab.grpColSettings");
 			resources.ApplyResources(this.grpColSettings, "grpColSettings");
 			this.grpColSettings.Name = "grpColSettings";
 			this.grpColSettings.TabStop = false;
@@ -264,7 +264,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnMoveColDown, "btnMoveColDown");
 			this.locExtender.SetLocalizableToolTip(this.btnMoveColDown, "Move Down");
 			this.locExtender.SetLocalizationComment(this.btnMoveColDown, "Button on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.btnMoveColDown, "OptionsDlg.btnMoveColDown");
+			this.locExtender.SetLocalizingId(this.btnMoveColDown, "OptionsDlg.WordListTab.btnMoveColDown");
 			this.btnMoveColDown.Name = "btnMoveColDown";
 			this.btnMoveColDown.UseVisualStyleBackColor = true;
 			this.btnMoveColDown.Click += new System.EventHandler(this.btnMoveColDown_Click);
@@ -275,7 +275,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnMoveColUp, "btnMoveColUp");
 			this.locExtender.SetLocalizableToolTip(this.btnMoveColUp, "Move Up");
 			this.locExtender.SetLocalizationComment(this.btnMoveColUp, "Button on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.btnMoveColUp, "OptionsDlg.btnMoveColUp");
+			this.locExtender.SetLocalizingId(this.btnMoveColUp, "OptionsDlg.WordListTab.btnMoveColUp");
 			this.btnMoveColUp.Name = "btnMoveColUp";
 			this.btnMoveColUp.UseVisualStyleBackColor = true;
 			this.btnMoveColUp.Click += new System.EventHandler(this.btnMoveColUp_Click);
@@ -286,7 +286,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblShowColumns, "lblShowColumns");
 			this.locExtender.SetLocalizableToolTip(this.lblShowColumns, null);
 			this.locExtender.SetLocalizationComment(this.lblShowColumns, "Label on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblShowColumns, "OptionsDlg.lblShowColumns");
+			this.locExtender.SetLocalizingId(this.lblShowColumns, "OptionsDlg.WordListTab.lblShowColumns");
 			this.lblShowColumns.Name = "lblShowColumns";
 			// 
 			// grpColChanges
@@ -297,7 +297,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColChanges.Controls.Add(this.chkSaveColWidths);
 			this.locExtender.SetLocalizableToolTip(this.grpColChanges, null);
 			this.locExtender.SetLocalizationComment(this.grpColChanges, "Frame text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.grpColChanges, "OptionsDlg.grpColChanges");
+			this.locExtender.SetLocalizingId(this.grpColChanges, "OptionsDlg.WordListTab.grpColChanges");
 			resources.ApplyResources(this.grpColChanges, "grpColChanges");
 			this.grpColChanges.Name = "grpColChanges";
 			this.grpColChanges.TabStop = false;
@@ -308,7 +308,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblExplanation, "lblExplanation");
 			this.locExtender.SetLocalizableToolTip(this.lblExplanation, null);
 			this.locExtender.SetLocalizationComment(this.lblExplanation, "Label on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblExplanation, "OptionsDlg.lblExplanation");
+			this.locExtender.SetLocalizingId(this.lblExplanation, "OptionsDlg.WordListTab.lblExplanation");
 			this.lblExplanation.Name = "lblExplanation";
 			// 
 			// chkSaveReorderedColumns
@@ -317,7 +317,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.chkSaveReorderedColumns, "chkSaveReorderedColumns");
 			this.locExtender.SetLocalizableToolTip(this.chkSaveReorderedColumns, null);
 			this.locExtender.SetLocalizationComment(this.chkSaveReorderedColumns, "Check box text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.chkSaveReorderedColumns, "OptionsDlg.chkSaveReorderedColumns");
+			this.locExtender.SetLocalizingId(this.chkSaveReorderedColumns, "OptionsDlg.WordListTab.chkSaveReorderedColumns");
 			this.chkSaveReorderedColumns.Name = "chkSaveReorderedColumns";
 			this.chkSaveReorderedColumns.UseVisualStyleBackColor = true;
 			// 
@@ -327,7 +327,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.chkSaveColHdrHeight, "chkSaveColHdrHeight");
 			this.locExtender.SetLocalizableToolTip(this.chkSaveColHdrHeight, null);
 			this.locExtender.SetLocalizationComment(this.chkSaveColHdrHeight, "Check box text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.chkSaveColHdrHeight, "OptionsDlg.chkSaveColHdrHeight");
+			this.locExtender.SetLocalizingId(this.chkSaveColHdrHeight, "OptionsDlg.WordListTab.chkSaveColHdrHeight");
 			this.chkSaveColHdrHeight.Name = "chkSaveColHdrHeight";
 			this.chkSaveColHdrHeight.UseVisualStyleBackColor = true;
 			// 
@@ -337,7 +337,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.chkSaveColWidths, "chkSaveColWidths");
 			this.locExtender.SetLocalizableToolTip(this.chkSaveColWidths, null);
 			this.locExtender.SetLocalizationComment(this.chkSaveColWidths, "Check box text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.chkSaveColWidths, "OptionsDlg.chkSaveColWidths");
+			this.locExtender.SetLocalizingId(this.chkSaveColWidths, "OptionsDlg.WordListTab.chkSaveColWidths");
 			this.chkSaveColWidths.Name = "chkSaveColWidths";
 			this.chkSaveColWidths.UseVisualStyleBackColor = true;
 			// 
@@ -345,7 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.nudMaxEticColWidth, "Maximum automatically calculated phonetic column width");
 			this.locExtender.SetLocalizationComment(this.nudMaxEticColWidth, "Phonetic column width adjuster on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.nudMaxEticColWidth, "OptionsDlg.nudMaxEticColWidth");
+			this.locExtender.SetLocalizingId(this.nudMaxEticColWidth, "OptionsDlg.WordListTab.nudMaxEticColWidth");
 			resources.ApplyResources(this.nudMaxEticColWidth, "nudMaxEticColWidth");
 			this.nudMaxEticColWidth.Maximum = new decimal(new int[] {
             1000,
@@ -360,7 +360,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.chkAutoAdjustPhoneticCol, "chkAutoAdjustPhoneticCol");
 			this.locExtender.SetLocalizableToolTip(this.chkAutoAdjustPhoneticCol, null);
 			this.locExtender.SetLocalizationComment(this.chkAutoAdjustPhoneticCol, "Check box text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.chkAutoAdjustPhoneticCol, "OptionsDlg.chkAutoAdjustPhoneticCol");
+			this.locExtender.SetLocalizingId(this.chkAutoAdjustPhoneticCol, "OptionsDlg.WordListTab.chkAutoAdjustPhoneticCol");
 			this.chkAutoAdjustPhoneticCol.Name = "chkAutoAdjustPhoneticCol";
 			this.chkAutoAdjustPhoneticCol.UseVisualStyleBackColor = true;
 			this.chkAutoAdjustPhoneticCol.CheckedChanged += new System.EventHandler(this.chkAutoAdjustPhoneticCol_CheckedChanged);
@@ -373,7 +373,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpGridLines.Controls.Add(this.rbGridLinesNone);
 			this.locExtender.SetLocalizableToolTip(this.grpGridLines, null);
 			this.locExtender.SetLocalizationComment(this.grpGridLines, "Frame text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.grpGridLines, "OptionsDlg.grpGridLines");
+			this.locExtender.SetLocalizingId(this.grpGridLines, "OptionsDlg.WordListTab.grpGridLines");
 			resources.ApplyResources(this.grpGridLines, "grpGridLines");
 			this.grpGridLines.Name = "grpGridLines";
 			this.grpGridLines.TabStop = false;
@@ -384,7 +384,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbGridLinesHorizontal.Image = global::SIL.Pa.Properties.Resources.kimidHorizontalGridLines;
 			this.locExtender.SetLocalizableToolTip(this.rbGridLinesHorizontal, null);
 			this.locExtender.SetLocalizationComment(this.rbGridLinesHorizontal, "Radio button text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.rbGridLinesHorizontal, "OptionsDlg.rbGridLinesHorizontal");
+			this.locExtender.SetLocalizingId(this.rbGridLinesHorizontal, "OptionsDlg.WordListTab.rbGridLinesHorizontal");
 			this.rbGridLinesHorizontal.Name = "rbGridLinesHorizontal";
 			this.rbGridLinesHorizontal.TabStop = true;
 			this.rbGridLinesHorizontal.UseVisualStyleBackColor = true;
@@ -396,7 +396,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbGridLinesVertical.Image = global::SIL.Pa.Properties.Resources.kimidVerticalGridLines;
 			this.locExtender.SetLocalizableToolTip(this.rbGridLinesVertical, null);
 			this.locExtender.SetLocalizationComment(this.rbGridLinesVertical, "Radio button text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.rbGridLinesVertical, "OptionsDlg.rbGridLinesVertical");
+			this.locExtender.SetLocalizingId(this.rbGridLinesVertical, "OptionsDlg.WordListTab.rbGridLinesVertical");
 			this.rbGridLinesVertical.Name = "rbGridLinesVertical";
 			this.rbGridLinesVertical.TabStop = true;
 			this.rbGridLinesVertical.UseVisualStyleBackColor = true;
@@ -408,7 +408,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbGridLinesBoth.Image = global::SIL.Pa.Properties.Resources.kimidBothGridLines;
 			this.locExtender.SetLocalizableToolTip(this.rbGridLinesBoth, null);
 			this.locExtender.SetLocalizationComment(this.rbGridLinesBoth, "Radio button text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.rbGridLinesBoth, "OptionsDlg.rbGridLinesBoth");
+			this.locExtender.SetLocalizingId(this.rbGridLinesBoth, "OptionsDlg.WordListTab.rbGridLinesBoth");
 			this.rbGridLinesBoth.Name = "rbGridLinesBoth";
 			this.rbGridLinesBoth.TabStop = true;
 			this.rbGridLinesBoth.UseVisualStyleBackColor = true;
@@ -420,7 +420,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbGridLinesNone.Image = global::SIL.Pa.Properties.Resources.kimidNoGridLines;
 			this.locExtender.SetLocalizableToolTip(this.rbGridLinesNone, null);
 			this.locExtender.SetLocalizationComment(this.rbGridLinesNone, "Radio button text on word list tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.rbGridLinesNone, "OptionsDlg.rbGridLinesNone");
+			this.locExtender.SetLocalizingId(this.rbGridLinesNone, "OptionsDlg.WordListTab.rbGridLinesNone");
 			this.rbGridLinesNone.Name = "rbGridLinesNone";
 			this.rbGridLinesNone.TabStop = true;
 			this.rbGridLinesNone.UseVisualStyleBackColor = true;
@@ -443,7 +443,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpFieldSettings.Controls.Add(this.btnMoveRecVwFldUp);
 			this.locExtender.SetLocalizableToolTip(this.grpFieldSettings, null);
 			this.locExtender.SetLocalizationComment(this.grpFieldSettings, "Frame text on record view tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.grpFieldSettings, "OptionsDlg.grpFieldSettings");
+			this.locExtender.SetLocalizingId(this.grpFieldSettings, "OptionsDlg.RecordViewTab.grpFieldSettings");
 			resources.ApplyResources(this.grpFieldSettings, "grpFieldSettings");
 			this.grpFieldSettings.Name = "grpFieldSettings";
 			this.grpFieldSettings.TabStop = false;
@@ -492,7 +492,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblShowFields, "lblShowFields");
 			this.locExtender.SetLocalizableToolTip(this.lblShowFields, null);
 			this.locExtender.SetLocalizationComment(this.lblShowFields, "Label on record view tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblShowFields, "OptionsDlg.lblShowFields");
+			this.locExtender.SetLocalizingId(this.lblShowFields, "OptionsDlg.RecordViewTab.lblShowFields");
 			this.lblShowFields.Name = "lblShowFields";
 			// 
 			// btnMoveRecVwFldDown
@@ -501,7 +501,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnMoveRecVwFldDown, "btnMoveRecVwFldDown");
 			this.locExtender.SetLocalizableToolTip(this.btnMoveRecVwFldDown, "Move Down");
 			this.locExtender.SetLocalizationComment(this.btnMoveRecVwFldDown, "Button on record view of options dialog box.");
-			this.locExtender.SetLocalizingId(this.btnMoveRecVwFldDown, "OptionsDlg.btnMoveRecVwFldDown");
+			this.locExtender.SetLocalizingId(this.btnMoveRecVwFldDown, "OptionsDlg.RecordViewTab.btnMoveRecVwFldDown");
 			this.btnMoveRecVwFldDown.Name = "btnMoveRecVwFldDown";
 			this.btnMoveRecVwFldDown.UseVisualStyleBackColor = true;
 			this.btnMoveRecVwFldDown.Click += new System.EventHandler(this.btnMoveRecVwFldDown_Click);
@@ -512,7 +512,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnMoveRecVwFldUp, "btnMoveRecVwFldUp");
 			this.locExtender.SetLocalizableToolTip(this.btnMoveRecVwFldUp, "Move Up");
 			this.locExtender.SetLocalizationComment(this.btnMoveRecVwFldUp, "Button on record view tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.btnMoveRecVwFldUp, "OptionsDlg.btnMoveRecVwFldUp");
+			this.locExtender.SetLocalizingId(this.btnMoveRecVwFldUp, "OptionsDlg.RecordViewTab.btnMoveRecVwFldUp");
 			this.btnMoveRecVwFldUp.Name = "btnMoveRecVwFldUp";
 			this.btnMoveRecVwFldUp.UseVisualStyleBackColor = true;
 			this.btnMoveRecVwFldUp.Click += new System.EventHandler(this.btnMoveRecVwFldUp_Click);
@@ -1051,7 +1051,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Options";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// OptionsDlg
 			// 
@@ -1060,7 +1060,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Title of options dialog box.");
-			this.locExtender.SetLocalizingId(this, "OptionsDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "OptionsDlg.WindowTitle");
 			this.Name = "OptionsDlg";
 			this.Controls.SetChildIndex(this.tabOptions, 0);
 			this.Controls.SetChildIndex(this.pnlButtons, 0);

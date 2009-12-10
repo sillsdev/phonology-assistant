@@ -1,4 +1,4 @@
-namespace SilUtils
+namespace SilUtils.Controls
 {
 	partial class SilPopup
 	{
@@ -42,8 +42,5 @@ namespace SilUtils
 		}
 
 		#endregion
-
-
-
 	}
 }

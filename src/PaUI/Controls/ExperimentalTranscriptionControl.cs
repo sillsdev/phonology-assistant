@@ -6,6 +6,7 @@ using System.Windows.Forms.VisualStyles;
 using SIL.Localize.LocalizationUtils;
 using SIL.Pa.Data;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -15,7 +16,7 @@ namespace SIL.Pa.UI.Controls
 	/// experimental transcriptions.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ExperimentalTranscriptionControl : PaPanel, IxCoreColleague
+	public class ExperimentalTranscriptionControl : SilPanel, IxCoreColleague
 	{
 		private const int kFirstCnvrtToCol = 2;
 		private const int kCnvrtCol = 1;
@@ -70,13 +71,13 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Text = "Transcribed in source as:";
 			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTransControlHdg1",
 				null, "Heading in experimental transcriptions control.",
-				"Dialog Boxes.Experimental Trans", LocalizationCategory.TextBoxOrLabel,
+				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.TextBoxOrLabel,
 				LocalizationPriority.High);
 
 			lblTargetHdg.Text = "Convert to one of these options:";
 			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTransControlHdg2",
 				null, "Heading in experimental transcriptions control.",
-				"Dialog Boxes.Experimental Trans", LocalizationCategory.TextBoxOrLabel,
+				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.TextBoxOrLabel,
 				LocalizationPriority.High);
 
 			BuildGrid();
@@ -910,7 +911,7 @@ namespace SIL.Pa.UI.Controls
 			m_noneText = LocalizationManager.LocalizeString(
 				"ExperimentalTransGridDontConvertText", "None", "Text in the experimental " +
 				"transcription list of experimental transcription dialog box.",
-				"Dialog Boxes.Experimental Trans", LocalizationCategory.Other,
+				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.Other,
 				LocalizationPriority.High);
 		}
 

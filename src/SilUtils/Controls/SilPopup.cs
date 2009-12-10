@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace SilUtils
+namespace SilUtils.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -21,7 +21,7 @@ namespace SilUtils
 		public event EventHandler MouseEntered;
 		public event EventHandler MouseLeft;
 
-		protected bool m_mouseOver = false;
+		protected bool m_mouseOver;
 		protected bool m_monitorMouseOver = true;
 		protected Timer m_timer;
 		protected ToolStripControlHost m_host;
@@ -308,7 +308,7 @@ namespace SilUtils
 			// Draw an arrow pointing to the left and is against the left edge of the popup.
 			using (SolidBrush br = new SolidBrush(Color.Black))
 			{
-				g.FillPolygon(br, new Point[] { pt1, pt2, pt3 });
+				g.FillPolygon(br, new[] { pt1, pt2, pt3 });
 			}
 		}
 

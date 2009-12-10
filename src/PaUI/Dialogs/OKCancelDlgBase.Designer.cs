@@ -81,7 +81,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Base OK/Cancel";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// OKCancelDlgBase
 			// 
@@ -93,7 +93,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "OKCancelDlgBase");
+			this.locExtender.SetLocalizingId(this, "OKCancelDlgBase.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OKCancelDlgBase";

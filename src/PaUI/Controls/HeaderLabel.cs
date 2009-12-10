@@ -2,10 +2,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class HeaderLabel : PaTextPanel
+	public class HeaderLabel : SilTextPanel
 	{
 		private bool m_showWindowBackgroudOnTopAndRightEdge = true;
 

@@ -1,9 +1,9 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SilUtils;
 
-namespace SIL.Pa.UI.Controls
+namespace SilUtils.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -12,20 +12,24 @@ namespace SIL.Pa.UI.Controls
 	/// enabled.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PaPanel : PaTextPanel
+	public class SilPanel : SilTextPanel
 	{
-		private bool m_overrideBorderDrawing;
-		private bool m_paintExplorerBarBackground;
+		protected bool m_overrideBorderDrawing;
+		protected bool m_paintExplorerBarBackground;
+		protected Color m_borderColor;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaPanel()
+		public SilPanel()
 		{
 			BorderStyle = (Application.VisualStyleState == VisualStyleState.NoneEnabled ?
 				BorderStyle.Fixed3D : BorderStyle.FixedSingle);
+
+			m_borderColor = (PaintingHelper.CanPaintVisualStyle() ?
+				VisualStyleInformation.TextControlBorder : Color.Black);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (m.Msg == PaintingHelper.WM_NCPAINT && m_overrideBorderDrawing)
 			{
-				PaintingHelper.DrawCustomBorder(this);
+				PaintingHelper.DrawCustomBorder(this, m_borderColor);
 				m.Result = IntPtr.Zero;
 				m.Msg = 0;
 			}
@@ -93,6 +97,22 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets the color of the border (only valid when border drawing is
+		/// overridden).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Color BorderColor
+		{
+			get { return m_borderColor; }
+			set
+			{
+				m_borderColor = value;
+				Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets or sets a value indicating whether or not the background of the panel will
 		/// be painted using the visual style's explorer bar element.
 		/// </summary>
@@ -110,7 +130,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (!PaApp.DesignMode && m_paintExplorerBarBackground)
+			//if (Site != null && !Site.DesignMode && m_paintExplorerBarBackground)
+			if (m_paintExplorerBarBackground)
 			{
 				VisualStyleElement element = VisualStyleElement.ExplorerBar.NormalGroupBackground.Normal;
 				if (PaintingHelper.CanPaintVisualStyle(element))

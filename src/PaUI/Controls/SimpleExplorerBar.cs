@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -10,7 +11,7 @@ namespace SIL.Pa.UI.Controls
 	/// Encapsulates a simple explorer bar-like control.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class SimpleExplorerBar : PaPanel
+	public class SimpleExplorerBar : SilPanel
 	{
 		private readonly List<ExplorerBarItem> m_items = new List<ExplorerBarItem>();
 
