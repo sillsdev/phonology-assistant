@@ -93,7 +93,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "ExperimentalTranscriptionsDlg.WindowTitle");
 			this.Name = "ExperimentalTranscriptionsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);

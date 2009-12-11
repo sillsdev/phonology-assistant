@@ -69,16 +69,14 @@ namespace SIL.Pa.UI.Controls
 
 			// Set the heading text.
 			lblSourceHdg.Text = "Transcribed in source as:";
-			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTransControlHdg1",
-				null, "Heading in experimental transcriptions control.",
-				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.TextBoxOrLabel,
-				LocalizationPriority.High);
+			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTranscriptionsDlg.Heading1",
+				null, "Heading in experimental transcriptions control.", "Dialog Boxes",
+				LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
 
 			lblTargetHdg.Text = "Convert to one of these options:";
-			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTransControlHdg2",
-				null, "Heading in experimental transcriptions control.",
-				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.TextBoxOrLabel,
-				LocalizationPriority.High);
+			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTranscriptionsDlg.Heading2",
+				null, "Heading in experimental transcriptions control.", "Dialog Boxes",
+				LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
 
 			BuildGrid();
 			LoadGrid();
@@ -909,10 +907,9 @@ namespace SIL.Pa.UI.Controls
 				m_fntCV = PaApp.Project.FieldInfo.CVPatternField.Font;
 
 			m_noneText = LocalizationManager.LocalizeString(
-				"ExperimentalTransGridDontConvertText", "None", "Text in the experimental " +
-				"transcription list of experimental transcription dialog box.",
-				"Dialog Boxes.ExperimentalTranscriptionDlg", LocalizationCategory.Other,
-				LocalizationPriority.High);
+				"ExperimentalTranscriptionsDlg.DontConvertText", "None",
+				"Text in the experimental " + "transcription list of experimental transcription dialog box.",
+				"Dialog Boxes", LocalizationCategory.Other, LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------

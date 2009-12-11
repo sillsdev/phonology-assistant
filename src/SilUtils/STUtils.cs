@@ -51,10 +51,10 @@ namespace SilUtils
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern uint RegisterWindowMessage(string msgName);
-		
+
 		private const int WM_SETREDRAW = 0xB;
 		public const int HWND_BROADCAST = 0xFFFF;
-		
+
 		/// <summary>
 		/// The <c>MemoryStatus</c> structure contains information about the current 
 		/// state of both physical and virtual memory.
@@ -163,7 +163,7 @@ namespace SilUtils
 
 			return relPath;
 		}
-			
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Since a file path may contain '\n' and passing a string to STMsgBox will convert
@@ -257,7 +257,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string ConvertLiteralNewLines(string text)
 		{
-			return text.Replace("\\n", "\n");
+			return text.Replace("\\n", Environment.NewLine);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,7 +285,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string SilSoftwarePath
 		{
-			get 
+			get
 			{
 				string silSwPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 				silSwPath = Path.Combine(silSwPath, @"SIL Software");
@@ -323,7 +323,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string SilSoftwareCommonFilesPath
 		{
-			get 
+			get
 			{
 				string silSwCommonFilesPath = Path.Combine(SilSoftwarePath, "Common Files");
 
@@ -494,13 +494,13 @@ namespace SilUtils
 		/// parsing using the English number system just in case the string contains a period
 		/// for the decimal point.
 		/// If the CultureInfo is NOT null, then this method will parse the input string
-		/// in the specified  culture-specific format. 
+		/// in the specified culture-specific format. 
 		/// This will handle situations when a string containing a decimal point is being
 		/// parsed on a computer whose locale is European (e.g. German) where they use a
 		/// comma for the decimal separator.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool TryFloatParse(string input, 
+		public static bool TryFloatParse(string input,
 			CultureInfo ci, out float output)
 		{
 			if (ci == null)
@@ -510,11 +510,10 @@ namespace SilUtils
 
 				// The first attempt failed so now try parsing with a culture whose number
 				// system decimal separator is known to be a period.
-				ci = CultureInfo.CreateSpecificCulture("en");
+				ci = CultureInfo.GetCultureInfo("en");
 			}
 
-			return float.TryParse(input, NumberStyles.Number,
-					ci.NumberFormat, out output);
+			return float.TryParse(input, NumberStyles.Number, ci.NumberFormat, out output);
 		}
 
 		/// ------------------------------------------------------------------------------------

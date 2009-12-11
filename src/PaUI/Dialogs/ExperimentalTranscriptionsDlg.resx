@@ -235,6 +235,6 @@
     <value>ExperimentalTranscriptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.41083, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

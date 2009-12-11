@@ -1801,11 +1801,45 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (id.StartsWith("Cmd"))
 					id = id.Substring(3);
 
-				id = "ToolbarMenuItem." + id;
-				LocalizeItem(item, id, itemProps);
+				if (item.DisplayStyle == ToolStripItemDisplayStyle.Image ||
+					item.DisplayStyle == ToolStripItemDisplayStyle.None)
+				{
+					item.Text = string.Empty;
+				}
+
+				LocalizeItem(item, BuildLocalizationId(item, id), itemProps);
 			}
 
 			m_items[name] = item;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds the localization id for the specified item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string BuildLocalizationId(object item, string id)
+		{
+			if (id == "ShowRecordPane")
+				System.Diagnostics.Debug.WriteLine("here");
+
+
+			if (item is ToolStripMenuItem || item is ToolStripDropDownItem ||
+				item is ToolStripDropDownMenu)
+			{
+				return "MenuItems." + id;
+			}
+
+			if (item is ToolStripButton || item is ToolStripSplitButton ||
+				item is ToolStripDropDownButton)
+			{
+				return "ToolbarButtons." + id;
+			}
+
+			if (item is ToolStripComboBox)
+				return "ToolbarComboBoxes." + id;
+
+			return id;
 		}
 
 		#endregion

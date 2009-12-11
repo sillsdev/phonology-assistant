@@ -343,7 +343,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3631.40419, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>$this</value>
@@ -424,6 +424,6 @@
     <value>ClassesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.30737, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.40419, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
