@@ -64,11 +64,11 @@ namespace SIL.Pa
 			this.cboChartColumn = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.grpFeatures = new System.Windows.Forms.GroupBox();
-			this.pnlBinary = new SIL.Pa.UI.Controls.PaPanel();
+			this.pnlBinary = new SilUtils.Controls.SilPanel();
 			this.txtBinary = new System.Windows.Forms.TextBox();
 			this.hlblBinary = new SIL.Pa.UI.Controls.HeaderLabel();
 			this.btnBinary = new SIL.Pa.UI.Controls.XButton();
-			this.paPanel1 = new SIL.Pa.UI.Controls.PaPanel();
+			this.paPanel1 = new SilUtils.Controls.SilPanel();
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
 			this.hlblArticulatory = new SIL.Pa.UI.Controls.HeaderLabel();
 			this.btnArticulatory = new SIL.Pa.UI.Controls.XButton();
@@ -493,11 +493,11 @@ namespace SIL.Pa
 		private System.Windows.Forms.ComboBox cboChartColumn;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.GroupBox grpFeatures;
-		private SIL.Pa.UI.Controls.PaPanel paPanel1;
+		private SilUtils.Controls.SilPanel paPanel1;
 		private System.Windows.Forms.TextBox txtArticulatory;
 		private SIL.Pa.UI.Controls.HeaderLabel hlblArticulatory;
 		private SIL.Pa.UI.Controls.XButton btnArticulatory;
-		private SIL.Pa.UI.Controls.PaPanel pnlBinary;
+		private SilUtils.Controls.SilPanel pnlBinary;
 		private System.Windows.Forms.TextBox txtBinary;
 		private SIL.Pa.UI.Controls.HeaderLabel hlblBinary;
 		private SIL.Pa.UI.Controls.XButton btnBinary;

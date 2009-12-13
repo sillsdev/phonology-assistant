@@ -47,6 +47,12 @@
     <Compile Include="Controls\AboutDlg.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\CustomDropDownComboBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomDropDownComboBox.Designer.cs">
+      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExceptionViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +117,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\AboutDlg.resx">
       <DependentUpon>AboutDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomDropDownComboBox.resx">
+      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExceptionViewer.resx">
       <DependentUpon>ExceptionViewer.cs</DependentUpon>

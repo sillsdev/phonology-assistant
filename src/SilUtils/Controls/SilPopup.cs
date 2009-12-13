@@ -20,6 +20,7 @@ namespace SilUtils.Controls
 
 		public event EventHandler MouseEntered;
 		public event EventHandler MouseLeft;
+		public event EventHandler PopupClosed;
 
 		protected bool m_mouseOver;
 		protected bool m_monitorMouseOver = true;
@@ -56,8 +57,30 @@ namespace SilUtils.Controls
 			m_owningDropDown.Size = Size;
 			m_owningDropDown.Items.Add(m_host);
 			m_owningDropDown.VisibleChanged += m_owningDropDown_VisibleChanged;
+			m_owningDropDown.Closed += m_owningDropDown_Closed;
+			m_owningDropDown.Closing += OnDropDownClosing;
 
 			Disposed += SilPopup_Disposed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the Closed event of the m_owningDropDown control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_owningDropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+		{
+			if (PopupClosed != null)
+				PopupClosed(this, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles the Closing event of the m_owningDropDown control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
