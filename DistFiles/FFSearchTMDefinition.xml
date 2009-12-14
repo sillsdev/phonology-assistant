@@ -113,16 +113,16 @@ Item "displaytype" Values (applies to item types 0 - 3):
 
 	<commands>
 		<command id="CmdDoNothing"/>
-		<command id="CmdShowResults" message="ShowResults" shortcutkey="AltS"/>
-		<command id="CmdNewTab" message="NewTabInCurrentTabGroup" shortcutkey="AltN"/>
-		<command id="CmdInsertIntoPattern" shortcutkey="AltI"/>
-		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="AltO"/>
+		<command id="CmdShowResults" message="ShowResults" shortcutkey="Alt+S"/>
+		<command id="CmdNewTab" message="NewTabInCurrentTabGroup" shortcutkey="Alt+N"/>
+		<command id="CmdInsertIntoPattern" shortcutkey="Alt+I"/>
+		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults"/>
 		<command id="CmdVerifyPattern" message="VerifyPattern"/>
 		<command id="CmdSavePattern" message="SavePattern"/>
-		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="CtrlS" image="CmdSavePattern"/>
+		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="Ctrl+S" image="CmdSavePattern"/>
 		<command id="CmdSavePatternAs" message="SavePatternAs"/>
-		<command id="CmdClearPattern" message="ClearPattern" shortcutkey="AltC"/>
+		<command id="CmdClearPattern" message="ClearPattern" shortcutkey="Alt+C"/>
 		<command id="CmdAddSavedPatternCategory" message="AddSavedPatternCategory"/>
 		<command id="CmdCutSavedPattern" message="CutSavedPattern"/>
 		<command id="CmdCopySavedPattern" message="CopySavedPattern"/>
@@ -132,7 +132,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertZeroOrMore" message="InsertZeroOrMore"/>
 		<command id="CmdInsertOneOrMore" message="InsertOneOrMore"/>
 		<command id="CmdInsertWordBoundary" message="InsertWordBoundary"/>
-		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder" shortcutkey="Ctrl0"/>
+		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder" shortcutkey="Ctrl+0"/>
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
@@ -160,7 +160,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
 		<command id="CmdPlayback" message="Playback"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
-		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="CtrlF5"/>
+		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
 		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>

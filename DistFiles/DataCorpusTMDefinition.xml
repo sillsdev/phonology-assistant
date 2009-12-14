@@ -116,7 +116,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdFindPrevious" message="EditFindPrevious"/>
 		<command id="CmdPlayback" message="Playback"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
-		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="CtrlF5"/>
+		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
 		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>

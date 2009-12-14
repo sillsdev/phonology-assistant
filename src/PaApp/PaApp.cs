@@ -29,6 +29,7 @@ using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa
 {
@@ -1231,9 +1232,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
 		{
-			LocalizationManager.LocalizeObject(item, id, itemProps.Tooltip,
-				"Toolbar or Menu item", kLocalizationGroupTMItems,
-				LocalizationCategory.ToolbarMenuOrStatusBarItem, LocalizationPriority.High);
+			LocalizationManager.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
+				ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
+				kLocalizationGroupTMItems, LocalizationCategory.ToolbarMenuOrStatusBarItem,
+				LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------

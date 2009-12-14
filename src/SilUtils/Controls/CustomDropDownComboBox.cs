@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 namespace SilUtils.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class CustomDropDownComboBox : UserControl
 	{
+		private bool m_alignDropToLeft = true;
 		private bool m_mouseDown;
 		private bool m_buttonHot;
 		private SilPopup m_popupCtrl;
@@ -88,6 +89,19 @@ namespace SilUtils.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a value indicating whether or not the left edge of the drop-down is aligned
+		/// with the left edge of the combo control. To align the left edges, set this value
+		/// to true. To align the right edge of the drop-down, set this value to false.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AlignDropToLeft
+		{
+			get { return m_alignDropToLeft; }
+			set { m_alignDropToLeft = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets or sets the popup Control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -97,12 +111,12 @@ namespace SilUtils.Controls
 			set
 			{
 				if (m_popupCtrl != null)
-					m_popupCtrl.PopupClosed -= m_popupCtrl_PopupClosed;
+					m_popupCtrl.PopupClosed -= OnPopupClosed;
 
 				m_popupCtrl = value;
 
 				if (m_popupCtrl != null)
-					m_popupCtrl.PopupClosed += m_popupCtrl_PopupClosed;
+					m_popupCtrl.PopupClosed += OnPopupClosed;
 			}
 		}
 
@@ -111,7 +125,7 @@ namespace SilUtils.Controls
 		/// Handles the VisibleChanged event of the m_popupCtrl control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_popupCtrl_PopupClosed(object sender, EventArgs e)
+		protected virtual void OnPopupClosed(object sender, EventArgs e)
 		{
 			if (PopupClosed != null)
 				PopupClosed(this, e);
@@ -218,7 +232,7 @@ namespace SilUtils.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseEnter(object sender, System.EventArgs e)
+		private void m_button_MouseEnter(object sender, EventArgs e)
 		{
 			m_buttonHot = true;
 			m_button.Invalidate();
@@ -229,7 +243,7 @@ namespace SilUtils.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseLeave(object sender, System.EventArgs e)
+		private void m_button_MouseLeave(object sender, EventArgs e)
 		{
 			m_buttonHot = false;
 			m_button.Invalidate();
@@ -240,7 +254,7 @@ namespace SilUtils.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+		private void m_button_MouseUp(object sender, MouseEventArgs e)
 		{
 			// Repaint the drop down button so that it displays normal instead of pressed
 			if (m_mouseDown)
@@ -257,7 +271,7 @@ namespace SilUtils.Controls
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
-		protected void m_button_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		protected void m_button_MouseDown(object sender, MouseEventArgs e)
 		{
 			// Repaint the drop down button so that it displays pressed
 			if (e.Button == MouseButtons.Left)
@@ -267,7 +281,14 @@ namespace SilUtils.Controls
 			}
 
 			if (m_popupCtrl != null)
-				m_popupCtrl.Show(this, new Point(0, Height));
+			{
+				var pt = new Point(0, Height);
+				if (!AlignDropToLeft)
+					pt.X -= (m_popupCtrl.Width - Width);
+				
+				m_popupCtrl.Show(this, pt);
+			
+			}
 		}
 	}
 }

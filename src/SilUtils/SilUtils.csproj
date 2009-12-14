@@ -50,13 +50,13 @@
     <Compile Include="Controls\CustomDropDownComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CustomDropDownComboBox.Designer.cs">
+    <Compile Include="Controls\CustomDropDownComboBox.designer.cs">
       <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ExceptionViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\ExceptionViewer.Designer.cs">
+    <Compile Include="Controls\ExceptionViewer.designer.cs">
       <DependentUpon>ExceptionViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NoActivateWnd.cs">
@@ -65,8 +65,17 @@
     <Compile Include="Controls\OutlookBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\OutlookBar.Designer.cs">
+    <Compile Include="Controls\OutlookBar.designer.cs">
       <DependentUpon>OutlookBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ShortcutKeysDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ShortcutKeysEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ShortcutKeysEditor.designer.cs">
+      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SilGradientPanel.cs">
       <SubType>Component</SubType>
@@ -86,7 +95,7 @@
     <Compile Include="Controls\SmallFadingWnd.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\SmallFadingWnd.Designer.cs">
+    <Compile Include="Controls\SmallFadingWnd.designer.cs">
       <DependentUpon>SmallFadingWnd.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SplashScreen.cs" />
@@ -126,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OutlookBar.resx">
       <DependentUpon>OutlookBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ShortcutKeysEditor.resx">
+      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SilPopup.resx">
       <DependentUpon>SilPopup.cs</DependentUpon>

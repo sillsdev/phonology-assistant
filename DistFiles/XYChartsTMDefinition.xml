@@ -111,12 +111,12 @@ Item "displaytype" Values (applies to item types 0 - 3):
 
 	<commands>
 		<command id="CmdDoNothing"/>
-		<command id="CmdBeginSearch" message="BeginSearch" shortcutkey="AltS"/>
-		<command id="CmdFillInChart" message="FillInChart" shortcutkey="AltL"/>
-		<command id="CmdSaveChart" message="SaveChart" shortcutkey="CtrlS"/>
-		<command id="CmdSaveChartOnMenu" message="SaveChart" shortcutkey="CtrlS" image="CmdSaveChart"/>
+		<command id="CmdBeginSearch" message="BeginSearch" shortcutkey="Alt+S"/>
+		<command id="CmdFillInChart" message="FillInChart" shortcutkey="Alt+L"/>
+		<command id="CmdSaveChart" message="SaveChart" shortcutkey="Ctrl+S"/>
+		<command id="CmdSaveChartOnMenu" message="SaveChart" shortcutkey="Ctrl+S" image="CmdSaveChart"/>
 		<command id="CmdSaveChartAs" message="SaveChartAs"/>
-		<command id="CmdClearChart" message="ClearChart" shortcutkey="AltC"/>
+		<command id="CmdClearChart" message="ClearChart" shortcutkey="Alt+C"/>
 		<command id="CmdFind" message="EditFind"/>
 		<command id="CmdFindNext" message="EditFindNext"/>
 		<command id="CmdFindPrevious" message="EditFindPrevious"/>
@@ -127,7 +127,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
 		<command id="CmdPlayback" message="Playback"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
-		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="CtrlF5"/>
+		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
 		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
@@ -140,15 +140,15 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCloseTab" message="CloseTab"/>
 		<command id="CmdCloseTabGroup" message="CloseTabGroup"/>
 		<command id="CmdCloseAllTabGroups" message="CloseAllTabGroups"/>
-		<command id="CmdXYChartSearchOptions" message="SearchOptions" shortcutkey="AltO"/>
+		<command id="CmdXYChartSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
 		<command id="CmdSearchOptionsDropDown"/>
-		<command id="CmdInsertIntoChart" message="InsertIntoChart" shortcutkey="AltI"/>
+		<command id="CmdInsertIntoChart" message="InsertIntoChart" shortcutkey="Alt+I"/>
 		<command id="CmdInsertConsonant" message="InsertConsonant"/>
 		<command id="CmdInsertVowel" message="InsertVowel"/>
 		<command id="CmdInsertZeroOrMore" message="InsertZeroOrMore"/>
 		<command id="CmdInsertOneOrMore" message="InsertOneOrMore"/>
 		<command id="CmdInsertWordBoundary" message="InsertWordBoundary"/>
-		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder" shortcutkey="Ctrl0"/>
+		<command id="CmdInsertDiacriticPlaceholder" message="InsertDiacriticPlaceholder" shortcutkey="Ctrl+0"/>
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>

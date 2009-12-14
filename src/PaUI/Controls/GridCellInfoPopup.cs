@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 		private int m_popupListItemHeight;
 		private Purpose m_purposeIndicator;
 		private WordCacheEntry m_cacheEntry;
-		private int m_hdgTextSidePadding = 0;
+		private int m_hdgTextSidePadding;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

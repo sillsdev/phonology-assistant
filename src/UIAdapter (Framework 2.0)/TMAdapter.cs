@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {
@@ -902,7 +903,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (string.IsNullOrEmpty(cmdInfo.StatusMsg))
 					cmdInfo.StatusMsg = GetStringFromResource("kstidDefaultStatusBarMsg");
 
-				cmdInfo.ShortcutKey = ParseShortcutKeyString(shortcut);
+				cmdInfo.ShortcutKey = ShortcutKeysEditor.KeysFromString(shortcut);
 
 				// If the command doesn't have an explicit image label, then use
 				// the command id as the image label.
@@ -951,6 +952,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					sckeys = (sckeys == Keys.None ? Keys.Alt : sckeys | Keys.Alt);
 					shortcut = shortcut.Remove(i, 3);
 				}
+
+				shortcut = shortcut.Replace("+", string.Empty);
 
 				// If the remaining portion of the short cut is a number between 0 and 9, then a
 				// 'D' must be placed in front of it since that's how .Net represents number keys.
