@@ -195,7 +195,7 @@ namespace SIL.Pa.UI.Views
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				string[] defs = new string[1];
-				defs[0] = Path.Combine(Application.StartupPath, "FFSearchTMDefinition.xml");
+				defs[0] = Path.Combine(Application.StartupPath, "SearchTMDefinition.xml");
 				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}

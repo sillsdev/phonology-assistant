@@ -111,20 +111,20 @@ Item "displaytype" Values (applies to item types 0 - 3):
 	<commands>
 		<command id="CmdDoNothing"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
-		<command id="CmdFind" message="EditFind"/>
-		<command id="CmdFindNext" message="EditFindNext"/>
-		<command id="CmdFindPrevious" message="EditFindPrevious"/>
-		<command id="CmdPlayback" message="Playback"/>
+		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
+		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
+		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
+		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
 		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField" image="CmdGroupByFieldParent"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" shortcutkey="Ctrl+G" image="CmdGroupByFieldParent"/>
 		<command id="CmdGroupByFieldParent" message="GroupByFieldParent"/>
-		<command id="CmdGroupByField" message="GroupByField"/>
-		<command id="CmdExpandAllGroups" message="ExpandAllGroups"/>
-		<command id="CmdCollapseAllGroups" message="CollapseAllGroups"/>
+		<command id="CmdGroupByField" message="GroupByField" image="GroupBySortedField"/>
+		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
+		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdPhoneticSort" message="DataCorpusPhoneticSort"/>
 	</commands>
 

@@ -263,7 +263,7 @@
     <PreBuildEvent>copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FFSearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\SearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)$(OutDir)"

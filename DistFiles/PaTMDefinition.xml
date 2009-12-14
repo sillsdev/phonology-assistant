@@ -121,65 +121,64 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdWindow"/>
 		<command id="CmdHelp"/>
 		<command id="CmdRecentlyUsedList"/>
-		<command id="CmdExit" message="FileExit" category="kstidFileCategory"/>
-		<command id="CmdNew" message="NewProject" category="kstidFileCategory" shortcutkey="Ctrl+N"/>
-		<command id="CmdOpen" message="OpenProject" category="kstidFileCategory" shortcutkey="Ctrl+O"/>
-		<command id="CmdProjectSettings" message="ProjectSettings" category="kstidFileCategory" shortcutkey="Ctrl+R"/>
-		<command id="CmdBackupRestore" message="BackupRestore" category="kstidFileCategory"/>
-		<command id="CmdExport" message="FileExport" category="kstidFileCategory"/>
-		<command id="CmdExportAs" message="FileExportAs" category="kstidFileCategory"/>
-		<command id="CmdExportAsPAXML" message="ExportAsPAXML" category="kstidFileCategory"/>
-		<command id="CmdExportAsHTML" message="ExportAsHTML" category="kstidFileCategory"/>
-		<command id="CmdExportAsRTF" message="ExportAsRTF" category="kstidFileCategory"/>
-		<command id="CmdExportAsBMP" message="FileExportAsBMP" category="kstidFileCategory"/>
-		<command id="CmdPlayback" message="Playback" category="kstidFileCategory" shortcutkey="F5"/>
-		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" category="kstidFileCategory" shortcutkey="Ctrl+F5"/>
-		<command id="CmdStopPlayback" message="StopPlayback" category="kstidFileCategory" shortcutkey="F8"/>
-		<command id="CmdPhoneticSort" message="PhoneticSort" category="kstidViewCategory"/>
-		<command id="CmdFind" message="EditFind" category="kstidEditCategory" shortcutkey="Ctrl+F"/>
-		<command id="CmdFindNext" message="EditFindNext" category="kstidEditCategory" shortcutkey="F3"/>
-		<command id="CmdFindPrevious" message="EditFindPrevious" category="kstidEditCategory" shortcutkey="Shift+F3"/>
-		<command id="CmdDataCorpus" message="ViewDataCorpus" category="kstidViewCategory" shortcutkey="Ctrl+Alt+D"/>
-		<command id="CmdFindPhones" message="ViewFindPhones" category="kstidViewCategory" shortcutkey="Ctrl+Alt+S"/>
-		<command id="CmdConsonantChart" message="ViewConsonantChart" category="kstidViewCategory" shortcutkey="Ctrl+Alt+C"/>
-		<command id="CmdVowelChart" message="ViewVowelChart" category="kstidViewCategory" shortcutkey="Ctrl+Alt+V"/>
-		<command id="CmdXYChart" message="ViewXYChart" category="kstidViewCategory" shortcutkey="Ctrl+Alt+X"/>
-		<command id="CmdPhoneInventory" message="ViewPhoneInventory" category="kstidViewCategory" shortcutkey="Ctrl+Alt+P"/>
+		<command id="CmdExit" message="FileExit"/>
+		<command id="CmdNew" message="NewProject" shortcutkey="Ctrl+N"/>
+		<command id="CmdOpen" message="OpenProject" shortcutkey="Ctrl+O"/>
+		<command id="CmdProjectSettings" message="ProjectSettings" shortcutkey="Ctrl+R"/>
+		<command id="CmdBackupRestore" message="BackupRestore"/>
+		<command id="CmdExport" message="FileExport"/>
+		<command id="CmdExportAs" message="FileExportAs"/>
+		<command id="CmdExportAsPAXML" message="ExportAsPAXML"/>
+		<command id="CmdExportAsHTML" message="ExportAsHTML"/>
+		<command id="CmdExportAsRTF" message="ExportAsRTF"/>
+		<command id="CmdExportAsBMP" message="FileExportAsBMP"/>
+		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
+		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
+		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
+		<command id="CmdPhoneticSort" message="PhoneticSort"/>
+		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
+		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
+		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
+		<command id="CmdDataCorpus" message="ViewDataCorpus" shortcutkey="Ctrl+Alt+D"/>
+		<command id="CmdFindPhones" message="ViewFindPhones" shortcutkey="Ctrl+Alt+S"/>
+		<command id="CmdConsonantChart" message="ViewConsonantChart" shortcutkey="Ctrl+Alt+C"/>
+		<command id="CmdVowelChart" message="ViewVowelChart" shortcutkey="Ctrl+Alt+V"/>
+		<command id="CmdXYChart" message="ViewXYChart" shortcutkey="Ctrl+Alt+X"/>
+		<command id="CmdPhoneInventory" message="ViewPhoneInventory" shortcutkey="Ctrl+Alt+P"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField" category="kstidViewCategory" shortcutkey="Ctrl+G" image="CmdGroupByFieldParent"/>
-		<command id="CmdGroupByFieldParent" message="GroupByFieldParent" category="kstidViewCategory"/>
-		<command id="CmdGroupByField" message="GroupByField" category="kstidViewCategory" image="GroupBySortedField"/>
-		<command id="CmdExpandAllGroups" message="ExpandAllGroups" category="kstidViewCategory" shortcutkey="Ctrl+Down"/>
-		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" category="kstidViewCategory" shortcutkey="Ctrl+Up"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane" category="kstidViewCategory"/>
-		<command id="CmdDefineClasses" message="DefineClasses" category="kstidToolsCategory"/>
-		<command id="CmdAmbiguousSequences" message="AmbiguousSequences" category="kstidToolsCategory"/>
-		<command id="CmdExperimentalTranscriptions" message="ExperimentalTranscriptions" category="kstidToolsCategory"/>
-		<command id="CmdFeatures" message="Features" category="kstidToolsCategory"/>
-		<command id="CmdUndefinedCharacters" message="UndefinedCharacters" category="kstidToolsCategory"/>
-		<command id="CmdOptions" message="ToolsOptions" category="kstidToolsCategory"/>
-		<command id="CmdCascade" message="WindowCascade" category="kstidWindowCategory"/>
-		<command id="CmdTileHorz" message="WindowTileHorizontally" category="kstidWindowCategory"/>
-		<command id="CmdTileVert" message="WindowTileVertically" category="kstidWindowCategory"/>
-		<command id="CmdHelpPA" message="HelpPA" category="kstidHelpCategory" shortcutkey="F1"/>
-		<command id="CmdHelpTraining" message="HelpHelpTraining" category="kstidHelpCategory"/>
-		<command id="CmdHelpAbout" message="HelpAbout" category="kstidHelpCategory"/>
-		<command id="CmdStudentManual" message="StudentManual" category="kstidHelpCategory"/>
-		<command id="CmdInstructorGuide" message="InstructorGuide" category="kstidHelpCategory"/>
-		<command id="CmdShowGridColumns" message="ShowGridColumns" category="kstidViewCategory"/>
-		<command id="CmdShowGridLines" message="ShowGridLines" category="kstidViewCategory"/>
-		<command id="CmdGridLinesNone" message="GridLinesNone" category="kstidViewCategory"/>
-		<command id="CmdGridLinesBoth" message="GridLinesBoth" category="kstidViewCategory"/>
-		<command id="CmdGridLinesHorizontal" message="GridLinesHorizontal" category="kstidViewCategory"/>
-		<command id="CmdGridLinesVertical" message="GridLinesVertical" category="kstidViewCategory"/>
-		<command id="CmdAmbiguousItems" message="DefineAmbiguousItems" category="kstidToolsCategory" shortcutkey="Ctrl+Alt+A"/>
-		<command id="CmdChartPhoneSearch" message="ChartPhoneSearch" category="kstidViewCategory"/>
-		<command id="CmdChartPhoneSearchAnywhere" message="ChartPhoneSearchAnywhere" category="kstidViewCategory"/>
-		<command id="CmdChartPhoneSearchInitial" message="ChartPhoneSearchInitial" category="kstidViewCategory"/>
-		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial" category="kstidViewCategory"/>
-		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal" category="kstidViewCategory"/>
-		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone" category="kstidViewCategory"/>
-		<command id="CmdEditSourceRecord" message="EditSourceRecord" category="kstidEditCategory" shortcutkey="Shift+F2"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" shortcutkey="Ctrl+G" image="CmdGroupByFieldParent"/>
+		<command id="CmdGroupByFieldParent" message="GroupByFieldParent"/>
+		<command id="CmdGroupByField" message="GroupByField" image="GroupBySortedField"/>
+		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
+		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdDefineClasses" message="DefineClasses"/>
+		<command id="CmdAmbiguousSequences" message="AmbiguousSequences"/>
+		<command id="CmdExperimentalTranscriptions" message="ExperimentalTranscriptions"/>
+		<command id="CmdFeatures" message="Features"/>
+		<command id="CmdUndefinedCharacters" message="UndefinedCharacters"/>
+		<command id="CmdOptions" message="ToolsOptions"/>
+		<command id="CmdCascade" message="WindowCascade"/>
+		<command id="CmdTileHorz" message="WindowTileHorizontally"/>
+		<command id="CmdTileVert" message="WindowTileVertically"/>
+		<command id="CmdHelpPA" message="HelpPA" shortcutkey="F1"/>
+		<command id="CmdHelpTraining" message="HelpHelpTraining"/>
+		<command id="CmdHelpAbout" message="HelpAbout"/>
+		<command id="CmdStudentManual" message="StudentManual"/>
+		<command id="CmdInstructorGuide" message="InstructorGuide"/>
+		<command id="CmdShowGridColumns" message="ShowGridColumns"/>
+		<command id="CmdShowGridLines" message="ShowGridLines"/>
+		<command id="CmdGridLinesNone" message="GridLinesNone"/>
+		<command id="CmdGridLinesBoth" message="GridLinesBoth"/>
+		<command id="CmdGridLinesHorizontal" message="GridLinesHorizontal"/>
+		<command id="CmdGridLinesVertical" message="GridLinesVertical"/>
+		<command id="CmdChartPhoneSearch" message="ChartPhoneSearch"/>
+		<command id="CmdChartPhoneSearchAnywhere" message="ChartPhoneSearchAnywhere"/>
+		<command id="CmdChartPhoneSearchInitial" message="ChartPhoneSearchInitial"/>
+		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial"/>
+		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal"/>
+		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone"/>
+		<command id="CmdEditSourceRecord" message="EditSourceRecord" shortcutkey="Shift+F2"/>
 		<command id="CmdUnDockView" message="UnDockView"/>
 		<command id="CmdDockView" message="DockView"/>
 		<command id="CmdReloadProject" message="ReloadProject"/>

@@ -228,10 +228,10 @@ namespace SIL.Pa.UI.Controls
 			m_pickerConsonant.CheckItemsOnClick = false;
 			m_pickerConsonant.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add("Consonants", m_pickerConsonant);
+			ExplorerBarItem item = Add(m_pickerConsonant);
 
-			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.ConsonantsCharChooserHeading", null,
+			LocalizationManager.LocalizeObject(item.Button, 
+				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", null, null,
 				"Text on heading above list of consonants from which to choose " +
 				"in side bar of search and XY chart views.", kLocalizationGroup,
 				LocalizationCategory.Other, LocalizationPriority.High);
@@ -253,10 +253,10 @@ namespace SIL.Pa.UI.Controls
 			m_pickerNonPulmonics.CheckItemsOnClick = false;
 			m_pickerNonPulmonics.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add("Non Pulmonics", m_pickerNonPulmonics);
+			ExplorerBarItem item = Add(m_pickerNonPulmonics);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.NonPulmonicsCharChooserHeading", null,
+				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", null, null,
 				"Text on heading above list of non pulmonic consonants from which to " +
 				"choose in side bar of search and XY chart views.", kLocalizationGroup, 
 				LocalizationCategory.Other, LocalizationPriority.High);
@@ -278,10 +278,10 @@ namespace SIL.Pa.UI.Controls
 			m_pickerOther.CheckItemsOnClick = false;
 			m_pickerOther.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add("Other Symbols", m_pickerOther);
+			ExplorerBarItem item = Add(m_pickerOther);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.OtherSymbolsCharChooserHeading", null,
+				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols", null, null,
 				"Text on heading above list of other symbols from which to choose " +
 				"in side bar of search and XY chart views.", kLocalizationGroup,
 				LocalizationCategory.Other, LocalizationPriority.High);
@@ -303,10 +303,10 @@ namespace SIL.Pa.UI.Controls
 			m_pickerVowel.CheckItemsOnClick = false;
 			m_pickerVowel.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add("Vowels", m_pickerVowel);
+			ExplorerBarItem item = Add(m_pickerVowel);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.VowelsCharChooserHeading", null,
+				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels", null, null,
 				"Text on heading above list of vowels from which to choose in side bar " +
 				"of search and XY chart views.", kLocalizationGroup,
 				LocalizationCategory.Other, LocalizationPriority.High);
@@ -329,10 +329,10 @@ namespace SIL.Pa.UI.Controls
 			m_pickerDiacritics.CheckItemsOnClick = false;
 			m_pickerDiacritics.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add("Diacritics", m_pickerDiacritics);
+			ExplorerBarItem item = Add(m_pickerDiacritics);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.DiacriticsCharChooserHeading", null,
+				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics", null, null,
 				"Text on heading above list of diacritics from which to choose in side bar " +
 				"of search and XY chart views.", kLocalizationGroup,
 				LocalizationCategory.Other, LocalizationPriority.High);
@@ -359,11 +359,11 @@ namespace SIL.Pa.UI.Controls
 			m_pickerSSeg.CheckItemsOnClick = false;
 			m_pickerSSeg.AutoSizeItems = true;
 	
-			ExplorerBarItem item = Add("Stress and Length\\n(Suprasegmentals)", m_pickerSSeg);
+			ExplorerBarItem item = Add(m_pickerSSeg);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.SSegsCharChooserHeading", null,
-				"Text on heading above list of suprasegmentals from which to choose " +
+				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
+				null, null, "Text on heading above list of suprasegmentals from which to choose " +
 				"in side bar of search and XY chart views.", kLocalizationGroup,
 				LocalizationCategory.Other, LocalizationPriority.High);
 
@@ -389,13 +389,13 @@ namespace SIL.Pa.UI.Controls
 			m_pickerTone.CheckItemsOnClick = false;
 			m_pickerTone.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add("Tone and Accents", m_pickerTone);
+			ExplorerBarItem item = Add(m_pickerTone);
 
 			LocalizationManager.LocalizeObject(item.Button,
-				"IPACharacterChooser.ToneCharChooserHeading", null, "Text on heading above " +
-				"list of tones and accents from which to choose in side bar of search and " +
-				"XY chart views.", kLocalizationGroup, LocalizationCategory.Other,
-				LocalizationPriority.High);
+				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents", null, null,
+				"Text on heading above list of tones and accents from which to choose " +
+				"in side bar of search and XY chart views.", kLocalizationGroup,
+				LocalizationCategory.Other, LocalizationPriority.High);
 
 			// Enlarge the font and cell size
 			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, m_bigFontSize);

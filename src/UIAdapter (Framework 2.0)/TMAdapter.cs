@@ -1753,10 +1753,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				itemProps.Tooltip = cmdInfo.ToolTip;
 				itemProps.Image = cmdInfo.Image;
 
-				if (cmdInfo.ShortcutKey != Keys.None && item is ToolStripMenuItem)
+				if (cmdInfo.ShortcutKey != Keys.None)
 				{
 					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
-					((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
+
+					if (item is ToolStripMenuItem)
+						((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
 				}
 			}
 

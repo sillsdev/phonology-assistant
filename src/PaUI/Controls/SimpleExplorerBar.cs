@@ -56,9 +56,9 @@ namespace SIL.Pa.UI.Controls
 		/// Adds an ExplorerBarItem with the specified text and hosting the specified control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExplorerBarItem Add(string text, Control control)
+		public ExplorerBarItem Add(Control control)
 		{
-			ExplorerBarItem item = new ExplorerBarItem(text, control);
+			ExplorerBarItem item = new ExplorerBarItem(null, control);
 			Add(item);
 			return item;
 		}

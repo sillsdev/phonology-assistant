@@ -40,10 +40,22 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static object CreateClassInstance(Assembly assembly, string className)
 		{
+			return CreateClassInstance(assembly, className, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static object CreateClassInstance(Assembly assembly, string className, object[] args)
+		{
 			try
 			{
 				// First, take a stab at creating the instance with the specified name.
-				object instance = assembly.CreateInstance(className);
+				object instance = assembly.CreateInstance(className, false,
+					BindingFlags.CreateInstance, null, args, null, null);
+				
 				if (instance != null)
 					return instance;
 
@@ -55,7 +67,10 @@ namespace SilUtils
 				foreach (Type type in types)
 				{
 					if (type.Name == className)
-						return assembly.CreateInstance(type.FullName);
+					{
+						return assembly.CreateInstance(type.FullName, false,
+							BindingFlags.CreateInstance, null, args, null, null);
+					}
 				}
 			}
 			catch { }

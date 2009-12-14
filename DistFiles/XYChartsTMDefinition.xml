@@ -117,15 +117,15 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdSaveChartOnMenu" message="SaveChart" shortcutkey="Ctrl+S" image="CmdSaveChart"/>
 		<command id="CmdSaveChartAs" message="SaveChartAs"/>
 		<command id="CmdClearChart" message="ClearChart" shortcutkey="Alt+C"/>
-		<command id="CmdFind" message="EditFind"/>
-		<command id="CmdFindNext" message="EditFindNext"/>
-		<command id="CmdFindPrevious" message="EditFindPrevious"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField"/>
-		<command id="CmdExpandAllGroups" message="ExpandAllGroups"/>
-		<command id="CmdCollapseAllGroups" message="CollapseAllGroups"/>
-		<command id="CmdShowCIEResults" message="ShowCIEResults"/>
+		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
+		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
+		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" shortcutkey="Ctrl+G"/>
+		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
+		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
+		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
-		<command id="CmdPlayback" message="Playback"/>
+		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
