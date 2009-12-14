@@ -117,7 +117,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdNewTab" message="NewTabInCurrentTabGroup" shortcutkey="Alt+N"/>
 		<command id="CmdInsertIntoPattern" shortcutkey="Alt+I"/>
 		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
-		<command id="CmdShowCIEResults" message="ShowCIEResults"/>
+		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
 		<command id="CmdVerifyPattern" message="VerifyPattern"/>
 		<command id="CmdSavePattern" message="SavePattern"/>
 		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="Ctrl+S" image="CmdSavePattern"/>
@@ -139,35 +139,31 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCopyToCurrentPattern" message="CopyToCurrentPattern"/>
 		<command id="CmdRemovePattern" message="RemovePattern"/>
 		<command id="CmdClearRecentPatternList" message="ClearRecentPatternList"/>
-
 		<command id="CmdNewTabInCurrentTabGroup" message="NewTabInCurrentTabGroup"/>
 		<command id="CmdNewTabInNewSideBySideTabGroup" message="NewTabInNewSideBySideTabGroup"/>
 		<command id="CmdNewTabInNewStackedTabGroup" message="NewTabInNewStackedTabGroup"/>
-
 		<command id="CmdShowResultsInCurrentTabGroup" message="ShowResultsInCurrentTabGroup"/>
 		<command id="CmdShowResultsInNewSideBySideTabGroup" message="ShowResultsInNewSideBySideTabGroup"/>
 		<command id="CmdShowResultsInNewStackedTabGroup" message="ShowResultsInNewStackedTabGroup"/>
-
 		<command id="CmdMoveToNewSideBySideTabGroup" message="MoveToNewSideBySideTabGroup" image="CmdAddResultsToNewSideBySideTabGroup"/>
 		<command id="CmdMoveToNewStackedTabGroup" message="MoveToNewStackedTabGroup" image="CmdAddResultsToNewStackedTabGroup"/>
 		<command id="CmdCloseTab" message="CloseTab"/>
 		<command id="CmdCloseTabGroup" message="CloseTabGroup"/>
 		<command id="CmdCloseAllTabGroups" message="CloseAllTabGroups"/>
-
-		<command id="CmdFind" message="EditFind"/>
-		<command id="CmdFindNext" message="EditFindNext"/>
-		<command id="CmdFindPrevious" message="EditFindPrevious"/>
+		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
+		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
+		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
-		<command id="CmdPlayback" message="Playback"/>
+		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
+		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
 		<command id="CmdAdjustPlaybackSpeedParent" message="AdjustPlaybackSpeedParent"/>
 		<command id="CmdAdjustPlaybackSpeed" message="AdjustPlaybackSpeed"/>
-		<command id="CmdStopPlayback" message="StopPlayback" shortcutkey="F8"/>
-		<command id="CmdPhoneticSort" message="SearchResultPhoneticSort" category="kstidViewCategory"/>
-		<command id="CmdGroupBySortedField" message="GroupBySortedField"/>
-		<command id="CmdExpandAllGroups" message="ExpandAllGroups"/>
-		<command id="CmdCollapseAllGroups" message="CollapseAllGroups"/>
+		<command id="CmdPhoneticSort" message="SearchResultPhoneticSort"/>
+		<command id="CmdGroupBySortedField" message="GroupBySortedField" shortcutkey="Ctrl+G"/>
+		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
+		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.FF.TBDef">
