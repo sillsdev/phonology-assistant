@@ -175,8 +175,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.pnlSideBarCaption, "pnlSideBarCaption");
 			this.pnlSideBarCaption.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
-			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSideBarCaption, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, "Caption at the top of the side bar in the XY Charts view.");
 			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "XYChartVw.pnlSideBarCaption");
 			this.pnlSideBarCaption.MakeDark = false;
 			this.pnlSideBarCaption.MnemonicGeneratesClick = false;

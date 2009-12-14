@@ -23,7 +23,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	{
 		internal string Message;
 		internal string TextId;
-		internal string Text = "?Unknown?";
+		internal string Text;
 		internal string TextAltId;
 		internal string TextAlt;
 		internal string ContextMenuTextId;
@@ -36,6 +36,20 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		internal string StatusMsg;
 		internal Keys ShortcutKey = Keys.None;
 		internal Image Image;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether this instance is empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal bool IsEmpty
+		{
+			get 
+			{
+				return Message == null && Text == null &&
+					ToolTip == null && ShortcutKey == Keys.None;
+			}
+		}
 	}
 
 	#endregion
@@ -895,7 +909,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					cmdInfo.ContextMenuText = GetStringFromResource(cmdInfo.ContextMenuTextId);
 
 				if (cmdInfo.ToolTipId != null)
-					cmdInfo.ToolTip = GetStringFromResource(cmdInfo.ToolTipId, null);
+					cmdInfo.ToolTip = GetStringFromResource(cmdInfo.ToolTipId);
 
 				if (cmdInfo.StatusMsgId != null)
 					cmdInfo.StatusMsg = GetStringFromResource(cmdInfo.ToolTipId);
@@ -1756,9 +1770,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (cmdInfo.ShortcutKey != Keys.None)
 				{
 					itemProps.ShortcutKey = cmdInfo.ShortcutKey;
-
-					if (item is ToolStripMenuItem)
-						((ToolStripMenuItem)item).ShortcutKeys = cmdInfo.ShortcutKey;
+					ReflectionHelper.SetProperty(item, "ShortcutKeys", cmdInfo.ShortcutKey);
 				}
 			}
 
@@ -1800,9 +1812,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
 
-			if (LocalizeItem != null)
+			if (LocalizeItem != null && !cmdInfo.IsEmpty)
 			{
 				string id = commandid;
+
 				if (id.StartsWith("Cmd"))
 					id = id.Substring(3);
 
@@ -1844,7 +1857,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (item is ToolStripComboBox)
 				return "ToolbarComboBoxes." + id;
 
-			return id;
+			return "OtherToolbarItem." + id;
 		}
 
 		#endregion
@@ -2466,16 +2479,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		protected string GetStringFromResource(string kstid)
 		{
-			return GetStringFromResource(kstid, kstid);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected string GetStringFromResource(string kstid, string defaultValue)
-		{
 			if (kstid == null || kstid.Trim() == string.Empty)
 				return null;
 
@@ -2488,9 +2491,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					break;
 			}
 				
-			if (string.IsNullOrEmpty(localizedStr))
-				localizedStr = defaultValue;
-			
 			return (localizedStr != null ? localizedStr.Trim() : null);
 		}
 

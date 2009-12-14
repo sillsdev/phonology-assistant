@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Dialogs
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
 						"Phones", "Phone class type label.", PaApp.kLocalizationGroupMisc,
-						LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
+						LocalizationCategory.Label, LocalizationPriority.High);
 					
 					break;
 
@@ -137,7 +137,7 @@ namespace SIL.Pa.UI.Dialogs
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString(
 						"ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
 						"Articulatory features class type label.", PaApp.kLocalizationGroupMisc,
-						LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
+						LocalizationCategory.Label, LocalizationPriority.High);
 
 					break;
 				
@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Dialogs
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
 						"Binary features", "Binary features class type label.",
-						PaApp.kLocalizationGroupMisc, LocalizationCategory.TextBoxOrLabel,
+						PaApp.kLocalizationGroupMisc, LocalizationCategory.Label,
 						LocalizationPriority.High);
 		
 					break;

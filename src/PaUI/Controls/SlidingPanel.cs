@@ -4,9 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Threading;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
 using SilUtils.Controls;
-using Timer=System.Windows.Forms.Timer;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -26,9 +24,9 @@ namespace SIL.Pa.UI.Controls
 		private SizingLine m_sizingLine;
 		private Label m_lblTab;
 		private SilPanel m_pnlContainer;
-		private Timer m_tmrMouseLocationMonitor;
-		private Timer m_tmrCloser;
-		private Timer m_tmrOpener;
+		private System.Windows.Forms.Timer m_tmrMouseLocationMonitor;
+		private System.Windows.Forms.Timer m_tmrCloser;
+		private System.Windows.Forms.Timer m_tmrOpener;
 		private readonly Panel m_pnlPlaceholder;
 		private readonly Control m_hostedControl;
 		private readonly Control m_owningContainer;
@@ -41,8 +39,8 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SlidingPanel(string id, Control owningContainer, Control control,
-			Panel pnlPlaceHolder, string settingName)
+		public SlidingPanel(Control owningContainer, Control control, Panel pnlPlaceHolder,
+			string settingName)
 		{
 			SuspendLayout();
 			base.DoubleBuffered = true;
@@ -69,8 +67,6 @@ namespace SIL.Pa.UI.Controls
 			m_hostedControl.ResumeLayout(false);
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
-
-			LocalizationManager.LocalizeObject(m_lblTab, id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,15 +128,15 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetupTimers()
 		{
-			m_tmrMouseLocationMonitor = new Timer();
+			m_tmrMouseLocationMonitor = new System.Windows.Forms.Timer();
 			m_tmrMouseLocationMonitor.Interval = 1;
 			m_tmrMouseLocationMonitor.Tick += m_tmrMouseLocationMonitor_Tick;
 
-			m_tmrCloser = new Timer();
+			m_tmrCloser = new System.Windows.Forms.Timer();
 			m_tmrCloser.Interval = 1000;
 			m_tmrCloser.Tick += m_tmrCloser_Tick;
 
-			m_tmrOpener = new Timer();
+			m_tmrOpener = new System.Windows.Forms.Timer();
 			m_tmrOpener.Interval = 400;
 			m_tmrOpener.Tick += m_tmrOpener_Tick;
 		}

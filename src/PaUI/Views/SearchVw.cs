@@ -257,14 +257,13 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			LocalizationManager.LocalizeObject(pnlSideBarCaption,
-				"kstidSearchVwDockedSideBarHeadingText");
-
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel("kstidSearchVwUndockedSideBarTabText", this,
-				splitSideBarOuter, pnlSliderPlaceholder, Name);
+			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+			LocalizationManager.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
+				"Patterns & Pattern Building", null, null, "Text on vertical tab when the side " +
+				"bar is undocked in the search view.", "Views", LocalizationPriority.High);
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);

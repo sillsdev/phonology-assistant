@@ -311,14 +311,14 @@ namespace SIL.Pa.UI.Views
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
 
-			LocalizationManager.LocalizeObject(pnlSideBarCaption,
-				"kstidXYChartsVwDockedSideBarHeadingText");
-
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel("kstidXYChartsVwUndockedSideBarTabText", this,
-				splitSideBarOuter, pnlSliderPlaceholder, Name);
+			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+
+			LocalizationManager.LocalizeObject(m_slidingPanel.Tab, "XYChartVw.UndockedSideBarTabText",
+				"Charts & Chart Building", null, null, "Text on vertical tab when the side " +
+				"bar is undocked in the XY charts view.", "Views", LocalizationPriority.High);
 
 			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();

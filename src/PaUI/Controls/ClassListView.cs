@@ -274,10 +274,9 @@ namespace SIL.Pa.UI.Controls
 			ColumnHeader hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
-			hdr.Text = "Name";
-			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg",
+			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", null,
 				null, "Name column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				LocalizationPriority.High);
 			
 			Columns.Add(hdr);
 
@@ -296,10 +295,9 @@ namespace SIL.Pa.UI.Controls
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kMemberSubitem;
 				hdr.Width = 205;
-				hdr.Text = "Members";
-				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg",
+				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", null,
 					 null, "Members column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
-					 LocalizationCategory.Other, LocalizationPriority.High);
+					 LocalizationPriority.High);
 				
 				Columns.Add(hdr);
 
@@ -307,10 +305,9 @@ namespace SIL.Pa.UI.Controls
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kBasedOnSubitem;
 				hdr.Width = 175;
-				hdr.Text = "Type";
-				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg",
+				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", null,
 					 null, "Type column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
-					 LocalizationCategory.Other, LocalizationPriority.High);
+					 LocalizationPriority.High);
 				
 				Columns.Add(hdr);
 			}

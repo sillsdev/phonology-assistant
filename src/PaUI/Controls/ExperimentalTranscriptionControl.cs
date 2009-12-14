@@ -68,15 +68,14 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			lblSourceHdg.Text = "Transcribed in source as:";
 			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTranscriptionsDlg.Heading1",
-				null, "Heading in experimental transcriptions control.", "Dialog Boxes",
-				LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
+				"Transcribed in source as:", null, null, "Heading in experimental transcriptions control.",
+				"Dialog Boxes", LocalizationPriority.High);
 
-			lblTargetHdg.Text = "Convert to one of these options:";
 			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTranscriptionsDlg.Heading2",
-				null, "Heading in experimental transcriptions control.", "Dialog Boxes",
-				LocalizationCategory.TextBoxOrLabel, LocalizationPriority.High);
+				"Convert to one of these options:", null, null,
+				"Heading in experimental transcriptions control.", "Dialog Boxes",
+				LocalizationPriority.High);
 
 			BuildGrid();
 			LoadGrid();

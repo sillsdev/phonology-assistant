@@ -143,12 +143,12 @@
   <data name="&gt;&gt;splitResults.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="rtfRecVw.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>116, 17</value>
   </metadata>
+  <data name="rtfRecVw.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
   <data name="rtfRecVw.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>
@@ -169,7 +169,7 @@
     <value>rtfRecVw</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Parent" xml:space="preserve">
     <value>pnlRecView</value>
@@ -183,6 +183,9 @@
   <data name="pnlRecView.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12world</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>116, 17</value>
+  </metadata>
   <data name="pnlRecView.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -258,23 +261,11 @@
   <data name="splitSideBarOuter.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="ptrnBldrComponent.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ptrnBldrComponent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 4</value>
-  </data>
-  <data name="ptrnBldrComponent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 222</value>
-  </data>
-  <data name="ptrnBldrComponent.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;ptrnBldrComponent.Name" xml:space="preserve">
     <value>ptrnBldrComponent</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
     <value>pnlTabClassDef</value>
@@ -339,7 +330,7 @@
     <value>btnDock</value>
   </data>
   <data name="&gt;&gt;btnDock.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDock.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -365,7 +356,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAutoHide.Location" type="System.Drawing.Point, System.Drawing">
-    <value>63, 2</value>
+    <value>134, 2</value>
   </data>
   <data name="btnAutoHide.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -377,7 +368,7 @@
     <value>btnAutoHide</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -388,9 +379,6 @@
   <data name="pnlSideBarCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <data name="pnlSideBarCaption.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
-  </data>
   <data name="pnlSideBarCaption.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -399,6 +387,9 @@
   </data>
   <data name="pnlSideBarCaption.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="pnlSideBarCaption.Text" xml:space="preserve">
+    <value>Charts &amp;&amp; Chart Building</value>
   </data>
   <data name="&gt;&gt;pnlSideBarCaption.Name" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -467,7 +458,7 @@
     <value>btnRemoveSavedChart</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRemoveSavedChart.Parent" xml:space="preserve">
     <value>hlblSavedCharts</value>
@@ -477,9 +468,6 @@
   </data>
   <data name="hlblSavedCharts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
-  </data>
-  <data name="hlblSavedCharts.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="hlblSavedCharts.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -497,7 +485,7 @@
     <value>hlblSavedCharts</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblSavedCharts.Parent" xml:space="preserve">
     <value>pnlSavedCharts</value>
@@ -635,7 +623,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblChartNameValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 370</value>
+    <value>89, 398</value>
   </data>
   <data name="lblChartNameValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 20</value>
@@ -746,6 +734,30 @@
     <value>pnlOuter</value>
   </data>
   <data name="&gt;&gt;splitOuter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ptrnBldrComponent.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ptrnBldrComponent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 4</value>
+  </data>
+  <data name="ptrnBldrComponent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 222</value>
+  </data>
+  <data name="ptrnBldrComponent.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ptrnBldrComponent.Name" xml:space="preserve">
+    <value>ptrnBldrComponent</value>
+  </data>
+  <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
+    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
+    <value>pnlTabClassDef</value>
+  </data>
+  <data name="&gt;&gt;ptrnBldrComponent.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="pnlSliderPlaceholder.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

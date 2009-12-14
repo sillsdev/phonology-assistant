@@ -16,8 +16,7 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class IPACharacterExplorer : SimpleExplorerBar
 	{
-		private const string kLocalizationGroup =
-			PaApp.kLocalizationGroupUICtrls;
+		private const int kBigFontSize = 19;
 
 		public event CharPicker.CharPickedHandler CharPicked;
 		public event CharPicker.ShouldLoadCharHandler ShouldLoadChar;
@@ -31,7 +30,6 @@ namespace SIL.Pa.UI.Controls
 		private CharPicker m_pickerDiacritics;
 		private CharPicker m_pickerTone;
 		private List<IPACharacterTypeInfo> m_typesToShow;
-		private readonly int m_bigFontSize = 19;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -233,8 +231,8 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button, 
 				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", null, null,
 				"Text on heading above list of consonants from which to choose " +
-				"in side bar of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -258,8 +256,8 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", null, null,
 				"Text on heading above list of non pulmonic consonants from which to " +
-				"choose in side bar of search and XY chart views.", kLocalizationGroup, 
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"choose in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls, 
+				LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -283,8 +281,8 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols", null, null,
 				"Text on heading above list of other symbols from which to choose " +
-				"in side bar of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -308,8 +306,8 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels", null, null,
 				"Text on heading above list of vowels from which to choose in side bar " +
-				"of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 		}
         
 		/// ------------------------------------------------------------------------------------
@@ -334,11 +332,11 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics", null, null,
 				"Text on heading above list of diacritics from which to choose in side bar " +
-				"of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
-			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, m_bigFontSize);
+			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, kBigFontSize);
 			m_pickerDiacritics.ItemSize = new Size(40, 46);
 		}
 
@@ -364,11 +362,11 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
 				null, null, "Text on heading above list of suprasegmentals from which to choose " +
-				"in side bar of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
-			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, m_bigFontSize);
+			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, kBigFontSize);
 			m_pickerSSeg.ItemSize = new Size(40, 46);
 		}
 
@@ -394,11 +392,11 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents", null, null,
 				"Text on heading above list of tones and accents from which to choose " +
-				"in side bar of search and XY chart views.", kLocalizationGroup,
-				LocalizationCategory.Other, LocalizationPriority.High);
+				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
-			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, m_bigFontSize);
+			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, kBigFontSize);
 			m_pickerTone.ItemSize = new Size(40, 46);
 		}
 

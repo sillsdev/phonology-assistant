@@ -1234,8 +1234,7 @@ namespace SIL.Pa
 		{
 			LocalizationManager.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
 				ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-				kLocalizationGroupTMItems, LocalizationCategory.ToolbarMenuOrStatusBarItem,
-				LocalizationPriority.High);
+				kLocalizationGroupTMItems, LocalizationPriority.High);
 		}
 
 		/// ------------------------------------------------------------------------------------
