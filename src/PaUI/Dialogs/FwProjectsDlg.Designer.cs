@@ -161,7 +161,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.FieldWorks Projects";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// FwProjectsDlg
 			// 
@@ -170,7 +170,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitContainer1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FwProjectsDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "FwProjectsDlg.WindowTitle");
 			this.Name = "FwProjectsDlg";
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
 			this.Controls.SetChildIndex(this.lblMsg, 0);

@@ -28,6 +28,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwDataSourcePropertiesDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblProjectValue = new System.Windows.Forms.Label();
@@ -38,11 +39,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
 			this.m_grid = new SilUtils.SilGrid();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.grpPhoneticDataStoreType.SuspendLayout();
 			this.grpWritingSystems.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -51,14 +54,23 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnCancel
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizingId(this.btnCancel, "FwDataSourcePropertiesDlg.btnCancel");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizingId(this.btnOK, "FwDataSourcePropertiesDlg.btnOK");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizingId(this.btnHelp, "FwDataSourcePropertiesDlg.btnHelp");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lblProjectValue
@@ -66,12 +78,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjectValue.AutoEllipsis = true;
 			resources.ApplyResources(this.lblProjectValue, "lblProjectValue");
 			this.lblProjectValue.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
+			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
+			this.locExtender.SetLocalizationPriority(this.lblProjectValue, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblProjectValue, "FwDataSourcePropertiesDlg.lblProjectValue");
 			this.lblProjectValue.Name = "lblProjectValue";
 			// 
 			// lblProject
 			// 
 			resources.ApplyResources(this.lblProject, "lblProject");
 			this.lblProject.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblProject, null);
+			this.locExtender.SetLocalizationComment(this.lblProject, "Label at top of FieldWorks data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblProject, "FwDataSourcePropertiesDlg.lblProject");
 			this.lblProject.Name = "lblProject";
 			// 
 			// panel1
@@ -85,12 +104,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpPhoneticDataStoreType.Controls.Add(this.rbPronunField);
 			this.grpPhoneticDataStoreType.Controls.Add(this.rbLexForm);
 			resources.ApplyResources(this.grpPhoneticDataStoreType, "grpPhoneticDataStoreType");
+			this.locExtender.SetLocalizableToolTip(this.grpPhoneticDataStoreType, null);
+			this.locExtender.SetLocalizationComment(this.grpPhoneticDataStoreType, "Text of frame around radio buttons on FieldWorks data source properties dialog bo" +
+					"x.");
+			this.locExtender.SetLocalizingId(this.grpPhoneticDataStoreType, "FwDataSourcePropertiesDlg.grpPhoneticDataStoreType");
 			this.grpPhoneticDataStoreType.Name = "grpPhoneticDataStoreType";
 			this.grpPhoneticDataStoreType.TabStop = false;
 			// 
 			// rbPronunField
 			// 
 			resources.ApplyResources(this.rbPronunField, "rbPronunField");
+			this.locExtender.SetLocalizableToolTip(this.rbPronunField, null);
+			this.locExtender.SetLocalizationComment(this.rbPronunField, "Radio button text on FieldWorks data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.rbPronunField, "FwDataSourcePropertiesDlg.rbPronunField");
 			this.rbPronunField.Name = "rbPronunField";
 			this.rbPronunField.TabStop = true;
 			this.rbPronunField.UseVisualStyleBackColor = true;
@@ -99,6 +125,9 @@ namespace SIL.Pa.UI.Dialogs
 			// rbLexForm
 			// 
 			resources.ApplyResources(this.rbLexForm, "rbLexForm");
+			this.locExtender.SetLocalizableToolTip(this.rbLexForm, null);
+			this.locExtender.SetLocalizationComment(this.rbLexForm, "Radiobutton text on FieldWorks data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.rbLexForm, "FwDataSourcePropertiesDlg.rbLexForm");
 			this.rbLexForm.Name = "rbLexForm";
 			this.rbLexForm.TabStop = true;
 			this.rbLexForm.UseVisualStyleBackColor = true;
@@ -108,6 +137,10 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.grpWritingSystems, "grpWritingSystems");
 			this.grpWritingSystems.Controls.Add(this.m_grid);
+			this.locExtender.SetLocalizableToolTip(this.grpWritingSystems, null);
+			this.locExtender.SetLocalizationComment(this.grpWritingSystems, "Text of frame around the list of writing systems on FieldWorks data source proper" +
+					"ties dialog box.");
+			this.locExtender.SetLocalizingId(this.grpWritingSystems, "FwDataSourcePropertiesDlg.grpWritingSystems");
 			this.grpWritingSystems.Name = "grpWritingSystems";
 			this.grpWritingSystems.TabStop = false;
 			// 
@@ -133,6 +166,10 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.m_grid, "m_grid");
 			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_grid.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
+			this.locExtender.SetLocalizationComment(this.m_grid, null);
+			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_grid, "FwDataSourcePropertiesDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
 			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -142,6 +179,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.WaterMark = "";
 			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEnter);
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dailog Boxes";
+			// 
 			// FwDataSourcePropertiesDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -150,6 +191,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.lblProject);
 			this.Controls.Add(this.lblProjectValue);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "FwDataSourcePropertiesDlg.WindowTitle");
 			this.Name = "FwDataSourcePropertiesDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
 			this.Controls.SetChildIndex(this.lblProjectValue, 0);
@@ -163,6 +207,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpPhoneticDataStoreType.PerformLayout();
 			this.grpWritingSystems.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -178,5 +223,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
 		private SilUtils.SilGrid m_grid;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

@@ -137,6 +137,8 @@ namespace SIL.Pa
 			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
 			s_msgMediator = new Mediator();
 
+			string appName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
+			LocalizationManager.Initialize(appName, "SIL", Application.ProductName);
 			string langId = s_settingsHndlr.GetStringSettingsValue("UserInterface", "lang", null);
 			LocalizationManager.UILangId = langId ?? LocalizationManager.kDefaultLang;
 

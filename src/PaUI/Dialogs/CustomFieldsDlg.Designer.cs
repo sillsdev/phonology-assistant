@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes.Custom Fields";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// CustomFieldsDlg
 			// 
@@ -82,7 +82,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.lblInfo);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "CustomFieldsDlg");
+			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "CustomFieldsDlg.WindowTitle");
 			this.Name = "CustomFieldsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lblInfo, 0);

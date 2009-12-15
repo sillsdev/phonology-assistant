@@ -129,6 +129,9 @@
   <data name="lblFindWhat.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="lblFindWhat.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 7</value>
   </data>
@@ -213,34 +216,34 @@
   <data name="&gt;&gt;chkMatchCase.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="btnFind1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="btnFind.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="btnFind1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="btnFind.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnFind1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="btnFind.Location" type="System.Drawing.Point, System.Drawing">
     <value>168, 7</value>
   </data>
-  <data name="btnFind1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btnFind.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
   </data>
-  <data name="btnFind1.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnFind.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="btnFind1.Text" xml:space="preserve">
+  <data name="btnFind.Text" xml:space="preserve">
     <value>Find</value>
   </data>
-  <data name="&gt;&gt;btnFind1.Name" xml:space="preserve">
-    <value>btnFind1</value>
+  <data name="&gt;&gt;btnFind.Name" xml:space="preserve">
+    <value>btnFind</value>
   </data>
-  <data name="&gt;&gt;btnFind1.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnFind.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnFind1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnFind.Parent" xml:space="preserve">
     <value>pnlButtons</value>
   </data>
-  <data name="&gt;&gt;btnFind1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnFind.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="cboFindWhat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -598,7 +601,7 @@
     <value>fldSelGridSrchCols</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Type" xml:space="preserve">
-    <value>SIL.Pa.FieldSelectorGrid, PaUI, Version=1.1.3622.38217, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3635.42408, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Parent" xml:space="preserve">
     <value>pnlColumnOptions</value>
@@ -644,6 +647,12 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Find</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FindDlg</value>

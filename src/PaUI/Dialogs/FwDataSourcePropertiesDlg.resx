@@ -140,6 +140,9 @@
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>151, 7</value>
   </data>
@@ -204,7 +207,7 @@
     <value>76, 12</value>
   </data>
   <data name="lblProjectValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 15</value>
+    <value>14, 15</value>
   </data>
   <data name="lblProjectValue.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -234,7 +237,7 @@
     <value>13, 12</value>
   </data>
   <data name="lblProject.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 15</value>
+    <value>48, 15</value>
   </data>
   <data name="lblProject.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -264,7 +267,7 @@
     <value>10, 53</value>
   </data>
   <data name="rbPronunField.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 19</value>
+    <value>159, 19</value>
   </data>
   <data name="rbPronunField.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -294,7 +297,7 @@
     <value>10, 28</value>
   </data>
   <data name="rbLexForm.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 19</value>
+    <value>127, 19</value>
   </data>
   <data name="rbLexForm.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -376,13 +379,13 @@
     <value>Fill</value>
   </data>
   <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 22</value>
+    <value>10, 21</value>
   </data>
   <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
   <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 186</value>
+    <value>297, 187</value>
   </data>
   <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -391,7 +394,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SIL.SpeechTools.Utils.SilGrid, SpeechToolsUtils, Version=1.0.2749.17425, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>grpWritingSystems</value>
@@ -444,10 +447,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>FieldWorks Data Source Properties</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FwDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2749.19961, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3635.42408, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

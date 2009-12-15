@@ -1857,7 +1857,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (item is ToolStripComboBox)
 				return "ToolbarComboBoxes." + id;
 
-			return "OtherToolbarItem." + id;
+			return "OtherToolbarItems." + id;
 		}
 
 		#endregion

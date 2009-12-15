@@ -286,7 +286,7 @@
     <value>tvNetwork</value>
   </data>
   <data name="&gt;&gt;tvNetwork.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.NetworkTreeView, PaUI, Version=1.1.3629.16595, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.NetworkTreeView, PaUI, Version=1.1.3635.42408, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tvNetwork.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -466,6 +466,6 @@
     <value>FwProjectsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3629.16595, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3635.42408, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

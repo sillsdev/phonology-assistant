@@ -138,8 +138,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>229, 17</value>
+  </metadata>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>386, 7</value>
   </data>
@@ -219,7 +222,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblProjName.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="lblTranscriber.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -250,7 +253,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblTranscriber.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="lblSpeaker.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -280,7 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblSpeaker.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="lblComments.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -310,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblComments.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="txtProjName.Location" type="System.Drawing.Point, System.Drawing">
     <value>130, 12</value>
@@ -331,7 +334,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtProjName.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="txtTranscriber.Location" type="System.Drawing.Point, System.Drawing">
     <value>130, 64</value>
@@ -352,7 +355,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtTranscriber.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="txtSpeaker.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -376,7 +379,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtSpeaker.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="txtComments.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -406,11 +409,8 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtComments.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
-  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="btnAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -435,9 +435,6 @@
   <data name="btnAdd.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
     <value>TextBeforeImage</value>
   </data>
-  <data name="btnAdd.ToolTip" xml:space="preserve">
-    <value>Add a new data source</value>
-  </data>
   <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
     <value>btnAdd</value>
   </data>
@@ -448,7 +445,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="btnRemove.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -465,9 +462,6 @@
   <data name="btnRemove.Text" xml:space="preserve">
     <value>&amp;Remove</value>
   </data>
-  <data name="btnRemove.ToolTip" xml:space="preserve">
-    <value>Remove the selected data source(s)</value>
-  </data>
   <data name="&gt;&gt;btnRemove.Name" xml:space="preserve">
     <value>btnRemove</value>
   </data>
@@ -478,7 +472,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnRemove.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="btnCustomFields.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -498,9 +492,6 @@
   <data name="btnCustomFields.Text" xml:space="preserve">
     <value>Custom &amp;Fields...</value>
   </data>
-  <data name="btnCustomFields.ToolTip" xml:space="preserve">
-    <value>Define custom fields</value>
-  </data>
   <data name="&gt;&gt;btnCustomFields.Name" xml:space="preserve">
     <value>btnCustomFields</value>
   </data>
@@ -511,7 +502,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnCustomFields.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnProperties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -531,9 +522,6 @@
   <data name="btnProperties.Text" xml:space="preserve">
     <value>&amp;Properties...</value>
   </data>
-  <data name="btnProperties.ToolTip" xml:space="preserve">
-    <value>Modify data source properties</value>
-  </data>
   <data name="&gt;&gt;btnProperties.Name" xml:space="preserve">
     <value>btnProperties</value>
   </data>
@@ -544,7 +532,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="txtLanguage.Location" type="System.Drawing.Point, System.Drawing">
     <value>130, 38</value>
@@ -565,7 +553,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtLanguage.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblLanguage.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -595,20 +583,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lblLanguage.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>129, 17</value>
   </metadata>
-  <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 48</value>
-  </data>
-  <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
-    <value>cmnuAdd</value>
-  </data>
-  <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="cmnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 22</value>
   </data>
@@ -620,6 +599,15 @@
   </data>
   <data name="cmnuAddFwDataSource.Text" xml:space="preserve">
     <value>&amp;FieldWorks Data Source...</value>
+  </data>
+  <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 70</value>
+  </data>
+  <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
+    <value>cmnuAdd</value>
+  </data>
+  <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="pnlGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -673,7 +661,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -697,13 +685,13 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.1.3615.17589, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pnlGrid.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -723,12 +711,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Project Settings</value>
   </data>
-  <data name="&gt;&gt;m_toolTip.Name" xml:space="preserve">
-    <value>m_toolTip</value>
-  </data>
-  <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;cmnuAddOtherDataSource.Name" xml:space="preserve">
     <value>cmnuAddOtherDataSource</value>
   </data>
@@ -741,10 +723,16 @@
   <data name="&gt;&gt;cmnuAddFwDataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.1.3615.17926, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3635.43013, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

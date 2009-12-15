@@ -50,7 +50,7 @@ namespace SIL.Pa.UI.Dialogs
 				cboFindWhat.Items.Add(searchPattern);
 
 			LoadSettings();
-			btnFind1.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
 			chkSrchCollapsedGrps.Enabled = grid.IsGroupedByField || grid.Cache.IsCIEList;
 
 			// Will prevent opening more than one FindDlg instance.
@@ -197,7 +197,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Call FindInfo to find matching cells based on the search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnFind(object sender, EventArgs e)
+		private void btnFind_Click(object sender, EventArgs e)
 		{
 			if (!m_findWhatItems.Contains(cboFindWhat.Text))
 				m_findWhatItems.Add(cboFindWhat.Text);
@@ -260,7 +260,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Enable the Find button if any columns are checked
-			btnFind1.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0); 
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0); 
 		}
 		
 		/// ----------------------------------------------------------------------------------------
