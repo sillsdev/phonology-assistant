@@ -849,10 +849,6 @@ namespace SIL.Pa.UI.Views
 
 			if (ptrnTextBox.Top != 5)
 				ptrnTextBox.Top = 5;
-
-			int top = (int)Math.Ceiling((pnlCurrPattern.Height - lblCurrPattern.Height) / 2f) + 1;
-			if (top != lblCurrPattern.Top)
-				lblCurrPattern.Top = top;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1423,7 +1419,6 @@ namespace SIL.Pa.UI.Views
 			tvSavedPatterns.Font = FontHelper.PhoneticFont;
 			lblCurrPattern.Font = FontHelper.UIFont;
 
-			lblCurrPattern.Size = lblCurrPattern.PreferredSize;
 			pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();
 

@@ -154,7 +154,7 @@
     <value>ptrnBldrComponent</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PatternBuilderComponents, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnBldrComponent.Parent" xml:space="preserve">
     <value>pnlTabClassDef</value>
@@ -219,7 +219,7 @@
     <value>btnDock</value>
   </data>
   <data name="&gt;&gt;btnDock.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnDock.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -257,7 +257,7 @@
     <value>btnAutoHide</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.AutoHideDockButton, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAutoHide.Parent" xml:space="preserve">
     <value>pnlSideBarCaption</value>
@@ -267,6 +267,9 @@
   </data>
   <data name="pnlSideBarCaption.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
+  </data>
+  <data name="pnlSideBarCaption.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11world</value>
   </data>
   <data name="pnlSideBarCaption.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -365,7 +368,7 @@
     <value>btnClearRecentList</value>
   </data>
   <data name="&gt;&gt;btnClearRecentList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnClearRecentList.Parent" xml:space="preserve">
     <value>hlblRecentPatterns</value>
@@ -395,7 +398,7 @@
     <value>btnRemoveFromRecentList</value>
   </data>
   <data name="&gt;&gt;btnRemoveFromRecentList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnRemoveFromRecentList.Parent" xml:space="preserve">
     <value>hlblRecentPatterns</value>
@@ -425,7 +428,7 @@
     <value>hlblRecentPatterns</value>
   </data>
   <data name="&gt;&gt;hlblRecentPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblRecentPatterns.Parent" xml:space="preserve">
     <value>pnlRecentPatterns</value>
@@ -497,7 +500,7 @@
     <value>tvSavedPatterns</value>
   </data>
   <data name="&gt;&gt;tvSavedPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SearchPatternTreeView, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SearchPatternTreeView, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tvSavedPatterns.Parent" xml:space="preserve">
     <value>pnlSavedPatterns</value>
@@ -527,7 +530,7 @@
     <value>btnCategoryNew</value>
   </data>
   <data name="&gt;&gt;btnCategoryNew.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryNew.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -557,7 +560,7 @@
     <value>btnCategoryCut</value>
   </data>
   <data name="&gt;&gt;btnCategoryCut.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryCut.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -587,7 +590,7 @@
     <value>btnCategoryPaste</value>
   </data>
   <data name="&gt;&gt;btnCategoryPaste.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryPaste.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -617,7 +620,7 @@
     <value>btnCategoryCopy</value>
   </data>
   <data name="&gt;&gt;btnCategoryCopy.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.XButton, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnCategoryCopy.Parent" xml:space="preserve">
     <value>hlblSavedPatterns</value>
@@ -647,7 +650,7 @@
     <value>hlblSavedPatterns</value>
   </data>
   <data name="&gt;&gt;hlblSavedPatterns.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.HeaderLabel, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblSavedPatterns.Parent" xml:space="preserve">
     <value>pnlSavedPatterns</value>
@@ -815,7 +818,7 @@
     <value>rtfRecVw</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.RtfRecordView, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rtfRecVw.Parent" xml:space="preserve">
     <value>pnlRecView</value>
@@ -998,7 +1001,7 @@
     <value>ptrnTextBox</value>
   </data>
   <data name="&gt;&gt;ptrnTextBox.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.PatternTextBox, PaUI, Version=1.1.3635.25883, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.PatternTextBox, PaUI, Version=1.1.3637.16989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;ptrnTextBox.Parent" xml:space="preserve">
     <value>pnlCurrPattern</value>
@@ -1007,7 +1010,7 @@
     <value>1</value>
   </data>
   <data name="lblCurrPattern.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left</value>
+    <value>Top, Bottom, Left</value>
   </data>
   <data name="lblCurrPattern.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt</value>
@@ -1016,16 +1019,19 @@
     <value>NoControl</value>
   </data>
   <data name="lblCurrPattern.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 6</value>
+    <value>8, 3</value>
   </data>
   <data name="lblCurrPattern.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 34</value>
+    <value>99, 39</value>
   </data>
   <data name="lblCurrPattern.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="lblCurrPattern.Text" xml:space="preserve">
     <value>C&amp;urrent\nSearch Pattern:</value>
+  </data>
+  <data name="lblCurrPattern.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;lblCurrPattern.Name" xml:space="preserve">
     <value>lblCurrPattern</value>
