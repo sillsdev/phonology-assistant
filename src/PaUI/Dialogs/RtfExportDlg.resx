@@ -117,74 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;rbToClipboard.Name" xml:space="preserve">
-    <value>rbToClipboard</value>
-  </data>
-  <data name="&gt;&gt;rbToClipboard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbToClipboard.Parent" xml:space="preserve">
-    <value>grpTarget</value>
-  </data>
-  <data name="&gt;&gt;rbToClipboard.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;rbToFileOpen.Name" xml:space="preserve">
-    <value>rbToFileOpen</value>
-  </data>
-  <data name="&gt;&gt;rbToFileOpen.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbToFileOpen.Parent" xml:space="preserve">
-    <value>grpTarget</value>
-  </data>
-  <data name="&gt;&gt;rbToFileOpen.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;rbToFile.Name" xml:space="preserve">
-    <value>rbToFile</value>
-  </data>
-  <data name="&gt;&gt;rbToFile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbToFile.Parent" xml:space="preserve">
-    <value>grpTarget</value>
-  </data>
-  <data name="&gt;&gt;rbToFile.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="grpTarget.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 10</value>
-  </data>
-  <data name="grpTarget.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 90</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="grpTarget.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="grpTarget.Text" xml:space="preserve">
-    <value>Export To</value>
-  </data>
-  <data name="&gt;&gt;grpTarget.Name" xml:space="preserve">
-    <value>grpTarget</value>
-  </data>
-  <data name="&gt;&gt;grpTarget.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpTarget.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;grpTarget.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="rbToClipboard.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="rbToClipboard.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="rbToClipboard.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 60</value>
   </data>
@@ -278,57 +221,33 @@
   <data name="&gt;&gt;rbToFile.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="grpTarget.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="grpTarget.Size" type="System.Drawing.Size, System.Drawing">
+    <value>236, 90</value>
+  </data>
+  <data name="grpTarget.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpTarget.Text" xml:space="preserve">
+    <value>Export To</value>
+  </data>
+  <data name="&gt;&gt;grpTarget.Name" xml:space="preserve">
+    <value>grpTarget</value>
+  </data>
+  <data name="&gt;&gt;grpTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpTarget.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpTarget.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="grpFormat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTabDelim.Name" xml:space="preserve">
-    <value>rbFmtTabDelim</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTabDelim.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTabDelim.Parent" xml:space="preserve">
-    <value>grpFormat</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTabDelim.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTable.Name" xml:space="preserve">
-    <value>rbFmtTable</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTable.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTable.Parent" xml:space="preserve">
-    <value>grpFormat</value>
-  </data>
-  <data name="&gt;&gt;rbFmtTable.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="grpFormat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>254, 10</value>
-  </data>
-  <data name="grpFormat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 90</value>
-  </data>
-  <data name="grpFormat.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="grpFormat.Text" xml:space="preserve">
-    <value>Format</value>
-  </data>
-  <data name="&gt;&gt;grpFormat.Name" xml:space="preserve">
-    <value>grpFormat</value>
-  </data>
-  <data name="&gt;&gt;grpFormat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpFormat.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;grpFormat.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="rbFmtTabDelim.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -394,6 +313,30 @@
     <value>grpFormat</value>
   </data>
   <data name="&gt;&gt;rbFmtTable.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="grpFormat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 10</value>
+  </data>
+  <data name="grpFormat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 90</value>
+  </data>
+  <data name="grpFormat.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="grpFormat.Text" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="&gt;&gt;grpFormat.Name" xml:space="preserve">
+    <value>grpFormat</value>
+  </data>
+  <data name="&gt;&gt;grpFormat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;grpFormat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;grpFormat.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="btnExport.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -545,6 +488,12 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Export to Rich Text Format</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>RtfExportDlg</value>

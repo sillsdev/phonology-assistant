@@ -1814,10 +1814,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (LocalizeItem != null && !cmdInfo.IsEmpty)
 			{
-				string id = commandid;
+				//string id = item.Name; // commandid;
 
-				if (id.StartsWith("Cmd"))
-					id = id.Substring(3);
+//				if (id.StartsWith("Cmd"))
+//					id = id.Substring(3);
 
 				if (item.DisplayStyle == ToolStripItemDisplayStyle.Image ||
 					item.DisplayStyle == ToolStripItemDisplayStyle.None)
@@ -1825,7 +1825,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					item.Text = string.Empty;
 				}
 
-				LocalizeItem(item, BuildLocalizationId(item, id), itemProps);
+				LocalizeItem(item, BuildLocalizationId(item), itemProps);
 			}
 
 			m_items[name] = item;
@@ -1836,28 +1836,18 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Builds the localization id for the specified item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string BuildLocalizationId(object item, string id)
+		private static string BuildLocalizationId(ToolStripItem item)
 		{
-			if (id == "ShowRecordPane")
-				System.Diagnostics.Debug.WriteLine("here");
+			if (item.Name.ToLowerInvariant().StartsWith("tbb"))
+				return "ToolbarItems." + item.Name.Substring(3);
 
+			if (item.Name.ToLowerInvariant().StartsWith("mnu"))
+				return "MenuItems." + item.Name.Substring(3);
 
-			if (item is ToolStripMenuItem || item is ToolStripDropDownItem ||
-				item is ToolStripDropDownMenu)
-			{
-				return "MenuItems." + id;
-			}
+			if (item.Name.ToLowerInvariant().StartsWith("cmnu"))
+				return "ContextMenuItems." + item.Name.Substring(4);
 
-			if (item is ToolStripButton || item is ToolStripSplitButton ||
-				item is ToolStripDropDownButton)
-			{
-				return "ToolbarButtons." + id;
-			}
-
-			if (item is ToolStripComboBox)
-				return "ToolbarComboBoxes." + id;
-
-			return "OtherToolbarItems." + id;
+			return "OtherToolbarItems." + item.Name;
 		}
 
 		#endregion

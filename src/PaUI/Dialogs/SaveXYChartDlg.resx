@@ -140,6 +140,9 @@
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 7</value>
   </data>
@@ -199,7 +202,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="txtName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 0</value>
+    <value>48, 0</value>
   </data>
   <data name="txtName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 5</value>
@@ -241,7 +244,7 @@
     <value>0, 0, 4, 5</value>
   </data>
   <data name="lblName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
+    <value>44, 20</value>
   </data>
   <data name="lblName.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -280,7 +283,7 @@
     <value>1</value>
   </data>
   <data name="tlpName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 25</value>
+    <value>397, 25</value>
   </data>
   <data name="tlpName.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -321,10 +324,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Save XY Chart</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SaveXYChartDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2524.21286, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3636.20399, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

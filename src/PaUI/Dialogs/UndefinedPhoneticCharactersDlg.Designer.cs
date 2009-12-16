@@ -30,11 +30,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedPhoneticCharactersDlg));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.chkIgnoreInSearches = new System.Windows.Forms.CheckBox();
 			this.chkShowUndefinedCharDlg = new System.Windows.Forms.CheckBox();
@@ -42,12 +43,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlSummary = new SilPanel();
+			this.pnlSummary = new SilUtils.Controls.SilPanel();
 			this.m_gridChars = new SilUtils.SilGrid();
-			this.pgpChars = new SilGradientPanel();
-			this.pnlDetails = new SilPanel();
+			this.pgpChars = new SilUtils.Controls.SilGradientPanel();
+			this.pnlDetails = new SilUtils.Controls.SilPanel();
 			this.m_gridWhere = new SilUtils.SilGrid();
-			this.pgpWhere = new SilGradientPanel();
+			this.pgpWhere = new SilUtils.Controls.SilGradientPanel();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -56,6 +58,7 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.m_gridChars)).BeginInit();
 			this.pnlDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_gridWhere)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -72,18 +75,30 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.chkIgnoreInSearches, "chkIgnoreInSearches");
 			this.chkIgnoreInSearches.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this.chkIgnoreInSearches, null);
+			this.locExtender.SetLocalizationComment(this.chkIgnoreInSearches, "Check box options on the dialog displaying undefined characters that were found w" +
+					"hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.chkIgnoreInSearches, "UndefinedPhoneticCharactersDlg.chkIgnoreInSearches");
 			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
 			this.chkIgnoreInSearches.UseVisualStyleBackColor = true;
 			// 
 			// chkShowUndefinedCharDlg
 			// 
 			resources.ApplyResources(this.chkShowUndefinedCharDlg, "chkShowUndefinedCharDlg");
+			this.locExtender.SetLocalizableToolTip(this.chkShowUndefinedCharDlg, null);
+			this.locExtender.SetLocalizationComment(this.chkShowUndefinedCharDlg, "Check box options on the dialog displaying undefined characters that were found w" +
+					"hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.chkShowUndefinedCharDlg, "UndefinedPhoneticCharactersDlg.chkShowUndefinedCharDlg");
 			this.chkShowUndefinedCharDlg.Name = "chkShowUndefinedCharDlg";
 			this.chkShowUndefinedCharDlg.UseVisualStyleBackColor = true;
 			// 
 			// btnHelp
 			// 
 			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on the dialog displaying undefined characters that were found when reading" +
+					" data sources.");
+			this.locExtender.SetLocalizingId(this.btnHelp, "UndefinedPhoneticCharactersDlg.btnHelp");
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.UseVisualStyleBackColor = true;
 			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
@@ -92,6 +107,10 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.btnOK, "btnOK");
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, "Button on the dialog displaying undefined characters that were found when reading" +
+					" data sources.");
+			this.locExtender.SetLocalizingId(this.btnOK, "UndefinedPhoneticCharactersDlg.btnOK");
 			this.btnOK.Name = "btnOK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -99,6 +118,10 @@ namespace SIL.Pa.UI.Dialogs
 			// lblInfo
 			// 
 			resources.ApplyResources(this.lblInfo, "lblInfo");
+			this.locExtender.SetLocalizableToolTip(this.lblInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblInfo, "Information label on the dialog displaying undefined characters that were found w" +
+					"hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.lblInfo, "UndefinedPhoneticCharactersDlg.lblInfo");
 			this.lblInfo.Name = "lblInfo";
 			// 
 			// splitContainer1
@@ -116,6 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlSummary
 			// 
+			this.pnlSummary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSummary.ClipTextForChildControls = true;
 			this.pnlSummary.ControlReceivingFocusOnMnemonic = null;
@@ -123,6 +147,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSummary.Controls.Add(this.pgpChars);
 			resources.ApplyResources(this.pnlSummary, "pnlSummary");
 			this.pnlSummary.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlSummary, null);
+			this.locExtender.SetLocalizationComment(this.pnlSummary, null);
+			this.locExtender.SetLocalizationPriority(this.pnlSummary, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.pnlSummary");
 			this.pnlSummary.MnemonicGeneratesClick = false;
 			this.pnlSummary.Name = "pnlSummary";
 			this.pnlSummary.PaintExplorerBarBackground = false;
@@ -138,26 +166,30 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridChars.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_gridChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_gridChars.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_gridChars.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.m_gridChars.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_gridChars.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.m_gridChars.DefaultCellStyle = dataGridViewCellStyle6;
 			resources.ApplyResources(this.m_gridChars, "m_gridChars");
 			this.m_gridChars.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_gridChars.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.m_gridChars, null);
+			this.locExtender.SetLocalizationComment(this.m_gridChars, null);
+			this.locExtender.SetLocalizationPriority(this.m_gridChars, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_gridChars, "UndefinedPhoneticCharactersDlg.m_gridChars");
 			this.m_gridChars.MultiSelect = false;
 			this.m_gridChars.Name = "m_gridChars";
 			this.m_gridChars.ReadOnly = true;
@@ -172,11 +204,16 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pgpChars
 			// 
+			this.pgpChars.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pgpChars.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpChars.ClipTextForChildControls = false;
 			this.pgpChars.ControlReceivingFocusOnMnemonic = this.m_gridChars;
 			resources.ApplyResources(this.pgpChars, "pgpChars");
 			this.pgpChars.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pgpChars, null);
+			this.locExtender.SetLocalizationComment(this.pgpChars, "Heading over the list of undefined characters found. This is in the dialog displa" +
+					"ying undefined characters that were found when reading data sources.");
+			this.locExtender.SetLocalizingId(this.pgpChars, "UndefinedPhoneticCharactersDlg.pgpChars");
 			this.pgpChars.MakeDark = false;
 			this.pgpChars.MnemonicGeneratesClick = false;
 			this.pgpChars.Name = "pgpChars";
@@ -184,6 +221,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlDetails
 			// 
+			this.pnlDetails.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlDetails.ClipTextForChildControls = true;
 			this.pnlDetails.ControlReceivingFocusOnMnemonic = null;
@@ -191,6 +229,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlDetails.Controls.Add(this.pgpWhere);
 			resources.ApplyResources(this.pnlDetails, "pnlDetails");
 			this.pnlDetails.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlDetails, null);
+			this.locExtender.SetLocalizationComment(this.pnlDetails, null);
+			this.locExtender.SetLocalizationPriority(this.pnlDetails, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlDetails, "UndefinedPhoneticCharactersDlg.pnlDetails");
 			this.pnlDetails.MnemonicGeneratesClick = false;
 			this.pnlDetails.Name = "pnlDetails";
 			this.pnlDetails.PaintExplorerBarBackground = false;
@@ -205,26 +247,30 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridWhere.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_gridWhere.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_gridWhere.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_gridWhere.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle4.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.m_gridWhere.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_gridWhere.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.m_gridWhere.DefaultCellStyle = dataGridViewCellStyle8;
 			resources.ApplyResources(this.m_gridWhere, "m_gridWhere");
 			this.m_gridWhere.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_gridWhere.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.m_gridWhere, null);
+			this.locExtender.SetLocalizationComment(this.m_gridWhere, null);
+			this.locExtender.SetLocalizationPriority(this.m_gridWhere, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_gridWhere, "UndefinedPhoneticCharactersDlg.m_gridWhere");
 			this.m_gridWhere.MultiSelect = false;
 			this.m_gridWhere.Name = "m_gridWhere";
 			this.m_gridWhere.ReadOnly = true;
@@ -235,21 +281,30 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridWhere.VirtualMode = true;
 			this.m_gridWhere.WaterMark = "!";
 			this.m_gridWhere.Enter += new System.EventHandler(this.HandleGridEnter);
+			this.m_gridWhere.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			this.m_gridWhere.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.m_gridWhere_CellValueNeeded);
 			this.m_gridWhere.Leave += new System.EventHandler(this.HandleGridLeave);
-			this.m_gridWhere.RowHeightInfoNeeded += new System.Windows.Forms.DataGridViewRowHeightInfoNeededEventHandler(this.m_grid_RowHeightInfoNeeded);
 			// 
 			// pgpWhere
 			// 
+			this.pgpWhere.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pgpWhere.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpWhere.ClipTextForChildControls = false;
 			this.pgpWhere.ControlReceivingFocusOnMnemonic = this.m_gridWhere;
 			resources.ApplyResources(this.pgpWhere, "pgpWhere");
 			this.pgpWhere.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pgpWhere, null);
+			this.locExtender.SetLocalizationComment(this.pgpWhere, "Heading over the list of undefined characters in context. This is in the dialog d" +
+					"isplaying undefined characters that were found when reading data sources.");
+			this.locExtender.SetLocalizingId(this.pgpWhere, "UndefinedPhoneticCharactersDlg.pgpWhere");
 			this.pgpWhere.MakeDark = false;
 			this.pgpWhere.MnemonicGeneratesClick = false;
 			this.pgpWhere.Name = "pgpWhere";
 			this.pgpWhere.PaintExplorerBarBackground = false;
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// UndefinedPhoneticCharactersDlg
 			// 
@@ -260,6 +315,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.pnlButtons);
 			this.Controls.Add(this.lblInfo);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "UndefinedPhoneticCharactersDlg.WindowTitle");
 			this.Name = "UndefinedPhoneticCharactersDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -273,6 +331,7 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.m_gridChars)).EndInit();
 			this.pnlDetails.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_gridWhere)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -292,5 +351,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pgpChars;
 		private SilPanel pnlDetails;
 		private SilGradientPanel pgpWhere;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

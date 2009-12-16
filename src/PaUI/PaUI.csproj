@@ -353,9 +353,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\WordListGroupingBuilder.cs" />
-    <Compile Include="Controls\XButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\XYChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>

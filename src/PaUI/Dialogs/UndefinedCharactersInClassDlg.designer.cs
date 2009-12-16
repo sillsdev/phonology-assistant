@@ -28,6 +28,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UndefinedCharactersInClassDlg));
 			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnHelp = new System.Windows.Forms.Button();
@@ -35,8 +36,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.txtChars = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -50,6 +53,10 @@ namespace SIL.Pa.UI.Dialogs
 			// btnHelp
 			// 
 			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on dialog box displaying a list of undefined characters that are found in " +
+					"a phone class.");
+			this.locExtender.SetLocalizingId(this.btnHelp, "UndefinedCharactersInClassDlg.btnHelp");
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.UseVisualStyleBackColor = true;
 			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
@@ -58,6 +65,10 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.btnOK, "btnOK");
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, "Button on dialog box displaying a list of undefined characters that are found in " +
+					"a phone class.");
+			this.locExtender.SetLocalizingId(this.btnOK, "UndefinedCharactersInClassDlg.btnOK");
 			this.btnOK.Name = "btnOK";
 			this.btnOK.UseVisualStyleBackColor = true;
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -65,12 +76,20 @@ namespace SIL.Pa.UI.Dialogs
 			// lblInfo
 			// 
 			resources.ApplyResources(this.lblInfo, "lblInfo");
+			this.locExtender.SetLocalizableToolTip(this.lblInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblInfo, "Information text on dialog box displaying a list of undefined characters that are" +
+					" found in a phone class.");
+			this.locExtender.SetLocalizingId(this.lblInfo, "UndefinedCharactersInClassDlg.lblInfo");
 			this.lblInfo.Name = "lblInfo";
 			// 
 			// txtChars
 			// 
 			this.txtChars.BackColor = System.Drawing.SystemColors.Window;
 			resources.ApplyResources(this.txtChars, "txtChars");
+			this.locExtender.SetLocalizableToolTip(this.txtChars, null);
+			this.locExtender.SetLocalizationComment(this.txtChars, null);
+			this.locExtender.SetLocalizationPriority(this.txtChars, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtChars, "UndefinedCharactersInClassDlg.txtChars");
 			this.txtChars.Name = "txtChars";
 			this.txtChars.ReadOnly = true;
 			// 
@@ -80,6 +99,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayoutPanel1.Controls.Add(this.lblInfo, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.txtChars, 0, 1);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// UndefinedCharactersInClassDlg
 			// 
@@ -90,6 +114,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Controls.Add(this.pnlButtons);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "UndefinedCharactersInClassDlg.WindowTitle");
 			this.Name = "UndefinedCharactersInClassDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
@@ -97,6 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlButtons.ResumeLayout(false);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -109,5 +137,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.TextBox txtChars;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

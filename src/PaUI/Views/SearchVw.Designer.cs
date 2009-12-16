@@ -54,14 +54,14 @@ namespace SIL.Pa.UI.Views
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.hlblRecentPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnClearRecentList = new SIL.Pa.UI.Controls.XButton();
-			this.btnRemoveFromRecentList = new SIL.Pa.UI.Controls.XButton();
+			this.btnClearRecentList = new XButton();
+			this.btnRemoveFromRecentList = new XButton();
 			this.tvSavedPatterns = new SIL.Pa.UI.Controls.SearchPatternTreeView();
 			this.hlblSavedPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnCategoryNew = new SIL.Pa.UI.Controls.XButton();
-			this.btnCategoryCut = new SIL.Pa.UI.Controls.XButton();
-			this.btnCategoryPaste = new SIL.Pa.UI.Controls.XButton();
-			this.btnCategoryCopy = new SIL.Pa.UI.Controls.XButton();
+			this.btnCategoryNew = new XButton();
+			this.btnCategoryCut = new XButton();
+			this.btnCategoryPaste = new XButton();
+			this.btnCategoryCopy = new XButton();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.ptrnTextBox = new SIL.Pa.UI.Controls.PatternTextBox();
 			this.splitOuter.Panel1.SuspendLayout();
@@ -575,11 +575,11 @@ namespace SIL.Pa.UI.Views
 		private AutoHideDockButton btnDock;
 		private AutoHideDockButton btnAutoHide;
 		private HeaderLabel hlblSavedPatterns;
-		private XButton btnRemoveFromRecentList;
+		private SilUtils.Controls.XButton btnRemoveFromRecentList;
 		private PatternBuilderComponents ptrnBldrComponent;
 		private PatternTextBox ptrnTextBox;
 		private System.Windows.Forms.Button btnRefresh;
-		private XButton btnClearRecentList;
+		private SilUtils.Controls.XButton btnClearRecentList;
 		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

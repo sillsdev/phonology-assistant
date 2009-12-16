@@ -156,6 +156,9 @@
   <data name="pnlToolboxSortField.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>116, 17</value>
+  </metadata>
   <data name="lblToolboxSortField.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -169,7 +172,7 @@
     <value>8, 13</value>
   </data>
   <data name="lblToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 15</value>
+    <value>135, 15</value>
   </data>
   <data name="lblToolboxSortField.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -189,9 +192,6 @@
   <data name="&gt;&gt;lblToolboxSortField.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="cboToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
     <value>163, 10</value>
   </data>
@@ -200,9 +200,6 @@
   </data>
   <data name="cboToolboxSortField.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="cboToolboxSortField.ToolTip" xml:space="preserve">
-    <value>This is used for jumping to the appropriate Toolbox record.</value>
   </data>
   <data name="&gt;&gt;cboToolboxSortField.Name" xml:space="preserve">
     <value>cboToolboxSortField</value>
@@ -288,18 +285,6 @@
   <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="m_tooltip.AutoPopDelay" type="System.Int32, mscorlib">
-    <value>9000</value>
-  </data>
-  <data name="m_tooltip.InitialDelay" type="System.Int32, mscorlib">
-    <value>500</value>
-  </data>
-  <data name="m_tooltip.ReshowDelay" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="m_tooltip.ShowAlways" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="txtEditor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -307,13 +292,10 @@
     <value>68, 10</value>
   </data>
   <data name="txtEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 22</value>
+    <value>83, 21</value>
   </data>
   <data name="txtEditor.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="txtEditor.ToolTip" xml:space="preserve">
-    <value>This is the application used to edit the data source file.</value>
   </data>
   <data name="&gt;&gt;txtEditor.Name" xml:space="preserve">
     <value>txtEditor</value>
@@ -336,21 +318,6 @@
   <data name="pnlEditor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="btnBrowse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnBrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 7</value>
-  </data>
-  <data name="btnBrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 26</value>
-  </data>
-  <data name="btnBrowse.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnBrowse.Text" xml:space="preserve">
-    <value>&amp;Browse...</value>
-  </data>
   <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
     <value>btnBrowse</value>
   </data>
@@ -362,27 +329,6 @@
   </data>
   <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="lblEditor.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblEditor.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9pt</value>
-  </data>
-  <data name="lblEditor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblEditor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 13</value>
-  </data>
-  <data name="lblEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 15</value>
-  </data>
-  <data name="lblEditor.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblEditor.Text" xml:space="preserve">
-    <value>&amp;Editor:</value>
   </data>
   <data name="&gt;&gt;lblEditor.Name" xml:space="preserve">
     <value>lblEditor</value>
@@ -426,6 +372,9 @@
   <data name="pnlMappingsHdg.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12world</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>116, 17</value>
+  </metadata>
   <data name="pnlMappingsHdg.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -442,7 +391,7 @@
     <value>pnlMappingsHdg</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Parent" xml:space="preserve">
     <value>pnlMappings</value>
@@ -469,7 +418,7 @@
     <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Parent" xml:space="preserve">
     <value>scImport.Panel1</value>
@@ -580,7 +529,7 @@
     <value>pnlSrcFileHdg</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Parent" xml:space="preserve">
     <value>pnlSrcFile</value>
@@ -607,7 +556,7 @@
     <value>pnlSrcFile</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Parent" xml:space="preserve">
     <value>scImport.Panel2</value>
@@ -650,6 +599,66 @@
   </data>
   <data name="&gt;&gt;scImport.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="btnBrowse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnBrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>157, 7</value>
+  </data>
+  <data name="btnBrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 26</value>
+  </data>
+  <data name="btnBrowse.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnBrowse.Text" xml:space="preserve">
+    <value>&amp;Browse...</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
+    <value>btnBrowse</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Parent" xml:space="preserve">
+    <value>pnlEditor</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblEditor.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblEditor.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="lblEditor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblEditor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 13</value>
+  </data>
+  <data name="lblEditor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 15</value>
+  </data>
+  <data name="lblEditor.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblEditor.Text" xml:space="preserve">
+    <value>&amp;Editor:</value>
+  </data>
+  <data name="&gt;&gt;lblEditor.Name" xml:space="preserve">
+    <value>lblEditor</value>
+  </data>
+  <data name="&gt;&gt;lblEditor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblEditor.Parent" xml:space="preserve">
+    <value>pnlEditor</value>
+  </data>
+  <data name="&gt;&gt;lblEditor.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="cboFirstInterlinear.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -694,7 +703,7 @@
     <value>26, 201</value>
   </data>
   <data name="lblFirstInterlinear.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 15</value>
+    <value>117, 15</value>
   </data>
   <data name="lblFirstInterlinear.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -724,7 +733,7 @@
     <value>Phonetic</value>
   </data>
   <data name="Phonetic.Width" type="System.Int32, mscorlib">
-    <value>63</value>
+    <value>61</value>
   </data>
   <metadata name="Gloss.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -733,7 +742,7 @@
     <value>Gloss</value>
   </data>
   <data name="Gloss.Width" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>44</value>
   </data>
   <metadata name="POS.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -742,7 +751,7 @@
     <value>Part of Speech</value>
   </data>
   <data name="POS.Width" type="System.Int32, mscorlib">
-    <value>88</value>
+    <value>93</value>
   </data>
   <data name="gridSampleOutput.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 353</value>
@@ -787,7 +796,7 @@
     <value>pnlParseHdg</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaGradientPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -844,7 +853,7 @@
     <value>pnlSampleInput</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -1042,7 +1051,7 @@
     <value>7, 335</value>
   </data>
   <data name="lblSampleOutput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 15</value>
+    <value>91, 15</value>
   </data>
   <data name="lblSampleOutput.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1078,7 +1087,7 @@
     <value>7, 257</value>
   </data>
   <data name="lblSampleInput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 15</value>
+    <value>83, 15</value>
   </data>
   <data name="lblSampleInput.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -1117,7 +1126,7 @@
     <value>pnlParseType</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.PaPanel, PaControls, Version=1.0.2719.24910, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -1248,10 +1257,16 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn3.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SFDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2719.25025, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3636.20399, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

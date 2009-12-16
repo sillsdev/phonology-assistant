@@ -69,21 +69,24 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "ProjectSettingsDlg.btnCancel");
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "ProjectSettingsDlg.btnOK");
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "ProjectSettingsDlg.btnHelp");
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lblProjName

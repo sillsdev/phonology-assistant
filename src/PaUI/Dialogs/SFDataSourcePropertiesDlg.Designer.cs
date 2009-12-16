@@ -42,21 +42,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.scImport = new System.Windows.Forms.SplitContainer();
-			this.pnlMappingsHdg = new SilGradientPanel();
+			this.pnlMappings = new SilUtils.Controls.SilPanel();
 			this.pnlEditor = new System.Windows.Forms.Panel();
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.lblEditor = new System.Windows.Forms.Label();
+			this.pnlMappingsHdg = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSrcFile = new SilUtils.Controls.SilPanel();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
-			this.pnlSrcFileHdg = new SilGradientPanel();
+			this.pnlSrcFileHdg = new SilUtils.Controls.SilGradientPanel();
 			this.lblFilename = new System.Windows.Forms.Label();
 			this.cboFirstInterlinear = new System.Windows.Forms.ComboBox();
 			this.lblFirstInterlinear = new System.Windows.Forms.Label();
-			this.pnlParseType = new SilPanel();
+			this.pnlParseType = new SilUtils.Controls.SilPanel();
 			this.gridSampleOutput = new System.Windows.Forms.DataGridView();
 			this.Phonetic = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Gloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.POS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.pnlSampleInput = new SilPanel();
+			this.pnlParseHdg = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSampleInput = new SilUtils.Controls.SilPanel();
 			this.rtfSampleInput = new System.Windows.Forms.RichTextBox();
 			this.rbParseOneToOne = new System.Windows.Forms.RadioButton();
 			this.rbNoParse = new System.Windows.Forms.RadioButton();
@@ -66,19 +69,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSampleOutput = new System.Windows.Forms.Label();
 			this.lblSampleInput = new System.Windows.Forms.Label();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.pnlParseHdg = new SilGradientPanel();
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.pnlToolboxSortField = new System.Windows.Forms.Panel();
 			this.lblToolboxSortField = new System.Windows.Forms.Label();
-			this.pnlMappings = new SilPanel();
-			this.pnlSrcFile = new SilPanel();
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
 			this.scImport.SuspendLayout();
+			this.pnlMappings.SuspendLayout();
 			this.pnlEditor.SuspendLayout();
+			this.pnlSrcFile.SuspendLayout();
 			this.pnlSrcFileHdg.SuspendLayout();
 			this.pnlParseType.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridSampleOutput)).BeginInit();
@@ -87,8 +90,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.pnlToolboxSortField.SuspendLayout();
-			this.pnlMappings.SuspendLayout();
-			this.pnlSrcFile.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -102,34 +104,55 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnCancel
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// m_tooltip
 			// 
-			resources.ApplyResources(this.m_tooltip, "m_tooltip");
+			this.m_tooltip.AutoPopDelay = 9000;
+			this.m_tooltip.InitialDelay = 500;
+			this.m_tooltip.ReshowDelay = 100;
+			this.m_tooltip.ShowAlways = true;
 			// 
 			// cboToolboxSortField
 			// 
 			this.cboToolboxSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboToolboxSortField.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "This is used for jumping to the appropriate Toolbox record.");
+			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
+			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
 			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
 			this.cboToolboxSortField.Sorted = true;
-			this.m_tooltip.SetToolTip(this.cboToolboxSortField, resources.GetString("cboToolboxSortField.ToolTip"));
 			// 
 			// txtEditor
 			// 
 			resources.ApplyResources(this.txtEditor, "txtEditor");
+			this.locExtender.SetLocalizableToolTip(this.txtEditor, "This is the application used to edit the data source file.");
+			this.locExtender.SetLocalizationComment(this.txtEditor, "Text box in which to specify the editor for the data source in the standard forma" +
+					"t data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.txtEditor, "SFDataSourcePropertiesDlg.txtEditor");
 			this.txtEditor.Name = "txtEditor";
-			this.m_tooltip.SetToolTip(this.txtEditor, resources.GetString("txtEditor.ToolTip"));
 			// 
 			// scImport
 			// 
@@ -145,16 +168,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.scImport.Panel2.Controls.Add(this.pnlSrcFile);
 			this.scImport.TabStop = false;
 			// 
-			// pnlMappingsHdg
+			// pnlMappings
 			// 
-			this.pnlMappingsHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlMappingsHdg.ControlReceivingFocusOnMnemonic = null;
-			resources.ApplyResources(this.pnlMappingsHdg, "pnlMappingsHdg");
-			this.pnlMappingsHdg.DoubleBuffered = true;
-			this.pnlMappingsHdg.MakeDark = false;
-			this.pnlMappingsHdg.MnemonicGeneratesClick = false;
-			this.pnlMappingsHdg.Name = "pnlMappingsHdg";
-			this.pnlMappingsHdg.PaintExplorerBarBackground = false;
+			this.pnlMappings.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlMappings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMappings.ClipTextForChildControls = true;
+			this.pnlMappings.ControlReceivingFocusOnMnemonic = null;
+			this.pnlMappings.Controls.Add(this.pnlEditor);
+			this.pnlMappings.Controls.Add(this.pnlMappingsHdg);
+			resources.ApplyResources(this.pnlMappings, "pnlMappings");
+			this.pnlMappings.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlMappings, null);
+			this.locExtender.SetLocalizationComment(this.pnlMappings, null);
+			this.locExtender.SetLocalizationPriority(this.pnlMappings, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlMappings, "SFDataSourcePropertiesDlg.pnlMappings");
+			this.pnlMappings.MnemonicGeneratesClick = false;
+			this.pnlMappings.Name = "pnlMappings";
+			this.pnlMappings.PaintExplorerBarBackground = false;
 			// 
 			// pnlEditor
 			// 
@@ -167,6 +197,11 @@ namespace SIL.Pa.UI.Dialogs
 			// btnBrowse
 			// 
 			resources.ApplyResources(this.btnBrowse, "btnBrowse");
+			this.locExtender.SetLocalizableToolTip(this.btnBrowse, null);
+			this.locExtender.SetLocalizationComment(this.btnBrowse, "Button for browsing to an SFM editor in the standard format data source propertie" +
+					"s dialog box.");
+			this.locExtender.SetLocalizationPriority(this.btnBrowse, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
 			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
@@ -175,23 +210,71 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblEditor, "lblEditor");
 			this.lblEditor.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblEditor, null);
+			this.locExtender.SetLocalizationComment(this.lblEditor, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblEditor, "SFDataSourcePropertiesDlg.lblEditor");
 			this.lblEditor.Name = "lblEditor";
+			// 
+			// pnlMappingsHdg
+			// 
+			this.pnlMappingsHdg.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlMappingsHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMappingsHdg.ClipTextForChildControls = true;
+			this.pnlMappingsHdg.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlMappingsHdg, "pnlMappingsHdg");
+			this.pnlMappingsHdg.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlMappingsHdg, null);
+			this.locExtender.SetLocalizationComment(this.pnlMappingsHdg, "Heading above the field mappings list in the standard format data source properti" +
+					"es dialog box.");
+			this.locExtender.SetLocalizingId(this.pnlMappingsHdg, "SFDataSourcePropertiesDlg.pnlMappingsHdg");
+			this.pnlMappingsHdg.MakeDark = false;
+			this.pnlMappingsHdg.MnemonicGeneratesClick = false;
+			this.pnlMappingsHdg.Name = "pnlMappingsHdg";
+			this.pnlMappingsHdg.PaintExplorerBarBackground = false;
+			// 
+			// pnlSrcFile
+			// 
+			this.pnlSrcFile.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlSrcFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSrcFile.ClipTextForChildControls = true;
+			this.pnlSrcFile.ControlReceivingFocusOnMnemonic = null;
+			this.pnlSrcFile.Controls.Add(this.txtFilePreview);
+			this.pnlSrcFile.Controls.Add(this.pnlSrcFileHdg);
+			resources.ApplyResources(this.pnlSrcFile, "pnlSrcFile");
+			this.pnlSrcFile.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlSrcFile, null);
+			this.locExtender.SetLocalizationComment(this.pnlSrcFile, null);
+			this.locExtender.SetLocalizationPriority(this.pnlSrcFile, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSrcFile, "SFDataSourcePropertiesDlg.pnlSrcFile");
+			this.pnlSrcFile.MnemonicGeneratesClick = false;
+			this.pnlSrcFile.Name = "pnlSrcFile";
+			this.pnlSrcFile.PaintExplorerBarBackground = false;
 			// 
 			// txtFilePreview
 			// 
+			this.txtFilePreview.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			resources.ApplyResources(this.txtFilePreview, "txtFilePreview");
+			this.locExtender.SetLocalizableToolTip(this.txtFilePreview, null);
+			this.locExtender.SetLocalizationComment(this.txtFilePreview, null);
+			this.locExtender.SetLocalizationPriority(this.txtFilePreview, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtFilePreview, "SFDataSourcePropertiesDlg.txtFilePreview");
 			this.txtFilePreview.Name = "txtFilePreview";
-			this.txtFilePreview.BorderStyle = BorderStyle.None;
 			this.txtFilePreview.ReadOnly = true;
 			this.txtFilePreview.TabStop = false;
 			// 
 			// pnlSrcFileHdg
 			// 
+			this.pnlSrcFileHdg.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSrcFileHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSrcFileHdg.ClipTextForChildControls = true;
 			this.pnlSrcFileHdg.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSrcFileHdg.Controls.Add(this.lblFilename);
 			resources.ApplyResources(this.pnlSrcFileHdg, "pnlSrcFileHdg");
 			this.pnlSrcFileHdg.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlSrcFileHdg, null);
+			this.locExtender.SetLocalizationComment(this.pnlSrcFileHdg, "Heading above the contents of the data source file in the standard format data so" +
+					"urce properties dialog box.");
+			this.locExtender.SetLocalizingId(this.pnlSrcFileHdg, "SFDataSourcePropertiesDlg.pnlSrcFileHdg");
 			this.pnlSrcFileHdg.MakeDark = false;
 			this.pnlSrcFileHdg.MnemonicGeneratesClick = false;
 			this.pnlSrcFileHdg.Name = "pnlSrcFileHdg";
@@ -201,15 +284,23 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblFilename, "lblFilename");
 			this.lblFilename.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblFilename, null);
+			this.locExtender.SetLocalizationComment(this.lblFilename, "");
+			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblFilename, "SFDataSourcePropertiesDlg.lblFilename");
 			this.lblFilename.Name = "lblFilename";
-			this.lblFilename.MouseEnter += new System.EventHandler(this.lblFilename_MouseEnter);
 			this.lblFilename.Paint += new System.Windows.Forms.PaintEventHandler(this.lblFilename_Paint);
+			this.lblFilename.MouseEnter += new System.EventHandler(this.lblFilename_MouseEnter);
 			// 
 			// cboFirstInterlinear
 			// 
 			this.cboFirstInterlinear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			resources.ApplyResources(this.cboFirstInterlinear, "cboFirstInterlinear");
 			this.cboFirstInterlinear.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, null);
+			this.locExtender.SetLocalizationComment(this.cboFirstInterlinear, null);
+			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "SFDataSourcePropertiesDlg.cboFirstInterlinear");
 			this.cboFirstInterlinear.Name = "cboFirstInterlinear";
 			this.cboFirstInterlinear.SelectedIndexChanged += new System.EventHandler(this.cboFirstInterlinear_SelectedIndexChanged);
 			// 
@@ -217,11 +308,16 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblFirstInterlinear, "lblFirstInterlinear");
 			this.lblFirstInterlinear.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblFirstInterlinear, null);
+			this.locExtender.SetLocalizationComment(this.lblFirstInterlinear, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblFirstInterlinear, "SFDataSourcePropertiesDlg.lblFirstInterlinear");
 			this.lblFirstInterlinear.Name = "lblFirstInterlinear";
 			// 
 			// pnlParseType
 			// 
+			this.pnlParseType.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlParseType.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlParseType.ClipTextForChildControls = true;
 			this.pnlParseType.ControlReceivingFocusOnMnemonic = null;
 			this.pnlParseType.Controls.Add(this.gridSampleOutput);
 			this.pnlParseType.Controls.Add(this.pnlParseHdg);
@@ -237,6 +333,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlParseType.Controls.Add(this.lblSampleInput);
 			resources.ApplyResources(this.pnlParseType, "pnlParseType");
 			this.pnlParseType.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlParseType, null);
+			this.locExtender.SetLocalizationComment(this.pnlParseType, null);
+			this.locExtender.SetLocalizationPriority(this.pnlParseType, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlParseType, "SFDataSourcePropertiesDlg.pnlParseType");
 			this.pnlParseType.MnemonicGeneratesClick = false;
 			this.pnlParseType.Name = "pnlParseType";
 			this.pnlParseType.PaintExplorerBarBackground = false;
@@ -259,12 +359,16 @@ namespace SIL.Pa.UI.Dialogs
             this.POS});
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle2;
+			this.locExtender.SetLocalizableToolTip(this.gridSampleOutput, null);
+			this.locExtender.SetLocalizationComment(this.gridSampleOutput, null);
+			this.locExtender.SetLocalizationPriority(this.gridSampleOutput, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.gridSampleOutput, "SFDataSourcePropertiesDlg.gridSampleOutput");
 			this.gridSampleOutput.MultiSelect = false;
 			this.gridSampleOutput.Name = "gridSampleOutput";
 			this.gridSampleOutput.RowHeadersVisible = false;
@@ -293,14 +397,37 @@ namespace SIL.Pa.UI.Dialogs
 			this.POS.ReadOnly = true;
 			this.POS.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
+			// pnlParseHdg
+			// 
+			this.pnlParseHdg.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlParseHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlParseHdg.ClipTextForChildControls = true;
+			this.pnlParseHdg.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlParseHdg, "pnlParseHdg");
+			this.pnlParseHdg.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlParseHdg, null);
+			this.locExtender.SetLocalizationComment(this.pnlParseHdg, "Heading above the parsing options in the standard format data source properties d" +
+					"ialog box.");
+			this.locExtender.SetLocalizingId(this.pnlParseHdg, "SFDataSourcePropertiesDlg.pnlParseHdg");
+			this.pnlParseHdg.MakeDark = false;
+			this.pnlParseHdg.MnemonicGeneratesClick = false;
+			this.pnlParseHdg.Name = "pnlParseHdg";
+			this.pnlParseHdg.PaintExplorerBarBackground = false;
+			// 
 			// pnlSampleInput
 			// 
 			resources.ApplyResources(this.pnlSampleInput, "pnlSampleInput");
 			this.pnlSampleInput.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlSampleInput.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSampleInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSampleInput.ClipTextForChildControls = true;
 			this.pnlSampleInput.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSampleInput.Controls.Add(this.rtfSampleInput);
 			this.pnlSampleInput.DoubleBuffered = false;
+			this.locExtender.SetLocalizableToolTip(this.pnlSampleInput, null);
+			this.locExtender.SetLocalizationComment(this.pnlSampleInput, null);
+			this.locExtender.SetLocalizationPriority(this.pnlSampleInput, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSampleInput, "SFDataSourcePropertiesDlg.pnlSampleInput");
 			this.pnlSampleInput.MnemonicGeneratesClick = false;
 			this.pnlSampleInput.Name = "pnlSampleInput";
 			this.pnlSampleInput.PaintExplorerBarBackground = false;
@@ -316,6 +443,10 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.rbParseOneToOne.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.rbParseOneToOne, "rbParseOneToOne");
+			this.locExtender.SetLocalizableToolTip(this.rbParseOneToOne, null);
+			this.locExtender.SetLocalizationComment(this.rbParseOneToOne, "Parsing option radio button in standard format data source properties dialog box." +
+					"");
+			this.locExtender.SetLocalizingId(this.rbParseOneToOne, "SFDataSourcePropertiesDlg.rbParseOneToOne");
 			this.rbParseOneToOne.Name = "rbParseOneToOne";
 			this.rbParseOneToOne.TabStop = true;
 			this.rbParseOneToOne.UseVisualStyleBackColor = false;
@@ -325,6 +456,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbNoParse.AutoEllipsis = true;
 			this.rbNoParse.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.rbNoParse, "rbNoParse");
+			this.locExtender.SetLocalizableToolTip(this.rbNoParse, null);
+			this.locExtender.SetLocalizationComment(this.rbNoParse, "Parsing option radio button in standard format data source properties dialog box." +
+					"");
+			this.locExtender.SetLocalizingId(this.rbNoParse, "SFDataSourcePropertiesDlg.rbNoParse");
 			this.rbNoParse.Name = "rbNoParse";
 			this.rbNoParse.TabStop = true;
 			this.rbNoParse.UseVisualStyleBackColor = false;
@@ -334,6 +469,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbInterlinearize.AutoEllipsis = true;
 			this.rbInterlinearize.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.rbInterlinearize, "rbInterlinearize");
+			this.locExtender.SetLocalizableToolTip(this.rbInterlinearize, null);
+			this.locExtender.SetLocalizationComment(this.rbInterlinearize, "Parsing option radio button in standard format data source properties dialog box." +
+					"");
+			this.locExtender.SetLocalizingId(this.rbInterlinearize, "SFDataSourcePropertiesDlg.rbInterlinearize");
 			this.rbInterlinearize.Name = "rbInterlinearize";
 			this.rbInterlinearize.TabStop = true;
 			this.rbInterlinearize.UseVisualStyleBackColor = false;
@@ -343,6 +482,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblParseType.AutoEllipsis = true;
 			this.lblParseType.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.lblParseType, "lblParseType");
+			this.locExtender.SetLocalizableToolTip(this.lblParseType, null);
+			this.locExtender.SetLocalizationComment(this.lblParseType, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblParseType, "SFDataSourcePropertiesDlg.lblParseType");
 			this.lblParseType.Name = "lblParseType";
 			// 
 			// rbParseOnlyPhonetic
@@ -350,6 +492,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbParseOnlyPhonetic.AutoEllipsis = true;
 			this.rbParseOnlyPhonetic.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.rbParseOnlyPhonetic, "rbParseOnlyPhonetic");
+			this.locExtender.SetLocalizableToolTip(this.rbParseOnlyPhonetic, null);
+			this.locExtender.SetLocalizationComment(this.rbParseOnlyPhonetic, "Parsing option radio button in standard format data source properties dialog box." +
+					"");
+			this.locExtender.SetLocalizingId(this.rbParseOnlyPhonetic, "SFDataSourcePropertiesDlg.rbParseOnlyPhonetic");
 			this.rbParseOnlyPhonetic.Name = "rbParseOnlyPhonetic";
 			this.rbParseOnlyPhonetic.TabStop = true;
 			this.rbParseOnlyPhonetic.UseVisualStyleBackColor = false;
@@ -358,12 +504,18 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblSampleOutput, "lblSampleOutput");
 			this.lblSampleOutput.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblSampleOutput, null);
+			this.locExtender.SetLocalizationComment(this.lblSampleOutput, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblSampleOutput, "SFDataSourcePropertiesDlg.lblSampleOutput");
 			this.lblSampleOutput.Name = "lblSampleOutput";
 			// 
 			// lblSampleInput
 			// 
 			resources.ApplyResources(this.lblSampleInput, "lblSampleInput");
 			this.lblSampleInput.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblSampleInput, null);
+			this.locExtender.SetLocalizationComment(this.lblSampleInput, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblSampleInput, "SFDataSourcePropertiesDlg.lblSampleInput");
 			this.lblSampleInput.Name = "lblSampleInput";
 			// 
 			// splitOuter
@@ -380,16 +532,6 @@ namespace SIL.Pa.UI.Dialogs
 			// splitOuter.Panel2
 			// 
 			this.splitOuter.Panel2.Controls.Add(this.scImport);
-			// 
-			// pnlParseHdg
-			// 
-			this.pnlParseHdg.ControlReceivingFocusOnMnemonic = null;
-			resources.ApplyResources(this.pnlParseHdg, "pnlParseHdg");
-			this.pnlParseHdg.DoubleBuffered = true;
-			this.pnlParseHdg.MakeDark = false;
-			this.pnlParseHdg.MnemonicGeneratesClick = false;
-			this.pnlParseHdg.Name = "pnlParseHdg";
-			this.pnlParseHdg.PaintExplorerBarBackground = false;
 			// 
 			// dataGridViewTextBoxColumn1
 			// 
@@ -426,46 +568,34 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lblToolboxSortField, "lblToolboxSortField");
 			this.lblToolboxSortField.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblToolboxSortField, null);
+			this.locExtender.SetLocalizationComment(this.lblToolboxSortField, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "SFDataSourcePropertiesDlg.lblToolboxSortField");
 			this.lblToolboxSortField.Name = "lblToolboxSortField";
 			// 
-			// pnlMappings
+			// locExtender
 			// 
-			this.pnlMappings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlMappings.ControlReceivingFocusOnMnemonic = null;
-			this.pnlMappings.Controls.Add(this.pnlEditor);
-			this.pnlMappings.Controls.Add(this.pnlMappingsHdg);
-			resources.ApplyResources(this.pnlMappings, "pnlMappings");
-			this.pnlMappings.DoubleBuffered = false;
-			this.pnlMappings.MnemonicGeneratesClick = false;
-			this.pnlMappings.Name = "pnlMappings";
-			this.pnlMappings.PaintExplorerBarBackground = false;
-			// 
-			// pnlSrcFile
-			// 
-			this.pnlSrcFile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlSrcFile.ControlReceivingFocusOnMnemonic = null;
-			this.pnlSrcFile.Controls.Add(this.txtFilePreview);
-			this.pnlSrcFile.Controls.Add(this.pnlSrcFileHdg);
-			resources.ApplyResources(this.pnlSrcFile, "pnlSrcFile");
-			this.pnlSrcFile.DoubleBuffered = false;
-			this.pnlSrcFile.MnemonicGeneratesClick = false;
-			this.pnlSrcFile.Name = "pnlSrcFile";
-			this.pnlSrcFile.PaintExplorerBarBackground = false;
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// SFDataSourcePropertiesDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.Controls.Add(this.splitOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "SFDataSourcePropertiesDlg.WindowTitle");
 			this.Name = "SFDataSourcePropertiesDlg";
-			this.Opacity = 1;
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.splitOuter, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.scImport.Panel1.ResumeLayout(false);
 			this.scImport.Panel2.ResumeLayout(false);
 			this.scImport.ResumeLayout(false);
+			this.pnlMappings.ResumeLayout(false);
 			this.pnlEditor.ResumeLayout(false);
 			this.pnlEditor.PerformLayout();
+			this.pnlSrcFile.ResumeLayout(false);
+			this.pnlSrcFile.PerformLayout();
 			this.pnlSrcFileHdg.ResumeLayout(false);
 			this.pnlParseType.ResumeLayout(false);
 			this.pnlParseType.PerformLayout();
@@ -476,9 +606,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitOuter.ResumeLayout(false);
 			this.pnlToolboxSortField.ResumeLayout(false);
 			this.pnlToolboxSortField.PerformLayout();
-			this.pnlMappings.ResumeLayout(false);
-			this.pnlSrcFile.ResumeLayout(false);
-			this.pnlSrcFile.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -517,5 +645,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pnlSrcFileHdg;
 		private SilPanel pnlMappings;
 		private SilPanel pnlSrcFile;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

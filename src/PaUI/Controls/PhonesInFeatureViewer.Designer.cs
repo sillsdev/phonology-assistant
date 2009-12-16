@@ -40,7 +40,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlOuter = new SilPanel();
 			this.pnlExpandedView = new System.Windows.Forms.Panel();
 			this.header = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnDropDownArrow = new SIL.Pa.UI.Controls.XButton();
+			this.btnDropDownArrow = new XButton();
 			this.cmnuViewOptions.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
 			this.header.SuspendLayout();

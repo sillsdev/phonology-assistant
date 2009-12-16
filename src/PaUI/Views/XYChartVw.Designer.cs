@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Views
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
 			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
 			this.hlblSavedCharts = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnRemoveSavedChart = new SIL.Pa.UI.Controls.XButton();
+			this.btnRemoveSavedChart = new XButton();
 			this.splitChart = new System.Windows.Forms.SplitContainer();
 			this.lblChartName = new System.Windows.Forms.Label();
 			this.lblChartNameValue = new System.Windows.Forms.Label();
@@ -395,7 +395,7 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.ColumnHeader hdrSavedCharts;
 		private SIL.Pa.UI.Controls.AutoHideDockButton btnAutoHide;
 		private SIL.Pa.UI.Controls.AutoHideDockButton btnDock;
-		private SIL.Pa.UI.Controls.XButton btnRemoveSavedChart;
+		private XButton btnRemoveSavedChart;
 		private SIL.Pa.UI.Controls.PatternBuilderComponents ptrnBldrComponent;
 		private System.Windows.Forms.Label lblChartName;
 		private System.Windows.Forms.Label lblChartNameValue;

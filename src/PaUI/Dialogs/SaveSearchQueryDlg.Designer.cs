@@ -36,8 +36,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName = new System.Windows.Forms.Label();
 			this.lblCategories = new System.Windows.Forms.Label();
 			this.lblPatternLabel = new System.Windows.Forms.Label();
-			this.m_toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -46,14 +47,26 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnCancel
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// cboCategories
@@ -61,16 +74,24 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboCategories, "cboCategories");
 			this.cboCategories.DropDownHeight = 200;
 			this.cboCategories.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboCategories, "Enter a category in which to save the\\npattern or choose one from the list");
+			this.locExtender.SetLocalizationComment(this.cboCategories, "Drop-down list of search pattern categories on the dialog box for saving search p" +
+					"atterns in search  view.");
+			this.locExtender.SetLocalizationPriority(this.cboCategories, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.cboCategories, "SaveSearchQueryDlg.cboCategories");
 			this.cboCategories.Name = "cboCategories";
 			this.cboCategories.Sorted = true;
-			this.m_toolTip.SetToolTip(this.cboCategories, resources.GetString("cboCategories.ToolTip"));
 			this.cboCategories.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
 			// txtName
 			// 
 			resources.ApplyResources(this.txtName, "txtName");
+			this.locExtender.SetLocalizableToolTip(this.txtName, "Enter the name to give your saved pattern.");
+			this.locExtender.SetLocalizationComment(this.txtName, "Search pattern name text box on the dialog box for saving search patterns in sear" +
+					"ch  view.");
+			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.txtName, "SaveSearchQueryDlg.txtName");
 			this.txtName.Name = "txtName";
-			this.m_toolTip.SetToolTip(this.txtName, resources.GetString("txtName.ToolTip"));
 			this.txtName.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
 			// lblPattern
@@ -78,25 +99,42 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPattern.AutoEllipsis = true;
 			resources.ApplyResources(this.lblPattern, "lblPattern");
 			this.lblPattern.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblPattern, null);
+			this.locExtender.SetLocalizationComment(this.lblPattern, null);
+			this.locExtender.SetLocalizationPriority(this.lblPattern, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblPattern, "SaveSearchQueryDlg.lblPattern");
 			this.lblPattern.Name = "lblPattern";
 			// 
 			// lblName
 			// 
 			resources.ApplyResources(this.lblName, "lblName");
 			this.lblName.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblName, null);
+			this.locExtender.SetLocalizationComment(this.lblName, "Label on dialog box for saving search patterns in search view.");
+			this.locExtender.SetLocalizingId(this.lblName, "SaveSearchQueryDlg.lblName");
 			this.lblName.Name = "lblName";
 			// 
 			// lblCategories
 			// 
 			resources.ApplyResources(this.lblCategories, "lblCategories");
 			this.lblCategories.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblCategories, null);
+			this.locExtender.SetLocalizationComment(this.lblCategories, "Label on dialog box for saving search patterns in search view.");
+			this.locExtender.SetLocalizingId(this.lblCategories, "SaveSearchQueryDlg.lblCategories");
 			this.lblCategories.Name = "lblCategories";
 			// 
 			// lblPatternLabel
 			// 
 			resources.ApplyResources(this.lblPatternLabel, "lblPatternLabel");
 			this.lblPatternLabel.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblPatternLabel, null);
+			this.locExtender.SetLocalizationComment(this.lblPatternLabel, "Label on dialog box for saving search patterns in search view.");
+			this.locExtender.SetLocalizingId(this.lblPatternLabel, "SaveSearchQueryDlg.lblPatternLabel");
 			this.lblPatternLabel.Name = "lblPatternLabel";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// SaveSearchQueryDlg
 			// 
@@ -110,6 +148,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.lblCategories);
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "SaveSearchQueryDlg.WindowTitle");
 			this.Name = "SaveSearchQueryDlg";
 			this.Controls.SetChildIndex(this.lblCategories, 0);
 			this.Controls.SetChildIndex(this.txtName, 0);
@@ -119,6 +160,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.SetChildIndex(this.lblPatternLabel, 0);
 			this.Controls.SetChildIndex(this.lblPattern, 0);
 			this.pnlButtons.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -132,6 +174,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.Label lblCategories;
 		private System.Windows.Forms.Label lblPatternLabel;
-		private System.Windows.Forms.ToolTip m_toolTip;
+		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
 	}
 }

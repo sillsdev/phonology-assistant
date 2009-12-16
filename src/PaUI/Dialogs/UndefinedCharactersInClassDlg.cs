@@ -75,5 +75,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			PaApp.ShowHelpTopic(this);
 		}
+
+		private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
 	}
 }

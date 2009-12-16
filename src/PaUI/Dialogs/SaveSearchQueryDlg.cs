@@ -38,14 +38,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			AdjustLabelLocations();
 
-			string tipText = m_toolTip.GetToolTip(cboCategories);
-			tipText = Utils.ConvertLiteralNewLines(tipText);
-			m_toolTip.SetToolTip(cboCategories, tipText);
-
-			tipText = m_toolTip.GetToolTip(txtName);
-			tipText = Utils.ConvertLiteralNewLines(tipText);
-			m_toolTip.SetToolTip(txtName, tipText);
-
 			foreach (SearchQueryGroup group in PaApp.Project.SearchQueryGroups)
 				cboCategories.Items.Add(group.Name);
 		}

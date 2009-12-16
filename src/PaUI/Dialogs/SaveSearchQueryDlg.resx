@@ -140,6 +140,9 @@
   <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>118, 17</value>
+  </metadata>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
     <value>232, 7</value>
   </data>
@@ -210,12 +213,6 @@
   <data name="cboCategories.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="cboCategories.ToolTip" xml:space="preserve">
-    <value>Enter a category in which to save the\npattern or choose one from the list</value>
-  </data>
   <data name="&gt;&gt;cboCategories.Name" xml:space="preserve">
     <value>cboCategories</value>
   </data>
@@ -243,9 +240,6 @@
   <data name="txtName.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="txtName.ToolTip" xml:space="preserve">
-    <value>Enter the name to give your saved pattern.</value>
-  </data>
   <data name="&gt;&gt;txtName.Name" xml:space="preserve">
     <value>txtName</value>
   </data>
@@ -265,13 +259,13 @@
     <value>134, 10</value>
   </data>
   <data name="lblPattern.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 13</value>
+    <value>14, 13</value>
   </data>
   <data name="lblPattern.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="lblPattern.Text" xml:space="preserve">
-    <value>label1</value>
+    <value>#</value>
   </data>
   <data name="&gt;&gt;lblPattern.Name" xml:space="preserve">
     <value>lblPattern</value>
@@ -301,7 +295,7 @@
     <value>3, 10, 3, 0</value>
   </data>
   <data name="lblName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 15</value>
+    <value>44, 15</value>
   </data>
   <data name="lblName.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -337,7 +331,7 @@
     <value>3, 10, 3, 10</value>
   </data>
   <data name="lblCategories.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 15</value>
+    <value>215, 15</value>
   </data>
   <data name="lblCategories.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -370,7 +364,7 @@
     <value>13, 13</value>
   </data>
   <data name="lblPatternLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 15</value>
+    <value>49, 15</value>
   </data>
   <data name="lblPatternLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -408,16 +402,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Save Search Pattern</value>
   </data>
-  <data name="&gt;&gt;m_toolTip.Name" xml:space="preserve">
-    <value>m_toolTip</value>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
   </data>
-  <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localize.LocalizationUtils.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SaveSearchQueryDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.Dialogs.OKCancelDlgBase, PaDialogs, Version=1.0.2673.29643, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3636.20399, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

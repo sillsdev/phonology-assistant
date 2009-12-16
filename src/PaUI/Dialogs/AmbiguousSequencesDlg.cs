@@ -15,11 +15,11 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		private const string kCantDeleteDefault = "AmbiguousSequencesDlg.CantDeleteDefaultAmbiguousSeqMsg";
 		private const string kCantDeleteAutoGen = "AmbiguousSequencesDlg.CantDeleteAutoGenAmbiguousSeqMsg";
-		private const string kBaseCharMissing = "AmbiguousSequencesDlg.AmbiguousSeqBaseCharMissingMsg";
-		private const string kBaseCharNotInTrans = "AmbiguousSequencesDlg.AmbiguousSeqBaseCharNotInTransMsg";
-		private const string kTransMissing = "AmbiguousSequencesDlg.AmbiguousTransMissingMsg";
-		private const string kDuplicateSeq1 = "AmbiguousSequencesDlg.AmbiguousDuplicateSeqMsg1";
-		private const string kDuplicateSeq2 = "AmbiguousSequencesDlg.AmbiguousDuplicateSeqMsg2";
+		private const string kBaseCharMissing = "AmbiguousSequencesDlg.BaseCharMissingMsg";
+		private const string kBaseCharNotInSeq = "AmbiguousSequencesDlg.BaseCharNotInSeqMsg";
+		private const string kSeqMissing = "AmbiguousSequencesDlg.MissingSequenceMsg";
+		private const string kDuplicateSeq1 = "AmbiguousSequencesDlg.DuplicateSeqMsg1";
+		private const string kDuplicateSeq2 = "AmbiguousSequencesDlg.DuplicateSeqMsg2";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -67,49 +67,50 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitStrings()
 		{
-			LocalizationManager.LocalizeString(kCantDeleteAutoGen,
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteAutoGenAmbiguousSeqMsg",
 				"This ambiguous sequence was automatically generated based\non phonetic " +
 				"transcriptions found in one or more data sources.\nAutomatically " +
 				"generated ambiguous sequences may not be\ndeleted. If you do not want " +
 				"Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat " +
 				"as one Unit?’check box.", "Message displayed when trying to delete an " +
 				"automatically generated ambiguous sequence in the ambiguous sequence " +
-				"dialog box.", locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"dialog box.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kCantDeleteDefault,
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteDefaultAmbiguousSeqMsg",
 				"Default sequences may not be deleted.", "Message displayed when trying " +
 				"to delete a default ambiguous sequence in the ambiguous sequence " +
-				"dialog box.", locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"dialog box.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kBaseCharMissing,
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.BaseCharMissingMsg",
 				"You must specify a base character.", "Message displayed when trying to " +
 				"save ambiguous sequences in the ambiguous sequences dialog box, when one " +
 				"or more sequence does not have a base character specified.",
-				locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kBaseCharNotInTrans, 
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.BaseCharNotInSeqMsg", 
 				"Your base character must be contained\nwithin its associated ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
-				locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kTransMissing, "A base character may not " +
-				"be specified\nuntil you have specified an ambiguous sequence.",
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.MissingSequenceMsg",
+				"A base character may not be specified\nuntil you have specified an ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
-				locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kDuplicateSeq1, "That sequence already exists.",
-				"Message displayed in ambiguous sequences dialog box when identical sequences exist.",
-				locExtender.LocalizationGroup, LocalizationCategory.Other, LocalizationPriority.Medium);
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg1",
+				"That sequence already exists.", "Message displayed in ambiguous sequences " +
+				"dialog box when identical sequences exist.", "Dialog Boxes",
+				LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString(kDuplicateSeq2,
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
 				"That sequence already exists as a default sequence.", "Message displayed in " +
 				"ambiguous sequences dialog box when a user-added sequence is identical to a " +
-				"default sequences.", locExtender.LocalizationGroup, LocalizationCategory.Other,
+				"default sequences.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 		}
 
@@ -508,12 +509,12 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Make sure there is an ambiguous sequence before specifying a base character.
 				if (string.IsNullOrEmpty(phone))
-					msg = LocalizationManager.GetString(kTransMissing);
+					msg = LocalizationManager.GetString(kSeqMissing);
 			}
 
 			// Make sure the new base character is part of the ambiguous sequence.
 			if (msg == null && phone != null && !phone.Contains(newBaseChar))
-				msg = LocalizationManager.GetString(kBaseCharNotInTrans);
+				msg = LocalizationManager.GetString(kBaseCharNotInSeq);
 
 			if (msg != null)
 			{

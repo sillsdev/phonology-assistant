@@ -232,7 +232,6 @@ namespace SIL.Pa.UI.Controls
 			// This will ensure the row height will accomodate the tallest font.
 			base.Font = FontHelper.UIFont;
 
-			AddColumns();
 			//AddGroups();
 
 			m_tooltip = new ClassListViewToolTip(this);
@@ -274,12 +273,12 @@ namespace SIL.Pa.UI.Controls
 			ColumnHeader hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
+			Columns.Add(hdr);
+
 			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", null,
 				null, "Name column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 			
-			Columns.Add(hdr);
-
 			if (m_showMembersAndClassTypeColumns)
 			{
 				PhoneticFont = (FontHelper.PhoneticFont.SizeInPoints <= 10 ?
@@ -295,21 +294,19 @@ namespace SIL.Pa.UI.Controls
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kMemberSubitem;
 				hdr.Width = 205;
+				Columns.Add(hdr);
 				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", null,
 					 null, "Members column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
 				
-				Columns.Add(hdr);
-
 				// Add a column for the text showing what the class is based on.
 				hdr = new ColumnHeader();
 				hdr.Name = "hdr" + kBasedOnSubitem;
 				hdr.Width = 175;
+				Columns.Add(hdr);
 				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", null,
 					 null, "Type column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
-				
-				Columns.Add(hdr);
 			}
 		}
 
@@ -337,6 +334,8 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
+
+			AddColumns();
 
 			if (m_sortColumn >= 0)
 			{
@@ -500,7 +499,9 @@ namespace SIL.Pa.UI.Controls
 				}
 				
 				m_showMembersAndClassTypeColumns = value;
-				AddColumns();
+				
+				if (IsHandleCreated)
+					AddColumns();
 			}
 		}
 

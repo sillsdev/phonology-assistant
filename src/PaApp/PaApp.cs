@@ -137,8 +137,7 @@ namespace SIL.Pa
 			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
 			s_msgMediator = new Mediator();
 
-			string appName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-			LocalizationManager.Initialize(appName, "SIL", Application.ProductName);
+			LocalizationManager.Initialize();
 			string langId = s_settingsHndlr.GetStringSettingsValue("UserInterface", "lang", null);
 			LocalizationManager.UILangId = langId ?? LocalizationManager.kDefaultLang;
 
@@ -167,8 +166,8 @@ namespace SIL.Pa
 
 			ReadAddOns();
 
-			LocalizeItemDlg.SetDialogplitterPosition += LocalizeItemDlg_SetDialogplitterPosition;
-			LocalizeItemDlg.SaveDialogplitterPosition += LocalizeItemDlg_SaveDialogplitterPosition;
+			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
+			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
 			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 		}
@@ -199,7 +198,7 @@ namespace SIL.Pa
 		/// Returns the saved splitter distance value for Localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static int LocalizeItemDlg_SetDialogplitterPosition()
+		static int LocalizeItemDlg_SetDialogSplitterPosition()
 		{
 			return SettingsHandler.GetIntSettingsValue("LocalizeDlg", "splitdistance", 0);
 		}
@@ -209,7 +208,7 @@ namespace SIL.Pa
 		/// Saves the splitter distance value for Localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static void LocalizeItemDlg_SaveDialogplitterPosition(int pos)
+		static void LocalizeItemDlg_SaveDialogSplitterPosition(int pos)
 		{
 			SettingsHandler.SaveSettingsValue("LocalizeDlg", "splitdistance", pos);
 		}
