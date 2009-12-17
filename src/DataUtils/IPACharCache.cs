@@ -15,32 +15,47 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using SilUtils;
 
 namespace SIL.Pa.Data
 {
-	#region IPACharacterTypeInfo struct
+	#region SerializableIPASymbolCache
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Wraps the IPA character type and sub type into a single object for passing both pieces
+	/// Temporary cache used to serialize and deserialize an IPASymbolCache
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	[XmlType("symbols")]
+	public class IPASymbolList : List<IPASymbol>
+	{
+	}
+
+	#endregion
+
+	#region IPASymbolTypeInfo struct
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// Wraps the IPA symbol type and sub type into a single object for passing both pieces
 	/// of information to methods and classes.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public struct IPACharacterTypeInfo
+	public struct IPASymbolTypeInfo
 	{
-		public IPACharacterType Type;
-		public IPACharacterSubType SubType;
+		public IPASymbolType Type;
+		public IPASymbolSubType SubType;
 
-		public IPACharacterTypeInfo(IPACharacterType type)
+		public IPASymbolTypeInfo(IPASymbolType type)
 		{
 			Type = type;
-			SubType = IPACharacterSubType.Unknown;
+			SubType = IPASymbolSubType.Unknown;
 		}
 
-		public IPACharacterTypeInfo(IPACharacterType type, IPACharacterSubType subType)
+		public IPASymbolTypeInfo(IPASymbolType type, IPASymbolSubType subType)
 		{
 			Type = type;
 			SubType = subType;
@@ -52,10 +67,10 @@ namespace SIL.Pa.Data
 	#region Enumerations
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// IPA phone types.
+	/// IPA symbol types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharacterType
+	public enum IPASymbolType
 	{
 		Unknown = 0,
 		Consonant = 1,
@@ -67,10 +82,10 @@ namespace SIL.Pa.Data
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// IPA phone Subtypes.
+	/// IPA symbol Subtypes.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharacterSubType
+	public enum IPASymbolSubType
 	{
 		Unknown = 0,
 		Pulmonic = 1,
@@ -85,7 +100,7 @@ namespace SIL.Pa.Data
 	/// Types used for grouping characters to ignore in find phone searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public enum IPACharIgnoreTypes
+	public enum IPASymbolIgnoreType
 	{
 		NotApplicable = 0,
 		StressSyllable = 1,
@@ -95,15 +110,13 @@ namespace SIL.Pa.Data
 	
 	#endregion
 
-	#region IPACharCache class
+	#region IPASymbolCache class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// An in-memory cache of the IPACharacters table. As of Feb. 13, 2007 the file from which
-	/// this class reads its data is called PhoneticInventory.xml. I would change the name
-	/// of the class but I don't want to go to the trouble now. Perhaps some day. -DDO
+	/// An in-memory cache of the IPASymbol table.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class IPACharCache : Dictionary<int, IPACharInfo>
+	public class IPASymbolCache : Dictionary<int, IPASymbol>
 	{
 		public enum SortType
 		{
@@ -120,12 +133,12 @@ namespace SIL.Pa.Data
 		private ExperimentalTranscriptions m_experimentalTransList;
 		private AmbiguousSequences m_sortedAmbiguousSeqList;
 		private AmbiguousSequences m_unsortedAmbiguousSeqList;
-		private UndefinedPhoneticCharactersInfoList m_undefinedCharacters;
+		private UndefinedPhoneticCharactersInfoList m_undefinedChars;
 
 		public const string kDefaultIPACharCacheFile = "PhoneticCharacterInventory.xml";
 		public const string kIPACharCacheFile = "PhoneticCharacterInventory.xml";
 		private string m_cacheFileName;
-		private Dictionary<string, IPACharInfo> m_toneLetters;
+		private Dictionary<string, IPASymbol> m_toneLetters;
 		private bool m_logUndefinedCharacters;
 		private static string s_absentPhoneChars = "0\u2205";
 		private static string s_absentPhoneChar = "\u2205";
@@ -139,7 +152,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal IPACharCache(string projectFileName)
+		internal IPASymbolCache(string projectFileName)
 		{
 			m_experimentalTransList = new ExperimentalTranscriptions();
 			m_unsortedAmbiguousSeqList = new AmbiguousSequences();
@@ -216,10 +229,10 @@ namespace SIL.Pa.Data
 			/// ambiguous sequences.
 			if (m_toneLetters != null)
 			{
-				foreach (IPACharInfo info in m_toneLetters.Values)
+				foreach (IPASymbol info in m_toneLetters.Values)
 				{
-					if (!m_sortedAmbiguousSeqList.ContainsSeq(info.IPAChar, true))
-						m_sortedAmbiguousSeqList.Add(new AmbiguousSeq(info.IPAChar));
+					if (!m_sortedAmbiguousSeqList.ContainsSeq(info.Literal, true))
+						m_sortedAmbiguousSeqList.Add(new AmbiguousSeq(info.Literal));
 				}
 			}
 
@@ -269,27 +282,27 @@ namespace SIL.Pa.Data
 		/// Loads the binary feature table from the database into a memory cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IPACharCache Load()
+		public static IPASymbolCache Load()
 		{
 			return Load(null);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the IPA character cache file into a memory cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IPACharCache Load(string projectFileName)
+		public static IPASymbolCache Load(string projectFileName)
 		{
-			IPACharCache cache = new IPACharCache(projectFileName);
+			IPASymbolCache cache = new IPASymbolCache(projectFileName);
 			
 			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
-			// (i.e. IPACharCache) isn't serializable nor deserializable.
-			List<IPACharInfo> tmpCache = Utils.DeserializeData(
-				cache.CacheFileName, typeof(List<IPACharInfo>)) as List<IPACharInfo>;
-
+			// (i.e. IPASymbolCache) isn't serializable nor deserializable.
+			IPASymbolList tmpCache = Utils.DeserializeData(cache.CacheFileName,
+				typeof(IPASymbolList)) as IPASymbolList;
+			
 			if (tmpCache == null)
-				return null;
+			    return null;
 
 			cache.LoadFromList(tmpCache);
 			tmpCache.Clear();
@@ -329,7 +342,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadFromList(List<IPACharInfo> list)
+		public void LoadFromList(List<IPASymbol> list)
 		{
 			if (list == null || list.Count == 0)
 				return;
@@ -340,20 +353,20 @@ namespace SIL.Pa.Data
 				m_toneLetters.Clear();
 
 			// Copy the items from the list to the "real" cache.
-			foreach (IPACharInfo info in list)
+			foreach (IPASymbol info in list)
 			{
-				this[info.Codepoint] = info;
+				this[info.Decimal] = info;
 				
 				// If the code point is less than zero it means the character is
 				// made up of multiple code points and is one of the tone letters.
 				// In that case, make sure to add the character to the list of
 				// tone letters.
-				if (info.Codepoint < 0)
+				if (info.Decimal < 0)
 				{
 					if (m_toneLetters == null)
-						m_toneLetters = new Dictionary<string, IPACharInfo>();
+						m_toneLetters = new Dictionary<string, IPASymbol>();
 
-					m_toneLetters[info.IPAChar] = info;
+					m_toneLetters[info.Literal] = info;
 				}
 			}
 		}
@@ -369,13 +382,13 @@ namespace SIL.Pa.Data
 		{
 			if (!ContainsKey(c))
 			{
-				IPACharInfo charInfo = new IPACharInfo();
-				charInfo.IPAChar = c.ToString();
-				charInfo.Codepoint = c;
-				charInfo.HexIPAChar = charInfo.Codepoint.ToString("X4");
-				charInfo.CharType = IPACharacterType.Unknown;
-				charInfo.CharSubType = IPACharacterSubType.Unknown;
-				charInfo.IsBaseChar = true;
+				IPASymbol charInfo = new IPASymbol();
+				charInfo.Literal = c.ToString();
+				charInfo.Decimal = c;
+				charInfo.Hexadecimal = charInfo.Decimal.ToString("X4");
+				charInfo.Type = IPASymbolType.Unknown;
+				charInfo.SubType = IPASymbolSubType.Unknown;
+				charInfo.IsBase = true;
 				charInfo.IsUndefined = true;
 				this[(int)c] = charInfo;
 			}
@@ -386,9 +399,9 @@ namespace SIL.Pa.Data
 		/// Determines whether or not the specified phone is one of the tone letters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharInfo ToneLetterInfo(string phone)
+		public IPASymbol ToneLetterInfo(string phone)
 		{
-			IPACharInfo charInfo;
+			IPASymbol charInfo;
 			return (m_toneLetters != null && m_toneLetters.TryGetValue(phone, out charInfo) ?
 				charInfo : null);
 		}
@@ -398,17 +411,17 @@ namespace SIL.Pa.Data
 		/// Gets a list of references to cache items, sorted by the specified sort type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortedList<int, IPACharInfo> GetSortedReferenceList(SortType sortType)
+		public SortedList<int, IPASymbol> GetSortedReferenceList(SortType sortType)
 		{
-			SortedList<int, IPACharInfo> list = new SortedList<int, IPACharInfo>();
+			SortedList<int, IPASymbol> list = new SortedList<int, IPASymbol>();
 
-			foreach (IPACharInfo info in Values)
+			foreach (IPASymbol info in Values)
 			{
 				switch (sortType)
 				{
 					case SortType.MOArticulation: list[info.MOArticulation] = info; break;
 					case SortType.POArticulation: list[info.POArticulation] = info; break;
-					case SortType.Unicode: list[info.Codepoint] = info; break;
+					case SortType.Unicode: list[info.Decimal] = info; break;
 				}
 			}
 
@@ -421,11 +434,11 @@ namespace SIL.Pa.Data
 		/// Gets or sets the information for the IPA character specified by the codepoint.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public new IPACharInfo this[int codepoint]
+		public new IPASymbol this[int codepoint]
 		{
 			get
 			{
-				IPACharInfo charInfo;
+				IPASymbol charInfo;
 				return (TryGetValue(codepoint, out charInfo) ? charInfo : null);
 			}
 			set {base[codepoint] = value;}
@@ -438,14 +451,14 @@ namespace SIL.Pa.Data
 		/// first codepoint is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharInfo this[string ipaCharStr]
+		public IPASymbol this[string ipaCharStr]
 		{
 			get
 			{
 				if (string.IsNullOrEmpty(ipaCharStr))
 					return null;
 
-				IPACharInfo charInfo;
+				IPASymbol charInfo;
 				if (m_toneLetters != null && m_toneLetters.TryGetValue(ipaCharStr, out charInfo))
 					return charInfo;
 				
@@ -458,7 +471,7 @@ namespace SIL.Pa.Data
 		/// Gets the IPA character information for the specified IPA character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharInfo this[char ipaChar]
+		public IPASymbol this[char ipaChar]
 		{
 			get	{return this[Convert.ToInt32(ipaChar)];}
 		}
@@ -471,8 +484,8 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public UndefinedPhoneticCharactersInfoList UndefinedCharacters
 		{
-			get { return m_undefinedCharacters; }
-			set { m_undefinedCharacters = value; }
+			get { return m_undefinedChars; }
+			set { m_undefinedChars = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -517,9 +530,9 @@ namespace SIL.Pa.Data
 
 				for (int i = 0; i < word.Length; i++)
 				{
-					IPACharInfo ci = this[word[i]];
+					IPASymbol ci = this[word[i]];
 
-					if (ci == null || ci.IsBaseChar || ci.IsUndefined)
+					if (ci == null || ci.IsBase || ci.IsUndefined)
 					{
 						// If there's already something in the builder it means
 						// we've previously found some non base characters before
@@ -624,7 +637,7 @@ namespace SIL.Pa.Data
 				return null;
 
 			m_phones = new List<string>();
-			IPACharInfo ciPrev = null;
+			IPASymbol ciPrev = null;
 
 			// Normalize the string if necessary.
 			if (normalize)
@@ -662,12 +675,12 @@ namespace SIL.Pa.Data
 				}
 
 				// Get the information for the current codepoint.
-				IPACharInfo ciCurr = this[c];
+				IPASymbol ciCurr = this[c];
 
 				// If there's no information for a code point or there is but there isn't
 				// any for the previous character and the current character isn't a base
 				// character, then treat the character as it's own phone.
-				if (ciCurr == null || ciCurr.CharType == IPACharacterType.Unknown)
+				if (ciCurr == null || ciCurr.Type == IPASymbolType.Unknown)
 				{
 					if (i > phoneStart)
 						m_phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
@@ -703,8 +716,8 @@ namespace SIL.Pa.Data
 					if (badChar != '\0')
 					{
 						// Log the undefined character.
-						if (m_logUndefinedCharacters && m_undefinedCharacters != null)
-							m_undefinedCharacters.Add(c, s_currentPhoneticBeingParsed);
+						if (m_logUndefinedCharacters && m_undefinedChars != null)
+							m_undefinedChars.Add(c, s_currentPhoneticBeingParsed);
 
 						m_phones.Add(c.ToString());
 					}
@@ -715,14 +728,14 @@ namespace SIL.Pa.Data
 				// If we've encountered a non base character but nothing precedes it,
 				// then it must be a diacritic at the beginning of the phonetic
 				// transcription so just put it with the following characters.
-				if (ciPrev == null && !ciCurr.IsBaseChar)
+				if (ciPrev == null && !ciCurr.IsBase)
 					continue;
 
 				// Is the previous codepoint special in that it's not a base character
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
 				// If yes, then make sure the current codepoint is a base character or
 				// throw it away.
-				if (ciPrev != null && ciPrev.CanPreceedBaseChar)
+				if (ciPrev != null && ciPrev.CanPreceedBase)
 				{
 					ciPrev = ciCurr;
 					continue;
@@ -736,7 +749,7 @@ namespace SIL.Pa.Data
 				// attach them to the first base character that's found. In that case,
 				// we don't want to add the phone to the collection yet. We'll wait
 				// until we come across the beginning of the next phone.
-				if (ciCurr.IsBaseChar && i > phoneStart && ciPrev != null)
+				if (ciCurr.IsBase && i > phoneStart && ciPrev != null)
 				{
 					m_phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 					phoneStart = i;
@@ -882,7 +895,7 @@ namespace SIL.Pa.Data
 			phones.Add(tmpPhone);
 			uncertainPhones[phoneNumber] = phones.ToArray();
 
-			if (m_undefinedCharacters != null)
+			if (m_undefinedChars != null)
 				ValidateCodepointsInUncertainPhones(phones);
 
 			return phones[0];
@@ -902,7 +915,7 @@ namespace SIL.Pa.Data
 				{
 					// Get the information for the current codepoint.
 					if (!ContainsKey(c))
-						m_undefinedCharacters.Add(c, s_currentPhoneticBeingParsed);
+						m_undefinedChars.Add(c, s_currentPhoneticBeingParsed);
 				}
 			}
 		}
