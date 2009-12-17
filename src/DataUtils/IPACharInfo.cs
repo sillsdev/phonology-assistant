@@ -25,30 +25,59 @@ namespace SIL.Pa.Data
 	/// Stores information about IPA characters.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class IPACharInfo
+	[XmlType("symbol")]
+	public class IPASymbol
 	{
 		[XmlIgnore]
-		public bool IsUndefined;
+		public bool IsUndefined { get; set; }
 
-		[XmlAttribute]
-		public int Codepoint;
-		[XmlAttribute]
-		public string IPAChar;
-		[XmlAttribute]
-		public string HexIPAChar;
-		public string Name;
-		public string Description;
-		public IPACharacterType CharType;
-		public IPACharacterSubType CharSubType;
-		public IPACharIgnoreTypes IgnoreType;
-		public bool IsBaseChar;
-		public bool CanPreceedBaseChar;
-		public bool DisplayWDottedCircle;
-		public int DisplayOrder;
-		public int MOArticulation;
-		public int POArticulation;
-		public int ChartColumn;
-		public int ChartGroup;
+		[XmlAttribute("decimal")]
+		public int Decimal { get; set; }
+		
+		[XmlAttribute("literal")]
+		public string Literal { get; set; }
+
+		[XmlAttribute("hexadecimal")]
+		public string Hexadecimal { get; set; }
+
+		[XmlAttribute("name")]
+		public string Name { get; set; }
+		
+		[XmlAttribute("description")]
+		public string Description { get; set; }
+
+		[XmlAttribute("type")]
+		public IPASymbolType Type { get; set; }
+		
+		[XmlAttribute("subtype")]
+		public IPASymbolSubType SubType { get; set; }
+
+		[XmlAttribute("ignoreType")]
+		public IPASymbolIgnoreType IgnoreType { get; set; }
+
+		[XmlAttribute("isBase")]
+		public bool IsBase { get; set; }
+
+		[XmlAttribute("canPreceedBase")]
+		public bool CanPreceedBase { get; set; }
+
+		[XmlAttribute("displayWithDottedCircle")]
+		public bool DisplayWithDottedCircle { get; set; }
+
+		[XmlAttribute("mannerOfArticulation")]
+		public int MOArticulation { get; set; }
+
+		[XmlAttribute("placeOfArticulation")]
+		public int POArticulation { get; set; }
+
+		[XmlAttribute("displayOrder")]
+		public int DisplayOrder { get; set; }
+		
+		[XmlAttribute("chartColumn")]
+		public int ChartColumn { get; set; }
+		
+		[XmlAttribute("chartGroup")]
+		public int ChartGroup { get; set; }
 
 		private List<string> m_aFeatures;
 		private List<string> m_bFeatures;
@@ -60,7 +89,7 @@ namespace SIL.Pa.Data
 		/// Gets or sets the list of articulatory features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("ArticulatoryFeatures")]
+		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
 		public List<string> AFeatures
 		{
 			get
@@ -76,7 +105,7 @@ namespace SIL.Pa.Data
 		/// Gets or sets the list of binary features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("BinaryFeatures")]
+		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
 		public List<string> BFeatures
 		{
 			get
@@ -138,7 +167,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return string.Format("{0}: U+{1:X4}, {2}, {3}", IPAChar, Codepoint, Name, Description);
+			return string.Format("{0}: U+{1:X4}, {2}, {3}", Literal, Decimal, Name, Description);
 		}
 	}
 
