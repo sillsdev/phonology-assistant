@@ -40,7 +40,7 @@ namespace SIL.Pa.Data
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DataUtils.LoadIPACharCache(null);
+			//DataUtils.LoadIPACharCache(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,14 +130,14 @@ namespace SIL.Pa.Data
 			Assert.AreEqual(5, m_cache.Count);
 
 			var cons = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPACharacterType.Consonant);
+				m_cache, "GetTypeOfPhones", IPASymbolType.Consonant);
 			
 			Assert.AreEqual(2, cons.Length);
 			Assert.AreEqual("d", cons[0]);
 			Assert.AreEqual("z", cons[1]);
 
 			var vows = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPACharacterType.Vowel);
+				m_cache, "GetTypeOfPhones", IPASymbolType.Vowel);
 
 			Assert.AreEqual(3, vows.Length);
 			Assert.AreEqual("a", vows[0]);
@@ -160,7 +160,7 @@ namespace SIL.Pa.Data
 			Assert.AreEqual(4, m_cache.Count);
 
 			var ssegs = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPACharacterType.Suprasegmentals);
+				m_cache, "GetTypeOfPhones", IPASymbolType.Suprasegmentals);
 
 			Assert.AreEqual(1, ssegs.Length);
 			Assert.AreEqual("\u02E6", ssegs[0]);
@@ -182,12 +182,12 @@ namespace SIL.Pa.Data
 			Assert.AreEqual(5, m_cache.Count);
 
 			var cons = (string)ReflectionHelper.GetResult(
-				m_cache, "GetCommaDelimitedPhones", IPACharacterType.Consonant);
+				m_cache, "GetCommaDelimitedPhones", IPASymbolType.Consonant);
 
 			Assert.AreEqual("d,z", cons);
 
 			var vows = (string)ReflectionHelper.GetResult(
-				m_cache, "GetCommaDelimitedPhones", IPACharacterType.Vowel);
+				m_cache, "GetCommaDelimitedPhones", IPASymbolType.Vowel);
 
 			Assert.AreEqual("a,e,i", vows);
 		}

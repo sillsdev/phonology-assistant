@@ -30,7 +30,7 @@ namespace SIL.Pa.Data
 		private string m_phone;
 		private string m_leftSideDiacritics;
 		private string m_rightSideDiacritics;
-		private IPACharIgnoreTypes m_patternType = IPACharIgnoreTypes.NotApplicable;
+		private IPASymbolIgnoreType m_patternType = IPASymbolIgnoreType.NotApplicable;
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static CVPatternInfo Create(string phone, IPACharIgnoreTypes patternType)
+		public static CVPatternInfo Create(string phone, IPASymbolIgnoreType patternType)
 		{
 			if (string.IsNullOrEmpty(phone))
 				return null;
@@ -85,8 +85,8 @@ namespace SIL.Pa.Data
 			int baseIndex = -1;
 			for (int i = 0; i < phone.Length; i++)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[phone[i]];
-				if (charInfo != null && charInfo.IsBaseChar)
+				IPASymbol charInfo = DataUtils.IPASymbolCache[phone[i]];
+				if (charInfo != null && charInfo.IsBase)
 				{
 					baseIndex = i;
 					break;
@@ -138,8 +138,8 @@ namespace SIL.Pa.Data
 				m_phone = FFNormalizer.Normalize(value);
 
 				// If the phone is also a base phonetic character, we're done now.
-				IPACharInfo charInfo = DataUtils.IPACharCache[m_phone];
-				if (charInfo != null && charInfo.IsBaseChar)
+				IPASymbol charInfo = DataUtils.IPASymbolCache[m_phone];
+				if (charInfo != null && charInfo.IsBase)
 					return;
 
 				StringBuilder bldrDiacritics = new StringBuilder();
@@ -155,8 +155,8 @@ namespace SIL.Pa.Data
 				// follows it are diacritics that will follow the C or V.
 				foreach (char c in m_phone)
 				{
-					charInfo = DataUtils.IPACharCache[c];
-					if (charInfo != null && charInfo.IsBaseChar)
+					charInfo = DataUtils.IPASymbolCache[c];
+					if (charInfo != null && charInfo.IsBase)
 						return;
 
 					if (c != DataUtils.kDottedCircleC)
@@ -180,7 +180,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("Type")]
-		public IPACharIgnoreTypes PatternType
+		public IPASymbolIgnoreType PatternType
 		{
 			get { return m_patternType; }
 			set { m_patternType = value; }

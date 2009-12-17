@@ -1,5 +1,10 @@
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace SIL.Pa.Data
 {
@@ -10,7 +15,7 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class DataUtils
 	{
-		public static char[] kTieBars = new char[] { '\u0361', '\u035C' };
+		public static char[] kTieBars = new[] { '\u0361', '\u035C' };
 		public const string kTopTieBar = "\u0361";
 		public const string kBottomTieBar = "\u035C";
 		public const char kTopTieBarC = '\u0361';
@@ -26,7 +31,7 @@ namespace SIL.Pa.Data
 		private static Form m_mainWindow;
 		internal static AFeatureCache s_aFeatureCache;
 		internal static BFeatureCache s_bFeatureCache;
-		internal static IPACharCache s_ipaCharCache;
+		internal static IPASymbolCache s_ipaCharCache;
 
 		#region Cache Loading methods
 		/// ------------------------------------------------------------------------------------
@@ -37,51 +42,92 @@ namespace SIL.Pa.Data
 		public static void ReloadIPACharCache()
 		{
 			s_ipaCharCache.Clear();
-			s_ipaCharCache = IPACharCache.Load();
+			s_ipaCharCache = IPASymbolCache.Load();
 		}
 
-		/// ------------------------------------------------------------------------------------
+				/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Forces the IPA character cache to be reloaded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void LoadIPACharCache(string projectFileName)
+		public static void LoadIPASymbolsAndFeatures(string path)
 		{
-			if (s_ipaCharCache != null)
-				s_ipaCharCache.Clear();
+			XmlTypeAttribute[] attribs = typeof(AFeatureList).GetCustomAttributes(
+				typeof(XmlTypeAttribute), false) as XmlTypeAttribute[];
+
+			string afeatureNodeName =  (attribs != null ? attribs[0].TypeName : "articulatoryFeatures");
+
+			attribs = typeof(BFeatureList).GetCustomAttributes(
+				typeof(XmlTypeAttribute), false) as XmlTypeAttribute[];
+
+			string bfeatureNodeName = (attribs != null ? attribs[0].TypeName : "binaryFeatures");
+
+			attribs = typeof(IPASymbolList).GetCustomAttributes(
+				typeof(XmlTypeAttribute), false) as XmlTypeAttribute[];
+
+			string symbolsNodeName = (attribs != null ? attribs[0].TypeName : "symbols");
 			
-			s_ipaCharCache = IPACharCache.Load(projectFileName);
+			path = Path.GetDirectoryName(path);
+			path = Path.Combine(path, IPASymbolCache.kDefaultIPASymbolCacheFile);
+			XmlTextReader reader = new XmlTextReader(path);
+
+			reader.WhitespaceHandling = WhitespaceHandling.None;
+			reader.ReadStartElement();
+
+			while (!reader.EOF)
+			{
+				string nodeName = reader.Name;
+				string data = reader.ReadOuterXml();
+
+				if (nodeName == symbolsNodeName)
+					s_ipaCharCache = IPASymbolCache.Load(path, data);
+				else if (nodeName == afeatureNodeName)
+					s_aFeatureCache = AFeatureCache.Load(data);
+				else if (nodeName == bfeatureNodeName)
+					s_bFeatureCache = BFeatureCache.Load(data);
+			}
+
+			reader.Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the articulatory feature cache for the project whose file name is specified
-		/// by projectFileName.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void LoadAFeatureCache(string projFilePrefix)
-		{
-			// NOTE: For now, the projFilePrefix is not used. Use it if
-			// we ever want to store features at the project level.
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Forces the IPA character cache to be reloaded.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void LoadIPACharCache(string projectFileName)
+		//{
+		//}
 
-			s_aFeatureCache = new AFeatureCache();
-			s_aFeatureCache.Load();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Loads the articulatory feature cache for the project whose file name is specified
+		///// by projectFileName.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void LoadAFeatureCache(string projFilePrefix)
+		//{
+		//    // NOTE: For now, the projFilePrefix is not used. Use it if
+		//    // we ever want to store features at the project level.
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the articulatory feature cache for the project whose file name is specified
-		/// by projectFileName.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void LoadBFeatureCache(string projFilePrefix)
-		{
-			// NOTE: For now, the projFilePrefix is not used. Use it if
-			// we ever want to store features at the project level.
+		//    s_aFeatureCache = new AFeatureCache();
+		//    s_aFeatureCache.Load(typeof(AFeatureList));
+		//}
 
-			s_bFeatureCache = new BFeatureCache();
-			s_bFeatureCache.Load();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Loads the articulatory feature cache for the project whose file name is specified
+		///// by projectFileName.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void LoadBFeatureCache(string projFilePrefix)
+		//{
+		//    // NOTE: For now, the projFilePrefix is not used. Use it if
+		//    // we ever want to store features at the project level.
+
+		//    s_bFeatureCache = new BFeatureCache();
+		//    s_bFeatureCache.Load(typeof(BFeatureList));
+		//}
 
 		#endregion
 
@@ -106,12 +152,14 @@ namespace SIL.Pa.Data
 		/// Gets the IPACharacters cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IPACharCache IPACharCache
+		public static IPASymbolCache IPASymbolCache
 		{
 			get
 			{
 				if (s_ipaCharCache == null)
-					s_ipaCharCache = IPACharCache.Load();
+					LoadIPASymbolsAndFeatures(Application.ExecutablePath);
+				
+				//s_ipaCharCache = IPASymbolCache.Load();
 
 				return s_ipaCharCache;
 			}
@@ -128,8 +176,9 @@ namespace SIL.Pa.Data
 			{
 				if (s_aFeatureCache == null)
 				{
-					s_aFeatureCache = new AFeatureCache();
-					s_aFeatureCache.Load();
+					LoadIPASymbolsAndFeatures(Application.ExecutablePath);
+					//s_aFeatureCache = new AFeatureCache();
+					//s_aFeatureCache.Load(typeof(AFeatureList));
 				}
 
 				return s_aFeatureCache;
@@ -147,8 +196,9 @@ namespace SIL.Pa.Data
 			{
 				if (s_bFeatureCache == null)
 				{
-					s_bFeatureCache = new BFeatureCache();
-					s_bFeatureCache.Load();
+					LoadIPASymbolsAndFeatures(Application.ExecutablePath);
+					//s_bFeatureCache = new BFeatureCache();
+					//s_bFeatureCache.Load(typeof(BFeatureList));
 				}
 				return s_bFeatureCache;
 			}
@@ -172,7 +222,7 @@ namespace SIL.Pa.Data
 			StringBuilder keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPACharInfo info = IPACharCache[c];
+				IPASymbol info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.MOArticulation));
 			}
@@ -195,7 +245,7 @@ namespace SIL.Pa.Data
 			StringBuilder keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPACharInfo info = IPACharCache[c];
+				IPASymbol info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.POArticulation));
 			}

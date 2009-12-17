@@ -175,15 +175,15 @@ namespace SIL.Pa
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			DataUtils.IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			DataUtils.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				DataUtils.IPACharCache.UndefinedCharacters.CurrentDataSourceName =
+				DataUtils.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
-				DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = true;
+				DataUtils.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
 
 				m_currDataSource = source;
 
@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			PaApp.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
 			m_recCache.BuildWordCache(PaApp.ProgressBar);
-			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = false;
+			DataUtils.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
 			PaApp.IncProgressBar();
 			TempRecordCache.Save();
 			PaApp.UninitializeProgressBar();

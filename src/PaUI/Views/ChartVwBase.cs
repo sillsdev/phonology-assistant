@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Views
 		public ChartVwBase()
 		{
 			PaApp.InitializeProgressBarForLoadingView(
-				(CharacterType == IPACharacterType.Consonant ?
+				(CharacterType == IPASymbolType.Consonant ?
 				Properties.Resources.kstidConsonantChartViewText :
 				Properties.Resources.kstidVowelChartViewText), 5);
 			
@@ -802,9 +802,9 @@ namespace SIL.Pa.UI.Views
 		/// Derived classes must override this.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual IPACharacterType CharacterType
+		protected virtual IPASymbolType CharacterType
 		{
-			get { return IPACharacterType.Unknown; }
+			get { return IPASymbolType.Unknown; }
 		}
 
 		/// ------------------------------------------------------------------------------------

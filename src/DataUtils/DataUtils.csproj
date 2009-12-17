@@ -75,7 +75,8 @@
     <Compile Include="FeatureOverrides.cs" />
     <Compile Include="FFNormalizer.cs" />
     <Compile Include="FwDBUtils.cs" />
-    <Compile Include="IPACharInfo.cs" />
+    <Compile Include="IPASymbol.cs" />
+    <Compile Include="IPASymbolCache.cs" />
     <Compile Include="IPhoneInfo.cs" />
     <Compile Include="PhoneCache.cs">
       <SubType>Code</SubType>
@@ -86,7 +87,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="IPACharCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UndefinedCharClasses.cs" />
   </ItemGroup>

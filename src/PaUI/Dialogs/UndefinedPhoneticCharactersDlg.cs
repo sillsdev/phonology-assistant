@@ -45,11 +45,11 @@ namespace SIL.Pa.UI.Dialogs
 			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (DataUtils.IPACharCache.UndefinedCharacters != null &&
-				DataUtils.IPACharCache.UndefinedCharacters.Count > 0)
+			if (DataUtils.IPASymbolCache.UndefinedCharacters != null &&
+				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
 				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
-					projectName, DataUtils.IPACharCache.UndefinedCharacters))
+					projectName, DataUtils.IPASymbolCache.UndefinedCharacters))
 				{
 					if (PaApp.MainForm != null)
 						PaApp.MainForm.AddOwnedForm(dlg);

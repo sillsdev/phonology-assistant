@@ -220,19 +220,19 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void IinitializeCharExplorer()
 		{
-			List<IPACharacterTypeInfo> typesToShow = new List<IPACharacterTypeInfo>();
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Consonant,
-				IPACharacterSubType.Pulmonic));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Consonant,
-				IPACharacterSubType.NonPulmonic));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Consonant,
-				IPACharacterSubType.OtherSymbols));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Vowel));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Diacritics));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Suprasegmentals,
-				IPACharacterSubType.StressAndLength));
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Suprasegmentals,
-				IPACharacterSubType.ToneAndAccents));
+			List<IPASymbolTypeInfo> typesToShow = new List<IPASymbolTypeInfo>();
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
+				IPASymbolSubType.Pulmonic));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
+				IPASymbolSubType.NonPulmonic));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
+				IPASymbolSubType.OtherSymbols));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Vowel));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
+				IPASymbolSubType.StressAndLength));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
+				IPASymbolSubType.ToneAndAccents));
 
 			charExplorer.TypesToShow = typesToShow;
 			charExplorer.Dock = DockStyle.Fill;
@@ -264,19 +264,19 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			m_conViewer = new PhonesInFeatureViewer(IPACharacterType.Consonant, Name, "ConVwr");
+			m_conViewer = new PhonesInFeatureViewer(IPASymbolType.Consonant, Name, "ConVwr");
 			m_conViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrCon;
 			m_conViewer.Dock = DockStyle.Fill;
 			splitCV.Panel1.Controls.Add(m_conViewer);
 			m_conViewer.BringToFront();
 
-			m_vowViewer = new PhonesInFeatureViewer(IPACharacterType.Vowel, Name, "VowVwr");
+			m_vowViewer = new PhonesInFeatureViewer(IPASymbolType.Vowel, Name, "VowVwr");
 			m_vowViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrVow;
 			m_vowViewer.Dock = DockStyle.Fill;
 			splitCV.Panel2.Controls.Add(m_vowViewer);
 			m_vowViewer.BringToFront();
 
-			m_otherPhonesViewer = new PhonesInFeatureViewer(IPACharacterType.Unknown, Name, "OtherVwr");
+			m_otherPhonesViewer = new PhonesInFeatureViewer(IPASymbolType.Unknown, Name, "OtherVwr");
 			m_otherPhonesViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrOther;
 			m_otherPhonesViewer.CanViewExpandAndCompact = false;
 			m_otherPhonesViewer.Dock = DockStyle.Fill;
@@ -412,7 +412,7 @@ namespace SIL.Pa.UI.Dialogs
 				List<char> undefinedChars = new List<char>();
 				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
-					if (DataUtils.IPACharCache[c] == null || DataUtils.IPACharCache[c].IsUndefined)
+					if (DataUtils.IPASymbolCache[c] == null || DataUtils.IPASymbolCache[c].IsUndefined)
 						undefinedChars.Add(c);
 				}
 
@@ -475,7 +475,7 @@ namespace SIL.Pa.UI.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = DataUtils.IPACharCache.PhoneticParser_CommaDelimited(phones, true, true);
+				phones = DataUtils.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}
@@ -532,8 +532,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InsertText(string itemText)
 		{
-			IPACharInfo charInfo = DataUtils.IPACharCache[itemText];
-			bool isBase = (charInfo == null || charInfo.IsBaseChar);
+			IPASymbol charInfo = DataUtils.IPASymbolCache[itemText];
+			bool isBase = (charInfo == null || charInfo.IsBase);
 
 			int selStart = txtMembers.SelectionStart;
 			int selLen = txtMembers.SelectionLength;

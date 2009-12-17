@@ -39,7 +39,7 @@ namespace SIL.Pa.Data
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DataUtils.LoadIPACharCache(null);
+			//DataUtils.LoadIPACharCache(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace SIL.Pa.Data
 		public void TestSetup()
 		{
 			m_ambigSeqList = new AmbiguousSequences();
-			DataUtils.IPACharCache.AmbiguousSequences.Clear();
+			DataUtils.IPASymbolCache.AmbiguousSequences.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,13 +141,13 @@ namespace SIL.Pa.Data
 			m_ambigSeqList.Add("ab");
 
 			// This will influence the sorted list but we don't want it to.
-			SetField(DataUtils.IPACharCache, "m_toneLetters", null);
+			SetField(DataUtils.IPASymbolCache, "m_toneLetters", null);
 
-			DataUtils.IPACharCache.AmbiguousSequences = m_ambigSeqList;
+			DataUtils.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
 
 			// Get the value of the internal list that should be sorted.
 			m_ambigSeqList =
-				GetField(DataUtils.IPACharCache, "m_sortedAmbiguousSeqList") as AmbiguousSequences;
+				GetField(DataUtils.IPASymbolCache, "m_sortedAmbiguousSeqList") as AmbiguousSequences;
 
 			Assert.AreEqual("12345", m_ambigSeqList[0].Unit);
 			Assert.AreEqual("1234", m_ambigSeqList[1].Unit);
@@ -168,8 +168,8 @@ namespace SIL.Pa.Data
 		//public void AmbiguousSeqTest_ParserAutoAdd1()
 		//{
 		//    Dictionary<int, string[]> uncertainties;
-		//    DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
-		//    Assert.AreEqual("\u1D50b", DataUtils.IPACharCache.AmbiguousSequences[0].Unit);
+		//    DataUtils.IPASymbolCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
+		//    Assert.AreEqual("\u1D50b", DataUtils.IPASymbolCache.AmbiguousSequences[0].Unit);
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -189,10 +189,10 @@ namespace SIL.Pa.Data
 		//    // This will influence the sorted list but we don't want it to.
 		//    SetField(DataUtils.IPACharCache, "m_toneLetters", null);
 
-		//    DataUtils.IPACharCache.AmbiguousSequences = m_ambigSeqList;
+		//    DataUtils.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
 
 		//    Dictionary<int, string[]> uncertainties;
-		//    DataUtils.IPACharCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
+		//    DataUtils.IPASymbolCache.PhoneticParser("\u1D50bcdef", false, out uncertainties);
 
 		//    // Get the value of the internal list that should be sorted.
 		//    m_ambigSeqList =
@@ -211,20 +211,20 @@ namespace SIL.Pa.Data
 		[Test]
 		public void FindAmbiguousSequencesTest()
 		{
-			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("abc"));
-			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("abc def"));
-			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("Xabc"));
-			Assert.IsNull(DataUtils.IPACharCache.FindAmbiguousSequences("Xabc Xdef"));
+			Assert.IsNull(DataUtils.IPASymbolCache.FindAmbiguousSequences("abc"));
+			Assert.IsNull(DataUtils.IPASymbolCache.FindAmbiguousSequences("abc def"));
+			Assert.IsNull(DataUtils.IPASymbolCache.FindAmbiguousSequences("Xabc"));
+			Assert.IsNull(DataUtils.IPASymbolCache.FindAmbiguousSequences("Xabc Xdef"));
 
-			List<string> ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc");
+			List<string> ambigSeqs = DataUtils.IPASymbolCache.FindAmbiguousSequences("\u1D50abc");
 			Assert.AreEqual(1, ambigSeqs.Count);
 			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 
-			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc def");
+			ambigSeqs = DataUtils.IPASymbolCache.FindAmbiguousSequences("\u1D50abc def");
 			Assert.AreEqual(1, ambigSeqs.Count);
 			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 
-			ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50abc \u1D50def");
+			ambigSeqs = DataUtils.IPASymbolCache.FindAmbiguousSequences("\u1D50abc \u1D50def");
 			Assert.AreEqual(2, ambigSeqs.Count);
 			Assert.AreEqual("\u1D50a", ambigSeqs[0]);
 			Assert.AreEqual("\u1D50d", ambigSeqs[1]);
@@ -234,7 +234,7 @@ namespace SIL.Pa.Data
 			// easily dealt with using an explicit ambiguous sequence.
 			
 			// Test with tie bars
-			//ambigSeqs = DataUtils.IPACharCache.FindAmbiguousSequences("\u1D50t\u035Csab \u1D50t\u0361sab");
+			//ambigSeqs = DataUtils.IPASymbolCache.FindAmbiguousSequences("\u1D50t\u035Csab \u1D50t\u0361sab");
 			//Assert.AreEqual(2, ambigSeqs.Count);
 			//Assert.AreEqual("\u1D50t\u035Cs", ambigSeqs[0]);
 			//Assert.AreEqual("\u1D50t\u0361s", ambigSeqs[1]);

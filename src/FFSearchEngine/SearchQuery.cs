@@ -426,15 +426,15 @@ namespace SIL.Pa.FFSearchEngine
 				if (s_defaultIgnoredStressChars != null)
 					return s_defaultIgnoredStressChars;
 
-				if (DataUtils.IPACharCache == null)
+				if (DataUtils.IPASymbolCache == null)
 					return null;
 
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPACharInfo> info in DataUtils.IPACharCache)
+				foreach (KeyValuePair<int, IPASymbol> info in DataUtils.IPASymbolCache)
 				{
-					if (info.Value.IgnoreType == IPACharIgnoreTypes.StressSyllable)
+					if (info.Value.IgnoreType == IPASymbolIgnoreType.StressSyllable)
 					{
-						ignoreList.Append(info.Value.IPAChar);
+						ignoreList.Append(info.Value.Literal);
 						ignoreList.Append(",");
 					}
 				}
@@ -456,15 +456,15 @@ namespace SIL.Pa.FFSearchEngine
 				if (s_defaultIgnoredToneChars != null)
 					return s_defaultIgnoredToneChars;
 
-				if (DataUtils.IPACharCache == null)
+				if (DataUtils.IPASymbolCache == null)
 					return null;
 
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPACharInfo> info in DataUtils.IPACharCache)
+				foreach (KeyValuePair<int, IPASymbol> info in DataUtils.IPASymbolCache)
 				{
-					if (info.Value.IgnoreType == IPACharIgnoreTypes.Tone)
+					if (info.Value.IgnoreType == IPASymbolIgnoreType.Tone)
 					{
-						ignoreList.Append(info.Value.IPAChar);
+						ignoreList.Append(info.Value.Literal);
 						ignoreList.Append(",");
 					}
 				}
@@ -486,15 +486,15 @@ namespace SIL.Pa.FFSearchEngine
 				if (s_defaultIgnoredLengthChars != null)
 					return s_defaultIgnoredLengthChars;
 
-				if (DataUtils.IPACharCache == null)
+				if (DataUtils.IPASymbolCache == null)
 					return null;
 				
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPACharInfo> info in DataUtils.IPACharCache)
+				foreach (KeyValuePair<int, IPASymbol> info in DataUtils.IPASymbolCache)
 				{
-					if (info.Value.IgnoreType == IPACharIgnoreTypes.Length)
+					if (info.Value.IgnoreType == IPASymbolIgnoreType.Length)
 					{
-						ignoreList.Append(info.Value.IPAChar);
+						ignoreList.Append(info.Value.Literal);
 						ignoreList.Append(",");
 					}
 				}

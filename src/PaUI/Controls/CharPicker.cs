@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Controls
 
 		private const int kDefaultItemMargin = 1;
 
-		public delegate bool ShouldLoadCharHandler(CharPicker picker, IPACharInfo charInfo);
+		public delegate bool ShouldLoadCharHandler(CharPicker picker, IPASymbol charInfo);
 		public delegate void CharPickedHandler(CharPicker picker, ToolStripButton item);
 
 		public event CharPickedHandler CharPicked;
@@ -68,7 +68,7 @@ namespace SIL.Pa.UI.Controls
 		/// specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CharPicker(IPACharacterTypeInfo typeInfo) : this()
+		public CharPicker(IPASymbolTypeInfo typeInfo) : this()
 		{
 			LoadCharacterType(typeInfo);
 		}
@@ -409,20 +409,20 @@ namespace SIL.Pa.UI.Controls
 		/// Load the chooser with the specified character type.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacterType(IPACharacterTypeInfo typeInfo)
+		public void LoadCharacterType(IPASymbolTypeInfo typeInfo)
 		{
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPACharInfo charInfo in DataUtils.IPACharCache.Values)
+			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
 			{
-				if (charInfo.CharType == typeInfo.Type && (charInfo.CharSubType == typeInfo.SubType ||
-					typeInfo.SubType == IPACharacterSubType.Unknown))
+				if (charInfo.Type == typeInfo.Type && (charInfo.SubType == typeInfo.SubType ||
+					typeInfo.SubType == IPASymbolSubType.Unknown))
 				{
 					if (ShouldLoadChar != null && !ShouldLoadChar(this, charInfo))
 						continue;
 
-					string chr = (charInfo.DisplayWDottedCircle ?
-						DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;
+					string chr = (charInfo.DisplayWithDottedCircle ?
+						DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
 
 					// Characters will be sorted by place of articulation.
 					m_charsToLoad[charInfo.POArticulation] = 
@@ -438,11 +438,11 @@ namespace SIL.Pa.UI.Controls
 		/// Load the chooser with the specified ignore character type.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacterType(IPACharIgnoreTypes type)
+		public void LoadCharacterType(IPASymbolIgnoreType type)
 		{
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPACharInfo charInfo in DataUtils.IPACharCache.Values)
+			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
 			{
 				if (charInfo.IgnoreType != type)
 					continue;
@@ -450,8 +450,8 @@ namespace SIL.Pa.UI.Controls
 				if (ShouldLoadChar != null && !ShouldLoadChar(this, charInfo))
 					continue;
 
-				string chr = (charInfo.DisplayWDottedCircle ?
-					DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;
+				string chr = (charInfo.DisplayWithDottedCircle ?
+					DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
 
 				// Characters will be sorted by place of articulation.
 				m_charsToLoad[charInfo.POArticulation] =
@@ -473,12 +473,12 @@ namespace SIL.Pa.UI.Controls
 
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPACharInfo charInfo in DataUtils.IPACharCache.Values)
+			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
 			{
 				if (ShouldLoadChar(this, charInfo))
 				{
-					string chr = (charInfo.DisplayWDottedCircle ?
-						DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;
+					string chr = (charInfo.DisplayWithDottedCircle ?
+						DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
 
 					// Characters will be sorted by place of articulation.
 					m_charsToLoad[charInfo.POArticulation] =
@@ -494,7 +494,7 @@ namespace SIL.Pa.UI.Controls
 		/// Constructs a tooltip for the specified character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string GetCharsToolTipText(IPACharInfo charInfo)
+		private static string GetCharsToolTipText(IPASymbol charInfo)
 		{
 			string tooltip = string.Format(string.IsNullOrEmpty(charInfo.Description) ?
 				Properties.Resources.kstidCharPickerTooltipShort :

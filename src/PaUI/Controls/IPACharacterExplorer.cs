@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Controls
 		private CharPicker m_pickerSSeg;
 		private CharPicker m_pickerDiacritics;
 		private CharPicker m_pickerTone;
-		private List<IPACharacterTypeInfo> m_typesToShow;
+		private List<IPASymbolTypeInfo> m_typesToShow;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Controls
 		/// Constructor allowing specific character types to be displayed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharacterExplorer(List<IPACharacterTypeInfo> typesToShow)
+		public IPACharacterExplorer(List<IPASymbolTypeInfo> typesToShow)
 		{
 			m_typesToShow = typesToShow;
 		}
@@ -152,30 +152,30 @@ namespace SIL.Pa.UI.Controls
 			Utils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
-			foreach (IPACharacterTypeInfo typeInfo in m_typesToShow)
+			foreach (IPASymbolTypeInfo typeInfo in m_typesToShow)
 			{
 				switch (typeInfo.Type)
 				{
-					case IPACharacterType.Vowel:
+					case IPASymbolType.Vowel:
 						LoadVowels(typeInfo);
 						break;
 
-					case IPACharacterType.Diacritics:
+					case IPASymbolType.Diacritics:
 						LoadDiacritics(typeInfo);
 						break;
 
-					case IPACharacterType.Consonant:
-						if (typeInfo.SubType == IPACharacterSubType.NonPulmonic)
+					case IPASymbolType.Consonant:
+						if (typeInfo.SubType == IPASymbolSubType.NonPulmonic)
 							LoadNonPulmonics(typeInfo);
-						else if (typeInfo.SubType == IPACharacterSubType.OtherSymbols)
+						else if (typeInfo.SubType == IPASymbolSubType.OtherSymbols)
 							LoadOthers(typeInfo);
 						else
 							LoadConsonants(typeInfo);
 
 						break;
 
-					case IPACharacterType.Suprasegmentals:
-						if (typeInfo.SubType == IPACharacterSubType.ToneAndAccents)
+					case IPASymbolType.Suprasegmentals:
+						if (typeInfo.SubType == IPASymbolSubType.ToneAndAccents)
 							LoadTone(typeInfo);
 						else
 							LoadSSegs(typeInfo);
@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the consonants character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadConsonants(IPACharacterTypeInfo typeInfo)
+		private void LoadConsonants(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerConsonant = new CharPicker();
 			m_pickerConsonant.Name = "chrPickerConsonants";
@@ -240,7 +240,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the non pulmonic consonants character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadNonPulmonics(IPACharacterTypeInfo typeInfo)
+		private void LoadNonPulmonics(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerNonPulmonics = new CharPicker();
 			m_pickerNonPulmonics.Name = "chrPickerNonPulmonics";
@@ -265,7 +265,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the other consonant character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadOthers(IPACharacterTypeInfo typeInfo)
+		private void LoadOthers(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerOther = new CharPicker();
 			m_pickerOther.Name = "chrPickerOthers";
@@ -290,7 +290,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the vowel character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadVowels(IPACharacterTypeInfo typeInfo)
+		private void LoadVowels(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerVowel = new CharPicker();
 			m_pickerVowel.Name = "chrPickerVowels";
@@ -315,7 +315,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the diacritics character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadDiacritics(IPACharacterTypeInfo typeInfo)
+		private void LoadDiacritics(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerDiacritics = new CharPicker();
 			m_pickerDiacritics.Name = "chrPickerDiacritics";
@@ -345,7 +345,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the suprasegmental character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadSSegs(IPACharacterTypeInfo typeInfo)
+		private void LoadSSegs(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerSSeg = new CharPicker();
 			m_pickerSSeg.Name = "chrPickerSSegs";
@@ -375,7 +375,7 @@ namespace SIL.Pa.UI.Controls
 		/// Load the tone character explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadTone(IPACharacterTypeInfo typeInfo)
+		private void LoadTone(IPASymbolTypeInfo typeInfo)
 		{
 			m_pickerTone = new CharPicker();
 			m_pickerTone.Name = "chrPickerTone";
@@ -406,7 +406,7 @@ namespace SIL.Pa.UI.Controls
 		/// character should be loaded in the specified chooser.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool HandleShouldLoadCharacter(CharPicker picker, IPACharInfo charInfo)
+		private bool HandleShouldLoadCharacter(CharPicker picker, IPASymbol charInfo)
 		{
 			return (ShouldLoadChar == null ? true : ShouldLoadChar(picker, charInfo));
 		}
@@ -485,7 +485,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the list of character types/sub-types to display in the explorer.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<IPACharacterTypeInfo> TypesToShow
+		public List<IPASymbolTypeInfo> TypesToShow
 		{
 			get { return m_typesToShow; }
 			set { m_typesToShow = value; }

@@ -475,6 +475,50 @@ namespace SilUtils
 			return data;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified string to an object of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static T DeserializeFromString<T>(string input) where T : class
+		{
+			Exception e;
+			return (DeserializeFromString<T>(input, out e));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified string to an object of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static T DeserializeFromString<T>(string input, out Exception e) where T : class
+		{
+			T data = null;
+			e = null;
+
+			try
+			{
+				if (string.IsNullOrEmpty(input))
+					return null;
+
+				// Whitespace is not allowed before the XML declaration,
+				// so get rid of any that exists.
+				input = input.TrimStart();
+
+				using (TextReader reader = new StringReader(input))
+				{
+					XmlSerializer deserializer = new XmlSerializer(typeof(T));
+					return (T)deserializer.Deserialize(reader);
+				}
+			}
+			catch (Exception outEx)
+			{
+				e = outEx;
+			}
+
+			return data;
+		}
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

@@ -434,8 +434,8 @@ namespace SIL.Pa.UI
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			itemProps.Enabled = (PaApp.Project != null &&
-				DataUtils.IPACharCache.UndefinedCharacters != null &&
-				DataUtils.IPACharCache.UndefinedCharacters.Count > 0);
+				DataUtils.IPASymbolCache.UndefinedCharacters != null &&
+				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0);
 
 			return true;
 		}

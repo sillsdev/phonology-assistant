@@ -24,11 +24,14 @@ namespace SIL.Pa.Data
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("feature")]
 	public class Feature
 	{
 		protected int m_bit;
 		protected string m_name;
 		protected string m_fullname;
+		protected string m_class;
+		protected string m_clements;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -41,6 +44,8 @@ namespace SIL.Pa.Data
 			clone.m_bit = m_bit;
 			clone.m_name = m_name;
 			clone.m_fullname = m_fullname;
+			clone.m_class = m_class;
+			clone.m_clements = m_clements;
 			return clone;
 		}
 
@@ -60,6 +65,30 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("class")]
+		public string Class
+		{
+			get { return m_class; }
+			set { m_class = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("clements")]
+		public string Clements
+		{
+			get { return m_clements; }
+			set { m_clements = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public int Bit
 		{
@@ -72,6 +101,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("name")]
 		public string Name
 		{
 			get { return m_name; }
@@ -83,6 +113,7 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("fullname")]
 		public string FullName
 		{
 			get { return (string.IsNullOrEmpty(m_fullname) ? Name : m_fullname); }

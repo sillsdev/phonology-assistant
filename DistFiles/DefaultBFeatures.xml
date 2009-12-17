@@ -1,131 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfFeature>
-	<Feature>
-		<Name>cons</Name>
-		<FullName>Consonantal</FullName>
-	</Feature>
-	<Feature>
-		<Name>syll</Name>
-		<FullName>Syllabic</FullName>
-	</Feature>
-	<Feature>
-		<Name>son</Name>
-		<FullName>Sonorant</FullName>
-	</Feature>
-	<Feature>
-		<Name>high</Name>
-		<FullName>High</FullName>
-	</Feature>
-	<Feature>
-		<Name>back</Name>
-		<FullName>Back</FullName>
-	</Feature>
-	<Feature>
-		<Name>low</Name>
-		<FullName>Low</FullName>
-	</Feature>
-	<Feature>
-		<Name>ant</Name>
-		<FullName>Anterior</FullName>
-	</Feature>
-	<Feature>
-		<Name>COR</Name>
-		<FullName>Coronal</FullName>
-	</Feature>
-	<Feature>
-		<Name>voice</Name>
-		<FullName>Voice</FullName>
-	</Feature>
-	<Feature>
-		<Name>Continuant articulatory</Name>
-		<FullName>Continuant articulatory</FullName>
-	</Feature>
-	<Feature>
-		<Name>nas</Name>
-		<FullName>Nasal</FullName>
-	</Feature>
-	<Feature>
-		<Name>strid</Name>
-		<FullName>Strident</FullName>
-	</Feature>
-	<Feature>
-		<Name>lat</Name>
-		<FullName>Lateral</FullName>
-	</Feature>
-	<Feature>
-		<Name>rnd</Name>
-		<FullName>Round</FullName>
-	</Feature>
-	<Feature>
-		<Name>ATR</Name>
-		<FullName>ATR</FullName>
-	</Feature>
-	<Feature>
-		<Name>Delayed release</Name>
-		<FullName>Delayed release</FullName>
-	</Feature>
-	<Feature>
-		<Name>Hyper anterior</Name>
-		<FullName>Hyper anterior</FullName>
-	</Feature>
-	<Feature>
-		<Name>LAB</Name>
-		<FullName>Labial</FullName>
-	</Feature>
-	<Feature>
-		<Name>Epiglottal</Name>
-		<FullName>Epiglottal</FullName>
-	</Feature>
-	<Feature>
-		<Name>distr</Name>
-		<FullName>Distributed</FullName>
-	</Feature>
-	<Feature>
-		<Name>DORS</Name>
-		<FullName>Dorsal</FullName>
-	</Feature>
-	<Feature>
-		<Name>spread</Name>
-		<FullName>Spread glottis</FullName>
-	</Feature>
-	<Feature>
-		<Name>constr</Name>
-		<FullName>Constricted glottis (pressure)</FullName>
-	</Feature>
-	<Feature>
-		<Name>Front</Name>
-		<FullName>Front</FullName>
-	</Feature>
-	<Feature>
-		<Name>Implosive</Name>
-		<FullName>Implosive</FullName>
-	</Feature>
-	<Feature>
-		<Name>PHAR</Name>
-		<FullName>Pharyngeal</FullName>
-	</Feature>
-	<Feature>
-		<Name>cont</Name>
-		<FullName>Continuant acoustic</FullName>
-	</Feature>
-	<Feature>
-		<Name>Labio-dental</Name>
-		<FullName>Labio-dental</FullName>
-	</Feature>
-	<Feature>
-		<Name>long</Name>
-		<FullName>Long</FullName>
-	</Feature>
-	<Feature>
-		<Name>approx</Name>
-		<FullName>Approximant</FullName>
-	</Feature>
-	<Feature>
-		<Name>tense</Name>
-		<FullName>Tense</FullName>
-	</Feature>
-	<Feature>
-		<Name>RTR</Name>
-		<FullName>RTR</FullName>
-	</Feature>
-</ArrayOfFeature>
+<binaryFeatures>
+	<!-- The clements attribute is an experiment to group related features according to "The Geometry of Phonological Features" by G. N. clements. -->
+	<!-- In the new format, can reorder the feature elements according to the feature geometry perspective. -->
+	<!-- However, we might consider a descriptive classification on the Pattern and Chart Building tabs and in the Phone Inventory dialog box. -->
+	<feature clements="3a">
+		<name>cons</name>
+		<fullname>Consonantal</fullname>
+	</feature>
+	<feature clements="1">
+		<name>syll</name>
+		<fullname>Syllabic</fullname>
+	</feature>
+	<feature clements="3b">
+		<name>son</name>
+		<fullname>Sonorant</fullname>
+	</feature>
+	<feature clements="4d">
+		<name>high</name>
+		<fullname>High</fullname>
+	</feature>
+	<feature clements="4g">
+		<name>back</name>
+		<fullname>Back</fullname>
+	</feature>
+	<feature clements="4e">
+		<name>low</name>
+		<fullname>Low</fullname>
+	</feature>
+	<feature clements="4b">
+		<name>ant</name>
+		<fullname>Anterior</fullname>
+	</feature>
+	<feature clements="4a">
+		<name>COR</name>
+		<fullname>Coronal</fullname>
+	</feature>
+	<feature clements="2c">
+		<name>voice</name>
+		<fullname>Voice</fullname>
+	</feature>
+	<feature>
+		<name>Continuant articulatory</name>
+		<fullname>Continuant articulatory</fullname>
+	</feature>
+	<feature clements="3g">
+		<name>nas</name>
+		<fullname>Nasal</fullname>
+	</feature>
+	<feature clements="3e">
+		<name>strid</name>
+		<fullname>Strident</fullname>
+	</feature>
+	<feature clements="3f">
+		<name>lat</name>
+		<fullname>Lateral</fullname>
+	</feature>
+	<feature clements="4h">
+		<name>rnd</name>
+		<fullname>Round</fullname>
+	</feature>
+	<feature>
+		<name>ATR</name>
+		<fullname>ATR</fullname>
+	</feature>
+	<feature clements="3d">
+		<name>Delayed release</name>
+		<fullname>Delayed release</fullname>
+	</feature>
+	<feature>
+		<name>Hyper anterior</name>
+		<fullname>Hyper anterior</fullname>
+	</feature>
+	<feature>
+		<name>LAB</name>
+		<fullname>Labial</fullname>
+	</feature>
+	<feature>
+		<name>Epiglottal</name>
+		<fullname>Epiglottal</fullname>
+	</feature>
+	<feature clements="4c">
+		<name>distr</name>
+		<fullname>Distributed</fullname>
+	</feature>
+	<feature>
+		<name>DORS</name>
+		<fullname>Dorsal</fullname>
+	</feature>
+	<feature clements="2a">
+		<name>spread</name>
+		<fullname>Spread glottis</fullname>
+	</feature>
+	<feature clements="2b">
+		<name>constr</name>
+		<fullname>Constricted glottis (pressure)</fullname>
+	</feature>
+	<feature>
+		<name>Front</name>
+		<fullname>Front</fullname>
+	</feature>
+	<feature>
+		<name>Implosive</name>
+		<fullname>Implosive</fullname>
+	</feature>
+	<feature>
+		<name>PHAR</name>
+		<fullname>Pharyngeal</fullname>
+	</feature>
+	<feature clements="3c">
+		<name>cont</name>
+		<fullname>Continuant acoustic</fullname>
+	</feature>
+	<feature>
+		<name>Labio-dental</name>
+		<fullname>Labio-dental</fullname>
+	</feature>
+	<feature>
+		<name>long</name>
+		<fullname>Long</fullname>
+	</feature>
+	<feature>
+		<name>approx</name>
+		<fullname>Approximant</fullname>
+	</feature>
+	<feature clements="4f">
+		<name>tense</name>
+		<fullname>Tense</fullname>
+	</feature>
+	<feature>
+		<name>RTR</name>
+		<fullname>RTR</fullname>
+	</feature>
+</binaryFeatures>

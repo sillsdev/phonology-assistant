@@ -61,9 +61,9 @@ namespace SIL.Pa.UI.Controls
 			tonePicker.Tag = chkTone;
 			lengthPicker.Tag = chkLength;
 
-			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
-			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
-			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
+			stressPicker.LoadCharacterType(IPASymbolIgnoreType.StressSyllable);
+			tonePicker.LoadCharacterType(IPASymbolIgnoreType.Tone);
+			lengthPicker.LoadCharacterType(IPASymbolIgnoreType.Length);
 			LayoutDropDown();
 
 			ShowApplyToAll = false;

@@ -1236,7 +1236,7 @@ namespace SIL.Pa.FFSearchEngine
 			if (eticWord != m_cachedSearchWord)
 			{
 				m_cachedSearchWord = eticWord;
-				m_cachedSearchChars = DataUtils.IPACharCache.PhoneticParser(eticWord, false);
+				m_cachedSearchChars = DataUtils.IPASymbolCache.PhoneticParser(eticWord, false);
 			}
 
 			// TODO: For this overload of Search, the index in results should probably

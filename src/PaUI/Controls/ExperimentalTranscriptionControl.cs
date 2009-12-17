@@ -156,7 +156,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			ExperimentalTranscriptions expList = DataUtils.IPACharCache.ExperimentalTranscriptions;
+			ExperimentalTranscriptions expList = DataUtils.IPASymbolCache.ExperimentalTranscriptions;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -727,7 +727,7 @@ namespace SIL.Pa.UI.Controls
 
 			PaApp.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
 			experimentalTransList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPACharCache.ExperimentalTranscriptions = experimentalTransList;
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions = experimentalTransList;
 			m_grid.IsDirty = false;
 			PaApp.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
 		}

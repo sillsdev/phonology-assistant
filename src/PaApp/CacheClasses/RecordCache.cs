@@ -217,7 +217,7 @@ namespace SIL.Pa
 				string phonetic = entry.GetValue(phoneticField);
 				if (phonetic != null)
 				{
-					List<string> seqs = DataUtils.IPACharCache.FindAmbiguousSequences(phonetic);
+					List<string> seqs = DataUtils.IPASymbolCache.FindAmbiguousSequences(phonetic);
 					if (seqs != null)
 						ambigSeqs.AddRange(seqs);
 				}
@@ -226,7 +226,7 @@ namespace SIL.Pa
 			if (ambigSeqs.Count == 0)
 				return;
 
-			AmbiguousSequences masterList = DataUtils.IPACharCache.AmbiguousSequences;
+			AmbiguousSequences masterList = DataUtils.IPASymbolCache.AmbiguousSequences;
 			if (masterList == null)
 				masterList = new AmbiguousSequences();
 
@@ -242,10 +242,10 @@ namespace SIL.Pa
 				masterList.Insert(i, seq);
 			}
 
-			// This may seem unecessary since DataUtils.IPACharCache.AmbiguousSequences is
+			// This may seem unecessary since DataUtils.IPASymbolCache.AmbiguousSequences is
 			// a reference type and masterList just points to it, but it forces a rebuild
 			// of an internal list kept by the IPACharCache.
-			DataUtils.IPACharCache.AmbiguousSequences = masterList;
+			DataUtils.IPASymbolCache.AmbiguousSequences = masterList;
 		}
 
 		/// ------------------------------------------------------------------------------------

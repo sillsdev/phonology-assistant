@@ -13,8 +13,8 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class OptionsDlg
 	{
 		private bool m_handleTextChange = true;
-		private readonly Dictionary<string, IPACharIgnoreTypes> m_allPickerPhones =
-			new Dictionary<string, IPACharIgnoreTypes>();
+		private readonly Dictionary<string, IPASymbolIgnoreType> m_allPickerPhones =
+			new Dictionary<string, IPASymbolIgnoreType>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -53,9 +53,9 @@ namespace SIL.Pa.UI.Dialogs
 			lengthPicker.Tag = chkLength;
 
 			// Load the characters
-			stressPicker.LoadCharacterType(IPACharIgnoreTypes.StressSyllable);
-			tonePicker.LoadCharacterType(IPACharIgnoreTypes.Tone);
-			lengthPicker.LoadCharacterType(IPACharIgnoreTypes.Length);
+			stressPicker.LoadCharacterType(IPASymbolIgnoreType.StressSyllable);
+			tonePicker.LoadCharacterType(IPASymbolIgnoreType.Tone);
+			lengthPicker.LoadCharacterType(IPASymbolIgnoreType.Length);
 			LoadCustomType();
 
 			SetDisplayedChars(chkStress, stressPicker);
@@ -148,7 +148,7 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type
-				if (info.PatternType == IPACharIgnoreTypes.NotApplicable)
+				if (info.PatternType == IPASymbolIgnoreType.NotApplicable)
 				{
 					if (txtCustomChars.TextLength == 0)
 						txtCustomChars.Text = info.Phone;
@@ -173,9 +173,9 @@ namespace SIL.Pa.UI.Dialogs
 			PaApp.Project.CVPatternInfoList.Clear();
 			m_allPickerPhones.Clear();
 
-			SaveDisplayLists(stressPicker, IPACharIgnoreTypes.StressSyllable);
-			SaveDisplayLists(lengthPicker, IPACharIgnoreTypes.Length);
-			SaveDisplayLists(tonePicker, IPACharIgnoreTypes.Tone);
+			SaveDisplayLists(stressPicker, IPASymbolIgnoreType.StressSyllable);
+			SaveDisplayLists(lengthPicker, IPASymbolIgnoreType.Length);
+			SaveDisplayLists(tonePicker, IPASymbolIgnoreType.Tone);
 			SaveCustomList();
 
 			try
@@ -191,7 +191,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Save the specified display list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveDisplayLists(CharPicker picker, IPACharIgnoreTypes cvPatternType)
+		private void SaveDisplayLists(CharPicker picker, IPASymbolIgnoreType cvPatternType)
 		{
 			string phone = string.Empty;
 			foreach (ToolStripButton item in picker.Items)
@@ -236,7 +236,7 @@ namespace SIL.Pa.UI.Dialogs
 				// type which we're using here for custom characters.
 				CVPatternInfo cvpi = CVPatternInfo.Create(cvString,
 					(m_allPickerPhones.ContainsKey(chr) ? m_allPickerPhones[chr] :
-					IPACharIgnoreTypes.NotApplicable));
+					IPASymbolIgnoreType.NotApplicable));
 
 				if (cvpi != null)
 					PaApp.Project.CVPatternInfoList.Add(cvpi);
@@ -258,7 +258,7 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
 				{
 					// Don't check item's that are already custom types
-					if (chr == info.Phone && info.PatternType != IPACharIgnoreTypes.NotApplicable)
+					if (chr == info.Phone && info.PatternType != IPASymbolIgnoreType.NotApplicable)
 					{
 						item.Checked = true;
 						break;
@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_dirty = true;
 
 			StringBuilder verifiedText = new StringBuilder();
-			IPACharInfo charInfo;
+			IPASymbol charInfo;
 			int selStart = txtCustomChars.SelectionStart;
 
 			if (txtCustomChars.TextLength > 0)
@@ -381,7 +381,7 @@ namespace SIL.Pa.UI.Dialogs
 						continue;
 					}
 
-					charInfo = DataUtils.IPACharCache[txtCustomChars.Text[i]];
+					charInfo = DataUtils.IPASymbolCache[txtCustomChars.Text[i]];
 
 					// Eat the character if it is not in the IPACharCache
 					if (charInfo == null)
@@ -390,7 +390,7 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// Insert the dotted circle if the character is at the beginning or after
 						// a space and the character should be displayed with the dotted circle.
-						if (charInfo.DisplayWDottedCircle &&
+						if (charInfo.DisplayWithDottedCircle &&
 							((i == 0 || txtCustomChars.Text[i - 1] == ' ')) &&
 							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != DataUtils.kDottedCircleC))
 						{

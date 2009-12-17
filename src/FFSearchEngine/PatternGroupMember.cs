@@ -222,7 +222,7 @@ namespace SIL.Pa.FFSearchEngine
 			m_type = MemberType.SinglePhone;
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
-			string[] phones = DataUtils.IPACharCache.PhoneticParser(m_member, true,
+			string[] phones = DataUtils.IPASymbolCache.PhoneticParser(m_member, true,
 				SearchEngine.ConvertPatternWithExperimentalTrans);
 
 			if (phones == null || phones.Length == 0)
@@ -350,12 +350,12 @@ namespace SIL.Pa.FFSearchEngine
 			switch (m_type)
 			{
 				case MemberType.AnyConsonant:
-					if (phoneInfo.CharType == IPACharacterType.Consonant)
+					if (phoneInfo.CharType == IPASymbolType.Consonant)
 						compareResult = CompareResultType.Match;
 					break;
 				
 				case MemberType.AnyVowel:
-					if (phoneInfo.CharType == IPACharacterType.Vowel)
+					if (phoneInfo.CharType == IPASymbolType.Vowel)
 						compareResult = CompareResultType.Match;
 					break;
 			
@@ -533,8 +533,8 @@ namespace SIL.Pa.FFSearchEngine
 				{
 					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
 					{
-						IPACharInfo charInfo = DataUtils.IPACharCache[phonesDiacritics[i]];
-						if (charInfo != null && charInfo.CharType == IPACharacterType.Diacritics)
+						IPASymbol charInfo = DataUtils.IPASymbolCache[phonesDiacritics[i]];
+						if (charInfo != null && charInfo.Type == IPASymbolType.Diacritics)
 							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], DataUtils.kOrc);
 					}
 				}

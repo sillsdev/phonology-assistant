@@ -27,9 +27,9 @@ namespace SIL.Pa.UI.Views
 		/// Derived classes must override this.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override IPACharacterType CharacterType
+		protected override IPASymbolType CharacterType
 		{
-			get { return IPACharacterType.Consonant; }
+			get { return IPASymbolType.Consonant; }
 		}
 	}
 }

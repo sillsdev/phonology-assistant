@@ -1411,13 +1411,15 @@ namespace SIL.Pa.UI.Views
 		{
 			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
+			lblCurrPattern.Font = FontHelper.UIFont;
 			ptrnTextBox.TextBox.Font = FontHelper.PhoneticFont;
-			lstRecentPatterns.Font = FontHelper.PhoneticFont;
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
-			lstRecentPatterns.Font = FontHelper.PhoneticFont;
-			tvSavedPatterns.Font = FontHelper.PhoneticFont;
-			lblCurrPattern.Font = FontHelper.UIFont;
+			
+			int fontsz = PaApp.SettingsHandler.GetIntSettingsValue(Name, "recentpatternslistfontsize", 10);
+			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
+			fontsz = PaApp.SettingsHandler.GetIntSettingsValue(Name, "savedpatternslistfontsize", 10);
+			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
 
 			pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();

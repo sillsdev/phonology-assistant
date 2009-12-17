@@ -35,14 +35,14 @@ namespace SIL.Pa.UI.Controls
 		private bool m_reloadError = false;
 		private readonly CharGrid m_chrGrid;
 		private readonly IPhoneListViewer m_phoneLstVwr;
-		private readonly IPACharacterType m_chrType;
+		private readonly IPASymbolType m_chrType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs a character grid builder for loading a CharGrid control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CharGridBuilder(CharGrid chrGrid, IPACharacterType chrType)
+		public CharGridBuilder(CharGrid chrGrid, IPASymbolType chrType)
 		{
 			m_chrGrid = chrGrid;
 			m_chrType = chrType;
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 		/// Constructs a character grid builder for loading a CharPickerRows control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CharGridBuilder(IPhoneListViewer phoneLstVwr, IPACharacterType chrType)
+		public CharGridBuilder(IPhoneListViewer phoneLstVwr, IPASymbolType chrType)
 		{
 			m_phoneLstVwr = phoneLstVwr;
 			m_chrType = chrType;
@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return PaApp.Project.ProjectPathFilePrefix +
-					(m_chrType == IPACharacterType.Consonant ? "Consonant" : "Vowel") +
+					(m_chrType == IPASymbolType.Consonant ? "Consonant" : "Vowel") +
 					"Chart.xml";
 			}
 		}
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Find the Phone's base character in the IPA character cache
 				// in order to find it's default placement in the chart.
-				IPACharInfo info = PaApp.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
+				IPASymbol info = PaApp.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
 
 				if (info != null)
 				{

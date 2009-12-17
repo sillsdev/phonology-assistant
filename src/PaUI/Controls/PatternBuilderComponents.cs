@@ -206,7 +206,7 @@ namespace SIL.Pa.UI.Controls
 			m_conPicker = new CharPickerRows();
 			m_conPicker.Location = new Point(0, 0);
 			m_conPicker.BackColor = pnlConsonants.BackColor;
-			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPACharacterType.Consonant);
+			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPASymbolType.Consonant);
 			bldr.Build();
 			pnlConsonants.Controls.Add(m_conPicker);
 
@@ -214,7 +214,7 @@ namespace SIL.Pa.UI.Controls
 			m_vowPicker = new CharPickerRows();
 			m_vowPicker.Location = new Point(0, 0);
 			m_vowPicker.BackColor = pnlVowels.BackColor;
-			bldr = new CharGridBuilder(m_vowPicker, IPACharacterType.Vowel);
+			bldr = new CharGridBuilder(m_vowPicker, IPASymbolType.Vowel);
 			bldr.Build();
 			pnlVowels.Controls.Add(m_vowPicker);
 
@@ -239,24 +239,24 @@ namespace SIL.Pa.UI.Controls
 			{
 				foreach (char c in phoneInfo.Key)
 				{
-					IPACharInfo charInfo = DataUtils.IPACharCache[c];
-					if (charInfo != null && !charInfo.IsBaseChar)
+					IPASymbol charInfo = DataUtils.IPASymbolCache[c];
+					if (charInfo != null && !charInfo.IsBase)
 						m_diacriticsInCache.Add(c);
 				}
 			}
 
-			List<IPACharacterTypeInfo> typesToShow = new List<IPACharacterTypeInfo>();
+			List<IPASymbolTypeInfo> typesToShow = new List<IPASymbolTypeInfo>();
 
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Diacritics));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
 
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Suprasegmentals,
-				IPACharacterSubType.StressAndLength));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
+				IPASymbolSubType.StressAndLength));
 
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Suprasegmentals,
-				IPACharacterSubType.ToneAndAccents));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
+				IPASymbolSubType.ToneAndAccents));
 
-			typesToShow.Add(new IPACharacterTypeInfo(IPACharacterType.Consonant,
-				IPACharacterSubType.OtherSymbols));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
+				IPASymbolSubType.OtherSymbols));
 
 			charExplorer.TypesToShow = typesToShow;
 			charExplorer.ShouldLoadChar += OtherCharShouldLoadChar;
@@ -294,15 +294,15 @@ namespace SIL.Pa.UI.Controls
 		/// the character explorer on the "Other" tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		bool OtherCharShouldLoadChar(CharPicker picker, IPACharInfo charInfo)
+		bool OtherCharShouldLoadChar(CharPicker picker, IPASymbol charInfo)
 		{
 			// TODO: Fix this when chao characters are supported.
 
 			// Always allow non consonants.
-			if (charInfo.CharType != IPACharacterType.Consonant)
+			if (charInfo.Type != IPASymbolType.Consonant)
 				return true;
 
-			char chr = charInfo.IPAChar[0];
+			char chr = charInfo.Literal[0];
 
 			// The only consonants to allow are the tie bars.
 			return (m_diacriticsInCache.Contains(chr) ||

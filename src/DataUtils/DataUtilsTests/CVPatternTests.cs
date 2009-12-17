@@ -39,7 +39,7 @@ namespace SIL.Pa.Data
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DataUtils.LoadIPACharCache(null);
+			//DataUtils.LoadIPACharCache(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,8 +119,8 @@ namespace SIL.Pa.Data
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("c", IPACharIgnoreTypes.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e", IPACharIgnoreTypes.NotApplicable));
+			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("c", IPASymbolIgnoreType.NotApplicable));
+			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e", IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("VCec", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CceV", m_cache.GetCVPattern("bcea"));
@@ -142,8 +142,8 @@ namespace SIL.Pa.Data
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPACharIgnoreTypes.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", IPACharIgnoreTypes.NotApplicable));
+			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
+			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("aCe\u0301C", m_cache.GetCVPattern("abe\u0301c"));
 			Assert.AreEqual("CCVV", m_cache.GetCVPattern("bcea\u0303"));
@@ -166,11 +166,11 @@ namespace SIL.Pa.Data
 			m_cache.AddPhone("e\u0301");
 
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a",
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301",
-				IPACharIgnoreTypes.Tone));
+				IPASymbolIgnoreType.Tone));
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create(DataUtils.kDottedCircle + "\u0303",
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("aCVC", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CCV\u0301a", m_cache.GetCVPattern("bce\u0301a"));
@@ -192,12 +192,12 @@ namespace SIL.Pa.Data
 			m_cache.AddPhone("e");
 			AmbiguousSequences ambigSeqs = new AmbiguousSequences();
 			ambigSeqs.Add("\u207Fb");
-			DataUtils.IPACharCache.AmbiguousSequences = ambigSeqs;
+			DataUtils.IPASymbolCache.AmbiguousSequences = ambigSeqs;
 
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a",
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + DataUtils.kDottedCircle,
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("a\u207FCVC", m_cache.GetCVPattern("a\u207Fbec"));
 			Assert.AreEqual("\u207FCCVa", m_cache.GetCVPattern("\u207Fbcea"));
@@ -221,13 +221,13 @@ namespace SIL.Pa.Data
 
 			AmbiguousSequences ambigSeqs = new AmbiguousSequences();
 			ambigSeqs.Add("\u207Fb");
-			DataUtils.IPACharCache.AmbiguousSequences = ambigSeqs;
+			DataUtils.IPASymbolCache.AmbiguousSequences = ambigSeqs;
 
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create(DataUtils.kDottedCircle + "\u0303",
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 
 			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + DataUtils.kDottedCircle,
-				IPACharIgnoreTypes.NotApplicable));
+				IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("VV\u0303\u207FCC", m_cache.GetCVPattern("ea\u0303\u207Fbc"));
 			Assert.AreEqual("\u207FCCVV", m_cache.GetCVPattern("\u207Fbcea"));
@@ -250,8 +250,8 @@ namespace SIL.Pa.Data
 			trans.Convert = true;
 			trans.TreatAsSinglePhone = false;
 
-			DataUtils.IPACharCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(trans);
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions.Add(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");
@@ -276,8 +276,8 @@ namespace SIL.Pa.Data
 			trans.Convert = true;
 			trans.TreatAsSinglePhone = false;
 
-			DataUtils.IPACharCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
-			DataUtils.IPACharCache.ExperimentalTranscriptions.Add(trans);
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions = new ExperimentalTranscriptions();
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions.Add(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");

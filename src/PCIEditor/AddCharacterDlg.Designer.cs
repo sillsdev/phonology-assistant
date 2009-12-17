@@ -1,3 +1,5 @@
+using SilUtils.Controls;
+
 namespace SIL.Pa
 {
 	partial class AddCharacterDlg
@@ -67,11 +69,11 @@ namespace SIL.Pa
 			this.pnlBinary = new SilUtils.Controls.SilPanel();
 			this.txtBinary = new System.Windows.Forms.TextBox();
 			this.hlblBinary = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnBinary = new SIL.Pa.UI.Controls.XButton();
+			this.btnBinary = new XButton();
 			this.paPanel1 = new SilUtils.Controls.SilPanel();
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
 			this.hlblArticulatory = new SIL.Pa.UI.Controls.HeaderLabel();
-			this.btnArticulatory = new SIL.Pa.UI.Controls.XButton();
+			this.btnArticulatory = new XButton();
 			this.pnlButtons.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -496,11 +498,11 @@ namespace SIL.Pa
 		private SilUtils.Controls.SilPanel paPanel1;
 		private System.Windows.Forms.TextBox txtArticulatory;
 		private SIL.Pa.UI.Controls.HeaderLabel hlblArticulatory;
-		private SIL.Pa.UI.Controls.XButton btnArticulatory;
+		private XButton btnArticulatory;
 		private SilUtils.Controls.SilPanel pnlBinary;
 		private System.Windows.Forms.TextBox txtBinary;
 		private SIL.Pa.UI.Controls.HeaderLabel hlblBinary;
-		private SIL.Pa.UI.Controls.XButton btnBinary;
+		private XButton btnBinary;
 		private System.Windows.Forms.Label lblUPlus;
 		private System.Windows.Forms.Label lblMOA;
 		private System.Windows.Forms.Label lblPOA;

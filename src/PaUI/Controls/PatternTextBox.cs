@@ -495,8 +495,8 @@ namespace SIL.Pa.UI.Controls
 			string nonDottedCirclePart = text.Replace(DataUtils.kDottedCircle, string.Empty);
 			if (nonDottedCirclePart.Length == 1)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[nonDottedCirclePart];
-				if (charInfo != null && charInfo.CanPreceedBaseChar)
+				IPASymbol charInfo = DataUtils.IPASymbolCache[nonDottedCirclePart];
+				if (charInfo != null && charInfo.CanPreceedBase)
 				{
 					text = nonDottedCirclePart;
 					return;

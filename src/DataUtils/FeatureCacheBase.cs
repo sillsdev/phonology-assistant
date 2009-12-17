@@ -34,54 +34,79 @@ namespace SIL.Pa.Data
 	public class FeatureCacheBase : SortedDictionary<string, Feature>
 	{
 		#region Methods for loading and saving
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the file name from which features are deserialized and serialized.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual string FileName
-		{
-			get { throw new NotImplementedException("FileName"); }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the file name from which features are deserialized and serialized.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected virtual string FileName
+		//{
+		//    get { throw new NotImplementedException("FileName"); }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the file name affix used for feature files specific to a project. This is
-		/// only used if features are saved by project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual string FileNameAffix
-		{
-			get { throw new NotImplementedException("FileNameAffix"); }
-		}
-	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full file name path by combining the path of the executing assembly and
-		/// the instances FileName.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected string FullFileNamePath
-		{
-			get { return Path.Combine(Utils.GetMyAssemblyPath(), FileName); }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the file name affix used for feature files specific to a project. This is
+		///// only used if features are saved by project.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected virtual string FileNameAffix
+		//{
+		//    get { throw new NotImplementedException("FileNameAffix"); }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the binary feature table from the database into a memory cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual bool Load()
-		{
-			var list = Utils.DeserializeData(FullFileNamePath, typeof(List<Feature>)) as List<Feature>;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the full file name path by combining the path of the executing assembly and
+		///// the instances FileName.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected string FilePathOnly
+		//{
+		//    set { FullFileNamePath = Path.Combine(value, FileName); }
+		//}
 
-			if (list == null)
-				return false;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the full file name path by combining the path of the executing assembly and
+		///// the instances FileName.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected string FullFileNamePath { get; set; }
 
-			LoadFromList(list);
-			return true;
-		}
-	
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Loads the features of the specified type into a memory cache.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public virtual bool Load(Type cacheType)
+		//{
+		//    var list = Utils.DeserializeData(FullFileNamePath, cacheType);
+
+		//    if (list == null)
+		//        return false;
+
+		//    LoadFromList(list as List<Feature>);
+		//    return true;
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Loads the features of the specified type into a memory cache from the specified
+		///// chunk of data.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public virtual bool Load(Type cacheType, string data)
+		//{
+		//    var list = Utils.DeserializeFromString<???>(FullFileNamePath);
+
+		//    if (list == null)
+		//        return false;
+
+		//    LoadFromList(list as List<Feature>);
+		//    return true;
+		//}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads binary features from the specified list.
@@ -116,32 +141,32 @@ namespace SIL.Pa.Data
 			return (name == null ? null : name.Trim());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the cache to it's XML file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save()
-		{
-			Save(null);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Saves the cache to it's XML file.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void Save()
+		//{
+		//    Save(null);
+		//}
 	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the cache to it's XML file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(string fileprefix)
-		{
-			string filename = FullFileNamePath;
-			if (fileprefix != null)
-			{
-				filename = fileprefix + FileNameAffix;
-				filename = Path.Combine(Utils.GetMyAssemblyPath(), filename);
-			}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Saves the cache to it's XML file.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void Save(string fileprefix)
+		//{
+		//    string filename = FullFileNamePath;
+		//    if (fileprefix != null)
+		//    {
+		//        filename = fileprefix + FileNameAffix;
+		//        filename = Path.Combine(Utils.GetMyAssemblyPath(), filename);
+		//    }
 			
-			Utils.SerializeData(filename, Values.ToList());
-		}
+		//    Utils.SerializeData(filename, Values.ToList());
+		//}
 	
 		#endregion
 

@@ -30,7 +30,7 @@ namespace SIL.Pa.Data
 		private int m_totalCount;
 		private int m_countAsNonPrimaryUncertainty;
 		private int m_countAsPrimaryUncertainty;
-		private IPACharacterType m_charType = IPACharacterType.Unknown;
+		private IPASymbolType m_charType = IPASymbolType.Unknown;
 		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
@@ -87,16 +87,16 @@ namespace SIL.Pa.Data
 			// Go through each codepoint of the phone, building the feature masks along the way.
 			foreach (char c in phone)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[c];
+				IPASymbol charInfo = DataUtils.IPASymbolCache[c];
 				if (charInfo == null)
 					continue;
 
 				// This will make the final base char in the phone the one that determines
 				// what type of phone this is. If the phone is an ambiguous sequence, then
 				// it has already had it's character type and base character specified.
-				if (!phoneIsAmbiguous && charInfo.IsBaseChar)
+				if (!phoneIsAmbiguous && charInfo.IsBase)
 				{
-					m_charType = charInfo.CharType;
+					m_charType = charInfo.Type;
 					m_baseChar = c;
 				}
 
@@ -115,19 +115,19 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		private bool CheckIfAmbiguous(string phone)
 		{
-			if (DataUtils.IPACharCache.AmbiguousSequences == null)
+			if (DataUtils.IPASymbolCache.AmbiguousSequences == null)
 				return false;
 
 			AmbiguousSeq ambigSeq =
-				DataUtils.IPACharCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+				DataUtils.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
 
 			if (ambigSeq != null)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[ambigSeq.BaseChar];
+				IPASymbol charInfo = DataUtils.IPASymbolCache[ambigSeq.BaseChar];
 				if (charInfo != null)
 				{
 					m_baseChar = ambigSeq.BaseChar[0];
-					m_charType = charInfo.CharType;
+					m_charType = charInfo.Type;
 					return true;
 				}
 			}
@@ -286,7 +286,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public IPACharacterType CharType
+		public IPASymbolType CharType
 		{
 			get { return m_charType; }
 			set { m_charType = value; }

@@ -342,10 +342,10 @@ namespace SIL.Pa
 					CopyLastModifiedTimes(project);
 				}
 
-				DataUtils.IPACharCache.ExperimentalTranscriptions =
+				DataUtils.IPASymbolCache.ExperimentalTranscriptions =
 					ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
 
-				DataUtils.IPACharCache.AmbiguousSequences = 
+				DataUtils.IPASymbolCache.AmbiguousSequences = 
 					AmbiguousSequences.Load(ProjectPathFilePrefix);
 			}
 
@@ -455,25 +455,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static string LoadCacheFiles(string projFilePrefix)
 		{
-			PaApp.InitializeProgressBar(Properties.Resources.kstidReadingCacheFiles, 3);
-
 			try
 			{
-				// Load the caches.
-				DataUtils.LoadIPACharCache(projFilePrefix);
-				PaApp.IncProgressBar();
-				DataUtils.LoadAFeatureCache(projFilePrefix);
-				PaApp.IncProgressBar();
-				DataUtils.LoadBFeatureCache(projFilePrefix);
-				PaApp.IncProgressBar();
+				DataUtils.LoadIPASymbolsAndFeatures(Application.ExecutablePath);
 			}
 			catch (Exception e)
 			{
 				return string.Format(Properties.Resources.kstidErrorLoadingCacheFiles, e.Message);
-			}
-			finally
-			{
-				PaApp.UninitializeProgressBar();
 			}
 
 			return null;
@@ -571,10 +559,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadDataSources()
 		{
-			DataUtils.IPACharCache.ExperimentalTranscriptions =
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions =
 				ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
 			
-			DataUtils.IPACharCache.AmbiguousSequences =
+			DataUtils.IPASymbolCache.AmbiguousSequences =
 				AmbiguousSequences.Load(ProjectPathFilePrefix);
 			
 			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
@@ -672,65 +660,35 @@ namespace SIL.Pa
 		#endregion
 
 		#region Loading/Saving Caches
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadIPACharCache()
-		{
-			DataUtils.LoadIPACharCache(ProjectPathFilePrefix);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void SaveIPACharCache()
+		//{
+		//    DataUtils.IPASymbolCache.Save(ProjectPathFilePrefix);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadAFeatureCache()
-		{
-			DataUtils.LoadAFeatureCache(ProjectPathFilePrefix);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void SaveAFeatureCache()
+		//{
+		//    DataUtils.AFeatureCache.Save(ProjectPathFilePrefix);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadBFeatureCache()
-		{
-			DataUtils.LoadBFeatureCache(ProjectPathFilePrefix);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SaveIPACharCache()
-		{
-			DataUtils.IPACharCache.Save(ProjectPathFilePrefix);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SaveAFeatureCache()
-		{
-			DataUtils.AFeatureCache.Save(ProjectPathFilePrefix);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SaveBFeatureCache()
-		{
-			DataUtils.BFeatureCache.Save(ProjectPathFilePrefix);
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void SaveBFeatureCache()
+		//{
+		//    DataUtils.BFeatureCache.Save(ProjectPathFilePrefix);
+		//}
 
 		#endregion
 

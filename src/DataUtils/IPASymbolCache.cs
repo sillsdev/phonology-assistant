@@ -24,7 +24,7 @@ using SilUtils;
 
 namespace SIL.Pa.Data
 {
-	#region SerializableIPASymbolCache
+	#region IPASymbolList
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Temporary cache used to serialize and deserialize an IPASymbolCache
@@ -135,8 +135,7 @@ namespace SIL.Pa.Data
 		private AmbiguousSequences m_unsortedAmbiguousSeqList;
 		private UndefinedPhoneticCharactersInfoList m_undefinedChars;
 
-		public const string kDefaultIPACharCacheFile = "PhoneticCharacterInventory.xml";
-		public const string kIPACharCacheFile = "PhoneticCharacterInventory.xml";
+		public const string kDefaultIPASymbolCacheFile = "PhoneticCharacterInventory.xml";
 		private string m_cacheFileName;
 		private Dictionary<string, IPASymbol> m_toneLetters;
 		private bool m_logUndefinedCharacters;
@@ -175,7 +174,7 @@ namespace SIL.Pa.Data
 
 			//return filename;
 
-			return kDefaultIPACharCacheFile;
+			return kDefaultIPASymbolCacheFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -284,7 +283,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static IPASymbolCache Load()
 		{
-			return Load(null);
+			return Load(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -292,14 +291,18 @@ namespace SIL.Pa.Data
 		/// Loads the IPA character cache file into a memory cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IPASymbolCache Load(string projectFileName)
+		public static IPASymbolCache Load(string projectFileName, string data)
 		{
 			IPASymbolCache cache = new IPASymbolCache(projectFileName);
-			
+
+			IPASymbolList tmpCache = Utils.DeserializeFromString <IPASymbolList>(data);
+
+
+
 			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
 			// (i.e. IPASymbolCache) isn't serializable nor deserializable.
-			IPASymbolList tmpCache = Utils.DeserializeData(cache.CacheFileName,
-				typeof(IPASymbolList)) as IPASymbolList;
+			//IPASymbolList tmpCache = Utils.DeserializeData(cache.CacheFileName,
+			//    typeof(IPASymbolList)) as IPASymbolList;
 			
 			if (tmpCache == null)
 			    return null;

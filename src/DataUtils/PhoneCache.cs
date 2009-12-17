@@ -108,7 +108,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string GetCVPattern(string phonetic)
 		{
-			return GetCVPattern(DataUtils.IPACharCache.PhoneticParser(phonetic, true));
+			return GetCVPattern(DataUtils.IPASymbolCache.PhoneticParser(phonetic, true));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,10 +119,10 @@ namespace SIL.Pa.Data
 		public string GetCVPattern(string phonetic, bool convertExperimentalTranscriptions)
 		{
 			if (convertExperimentalTranscriptions)
-				return GetCVPattern(DataUtils.IPACharCache.PhoneticParser(phonetic, true));
+				return GetCVPattern(DataUtils.IPASymbolCache.PhoneticParser(phonetic, true));
 
 			Dictionary<int, string[]> uncertainPhones;
-			string[] phones = DataUtils.IPACharCache.PhoneticParser(
+			string[] phones = DataUtils.IPASymbolCache.PhoneticParser(
 				phonetic, true, false, out uncertainPhones);
 			
 			return GetCVPattern(phones);
@@ -147,28 +147,28 @@ namespace SIL.Pa.Data
 					bldr.Append(phone);
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
 				{
-					IPACharInfo charInfo = DataUtils.IPACharCache[phone];
+					IPASymbol charInfo = DataUtils.IPASymbolCache[phone];
 					if (charInfo != null)
 					{
-						if (charInfo.CharType == IPACharacterType.Breaking)
+						if (charInfo.Type == IPASymbolType.Breaking)
 							bldr.Append(' ');
-						else if (charInfo.CharType == IPACharacterType.Consonant)
+						else if (charInfo.Type == IPASymbolType.Consonant)
 							bldr.Append(m_conSymbol);
-						else if (charInfo.CharType == IPACharacterType.Vowel)
+						else if (charInfo.Type == IPASymbolType.Vowel)
 							bldr.Append(m_vowSymbol);
 					}
 				}
-				else if (phoneInfo.CharType == IPACharacterType.Breaking)
+				else if (phoneInfo.CharType == IPASymbolType.Breaking)
 					bldr.Append(' ');
-				else if (phoneInfo.CharType == IPACharacterType.Consonant ||
-				   phoneInfo.CharType == IPACharacterType.Vowel)
+				else if (phoneInfo.CharType == IPASymbolType.Consonant ||
+				   phoneInfo.CharType == IPASymbolType.Vowel)
 				{
 					string diacriticsAfterBase = null;
 
 					if (phone.Length > 1)
 						diacriticsAfterBase = CVPatternInfo.GetMatchingModifiers(phone, bldr);
 
-					bldr.Append(phoneInfo.CharType == IPACharacterType.Consonant ?
+					bldr.Append(phoneInfo.CharType == IPASymbolType.Consonant ?
 						m_conSymbol : m_vowSymbol);
 
 					if (diacriticsAfterBase != null)
@@ -186,7 +186,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string[] Consonants
 		{
-			get {return GetTypeOfPhones(IPACharacterType.Consonant);}
+			get {return GetTypeOfPhones(IPASymbolType.Consonant);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -196,7 +196,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string CommaDelimitedConsonants
 		{
-			get {return GetCommaDelimitedPhones(IPACharacterType.Consonant);}
+			get {return GetCommaDelimitedPhones(IPASymbolType.Consonant);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string[] Vowels
 		{
-			get { return GetTypeOfPhones(IPACharacterType.Vowel); }
+			get { return GetTypeOfPhones(IPASymbolType.Vowel); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public string CommaDelimitedVowels
 		{
-			get { return GetCommaDelimitedPhones(IPACharacterType.Vowel); }
+			get { return GetCommaDelimitedPhones(IPASymbolType.Vowel); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -224,7 +224,7 @@ namespace SIL.Pa.Data
 		/// Gets a collection of phones in the cache of the specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string[] GetTypeOfPhones(IPACharacterType type)
+		private string[] GetTypeOfPhones(IPASymbolType type)
 		{
 			return (from kvp in this
 					where kvp.Value.CharType == type
@@ -237,7 +237,7 @@ namespace SIL.Pa.Data
 		/// the cache and are of the specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetCommaDelimitedPhones(IPACharacterType type)
+		private string GetCommaDelimitedPhones(IPASymbolType type)
 		{
 			string[] phones = GetTypeOfPhones(type);
 
@@ -308,18 +308,18 @@ namespace SIL.Pa.Data
 		/// Gets the IPACharInfo for the base character in the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharInfo GetBaseCharInfoForPhone(string phone)
+		public IPASymbol GetBaseCharInfoForPhone(string phone)
 		{
-			if (DataUtils.IPACharCache == null)
+			if (DataUtils.IPASymbolCache == null)
 				return null;
 
 			// First check if it's a tone letter since they don't have base characters.
-			IPACharInfo charInfo = DataUtils.IPACharCache.ToneLetterInfo(phone);
+			IPASymbol charInfo = DataUtils.IPASymbolCache.ToneLetterInfo(phone);
 			if (charInfo != null)
 				return charInfo;
 		
 			IPhoneInfo phoneInfo = this[phone];
-			return (phoneInfo == null ? null : DataUtils.IPACharCache[phoneInfo.BaseCharacter]);
+			return (phoneInfo == null ? null : DataUtils.IPASymbolCache[phoneInfo.BaseCharacter]);
 		}
 
 		/// ------------------------------------------------------------------------------------

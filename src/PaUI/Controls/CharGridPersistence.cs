@@ -23,9 +23,9 @@ namespace SIL.Pa.UI.Controls
 		/// Loads the headings from the XML file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Load(CharGridBuilder chrGridBldr, IPACharacterType chrType)
+		public static bool Load(CharGridBuilder chrGridBldr, IPASymbolType chrType)
 		{
-			string filename = Utils.GetLocalPath(chrType == IPACharacterType.Consonant ?
+			string filename = Utils.GetLocalPath(chrType == IPASymbolType.Consonant ?
 				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile, true);
 
 			return Load(chrGridBldr, filename);

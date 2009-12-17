@@ -40,43 +40,49 @@ namespace SIL.Pa.Data
 		[XmlAttribute("hexadecimal")]
 		public string Hexadecimal { get; set; }
 
-		[XmlAttribute("name")]
+		[XmlAttribute("IPANumber")]
+		public string IPANumber { get; set; }
+
+		[XmlElement("name")]
 		public string Name { get; set; }
-		
-		[XmlAttribute("description")]
+
+		[XmlElement("usage")]
+		public IPASymbolUsage Usage { get; set; }
+
+		[XmlElement("description")]
 		public string Description { get; set; }
 
-		[XmlAttribute("type")]
+		[XmlElement("type")]
 		public IPASymbolType Type { get; set; }
-		
-		[XmlAttribute("subtype")]
+
+		[XmlElement("subtype")]
 		public IPASymbolSubType SubType { get; set; }
 
-		[XmlAttribute("ignoreType")]
+		[XmlElement("ignoreType")]
 		public IPASymbolIgnoreType IgnoreType { get; set; }
 
-		[XmlAttribute("isBase")]
+		[XmlElement("isBase")]
 		public bool IsBase { get; set; }
 
-		[XmlAttribute("canPreceedBase")]
+		[XmlElement("canPreceedBase")]
 		public bool CanPreceedBase { get; set; }
 
-		[XmlAttribute("displayWithDottedCircle")]
+		[XmlElement("displayWithDottedCircle")]
 		public bool DisplayWithDottedCircle { get; set; }
 
-		[XmlAttribute("mannerOfArticulation")]
+		[XmlElement("mannerOfArticulation")]
 		public int MOArticulation { get; set; }
 
-		[XmlAttribute("placeOfArticulation")]
+		[XmlElement("placeOfArticulation")]
 		public int POArticulation { get; set; }
 
-		[XmlAttribute("displayOrder")]
+		[XmlElement("displayOrder")]
 		public int DisplayOrder { get; set; }
-		
-		[XmlAttribute("chartColumn")]
+
+		[XmlElement("chartColumn")]
 		public int ChartColumn { get; set; }
 		
-		[XmlAttribute("chartGroup")]
+		[XmlElement("chartGroup")]
 		public int ChartGroup { get; set; }
 
 		private List<string> m_aFeatures;
@@ -169,6 +175,24 @@ namespace SIL.Pa.Data
 		{
 			return string.Format("{0}: U+{1:X4}, {2}, {3}", Literal, Decimal, Name, Description);
 		}
+	}
+
+	#endregion
+
+	#region IPASymbolUsage
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	[XmlType("usage")]
+	public class IPASymbolUsage
+	{
+		[XmlAttribute("replaceWith")]
+		public string ReplaceWith { get; set; }
+
+		[XmlText]
+		public string Information { get; set; }
 	}
 
 	#endregion

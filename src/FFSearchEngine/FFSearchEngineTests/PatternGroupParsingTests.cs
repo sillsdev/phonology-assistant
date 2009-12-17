@@ -22,7 +22,7 @@ namespace SIL.Pa.FFSearchEngine
 		public void FixtureSetup()
 		{
 			// This will force the cache to be built.
-			if (DataUtils.IPACharCache == null)
+			if (DataUtils.IPASymbolCache == null)
 			{
 			}
 		}

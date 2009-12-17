@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 				if (phoneInfo == null)
 					continue;
 
-				IPACharInfo charInfo = DataUtils.IPACharCache[phoneInfo.BaseCharacter];
+				IPASymbol charInfo = DataUtils.IPASymbolCache[phoneInfo.BaseCharacter];
 				if (charInfo == null)
 					continue;
 

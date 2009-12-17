@@ -48,7 +48,7 @@ namespace SIL.Pa
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DataUtils.LoadIPACharCache(null);
+			//DataUtils.LoadIPACharCache(null);
 
 			PaProject proj = new PaProject(true);
 			proj.Language = "dummy";

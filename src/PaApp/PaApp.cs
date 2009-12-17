@@ -153,13 +153,13 @@ namespace SIL.Pa
 				"absenceofphonechars", null);
 			
 			if (val != null)
-				IPACharCache.UncertainGroupAbsentPhoneChars = val;
+				IPASymbolCache.UncertainGroupAbsentPhoneChars = val;
 
 			val = s_settingsHndlr.GetStringSettingsValue("uncertainphonegroups",
 				"absenceofphonecharinpopup", "\u2205");
 				
 			if (val != null)
-				IPACharCache.UncertainGroupAbsentPhoneChar = val;
+				IPASymbolCache.UncertainGroupAbsentPhoneChar = val;
 				
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = s_settingsHndlr.GetBoolSettingsValue(
 				"fieldworks", "showmsgwhengatheringinfo", false);
@@ -471,8 +471,8 @@ namespace SIL.Pa
 			if (PhoneCache.FeatureOverrides != null)
 				PhoneCache.FeatureOverrides.MergeWithPhoneCache(s_phoneCache);
 
-			if (DataUtils.IPACharCache.UndefinedCharacters != null &&
-				DataUtils.IPACharCache.UndefinedCharacters.Count > 0)
+			if (DataUtils.IPASymbolCache.UndefinedCharacters != null &&
+				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
 				AddUndefinedCharsToCaches();
 			}
@@ -536,8 +536,8 @@ namespace SIL.Pa
 						if (j != i && !phoneUpdating.SiblingUncertainties.Contains(uPhones[j]))
 						{
 							phoneUpdating.SiblingUncertainties.Add(
-								IPACharCache.UncertainGroupAbsentPhoneChars.Contains(uPhones[j]) ?
-								IPACharCache.UncertainGroupAbsentPhoneChar : uPhones[j]);
+								IPASymbolCache.UncertainGroupAbsentPhoneChars.Contains(uPhones[j]) ?
+								IPASymbolCache.UncertainGroupAbsentPhoneChar : uPhones[j]);
 						}
 					}
 				}
@@ -553,9 +553,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void AddUndefinedCharsToCaches()
 		{
-			foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
+			foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPASymbolCache.UndefinedCharacters)
 			{
-				DataUtils.IPACharCache.AddUndefinedCharacter(upci.Character);
+				DataUtils.IPASymbolCache.AddUndefinedCharacter(upci.Character);
 				s_phoneCache.AddUndefinedPhone(upci.Character.ToString());
 			}
 		}

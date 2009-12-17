@@ -135,7 +135,7 @@ namespace SIL.Pa
 		private readonly PCIEditor m_pciEditor;
 		private readonly string m_saveAFeatureDropDownName;
 		private readonly string m_saveBFeatureDropDownName;
-		private IPACharInfo m_charInfo;
+		private IPASymbol m_charInfo;
 		private FeatureMask m_aMask;
 		private FeatureMask m_bMask;
 		#endregion
@@ -183,11 +183,11 @@ namespace SIL.Pa
 			lblChar.Top = lblCharLable.Top - ((lblChar.Height - lblCharLable.Height) / 2);
 
 			// Load the Type combo boxes with readable strings
-			foreach (string type in Enum.GetNames(typeof(IPACharacterType)))
+			foreach (string type in Enum.GetNames(typeof(IPASymbolType)))
 				cboType.Items.Add(SeperateWordsWithSpace(type));
-			foreach (string type in Enum.GetNames(typeof(IPACharacterSubType)))
+			foreach (string type in Enum.GetNames(typeof(IPASymbolSubType)))
 				cboSubType.Items.Add(SeperateWordsWithSpace(type));
-			foreach (string type in Enum.GetNames(typeof(IPACharIgnoreTypes)))
+			foreach (string type in Enum.GetNames(typeof(IPASymbolIgnoreType)))
 				cboIgnoreType.Items.Add(SeperateWordsWithSpace(type));
 
 			cboType.SelectedIndex = 0;
@@ -216,10 +216,10 @@ namespace SIL.Pa
 			}
 
 			row = pciEditor.m_grid.CurrentRow;
-			if (row.Tag is IPACharInfo)
+			if (row.Tag is IPASymbol)
 			{
-				m_aMask = ((IPACharInfo)row.Tag).AMask.Clone();
-				m_bMask = ((IPACharInfo)row.Tag).BMask.Clone();
+				m_aMask = ((IPASymbol)row.Tag).AMask.Clone();
+				m_bMask = ((IPASymbol)row.Tag).BMask.Clone();
 				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_aMask);
 				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_bMask);
 			}
@@ -593,7 +593,7 @@ namespace SIL.Pa
 		/// Gets the CharInfo object created from the changes made on the dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPACharInfo CharInfo
+		public IPASymbol CharInfo
 		{
 			get { return m_charInfo; }
 		}
@@ -605,30 +605,30 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			m_charInfo = new IPACharInfo();
+			m_charInfo = new IPASymbol();
 
-			m_charInfo.Codepoint = int.Parse((m_addingChar ?
+			m_charInfo.Decimal = int.Parse((m_addingChar ?
 				txtHexValue.Text : lblUnicodeValue.Text), NumberStyles.HexNumber);
 
-			m_charInfo.HexIPAChar = (m_addingChar ? txtHexValue.Text : lblUnicodeValue.Text);
-			m_charInfo.IPAChar = lblChar.Text;
+			m_charInfo.Hexadecimal = (m_addingChar ? txtHexValue.Text : lblUnicodeValue.Text);
+			m_charInfo.Literal = lblChar.Text;
 			m_charInfo.Name = txtCharName.Text;
 			m_charInfo.Description = txtCharDesc.Text;
 			m_charInfo.AMask = m_aMask;
 			m_charInfo.BMask = m_bMask;
 
 			// Types - remove the spaces in the Type strings
-			m_charInfo.CharType = (IPACharacterType)Enum.Parse(
-				typeof(IPACharacterType), cboType.SelectedItem.ToString().Replace(" ", ""));
-			m_charInfo.CharSubType = (IPACharacterSubType)Enum.Parse(
-				typeof(IPACharacterSubType), cboSubType.SelectedItem.ToString().Replace(" ", ""));
-			m_charInfo.IgnoreType = (IPACharIgnoreTypes)Enum.Parse(
-				typeof(IPACharIgnoreTypes), cboIgnoreType.SelectedItem.ToString().Replace(" ", ""));
+			m_charInfo.Type = (IPASymbolType)Enum.Parse(
+				typeof(IPASymbolType), cboType.SelectedItem.ToString().Replace(" ", ""));
+			m_charInfo.SubType = (IPASymbolSubType)Enum.Parse(
+				typeof(IPASymbolSubType), cboSubType.SelectedItem.ToString().Replace(" ", ""));
+			m_charInfo.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
+				typeof(IPASymbolIgnoreType), cboIgnoreType.SelectedItem.ToString().Replace(" ", ""));
 
 			// Base Character
-			m_charInfo.IsBaseChar = chkIsBase.Checked;
-			m_charInfo.CanPreceedBaseChar = chkPreceedBaseChar.Checked;
-			m_charInfo.DisplayWDottedCircle = chkDottedCircle.Checked;
+			m_charInfo.IsBase = chkIsBase.Checked;
+			m_charInfo.CanPreceedBase = chkPreceedBaseChar.Checked;
+			m_charInfo.DisplayWithDottedCircle = chkDottedCircle.Checked;
 
 			// Save the manner of articulation sort order value
 			if (cboMoa.SelectedItem == null)

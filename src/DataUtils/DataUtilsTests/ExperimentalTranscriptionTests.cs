@@ -39,7 +39,7 @@ namespace SIL.Pa.Data
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			DataUtils.LoadIPACharCache(null);
+			//DataUtils.LoadIPACharCache(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -62,10 +62,10 @@ namespace SIL.Pa.Data
 		{
 			m_exTransList = new ExperimentalTranscriptions();
 
-			DataUtils.IPACharCache.ExperimentalTranscriptions = m_exTransList;
-			DataUtils.IPACharCache.AmbiguousSequences.Clear();
-			DataUtils.IPACharCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			DataUtils.IPACharCache.LogUndefinedCharactersWhenParsing = false;
+			DataUtils.IPASymbolCache.ExperimentalTranscriptions = m_exTransList;
+			DataUtils.IPASymbolCache.AmbiguousSequences.Clear();
+			DataUtils.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			DataUtils.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
 		}
 
 		/// ------------------------------------------------------------------------------------

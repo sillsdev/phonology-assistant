@@ -440,10 +440,10 @@ namespace SIL.Pa
 				// Normalize the phonetic string.
 				phonetic = FFNormalizer.Normalize(phonetic);
 
-				if (DataUtils.IPACharCache.ExperimentalTranscriptions != null)
+				if (DataUtils.IPASymbolCache.ExperimentalTranscriptions != null)
 				{
 					// Convert experimental transcriptions within the phonetic string.
-					phonetic = DataUtils.IPACharCache.ExperimentalTranscriptions.Convert(
+					phonetic = DataUtils.IPASymbolCache.ExperimentalTranscriptions.Convert(
 						phonetic, out m_experimentalTranscriptionList);
 
 					// Save this for displaying in the record view.
@@ -466,23 +466,23 @@ namespace SIL.Pa
 			if (m_phoneticValue.Value == null)
 				return;
 
-			if (DataUtils.IPACharCache.UndefinedCharacters != null)
+			if (DataUtils.IPASymbolCache.UndefinedCharacters != null)
 			{
 				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
 				if (fieldInfo != null)
 				{
-					DataUtils.IPACharCache.UndefinedCharacters.CurrentReference =
+					DataUtils.IPASymbolCache.UndefinedCharacters.CurrentReference =
 						GetField(fieldInfo.FieldName, true);
 				}
 
-				DataUtils.IPACharCache.UndefinedCharacters.CurrentDataSourceName =
+				DataUtils.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
 					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 
-			m_phones = DataUtils.IPACharCache.PhoneticParser(
+			m_phones = DataUtils.IPASymbolCache.PhoneticParser(
 				m_phoneticValue.Value, false, false, out m_uncertainPhones);
 
 			if (m_phones != null && m_phones.Length == 0)

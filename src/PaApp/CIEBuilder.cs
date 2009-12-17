@@ -194,8 +194,8 @@ namespace SIL.Pa
 					char chr = bldrEnv[i];
 					if (chr != DataUtils.kBottomTieBarC && chr != DataUtils.kTopTieBarC)
 					{
-						IPACharInfo info = DataUtils.IPACharCache[chr];
-						if (info != null && !info.IsBaseChar)
+						IPASymbol info = DataUtils.IPASymbolCache[chr];
+						if (info != null && !info.IsBase)
 							bldrEnv.Remove(i, 1);
 					}
 				}

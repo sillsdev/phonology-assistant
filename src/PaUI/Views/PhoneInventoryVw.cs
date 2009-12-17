@@ -375,7 +375,7 @@ namespace SIL.Pa.UI.Views
 			int prevRow = gridAmbiguous.CurrentCellAddress.Y;
 
 			gridAmbiguous.Rows.Clear();
-			AmbiguousSequences ambigSeqList = DataUtils.IPACharCache.AmbiguousSequences;
+			AmbiguousSequences ambigSeqList = DataUtils.IPASymbolCache.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -1202,12 +1202,12 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				if (DataUtils.IPACharCache.AmbiguousSequences == null)
+				if (DataUtils.IPASymbolCache.AmbiguousSequences == null)
 				{
 					if (gridAmbiguous.RowCountLessNewRow > 0)
 						return true;
 				}
-				else if (DataUtils.IPACharCache.AmbiguousSequences.Count !=
+				else if (DataUtils.IPASymbolCache.AmbiguousSequences.Count !=
 					gridAmbiguous.RowCountLessNewRow)
 				{
 					return true;
@@ -1228,7 +1228,7 @@ namespace SIL.Pa.UI.Views
 					bool convert = (bool)row.Cells["convert"].Value;
 
 					AmbiguousSeq ambigSeq =
-						DataUtils.IPACharCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
+						DataUtils.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
 
 					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
 						return true;
@@ -1310,7 +1310,7 @@ namespace SIL.Pa.UI.Views
 			}
 
 			ambigSeqList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPACharCache.AmbiguousSequences =
+			DataUtils.IPASymbolCache.AmbiguousSequences =
 				AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
 
 			LoadAmbiguousGrid();

@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly int m_extraPhoneHeight;
 		private readonly string m_settingValPrefix;
 		private readonly string m_frmName;
-		private readonly IPACharacterType m_charType;
+		private readonly IPASymbolType m_charType;
 		private readonly SortedList<int, List<Label>> m_lableRows;
 		private readonly CompactViewerPanel pnlCompactView;
 
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhonesInFeatureViewer(IPACharacterType charType, string frmName,
+		public PhonesInFeatureViewer(IPASymbolType charType, string frmName,
 			string settingValPrefix) : this()
 		{
 			m_settingValPrefix = settingValPrefix;
@@ -129,7 +129,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_lableRows.Clear();
 
-			if (m_charType != IPACharacterType.Unknown)
+			if (m_charType != IPASymbolType.Unknown)
 			{
 				// Load vowels or consonants from a builder so the phones can be layed out
 				// in POA and MOA order.
@@ -152,8 +152,8 @@ namespace SIL.Pa.UI.Controls
 					IPhoneInfo iPhoneInfo = kvpPhoneInfo.Value;
 					PhoneInfo phoneInfo = iPhoneInfo as PhoneInfo;
 
-					if (iPhoneInfo.CharType != IPACharacterType.Consonant &&
-						iPhoneInfo.CharType != IPACharacterType.Vowel &&
+					if (iPhoneInfo.CharType != IPASymbolType.Consonant &&
+						iPhoneInfo.CharType != IPASymbolType.Vowel &&
 						(phoneInfo == null || !phoneInfo.IsUndefined))
 					{
 						Label lbl = CreateLabel(kvpPhoneInfo.Key, iPhoneInfo);

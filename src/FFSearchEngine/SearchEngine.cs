@@ -291,10 +291,10 @@ namespace SIL.Pa.FFSearchEngine
 				// are not base characters are only one codepoint in length.
 				foreach (string ignoredItem in value.CompleteIgnoredList)
 				{
-					IPACharInfo charInfo = DataUtils.IPACharCache[ignoredItem];
+					IPASymbol charInfo = DataUtils.IPASymbolCache[ignoredItem];
 					if (charInfo != null)
 					{
-						if (charInfo.IsBaseChar)
+						if (charInfo.IsBase)
 							s_ignoredPhones.Add(ignoredItem);
 						else
 							s_ignoredChars.Add(ignoredItem[0]);
@@ -313,9 +313,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private static void MergeInUndefinedIgnoredPhones()
 		{
-			if (DataUtils.IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (DataUtils.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPASymbolCache.UndefinedCharacters)
 				{
 					if (!s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Add(upci.Character.ToString());
@@ -330,9 +330,9 @@ namespace SIL.Pa.FFSearchEngine
 		/// ------------------------------------------------------------------------------------
 		private static void UnMergeInUndefinedIgnoredPhones()
 		{
-			if (DataUtils.IPACharCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (DataUtils.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPACharCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPASymbolCache.UndefinedCharacters)
 				{
 					if (s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Remove(upci.Character.ToString());
@@ -436,7 +436,7 @@ namespace SIL.Pa.FFSearchEngine
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 				
 				return (bldrPhones.Length == 0 ? null :
-					DataUtils.IPACharCache.PhoneticParser(bldrPhones.ToString(), true,
+					DataUtils.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
 					s_convertPatternWithExperimentalTrans));
 			}
 		}
@@ -679,7 +679,7 @@ namespace SIL.Pa.FFSearchEngine
 		public static List<char> ParsePhone(string phone, out string basePhone, out string diacritics)
 		{
 			// First, check if the phone is a tone letter.
-			if (DataUtils.IPACharCache.ToneLetterInfo(phone) != null)
+			if (DataUtils.IPASymbolCache.ToneLetterInfo(phone) != null)
 			{
 				basePhone = phone;
 				diacritics = null;
@@ -693,7 +693,7 @@ namespace SIL.Pa.FFSearchEngine
 
 			foreach (char c in phone)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[c];
+				IPASymbol charInfo = DataUtils.IPASymbolCache[c];
 
 				// This should never be null.
 				if (charInfo == null || charInfo.IsUndefined)
@@ -702,7 +702,7 @@ namespace SIL.Pa.FFSearchEngine
 				if (charInfo != null)
 				{
 					// Tie bars are counted as part of the base character.
-					if (charInfo.IsBaseChar || c == DataUtils.kBottomTieBarC || c == DataUtils.kTopTieBarC)
+					if (charInfo.IsBase || c == DataUtils.kBottomTieBarC || c == DataUtils.kTopTieBarC)
 					{
 						sbBasePhone.Append(c);
 						if (!tiebarFound && (c == DataUtils.kBottomTieBarC || c == DataUtils.kTopTieBarC))
@@ -735,11 +735,11 @@ namespace SIL.Pa.FFSearchEngine
 		{
 			result = new[] { -1, -1 };
 
-			if (DataUtils.IPACharCache == null)
+			if (DataUtils.IPASymbolCache == null)
 				return false;
 
 			m_matchIndex = 0;
-			return SearchWord(DataUtils.IPACharCache.PhoneticParser(phonetic, true), out result);
+			return SearchWord(DataUtils.IPASymbolCache.PhoneticParser(phonetic, true), out result);
 		}
 
 		/// ------------------------------------------------------------------------------------

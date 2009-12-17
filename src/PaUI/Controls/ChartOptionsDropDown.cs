@@ -49,9 +49,9 @@ namespace SIL.Pa.UI.Controls
 		/// IPACharInfo object should be in the ignore list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool pickerIgnore_ShouldLoadChar(CharPicker picker, IPACharInfo charInfo)
+		private bool pickerIgnore_ShouldLoadChar(CharPicker picker, IPASymbol charInfo)
 		{
-			return (!charInfo.IsBaseChar && charInfo.IgnoreType != IPACharIgnoreTypes.NotApplicable);
+			return (!charInfo.IsBase && charInfo.IgnoreType != IPASymbolIgnoreType.NotApplicable);
 		}
 
 		/// ------------------------------------------------------------------------------------

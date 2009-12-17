@@ -407,10 +407,10 @@ namespace SIL.Pa.Data
 			// the string. Make that character the base character for the unit.
 			for (int i = unit.Length - 1; i >= 0; i--)
 			{
-				IPACharInfo charInfo = DataUtils.IPACharCache[unit[i]];
-				if (charInfo != null && charInfo.IsBaseChar)
+				IPASymbol charInfo = DataUtils.IPASymbolCache[unit[i]];
+				if (charInfo != null && charInfo.IsBase)
 				{
-					BaseChar = charInfo.IPAChar;
+					BaseChar = charInfo.Literal;
 					return;
 				}
 			}
@@ -420,7 +420,7 @@ namespace SIL.Pa.Data
 			// character inventory. If so, then use the first one we encounter as the base.
 			for (int i = unit.Length - 1; i >= 0; i--)
 			{
-				if (DataUtils.IPACharCache[unit[i]] == null)
+				if (DataUtils.IPASymbolCache[unit[i]] == null)
 				{
 					BaseChar = unit[i].ToString();
 					return;

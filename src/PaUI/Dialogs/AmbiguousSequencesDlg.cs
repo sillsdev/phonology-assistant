@@ -211,7 +211,7 @@ namespace SIL.Pa.UI.Dialogs
 			int prevRow = m_grid.CurrentCellAddress.Y;
 
 			m_grid.Rows.Clear();
-			AmbiguousSequences ambigSeqList = DataUtils.IPACharCache.AmbiguousSequences;
+			AmbiguousSequences ambigSeqList = DataUtils.IPASymbolCache.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -357,7 +357,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			PaApp.MsgMediator.SendMessage("BeforeAmbiguousSequencesSaved", ambigSeqList);
 			ambigSeqList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPACharCache.AmbiguousSequences = AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
+			DataUtils.IPASymbolCache.AmbiguousSequences = AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
 			PaApp.MsgMediator.SendMessage("AfterAmbiguousSequencesSaved", ambigSeqList);
 			PaApp.Project.ReloadDataSources();
 			return true;
@@ -375,12 +375,12 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				if (DataUtils.IPACharCache.AmbiguousSequences == null)
+				if (DataUtils.IPASymbolCache.AmbiguousSequences == null)
 				{
 					if (m_grid.RowCountLessNewRow > 0)
 						return true;
 				}
-				else if (DataUtils.IPACharCache.AmbiguousSequences.Count !=
+				else if (DataUtils.IPASymbolCache.AmbiguousSequences.Count !=
 					m_grid.RowCountLessNewRow)
 				{
 					return true;
@@ -398,7 +398,7 @@ namespace SIL.Pa.UI.Dialogs
 					bool convert = (bool)row.Cells["convert"].Value;
 
 					AmbiguousSeq ambigSeq =
-						DataUtils.IPACharCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
+						DataUtils.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
 
 					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
 						return true;

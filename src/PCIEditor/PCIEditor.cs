@@ -42,7 +42,7 @@ namespace SIL.Pa
 		private const int kDefaultFeatureColWidth = 225;
 
 		internal SilGrid m_grid;
-		private List<IPACharInfo> m_charInventory;
+		private List<IPASymbol> m_charInventory;
 		private readonly bool m_amTesting;
 		private readonly List<string> unknownCharTypes;
 		private readonly List<string> knownCharTypes;
@@ -331,7 +331,7 @@ namespace SIL.Pa
 			if (m_grid.CurrentRow == null)
 				return;
 
-			IPACharInfo charInfo = m_grid.CurrentRow.Tag as IPACharInfo;
+			IPASymbol charInfo = m_grid.CurrentRow.Tag as IPASymbol;
 			if (charInfo == null)
 				return;
 
@@ -377,28 +377,28 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void SaveInventory()
 		{
-			List<IPACharInfo> tmpCache = new List<IPACharInfo>();
+			List<IPASymbol> tmpCache = new List<IPASymbol>();
 
 			foreach (DataGridViewRow row in m_gridDictionary.Values)
 			{
-				IPACharInfo info = new IPACharInfo();
-				info.Codepoint = (int)row.Cells[kCodePoint].Value;
+				IPASymbol info = new IPASymbol();
+				info.Decimal = (int)row.Cells[kCodePoint].Value;
 
-				info.IPAChar = (info.Codepoint < 0 ? row.Cells[kIpaChar].Value as string :
-					((char)info.Codepoint).ToString());
+				info.Literal = (info.Decimal < 0 ? row.Cells[kIpaChar].Value as string :
+					((char)info.Decimal).ToString());
 				
-				info.HexIPAChar = row.Cells[kHexIPAChar].Value as string;
+				info.Hexadecimal = row.Cells[kHexIPAChar].Value as string;
 				info.Name = (string)row.Cells[kName].Value;
 				info.Description = (string)row.Cells[kDescription].Value;
-				info.CharType = (IPACharacterType)Enum.Parse(
-					typeof(IPACharacterType), (string)row.Cells[kCharType].Value);
-				info.CharSubType = (IPACharacterSubType)Enum.Parse(
-					typeof(IPACharacterSubType), (string)row.Cells[kCharSubType].Value);
-				info.IgnoreType = (IPACharIgnoreTypes)Enum.Parse(
-					typeof(IPACharIgnoreTypes), (string)row.Cells[kIgnoreType].Value);
-				info.IsBaseChar = (bool)row.Cells[kIsBaseChar].Value;
-				info.CanPreceedBaseChar = (bool)row.Cells[kCanPreceedBaseChar].Value;
-				info.DisplayWDottedCircle = (bool)row.Cells[kDisplayWDottedCircle].Value;
+				info.Type = (IPASymbolType)Enum.Parse(
+					typeof(IPASymbolType), (string)row.Cells[kCharType].Value);
+				info.SubType = (IPASymbolSubType)Enum.Parse(
+					typeof(IPASymbolSubType), (string)row.Cells[kCharSubType].Value);
+				info.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
+					typeof(IPASymbolIgnoreType), (string)row.Cells[kIgnoreType].Value);
+				info.IsBase = (bool)row.Cells[kIsBaseChar].Value;
+				info.CanPreceedBase = (bool)row.Cells[kCanPreceedBaseChar].Value;
+				info.DisplayWithDottedCircle = (bool)row.Cells[kDisplayWDottedCircle].Value;
 				info.DisplayOrder = (int)row.Cells[kDisplayOrder].Value;
 				info.MOArticulation = (int)row.Cells[kMOA].Value;
 				info.POArticulation = (int)row.Cells[kPOA].Value;
@@ -672,21 +672,21 @@ namespace SIL.Pa
 
 			// Add the CharType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kCharType, Enum.GetNames(typeof(IPACharacterType)));
+				kCharType, Enum.GetNames(typeof(IPASymbolType)));
 			col.HeaderText = Resources.kstidIpaGridCharType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharSubType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kCharSubType, Enum.GetNames(typeof(IPACharacterSubType)));
+				kCharSubType, Enum.GetNames(typeof(IPASymbolSubType)));
 			col.HeaderText = Resources.kstidIpaGridCharSubType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharIgnoreType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kIgnoreType, Enum.GetNames(typeof(IPACharIgnoreTypes)));
+				kIgnoreType, Enum.GetNames(typeof(IPASymbolIgnoreType)));
 			col.HeaderText = Resources.kstidIpaGridCharIgnoreType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
@@ -792,7 +792,7 @@ namespace SIL.Pa
 			if (m_grid.CurrentRow == null)
 				return;
 
-			IPACharInfo charInfo = m_grid.CurrentRow.Tag as IPACharInfo;
+			IPASymbol charInfo = m_grid.CurrentRow.Tag as IPASymbol;
 			if (charInfo == null)
 				return;
 
@@ -836,7 +836,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadRows()
 		{
-			foreach (IPACharInfo charInfo in m_charInventory)
+			foreach (IPASymbol charInfo in m_charInventory)
 				LoadRowWithCharInfo(null, charInfo);
 
 			// Hide all rows with a CharType of "Unknown" OR a CodePoint that is below 32
@@ -858,7 +858,7 @@ namespace SIL.Pa
 		/// Create a grid row.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int LoadRowWithCharInfo(DataGridViewRow row, IPACharInfo charInfo)
+		private int LoadRowWithCharInfo(DataGridViewRow row, IPASymbol charInfo)
 		{
 			int rowIndex;
 			
@@ -871,24 +871,24 @@ namespace SIL.Pa
 				row = m_grid.Rows[rowIndex];
 			}
 
-			row.Cells[kHexIPAChar].Value = charInfo.Codepoint.ToString("X4");
-			row.Cells[kCodePoint].Value = charInfo.Codepoint;
-			row.Cells[kIpaChar].Value = (charInfo.DisplayWDottedCircle ?
-				DataUtils.kDottedCircle : string.Empty) + charInfo.IPAChar;
+			row.Cells[kHexIPAChar].Value = charInfo.Decimal.ToString("X4");
+			row.Cells[kCodePoint].Value = charInfo.Decimal;
+			row.Cells[kIpaChar].Value = (charInfo.DisplayWithDottedCircle ?
+				DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
 
 			// Identity
 			row.Cells[kName].Value = charInfo.Name;
 			row.Cells[kDescription].Value = charInfo.Description;
 
 			// Type
-			row.Cells[kCharType].Value = charInfo.CharType.ToString();
-			row.Cells[kCharSubType].Value = charInfo.CharSubType.ToString();
+			row.Cells[kCharType].Value = charInfo.Type.ToString();
+			row.Cells[kCharSubType].Value = charInfo.SubType.ToString();
 			row.Cells[kIgnoreType].Value = charInfo.IgnoreType.ToString();
 
 			// Base Character
-			row.Cells[kIsBaseChar].Value = charInfo.IsBaseChar;
-			row.Cells[kCanPreceedBaseChar].Value = charInfo.CanPreceedBaseChar;
-			row.Cells[kDisplayWDottedCircle].Value = charInfo.DisplayWDottedCircle;
+			row.Cells[kIsBaseChar].Value = charInfo.IsBase;
+			row.Cells[kCanPreceedBaseChar].Value = charInfo.CanPreceedBase;
+			row.Cells[kDisplayWDottedCircle].Value = charInfo.DisplayWithDottedCircle;
 			row.Cells[kDisplayOrder].Value = charInfo.DisplayOrder;
 
 			// Articulation
@@ -943,7 +943,7 @@ namespace SIL.Pa
 			}
 
 			m_charInventory = Utils.DeserializeData(m_xmlFilePath,
-				 typeof(List<IPACharInfo>)) as List<IPACharInfo>;
+				 typeof(List<IPASymbol>)) as List<IPASymbol>;
 
 			// Make sure the format is correct
 			if (m_charInventory == null)
