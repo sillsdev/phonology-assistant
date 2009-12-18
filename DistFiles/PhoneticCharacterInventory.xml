@@ -299,42 +299,39 @@
 		</feature>
 	</articulatoryFeatures>
 	<binaryFeatures>
-		<!-- The clements attribute is an experiment to group related features according to "The Geometry of Phonological Features" by G. N. clements. -->
-		<!-- In the new format, can reorder the feature elements according to the feature geometry perspective. -->
-		<!-- However, we might consider a descriptive classification on the Pattern and Chart Building tabs and in the Phone Inventory dialog box. -->
-		<feature clements="3a">
+		<feature>
 			<name>cons</name>
 			<fullname>Consonantal</fullname>
 		</feature>
-		<feature clements="1">
+		<feature>
 			<name>syll</name>
 			<fullname>Syllabic</fullname>
 		</feature>
-		<feature clements="3b">
+		<feature>
 			<name>son</name>
 			<fullname>Sonorant</fullname>
 		</feature>
-		<feature clements="4d">
+		<feature>
 			<name>high</name>
 			<fullname>High</fullname>
 		</feature>
-		<feature clements="4g">
+		<feature>
 			<name>back</name>
 			<fullname>Back</fullname>
 		</feature>
-		<feature clements="4e">
+		<feature>
 			<name>low</name>
 			<fullname>Low</fullname>
 		</feature>
-		<feature clements="4b">
+		<feature>
 			<name>ant</name>
 			<fullname>Anterior</fullname>
 		</feature>
-		<feature clements="4a">
+		<feature>
 			<name>COR</name>
 			<fullname>Coronal</fullname>
 		</feature>
-		<feature clements="2c">
+		<feature>
 			<name>voice</name>
 			<fullname>Voice</fullname>
 		</feature>
@@ -342,19 +339,19 @@
 			<name>Continuant articulatory</name>
 			<fullname>Continuant articulatory</fullname>
 		</feature>
-		<feature clements="3g">
+		<feature>
 			<name>nas</name>
 			<fullname>Nasal</fullname>
 		</feature>
-		<feature clements="3e">
+		<feature>
 			<name>strid</name>
 			<fullname>Strident</fullname>
 		</feature>
-		<feature clements="3f">
+		<feature>
 			<name>lat</name>
 			<fullname>Lateral</fullname>
 		</feature>
-		<feature clements="4h">
+		<feature>
 			<name>rnd</name>
 			<fullname>Round</fullname>
 		</feature>
@@ -362,7 +359,7 @@
 			<name>ATR</name>
 			<fullname>ATR</fullname>
 		</feature>
-		<feature clements="3d">
+		<feature>
 			<name>Delayed release</name>
 			<fullname>Delayed release</fullname>
 		</feature>
@@ -378,7 +375,7 @@
 			<name>Epiglottal</name>
 			<fullname>Epiglottal</fullname>
 		</feature>
-		<feature clements="4c">
+		<feature>
 			<name>distr</name>
 			<fullname>Distributed</fullname>
 		</feature>
@@ -386,11 +383,11 @@
 			<name>DORS</name>
 			<fullname>Dorsal</fullname>
 		</feature>
-		<feature clements="2a">
+		<feature>
 			<name>spread</name>
 			<fullname>Spread glottis</fullname>
 		</feature>
-		<feature clements="2b">
+		<feature>
 			<name>constr</name>
 			<fullname>Constricted glottis (pressure)</fullname>
 		</feature>
@@ -406,7 +403,7 @@
 			<name>PHAR</name>
 			<fullname>Pharyngeal</fullname>
 		</feature>
-		<feature clements="3c">
+		<feature>
 			<name>cont</name>
 			<fullname>Continuant acoustic</fullname>
 		</feature>
@@ -422,7 +419,7 @@
 			<name>approx</name>
 			<fullname>Approximant</fullname>
 		</feature>
-		<feature clements="4f">
+		<feature>
 			<name>tense</name>
 			<fullname>Tense</fullname>
 		</feature>

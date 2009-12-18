@@ -22,7 +22,7 @@ namespace SIL.Pa.FFSearchEngine
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryReader.Load(m_inventoryFile);
+			InventoryHelper.Load(m_inventoryFile);
 		}
 
 		#endregion

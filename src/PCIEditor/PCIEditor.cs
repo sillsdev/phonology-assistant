@@ -107,7 +107,7 @@ namespace SIL.Pa
 			File.Delete(tmpFile);
 			
 			// Make sure the phonetic character inventory file exists.
-			string inventoryPath = Path.Combine(exePath, InventoryReader.kDefaultInventoryFileName);
+			string inventoryPath = Path.Combine(exePath, InventoryHelper.kDefaultInventoryFileName);
 			if (!File.Exists(inventoryPath))
 			{
 				string filePath = Utils.PrepFilePathForSTMsgBox(inventoryPath);
@@ -174,7 +174,7 @@ namespace SIL.Pa
 		{
 			InitializeComponent();
 
-			InventoryReader.Load();
+			InventoryHelper.Load();
 
 			Version ver = new Version(Application.ProductVersion);
 			string version = string.Format(Resources.kstidVersionFormat, ver.ToString(3));
@@ -413,7 +413,7 @@ namespace SIL.Pa
 			}
 
 			DataUtils.IPASymbolCache.LoadFromList(tmpCache);
-			InventoryReader.Save();// Utils.SerializeData(m_xmlFilePath, tmpCache);
+			InventoryHelper.Save();// Utils.SerializeData(m_xmlFilePath, tmpCache);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -945,7 +945,7 @@ namespace SIL.Pa
 				return;
 			}
 
-			InventoryReader.Load(m_xmlFilePath);
+			InventoryHelper.Load(m_xmlFilePath);
 			m_charInventory = DataUtils.IPASymbolCache.Values.ToList();
 
 			if (m_amTesting)

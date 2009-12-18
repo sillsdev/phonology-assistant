@@ -24,9 +24,6 @@ namespace SIL.Pa.Data
 			kSearchPatternDiamond + "_" + kSearchPatternDiamond;
 
 		private static Form m_mainWindow;
-		internal static AFeatureCache s_aFeatureCache;
-		internal static BFeatureCache s_bFeatureCache;
-		internal static IPASymbolCache s_ipaCharCache;
 
 		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
@@ -46,12 +43,12 @@ namespace SIL.Pa.Data
 		#region Cache Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the IPACharacters cache.
+		/// Gets the IPA symbols cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static IPASymbolCache IPASymbolCache
 		{
-			get { return s_ipaCharCache; }
+			get { return InventoryHelper.IPASymbolCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +58,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static AFeatureCache AFeatureCache
 		{
-			get { return s_aFeatureCache; }
+			get { return InventoryHelper.AFeatureCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,7 +68,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public static BFeatureCache BFeatureCache
 		{
-			get { return s_bFeatureCache; }
+			get { return InventoryHelper.BFeatureCache; }
 		}
 
 		#endregion
