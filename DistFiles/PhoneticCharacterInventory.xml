@@ -74,7 +74,7 @@
 			<name>Click</name>
 		</feature>
 		<feature class="rowgroup">
-			<!-- Mark changed this to Implosive-->
+			<!-- Mark changed this to Implosive. Check with Larry about this change-->
 			<name>Voiced Implosive</name>
 		</feature>
 		<feature class="row">
@@ -99,7 +99,7 @@
 			<name>Front</name>
 		</feature>
 		<feature class="colgroup">
-			<name>Near Front</name>
+			<name>Near-front</name>
 		</feature>
 		<feature class="colgroup">
 			<name>Central</name>
