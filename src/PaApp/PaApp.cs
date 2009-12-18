@@ -170,6 +170,9 @@ namespace SIL.Pa
 			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
 			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
+
+			// Load the cache of IPA symbols, articulatory and binary features.
+			InventoryReader.Load();
 		}
 
 		#region event handlers for saving and restoring localization dialog settings

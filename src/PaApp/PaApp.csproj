@@ -270,8 +270,6 @@ copy "$(TargetDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)
 copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultAFeatures.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultBFeatures.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultAmbiguousSequences.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultConsonantChartHeadings.xml" "$(ProjectDir)$(OutDir)"

@@ -75,6 +75,7 @@
     <Compile Include="FeatureOverrides.cs" />
     <Compile Include="FFNormalizer.cs" />
     <Compile Include="FwDBUtils.cs" />
+    <Compile Include="InventoryReader.cs" />
     <Compile Include="IPASymbol.cs" />
     <Compile Include="IPASymbolCache.cs" />
     <Compile Include="IPhoneInfo.cs" />

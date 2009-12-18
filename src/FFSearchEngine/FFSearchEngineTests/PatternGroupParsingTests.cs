@@ -19,24 +19,12 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
-			// This will force the cache to be built.
-			if (DataUtils.IPASymbolCache == null)
-			{
-			}
+			base.FixtureSetup();
+			InventoryReader.Load(m_inventoryFile);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close and delete the test database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureTearDown]
-		public void FixtureTearDown()
-		{
-		}
-		
 		#endregion
 
 		/// ------------------------------------------------------------------------------------

@@ -37,19 +37,10 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
-			//DataUtils.LoadIPACharCache(null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close and delete the test database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureTearDown]
-		public void FixtureTearDown()
-		{
+			base.FixtureSetup();
+			InventoryReader.Load(m_inventoryFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

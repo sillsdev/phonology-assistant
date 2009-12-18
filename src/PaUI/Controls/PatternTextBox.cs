@@ -496,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 			if (nonDottedCirclePart.Length == 1)
 			{
 				IPASymbol charInfo = DataUtils.IPASymbolCache[nonDottedCirclePart];
-				if (charInfo != null && charInfo.CanPreceedBase)
+				if (charInfo != null && charInfo.CanPrecedeBase)
 				{
 					text = nonDottedCirclePart;
 					return;

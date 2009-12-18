@@ -64,8 +64,8 @@ namespace SIL.Pa.Data
 		[XmlElement("isBase")]
 		public bool IsBase { get; set; }
 
-		[XmlElement("canPreceedBase")]
-		public bool CanPreceedBase { get; set; }
+		[XmlElement("canPrecedeBase")]
+		public bool CanPrecedeBase { get; set; }
 
 		[XmlElement("displayWithDottedCircle")]
 		public bool DisplayWithDottedCircle { get; set; }

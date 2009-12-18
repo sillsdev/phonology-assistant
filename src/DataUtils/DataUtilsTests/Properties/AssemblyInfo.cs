@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DBUtilsTests")]
+[assembly: AssemblyTitle("DataUtilsTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jaars, Inc.")]
-[assembly: AssemblyProduct("DBUtilsTests")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2005")]
+[assembly: AssemblyProduct("DataUtilsTests")]
+[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

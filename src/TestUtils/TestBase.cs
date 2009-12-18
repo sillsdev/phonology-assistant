@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Reflection;
+using NUnit.Framework;
 
 namespace SIL.Pa.TestUtils
 {
@@ -11,6 +13,32 @@ namespace SIL.Pa.TestUtils
 	/// ----------------------------------------------------------------------------------------
 	public class TestBase
 	{
+		protected string m_inventoryFile;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Fixture setup.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[TestFixtureSetUp]
+		public virtual void FixtureSetup()
+		{
+			m_inventoryFile = Path.GetTempFileName();
+			File.WriteAllText(m_inventoryFile, Properties.Resources.kfilPhoneticCharacterInventory);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Fixture tear down.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[TestFixtureTearDown]
+		public virtual void FixtureTearDown()
+		{
+			if (File.Exists(m_inventoryFile))
+				File.Delete(m_inventoryFile);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a string value returned from a call to a private method.
@@ -158,7 +186,7 @@ namespace SIL.Pa.TestUtils
 		/// ------------------------------------------------------------------------------------
 		public object GetResult(object binding, string methodName, object args)
 		{
-			return Invoke(binding, methodName, new object[] {args}, BindingFlags.InvokeMethod);
+			return Invoke(binding, methodName, new[] {args}, BindingFlags.InvokeMethod);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,7 +206,7 @@ namespace SIL.Pa.TestUtils
 		/// ------------------------------------------------------------------------------------
 		protected void SetProperty(object binding, string propertyName, object args)
 		{
-			Invoke(binding, propertyName, new object[] {args}, BindingFlags.SetProperty);
+			Invoke(binding, propertyName, new[] {args}, BindingFlags.SetProperty);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -188,7 +216,7 @@ namespace SIL.Pa.TestUtils
 		/// ------------------------------------------------------------------------------------
 		protected void SetField(object binding, string fieldName, object args)
 		{
-			Invoke(binding, fieldName, new object[] {args}, BindingFlags.SetField);
+			Invoke(binding, fieldName, new[] {args}, BindingFlags.SetField);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,7 +245,7 @@ namespace SIL.Pa.TestUtils
 		/// specified binding.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private object Invoke(object binding, string name, object[] args, BindingFlags flags)
+		private static object Invoke(object binding, string name, object[] args, BindingFlags flags)
 		{
 			flags |= (BindingFlags.NonPublic | BindingFlags.Public);
 

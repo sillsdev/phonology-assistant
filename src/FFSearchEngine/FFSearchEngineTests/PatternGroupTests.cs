@@ -25,19 +25,10 @@ namespace SIL.Pa.FFSearchEngine
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
-			//DataUtils.LoadIPACharCache(null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Close and delete the test database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureTearDown]
-		public void FixtureTearDown()
-		{
+			base.FixtureSetup();
+			InventoryReader.Load(m_inventoryFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1424,7 +1415,7 @@ namespace SIL.Pa.FFSearchEngine
 				charInfo.Type = IPASymbolType.Suprasegmentals;
 				charInfo.IsBase = true;
 				charInfo.Literal = "'";
-				DataUtils.IPASymbolCache.Add((int)'\'', charInfo);
+				DataUtils.IPASymbolCache.Add('\'', charInfo);
 			}
 
 			SearchQuery query = new SearchQuery();

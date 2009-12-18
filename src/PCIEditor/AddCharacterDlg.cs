@@ -20,17 +20,17 @@ namespace SIL.Pa
 
 		#region Constants
 		// Define Constants
-		private const string kCodePoint = "CodePoint";
-		private const string kIpaChar = "IpaChar";
-		private const string kHexIPAChar = "HexIPAChar";
+		private const string kDecimal = "Decimal";
+		private const string kLiteral = "Literal";
+		private const string kHexadecimal = "Hexadecimal";
 		private const string kName = "Name";
 		private const string kDescription = "Description";
-		private const string kCharType = "CharType";
-		private const string kCharSubType = "CharSubType";
+		private const string kType = "Type";
+		private const string kSubType = "SubType";
 		private const string kIgnoreType = "IgnoreType";
-		private const string kIsBaseChar = "IsBaseChar";
-		private const string kCanPreceedBaseChar = "CanPreceedBaseChar";
-		private const string kDisplayWDottedCircle = "DisplayWDottedCircle";
+		private const string kIsBase = "IsBase";
+		private const string kCanPrecedeBaseChar = "CanPrecedeBase";
+		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
 		private const string kMOA = "MOA";
 		private const string kPOA = "POA";
 		private const string kLblMoa = "MOA Sort Order";
@@ -42,8 +42,6 @@ namespace SIL.Pa
 		private const string kUnknown = "Unknown";
 		private const string kConsonant = "Consonant";
 		private const string kVowel = "Vowel";
-		private const string kPulmonic = "Pulmonic";
-		private const string kNonPulmonic = "Non Pulmonic";
 		private const string kOtherSymbols = "Other Symbols";
 
 		// VOWEL Groups
@@ -226,20 +224,20 @@ namespace SIL.Pa
 
 			// Identity
 			txtHexValue.Visible = false;
-			lblUnicodeValue.Text = row.Cells[kHexIPAChar].Value as string;
-			lblChar.Text = row.Cells[kIpaChar].Value as string;
+			lblUnicodeValue.Text = row.Cells[kHexadecimal].Value as string;
+			lblChar.Text = row.Cells[kLiteral].Value as string;
 			txtCharName.Text = row.Cells[kName].Value as string;
 			txtCharDesc.Text = row.Cells[kDescription].Value as string;
 
 			// Types
-			cboType.SelectedItem = SeperateWordsWithSpace(row.Cells[kCharType].Value as string);
-			cboSubType.SelectedItem = SeperateWordsWithSpace(row.Cells[kCharSubType].Value as string);
+			cboType.SelectedItem = SeperateWordsWithSpace(row.Cells[kType].Value as string);
+			cboSubType.SelectedItem = SeperateWordsWithSpace(row.Cells[kSubType].Value as string);
 			cboIgnoreType.SelectedItem = SeperateWordsWithSpace(row.Cells[kIgnoreType].Value as string);
 
 			// Base Character
-			chkIsBase.Checked = (bool)row.Cells[kIsBaseChar].Value;
-			chkPreceedBaseChar.Checked = (bool)row.Cells[kCanPreceedBaseChar].Value;
-			chkDottedCircle.Checked = (bool)row.Cells[kDisplayWDottedCircle].Value;
+			chkIsBase.Checked = (bool)row.Cells[kIsBase].Value;
+			chkPreceedBaseChar.Checked = (bool)row.Cells[kCanPrecedeBaseChar].Value;
+			chkDottedCircle.Checked = (bool)row.Cells[kDisplayWithDottedCircle].Value;
 
 			// Articulation - load the Moa/Poa combo boxes
 			m_original_moa = float.Parse(row.Cells[kMOA].Value.ToString());
@@ -396,24 +394,24 @@ namespace SIL.Pa
 			foreach (DataGridViewRow gridRow in charGrid.Rows)
 			{
 				// Save unique codePoint's / IPAChar's for Verification later
-				int codePoint = (int)gridRow.Cells[kCodePoint].Value;
+				int codePoint = (int)gridRow.Cells[kDecimal].Value;
 				if (!m_codePoints.Contains(codePoint))
 					m_codePoints.Add(codePoint);
 
-				if (gridRow.Cells[kCodePoint].Value != null && gridRow.Cells[kCharType].Value != null)
+				if (gridRow.Cells[kDecimal].Value != null && gridRow.Cells[kType].Value != null)
 				{
-					if ((int)gridRow.Cells[kCodePoint].Value <= invalidCodePoint ||
-						(string)gridRow.Cells[kCharType].Value == kUnknown)
+					if ((int)gridRow.Cells[kDecimal].Value <= invalidCodePoint ||
+						(string)gridRow.Cells[kType].Value == kUnknown)
 						continue;
 				}
 
-				if (gridRow.Cells[kIpaChar].Value != null)
+				if (gridRow.Cells[kLiteral].Value != null)
 				{
 					// Create sorted lists of the manners and points of articulation.
 					float moa = float.Parse(gridRow.Cells[kMOA].Value.ToString());
 					float poa = float.Parse(gridRow.Cells[kPOA].Value.ToString());
-					m_MOA[moa] = gridRow.Cells[kIpaChar].Value.ToString();
-					m_POA[poa] = gridRow.Cells[kIpaChar].Value.ToString();
+					m_MOA[moa] = gridRow.Cells[kLiteral].Value.ToString();
+					m_POA[poa] = gridRow.Cells[kLiteral].Value.ToString();
 				}
 			}
 
@@ -627,7 +625,7 @@ namespace SIL.Pa
 
 			// Base Character
 			m_charInfo.IsBase = chkIsBase.Checked;
-			m_charInfo.CanPreceedBase = chkPreceedBaseChar.Checked;
+			m_charInfo.CanPrecedeBase = chkPreceedBaseChar.Checked;
 			m_charInfo.DisplayWithDottedCircle = chkDottedCircle.Checked;
 
 			// Save the manner of articulation sort order value

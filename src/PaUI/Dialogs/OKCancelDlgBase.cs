@@ -45,8 +45,11 @@ namespace SIL.Pa.UI.Dialogs
 				Location = new Point((rc.Width - Width) / 2, (rc.Height - Height) / 2);
 			}
 
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
-			PaApp.MsgMediator.SendMessage("OKCancelDlgHandleCreated", this);
+			if (!DesignMode)
+			{
+				PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+				PaApp.MsgMediator.SendMessage("OKCancelDlgHandleCreated", this);
+			}
 
 			if (Parent is Form)
 				((Form)Parent).AddOwnedForm(this);

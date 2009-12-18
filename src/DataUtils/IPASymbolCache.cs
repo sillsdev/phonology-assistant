@@ -15,28 +15,11 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
-using SilUtils;
 
 namespace SIL.Pa.Data
 {
-	#region IPASymbolList
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Temporary cache used to serialize and deserialize an IPASymbolCache
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	[XmlType("symbols")]
-	public class IPASymbolList : List<IPASymbol>
-	{
-	}
-
-	#endregion
-
 	#region IPASymbolTypeInfo struct
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -135,8 +118,6 @@ namespace SIL.Pa.Data
 		private AmbiguousSequences m_unsortedAmbiguousSeqList;
 		private UndefinedPhoneticCharactersInfoList m_undefinedChars;
 
-		public const string kDefaultIPASymbolCacheFile = "PhoneticCharacterInventory.xml";
-		private string m_cacheFileName;
 		private Dictionary<string, IPASymbol> m_toneLetters;
 		private bool m_logUndefinedCharacters;
 		private static string s_absentPhoneChars = "0\u2205";
@@ -151,40 +132,10 @@ namespace SIL.Pa.Data
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal IPASymbolCache(string projectFileName)
+		internal IPASymbolCache()
 		{
 			m_experimentalTransList = new ExperimentalTranscriptions();
 			m_unsortedAmbiguousSeqList = new AmbiguousSequences();
-			m_cacheFileName = BuildFileName(projectFileName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds the name from which to load or save the cache file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName)
-		{
-			//string filename = (projectFileName ?? string.Empty);
-			//filename += (filename.EndsWith(".") ? string.Empty : ".") + kIPACharCacheFile;
-
-			// Uncomment if phonetic inventories can exist at the project level.
-			//if (!File.Exists(filename) && mustExist)
-			//	filename = kDefaultIPACharCacheFile;
-
-			//return filename;
-
-			return kDefaultIPASymbolCacheFile;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string CacheFileName
-		{
-			get { return m_cacheFileName; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -274,70 +225,6 @@ namespace SIL.Pa.Data
 		{
 			get { return s_absentPhoneChar; }
 			set { s_absentPhoneChar = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the binary feature table from the database into a memory cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static IPASymbolCache Load()
-		{
-			return Load(null, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the IPA character cache file into a memory cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static IPASymbolCache Load(string projectFileName, string data)
-		{
-			IPASymbolCache cache = new IPASymbolCache(projectFileName);
-
-			IPASymbolList tmpCache = Utils.DeserializeFromString <IPASymbolList>(data);
-
-
-
-			// Deserialize into a List<T> because a Dictionary<TKey, TValue>
-			// (i.e. IPASymbolCache) isn't serializable nor deserializable.
-			//IPASymbolList tmpCache = Utils.DeserializeData(cache.CacheFileName,
-			//    typeof(IPASymbolList)) as IPASymbolList;
-			
-			if (tmpCache == null)
-			    return null;
-
-			cache.LoadFromList(tmpCache);
-			tmpCache.Clear();
-
-			// This should never return null.
-			return (cache.Count == 0 ? null : cache);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the cache to project-specific XML file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(string projectFileName)
-		{
-			m_cacheFileName = BuildFileName(projectFileName);
-			Save();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the cache to it's XML file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save()
-		{
-			// Copy the items into a temp list because Dictionaries cannot be serialized.
-			var list = (from info in Values
-						where !info.IsUndefined
-						select info).ToList();
-			
-			Utils.SerializeData(m_cacheFileName, list);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -639,7 +526,7 @@ namespace SIL.Pa.Data
 			if (string.IsNullOrEmpty(phonetic))
 				return null;
 
-			m_phones = new List<string>();
+			m_phones = new List<string>(phonetic.Length);
 			IPASymbol ciPrev = null;
 
 			// Normalize the string if necessary.
@@ -738,7 +625,7 @@ namespace SIL.Pa.Data
 				// but a base character must follow it in the same phone (e.g. a tie bar)?
 				// If yes, then make sure the current codepoint is a base character or
 				// throw it away.
-				if (ciPrev != null && ciPrev.CanPreceedBase)
+				if (ciPrev != null && ciPrev.CanPrecedeBase)
 				{
 					ciPrev = ciCurr;
 					continue;
@@ -746,7 +633,7 @@ namespace SIL.Pa.Data
 
 				// At this point, if the current codepoint is a base character and
 				// it's not the first in the string, close the previous phone. If
-				// ciCurr.IsBaseChar && i > phoneStart but ciPrev == null then it means
+				// ciCurr.IsBase && i > phoneStart but ciPrev == null then it means
 				// we've run across some non base characters at the beginning of the
 				// transcription that aren't attached to a base character. Therefore,
 				// attach them to the first base character that's found. In that case,

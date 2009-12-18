@@ -37,9 +37,10 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
-			//DataUtils.LoadIPACharCache(null);
+			base.FixtureSetup();
+			InventoryReader.Load(m_inventoryFile);
 		}
 
 		/// ------------------------------------------------------------------------------------

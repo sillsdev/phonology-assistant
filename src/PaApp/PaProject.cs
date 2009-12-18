@@ -237,7 +237,7 @@ namespace SIL.Pa
 
 			if (!File.Exists(prjFileName))
 			{
-				msg = LocalizationManager.LocalizeString("kstidProjectFileNonExistent",
+				msg = LocalizationManager.LocalizeString("ProjectFileNonExistent",
 					"Project file '{0}' does not exist.", "Message displayed when an " +
 					"attempt is made to open a non existant project file. The parameter " +
 					"is the project file name.", PaApp.kLocalizationGroupInfoMsg,
@@ -245,12 +245,6 @@ namespace SIL.Pa
 				
 				msg = string.Format(msg, Utils.PrepFilePathForSTMsgBox(prjFileName));
 			}
-
-			string prjFolder = Path.GetDirectoryName(Path.GetFullPath(prjFileName));
-			string tmpProjPathFilePrefix = Path.Combine(prjFolder, Path.GetFileNameWithoutExtension(prjFileName));
-
-			if (msg == null)
-				msg = LoadCacheFiles(tmpProjPathFilePrefix);
 
 			if (msg == null)
 				project = LoadProjectFileOnly(prjFileName, false, ref msg);
@@ -446,25 +440,6 @@ namespace SIL.Pa
 				}
 				catch { }
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string LoadCacheFiles(string projFilePrefix)
-		{
-			try
-			{
-				DataUtils.LoadIPASymbolsAndFeatures(Application.ExecutablePath);
-			}
-			catch (Exception e)
-			{
-				return string.Format(Properties.Resources.kstidErrorLoadingCacheFiles, e.Message);
-			}
-
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

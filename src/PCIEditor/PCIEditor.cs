@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -16,17 +17,17 @@ namespace SIL.Pa
 	public partial class PCIEditor : OKCancelDlgBase
 	{
 		// Define Constants
-		private const string kCodePoint = "CodePoint";
-		private const string kIpaChar = "IpaChar";
-		private const string kHexIPAChar = "HexIPAChar";
+		private const string kDecimal = "Decimal";
+		private const string kLiteral = "Literal";
+		private const string kHexadecimal = "Hexadecimal";
 		private const string kName = "Name";
 		private const string kDescription = "Description";
-		private const string kCharType = "CharType";
-		private const string kCharSubType = "CharSubType";
+		private const string kType = "Type";
+		private const string kSubType = "SubType";
 		private const string kIgnoreType = "IgnoreType";
-		private const string kIsBaseChar = "IsBaseChar";
-		private const string kCanPreceedBaseChar = "CanPreceedBaseChar";
-		private const string kDisplayWDottedCircle = "DisplayWDottedCircle";
+		private const string kIsBase = "IsBase";
+		private const string kCanPrecedeBase = "CanPreceedBaseChar";
+		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
 		private const string kMOA = "MOA";
 		private const string kPOA = "POA";
 		private const string kChartColumn = "ChartColumn";
@@ -59,7 +60,6 @@ namespace SIL.Pa
 		private DataGridViewColumn m_lastSortedCol;
 		private ListSortDirection m_lastSortDirection = ListSortDirection.Ascending;
 
-		private const string kInventoryFile = "PhoneticCharacterInventory.xml";
 		private static SettingsHandler s_settingsHndlr;
 
 		internal SizableDropDownPanel m_sddpAFeatures;
@@ -107,7 +107,7 @@ namespace SIL.Pa
 			File.Delete(tmpFile);
 			
 			// Make sure the phonetic character inventory file exists.
-			string inventoryPath = Path.Combine(exePath, kInventoryFile);
+			string inventoryPath = Path.Combine(exePath, InventoryReader.kDefaultInventoryFileName);
 			if (!File.Exists(inventoryPath))
 			{
 				string filePath = Utils.PrepFilePathForSTMsgBox(inventoryPath);
@@ -173,6 +173,8 @@ namespace SIL.Pa
 		public PCIEditor()
 		{
 			InitializeComponent();
+
+			InventoryReader.Load();
 
 			Version ver = new Version(Application.ProductVersion);
 			string version = string.Format(Resources.kstidVersionFormat, ver.ToString(3));
@@ -294,9 +296,9 @@ namespace SIL.Pa
 
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
-				if ((int)row.Cells[kCodePoint].Value == m_startupChar)
+				if ((int)row.Cells[kDecimal].Value == m_startupChar)
 				{
-					m_grid.CurrentCell = row.Cells[kHexIPAChar];
+					m_grid.CurrentCell = row.Cells[kHexadecimal];
 					m_grid.FirstDisplayedCell = m_grid.CurrentCell;
 					btnModify_Click(null, null);
 					m_startupChar = 0;
@@ -382,23 +384,23 @@ namespace SIL.Pa
 			foreach (DataGridViewRow row in m_gridDictionary.Values)
 			{
 				IPASymbol info = new IPASymbol();
-				info.Decimal = (int)row.Cells[kCodePoint].Value;
+				info.Decimal = (int)row.Cells[kDecimal].Value;
 
-				info.Literal = (info.Decimal < 0 ? row.Cells[kIpaChar].Value as string :
+				info.Literal = (info.Decimal < 0 ? row.Cells[kLiteral].Value as string :
 					((char)info.Decimal).ToString());
 				
-				info.Hexadecimal = row.Cells[kHexIPAChar].Value as string;
+				info.Hexadecimal = row.Cells[kHexadecimal].Value as string;
 				info.Name = (string)row.Cells[kName].Value;
 				info.Description = (string)row.Cells[kDescription].Value;
 				info.Type = (IPASymbolType)Enum.Parse(
-					typeof(IPASymbolType), (string)row.Cells[kCharType].Value);
+					typeof(IPASymbolType), (string)row.Cells[kType].Value);
 				info.SubType = (IPASymbolSubType)Enum.Parse(
-					typeof(IPASymbolSubType), (string)row.Cells[kCharSubType].Value);
+					typeof(IPASymbolSubType), (string)row.Cells[kSubType].Value);
 				info.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
 					typeof(IPASymbolIgnoreType), (string)row.Cells[kIgnoreType].Value);
-				info.IsBase = (bool)row.Cells[kIsBaseChar].Value;
-				info.CanPreceedBase = (bool)row.Cells[kCanPreceedBaseChar].Value;
-				info.DisplayWithDottedCircle = (bool)row.Cells[kDisplayWDottedCircle].Value;
+				info.IsBase = (bool)row.Cells[kIsBase].Value;
+				info.CanPrecedeBase = (bool)row.Cells[kCanPrecedeBase].Value;
+				info.DisplayWithDottedCircle = (bool)row.Cells[kDisplayWithDottedCircle].Value;
 				info.DisplayOrder = (int)row.Cells[kDisplayOrder].Value;
 				info.MOArticulation = (int)row.Cells[kMOA].Value;
 				info.POArticulation = (int)row.Cells[kPOA].Value;
@@ -410,7 +412,8 @@ namespace SIL.Pa
 				tmpCache.Add(info);
 			}
 
-			Utils.SerializeData(m_xmlFilePath, tmpCache);
+			DataUtils.IPASymbolCache.LoadFromList(tmpCache);
+			InventoryReader.Save();// Utils.SerializeData(m_xmlFilePath, tmpCache);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -435,17 +438,17 @@ namespace SIL.Pa
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				// Don't verify the 'new' record at the very bottom
-				if (row.Cells[kHexIPAChar].Value == null || row.Cells[kCodePoint].Value == null)
+				if (row.Cells[kHexadecimal].Value == null || row.Cells[kDecimal].Value == null)
 					continue;
 
-				int codePoint = (int)row.Cells[kCodePoint].Value;
+				int codePoint = (int)row.Cells[kDecimal].Value;
 				m_codePoints.Add(codePoint);
 
-				string charTypeVal = row.Cells[kCharType].Value.ToString();
-				string charSubTypeVal = row.Cells[kCharSubType].Value.ToString();
+				string charTypeVal = row.Cells[kType].Value.ToString();
+				string charSubTypeVal = row.Cells[kSubType].Value.ToString();
 
 				// Don't allow CharType's of 'Unknown'
-				if (row.Visible && row.Cells[kCharType].Value.ToString() == kUnknown)
+				if (row.Visible && row.Cells[kType].Value.ToString() == kUnknown)
 					return ShowErrorMessage(Resources.kstidIpaGridErrUnknownCharType, row);
 
 				if (unknownCharTypes.Contains(charTypeVal))
@@ -464,8 +467,8 @@ namespace SIL.Pa
 							string.Format(Resources.kstidIpaGridErrRemoveUnknown, charTypeVal), row);
 				}
 
-				bool isBaseChar = (bool)row.Cells[kIsBaseChar].Value;
-				bool canProceedBase = (bool)row.Cells[kCanPreceedBaseChar].Value;
+				bool isBaseChar = (bool)row.Cells[kIsBase].Value;
+				bool canProceedBase = (bool)row.Cells[kCanPrecedeBase].Value;
 
 				if (isBaseChar && canProceedBase)
 					return ShowErrorMessage(Resources.kstidIpaGridErrBothTrue, row);
@@ -525,13 +528,13 @@ namespace SIL.Pa
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				// Don't verify the 'new' record at the very bottom
-				if (row.Cells[kHexIPAChar].Value == null || row.Cells[kCodePoint].Value == null)
+				if (row.Cells[kHexadecimal].Value == null || row.Cells[kDecimal].Value == null)
 					continue;
 
-				int codepoint = (int)row.Cells[kCodePoint].Value;
+				int codepoint = (int)row.Cells[kDecimal].Value;
 				m_gridDictionary[codepoint] = row;
 
-				if (codepoint <= invalidCodePoint || row.Cells[kCharType].Value.ToString() == kUnknown)
+				if (codepoint <= invalidCodePoint || row.Cells[kType].Value.ToString() == kUnknown)
 				{
 					// Make the MOA & POA negative
 					newValue -= 5;
@@ -632,7 +635,7 @@ namespace SIL.Pa
 		private void AddColumns()
 		{
 			// Add the HexIpa field column.
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kHexIPAChar);
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kHexadecimal);
 			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridHexIpa);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ReadOnly = true;
@@ -642,7 +645,7 @@ namespace SIL.Pa
 			m_grid.Columns.Add(col);
 
 			// Add the IpaChar field column.
-			col = SilGrid.CreateTextBoxColumn(kIpaChar);
+			col = SilGrid.CreateTextBoxColumn(kLiteral);
 			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridIpaChar);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
@@ -654,7 +657,7 @@ namespace SIL.Pa
 			m_grid.Columns.Add(col);
 
 			// Add the CodePoint field column (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kCodePoint);
+			col = SilGrid.CreateTextBoxColumn(kDecimal);
 			col.Visible = false;
 			m_grid.Columns.Add(col);
 
@@ -672,14 +675,14 @@ namespace SIL.Pa
 
 			// Add the CharType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kCharType, Enum.GetNames(typeof(IPASymbolType)));
+				kType, Enum.GetNames(typeof(IPASymbolType)));
 			col.HeaderText = Resources.kstidIpaGridCharType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
 
 			// Add the CharSubType drop down list combo box column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kCharSubType, Enum.GetNames(typeof(IPASymbolSubType)));
+				kSubType, Enum.GetNames(typeof(IPASymbolSubType)));
 			col.HeaderText = Resources.kstidIpaGridCharSubType;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_grid.Columns.Add(col);
@@ -692,21 +695,21 @@ namespace SIL.Pa
 			m_grid.Columns.Add(col);
 
 			// Add the IsBaseChar check box column.
-			col = SilGrid.CreateCheckBoxColumn(kIsBaseChar);
+			col = SilGrid.CreateCheckBoxColumn(kIsBase);
 			col.HeaderText = Resources.kstidIpaGridIsBase;
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the Can preceed base character check box column.
-			col = SilGrid.CreateCheckBoxColumn(kCanPreceedBaseChar);
+			col = SilGrid.CreateCheckBoxColumn(kCanPrecedeBase);
 			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridCanPreceedBase);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
 			m_grid.Columns.Add(col);
 
 			// Add the DisplayWDottedCircle check box column.
-			col = SilGrid.CreateCheckBoxColumn(kDisplayWDottedCircle);
+			col = SilGrid.CreateCheckBoxColumn(kDisplayWithDottedCircle);
 			col.HeaderText = Utils.ConvertLiteralNewLines(Resources.kstidIpaGridWDotCircle);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			col.ValueType = typeof(bool);
@@ -842,11 +845,11 @@ namespace SIL.Pa
 			// Hide all rows with a CharType of "Unknown" OR a CodePoint that is below 32
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
-				if (row.Cells[kCodePoint].Value == null || row.Cells[kCharType].Value == null)
+				if (row.Cells[kDecimal].Value == null || row.Cells[kType].Value == null)
 					continue;
 
-				if ((int)row.Cells[kCodePoint].Value <= invalidCodePoint ||
-					(string)row.Cells[kCharType].Value == kUnknown)
+				if ((int)row.Cells[kDecimal].Value <= invalidCodePoint ||
+					(string)row.Cells[kType].Value == kUnknown)
 				{
 					row.Visible = false;
 				}
@@ -871,9 +874,9 @@ namespace SIL.Pa
 				row = m_grid.Rows[rowIndex];
 			}
 
-			row.Cells[kHexIPAChar].Value = charInfo.Decimal.ToString("X4");
-			row.Cells[kCodePoint].Value = charInfo.Decimal;
-			row.Cells[kIpaChar].Value = (charInfo.DisplayWithDottedCircle ?
+			row.Cells[kHexadecimal].Value = charInfo.Decimal.ToString("X4");
+			row.Cells[kDecimal].Value = charInfo.Decimal;
+			row.Cells[kLiteral].Value = (charInfo.DisplayWithDottedCircle ?
 				DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
 
 			// Identity
@@ -881,14 +884,14 @@ namespace SIL.Pa
 			row.Cells[kDescription].Value = charInfo.Description;
 
 			// Type
-			row.Cells[kCharType].Value = charInfo.Type.ToString();
-			row.Cells[kCharSubType].Value = charInfo.SubType.ToString();
+			row.Cells[kType].Value = charInfo.Type.ToString();
+			row.Cells[kSubType].Value = charInfo.SubType.ToString();
 			row.Cells[kIgnoreType].Value = charInfo.IgnoreType.ToString();
 
 			// Base Character
-			row.Cells[kIsBaseChar].Value = charInfo.IsBase;
-			row.Cells[kCanPreceedBaseChar].Value = charInfo.CanPreceedBase;
-			row.Cells[kDisplayWDottedCircle].Value = charInfo.DisplayWithDottedCircle;
+			row.Cells[kIsBase].Value = charInfo.IsBase;
+			row.Cells[kCanPrecedeBase].Value = charInfo.CanPrecedeBase;
+			row.Cells[kDisplayWithDottedCircle].Value = charInfo.DisplayWithDottedCircle;
 			row.Cells[kDisplayOrder].Value = charInfo.DisplayOrder;
 
 			// Articulation
@@ -942,16 +945,8 @@ namespace SIL.Pa
 				return;
 			}
 
-			m_charInventory = Utils.DeserializeData(m_xmlFilePath,
-				 typeof(List<IPASymbol>)) as List<IPASymbol>;
-
-			// Make sure the format is correct
-			if (m_charInventory == null)
-			{
-				Utils.MsgBox(Resources.kstidIpaGridErrBadXmlFormat,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return;
-			}
+			InventoryReader.Load(m_xmlFilePath);
+			m_charInventory = DataUtils.IPASymbolCache.Values.ToList();
 
 			if (m_amTesting)
 			{
@@ -1012,7 +1007,7 @@ namespace SIL.Pa
 			m_grid.MouseDoubleClick += m_grid_MouseDoubleClick;
 			m_grid.ColumnHeaderMouseClick += m_grid_ColumnHeaderMouseClick;
 
-			m_lastSortedCol = m_grid.Columns[kHexIPAChar];
+			m_lastSortedCol = m_grid.Columns[kHexadecimal];
 			m_lastSortDirection = ListSortDirection.Ascending;
 			m_grid.Sort(m_lastSortedCol, m_lastSortDirection);
 			mnuColSort.Checked = true;
@@ -1224,7 +1219,7 @@ namespace SIL.Pa
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CharInfo != null)
 				{
 					int newRowIndex = LoadRowWithCharInfo(null, dlg.CharInfo);
-					m_grid.CurrentCell = (m_grid.Rows[newRowIndex]).Cells[kHexIPAChar];
+					m_grid.CurrentCell = (m_grid.Rows[newRowIndex]).Cells[kHexadecimal];
 					m_dirty = true;
 				}
 			}
