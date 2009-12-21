@@ -5959,12 +5959,6 @@
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>355</MOArticulation>
     <POArticulation>550</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <OverrideMask0>0</OverrideMask0>
-    <OverrideMask1>0</OverrideMask1>
-    <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>21</ChartColumn>
     <ChartGroup>4</ChartGroup>
   </IPACharInfo>
@@ -5980,12 +5974,6 @@
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>240</MOArticulation>
     <POArticulation>180</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <OverrideMask0>0</OverrideMask0>
-    <OverrideMask1>0</OverrideMask1>
-    <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>6</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -6001,12 +5989,6 @@
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>245</MOArticulation>
     <POArticulation>185</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <OverrideMask0>0</OverrideMask0>
-    <OverrideMask1>0</OverrideMask1>
-    <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>7</ChartColumn>
     <ChartGroup>5</ChartGroup>
   </IPACharInfo>
@@ -6022,12 +6004,6 @@
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>535</MOArticulation>
     <POArticulation>60</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <OverrideMask0>0</OverrideMask0>
-    <OverrideMask1>0</OverrideMask1>
-    <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>0</ChartColumn>
     <ChartGroup>11</ChartGroup>
   </IPACharInfo>
@@ -6043,12 +6019,6 @@
     <DisplayOrder>0</DisplayOrder>
     <MOArticulation>540</MOArticulation>
     <POArticulation>215</POArticulation>
-    <Mask0>0</Mask0>
-    <Mask1>0</Mask1>
-    <BinaryMask>0</BinaryMask>
-    <OverrideMask0>0</OverrideMask0>
-    <OverrideMask1>0</OverrideMask1>
-    <BinaryOverrideMask>0</BinaryOverrideMask>
     <ChartColumn>4</ChartColumn>
     <ChartGroup>11</ChartGroup>
   </IPACharInfo>
