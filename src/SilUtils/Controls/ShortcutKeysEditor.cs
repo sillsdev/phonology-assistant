@@ -33,15 +33,8 @@ namespace SilUtils.Controls
 				cboKeys.Items.Add(GetStringFromNonModifierKeys(key));
 
 			cboKeys.SelectedIndex = 0;
-
-			Color clr = ColorHelper.CalculateColor(Color.White, btnOK.BackColor, 70);
-			btnOK.BackColor = clr;
-			btnReset.BackColor = clr;
-
-			clr = ColorHelper.CalculateColor(Color.White, clr, 100);
-			btnOK.FlatAppearance.MouseOverBackColor = clr;
-			btnReset.FlatAppearance.MouseOverBackColor = clr;
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the the selected keys as a string or sets the selected keys from a string.
@@ -288,6 +281,32 @@ namespace SilUtils.Controls
 				if (rc.Contains(MousePosition))
 					e.Cancel = true;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paints the background of the OK and Reset buttons.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool HandleButtonDrawBackground(XButton btn, PaintEventArgs e, PaintState state)
+		{
+			if (state == PaintState.Hot || state == PaintState.HotDown)
+				return false;
+
+			var rc = btn.ClientRectangle;
+			Color clr = ColorHelper.CalculateColor(Color.White, BackColor, 100);
+
+			using (SolidBrush br = new SolidBrush(clr))
+				e.Graphics.FillRectangle(br, rc);
+
+			rc.Width--;
+			rc.Height--;
+			clr = ColorHelper.CalculateColor(Color.Black, BackColor, 70);
+			using (Pen pen = new Pen(clr))
+				e.Graphics.DrawRectangle(pen, rc);
+
+			//btn.DrawText(e);
+			return true;
 		}
 	}
 }

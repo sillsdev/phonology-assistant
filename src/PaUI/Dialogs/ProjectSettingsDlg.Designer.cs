@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.pnlGridHdg = new SilUtils.Controls.SilGradientPanel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
@@ -69,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -85,7 +85,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -125,7 +125,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.txtProjName, null);
 			this.locExtender.SetLocalizationComment(this.txtProjName, null);
-			this.locExtender.SetLocalizationPriority(this.txtProjName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtProjName, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtProjName, "ProjectSettingsDlg.txtProjName");
 			resources.ApplyResources(this.txtProjName, "txtProjName");
 			this.txtProjName.Name = "txtProjName";
@@ -135,7 +135,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.txtTranscriber, null);
-			this.locExtender.SetLocalizationPriority(this.txtTranscriber, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtTranscriber, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtTranscriber, "ProjectSettingsDlg.txtTranscriber");
 			resources.ApplyResources(this.txtTranscriber, "txtTranscriber");
 			this.txtTranscriber.Name = "txtTranscriber";
@@ -146,7 +146,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtSpeaker, "txtSpeaker");
 			this.locExtender.SetLocalizableToolTip(this.txtSpeaker, null);
 			this.locExtender.SetLocalizationComment(this.txtSpeaker, null);
-			this.locExtender.SetLocalizationPriority(this.txtSpeaker, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtSpeaker, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtSpeaker, "ProjectSettingsDlg.txtSpeaker");
 			this.txtSpeaker.Name = "txtSpeaker";
 			this.txtSpeaker.TextChanged += new System.EventHandler(this.HandleTextChanged);
@@ -156,7 +156,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtComments, "txtComments");
 			this.locExtender.SetLocalizableToolTip(this.txtComments, null);
 			this.locExtender.SetLocalizationComment(this.txtComments, null);
-			this.locExtender.SetLocalizationPriority(this.txtComments, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtComments, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtComments, "ProjectSettingsDlg.txtComments");
 			this.txtComments.Name = "txtComments";
 			this.txtComments.TextChanged += new System.EventHandler(this.HandleTextChanged);
@@ -206,7 +206,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.txtLanguage, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguage, null);
-			this.locExtender.SetLocalizationPriority(this.txtLanguage, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtLanguage, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtLanguage, "ProjectSettingsDlg.txtLanguage");
 			resources.ApplyResources(this.txtLanguage, "txtLanguage");
 			this.txtLanguage.Name = "txtLanguage";
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "ProjectSettingsDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
@@ -395,6 +395,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pnlGridHdg;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

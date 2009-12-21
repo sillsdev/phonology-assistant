@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlDetails = new SilUtils.Controls.SilPanel();
 			this.m_gridWhere = new SilUtils.SilGrid();
 			this.pgpWhere = new SilUtils.Controls.SilGradientPanel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -149,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSummary.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlSummary, null);
 			this.locExtender.SetLocalizationComment(this.pnlSummary, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSummary, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSummary, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.pnlSummary");
 			this.pnlSummary.MnemonicGeneratesClick = false;
 			this.pnlSummary.Name = "pnlSummary";
@@ -188,7 +188,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridChars.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_gridChars, null);
 			this.locExtender.SetLocalizationComment(this.m_gridChars, null);
-			this.locExtender.SetLocalizationPriority(this.m_gridChars, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_gridChars, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_gridChars, "UndefinedPhoneticCharactersDlg.m_gridChars");
 			this.m_gridChars.MultiSelect = false;
 			this.m_gridChars.Name = "m_gridChars";
@@ -231,7 +231,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlDetails.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlDetails, null);
 			this.locExtender.SetLocalizationComment(this.pnlDetails, null);
-			this.locExtender.SetLocalizationPriority(this.pnlDetails, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlDetails, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlDetails, "UndefinedPhoneticCharactersDlg.pnlDetails");
 			this.pnlDetails.MnemonicGeneratesClick = false;
 			this.pnlDetails.Name = "pnlDetails";
@@ -269,7 +269,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridWhere.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_gridWhere, null);
 			this.locExtender.SetLocalizationComment(this.m_gridWhere, null);
-			this.locExtender.SetLocalizationPriority(this.m_gridWhere, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_gridWhere, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_gridWhere, "UndefinedPhoneticCharactersDlg.m_gridWhere");
 			this.m_gridWhere.MultiSelect = false;
 			this.m_gridWhere.Name = "m_gridWhere";
@@ -351,6 +351,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pgpChars;
 		private SilPanel pnlDetails;
 		private SilGradientPanel pgpWhere;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms.VisualStyles;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 
 namespace SIL.Pa.UI.Controls
 {

@@ -33,7 +33,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblName = new System.Windows.Forms.Label();
 			this.tlpName = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.tlpName.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -63,7 +63,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtName, "txtName");
 			this.locExtender.SetLocalizableToolTip(this.txtName, null);
 			this.locExtender.SetLocalizationComment(this.txtName, null);
-			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtName, "SaveXYChartDlg.txtName");
 			this.txtName.Name = "txtName";
 			this.txtName.TextChanged += new System.EventHandler(this.HandleTextChanged);
@@ -127,6 +127,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.TextBox txtName;
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.TableLayoutPanel tlpName;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

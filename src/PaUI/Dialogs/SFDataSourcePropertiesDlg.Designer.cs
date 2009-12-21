@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFDataSourcePropertiesDlg));
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.pnlToolboxSortField = new System.Windows.Forms.Panel();
 			this.lblToolboxSortField = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -114,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -122,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -139,7 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboToolboxSortField.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "This is used for jumping to the appropriate Toolbox record.");
 			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
-			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, SIL.Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
 			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
@@ -180,7 +180,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlMappings, null);
 			this.locExtender.SetLocalizationComment(this.pnlMappings, null);
-			this.locExtender.SetLocalizationPriority(this.pnlMappings, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlMappings, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlMappings, "SFDataSourcePropertiesDlg.pnlMappings");
 			this.pnlMappings.MnemonicGeneratesClick = false;
 			this.pnlMappings.Name = "pnlMappings";
@@ -200,7 +200,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnBrowse, null);
 			this.locExtender.SetLocalizationComment(this.btnBrowse, "Button for browsing to an SFM editor in the standard format data source propertie" +
 					"s dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnBrowse, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnBrowse, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
@@ -244,7 +244,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSrcFile.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSrcFile, null);
 			this.locExtender.SetLocalizationComment(this.pnlSrcFile, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSrcFile, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSrcFile, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSrcFile, "SFDataSourcePropertiesDlg.pnlSrcFile");
 			this.pnlSrcFile.MnemonicGeneratesClick = false;
 			this.pnlSrcFile.Name = "pnlSrcFile";
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtFilePreview, "txtFilePreview");
 			this.locExtender.SetLocalizableToolTip(this.txtFilePreview, null);
 			this.locExtender.SetLocalizationComment(this.txtFilePreview, null);
-			this.locExtender.SetLocalizationPriority(this.txtFilePreview, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtFilePreview, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtFilePreview, "SFDataSourcePropertiesDlg.txtFilePreview");
 			this.txtFilePreview.Name = "txtFilePreview";
 			this.txtFilePreview.ReadOnly = true;
@@ -286,7 +286,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblFilename.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFilename, null);
 			this.locExtender.SetLocalizationComment(this.lblFilename, "");
-			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblFilename, "SFDataSourcePropertiesDlg.lblFilename");
 			this.lblFilename.Name = "lblFilename";
 			this.lblFilename.Paint += new System.Windows.Forms.PaintEventHandler(this.lblFilename_Paint);
@@ -299,7 +299,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboFirstInterlinear.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, null);
 			this.locExtender.SetLocalizationComment(this.cboFirstInterlinear, null);
-			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "SFDataSourcePropertiesDlg.cboFirstInterlinear");
 			this.cboFirstInterlinear.Name = "cboFirstInterlinear";
 			this.cboFirstInterlinear.SelectedIndexChanged += new System.EventHandler(this.cboFirstInterlinear_SelectedIndexChanged);
@@ -335,7 +335,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlParseType.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlParseType, null);
 			this.locExtender.SetLocalizationComment(this.pnlParseType, null);
-			this.locExtender.SetLocalizationPriority(this.pnlParseType, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlParseType, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlParseType, "SFDataSourcePropertiesDlg.pnlParseType");
 			this.pnlParseType.MnemonicGeneratesClick = false;
 			this.pnlParseType.Name = "pnlParseType";
@@ -357,17 +357,17 @@ namespace SIL.Pa.UI.Dialogs
             this.Phonetic,
             this.Gloss,
             this.POS});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle1;
 			this.locExtender.SetLocalizableToolTip(this.gridSampleOutput, null);
-			this.locExtender.SetLocalizationComment(this.gridSampleOutput, null);
-			this.locExtender.SetLocalizationPriority(this.gridSampleOutput, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationComment(this.gridSampleOutput, "Grid showing sample output in the standard form data source properties dialog box" +
+					".");
 			this.locExtender.SetLocalizingId(this.gridSampleOutput, "SFDataSourcePropertiesDlg.gridSampleOutput");
 			this.gridSampleOutput.MultiSelect = false;
 			this.gridSampleOutput.Name = "gridSampleOutput";
@@ -426,7 +426,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSampleInput.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSampleInput, null);
 			this.locExtender.SetLocalizationComment(this.pnlSampleInput, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSampleInput, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSampleInput, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSampleInput, "SFDataSourcePropertiesDlg.pnlSampleInput");
 			this.pnlSampleInput.MnemonicGeneratesClick = false;
 			this.pnlSampleInput.Name = "pnlSampleInput";
@@ -645,6 +645,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pnlSrcFileHdg;
 		private SilPanel pnlMappings;
 		private SilPanel pnlSrcFile;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

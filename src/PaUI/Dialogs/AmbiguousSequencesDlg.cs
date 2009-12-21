@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SilUtils;
 

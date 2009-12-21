@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -38,8 +39,11 @@ namespace SilUtils.Controls
 			InitializeComponent();
 			base.DoubleBuffered = true;
 
-			if (DesignMode)
+			if (DesignMode || GetService(typeof(IDesignerHost)) != null ||
+				LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+			{
 				return;
+			}
 
 			base.Dock = DockStyle.Fill;
 			

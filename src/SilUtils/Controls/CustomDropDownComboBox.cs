@@ -285,9 +285,8 @@ namespace SilUtils.Controls
 				var pt = new Point(0, Height);
 				if (!AlignDropToLeft)
 					pt.X -= (m_popupCtrl.Width - Width);
-				
+
 				m_popupCtrl.Show(this, pt);
-			
 			}
 		}
 	}

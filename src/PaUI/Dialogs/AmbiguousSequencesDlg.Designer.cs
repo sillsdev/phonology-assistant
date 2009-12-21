@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.chkShowDefaults = new System.Windows.Forms.CheckBox();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in Base Class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in Base Class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in Base Class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "AmbiguousSequencesDlg.pnlGrid");
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
@@ -118,7 +118,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "AmbiguousSequencesDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
@@ -141,7 +141,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkShowDefaults.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.locExtender.SetLocalizableToolTip(this.chkShowDefaults, null);
 			this.locExtender.SetLocalizationComment(this.chkShowDefaults, null);
-			this.locExtender.SetLocalizationPriority(this.chkShowDefaults, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.chkShowDefaults, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.chkShowDefaults, "AmbiguousSequencesDlg.chkShowDefaults");
 			this.chkShowDefaults.Name = "chkShowDefaults";
 			this.chkShowDefaults.UseVisualStyleBackColor = false;
@@ -176,6 +176,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilPanel pnlGrid;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.CheckBox chkShowDefaults;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

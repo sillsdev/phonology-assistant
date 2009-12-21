@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 
 namespace SIL.Pa.UI.Controls
 {

@@ -594,96 +594,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The custom field &apos;{0}&apos; occurs multiple times in the list..
-        /// </summary>
-        internal static string kstidCustomFieldDupMsg {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldDupMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A field by the name of &apos;{0}&apos; already exists..
-        /// </summary>
-        internal static string kstidCustomFieldExistsMsg {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldExistsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Can Field be Interlinear?.
-        /// </summary>
-        internal static string kstidCustomFieldGridHdgInterlinear {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridHdgInterlinear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Custom Field Name.
-        /// </summary>
-        internal static string kstidCustomFieldGridHdgName {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridHdgName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Is Field Parsed?.
-        /// </summary>
-        internal static string kstidCustomFieldGridHdgParsed {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridHdgParsed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Right to Left.
-        /// </summary>
-        internal static string kstidCustomFieldGridHdgRTL {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridHdgRTL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field Type.
-        /// </summary>
-        internal static string kstidCustomFieldGridHdgType {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridHdgType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date/Time.
-        /// </summary>
-        internal static string kstidCustomFieldGridTypeDate {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridTypeDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Numeric.
-        /// </summary>
-        internal static string kstidCustomFieldGridTypeNumeric {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridTypeNumeric", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Text.
-        /// </summary>
-        internal static string kstidCustomFieldGridTypeText {
-            get {
-                return ResourceManager.GetString("kstidCustomFieldGridTypeText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Data Corpus.
         /// </summary>
         internal static string kstidDataCorpusHTMLChartType {
@@ -734,33 +644,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDataSourceDeleteConfirmation {
             get {
                 return ResourceManager.GetString("kstidDataSourceDeleteConfirmation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Source.
-        /// </summary>
-        internal static string kstidDataSourceGridSourcFile {
-            get {
-                return ResourceManager.GetString("kstidDataSourceGridSourcFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        internal static string kstidDataSourceGridType {
-            get {
-                return ResourceManager.GetString("kstidDataSourceGridType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XSLT.
-        /// </summary>
-        internal static string kstidDataSourceGridXSLT {
-            get {
-                return ResourceManager.GetString("kstidDataSourceGridXSLT", resourceCulture);
             }
         }
         

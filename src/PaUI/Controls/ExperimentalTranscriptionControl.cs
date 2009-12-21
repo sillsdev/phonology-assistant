@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SilUtils;
 using SilUtils.Controls;

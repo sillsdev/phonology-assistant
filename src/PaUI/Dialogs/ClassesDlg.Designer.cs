@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddBinFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "ClassesDlg.btnCancel");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "ClassesDlg.btnOK");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "ClassesDlg.btnHelp");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -108,7 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.Image = global::SIL.Pa.Properties.Resources.kimidButtonDropDownArrow;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, "Text on add button drop-down on classes dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnAdd, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnAdd, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnAdd, "ClassesDlg.btnAdd");
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -218,6 +218,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

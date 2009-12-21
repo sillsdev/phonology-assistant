@@ -21,6 +21,7 @@ namespace SilUtils.Controls
 		{
 			AlignDropToLeft = false;
 			TextBox.ReadOnly = true;
+			TextBox.KeyDown += TextBox_KeyDown;
 			m_editor = new ShortcutKeysEditor();
 			PopupCtrl = m_editor;
 		}
@@ -74,6 +75,21 @@ namespace SilUtils.Controls
 		private void SetCurrentKeysFromEditor()
 		{
 			Text = (m_editor.SelectedKeys == Keys.None ? string.Empty : m_editor.SelectedKeysAsString);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clears the shortcut keys when the user presses backspace or delete in the text
+		/// box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void TextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+			{
+				m_editor.Reset();
+				SetCurrentKeysFromEditor();
+			}
 		}
 	}
 }

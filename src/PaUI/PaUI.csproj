@@ -91,9 +91,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LocalizationUtils, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Localization Project\Output\Debug\LocalizationUtils.dll</HintPath>
+      <HintPath>..\..\..\LocalizationManager\bin\Debug\LocalizationManager.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">

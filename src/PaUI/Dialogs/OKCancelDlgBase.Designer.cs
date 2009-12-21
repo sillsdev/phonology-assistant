@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.btnOK = new System.Windows.Forms.Button();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -92,7 +92,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "OKCancelDlgBase.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -112,7 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected System.Windows.Forms.Button btnCancel;
 		protected System.Windows.Forms.Button btnOK;
 		protected System.Windows.Forms.Button btnHelp;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 
 
 

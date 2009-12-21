@@ -36,9 +36,9 @@
 			this.chkAlt = new System.Windows.Forms.CheckBox();
 			this.chkShift = new System.Windows.Forms.CheckBox();
 			this.lblKey = new System.Windows.Forms.Label();
-			this.btnReset = new System.Windows.Forms.Button();
-			this.btnOK = new System.Windows.Forms.Button();
 			this.cboKeys = new System.Windows.Forms.ComboBox();
+			this.btnOK = new SilUtils.Controls.XButton();
+			this.btnReset = new SilUtils.Controls.XButton();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -110,40 +110,6 @@
 			this.lblKey.TabIndex = 4;
 			this.lblKey.Text = "Key:";
 			// 
-			// btnReset
-			// 
-			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnReset.BackColor = System.Drawing.Color.PaleGoldenrod;
-			this.btnReset.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
-			this.btnReset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkKhaki;
-			this.btnReset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-			this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnReset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnReset.Location = new System.Drawing.Point(11, 93);
-			this.btnReset.Name = "btnReset";
-			this.btnReset.Size = new System.Drawing.Size(50, 24);
-			this.btnReset.TabIndex = 6;
-			this.btnReset.Text = "Reset";
-			this.btnReset.UseVisualStyleBackColor = false;
-			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-			// 
-			// btnOK
-			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.BackColor = System.Drawing.Color.PaleGoldenrod;
-			this.btnOK.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
-			this.btnOK.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkKhaki;
-			this.btnOK.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnOK.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnOK.Location = new System.Drawing.Point(117, 93);
-			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(50, 24);
-			this.btnOK.TabIndex = 7;
-			this.btnOK.Text = "OK";
-			this.btnOK.UseVisualStyleBackColor = false;
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
 			// cboKeys
 			// 
 			this.cboKeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -152,27 +118,64 @@
 			this.cboKeys.FormattingEnabled = true;
 			this.cboKeys.Location = new System.Drawing.Point(46, 60);
 			this.cboKeys.Name = "cboKeys";
-			this.cboKeys.Size = new System.Drawing.Size(121, 21);
+			this.cboKeys.Size = new System.Drawing.Size(118, 21);
 			this.cboKeys.TabIndex = 5;
 			// 
-			// ShortcutKeysDropDown
+			// btnOK
+			// 
+			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOK.BackColor = System.Drawing.SystemColors.Control;
+			this.btnOK.CanBeChecked = false;
+			this.btnOK.Checked = false;
+			this.btnOK.DrawEmpty = false;
+			this.btnOK.DrawLeftArrowButton = false;
+			this.btnOK.DrawRightArrowButton = false;
+			this.btnOK.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnOK.Image = null;
+			this.btnOK.Location = new System.Drawing.Point(122, 93);
+			this.btnOK.Name = "btnOK";
+			this.btnOK.Size = new System.Drawing.Size(42, 18);
+			this.btnOK.TabIndex = 8;
+			this.btnOK.Text = "OK";
+			this.btnOK.DrawBackground += new SilUtils.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
+			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+			// 
+			// btnReset
+			// 
+			this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnReset.BackColor = System.Drawing.SystemColors.Control;
+			this.btnReset.CanBeChecked = false;
+			this.btnReset.Checked = false;
+			this.btnReset.DrawEmpty = false;
+			this.btnReset.DrawLeftArrowButton = false;
+			this.btnReset.DrawRightArrowButton = false;
+			this.btnReset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btnReset.Image = null;
+			this.btnReset.Location = new System.Drawing.Point(8, 93);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(42, 18);
+			this.btnReset.TabIndex = 9;
+			this.btnReset.Text = "Reset";
+			this.btnReset.DrawBackground += new SilUtils.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+			// 
+			// ShortcutKeysEditor
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.PaleGoldenrod;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.Controls.Add(this.cboKeys);
-			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.btnReset);
+			this.Controls.Add(this.btnOK);
+			this.Controls.Add(this.cboKeys);
 			this.Controls.Add(this.lblKey);
 			this.Controls.Add(this.chkShift);
 			this.Controls.Add(this.chkAlt);
 			this.Controls.Add(this.lblModifiers);
 			this.Controls.Add(this.chkCtrl);
-			this.DoubleBuffered = true;
 			this.MinimumSize = new System.Drawing.Size(175, 122);
-			this.Name = "ShortcutKeysDropDown";
-			this.Size = new System.Drawing.Size(175, 122);
+			this.Name = "ShortcutKeysEditor";
+			this.Size = new System.Drawing.Size(175, 120);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -188,8 +191,8 @@
 		private System.Windows.Forms.CheckBox chkAlt;
 		private System.Windows.Forms.CheckBox chkShift;
 		private System.Windows.Forms.Label lblKey;
-		private System.Windows.Forms.Button btnReset;
-		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.ComboBox cboKeys;
+		private XButton btnOK;
+		private XButton btnReset;
 	}
 }

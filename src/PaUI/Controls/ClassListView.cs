@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls

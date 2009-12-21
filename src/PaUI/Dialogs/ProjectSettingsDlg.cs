@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.Pa.Resources;
 using SilUtils;
@@ -154,26 +155,37 @@ namespace SIL.Pa.UI.Dialogs
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
 		    col.Width = 250;
-		    col.HeaderText = Properties.Resources.kstidDataSourceGridSourcFile;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns["sourceFiles"],
+				"ProjectSettingsDlg.DataSourceFileColumnHdg", "Source", null, null,
+				"Column heading in data source list in project settings dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 		    col = SilGrid.CreateTextBoxColumn("type");
 		    col.ReadOnly = true;
 		    col.Width = 75;
-		    col.HeaderText = Properties.Resources.kstidDataSourceGridType;
 		    m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns["type"],
+				"ProjectSettingsDlg.DataSourceFileTypeColumnHdg", "Type", null, null,
+				"Column heading in data source list in project settings dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 		    col = SilGrid.CreateSilButtonColumn("xslt");
 		    col.ReadOnly = true;
 		    col.Width = 170;
-
-		    col.HeaderText = Properties.Resources.kstidDataSourceGridXSLT;
 			((SilButtonColumn)col).ButtonWidth = 20;
 			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
 			((SilButtonColumn)col).ButtonText = Properties.Resources.kstidXSLTColButtonText;
 			((SilButtonColumn)col).ButtonToolTip = Properties.Resources.kstidXSLTColButtonToolTip;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns["xslt"],
+				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT", null, null,
+				"Column heading in data source list in project settings dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 		    PaApp.SettingsHandler.LoadGridProperties(m_grid);
 

@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblNetwork = new System.Windows.Forms.Label();
 			this.txtMsg = new System.Windows.Forms.TextBox();
 			this.lblProjects = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -59,7 +59,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -67,7 +67,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -75,7 +75,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -109,7 +109,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tvNetwork.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.tvNetwork, null);
 			this.locExtender.SetLocalizationComment(this.tvNetwork, null);
-			this.locExtender.SetLocalizationPriority(this.tvNetwork, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tvNetwork, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
 			this.tvNetwork.Name = "tvNetwork";
 			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNetwork_AfterSelect);
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtMsg.BackColor = System.Drawing.SystemColors.Window;
 			this.locExtender.SetLocalizableToolTip(this.txtMsg, null);
 			this.locExtender.SetLocalizationComment(this.txtMsg, null);
-			this.locExtender.SetLocalizationPriority(this.txtMsg, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtMsg, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMsg, "FwProjectsDlg.txtMsg");
 			resources.ApplyResources(this.txtMsg, "txtMsg");
 			this.txtMsg.Name = "txtMsg";
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitContainer1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "FwProjectsDlg.WindowTitle");
 			this.Name = "FwProjectsDlg";
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
@@ -197,6 +197,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblNetwork;
 		private System.Windows.Forms.Label lblProjects;
 		private System.Windows.Forms.TextBox txtMsg;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

@@ -71,6 +71,7 @@ namespace SIL.Pa.UI.Dialogs
 			rbParseOnlyPhonetic.Font = FontHelper.UIFont;
 			rbParseOneToOne.Font = FontHelper.UIFont;
 			rbNoParse.Font = FontHelper.UIFont;
+			gridSampleOutput.Font = FontHelper.UIFont;
 
 			pnlParseHdg.BorderStyle = BorderStyle.None;
 			pnlMappingsHdg.BorderStyle = BorderStyle.None;

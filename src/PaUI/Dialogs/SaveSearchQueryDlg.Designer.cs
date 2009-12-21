@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName = new System.Windows.Forms.Label();
 			this.lblCategories = new System.Windows.Forms.Label();
 			this.lblPatternLabel = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
@@ -57,7 +57,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.cboCategories, "Enter a category in which to save the\\npattern or choose one from the list");
 			this.locExtender.SetLocalizationComment(this.cboCategories, "Drop-down list of search pattern categories on the dialog box for saving search p" +
 					"atterns in search  view.");
-			this.locExtender.SetLocalizationPriority(this.cboCategories, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.cboCategories, SIL.Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.cboCategories, "SaveSearchQueryDlg.cboCategories");
 			this.cboCategories.Name = "cboCategories";
 			this.cboCategories.Sorted = true;
@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtName, "Enter the name to give your saved pattern.");
 			this.locExtender.SetLocalizationComment(this.txtName, "Search pattern name text box on the dialog box for saving search patterns in sear" +
 					"ch  view.");
-			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localize.LocalizationUtils.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.txtName, SIL.Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.txtName, "SaveSearchQueryDlg.txtName");
 			this.txtName.Name = "txtName";
 			this.txtName.TextChanged += new System.EventHandler(this.HandleTextChanged);
@@ -101,7 +101,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPattern.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblPattern, null);
 			this.locExtender.SetLocalizationComment(this.lblPattern, null);
-			this.locExtender.SetLocalizationPriority(this.lblPattern, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblPattern, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblPattern, "SaveSearchQueryDlg.lblPattern");
 			this.lblPattern.Name = "lblPattern";
 			// 
@@ -174,6 +174,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblName;
 		private System.Windows.Forms.Label lblCategories;
 		private System.Windows.Forms.Label lblPatternLabel;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

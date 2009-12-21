@@ -12,6 +12,9 @@ namespace SilUtils.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class XButton : Label
 	{
+		public delegate bool DrawBackgroundHandler(XButton button, PaintEventArgs e, PaintState state);
+		public event DrawBackgroundHandler DrawBackground;
+
 		private bool m_drawLeftArrowButton;
 		private bool m_drawRightArrowButton;
 		private bool m_drawEmpty;
@@ -237,6 +240,9 @@ namespace SilUtils.Controls
 			else
 				m_state = PaintState.Normal;
 
+			if (DrawBackground != null && DrawBackground(this, e, m_state))
+				return;
+			
 			Rectangle rc = ClientRectangle;
 
 			using (SolidBrush br = new SolidBrush(BackColor))
@@ -269,7 +275,7 @@ namespace SilUtils.Controls
 		/// Draws the button's text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawText(PaintEventArgs e)
+		public void DrawText(PaintEventArgs e)
 		{
 			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
@@ -327,7 +333,7 @@ namespace SilUtils.Controls
 		/// Draws the button with an image.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawArrow(PaintEventArgs e)
+		public void DrawArrow(PaintEventArgs e)
 		{
 			Rectangle rc = ClientRectangle;
 

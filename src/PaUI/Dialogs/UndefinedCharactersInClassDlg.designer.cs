@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.txtChars = new System.Windows.Forms.TextBox();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -88,7 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtChars, "txtChars");
 			this.locExtender.SetLocalizableToolTip(this.txtChars, null);
 			this.locExtender.SetLocalizationComment(this.txtChars, null);
-			this.locExtender.SetLocalizationPriority(this.txtChars, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtChars, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtChars, "UndefinedCharactersInClassDlg.txtChars");
 			this.txtChars.Name = "txtChars";
 			this.txtChars.ReadOnly = true;
@@ -137,6 +137,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.TextBox txtChars;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.Pa.UI.Controls;
 using SilUtils;

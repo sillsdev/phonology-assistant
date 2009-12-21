@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using SIL.Localization;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -20,6 +21,9 @@ namespace SIL.Pa.UI.Dialogs
 
 		private SilGrid m_grid;
 		private readonly PaProject m_project;
+		private readonly string m_textFieldType;
+		private readonly string m_numbericDataType;
+		private readonly string m_dateTimeDataType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -38,6 +42,18 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public CustomFieldsDlg(PaProject project) : this()
 		{
+			m_textFieldType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeText",
+				"Text", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
+				LocalizationCategory.Other, LocalizationPriority.High);
+
+			m_numbericDataType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeNumeric",
+				"Numeric", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
+				LocalizationCategory.Other, LocalizationPriority.High);
+
+			m_dateTimeDataType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeDateTime",
+				"Date/Time", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
+				LocalizationCategory.Other, LocalizationPriority.High);
+
 			lblInfo.Font = FontHelper.UIFont;
 			BuildGrid();
 
@@ -46,11 +62,11 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				if (fieldInfo.IsCustom)
 				{
-					string dataType = Properties.Resources.kstidCustomFieldGridTypeText;
-					if (fieldInfo.IsDate)
-						dataType = Properties.Resources.kstidCustomFieldGridTypeDate;
-					else if (fieldInfo.IsNumeric)
-						dataType = Properties.Resources.kstidCustomFieldGridTypeNumeric;
+					string dataType = m_textFieldType;
+					if (fieldInfo.IsNumeric)
+						dataType = m_numbericDataType;
+					else if (fieldInfo.IsDate)
+						dataType = m_dateTimeDataType;
 
 					object[] row = new object[] { fieldInfo.DisplayText,
 						dataType, fieldInfo.RightToLeft, fieldInfo.IsParsed,
@@ -89,37 +105,56 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.DefaultValuesNeeded += m_grid_DefaultValuesNeeded;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kNameCol);
-			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgName;
 			col.Width = 135;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns[kNameCol],
+				"CustomFieldsDlg.CustomFieldNameColumnHdg", "Custom Field Name", null, null,
+				"Column heading in field list in the custom fields dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 			// Create the data type column.
-			string[] dataTypes = {Properties.Resources.kstidCustomFieldGridTypeText,
-				Properties.Resources.kstidCustomFieldGridTypeNumeric,
-				Properties.Resources.kstidCustomFieldGridTypeDate};
-
-			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol, dataTypes);
-			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgType;
+			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol,
+				new[] { m_textFieldType, m_numbericDataType, m_dateTimeDataType });
+			
 			col.Width = 80;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns[kTypeCol],
+				"CustomFieldsDlg.CustomFieldTypeColumnHdg", "Field Type", null, null,
+				"Column heading in field list in the custom fields dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 			// Create the column for the right-to-left check box.
 			col = SilGrid.CreateCheckBoxColumn(kRTLCol);
-			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgRTL;
 			col.Width = 55;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns[kRTLCol],
+				"CustomFieldsDlg.CustomFieldRTLColumnHdg", "Right to Left", null, null,
+				"Column heading in field list in the custom fields dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 			// Create the column for the interlinear check box.
 			col = SilGrid.CreateCheckBoxColumn(kParsedCol);
-			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgParsed;
 			col.Width = 55;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns[kParsedCol],
+				"CustomFieldsDlg.CustomFieldParsedColumnHdg", "Is Field Parsed?", null, null,
+				"Column heading in field list in the custom fields dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 			// Create the column for the interlinear check box.
 			col = SilGrid.CreateCheckBoxColumn(kILCol);
-			col.HeaderText = Properties.Resources.kstidCustomFieldGridHdgInterlinear;
 			col.Width = 90;
 			m_grid.Columns.Add(col);
+			LocalizationManager.LocalizeObject(m_grid.Columns[kILCol],
+				"CustomFieldsDlg.CustomFieldInterlinearColumnHdg",
+				"Can Field be Interlinear?", null, null,
+				"Column heading in field list in the custom fields dialog box.",
+				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
+				LocalizationPriority.High);
 
 			// Keep a column for the original field information object.
 			col = SilGrid.CreateTextBoxColumn(kOrigCol);
@@ -146,7 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void m_grid_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
 		{
-			e.Row.Cells[kTypeCol].Value = Properties.Resources.kstidCustomFieldGridTypeText;
+			e.Row.Cells[kTypeCol].Value = m_textFieldType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -322,8 +357,14 @@ namespace SIL.Pa.UI.Dialogs
 				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
-					Utils.MsgBox(string.Format(
-						Properties.Resources.kstidCustomFieldExistsMsg, fieldName1),
+					string msg = LocalizationManager.LocalizeString(
+						"CustomFieldsDlg.CustomFieldExistsMsg",
+						"A field by the name of '{0}' already exists.",
+						"Message displayed in custom fields dialog box when trying to " +
+						"add a custom field that already exists.", "Dialog Boxes",
+						LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.High);
+					
+					Utils.MsgBox(string.Format(msg, fieldName1),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 					return false;
@@ -339,9 +380,15 @@ namespace SIL.Pa.UI.Dialogs
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
 					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
-						Utils.MsgBox(string.Format(
-							Properties.Resources.kstidCustomFieldDupMsg, fieldName2),
-							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						string msg = LocalizationManager.LocalizeString(
+							"CustomFieldsDlg.DuplicateCustomFieldMsg",
+							"The custom field '{0}' occurs multiple times in the list.",
+							"Message displayed in custom fields dialog box when trying to " +
+							"add a custom field that already exists.", "Dialog Boxes",
+							LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.High);
+
+						Utils.MsgBox(string.Format(msg, fieldName2), MessageBoxButtons.OK,
+							MessageBoxIcon.Exclamation);
 
 						return false;
 					}
@@ -384,11 +431,8 @@ namespace SIL.Pa.UI.Dialogs
 
 				string origFieldName = fieldInfo.FieldName;
 
-				fieldInfo.IsNumeric = ((m_grid[kTypeCol, i].Value as string) ==
-					Properties.Resources.kstidCustomFieldGridTypeNumeric);
-
-				fieldInfo.IsDate = ((m_grid[kTypeCol, i].Value as string) ==
-					Properties.Resources.kstidCustomFieldGridTypeDate);
+				fieldInfo.IsNumeric = ((m_grid[kTypeCol, i].Value as string) == m_numbericDataType);
+				fieldInfo.IsDate = ((m_grid[kTypeCol, i].Value as string) == m_dateTimeDataType);
 
 				fieldInfo.RightToLeft =
 					(m_grid[kRTLCol, i].Value != null && (bool)m_grid[kRTLCol, i].Value);

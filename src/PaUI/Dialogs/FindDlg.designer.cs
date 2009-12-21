@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFindWhat = new System.Windows.Forms.Panel();
 			this.pnlColumnOptions = new System.Windows.Forms.Panel();
 			this.fldSelGridSrchCols = new SIL.Pa.UI.Controls.FieldSelectorGrid();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.gbOptions.SuspendLayout();
 			this.pnlButtons.SuspendLayout();
 			this.pnlFindWhat.SuspendLayout();
@@ -93,7 +93,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnFind.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this.btnFind, null);
 			this.locExtender.SetLocalizationComment(this.btnFind, "Text on button on find dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnFind, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnFind, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnFind, "FindDlg.btnFind");
 			this.btnFind.Name = "btnFind";
 			this.btnFind.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboFindWhat, "cboFindWhat");
 			this.locExtender.SetLocalizableToolTip(this.cboFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.cboFindWhat, null);
-			this.locExtender.SetLocalizationPriority(this.cboFindWhat, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFindWhat, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFindWhat, "FindDlg.cboFindWhat");
 			this.cboFindWhat.Name = "cboFindWhat";
 			// 
@@ -314,6 +314,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridSrchCols;
 		private System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.CheckBox chkSrchCollapsedGrps;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

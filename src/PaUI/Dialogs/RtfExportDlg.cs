@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Dialogs
 		private RtfCreator.ExportFormat m_exportFormat;
 		private Button btnHelp;
 		private Panel panel1;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 		private IContainer components = null;
 
 		#region Constructor & Closing
@@ -157,7 +157,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnSetEditor = new System.Windows.Forms.Button();
 			this.btnHelp = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.grpTarget.SuspendLayout();
 			this.grpFormat.SuspendLayout();
 			this.panel1.SuspendLayout();

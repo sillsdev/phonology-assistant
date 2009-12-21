@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.SpeechTools.Utils;
 using SilUtils;
@@ -576,7 +576,7 @@ namespace SIL.Pa
 					string destPath = ProjectPathFilePrefix + "XYCharts.xml";
 					File.Copy(srcPath, destPath);
 				}
-				catch { };
+				catch { }
 
 				m_newProject = false;
 			}

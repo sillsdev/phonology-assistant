@@ -24,7 +24,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localize.LocalizationUtils;
+using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.Resources;

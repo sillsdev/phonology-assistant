@@ -74,7 +74,7 @@ namespace SIL.Pa.UI
 			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
 			this.vwTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
-			this.locExtender = new SIL.Localize.LocalizationUtils.LocalizationExtender(this.components);
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.statusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -94,7 +94,7 @@ namespace SIL.Pa.UI
 			this.sblblMain.BackColor = System.Drawing.SystemColors.Control;
 			this.locExtender.SetLocalizableToolTip(this.sblblMain, null);
 			this.locExtender.SetLocalizationComment(this.sblblMain, null);
-			this.locExtender.SetLocalizationPriority(this.sblblMain, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.sblblMain, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.sblblMain, "PaMainWnd.sblblMain");
 			this.sblblMain.Name = "sblblMain";
 			this.sblblMain.Spring = true;
@@ -107,7 +107,7 @@ namespace SIL.Pa.UI
 			this.sblblProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.locExtender.SetLocalizableToolTip(this.sblblProgress, null);
 			this.locExtender.SetLocalizationComment(this.sblblProgress, null);
-			this.locExtender.SetLocalizationPriority(this.sblblProgress, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.sblblProgress, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.sblblProgress, "PaMainWnd.sblblProgress");
 			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
 			this.sblblProgress.Name = "sblblProgress";
@@ -125,7 +125,7 @@ namespace SIL.Pa.UI
 			resources.ApplyResources(this.vwTabGroup, "vwTabGroup");
 			this.locExtender.SetLocalizableToolTip(this.vwTabGroup, null);
 			this.locExtender.SetLocalizationComment(this.vwTabGroup, null);
-			this.locExtender.SetLocalizationPriority(this.vwTabGroup, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.vwTabGroup, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.vwTabGroup, "PaMainWnd.vwTabGroup");
 			this.vwTabGroup.Name = "vwTabGroup";
 			// 
@@ -142,7 +142,7 @@ namespace SIL.Pa.UI
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localize.LocalizationUtils.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PaMainWnd.WindowTitle");
 			this.Name = "PaMainWnd";
 			this.statusStrip.ResumeLayout(false);
@@ -159,6 +159,6 @@ namespace SIL.Pa.UI
 		public StatusStrip statusStrip;
 		private ToolStripStatusLabel sblblProgress;
 		private SIL.Pa.UI.Controls.ViewTabGroup vwTabGroup;
-		private SIL.Localize.LocalizationUtils.LocalizationExtender locExtender;
+		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }
