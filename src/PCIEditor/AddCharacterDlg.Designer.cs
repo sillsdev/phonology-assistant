@@ -68,11 +68,11 @@ namespace SIL.Pa
 			this.grpFeatures = new System.Windows.Forms.GroupBox();
 			this.pnlBinary = new SilUtils.Controls.SilPanel();
 			this.txtBinary = new System.Windows.Forms.TextBox();
-			this.hlblBinary = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblBinary = new HeaderLabel();
 			this.btnBinary = new XButton();
 			this.paPanel1 = new SilUtils.Controls.SilPanel();
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
-			this.hlblArticulatory = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblArticulatory = new HeaderLabel();
 			this.btnArticulatory = new XButton();
 			this.pnlButtons.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -497,11 +497,11 @@ namespace SIL.Pa
 		private System.Windows.Forms.GroupBox grpFeatures;
 		private SilUtils.Controls.SilPanel paPanel1;
 		private System.Windows.Forms.TextBox txtArticulatory;
-		private SIL.Pa.UI.Controls.HeaderLabel hlblArticulatory;
+		private HeaderLabel hlblArticulatory;
 		private XButton btnArticulatory;
-		private SilUtils.Controls.SilPanel pnlBinary;
+		private SilPanel pnlBinary;
 		private System.Windows.Forms.TextBox txtBinary;
-		private SIL.Pa.UI.Controls.HeaderLabel hlblBinary;
+		private HeaderLabel hlblBinary;
 		private XButton btnBinary;
 		private System.Windows.Forms.Label lblUPlus;
 		private System.Windows.Forms.Label lblMOA;

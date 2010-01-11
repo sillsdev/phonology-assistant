@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 			this.mnuExpanded = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlOuter = new SilPanel();
 			this.pnlExpandedView = new System.Windows.Forms.Panel();
-			this.header = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.header = new HeaderLabel();
 			this.btnDropDownArrow = new XButton();
 			this.cmnuViewOptions.SuspendLayout();
 			this.pnlOuter.SuspendLayout();

@@ -1,18 +1,10 @@
-using System;
-using System.Drawing;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Reflection;
 using System.IO;
-using SIL.Pa;
-using SIL.Pa.Data;
-using SIL.Pa.Controls;
-using SIL.SpeechTools.Utils;
-using SIL.FieldWorks.Common.UIAdapters;
-using XCore;
-using System.Drawing.Drawing2D;
+using SIL.Pa.UI;
+using SilUtils;
 using SIL.Pa.FFSearchEngine;
 using SIL.Pa.AddOns;
 
@@ -82,7 +74,7 @@ namespace SIL.Pa.FiltersAddOn
 			{
 				string msg = Properties.Resources.kstidAddOnMediatorMissingMsg;
 				msg = string.Format(msg, Path.GetFileName(assembly.Location), assemblyPath);
-				STUtils.STMsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return false;
 			}
 
@@ -413,7 +405,7 @@ namespace SIL.Pa.FiltersAddOn
 			if (!string.IsNullOrEmpty(msg))
 			{
 				if (showErrMsg)
-					STUtils.STMsgBox(msg);
+					Utils.MsgBox(msg);
 
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
 				return null;

@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedCharts = new SilUtils.Controls.SilPanel();
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
 			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
-			this.hlblSavedCharts = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblSavedCharts = new HeaderLabel();
 			this.btnRemoveSavedChart = new XButton();
 			this.splitChart = new System.Windows.Forms.SplitContainer();
 			this.lblChartName = new System.Windows.Forms.Label();
@@ -389,7 +389,7 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.Panel pnlTabClassDef;
 		private System.Windows.Forms.Panel pnlOuter;
 		private System.Windows.Forms.SplitContainer splitChart;
-		private SIL.Pa.UI.Controls.HeaderLabel hlblSavedCharts;
+		private HeaderLabel hlblSavedCharts;
 		private SilPanel pnlSavedCharts;
 		private System.Windows.Forms.ListView lvSavedCharts;
 		private System.Windows.Forms.ColumnHeader hdrSavedCharts;

@@ -20,11 +20,11 @@ namespace SilUtils
 		
 		public event GetWaterMarkRectHandler GetWaterMarkRect;
 
-		private static readonly string kDropDownStyle = "DropDown";
+		private const string kDropDownStyle = "DropDown";
 		
-		private bool m_isDirty = false;
-		private bool m_paintWaterMark = false;
-		private bool m_showWaterMarkWhenDirty = false;
+		private bool m_isDirty;
+		private bool m_paintWaterMark;
+		private bool m_showWaterMarkWhenDirty;
 		private string m_waterMark = "!";
 
 		/// ------------------------------------------------------------------------------------
@@ -50,7 +50,6 @@ namespace SilUtils
 			RowHeadersWidth = 22;
 			Color clr = SystemColors.Window;
 			GridColor = Color.FromArgb(clr.R - 30, clr.G - 30, clr.B - 30);
-
 			MultiSelect = false;
 		}
 
@@ -65,7 +64,7 @@ namespace SilUtils
 		{
 			get { return (NewRowIndex == RowCount - 1 && RowCount > 0 ? RowCount - 1 : RowCount); }
 		}
-
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the grid's contents are dirty.
@@ -287,7 +286,7 @@ namespace SilUtils
 		/// Processes the home and end keys.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ProcessHomeAndEndKeys(TextBox txtBox, Keys keys)
+		private static void ProcessHomeAndEndKeys(TextBox txtBox, Keys keys)
 		{
 			txtBox.SelectionStart = (keys == Keys.Home ? 0 : txtBox.Text.Length);
 			txtBox.SelectionLength = 0;

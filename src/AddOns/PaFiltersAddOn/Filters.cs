@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Xml.Serialization;
-using SIL.SpeechTools.Utils;
 using System.Text.RegularExpressions;
 using SIL.Pa.FFSearchEngine;
 
@@ -100,7 +98,7 @@ namespace SIL.Pa.FiltersAddOn
 
 			if (File.Exists(filename))
 			{
-				filtersList = STUtils.DeserializeData(filename,
+				filtersList = SilUtils.Utils.DeserializeData(filename,
 					typeof(PaFiltersList)) as PaFiltersList;
 			}
 
@@ -127,7 +125,7 @@ namespace SIL.Pa.FiltersAddOn
 			if (project != null)
 			{
 				string filename = project.ProjectPathFilePrefix + kFiltersFilePrefix;
-				STUtils.SerializeData(filename, this);
+				SilUtils.Utils.SerializeData(filename, this);
 			}
 		}
 	}
@@ -145,7 +143,7 @@ namespace SIL.Pa.FiltersAddOn
 	{
 		private string m_name;
 		private List<FilterExpression> m_expressions = new List<FilterExpression>();
-		private bool m_fOrExpressions = false;
+		private bool m_fOrExpressions;
 		private bool m_fShowInToolbarList = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -252,7 +250,7 @@ namespace SIL.Pa.FiltersAddOn
 		/// created by expressions that are based on other filters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CleanUpExpressionSearchEngines(PaFilter filter)
+		private static void CleanUpExpressionSearchEngines(PaFilter filter)
 		{
 			if (filter == null)
 				return;
@@ -320,13 +318,13 @@ namespace SIL.Pa.FiltersAddOn
 		private string m_pattern;
 		private FilterOperator m_operator = FilterOperator.Equals;
 		private ExpressionType m_expTypep = ExpressionType.Normal;
-		private bool m_fieldIsDate = false;
-		private bool m_fieldIsNumeric = false;
-		private bool m_fieldIsFilter = false;
-		private bool m_fieldTypeDetermined = false;
-		private bool m_patternContainsWordBoundaries = false;
-		private SearchQuery m_searchQuery = null;
-		private SearchEngine m_srchEngine = null;
+		private bool m_fieldIsDate;
+		private bool m_fieldIsNumeric;
+		private bool m_fieldIsFilter;
+		private bool m_fieldTypeDetermined;
+		private bool m_patternContainsWordBoundaries;
+		private SearchQuery m_searchQuery;
+		private SearchEngine m_srchEngine;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

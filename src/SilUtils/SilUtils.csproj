@@ -59,6 +59,9 @@
     <Compile Include="Controls\ExceptionViewer.designer.cs">
       <DependentUpon>ExceptionViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HeaderLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\NoActivateWnd.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Dialogs;
-using SIL.SpeechTools.Utils;
+using SIL.Pa.UI.Controls;
+using SIL.Pa.UI.Dialogs;
 using SIL.Pa.Controls;
+using SilUtils;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.FFSearchEngine;
-using System.Reflection;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing.Drawing2D;
 
@@ -104,7 +101,7 @@ namespace SIL.Pa.FiltersAddOn
 			m_images.ImageSize = new Size(16, 16);
 			lvFilters.SmallImageList = m_images;
 
-			string tip = STUtils.ConvertLiteralNewLines(Properties.Resources.kstidShowFilterToolTipText);
+			string tip = Utils.ConvertLiteralNewLines(Properties.Resources.kstidShowFilterToolTipText);
 			m_tooltip.SetToolTip(chkShowHide, tip);
 			m_filterDropDown = new DropDownFiltersListBox();
 			BuildGrid();
@@ -501,7 +498,7 @@ namespace SIL.Pa.FiltersAddOn
 			if (FilterNameExists(e.Label))
 			{
 				string msg = string.Format(Properties.Resources.kstidFilterNameExistsMsg, e.Label);
-				STUtils.STMsgBox(msg);
+				Utils.MsgBox(msg);
 				e.CancelEdit = true;
 				return;
 			}
@@ -677,7 +674,7 @@ namespace SIL.Pa.FiltersAddOn
 			// Draw a border around 3 sides: left, right and bottom.
 			using (Pen pen = new Pen(VisualStyleInformation.TextControlBorder))
 			{
-				Point[] pts = new Point[] {new Point(0, 0), new Point(0, rc.Height - 1),
+				Point[] pts = new[] {new Point(0, 0), new Point(0, rc.Height - 1),
 					new Point(rc.Width - 1, rc.Height - 1), new	Point(rc.Width - 1, 0)};
 
 				e.Graphics.DrawLines(pen, pts);

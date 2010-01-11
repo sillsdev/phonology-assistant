@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.Controls
 {
@@ -19,11 +19,11 @@ namespace SIL.Pa.Controls
 		protected string m_buttonText;
 		protected Font m_buttonFont;
 		protected int m_buttonWidth = 22;
-		protected bool m_useComboButtonStyle = false;
+		protected bool m_useComboButtonStyle;
 		protected bool m_drawDefaultComboButtonWidth = true;
 		protected string m_buttonToolTip;
 		protected ToolTip m_toolTip;
-		protected bool m_drawTextWithEllipsisPath = false;
+		protected bool m_drawTextWithEllipsisPath;
 		protected bool m_showCellToolTips = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -58,17 +58,6 @@ namespace SIL.Pa.Controls
 		{
 			Name = name;
 			m_showButton = showButton;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the template is always a radion button cell.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override DataGridViewCell CellTemplate
-		{
-			get { return base.CellTemplate; }
-			set	{ base.CellTemplate = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,7 +199,7 @@ namespace SIL.Pa.Controls
 	
 			DataGridView.ShowCellToolTips = false;
 			Size sz = SystemInformation.CursorSize;
-			Point pt = DataGridView.FindForm().PointToClient(DataGridView.MousePosition);
+			Point pt = DataGridView.FindForm().PointToClient(Control.MousePosition);
 			pt.X += (int)(sz.Width * 0.6);
 			pt.Y += sz.Height;
 			m_toolTip.Active = true;
@@ -255,8 +244,8 @@ namespace SIL.Pa.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class PaButtonCell : DataGridViewTextBoxCell
 	{
-		protected bool m_mouseOverButton = false;
-		protected bool m_mouseDownOnButton = false;
+		protected bool m_mouseOverButton;
+		protected bool m_mouseDownOnButton;
 		protected bool m_enabled = true;
 
 		/// ------------------------------------------------------------------------------------

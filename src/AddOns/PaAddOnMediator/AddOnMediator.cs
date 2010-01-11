@@ -1,14 +1,6 @@
-using System;
-using System.Drawing;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Xml;
-using System.Reflection;
-using SIL.Pa;
-using SIL.FieldWorks.Common.UIAdapters;
-using XCore;
-using SIL.SpeechTools.Utils;
+using SilUtils;
 
 namespace SIL.Pa.AddOns
 {

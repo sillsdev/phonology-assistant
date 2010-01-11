@@ -43,12 +43,12 @@ namespace SIL.Pa.UI.Views
 			this.splitSideBarInner = new System.Windows.Forms.SplitContainer();
 			this.pnlRecentPatterns = new SilUtils.Controls.SilPanel();
 			this.lstRecentPatterns = new System.Windows.Forms.ListBox();
-			this.hlblRecentPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblRecentPatterns = new HeaderLabel();
 			this.btnClearRecentList = new SilUtils.Controls.XButton();
 			this.btnRemoveFromRecentList = new SilUtils.Controls.XButton();
 			this.pnlSavedPatterns = new SilUtils.Controls.SilPanel();
 			this.tvSavedPatterns = new SIL.Pa.UI.Controls.SearchPatternTreeView();
-			this.hlblSavedPatterns = new SIL.Pa.UI.Controls.HeaderLabel();
+			this.hlblSavedPatterns = new HeaderLabel();
 			this.btnCategoryNew = new SilUtils.Controls.XButton();
 			this.btnCategoryCut = new SilUtils.Controls.XButton();
 			this.btnCategoryPaste = new SilUtils.Controls.XButton();

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9BD3A3BF-3588-4205-B51E-6B5DD5D8BCD9}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -14,12 +14,13 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\Debug\AddOns\</OutputPath>
+    <OutputPath>..\..\..\Output\Debug\AddOns\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,6 +35,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -61,14 +65,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
+    <ProjectReference Include="..\..\DataUtils\DataUtils.csproj">
       <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
       <Name>DataUtils</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
+    <ProjectReference Include="..\..\FFSearchEngine\FFSearchEngine.csproj">
       <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
       <Name>FFSearchEngine</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PaUI\PaUI.csproj">
+      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
+      <Name>PaUI</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SilUtils\SilUtils.csproj">
+      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
+      <Name>SilUtils</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PaAddOnMediator\PaAddOnMediator.csproj">
@@ -76,39 +90,14 @@
       <Name>PaAddOnMediator</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PaApp\PaApp.csproj">
+    <ProjectReference Include="..\..\PaApp\PaApp.csproj">
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
       <Name>PaApp</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PaControls\PaControls.csproj">
-      <Project>{4E51E71D-58B4-4604-9491-F7153F7C20D2}</Project>
-      <Name>PaControls</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PaDialogs\PaDialogs.csproj">
-      <Project>{693D71B7-FEF6-488E-B4F5-A2101011F9BE}</Project>
-      <Name>PaDialogs</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PADll\PaDll.csproj">
-      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaDll</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
-      <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
-      <Name>SpeechToolsUtils</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
+    <ProjectReference Include="..\..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\xCoreMediator\xCoreMediator.csproj">
-      <Project>{0DB7FB82-AA04-4A97-B1E2-20C846A8D738}</Project>
-      <Name>xCoreMediator</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

@@ -1,4 +1,6 @@
-﻿namespace SIL.Pa.FiltersAddOn
+﻿using SilUtils.Controls;
+
+namespace SIL.Pa.FiltersAddOn
 {
 	partial class DefineFiltersDlg
 	{
@@ -34,13 +36,13 @@
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
-			this.pnlFilters = new SIL.Pa.Controls.PaPanel();
-			this.hlblFilters = new SIL.Pa.Controls.HeaderLabel();
+			this.pnlFilters = new SilPanel();
+			this.hlblFilters = new HeaderLabel();
 			this.pnlButtons2 = new System.Windows.Forms.Panel();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
-			this.m_grid = new SIL.SpeechTools.Utils.SilGrid();
+			this.m_grid = new SilUtils.SilGrid();
 			this.pnlFilterOptions = new System.Windows.Forms.Panel();
 			this.chkShowHide = new System.Windows.Forms.CheckBox();
 			this.lblAndOr = new System.Windows.Forms.Label();
@@ -290,9 +292,9 @@
 		private System.Windows.Forms.Button btnRemove;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.ColumnHeader hdrFilter;
-		private SIL.SpeechTools.Utils.SilGrid m_grid;
-		private SIL.Pa.Controls.PaPanel pnlFilters;
-		private SIL.Pa.Controls.HeaderLabel hlblFilters;
+		private SilUtils.SilGrid m_grid;
+		private SilUtils.Controls.SilPanel pnlFilters;
+		private HeaderLabel hlblFilters;
 		private System.Windows.Forms.Panel pnlFilterOptions;
 		private System.Windows.Forms.Label lblAndOr;
 		private System.Windows.Forms.RadioButton rbOr;

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Controls;
 using System.Drawing.Drawing2D;
-using SIL.SpeechTools.Utils;
+using SIL.Pa.UI;
+using SIL.Pa.UI.Controls;
+using SilUtils;
 
 namespace SIL.Pa.FiltersAddOn
 {
@@ -20,12 +17,12 @@ namespace SIL.Pa.FiltersAddOn
 	public class FilterGUIComponent : IDisposable
 	{
 		private Form m_form;
-		private StatusStrip m_statusStrip = null;
-		private ToolStripStatusLabel m_statusLbl = null;
-		private MenuStrip m_menuStrip = null;
-		private ToolStripDropDownButton m_filterButton = null;
-		private ToolStripSeparator m_separator = null;
-		private ITMAdapter m_adapter = null;
+		private StatusStrip m_statusStrip;
+		private ToolStripStatusLabel m_statusLbl;
+		private MenuStrip m_menuStrip;
+		private ToolStripDropDownButton m_filterButton;
+		private ToolStripSeparator m_separator;
+		private ITMAdapter m_adapter;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
