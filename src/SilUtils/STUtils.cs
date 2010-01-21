@@ -5,6 +5,7 @@ using System.IO;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.Win32;
@@ -430,6 +431,35 @@ namespace SilUtils
 			catch { }
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to an XML string.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string SerializeToString<T>(T data)
+		{
+			try
+			{
+				StringBuilder output = new StringBuilder();
+				using (StringWriter writer = new StringWriter(output))
+				{
+					XmlSerializerNamespaces nameSpace = new XmlSerializerNamespaces();
+					nameSpace.Add(string.Empty, string.Empty);
+					XmlSerializer serializer = new XmlSerializer(typeof(T));
+					serializer.Serialize(writer, data, nameSpace);
+					writer.Close();
+				}
+
+				return (output.Length == 0 ? null : output.ToString());
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.Fail(e.Message);
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
