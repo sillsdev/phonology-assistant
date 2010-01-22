@@ -49,9 +49,9 @@ namespace SilUtils
 		/// Initializes the specified name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public override void Initialize(string name, NameValueCollection col)
+		public override void Initialize(string name, NameValueCollection nvc)
 		{
-			base.Initialize(ApplicationName, col);
+			base.Initialize(ApplicationName, nvc);
 
 			// By default, write the application settings to a folder in documents whose
 			// name is the name of the application.
