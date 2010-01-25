@@ -228,6 +228,9 @@ namespace SilUtils
 				return;
 			}
 
+			if (propVal.PropertyValue == null)
+				return;
+
 			// At this point, we know we're dealing with a string collection, therefore,
 			// create child nodes for each item in the collection.
 			propNode.RemoveAll();
