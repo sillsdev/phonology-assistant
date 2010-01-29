@@ -117,7 +117,6 @@
     </Compile>
     <Compile Include="Grid\SilHierarchicalGridParts.cs" />
     <Compile Include="Mediator.cs" />
-    <Compile Include="MessageDispatcher.cs" />
     <Compile Include="PaintingHelper.cs" />
     <Compile Include="PortableSettingsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,9 +126,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReflectionHelper.cs" />
-    <Compile Include="SettingsHandler.cs" />
-    <Compile Include="STUtils.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="XMLHelper.cs" />
+    <Compile Include="XmlSerializationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\AboutDlg.resx">

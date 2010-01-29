@@ -153,16 +153,17 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string MakeRelativePath(string fixedPath, string relPath)
 		{
-			Uri uriPrjFilePath = new Uri(fixedPath);
-			if (Path.IsPathRooted(relPath))
-			{
-				Uri path1 = new Uri(relPath);
-				relPath = uriPrjFilePath.MakeRelativeUri(path1).ToString();
-				relPath = relPath.Replace('/', Path.DirectorySeparatorChar);
-				relPath = relPath.Replace("%20", " ");
-			}
+			if (!Path.IsPathRooted(fixedPath))
+				throw new ArgumentException("Fixed path is not rooted.", "fixedPath");
 
-			return relPath;
+			if (!Path.IsPathRooted(relPath))
+				throw new ArgumentException("Relative path is not rooted.", "relPath");
+
+			if (relPath.IndexOf(fixedPath) != 0)
+				return relPath;
+
+			relPath = relPath.Remove(0, fixedPath.Length);
+			return relPath.TrimStart('\\');
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -173,7 +174,7 @@ namespace SilUtils
 		/// displayed in a message box via the STMsgBox method.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string PrepFilePathForSTMsgBox(string filepath)
+		public static string PrepFilePathForMsgBox(string filepath)
 		{
 			return (filepath == null ? string.Empty :
 				filepath.Replace("\\n", kObjReplacementChar.ToString()));
