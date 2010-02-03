@@ -21,9 +21,11 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -247,5 +249,45 @@ namespace SilUtils
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a comma-delimited string from an array of integers.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetStringFromIntArray(int[] array)
+		{
+			if (array == null)
+				return string.Empty;
+
+			StringBuilder bldr = new StringBuilder();
+			foreach (int i in array)
+				bldr.AppendFormat("{0}, ", i);
+
+			return bldr.ToString().TrimEnd(',', ' ');
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets an int array from a comma-delimited string of numbers.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static int[] GetIntArrayFromString(string str)
+		{
+			List<int> array = new List<int>();
+
+			if (str != null)
+			{
+				string[] pieces = str.Split(',');
+				foreach (string piece in pieces)
+				{
+					int i;
+					if (int.TryParse(piece, out i))
+						array.Add(i);
+				}
+			}
+
+			return array.ToArray();
+		}
 	}
 }

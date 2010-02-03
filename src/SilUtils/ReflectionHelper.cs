@@ -203,6 +203,16 @@ namespace SilUtils
 		/// Calls a method specified on the specified binding.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static void CallMethod(object binding, string methodName)
+		{
+			CallMethod(binding, methodName, null);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Calls a method specified on the specified binding.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static void CallMethod(object binding, string methodName, object args)
 		{
 			GetResult(binding, methodName, args);
@@ -339,6 +349,29 @@ namespace SilUtils
 			catch { }
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Calls a method specified on the specified binding, throwing any exceptions that
+		/// may occur.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static object CallMethodWithThrow(object binding, string name, object[] args)
+		{
+			var flags = (BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.InvokeMethod);
+
+			// If binding is a Type then assume invoke on a static method, property or field.
+			// Otherwise invoke on an instance method, property or field.
+			if (binding is Type)
+			{
+				return ((binding as Type).InvokeMember(name,
+					flags | BindingFlags.Static, null, binding, args));
+			}
+
+			return binding.GetType().InvokeMember(name,
+				flags | BindingFlags.Instance, null, binding, args);
+
 		}
 	}
 }
