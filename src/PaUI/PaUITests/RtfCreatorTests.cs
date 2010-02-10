@@ -38,7 +38,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
 			//PaProject proj = new PaProject(true);
 			//proj.Language = "dummy";
@@ -67,7 +67,7 @@ namespace SIL.Pa.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureTearDown]
-		public void FixtureTearDown()
+		public override void FixtureTearDown()
 		{
 			PaApp.Project = null;
 		}

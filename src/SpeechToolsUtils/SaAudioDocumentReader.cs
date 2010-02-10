@@ -94,7 +94,7 @@ namespace SIL.SpeechTools.Utils
 					if (result == AudioReader.InitResult.FileNotFound)
 					{
 						string msg = string.Format(Resources.kstidWaveFileNotFound,
-							SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
+							SilUtils.Utils.PrepFilePathForMsgBox(audioFilePath));
 
 						SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 						return false;
@@ -103,7 +103,7 @@ namespace SIL.SpeechTools.Utils
 					if ((result == AudioReader.InitResult.InvalidFormat))
 					{
 						string msg = string.Format(Resources.kstidInvalidWaveFile,
-							SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
+							SilUtils.Utils.PrepFilePathForMsgBox(audioFilePath));
 
 						SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 						return false;

@@ -208,7 +208,7 @@ namespace SIL.SpeechTools.Utils
 			{
 				if (!isValid)
 				{
-					string path = SilUtils.Utils.PrepFilePathForSTMsgBox(filePath);
+					string path = SilUtils.Utils.PrepFilePathForMsgBox(filePath);
 					SilUtils.Utils.MsgBox(
 						string.Format(Resources.kstidInvalidMusicXMLFile, path),
 						MessageBoxButtons.OK);
@@ -869,7 +869,7 @@ namespace SIL.SpeechTools.Utils
 
 			if (m_validationErrors != string.Empty)
 			{
-				string filePath = SilUtils.Utils.PrepFilePathForSTMsgBox(m_filePath);
+				string filePath = SilUtils.Utils.PrepFilePathForMsgBox(m_filePath);
 				string msg = string.Format(Resources.kstidMusicXMLValidationErrMsg,
 					filePath, m_validationErrors);
 

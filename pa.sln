@@ -36,8 +36,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaUI", "src\PaUI\PaUI.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaUITests", "src\PaUI\PaUITests\PaUITests.csproj", "{312927B4-D110-4DC4-BC89-789C5D0F417F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationUtils", "..\Localization Project\LocalizationUtils\LocalizationUtils.csproj", "{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMXUtils", "..\TMXUtils\TMXUtils.csproj", "{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationManager", "..\LocalizationManager\LocalizationManager.csproj", "{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}"
@@ -49,6 +47,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaFiltersAddOn", "src\AddOns\PaFiltersAddOn\PaFiltersAddOn.csproj", "{9BD3A3BF-3588-4205-B51E-6B5DD5D8BCD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaAddOnMediator", "src\AddOns\PaAddOnMediator\PaAddOnMediator.csproj", "{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationUtils", "..\Localization Project\LocalizationUtils\LocalizationUtils.csproj", "{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,10 +120,6 @@ Global
 		{312927B4-D110-4DC4-BC89-789C5D0F417F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{312927B4-D110-4DC4-BC89-789C5D0F417F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{312927B4-D110-4DC4-BC89-789C5D0F417F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -148,6 +144,10 @@ Global
 		{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D785C5D0-0BF8-4FAE-B5FD-6EA0A57D010F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D4F2B6-72BA-4E98-AAC4-B0B81C7902AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

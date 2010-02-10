@@ -115,7 +115,7 @@ namespace SIL.Pa
 			}
 			catch (Exception e)
 			{
-				filename = Utils.PrepFilePathForSTMsgBox(filename);
+				filename = Utils.PrepFilePathForMsgBox(filename);
 
 				Utils.MsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
 					filename, e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

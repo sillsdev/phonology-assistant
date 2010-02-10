@@ -95,8 +95,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(ArgumentException),
-			ExpectedMessage = "Mask size may not be negative.")]
+		[ExpectedException(typeof(ArgumentException), "Mask size may not be negative.")]
 		public void ConstructWithNegativeBitSize()
 		{
 			new FeatureMask(-1);
@@ -182,8 +181,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(ArgumentException),
-			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
+		[ExpectedException(typeof(ArgumentException),
+			"Bit count mismatch: both masks must contain same number of bits.")]
 		public void OR_WithDiffSizeBits()
 		{
 			var fmask1 = new FeatureMask(100);
@@ -198,8 +197,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(ArgumentException),
-			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
+		[ExpectedException(typeof(ArgumentException),
+			"Bit count mismatch: both masks must contain same number of bits.")]
 		public void ContainsAll_WithDiffSizeBits()
 		{
 			var fmask1 = new FeatureMask(100);
@@ -214,8 +213,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(ArgumentException),
-			ExpectedMessage = "Bit count mismatch: both masks must contain same number of bits.")]
+		[ExpectedException(typeof(ArgumentException),
+			"Bit count mismatch: both masks must contain same number of bits.")]
 		public void ContainsOneOrMore_WithDiffSizeBits()
 		{
 			var fmask1 = new FeatureMask(100);
@@ -296,8 +295,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(IndexOutOfRangeException),
-			ExpectedMessage = "bit -2 is out of range. Bit must be >= 0 and < 128.")]
+		[ExpectedException(typeof(IndexOutOfRangeException),
+			"bit -2 is out of range. Bit must be >= 0 and < 128.")]
 		public void BitGetting_BitIsNegative()
 		{
 			var fmask = new FeatureMask(128);
@@ -310,8 +309,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(IndexOutOfRangeException),
-			ExpectedMessage = "bit 130 is out of range. Bit must be >= 0 and < 128.")]
+		[ExpectedException(typeof(IndexOutOfRangeException),
+			"bit 130 is out of range. Bit must be >= 0 and < 128.")]
 		public void BitGetting_BitIsTooBig()
 		{
 			var fmask = new FeatureMask(128);
@@ -324,8 +323,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(IndexOutOfRangeException),
-			ExpectedMessage = "bit -2 is out of range. Bit must be >= 0 and < 128.")]
+		[ExpectedException(typeof(IndexOutOfRangeException),
+			"bit -2 is out of range. Bit must be >= 0 and < 128.")]
 		public void BitSetting_BitIsNegative()
 		{
 			var fmask = new FeatureMask(128);
@@ -338,8 +337,8 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		[ExpectedException(ExceptionType = typeof(IndexOutOfRangeException),
-			ExpectedMessage = "bit 130 is out of range. Bit must be >= 0 and < 128.")]
+		[ExpectedException(typeof(IndexOutOfRangeException),
+			"bit 130 is out of range. Bit must be >= 0 and < 128.")]
 		public void BitSetting_BitIsTooBig()
 		{
 			var fmask = new FeatureMask(128);

@@ -46,7 +46,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
 			//DataUtils.LoadIPACharCache(null);
 

@@ -126,6 +126,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="SettingsHandler.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="XMLHelper.cs" />
     <Compile Include="XmlSerializationHelper.cs" />

@@ -163,7 +163,7 @@ namespace SIL.Pa.UI
 			if (!File.Exists(path))
 			{
 				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
-					Utils.PrepFilePathForSTMsgBox(path));
+					Utils.PrepFilePathForMsgBox(path));
 
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;

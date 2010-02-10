@@ -242,8 +242,8 @@ namespace SIL.Pa
 					"attempt is made to open a non existant project file. The parameter " +
 					"is the project file name.", PaApp.kLocalizationGroupInfoMsg,
 					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
-				
-				msg = string.Format(msg, Utils.PrepFilePathForSTMsgBox(prjFileName));
+
+				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(prjFileName));
 			}
 
 			if (msg == null)
@@ -291,12 +291,12 @@ namespace SIL.Pa
 				if (project == null)
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-						Utils.PrepFilePathForSTMsgBox(projFileName));
+						Utils.PrepFilePathForMsgBox(projFileName));
 				}
 				else
 				{
 					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-						Utils.PrepFilePathForSTMsgBox(projFileName), e.Message);
+						Utils.PrepFilePathForMsgBox(projFileName), e.Message);
 				}
 
 				if (showErrors)

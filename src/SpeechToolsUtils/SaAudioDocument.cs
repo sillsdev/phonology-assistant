@@ -250,7 +250,7 @@ namespace SIL.SpeechTools.Utils
 			if (!File.Exists(audioFilePath))
 			{
 				string msg = string.Format(Resources.kstidWaveFileNotFound,
-					SilUtils.Utils.PrepFilePathForSTMsgBox(audioFilePath));
+					SilUtils.Utils.PrepFilePathForMsgBox(audioFilePath));
 
 				SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return null;
@@ -572,7 +572,7 @@ namespace SIL.SpeechTools.Utils
 				if (!File.Exists(value))
 				{
 					string msg = string.Format(Resources.kstidWaveFileNotFound,
-						SilUtils.Utils.PrepFilePathForSTMsgBox(value));
+						SilUtils.Utils.PrepFilePathForMsgBox(value));
 
 					SilUtils.Utils.MsgBox(msg, MessageBoxButtons.OK);
 					return;

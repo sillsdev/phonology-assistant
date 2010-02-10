@@ -110,7 +110,7 @@ namespace SIL.Pa
 			string inventoryPath = Path.Combine(exePath, InventoryHelper.kDefaultInventoryFileName);
 			if (!File.Exists(inventoryPath))
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(inventoryPath);
+				string filePath = Utils.PrepFilePathForMsgBox(inventoryPath);
 				string msg = string.Format(Resources.kstidInventoryFileMissing, filePath);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
@@ -939,7 +939,7 @@ namespace SIL.Pa
 			// Make sure the file exists
 			if (!File.Exists(m_xmlFilePath))
 			{
-				string path = Utils.PrepFilePathForSTMsgBox(m_xmlFilePath);
+				string path = Utils.PrepFilePathForMsgBox(m_xmlFilePath);
 				string msg = string.Format(Resources.kstidIpaGridErrNoFile, path);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
@@ -1175,7 +1175,7 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), helpFilePath, topicPath);
 			else
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(helpFilePath);
+				string filePath = Utils.PrepFilePathForMsgBox(helpFilePath);
 				string msg = string.Format(Resources.kstidHelpFileMissingMsg, filePath);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}

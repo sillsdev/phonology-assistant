@@ -413,7 +413,7 @@ namespace SIL.Pa.UI.Dialogs
 						// No XSLT file was specified
 						offendingIndex = i;
 						msg = string.Format(Properties.Resources.kstidDataSourceNoXSLT,
-							Utils.PrepFilePathForSTMsgBox(m_project.DataSources[i].DataSourceFile));
+							Utils.PrepFilePathForMsgBox(m_project.DataSources[i].DataSourceFile));
 						break;
 					}
 					
@@ -736,7 +736,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(filename))
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(filename);
+				string filePath = Utils.PrepFilePathForMsgBox(filename);
 				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidFileMissingMsg, filePath),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

@@ -39,7 +39,7 @@ namespace SIL.Pa.Data
 			PronunciationField
 		}
 
-		public static bool ShowMsgWhenGatheringFWInfo = false;
+		public static bool ShowMsgWhenGatheringFWInfo;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -116,7 +116,7 @@ namespace SIL.Pa.Data
 				{
 					string server = FwDBAccessInfo.GetServer(machineName);
 					string connectionStr = string.Format(FwDBAccessInfo.ConnectionString,
-						new string[] { server, dbName, "FWDeveloper", "careful" });
+						new[] { server, dbName, "FWDeveloper", "careful" });
 
 					SqlConnection connection = new SqlConnection(connectionStr);
 					connection.Open();
@@ -284,8 +284,8 @@ namespace SIL.Pa.Data
 		private string m_machineName;
 		private string m_dbName;
 		private string m_projName;
-		public bool IsMissing = false;
-		private byte[] m_dateLastModified = null;
+		public bool IsMissing;
+		private byte[] m_dateLastModified;
 		private FwQueries m_queries;
 
 		public List<FwDataSourceWsInfo> WritingSystemInfo;
@@ -837,7 +837,7 @@ namespace SIL.Pa.Data
 
 			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(s_accessInfoFile);
+				string filePath = Utils.PrepFilePathForMsgBox(s_accessInfoFile);
 				Utils.MsgBox(string.Format(Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
 			}
 		}
@@ -1038,7 +1038,7 @@ namespace SIL.Pa.Data
 		internal static FwQueries s_fwShortNameQueries;
 		private static bool s_showMsgOnFileLoadFailure = true;
 
-		private bool m_error = false;
+		private readonly bool m_error;
 		private string m_queryFile;
 
 		[XmlElement("projectname")]
@@ -1113,10 +1113,9 @@ namespace SIL.Pa.Data
 					{
 						if (s_fwShortNameQueries == null)
 						{
-							if (CheckForShortNameFile(dbName, machineName, "FwSQLQueriesShortNames.xml"))
-								s_fwShortNameQueries = Load("FwSQLQueriesShortNames.xml");
-							else
-								s_fwShortNameQueries = new FwQueries(true);
+							s_fwShortNameQueries =
+								CheckForShortNameFile(dbName, machineName, "FwSQLQueriesShortNames.xml") ?
+								Load("FwSQLQueriesShortNames.xml") : new FwQueries(true);
 						}
 
 						fwqueries = s_fwShortNameQueries;
@@ -1139,11 +1138,11 @@ namespace SIL.Pa.Data
 			// Find the file that contains the queries.
 			string queryFile = Path.Combine(Application.StartupPath, filename);
 
-			if (!System.IO.File.Exists(queryFile))
+			if (!File.Exists(queryFile))
 			{
-				string path = Utils.PrepFilePathForSTMsgBox(Application.StartupPath);
-				string[] args = new string[] {dbName, machineName, filename, path, filename};
-				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
+				string path = Utils.PrepFilePathForMsgBox(Application.StartupPath);
+				string[] args = new[] {dbName, machineName, filename, path, filename};
+				string msg = string.Format(Resources.kstidShortNameFileMissingMsg, args);
 				Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return false;
 			}
@@ -1167,7 +1166,7 @@ namespace SIL.Pa.Data
 				fwqueries.m_queryFile = queryFile;
 			else if (s_showMsgOnFileLoadFailure)
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(queryFile);
+				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
 				Utils.MsgBox(string.Format(Resources.kstidErrorLoadingQueriesMsg, filePath));
 				fwqueries = new FwQueries(true);
 			}

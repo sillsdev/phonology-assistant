@@ -2021,7 +2021,7 @@ namespace SIL.Pa
 			else
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
-					Utils.PrepFilePathForSTMsgBox(s_helpFilePath));
+					Utils.PrepFilePathForMsgBox(s_helpFilePath));
 				
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}

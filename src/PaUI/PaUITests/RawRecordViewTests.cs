@@ -36,7 +36,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureSetUp]
-		public void FixtureSetup()
+		public override void FixtureSetup()
 		{
 		}
 
@@ -46,7 +46,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TestFixtureTearDown]
-		public void FixtureTearDown()
+		public override void FixtureTearDown()
 		{
 		}
 

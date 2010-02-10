@@ -236,7 +236,7 @@ namespace SIL.Pa
 					{
 						string msg =
 							string.Format(Properties.Resources.kstidErrorProcessingDataSourceFile,
-							Utils.PrepFilePathForSTMsgBox(source.DataSourceFile));
+							Utils.PrepFilePathForMsgBox(source.DataSourceFile));
 
 						Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 						PaApp.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
@@ -246,7 +246,7 @@ namespace SIL.Pa
 				{
 					string msg = string.Format(
 						Properties.Resources.kstidErrorReadingDataSourceFile,
-						Utils.PrepFilePathForSTMsgBox(source.DataSourceFile), e.Message);
+						Utils.PrepFilePathForMsgBox(source.DataSourceFile), e.Message);
 
 					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}

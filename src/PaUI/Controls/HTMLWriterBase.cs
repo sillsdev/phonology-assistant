@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (!File.Exists(m_xslFileBase))
 			{
-				string filePath = Utils.PrepFilePathForSTMsgBox(m_xslFileBase);
+				string filePath = Utils.PrepFilePathForMsgBox(m_xslFileBase);
 				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidHTMLExportFileMissingMsg,
 					filePath));

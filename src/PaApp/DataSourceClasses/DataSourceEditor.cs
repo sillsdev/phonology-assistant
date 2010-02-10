@@ -131,14 +131,14 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidDataSourceEditorMissingMsg,
-					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.Editor));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
@@ -165,7 +165,7 @@ namespace SIL.Pa
 			if (!IsToolboxRunning)
 			{
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					Utils.PrepFilePathForSTMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
 				
 				Utils.MsgBox(msg);
 			    return;
@@ -232,7 +232,7 @@ namespace SIL.Pa
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.GuidField;
-			string url = SIL.Pa.Data.FwDBAccessInfo.JumpUrl;
+			string url = Data.FwDBAccessInfo.JumpUrl;
 
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{
