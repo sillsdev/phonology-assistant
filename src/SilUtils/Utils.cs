@@ -618,6 +618,16 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Turns window redrawing on or off. After turning on, the window will be invalidated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void SetWindowRedraw(Control ctrl, bool turnOn)
+		{
+			SetWindowRedraw(ctrl, turnOn, true);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -626,7 +636,14 @@ namespace SilUtils
 		{
 			if (ctrl != null && !ctrl.IsDisposed && ctrl.IsHandleCreated)
 			{
+#if !MONO
 				SendMessage(ctrl.Handle, WM_SETREDRAW, (turnOn ? 1 : 0), 0);
+#else
+				if (turnOn)
+					ctrl.ResumeLayout(invalidateAfterTurningOn);
+				else
+					ctrl.SuspendLayout();
+#endif
 				if (turnOn && invalidateAfterTurningOn)
 					ctrl.Invalidate(true);
 			}
