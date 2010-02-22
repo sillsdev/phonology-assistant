@@ -163,7 +163,26 @@ namespace SilUtils
 				return relPath;
 
 			relPath = relPath.Remove(0, fixedPath.Length);
-			return relPath.TrimStart('\\');
+			return relPath.TrimStart(Path.DirectorySeparatorChar);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes the specified name safe to use as file name in the target OS. This is done
+		/// by replacing all invalid file name characters found in the specified file name
+		/// with the specified replacement character. Passing '\0' as the replacement character
+		/// will remove invalid characters without replacing any.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MakeSafeFileName(string fileName, char replacementChar)
+		{
+			string replacement = (replacementChar == '\0' ?
+				string.Empty : replacementChar.ToString());
+
+			foreach (char c in Path.GetInvalidFileNameChars())
+				fileName = fileName.Replace(c.ToString(), replacement);
+
+			return fileName.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
