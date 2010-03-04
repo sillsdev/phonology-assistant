@@ -83,7 +83,7 @@ namespace SilUtils
 				}
 			}
 
-			return (Image)bmp;
+			return bmp;
 		}
 	}
 }

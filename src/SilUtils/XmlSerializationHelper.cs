@@ -255,7 +255,7 @@ namespace SilUtils
 				using (InternalXmlReader reader = new InternalXmlReader(
 					new StringReader(input), fKeepWhitespaceInElements))
 				{
-					data = DeserializeInternal<T>(reader);
+					data = DeserializeInternal<T>(reader, null);
 				}
 			}
 			catch (Exception outEx)
@@ -302,6 +302,25 @@ namespace SilUtils
 		/// </summary>
 		/// <typeparam name="T">The object type</typeparam>
 		/// <param name="filename">The filename from which to load</param>
+		/// <param name="rootElementName">Name to expect for the root element. This is
+		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// <param name="fKeepWhitespaceInElements">if set to <c>true</c>, the reader
+		/// will preserve and return elements that contain only whitespace, otherwise
+		/// these elements will be ignored during a deserialization.</param>
+		/// ------------------------------------------------------------------------------------
+		public static T DeserializeFromFile<T>(string filename, string rootElementName,
+			bool fKeepWhitespaceInElements) where T : class
+		{
+			Exception e;
+			return DeserializeFromFile<T>(filename, rootElementName, fKeepWhitespaceInElements, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified file to an object of the specified type.
+		/// </summary>
+		/// <typeparam name="T">The object type</typeparam>
+		/// <param name="filename">The filename from which to load</param>
 		/// <param name="e">The exception generated during the deserialization.</param>
 		/// ------------------------------------------------------------------------------------
 		public static T DeserializeFromFile<T>(string filename, out Exception e) where T : class
@@ -315,13 +334,50 @@ namespace SilUtils
 		/// </summary>
 		/// <typeparam name="T">The object type</typeparam>
 		/// <param name="filename">The filename from which to load</param>
+		/// <param name="rootElementName">Name to expect for the root element. This is
+		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// <param name="e">The exception generated during the deserialization.</param>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public static T DeserializeFromFile<T>(string filename, string rootElementName,
+			out Exception e) where T : class
+		{
+			return DeserializeFromFile<T>(filename, rootElementName, false, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified file to an object of the specified type.
+		/// </summary>
+		/// <typeparam name="T">The object type</typeparam>
+		/// <param name="filename">The filename from which to load</param>
 		/// <param name="fKeepWhitespaceInElements">if set to <c>true</c>, the reader
 		/// will preserve and return elements that contain only whitespace, otherwise
 		/// these elements will be ignored during a deserialization.</param>
 		/// <param name="e">The exception generated during the deserialization.</param>
 		/// ------------------------------------------------------------------------------------
-		public static T DeserializeFromFile<T>(string filename, bool fKeepWhitespaceInElements, 
+		public static T DeserializeFromFile<T>(string filename, bool fKeepWhitespaceInElements,
 			out Exception e) where T : class
+		{
+			return DeserializeFromFile<T>(filename, null, fKeepWhitespaceInElements, out e);
+		}
+
+		/// --------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified file to an object of the specified type.
+		/// </summary>
+		/// <typeparam name="T">The object type</typeparam>
+		/// <param name="filename">The filename from which to load</param>
+		/// <param name="rootElementName">Name to expect for the root element. This is
+		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// <param name="fKeepWhitespaceInElements">if set to <c>true</c>, the reader
+		/// will preserve and return elements that contain only whitespace, otherwise
+		/// these elements will be ignored during a deserialization.</param>
+		/// <param name="e">The exception generated during the deserialization.</param>
+		/// <returns></returns>
+		/// --------------------------------------------------------------------------------
+		public static T DeserializeFromFile<T>(string filename, string rootElementName,
+			bool fKeepWhitespaceInElements, out Exception e) where T : class
 		{
 			T data = null;
 			e = null;
@@ -334,7 +390,7 @@ namespace SilUtils
 				using (InternalXmlReader reader = new InternalXmlReader(
 					filename, fKeepWhitespaceInElements))
 				{
-					data = DeserializeInternal<T>(reader);
+					data = DeserializeInternal<T>(reader, rootElementName);
 				}
 			}
 			catch (Exception outEx)
@@ -351,11 +407,23 @@ namespace SilUtils
 		/// </summary>
 		/// <typeparam name="T">The type of object to deserialize</typeparam>
 		/// <param name="reader">The reader.</param>
+		/// <param name="rootElementName">Name to expect for the of the root element.</param>
 		/// <returns>The deserialized object</returns>
 		/// ------------------------------------------------------------------------------------
-		private static T DeserializeInternal<T>(XmlReader reader)
+		private static T DeserializeInternal<T>(XmlReader reader, string rootElementName)
 		{
-			XmlSerializer deserializer = new XmlSerializer(typeof(T));
+			XmlSerializer deserializer;
+
+			if (string.IsNullOrEmpty(rootElementName))
+				deserializer = new XmlSerializer(typeof(T));
+			else
+			{
+				var rootAttrib = new XmlRootAttribute();
+				rootAttrib.ElementName = rootElementName;
+				rootAttrib.IsNullable = true;
+				deserializer = new XmlSerializer(typeof(T), rootAttrib);
+			}
+
 			deserializer.UnknownAttribute += deserializer_UnknownAttribute;
 			return (T)deserializer.Deserialize(reader);
 		}
