@@ -48,6 +48,9 @@
     <Compile Include="Controls\AboutDlg.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\AutoHeightLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CustomDropDownComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
