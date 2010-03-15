@@ -333,20 +333,23 @@ namespace SilUtils
 		{
 			flags |= (BindingFlags.NonPublic | BindingFlags.Public);
 
-			try
+			//if (CanInvoke(binding, name, flags))
 			{
-				// If binding is a Type then assume invoke on a static method, property or field.
-				// Otherwise invoke on an instance method, property or field.
-				if (binding is Type)
+				try
 				{
-					return ((binding as Type).InvokeMember(name,
-						flags | BindingFlags.Static, null, binding, args));
-				}
+					// If binding is a Type then assume invoke on a static method, property or field.
+					// Otherwise invoke on an instance method, property or field.
+					if (binding is Type)
+					{
+						return ((binding as Type).InvokeMember(name,
+							flags | BindingFlags.Static, null, binding, args));
+					}
 
-				return binding.GetType().InvokeMember(name,
-					flags | BindingFlags.Instance, null, binding, args);
+					return binding.GetType().InvokeMember(name,
+						flags | BindingFlags.Instance, null, binding, args);
+				}
+				catch { }
 			}
-			catch { }
 
 			return null;
 		}
@@ -371,7 +374,46 @@ namespace SilUtils
 
 			return binding.GetType().InvokeMember(name,
 				flags | BindingFlags.Instance, null, binding, args);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the specified binding contains the field,
+		/// property or method indicated by name and having the specified flags.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool CanInvoke(object binding, string name, BindingFlags flags)
+		{
+			var srchFlags = (BindingFlags.Public | BindingFlags.NonPublic);
+			Type bindingType = null;
+			
+			if (binding is Type)
+			{
+				bindingType = (Type)binding;
+				srchFlags |= BindingFlags.Static;
+			}
+			else
+			{
+				binding.GetType();
+				srchFlags |= BindingFlags.Instance;
+			}
+	
+			if (((flags & BindingFlags.GetProperty) == BindingFlags.GetProperty) ||
+				((flags & BindingFlags.SetProperty) == BindingFlags.SetProperty))
+			{
+				return (bindingType.GetProperty(name, srchFlags) != null);
+			}
+
+			if (((flags & BindingFlags.GetField) == BindingFlags.GetField) ||
+				((flags & BindingFlags.SetField) == BindingFlags.SetField))
+			{
+				return (bindingType.GetField(name, srchFlags) != null);
+			}
+
+			if ((flags & BindingFlags.InvokeMethod) == BindingFlags.InvokeMethod)
+				return (bindingType.GetMethod(name, srchFlags) != null);
+
+			return false;
 		}
 	}
 }

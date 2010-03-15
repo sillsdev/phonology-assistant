@@ -51,7 +51,22 @@ namespace SilUtils.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the font of the text displayed by the control.
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string Text
+		{
+			get { return base.Text; }
+			set
+			{
+				base.Text = value;
+				AdjustHeight();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override Font Font

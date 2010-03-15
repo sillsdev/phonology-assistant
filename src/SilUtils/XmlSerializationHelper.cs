@@ -21,7 +21,7 @@ namespace SilUtils
 		private class InternalXmlReader : XmlTextReader
 		{
 			private readonly bool m_fKeepWhitespaceInElements;
-
+			
 			/// --------------------------------------------------------------------------------
 			/// <summary>
 			/// Initializes a new instance of the <see cref="InternalXmlReader"/> class.

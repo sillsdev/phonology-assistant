@@ -43,8 +43,7 @@ namespace SilUtils
 		private const string Root = "Settings";
 		private const string StrCollectionAttrib = "stringcollection";
 
-		private static string s_settingsFilePath;
-		private XmlDocument m_settingsXml;
+		protected XmlDocument m_settingsXml;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -54,14 +53,6 @@ namespace SilUtils
 		public override void Initialize(string name, NameValueCollection nvc)
 		{
 			base.Initialize(ApplicationName, nvc);
-
-			// By default, write the application settings to a folder in documents whose
-			// name is the name of the application.
-			if (s_settingsFilePath == null)
-			{
-				s_settingsFilePath = Path.Combine(
-				   Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationName);
-			}
 
 			m_settingsXml = new XmlDocument();
 
@@ -100,10 +91,14 @@ namespace SilUtils
 		/// include the file name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string SettingsFilePath
+		public virtual string SettingsFilePath
 		{
-			get { return s_settingsFilePath; }
-			set { s_settingsFilePath = value; }
+			get
+			{
+				return Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+					ApplicationName);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -189,6 +184,9 @@ namespace SilUtils
 			// in propvals, and only ones relevant to this provider
 			foreach (SettingsPropertyValue propVal in propvals)
 			{
+				if (propVal.Property.Attributes.ContainsKey(typeof(ApplicationScopedSettingAttribute)))
+					continue;
+				
 				XmlElement settingNode = null;
 
 				try
