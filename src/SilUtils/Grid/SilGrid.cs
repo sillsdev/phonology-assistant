@@ -45,7 +45,7 @@ namespace SilUtils
 			SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			BorderStyle = BorderStyle.Fixed3D;
 			ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			ColumnHeadersDefaultCellStyle.Font = SystemInformation.MenuFont;
+			ColumnHeadersDefaultCellStyle.Font = SystemFonts.IconTitleFont;
 			RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			RowHeadersWidth = 22;
 			Color clr = SystemColors.Window;

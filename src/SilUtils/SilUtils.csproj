@@ -113,6 +113,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="FontHelper.cs" />
+    <Compile Include="Grid\CheckBoxColumnHeaderHandler.cs" />
     <Compile Include="Grid\GridCellPiecePainter.cs" />
     <Compile Include="Grid\SilButtonCell.cs" />
     <Compile Include="Grid\SilGrid.cs">
