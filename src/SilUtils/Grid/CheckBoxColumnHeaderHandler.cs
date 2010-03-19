@@ -59,6 +59,7 @@ namespace SilUtils
 			m_grid.CellMouseMove += HandleHeaderCellMouseMove;
 			m_grid.CellMouseClick += HandleHeaderCellMouseClick;
 			m_grid.CellContentClick += HandleDataCellCellContentClick;
+			m_grid.Scroll += HandleGridScroll;
 			m_grid.RowsAdded += HandleGridRowsAdded;
 			m_grid.RowsRemoved += HandleGridRowsRemoved;
 			
@@ -100,6 +101,7 @@ namespace SilUtils
 			m_grid.CellMouseMove -= HandleHeaderCellMouseMove;
 			m_grid.CellMouseClick -= HandleHeaderCellMouseClick;
 			m_grid.CellContentClick -= HandleDataCellCellContentClick;
+			m_grid.Scroll -= HandleGridScroll;
 			m_grid.RowsAdded -= HandleGridRowsAdded;
 			m_grid.RowsRemoved -= HandleGridRowsRemoved;
 		}
@@ -122,6 +124,21 @@ namespace SilUtils
 		private void HandleGridRowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
 			UpdateHeadersCheckStateFromColumnsValues();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleGridScroll(object sender, ScrollEventArgs e)
+		{
+			if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+			{
+				var rc = m_grid.ClientRectangle;
+				rc.Height = m_grid.ColumnHeadersHeight;
+				m_grid.Invalidate(rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -240,9 +257,15 @@ namespace SilUtils
 				return;
 
 			var rcCell = m_grid.GetCellDisplayRectangle(m_col.Index, -1, false);
+			if (rcCell.IsEmpty)
+				return;
 
-			// Don't include the left border in the width.
-			rcCell.Width--;
+			// At this point, we know at least part of the header cell is visible, therefore,
+			// force the rectangle's width to that of the column's.
+			rcCell.X = rcCell.Right - m_col.Width;
+
+			// Subtract one so as not to include the left border in the width.
+			rcCell.Width = m_col.Width - 1;
 
 			int dx = (int)Math.Floor((rcCell.Width - m_szCheckBox.Width) / 2f);
 			int dy = (int)Math.Floor((rcCell.Height - m_szCheckBox.Height) / 2f);

@@ -46,6 +46,7 @@ namespace SilUtils
 			BorderStyle = BorderStyle.Fixed3D;
 			ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			ColumnHeadersDefaultCellStyle.Font = SystemFonts.IconTitleFont;
+			Font = SystemFonts.IconTitleFont;
 			RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			RowHeadersWidth = 22;
 			Color clr = SystemColors.Window;
