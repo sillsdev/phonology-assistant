@@ -370,4 +370,942 @@
   <data name="kstidZeroOrMoreEndingErr" xml:space="preserve">
     <value>When the zero-or-more symbol (*) is present in the following environment, it must be at the end.</value>
   </data>
+  <data name="kimidAutomaticallyHide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Automatically_hide.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidBothGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Vertical_and_Horizontal_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidButtonDropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ButtonDropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidClearList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clear_list.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidClearPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clear_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidCopy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidCut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cut.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDefineFilters" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FilterDlg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Dock.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDropDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidDropDownButtonArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownButtonArrow.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidEntireNetwork" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EntireNetwork.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidExplorerBarCollapseGlyph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerBar_Collapse_Glyph.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidExplorerBarEpandGlyph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExplorerBar_Epand_Glyph.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidGrayFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GrayFilter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Help.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidHorizontalGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Horizontal_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidInformation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Info.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidInsertintopattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Insert_into_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMicrosoftWindowsNetwork" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MicrosoftWindowsNetwork.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMinimalPairsOptionsDropDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minimal_pair_options_drop_down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMoveDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Move_down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMoveUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Move_up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMyNetworkPlaces" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MyNetworkPlaces.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNetworkGroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Group.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNetworkServer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Server.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNewPatternCategory" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\New_category_for_saved_patterns.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidNoGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hide_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPaLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PA_Logo-Dim.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPaste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Paste.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pattern.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPatternTextBoxDownArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PatternTextBoxDownArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPatternTextBoxUpArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PatternTextBoxUpArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidPhoneDropNotAllowed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PhoneDropNotAllowed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidRefresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSavedPatternCategoryClosed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SavedPatternCategoryClosed.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSavedPatternCategoryOpen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SavedPatternCategoryOpen.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSearchOptions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search_options.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidShowResults" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_results.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSpeaker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Speaker.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidVerticalGridLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Show_Vertical_Grid_Lines.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidWarning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidXYChartCellError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\XYChartError.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidXYChartDirtyIndicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\XYChartDirty.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidAddSearchCategoryBeforeSave" xml:space="preserve">
+    <value>Before saving a search pattern, you must first add a category to the saved pattern list.</value>
+  </data>
+  <data name="kstidAutoHideToolTip" xml:space="preserve">
+    <value>Automatically Hide</value>
+    <comment>Tooltip for the sliding panel auto. hide button</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdExperimentalTransText" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Text for command link on the experimental transcription items cell popup</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdExperimentalTransToolTip" xml:space="preserve">
+    <value>Experimental Transcriptions</value>
+  </data>
+  <data name="kstidCellInfoLnkCmdUncertainText" xml:space="preserve">
+    <value>Edit</value>
+    <comment>Text for command link on the uncertainty possibilities cell popup</comment>
+  </data>
+  <data name="kstidCellInfoLnkCmdUncertainToolTip" xml:space="preserve">
+    <value>Edit source record</value>
+  </data>
+  <data name="kstidCharHdg" xml:space="preserve">
+    <value>Character</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidCharPickerTooltipLong" xml:space="preserve">
+    <value>{0},\n{1}</value>
+    <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
+  </data>
+  <data name="kstidCharPickerTooltipShort" xml:space="preserve">
+    <value>{0}</value>
+    <comment>Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).</comment>
+  </data>
+  <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
+    <value>Minimal Pairs Options (Ctrl+Alt+M)</value>
+  </data>
+  <data name="kstidClassCopyNameFormat" xml:space="preserve">
+    <value>{0} ({1:D2})</value>
+    <comment>Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.</comment>
+  </data>
+  <data name="kstidClassCopyOfPrefix" xml:space="preserve">
+    <value>Copy of {0}</value>
+    <comment>Prefix for names of copied items</comment>
+  </data>
+  <data name="kstidClassListMembersToolTipAndHdg" xml:space="preserve">
+    <value>Members (AND'd):</value>
+    <comment>Heading for the tooltip used to display the members of a class of AND'd features in a class list view.</comment>
+  </data>
+  <data name="kstidClassListMembersToolTipOrHdg" xml:space="preserve">
+    <value>Members (OR'd):</value>
+    <comment>Heading for the tooltip used to display the members of a class of OR'd features in a class list view.</comment>
+  </data>
+  <data name="kstidClassListPhoneMembersToolTipHdg" xml:space="preserve">
+    <value>Members:</value>
+    <comment>Heading for the tooltip used to display the members of a class of phones in a class list view.</comment>
+  </data>
+  <data name="kstidClassListSingleMemberToolTipHdg" xml:space="preserve">
+    <value>Member:</value>
+    <comment>Heading for the tooltip used to display the member of a class containing a single feature.</comment>
+  </data>
+  <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
+    <value>Close Active Tab</value>
+  </data>
+  <data name="kstidCollapsingGroups" xml:space="preserve">
+    <value>Collapsing groups...</value>
+  </data>
+  <data name="kstidConChartHTMLChartType" xml:space="preserve">
+    <value>Consonants</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidConChartHTMLFileName" xml:space="preserve">
+    <value>{0}-ConsonantChart.html</value>
+    <comment>Default name for the HTML export file for HTML output of a consonant chart. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kstidConfirmSavedChartRemoval" xml:space="preserve">
+    <value>Are you sure you want to remove the saved chart?</value>
+  </data>
+  <data name="kstidConsonantChartViewHelpToolTip" xml:space="preserve">
+    <value>Consonant Chart View Help</value>
+  </data>
+  <data name="kstidConsonantChartViewText" xml:space="preserve">
+    <value>Consonant Chart</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidConsonantChartViewToolTip" xml:space="preserve">
+    <value>Consonant Chart View (Ctrl+Alt+C)</value>
+  </data>
+  <data name="kstidCopiedFilterNamePrefix" xml:space="preserve">
+    <value>Copy of {0}</value>
+    <comment>The parameter is the name of the filter to copy in the define filterrs dialog.</comment>
+  </data>
+  <data name="kstidCountHdg" xml:space="preserve">
+    <value>Count</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidDataCorpusHTMLChartType" xml:space="preserve">
+    <value>Data Corpus</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidDataCorpusHTMLFileName" xml:space="preserve">
+    <value>{0}-DataCorpus.html</value>
+    <comment>Default name for the HTML export file for HTML output of a data corpus view. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kstidDataCorpusViewHelpToolTip" xml:space="preserve">
+    <value>Data Corpus View Help</value>
+  </data>
+  <data name="kstidDataCorpusViewText" xml:space="preserve">
+    <value>Data Corpus</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidDataCorpusViewToolTip" xml:space="preserve">
+    <value>Data Corpus View (Ctrl+Alt+D)</value>
+  </data>
+  <data name="kstidDataSourceDeleteConfirmation" xml:space="preserve">
+    <value>Are you sure you want to delete the selected data source(s)?</value>
+  </data>
+  <data name="kstidDataSourceHdg" xml:space="preserve">
+    <value>Data Source</value>
+    <comment>Heading for column in the undefined phonetic characters dialog</comment>
+  </data>
+  <data name="kstidDataSourceNoLangName" xml:space="preserve">
+    <value>You must specify a language name.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidDataSourceNoMappings" xml:space="preserve">
+    <value>You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidDataSourceNoProjName" xml:space="preserve">
+    <value>You must specify a project name.</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidDataSourceNoXSLT" xml:space="preserve">
+    <value>You must specify an XSLT file for '{0}'</value>
+    <comment>Project properties dialog message.</comment>
+  </data>
+  <data name="kstidDataSourceOpenFileCaption" xml:space="preserve">
+    <value>Choose Data Source File(s)</value>
+    <comment>Open file dialog caption when choosing data source files</comment>
+  </data>
+  <data name="kstidDataSourceOpenFileXSLTCaption" xml:space="preserve">
+    <value>Choose XSLT to Transform Data Source</value>
+    <comment>Open file dialog caption when choosing an XSLT file</comment>
+  </data>
+  <data name="kstidDataSourcePropertiesButtonText" xml:space="preserve">
+    <value>...</value>
+    <comment>Text on the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidDefaultNewCustomFeatureName" xml:space="preserve">
+    <value>New Custom Feature</value>
+    <comment>Default name given to new custom features when the user clicks add on the Define Articulatory dialog box.</comment>
+  </data>
+  <data name="kstidDefClassPhoneHdrCon" xml:space="preserve">
+    <value>&amp;Consonants</value>
+  </data>
+  <data name="kstidDefClassPhoneHdrOther" xml:space="preserve">
+    <value>&amp;Other Phones</value>
+  </data>
+  <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
+    <value>&amp;Vowels</value>
+  </data>
+  <data name="kstidDefineClassDupClassName" xml:space="preserve">
+    <value>Class '{0}' already exists. Choose a different name.</value>
+    <comment>Error msg for creating class with duplicate name</comment>
+  </data>
+  <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
+    <value>You cannot have an empty Class Name</value>
+  </data>
+  <data name="kstidDefineSortOrderAscendingCol" xml:space="preserve">
+    <value>Ascending?</value>
+  </data>
+  <data name="kstidDefineSortOrderColumnCol" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="kstidDeleteFFCategoryConfirmationMsg" xml:space="preserve">
+    <value>Are you sure you want to remove the search category '{0}'?</value>
+    <comment>Question asked when user wants to delete a find phone category in the find phone window.</comment>
+  </data>
+  <data name="kstidDeleteFFPatternConfirmationMsg" xml:space="preserve">
+    <value>Are you sure you want to remove the search pattern '{0}'?</value>
+    <comment>Question asked when the user wants to delete a find phone search pattern.</comment>
+  </data>
+  <data name="kstidDockToolTip" xml:space="preserve">
+    <value>Dock</value>
+    <comment>Tooktip for the sliding panel dock button</comment>
+  </data>
+  <data name="kstidDuplicateSearchCategoryMsg" xml:space="preserve">
+    <value>There is already a category named '{0}'.</value>
+  </data>
+  <data name="kstidDuplicateSearchQueryMsg" xml:space="preserve">
+    <value>There is already a saved search pattern named '{0}' in the same category.</value>
+  </data>
+  <data name="kstidDuplicateSearchQueryQuestion" xml:space="preserve">
+    <value>There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?</value>
+  </data>
+  <data name="kstidEmptySearchPatternText" xml:space="preserve">
+    <value>Empty</value>
+    <comment>Text shown in empty search patterns in the Find Phone window</comment>
+  </data>
+  <data name="kstidEmptySearchPatternToolTip" xml:space="preserve">
+    <value>Double-click, press enter on, or drag{0}to insert a class or IPA characters{1}to the current search pattern</value>
+    <comment>Tooltip text for empty search patterns in Find Phone window. The parameters are where there will be line breaks. If the localized version does not require line breaks, omit the parameters in the localization</comment>
+  </data>
+  <data name="kstidEmptySrchResultTabText" xml:space="preserve">
+    <value>(empty tab)</value>
+  </data>
+  <data name="kstidEmtpyRawRecView" xml:space="preserve">
+    <value>(no data)</value>
+    <comment>What's displayed in the record view when there is no data.</comment>
+  </data>
+  <data name="kstidEmtpyTabInfoText" xml:space="preserve">
+    <value>Define a search pattern above and click Show Results.</value>
+  </data>
+  <data name="kstidErrorLoadingCharPickerRowsMsg" xml:space="preserve">
+    <value>{0} list failed to load.</value>
+  </data>
+  <data name="kstidExpandingGroups" xml:space="preserve">
+    <value>Expanding groups...</value>
+  </data>
+  <data name="kstidFileMissingMsg" xml:space="preserve">
+    <value>'{0}' is missing.</value>
+    <comment>The label text for "???" in RtfExportDlg</comment>
+  </data>
+  <data name="kstidFilterFieldColHdgText" xml:space="preserve">
+    <value>Field</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterNameExistsMsg" xml:space="preserve">
+    <value>The filter '{0}' already exists.</value>
+    <comment>Message displayed when adding a filter in the define filters dialog if the filter name already exists.</comment>
+  </data>
+  <data name="kstidFilterOperatorColHdgText" xml:space="preserve">
+    <value>Operator</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterTypeColHdgText" xml:space="preserve">
+    <value>Type</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterValueColHdgText" xml:space="preserve">
+    <value>Value</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFindDataNotFound" xml:space="preserve">
+    <value>The following specified text was not found: </value>
+    <comment>Message shown when all data has been searched without one match.</comment>
+  </data>
+  <data name="kstidFindDoneSearching" xml:space="preserve">
+    <value>Find has finished searching.</value>
+    <comment>Popup message when all records have been searched with the FindDlg</comment>
+  </data>
+  <data name="kstidFindSelectAll" xml:space="preserve">
+    <value>Select All</value>
+    <comment>"Select All" caption in the CheckedListBox</comment>
+  </data>
+  <data name="kstidFontGridBold" xml:space="preserve">
+    <value>Bold</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFontGridDBField" xml:space="preserve">
+    <value>Field</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFontGridFontName" xml:space="preserve">
+    <value>Font Name</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFontGridItalic" xml:space="preserve">
+    <value>Italic</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFontGridSample" xml:space="preserve">
+    <value>Sample</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFontGridSize" xml:space="preserve">
+    <value>Size</value>
+    <comment>Column heading for fonts grid under Tools/Options</comment>
+  </data>
+  <data name="kstidFwDataSourceWsMissingMsg" xml:space="preserve">
+    <value>The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.</value>
+  </data>
+  <data name="kstidFwMissingWsMsg" xml:space="preserve">
+    <value>You must specify a writing system for at least one field.</value>
+    <comment>Message displayed in the FieldWorks data source dialog when the user clicks OK when no field has been assigned a writing system.</comment>
+  </data>
+  <data name="kstidFwPropsButtonToolTip" xml:space="preserve">
+    <value>Specify Properties</value>
+    <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidFwWsFieldHdg" xml:space="preserve">
+    <value>Field</value>
+    <comment>Heading for the field column of the writing system grid on FieldWorks data source properties dialog</comment>
+  </data>
+  <data name="kstidFwWsNoneSpecified" xml:space="preserve">
+    <value>(none)</value>
+    <comment>Item for no writing system specified for a field in the FW data source properties dialog.</comment>
+  </data>
+  <data name="kstidFwWsWsHdg" xml:space="preserve">
+    <value>Writing System</value>
+    <comment>Heading for the writing system column of the writing system grid on the FieldWorks data source properties dialog</comment>
+  </data>
+  <data name="kstidGridColumnSelectorAllItem" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="kstidGroupByNoneFieldName" xml:space="preserve">
+    <value>None</value>
+    <comment>The item in the group by fields menu (and toolbar menu) indicating no field is being grouped on.</comment>
+  </data>
+  <data name="kstidHideRecPaneToolTip" xml:space="preserve">
+    <value>Hide record pane</value>
+  </data>
+  <data name="kstidHTMLExportFileMissingMsg" xml:space="preserve">
+    <value>The file {0} is missing. Exporting cannot be completed.</value>
+  </data>
+  <data name="kstidImplosivesHeading" xml:space="preserve">
+    <value>Implosives</value>
+  </data>
+  <data name="kstidIngoreTieBarToolTip" xml:space="preserve">
+    <value>Ignoring tie-bars is somewhat different from ignoring other\nsymbols since tie-bars are not phone modifiers. Normally\nthe searching process considers a tie-bar and whatever it\njoins to be a single phone. However, when ignoring tie-bars,\nthe single phone created by the tie-bar will be recognized\nas two, unique phones.</value>
+    <comment>Tooltip used displayed when hovering over the ignore tie bars check box on the search view's options drop-down list.</comment>
+  </data>
+  <data name="kstidInterlinearSampleInput" xml:space="preserve">
+    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
+\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
+\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}</value>
+    <comment>Used in the mappings dialog</comment>
+  </data>
+  <data name="kstidInterlinearSampleOutput" xml:space="preserve">
+    <value>mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidInvalidPhoneticCharMsg" xml:space="preserve">
+    <value>Invalid phonetic character.</value>
+    <comment>Message displayed when defining a phonetic characters class and the user types, from the keyboard, a character not found in the phonetic character inventory.</comment>
+  </data>
+  <data name="kstidInvalidToolboxSortFieldSpecified" xml:space="preserve">
+    <value>The first Toolbox sort field specified was\nnot mapped. It must have a mapping.</value>
+  </data>
+  <data name="kstidIPAChooserGroupConsonants" xml:space="preserve">
+    <value>Consonants</value>
+  </data>
+  <data name="kstidIPAChooserGroupDiacritics" xml:space="preserve">
+    <value>Diacritics</value>
+  </data>
+  <data name="kstidIPAChooserGroupNonPulmonics" xml:space="preserve">
+    <value>Non Pulmonics</value>
+  </data>
+  <data name="kstidIPAChooserGroupOtherSymbols" xml:space="preserve">
+    <value>Other Symbols</value>
+  </data>
+  <data name="kstidIPAChooserGroupSuprasegmentals" xml:space="preserve">
+    <value>Stress and Length\n(Suprasegmentals)</value>
+  </data>
+  <data name="kstidIPAChooserGroupTone" xml:space="preserve">
+    <value>Tone and Accents</value>
+  </data>
+  <data name="kstidIPAChooserGroupVowels" xml:space="preserve">
+    <value>Vowels</value>
+  </data>
+  <data name="kstidLoadingOptionsProgressBarText" xml:space="preserve">
+    <value>Loading Options...</value>
+    <comment>Progress bar text when options dialog is being loaded.</comment>
+  </data>
+  <data name="kstidLoadNewProjectQuestion" xml:space="preserve">
+    <value>Would you like to load the '{0}' project?</value>
+    <comment>Question asked of user after they create a new PA project.</comment>
+  </data>
+  <data name="kstidMachineHasNoProjectsMsg" xml:space="preserve">
+    <value>{0} has no projects.</value>
+    <comment>Message displayexd in the dialog for choosing an FW data source when the specified computer does not contain any FW projects.</comment>
+  </data>
+  <data name="kstidMainWindowCaption" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>Parameter 0 is project name; parameter 1 is application name (i.e. Phonology Assistant)</comment>
+  </data>
+  <data name="kstidMappingsButtonToolTip" xml:space="preserve">
+    <value>Specify field mappings</value>
+    <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
+  </data>
+  <data name="kstidMissingRTFEditorMsg" xml:space="preserve">
+    <value>You must first specify an RTF editor.</value>
+  </data>
+  <data name="kstidMissingTrainingFileMsg" xml:space="preserve">
+    <value>The training file '{0}' is missing.</value>
+  </data>
+  <data name="kstidMyNetworkPlaces" xml:space="preserve">
+    <value>Network places in your area</value>
+    <comment>Used in the dialog for choosing an FW database</comment>
+  </data>
+  <data name="kstidNewClassName" xml:space="preserve">
+    <value>New Class</value>
+    <comment>Default name given to new classes</comment>
+  </data>
+  <data name="kstidNewFilterName" xml:space="preserve">
+    <value>New Filter {0}</value>
+    <comment>The parameter is a number. Used as default filter name when adding filters in the define filters dialog.</comment>
+  </data>
+  <data name="kstidNewProjectSettingsDlgCaption" xml:space="preserve">
+    <value>New Project Settings</value>
+    <comment>Caption for project settings dialog when project is new.</comment>
+  </data>
+  <data name="kstidNewSavedPatternCategoryName" xml:space="preserve">
+    <value>New Category</value>
+    <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
+  </data>
+  <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
+    <value>No projects found on '{0}'.</value>
+  </data>
+  <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
+    <value>No minimal pairs to display.\nChange the minimal pairs options and try again.</value>
+    <comment>Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show.</comment>
+  </data>
+  <data name="kstidNoMinimalPairsPopupMsg" xml:space="preserve">
+    <value>No minimal pairs to display.</value>
+    <comment>The user should never really see this message. :o)</comment>
+  </data>
+  <data name="kstidNoParseSampleOutput" xml:space="preserve">
+    <value>hi ni nini/this what</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidNoSavedChartNameMsg" xml:space="preserve">
+    <value>You must specify a name for your XY chart.</value>
+  </data>
+  <data name="kstidNoSavedPatternCategoryMsg" xml:space="preserve">
+    <value>You must specify a category for your saved pattern.</value>
+  </data>
+  <data name="kstidNoSavedPatternNameMsg" xml:space="preserve">
+    <value>You must specify a name for your saved pattern.</value>
+  </data>
+  <data name="kstidNoSavedSearchPatternsMsg" xml:space="preserve">
+    <value>No Saved Search Patterns</value>
+    <comment>Message shown in the saved search pattern list when there are on saved patterns.</comment>
+  </data>
+  <data name="kstidNoSearchResultsFoundMsg" xml:space="preserve">
+    <value>No Results Found.</value>
+    <comment>Displayed in the search results area when no matches were found.</comment>
+  </data>
+  <data name="kstidNoToolboxSortField" xml:space="preserve">
+    <value>(none)</value>
+    <comment>First item in the "First Toolbox Sort Field" drop-down list.</comment>
+  </data>
+  <data name="kstidOneToOneParsingToolTip" xml:space="preserve">
+    <value>This option causes parsing of phonetic,\nphonemic, tone, orthographic, part of speech\nand custom fields specified as being parsed.</value>
+  </data>
+  <data name="kstidOneToOneSampleOutput" xml:space="preserve">
+    <value>hi/this#ni/what#nini/</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidPAFilesCaptionOFD" xml:space="preserve">
+    <value>Open {0} Project File</value>
+  </data>
+  <data name="kstidPAFilesCaptionSFD" xml:space="preserve">
+    <value>Save {0} Project File</value>
+    <comment>Caption for the save PA project dialog. The parameter is for the application name.</comment>
+  </data>
+  <data name="kstidParsePhoneticSampleOutput" xml:space="preserve">
+    <value>hi/this what#ni/this what#nini/this what</value>
+    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
+  </data>
+  <data name="kstidPAXMLExportCaptionSFD" xml:space="preserve">
+    <value>Export to {0} XML</value>
+    <comment>Caption for save file dialog for PA XML export</comment>
+  </data>
+  <data name="kstidPhoneInventoryPhoneInfo" xml:space="preserve">
+    <value>Unicode Values:\n{0}</value>
+    <comment>Used for the tooltip information when moving the mouse over phones in the phone inventory list.</comment>
+  </data>
+  <data name="kstidPhoneInventoryViewHelpToolTip" xml:space="preserve">
+    <value>Phone Inventory View Help</value>
+  </data>
+  <data name="kstidPhoneInventoryViewText" xml:space="preserve">
+    <value>Phone Inventory</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidPhoneInventoryViewToolTip" xml:space="preserve">
+    <value>Phone Inventory View (Ctrl+Alt+P)</value>
+  </data>
+  <data name="kstidPhonesInFeatureViewerText" xml:space="preserve">
+    <value>Phones in data matching...</value>
+  </data>
+  <data name="kstidProjectSettingsDlgCaption" xml:space="preserve">
+    <value>Project Settings</value>
+    <comment>Caption for project settings dialog when project is not new.</comment>
+  </data>
+  <data name="kstidRecentlyUsedProjectMissingMsg" xml:space="preserve">
+    <value>The project file '{0}' is missing.</value>
+    <comment>Message displayed when a recently used project file is chosen (i.e. .pap file) and it no longer exists.</comment>
+  </data>
+  <data name="kstidReferenceHdg" xml:space="preserve">
+    <value>Reference</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidRemoveFeatureMsg" xml:space="preserve">
+    <value>Are you sure you want to remove the feature '{0}'?</value>
+    <comment>Question asked when the user clicks on the remove button on the Define Articulatory Features dialog box.</comment>
+  </data>
+  <data name="kstidRestoreDefaultFeatureMsg" xml:space="preserve">
+    <value>Are you sure you want to restore the default feature names and default character features definitions? This operation cannot be undone.</value>
+    <comment>This message is displayed when the user chooses to restore the default articulatory or binary features.</comment>
+  </data>
+  <data name="kstidRTFExportCaptionSFD" xml:space="preserve">
+    <value>Save RTF File</value>
+    <comment>Save file dialog caption for specifying the rtf file exported to under RTF export</comment>
+  </data>
+  <data name="kstidRtfGridAllWordsLabel" xml:space="preserve">
+    <value>All Words</value>
+    <comment>The value for the 'Word List' label when the exported list is not filtered or the result of a  search query.</comment>
+  </data>
+  <data name="kstidRtfGridHdrDateTimeName" xml:space="preserve">
+    <value>Date/Time:{0}{1}</value>
+    <comment>The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrGroupField" xml:space="preserve">
+    <value>Grouped By:{0}{1}</value>
+    <comment>The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
+  <data name="kstidRtfGridHdrLanguageName" xml:space="preserve">
+    <value>Language:{0}{1}</value>
+    <comment>The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrNbrOfRecords" xml:space="preserve">
+    <value>Number of Records:{0}{1}</value>
+    <comment>The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records.</comment>
+  </data>
+  <data name="kstidRtfGridHdrProjectName" xml:space="preserve">
+    <value>Project:{0}{1}</value>
+    <comment>The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name.</comment>
+  </data>
+  <data name="kstidRtfGridHdrSearchPattern" xml:space="preserve">
+    <value>Search Pattern:{0}{1}</value>
+    <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
+  <data name="kstidRtfGridHdrSearchPatternForMinPairs" xml:space="preserve">
+    <value>Search Pattern:{0}{1}  (Minimal Pairs)</value>
+    <comment>The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.</comment>
+  </data>
+  <data name="kstidRtfGridHdrWordListName" xml:space="preserve">
+    <value>Word List:{0}{1}</value>
+    <comment>The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name.</comment>
+  </data>
+  <data name="kstidRtfOpenError1" xml:space="preserve">
+    <value>An error occurred trying to open the RTF file.\n\n{0}\n\n{1}</value>
+    <comment>First argument is rtf file; second argument is error message.</comment>
+  </data>
+  <data name="kstidRtfOpenError2" xml:space="preserve">
+    <value>An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}</value>
+    <comment>First argument is rtf file; second argument is the editor; third argument is error message.</comment>
+  </data>
+  <data name="kstidSampleInput" xml:space="preserve">
+    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</value>
+    <comment>Used in the mappings dialog</comment>
+  </data>
+  <data name="kstidSavedChartNameAlreadyExistsMsg" xml:space="preserve">
+    <value>There is already a saved chart with the name "{0}".</value>
+  </data>
+  <data name="kstidSavedChartNameAlreadyExistsOverwriteMsg" xml:space="preserve">
+    <value>There is already a saved chart with the name "{0}".\nDo you want it overwritten?</value>
+  </data>
+  <data name="kstidScrollTabsLeftToolTip" xml:space="preserve">
+    <value>Scroll Left</value>
+  </data>
+  <data name="kstidScrollTabsRightToolTip" xml:space="preserve">
+    <value>Scroll Right</value>
+  </data>
+  <data name="kstidSearchingForCIEResultsMsg" xml:space="preserve">
+    <value>Finding Minimal Pairs...</value>
+  </data>
+  <data name="kstidSearchingForFwDatabasesMsg" xml:space="preserve">
+    <value>Searching...</value>
+    <comment>Message displayed in the dialog for choosing an FW data source when the computer is searching the specified computer for FW databases.</comment>
+  </data>
+  <data name="kstidSearchPatternTooltip" xml:space="preserve">
+    <value>Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]</value>
+    <comment>Tooltip for search pattern text box in the find phone window.</comment>
+  </data>
+  <data name="kstidSearchResultHTMLFileName" xml:space="preserve">
+    <value>{0}-{1}SearchResults.html</value>
+    <comment>First parameter is language name, second is query name</comment>
+  </data>
+  <data name="kstidSearchResultTabToolTip" xml:space="preserve">
+    <value>{0} Records</value>
+    <comment>Tooltip displayed when hovering over a search result tab in the search window.</comment>
+  </data>
+  <data name="kstidSearchResultWordListWindowCaption" xml:space="preserve">
+    <value>Search Results ({0} Records)</value>
+    <comment>word list window caption for search results. Parameter 0 is for the number of records in the list</comment>
+  </data>
+  <data name="kstidSearchViewHelpToolTip" xml:space="preserve">
+    <value>Search View Help</value>
+  </data>
+  <data name="kstidSearchViewText" xml:space="preserve">
+    <value>Search</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidSearchViewToolTip" xml:space="preserve">
+    <value>Search View (Ctrl+Alt+S)</value>
+  </data>
+  <data name="kstidSetRTFEditorOFDlgFilter" xml:space="preserve">
+    <value>All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*</value>
+  </data>
+  <data name="kstidSetRTFEditorOFDlgTitle" xml:space="preserve">
+    <value>Set RTF Editor...</value>
+    <comment>Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files.</comment>
+  </data>
+  <data name="kstidSFMEditorCaptionOFD" xml:space="preserve">
+    <value>Standard Format Data Source Editor</value>
+    <comment>Caption for common dialog used to specify the SFM data source editor.</comment>
+  </data>
+  <data name="kstidSFMMappingGridInterlinear" xml:space="preserve">
+    <value>Interlinear Field?</value>
+    <comment>Column heading for interlinear column</comment>
+  </data>
+  <data name="kstidSFMMappingGridPaField" xml:space="preserve">
+    <value>To this Field</value>
+    <comment>Column heading for DB field column in the import mappings grid</comment>
+  </data>
+  <data name="kstidSFMMappingMissingError" xml:space="preserve">
+    <value>You must specify a marker for the field '{0}'. </value>
+    <comment>This message is used when verifying SFM import mappings</comment>
+  </data>
+  <data name="kstidSFMMappingsGridMarker" xml:space="preserve">
+    <value>Map this marker...</value>
+    <comment>Column heading for marker column in the import mappings grid</comment>
+  </data>
+  <data name="kstidSFMMissingRecMarkerMapping" xml:space="preserve">
+    <value>You must specify a marker for the 'Record Marker' in order for {0} to identify the beginning of each record.</value>
+    <comment>Message displayed when the record marker hasn't been mapped to  an SF marker.</comment>
+  </data>
+  <data name="kstidSFMNoFirstInterlinearField" xml:space="preserve">
+    <value>You must specify what is each record's first interlinear field.</value>
+    <comment>Message displayed when some interlinear fields have been specified but not the first interlinear field.</comment>
+  </data>
+  <data name="kstidSFMNoFirstInterlinearFieldItem" xml:space="preserve">
+    <value>(none)</value>
+    <comment>First item in the list of potential first interlinear fields on the mappings dialog</comment>
+  </data>
+  <data name="kstidSFMNomappingForInterlinearField" xml:space="preserve">
+    <value>The following field(s) have been specified as interlinear fields but need to be mapped to markers. {0}{1}</value>
+    <comment>The parameters are where line breaks are inserted.</comment>
+  </data>
+  <data name="kstidSFMNoMappingsSpecified" xml:space="preserve">
+    <value>You must specify at least one field mapping other than one for the 'Record Marker'.</value>
+    <comment>Message displayed when the user hasn't specified any SFM mappings</comment>
+  </data>
+  <data name="kstidSFMUnecessaryFirstInterlinearField" xml:space="preserve">
+    <value>Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped.</value>
+  </data>
+  <data name="kstidShowFilterToolTipText" xml:space="preserve">
+    <value>Check to display this filter in the\nfilter toolbar button’s drop-down list.</value>
+    <comment>Tooltip for checkbox on define filter dialog.</comment>
+  </data>
+  <data name="kstidShowRecPaneToolTip" xml:space="preserve">
+    <value>Show record pane</value>
+  </data>
+  <data name="kstidSrchPatternOneOrMoreError1" xml:space="preserve">
+    <value>Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment.</value>
+    <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
+  </data>
+  <data name="kstidSrchPatternWordBoundaryError1" xml:space="preserve">
+    <value>Misplaced space or word boundary symbol (#). A space or word boundary symbol may not be at the beginning or end of the search item.</value>
+    <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
+  </data>
+  <data name="kstidSrchPatternZeroOrMoreError1" xml:space="preserve">
+    <value>Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment.</value>
+    <comment>Error displayed in XY Chart popup when a cell contains an error.</comment>
+  </data>
+  <data name="kstidUnAppliedPhoneInventoryChangesMsg" xml:space="preserve">
+    <value>There are unapplied changes in Phone Inventory view. Would you like to save the changes?</value>
+    <comment>Message displayed when PA is shutting down and there have been unsaved changes made on the phone inventory tab's view.</comment>
+  </data>
+  <data name="kstidUndefPhoneticCharsGridGroupHdgCountFmtLong" xml:space="preserve">
+    <value>({0} occurrences)</value>
+    <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
+  </data>
+  <data name="kstidUndefPhoneticCharsGridGroupHdgCountFmtMed" xml:space="preserve">
+    <value>({0} occur.)</value>
+    <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
+  </data>
+  <data name="kstidUndefPhoneticCharsGridGroupHdgCountFmtShort" xml:space="preserve">
+    <value>({0})</value>
+    <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
+  </data>
+  <data name="kstidUndefPhoneticCharsGridGroupHdgFmt" xml:space="preserve">
+    <value>{0} - (U+{1:X4})</value>
+    <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
+  </data>
+  <data name="kstidUndefPhoneticChartsGridCodePointColFmt" xml:space="preserve">
+    <value>U+{0:X4}</value>
+    <comment>Format for displaying a character's codepoint value in the undefined phonetic characters dialog</comment>
+  </data>
+  <data name="kstidUndockedViewCaption" xml:space="preserve">
+    <value>{0} ({1}) - {2}</value>
+    <comment>Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.</comment>
+  </data>
+  <data name="kstidUndockViewToolTip" xml:space="preserve">
+    <value>Undock view</value>
+  </data>
+  <data name="kstidUnicodeNumHdg" xml:space="preserve">
+    <value>Unicode\nNumber</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidVowChartHTMLChartType" xml:space="preserve">
+    <value>Vowels</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidVowChartHTMLFileName" xml:space="preserve">
+    <value>{0}-VowelChart.html</value>
+    <comment>Default name for the HTML export file for HTML output of a vowel chart. The user may change this on the save file dialog.</comment>
+  </data>
+  <data name="kstidVowelChartViewHelpToolTip" xml:space="preserve">
+    <value>Vowel Chart View Help</value>
+  </data>
+  <data name="kstidVowelChartViewText" xml:space="preserve">
+    <value>Vowel Chart</value>
+    <comment>Used in progress bar textwhen view is being initialized</comment>
+  </data>
+  <data name="kstidVowelChartViewToolTip" xml:space="preserve">
+    <value>Vowel Chart View (Ctrl+Alt+V)</value>
+  </data>
+  <data name="kstidWordHdg" xml:space="preserve">
+    <value>Transcription</value>
+    <comment>Heading for column in undefined phonetic chars. dialog</comment>
+  </data>
+  <data name="kstidWordListCellValueError" xml:space="preserve">
+    <value>Error getting data!</value>
+    <comment>Displayed in a word list cell when there was an error retrieving data for the cell. This should never be used, but just in case...</comment>
+  </data>
+  <data name="kstidWordListStatusBarText" xml:space="preserve">
+    <value>Record {0} of {1}</value>
+  </data>
+  <data name="kstidWordListWindowCaption" xml:space="preserve">
+    <value>{0} ({1} Records)</value>
+    <comment>word list window caption for non search results. Parameter 0 is langauge name, parameter 1 is for the number of records in the list</comment>
+  </data>
+  <data name="kstidXSLTColButtonText" xml:space="preserve">
+    <value>...</value>
+    <comment>Text on the button in the XSLT column in the project settings dialog</comment>
+  </data>
+  <data name="kstidXSLTColButtonToolTip" xml:space="preserve">
+    <value>Specify XSLT</value>
+    <comment>Tooltip for the button in the XSLTe column in the project settings dialog</comment>
+  </data>
+  <data name="kstidXYChartAddEnvCellToolTip" xml:space="preserve">
+    <value>Add a search environment\nin this cell</value>
+  </data>
+  <data name="kstidXYChartAddEnvCellToolTipTitle" xml:space="preserve">
+    <value>Environment Row:</value>
+  </data>
+  <data name="kstidXYChartAddSrchItemCellToolTip" xml:space="preserve">
+    <value>Add a search item in this cell</value>
+  </data>
+  <data name="kstidXYChartAddSrchItemCellToolTipTitle" xml:space="preserve">
+    <value>Search Item Column:</value>
+  </data>
+  <data name="kstidXYChartFillChartMsg" xml:space="preserve">
+    <value>You must first choose "Fill Chart" before seeing search results.</value>
+  </data>
+  <data name="kstidXYChartGeneralQuerySyntaxErrorMsg" xml:space="preserve">
+    <value>Syntax error.</value>
+  </data>
+  <data name="kstidXYChartHTMLChartType" xml:space="preserve">
+    <value>XY Chart</value>
+    <comment>Written to the charttype attribute in HTML exported output</comment>
+  </data>
+  <data name="kstidXYChartHTMLFileName" xml:space="preserve">
+    <value>{0}-{1}XYChart.html</value>
+    <comment>First parameter is language name, second is XY chart name</comment>
+  </data>
+  <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
+    <value>(none)</value>
+  </data>
+  <data name="kstidXYChartPopupInfoBadCharsMsg" xml:space="preserve">
+    <value>This search pattern contains the following\nundefined phonetic character(s).</value>
+  </data>
+  <data name="kstidXYChartPopupInfoErrListFormat" xml:space="preserve">
+    <value>{0}) {1}\n\n</value>
+    <comment>The first argument is a number, the second is the error message. This is the format of the list of errors that may exist for a cell in an XY Chart when the cell contains a white X on a red circle.</comment>
+  </data>
+  <data name="kstidXYChartPopupInfoInvalidPhonesMsg" xml:space="preserve">
+    <value>This search pattern contains the\nfollowing phone(s) not found in\ndata sources in the open project.</value>
+  </data>
+  <data name="kstidXYChartPopupInfoSyntaxErrorsMsg" xml:space="preserve">
+    <value>This search pattern contains\nthe following error(s):</value>
+  </data>
+  <data name="kstidXYChartPopupInvalidCharFmt" xml:space="preserve">
+    <value>{0} (U+{1})</value>
+    <comment>Format string for displaying undefined characters in a pattern in an XY chart cell popup.</comment>
+  </data>
+  <data name="kstidXYChartsViewHelpToolTip" xml:space="preserve">
+    <value>XY Charts View Help</value>
+  </data>
+  <data name="kstidXYChartsViewText" xml:space="preserve">
+    <value>XY Charts</value>
+    <comment>Used in progress bar text when view is being initialized</comment>
+  </data>
+  <data name="kstidXYChartsViewToolTip" xml:space="preserve">
+    <value>XY Charts View (Ctrl+Alt+X)</value>
+  </data>
 </root>

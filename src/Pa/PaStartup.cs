@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
-using SIL.Pa.UI;
 using SilUtils;
 
 namespace SIL.Pa
@@ -12,7 +11,7 @@ namespace SIL.Pa
 	/// The only method in this class is <see cref="Main"/>. All other methods should go
 	/// in a Dll, so that NUnit tests can be written.
 	/// </summary>
-	public class PA
+	public class PaStartup
 	{
 		[STAThread]
 		static void Main(string[] commandLineArgs) 

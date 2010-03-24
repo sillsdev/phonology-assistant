@@ -3,24 +3,23 @@
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</ProjectGuid>
+    <ProjectGuid>{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>pa.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>PaApp</AssemblyName>
+    <AssemblyName>Pa</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>SIL.Pa</RootNamespace>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>SIL.Pa.PaStartup</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -184,6 +183,8 @@
     <Compile Include="Model\WordCache\WordCacheEntry.cs" />
     <Compile Include="Model\WordCache\WordListCache.cs" />
     <Compile Include="Model\WordCache\WordListCacheEntry.cs" />
+    <Compile Include="Pa.cs" />
+    <Compile Include="PaStartup.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
     <Compile Include="PhoneticSearching\PatternGroup.cs" />
     <Compile Include="PhoneticSearching\PatternGroupMember.cs" />
@@ -192,9 +193,6 @@
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PaApp.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -311,6 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Project\" />
+    <Folder Include="UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
