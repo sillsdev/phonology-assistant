@@ -1,6 +1,6 @@
 using System;
 using System.Drawing;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -28,7 +28,7 @@ namespace SIL.Pa.UI.Dialogs
 			lblShowDiamondPattern.Font = FontHelper.UIFont;
 
 			lblShowDiamondPattern.Text = string.Format(lblShowDiamondPattern.Text,
-				DataUtils.kEmptyDiamondPattern);
+				PaApp.kEmptyDiamondPattern);
 
 			// Adjust the height of the label control to fit the text more tightly.
 			using (Graphics g = lblClassDisplayBehavior.CreateGraphics())

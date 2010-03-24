@@ -5,7 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 

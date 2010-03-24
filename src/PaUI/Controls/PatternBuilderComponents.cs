@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -239,7 +239,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				foreach (char c in phoneInfo.Key)
 				{
-					IPASymbol charInfo = DataUtils.IPASymbolCache[c];
+					IPASymbol charInfo = PaApp.IPASymbolCache[c];
 					if (charInfo != null && !charInfo.IsBase)
 						m_diacriticsInCache.Add(c);
 				}
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI.Controls
 
 			// The only consonants to allow are the tie bars.
 			return (m_diacriticsInCache.Contains(chr) ||
-				chr == DataUtils.kTopTieBarC || chr == DataUtils.kBottomTieBarC);
+				chr == PaApp.kTopTieBarC || chr == PaApp.kBottomTieBarC);
 		}
 
 		/// ------------------------------------------------------------------------------------

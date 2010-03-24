@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -96,7 +97,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void MeasureBodyHeight(Font fnt, int numberOfItems)
 		{
-			TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
+			const TextFormatFlags flags = TextFormatFlags.NoPrefix | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left | TextFormatFlags.NoPadding |
 				TextFormatFlags.LeftAndRightPadding;
 
@@ -276,7 +277,7 @@ namespace SIL.Pa.UI.Controls
 				// (ToolStripDropDowns tend to suspend some events). Therefore, we'll have
 				// to force the issue by using reflection to send the associated grid
 				// cell mouse move messages over the associated cell.
-			    BindingFlags flags = BindingFlags.NonPublic | BindingFlags.InvokeMethod;
+			    const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.InvokeMethod;
 
 			    DataGridViewCellMouseEventArgs args =
 			        new DataGridViewCellMouseEventArgs(m_associatedCell.ColumnIndex,

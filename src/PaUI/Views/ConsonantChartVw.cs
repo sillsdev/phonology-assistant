@@ -1,4 +1,4 @@
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Views
 {

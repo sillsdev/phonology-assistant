@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -413,7 +413,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
+			foreach (IPASymbol charInfo in PaApp.IPASymbolCache.Values)
 			{
 				if (charInfo.Type == typeInfo.Type && (charInfo.SubType == typeInfo.SubType ||
 					typeInfo.SubType == IPASymbolSubType.Unknown))
@@ -422,7 +422,7 @@ namespace SIL.Pa.UI.Controls
 						continue;
 
 					string chr = (charInfo.DisplayWithDottedCircle ?
-						DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
+						PaApp.kDottedCircle : string.Empty) + charInfo.Literal;
 
 					// Characters will be sorted by place of articulation.
 					m_charsToLoad[charInfo.POArticulation] = 
@@ -442,7 +442,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
+			foreach (IPASymbol charInfo in PaApp.IPASymbolCache.Values)
 			{
 				if (charInfo.IgnoreType != type)
 					continue;
@@ -451,7 +451,7 @@ namespace SIL.Pa.UI.Controls
 					continue;
 
 				string chr = (charInfo.DisplayWithDottedCircle ?
-					DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
+					PaApp.kDottedCircle : string.Empty) + charInfo.Literal;
 
 				// Characters will be sorted by place of articulation.
 				m_charsToLoad[charInfo.POArticulation] =
@@ -473,12 +473,12 @@ namespace SIL.Pa.UI.Controls
 
 			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
 
-			foreach (IPASymbol charInfo in DataUtils.IPASymbolCache.Values)
+			foreach (IPASymbol charInfo in PaApp.IPASymbolCache.Values)
 			{
 				if (ShouldLoadChar(this, charInfo))
 				{
 					string chr = (charInfo.DisplayWithDottedCircle ?
-						DataUtils.kDottedCircle : string.Empty) + charInfo.Literal;
+						PaApp.kDottedCircle : string.Empty) + charInfo.Literal;
 
 					// Characters will be sorted by place of articulation.
 					m_charsToLoad[charInfo.POArticulation] =

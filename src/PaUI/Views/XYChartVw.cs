@@ -6,8 +6,8 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -677,7 +677,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			m_xyGrid.InsertTextInCell(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
+			m_xyGrid.InsertTextInCell(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -762,7 +762,7 @@ namespace SIL.Pa.UI.Views
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 	
-				DoDragDrop(dragText.Replace(DataUtils.kDottedCircle, string.Empty),
+				DoDragDrop(dragText.Replace(PaApp.kDottedCircle, string.Empty),
 					DragDropEffects.Copy);
 			}
 		}

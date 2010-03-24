@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -38,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 			internal int displayIndex;
 
 			// The following fields are specifically for interlinear fields.
-			internal bool isInterlinearField = false;
+			internal bool isInterlinearField;
 			internal bool isFirstLine;
 			internal string[] columnValues;
 			internal Dictionary<int, string[]> parsedColValues;
@@ -60,20 +61,20 @@ namespace SIL.Pa.UI.Controls
 		private readonly Dictionary<string, Font> m_fonts = new Dictionary<string, Font>();
 		
 		private readonly List<RTFFieldInfo> m_rtfFields = new List<RTFFieldInfo>();
-		private List<int> m_firstILLineTabs = null;
-		private List<int> m_subordinateILLineTabs = null;
+		private List<int> m_firstILLineTabs;
+		private List<int> m_subordinateILLineTabs;
 		private int m_rowsInCol1;
-		private int m_numInterlinearFields = 0;
+		private int m_numInterlinearFields;
 		private string m_rtf;
 		private int m_uiFontSize;
 		private int m_uiFontNumber;
 		private int m_maxFontSize;
 		private int m_maxFontNumber;
 		private int m_lineSpacing;
-		private bool m_useExactLineSpacing = false;
+		private bool m_useExactLineSpacing;
 		private int m_fieldLabelColorRefNumber;
 		private float m_pixelsPerInch;
-		private RecordCacheEntry m_recEntry = null;
+		private RecordCacheEntry m_recEntry;
 		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.NoPadding |
 			TextFormatFlags.NoPrefix | TextFormatFlags.SingleLine;
 
@@ -513,7 +514,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the interlinear fields information.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void GetInterlinearFieldsAndValues(Graphics g)
+		private void GetInterlinearFieldsAndValues(IDeviceContext g)
 		{
 			if (string.IsNullOrEmpty(m_recEntry.FirstInterlinearField))
 				return;
@@ -816,7 +817,7 @@ namespace SIL.Pa.UI.Controls
 		/// and determine which row has the widest sub column content.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int GetMaxSubColumnWidth(Graphics g, int col, int subcol, ref int accumulatedWidth)
+		private int GetMaxSubColumnWidth(IDeviceContext g, int col, int subcol, ref int accumulatedWidth)
 		{
 			RTFFieldInfo firstField;
 			RTFFieldInfo secondField;

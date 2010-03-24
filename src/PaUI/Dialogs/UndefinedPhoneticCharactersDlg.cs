@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -45,11 +45,11 @@ namespace SIL.Pa.UI.Dialogs
 			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (DataUtils.IPASymbolCache.UndefinedCharacters != null &&
-				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0)
+			if (PaApp.IPASymbolCache.UndefinedCharacters != null &&
+				PaApp.IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
 				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
-					projectName, DataUtils.IPASymbolCache.UndefinedCharacters))
+					projectName, PaApp.IPASymbolCache.UndefinedCharacters))
 				{
 					if (PaApp.MainForm != null)
 						PaApp.MainForm.AddOwnedForm(dlg);

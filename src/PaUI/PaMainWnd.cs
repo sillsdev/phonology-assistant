@@ -21,7 +21,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Data;
+using SIL.Pa.DataSource;
+using SIL.Pa.Model;
 using SIL.Pa.Filters;
 using SIL.Pa.UI.Views;
 using SilUtils;
@@ -64,7 +65,6 @@ namespace SIL.Pa.UI
 			PaApp.ProgressBar = sbProgress;
 			PaApp.ProgressBarLabel = sblblProgress;
 			PaApp.AddMediatorColleague(this);
-			DataUtils.MainWindow = this;
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
 			sblblFilter.Text = string.Empty;

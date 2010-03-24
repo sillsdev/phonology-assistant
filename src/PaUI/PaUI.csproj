@@ -121,29 +121,15 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
-      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
-      <Name>FFSearchEngine</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PaApp\PaApp.csproj">
       <Name>PaApp</Name>
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PaResources\PaResources.csproj">
-      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
-      <Name>PaResources</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

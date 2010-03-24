@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -299,7 +299,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (item.Checked)
 				{
-					ignoreList.Append(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
+					ignoreList.Append(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
 					ignoreList.Append(',');
 				}
 			}
@@ -318,7 +318,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button's text to see if it's found in the ignore list.
-				string chr = item.Text.Replace(DataUtils.kDottedCircle, string.Empty);
+				string chr = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
 				item.Checked = (ignoreList != null && ignoreList.Contains(chr));
 				item.Tag = item.Checked;
 			}

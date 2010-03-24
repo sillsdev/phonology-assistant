@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.UI.Controls
 {

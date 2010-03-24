@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
@@ -246,7 +246,7 @@ namespace SIL.Pa.UI.Controls
 			if (newName != null)
 			{
 				if (e.Label.Trim() == string.Empty ||
-					DataUtils.AFeatureCache.FeatureExits(newName, true))
+					PaApp.AFeatureCache.FeatureExits(newName, true))
 				{
 					e.CancelEdit = true;
 				}
@@ -501,12 +501,12 @@ namespace SIL.Pa.UI.Controls
 		//    {
 		//        int i = 1;
 		//        string newName = Properties.Resources.kstidDefaultNewCustomFeatureName;
-		//        while (DataUtils.AFeatureCache.FeatureExits(newName, false))
+		//        while (PaApp.AFeatureCache.FeatureExits(newName, false))
 		//            newName = Properties.Resources.kstidDefaultNewCustomFeatureName + i++;
 
 		//        // Feature should never come back null since
 		//        // we ensured the new feature would be unique.
-		//        AFeature feature = DataUtils.AFeatureCache.Add(newName, false);
+		//        AFeature feature = PaApp.AFeatureCache.Add(newName, false);
 		//        if (feature == null)
 		//            return;
 
@@ -550,7 +550,7 @@ namespace SIL.Pa.UI.Controls
 		//    // Make sure the user really wants to do this.
 		//    if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 		//    {
-		//        DataUtils.AFeatureCache.Delete(info.Name, false);
+		//        PaApp.AFeatureCache.Delete(info.Name, false);
 		//        int newIndex = item.Index;
 
 		//        // Remove the item from the list resultView and set the new selected item to
@@ -882,7 +882,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (KeyValuePair<string, Feature> feature in DataUtils.AFeatureCache)
+			foreach (KeyValuePair<string, Feature> feature in PaApp.AFeatureCache)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				info.Name = feature.Value.Name;
@@ -904,7 +904,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (Feature feature in DataUtils.BFeatureCache.PlusFeatures)
+			foreach (Feature feature in PaApp.BFeatureCache.PlusFeatures)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				string name = feature.Name.Substring(1);
@@ -912,7 +912,7 @@ namespace SIL.Pa.UI.Controls
 				info.Name = name;
 				info.FullName = fullname;
 				info.PlusBit = feature.Bit;
-				info.MinusBit = DataUtils.BFeatureCache.GetOppositeFeature(feature).Bit;
+				info.MinusBit = PaApp.BFeatureCache.GetOppositeFeature(feature).Bit;
 				info.IsBinary = true;
 				info.CacheEntry = feature;
 				ListViewItem item = new ListViewItem(info.Name);

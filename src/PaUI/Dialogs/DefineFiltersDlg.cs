@@ -5,10 +5,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Filters;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.FFSearchEngine;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing.Drawing2D;
 
@@ -1019,7 +1020,7 @@ namespace SIL.Pa.UI.Dialogs
 	internal class DropDownFiltersListBox : ListBox
 	{
 		private DataGridViewCell m_cell;
-		private CustomDropDown m_dropDown;
+		private readonly CustomDropDown m_dropDown;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

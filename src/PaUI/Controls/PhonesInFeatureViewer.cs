@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -13,8 +14,8 @@ namespace SIL.Pa.UI.Controls
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
 		private bool m_allFeaturesMustMatch;
-		private FeatureMask m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
-		private FeatureMask m_bMask = DataUtils.BFeatureCache.GetEmptyMask();
+		private FeatureMask m_aMask = PaApp.AFeatureCache.GetEmptyMask();
+		private FeatureMask m_bMask = PaApp.BFeatureCache.GetEmptyMask();
 		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
 		private int m_lblHeight;

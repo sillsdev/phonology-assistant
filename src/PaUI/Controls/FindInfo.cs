@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls

@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Xsl;
+using SIL.Pa.Model;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -23,10 +24,10 @@ namespace SIL.Pa.UI.Controls
 
 		protected XmlDocument m_xmlDoc;
 		protected XmlNode m_currNode;
-		protected Font m_groupHeadingFont = null;
+		protected Font m_groupHeadingFont;
 		protected string m_tmpXMLFile;
 		protected string m_xslFileBase;
-		protected bool m_error = false;
+		protected bool m_error;
 		protected Dictionary<string, string> m_modifiedFieldNames;
 
 		private readonly string m_htmlOutputFile;
@@ -109,7 +110,7 @@ namespace SIL.Pa.UI.Controls
 				int i = 1;
 				string modifiedName2 = modifiedName1;
 				while (m_modifiedFieldNames.ContainsValue(modifiedName2))
-					modifiedName2 = modifiedName1 + (i++).ToString();
+					modifiedName2 = modifiedName1 + (i++);
 
 				m_modifiedFieldNames[fieldInfo.FieldName] = modifiedName2;
 			}
@@ -314,7 +315,7 @@ namespace SIL.Pa.UI.Controls
 		/// Add the phonetic font info. to the XSL style sheet.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string WriteFontInfoForPhonetic(string xslContent, float fontSize)
+		private static string WriteFontInfoForPhonetic(string xslContent, float fontSize)
 		{
 			// If an alternate size was found in the XSL file, then assume it's in 'em'
 			// units. Otherwise, use the phonetic field's font size in points.
@@ -392,12 +393,12 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		private string GetCSSSettingForDefaultCell(string xslContent, string setting)
+		private static string GetCSSSettingForDefaultCell(string xslContent, string setting)
 		{
 			if (string.IsNullOrEmpty(setting))
 				return null;
 
-			string[] findVariations = new string[] { "td.d {" + setting, "td.d{" + setting };
+			string[] findVariations = new[] { "td.d {" + setting, "td.d{" + setting };
 
 			foreach (string find in findVariations)
 			{

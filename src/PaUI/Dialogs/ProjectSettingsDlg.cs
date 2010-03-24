@@ -5,7 +5,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Pa.Data;
+using SIL.Pa.DataSource;
+using SIL.Pa.Model;
 using SIL.Pa.Resources;
 using SilUtils;
 

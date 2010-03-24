@@ -7,7 +7,7 @@ using System.Media;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls

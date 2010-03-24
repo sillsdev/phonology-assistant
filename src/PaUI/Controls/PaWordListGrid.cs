@@ -8,6 +8,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.DataSource;
+using SIL.Pa.Model;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;
 using SIL.Localization;
@@ -174,7 +176,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetFwRootDataDir()
 		{
-			string key = Data.FwDBAccessInfo.FwRegKey;
+			string key = Model.FwDBAccessInfo.FwRegKey;
 			if (string.IsNullOrEmpty(key))
 				return null;
 
@@ -183,7 +185,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (regKey != null)
 				{
-					return regKey.GetValue(Data.FwDBAccessInfo.RootDataDirValue, null)
+					return regKey.GetValue(Model.FwDBAccessInfo.RootDataDirValue, null)
 						as string;
 				}
 			}

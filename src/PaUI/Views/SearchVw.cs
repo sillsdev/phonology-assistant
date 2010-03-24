@@ -7,8 +7,8 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -974,8 +974,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			if (!string.IsNullOrEmpty(item.Text.Replace(DataUtils.kDottedCircle, string.Empty)))
-				ptrnTextBox.Insert(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
+			if (!string.IsNullOrEmpty(item.Text.Replace(PaApp.kDottedCircle, string.Empty)))
+				ptrnTextBox.Insert(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1062,7 +1062,7 @@ namespace SIL.Pa.UI.Views
 			if (dragText != null)
 			{
 				SearchQuery query = new SearchQuery();
-				query.Pattern = dragText.Replace(DataUtils.kDottedCircle, string.Empty);
+				query.Pattern = dragText.Replace(PaApp.kDottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
 			}

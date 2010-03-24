@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls

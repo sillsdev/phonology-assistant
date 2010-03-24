@@ -4,7 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Localization;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -156,7 +157,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			ExperimentalTranscriptions expList = DataUtils.IPASymbolCache.ExperimentalTranscriptions;
+			ExperimentalTranscriptions expList = PaApp.IPASymbolCache.ExperimentalTranscriptions;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -727,7 +728,7 @@ namespace SIL.Pa.UI.Controls
 
 			PaApp.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
 			experimentalTransList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPASymbolCache.ExperimentalTranscriptions = experimentalTransList;
+			PaApp.IPASymbolCache.ExperimentalTranscriptions = experimentalTransList;
 			m_grid.IsDirty = false;
 			PaApp.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
 		}

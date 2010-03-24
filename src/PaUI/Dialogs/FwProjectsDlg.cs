@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 

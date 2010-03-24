@@ -2,7 +2,8 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -188,7 +189,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_grid != null)
 				return;
 
-			TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 				TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix |
 				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.PreserveGraphicsClipping;

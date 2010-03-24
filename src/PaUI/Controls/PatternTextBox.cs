@@ -2,10 +2,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -220,7 +219,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				return (/* m_allowFullSearchPattern && */ !PaApp.DesignMode &&
 					(PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns) ?
-					DataUtils.kEmptyDiamondPattern : string.Empty);
+					PaApp.kEmptyDiamondPattern : string.Empty);
 			}
 		}
 
@@ -471,13 +470,13 @@ namespace SIL.Pa.UI.Controls
 			// If the new text contains a dotted circle diacritic placeholder, then make
 			// sure it's not being inserted next to another and if not, make sure it is
 			// surrounded by square brackets.
-			if (text.IndexOf(DataUtils.kDottedCircleC) >= 0)
+			if (text.IndexOf(PaApp.kDottedCircleC) >= 0)
 				ProcessTextWithDottedCircle(newText, selstart, ref text);
 
 			newText = newText.Insert(selstart, text);
 			txt.Text = newText;
 			txt.SelectionStart = selstart + (text == "{}" || text == "[]"
-				|| text == DataUtils.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
+				|| text == PaApp.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
 
 			Application.DoEvents();
 		}
@@ -492,10 +491,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Strip out the dotted circle and check if what's left is a single tie-bar-
 			// type character. If so, then just return the text without the dotted circle.
-			string nonDottedCirclePart = text.Replace(DataUtils.kDottedCircle, string.Empty);
+			string nonDottedCirclePart = text.Replace(PaApp.kDottedCircle, string.Empty);
 			if (nonDottedCirclePart.Length == 1)
 			{
-				IPASymbol charInfo = DataUtils.IPASymbolCache[nonDottedCirclePart];
+				IPASymbol charInfo = PaApp.IPASymbolCache[nonDottedCirclePart];
 				if (charInfo != null && charInfo.CanPrecedeBase)
 				{
 					text = nonDottedCirclePart;
@@ -510,7 +509,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (i < newText.Length)
 				{
-					if (newText[i] == DataUtils.kDottedCircleC)
+					if (newText[i] == PaApp.kDottedCircleC)
 						dottedCircle = i;
 					else if (newText[i] == '[' || (newText[i] == ']' && i < selstart))
 						break;
@@ -520,7 +519,7 @@ namespace SIL.Pa.UI.Controls
 			// Go forward, looking for a dotted circle or open/close brackets.
 			for (int i = selstart; i < newText.Length && newText.Length > 0 && dottedCircle < 0; i++)
 			{
-				if (newText[i] == DataUtils.kDottedCircleC)
+				if (newText[i] == PaApp.kDottedCircleC)
 					dottedCircle = i;
 				else if (newText[i] == ']' || newText[i] == '[')
 					break;
@@ -531,7 +530,7 @@ namespace SIL.Pa.UI.Controls
 			if (dottedCircle >= 0)
 			{
 				// Remove the dotted circle.
-				int i = text.IndexOf(DataUtils.kDottedCircleC);
+				int i = text.IndexOf(PaApp.kDottedCircleC);
 				text = text.Substring(0, i) + text.Substring(i + 1);
 			}
 		}
@@ -617,7 +616,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_owningView.ActiveView)
 				return false;
 
-			Insert(DataUtils.kDiacriticPlaceholder);
+			Insert(PaApp.kDiacriticPlaceholder);
 			return true;
 		}
 		
@@ -739,7 +738,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFindPhonesSettingsChanged(object args)
 		{
-			if (txtPattern.Text == DataUtils.kEmptyDiamondPattern ||
+			if (txtPattern.Text == PaApp.kEmptyDiamondPattern ||
 				txtPattern.Text == string.Empty)
 				txtPattern.Text = EmptyPattern;
 			txtPattern.SelectionStart = 0;
@@ -1257,7 +1256,7 @@ namespace SIL.Pa.UI.Controls
 			else if (keyCode == (int)Keys.OemMinus)
 				toInsert = "_";
 			else if (keyCode == (int)Keys.D0)
-				toInsert = DataUtils.kDiacriticPlaceholder;
+				toInsert = PaApp.kDiacriticPlaceholder;
 
 			if (toInsert != null)
 			{

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -29,7 +30,7 @@ namespace SIL.Pa.UI.Controls
 			PaFieldInfoList fields = (PaApp.Project != null ?
 				PaApp.Project.FieldInfo : PaApp.FieldInfo);
 			
-			string fontFmt = "{{\\f{0}\\fnil {1};}}";
+			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
 			StringBuilder bldr = new StringBuilder();
@@ -57,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string FontTable(Font[] fonts)
 		{
-			string fontFmt = "{{\\f{0}\\fnil {1};}}";
+			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
 			StringBuilder bldr = new StringBuilder();
@@ -77,7 +78,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string ColorTable(Color color, out Dictionary<int, int> colorReferences)
 		{
-			return ColorTable(new List<Color>(new Color[] {color}), out colorReferences);
+			return ColorTable(new List<Color>(new[] {color}), out colorReferences);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -118,7 +119,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string TranslateUnicodeChars(string rtf)
 		{
-			string unicodeMarkup = "\\u{0}?";
+			const string unicodeMarkup = "\\u{0}?";
 			StringBuilder newRtf = new StringBuilder();
 
 			foreach (char c in rtf)

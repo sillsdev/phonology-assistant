@@ -5,7 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -57,9 +58,9 @@ namespace SIL.Pa.UI.Controls
 	{
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
 		private SearchResultTabPopup m_srchResultTabPopup;
-		private float m_horzSplitterCount = 0;
-		private float m_vertSplitterCount = 0;
-		private bool m_ignoreTabGroupRemoval = false;
+		private float m_horzSplitterCount;
+		private float m_vertSplitterCount;
+		private bool m_ignoreTabGroupRemoval;
 		private SearchResultTabGroup m_currTabGroup;
 		private SplitterPanel m_resultsPanel;
 		private bool m_recViewOn = true;
@@ -87,7 +88,7 @@ namespace SIL.Pa.UI.Controls
 			m_resultsPanel = splitResults.Panel1;
 			m_recView = recView;
 			PaApp.AddMediatorColleague(this);
-			m_resultsPanel.ControlRemoved += this.HandleTabGroupRemoved;
+			m_resultsPanel.ControlRemoved += HandleTabGroupRemoved;
 			Application.AddMessageFilter(this);
 		}
 
@@ -1555,7 +1556,7 @@ namespace SIL.Pa.UI.Controls
 				PaApp.Project.Language, queryName);
 
 			return HTMLGridWriter.Export(grid, defaultHTMLFileName,
-				new string[] { queryName, grid.Cache.SearchQuery.Pattern });
+				new[] { queryName, grid.Cache.SearchQuery.Pattern });
 		}
 
 		#endregion

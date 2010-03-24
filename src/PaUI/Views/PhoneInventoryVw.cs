@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -375,7 +375,7 @@ namespace SIL.Pa.UI.Views
 			int prevRow = gridAmbiguous.CurrentCellAddress.Y;
 
 			gridAmbiguous.Rows.Clear();
-			AmbiguousSequences ambigSeqList = DataUtils.IPASymbolCache.AmbiguousSequences;
+			AmbiguousSequences ambigSeqList = PaApp.IPASymbolCache.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -742,11 +742,11 @@ namespace SIL.Pa.UI.Views
 			if (phoneInfo == null)
 				return;
 
-			string features = DataUtils.AFeatureCache.GetFeaturesText(phoneInfo.AMask);
+			string features = PaApp.AFeatureCache.GetFeaturesText(phoneInfo.AMask);
 			if (!string.IsNullOrEmpty(features))
 				txtAFeatures.Text = features.Replace(", ", "\r\n");
 
-			features = DataUtils.BFeatureCache.GetFeaturesText(phoneInfo.BMask);
+			features = PaApp.BFeatureCache.GetFeaturesText(phoneInfo.BMask);
 			if (!string.IsNullOrEmpty(features))
 				txtBFeatures.Text = features.Replace(", ", "\r\n");
 		}
@@ -768,7 +768,7 @@ namespace SIL.Pa.UI.Views
 			{
 				string shortName = txtBFeatures.Lines[line];
 
-				Feature feature = DataUtils.BFeatureCache[shortName];
+				Feature feature = PaApp.BFeatureCache[shortName];
 				if (feature != null && feature.Name.ToLower() != feature.FullName.ToLower())
 				{
 					if (feature != m_bFeatureToolTip.Tag)
@@ -1202,12 +1202,12 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				if (DataUtils.IPASymbolCache.AmbiguousSequences == null)
+				if (PaApp.IPASymbolCache.AmbiguousSequences == null)
 				{
 					if (gridAmbiguous.RowCountLessNewRow > 0)
 						return true;
 				}
-				else if (DataUtils.IPASymbolCache.AmbiguousSequences.Count !=
+				else if (PaApp.IPASymbolCache.AmbiguousSequences.Count !=
 					gridAmbiguous.RowCountLessNewRow)
 				{
 					return true;
@@ -1228,7 +1228,7 @@ namespace SIL.Pa.UI.Views
 					bool convert = (bool)row.Cells["convert"].Value;
 
 					AmbiguousSeq ambigSeq =
-						DataUtils.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
+						PaApp.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
 
 					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
 						return true;
@@ -1310,7 +1310,7 @@ namespace SIL.Pa.UI.Views
 			}
 
 			ambigSeqList.Save(PaApp.Project.ProjectPathFilePrefix);
-			DataUtils.IPASymbolCache.AmbiguousSequences =
+			PaApp.IPASymbolCache.AmbiguousSequences =
 				AmbiguousSequences.Load(PaApp.Project.ProjectPathFilePrefix);
 
 			LoadAmbiguousGrid();

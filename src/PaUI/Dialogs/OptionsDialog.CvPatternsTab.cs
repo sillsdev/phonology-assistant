@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 using SIL.Pa.UI.Controls;
 
@@ -196,7 +196,7 @@ namespace SIL.Pa.UI.Dialogs
 			string phone = string.Empty;
 			foreach (ToolStripButton item in picker.Items)
 			{
-				phone = item.Text.Replace(DataUtils.kDottedCircle, string.Empty);
+				phone = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
 				m_allPickerPhones.Add(phone, cvPatternType);
 
 				if (item.Checked)
@@ -227,7 +227,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			foreach (string cvString in customList)
 			{
-				string chr = cvString.Replace(DataUtils.kDottedCircle, string.Empty);
+				string chr = cvString.Replace(PaApp.kDottedCircle, string.Empty);
 				if (chr == string.Empty)
 					continue;
 
@@ -254,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button if its text is found in the display list.
-				string chr = item.Text.Replace(DataUtils.kDottedCircle, string.Empty);
+				string chr = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
 				foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
 				{
 					// Don't check item's that are already custom types
@@ -345,7 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 					m_handleTextChange = true;
 				}
 
-				txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, DataUtils.kDottedCircle);
+				txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, PaApp.kDottedCircle);
 				txtCustomChars.SelectionStart = selStart + 1;
 				e.SuppressKeyPress = true;
 			}
@@ -375,13 +375,13 @@ namespace SIL.Pa.UI.Dialogs
 				for (int i = 0; i < txtCustomChars.TextLength; i++)
 				{
 					// Continue if it's the dotted circle
-					if (txtCustomChars.Text[i].ToString() == DataUtils.kDottedCircle)
+					if (txtCustomChars.Text[i].ToString() == PaApp.kDottedCircle)
 					{
-						verifiedText.Append(DataUtils.kDottedCircle);
+						verifiedText.Append(PaApp.kDottedCircle);
 						continue;
 					}
 
-					charInfo = DataUtils.IPASymbolCache[txtCustomChars.Text[i]];
+					charInfo = PaApp.IPASymbolCache[txtCustomChars.Text[i]];
 
 					// Eat the character if it is not in the IPACharCache
 					if (charInfo == null)
@@ -392,9 +392,9 @@ namespace SIL.Pa.UI.Dialogs
 						// a space and the character should be displayed with the dotted circle.
 						if (charInfo.DisplayWithDottedCircle &&
 							((i == 0 || txtCustomChars.Text[i - 1] == ' ')) &&
-							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != DataUtils.kDottedCircleC))
+							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != PaApp.kDottedCircleC))
 						{
-							verifiedText.Append(DataUtils.kDottedCircle);
+							verifiedText.Append(PaApp.kDottedCircle);
 							selStart++;
 						}
 

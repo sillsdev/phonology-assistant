@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
 {
 	public partial class Histogram : UserControl, IxCoreColleague
 	{
-		private const int kMagnifiedCharSize = 22;
+		//private const int kMagnifiedCharSize = 22;
 		private const int kPixelsFromTop = 10;
 
-		private bool m_ignoreFixedBorderResize = false;
-		private int m_maxTotalCount = 0;
-		private int m_phoneHeight = 0;
-		private int m_extraPhoneHeight = 0;
-		private int m_hashMarkIncrement = 0;
+		private bool m_ignoreFixedBorderResize;
+		private int m_maxTotalCount;
+		private int m_phoneHeight;
+		private int m_hashMarkIncrement;
+		private readonly int m_extraPhoneHeight;
 		private readonly int m_barWidth;
 		private readonly int m_phoneLabelWidth;
 		private readonly int m_hashMarkGap;
@@ -195,7 +195,7 @@ namespace SIL.Pa.UI.Controls
 		/// Perform a search anywhere when the user clicks on a phone or it's bar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleMouseDoubleClick(object sender, MouseEventArgs e)
+		private static void HandleMouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			HistogramBar bar = sender as HistogramBar;
 			Label lbl = sender as Label;
@@ -307,14 +307,14 @@ namespace SIL.Pa.UI.Controls
 			if (numberHashMarks > 0)
 			{
 				m_hashMarkIncrement = (int)Math.Ceiling(decimal.Divide(m_maxTotalCount, numberHashMarks));
-				pixelsPerUnit = decimal.Divide((decimal)m_hashMarkGap, (decimal)m_hashMarkIncrement);
+				pixelsPerUnit = decimal.Divide(m_hashMarkGap, m_hashMarkIncrement);
 			}
 
 			// Reposition and resize bars
 			foreach (HistogramBar bar in pnlBars.Controls)
 			{
 				//int barHeight = (int)((m_maxTotalCount - bar.BarValue) * m_barHeightFactor);
-				int barHeight = (int)Math.Floor(pixelsPerUnit * (decimal)bar.BarValue);
+				int barHeight = (int)Math.Floor(pixelsPerUnit * bar.BarValue);
 
 				// "5" is the column spacing on either side of a bar
 				Point newLoc = new Point((xLocationOffset + 5), pnlBars.Bottom - barHeight);
@@ -342,53 +342,50 @@ namespace SIL.Pa.UI.Controls
 		/// Paint method for phone labels.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lbl_Paint(object sender, PaintEventArgs e)
+		private static void lbl_Paint(object sender, PaintEventArgs e)
 		{
 			Label lbl = sender as Label;
 
 			if (lbl == null)
 				return;
 
-			TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine |
+			const TextFormatFlags flags = TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter;
 
 			// Draw the label's text.
-			using (StringFormat sf = Utils.GetStringFormat(true))
+			e.Graphics.FillRectangle(SystemBrushes.Control, lbl.ClientRectangle);
+
+			// Make sure the phone will fit in the label without being clipped. If it
+			// doesn't then keep decreasing the font size by one point until it's
+			// narrow enough to fit into the lable.
+			Font fnt = lbl.Font;
+			int phoneWidth = TextRenderer.MeasureText(e.Graphics, lbl.Text, fnt).Width;
+			if (lbl.Width >= phoneWidth)
+				fnt = null;
+			else
 			{
-				e.Graphics.FillRectangle(SystemBrushes.Control, lbl.ClientRectangle);
-
-				// Make sure the phone will fit in the label without being clipped. If it
-				// doesn't then keep decreasing the font size by one point until it's
-				// narrow enough to fit into the lable.
-				Font fnt = lbl.Font;
-				int phoneWidth = TextRenderer.MeasureText(e.Graphics, lbl.Text, fnt).Width;
-				if (lbl.Width >= phoneWidth)
-					fnt = null;
-				else
+				while (phoneWidth > lbl.Width)
 				{
-					while (phoneWidth > lbl.Width)
-					{
-						fnt = FontHelper.MakeFont(fnt, fnt.SizeInPoints - 1);
-						phoneWidth = TextRenderer.MeasureText(e.Graphics, lbl.Text, fnt).Width;
-					}
+					fnt = FontHelper.MakeFont(fnt, fnt.SizeInPoints - 1);
+					phoneWidth = TextRenderer.MeasureText(e.Graphics, lbl.Text, fnt).Width;
 				}
+			}
 
-				// If fnt is null it means the phone fits into the label without having
-				// to shrink it down. Otherwise, fnt represents a smaller font than lbl.Font
-				// and therefore, it's not referencing lbl.Font so it will need to be
-				// disposed after drawing the phone.
-				if (fnt == null)
-				{
-					TextRenderer.DrawText(e.Graphics, lbl.Text, lbl.Font,
-						lbl.ClientRectangle, SystemColors.ControlText, flags);
-				}
-				else
-				{
-					TextRenderer.DrawText(e.Graphics, lbl.Text, fnt,
-						lbl.ClientRectangle, SystemColors.ControlText, flags);
+			// If fnt is null it means the phone fits into the label without having
+			// to shrink it down. Otherwise, fnt represents a smaller font than lbl.Font
+			// and therefore, it's not referencing lbl.Font so it will need to be
+			// disposed after drawing the phone.
+			if (fnt == null)
+			{
+				TextRenderer.DrawText(e.Graphics, lbl.Text, lbl.Font,
+					lbl.ClientRectangle, SystemColors.ControlText, flags);
+			}
+			else
+			{
+				TextRenderer.DrawText(e.Graphics, lbl.Text, fnt,
+					lbl.ClientRectangle, SystemColors.ControlText, flags);
 
-					fnt.Dispose();
-				}
+				fnt.Dispose();
 			}
 		}
 
@@ -436,7 +433,6 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			decimal horzLineValue = 0;
-			string horzLineValString = string.Empty;
 
 			// Calculate (relative to pnlYaxis) where the bottom of the bar's panel is.
 			Point pt = pnlBars.PointToScreen(new Point(0, pnlBars.ClientSize.Height));
@@ -537,7 +533,7 @@ namespace SIL.Pa.UI.Controls
 			// Draw a border along the left, top and right sides of the bar.
 			using (Pen pen = new Pen(SystemColors.ActiveCaption))
 			{
-				e.Graphics.DrawLines(pen, new Point[] {new Point(0, Height),
+				e.Graphics.DrawLines(pen, new[] {new Point(0, Height),
 					new Point(0, 0), new Point(Width - 1, 0), new Point(Width - 1, Height)});
 			}
 		}

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -18,11 +17,11 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SearchPatternTreeView : TreeView, IxCoreColleague
 	{
-		private bool m_allowModifications = false;
-		private bool m_isForToolbarPopup = false;
-		private bool m_copyCommand = false;
-		private bool m_cutCommand = false;
-		private bool m_pasteCommand = false;
+		private bool m_allowModifications;
+		private bool m_isForToolbarPopup;
+		private bool m_copyCommand;
+		private bool m_cutCommand;
+		private bool m_pasteCommand;
 		private SearchQuery m_patternClipboard;
 		private ITMAdapter m_tmAdapter;
 		private SlidingPanel m_slidingPanel;

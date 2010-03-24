@@ -21,9 +21,9 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
 using SIL.Pa.Filters;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -435,8 +435,8 @@ namespace SIL.Pa.UI
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			itemProps.Enabled = (PaApp.Project != null &&
-				DataUtils.IPASymbolCache.UndefinedCharacters != null &&
-				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0);
+				PaApp.IPASymbolCache.UndefinedCharacters != null &&
+				PaApp.IPASymbolCache.UndefinedCharacters.Count > 0);
 
 			return true;
 		}

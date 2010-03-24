@@ -16,7 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SIL.Pa.TestUtils;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;

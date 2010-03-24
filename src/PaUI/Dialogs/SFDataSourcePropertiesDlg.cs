@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Pa.DataSource;
+using SIL.Pa.Model;
 using SIL.Pa.Resources;
 using SilUtils;
 

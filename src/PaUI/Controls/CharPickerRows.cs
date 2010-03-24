@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 				if (phoneInfo == null)
 					continue;
 
-				IPASymbol charInfo = DataUtils.IPASymbolCache[phoneInfo.BaseCharacter];
+				IPASymbol charInfo = PaApp.IPASymbolCache[phoneInfo.BaseCharacter];
 				if (charInfo == null)
 					continue;
 

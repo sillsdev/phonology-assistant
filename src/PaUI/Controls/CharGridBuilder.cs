@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -32,7 +33,7 @@ namespace SIL.Pa.UI.Controls
 		private List<CharGridCell> m_phoneList;
 		private string m_supraSegsToIgnore;
 		private string m_persistedInfoFilename;
-		private bool m_reloadError = false;
+		private bool m_reloadError;
 		private readonly CharGrid m_chrGrid;
 		private readonly IPhoneListViewer m_phoneLstVwr;
 		private readonly IPASymbolType m_chrType;
@@ -146,7 +147,7 @@ namespace SIL.Pa.UI.Controls
 		/// Comparer for the phone list sort method.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int CharGridCellComparer(CharGridCell x, CharGridCell y)
+		private static int CharGridCellComparer(CharGridCell x, CharGridCell y)
 		{
 			if (x == y) 
 				return 0;
@@ -284,7 +285,7 @@ namespace SIL.Pa.UI.Controls
 			if (PaApp.PhoneCache == null)
 				return;
 
-			TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix |
+			const TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix |
 				TextFormatFlags.LeftAndRightPadding;
 
 			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : FontHelper.PhoneticFont);
@@ -315,7 +316,7 @@ namespace SIL.Pa.UI.Controls
 							new List<string>(phoneInfo.Value.SiblingUncertainties);
 					}
 
-					tmpPhoneList[DataUtils.GetMOAKey(phone)] = cgc;
+					tmpPhoneList[PaApp.GetMOAKey(phone)] = cgc;
 
 					maxPhoneWidth = Math.Max(maxPhoneWidth, TextRenderer.MeasureText(phone,
 						fnt, Size.Empty, flags).Width);
@@ -376,7 +377,7 @@ namespace SIL.Pa.UI.Controls
 		/// CharGridCell objects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool PhoneExistsInList(string phone, IPhoneInfo phoneInfo,
+		private static bool PhoneExistsInList(string phone, IPhoneInfo phoneInfo,
 			SortedList<string, CharGridCell> phoneList)
 		{
 			foreach (CharGridCell cgc in phoneList.Values)
@@ -486,7 +487,8 @@ namespace SIL.Pa.UI.Controls
 						col = cgc.Column;
 						break;
 					}
-					else if (IsCellEmtpy(ownedRow.Index, cgc.DefaultColumn))
+					
+					if (IsCellEmtpy(ownedRow.Index, cgc.DefaultColumn))
 					{
 						row = ownedRow.Index;
 						col = cgc.DefaultColumn;

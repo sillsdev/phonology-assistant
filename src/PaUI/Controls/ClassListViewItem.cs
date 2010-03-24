@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Pa.Data;
-using SIL.Pa.Resources;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -220,10 +220,10 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				if (ClassType == SearchClassType.Articulatory)
-					return DataUtils.AFeatureCache.GetFeatureList(Mask).ToArray();
+					return PaApp.AFeatureCache.GetFeatureList(Mask).ToArray();
 
 				if (ClassType == SearchClassType.Binary)
-					return DataUtils.BFeatureCache.GetFeatureList(Mask).ToArray();
+					return PaApp.BFeatureCache.GetFeatureList(Mask).ToArray();
 
 				return null;
 			}
@@ -264,8 +264,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Get the features that make up this class.
 					members = (ClassType == SearchClassType.Articulatory ?
-						DataUtils.AFeatureCache.GetFeatureList(Mask).ToArray() :
-						DataUtils.BFeatureCache.GetFeatureList(Mask).ToArray());
+						PaApp.AFeatureCache.GetFeatureList(Mask).ToArray() :
+						PaApp.BFeatureCache.GetFeatureList(Mask).ToArray());
 
 					brackets = kFeatureBracketing;
 				}
@@ -435,12 +435,12 @@ namespace SIL.Pa.UI.Controls
 
 			if (srchClass.SearchClassType == SearchClassType.Articulatory)
 			{
-				item.Mask = DataUtils.AFeatureCache.GetEmptyMask();
+				item.Mask = PaApp.AFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
 			else if (srchClass.SearchClassType == SearchClassType.Binary)
 			{
-				item.Mask = DataUtils.BFeatureCache.GetEmptyMask();
+				item.Mask = PaApp.BFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
 
@@ -470,8 +470,8 @@ namespace SIL.Pa.UI.Controls
 			foreach (string feature in features)
 			{
 				Feature feat = (item.ClassType == SearchClassType.Articulatory ?
-					DataUtils.AFeatureCache[feature] :
-					DataUtils.BFeatureCache[feature]);
+					PaApp.AFeatureCache[feature] :
+					PaApp.BFeatureCache[feature]);
 					
 				if (feat != null)
 					item.Mask[feat.Bit] = true;

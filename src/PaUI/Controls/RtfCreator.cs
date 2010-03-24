@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SIL.Pa.Resources;
 using SilUtils;
 

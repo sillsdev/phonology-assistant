@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs

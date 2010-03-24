@@ -5,8 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -574,7 +574,7 @@ namespace SIL.Pa.UI.Controls
 					if ((ModifierKeys & Keys.Control) == Keys.Control &&
 						m.WParam.ToInt32() == (int)Keys.D0)
 					{
-						PatternTextBox.Insert(m_txtBox, DataUtils.kDiacriticPlaceholder);
+						PatternTextBox.Insert(m_txtBox, PaApp.kDiacriticPlaceholder);
 						return true;
 					}
 					
@@ -1747,7 +1747,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_owningView.ActiveView)
 				return false;
 
-			InsertTextInCell(DataUtils.kDiacriticPlaceholder);
+			InsertTextInCell(PaApp.kDiacriticPlaceholder);
 			return true;
 		}
 

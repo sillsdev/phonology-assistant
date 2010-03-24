@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -14,7 +15,7 @@ namespace SIL.Pa.UI.Controls
 		
 		private bool m_makePhoneticPrimarySortFieldOnChange = true;
 		private bool m_showHelpLink = true;
-		private bool m_showAdvancedOptions = false;
+		private bool m_showAdvancedOptions;
 		private SortOptions m_sortOptions;
 		private readonly int[] m_checkedIndexes;
 		private readonly RadioButton[] m_rbSort;
@@ -50,11 +51,11 @@ namespace SIL.Pa.UI.Controls
 
 			m_sortOptions = new SortOptions(true);
 
-			m_rbSort = new RadioButton[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
-			m_rbAdvSort0 = new RadioButton[] { rbBefore1st, rbItem1st, rbAfter1st };
-			m_rbAdvSort1 = new RadioButton[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
-			m_rbAdvSort2 = new RadioButton[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
-			m_chkRL = new CheckBox[] { chkBeforeRL, chkItemRL, chkAfterRL };
+			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
+			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
+			m_rbAdvSort1 = new[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
+			m_rbAdvSort2 = new[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
+			m_chkRL = new[] { chkBeforeRL, chkItemRL, chkAfterRL };
 
 			// Keeps track of selected advanced sorting radio buttons
 			m_checkedIndexes = new int[3];
@@ -293,8 +294,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					BindingFlags flags = BindingFlags.Instance | BindingFlags.InvokeMethod |
-						BindingFlags.Public;
+					const BindingFlags flags = BindingFlags.Instance |
+						BindingFlags.InvokeMethod | BindingFlags.Public;
 					Parent.GetType().InvokeMember("Close", flags, null, Parent, null);
 				}
 				catch { }

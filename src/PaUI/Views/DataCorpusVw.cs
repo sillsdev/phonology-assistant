@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Model;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;

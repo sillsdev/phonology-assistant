@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs

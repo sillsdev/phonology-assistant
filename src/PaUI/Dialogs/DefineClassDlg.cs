@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Localization;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -412,7 +413,7 @@ namespace SIL.Pa.UI.Dialogs
 				List<char> undefinedChars = new List<char>();
 				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
-					if (DataUtils.IPASymbolCache[c] == null || DataUtils.IPASymbolCache[c].IsUndefined)
+					if (PaApp.IPASymbolCache[c] == null || PaApp.IPASymbolCache[c].IsUndefined)
 						undefinedChars.Add(c);
 				}
 
@@ -475,7 +476,7 @@ namespace SIL.Pa.UI.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = DataUtils.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
+				phones = PaApp.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}
@@ -522,7 +523,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleIPACharPicked(CharPicker chooser, ToolStripButton item)
 		{
-			InsertText(item.Text.Replace(DataUtils.kDottedCircle, string.Empty));
+			InsertText(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -532,7 +533,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InsertText(string itemText)
 		{
-			IPASymbol charInfo = DataUtils.IPASymbolCache[itemText];
+			IPASymbol charInfo = PaApp.IPASymbolCache[itemText];
 			bool isBase = (charInfo == null || charInfo.IsBase);
 
 			int selStart = txtMembers.SelectionStart;
