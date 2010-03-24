@@ -76,13 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddCharacterDlg.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddCharacterDlg.designer.cs">
       <DependentUpon>AddCharacterDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="PCIEditor.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PCIEditor.Designer.cs">
       <DependentUpon>PCIEditor.cs</DependentUpon>
@@ -138,10 +136,6 @@
     <Content Include="PCIEditor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PaUI\PaUI.csproj">
-      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>
