@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
+#region // Copyright (c) 2010, SIL International. All Rights Reserved.
+// <copyright from='2009' to='2010' company='SIL International'>
+//		Copyright (c) 2010, SIL International. All Rights Reserved.   
 //    
 //		Distributable under the terms of either the Common Public License or the
 //		GNU Lesser General Public License, as specified in the LICENSING.txt file.
@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Text;
+using System.Linq;
 using System.Xml.Serialization;
 using SIL.Pa.PhoneticSearching;
 
@@ -29,9 +30,16 @@ namespace SIL.Pa.Model
 	public class CVPatternInfo
 	{
 		private string m_phone;
-		private string m_leftSideDiacritics;
-		private string m_rightSideDiacritics;
-		private IPASymbolIgnoreType m_patternType = IPASymbolIgnoreType.NotApplicable;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public CVPatternInfo()
+		{
+			PatternType = IPASymbolIgnoreType.NotApplicable;
+		}
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
@@ -58,16 +66,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static bool Contains(string phone)
 		{
-			if (PhoneCache.CVPatternInfoList != null)
-			{
-				foreach (CVPatternInfo cvpi in PhoneCache.CVPatternInfoList)
-				{
-					if (cvpi.Phone == phone)
-						return true;
-				}
-			}
-
-			return false;
+			return (PhoneCache.CVPatternInfoList == null ? false :
+				PhoneCache.CVPatternInfoList.Any(x => x.Phone == phone));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,13 +110,13 @@ namespace SIL.Pa.Model
 				if (cvpi.HasLeftSideDiacritics && cvpi.LeftSideDiacritics == preBase)
 					bldr.Append(cvpi.LeftSideDiacritics);
 
-				if (cvpi.HasRightSideDiacritics)
+				if (!cvpi.HasRightSideDiacritics)
+					continue;
+				
+				foreach (char c in cvpi.RightSideDiacritics)
 				{
-					foreach (char c in cvpi.RightSideDiacritics)
-					{
-						if (postBase.IndexOf(c) >= 0)
-							diacriticsAfterBase.Append(c);
-					}
+					if (postBase.IndexOf(c) >= 0)
+						diacriticsAfterBase.Append(c);
 				}
 			}
 
@@ -127,7 +127,7 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets m_cvPatternPhone.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
@@ -166,12 +166,12 @@ namespace SIL.Pa.Model
 					{
 						// We've hit the first diacritic placeholder, so move all that's
 						// preceded it to the 
-						m_leftSideDiacritics = bldrDiacritics.ToString();
+						LeftSideDiacritics = bldrDiacritics.ToString();
 						foundDiacriticPlaceholder = true;
 					}
 				}
 
-				m_rightSideDiacritics = bldrDiacritics.ToString();
+				RightSideDiacritics = bldrDiacritics.ToString();
 			}
 		}
 
@@ -181,11 +181,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("Type")]
-		public IPASymbolIgnoreType PatternType
-		{
-			get { return m_patternType; }
-			set { m_patternType = value; }
-		}
+		public IPASymbolIgnoreType PatternType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -193,10 +189,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string LeftSideDiacritics
-		{
-			get { return m_leftSideDiacritics; }
-		}
+		public string LeftSideDiacritics { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -204,10 +197,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string RightSideDiacritics
-		{
-			get { return m_rightSideDiacritics; }
-		}
+		public string RightSideDiacritics { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -217,7 +207,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public bool HasLeftSideDiacritics
 		{
-			get { return !string.IsNullOrEmpty(m_leftSideDiacritics); }
+			get { return !string.IsNullOrEmpty(LeftSideDiacritics); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -228,7 +218,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public bool HasRightSideDiacritics
 		{
-			get { return !string.IsNullOrEmpty(m_rightSideDiacritics); }
+			get { return !string.IsNullOrEmpty(RightSideDiacritics); }
 		}
 
 		/// ------------------------------------------------------------------------------------
