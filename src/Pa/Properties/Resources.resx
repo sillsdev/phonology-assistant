@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="kimidFilterSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter-Small.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMarkerMapEqualRecID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarkerMapEqualRecID.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidMarkerMapToSymbol" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MarkerMapToSymbol.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidSearchWatermark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Search Watermark.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidAudioFileMissingMsg" xml:space="preserve">
+    <value>The audio file '{0}' is cannot be found.</value>
+  </data>
+  <data name="kstidDataSourceEditorMissingMsg" xml:space="preserve">
+    <value>The editor '{0}' cannot be found.</value>
+  </data>
+  <data name="kstidDefaultNewProjectName" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="kstidDefaultProjFileFolderName" xml:space="preserve">
+    <value>Phonology Assistant</value>
+    <comment>Name of the default folder in the user's My Documents (on XP) or Documents (on Vista) where PA's settings file and projects are located (the user can save their projects anywhere they like, this is just the default). This is also the folder that contains the subfolder where PA training projects are unpacked.</comment>
+  </data>
+  <data name="kstidDropDownNoneEntry" xml:space="preserve">
+    <value>(none)</value>
+    <comment>Used for combo box drop-down lists from which no value may be chosen</comment>
+  </data>
+  <data name="kstidErrorLoadingCacheFiles" xml:space="preserve">
+    <value>Error loading cache files: {0}</value>
+    <comment>Parameter is the error message thrown by the system.</comment>
+  </data>
+  <data name="kstidErrorLoadingDBAccessInfoMsg" xml:space="preserve">
+    <value>The file that contains information to access FieldWork databases ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
+  </data>
+  <data name="kstidErrorLoadingProject" xml:space="preserve">
+    <value>The followng error occurred loading project '{0}'.\n\n{1}</value>
+  </data>
+  <data name="kstidErrorLoadingProjectFieldInfo" xml:space="preserve">
+    <value>The following error occurred reading project {0}'s field information:\n\n{1}\n\nA default set will be used.</value>
+  </data>
+  <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
+    <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
+  </data>
+  <data name="kstidErrorProcessingDataSourceFile" xml:space="preserve">
+    <value>Error processing data source file '{0}'.</value>
+  </data>
+  <data name="kstidErrorProjectInvalidFormat" xml:space="preserve">
+    <value>Project File '{0}' has an Invalid Format</value>
+  </data>
+  <data name="kstidErrorReadingDataSourceFile" xml:space="preserve">
+    <value>The following error occurred reading data source file '{0}'.{1}</value>
+    <comment>Parameter 0 is file name; parameter 1 is error message.</comment>
+  </data>
+  <data name="kstidErrorRetrievingAnalWsMsg" xml:space="preserve">
+    <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
+  </data>
+  <data name="kstidErrorRetrievingFwDataMsg" xml:space="preserve">
+    <value>There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}</value>
+  </data>
+  <data name="kstidErrorRetrievingVernWsMsg" xml:space="preserve">
+    <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
+  </data>
+  <data name="kstidErrorStartingSQLServer1" xml:space="preserve">
+    <value>SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again.</value>
+  </data>
+  <data name="kstidErrorStartingSQLServer2" xml:space="preserve">
+    <value>Phonology Assistant waited {0} seconds for SQL Server to fully start up.\nEither that is not enough time for your computer or it may not be installed.\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?</value>
+  </data>
+  <data name="kstidExpSilHierarchicalGridRowKey" xml:space="preserve">
+    <value>9999</value>
+  </data>
+  <data name="kstidFeatureCantBeDeletedMsg" xml:space="preserve">
+    <value>Feature '{0}' is not a custom feature. It cannot be deleted.</value>
+    <comment>Message displayed when the user is trying to delete a custom feature.</comment>
+  </data>
+  <data name="kstidFeatureExistsMsg" xml:space="preserve">
+    <value>Feature '{0}' already exists.</value>
+    <comment>Message displayed when user is trying to add a new feature that already exists.</comment>
+  </data>
+  <data name="kstidFwDataSourceInfo" xml:space="preserve">
+    <value>{0} - ({1})</value>
+  </data>
+  <data name="kstidFwDataSourceInfoWithMachineName" xml:space="preserve">
+    <value>{0} on '{1}'</value>
+  </data>
+  <data name="kstidFwDBMissing" xml:space="preserve">
+    <value>FieldWorks database '{0}' is missing.</value>
+  </data>
+  <data name="kstidGettingFwProjInfoMsg" xml:space="preserve">
+    <value>Gathering FieldWorks Project Information...</value>
+  </data>
+  <data name="kstidHelpFileMissingMsg" xml:space="preserve">
+    <value>The help file '{0}' cannot be found.</value>
+  </data>
+  <data name="kstidInvalidToolboxSortField" xml:space="preserve">
+    <value>The field '{0}' is invalid.</value>
+  </data>
+  <data name="kstidLoadingRecordCacheError" xml:space="preserve">
+    <value>The following error occurred while loading '{0}':\n{1}</value>
+    <comment>Message displayed when failing to load a PAXML file. Parameter 0 is filename, and parameter 1 is the error message.</comment>
+  </data>
+  <data name="kstidMissingClassMsg" xml:space="preserve">
+    <value>The class '{0}' is not in this project. It may have been deleted.</value>
+    <comment>Message displayed when a search pattern contains a class that doesn't exist in the project.</comment>
+  </data>
+  <data name="kstidMissingDataSourceOFDMsg" xml:space="preserve">
+    <value>Choose New Data Source Location</value>
+    <comment>Message displayed in the open file dialog when the user is pointing PA to the new location of a data source file.</comment>
+  </data>
+  <data name="kstidMissingWsMsg" xml:space="preserve">
+    <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.</value>
+  </data>
+  <data name="kstidNoAudioField" xml:space="preserve">
+    <value>This project doesn't contain a field definition for audio files.</value>
+  </data>
+  <data name="kstidNoDataSourceEditorSpecifiedMsg" xml:space="preserve">
+    <value>No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.</value>
+  </data>
+  <data name="kstidNoToolboxSortFieldSpecified" xml:space="preserve">
+    <value>The first Toolbox sort field for this record's data source has not\nbeen specified. To specify the first Toolbox sort field, go to the\ndata source's properties from the project properties dialog.</value>
+  </data>
+  <data name="kstidParsingDataMsg" xml:space="preserve">
+    <value>Parsing Data...</value>
+    <comment>Progress bar text after SFM data source is read and the data is being parsed.</comment>
+  </data>
+  <data name="kstidPatternParsingErrorMsg" xml:space="preserve">
+    <value>The following error(s) occurred when parsing the search pattern:\n\n{0}</value>
+  </data>
+  <data name="kstidReadingCacheFiles" xml:space="preserve">
+    <value>Reading Cache Files</value>
+    <comment>Progress bar text when reading cache files when loading a project</comment>
+  </data>
+  <data name="kstidReadingDataSourceProgressLabel" xml:space="preserve">
+    <value>Reading {0}</value>
+    <comment>Progress bar text when reading data source files.</comment>
+  </data>
+  <data name="kstidRecordMarkerFieldDisplayText" xml:space="preserve">
+    <value>Record Marker</value>
+    <comment>Text for the record marker field in the mappings dialog.</comment>
+  </data>
+  <data name="kstidSAMissingMsg" xml:space="preserve">
+    <value>Speech Analyzer cannot be found. Please make sure it is installed.</value>
+  </data>
+  <data name="kstidSAMissingMsgWSpeedRef" xml:space="preserve">
+    <value>Speech Analyzer is required to playback utterances at speeds other than 100%.\nHowever, Speech Analyzer cannot be found. Please make sure it is installed.</value>
+  </data>
+  <data name="kstidSavingRecordCacheError" xml:space="preserve">
+    <value>Error saving records: {0}</value>
+    <comment>Message displayed if there was an error saving the records to an XML file.</comment>
+  </data>
+  <data name="kstidShortNameFileMissingMsg" xml:space="preserve">
+    <value>FieldWorks Project: {0}\nServer: {1}\n\nThe version of this FieldWorks project indicates it is too\nrecent to be read by Phonology Assistant. You must\ndownload the file '{2}' from\nthe Phonology Assistant website and copy it to the\nfollowing folder:\n\n{3}\n\nWhen '{4}' is present in that folder,\nyour FieldWorks project can be read by Phonology Assistant.\n\nThe Phonology Assistant website can be found at:\nhttp://www.sil.org/computing/pa/index.htm</value>
+  </data>
+  <data name="kstidSplashScreenLoadingMsg" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="kstidSQLConnectionErrMsg" xml:space="preserve">
+    <value>The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}</value>
+  </data>
+  <data name="kstidSQLServerNotInstalledMsg" xml:space="preserve">
+    <value>Access to FieldWorks projects requires SQL Server but it is not installed on this computer.</value>
+  </data>
+  <data name="kstidSrchPatternOneOrMoreError" xml:space="preserve">
+    <value>The one-or-more symbol (+) was found in an invalid location within\nthe search pattern. The one-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again.</value>
+  </data>
+  <data name="kstidSrchPatternWordBoundaryError" xml:space="preserve">
+    <value>The space/word boundary symbol (#) may not be the first or last\nitem in the search item portion (what precedes the slash) of the\nsearch pattern. Please correct this and try your search again.</value>
+  </data>
+  <data name="kstidSrchPatternZeroOrMoreError" xml:space="preserve">
+    <value>The zero-or-more symbol (*) was found in an invalid location within\nthe search pattern. The zero-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again.</value>
+  </data>
+  <data name="kstidStartingSQLServerMsg" xml:space="preserve">
+    <value>Starting SQL Server...</value>
+  </data>
+  <data name="kstidToolboxNotRunningMsg" xml:space="preserve">
+    <value>For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.</value>
+  </data>
+  <data name="kstidUnableToEditSourceRecordMsg" xml:space="preserve">
+    <value>There is no source record editor associated with this record.</value>
+  </data>
+  <data name="kstidViewInitProgBarTemplate" xml:space="preserve">
+    <value>Initializing {0} View...</value>
+    <comment>Template for progress bar text text when a view is being initialized</comment>
+  </data>
+  <data name="kstidEnvironmentAfter" xml:space="preserve">
+    <value>following environment</value>
+  </data>
+  <data name="kstidEnvironmentBefore" xml:space="preserve">
+    <value>preceding environment</value>
+  </data>
+  <data name="kstidIrregularDiacriticPlaceholderErr" xml:space="preserve">
+    <value>Irregular diacritic placeholder syntax in {0}.</value>
+  </data>
+  <data name="kstidMismatchedBracesErr" xml:space="preserve">
+    <value>Mismatched braces found in the {0}.</value>
+  </data>
+  <data name="kstidMismatchedBracketsErr" xml:space="preserve">
+    <value>Mismatched brackets found in the {0}.</value>
+  </data>
+  <data name="kstidMismatchedBracketsOrBracesErr" xml:space="preserve">
+    <value>Mismatched brackets or braces found in the {0}.</value>
+  </data>
+  <data name="kstidMisplacedDiacriticErr" xml:space="preserve">
+    <value>Misplaced diacritic in the {0}.</value>
+  </data>
+  <data name="kstidOneOrMoreBeginningErr" xml:space="preserve">
+    <value>When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.</value>
+  </data>
+  <data name="kstidOneOrMoreEndingErr" xml:space="preserve">
+    <value>When the one-or-more symbol (+) is present in the following environment, it must be  at the end.</value>
+  </data>
+  <data name="kstidParsedToNothingError" xml:space="preserve">
+    <value>Error parsing the {0}.</value>
+  </data>
+  <data name="kstidPatternContainsSpacesErr" xml:space="preserve">
+    <value>There were spaces found in the {0}. Use '#' instead.</value>
+  </data>
+  <data name="kstidPatternEmptyErr" xml:space="preserve">
+    <value>The {0} is empty.</value>
+  </data>
+  <data name="kstidPatternSyntaxError" xml:space="preserve">
+    <value>Syntax error. Pattern is not in the correct format: {0}</value>
+  </data>
+  <data name="kstidSearchItem" xml:space="preserve">
+    <value>search item</value>
+  </data>
+  <data name="kstidSyntaxErr" xml:space="preserve">
+    <value>Syntax error in {0}.</value>
+  </data>
+  <data name="kstidTooManyDiacriticPlaceholdersErr" xml:space="preserve">
+    <value>There are too many diacritic placeholders between a single set of brackets in the {0}.</value>
+  </data>
+  <data name="kstidTooManyOneOrMoreErr" xml:space="preserve">
+    <value>Too many one-or-more symbols (+) found in the {0}. Only one is allowed.</value>
+  </data>
+  <data name="kstidTooManyZeroOrMoreErr" xml:space="preserve">
+    <value>Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.</value>
+  </data>
+  <data name="kstidZeroAndOneOrMoreFoundErr" xml:space="preserve">
+    <value>The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).</value>
+  </data>
+  <data name="kstidZeroOneOrMoreFoundInSrchItemErr" xml:space="preserve">
+    <value>The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.</value>
+  </data>
+  <data name="kstidZeroOrMoreBeginningErr" xml:space="preserve">
+    <value>When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.</value>
+  </data>
+  <data name="kstidZeroOrMoreEndingErr" xml:space="preserve">
+    <value>When the zero-or-more symbol (*) is present in the following environment, it must be at the end.</value>
+  </data>
+</root>

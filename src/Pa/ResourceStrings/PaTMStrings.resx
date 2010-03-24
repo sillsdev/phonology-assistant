@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="kstidFileText" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="kstidEditText" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="kstidViewText" xml:space="preserve">
+    <value>&amp;View</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidToolsText" xml:space="preserve">
+    <value>&amp;Tools</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidHelpText" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="kstidNewText" xml:space="preserve">
+    <value>&amp;New Project...</value>
+  </data>
+  <data name="kstidNewToolTip" xml:space="preserve">
+    <value>Create New Project</value>
+  </data>
+  <data name="kstidFileCategory" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="kstidOpenText" xml:space="preserve">
+    <value>&amp;Open Project...</value>
+  </data>
+  <data name="kstidOpenToolTip" xml:space="preserve">
+    <value>Open Project</value>
+  </data>
+  <data name="kstidExportAsText" xml:space="preserve">
+    <value>&amp;Export</value>
+  </data>
+  <data name="kstidExportAsToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="kstidExportAsRTFText" xml:space="preserve">
+    <value>To &amp;Rich Text Format (RTF)</value>
+  </data>
+  <data name="kstidExportAsRTFToolTip" xml:space="preserve">
+    <value>Export to RTF File</value>
+  </data>
+  <data name="kstidPlaybackRepeatText" xml:space="preserve">
+    <value>Playback &amp;Repeatedly</value>
+  </data>
+  <data name="kstidPlaybackRepeatToolTip" xml:space="preserve">
+    <value>Playback Repeatedly</value>
+  </data>
+  <data name="kstidExitText" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="kstidExitToolTip" xml:space="preserve">
+    <value>Exit Phonology Assistant</value>
+  </data>
+  <data name="kstidAddText" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="kstidEditCategory" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="kstidAddCategoryText" xml:space="preserve">
+    <value>Add &amp;Category</value>
+  </data>
+  <data name="kstidAddCategoryToolTip" xml:space="preserve">
+    <value>Add category</value>
+  </data>
+  <data name="kstidAddFolderText" xml:space="preserve">
+    <value>Add &amp;Folder</value>
+  </data>
+  <data name="kstidAddFolderToolTip" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="kstidRenameText" xml:space="preserve">
+    <value>&amp;Rename</value>
+  </data>
+  <data name="kstidRenameToolTip" xml:space="preserve">
+    <value>Rename Selection</value>
+  </data>
+  <data name="kstidFindText" xml:space="preserve">
+    <value>&amp;Find</value>
+  </data>
+  <data name="kstidFindToolTip" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="kstidFindNextText" xml:space="preserve">
+    <value>Find &amp;Next</value>
+  </data>
+  <data name="kstidFindNextToolTip" xml:space="preserve">
+    <value>Find Next</value>
+  </data>
+  <data name="kstidFindPreviousToolTip" xml:space="preserve">
+    <value>Find previous</value>
+  </data>
+  <data name="kstidBuildProcListText" xml:space="preserve">
+    <value>&amp;Build Processing List...</value>
+  </data>
+  <data name="kstidLangNameText" xml:space="preserve">
+    <value>&amp;Language Name...</value>
+  </data>
+  <data name="kstidLangNameToolTip" xml:space="preserve">
+    <value>Language Name</value>
+  </data>
+  <data name="kstidConsonantChartText" xml:space="preserve">
+    <value>&amp;Consonant Chart</value>
+  </data>
+  <data name="kstidConsonantChartToolTip" xml:space="preserve">
+    <value>Consonant Chart</value>
+  </data>
+  <data name="kstidViewCategory" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="kstidVowelChartText" xml:space="preserve">
+    <value>&amp;Vowel Chart</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidVowelChartToolTip" xml:space="preserve">
+    <value>Vowel Chart</value>
+  </data>
+  <data name="kstidDiacriticChartText" xml:space="preserve">
+    <value>&amp;Diacritic Chart...</value>
+  </data>
+  <data name="kstidDiacriticChartToolTip" xml:space="preserve">
+    <value>Diacritic Chart</value>
+  </data>
+  <data name="kstidFindPhonesText" xml:space="preserve">
+    <value>&amp;Search</value>
+  </data>
+  <data name="kstidFindPhonesToolTip" xml:space="preserve">
+    <value>Search for Phones</value>
+  </data>
+  <data name="kstidInterlinearViewText" xml:space="preserve">
+    <value>&amp;Interlinear View...</value>
+  </data>
+  <data name="kstidInterlinearViewToolTip" xml:space="preserve">
+    <value>Interlinear View</value>
+  </data>
+  <data name="kstidCharInitialText" xml:space="preserve">
+    <value>Character is &amp;Initial</value>
+  </data>
+  <data name="kstidCharInitialToolTip" xml:space="preserve">
+    <value>Word List for Initial Character</value>
+  </data>
+  <data name="kstidCharMedialText" xml:space="preserve">
+    <value>Word List for Medial Character</value>
+  </data>
+  <data name="kstidCharFinalText" xml:space="preserve">
+    <value>Character is &amp;Final</value>
+  </data>
+  <data name="kstidCharFinalToolTip" xml:space="preserve">
+    <value>Word List for Final Character</value>
+  </data>
+  <data name="kstidCharAloneText" xml:space="preserve">
+    <value>Character is &amp;Alone</value>
+  </data>
+  <data name="kstidCharAloneToolTip" xml:space="preserve">
+    <value>Word List for Alone Character</value>
+  </data>
+  <data name="kstidCharAnywhereText" xml:space="preserve">
+    <value>Character is Any&amp;where</value>
+  </data>
+  <data name="kstidCharAnywhereToolTip" xml:space="preserve">
+    <value>Word List for Anywhere Character</value>
+  </data>
+  <data name="kstidShowGridColumnsText" xml:space="preserve">
+    <value>Grid &amp;Columns</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidShowGridColumnsToolTip" xml:space="preserve">
+    <value>Grid Columns</value>
+  </data>
+  <data name="kstidContentsByFilterText" xml:space="preserve">
+    <value>View Contents &amp;Pane by Filter</value>
+  </data>
+  <data name="kstidContentsByFilterToolTip" xml:space="preserve">
+    <value>View Contents Pane by Filter</value>
+  </data>
+  <data name="kstidToolsCategory" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="kstidDefineAFText" xml:space="preserve">
+    <value>&amp;Articulatory Features...</value>
+  </data>
+  <data name="kstidDefineAFToolTip" xml:space="preserve">
+    <value>Define Articulatory Features</value>
+  </data>
+  <data name="kstidDefineBFText" xml:space="preserve">
+    <value>&amp;Binary Features...</value>
+  </data>
+  <data name="kstidDefineBFToolTip" xml:space="preserve">
+    <value>Define Binary Features</value>
+  </data>
+  <data name="kstidDefineClassesText" xml:space="preserve">
+    <value>&amp;Classes...</value>
+  </data>
+  <data name="kstidDefineClassesToolTip" xml:space="preserve">
+    <value>Define Classes</value>
+  </data>
+  <data name="kstidOptionsText" xml:space="preserve">
+    <value>&amp;Options...</value>
+  </data>
+  <data name="kstidOptionsToolTip" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="kstidSetDirRTFText" xml:space="preserve">
+    <value>&amp;RTF Editor Location...</value>
+  </data>
+  <data name="kstidSetDirRTFToolTip" xml:space="preserve">
+    <value>Set RTF Editor Location</value>
+  </data>
+  <data name="kstidShowStatusBarText" xml:space="preserve">
+    <value>Show Status &amp;Bar</value>
+  </data>
+  <data name="kstidShowStatusBarToolTip" xml:space="preserve">
+    <value>Show Status Bar</value>
+  </data>
+  <data name="kstidCompactDBText" xml:space="preserve">
+    <value>&amp;Compact Database on Close</value>
+  </data>
+  <data name="kstidCascadeText" xml:space="preserve">
+    <value>&amp;Cascade</value>
+  </data>
+  <data name="kstidCascadeToolTip" xml:space="preserve">
+    <value>Cascade Windows</value>
+  </data>
+  <data name="kstidWindowCategory" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="kstidTileHorzText" xml:space="preserve">
+    <value>Tile &amp;Horizontally</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidTileHorzToolTip" xml:space="preserve">
+    <value>Tile Windows Horizontally</value>
+  </data>
+  <data name="kstidTileVertText" xml:space="preserve">
+    <value>Tile &amp;Vertically</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidTileVertToolTip" xml:space="preserve">
+    <value>Tile Windows Vertically</value>
+  </data>
+  <data name="kstidContentsText" xml:space="preserve">
+    <value>&amp;Contents</value>
+  </data>
+  <data name="kstidContentsToolTip" xml:space="preserve">
+    <value>Help Contents</value>
+  </data>
+  <data name="kstidHelpCategory" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="kstidHelpPAText" xml:space="preserve">
+    <value>Phonology Assistant...</value>
+  </data>
+  <data name="kstidHelpPAToolTip" xml:space="preserve">
+    <value>Phonology Assistant Help</value>
+  </data>
+  <data name="kstidHelpAboutText" xml:space="preserve">
+    <value>&amp;About Phonology Assistant...</value>
+  </data>
+  <data name="kstidHelpAboutToolTip" xml:space="preserve">
+    <value>About Phonolgy Assistant...</value>
+  </data>
+  <data name="kstidEditAudioDocText" xml:space="preserve">
+    <value>Edit Document</value>
+  </data>
+  <data name="kstidEditAudioDocToolTip" xml:space="preserve">
+    <value>Edit the Audio Document</value>
+  </data>
+  <data name="kstidCharDurationGraphText" xml:space="preserve">
+    <value>Character D&amp;uration Graph</value>
+  </data>
+  <data name="kstidCharDurationGraphToolTip" xml:space="preserve">
+    <value>Character Duration Graph</value>
+  </data>
+  <data name="kstidCloseActiveWindowText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="kstidCloseActiveWindowToolTip" xml:space="preserve">
+    <value>Close Active Window</value>
+  </data>
+  <data name="kstidSetColumnVisibilityText" xml:space="preserve">
+    <value>Show Columns</value>
+  </data>
+  <data name="kstidSetColumnVisibilityToolTip" xml:space="preserve">
+    <value>Show or Hide Columns</value>
+  </data>
+  <data name="kstidGridLinesNoneText" xml:space="preserve">
+    <value>&amp;No Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesNoneToolTip" xml:space="preserve">
+    <value>No Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesBothText" xml:space="preserve">
+    <value>Horizontal &amp;and Vertical Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesBothToolTip" xml:space="preserve">
+    <value>Horizontal and Vertical Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesHorizontalText" xml:space="preserve">
+    <value>&amp;Horizontal Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesHorizontalToolTip" xml:space="preserve">
+    <value>Horizontal Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesVerticalText" xml:space="preserve">
+    <value>&amp;Vertical Grid Lines</value>
+  </data>
+  <data name="kstidGridLinesVerticalToolTip" xml:space="preserve">
+    <value>Vertical Grid Lines</value>
+  </data>
+  <data name="kstidShowGridLinesText" xml:space="preserve">
+    <value>Grid &amp;Lines</value>
+  </data>
+  <data name="kstidAddFeaturesText" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="kstidAddFeaturesToolTip" xml:space="preserve">
+    <value>Add new custom feature</value>
+  </data>
+  <data name="kstidEditFeaturesText" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="kstidRestoreDefaultsText" xml:space="preserve">
+    <value>&amp;Restore Defaults</value>
+  </data>
+  <data name="kstidRestoreDefaultsToolTip" xml:space="preserve">
+    <value>Restore default feature names and character features</value>
+  </data>
+  <data name="kstidSortAlphaText" xml:space="preserve">
+    <value>&amp;Alphabetically</value>
+  </data>
+  <data name="kstidSortCharTypeText" xml:space="preserve">
+    <value>&amp;Character Type</value>
+  </data>
+  <data name="kstidSortCodepointOrderText" xml:space="preserve">
+    <value>&amp;Unicode (e.g. A-Z)</value>
+  </data>
+  <data name="kstidSortIPACharsText" xml:space="preserve">
+    <value>&amp;Sort IPA Characters</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidSortIPACharsToolTip" xml:space="preserve">
+    <value>Sort IPA Characters</value>
+  </data>
+  <data name="kstidSortMOAOrderText" xml:space="preserve">
+    <value>&amp;Manner of Articulation</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidSortPOAOrderText" xml:space="preserve">
+    <value>&amp;Place of Articulation</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidSortUserDefinedOrderText" xml:space="preserve">
+    <value>&amp;User-defined Order</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidAddSavedPatternCategoryText" xml:space="preserve">
+    <value>Create Category</value>
+  </data>
+  <data name="kstidAddSavedPatternCategoryToolTip" xml:space="preserve">
+    <value>Create Saved Pattern Category</value>
+  </data>
+  <data name="kstidBeginSearchText" xml:space="preserve">
+    <value>&amp;Search</value>
+  </data>
+  <data name="kstidBeginSearchToolTip" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="kstidClearPatternText" xml:space="preserve">
+    <value>&amp;Clear</value>
+  </data>
+  <data name="kstidClearPatternToolTip" xml:space="preserve">
+    <value>Clear Current Search Pattern and Results</value>
+  </data>
+  <data name="kstidInsertANDGroupText" xml:space="preserve">
+    <value>[  ] A&amp;ND Group</value>
+  </data>
+  <data name="kstidInsertConsonantText" xml:space="preserve">
+    <value>[C] Any &amp;Consonant</value>
+  </data>
+  <data name="kstidInsertDiacriticPlaceholderText" xml:space="preserve">
+    <value>&amp;Diacritic Placeholder</value>
+  </data>
+  <data name="kstidInsertIntoPatternText" xml:space="preserve">
+    <value>&amp;Insert</value>
+  </data>
+  <data name="kstidInsertIntoPatternToolTip" xml:space="preserve">
+    <value>Insert Element into Current Search Pattern</value>
+  </data>
+  <data name="kstidInsertOneOrMoreText" xml:space="preserve">
+    <value>+ &amp;One or More Phones or Diacritics</value>
+  </data>
+  <data name="kstidInsertORGroupText" xml:space="preserve">
+    <value>{  } O&amp;R Group</value>
+  </data>
+  <data name="kstidInsertSyllableBoundaryText" xml:space="preserve">
+    <value>. &amp;Syllable Boundary</value>
+  </data>
+  <data name="kstidInsertVowelText" xml:space="preserve">
+    <value>[V] Any &amp;Vowel</value>
+  </data>
+  <data name="kstidInsertWordBoundaryText" xml:space="preserve">
+    <value># Space/&amp;Word Boundary</value>
+  </data>
+  <data name="kstidInsertZeroOrMoreText" xml:space="preserve">
+    <value>* &amp;Zero or More Phones or Diacritics</value>
+  </data>
+  <data name="kstidSavePatternText" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="kstidSavePatternToolTip" xml:space="preserve">
+    <value>Save Search Pattern</value>
+  </data>
+  <data name="kstidSearchOptionsText" xml:space="preserve">
+    <value>&amp;Options</value>
+  </data>
+  <data name="kstidSearchOptionsToolTip" xml:space="preserve">
+    <value>Search Options</value>
+  </data>
+  <data name="kstidVerifyPatternText" xml:space="preserve">
+    <value>Ve&amp;rify</value>
+  </data>
+  <data name="kstidVerifyPatternToolTip" xml:space="preserve">
+    <value>Verify validity of current search pattern</value>
+  </data>
+  <data name="kstidCopySavedPatternToolTip" xml:space="preserve">
+    <value>Copy Saved pattern</value>
+  </data>
+  <data name="kstidCutSavedPatternToolTip" xml:space="preserve">
+    <value>Cut saved pattern</value>
+  </data>
+  <data name="kstidPasteSavedPatternToolTip" xml:space="preserve">
+    <value>Paste Saved Pattern</value>
+  </data>
+  <data name="kstidCopySavedPatternText" xml:space="preserve">
+    <value>&amp;Copy</value>
+  </data>
+  <data name="kstidCopyToCurrentPatternText" xml:space="preserve">
+    <value>C&amp;opy Selected Pattern to Current Search Pattern</value>
+  </data>
+  <data name="kstidCutSavedPatternText" xml:space="preserve">
+    <value>Cu&amp;t</value>
+  </data>
+  <data name="kstidRemovePatternText" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="kstidPasteSavedPatternText" xml:space="preserve">
+    <value>&amp;Paste</value>
+  </data>
+  <data name="kstidSearchUsingPatternText" xml:space="preserve">
+    <value>&amp;Search Using Selected Pattern</value>
+  </data>
+  <data name="kstidHistogramText" xml:space="preserve">
+    <value>Histogra&amp;m</value>
+  </data>
+  <data name="kstidHistogramToolTip" xml:space="preserve">
+    <value>Histogram</value>
+  </data>
+  <data name="kstidShowGridLinesToolTip" xml:space="preserve">
+    <value>Grid Lines</value>
+  </data>
+  <data name="kstidPhoneticSortText" xml:space="preserve">
+    <value>Phonetic Sort Options</value>
+  </data>
+  <data name="kstidPhoneticSortToolTip" xml:space="preserve">
+    <value>Phonetic Sort Options</value>
+  </data>
+  <data name="kstidBackupRestoreText" xml:space="preserve">
+    <value>&amp;Backup and Restore</value>
+  </data>
+  <data name="kstidProjectManagementText" xml:space="preserve">
+    <value>Project &amp;Management</value>
+  </data>
+  <data name="kstidProjectSettingsText" xml:space="preserve">
+    <value>P&amp;roject Settings...</value>
+  </data>
+  <data name="kstidExportAsPAXMLText" xml:space="preserve">
+    <value>To {0} &amp;XML</value>
+  </data>
+  <data name="kstidCurrentTabGroupText" xml:space="preserve">
+    <value>&amp;Search</value>
+  </data>
+  <data name="kstidShowRecordPaneText" xml:space="preserve">
+    <value>&amp;Record View</value>
+  </data>
+  <data name="kstidShowRecordPaneToolTip" xml:space="preserve">
+    <value>Record View</value>
+  </data>
+  <data name="kstidNewTabInCurrentTabGroupText" xml:space="preserve">
+    <value>In &amp;Active Tab Group</value>
+  </data>
+  <data name="kstidNewTabInCurrentTabGroupToolTip" xml:space="preserve">
+    <value>Create New Tab in Active Tab Group</value>
+  </data>
+  <data name="kstidNewTabInNewSideBySideTabGroupText" xml:space="preserve">
+    <value>In New Side-&amp;By-Side Tab Group</value>
+  </data>
+  <data name="kstidNewTabInNewSideBySideTabGroupToolTip" xml:space="preserve">
+    <value>Create Tab in New Side-by-Side Tab Group</value>
+  </data>
+  <data name="kstidNewTabInNewStackedTabGroupText" xml:space="preserve">
+    <value>In New Stac&amp;ked Tab Group</value>
+  </data>
+  <data name="kstidNewTabInNewStackedTabGroupToolTip" xml:space="preserve">
+    <value>Create Tab in New Stacked Tab Group</value>
+  </data>
+  <data name="kstidMoveToNewSideBySideTabGroupText" xml:space="preserve">
+    <value>Move to New Side-&amp;By-Side Tab Group</value>
+  </data>
+  <data name="kstidMoveToNewStackedTabGroupText" xml:space="preserve">
+    <value>Move to New Stac&amp;ked Tab Group</value>
+  </data>
+  <data name="kstidCloseAllTabGroupsText" xml:space="preserve">
+    <value>Close All Tab Groups</value>
+  </data>
+  <data name="kstidCloseTabGroupText" xml:space="preserve">
+    <value>Close Tab Group</value>
+  </data>
+  <data name="kstidCloseTabText" xml:space="preserve">
+    <value>Close Tab</value>
+  </data>
+  <data name="kstidWriteIPACacheText" xml:space="preserve">
+    <value>Write IPA Cache</value>
+    <comment>Hidden menu item. Do not translate.</comment>
+  </data>
+  <data name="kstidFindPreviousText" xml:space="preserve">
+    <value>Find &amp;Previous</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidWriteDefaultFieldInfoText" xml:space="preserve">
+    <value>Write Default Field Information</value>
+    <comment>Hidden menu item. Do not translate.</comment>
+  </data>
+  <data name="kstidDataCorpusText" xml:space="preserve">
+    <value>&amp;Data Corpus</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidExportAsHTMLText" xml:space="preserve">
+    <value>To &amp;HTML</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidExportAsHTMLToolTip" xml:space="preserve">
+    <value>Export to HTML File</value>
+  </data>
+  <data name="kstidEditSourceRecordText" xml:space="preserve">
+    <value>&amp;Edit Source Record</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidEditSourceRecordToolTip" xml:space="preserve">
+    <value>Edit source record</value>
+  </data>
+  <data name="kstidXYChartText" xml:space="preserve">
+    <value>&amp;XY Charts</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidXYChartToolTip" xml:space="preserve">
+    <value>XY Charts</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidAmbiguousItemsText" xml:space="preserve">
+    <value>&amp;Ambiguous Items...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidDockViewText" xml:space="preserve">
+    <value>Dock View</value>
+  </data>
+  <data name="kstidDockViewToolTip" xml:space="preserve">
+    <value>Dock View</value>
+  </data>
+  <data name="kstidUnDockViewText" xml:space="preserve">
+    <value>Undock View</value>
+  </data>
+  <data name="kstidUnDockViewToolTip" xml:space="preserve">
+    <value>Undock View</value>
+  </data>
+  <data name="kstidFillInChartText" xml:space="preserve">
+    <value>Fi&amp;ll Chart</value>
+  </data>
+  <data name="kstidFillInChartToolTip" xml:space="preserve">
+    <value>Fill Chart with Results</value>
+  </data>
+  <data name="kstidSaveChartText" xml:space="preserve">
+    <value>S&amp;ave</value>
+  </data>
+  <data name="kstidSaveChartToolTip" xml:space="preserve">
+    <value>Save Current Chart</value>
+  </data>
+  <data name="kstidShowSearchResultsText" xml:space="preserve">
+    <value>&amp;Search</value>
+  </data>
+  <data name="kstidShowSearchResultsToolTip" xml:space="preserve">
+    <value>Search using chart's current item and environment</value>
+  </data>
+  <data name="kstidClearChartText" xml:space="preserve">
+    <value>&amp;Clear</value>
+  </data>
+  <data name="kstidClearChartToolTip" xml:space="preserve">
+    <value>Clear Chart</value>
+  </data>
+  <data name="kstidInsertIntoChartText" xml:space="preserve">
+    <value>&amp;Insert</value>
+  </data>
+  <data name="kstidInsertIntoChartToolTip" xml:space="preserve">
+    <value>Insert Element into Current Chart Cell</value>
+  </data>
+  <data name="kstidXYChartSearchOptionsText" xml:space="preserve">
+    <value>&amp;Options</value>
+  </data>
+  <data name="kstidXYChartSearchOptionsToolTip" xml:space="preserve">
+    <value>Search Options for Current Chart Column</value>
+  </data>
+  <data name="kstidNewTabText" xml:space="preserve">
+    <value>&amp;New Tab</value>
+  </data>
+  <data name="kstidNewTabToolTip" xml:space="preserve">
+    <value>Create New Results Tab</value>
+  </data>
+  <data name="kstidShowResultsText" xml:space="preserve">
+    <value>&amp;Show Results</value>
+  </data>
+  <data name="kstidShowResultsToolTip" xml:space="preserve">
+    <value>Show Search Results</value>
+  </data>
+  <data name="kstidSavePatternAsText" xml:space="preserve">
+    <value>Save &amp;As...</value>
+  </data>
+  <data name="kstidSavePatternAsToolTip" xml:space="preserve">
+    <value>Save Current Search Pattern As...</value>
+  </data>
+  <data name="kstidSavePatternOnMenuText" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="kstidSavePatternOnMenuToolTip" xml:space="preserve">
+    <value>Save Current Search Pattern</value>
+  </data>
+  <data name="kstidShowResultsInCurrentTabGroupText" xml:space="preserve">
+    <value>Show Results in &amp;Active Tab Group</value>
+  </data>
+  <data name="kstidShowResultsInCurrentTabGroupToolTip" xml:space="preserve">
+    <value>Show results in active tab group</value>
+  </data>
+  <data name="kstidShowResultsInInNewSideBySideTabGroupToolTip" xml:space="preserve">
+    <value>Show Results in New Side-by-Side Tab group</value>
+  </data>
+  <data name="kstidShowResultsInNewSideBySideTabGroupText" xml:space="preserve">
+    <value>Show Results in New Side-&amp;By-Side Tab Group</value>
+  </data>
+  <data name="kstidShowResultsInNewStackedTabGroupText" xml:space="preserve">
+    <value>Show Results in New Stac&amp;ked Tab Group</value>
+  </data>
+  <data name="kstidShowResultsInNewStackedTabGroupToolTip" xml:space="preserve">
+    <value>Show Results in New Stacked Tab Group</value>
+  </data>
+  <data name="kstidPlaybackText" xml:space="preserve">
+    <value>&amp;Playback</value>
+  </data>
+  <data name="kstidPlaybackToolTip" xml:space="preserve">
+    <value>Playback</value>
+  </data>
+  <data name="kstidStopPlaybackText" xml:space="preserve">
+    <value>&amp;Stop Playback</value>
+  </data>
+  <data name="kstidStopPlaybackToolTip" xml:space="preserve">
+    <value>Stop Playback</value>
+  </data>
+  <data name="kstidPlaybackRepeatedlyText" xml:space="preserve">
+    <value>Playback &amp;Repeatedly</value>
+  </data>
+  <data name="kstidPlaybackRepeatedlyToolTip" xml:space="preserve">
+    <value>Playback Repeatedly</value>
+  </data>
+  <data name="kstidAdjustPlaybackSpeedText" xml:space="preserve">
+    <value>Playback &amp;Speed</value>
+  </data>
+  <data name="kstidAdjustPlaybackSpeedToolTip" xml:space="preserve">
+    <value>Playback Speed</value>
+  </data>
+  <data name="kstidPlaybackOnMenuText" xml:space="preserve">
+    <value>&amp;Playback</value>
+  </data>
+  <data name="kstidPlaybackOnMenuToolTip" xml:space="preserve">
+    <value>Playback</value>
+  </data>
+  <data name="kstidClearRecentPatternListText" xml:space="preserve">
+    <value>Clear &amp;List</value>
+  </data>
+  <data name="kstidClearRecentPatternListToolTip" xml:space="preserve">
+    <value>Clear List</value>
+  </data>
+  <data name="kstidRemovePatternToolTip" xml:space="preserve">
+    <value>Remove Pattern</value>
+  </data>
+  <data name="kstidSaveChartAsText" xml:space="preserve">
+    <value>Save &amp;As...</value>
+  </data>
+  <data name="kstidSaveChartOnMenuText" xml:space="preserve">
+    <value>&amp;Save</value>
+  </data>
+  <data name="kstidXYChartShowResultsToCurrentTabGroupText" xml:space="preserve">
+    <value>Show Results in &amp;Active Tab Group</value>
+  </data>
+  <data name="kstidXYChartShowResultsToNewSideBySideTabGroupText" xml:space="preserve">
+    <value>Show Results in New Side-&amp;By-Side Tab Group</value>
+  </data>
+  <data name="kstidXYChartShowResultsToNewStackedTabGroupText" xml:space="preserve">
+    <value>Show Results in New Stac&amp;ked Tab Group</value>
+  </data>
+  <data name="kstidUndefinedCharactersText" xml:space="preserve">
+    <value>&amp;Undefined Phonetic Characters...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidReloadProjectText" xml:space="preserve">
+    <value>&amp;Reload Project Data Sources</value>
+  </data>
+  <data name="kstidShowCIEResultsText" xml:space="preserve">
+    <value>&amp;Minimal Pairs</value>
+  </data>
+  <data name="kstidShowCIEResultsToolTip" xml:space="preserve">
+    <value>Minimal Pairs</value>
+  </data>
+  <data name="kstidGroupBySortedFieldText" xml:space="preserve">
+    <value>&amp;Group by Primary Sort Field</value>
+  </data>
+  <data name="kstidGroupBySortedFieldToolTip" xml:space="preserve">
+    <value>Group by Primary Sort Field</value>
+  </data>
+  <data name="kstidCollapseAllGroupsText" xml:space="preserve">
+    <value>C&amp;ollapse All Groups</value>
+  </data>
+  <data name="kstidCollapseAllGroupsToolTip" xml:space="preserve">
+    <value>Collapse All Groups</value>
+  </data>
+  <data name="kstidExpandAllGroupsText" xml:space="preserve">
+    <value>&amp;Expand All Groups</value>
+  </data>
+  <data name="kstidExpandAllGroupsToolTip" xml:space="preserve">
+    <value>Expand All Groups</value>
+  </data>
+  <data name="kstidDoNothingToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="kstidAdjustPlaybackSpeedParentText" xml:space="preserve">
+    <value>Playback &amp;Speed</value>
+  </data>
+  <data name="kstidPhoneInventoryText" xml:space="preserve">
+    <value>&amp;Phone Inventory</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidPhoneInventoryToolTip" xml:space="preserve">
+    <value>Phone Inventory</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidExercisesText" xml:space="preserve">
+    <value>&amp;Exercises...</value>
+  </data>
+  <data name="kstidExercisesToolTip" xml:space="preserve">
+    <value>Exercises</value>
+  </data>
+  <data name="kstidHelpTrainingText" xml:space="preserve">
+    <value>&amp;Training</value>
+  </data>
+  <data name="kstidHelpTrainingToolTip" xml:space="preserve">
+    <value>Training</value>
+  </data>
+  <data name="kstidInstructorGuideText" xml:space="preserve">
+    <value>&amp;Instructor Guide...</value>
+  </data>
+  <data name="kstidInstructorGuideToolTip" xml:space="preserve">
+    <value>Instructor Guide</value>
+  </data>
+  <data name="kstidStudentManualText" xml:space="preserve">
+    <value>&amp;Student Manual...</value>
+  </data>
+  <data name="kstidStudentManualToolTip" xml:space="preserve">
+    <value>Student Manual</value>
+  </data>
+  <data name="kstidGroupByFieldParentText" xml:space="preserve">
+    <value>&amp;Group by Field</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidGroupByFieldParentToolTip" xml:space="preserve">
+    <value>Group By Field</value>
+  </data>
+  <data name="kstidRegExpressionSrchDlgText" xml:space="preserve">
+    <value>RegEx</value>
+    <comment>Hidden feature</comment>
+  </data>
+  <data name="kstidRegExpressionSrchDlgToolTip" xml:space="preserve">
+    <value>Regular Expression Search Dialog</value>
+    <comment>Hidden feature</comment>
+  </data>
+  <data name="kstidAmbiguousSequencesText" xml:space="preserve">
+    <value>&amp;Ambiguous Sequences...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidExperimentalTranscriptionsText" xml:space="preserve">
+    <value>&amp;Experimental Transcriptions...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidFeaturesText" xml:space="preserve">
+    <value>&amp;Features...</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidFiltersParentToolTip" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="kstidFiltersText" xml:space="preserve">
+    <value>&amp;Filters...</value>
+  </data>
+  <data name="kstidNoFilterText" xml:space="preserve">
+    <value>(&amp;No Filter)</value>
+  </data>
+</root>

@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="kstidCharChartAddColAfterText" xml:space="preserve">
+    <value>Add &amp;Following Column</value>
+  </data>
+  <data name="kstidCharChartAddColBeforeText" xml:space="preserve">
+    <value>Add &amp;Preceding  Column</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddColHeadingAfterText" xml:space="preserve">
+    <value>A&amp;dd Following Heading</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddColHeadingBeforeText" xml:space="preserve">
+    <value>&amp;Add Preceding Heading</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddRowAfterText" xml:space="preserve">
+    <value>A&amp;dd Following Row</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddRowBeforeText" xml:space="preserve">
+    <value>&amp;Add Preceding Row</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddRowHeadingAfterText" xml:space="preserve">
+    <value>A&amp;dd Following Heading</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartAddRowHeadingBeforeText" xml:space="preserve">
+    <value>&amp;Add Preceding Heading</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartEditLabelText" xml:space="preserve">
+    <value>&amp;Edit Label</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartMoveColLeftText" xml:space="preserve">
+    <value>Move &amp;Left</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartMoveColRightText" xml:space="preserve">
+    <value>Move &amp;Right</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartRemoveColHeadingText" xml:space="preserve">
+    <value>&amp;Remove Heading and its Empty Column(s)</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartRemoveColText" xml:space="preserve">
+    <value>Remove Empty &amp;Column</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartRemoveRowHeadingText" xml:space="preserve">
+    <value>&amp;Remove Heading and its Empty Row(s)</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartRemoveRowText" xml:space="preserve">
+    <value>Remove Empty &amp;Row</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartSearchContextMenuText" xml:space="preserve">
+    <value>&amp;Search</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidCharChartShowSubHeadingsText" xml:space="preserve">
+    <value>&amp;Show Subheadings</value>
+    <comment>Context menu item for phone chart.</comment>
+  </data>
+  <data name="kstidChartPhoneSearchAloneText" xml:space="preserve">
+    <value>Al&amp;one</value>
+  </data>
+  <data name="kstidChartPhoneSearchAloneToolTip" xml:space="preserve">
+    <value>Search for phone alone</value>
+  </data>
+  <data name="kstidChartPhoneSearchAnywhereText" xml:space="preserve">
+    <value>&amp;Anywhere</value>
+  </data>
+  <data name="kstidChartPhoneSearchAnywhereToolTop" xml:space="preserve">
+    <value>Search for phone anywhere</value>
+  </data>
+  <data name="kstidChartPhoneSearchFinalText" xml:space="preserve">
+    <value>Word &amp;Finally</value>
+  </data>
+  <data name="kstidChartPhoneSearchFinalToolTip" xml:space="preserve">
+    <value>Search for phone word finally</value>
+  </data>
+  <data name="kstidChartPhoneSearchInitialText" xml:space="preserve">
+    <value>Word &amp;Initially</value>
+  </data>
+  <data name="kstidChartPhoneSearchInitialToolTip" xml:space="preserve">
+    <value>Search for phone word initially</value>
+  </data>
+  <data name="kstidChartPhoneSearchMedialText" xml:space="preserve">
+    <value>Word &amp;Medial</value>
+  </data>
+  <data name="kstidChartPhoneSearchMedialToolTip" xml:space="preserve">
+    <value>Search for phone word medial</value>
+  </data>
+  <data name="kstidChartPhoneSearchText" xml:space="preserve">
+    <value>&amp;Search</value>
+  </data>
+  <data name="kstidChartPhoneSearchToolTip" xml:space="preserve">
+    <value>Search for Phone</value>
+  </data>
+  <data name="kstidChartTBAddText" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="kstidChartTBAddToolTip" xml:space="preserve">
+    <value>Add Rows, Columns and Headings</value>
+  </data>
+  <data name="kstidChartTBMenuAddColAfterText" xml:space="preserve">
+    <value>F&amp;ollowing Column</value>
+  </data>
+  <data name="kstidChartTBMenuAddColBeforeText" xml:space="preserve">
+    <value>P&amp;receding Column</value>
+  </data>
+  <data name="kstidChartTBMenuAddColHeadingAfterText" xml:space="preserve">
+    <value>Follo&amp;wing Column Heading</value>
+  </data>
+  <data name="kstidChartTBMenuAddColHeadingBeforeText" xml:space="preserve">
+    <value>Pre&amp;ceding Column Heading</value>
+  </data>
+  <data name="kstidChartTBMenuAddRowAfterText" xml:space="preserve">
+    <value>&amp;Following Row</value>
+  </data>
+  <data name="kstidChartTBMenuAddRowBeforeText" xml:space="preserve">
+    <value>&amp;Preceding Row</value>
+  </data>
+  <data name="kstidChartTBMenuAddRowHeadingAfterText" xml:space="preserve">
+    <value>Fo&amp;llowing Row Heading</value>
+  </data>
+  <data name="kstidChartTBMenuAddRowHeadingBeforeText" xml:space="preserve">
+    <value>Pr&amp;eceding Row Heading</value>
+  </data>
+  <data name="kstidChartTBMenuIgnoredCharsParentText" xml:space="preserve">
+    <value>&amp;Ignored Suprasegmentals</value>
+  </data>
+  <data name="kstidChartTBMenuRemoveColHeadingText" xml:space="preserve">
+    <value>Active Column H&amp;eading</value>
+  </data>
+  <data name="kstidChartTBMenuRemoveColText" xml:space="preserve">
+    <value>Active &amp;Column</value>
+  </data>
+  <data name="kstidChartTBMenuRemoveEmptyRowsAndColsText" xml:space="preserve">
+    <value>&amp;All Empty Rows &amp;&amp; Columns</value>
+  </data>
+  <data name="kstidChartTBMenuRemoveRowHeadingText" xml:space="preserve">
+    <value>Active Row &amp;Heading</value>
+  </data>
+  <data name="kstidChartTBMenuRemoveRowText" xml:space="preserve">
+    <value>Active &amp;Row</value>
+  </data>
+  <data name="kstidChartTBMenuRestoreDefaultText" xml:space="preserve">
+    <value>Restore &amp;Default Layout</value>
+  </data>
+  <data name="kstidChartTBMenuShowColSubHeadingsText" xml:space="preserve">
+    <value>&amp;Column Heading's Subheadings</value>
+  </data>
+  <data name="kstidChartTBMenuShowRowSubHeadingsText" xml:space="preserve">
+    <value>&amp;Row Heading's Subheadings</value>
+  </data>
+  <data name="kstidChartTBMenuShowUncertainPhonesText" xml:space="preserve">
+    <value>&amp;Uncertain Phones</value>
+  </data>
+  <data name="kstidChartTBRemoveText" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="kstidChartTBRemoveToolTip" xml:space="preserve">
+    <value>Remove Rows, Columns and Headings</value>
+  </data>
+  <data name="kstidChartTBViewText" xml:space="preserve">
+    <value>Vie&amp;w</value>
+  </data>
+  <data name="kstidChartTBViewToolTip" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="kstidShowHistogramText" xml:space="preserve">
+    <value>&amp;Histogram</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidShowHistogramToolTip" xml:space="preserve">
+    <value>Histogram</value>
+  </data>
+</root>

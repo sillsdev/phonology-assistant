@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="hidAdvancedPhoneticSortOptions" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidArticulatoryFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Articulatory_Features_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidBinaryFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Binary_Features_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidClassesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Classes_overview.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidConsonantChartView" xml:space="preserve">
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_views.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidCustomFieldsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Custom_Fields.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidCVPatternsOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/CV_Patterns_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidDataCorpusView" xml:space="preserve">
+    <value>User_Interface/Views/Data_Corpus/Data_Corpus_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidExperimentalTranscriptionsPopup" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Experimental_transcriptions_ScreenTip.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFindDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Edit/Find.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFontsOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/Fonts_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFwDataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFwProjectsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Projects.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidGettingStarted" xml:space="preserve">
+    <value>Overview/Getting_started.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidHelpTrainingExercisesDoc" xml:space="preserve">
+    <value>PA Exercises.doc</value>
+    <comment>Document name for PA training document</comment>
+  </data>
+  <data name="hidHelpTrainingInstructorGuideDoc" xml:space="preserve">
+    <value>PA Instructor Guide.doc</value>
+    <comment>Document name for PA training document</comment>
+  </data>
+  <data name="hidHelpTrainingStudentManualDoc" xml:space="preserve">
+    <value>PA Student Manual.doc</value>
+    <comment>Document name for PA training document</comment>
+  </data>
+  <data name="hidIgnoredSuprasegmentalsPopup" xml:space="preserve">
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Ignored_Suprasegmentals.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidMinimalPairsOptions" xml:space="preserve">
+    <value>User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidMissingDataSourceMsgBox" xml:space="preserve">
+    <value>User_Interface/Menus/File/Data_Source_Missing.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidMissingFWDatabaseMsgBox" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Database_Missing.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidNewProjectSettingsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidPhoneInventoryView" xml:space="preserve">
+    <value>User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidPhoneticCharacterClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Phones_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidProjectSettingsDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Project_Settings.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidRecordViewOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/Record_View_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidRtfExportDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Export/Export_to_Rich_Text_Format_RTF.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSaveSearchQueryDlg" xml:space="preserve">
+    <value>User_Interface/Views/Search/Save_Search_Pattern.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSaveXYChartDlg" xml:space="preserve">
+    <value>User_Interface/Views/XY_Charts/Save_XY_Chart.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchOptionsSearchView" xml:space="preserve">
+    <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchOptionsXYChartsView" xml:space="preserve">
+    <value>User_Interface/Views/XY_Charts/Search_Options_for_Current_Chart_Column.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchView" xml:space="preserve">
+    <value>User_Interface/Views/Search/Search_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSFDataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Standard_Format_Data_Source_Properties.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSortingOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/Sorting_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidTopicDoesNotExist" xml:space="preserve">
+    <value>Help_topic_does_not_exist.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidTransConvertersDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/Transcription_Encoding_Converters.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidUncertainPhonesPopup" xml:space="preserve">
+    <value>User_Interface/Word_Lists/Uncertain_phones_ScreenTip.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidUndefinedCharactersInClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Undefined_Characters_in_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidUndefinedPhoneticCharactersDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Undefined_Phonetic_Characters.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidVowelChartView" xml:space="preserve">
+    <value>User_Interface/Views/Consonant_and_Vowel_Charts/Consonant_and_Vowel_Chart_views.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidWordListOptions" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/Word_Lists_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidXYChartsView" xml:space="preserve">
+    <value>User_Interface/Views/XY_Charts/XY_Charts_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidAmbiguousSequencesDlg" xml:space="preserve">
+    <value>User_Interface/Views/Phone_Inventory/Ambiguous_Sequences.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+</root>
