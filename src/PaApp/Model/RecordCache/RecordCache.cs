@@ -188,17 +188,15 @@ namespace SIL.Pa.Model
 				// word cache.
 				if (entry.NeedsParsing)
 					ParseEntry(entry);
-				else
+				
+				foreach (WordCacheEntry wentry in entry.WordEntries)
 				{
-					foreach (WordCacheEntry wentry in entry.WordEntries)
-					{
-						if (FilterHelper.EntryMatchesCurrentFilter(wentry))
-							WordCache.Add(wentry);
-						else
-							WordsNotInCurrentFilter.Add(wentry);
+					if (FilterHelper.EntryMatchesCurrentFilter(wentry))
+						WordCache.Add(wentry);
+					else
+						WordsNotInCurrentFilter.Add(wentry);
 
-						wentry.RecordEntry = entry;
-					}
+					wentry.RecordEntry = entry;
 				}
 			}
 
@@ -328,10 +326,7 @@ namespace SIL.Pa.Model
 			{
 				// Expand the capacity for more word entries if necessary.
 				if (i == entry.WordEntries.Count)
-				{
 					entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
-					WordCache.Add(entry.WordEntries[i]);
-				}
 
 				entry.WordEntries[i][fieldInfo.FieldName] = split[i];
 			}
@@ -390,7 +385,6 @@ namespace SIL.Pa.Model
 				}
 
 				entry.WordEntries.Add(wordEntry);
-				WordCache.Add(wordEntry);
 				i += colWidths[w];
 			}
 		}

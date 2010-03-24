@@ -84,7 +84,7 @@ namespace SIL.Pa
 
 			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
 
-			string exePath = Application.StartupPath;
+			string exePath = PaApp.ConfigFolder;
 
 			// This is the poor man's way of determining whether or not the user has
 			// write access to the folder in which the phonetic character inventory
@@ -98,7 +98,7 @@ namespace SIL.Pa
 			catch
 			{
 				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg,
-					Path.GetFileName(Application.ExecutablePath));
+					PaApp.ConfigFolder));
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -611,7 +611,7 @@ namespace SIL.Pa
 				dlg.Title = Properties.Resources.kstidIpaGridOpenFileTitle;
 				dlg.Filter = Properties.Resources.kstidIpaGridOpenFileFilter;
 				// Set the initial directory to the startup path
-				dlg.InitialDirectory = Application.StartupPath;
+				dlg.InitialDirectory = PaApp.ConfigFolder;
 				dlg.Multiselect = false;
 				dlg.ShowReadOnly = false;
 				dlg.FilterIndex = 1;

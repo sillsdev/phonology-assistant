@@ -104,6 +104,7 @@ namespace SIL.Pa.UI
 			if (PaApp.Project != null)
 				OnDataSourcesModified(PaApp.Project.ProjectName);
 
+			OnFilterChanged(FilterHelper.CurrentFilter);
 			PaApp.MsgMediator.SendMessage("MainViewOpened", this);
 		}
 

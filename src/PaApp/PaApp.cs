@@ -188,7 +188,6 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_progressBarLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
-		private static PaProject s_project;
 		private static PhoneCache s_phoneCache;
 		private static PaFieldInfoList s_fieldInfo;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
@@ -349,8 +348,7 @@ namespace SIL.Pa
 
 			try
 			{
-				string addOnPath = Path.GetDirectoryName(Application.ExecutablePath);
-				addOnPath = Path.Combine(addOnPath, "AddOns");
+				var addOnPath = Path.Combine(Application.StartupPath, "AddOns");
 				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
 			}
 			catch
@@ -433,7 +431,7 @@ namespace SIL.Pa
 
 			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
 			// returns an empty string. Argh!!! Therefore, I have to make sure there is
-			// a valid and full path . Do that by getting the user's desktop folder and
+			// a valid and full path. Do that by getting the user's desktop folder and
 			// chopping off everything that follows the last backslash. If getting the user's
 			// desktop folder fails, then fall back to the program's folder, which is
 			// probably not right, but we'll have to assume it will never happen. :o)
@@ -441,7 +439,7 @@ namespace SIL.Pa
 			{
 				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-					return Path.GetDirectoryName(Application.ExecutablePath);
+					return Application.StartupPath;
 
 				projPath = projPath.TrimEnd('\\');
 				int i = projPath.LastIndexOf('\\');
@@ -761,18 +759,20 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the path where the application's installed configuration files are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ConfigFolder
+		{
+			get { return Application.StartupPath; } // Path.Combine(Application.StartupPath, "Configuration"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets or sets the currently opened PA project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PaProject Project
-		{
-			get { return s_project; }
-			set
-			{
-				s_project = value;
-				FilterHelper.LoadFilters(s_project);
-			}
-		}
+		public static PaProject Project { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1242,7 +1242,7 @@ namespace SIL.Pa
 				PrepareAdapterForLocalizationSupport(adapter);
 
 				string[] defs = new string[1];
-				defs[0] = Path.Combine(Application.StartupPath, "PaTMDefinition.xml");
+				defs[0] = Path.Combine(ConfigFolder, "PaTMDefinition.xml");
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
 				adapter.RecentFilesList = RecentlyUsedProjectList;

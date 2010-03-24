@@ -142,7 +142,7 @@ namespace SIL.Pa.UI.Views
 			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			string[] defs = new string[1];
-			defs[0] = Path.Combine(Application.StartupPath, "XYChartsTMDefinition.xml");
+			defs[0] = Path.Combine(PaApp.ConfigFolder, "XYChartsTMDefinition.xml");
 			m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
 			m_tmAdapter.AllowUpdates = true;
 			m_tmAdapter.SetContextMenuForControl(m_xyGrid, "cmnuXYChart");

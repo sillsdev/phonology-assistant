@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Localization;
 using SIL.Pa.DataSource;
+using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.SpeechTools.Utils;
@@ -33,6 +34,7 @@ namespace SIL.Pa
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_xyChartVwSortOptions;
 		private CIEOptions m_cieOptions;
+		private Filter m_loadedFilter;
 		private bool m_showClassNamesInSearchPatterns = true;
 		private bool m_showDiamondsInEmptySearchPattern = true;
 
@@ -227,8 +229,7 @@ namespace SIL.Pa
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a new project object, loading its information from the specified
-		/// project file.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PaProject Load(string prjFileName, Form appWindow)
@@ -252,6 +253,11 @@ namespace SIL.Pa
 
 			if (msg == null)
 			{
+				FilterHelper.LoadFilters(project);
+
+				if (project.m_loadedFilter != null)
+					FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
+				
 				project.LoadDataSources();
 				if (appWindow != null)
 				{
@@ -572,8 +578,7 @@ namespace SIL.Pa
 				// Copy the default XY Chart definitions to the project's XY Chart def. file.
 				try
 				{
-					string srcPath = Path.GetDirectoryName(Application.ExecutablePath);
-					srcPath = Path.Combine(srcPath, "DefaultXYCharts.xml");
+					string srcPath = Path.Combine(PaApp.ConfigFolder, "DefaultXYCharts.xml");
 					string destPath = ProjectPathFilePrefix + "XYCharts.xml";
 					File.Copy(srcPath, destPath);
 				}
@@ -987,7 +992,19 @@ namespace SIL.Pa
 			}
 			set	{m_cieOptions = (value ?? new CIEOptions());}
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("currentFilter")]
+		public Filter CurrentFilter
+		{
+			get { return FilterHelper.CurrentFilter; }
+			set { m_loadedFilter = value; }
+		}
+
 		#endregion
 
 		#region Grid and Record View layout properties

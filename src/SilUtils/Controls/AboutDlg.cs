@@ -486,8 +486,8 @@ namespace SilUtils
 			// Set the memory information in MB.
 			Utils.MemoryStatus ms = new Utils.MemoryStatus();
 			Utils.GlobalMemoryStatus(ref ms);
-			double available = (double)ms.dwAvailPhys / Math.Pow(1024, 2);
-			double total = (double)ms.dwTotalPhys / Math.Pow(1024, 2);
+			double available = ms.dwAvailPhys / Math.Pow(1024, 2);
+			double total = ms.dwTotalPhys / Math.Pow(1024, 2);
 			lblAvailableMemoryValue.Text = string.Format(m_sAvailableMemoryFmt,
 				available.ToString("###,###,###,###,###.##"),
 				total.ToString("###,###,###,###,###"));
@@ -495,7 +495,7 @@ namespace SilUtils
 			// Set the disk space information in KB and GB.
 			ulong freeDiskSpace = Utils.GetFreeDiskSpace(strRoot);
 			ulong kbFree = freeDiskSpace / 1024;
-			double gbFree = (double)freeDiskSpace / Math.Pow(1024, 3);
+			double gbFree = freeDiskSpace / Math.Pow(1024, 3);
 			lblAvailableDiskSpaceValue.Text = string.Format(m_sAvailableDiskSpaceFmt,
 				kbFree.ToString("###,###,###,###,###,###,###"),
 				gbFree.ToString("##,###.#"), strRoot);

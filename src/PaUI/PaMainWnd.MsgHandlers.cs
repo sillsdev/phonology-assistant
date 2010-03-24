@@ -21,7 +21,6 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
-using SIL.Pa.Model;
 using SIL.Pa.Filters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Resources;
@@ -729,6 +728,7 @@ namespace SIL.Pa.UI
 		protected bool OnNoFilter(object args)
 		{
 			FilterHelper.TurnOffCurrentFilter();
+
 			return true;
 		}
 
@@ -760,6 +760,7 @@ namespace SIL.Pa.UI
 			if (filter != null)
 				sblblFilter.Text = filter.Name;
 
+			PaApp.Project.Save();
 			return false;
 		}
 

@@ -688,7 +688,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Usually <c>false</c>, but can be set to <c>true</c> while running unit tests
 		/// </summary>
-		/// <returns><c>true</c> if running tests, otherwise <c>false</c>.</returns>
 		/// ------------------------------------------------------------------------------------
 		private static bool RunningTests()
 		{

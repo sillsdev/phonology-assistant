@@ -72,7 +72,7 @@ namespace SilUtils
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the name of the currently running application.
+		/// Gets the name of the currently running application.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ApplicationName

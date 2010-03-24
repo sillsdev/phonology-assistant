@@ -39,7 +39,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			string filename = (project != null ?
 				project.ProjectPathFilePrefix + kSearchQueriesFilePrefix :
-				Path.Combine(Application.StartupPath, kDefaultSearchQueriesFile));
+				Path.Combine(PaApp.ConfigFolder, kDefaultSearchQueriesFile));
 
 			SearchQueryGroupList srchQueries = null;
 

@@ -57,8 +57,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void Load()
 		{
-			string path = Path.GetDirectoryName(Application.ExecutablePath);
-			path = Path.Combine(path, kDefaultInventoryFileName);
+			var path = Path.Combine(PaApp.ConfigFolder, kDefaultInventoryFileName);
 			Load(path);
 		}
 

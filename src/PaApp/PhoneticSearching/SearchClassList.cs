@@ -95,7 +95,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			string filename = (project != null ?
 				project.ProjectPathFilePrefix + kSearchClassesFilePrefix :
-				Path.Combine(Application.StartupPath, kDefaultSearchClassesFile));
+				Path.Combine(PaApp.ConfigFolder, kDefaultSearchClassesFile));
 
 			SearchClassList srchClasses = null;
 

@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool VerifyXslFile()
 		{
-			m_xslFileBase = Path.Combine(Application.StartupPath, XSLFileName);
+			m_xslFileBase = Path.Combine(PaApp.ConfigFolder, XSLFileName);
 
 			if (!File.Exists(m_xslFileBase))
 			{

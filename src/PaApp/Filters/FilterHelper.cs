@@ -111,6 +111,26 @@ namespace SIL.Pa.Filters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Sets the current filter to the one having the specified name. If apply is true,
+		/// then that filter is immediately applies. If setting the current filter succeeds,
+		/// then true is returned. Otherwise false is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SetCurrentFilter(string filterName, bool apply)
+		{
+			var filter = GetFilter(filterName);
+			if (filter == null)
+				return false;
+
+			CurrentFilter = filter;
+			if (apply)
+				ApplyFilter(filter);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -167,10 +187,6 @@ namespace SIL.Pa.Filters
 
 			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
 			PaApp.MsgMediator.SendMessage("FilterChanged", filter);
-
-			// TODO: change this to store in the current project.
-			PaApp.SettingsHandler.SaveSettingsValue("Filters", "currfilter",
-				(filter != null ? filter.Name : string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
