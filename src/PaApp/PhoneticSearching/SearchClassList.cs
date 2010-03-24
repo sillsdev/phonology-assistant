@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.PhoneticSearching
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

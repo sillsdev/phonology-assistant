@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SIL.Pa.DataSource;
 using SilUtils;
 
 namespace SIL.Pa

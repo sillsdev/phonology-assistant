@@ -25,10 +25,10 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Filters;
-using SIL.Pa.Resources;
+using SIL.Pa.ResourceStrings;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -79,19 +79,107 @@ namespace SIL.Pa
 			Binary
 		}
 
+		#region Constants
+		public static char[] kTieBars = new[] { '\u0361', '\u035C' };
+		public const string kTopTieBar = "\u0361";
+		public const string kBottomTieBar = "\u035C";
+		public const char kTopTieBarC = '\u0361';
+		public const char kBottomTieBarC = '\u035C';
+		public const string kDottedCircle = "\u25CC";
+		public const char kDottedCircleC = '\u25CC';
+		public const char kOrc = '\uFFFC';
+		public const string kDiacriticPlaceholder = "[" + kDottedCircle + "]";
+		public const string kSearchPatternDiamond = "\u25CA";
+		public const string kEmptyDiamondPattern = kSearchPatternDiamond + "/" + kSearchPatternDiamond + "_" + kSearchPatternDiamond;
+
+		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
+		public const string kHelpSubFolder = "Helps";
+		public const string kTrainingSubFolder = "Training";
+		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
+		public const string kAppSettingsName = "application";
+
 		public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
 		public const string kLocalizationGroupUICtrls = "User Interface Controls";
 		public const string kLocalizationGroupDialogs = "Dialog Boxes";
 		public const string kLocalizationGroupInfoMsg = "Information Messages";
 		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
-		public static string kOpenClassBracket = ResourceHelper.GetString("kstidOpenClassSymbol");
-		public static string kCloseClassBracket = ResourceHelper.GetString("kstidCloseClassSymbol");
-		public const string kHelpFileName = "Phonology_Assistant_Help.chm";
-		public const string kHelpSubFolder = "Helps";
-		public const string kTrainingSubFolder = "Training";
-		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
-		public const string kAppSettingsName = "application";
+		public static string kOpenClassBracket = LocalizationManager.LocalizeString(
+			"OpenClassSymbol", "<", "Character used to delineate the opening of a phonetic search class.",
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+
+		public static string kCloseClassBracket = LocalizationManager.LocalizeString(
+			"CloseClassSymbol", ">", "Character used to delineate the closing of a phonetic search class.",
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+	
+		public static string kstidFileTypeAllExe = LocalizationManager.LocalizeString("ExecutableFileTypes",
+			"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
+			"File types for executable files.", kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+		
+		public static string kstidFileTypeAllFiles = LocalizationManager.LocalizeString("AllFileTypes",
+			"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+	
+		public static string kstidFileTypeHTML = LocalizationManager.LocalizeString("HTMLFileType",
+			"HTML Files (*.html)|*.html", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+
+		public static string kstidFileTypePAXML = LocalizationManager.LocalizeString("PaXMLFileType",
+			"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.", kLocalizationGroupMisc,
+			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+
+		public static string kstidFileTypePAProject = LocalizationManager.LocalizeString("PaProjectFileType",
+			"{0} Projects (*.pap)|*.pap", "File type for Phonology Assistant projects. The parameter is the application name.",
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+		
+		public static string kstidFiletypeRTF = LocalizationManager.LocalizeString("RTFFileType",
+			"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.", kLocalizationGroupMisc,
+			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+		
+		public static string kstidFiletypeSASoundMP3 = LocalizationManager.LocalizeString("Mp3FileType",
+			"Speech Analyzer MP3 Files (*.mp3)|*.mp3", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+		
+		public static string kstidFiletypeSASoundWave = LocalizationManager.LocalizeString("WaveFileType",
+			"Speech Analyzer Wave Files (*.wav)|*.wav", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);	
+		
+		public static string kstidFiletypeSASoundWMA = LocalizationManager.LocalizeString("WindowsMediaAudioFileType",
+			"Speech Analyzer WMA Files (*.wma)|*.wma", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+		
+		public static string kstidFileTypeToolboxDB = LocalizationManager.LocalizeString("ToolboxFileType",
+			"Toolbox Files (*.db)|*.db", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+		
+		public static string kstidFileTypeToolboxITX = LocalizationManager.LocalizeString("ToolboxInterlinearFileType",
+			"Interlinear Toolbox Files (*.itx)|*.itx", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+	
+		public static string kstidFileTypeXML = LocalizationManager.LocalizeString("XmlFileType",
+			"XML Files (*.xml)|*.xml", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+
+		public static string kstidFileTypeXSLT = LocalizationManager.LocalizeString("XsltTFileType",
+			"XSLT Files (*.xslt)|*.xslt", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+
+		public static string kstidQuerySearchingMsg = LocalizationManager.LocalizeString(
+			"PhoneticSearchingInProgressMessage", "Searching...",
+			"Message displayed in status bar next to the progress bar when doing a query searches.",
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+			
+		public static string kstidSaveChangesMsg = LocalizationManager.LocalizeString(
+			"GenericSaveChangesQuestion", "Would you like to save your changes?", null,
+			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+		
+		public static string kstidSaveFileDialogGenericCaption = LocalizationManager.LocalizeString(
+			"GenericSaveFileDialogCaption", "Save File", null, kLocalizationGroupMisc,
+			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+
+		#endregion
 
 		private static string s_breakChars;
 		private static string s_helpFilePath;
@@ -375,7 +463,36 @@ namespace SIL.Pa
 		}
 
 		#region Cache related properties and methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the IPA symbols cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static IPASymbolCache IPASymbolCache
+		{
+			get { return InventoryHelper.IPASymbolCache; }
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static AFeatureCache AFeatureCache
+		{
+			get { return InventoryHelper.AFeatureCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static BFeatureCache BFeatureCache
+		{
+			get { return InventoryHelper.BFeatureCache; }
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -450,8 +567,8 @@ namespace SIL.Pa
 			if (PhoneCache.FeatureOverrides != null)
 				PhoneCache.FeatureOverrides.MergeWithPhoneCache(s_phoneCache);
 
-			if (DataUtils.IPASymbolCache.UndefinedCharacters != null &&
-				DataUtils.IPASymbolCache.UndefinedCharacters.Count > 0)
+			if (IPASymbolCache.UndefinedCharacters != null &&
+				IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
 				AddUndefinedCharsToCaches();
 			}
@@ -532,9 +649,9 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void AddUndefinedCharsToCaches()
 		{
-			foreach (UndefinedPhoneticCharactersInfo upci in DataUtils.IPASymbolCache.UndefinedCharacters)
+			foreach (UndefinedPhoneticCharactersInfo upci in IPASymbolCache.UndefinedCharacters)
 			{
-				DataUtils.IPASymbolCache.AddUndefinedCharacter(upci.Character);
+				IPASymbolCache.AddUndefinedCharacter(upci.Character);
 				s_phoneCache.AddUndefinedPhone(upci.Character.ToString());
 			}
 		}
@@ -1948,7 +2065,7 @@ namespace SIL.Pa
 		public static void ShowHelpTopic(string hid)
 		{
 			if (File.Exists(HelpFilePath))
-				Help.ShowHelp(new Label(), HelpFilePath, ResourceHelper.GetHelpString(hid));
+				Help.ShowHelp(new Label(), HelpFilePath, HelpTopicPaths.ResourceManager.GetString(hid));
 			else
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
@@ -1956,6 +2073,52 @@ namespace SIL.Pa
 				
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds a manner of articulation sort key for the specified phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetMOAKey(string phone)
+		{
+			// TODO: When chow characters are supported, figure out how to deal with them.
+
+			if (string.IsNullOrEmpty(phone))
+				return null;
+
+			StringBuilder keybldr = new StringBuilder(6);
+			foreach (char c in phone)
+			{
+				IPASymbol info = IPASymbolCache[c];
+				keybldr.Append(info == null ? "000" :
+					string.Format("{0:X3}", info.MOArticulation));
+			}
+
+			return keybldr.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Builds a place of articulation sort key for the specified phone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetPOAKey(string phone)
+		{
+			// TODO: When chou characters are supported, figure out how to deal with them.
+
+			if (string.IsNullOrEmpty(phone))
+				return null;
+
+			StringBuilder keybldr = new StringBuilder(6);
+			foreach (char c in phone)
+			{
+				IPASymbol info = IPASymbolCache[c];
+				keybldr.Append(info == null ? "000" :
+					string.Format("{0:X3}", info.POArticulation));
+			}
+
+			return keybldr.ToString();
 		}
 	}
 }

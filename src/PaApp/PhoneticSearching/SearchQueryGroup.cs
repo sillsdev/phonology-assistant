@@ -3,10 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.Pa.FFSearchEngine;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.PhoneticSearching
 {
 	#region SearchQueryGroupList class
 	/// ----------------------------------------------------------------------------------------
@@ -224,8 +223,8 @@ namespace SIL.Pa
 	{
 		private string m_name;
 		private List<SearchQuery> m_queries;
-		private bool m_expanded = false;
-		private bool m_expandedInPopup = false;
+		private bool m_expanded;
+		private bool m_expandedInPopup;
 
 		public override string ToString()
 		{

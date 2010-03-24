@@ -115,6 +115,7 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
@@ -123,16 +124,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioPlayer.cs" />
-    <Compile Include="CacheClasses\CacheSortComparer.cs" />
-    <Compile Include="CacheClasses\RecordCache.cs" />
-    <Compile Include="CacheClasses\RecordCacheEntry.cs" />
-    <Compile Include="CacheClasses\WordCache.cs" />
-    <Compile Include="CacheClasses\WordCacheEntry.cs" />
-    <Compile Include="CacheClasses\WordListCache.cs" />
-    <Compile Include="CacheClasses\WordListCacheEntry.cs" />
     <Compile Include="DataSourceClasses\DataSourceEditor.cs" />
     <Compile Include="DataSourceClasses\DataSourceReader.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
+      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\FwDBUtils.cs" />
     <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,53 +147,83 @@
     </Compile>
     <Compile Include="DataSourceClasses\PaDataSource.cs" />
     <Compile Include="DataSourceClasses\SFMarkerMapping.cs" />
-    <Compile Include="EditFwUrlDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditFwUrlDlg.Designer.cs">
-      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CIEBuilder.cs" />
     <Compile Include="Filters\FilterExpression.cs" />
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />
-    <Compile Include="PaFieldInfo.cs" />
-    <Compile Include="PaFieldsDisplayText.Designer.cs">
+    <Compile Include="Miscellaneous\AudioPlayer.cs" />
+    <Compile Include="Miscellaneous\CIEBuilder.cs" />
+    <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
+    <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
+    <Compile Include="Miscellaneous\ZipUtils.cs" />
+    <Compile Include="Model\AmbiguousSequences.cs" />
+    <Compile Include="Model\CVPatternInfo.cs" />
+    <Compile Include="Model\ExperimentalTranscriptions.cs" />
+    <Compile Include="Model\Features\AFeatureCache.cs" />
+    <Compile Include="Model\Features\BFeatureCache.cs" />
+    <Compile Include="Model\Features\Feature.cs" />
+    <Compile Include="Model\Features\FeatureCacheBase.cs" />
+    <Compile Include="Model\Features\FeatureMask.cs" />
+    <Compile Include="Model\Features\FeatureOverrides.cs" />
+    <Compile Include="Model\PaFieldInfo.cs" />
+    <Compile Include="Model\PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PaFieldsDisplayText.resx</DependentUpon>
     </Compile>
+    <Compile Include="Model\PaProject.cs" />
+    <Compile Include="Model\RecordCache\RecordCache.cs" />
+    <Compile Include="Model\RecordCache\RecordCacheEntry.cs" />
+    <Compile Include="Model\SymbolsAndPhones\InventoryHelper.cs" />
+    <Compile Include="Model\SymbolsAndPhones\IPASymbol.cs" />
+    <Compile Include="Model\SymbolsAndPhones\IPASymbolCache.cs" />
+    <Compile Include="Model\SymbolsAndPhones\IPhoneInfo.cs" />
+    <Compile Include="Model\SymbolsAndPhones\PhoneCache.cs" />
+    <Compile Include="Model\SymbolsAndPhones\PhoneInfo.cs" />
+    <Compile Include="Model\SymbolsAndPhones\UndefinedCharClasses.cs" />
+    <Compile Include="Model\WordCache\CacheSortComparer.cs" />
+    <Compile Include="Model\WordCache\WordCache.cs" />
+    <Compile Include="Model\WordCache\WordCacheEntry.cs" />
+    <Compile Include="Model\WordCache\WordListCache.cs" />
+    <Compile Include="Model\WordCache\WordListCacheEntry.cs" />
+    <Compile Include="PhoneticSearching\FFNormalizer.cs" />
+    <Compile Include="PhoneticSearching\PatternGroup.cs" />
+    <Compile Include="PhoneticSearching\PatternGroupMember.cs" />
+    <Compile Include="PhoneticSearching\SearchClassList.cs" />
+    <Compile Include="PhoneticSearching\SearchEngine.cs" />
+    <Compile Include="PhoneticSearching\SearchQuery.cs" />
+    <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PaApp.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PaProject.cs" />
-    <Compile Include="PaSettingsHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TrainingProjectsHelper.cs" />
-    <Compile Include="SearchClassList.cs" />
-    <Compile Include="SearchQueryGroup.cs" />
-    <Compile Include="ZipUtils.cs" />
+    <Compile Include="ResourceHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResourceHelper.designer.cs">
+      <DependentUpon>ResourceHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceStrings\ChartsTMStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChartsTMStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceStrings\HelpTopicPaths.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HelpTopicPaths.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceStrings\PaTMStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaTMStrings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FFSearchEngine\FFSearchEngine.csproj">
-      <Project>{C91F8E89-1044-47E5-BF87-0D72C5A57233}</Project>
-      <Name>FFSearchEngine</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PaResources\PaResources.csproj">
-      <Project>{39BC73FE-069E-41B8-8E5B-55C242F2A6FA}</Project>
-      <Name>PaResources</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
@@ -204,25 +234,38 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.resx">
+      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataSourceClasses\MissingDataSourceMsgBox.resx">
       <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataSourceClasses\MissingFWDatabaseMsgBox.resx">
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditFwUrlDlg.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PaFieldsDisplayText.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="Model\PaFieldsDisplayText.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PaFieldsDisplayText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceHelper.resx">
+      <DependentUpon>ResourceHelper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStrings\ChartsTMStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChartsTMStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStrings\HelpTopicPaths.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HelpTopicPaths.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStrings\PaTMStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaTMStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Filter-Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Project\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

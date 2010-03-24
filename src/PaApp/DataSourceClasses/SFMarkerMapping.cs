@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
+using SIL.Pa.Model;
 
-namespace SIL.Pa
+namespace SIL.Pa.DataSource
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

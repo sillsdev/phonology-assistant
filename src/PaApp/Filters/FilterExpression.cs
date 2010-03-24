@@ -4,7 +4,8 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 using SIL.Localization;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.Filters
 {

@@ -3,10 +3,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using SIL.Pa.Data;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.Model
 {
 	#region PaFieldValue Class
 	/// ----------------------------------------------------------------------------------------

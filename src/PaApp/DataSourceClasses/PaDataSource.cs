@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using SIL.Pa.Data;
+using SIL.Pa.Model;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.DataSource
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

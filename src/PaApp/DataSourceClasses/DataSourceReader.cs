@@ -5,12 +5,12 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Data;
-using SIL.Pa.Resources;
+using SIL.Pa.Model;
+using SIL.Pa.ResourceStrings;
 using SIL.SpeechTools.Utils;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.DataSource
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -146,7 +146,7 @@ namespace SIL.Pa
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.FileName = Path.GetFileName(dataSourceFile);
-			dlg.Filter = ResourceHelper.GetString("kstidFileTypeAllFiles");
+			dlg.Filter = PaApp.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.Title =	Properties.Resources.kstidMissingDataSourceOFDMsg;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
@@ -175,15 +175,15 @@ namespace SIL.Pa
 			m_recCache = new RecordCache();
 			PaApp.RecordCache = m_recCache;
 			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			DataUtils.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			PaApp.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				DataUtils.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
+				PaApp.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
-				DataUtils.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
+				PaApp.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
 
 				m_currDataSource = source;
 
@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			PaApp.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
 			m_recCache.BuildWordCache(PaApp.ProgressBar);
-			DataUtils.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
+			PaApp.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
 			PaApp.IncProgressBar();
 			TempRecordCache.Save();
 			PaApp.UninitializeProgressBar();
@@ -428,7 +428,7 @@ namespace SIL.Pa
 			// topic are jumped to if the user is presented with that dialog and chooses
 			// to click its help button.
 			TransConvertersDlg.HelpFilePath = PaApp.HelpFilePath;
-			TransConvertersDlg.HelpTopic = ResourceHelper.GetHelpString("hidTransConvertersDlg");
+			TransConvertersDlg.HelpTopic = HelpTopicPaths.hidTransConvertersDlg;
 
 			m_currDataSource.LastModification =
 				SaAudioDocument.GetTranscriptionFileModifiedTime(audioFile);

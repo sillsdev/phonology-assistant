@@ -5,7 +5,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Localization;
-using SIL.Pa.Data;
+using SIL.Pa.DataSource;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 using SIL.SpeechTools.Utils;
 using SilUtils;
 
@@ -21,14 +23,7 @@ namespace SIL.Pa
 		private Form m_appWindow;
 		private bool m_newProject;
 		private bool m_reloadingProjectInProcess;
-		private string m_name = Properties.Resources.kstidDefaultNewProjectName;
 		private string m_fileName;
-		private string m_language;
-		private string m_transcriber;
-		private string m_speakerName;
-		private string m_comments;
-		private string m_alternateAudioFileFolder;
-		private List<PaDataSource> m_dataSources = new List<PaDataSource>();
 		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
 		private PaFieldInfoList m_fieldInfoList;
@@ -38,8 +33,6 @@ namespace SIL.Pa
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_xyChartVwSortOptions;
 		private CIEOptions m_cieOptions;
-		private bool m_showUndefinedCharsDlg = true;
-		private bool m_ignoreUndefinedCharsInSearches = true;
 		private bool m_showClassNamesInSearchPatterns = true;
 		private bool m_showDiamondsInEmptySearchPattern = true;
 
@@ -50,8 +43,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
+			ProjectName = Properties.Resources.kstidDefaultNewProjectName;
+			ShowUndefinedCharsDlg = true;
+			IgnoreUndefinedCharsInSearches = true;
+			DataSources = new List<PaDataSource>();
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This constructor is really only for creating new projects. Therefore, the
@@ -60,6 +57,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject(bool newProject)
 		{
+			ProjectName = Properties.Resources.kstidDefaultNewProjectName;
+			ShowUndefinedCharsDlg = true;
+			IgnoreUndefinedCharsInSearches = true;
+			DataSources = new List<PaDataSource>();
 			if (newProject)
 			{
 				m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
@@ -79,12 +80,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void CleanUpMappings()
 		{
-			if (m_dataSources == null)
+			if (DataSources == null)
 				return;
 
 			// Go through the list of data sources in the project and clean up the
 			// mappings for projects of type SFM and Toolbox.
-			foreach (PaDataSource source in m_dataSources)
+			foreach (PaDataSource source in DataSources)
 			{
 				if (source.DataSourceType != DataSourceType.SFM &&
 					source.DataSourceType != DataSourceType.Toolbox)
@@ -127,7 +128,7 @@ namespace SIL.Pa
 			var oldNames = new List<string>(new[] {"Gloss", "GlossOther1", "GlossOther2"});
 			var newNames = new List<string>(new[] {"gloss1", "gloss2", "gloss3"});
 
-			foreach (PaDataSource source in m_dataSources)
+			foreach (PaDataSource source in DataSources)
 			{
 				if (source.DataSourceType == DataSourceType.FW &&
 					source.FwDataSourceInfo != null &&
@@ -150,7 +151,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void ProcessRenamedField(string origName, string newName)
 		{
-			foreach (PaDataSource source in m_dataSources)
+			foreach (PaDataSource source in DataSources)
 				source.RenameField(origName, newName);
 
 			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
@@ -164,7 +165,7 @@ namespace SIL.Pa
 		/// name gets renamed therein.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ProcessRenamedFieldInSortInfo(string origName, string newName,
+		private static void ProcessRenamedFieldInSortInfo(string origName, string newName,
 			SortOptions sortOptions)
 		{
 			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
@@ -192,8 +193,8 @@ namespace SIL.Pa
 				m_appWindow = null;
 			}
 
-			if (m_dataSources != null)
-				m_dataSources.Clear();
+			if (DataSources != null)
+				DataSources.Clear();
 
 			if (m_classes != null)
 			    m_classes.Clear();
@@ -204,7 +205,7 @@ namespace SIL.Pa
 			if (m_fieldInfoList != null)
 				m_fieldInfoList.Clear();
 
-			m_dataSources = null;
+			DataSources = null;
 			m_classes = null;
 			m_queryGroups = null;
 			m_fieldInfoList = null;
@@ -336,10 +337,10 @@ namespace SIL.Pa
 					CopyLastModifiedTimes(project);
 				}
 
-				DataUtils.IPASymbolCache.ExperimentalTranscriptions =
+				PaApp.IPASymbolCache.ExperimentalTranscriptions =
 					ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
 
-				DataUtils.IPASymbolCache.AmbiguousSequences = 
+				PaApp.IPASymbolCache.AmbiguousSequences = 
 					AmbiguousSequences.Load(ProjectPathFilePrefix);
 			}
 
@@ -353,7 +354,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void VerifyDataSourceMappings()
 		{
-			if (m_dataSources == null)
+			if (DataSources == null)
 				return;
 
 			foreach (PaDataSource ds in DataSources)
@@ -407,7 +408,7 @@ namespace SIL.Pa
 			{
 				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
-					m_name, e.Message));
+					ProjectName, e.Message));
 			}
 		}
 
@@ -477,7 +478,7 @@ namespace SIL.Pa
 				return;
 			}
 
-			foreach (PaDataSource source in m_dataSources)
+			foreach (PaDataSource source in DataSources)
 			{
 				if (source.SkipLoading)
 					continue;
@@ -534,10 +535,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadDataSources()
 		{
-			DataUtils.IPASymbolCache.ExperimentalTranscriptions =
+			PaApp.IPASymbolCache.ExperimentalTranscriptions =
 				ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
 			
-			DataUtils.IPASymbolCache.AmbiguousSequences =
+			PaApp.IPASymbolCache.AmbiguousSequences =
 				AmbiguousSequences.Load(ProjectPathFilePrefix);
 			
 			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
@@ -642,7 +643,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		//public void SaveIPACharCache()
 		//{
-		//    DataUtils.IPASymbolCache.Save(ProjectPathFilePrefix);
+		//    PaApp.IPASymbolCache.Save(ProjectPathFilePrefix);
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -652,7 +653,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		//public void SaveAFeatureCache()
 		//{
-		//    DataUtils.AFeatureCache.Save(ProjectPathFilePrefix);
+		//    PaApp.AFeatureCache.Save(ProjectPathFilePrefix);
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -662,7 +663,7 @@ namespace SIL.Pa
 		///// ------------------------------------------------------------------------------------
 		//public void SaveBFeatureCache()
 		//{
-		//    DataUtils.BFeatureCache.Save(ProjectPathFilePrefix);
+		//    PaApp.BFeatureCache.Save(ProjectPathFilePrefix);
 		//}
 
 		#endregion
@@ -692,7 +693,7 @@ namespace SIL.Pa
 			get
 			{
 				return Path.Combine(string.IsNullOrEmpty(m_fileName) ? string.Empty :
-					Path.GetDirectoryName(m_fileName), m_name) + ".";
+					Path.GetDirectoryName(m_fileName), ProjectName) + ".";
 			}
 		}
 
@@ -728,72 +729,48 @@ namespace SIL.Pa
 					string.Empty : Path.GetFileNameWithoutExtension(m_fileName));
 			}
 		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string ProjectName
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Language
-		{
-			get { return m_language; }
-			set { m_language = value; }
-		}
+		public string ProjectName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Transcriber
-		{
-			get { return m_transcriber; }
-			set { m_transcriber = value; }
-		}
+		public string Language { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SpeakerName
-		{
-			get { return m_speakerName; }
-			set { m_speakerName = value; }
-		}
+		public string Transcriber { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Comments
-		{
-			get { return m_comments; }
-			set { m_comments = value; }
-		}
+		public string SpeakerName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string AlternateAudioFileFolder
-		{
-			get { return m_alternateAudioFileFolder; }
-			set { m_alternateAudioFileFolder = value; }
-		}
+		public string Comments { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string AlternateAudioFileFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -829,22 +806,14 @@ namespace SIL.Pa
 		/// in data sources.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IgnoreUndefinedCharsInSearches
-		{
-			get { return m_ignoreUndefinedCharsInSearches; }
-			set { m_ignoreUndefinedCharsInSearches = value; }
-		}
+		public bool IgnoreUndefinedCharsInSearches { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<PaDataSource> DataSources
-		{
-			get { return m_dataSources; }
-			set { m_dataSources = value; }
-		}
+		public List<PaDataSource> DataSources { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -855,11 +824,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool ShowUndefinedCharsDlg
-		{
-			get { return m_showUndefinedCharsDlg; }
-			set { m_showUndefinedCharsDlg = value; }
-		}
+		public bool ShowUndefinedCharsDlg { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

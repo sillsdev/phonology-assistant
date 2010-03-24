@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using SIL.Pa.Data;
-using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Model;
+using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa
 {
@@ -192,9 +192,9 @@ namespace SIL.Pa
 				for (int i = bldrEnv.Length - 1; i >= 0; i--)
 				{
 					char chr = bldrEnv[i];
-					if (chr != DataUtils.kBottomTieBarC && chr != DataUtils.kTopTieBarC)
+					if (chr != PaApp.kBottomTieBarC && chr != PaApp.kTopTieBarC)
 					{
-						IPASymbol info = DataUtils.IPASymbolCache[chr];
+						IPASymbol info = PaApp.IPASymbolCache[chr];
 						if (info != null && !info.IsBase)
 							bldrEnv.Remove(i, 1);
 					}

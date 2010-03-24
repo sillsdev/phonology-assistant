@@ -5,9 +5,10 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using SIL.Pa.Model;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.DataSource
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -232,7 +233,7 @@ namespace SIL.Pa
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.GuidField;
-			string url = Data.FwDBAccessInfo.JumpUrl;
+			string url = Model.FwDBAccessInfo.JumpUrl;
 
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{

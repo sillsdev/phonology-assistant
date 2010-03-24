@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa
+namespace SIL.Pa.DataSource
 {
 	public partial class MissingFWDatabaseMsgBox : Form
 	{
