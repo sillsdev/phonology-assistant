@@ -6,8 +6,7 @@
     <ProjectGuid>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>pa.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>PaApp</AssemblyName>
@@ -306,6 +305,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Filter-Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="pa.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Project\" />
