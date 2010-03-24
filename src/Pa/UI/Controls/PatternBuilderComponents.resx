@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="pnlConsonants.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="pnlConsonants.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pnlConsonants.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11world</value>
+  </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="pnlConsonants.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="pnlConsonants.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 178</value>
+  </data>
+  <data name="pnlConsonants.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pnlConsonants.Name" xml:space="preserve">
+    <value>pnlConsonants</value>
+  </data>
+  <data name="&gt;&gt;pnlConsonants.Type" xml:space="preserve">
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlConsonants.Parent" xml:space="preserve">
+    <value>tpgCons</value>
+  </data>
+  <data name="&gt;&gt;pnlConsonants.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgCons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgCons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="tpgCons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgCons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tpgCons.Text" xml:space="preserve">
+    <value>Con.</value>
+  </data>
+  <data name="tpgCons.ToolTipText" xml:space="preserve">
+    <value>Consonants</value>
+  </data>
+  <data name="&gt;&gt;tpgCons.Name" xml:space="preserve">
+    <value>tpgCons</value>
+  </data>
+  <data name="&gt;&gt;tpgCons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgCons.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgCons.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlVowels.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pnlVowels.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlVowels.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11world</value>
+  </data>
+  <data name="pnlVowels.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="pnlVowels.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 182</value>
+  </data>
+  <data name="pnlVowels.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;pnlVowels.Name" xml:space="preserve">
+    <value>pnlVowels</value>
+  </data>
+  <data name="&gt;&gt;pnlVowels.Type" xml:space="preserve">
+    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlVowels.Parent" xml:space="preserve">
+    <value>tpgVows</value>
+  </data>
+  <data name="&gt;&gt;pnlVowels.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgVows.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgVows.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgVows.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgVows.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tpgVows.Text" xml:space="preserve">
+    <value>Vow.</value>
+  </data>
+  <data name="tpgVows.ToolTipText" xml:space="preserve">
+    <value>Vowels</value>
+  </data>
+  <data name="&gt;&gt;tpgVows.Name" xml:space="preserve">
+    <value>tpgVows</value>
+  </data>
+  <data name="&gt;&gt;tpgVows.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgVows.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgVows.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="charExplorer.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="charExplorer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="charExplorer.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11world</value>
+  </data>
+  <data name="charExplorer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="charExplorer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 182</value>
+  </data>
+  <data name="charExplorer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Name" xml:space="preserve">
+    <value>charExplorer</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
+    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, PaUI, Version=1.1.3631.30336, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
+    <value>tpgOther</value>
+  </data>
+  <data name="&gt;&gt;charExplorer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgOther.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgOther.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpgOther.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgOther.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tpgOther.Text" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="tpgOther.ToolTipText" xml:space="preserve">
+    <value>Suprasegmentals and diacritics</value>
+  </data>
+  <data name="&gt;&gt;tpgOther.Name" xml:space="preserve">
+    <value>tpgOther</value>
+  </data>
+  <data name="&gt;&gt;tpgOther.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgOther.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgOther.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lvClasses.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lvClasses.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Sans, 12world</value>
+  </data>
+  <data name="lvClasses.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="lvClasses.Size" type="System.Drawing.Size, System.Drawing">
+    <value>198, 178</value>
+  </data>
+  <data name="lvClasses.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Name" xml:space="preserve">
+    <value>lvClasses</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
+    <value>SIL.Pa.UI.Controls.ClassListView, PaUI, Version=1.1.3631.30336, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
+    <value>tpgClasses</value>
+  </data>
+  <data name="&gt;&gt;lvClasses.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpgClasses.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgClasses.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="tpgClasses.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgClasses.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tpgClasses.Text" xml:space="preserve">
+    <value>Classes</value>
+  </data>
+  <data name="&gt;&gt;tpgClasses.Name" xml:space="preserve">
+    <value>tpgClasses</value>
+  </data>
+  <data name="&gt;&gt;tpgClasses.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgClasses.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgClasses.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tpgAFeatures.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgAFeatures.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="tpgAFeatures.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgAFeatures.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tpgAFeatures.Text" xml:space="preserve">
+    <value>Art. Features</value>
+  </data>
+  <data name="tpgAFeatures.ToolTipText" xml:space="preserve">
+    <value>Articulatory Features</value>
+  </data>
+  <data name="&gt;&gt;tpgAFeatures.Name" xml:space="preserve">
+    <value>tpgAFeatures</value>
+  </data>
+  <data name="&gt;&gt;tpgAFeatures.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgAFeatures.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgAFeatures.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="tpgBFeatures.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpgBFeatures.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="tpgBFeatures.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 188</value>
+  </data>
+  <data name="tpgBFeatures.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tpgBFeatures.Text" xml:space="preserve">
+    <value>Bin. Features</value>
+  </data>
+  <data name="tpgBFeatures.ToolTipText" xml:space="preserve">
+    <value>Binary Features</value>
+  </data>
+  <data name="&gt;&gt;tpgBFeatures.Name" xml:space="preserve">
+    <value>tpgBFeatures</value>
+  </data>
+  <data name="&gt;&gt;tpgBFeatures.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpgBFeatures.Parent" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tpgBFeatures.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="tabPatternBlding.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabPatternBlding.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabPatternBlding.ShowToolTips" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tabPatternBlding.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 214</value>
+  </data>
+  <data name="tabPatternBlding.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabPatternBlding.Name" xml:space="preserve">
+    <value>tabPatternBlding</value>
+  </data>
+  <data name="&gt;&gt;tabPatternBlding.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabPatternBlding.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabPatternBlding.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 214</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localization.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>PatternBuilderComponents</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>
