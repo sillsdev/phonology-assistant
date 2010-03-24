@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Filters;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -10,7 +11,7 @@ namespace SIL.Pa.UI.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class UndockedViewWnd : Form, IUndockedViewWnd
+	public partial class UndockedViewWnd : Form, IUndockedViewWnd, IxCoreColleague
 	{
 		private readonly Control m_view;
 		private ITMAdapter m_mainMenuAdapter;
@@ -47,6 +48,27 @@ namespace SIL.Pa.UI.Controls
 			sbProgress.Visible = false;
 			sblblMain.Text = sblblProgress.Text = string.Empty;
 			MinimumSize = PaApp.MinimumViewWindowSize;
+
+			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
+			OnFilterChanged(FilterHelper.CurrentFilter);
+
+			PaApp.MsgMediator.AddColleague(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,6 +149,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			PaApp.MsgMediator.RemoveColleague(this);
 			PaApp.SettingsHandler.SaveFormProperties(this);
 			Visible = false;
 			PaApp.UnloadDefaultMenu(m_mainMenuAdapter);
@@ -136,6 +159,22 @@ namespace SIL.Pa.UI.Controls
 			base.OnFormClosing(e);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When there is no project open, this forces the gradient background to be repainted
+		/// on the application workspace.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+
+			if (PaApp.Project == null)
+				Invalidate();
+
+			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the status bar.
@@ -175,5 +214,34 @@ namespace SIL.Pa.UI.Controls
 		{
 			get { return sblblProgress; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterChanged(object args)
+		{
+			var filter = args as Filter;
+			sblblFilter.Visible = (filter != null);
+			if (filter != null)
+				sblblFilter.Text = filter.Name;
+
+			return false;
+		}
+
+		#region IxCoreColleague Members
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the message target.
+		/// </summary>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public IxCoreColleague[] GetMessageTargets()
+		{
+			return new IxCoreColleague[] { this };
+		}
+
+		#endregion
 	}
 }

@@ -33,7 +33,7 @@ namespace SIL.Pa.Data
 	[XmlType("inventory")]
 	public class InventoryHelper
 	{
-		public const string kDefaultInventoryFileName = "PhoneticCharacterInventory.xml";
+		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
 		private static string s_filePath;
 
 		internal static AFeatureCache AFeatureCache { get; set; }

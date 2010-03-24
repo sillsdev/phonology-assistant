@@ -149,6 +149,15 @@
   <data name="sbProgress.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 18</value>
   </data>
+  <data name="sblblFilter.AutoSize" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="sblblFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 15</value>
+  </data>
+  <data name="sblblFilter.Text" xml:space="preserve">
+    <value>FilterIndicator</value>
+  </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 514</value>
   </data>
@@ -190,7 +199,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ViewTabGroup, PaUI, Version=1.1.3631.31212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, PaUI, Version=1.1.3733.29675, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -789,6 +798,9 @@
         nEEAA5xBAAOcQQADnEEAA5xBAAOcQQADnEEAA5xBAAGcQQAAnEEAAJxBAACcQf/AnEH/4JxB
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Phonology Assistant</value>
   </data>
@@ -810,11 +822,17 @@
   <data name="&gt;&gt;sbProgress.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;sblblFilter.Name" xml:space="preserve">
+    <value>sblblFilter</value>
+  </data>
+  <data name="&gt;&gt;sblblFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PaMainWnd</value>

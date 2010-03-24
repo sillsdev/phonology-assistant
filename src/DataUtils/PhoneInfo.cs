@@ -27,18 +27,10 @@ namespace SIL.Pa.Data
 	/// ----------------------------------------------------------------------------------------
 	public class PhoneInfo : IPhoneInfo
 	{
-		private int m_totalCount;
-		private int m_countAsNonPrimaryUncertainty;
-		private int m_countAsPrimaryUncertainty;
-		private IPASymbolType m_charType = IPASymbolType.Unknown;
-		private List<string> m_siblingUncertainties = new List<string>();
 		private string m_moaKey;
 		private string m_poaKey;
 		private char m_baseChar = '\0';
-		private string m_phone;
-		private bool m_isUndefined;
-		private bool m_featuresOverridden;
-		
+
 		private List<string> m_aFeatures;
 		private List<string> m_bFeatures;
 		private FeatureMask m_aMask;
@@ -51,6 +43,8 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public PhoneInfo()
 		{
+			SiblingUncertainties = new List<string>();
+			CharType = IPASymbolType.Unknown;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,16 +63,18 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		internal PhoneInfo(string phone, bool isUndefined)
 		{
-			m_phone = phone;
-			m_isUndefined = isUndefined;
+			SiblingUncertainties = new List<string>();
+			CharType = IPASymbolType.Unknown;
+			Phone = phone;
+			IsUndefined = isUndefined;
 
 			if (string.IsNullOrEmpty(phone))
 				return;
 
 			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
-			m_featuresOverridden = ShouldFeaturesBeOverridden(phone);
+			FeaturesAreOverridden = ShouldFeaturesBeOverridden(phone);
 
-			if (phoneIsAmbiguous && m_featuresOverridden)
+			if (phoneIsAmbiguous && FeaturesAreOverridden)
 				return;
 
 			m_aMask = DataUtils.AFeatureCache.GetEmptyMask();
@@ -96,11 +92,11 @@ namespace SIL.Pa.Data
 				// it has already had it's character type and base character specified.
 				if (!phoneIsAmbiguous && charInfo.IsBase)
 				{
-					m_charType = charInfo.Type;
+					CharType = charInfo.Type;
 					m_baseChar = c;
 				}
 
-				if (!m_featuresOverridden)
+				if (!FeaturesAreOverridden)
 				{
 					m_aMask |= charInfo.AMask;
 					m_bMask |= charInfo.BMask;
@@ -127,7 +123,7 @@ namespace SIL.Pa.Data
 				if (charInfo != null)
 				{
 					m_baseChar = ambigSeq.BaseChar[0];
-					m_charType = charInfo.Type;
+					CharType = charInfo.Type;
 					return true;
 				}
 			}
@@ -164,17 +160,17 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public IPhoneInfo Clone()
 		{
-			PhoneInfo clone = new PhoneInfo(m_phone);
-			clone.m_totalCount = m_totalCount;
-			clone.m_countAsNonPrimaryUncertainty = m_countAsNonPrimaryUncertainty;
-			clone.m_countAsPrimaryUncertainty = m_countAsPrimaryUncertainty;
-			clone.m_charType = m_charType;
+			PhoneInfo clone = new PhoneInfo(Phone);
+			clone.TotalCount = TotalCount;
+			clone.CountAsNonPrimaryUncertainty = CountAsNonPrimaryUncertainty;
+			clone.CountAsPrimaryUncertainty = CountAsPrimaryUncertainty;
+			clone.CharType = CharType;
 			clone.m_moaKey = m_moaKey;
 			clone.m_poaKey = m_poaKey;
 			clone.m_baseChar = m_baseChar;
-			clone.m_siblingUncertainties = new List<string>(m_siblingUncertainties);
-			clone.m_isUndefined = m_isUndefined;
-			clone.m_featuresOverridden = m_featuresOverridden;
+			clone.SiblingUncertainties = new List<string>(SiblingUncertainties);
+			clone.IsUndefined = IsUndefined;
+			clone.FeaturesAreOverridden = FeaturesAreOverridden;
 			clone.m_aMask = m_aMask.Clone();
 			clone.m_bMask = m_bMask.Clone();
 
@@ -188,7 +184,7 @@ namespace SIL.Pa.Data
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return m_phone;
+			return Phone;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,10 +193,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool FeaturesAreOverridden
-		{
-			get { return m_featuresOverridden; }
-		}
+		public bool FeaturesAreOverridden { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -211,11 +204,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Phone
-		{
-			get { return m_phone; }
-			set { m_phone = value; }
-		}
+		public string Phone { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -237,10 +226,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public List<string> SiblingUncertainties
-		{
-			get { return m_siblingUncertainties; }
-		}
+		public List<string> SiblingUncertainties { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -248,11 +234,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int TotalCount
-		{
-			get { return m_totalCount; }
-			set { m_totalCount = value; }
-		}
+		public int TotalCount { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -261,11 +243,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int CountAsNonPrimaryUncertainty
-		{
-			get { return m_countAsNonPrimaryUncertainty; }
-			set { m_countAsNonPrimaryUncertainty = value; }
-		}
+		public int CountAsNonPrimaryUncertainty { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -274,11 +252,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int CountAsPrimaryUncertainty
-		{
-			get { return m_countAsPrimaryUncertainty; }
-			set { m_countAsPrimaryUncertainty = value; }
-		}
+		public int CountAsPrimaryUncertainty { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -286,11 +260,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public IPASymbolType CharType
-		{
-			get { return m_charType; }
-			set { m_charType = value; }
-		}
+		public IPASymbolType CharType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -342,7 +312,7 @@ namespace SIL.Pa.Data
 		/// for phones whose features are overridden.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("ArticulatoryFeatures")]
+		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
 		public List<string> AFeatures
 		{
 			get
@@ -359,7 +329,7 @@ namespace SIL.Pa.Data
 		/// for phones whose features are overridden.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("BinaryFeatures")]
+		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
 		public List<string> BFeatures
 		{
 			get
@@ -380,7 +350,7 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_isUndefined)
+				if (IsUndefined)
 					return "000";
 
 				if (m_moaKey == null)
@@ -389,7 +359,7 @@ namespace SIL.Pa.Data
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					m_moaKey = DataUtils.GetMOAKey(m_phone) ?? string.Empty;
+					m_moaKey = DataUtils.GetMOAKey(Phone) ?? string.Empty;
 				}
 
 				return (m_moaKey == string.Empty ? null : m_moaKey);
@@ -406,7 +376,7 @@ namespace SIL.Pa.Data
 		{
 			get
 			{
-				if (m_isUndefined)
+				if (IsUndefined)
 					return "000";
 
 				if (m_poaKey == null)
@@ -415,7 +385,7 @@ namespace SIL.Pa.Data
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					m_poaKey = DataUtils.GetPOAKey(m_phone) ?? string.Empty;
+					m_poaKey = DataUtils.GetPOAKey(Phone) ?? string.Empty;
 				}
 
 				return (m_poaKey == string.Empty ? null : m_poaKey);
@@ -430,11 +400,7 @@ namespace SIL.Pa.Data
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool IsUndefined
-		{
-			get { return m_isUndefined; }
-			internal set { m_isUndefined = value; }
-		}
+		public bool IsUndefined { get; internal set; }
 	}
 
 	#endregion

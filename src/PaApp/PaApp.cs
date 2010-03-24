@@ -27,6 +27,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Filters;
 using SIL.Pa.Resources;
 using SilUtils;
 using SilUtils.Controls;
@@ -94,36 +95,17 @@ namespace SIL.Pa
 
 		private static string s_breakChars;
 		private static string s_helpFilePath;
-		private static ITMAdapter s_tmAdapter;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
 		private static ToolStripStatusLabel s_progressBarLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
-		private static Form s_mainForm;
-		private static ITabView s_currentView;
-		private static Type s_currentViewType;
-		private static bool s_projectLoadInProcess;
 		private static PaProject s_project;
-		private static RecordCache s_recCache;
-		private static WordCache s_wordCache;
 		private static PhoneCache s_phoneCache;
 		private static PaFieldInfoList s_fieldInfo;
-		private static ISplashScreen s_splashScreen;
-		private static string s_defaultProjFolder;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
-		private static readonly string s_settingsFile;
-		private static readonly PaSettingsHandler s_settingsHndlr;
-		private static readonly Mediator s_msgMediator;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
-		private static readonly Size s_minViewWindowSize;
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
-
-		// The PA add-on DLL provides undocumented features, if it exists in the pa.exe
-		// folder. The add-on manager class is the class in the DLL that links PA with
-		// the add-on. At this point, it's all done through reflection.
-		private static List<Assembly> s_addOnAssemblys;
-		private static List<object> s_addOnManagers;
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -133,35 +115,35 @@ namespace SIL.Pa
 		static PaApp()
 		{
 			InitializePaRegKey();
-			s_settingsFile = Path.Combine(s_defaultProjFolder, "pa.xml");
-			s_settingsHndlr = new PaSettingsHandler(s_settingsFile);
-			s_msgMediator = new Mediator();
+			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
+			SettingsHandler = new PaSettingsHandler(SettingsFile);
+			MsgMediator = new Mediator();
 
 			LocalizationManager.Initialize();
-			string langId = s_settingsHndlr.GetStringSettingsValue("UserInterface", "lang", null);
+			string langId = SettingsHandler.GetStringSettingsValue("UserInterface", "lang", null);
 			LocalizationManager.UILangId = langId ?? LocalizationManager.kDefaultLang;
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
 			s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
 
-			s_minViewWindowSize = new Size(
-				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "width", 550),
-				s_settingsHndlr.GetIntSettingsValue("minviewwindowsize", "height", 450));
+			MinimumViewWindowSize = new Size(
+				SettingsHandler.GetIntSettingsValue("minviewwindowsize", "width", 550),
+				SettingsHandler.GetIntSettingsValue("minviewwindowsize", "height", 450));
 
-			string val = s_settingsHndlr.GetStringSettingsValue("uncertainphonegroups",
+			string val = SettingsHandler.GetStringSettingsValue("uncertainphonegroups",
 				"absenceofphonechars", null);
 			
 			if (val != null)
 				IPASymbolCache.UncertainGroupAbsentPhoneChars = val;
 
-			val = s_settingsHndlr.GetStringSettingsValue("uncertainphonegroups",
+			val = SettingsHandler.GetStringSettingsValue("uncertainphonegroups",
 				"absenceofphonecharinpopup", "\u2205");
 				
 			if (val != null)
 				IPASymbolCache.UncertainGroupAbsentPhoneChar = val;
 				
-			FwDBUtils.ShowMsgWhenGatheringFWInfo = s_settingsHndlr.GetBoolSettingsValue(
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = SettingsHandler.GetBoolSettingsValue(
 				"fieldworks", "showmsgwhengatheringinfo", false);
 
 			ReadAddOns();
@@ -172,7 +154,8 @@ namespace SIL.Pa
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 
 			// Load the cache of IPA symbols, articulatory and binary features.
-			InventoryHelper.Load();
+			if (!DesignMode)
+				InventoryHelper.Load();
 		}
 
 		#region event handlers for saving and restoring localization dialog settings
@@ -227,11 +210,11 @@ namespace SIL.Pa
 		{
 			// Show the splash screen only if the show property of the
 			// SplashScreen item in the settings file is not set to false.
-			if (s_settingsHndlr.GetBoolSettingsValue("SplashScreen", "show", true))
+			if (SettingsHandler.GetBoolSettingsValue("SplashScreen", "show", true))
 			{
-				s_splashScreen = new SplashScreen(false, false);
-				s_splashScreen.Show();
-				s_splashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
+				SplashScreen = new SplashScreen(false, false);
+				SplashScreen.Show();
+				SplashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
 			}
 		}
 
@@ -302,14 +285,14 @@ namespace SIL.Pa
 
 						if (instance != null)
 						{
-							if (s_addOnAssemblys == null)
-								s_addOnAssemblys = new List<Assembly>();
+							if (AddOnAssemblys == null)
+								AddOnAssemblys = new List<Assembly>();
 
-							if (s_addOnManagers == null)
-								s_addOnManagers = new List<object>();
+							if (AddOnManagers == null)
+								AddOnManagers = new List<object>();
 
-							s_addOnAssemblys.Add(assembly);
-							s_addOnManagers.Add(instance);
+							AddOnAssemblys.Add(assembly);
+							AddOnManagers.Add(instance);
 						}
 					}
 				}
@@ -343,7 +326,7 @@ namespace SIL.Pa
 				key.Close();
 			}
 
-			s_defaultProjFolder = projPath;
+			DefaultProjectFolder = projPath;
 
 			// Create the folder if it doesn't exist.
 			if (!Directory.Exists(projPath))
@@ -392,28 +375,21 @@ namespace SIL.Pa
 		}
 
 		#region Cache related properties and methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static RecordCache RecordCache
-		{
-			get { return s_recCache; }
-			set { s_recCache = value; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static WordCache WordCache
-		{
-			get { return s_wordCache; }
-			set { s_wordCache = value; }
-		}
-		
+		public static RecordCache RecordCache { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static WordCache WordCache { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Builds the cache of phones from the data corpus.
@@ -422,15 +398,15 @@ namespace SIL.Pa
 		public static void BuildPhoneCache()
 		{
 			string conSymbol =
-				s_settingsHndlr.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
+				SettingsHandler.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
 
 			string vowSymbol =
-				s_settingsHndlr.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
+				SettingsHandler.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
 
 			s_phoneCache = new PhoneCache(conSymbol, vowSymbol);
 			SearchEngine.PhoneCache = s_phoneCache;
 
-			foreach (WordCacheEntry entry in s_wordCache)
+			foreach (WordCacheEntry entry in WordCache)
 			{
 				string[] phones = entry.Phones;
 
@@ -590,7 +566,7 @@ namespace SIL.Pa
 		{
 			if (colleague != null && !DesignMode)
 			{
-				s_msgMediator.AddColleague(colleague);
+				MsgMediator.AddColleague(colleague);
 
 				if (!s_colleagueList.Contains(colleague))
 					s_colleagueList.Add(colleague);
@@ -608,7 +584,7 @@ namespace SIL.Pa
 			{
 				try
 				{
-					s_msgMediator.RemoveColleague(colleague);
+					MsgMediator.RemoveColleague(colleague);
 				}
 				catch { }
 
@@ -642,10 +618,7 @@ namespace SIL.Pa
 		/// Gets the XCore message mediator for the application.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Mediator MsgMediator
-		{
-			get { return s_msgMediator; }
-		}
+		public static Mediator MsgMediator { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -653,32 +626,21 @@ namespace SIL.Pa
 		/// can hold all the views.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Size MinimumViewWindowSize
-		{
-			get { return s_minViewWindowSize; }
-		}
+		public static Size MinimumViewWindowSize { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the default location for PA projects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string DefaultProjectFolder
-		{
-			get { return s_defaultProjFolder; }
-			set { s_defaultProjFolder = value; }
-		}
+		public static string DefaultProjectFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the application's splash screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static ISplashScreen SplashScreen
-		{
-			get { return s_splashScreen; }
-			set { s_splashScreen = value; }
-		}
+		public static ISplashScreen SplashScreen { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -688,7 +650,11 @@ namespace SIL.Pa
 		public static PaProject Project
 		{
 			get { return s_project; }
-			set { s_project = value; }
+			set
+			{
+				s_project = value;
+				FilterHelper.LoadFilters(s_project);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -696,11 +662,7 @@ namespace SIL.Pa
 		/// Gets or sets a value indicating whether or not a project is being loaded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool ProjectLoadInProcess
-		{
-			get { return s_projectLoadInProcess; }
-			set { s_projectLoadInProcess = value; }
-		}
+		public static bool ProjectLoadInProcess { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -725,11 +687,7 @@ namespace SIL.Pa
 		/// by the PaMainWnd class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static ITMAdapter TMAdapter
-		{
-			get {return s_tmAdapter;}
-			set {s_tmAdapter = value;}
-		}
+		public static ITMAdapter TMAdapter { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -737,20 +695,14 @@ namespace SIL.Pa
 		/// settings.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static string SettingsFile
-		{
-			get	{return s_settingsFile;}
-		}
+		public static string SettingsFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PaSettingsHandler SettingsHandler
-		{
-			get {return s_settingsHndlr;}
-		}
+		public static PaSettingsHandler SettingsHandler { get; private set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -767,11 +719,7 @@ namespace SIL.Pa
 		/// Gets or sets the application's main form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Form MainForm
-		{
-			get { return s_mainForm; }
-			set { s_mainForm = value; }
-		}
+		public static Form MainForm { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -779,22 +727,14 @@ namespace SIL.Pa
 		/// this form will not be visible.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static ITabView CurrentView
-		{
-			get { return s_currentView; }
-			set { s_currentView = value; }
-		}
+		public static ITabView CurrentView { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the application's current view type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Type CurrentViewType
-		{
-			get { return s_currentViewType; }
-			set { s_currentViewType = value; }
-		}
+		public static Type CurrentViewType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -805,8 +745,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
-					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
 				return (udvwnd != null ? udvwnd.StatusBarLabel : s_statusBarLabel);
 			}
@@ -822,8 +762,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
-					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
 				return (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			}
@@ -839,8 +779,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
-					s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
 				return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 			}
@@ -852,20 +792,14 @@ namespace SIL.Pa
 		/// PA add-on DLL provides undocumented features, if it exists in the pa.exe folder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<Assembly> AddOnAssemblys
-		{
-			get { return s_addOnAssemblys; }
-		}
+		public static List<Assembly> AddOnAssemblys { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// PA add-on manager provides undocumented features, if it exists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<object> AddOnManagers
-		{
-			get { return s_addOnManagers; }
-		}
+		public static List<object> AddOnManagers { get; private set; }
 
 		#endregion
 
@@ -1195,10 +1129,7 @@ namespace SIL.Pa
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
 				adapter.RecentFilesList = RecentlyUsedProjectList;
-				adapter.RecentlyUsedItemChosen += delegate(string filename)
-				{
-					MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename);
-				};
+				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
 			}
 
 			if (s_defaultMenuAdapters == null)
@@ -1380,7 +1311,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text)
 		{
-			return InitializeProgressBar(text, s_wordCache.Count);
+			return InitializeProgressBar(text, WordCache.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1390,8 +1321,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
-			IUndockedViewWnd udvwnd = (s_currentView != null && s_currentView.ActiveView ?
-				s_currentView.OwningForm : MainForm) as IUndockedViewWnd;
+			IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+				CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
 			ToolStripProgressBar bar =
 				(udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
@@ -1423,8 +1354,8 @@ namespace SIL.Pa
 			string text = string.Format(Properties.Resources.kstidViewInitProgBarTemplate, viewName);
 			InitializeProgressBar(text, maxValue);
 
-			if (s_splashScreen != null && s_splashScreen.StillAlive)
-				s_splashScreen.Message = text;
+			if (SplashScreen != null && SplashScreen.StillAlive)
+				SplashScreen.Message = text;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1488,8 +1419,8 @@ namespace SIL.Pa
 
 			if (lbl != null)
 			{
-				if (s_splashScreen != null && s_splashScreen.StillAlive)
-					s_splashScreen.Message = label;
+				if (SplashScreen != null && SplashScreen.StillAlive)
+					SplashScreen.Message = label;
 
 				lbl.Text = label;
 				Application.DoEvents();
@@ -1503,16 +1434,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void CloseSplashScreen()
 		{
-			if (s_splashScreen != null && s_splashScreen.StillAlive)
+			if (SplashScreen != null && SplashScreen.StillAlive)
 			{
 				Application.DoEvents();
 				if (MainForm != null)
 					MainForm.Activate();
 
-				s_splashScreen.Close();
+				SplashScreen.Close();
 			}
 
-			s_splashScreen = null;
+			SplashScreen = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1673,13 +1604,13 @@ namespace SIL.Pa
 		{
 			s_openForms.Clear();
 
-			if (s_mainForm == null)
+			if (MainForm == null)
 				return;
 
 			// There may be some child forms not in the s_openForms collection. If that's
 			// the case, then close them this way.
-			for (int i = s_mainForm.MdiChildren.Length - 1; i >= 0; i--)
-				s_mainForm.MdiChildren[i].Close();
+			for (int i = MainForm.MdiChildren.Length - 1; i >= 0; i--)
+				MainForm.MdiChildren[i].Close();
 		}
 
 		#endregion

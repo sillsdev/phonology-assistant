@@ -23,6 +23,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Data;
 using SIL.Pa.FFSearchEngine;
+using SIL.Pa.Filters;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -608,6 +609,159 @@ namespace SIL.Pa.UI
 		//    PaApp.EnableWhenProjectOpen(args as TMItemProperties);
 		//    return true;
 		//}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Hides the menu item that's a place holder for adding the menu items for each
+		/// filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateFiltersPlaceholder(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+
+			if (itemProps != null)
+			{
+				itemProps.Visible = false;
+				itemProps.Update = true;
+			}
+			
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a menu item for each filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDropDownFiltersParent(object args)
+		{
+			ToolBarPopupInfo tbpi = args as ToolBarPopupInfo;
+			if (tbpi == null)
+				return false;
+
+			const string cmdId = "CmdExecuteFilter";
+			tbpi.Adapter.AddCommandItem(cmdId, "EnableFilter");
+
+			foreach (var filter in FilterHelper.Filters)
+			{
+				if (filter.ShowInToolbarList)
+				{
+					var props = new TMItemProperties();
+					props.Text = filter.Name;
+					props.CommandId = cmdId;
+					props.Name = "FILTER:" + filter.Name;
+					props.Tag = filter;
+					props.Checked = (FilterHelper.CurrentFilter == filter);
+					props.Visible = true;
+					props.Update = true;
+					tbpi.Adapter.AddMenuItem(props, "mnuFiltersMain", "mnuFilterPlaceholder");
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes the filter menu items added in OnDropDownFiltersParent().
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDropDownClosedFiltersParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			foreach (var filter in FilterHelper.Filters)
+			{
+				if (filter.ShowInToolbarList)
+					itemProps.Adapter.RemoveItem("FILTER:" + filter.Name);
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnEnableFilter(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			FilterHelper.ApplyFilter(itemProps.Tag as Filter);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilters(object args)
+		{
+			using (var dlg = new DefineFiltersDlg())
+				dlg.ShowDialog(this);
+			
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateFilters(object args)
+		{
+			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnNoFilter(object args)
+		{
+			FilterHelper.TurnOffCurrentFilter();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateNoFilter(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps != null)
+				itemProps.Enabled = (FilterHelper.CurrentFilter != null);
+
+			itemProps.Visible = (FilterHelper.Filters.Count > 0);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterChanged(object args)
+		{
+			var filter = args as Filter;
+			sblblFilter.Visible = (filter != null);
+			if (filter != null)
+				sblblFilter.Text = filter.Name;
+
+			return false;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

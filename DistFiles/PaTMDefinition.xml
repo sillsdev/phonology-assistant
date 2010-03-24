@@ -108,7 +108,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, CmdFindPrevious, 49, 50,
 				CmdDataCorpus, CmdXYChart, 53, 54, 55, 56, CmdShowCIEResults,
 				CmdGroupByFieldParent, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
-				CmdPhoneInventory, CmdHelpPA, CmdHelpTraining, CmdHelpAbout">
+				CmdPhoneInventory, CmdHelpPA, CmdHelpTraining, CmdHelpAbout, CmdFilters">
 		</imageList>
 	</resources>
 
@@ -153,6 +153,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
 		<command id="CmdDefineClasses" message="DefineClasses"/>
+		<command id="CmdFiltersParent" message="FiltersParent" image="CmdFilters"/>
+		<command id="CmdNoFilter" message="NoFilter"/>
+		<command id="CmdFiltersPlaceholder" message="FiltersPlaceholder"/>
+		<command id="CmdFilters" message="Filters"/>
 		<command id="CmdAmbiguousSequences" message="AmbiguousSequences"/>
 		<command id="CmdExperimentalTranscriptions" message="ExperimentalTranscriptions"/>
 		<command id="CmdFeatures" message="Features"/>
@@ -247,7 +251,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<item name="mnuTools" commandid="CmdTools">
 			<item name="mnuFeatures" commandid="CmdFeatures" />
 			<item name="mnuDefClasses" commandid="CmdDefineClasses" />
-			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences" begingroup="true"/>
+			<item name="mnuFiltersOnToolsMenu" commandid="CmdFilters" begingroup="true"/>
+			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences"/>
 			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
 			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
 			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
@@ -265,8 +270,14 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuHelpAbout" commandid="CmdHelpAbout" begingroup="true"/>
 		</item>
 		<item name="mnuUnDockView" commandid="CmdUnDockView" displaytype="0" rightaligned="true" rightmargin="10" visible="false"/>
+		<item name="mnuUnDockView" commandid="CmdUnDockView" displaytype="0" rightaligned="true" rightmargin="10" visible="false"/>
 		<item name="mnuDockView" commandid="CmdDockView" displaytype="0" rightaligned="true" rightmargin="10"/>
-		<item name="mnuOptionsMain" commandid="CmdOptions" displaytype="0" rightaligned="true"/>
+		<item name="mnuOptionsMain" commandid="CmdOptions" displaytype="0" rightaligned="true" begingroup="true"/>
+		<item name="mnuFiltersMain" commandid="CmdFiltersParent" type="2" displaytype="0" split="false" rightaligned="true">
+			<item name="mnuNoFilter" commandid="CmdNoFilter" />
+			<item name="mnuFilterPlaceholder" commandid="CmdFiltersPlaceholder" begingroup="true"/>
+			<item name="mnuFilters" commandid="CmdFilters" begingroup="true"/>
+		</item>
 		<!--item name="mnuAmbiguousItems" commandid="CmdAmbiguousItems" displaytype="0" rightaligned="true"/-->
 	</menus>
 </TMDef>

@@ -58,38 +58,40 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// ----------------------------------------------------------------------------------------
 	public class TMItemProperties
 	{
-		private bool m_update = false;
-		private string m_name = string.Empty;
-		private string m_text = string.Empty;
-		private string m_category = string.Empty;
-		private string m_tooltip = string.Empty;
-		private string m_commandId = string.Empty;
-		private string m_message = string.Empty;
-		private string m_originalText = string.Empty;
-		private Keys m_shortcutKey = Keys.None;
 		//private string m_statusMsg = string.Empty;
 		//private string m_shortcut = "None";
-		private bool m_enabled = true;
-		private bool m_checked = false;
-		private bool m_visible = true;
-		private bool m_beginGroup = false;
 		//private bool m_isImageAppSpecific = false;
 		//private int m_imageIndex = -1;
-		private Control m_ctrl = null;
-		private Image m_image = null;
-		private ArrayList m_list = null;
-		private Control m_parentCtrl = null;
-		private object m_tag = null;
-		private Size m_size = Size.Empty;
+
+		public TMItemProperties()
+		{
+			Name = string.Empty;
+			Text = string.Empty;
+			OriginalText = string.Empty;
+			Category = string.Empty;
+			Tooltip = string.Empty;
+			CommandId = string.Empty;
+			Message = string.Empty;
+			Enabled = true;
+			Checked = false;
+			Visible = true;
+			BeginGroup = false;
+			ShortcutKey = Keys.None;
+			Image = null;
+			Control = null;
+			List = null;
+			ParentControl = null;
+			Update = false;
+			Tag = null;
+			Size = Size.Empty;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a TMItemProperties object.
+		/// This setter has no affect except in the adapter code.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public TMItemProperties()
-		{
-		}
+		public ITMAdapter Adapter { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -98,34 +100,22 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// an item's name to instantiators of a toolbar adapter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Name
-		{
-			get {return m_name;}
-			set {m_name = value;}
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the text for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Text
-		{
-			get {return m_text;}
-			set {m_text = value;}
-		}
-		
+		public string Text { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the value of the item's text as it came from the resources. Setting this
 		/// value in your appication has no effect. It is ignored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string OriginalText
-		{
-			get {return m_originalText;}
-			set {m_originalText = value;}
-		}
+		public string OriginalText { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -133,33 +123,21 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Category
-		{
-			get {return m_category;}
-			set {m_category = value;}
-		}
+		public string Category { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the tooltip for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Tooltip
-		{
-			get {return m_tooltip;}
-			set {m_tooltip = value;}
-		}
+		public string Tooltip { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the command Id for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string CommandId
-		{
-			get {return m_commandId;}
-			set {m_commandId = value;}
-		}
+		public string CommandId { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -167,11 +145,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// application has no effect. It is ignored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Message
-		{
-			get {return m_message;}
-			set {m_message = value;}
-		}
+		public string Message { get; set; }
 
 //		/// ------------------------------------------------------------------------------------
 //		/// <summary>
@@ -189,34 +163,22 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Gets or sets the enabled state for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Enabled
-		{
-			get {return m_enabled;}
-			set {m_enabled = value;}
-		}
+		public bool Enabled { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the checked state for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Checked
-		{
-			get {return m_checked;}
-			set {m_checked = value;}
-		}
-	
+		public bool Checked { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the visible state for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Visible
-		{
-			get {return m_visible;}
-			set {m_visible = value;}
-		}
-	
+		public bool Visible { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the item begins a group (for menu
@@ -224,11 +186,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// be a dividing line.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool BeginGroup
-		{
-			get {return m_beginGroup;}
-			set {m_beginGroup = value;}
-		}
+		public bool BeginGroup { get; set; }
 
 //		/// ------------------------------------------------------------------------------------
 //		/// <summary>
@@ -271,33 +229,21 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Gets or sets the shortcut key for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Keys ShortcutKey
-		{
-			get { return m_shortcutKey; }
-			set { m_shortcutKey = value; }
-		}
+		public Keys ShortcutKey { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the image for a menu/toolbar item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get {return m_image;}
-			set {m_image = value;}
-		}
+		public Image Image { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the control hosted by toolbar items whose type is ComboBox or control container.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control Control
-		{
-			get {return m_ctrl;}
-			set {m_ctrl = value;}
-		}
+		public Control Control { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -305,11 +251,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// toolbar item is a combobox, this list may contain all the item's in the combobox.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ArrayList List
-		{
-			get {return m_list;}
-			set {m_list = value;}
-		}
+		public ArrayList List { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -318,11 +260,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// adapters to use.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control ParentControl
-		{
-			get {return m_parentCtrl;}
-			set {m_parentCtrl = value;}
-		}
+		public Control ParentControl { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -331,11 +269,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// control leaves the command handler and is returned to the toolbar adapter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Update
-		{
-			get {return m_update;}
-			set {m_update = value;}
-		}
+		public bool Update { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -343,22 +277,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// an adapter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public object Tag
-		{
-			get {return m_tag;}
-			set {m_tag = value;}
-		}
+		public object Tag { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the item's size
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Size Size
-		{
-			get { return m_size; }
-			set { m_size = value; }
-		}
+		public Size Size { get; set; }
 	}
 
 	#endregion
@@ -372,13 +298,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// ----------------------------------------------------------------------------------------
 	public class TMBarProperties
 	{
-		private bool m_update;
-		private string m_name;
-		private string m_text;
-		private bool m_enabled;
-		private bool m_visible;
-		private Control m_parentCtrl;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates a TMBarProperties object.
@@ -392,22 +311,19 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Creates a TMBarProperties object.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="text"></param>
-		/// <param name="enabled"></param>
-		/// <param name="visible"></param>
-		/// <param name="parentCtrl">The form on which the toolbar is located.</param>
 		/// ------------------------------------------------------------------------------------
-		public TMBarProperties(string name, string text, bool enabled, bool visible, Control parentCtrl)
+		public TMBarProperties(string name, string text, bool enabled, bool visible,
+			Control parentCtrl, ITMAdapter adapter)
 		{
-			m_name = name;
-			m_text = text;
-			m_enabled = enabled;
-			m_visible = visible;
-			m_parentCtrl = parentCtrl;
-			m_update = false;
+			Name = name;
+			Text = text;
+			Enabled = enabled;
+			Visible = visible;
+			ParentControl = parentCtrl;
+			Adapter = adapter;
+			Update = false;
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the name for a toolbar. Setting this value should not change
@@ -415,45 +331,29 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// instantiators of a toolbar adapter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Name
-		{
-			get {return m_name;}
-			set {m_name = value;}
-		}
-		
+		public string Name { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the display text for a toolbar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Text
-		{
-			get {return m_text;}
-			set {m_text = value;}
-		}
-		
+		public string Text { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the enabled state for a toolbar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Enabled
-		{
-			get {return m_enabled;}
-			set {m_enabled = value;}
-		}
+		public bool Enabled { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the visible state for a toolbar.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Visible
-		{
-			get {return m_visible;}
-			set {m_visible = value;}
-		}
-	
+		public bool Visible { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the control or form on which the toolbar item is located. Setting
@@ -461,11 +361,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// toolbar adapters to use.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control ParentControl
-		{
-			get {return m_parentCtrl;}
-			set {m_parentCtrl = value;}
-		}
+		public Control ParentControl { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -474,11 +370,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// control leaves the command handler and is returned to the toolbar adapter.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Update
-		{
-			get {return m_update;}
-			set {m_update = value;}
-		}
+		public bool Update { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This setter has no affect except in the adapter code.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ITMAdapter Adapter { get; set; }
 	}
 
 	#endregion
@@ -493,9 +392,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	/// ----------------------------------------------------------------------------------------
 	public class ToolBarPopupInfo
 	{
-		private string m_name;
-		private Control m_ctrl;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Instantiates a new, uninitialized ToolBarPopupInfo object.
@@ -513,30 +409,29 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public ToolBarPopupInfo(string name)
 		{
-			m_name = name;
+			Name = name;
 		}
-	
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This setter has no affect except in the adapter code.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ITMAdapter Adapter { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the name of the toolbar popup item.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Name
-		{
-			get {return m_name;}
-			set {m_name = value;}
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the control to be popped-up.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control Control
-		{
-			get {return m_ctrl;}
-			set {m_ctrl = value;}
-		}
+		public Control Control { get; set; }
 	}
 
 	#endregion

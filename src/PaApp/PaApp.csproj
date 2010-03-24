@@ -154,6 +154,9 @@
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="CIEBuilder.cs" />
+    <Compile Include="Filters\FilterExpression.cs" />
+    <Compile Include="Filters\FilterHelper.cs" />
+    <Compile Include="Filters\Filters.cs" />
     <Compile Include="PaFieldInfo.cs" />
     <Compile Include="PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -258,6 +261,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter-Small.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)"
@@ -266,7 +272,7 @@ copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(Ou
 copy "$(TargetDir)..\..\DistFiles\SearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)$(OutDir)"
+copy "$(TargetDir)..\..\DistFiles\PhoneticInventory.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)"

@@ -192,9 +192,6 @@
     <value>Would you like to load the '{0}' project?</value>
     <comment>Question asked of user after they create a new PA project.</comment>
   </data>
-  <data name="kimidFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Filter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kstidDataCorpusHTMLChartType" xml:space="preserve">
     <value>Data Corpus</value>
     <comment>Written to the charttype attribute in HTML exported output</comment>
@@ -1017,5 +1014,49 @@
   <data name="kstidAutoHideToolTip" xml:space="preserve">
     <value>Automatically Hide</value>
     <comment>Tooltip for the sliding panel auto. hide button</comment>
+  </data>
+  <data name="kimidDefineFilters" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FilterDlg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidFilterSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Filter-Small.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kimidGrayFilter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GrayFilter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kstidCopiedFilterNamePrefix" xml:space="preserve">
+    <value>Copy of {0}</value>
+    <comment>The parameter is the name of the filter to copy in the define filterrs dialog.</comment>
+  </data>
+  <data name="kstidFilterFieldColHdgText" xml:space="preserve">
+    <value>Field</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterNameExistsMsg" xml:space="preserve">
+    <value>The filter '{0}' already exists.</value>
+    <comment>Message displayed when adding a filter in the define filters dialog if the filter name already exists.</comment>
+  </data>
+  <data name="kstidFilterOperatorColHdgText" xml:space="preserve">
+    <value>Operator</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterTypeColHdgText" xml:space="preserve">
+    <value>Type</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidFilterValueColHdgText" xml:space="preserve">
+    <value>Value</value>
+    <comment>Column heading for the define dialog's grid</comment>
+  </data>
+  <data name="kstidNewFilterName" xml:space="preserve">
+    <value>New Filter {0}</value>
+    <comment>The parameter is a number. Used as default filter name when adding filters in the define filters dialog.</comment>
+  </data>
+  <data name="kstidShowFilterToolTipText" xml:space="preserve">
+    <value>Check to display this filter in the\nfilter toolbar button’s drop-down list.</value>
+    <comment>Tooltip for checkbox on define filter dialog.</comment>
   </data>
 </root>

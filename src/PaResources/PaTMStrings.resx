@@ -922,4 +922,13 @@
     <value>&amp;Features...</value>
     <comment>Menu item text</comment>
   </data>
+  <data name="kstidFiltersParentToolTip" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="kstidFiltersText" xml:space="preserve">
+    <value>&amp;Filters...</value>
+  </data>
+  <data name="kstidNoFilterText" xml:space="preserve">
+    <value>(&amp;No Filter)</value>
+  </data>
 </root>

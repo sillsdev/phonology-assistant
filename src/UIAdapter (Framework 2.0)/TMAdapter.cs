@@ -329,7 +329,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="definitions"></param>
 		/// ------------------------------------------------------------------------------------
-		private void GetSettingFilesPrefix(string[] definitions)
+		private void GetSettingFilesPrefix(IEnumerable<string> definitions)
 		{
 			XmlDocument xmlDef = new XmlDocument();
 			xmlDef.PreserveWhitespace = false;
@@ -700,7 +700,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="definitions"></param>
 		/// ------------------------------------------------------------------------------------
-		private void ReadResourcesAndCommands(string[] definitions)
+		private void ReadResourcesAndCommands(IEnumerable<string> definitions)
 		{
 			XmlDocument xmlDef = new XmlDocument();
 			
@@ -992,9 +992,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="definitions"></param>
 		/// ------------------------------------------------------------------------------------
-		private void ReadMenuDefinitions(string[] definitions)
+		private void ReadMenuDefinitions(IEnumerable<string> definitions)
 		{
 			XmlDocument xmlDef = new XmlDocument();
 			
@@ -1023,7 +1022,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					m_menuBar.ShowItemToolTips = true;
 				}
 
-				ReadMenuItems(node, m_menuBar, false);
+				ReadMenuItems(node, m_menuBar);
 			}
 		}
 
@@ -1050,7 +1049,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					cmnu.ShowItemToolTips = GetBoolFromAttribute(node, "showitemtooltips", false);
 					cmnu.Opened += HandleContextMenuOpened;
 					
-					ReadMenuItems(node.FirstChild, cmnu, true);
+					ReadMenuItems(node.FirstChild, cmnu);
 					
 					if (cmnu.Items.Count > 0)
 					{
@@ -1078,11 +1077,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Recursively builds menus.
 		/// </summary>
-		/// <param name="node"></param>
-		/// <param name="parentItem"></param>
-		/// <param name="readingContextMenus"></param>
 		/// ------------------------------------------------------------------------------------
-		private void ReadMenuItems(XmlNode node, object parentItem, bool readingContextMenus)
+		private void ReadMenuItems(XmlNode node, object parentItem)
 		{
 			if (parentItem == null)
 				return;
@@ -1112,19 +1108,23 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				
 				// When we're reading the menu section of the XML, we don't need to send
 				// the parent item to ReadSingleItem. Therefore, send null.
-				ToolStripMenuItem item = (ToolStripMenuItem)ReadSingleItem(node, null, true);
+				var item = ReadSingleItem(node, null, true);
 
 				// Check if this item, after which, the recently used list will appear.
-				if (GetBoolFromAttribute(node, "recentlyusedlist"))
+				var itemAsMenuItem = item as ToolStripMenuItem;
+				if (itemAsMenuItem != null)
 				{
-					item.Visible = false;
-					m_rufMarkerItem = item;
-				}
+					if (GetBoolFromAttribute(node, "recentlyusedlist"))
+					{
+						item.Visible = false;
+						m_rufMarkerItem = itemAsMenuItem;
+					}
 
-				// If the item has a shortcut then we need to add it to the list of
-				// menu items to get updated during the application's idle cycles.
-				if (item.ShortcutKeys != Keys.None && !m_menusWithShortcuts.Contains(item))
-					m_menusWithShortcuts.Add(item);
+					// If the item has a shortcut then we need to add it to the list of
+					// menu items to get updated during the application's idle cycles.
+					if (itemAsMenuItem.ShortcutKeys != Keys.None && !m_menusWithShortcuts.Contains(item))
+						m_menusWithShortcuts.Add(item);
+				}
 
 				string insertBefore = GetAttributeValue(node, "insertbefore");
 				string addTo = GetAttributeValue(node, "addto");
@@ -1146,12 +1146,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					}
 					else if (parentItem is MenuStrip)
 						((MenuStrip)parentItem).Items.Add(item);
-					else if (parentItem is ToolStripMenuItem)
+					else if (parentItem is ToolStripDropDownItem)
 					{
 						if (beginGroup)
-							((ToolStripMenuItem)parentItem).DropDownItems.Add(new ToolStripSeparator());
+							((ToolStripDropDownItem)parentItem).DropDownItems.Add(new ToolStripSeparator());
 
-						((ToolStripMenuItem)parentItem).DropDownItems.Add(item);
+						((ToolStripDropDownItem)parentItem).DropDownItems.Add(item);
 					}
 				}
 
@@ -1159,13 +1159,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				// begins a group, save its separater item so we can hide it or make it
 				// visible, depending upon whether or not there are any recently used items,
 				// when the menu pops up.
-				if (item == m_rufMarkerItem && beginGroup && parentItem is ToolStripMenuItem)
+				if (item == m_rufMarkerItem && beginGroup && parentItem is ToolStripDropDownItem)
 				{
 					int i;
 					GetRecentlyUsedMarkerItemsParent(out i);
 
 					ToolStripItemCollection dropDownItems =
-						((ToolStripMenuItem)parentItem).DropDownItems;
+						((ToolStripDropDownItem)parentItem).DropDownItems;
 					
 					if (i >= 0 && dropDownItems.Count > 0)
 						m_rufMarkerSeparator = dropDownItems[i - 1] as ToolStripSeparator;
@@ -1173,7 +1173,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 				// Now read any subitems of the one just created.
 				if (node.ChildNodes.Count > 0)
-					ReadMenuItems(node.FirstChild, item, readingContextMenus);
+					ReadMenuItems(node.FirstChild, item);
 
 				node = ReadOverJunk(node.NextSibling);
 			}
@@ -1190,7 +1190,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="cancelBeginGroupOnFollowing">True if parentItem should no longer
 		/// begin a group.</param>
 		/// ------------------------------------------------------------------------------------
-		private void InsertMenuItem(ToolStripMenuItem item, string refItemName, bool beginGroup,
+		private void InsertMenuItem(ToolStripItem item, string refItemName, bool beginGroup,
 			bool cancelBeginGroupOnFollowing)
 		{
 			if (m_menuBar == null || item == null || refItemName == null)
@@ -1200,11 +1200,15 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (refItem == null)
 				return;
 
-			if (refItem.OwnerItem is ToolStripMenuItem)
+			object owner = refItem.OwnerItem;
+			if (owner == null)
+				owner = refItem.Owner;
+
+			if (owner is ToolStripDropDownItem)
 			{
 				// Get the parent item of the item we're inserting before. Then
 				// get the reference item's index in the parent's subitem collection.
-				ToolStripMenuItem parentItem = refItem.OwnerItem as ToolStripMenuItem;
+				var parentItem = owner as ToolStripDropDownItem;
 				int i = parentItem.DropDownItems.IndexOf(refItem);
 				
 				// If the reference item should no longer begin a group
@@ -1227,8 +1231,16 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				// The reference item's parent is not another non menu bar menu item so
 				// the ref. item must be on the main menu bar. Therefore, add the inserted
 				// item to the main menu.
+
 				int i = m_menuBar.Items.IndexOf(refItem);
-				m_menuBar.Items.Insert(i, item);
+				if (i >= 0)
+					m_menuBar.Items.Insert(i, item);
+				else if (refItem.Owner != null)
+				{
+					i = refItem.Owner.Items.IndexOf(refItem);
+					if (i >= 0)
+						refItem.Owner.Items.Insert(i, item);
+				}
 			}
 		}
 		
@@ -1238,11 +1250,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// If the parent item cannot be found and there is a menu bar, then the item is
 		/// added to the menu bar.
 		/// </summary>
-		/// <param name="item"></param>
-		/// <param name="parentItem"></param>
-		/// <param name="beginGroup"></param>
 		/// ------------------------------------------------------------------------------------
-		private void AddMenuItem(ToolStripMenuItem item, string parentItem, bool beginGroup)
+		private void AddMenuItem(ToolStripItem item, string parentItem, bool beginGroup)
 		{
 			if (item == null)
 				return;
@@ -1272,7 +1281,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="definitions">Array of XML strings toolbar definitions.</param>
 		/// ------------------------------------------------------------------------------------
-		private void ReadToolbarDefinitions(string[] definitions)
+		private void ReadToolbarDefinitions(IEnumerable<string> definitions)
 		{
 			XmlDocument xmlDef = new XmlDocument();
 			xmlDef.PreserveWhitespace = false;
@@ -1462,7 +1471,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			string barText = GetAttributeValue(node, "text");
 			barText = GetStringFromResource(barText);
 			TMBarProperties barProps = new TMBarProperties(barName, barText, true,
-				GetBoolFromAttribute(node, "visible", true), m_parentControl);
+				GetBoolFromAttribute(node, "visible", true), m_parentControl, this);
 
 			if (InitializeBar != null)
 				InitializeBar(ref barProps);
@@ -1679,7 +1688,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			int displayType = GetIntFromAttribute(node, "displaytype", (isMenuItem ? 2 : 0));
 
 			// Give the item a guid for the name if one wasn't found in the XML def.
-			if (name == null || name == string.Empty)
+			if (string.IsNullOrEmpty(name))
 				name = Guid.NewGuid().ToString();
 			
 			// If the item is for a menu just make a menu item since that's all we allow
@@ -1687,8 +1696,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			// type of toolbar item.
 			
 			ToolStripItem item;
+			int type = GetIntFromAttribute(node, "type", -1);
 
-			if (!isMenuItem)
+			if (!isMenuItem || type == 1 || type == 2)
 				item = GetToolbarItem(node, parentItem, name);
 			else
 			{
@@ -1697,7 +1707,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (GetBoolFromAttribute(node, "windowlist"))
 					((MenuStrip)parentItem).MdiWindowListItem = item as ToolStripMenuItem;
 
-				if (GetIntFromAttribute(node, "type", -1) == 3)
+				if (type == 3)
 				{
 					ToolStripControlHost host = GetCustomControlHost(name);
 					if (host != null)
@@ -1962,6 +1972,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (!string.IsNullOrEmpty(message))
 			{
 				ToolBarPopupInfo popupInfo = new ToolBarPopupInfo(item.Name);
+				popupInfo.Adapter = this;
 				if (m_msgMediator.SendMessage("DropDown" + message, popupInfo))
 				{
 					if (popupInfo.Control != null && item.DropDown is CustomDropDown)
@@ -2235,6 +2246,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			itemProps.List = null;
 			itemProps.ParentControl = m_parentControl;
 			itemProps.Size = Size.Empty;
+			itemProps.Adapter = this;
 
 			if (item == null)
 				return itemProps;
@@ -2392,7 +2404,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="itemProps">The TMItemProperties containing the new property
 		/// values for the toolbar item.</param>
 		/// ------------------------------------------------------------------------------------
-		private void SetComboItemSpecificProperties(ToolStripComboBox item,
+		private static void SetComboItemSpecificProperties(ToolStripComboBox item,
 			TMItemProperties itemProps)
 		{
 			if (item == null)
@@ -2486,7 +2498,18 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		#endregion
 
-		#region ITMAdapter AddCommandItem, AddMenuItem and RemoveSubitems implementation
+		#region ITMAdapter Misc. commands for adding and removing commands and items.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddCommandItem(string cmdId, string message)
+		{
+			AddCommandItem(cmdId, message, null, null, null, null, null,
+				null, Keys.None, null, null);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adds a new command item to the adapter.
@@ -2535,6 +2558,17 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RemoveCommandItem(string cmdId)
+		{
+			if (m_commands.ContainsKey(cmdId))
+				m_commands.Remove(cmdId);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Adds a new submenu item to the menu specified by parentItemName and inserts it
 		/// before the item specified by insertBeforeItem. If insertBeforeItem is null, then
 		/// the new submenu item is added to the end of parentItemName's menu collection. 
@@ -2577,6 +2611,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				AddMenuItem(item, parentItemName, itemProps.BeginGroup);
 			else
 				InsertMenuItem(item, insertBeforeItem, itemProps.BeginGroup, false);
+
+			m_items[itemProps.Name] = item;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2608,6 +2644,28 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 				item.DropDownItems.Clear();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void RemoveItem(string itemName)
+		{
+			ToolStripItem item;
+			if (!m_items.TryGetValue(itemName, out item))
+				return;
+
+			var parentItem = item.OwnerItem as ToolStripDropDownItem;
+			if (parentItem != null)
+				parentItem.DropDownItems.RemoveByKey(itemName);
+			else if (item.Owner != null)
+				item.Owner.Items.RemoveByKey(itemName);
+
+			item.Dispose();
+
+			m_items.Remove(itemName);
 		}
 
 		#endregion
@@ -2691,7 +2749,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			try
 			{
 				ToolStrip bar = m_bars[name];
-				return new TMBarProperties(name, bar.Text, bar.Enabled, bar.Visible, m_parentControl);
+				return new TMBarProperties(name, bar.Text, bar.Enabled, bar.Visible,
+					m_parentControl, this);
 			}
 			catch{}
 
@@ -2733,7 +2792,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="bar">Bar to update.</param>
 		/// <param name="barProps">New properties of bar.</param>
 		/// ------------------------------------------------------------------------------------
-		private void SetBarProperties(ToolStrip bar, TMBarProperties barProps)
+		private static void SetBarProperties(ToolStrip bar, TMBarProperties barProps)
 		{
 			if (bar == null || barProps == null || !barProps.Update)
 				return;

@@ -22,6 +22,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Data;
+using SIL.Pa.Filters;
 using SIL.Pa.UI.Views;
 using SilUtils;
 
@@ -35,7 +36,6 @@ namespace SIL.Pa.UI
 	public partial class PaMainWnd : Form, IxCoreColleague
 	{
 		private ITMAdapter m_tmAdapter;
-		private bool m_shuttingDown;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
@@ -67,6 +67,9 @@ namespace SIL.Pa.UI
 			DataUtils.MainWindow = this;
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
+			sblblFilter.Text = string.Empty;
+			sblblFilter.Visible = false;
+			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
 
 			base.MinimumSize = PaApp.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
@@ -380,7 +383,7 @@ namespace SIL.Pa.UI
 			
 			TempRecordCache.Dispose();
 			vwTabGroup.CloseAllViews();
-			m_shuttingDown = false;
+			IsShuttingDown = false;
 			base.OnClosing(e);
 			
 			// This shouldn't be necessary but is in order to fix PA-431, which is
@@ -432,6 +435,8 @@ namespace SIL.Pa.UI
 
 			if (PaApp.Project == null)
 				Invalidate();
+
+			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
 		}
 
 		#endregion
@@ -442,10 +447,7 @@ namespace SIL.Pa.UI
 		/// True if the application is shutting down.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsShuttingDown
-		{
-			get {return m_shuttingDown;}
-		}
+		public bool IsShuttingDown { get; private set; }
 
 		#endregion
 

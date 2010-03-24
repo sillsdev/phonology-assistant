@@ -11,11 +11,11 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCache : List<WordListCacheEntry>
 	{
-		private bool m_isForSearchResults = false;
-		private bool m_isForRegExpSearchResults = false;
-		private bool m_isCIEList = false;
+		private bool m_isForSearchResults;
+		private bool m_isForRegExpSearchResults;
+		private bool m_isCIEList;
 		private SortedList<int, string> m_cieGroupTexts;
-		private SearchQuery m_searchQuery = null;
+		private SearchQuery m_searchQuery;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -170,7 +170,7 @@ namespace SIL.Pa
 			if (savePhones)
 				newEntry.SetPhones(phones);
 
-			string phonetic = entry.PhoneticValue;
+			//string phonetic = entry.PhoneticValue;
 
 			//// Build the environment before string.
 			//newEntry.EnvironmentBefore = (offset == 0 ? string.Empty :
@@ -476,13 +476,8 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class SortOptions
 	{
-		private PhoneticSortType m_sortType = PhoneticSortType.POA;
-		private bool m_advancedEnabled = false;
-		private int[] m_advSortOptions;
-		private bool[] m_advRlOptions;
 		private SortInformationList m_sortInfoList;
-		private bool m_saveManuallySetSortOptions = false;
-		
+
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -505,15 +500,15 @@ namespace SIL.Pa
 		{
 			// Keeps track of the Before, Item, & After sorting order. Set the default
 			// as follows.
-			AdvSortOrder = new int[] { 1, 0, 2 };
+			AdvSortOrder = new[] { 1, 0, 2 };
 
 			// Keeps track of the R/L selections. Set the defaults as follows.
-			AdvRlOptions = new bool[] { true, false, false };
+			AdvRlOptions = new[] { true, false, false };
 
 			m_sortInfoList = new SortInformationList();
 
 			// Default sort is by point of articulation and phonetic field.
-			m_sortType = PhoneticSortType.POA;
+			SortType = PhoneticSortType.POA;
 
 			if (initializeWithPhonetic && PaApp.FieldInfo != null &&
 				PaApp.FieldInfo.PhoneticField != null)
@@ -532,15 +527,15 @@ namespace SIL.Pa
 		public SortOptions Clone()
 		{
 			SortOptions clone = new SortOptions(false);
-			clone.m_sortType = m_sortType;
-			clone.m_saveManuallySetSortOptions = m_saveManuallySetSortOptions;
-			clone.m_advancedEnabled = m_advancedEnabled;
+			clone.SortType = SortType;
+			clone.SaveManuallySetSortOptions = SaveManuallySetSortOptions;
+			clone.AdvancedEnabled = AdvancedEnabled;
 
-			for (int i = 0; i < m_advSortOptions.Length; i++)
-				clone.m_advSortOptions[i] = m_advSortOptions[i];
+			for (int i = 0; i < AdvSortOrder.Length; i++)
+				clone.AdvSortOrder[i] = AdvSortOrder[i];
 
-			for (int i = 0; i < m_advRlOptions.Length; i++)
-				clone.m_advRlOptions[i] = m_advRlOptions[i];
+			for (int i = 0; i < AdvRlOptions.Length; i++)
+				clone.AdvRlOptions[i] = AdvRlOptions[i];
 
 			if (m_sortInfoList != null)
 			{
@@ -687,11 +682,7 @@ namespace SIL.Pa
 		/// Gets or sets SortType.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneticSortType SortType
-		{
-			get { return m_sortType; }
-			set { m_sortType = value; }
-		}
+		public PhoneticSortType SortType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -702,11 +693,7 @@ namespace SIL.Pa
 		/// user clicks column headings or changes phonetic sort options from the drop-down.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SaveManuallySetSortOptions
-		{
-			get { return m_saveManuallySetSortOptions; }
-			set { m_saveManuallySetSortOptions = value; }
-		}
+		public bool SaveManuallySetSortOptions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -714,33 +701,21 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool AdvancedEnabled
-		{
-			get { return m_advancedEnabled; }
-			set { m_advancedEnabled = value; }
-		}
+		public bool AdvancedEnabled { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets AdvSortOrder.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int[] AdvSortOrder
-		{
-			get { return m_advSortOptions; }
-			set { m_advSortOptions = value; }
-		}
+		public int[] AdvSortOrder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets AdvRlOptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool[] AdvRlOptions
-		{
-			get { return m_advRlOptions; }
-			set { m_advRlOptions = value; }
-		}
+		public bool[] AdvRlOptions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -15,14 +15,8 @@ namespace SilUtils
 	{
 		public event DataGridViewCellMouseEventHandler ButtonClicked;
 		private bool m_showButton = true;
-		private string m_buttonText;
-		private Font m_buttonFont;
-		private int m_buttonWidth = 22;
-		private bool m_useComboButtonStyle = false;
-		private bool m_drawDefaultComboButtonWidth = true;
 		private string m_buttonToolTip;
 		private ToolTip m_toolTip;
-		private bool m_drawTextWithEllipsisPath = false;
 		private bool m_showCellToolTips = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -32,8 +26,10 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public SilButtonColumn() : base(new SilButtonCell())
 		{
+			DrawDefaultComboButtonWidth = true;
+			ButtonWidth = 17;
 			base.DefaultCellStyle.Font = SystemInformation.MenuFont;
-			m_buttonFont = SystemInformation.MenuFont;
+			ButtonFont = SystemInformation.MenuFont;
 			Width = 110;
 			HeaderText = string.Empty;
 		}
@@ -94,33 +90,21 @@ namespace SilUtils
 		/// Gets or sets the text of the button cells in this column.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string ButtonText
-		{
-			get { return m_buttonText; }
-			set { m_buttonText = value; }
-		}
+		public string ButtonText { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the text of the button cells in this column.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Font ButtonFont
-		{
-			get { return m_buttonFont; }
-			set { m_buttonFont = value; }
-		}
+		public Font ButtonFont { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the width of the button within the column's cells.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int ButtonWidth
-		{
-			get { return m_buttonWidth; }
-			set { m_buttonWidth = value; }
-		}
+		public int ButtonWidth { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -128,11 +112,7 @@ namespace SilUtils
 		/// in the column's owned cells. If false, a push button style is drawn.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool UseComboButtonStyle
-		{
-			get { return m_useComboButtonStyle; }
-			set	{ m_useComboButtonStyle = value; }
-		}
+		public bool UseComboButtonStyle { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -142,11 +122,7 @@ namespace SilUtils
 		/// turned on. 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool DrawDefaultComboButtonWidth
-		{
-			get { return m_drawDefaultComboButtonWidth; }
-			set { m_drawDefaultComboButtonWidth = value; }
-		}
+		public bool DrawDefaultComboButtonWidth { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -170,11 +146,7 @@ namespace SilUtils
 		/// column will be drawn using ellipsis path string formatting.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool DrawTextWithEllipsisPath
-		{
-		  get { return m_drawTextWithEllipsisPath; }
-		  set { m_drawTextWithEllipsisPath = value; }
-		}
+		public bool DrawTextWithEllipsisPath { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -215,7 +187,7 @@ namespace SilUtils
 	
 			DataGridView.ShowCellToolTips = false;
 			Size sz = SystemInformation.CursorSize;
-			Point pt = DataGridView.FindForm().PointToClient(DataGridView.MousePosition);
+			Point pt = DataGridView.FindForm().PointToClient(Control.MousePosition);
 			pt.X += (int)(sz.Width * 0.6);
 			pt.Y += sz.Height;
 			m_toolTip.Active = true;
@@ -260,8 +232,8 @@ namespace SilUtils
 	/// ----------------------------------------------------------------------------------------
 	public class SilButtonCell : DataGridViewTextBoxCell
 	{
-		private bool m_mouseOverButton = false;
-		private bool m_mouseDownOnButton = false;
+		private bool m_mouseOverButton;
+		private bool m_mouseDownOnButton;
 		private bool m_enabled = true;
 
 		/// ------------------------------------------------------------------------------------
@@ -447,7 +419,7 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Paint the cell with a radio button and it's text.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Paint(Graphics g, Rectangle clipBounds,
@@ -532,7 +504,7 @@ namespace SilUtils
 				SystemInformation.MenuFont : OwningButtonColumn.ButtonFont);
 
 			// Draw text
-			TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.NoPrefix | TextFormatFlags.EndEllipsis |
 				TextFormatFlags.NoPadding | TextFormatFlags.PreserveGraphicsClipping;
@@ -546,7 +518,7 @@ namespace SilUtils
 		/// Draws the cell's text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawCellText(Graphics g, string text, DataGridViewCellStyle style,
+		private void DrawCellText(IDeviceContext g, string text, DataGridViewCellStyle style,
 			Rectangle rcText)
 		{
 			if (string.IsNullOrEmpty(text))

@@ -9,16 +9,22 @@ namespace SIL.Pa
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCacheEntry
 	{
-		private WordCacheEntry m_wordRec;
 		private string[] m_phones = null;
-		private string m_envBefore = null;
-		private string m_srchItem = null;
-		private string m_envAfter = null;
-		private int m_srchItemOffset;
-		private int m_srchItemLength;
-		private bool m_showInList = true;
-		private int m_cieGroupId = -1;
-		private object m_tag = null;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public WordListCacheEntry()
+		{
+			CIEGroupId = -1;
+			ShowInList = true;
+			EnvironmentAfter = null;
+			SearchItem = null;
+			EnvironmentBefore = null;
+			Tag = null;
+		}
 
 		#region Indexer overloads
 		/// ------------------------------------------------------------------------------------
@@ -28,7 +34,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string this[string field]
 		{
-			get { return m_wordRec.GetField(field); }
+			get { return WordCacheEntry.GetField(field); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,16 +63,13 @@ namespace SIL.Pa
 		}
 
 		#region Properties
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public object Tag
-		{
-			get { return m_tag; }
-			set { m_tag = value; }
-		}
+		public object Tag { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -75,7 +78,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string PhoneticValue
 		{
-			get { return m_wordRec.PhoneticValue; }
+			get { return WordCacheEntry.PhoneticValue; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,66 +86,42 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry WordCacheEntry
-		{
-			get { return m_wordRec; }
-			set { m_wordRec = value; }
-		}
+		public WordCacheEntry WordCacheEntry { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string EnvironmentBefore
-		{
-			get { return m_envBefore; }
-			set { m_envBefore = value; }
-		}
+		public string EnvironmentBefore { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string SearchItem
-		{
-			get { return m_srchItem; }
-			set { m_srchItem = value; }
-		}
+		public string SearchItem { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string EnvironmentAfter
-		{
-			get { return m_envAfter; }
-			set { m_envAfter = value; }
-		}
+		public string EnvironmentAfter { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int SearchItemOffset
-		{
-			get { return m_srchItemOffset; }
-			set { m_srchItemOffset = value; }
-		}
+		public int SearchItemOffset { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int SearchItemLength
-		{
-			get { return m_srchItemLength; }
-			set { m_srchItemLength = value; }
-		}
+		public int SearchItemLength { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -151,7 +130,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public string[] Phones
 		{
-			get { return (m_phones ?? m_wordRec.Phones); }
+			get { return (m_phones ?? WordCacheEntry.Phones); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,11 +139,7 @@ namespace SIL.Pa
 		/// list. This is used on a temporary basis when building temporary cache lists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal bool ShowInList
-		{
-			get { return m_showInList; }
-			set { m_showInList = value; }
-		}
+		internal bool ShowInList { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -172,11 +147,14 @@ namespace SIL.Pa
 		/// be the same as all other entries in the same group and Ids must be unique by group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int CIEGroupId
-		{
-			get { return m_cieGroupId; }
-			set { m_cieGroupId = value; }
-		}
+		public int CIEGroupId { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the word is visible in the current filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool MatchesCurrentFilter { get; set; }
 
 		#endregion
 

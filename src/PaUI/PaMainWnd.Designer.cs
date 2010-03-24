@@ -73,8 +73,9 @@ namespace SIL.Pa.UI
 			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
-			this.vwTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
+			this.sblblFilter = new System.Windows.Forms.ToolStripStatusLabel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.vwTabGroup = new SIL.Pa.UI.Controls.ViewTabGroup();
 			this.statusStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -84,7 +85,8 @@ namespace SIL.Pa.UI
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sblblMain,
             this.sblblProgress,
-            this.sbProgress});
+            this.sbProgress,
+            this.sblblFilter});
 			resources.ApplyResources(this.statusStrip, "statusStrip");
 			this.statusStrip.Name = "statusStrip";
 			// 
@@ -118,6 +120,20 @@ namespace SIL.Pa.UI
 			resources.ApplyResources(this.sbProgress, "sbProgress");
 			this.sbProgress.Name = "sbProgress";
 			// 
+			// sblblFilter
+			// 
+			resources.ApplyResources(this.sblblFilter, "sblblFilter");
+			this.locExtender.SetLocalizableToolTip(this.sblblFilter, null);
+			this.locExtender.SetLocalizationComment(this.sblblFilter, null);
+			this.locExtender.SetLocalizationPriority(this.sblblFilter, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.sblblFilter, "PaMainWnd.sblblFilter");
+			this.sblblFilter.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+			this.sblblFilter.Name = "sblblFilter";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Main Windows";
+			// 
 			// vwTabGroup
 			// 
 			this.vwTabGroup.AllowDrop = true;
@@ -128,10 +144,6 @@ namespace SIL.Pa.UI
 			this.locExtender.SetLocalizationPriority(this.vwTabGroup, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.vwTabGroup, "PaMainWnd.vwTabGroup");
 			this.vwTabGroup.Name = "vwTabGroup";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationGroup = "Main Windows";
 			// 
 			// PaMainWnd
 			// 
@@ -160,5 +172,6 @@ namespace SIL.Pa.UI
 		private ToolStripStatusLabel sblblProgress;
 		private SIL.Pa.UI.Controls.ViewTabGroup vwTabGroup;
 		private SIL.Localization.LocalizationExtender locExtender;
+		private ToolStripStatusLabel sblblFilter;
 	}
 }

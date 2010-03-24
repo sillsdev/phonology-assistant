@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using SilUtils;
 
-namespace SIL.Pa.BackupRestoreAddOn
+namespace SIL.Pa.FiltersAddOn
 {
 	internal class AddOnHelper
 	{

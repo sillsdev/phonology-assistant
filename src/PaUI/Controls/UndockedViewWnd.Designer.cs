@@ -7,19 +7,6 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -32,6 +19,7 @@ namespace SIL.Pa.UI.Controls
 			this.sblblMain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sblblProgress = new System.Windows.Forms.ToolStripStatusLabel();
 			this.sbProgress = new System.Windows.Forms.ToolStripProgressBar();
+			this.sblblFilter = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -40,7 +28,8 @@ namespace SIL.Pa.UI.Controls
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sblblMain,
             this.sblblProgress,
-            this.sbProgress});
+            this.sbProgress,
+            this.sblblFilter});
 			this.statusStrip.Location = new System.Drawing.Point(0, 459);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(710, 24);
@@ -51,7 +40,7 @@ namespace SIL.Pa.UI.Controls
 			this.sblblMain.AutoSize = false;
 			this.sblblMain.BackColor = System.Drawing.SystemColors.Control;
 			this.sblblMain.Name = "sblblMain";
-			this.sblblMain.Size = new System.Drawing.Size(464, 19);
+			this.sblblMain.Size = new System.Drawing.Size(465, 19);
 			this.sblblMain.Spring = true;
 			this.sblblMain.Text = "#";
 			this.sblblMain.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -64,7 +53,7 @@ namespace SIL.Pa.UI.Controls
 			this.sblblProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
 			this.sblblProgress.Name = "sblblProgress";
-			this.sblblProgress.Size = new System.Drawing.Size(19, 19);
+			this.sblblProgress.Size = new System.Drawing.Size(18, 19);
 			this.sblblProgress.Text = "#";
 			// 
 			// sbProgress
@@ -72,6 +61,13 @@ namespace SIL.Pa.UI.Controls
 			this.sbProgress.AutoSize = false;
 			this.sbProgress.Name = "sbProgress";
 			this.sbProgress.Size = new System.Drawing.Size(200, 18);
+			// 
+			// sblblFilter
+			// 
+			this.sblblFilter.AutoSize = false;
+			this.sblblFilter.Name = "sblblFilter";
+			this.sblblFilter.Size = new System.Drawing.Size(118, 15);
+			this.sblblFilter.Text = "FilterIndicator";
 			// 
 			// UndockedViewWnd
 			// 
@@ -95,5 +91,6 @@ namespace SIL.Pa.UI.Controls
 		private System.Windows.Forms.ToolStripStatusLabel sblblMain;
 		private System.Windows.Forms.ToolStripStatusLabel sblblProgress;
 		private System.Windows.Forms.ToolStripProgressBar sbProgress;
+		private System.Windows.Forms.ToolStripStatusLabel sblblFilter;
 	}
 }

@@ -144,10 +144,20 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Serializes an object to a the specified file.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data)
+		{
+			return SerializeToFile(filename, data, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to a the specified file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SerializeToFile<T>(string filename, T data, string rootElementName)
 		{
 			try
 			{
@@ -155,7 +165,18 @@ namespace SilUtils
 				{
 					XmlSerializerNamespaces nameSpace = new XmlSerializerNamespaces();
 					nameSpace.Add(string.Empty, string.Empty);
-					XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+					XmlSerializer serializer;
+					if (string.IsNullOrEmpty(rootElementName))
+						serializer = new XmlSerializer(typeof(T));
+					else
+					{
+						var rootAttrib = new XmlRootAttribute();
+						rootAttrib.ElementName = rootElementName;
+						rootAttrib.IsNullable = true;
+						serializer = new XmlSerializer(typeof(T), rootAttrib);
+					}
+
 					serializer.Serialize(writer, data, nameSpace);
 					writer.Close();
 					return true;
@@ -277,6 +298,17 @@ namespace SilUtils
 		{
 			Exception e;
 			return DeserializeFromFile<T>(filename, false, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Deserializes XML from the specified file to an object of the specified type.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static T DeserializeFromFile<T>(string filename, string rootElementName) where T : class
+		{
+			Exception e;
+			return DeserializeFromFile<T>(filename, rootElementName, false, out e);
 		}
 
 		/// ------------------------------------------------------------------------------------

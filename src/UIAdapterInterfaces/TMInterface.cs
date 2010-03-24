@@ -113,6 +113,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Adds a new command item to the adapter.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void AddCommandItem(string cmdId, string message);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds a new command item to the adapter.
+		/// </summary>
 		/// <param name="cmdId">Command ID or name (usually starts with "Cmd")</param>
 		/// <param name="message">item's command message</param>
 		/// <param name="text">text of item (whether menu or toolbar item</param>
@@ -133,12 +140,27 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void RemoveCommandItem(string cmdId);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Removes all the subitems of the specified menu.
 		/// </summary>
 		/// <param name="parentItemName">The name of the item whose subitems will be removed.
 		/// </param>
 		/// ------------------------------------------------------------------------------------
 		void RemoveMenuSubItems(string parentItemName);
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes the specified toolbar or menu item from the adapter and it's associated
+		/// parent menu or toolbar.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void RemoveItem(string itemName);
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

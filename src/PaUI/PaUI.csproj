@@ -148,6 +148,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\DefineFiltersDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DefineFiltersDlg.designer.cs">
+      <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\OptionsDialog.UserInterfaceTab.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -621,6 +627,9 @@
     <EmbeddedResource Include="Dialogs\DefineClassDlg.resx">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DefineFiltersDlg.resx">
+      <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ExperimentalTranscriptionsDlg.resx">
       <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -843,6 +852,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FilterDlg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter-Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GrayFilter.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
