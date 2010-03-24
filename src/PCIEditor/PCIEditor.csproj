@@ -138,10 +138,6 @@
     <Content Include="PCIEditor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataUtils\DataUtils.csproj">
-      <Project>{66B583C3-8A36-4BBC-9F72-FEF125D8056C}</Project>
-      <Name>DataUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PaUI\PaUI.csproj">
       <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
       <Name>PaUI</Name>

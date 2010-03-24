@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using SIL.Pa.Data;
-using SIL.Pa.Properties;
+using SIL.Pa.Model;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
 
@@ -13,7 +12,7 @@ namespace SIL.Pa
 	public partial class AddCharacterDlg : OKCancelDlgBase
 	{
 		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+#=*%CV" +
-			DataUtils.kOrc + DataUtils.kDottedCircle;
+			PaApp.kOrc + PaApp.kDottedCircle;
 
 		private const string kInvalidPhoneticCharsDisplay =
 			"{ } [ ] <> ( ) , $ _ % # / + = * C V\n\nU+25CC and U+FFFC";
@@ -109,7 +108,7 @@ namespace SIL.Pa
 		#endregion
 
 		#region Member variables
-		private readonly int invalidCodePoint = 31;
+		private const int kInvalidCodePoint = 31;
 
 		// MOA & POA
 		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
@@ -195,7 +194,7 @@ namespace SIL.Pa
 			LoadChartColumnsGroups();
 
 			m_addingChar = addingChar;
-			DataGridViewRow row;
+			
 			if (m_addingChar)
 			{
 				lblUnicodeValue.Visible = false;
@@ -213,13 +212,13 @@ namespace SIL.Pa
 				return;
 			}
 
-			row = pciEditor.m_grid.CurrentRow;
+			DataGridViewRow row = pciEditor.m_grid.CurrentRow;
 			if (row.Tag is IPASymbol)
 			{
 				m_aMask = ((IPASymbol)row.Tag).AMask.Clone();
 				m_bMask = ((IPASymbol)row.Tag).BMask.Clone();
-				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_aMask);
-				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_bMask);
+				txtArticulatory.Text = PaApp.AFeatureCache.GetFeaturesText(m_aMask);
+				txtBinary.Text = PaApp.BFeatureCache.GetFeaturesText(m_bMask);
 			}
 
 			// Identity
@@ -400,7 +399,7 @@ namespace SIL.Pa
 
 				if (gridRow.Cells[kDecimal].Value != null && gridRow.Cells[kType].Value != null)
 				{
-					if ((int)gridRow.Cells[kDecimal].Value <= invalidCodePoint ||
+					if ((int)gridRow.Cells[kDecimal].Value <= kInvalidCodePoint ||
 						(string)gridRow.Cells[kType].Value == kUnknown)
 						continue;
 				}
@@ -704,15 +703,15 @@ namespace SIL.Pa
 				}
 				catch
 				{
-					Utils.MsgBox(Resources.kstidInvalidUnicodeValueMsg,
+					Utils.MsgBox(Properties.Resources.kstidInvalidUnicodeValueMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
 
 				int codePoint = int.Parse(txtHexValue.Text.Trim(), NumberStyles.HexNumber);
-				if (codePoint <= invalidCodePoint)
+				if (codePoint <= kInvalidCodePoint)
 				{
-					Utils.MsgBox(Resources.kstidUnicodeValueTooSmallMsg,
+					Utils.MsgBox(Properties.Resources.kstidUnicodeValueTooSmallMsg,
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -720,7 +719,7 @@ namespace SIL.Pa
 				// Make sure the codePoint is unique
 				if (m_codePoints.Contains(codePoint))
 				{
-					Utils.MsgBox(string.Format(Resources.kstidDuplicateCharMsg,
+					Utils.MsgBox(string.Format(Properties.Resources.kstidDuplicateCharMsg,
 						txtHexValue.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return false;
 				}
@@ -731,7 +730,7 @@ namespace SIL.Pa
 					if (codePoint == c)
 					{
 						Utils.MsgBox(string.Format(
-							Resources.kstidUnicodeValueIsReservedMsg,
+							Properties.Resources.kstidUnicodeValueIsReservedMsg,
 							txtHexValue.Text, kInvalidPhoneticCharsDisplay),
 							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					
@@ -765,7 +764,7 @@ namespace SIL.Pa
 				missingFields = missingFields.Replace("~~", "&");
 				missingFields = missingFields.Replace(":", string.Empty);
 				missingFields = missingFields.TrimEnd(new[] { ',', ' ' });
-				missingFields = string.Format(Resources.kstidMissingFieldsMsg, missingFields);
+				missingFields = string.Format(Properties.Resources.kstidMissingFieldsMsg, missingFields);
 				Utils.MsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
@@ -902,7 +901,7 @@ namespace SIL.Pa
 			if (m_pciEditor.m_lvAFeatures.CurrentMask != m_aMask)
 			{
 				m_aMask = m_pciEditor.m_lvAFeatures.CurrentMask;
-				txtArticulatory.Text = DataUtils.AFeatureCache.GetFeaturesText(m_aMask);
+				txtArticulatory.Text = PaApp.AFeatureCache.GetFeaturesText(m_aMask);
 				m_dirty = true;
 			}
 		}
@@ -918,7 +917,7 @@ namespace SIL.Pa
 			if (m_pciEditor.m_lvBFeatures.CurrentMask != m_bMask)
 			{
 				m_bMask = m_pciEditor.m_lvBFeatures.CurrentMask;
-				txtBinary.Text = DataUtils.BFeatureCache.GetFeaturesText(m_bMask);
+				txtBinary.Text = PaApp.BFeatureCache.GetFeaturesText(m_bMask);
 				m_dirty = true;
 			}
 		}
