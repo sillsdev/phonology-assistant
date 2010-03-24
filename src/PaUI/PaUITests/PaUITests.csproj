@@ -74,10 +74,6 @@
       <Project>{9292E7CB-A2C6-427D-A175-3D3311E7E47F}</Project>
       <Name>PaApp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PaUI.csproj">
-      <Project>{00949C26-524B-4E59-8698-3304BC3AD83D}</Project>
-      <Name>PaUI</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
