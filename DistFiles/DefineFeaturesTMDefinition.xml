@@ -76,9 +76,9 @@ Item "type" Values:
 	<resources>
 		<!-- localizedstrings are for strings for toolbars, toolbar and menu items, tooltips,
 			and categories -->
-		<localizedstrings assemblyPath="PaResources.dll" class="SIL.Pa.Resources.PaTMStrings"/>
+		<localizedstrings assemblyPath="PaApp.dll" class="SIL.Pa.ResourceStrings.PaTMStrings"/>
 
-		<!-- imageList assemblyPath="PaResources.dll"
+		<!-- imageList assemblyPath="PaApp.dll"
 			class="SIL.Pa.Resources.ResourceHelper"
 			field="DefineFeaturesImages"
 			labels="CmdEditFeatures, CmdAddFeatures, CmdRestoreDefaults, CmdSortFeatures,

@@ -90,9 +90,9 @@ Item "displaytype" Values (applies to item types 0 - 3):
 	<resources>
 		<!-- localizedstrings are for strings for toolbars, toolbar and menu items, tooltips,
 			and categories -->
-		<localizedstrings assemblyPath="PaResources.dll" class="SIL.Pa.Resources.PaTMStrings"/>
+		<localizedstrings assemblyPath="PaApp.dll" class="SIL.Pa.ResourceStrings.PaTMStrings"/>
 
-		<imageList assemblyPath="PaResources.dll"
+		<imageList assemblyPath="PaApp.dll"
 			class="SIL.Pa.Resources.ResourceHelper"
 			field="TMImages"
 			labels="0, 1, CmdFind, CmdFindNext,	4, 5, 6, 7,	8, 9, CmdPhoneticSort, 11, 12, 13, 14,
