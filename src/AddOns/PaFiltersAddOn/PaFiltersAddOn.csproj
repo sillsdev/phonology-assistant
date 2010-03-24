@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="AddOnHelper.cs" />
     <Compile Include="DefineFiltersDlg.cs">
-      <SubType>Form</SubType>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DefineFiltersDlg.Designer.cs">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
