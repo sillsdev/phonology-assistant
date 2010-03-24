@@ -57,14 +57,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PaApp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Output\Debug\PaApp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,11 +68,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddCharacterDlg.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddCharacterDlg.designer.cs">
       <DependentUpon>AddCharacterDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="PCIEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="PCIEditor.Designer.cs">
       <DependentUpon>PCIEditor.cs</DependentUpon>
@@ -136,6 +130,14 @@
     <Content Include="PCIEditor.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pa\Pa.csproj">
+      <Project>{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}</Project>
+      <Name>Pa</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SilUtils\SilUtils.csproj">
+      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
+      <Name>SilUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UIAdapterInterfaces\UIAdapterInterfaces.csproj">
       <Project>{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}</Project>
       <Name>UIAdapterInterfaces</Name>

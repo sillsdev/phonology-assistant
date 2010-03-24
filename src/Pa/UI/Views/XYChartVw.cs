@@ -8,7 +8,6 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
@@ -31,8 +30,8 @@ namespace SIL.Pa.UI.Views
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
 		private ITMAdapter m_tmAdapter;
-		private readonly string m_openClass = ResourceHelper.GetString("kstidOpenClassSymbol");
-		private readonly string m_closeClass = ResourceHelper.GetString("kstidCloseClassSymbol");
+		private readonly string m_openClass = PaApp.kOpenClassBracket;
+		private readonly string m_closeClass = PaApp.kCloseClassBracket;
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly XYGrid m_xyGrid;
 		private readonly Keys m_saveChartHotKey = Keys.None;

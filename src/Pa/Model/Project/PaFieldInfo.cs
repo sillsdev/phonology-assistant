@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using SIL.Pa.Model.Project;
 using SilUtils;
 
 namespace SIL.Pa.Model

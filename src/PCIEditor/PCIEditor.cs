@@ -97,8 +97,7 @@ namespace SIL.Pa
 			}
 			catch
 			{
-				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg,
-					PaApp.ConfigFolder));
+				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg, PaApp.ConfigFolder);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}

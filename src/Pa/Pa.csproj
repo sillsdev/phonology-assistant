@@ -153,30 +153,30 @@
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
     <Compile Include="Miscellaneous\ZipUtils.cs" />
-    <Compile Include="Model\AmbiguousSequences.cs" />
-    <Compile Include="Model\CVPatternInfo.cs" />
-    <Compile Include="Model\ExperimentalTranscriptions.cs" />
     <Compile Include="Model\Features\AFeatureCache.cs" />
     <Compile Include="Model\Features\BFeatureCache.cs" />
     <Compile Include="Model\Features\Feature.cs" />
     <Compile Include="Model\Features\FeatureCacheBase.cs" />
     <Compile Include="Model\Features\FeatureMask.cs" />
     <Compile Include="Model\Features\FeatureOverrides.cs" />
-    <Compile Include="Model\PaFieldInfo.cs" />
-    <Compile Include="Model\PaFieldsDisplayText.Designer.cs">
+    <Compile Include="Model\Project\PaFieldInfo.cs" />
+    <Compile Include="Model\Project\PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PaFieldsDisplayText.resx</DependentUpon>
     </Compile>
-    <Compile Include="Model\PaProject.cs" />
+    <Compile Include="Model\Project\PaProject.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />
     <Compile Include="Model\RecordCache\RecordCacheEntry.cs" />
+    <Compile Include="Model\SymbolsAndPhones\AmbiguousSequences.cs" />
+    <Compile Include="Model\SymbolsAndPhones\CVPatternInfo.cs" />
     <Compile Include="Model\SymbolsAndPhones\InventoryHelper.cs" />
     <Compile Include="Model\SymbolsAndPhones\IPASymbol.cs" />
     <Compile Include="Model\SymbolsAndPhones\IPASymbolCache.cs" />
     <Compile Include="Model\SymbolsAndPhones\IPhoneInfo.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneCache.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneInfo.cs" />
+    <Compile Include="Model\SymbolsAndPhones\TranscriptionChanges.cs" />
     <Compile Include="Model\SymbolsAndPhones\UndefinedCharClasses.cs" />
     <Compile Include="Model\WordCache\CacheSortComparer.cs" />
     <Compile Include="Model\WordCache\WordCache.cs" />
@@ -623,8 +623,8 @@
     <EmbeddedResource Include="DataSourceClasses\MissingFWDatabaseMsgBox.resx">
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Model\PaFieldsDisplayText.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+    <EmbeddedResource Include="Model\Project\PaFieldsDisplayText.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PaFieldsDisplayText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -868,9 +868,6 @@
     <None Include="Resources\ButtonDropDownArrow.png" />
     <None Include="Resources\Show_Vertical_and_Horizontal_Grid_Lines.png" />
     <None Include="Resources\Automatically_hide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Project\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

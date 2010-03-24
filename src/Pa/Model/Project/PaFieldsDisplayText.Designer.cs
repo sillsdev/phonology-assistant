@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SIL.Pa.Model {
+namespace SIL.Pa.Model.Project {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace SIL.Pa.Model {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class PaFieldsDisplayText {
+    internal class PaFieldsDisplayText {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace SIL.Pa.Model {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.Model.PaFieldsDisplayText", typeof(PaFieldsDisplayText).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.Model.Project.PaFieldsDisplayText", typeof(PaFieldsDisplayText).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace SIL.Pa.Model {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Audio File.
         /// </summary>
-        public static string kstidAudioFile {
+        internal static string kstidAudioFile {
             get {
                 return ResourceManager.GetString("kstidAudioFile", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Audio File Length.
         /// </summary>
-        public static string kstidAudioLength {
+        internal static string kstidAudioLength {
             get {
                 return ResourceManager.GetString("kstidAudioLength", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Audio File Offset.
         /// </summary>
-        public static string kstidAudioOffset {
+        internal static string kstidAudioOffset {
             get {
                 return ResourceManager.GetString("kstidAudioOffset", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Comment.
         /// </summary>
-        public static string kstidComment {
+        internal static string kstidComment {
             get {
                 return ResourceManager.GetString("kstidComment", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Country.
         /// </summary>
-        public static string kstidCountry {
+        internal static string kstidCountry {
             get {
                 return ResourceManager.GetString("kstidCountry", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to CV Pattern.
         /// </summary>
-        public static string kstidCVPattern {
+        internal static string kstidCVPattern {
             get {
                 return ResourceManager.GetString("kstidCVPattern", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Data Source.
         /// </summary>
-        public static string kstidDataSource {
+        internal static string kstidDataSource {
             get {
                 return ResourceManager.GetString("kstidDataSource", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Data Source Path.
         /// </summary>
-        public static string kstidDataSourcePath {
+        internal static string kstidDataSourcePath {
             get {
                 return ResourceManager.GetString("kstidDataSourcePath", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
-        public static string kstidDate {
+        internal static string kstidDate {
             get {
                 return ResourceManager.GetString("kstidDate", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Dialect.
         /// </summary>
-        public static string kstidDialect {
+        internal static string kstidDialect {
             get {
                 return ResourceManager.GetString("kstidDialect", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Ethnologue Id.
         /// </summary>
-        public static string kstidEthnologueId {
+        internal static string kstidEthnologueId {
             get {
                 return ResourceManager.GetString("kstidEthnologueId", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Family.
         /// </summary>
-        public static string kstidFamily {
+        internal static string kstidFamily {
             get {
                 return ResourceManager.GetString("kstidFamily", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Free Translation.
         /// </summary>
-        public static string kstidFreeform {
+        internal static string kstidFreeform {
             get {
                 return ResourceManager.GetString("kstidFreeform", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Gloss.
         /// </summary>
-        public static string kstidGloss {
+        internal static string kstidGloss {
             get {
                 return ResourceManager.GetString("kstidGloss", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Secondary Gloss.
         /// </summary>
-        public static string kstidGlossOther1 {
+        internal static string kstidGlossOther1 {
             get {
                 return ResourceManager.GetString("kstidGlossOther1", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Other Gloss.
         /// </summary>
-        public static string kstidGlossOther2 {
+        internal static string kstidGlossOther2 {
             get {
                 return ResourceManager.GetString("kstidGlossOther2", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to GUID.
         /// </summary>
-        public static string kstidGuid {
+        internal static string kstidGuid {
             get {
                 return ResourceManager.GetString("kstidGuid", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Language Name.
         /// </summary>
-        public static string kstidLanguageName {
+        internal static string kstidLanguageName {
             get {
                 return ResourceManager.GetString("kstidLanguageName", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Notebook Ref..
         /// </summary>
-        public static string kstidNotebookRef {
+        internal static string kstidNotebookRef {
             get {
                 return ResourceManager.GetString("kstidNotebookRef", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Orthographic.
         /// </summary>
-        public static string kstidOrtho {
+        internal static string kstidOrtho {
             get {
                 return ResourceManager.GetString("kstidOrtho", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Phonemic.
         /// </summary>
-        public static string kstidPhonemic {
+        internal static string kstidPhonemic {
             get {
                 return ResourceManager.GetString("kstidPhonemic", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Phonetic.
         /// </summary>
-        public static string kstidPhonetic {
+        internal static string kstidPhonetic {
             get {
                 return ResourceManager.GetString("kstidPhonetic", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Part of Speech.
         /// </summary>
-        public static string kstidPOS {
+        internal static string kstidPOS {
             get {
                 return ResourceManager.GetString("kstidPOS", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Reference.
         /// </summary>
-        public static string kstidReference {
+        internal static string kstidReference {
             get {
                 return ResourceManager.GetString("kstidReference", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Region.
         /// </summary>
-        public static string kstidRegion {
+        internal static string kstidRegion {
             get {
                 return ResourceManager.GetString("kstidRegion", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Speaker&apos;s Gender.
         /// </summary>
-        public static string kstidSpeakerGender {
+        internal static string kstidSpeakerGender {
             get {
                 return ResourceManager.GetString("kstidSpeakerGender", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Speaker.
         /// </summary>
-        public static string kstidSpeakerName {
+        internal static string kstidSpeakerName {
             get {
                 return ResourceManager.GetString("kstidSpeakerName", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Tone.
         /// </summary>
-        public static string kstidTone {
+        internal static string kstidTone {
             get {
                 return ResourceManager.GetString("kstidTone", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace SIL.Pa.Model {
         /// <summary>
         ///   Looks up a localized string similar to Transcriber.
         /// </summary>
-        public static string kstidTranscriber {
+        internal static string kstidTranscriber {
             get {
                 return ResourceManager.GetString("kstidTranscriber", resourceCulture);
             }

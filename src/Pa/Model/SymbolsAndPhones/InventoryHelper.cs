@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using SilUtils;
-using System.Windows.Forms;
 
 namespace SIL.Pa.Model
 {

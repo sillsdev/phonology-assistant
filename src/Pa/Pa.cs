@@ -511,16 +511,23 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void BuildPhoneCache()
 		{
-			string conSymbol =
-				SettingsHandler.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
-
-			string vowSymbol =
-				SettingsHandler.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
-
-			s_phoneCache = new PhoneCache(conSymbol, vowSymbol);
+			s_phoneCache = GetPhonesFromWordCache(WordCache);
 			SearchEngine.PhoneCache = s_phoneCache;
+		}
 
-			foreach (WordCacheEntry entry in WordCache)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PhoneCache GetPhonesFromWordCache(WordCache wordCache)
+		{
+			string conSymbol = SettingsHandler.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
+			string vowSymbol = SettingsHandler.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
+
+			var phoneCache = new PhoneCache(conSymbol, vowSymbol);
+
+			foreach (WordCacheEntry entry in wordCache)
 			{
 				string[] phones = entry.Phones;
 
@@ -533,8 +540,8 @@ namespace SIL.Pa
 					if (BreakChars.Contains(phones[i]))
 						continue;
 
-					if (!s_phoneCache.ContainsKey(phones[i]))
-						s_phoneCache.AddPhone(phones[i]);
+					if (!phoneCache.ContainsKey(phones[i]))
+						phoneCache.AddPhone(phones[i]);
 
 					// Determine if the current phone is the primary
 					// phone in an uncertain group.
@@ -546,29 +553,31 @@ namespace SIL.Pa
 					// track of the primary	uncertain phones. Then we also add to the
 					// cache the non primary uncertain phones.
 					if (!isPrimaryUncertainPhone)
-						s_phoneCache[phones[i]].TotalCount++;
+						phoneCache[phones[i]].TotalCount++;
 					else
 					{
-						s_phoneCache[phones[i]].CountAsPrimaryUncertainty++;
+						phoneCache[phones[i]].CountAsPrimaryUncertainty++;
 
 						// Go through the uncertain phones and add them to the cache.
 						if (entry.ContiansUncertainties)
 						{
-							AddUncertainPhonesToCache(entry.UncertainPhones[i]);
-							UpdateSiblingUncertaintys(entry.UncertainPhones);
+							AddUncertainPhonesToCache(entry.UncertainPhones[i], phoneCache);
+							UpdateSiblingUncertaintys(entry.UncertainPhones, phoneCache);
 						}
 					}
 				}
 			}
 
 			if (PhoneCache.FeatureOverrides != null)
-				PhoneCache.FeatureOverrides.MergeWithPhoneCache(s_phoneCache);
+				PhoneCache.FeatureOverrides.MergeWithPhoneCache(phoneCache);
 
 			if (IPASymbolCache.UndefinedCharacters != null &&
 				IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
-				AddUndefinedCharsToCaches();
+				AddUndefinedCharsToCaches(phoneCache);
 			}
+
+			return phoneCache;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -578,7 +587,8 @@ namespace SIL.Pa
 		/// therefore, it will not be added nor its count incremented.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddUncertainPhonesToCache(string[] uncertainPhoneGroup)
+		private static void AddUncertainPhonesToCache(string[] uncertainPhoneGroup,
+			PhoneCache phoneCache)
 		{
 			// Go through the uncertain phone groups, skipping the
 			// primary one in each group since that was already added
@@ -590,10 +600,10 @@ namespace SIL.Pa
 				// Don't bother adding break characters.
 				if (!BreakChars.Contains(phone))
 				{
-					if (!s_phoneCache.ContainsKey(phone))
-						s_phoneCache.AddPhone(phone);
+					if (!phoneCache.ContainsKey(phone))
+						phoneCache.AddPhone(phone);
 
-					s_phoneCache[phone].CountAsNonPrimaryUncertainty++;
+					phoneCache[phone].CountAsNonPrimaryUncertainty++;
 				}
 			}
 		}
@@ -604,7 +614,8 @@ namespace SIL.Pa
 		/// the specified uncertain groups.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void UpdateSiblingUncertaintys(IDictionary<int, string[]> uncertainPhones)
+		private static void UpdateSiblingUncertaintys(
+			IDictionary<int, string[]> uncertainPhones, IDictionary<string, IPhoneInfo> phoneCache)
 		{
 			// Go through the uncertain phone groups
 			foreach (string[] uPhones in uncertainPhones.Values)
@@ -616,7 +627,7 @@ namespace SIL.Pa
 					
 					// TODO: Log an error that the phone isn't found in the the cache
 					// Get the cache entry for the phone whose sibling list will be updated.
-					if (!s_phoneCache.TryGetValue(uPhones[i], out phoneUpdating))
+					if (!phoneCache.TryGetValue(uPhones[i], out phoneUpdating))
 						continue;
 
 					// Go through the sibling phones, adding them to
@@ -644,12 +655,12 @@ namespace SIL.Pa
 		/// IPA character cache and the phone cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void AddUndefinedCharsToCaches()
+		private static void AddUndefinedCharsToCaches(PhoneCache phoneCache)
 		{
 			foreach (UndefinedPhoneticCharactersInfo upci in IPASymbolCache.UndefinedCharacters)
 			{
 				IPASymbolCache.AddUndefinedCharacter(upci.Character);
-				s_phoneCache.AddUndefinedPhone(upci.Character.ToString());
+				phoneCache.AddUndefinedPhone(upci.Character.ToString());
 			}
 		}
 
