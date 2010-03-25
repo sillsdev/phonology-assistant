@@ -24,7 +24,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeCVPatternsTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (PaApp.Project == null)
+			if (App.Project == null)
 			{
 				tabOptions.TabPages.Remove(tpgCVPatterns);
 				return;
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			txtCustomChars.TextChanged += txtCustomChars_TextChanged;
 			
-			foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
+			foreach (CVPatternInfo info in App.Project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type
 				if (info.PatternType == IPASymbolIgnoreType.NotApplicable)
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsDirty)
 				return;
 
-			PaApp.Project.CVPatternInfoList.Clear();
+			App.Project.CVPatternInfoList.Clear();
 			m_allPickerPhones.Clear();
 
 			SaveDisplayLists(stressPicker, IPASymbolIgnoreType.StressSyllable);
@@ -180,8 +180,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			try
 			{
-				PaApp.Project.Save();
-				PaApp.MsgMediator.SendMessage("CVPatternsChanged", null);
+				App.Project.Save();
+				App.MsgMediator.SendMessage("CVPatternsChanged", null);
 			}
 			catch { }
 		}
@@ -196,14 +196,14 @@ namespace SIL.Pa.UI.Dialogs
 			string phone = string.Empty;
 			foreach (ToolStripButton item in picker.Items)
 			{
-				phone = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
+				phone = item.Text.Replace(App.kDottedCircle, string.Empty);
 				m_allPickerPhones.Add(phone, cvPatternType);
 
 				if (item.Checked)
 				{
 					CVPatternInfo cvpi = CVPatternInfo.Create(phone, cvPatternType);
 					if (cvpi != null)
-						PaApp.Project.CVPatternInfoList.Add(cvpi);
+						App.Project.CVPatternInfoList.Add(cvpi);
 				}
 			}
 		}
@@ -227,7 +227,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			foreach (string cvString in customList)
 			{
-				string chr = cvString.Replace(PaApp.kDottedCircle, string.Empty);
+				string chr = cvString.Replace(App.kDottedCircle, string.Empty);
 				if (chr == string.Empty)
 					continue;
 
@@ -239,7 +239,7 @@ namespace SIL.Pa.UI.Dialogs
 					IPASymbolIgnoreType.NotApplicable));
 
 				if (cvpi != null)
-					PaApp.Project.CVPatternInfoList.Add(cvpi);
+					App.Project.CVPatternInfoList.Add(cvpi);
 			}
 		}
 
@@ -254,8 +254,8 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button if its text is found in the display list.
-				string chr = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
-				foreach (CVPatternInfo info in PaApp.Project.CVPatternInfoList)
+				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
+				foreach (CVPatternInfo info in App.Project.CVPatternInfoList)
 				{
 					// Don't check item's that are already custom types
 					if (chr == info.Phone && info.PatternType != IPASymbolIgnoreType.NotApplicable)
@@ -345,7 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 					m_handleTextChange = true;
 				}
 
-				txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, PaApp.kDottedCircle);
+				txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, App.kDottedCircle);
 				txtCustomChars.SelectionStart = selStart + 1;
 				e.SuppressKeyPress = true;
 			}
@@ -375,13 +375,13 @@ namespace SIL.Pa.UI.Dialogs
 				for (int i = 0; i < txtCustomChars.TextLength; i++)
 				{
 					// Continue if it's the dotted circle
-					if (txtCustomChars.Text[i].ToString() == PaApp.kDottedCircle)
+					if (txtCustomChars.Text[i].ToString() == App.kDottedCircle)
 					{
-						verifiedText.Append(PaApp.kDottedCircle);
+						verifiedText.Append(App.kDottedCircle);
 						continue;
 					}
 
-					charInfo = PaApp.IPASymbolCache[txtCustomChars.Text[i]];
+					charInfo = App.IPASymbolCache[txtCustomChars.Text[i]];
 
 					// Eat the character if it is not in the IPACharCache
 					if (charInfo == null)
@@ -392,9 +392,9 @@ namespace SIL.Pa.UI.Dialogs
 						// a space and the character should be displayed with the dotted circle.
 						if (charInfo.DisplayWithDottedCircle &&
 							((i == 0 || txtCustomChars.Text[i - 1] == ' ')) &&
-							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != PaApp.kDottedCircleC))
+							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != App.kDottedCircleC))
 						{
-							verifiedText.Append(PaApp.kDottedCircle);
+							verifiedText.Append(App.kDottedCircle);
 							selStart++;
 						}
 

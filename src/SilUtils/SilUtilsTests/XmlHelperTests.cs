@@ -9,7 +9,7 @@ namespace SilUtils
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
-	public class XmlSerializationHelperTests
+	public class XmlnHelperTests
 	{
 		#region IsEmptyOrInvalid tests
 		///--------------------------------------------------------------------------------------
@@ -18,9 +18,9 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_Null_False()
+		public void IsEmptyOrInvalid_Null_True()
 		{
-			Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(null));
+			Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(null));
 		}
 
 		///--------------------------------------------------------------------------------------
@@ -29,9 +29,9 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_EmptyFileName_False()
+		public void IsEmptyOrInvalid_EmptyFileName_True()
 		{
-			Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(string.Empty));
+			Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(string.Empty));
 		}
 
 		///--------------------------------------------------------------------------------------
@@ -40,11 +40,11 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_NonExistentFile_False()
+		public void IsEmptyOrInvalid_NonExistentFile_True()
 		{
 			var tmpFile = Path.GetTempFileName();
 			File.Delete(tmpFile);
-			Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+			Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(tmpFile));
 		}
 
 		///--------------------------------------------------------------------------------------
@@ -53,10 +53,10 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_EmptyFile_False()
+		public void IsEmptyOrInvalid_EmptyFile_True()
 		{
 			var tmpFile = Path.GetTempFileName();
-			Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+			Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(tmpFile));
 			File.Delete(tmpFile);
 		}
 
@@ -66,14 +66,14 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_XmlDeclarationOnly_False()
+		public void IsEmptyOrInvalid_XmlDeclarationOnly_True()
 		{
 			var tmpFile = Path.GetTempFileName();
 			using (var stream = File.CreateText(tmpFile))
 			{
 				stream.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
 				stream.Close();
-				Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+				Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(tmpFile));
 				File.Delete(tmpFile);
 			}
 		}
@@ -84,7 +84,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_MissingRootClose_False()
+		public void IsEmptyOrInvalid_MissingRootClose_True()
 		{
 			var tmpFile = Path.GetTempFileName();
 			using (var stream = File.CreateText(tmpFile))
@@ -92,7 +92,7 @@ namespace SilUtils
 				stream.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
 				stream.WriteLine("<root>");
 				stream.Close();
-				Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+				Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(tmpFile));
 				File.Delete(tmpFile);
 			}
 		}
@@ -103,7 +103,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_MissingRootOpen_False()
+		public void IsEmptyOrInvalid_MissingRootOpen_True()
 		{
 			var tmpFile = Path.GetTempFileName();
 			using (var stream = File.CreateText(tmpFile))
@@ -111,7 +111,7 @@ namespace SilUtils
 				stream.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
 				stream.WriteLine("</root>");
 				stream.Close();
-				Assert.IsFalse(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+				Assert.IsTrue(XmlHelper.IsEmptyOrInvalid(tmpFile));
 				File.Delete(tmpFile);
 			}
 		}
@@ -122,7 +122,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_MinimalValid_True()
+		public void IsEmptyOrInvalid_MinimalValid_False()
 		{
 			var tmpFile = Path.GetTempFileName();
 			using (var stream = File.CreateText(tmpFile))
@@ -130,7 +130,7 @@ namespace SilUtils
 				stream.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
 				stream.WriteLine("<root/>");
 				stream.Close();
-				Assert.IsTrue(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+				Assert.IsFalse(XmlHelper.IsEmptyOrInvalid(tmpFile));
 				File.Delete(tmpFile);
 			}
 		}
@@ -141,7 +141,7 @@ namespace SilUtils
 		/// </summary>
 		///--------------------------------------------------------------------------------------
 		[Test]
-		public void IsEmptyOrInvalid_Valid_True()
+		public void IsEmptyOrInvalid_Valid_False()
 		{
 			var tmpFile = Path.GetTempFileName();
 			using (var stream = File.CreateText(tmpFile))
@@ -149,7 +149,7 @@ namespace SilUtils
 				stream.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
 				stream.WriteLine("<root>blah blah blah</root>");
 				stream.Close();
-				Assert.IsTrue(XmlSerializationHelper.IsEmptyOrInvalid(tmpFile));
+				Assert.IsFalse(XmlHelper.IsEmptyOrInvalid(tmpFile));
 				File.Delete(tmpFile);
 			}
 		}

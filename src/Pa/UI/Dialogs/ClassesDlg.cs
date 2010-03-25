@@ -22,7 +22,7 @@ namespace SIL.Pa.UI.Dialogs
 		public ClassesDlg()
 		{
 			InitializeComponent();
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 			lvClasses.Load();
 			lvClasses.LoadSettings(Name);
 			lvClasses_SelectedIndexChanged(null, null);
@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 			lvClasses.SaveSettings(Name);
 		}
 
@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			lvClasses.SaveChanges();
-			PaApp.MsgMediator.SendMessage("SearchClassesChanged", null);
+			App.MsgMediator.SendMessage("SearchClassesChanged", null);
 			return true;
 		}
 

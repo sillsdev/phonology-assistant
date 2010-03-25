@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnCharGridHeaderClicked(object args)
 		{
 			CharGridHeader hdr = args as CharGridHeader;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || hdr == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || hdr == null)
 				return false;
 
 			if (hdr.IsForColumnHeadings)
@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnCharGridHeaderRightClicked(object args)
 		{
 			m_currentHeader = args as CharGridHeader;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			string menu = (m_currentHeader.IsForColumnHeadings ?
@@ -70,7 +70,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnEditCharChartLabel(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			m_currentHeader.EditLabel();
@@ -109,7 +109,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCharChartSubHeadings(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			m_currentHeader.SubHeadingsVisible = !m_currentHeader.SubHeadingsVisible;
@@ -147,7 +147,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				m_currentHeader == null || itemProps == null)
 			{
 				return false;
@@ -214,7 +214,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool AddNewRow(bool beforeCurrRow)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				m_grid.CurrentCell == null || m_grid.CurrentCell.RowIndex < 0)
 			{
 				return false;
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool AddNewColumn(bool beforeCurrColumn)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				m_grid.CurrentCell == null || m_grid.CurrentCell.ColumnIndex < 0)
 			{
 				return false;
@@ -330,7 +330,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAddCharChartRowHeadingBefore(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			InsertRowHeader(true, true);
@@ -355,7 +355,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAddCharChartRowHeadingAfter(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			InsertRowHeader(false, true);
@@ -434,7 +434,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAddCharChartColHeadingBefore(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			InsertColumnHeader(true, true);
@@ -459,7 +459,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAddCharChartColHeadingAfter(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			InsertColumnHeader(false, true);
@@ -566,7 +566,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveCharChartRow(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_grid.CurrentCell == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_grid.CurrentCell == null)
 				return false;
 
 			RemoveRow(m_grid.CurrentCell.RowIndex);
@@ -581,7 +581,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateRemoveCharChartRow(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				itemProps == null || m_grid.CurrentCell == null)
 			{
 				return false;
@@ -600,7 +600,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveCharChartCol(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_grid.CurrentCell == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_grid.CurrentCell == null)
 				return false;
 
 			RemoveColumn(m_grid.CurrentCell.ColumnIndex);
@@ -615,7 +615,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateRemoveCharChartCol(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				itemProps == null || m_grid.CurrentCell == null)
 			{
 				return false;
@@ -671,7 +671,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveAllEmptyChartRowsAndColsTBMenu(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			RemoveAllEmptyRowsAndColumns();
@@ -686,7 +686,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateRemoveAllEmptyChartRowsAndColsTBMenu(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || itemProps == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || itemProps == null)
 				return false;
 
 			itemProps.Enabled = false;
@@ -756,7 +756,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveCharChartRowHeading(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			RemoveRowHeader(m_currentHeader);
@@ -771,7 +771,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateRemoveCharChartRowHeading(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				itemProps == null || m_currentHeader == null)
 			{
 				return false;
@@ -816,7 +816,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveCharChartColHeading(object args)
 		{
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || m_currentHeader == null)
 				return false;
 
 			RemoveColumnHeader(m_currentHeader);
@@ -831,7 +831,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateRemoveCharChartColHeading(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				itemProps == null || m_currentHeader == null)
 			{
 				return false;

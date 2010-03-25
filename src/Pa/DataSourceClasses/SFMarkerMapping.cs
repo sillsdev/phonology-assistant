@@ -145,7 +145,7 @@ namespace SIL.Pa.DataSource
 
 				return (m_fieldName == PaDataSource.kRecordMarker ?
 					Properties.Resources.kstidRecordMarkerFieldDisplayText :
-					PaApp.FieldInfo[m_fieldName].DisplayText);
+					App.FieldInfo[m_fieldName].DisplayText);
 			}
 		}
 

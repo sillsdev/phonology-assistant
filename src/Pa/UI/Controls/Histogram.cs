@@ -36,11 +36,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 
-			m_hashMarkGap =	PaApp.SettingsHandler.GetIntSettingsValue("histograms", "hashmarkgap", 20);
-			m_phoneLabelWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelwidth", 40);
-			m_extraPhoneHeight = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "extraphonelabelheight", 5);
-			m_barWidth = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "barwidth", 30);
-			m_phoneFontSize = PaApp.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelfontsize", 16);
+			m_hashMarkGap =	App.SettingsHandler.GetIntSettingsValue("histograms", "hashmarkgap", 20);
+			m_phoneLabelWidth = App.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelwidth", 40);
+			m_extraPhoneHeight = App.SettingsHandler.GetIntSettingsValue("histograms", "extraphonelabelheight", 5);
+			m_barWidth = App.SettingsHandler.GetIntSettingsValue("histograms", "barwidth", 30);
+			m_phoneFontSize = App.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelfontsize", 16);
 
 			// Uncomment if the magnified tooltip of a histogram's phone is desired.
 			//m_phoneToolTip = new ToolTip();
@@ -204,7 +204,7 @@ namespace SIL.Pa.UI.Controls
 			SearchQuery query = new SearchQuery();
 			query.Pattern = srchPhone + "/*_*";
 			query.IgnoreDiacritics = false;
-			PaApp.MsgMediator.SendMessage("ViewFindPhones", query);
+			App.MsgMediator.SendMessage("ViewFindPhones", query);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -280,7 +280,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlFixedBorder_Resize(object sender, EventArgs e)
 		{
-			if (m_maxTotalCount == 0 || m_ignoreFixedBorderResize || PaApp.DesignMode)
+			if (m_maxTotalCount == 0 || m_ignoreFixedBorderResize || App.DesignMode)
 				return;
 
 			// Make sure the labels have enough vertical space. This will increase
@@ -429,7 +429,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlYaxis_Paint(object sender, PaintEventArgs e)
 		{
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			decimal horzLineValue = 0;

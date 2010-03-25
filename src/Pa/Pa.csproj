@@ -176,6 +176,7 @@
     <Compile Include="Model\SymbolsAndPhones\IPhoneInfo.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneCache.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneInfo.cs" />
+    <Compile Include="Model\SymbolsAndPhones\ProjectInventory.cs" />
     <Compile Include="Model\SymbolsAndPhones\TranscriptionChanges.cs" />
     <Compile Include="Model\SymbolsAndPhones\UndefinedCharClasses.cs" />
     <Compile Include="Model\WordCache\CacheSortComparer.cs" />
@@ -820,6 +821,7 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\XYChartDirty.png" />
     <None Include="Resources\XYChartError.png" />

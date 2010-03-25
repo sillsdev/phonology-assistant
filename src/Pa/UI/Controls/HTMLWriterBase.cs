@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool VerifyXslFile()
 		{
-			m_xslFileBase = Path.Combine(PaApp.ConfigFolder, XSLFileName);
+			m_xslFileBase = Path.Combine(App.ConfigFolder, XSLFileName);
 
 			if (!File.Exists(m_xslFileBase))
 			{
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_modifiedFieldNames = new Dictionary<string,string>();
 
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
 			{
 				string modifiedName1 = fieldInfo.FieldName;
 				foreach (char c in fieldInfo.FieldName)
@@ -131,8 +131,8 @@ namespace SIL.Pa.UI.Controls
 			m_tmpXMLFile = Path.GetTempFileName();
 			XmlWriter writer = XmlWriter.Create(m_tmpXMLFile, settings);
 
-			WriteOuterElements(writer, string.IsNullOrEmpty(PaApp.Project.Language) ?
-				"Unknown" : PaApp.Project.Language, rootAttribValues);
+			WriteOuterElements(writer, string.IsNullOrEmpty(App.Project.LanguageName) ?
+				"Unknown" : App.Project.LanguageName, rootAttribValues);
 	
 			writer.Flush();
 			writer.Close();
@@ -178,9 +178,9 @@ namespace SIL.Pa.UI.Controls
 				ResourceHelper.GetString("kstidFileTypeAllFiles");
 
 			int filterIndex = 0;
-			return PaApp.SaveFileDialog("html", fileTypes, ref filterIndex,
+			return App.SaveFileDialog("html", fileTypes, ref filterIndex,
 				ResourceHelper.GetString("kstidSaveFileDialogGenericCaption"),
-				defaultHTMLFileName, PaApp.Project.ProjectPath);
+				defaultHTMLFileName, App.Project.ProjectPath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -322,17 +322,17 @@ namespace SIL.Pa.UI.Controls
 			string units = (fontSize == 0 ? "pt" : "em");
 
 			if (fontSize == 0)
-				fontSize = PaApp.Project.FieldInfo.PhoneticField.Font.SizeInPoints;
+				fontSize = App.Project.FieldInfo.PhoneticField.Font.SizeInPoints;
 
 			string replacementText = string.Format("font-family: \"{0}\";",
-				PaApp.Project.FieldInfo.PhoneticField.Font.Name);
+				App.Project.FieldInfo.PhoneticField.Font.Name);
 
 			xslContent = xslContent.Replace(kXSLPhoneticFontInfoMarker, replacementText);
 
 			replacementText = string.Format("font-size: {0}{1};", fontSize, units);
 			xslContent = xslContent.Replace("Phonetic-Font-Size-Goes-Here", replacementText);
 
-			if (PaApp.Project.FieldInfo.PhoneticField.Font.Bold)
+			if (App.Project.FieldInfo.PhoneticField.Font.Bold)
 			{
 				xslContent = xslContent.Replace("/*--|", string.Empty);
 				xslContent = xslContent.Replace("|--*/", string.Empty);
@@ -357,7 +357,7 @@ namespace SIL.Pa.UI.Controls
 			string replacementText = "/*Field-Settings-Go-Here*/";
 
 			// Write all the field's font information to the XSLT file.
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
 			{
 				if (fieldInfo.Font != null && fieldInfo.VisibleInGrid)
 				{

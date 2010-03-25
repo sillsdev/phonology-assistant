@@ -1,5 +1,9 @@
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Xml.Serialization;
+using SIL.Localization;
 using SilUtils;
 
 /// --------------------------------------------------------------------------------------------
@@ -13,10 +17,11 @@ namespace SIL.Pa.Model
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("ambiguousSequences")]
 	public class AmbiguousSequences : List<AmbiguousSeq>
 	{
-		public const string kDefaultSequenceFile = "DefaultAmbiguousSequences.xml";
-		public const string kSequenceFile = "AmbiguousSequences.xml";
+		public const string kDefaultFileName = "DefaultAmbiguousSequences.xml";
+		public const string kFileName = "AmbiguousSequences.xml";
 
 		private static char s_unusedToken;
 		
@@ -28,28 +33,41 @@ namespace SIL.Pa.Model
 		// sequences they represent.
 		private Dictionary<char, string> m_parseTokens;
 
+		#region Method to migrate previous versions of ambiguous sequences file to current.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Construct the file name for the project-specific sequences.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName)
+		public static void MigrateToLatestVersion(string filename)
 		{
-			string filename = (projectFileName ?? string.Empty);
-			filename += (filename.EndsWith(".") ? string.Empty : ".") + kSequenceFile;
-			return filename;
+			var errMsg = LocalizationManager.LocalizeString("Misc.Strings.AmbiguousSeqMigrationErrMsg",
+				"The following error occurred while attempting to update the your project’s ambiguous " +
+				"sequences file:\n\n{0}\n\nIn order to continue working, your original ambiguous " +
+				"sequence file  will be renamed to the following file: '{1}'.",
+				"Message displayed when updating ambiguous sequences file to new version.",
+				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
+				LocalizationPriority.MediumHigh);
+
+			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
+				"SIL.Pa.Model.UpdateFileTransforms.UpdateAmbiguousSequenceFile.xslt", errMsg);
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific ambiguous sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static AmbiguousSequences Load(string projectFileName)
+		public static AmbiguousSequences Load(string pathPrefix)
 		{
 			// Get the default list of sequences.
+			var defaultFile = Path.Combine(App.ConfigFolder, kDefaultFileName);
+
 			AmbiguousSequences defaultList =
-				Utils.DeserializeData(kDefaultSequenceFile, typeof(AmbiguousSequences)) as AmbiguousSequences ?? new AmbiguousSequences();
+				XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(
+				defaultFile) ?? new AmbiguousSequences();
 
 			// Make sure there is a default list.
 
@@ -57,11 +75,11 @@ namespace SIL.Pa.Model
 			foreach (AmbiguousSeq seq in defaultList)
 				seq.IsDefault = true;
 
-			string filename = BuildFileName(projectFileName);
+			string filename = pathPrefix + kFileName;
+			MigrateToLatestVersion(filename);
 
 			// Get the project-specific sequences.
-			AmbiguousSequences projectList = Utils.DeserializeData(filename,
-				typeof(AmbiguousSequences)) as AmbiguousSequences;
+			var projectList = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
 
 			if (projectList != null && projectList.Count > 0)
 			{
@@ -69,7 +87,7 @@ namespace SIL.Pa.Model
 				// also found in the default list, then remove them from the default list.
 				for (int i = projectList.Count - 1; i >= 0; i--)
 				{
-					int index = defaultList.GetSequenceIndex(projectList[i].Unit);
+					int index = defaultList.GetSequenceIndex(projectList[i].Literal);
 					if (index >= 0)
 						defaultList.RemoveAt(index);
 					else if (projectList[i].IsDefault)
@@ -80,7 +98,7 @@ namespace SIL.Pa.Model
 						// of ambiguous sequences must have changed. This should almost
 						// never happen... and probably never happen.
 						projectList.RemoveAt(i);
-						projectList.Save(projectFileName);
+						projectList.Save(pathPrefix);
 					}
 				}
 
@@ -135,7 +153,7 @@ namespace SIL.Pa.Model
 			if (seq == null || string.IsNullOrEmpty(seq.BaseChar))
 				return;
 
-			if (!ContainsSeq(seq.Unit, false))
+			if (!ContainsSeq(seq.Literal, false))
 			{
 				seq.ParseToken = s_unusedToken--;
 				base.Add(seq);
@@ -150,10 +168,7 @@ namespace SIL.Pa.Model
 		public new void AddRange(IEnumerable<AmbiguousSeq> collection)
 		{
 			if (collection != null)
-			{
-				foreach (AmbiguousSeq seq in collection)
-					Add(seq);
-			}
+				base.AddRange(collection);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,7 +193,7 @@ namespace SIL.Pa.Model
 			if (seq == null || string.IsNullOrEmpty(seq.BaseChar))
 				return;
 
-			if (!ContainsSeq(seq.Unit, false))
+			if (!ContainsSeq(seq.Literal, false))
 			{
 				seq.ParseToken = s_unusedToken--;
 				base.Insert(index, seq);
@@ -190,20 +205,20 @@ namespace SIL.Pa.Model
 		/// Saves the list of ambiguous sequences to a project-specific xml file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Save(string projectFileName)
+		public void Save(string pathPrefix)
 		{
-			AmbiguousSequences tmpList = new AmbiguousSequences(this);
+			var tmpList = new AmbiguousSequences(this);
 
 			// Before saving, make sure there are no empty or null units
 			// and get rid of those sequences that were added automatically.
 			for (int i = tmpList.Count - 1; i >= 0; i--)
 			{
-				string unit = tmpList[i].Unit;
+				string unit = tmpList[i].Literal;
 				if (unit == null || unit.Trim().Length == 0)
 					tmpList.RemoveAt(i);
 			}
 
-			Utils.SerializeData(BuildFileName(projectFileName), tmpList);
+			XmlSerializationHelper.SerializeToFile(pathPrefix + kFileName, tmpList);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -213,15 +228,13 @@ namespace SIL.Pa.Model
 		/// returned if the item is found and the AmbiguousSeq object's convert flag is true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ContainsSeq(string seq, bool convert)
+		public bool ContainsSeq(string literal, bool convert)
 		{
-			foreach (AmbiguousSeq ambigSeq in this)
-			{
-				if (ambigSeq.Unit == seq)
-					return (convert ? ambigSeq.Convert : true);
-			}
+			var seq = this.FirstOrDefault(x => x.Literal == literal);
+			if (seq == null)
+				return false;
 
-			return false;
+			return (convert ? seq.Convert : true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,7 +249,7 @@ namespace SIL.Pa.Model
 		{
 			foreach (AmbiguousSeq ambigSeq in this)
 			{
-				if (ambigSeq.Unit == phone)
+				if (ambigSeq.Literal == phone)
 					return (ambigSeq.Convert || !convert ? ambigSeq : null);
 			}
 
@@ -252,7 +265,7 @@ namespace SIL.Pa.Model
 		{
 			for (int i = 0; i < Count; i++)
 			{
-				if (this[i].Unit == phone)
+				if (this[i].Literal == phone)
 					return i;
 			}
 
@@ -273,7 +286,7 @@ namespace SIL.Pa.Model
 			{
 				m_parseTokens = new Dictionary<char, string>();
 				foreach (AmbiguousSeq seq in this)
-					m_parseTokens[seq.ParseToken] = seq.Unit;
+					m_parseTokens[seq.ParseToken] = seq.Literal;
 			}
 
 			m_parseTokens.TryGetValue(token, out ambigSeq);
@@ -335,21 +348,21 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static int AmbiguousSeqComparer(AmbiguousSeq x, AmbiguousSeq y)
 		{
-			if (x == y || ((x == null || x.Unit == null) && (y == null || y.Unit == null)))
+			if (x == y || ((x == null || x.Literal == null) && (y == null || y.Literal == null)))
 				return 0;
 
-			if (x == null || x.Unit == null)
+			if (x == null || x.Literal == null)
 				return 1;
 
-			if (y == null || y.Unit == null)
+			if (y == null || y.Literal == null)
 				return -1;
 
 			// For items of the same length, this will preserve the order in
 			// which the user entered the items in the Phone Inventory view.
-			if (x.Unit.Length == y.Unit.Length)
+			if (x.Literal.Length == y.Literal.Length)
 				return x.DisplayIndex.CompareTo(y.DisplayIndex);
 
-			return -(x.Unit.Length.CompareTo(y.Unit.Length));
+			return -(x.Literal.Length.CompareTo(y.Literal.Length));
 		}
 	}
 
@@ -358,25 +371,29 @@ namespace SIL.Pa.Model
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("AmbiguousSequence")]
+	[XmlType("sequence")]
 	public class AmbiguousSeq
 	{
-		[XmlAttribute]
-		public string Unit;
-		[XmlAttribute]
+		[XmlAttribute("literal")]
+		public string Literal;
+
+		[XmlAttribute("unit")]
 		public bool Convert = true;
-		[XmlAttribute]
+	
+		[XmlAttribute("primaryBase")]
 		public string BaseChar;
-		[XmlAttribute]
-		public bool IsDefault;
 		
 		// This flag is only used for sequences that were added
 		// from the PhoneticParser in the IPA character cache.
-		[XmlAttribute]
-		public bool IsAutoGeneratedDefault;
+		[XmlAttribute("generated")]
+		public bool IsGenerated;
+
+		[XmlAttribute("default")]
+		public bool IsDefault;
 
 		[XmlIgnore]
 		internal int DisplayIndex;
+	
 		[XmlIgnore]
 		internal char ParseToken;
 
@@ -396,7 +413,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq(string unit)
 		{
-			Unit = unit;
+			Literal = unit;
 
 			if (string.IsNullOrEmpty(unit))
 				return;
@@ -405,7 +422,7 @@ namespace SIL.Pa.Model
 			// the string. Make that character the base character for the unit.
 			for (int i = unit.Length - 1; i >= 0; i--)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[unit[i]];
+				IPASymbol charInfo = App.IPASymbolCache[unit[i]];
 				if (charInfo != null && charInfo.IsBase)
 				{
 					BaseChar = charInfo.Literal;
@@ -418,7 +435,7 @@ namespace SIL.Pa.Model
 			// character inventory. If so, then use the first one we encounter as the base.
 			for (int i = unit.Length - 1; i >= 0; i--)
 			{
-				if (PaApp.IPASymbolCache[unit[i]] == null)
+				if (App.IPASymbolCache[unit[i]] == null)
 				{
 					BaseChar = unit[i].ToString();
 					return;
@@ -433,7 +450,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return Unit;
+			return Literal;
 		}
 	}
 }

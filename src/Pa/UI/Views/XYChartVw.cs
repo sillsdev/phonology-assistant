@@ -30,8 +30,8 @@ namespace SIL.Pa.UI.Views
 		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
 		private ITMAdapter m_tmAdapter;
-		private readonly string m_openClass = PaApp.kOpenClassBracket;
-		private readonly string m_closeClass = PaApp.kCloseClassBracket;
+		private readonly string m_openClass = App.kOpenClassBracket;
+		private readonly string m_closeClass = App.kCloseClassBracket;
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly XYGrid m_xyGrid;
 		private readonly Keys m_saveChartHotKey = Keys.None;
@@ -43,10 +43,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public XYChartVw()
 		{
-			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidXYChartsViewText, 6);
+			App.InitializeProgressBarForLoadingView(Properties.Resources.kstidXYChartsViewText, 6);
 			InitializeComponent();
 			Name = "XYChartVw";
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
@@ -56,18 +56,18 @@ namespace SIL.Pa.UI.Views
 			m_xyGrid.TabIndex = lblChartName.TabIndex + 1;
 			m_xyGrid.KeyDown += m_xyGrid_KeyDown;
 			m_xyGrid.CellMouseDoubleClick += m_xyGrid_CellMouseDoubleClick;
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			LoadToolbarAndContextMenus();
 			m_xyGrid.TMAdapter = m_tmAdapter;
 			m_xyGrid.OwnersNameLabelControl = lblChartNameValue;
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			SetupSidePanelContents();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			SetupSlidingPanel();
 			OnPaFontsChanged(null);
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 			
@@ -77,10 +77,10 @@ namespace SIL.Pa.UI.Views
 			m_xyGrid.BringToFront();
 			splitChart.Panel1MinSize = m_xyGrid.Top + 10;
 			splitChart.Panel2Collapsed = true;
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			UpdateButtons();
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
 			Disposed += ViewDisposed;
@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_tmAdapter != null)
 			{
-				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
 			}
 
@@ -137,12 +137,12 @@ namespace SIL.Pa.UI.Views
 			if (m_tmAdapter == null)
 				return;
 
-			PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
+			App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			string[] defs = new string[1];
-			defs[0] = Path.Combine(PaApp.ConfigFolder, "XYChartsTMDefinition.xml");
-			m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
+			defs[0] = Path.Combine(App.ConfigFolder, "XYChartsTMDefinition.xml");
+			m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 			m_tmAdapter.AllowUpdates = true;
 			m_tmAdapter.SetContextMenuForControl(m_xyGrid, "cmnuXYChart");
 		}
@@ -179,7 +179,7 @@ namespace SIL.Pa.UI.Views
 				TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChart");
 				if (itemProps != null && itemProps.Enabled)
 				{
-					PaApp.MsgMediator.SendMessage("SaveChart", null);
+					App.MsgMediator.SendMessage("SaveChart", null);
 					return true;
 				}
 			}
@@ -205,7 +205,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
+			string filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
 
 			m_savedCharts = Utils.DeserializeData(filename,
 				typeof(List<XYChartLayout>)) as List<XYChartLayout>;
@@ -230,7 +230,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_savedCharts != null)
 			{
-				string filename = PaApp.Project.ProjectPathFilePrefix + kSavedChartsFile;
+				string filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
 				Utils.SerializeData(filename, m_savedCharts);
 			}
 		}
@@ -335,7 +335,7 @@ namespace SIL.Pa.UI.Views
 		{
 			ptrnBldrComponent.LoadSettings(Name);
 
-			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			bool sidePanelDocked = App.SettingsHandler.GetBoolSettingsValue(Name,
 				"sidepaneldocked", true);
 
 			if (sidePanelDocked)
@@ -346,7 +346,7 @@ namespace SIL.Pa.UI.Views
 			OnViewDocked(this);
 			m_initialDock = true;
 
-			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			m_rsltVwMngr.RecordViewOn = App.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
 
 			// Hide the record view pane until the first search, at which time the value of
@@ -425,17 +425,17 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_slidingPanel.SlideFromLeft)
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
+				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
 					!splitOuter.Panel1Collapsed);
 			}
 			else
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
+				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked",
 					!splitOuter.Panel2Collapsed);
 			}
 
 			ptrnBldrComponent.SaveSettings(Name);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible",
+			App.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible",
 				m_rsltVwMngr.RecordViewOn);
 
 			try
@@ -446,16 +446,16 @@ namespace SIL.Pa.UI.Views
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
 				float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
+				App.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
 				splitRatio = splitResults.SplitterDistance / (float)splitResults.Height;
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
+				App.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
 
 				splitRatio = splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
+				App.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
 
 				splitRatio = splitChart.SplitterDistance / (float)splitChart.Height;
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
+				App.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 			}
 			catch { }
 		}
@@ -502,16 +502,16 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
+					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
 					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
 					splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.5f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.5f);
 					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.4f);
 					splitChart.SplitterDistance = (int)(splitChart.Height * splitRatio);
 				}
 				catch { }
@@ -676,7 +676,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			m_xyGrid.InsertTextInCell(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
+			m_xyGrid.InsertTextInCell(item.Text.Replace(App.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -706,7 +706,7 @@ namespace SIL.Pa.UI.Views
 				if (item != null)
 				{
 					m_xyGrid.InsertTextInCell((
-						item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
+						item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
 						m_openClass + item.Text + m_closeClass : item.Pattern));
 				}
 			}
@@ -750,7 +750,7 @@ namespace SIL.Pa.UI.Views
 				ClassListViewItem item = e.Item as ClassListViewItem;
 				if (item != null)
 				{
-					dragText = (item.Pattern == null || PaApp.Project.ShowClassNamesInSearchPatterns ?
+					dragText = (item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
 						m_openClass + item.Text + m_closeClass : item.Pattern);
 				}
 			}
@@ -761,7 +761,7 @@ namespace SIL.Pa.UI.Views
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 	
-				DoDragDrop(dragText.Replace(PaApp.kDottedCircle, string.Empty),
+				DoDragDrop(dragText.Replace(App.kDottedCircle, string.Empty),
 					DragDropEffects.Copy);
 			}
 		}
@@ -1445,7 +1445,7 @@ namespace SIL.Pa.UI.Views
 			{
 				string defaultHTMLFileName = string.Format(
 					Properties.Resources.kstidXYChartHTMLFileName,
-					PaApp.Project.Language, m_xyGrid.ChartName);
+					App.Project.LanguageName, m_xyGrid.ChartName);
 
 				outputFileName = HTMLXYChartWriter.Export(m_xyGrid, defaultHTMLFileName,
 					Properties.Resources.kstidXYChartHTMLChartType, m_xyGrid.ChartName);

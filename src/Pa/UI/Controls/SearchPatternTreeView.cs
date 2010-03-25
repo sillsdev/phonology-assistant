@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.Visible = false;
 			Controls.Add(m_lblNoPatternsMsg);
 
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 
 			//m_tooltip = new ToolTip();
 			//m_tooltip.OwnerDraw = true;
@@ -83,17 +83,17 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (TreeNode node in Nodes)
 			{
-				if (i < PaApp.Project.SearchQueryGroups.Count)
+				if (i < App.Project.SearchQueryGroups.Count)
 				{
 
 					if (m_isForToolbarPopup)
-						PaApp.Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
 					else
-						PaApp.Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
 				}
 			}
 
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			Nodes.Clear();
 
-			foreach (SearchQueryGroup group in PaApp.Project.SearchQueryGroups)
+			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
 			{
 				TreeNode categoryNode = new TreeNode(group.Name);
 				categoryNode.Tag = group;
@@ -281,7 +281,7 @@ namespace SIL.Pa.UI.Controls
 					return nodes[0];
 			}
 
-			SearchQueryGroup group = PaApp.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
+			SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
 			return GetPatternsNode(group != null ? group.Name : query.Category, query.ToString());
 		}
 
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				patternNode.Text = query.ToString();
 				patternNode.Tag = query.Clone();
-				PaApp.Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
+				App.Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
 			}
 		}
 
@@ -371,7 +371,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -508,7 +508,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			((SearchQueryGroup)editedNode.Tag).Name = newName;
 			UpdateEachPatternsCategory();
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove the node whose label just changed and give the system a moment to
 			// process the message before moving on to re-add the node in alphabetical
@@ -543,7 +543,7 @@ namespace SIL.Pa.UI.Controls
 		private void AfterQueryNameEdited(SearchQuery query, string newName)
 		{
 			query.Name = newName;
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -671,8 +671,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					PaApp.MsgMediator.SendMessage("ViewFindPhones", SelectedNode.Tag as SearchQuery);
-					PaApp.TMAdapter.HideBarItemsPopup("tbbFindPhones");
+					App.MsgMediator.SendMessage("ViewFindPhones", SelectedNode.Tag as SearchQuery);
+					App.TMAdapter.HideBarItemsPopup("tbbFindPhones");
 				}
 				catch { }
 			}
@@ -803,8 +803,8 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			// Remove group from cache.
-			PaApp.Project.SearchQueryGroups.Remove(group);
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Remove(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove group from tree.
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
@@ -836,8 +836,8 @@ namespace SIL.Pa.UI.Controls
 					return;
 			}
 
-			PaApp.Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
+			App.Project.SearchQueryGroups.Save();
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
 			Nodes.Remove(node);
 			SelectedNode = newNode;
@@ -896,8 +896,8 @@ namespace SIL.Pa.UI.Controls
 			
 			SearchQueryGroup group = new SearchQueryGroup();
 			group.Name = newCategoryName;
-			PaApp.Project.SearchQueryGroups.Add(group);
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Add(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Hide the label that tells the user there are no saved patterns
 			// because we know there is at least one category now.
@@ -994,15 +994,15 @@ namespace SIL.Pa.UI.Controls
 					newquery.Name = newName;
 			}
 
-			SearchQueryGroup group = PaApp.Project.SearchQueryGroups[categoryNode.Index];
+			SearchQueryGroup group = App.Project.SearchQueryGroups[categoryNode.Index];
 
 			// Make sure we have a list to add to.
 			if (group.Queries == null)
 				group.Queries = new List<SearchQuery>();
 
-			newquery.Id = PaApp.Project.SearchQueryGroups.NextAvailableId;
+			newquery.Id = App.Project.SearchQueryGroups.NextAvailableId;
 			group.Queries.Add(newquery);
-			PaApp.Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Now create a new tree node for it.
 			TreeNode node = new TreeNode();
@@ -1059,7 +1059,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnCutSavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()))
+			if (!App.IsFormActive(FindForm()))
 				return false;
 
 			m_cutCommand = true;
@@ -1074,7 +1074,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnCopySavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()))
+			if (!App.IsFormActive(FindForm()))
 				return false;
 
 			m_copyCommand = true;
@@ -1089,7 +1089,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnPasteSavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()))
+			if (!App.IsFormActive(FindForm()))
 				return false;
 
 			m_pasteCommand = true;
@@ -1104,10 +1104,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnSearchUsingPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()))
+			if (!App.IsFormActive(FindForm()))
 				return false;
 
-			PaApp.MsgMediator.SendMessage("ViewFindPhones", CurrentQuery);
+			App.MsgMediator.SendMessage("ViewFindPhones", CurrentQuery);
 			return true;
 		}
 
@@ -1120,7 +1120,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !itemProps.Name.EndsWith("-FromSavedList") ||
-				!PaApp.IsFormActive(FindForm()))
+				!App.IsFormActive(FindForm()))
 			{
 				return false;
 			}
@@ -1144,7 +1144,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnUpdateCutSavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()) || m_btnCut == null)
+			if (!App.IsFormActive(FindForm()) || m_btnCut == null)
 				return false;
 
 			bool enable = (CurrentQuery != null);
@@ -1169,7 +1169,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnUpdateCopySavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()) || m_btnCopy == null)
+			if (!App.IsFormActive(FindForm()) || m_btnCopy == null)
 				return false;
 
 			bool enable = (CurrentQuery != null);
@@ -1194,7 +1194,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool OnUpdatePasteSavedPattern(object args)
 		{
-			if (!PaApp.IsFormActive(FindForm()) || m_btnPaste == null)
+			if (!App.IsFormActive(FindForm()) || m_btnPaste == null)
 				return false;
 
 			bool enable = (SelectedNode != null && m_patternClipboard != null);

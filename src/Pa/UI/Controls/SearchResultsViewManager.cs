@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
 			m_recView = recView;
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 			m_resultsPanel.ControlRemoved += HandleTabGroupRemoved;
 			Application.AddMessageFilter(this);
 		}
@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Controls
 			m_splitResults = null;
 			m_resultsPanel = null;
 			m_currTabGroup = null;
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 
 			if (m_srchResultTabPopup != null)
 				m_srchResultTabPopup.Dispose();
@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
-			bool enable = (enableAllow && PaApp.Project != null &&
+			bool enable = (enableAllow && App.Project != null &&
 				grid != null && grid.RowCount > 0);
 
 			if (itemProps.Enabled != enable)
@@ -295,7 +295,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			if (enable && itemProps.Name.StartsWith("mnu"))
-				CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, PaApp.TMAdapter);
+				CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);
 
 			return true;
 		}
@@ -321,7 +321,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
 
-					if (PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+					if (App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
 						grid.ToggleGroupExpansion(false);
 				}
 
@@ -915,7 +915,7 @@ namespace SIL.Pa.UI.Controls
 				// make sure a remaining group is made current.
 				SearchResultTabGroup newTabGroup = FindNewCurrentTabGroup(siblingPaneToRelocate);
 				SearchResultTabGroupChanged(newTabGroup);
-				PaApp.MsgMediator.SendMessage("SearchResultTabGroupChanged", newTabGroup);
+				App.MsgMediator.SendMessage("SearchResultTabGroupChanged", newTabGroup);
 			}
 
 			tabGroup.Dispose();
@@ -1007,8 +1007,8 @@ namespace SIL.Pa.UI.Controls
 			//}
 
 			m_srchRsltVwHost.BeforeSearchPerformed(query, null);
-			PaApp.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
-			WordListCache resultCache = PaApp.Search(query, 5);
+			App.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
+			WordListCache resultCache = App.Search(query, 5);
 
 			if (resultCache != null)
 			{
@@ -1017,7 +1017,7 @@ namespace SIL.Pa.UI.Controls
 				ShowResults(resultCache, resultLocation);
 			}
 			
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 			return resultCache;
 		}
 
@@ -1175,7 +1175,7 @@ namespace SIL.Pa.UI.Controls
 
 			tabGroup.ResumeLayout(false);
 			m_resultsPanel.ResumeLayout();
-			PaApp.MsgMediator.SendMessage("SearchResultTabCreated", tab);
+			App.MsgMediator.SendMessage("SearchResultTabCreated", tab);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1254,7 +1254,7 @@ namespace SIL.Pa.UI.Controls
 			
 			m_ignoreTabGroupRemoval = false;
 			
-			PaApp.MsgMediator.SendMessage("SearchResultTabGroupCreated", tabGroup);
+			App.MsgMediator.SendMessage("SearchResultTabGroupCreated", tabGroup);
 			
 			return tabGroup;
 		}
@@ -1444,7 +1444,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			m_playbackSpeedAdjuster.PlaybackSpeed =
-				PaApp.SettingsHandler.GetIntSettingsValue(m_view.GetType().Name, "playbackspeed", 100);
+				App.SettingsHandler.GetIntSettingsValue(m_view.GetType().Name, "playbackspeed", 100);
 
 			return true;
 		}
@@ -1459,7 +1459,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_view.ActiveView)
 				return false;
 
-			PaApp.SettingsHandler.SaveSettingsValue(m_view.GetType().Name,
+			App.SettingsHandler.SaveSettingsValue(m_view.GetType().Name,
 				"playbackspeed", m_playbackSpeedAdjuster.PlaybackSpeed);
 			
 			return true;
@@ -1483,7 +1483,7 @@ namespace SIL.Pa.UI.Controls
 			FindInfo.CanFindAgain = true;
 
 			if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
-				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseonminpairs", false))
+				App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseonminpairs", false))
 			{
 				CurrentViewsGrid.ToggleGroupExpansion(false);
 			}
@@ -1553,7 +1553,7 @@ namespace SIL.Pa.UI.Controls
 
 			string defaultHTMLFileName = string.Format(
 				Properties.Resources.kstidSearchResultHTMLFileName,
-				PaApp.Project.Language, queryName);
+				App.Project.LanguageName, queryName);
 
 			return HTMLGridWriter.Export(grid, defaultHTMLFileName,
 				new[] { queryName, grid.Cache.SearchQuery.Pattern });

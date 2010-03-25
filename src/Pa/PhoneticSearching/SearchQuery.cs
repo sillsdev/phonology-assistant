@@ -155,7 +155,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (m_isPatternRegExp)
 			{
-				string[] patternParts = m_pattern.Split(new char[] { PaApp.kOrc });
+				string[] patternParts = m_pattern.Split(new char[] { App.kOrc });
 
 				if (patternParts.Length == 3)
 					return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
@@ -426,11 +426,11 @@ namespace SIL.Pa.PhoneticSearching
 				if (s_defaultIgnoredStressChars != null)
 					return s_defaultIgnoredStressChars;
 
-				if (PaApp.IPASymbolCache == null)
+				if (App.IPASymbolCache == null)
 					return null;
 
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in PaApp.IPASymbolCache)
+				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
 				{
 					if (info.Value.IgnoreType == IPASymbolIgnoreType.StressSyllable)
 					{
@@ -456,11 +456,11 @@ namespace SIL.Pa.PhoneticSearching
 				if (s_defaultIgnoredToneChars != null)
 					return s_defaultIgnoredToneChars;
 
-				if (PaApp.IPASymbolCache == null)
+				if (App.IPASymbolCache == null)
 					return null;
 
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in PaApp.IPASymbolCache)
+				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
 				{
 					if (info.Value.IgnoreType == IPASymbolIgnoreType.Tone)
 					{
@@ -486,11 +486,11 @@ namespace SIL.Pa.PhoneticSearching
 				if (s_defaultIgnoredLengthChars != null)
 					return s_defaultIgnoredLengthChars;
 
-				if (PaApp.IPASymbolCache == null)
+				if (App.IPASymbolCache == null)
 					return null;
 				
 				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in PaApp.IPASymbolCache)
+				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
 				{
 					if (info.Value.IgnoreType == IPASymbolIgnoreType.Length)
 					{

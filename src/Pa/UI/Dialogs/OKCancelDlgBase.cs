@@ -47,8 +47,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!DesignMode)
 			{
-				PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
-				PaApp.MsgMediator.SendMessage("OKCancelDlgHandleCreated", this);
+				App.MsgMediator.SendMessage(Name + "HandleCreated", this);
+				App.MsgMediator.SendMessage("OKCancelDlgHandleCreated", this);
 			}
 
 			if (Parent is Form)
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Broadcast a message to anyone who cares (e.g. an AddOn).
 				DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this);
-				PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+				App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 				return (m_dirty || dsmi.IsDirty);
 			}
 		}
@@ -181,7 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
 			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)
 				ThrowAwayChanges();
@@ -205,7 +205,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
 			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			if (PaApp.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
+			if (App.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
 			{
 				if (!dsmi.Continue)
 					return dsmi.BoolToReturn;
@@ -234,7 +234,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
 			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)
 				SaveSettings();
@@ -261,7 +261,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
 			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			if (PaApp.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
+			if (App.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
 			{
 				if (!dsmi.Continue)
 					return dsmi.BoolToReturn;
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
 			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			PaApp.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
+			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)
 				HandleHelpClick(sender, e);
@@ -304,7 +304,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleHelpClick(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 
 		#endregion

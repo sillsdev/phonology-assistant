@@ -500,7 +500,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			PaFieldInfo fieldInfo =
-				PaApp.Project.FieldInfo[s_grid.Columns[cell.ColumnIndex].Name];
+				App.Project.FieldInfo[s_grid.Columns[cell.ColumnIndex].Name];
 
 			if (!fieldInfo.IsPhonetic)
 				cellValue = FFNormalizer.Normalize(cellValue);

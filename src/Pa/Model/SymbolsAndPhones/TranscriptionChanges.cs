@@ -1,37 +1,57 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SIL.Localization;
 using SilUtils;
 
 namespace SIL.Pa.Model
 {
-	public class ExperimentalTranscriptions : List<ExperimentalTrans>
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class TranscriptionChanges : List<TranscriptionChange>
 	{
-		public const string kExperimentalTransFile = "ExperimentalTranscriptions.xml";
+		public const string kFileName = "ExperimentalTranscriptions.xml";
 
+		#region Method to migrate previous versions of transcription changes file to current.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Construct the file name for the project's experimental transcriptions.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName)
+		public static void MigrateToLatestVersion(string filename)
 		{
-			string filename = (projectFileName ?? string.Empty);
-			filename += (filename.EndsWith(".") ? string.Empty : ".") + kExperimentalTransFile;
-			return filename;
+			var errMsg = LocalizationManager.LocalizeString(
+				"Misc.Strings.TranscriptionChangesMigrationErrMsg",
+				"The following error occurred while attempting to update the your project’s " +
+				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
+				"In order to continue working, your original file containing transcriptions " +
+				"will be renamed to the following file: '{1}'.",
+				"Message displayed when updating transcription changes (formerly experimental transcriptions) file to new version.",
+				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
+				LocalizationPriority.MediumHigh);
+
+			//App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
+			//    "SIL.Pa.Model.UpdateFileTransforms.UpdateAmbiguousSequenceFile.xslt", errMsg);
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the project's experimental transcriptions.
+		/// Loads the project's transcription changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static ExperimentalTranscriptions Load(string projectFileName)
+		public static TranscriptionChanges Load(string pathPrefix)
 		{
-			string filename = BuildFileName(projectFileName);
+			string filename = pathPrefix + kFileName;
+
+			MigrateToLatestVersion(filename);
 			
-			ExperimentalTranscriptions experimentalTrans = Utils.DeserializeData(filename,
-				typeof(ExperimentalTranscriptions)) as ExperimentalTranscriptions;
+			TranscriptionChanges experimentalTrans = Utils.DeserializeData(filename,
+				typeof(TranscriptionChanges)) as TranscriptionChanges;
 
 			// This should never need to be done, but just in case there are entries in
 			// the list whose source transcription (i.e. Item) is null, remove them from
@@ -45,44 +65,42 @@ namespace SIL.Pa.Model
 				}
 			}
 
-			return (experimentalTrans ?? new ExperimentalTranscriptions());
+			return (experimentalTrans ?? new TranscriptionChanges());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Saves the project's experimental transcriptions.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Save(string projectFileName)
+		public void Save(string pathPrefix)
 		{
-			string filename = BuildFileName(projectFileName);
-			Utils.SerializeData(filename, this);
+			Utils.SerializeData(pathPrefix + kFileName, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not there are any experimental transcriptions
-		/// defined.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool AnyExperimentalTrans
+		public bool AnyTranscriptionChanges
 		{
 			get { return (Count > 0); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not there are any experimental transcriptions
+		/// Gets a value indicating whether or not there are any transcription changes
 		/// that should be converted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool AnyExperimentalTransToConvert
+		public bool AnyChangesToConvert
 		{
 			get
 			{
-				foreach (ExperimentalTrans info in this)
+				foreach (TranscriptionChange info in this)
 				{
 					if (info.Convert && !info.TreatAsSinglePhone &&
 						info.CurrentConvertToItem != null)
@@ -105,12 +123,12 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (!AnyExperimentalTransToConvert)
+				if (!AnyChangesToConvert)
 					return null;
 
 				// First, sort the list of items to convert on the length of the item
 				// to convert to -- longest to shortest.
-				List<ExperimentalTrans> tmpList = new List<ExperimentalTrans>();
+				List<TranscriptionChange> tmpList = new List<TranscriptionChange>();
 
 				// Copy the ExperimentalTrans references.
 				for (int i = 0; i < Count; i++)
@@ -120,12 +138,12 @@ namespace SIL.Pa.Model
 				}
 
 				// Now order the items.
-				tmpList.Sort(ExperimentalTransComparer);
+				tmpList.Sort(TransChangeComparer);
 
 				// Now put the sorted items in a list whose keys are what
 				// to convert from and whose values are what to convert to.
 				Dictionary<string, string> list = new Dictionary<string, string>();
-				foreach (ExperimentalTrans item in tmpList)
+				foreach (TranscriptionChange item in tmpList)
 				{
 					string convertToItem = item.CurrentConvertToItem;
 					if (item.ConvertFromItem != null && convertToItem != null &&
@@ -144,7 +162,7 @@ namespace SIL.Pa.Model
 		/// Compare method for the length of the item to convert from.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private int ExperimentalTransComparer(ExperimentalTrans x, ExperimentalTrans y)
+		private static int TransChangeComparer(TranscriptionChange x, TranscriptionChange y)
 		{
 			if (x == y || ((x == null || x.ConvertFromItem == null) &&
 				(y == null || y.ConvertFromItem == null)))
@@ -176,7 +194,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool ContainsItem(string item, bool itemMustBeTreatedAsSinglePhone)
 		{
-			foreach (ExperimentalTrans experimentalTrans in this)
+			foreach (TranscriptionChange experimentalTrans in this)
 			{
 				if (experimentalTrans.ConvertFromItem == item)
 				{
@@ -260,13 +278,13 @@ namespace SIL.Pa.Model
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("ExperimentalTranscription")]
-	public class ExperimentalTrans
+	public class TranscriptionChange
 	{
 		private string m_convertFromItem;
 		private List<string> m_convertToItems;
 		private string m_currentConvertToItem;
 		private bool m_convert = true;
-		private bool m_treatAsSinglePhone = false;
+		private bool m_treatAsSinglePhone;
 		private int m_displayIndex;
 
 		/// ------------------------------------------------------------------------------------
@@ -274,7 +292,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExperimentalTrans()
+		public TranscriptionChange()
 		{
 			m_convertToItems = new List<string>();
 		}
@@ -286,7 +304,7 @@ namespace SIL.Pa.Model
 		/// true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExperimentalTrans(string item) : this()
+		public TranscriptionChange(string item) : this()
 		{
 			m_convertFromItem = item;
 			m_treatAsSinglePhone = true;

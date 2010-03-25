@@ -56,8 +56,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			IinitializeCharExplorer();
 
-			m_lvArticulatoryFeatures = InitializeFeatureList(PaApp.FeatureType.Articulatory);
-			m_lvBinaryFeatures = InitializeFeatureList(PaApp.FeatureType.Binary);
+			m_lvArticulatoryFeatures = InitializeFeatureList(App.FeatureType.Articulatory);
+			m_lvBinaryFeatures = InitializeFeatureList(App.FeatureType.Binary);
 
 			m_ctrls[SearchClassType.Phones] = charExplorer;
 			m_ctrls[SearchClassType.Articulatory] = splitOuter;
@@ -119,11 +119,11 @@ namespace SIL.Pa.UI.Dialogs
 					Text = LocalizationManager.LocalizeString("PhoneClassDialogCaption",
 						"Phones", "Title for the dialog box in which a class is " +
 						"defined that is based on phones.",
-						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
+						App.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
-						"Phones", "Phone class type label.", PaApp.kLocalizationGroupMisc,
+						"Phones", "Phone class type label.", App.kLocalizationGroupMisc,
 						LocalizationCategory.Label, LocalizationPriority.High);
 					
 					break;
@@ -132,12 +132,12 @@ namespace SIL.Pa.UI.Dialogs
 					Text = LocalizationManager.LocalizeString("ArticulatoryFeatureClassDialogCaption",
 						"Articulatory Features", "Title for the dialog box in which a class is " +
 						"defined that is based on articulatory features.",
-						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
+						App.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString(
 						"ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
-						"Articulatory features class type label.", PaApp.kLocalizationGroupMisc,
+						"Articulatory features class type label.", App.kLocalizationGroupMisc,
 						LocalizationCategory.Label, LocalizationPriority.High);
 
 					break;
@@ -146,12 +146,12 @@ namespace SIL.Pa.UI.Dialogs
 					Text = LocalizationManager.LocalizeString("BinaryFeatureClassDialogCaption",
 						"Binary Features", "Title for the dialog box in which a class is " +
 						"defined that is based on binary features.",
-						PaApp.kLocalizationGroupDialogs + ".DefineClasses",
+						App.kLocalizationGroupDialogs + ".DefineClasses",
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
 						"Binary features", "Binary features class type label.",
-						PaApp.kLocalizationGroupMisc, LocalizationCategory.Label,
+						App.kLocalizationGroupMisc, LocalizationCategory.Label,
 						LocalizationPriority.High);
 		
 					break;
@@ -172,7 +172,7 @@ namespace SIL.Pa.UI.Dialogs
 			UpdateCharacterViewers();
 
 			m_classInfo.IsDirty = false;
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(PaApp.FeatureType featureType)
+		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
 		{
 			FeatureListView flv = new FeatureListView(featureType);
 			flv.Load();
@@ -299,15 +299,15 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				int splitDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "split3", 0);
+				int splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split3", 0);
 				if (splitDistance > 0)
 					splitOuter.SplitterDistance = splitDistance;
 
-				splitDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "split2", 0);
+				splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split2", 0);
 				if (splitDistance > 0)
 					splitPhoneViewers.SplitterDistance = splitDistance;
 
-				splitDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "split1", 0);
+				splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split1", 0);
 				if (splitDistance > 0)
 					splitCV.SplitterDistance = splitDistance;
 			}
@@ -391,13 +391,13 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 			charExplorer.SaveSettings(Name);
 			lvClasses.SaveSettings(Name);
 
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "split1", splitCV.SplitterDistance);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "split2", splitPhoneViewers.SplitterDistance);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "split3", splitOuter.SplitterDistance);
+			App.SettingsHandler.SaveSettingsValue(Name, "split1", splitCV.SplitterDistance);
+			App.SettingsHandler.SaveSettingsValue(Name, "split2", splitPhoneViewers.SplitterDistance);
+			App.SettingsHandler.SaveSettingsValue(Name, "split3", splitOuter.SplitterDistance);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -413,7 +413,7 @@ namespace SIL.Pa.UI.Dialogs
 				List<char> undefinedChars = new List<char>();
 				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
-					if (PaApp.IPASymbolCache[c] == null || PaApp.IPASymbolCache[c].IsUndefined)
+					if (App.IPASymbolCache[c] == null || App.IPASymbolCache[c].IsUndefined)
 						undefinedChars.Add(c);
 				}
 
@@ -476,7 +476,7 @@ namespace SIL.Pa.UI.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = PaApp.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
+				phones = App.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}
@@ -494,13 +494,13 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					PaApp.ShowHelpTopic("hidPhoneticCharacterClassDlg");
+					App.ShowHelpTopic("hidPhoneticCharacterClassDlg");
 					break;
 				case SearchClassType.Articulatory:
-					PaApp.ShowHelpTopic("hidArticulatoryFeatureClassDlg");
+					App.ShowHelpTopic("hidArticulatoryFeatureClassDlg");
 					break;
 				case SearchClassType.Binary:
-					PaApp.ShowHelpTopic("hidBinaryFeatureClassDlg");
+					App.ShowHelpTopic("hidBinaryFeatureClassDlg");
 					break;
 			}
 		}
@@ -523,7 +523,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleIPACharPicked(CharPicker chooser, ToolStripButton item)
 		{
-			InsertText(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
+			InsertText(item.Text.Replace(App.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -533,7 +533,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InsertText(string itemText)
 		{
-			IPASymbol charInfo = PaApp.IPASymbolCache[itemText];
+			IPASymbol charInfo = App.IPASymbolCache[itemText];
 			bool isBase = (charInfo == null || charInfo.IsBase);
 
 			int selStart = txtMembers.SelectionStart;

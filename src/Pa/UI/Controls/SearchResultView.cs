@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Initialize(WordListCache cache)
 		{
-			PaApp.MsgMediator.SendMessage("BeforeSearchResultViewInitialized", this);
+			App.MsgMediator.SendMessage("BeforeSearchResultViewInitialized", this);
 
 			m_searchQuery = (cache != null ? cache.SearchQuery : null);
 
@@ -83,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 			m_grid.UseWaitCursor = false;
 			m_grid.Cursor = Cursors.Default;
 
-			PaApp.MsgMediator.SendMessage("AfterSearchResultViewInitialized", this);
+			App.MsgMediator.SendMessage("AfterSearchResultViewInitialized", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,8 +129,8 @@ namespace SIL.Pa.UI.Controls
 				savCIEOptions = m_grid.CIEOptions;
 			}
 
-			PaApp.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
-			WordListCache resultCache = PaApp.Search(m_searchQuery, 5);
+			App.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
+			WordListCache resultCache = App.Search(m_searchQuery, 5);
 			if (resultCache != null)
 			{
 				resultCache.SearchQuery = m_searchQuery;
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Controls
 					savCurrColIndex, savFirstRowIndex, savSortOptions, savCIEOptions);
 			}
 
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			PaApp.MsgMediator.SendMessage("SearchResultViewDestroying", this);
+			App.MsgMediator.SendMessage("SearchResultViewDestroying", this);
 
 			base.OnHandleDestroyed(e);
 
@@ -201,7 +201,7 @@ namespace SIL.Pa.UI.Controls
 					ForeColor, flags);
 			}
 
-			PaApp.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
+			App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
 		}
 
 		#region Properties

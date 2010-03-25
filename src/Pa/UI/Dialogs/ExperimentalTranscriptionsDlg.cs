@@ -22,7 +22,7 @@ namespace SIL.Pa.UI.Dialogs
 		public ExperimentalTranscriptionsDlg()
 		{
 			InitializeComponent();
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			pnlGrid.Controls.Add(m_experimentalTransCtrl);
 			AdjustGridRows();
 			
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 			base.OnFormClosed(e);
 		}
 
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_experimentalTransCtrl.Grid.AutoResizeRows();
 
 			int extraRowHeight =
-				PaApp.SettingsHandler.GetIntSettingsValue(Name, "exptransgridextrarowheight", 2);
+				App.SettingsHandler.GetIntSettingsValue(Name, "exptransgridextrarowheight", 2);
 
 			foreach (DataGridViewRow row in m_experimentalTransCtrl.Grid.Rows)
 				row.Height += extraRowHeight;
@@ -116,7 +116,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_experimentalTransCtrl.Grid.IsDirty)
 			{
 				m_experimentalTransCtrl.SaveChanges();
-				PaApp.Project.ReloadDataSources();
+				App.Project.ReloadDataSources();
 			}
 
 			return true;

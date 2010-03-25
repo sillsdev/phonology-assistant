@@ -114,15 +114,12 @@ namespace SIL.Pa.Model
 		private const char kParseTokenMarker = '\u0001';
 		private readonly string m_ambigTokenFmt = kParseTokenMarker + "{0}";
 
-		private ExperimentalTranscriptions m_experimentalTransList;
 		private AmbiguousSequences m_sortedAmbiguousSeqList;
 		private AmbiguousSequences m_unsortedAmbiguousSeqList;
 		private UndefinedPhoneticCharactersInfoList m_undefinedChars;
 
 		private Dictionary<string, IPASymbol> m_toneLetters;
 		private bool m_logUndefinedCharacters;
-		private static string s_absentPhoneChars = "0\u2205";
-		private static string s_absentPhoneChar = "\u2205";
 
 		// This is a collection that is created every time the PhoneticParser method is
 		// called and holds all the phones that have been parsed out of a transcription.
@@ -135,8 +132,19 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		internal IPASymbolCache()
 		{
-			m_experimentalTransList = new ExperimentalTranscriptions();
+			TranscriptionChanges = new TranscriptionChanges();
 			m_unsortedAmbiguousSeqList = new AmbiguousSequences();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static IPASymbolCache()
+		{
+			UncertainGroupAbsentPhoneChar = "\u2205";
+			UncertainGroupAbsentPhoneChars = "0\u2205";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,11 +205,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExperimentalTranscriptions ExperimentalTranscriptions
-		{
-			get { return m_experimentalTransList; }
-			set { m_experimentalTransList = value; }
-		}
+		public TranscriptionChanges TranscriptionChanges { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -209,11 +213,7 @@ namespace SIL.Pa.Model
 		/// uncertain phone group, indicate the absence of a phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string UncertainGroupAbsentPhoneChars
-		{
-			get { return s_absentPhoneChars; }
-			set { s_absentPhoneChars = value; }
-		}
+		public static string UncertainGroupAbsentPhoneChars { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -222,11 +222,7 @@ namespace SIL.Pa.Model
 		/// phone).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string UncertainGroupAbsentPhoneChar
-		{
-			get { return s_absentPhoneChar; }
-			set { s_absentPhoneChar = value; }
-		}
+		public static string UncertainGroupAbsentPhoneChar { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -409,7 +405,7 @@ namespace SIL.Pa.Model
 				return null;
 
 			phonetic = FFNormalizer.Normalize(phonetic);
-			phonetic = m_experimentalTransList.Convert(phonetic);
+			phonetic = TranscriptionChanges.Convert(phonetic);
 			string[] words = phonetic.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 			StringBuilder bldr = new StringBuilder();
 			List<string> ambigSeqs = new List<string>();
@@ -537,7 +533,7 @@ namespace SIL.Pa.Model
 			s_currentPhoneticBeingParsed = phonetic;
 
 			if (convertExperimentalTranscriptions)
-				phonetic = m_experimentalTransList.Convert(phonetic);
+				phonetic = TranscriptionChanges.Convert(phonetic);
 	
 			phonetic = MarkAmbiguousSequences(phonetic);
 
@@ -682,7 +678,7 @@ namespace SIL.Pa.Model
 				{
 					if (ambigSeq.Convert)
 					{
-						phonetic = phonetic.Replace(ambigSeq.Unit,
+						phonetic = phonetic.Replace(ambigSeq.Literal,
 							string.Format(m_ambigTokenFmt, ambigSeq.ParseToken));
 					}
 				}
@@ -730,7 +726,7 @@ namespace SIL.Pa.Model
 					// Save the previous phone, if there is one, checking if the phone is the
 					// empty set character. If it's the empty set, then just save an empty string.
 					tmpPhone = bldrPhone.ToString();
-					if (s_absentPhoneChars.Contains(tmpPhone))
+					if (UncertainGroupAbsentPhoneChars.Contains(tmpPhone))
 						tmpPhone = string.Empty;
 
 					phones.Add(tmpPhone);
@@ -778,7 +774,7 @@ namespace SIL.Pa.Model
 
 			// If the phone is the empty set character just save an empty string.
 			tmpPhone = bldrPhone.ToString();
-			if (s_absentPhoneChars.Contains(tmpPhone))
+			if (UncertainGroupAbsentPhoneChars.Contains(tmpPhone))
 				tmpPhone = string.Empty;
 
 			// Save the last uncertain phone and add the list of uncertain phones to

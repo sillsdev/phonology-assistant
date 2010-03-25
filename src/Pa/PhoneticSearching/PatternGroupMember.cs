@@ -173,7 +173,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			m_type = MemberType.Binary;
 			m_member = m_member.ToLower();
-			m_bMask = PaApp.BFeatureCache.GetMask(m_member);
+			m_bMask = App.BFeatureCache.GetMask(m_member);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,11 +183,11 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool CloseArticulatoryFeatureMember()
 		{
-			if (PaApp.AFeatureCache.FeatureExits(m_member))
+			if (App.AFeatureCache.FeatureExits(m_member))
 			{
 				m_type = MemberType.Articulatory;
 				m_member = m_member.ToLower();
-				m_aMask = PaApp.AFeatureCache.GetMask(m_member);
+				m_aMask = App.AFeatureCache.GetMask(m_member);
 				return true;
 			}
 
@@ -222,7 +222,7 @@ namespace SIL.Pa.PhoneticSearching
 			m_type = MemberType.SinglePhone;
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
-			string[] phones = PaApp.IPASymbolCache.PhoneticParser(m_member, true,
+			string[] phones = App.IPASymbolCache.PhoneticParser(m_member, true,
 				SearchEngine.ConvertPatternWithExperimentalTrans);
 
 			if (phones == null || phones.Length == 0)
@@ -287,7 +287,7 @@ namespace SIL.Pa.PhoneticSearching
 				return m_singlePhoneForToString;
 
 			string diacriticCluster = (m_diacriticPattern == null ? string.Empty :
-				string.Format("[{0}{1}]", PaApp.kDottedCircle, m_diacriticPattern));
+				string.Format("[{0}{1}]", App.kDottedCircle, m_diacriticPattern));
 
 			if (m_type == MemberType.Articulatory || m_type == MemberType.Binary)
 			{
@@ -331,8 +331,8 @@ namespace SIL.Pa.PhoneticSearching
 			if (SearchEngine.IgnoredPhones.Contains(phone))
 				return CompareResultType.Ignored;
 
-			if (phone.IndexOf(PaApp.kTopTieBarC) >= 0 ||
-				phone.IndexOf(PaApp.kBottomTieBarC) >= 0)
+			if (phone.IndexOf(App.kTopTieBarC) >= 0 ||
+				phone.IndexOf(App.kBottomTieBarC) >= 0)
 			{
 				return CheckPhoneContainingTieBar(phone);
 			}
@@ -395,7 +395,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			// Split the phone where the tie-bar is and send each remaining piece to
 			// ContainMatch as though each piece were a separate phone.
-			foreach (string phonePart in phone.Split(PaApp.kTieBars,
+			foreach (string phonePart in phone.Split(App.kTieBars,
 				StringSplitOptions.RemoveEmptyEntries))
 			{
 				tmpPhoneCache.AddPhone(phonePart);
@@ -533,13 +533,13 @@ namespace SIL.Pa.PhoneticSearching
 				{
 					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
 					{
-						IPASymbol charInfo = PaApp.IPASymbolCache[phonesDiacritics[i]];
+						IPASymbol charInfo = App.IPASymbolCache[phonesDiacritics[i]];
 						if (charInfo != null && charInfo.Type == IPASymbolType.Diacritics)
-							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], PaApp.kOrc);
+							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], App.kOrc);
 					}
 				}
 
-				phonesDiacritics = phonesDiacritics.Replace(PaApp.kOrc.ToString(), string.Empty);
+				phonesDiacritics = phonesDiacritics.Replace(App.kOrc.ToString(), string.Empty);
 			}
 
 			// Now remove all ignored, non base char. suprasegmentals

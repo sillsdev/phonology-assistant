@@ -59,8 +59,8 @@ namespace SIL.Pa.PhoneticSearching
 		public SearchClass GetSearchClass(string className, bool ignoreCase)
 		{
 			// Strip off the brackets if they're there.
-			string modifiedName = className.Replace(PaApp.kOpenClassBracket, string.Empty);
-			modifiedName = modifiedName.Replace(PaApp.kCloseClassBracket, string.Empty);
+			string modifiedName = className.Replace(App.kOpenClassBracket, string.Empty);
+			modifiedName = modifiedName.Replace(App.kCloseClassBracket, string.Empty);
 
 			if (ignoreCase)
 				modifiedName = modifiedName.ToLower();
@@ -95,7 +95,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			string filename = (project != null ?
 				project.ProjectPathFilePrefix + kSearchClassesFilePrefix :
-				Path.Combine(PaApp.ConfigFolder, kDefaultSearchClassesFile));
+				Path.Combine(App.ConfigFolder, kDefaultSearchClassesFile));
 
 			SearchClassList srchClasses = null;
 
@@ -134,7 +134,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			Save(PaApp.Project);
+			Save(App.Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,12 +160,12 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			foreach (SearchClass srchClass in this)
 			{
-				string className = PaApp.kOpenClassBracket + srchClass.Name + PaApp.kCloseClassBracket;
-				string oldText = (PaApp.Project.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
+				string className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
+				string oldText = (App.Project.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
 
 				if (tabText.Contains(oldText))
 				{
-					string newText = (PaApp.Project.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
+					string newText = (App.Project.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
 					return tabText.Replace(oldText, newText);
 				}
 			}

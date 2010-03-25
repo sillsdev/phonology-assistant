@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 		public CharGrid()
 		{
 			m_cellHeight =
-				PaApp.SettingsHandler.GetIntSettingsValue("cvcharts", "cellheight", 36);
+				App.SettingsHandler.GetIntSettingsValue("cvcharts", "cellheight", 36);
 
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
@@ -407,7 +407,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnHandleCreated(e);
 
-			if (!PaApp.DesignMode)
+			if (!App.DesignMode)
 			{
 				if (m_tmAdapter != null)
 				{
@@ -426,7 +426,7 @@ namespace SIL.Pa.UI.Controls
 					}
 				}
 
-				PaApp.AddMediatorColleague(this);
+				App.AddMediatorColleague(this);
 				m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
 				m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
 				Adjust();
@@ -442,7 +442,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 			base.OnHandleDestroyed(e);
 		}
 
@@ -978,7 +978,7 @@ namespace SIL.Pa.UI.Controls
 		private void m_grid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			if (m_searchWhenPhoneDoubleClicked && !string.IsNullOrEmpty(CurrentPhone))
-				PaApp.MsgMediator.SendMessage("ChartPhoneSearchAnywhere", null);
+				App.MsgMediator.SendMessage("ChartPhoneSearchAnywhere", null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1116,7 +1116,7 @@ namespace SIL.Pa.UI.Controls
 			// This will not be empty when the mouse button is down.
 			if (!m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 ||
 				(m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null ||
-				!PaApp.IsFormActive(FindForm()))
+				!App.IsFormActive(FindForm()))
 			{
 				return;
 			}
@@ -1300,7 +1300,7 @@ namespace SIL.Pa.UI.Controls
 				draggedCell.Value = null;
 				m_grid.CurrentCell = droppedOnCell;
 
-				PaApp.MsgMediator.SendMessage("ChartPhoneMoved",
+				App.MsgMediator.SendMessage("ChartPhoneMoved",
 					new object[] { this, droppedOnCell.Value as CharGridCell,
 					draggedCell, droppedOnCell });
 			}
@@ -1507,7 +1507,7 @@ namespace SIL.Pa.UI.Controls
 				}
 				else
 				{
-					PaApp.MsgMediator.SendMessage("ChartPhoneMoved",
+					App.MsgMediator.SendMessage("ChartPhoneMoved",
 						new object[] {m_chrGrid, currentCellsCgc, m_originalCell, targetCell});
 				}
 			}

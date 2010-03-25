@@ -90,7 +90,7 @@ namespace SIL.Pa.Model
 
 			m_fieldValues = new Dictionary<string, PaFieldValue>();
 
-			foreach (PaFieldInfo fieldInfo in PaApp.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
 			{
 				if (fieldInfo.IsParsed)
 				{
@@ -169,9 +169,9 @@ namespace SIL.Pa.Model
 			// At this point, we know we don't have a value for the specified field or we
 			// do and the value is null.
  
-			if (PaApp.Project != null)
+			if (App.Project != null)
 			{
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[field];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[field];
 				
 				// Are we after the CV pattern?
 				if (fieldInfo != null && fieldInfo.IsCVPattern)
@@ -182,7 +182,7 @@ namespace SIL.Pa.Model
 						return recEntryVal;
 
 					// Build the CV pattern since it didn't come from the data source.
-					return (m_phones == null ? null : PaApp.PhoneCache.GetCVPattern(m_phones));
+					return (m_phones == null ? null : App.PhoneCache.GetCVPattern(m_phones));
 				}
 			}
 			
@@ -415,7 +415,7 @@ namespace SIL.Pa.Model
 
 				if (m_phoneticValue == null)
 				{
-					PaFieldInfo fieldInfo = PaApp.FieldInfo[fieldValue.Name];
+					PaFieldInfo fieldInfo = App.FieldInfo[fieldValue.Name];
 					if (fieldInfo.IsPhonetic)
 					{
 						m_phoneticValue = fieldValue;
@@ -442,10 +442,10 @@ namespace SIL.Pa.Model
 				// Normalize the phonetic string.
 				phonetic = FFNormalizer.Normalize(phonetic);
 
-				if (PaApp.IPASymbolCache.ExperimentalTranscriptions != null)
+				if (App.IPASymbolCache.TranscriptionChanges != null)
 				{
 					// Convert experimental transcriptions within the phonetic string.
-					phonetic = PaApp.IPASymbolCache.ExperimentalTranscriptions.Convert(
+					phonetic = App.IPASymbolCache.TranscriptionChanges.Convert(
 						phonetic, out m_experimentalTranscriptionList);
 
 					// Save this for displaying in the record view.
@@ -468,23 +468,23 @@ namespace SIL.Pa.Model
 			if (m_phoneticValue.Value == null)
 				return;
 
-			if (PaApp.IPASymbolCache.UndefinedCharacters != null)
+			if (App.IPASymbolCache.UndefinedCharacters != null)
 			{
-				PaFieldInfo fieldInfo = PaApp.FieldInfo.ReferenceField;
+				PaFieldInfo fieldInfo = App.FieldInfo.ReferenceField;
 				if (fieldInfo != null)
 				{
-					PaApp.IPASymbolCache.UndefinedCharacters.CurrentReference =
+					App.IPASymbolCache.UndefinedCharacters.CurrentReference =
 						GetField(fieldInfo.FieldName, true);
 				}
 
-				PaApp.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
+				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
 					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 
-			m_phones = PaApp.IPASymbolCache.PhoneticParser(
+			m_phones = App.IPASymbolCache.PhoneticParser(
 				m_phoneticValue.Value, false, false, out m_uncertainPhones);
 
 			if (m_phones != null && m_phones.Length == 0)

@@ -70,7 +70,7 @@ namespace SIL.Pa.Model
 		{
 			m_fieldValues = new Dictionary<string, PaFieldValue>();
 
-			foreach (PaFieldInfo fieldInfo in PaApp.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
 				m_fieldValues[fieldInfo.FieldName] = new PaFieldValue(fieldInfo.FieldName);
 
 			m_canBeEditedInToolbox = newFromParsingSFMFile;
@@ -179,7 +179,7 @@ namespace SIL.Pa.Model
 			}
 
 			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			PaFieldInfo fieldInfo = PaApp.FieldInfo[field];
+			PaFieldInfo fieldInfo = App.FieldInfo[field];
 			if (fieldInfo == null || !fieldInfo.IsParsed)
 				return null;
 

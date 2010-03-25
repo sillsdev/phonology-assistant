@@ -62,8 +62,8 @@ namespace SIL.Pa.UI.Controls
 
 			m_tabs = new List<ViewTab>();
 
-			if (!PaApp.DesignMode)
-				PaApp.AddMediatorColleague(this);
+			if (!App.DesignMode)
+				App.AddMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -248,7 +248,7 @@ namespace SIL.Pa.UI.Controls
 		private void m_btnHelp_Click(object sender, EventArgs e)
 		{
 			if (m_currTab != null)
-				PaApp.ShowHelpTopic(m_currTab.HelpTopicId);
+				App.ShowHelpTopic(m_currTab.HelpTopicId);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -370,8 +370,8 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			PaApp.CurrentView = view;
-			PaApp.CurrentViewType = view.GetType();
+			App.CurrentView = view;
+			App.CurrentViewType = view.GetType();
 
 			Control ctrl = view as Control;
 			if (activateViewsForm && ctrl != null && ctrl.FindForm() != null)
@@ -382,7 +382,7 @@ namespace SIL.Pa.UI.Controls
 				ctrl.FindForm().Activate();
 			}
 
-			PaApp.MsgMediator.SendMessage("ActiveViewChanged", view);
+			App.MsgMediator.SendMessage("ActiveViewChanged", view);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -956,8 +956,8 @@ namespace SIL.Pa.UI.Controls
 			m_viewType = viewType;
 			m_image = img;
 
-			if (PaApp.MainForm != null)
-				PaApp.MainForm.Activated += MainForm_Activated;
+			if (App.MainForm != null)
+				App.MainForm.Activated += MainForm_Activated;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -969,8 +969,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (disposing)
 			{
-				if (PaApp.MainForm != null)
-					PaApp.MainForm.Activated -= MainForm_Activated;
+				if (App.MainForm != null)
+					App.MainForm.Activated -= MainForm_Activated;
 
 				if (m_viewsForm != null && !m_viewsForm.IsDisposed)
 				{
@@ -991,7 +991,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public Control OpenView()
 		{
-			PaApp.StatusBarLabel.Text = string.Empty;
+			App.StatusBarLabel.Text = string.Empty;
 
 			// Check if the view is already loaded.
 			if (m_viewsControl != null || m_viewType == null)
@@ -1006,7 +1006,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Create an instance of the view's form
 			m_viewsControl = (Control)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
-			PaApp.MsgMediator.SendMessage("BeginViewOpen", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewOpen", m_viewsControl);
 			m_viewsControl.Dock = DockStyle.Fill;
 
 			if (!(m_viewsControl is ITabView))
@@ -1018,12 +1018,12 @@ namespace SIL.Pa.UI.Controls
 			try
 			{
 				if (m_viewsControl is IxCoreColleague)
-					PaApp.AddMediatorColleague(m_viewsControl as IxCoreColleague);
+					App.AddMediatorColleague(m_viewsControl as IxCoreColleague);
 			}
 			catch { }
 
 			DockView();
-			PaApp.MsgMediator.SendMessage("ViewOpened", m_viewsControl);
+			App.MsgMediator.SendMessage("ViewOpened", m_viewsControl);
 			return m_viewsControl;
 		}
 
@@ -1037,7 +1037,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_undockingInProgress || m_viewsControl == null)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewClosing", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewClosing", m_viewsControl);
 			Visible = true;
 
 			if (!m_viewsControl.IsDisposed)
@@ -1046,7 +1046,7 @@ namespace SIL.Pa.UI.Controls
 					m_owningTabGroup.Controls.Remove(m_viewsControl);
 
 				if (m_viewsControl is IxCoreColleague)
-					PaApp.RemoveMediatorColleague(m_viewsControl as IxCoreColleague);
+					App.RemoveMediatorColleague(m_viewsControl as IxCoreColleague);
 
 				if (m_viewsControl is ITabView)
 					((ITabView)m_viewsControl).TMAdapter.Dispose();
@@ -1058,7 +1058,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_viewsForm != null)
 				m_viewsForm.Close();
 
-			PaApp.MsgMediator.SendMessage("ViewClosed", m_viewType);
+			App.MsgMediator.SendMessage("ViewClosed", m_viewType);
 			m_viewDocked = false;
 		}
 
@@ -1072,7 +1072,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_undockingInProgress || m_viewDocked)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
 			Utils.SetWindowRedraw(m_owningTabGroup, false, false);
 			Visible = true;
 			
@@ -1090,7 +1090,7 @@ namespace SIL.Pa.UI.Controls
 			Utils.SetWindowRedraw(m_owningTabGroup, true, true);
 			m_viewsControl.Focus();
 			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
-			PaApp.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
+			App.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1103,7 +1103,7 @@ namespace SIL.Pa.UI.Controls
 			if (s_undockingInProgress || !m_viewDocked)
 				return;
 
-			PaApp.MsgMediator.SendMessage("BeginViewUnDocking", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewUnDocking", m_viewsControl);
 			m_undockingInProgress = true;
 			s_undockingInProgress = true;
 
@@ -1122,7 +1122,7 @@ namespace SIL.Pa.UI.Controls
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
 			string caption = Utils.RemoveAcceleratorPrefix(Text);
 			m_viewsForm.Text = string.Format(Properties.Resources.kstidUndockedViewCaption,
-				PaApp.Project.ProjectName, caption, Application.ProductName);
+				App.Project.Name, caption, Application.ProductName);
 			
 			Visible = false;
 
@@ -1136,7 +1136,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_viewsForm.Show();
 			m_viewsForm.Activate();
-			PaApp.MsgMediator.SendMessage("ViewUndocked", m_viewsControl);
+			App.MsgMediator.SendMessage("ViewUndocked", m_viewsControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1344,7 +1344,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Form frm = FindForm();
-				if (!PaApp.IsFormActive(frm))
+				if (!App.IsFormActive(frm))
 					frm.Focus();
 			}
 

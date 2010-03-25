@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private SettingsHandler SettingsHandler
 		{
-			get { return (m_settingsHndlr ?? PaApp.SettingsHandler); }
+			get { return (m_settingsHndlr ?? App.SettingsHandler); }
 		}
 
 		/// ------------------------------------------------------------------------------------

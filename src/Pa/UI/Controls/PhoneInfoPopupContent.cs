@@ -44,10 +44,10 @@ namespace SIL.Pa.UI.Controls
 			m_origUncertaintyHeadingHeight = lblUncertaintyHeading.Height;
 			m_countPanelOrigHeight = pnlCounts.Height;
 
-			m_extraMonogramHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+			m_extraMonogramHeight = App.SettingsHandler.GetIntSettingsValue(
 				"cvcharts", "extrapopupmonogramheight", 7);
 
-			m_extraUncertainListHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+			m_extraUncertainListHeight = App.SettingsHandler.GetIntSettingsValue(
 				"cvcharts", "extrapopupuncertainlistheight", 5);
 		}
 

@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			AdjustLabelLocations();
 
-			foreach (SearchQueryGroup group in PaApp.Project.SearchQueryGroups)
+			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
 				cboCategories.Items.Add(group.Name);
 		}
 
@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 				// saved pattern's tree view control. When that happens queries belonging
 				// to that category that are already loaded into search result views
 				// no longer have the correct category name but their Id is still good.
-				SearchQueryGroup group = PaApp.Project.SearchQueryGroups.GetGroupFromQueryId(m_query.Id);
+				SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(m_query.Id);
 				cboCategories.Text = (group != null ? group.Name : m_query.Category);
 			}
 			else

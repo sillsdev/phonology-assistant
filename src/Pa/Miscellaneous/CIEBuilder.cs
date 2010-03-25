@@ -91,7 +91,7 @@ namespace SIL.Pa
 			// First, send a message to see if there is an AddOn to find minimal pairs. If so,
 			// then return the cache it generated instead of the one built by this method.
 			object args = this;
-			if (PaApp.MsgMediator.SendMessage("FindMinimalPairsAlternate", args))
+			if (App.MsgMediator.SendMessage("FindMinimalPairsAlternate", args))
 			{
 				if (args is WordListCache)
 					return (args as WordListCache);
@@ -192,9 +192,9 @@ namespace SIL.Pa
 				for (int i = bldrEnv.Length - 1; i >= 0; i--)
 				{
 					char chr = bldrEnv[i];
-					if (chr != PaApp.kBottomTieBarC && chr != PaApp.kTopTieBarC)
+					if (chr != App.kBottomTieBarC && chr != App.kTopTieBarC)
 					{
-						IPASymbol info = PaApp.IPASymbolCache[chr];
+						IPASymbol info = App.IPASymbolCache[chr];
 						if (info != null && !info.IsBase)
 							bldrEnv.Remove(i, 1);
 					}

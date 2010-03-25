@@ -27,8 +27,8 @@ namespace SIL.Pa.UI.Controls
 			else
 				fontNumbers.Clear();
 
-			PaFieldInfoList fields = (PaApp.Project != null ?
-				PaApp.Project.FieldInfo : PaApp.FieldInfo);
+			PaFieldInfoList fields = (App.Project != null ?
+				App.Project.FieldInfo : App.FieldInfo);
 			
 			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 

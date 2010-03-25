@@ -85,7 +85,7 @@ namespace SIL.Pa.UI.Controls
 			if (m.Msg != 0x0200)
 				return false;
 
-			if (!PaApp.IsFormActive(FindForm()))
+			if (!App.IsFormActive(FindForm()))
 				return false;
 
 			if (m_resizeInProcess)

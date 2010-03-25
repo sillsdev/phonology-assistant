@@ -108,7 +108,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetCVPattern(string phonetic)
 		{
-			return GetCVPattern(PaApp.IPASymbolCache.PhoneticParser(phonetic, true));
+			return GetCVPattern(App.IPASymbolCache.PhoneticParser(phonetic, true));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,10 +119,10 @@ namespace SIL.Pa.Model
 		public string GetCVPattern(string phonetic, bool convertExperimentalTranscriptions)
 		{
 			if (convertExperimentalTranscriptions)
-				return GetCVPattern(PaApp.IPASymbolCache.PhoneticParser(phonetic, true));
+				return GetCVPattern(App.IPASymbolCache.PhoneticParser(phonetic, true));
 
 			Dictionary<int, string[]> uncertainPhones;
-			string[] phones = PaApp.IPASymbolCache.PhoneticParser(
+			string[] phones = App.IPASymbolCache.PhoneticParser(
 				phonetic, true, false, out uncertainPhones);
 			
 			return GetCVPattern(phones);
@@ -147,7 +147,7 @@ namespace SIL.Pa.Model
 					bldr.Append(phone);
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
 				{
-					IPASymbol charInfo = PaApp.IPASymbolCache[phone];
+					IPASymbol charInfo = App.IPASymbolCache[phone];
 					if (charInfo != null)
 					{
 						if (charInfo.Type == IPASymbolType.Breaking)
@@ -276,13 +276,13 @@ namespace SIL.Pa.Model
 			int  bit = -1;
 			if (isBinary)
 			{
-				Feature bfeature = PaApp.BFeatureCache[featureName];
+				Feature bfeature = App.BFeatureCache[featureName];
 				if (bfeature != null)
 					bit = bfeature.Bit;
 			}
 			else
 			{
-				Feature afeature = PaApp.AFeatureCache[featureName];
+				Feature afeature = App.AFeatureCache[featureName];
 				if (afeature != null)
 					bit = afeature.Bit;
 			}
@@ -310,16 +310,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public IPASymbol GetBaseCharInfoForPhone(string phone)
 		{
-			if (PaApp.IPASymbolCache == null)
+			if (App.IPASymbolCache == null)
 				return null;
 
 			// First check if it's a tone letter since they don't have base characters.
-			IPASymbol charInfo = PaApp.IPASymbolCache.ToneLetterInfo(phone);
+			IPASymbol charInfo = App.IPASymbolCache.ToneLetterInfo(phone);
 			if (charInfo != null)
 				return charInfo;
 		
 			IPhoneInfo phoneInfo = this[phone];
-			return (phoneInfo == null ? null : PaApp.IPASymbolCache[phoneInfo.BaseCharacter]);
+			return (phoneInfo == null ? null : App.IPASymbolCache[phoneInfo.BaseCharacter]);
 		}
 
 		/// ------------------------------------------------------------------------------------

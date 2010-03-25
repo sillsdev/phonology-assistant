@@ -58,7 +58,7 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public static void LoadFilters()
 		{
-			LoadFilters(PaApp.Project);
+			LoadFilters(App.Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public static void SaveFilters()
 		{
-			SaveFilters(PaApp.Project);
+			SaveFilters(App.Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -176,17 +176,17 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public static void ApplyFilter(Filter filter, bool forceReapplication)
 		{
-			if (PaApp.RecordCache == null || (CurrentFilter == filter && !forceReapplication))
+			if (App.RecordCache == null || (CurrentFilter == filter && !forceReapplication))
 				return;
 
 			CurrentFilter = filter;
 
-			PaApp.InitializeProgressBar(string.Empty, PaApp.RecordCache.Count);
-			PaApp.RecordCache.BuildWordCache(PaApp.ProgressBar);
-			PaApp.UninitializeProgressBar();
+			App.InitializeProgressBar(string.Empty, App.RecordCache.Count);
+			App.RecordCache.BuildWordCache(App.ProgressBar);
+			App.UninitializeProgressBar();
 
-			PaApp.MsgMediator.SendMessage("DataSourcesModified", PaApp.Project.ProjectFileName);
-			PaApp.MsgMediator.SendMessage("FilterChanged", filter);
+			App.MsgMediator.SendMessage("DataSourcesModified", App.Project.ProjectFileName);
+			App.MsgMediator.SendMessage("FilterChanged", filter);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,20 +198,20 @@ namespace SIL.Pa.Filters
 		{
 			query.ErrorMessages.Clear();
 			SearchQuery modifiedQuery;
-			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
+			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
 
-			if (PaApp.Project != null)
-				SearchEngine.IgnoreUndefinedCharacters = PaApp.Project.IgnoreUndefinedCharsInSearches;
+			if (App.Project != null)
+				SearchEngine.IgnoreUndefinedCharacters = App.Project.IgnoreUndefinedCharsInSearches;
 
 			SearchEngine.ConvertPatternWithExperimentalTrans =
-				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 
-			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
 
 			string[] errors = modifiedQuery.ErrorMessages.ToArray();
-			string msg = ReflectionHelper.GetStrResult(typeof(PaApp),
+			string msg = ReflectionHelper.GetStrResult(typeof(App),
 				"CombineErrorMessages", errors);
 
 			if (!string.IsNullOrEmpty(msg))
@@ -223,7 +223,7 @@ namespace SIL.Pa.Filters
 				return null;
 			}
 
-			if (!ReflectionHelper.GetBoolResult(typeof(PaApp),
+			if (!ReflectionHelper.GetBoolResult(typeof(App),
 				"VerifyMiscPatternConditions", new object[] { engine, showErrMsg }))
 			{
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);

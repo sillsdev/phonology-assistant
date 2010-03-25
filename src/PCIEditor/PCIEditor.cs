@@ -84,7 +84,7 @@ namespace SIL.Pa
 
 			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
 
-			string exePath = PaApp.ConfigFolder;
+			string exePath = App.ConfigFolder;
 
 			// This is the poor man's way of determining whether or not the user has
 			// write access to the folder in which the phonetic character inventory
@@ -97,7 +97,7 @@ namespace SIL.Pa
 			}
 			catch
 			{
-				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg, PaApp.ConfigFolder);
+				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg, App.ConfigFolder);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
@@ -233,7 +233,7 @@ namespace SIL.Pa
 			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
 			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
 
-			m_lvAFeatures = new FeatureListView(PaApp.FeatureType.Articulatory, m_aFeatureDropdown);
+			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory, m_aFeatureDropdown);
 			m_lvAFeatures.Dock = DockStyle.Fill;
 			m_lvAFeatures.Load();
 			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
@@ -260,7 +260,7 @@ namespace SIL.Pa
 			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
 			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
 
-			m_lvBFeatures = new FeatureListView(PaApp.FeatureType.Binary, m_bFeatureDropdown);
+			m_lvBFeatures = new FeatureListView(App.FeatureType.Binary, m_bFeatureDropdown);
 			m_lvBFeatures.Dock = DockStyle.Fill;
 			m_lvBFeatures.Load();
 			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
@@ -343,7 +343,7 @@ namespace SIL.Pa
 				charInfo.AMask = lv.CurrentMask;
 				m_grid.CurrentRow.Cells[kAMask].Value = lv.CurrentMask;
 				m_grid.CurrentRow.Cells[kAFeatures].Value =
-					PaApp.AFeatureCache.GetFeaturesText(lv.CurrentMask);
+					App.AFeatureCache.GetFeaturesText(lv.CurrentMask);
 			}
 			else
 			{
@@ -351,7 +351,7 @@ namespace SIL.Pa
 				charInfo.BMask = lv.CurrentMask;
 				m_grid.CurrentRow.Cells[kBMask].Value = lv.CurrentMask;
 				m_grid.CurrentRow.Cells[kBFeatures].Value =
-					PaApp.BFeatureCache.GetFeaturesText(charInfo.BMask);
+					App.BFeatureCache.GetFeaturesText(charInfo.BMask);
 			}
 
 			if (!m_dirty)
@@ -410,7 +410,7 @@ namespace SIL.Pa
 				tmpCache.Add(info);
 			}
 
-			PaApp.IPASymbolCache.LoadFromList(tmpCache);
+			App.IPASymbolCache.LoadFromList(tmpCache);
 			InventoryHelper.Save();// Utils.SerializeData(m_xmlFilePath, tmpCache);
 		}
 
@@ -610,7 +610,7 @@ namespace SIL.Pa
 				dlg.Title = Properties.Resources.kstidIpaGridOpenFileTitle;
 				dlg.Filter = Properties.Resources.kstidIpaGridOpenFileFilter;
 				// Set the initial directory to the startup path
-				dlg.InitialDirectory = PaApp.ConfigFolder;
+				dlg.InitialDirectory = App.ConfigFolder;
 				dlg.Multiselect = false;
 				dlg.ShowReadOnly = false;
 				dlg.FilterIndex = 1;
@@ -875,7 +875,7 @@ namespace SIL.Pa
 			row.Cells[kHexadecimal].Value = charInfo.Decimal.ToString("X4");
 			row.Cells[kDecimal].Value = charInfo.Decimal;
 			row.Cells[kLiteral].Value = (charInfo.DisplayWithDottedCircle ?
-				PaApp.kDottedCircle : string.Empty) + charInfo.Literal;
+				App.kDottedCircle : string.Empty) + charInfo.Literal;
 
 			// Identity
 			row.Cells[kName].Value = charInfo.Name;
@@ -901,8 +901,8 @@ namespace SIL.Pa
 			row.Cells[kChartGroup].Value = charInfo.ChartGroup;
 
 			// Features
-			row.Cells[kAFeatures].Value = PaApp.AFeatureCache.GetFeaturesText(charInfo.AMask);
-			row.Cells[kBFeatures].Value = PaApp.BFeatureCache.GetFeaturesText(charInfo.BMask);
+			row.Cells[kAFeatures].Value = App.AFeatureCache.GetFeaturesText(charInfo.AMask);
+			row.Cells[kBFeatures].Value = App.BFeatureCache.GetFeaturesText(charInfo.BMask);
 			row.Cells[kAMask].Value = charInfo.AMask;
 			row.Cells[kBMask].Value = charInfo.BMask;
 
@@ -944,7 +944,7 @@ namespace SIL.Pa
 			}
 
 			InventoryHelper.Load(m_xmlFilePath);
-			m_charInventory = PaApp.IPASymbolCache.Values.ToList();
+			m_charInventory = App.IPASymbolCache.Values.ToList();
 
 			if (m_amTesting)
 			{
@@ -1109,7 +1109,7 @@ namespace SIL.Pa
 			{
 				string filter = Properties.Resources.kstidIpaGridFiletypeXML;
 				int filterIndex = 0;
-				m_xmlFilePath = PaApp.SaveFileDialog("xml", filter, ref filterIndex,
+				m_xmlFilePath = App.SaveFileDialog("xml", filter, ref filterIndex,
 					Properties.Resources.kstidIpaGridSaveAsCaption, string.Empty);
 
 				if (m_xmlFilePath != string.Empty)

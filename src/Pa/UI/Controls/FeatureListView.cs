@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Controls
 		private Color m_glyphColor = Color.Black;
 		private FeatureMask m_currMask;
 		private FeatureMask m_backupCurrMask;
-		private readonly PaApp.FeatureType m_featureType;
+		private readonly App.FeatureType m_featureType;
 		private readonly Font m_checkedItemFont;
 		private readonly CustomDropDown m_hostingDropDown;
 		private readonly ToolTip m_tooltip;
@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView(PaApp.FeatureType featureType, CustomDropDown hostingDropDown)
+		public FeatureListView(App.FeatureType featureType, CustomDropDown hostingDropDown)
 			: this(featureType)
 		{
 			m_hostingDropDown = hostingDropDown;
@@ -55,11 +55,11 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView(PaApp.FeatureType featureType)
+		public FeatureListView(App.FeatureType featureType)
 		{
 			m_featureType = featureType;
 
-			Name = "lvFeatures-" + (m_featureType == PaApp.FeatureType.Binary ?
+			Name = "lvFeatures-" + (m_featureType == App.FeatureType.Binary ?
 				"Binary" : "Articulatory");
 
 			ColumnHeader colHdr = new ColumnHeader();
@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Controls
 			base.OnHandleCreated(e);
 			m_ignoreCheckChanges = false;
 
-			if (m_featureType == PaApp.FeatureType.Binary || !Application.RenderWithVisualStyles)
+			if (m_featureType == App.FeatureType.Binary || !Application.RenderWithVisualStyles)
 				return;
 
 			VisualStyleRenderer renderer =
@@ -246,7 +246,7 @@ namespace SIL.Pa.UI.Controls
 			if (newName != null)
 			{
 				if (e.Label.Trim() == string.Empty ||
-					PaApp.AFeatureCache.FeatureExits(newName, true))
+					App.AFeatureCache.FeatureExits(newName, true))
 				{
 					e.CancelEdit = true;
 				}
@@ -310,7 +310,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (info != null)
 			{
-				if (m_featureType == PaApp.FeatureType.Articulatory)
+				if (m_featureType == App.FeatureType.Articulatory)
 					SetCurrentArticulatoryFeatureMaskInfo(info);
 				else
 					SetCurrentBinaryFeatureMaskInfo(info);
@@ -380,7 +380,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (CheckBoxes)
 			{
-				if (m_featureType == PaApp.FeatureType.Articulatory)
+				if (m_featureType == App.FeatureType.Articulatory)
 					DrawFeatureState(e.Graphics, info, rcChkBox.Location);
 				else
 					DrawFeatureState(e.Graphics, info, rcChkBox);
@@ -415,7 +415,7 @@ namespace SIL.Pa.UI.Controls
 			// Determine whether or not to use the emphasized font.
 			if (m_emphasizeCheckedItems)
 			{
-				if (m_featureType == PaApp.FeatureType.Articulatory)
+				if (m_featureType == App.FeatureType.Articulatory)
 				{
 					if (info != null && info.Checked)
 						fnt = m_checkedItemFont;
@@ -585,7 +585,7 @@ namespace SIL.Pa.UI.Controls
 					FeatureItemInfo info = item.Tag as FeatureItemInfo;
 					if (info != null)
 					{
-						if (m_featureType == PaApp.FeatureType.Articulatory && item.Checked)
+						if (m_featureType == App.FeatureType.Articulatory && item.Checked)
 							features.Add(string.Format(fmt, info.Name.ToLower()));
 						else if (info.TriStateValue != BinaryFeatureValue.None)
 						{
@@ -620,7 +620,7 @@ namespace SIL.Pa.UI.Controls
 					{
 						string feature = "[" + info.Name + "]";
 
-						if (m_featureType == PaApp.FeatureType.Articulatory)
+						if (m_featureType == App.FeatureType.Articulatory)
 							return feature;
 
 						if (info.TriStateValue != BinaryFeatureValue.None)
@@ -659,7 +659,7 @@ namespace SIL.Pa.UI.Controls
 					if (info == null)
 						continue;
 
-					if (m_featureType == PaApp.FeatureType.Articulatory)
+					if (m_featureType == App.FeatureType.Articulatory)
 						info.Checked = (m_currMask[info.Bit]);
 					else
 					{
@@ -693,7 +693,7 @@ namespace SIL.Pa.UI.Controls
 					FeatureItemInfo info = item.Tag as FeatureItemInfo;
 					if (info != null)
 					{
-						if (m_featureType == PaApp.FeatureType.Articulatory && item.Checked)
+						if (m_featureType == App.FeatureType.Articulatory && item.Checked)
 							features.Append(info.Name);
 						else if (info.TriStateValue != BinaryFeatureValue.None)
 						{
@@ -863,7 +863,7 @@ namespace SIL.Pa.UI.Controls
 			BeginUpdate();
 			Items.Clear();
 
-			if (m_featureType == PaApp.FeatureType.Articulatory)
+			if (m_featureType == App.FeatureType.Articulatory)
 				LoadAFeatures();
 			else
 				LoadBFeatures();
@@ -882,7 +882,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (KeyValuePair<string, Feature> feature in PaApp.AFeatureCache)
+			foreach (KeyValuePair<string, Feature> feature in App.AFeatureCache)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				info.Name = feature.Value.Name;
@@ -904,7 +904,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (Feature feature in PaApp.BFeatureCache.PlusFeatures)
+			foreach (Feature feature in App.BFeatureCache.PlusFeatures)
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				string name = feature.Name.Substring(1);
@@ -912,7 +912,7 @@ namespace SIL.Pa.UI.Controls
 				info.Name = name;
 				info.FullName = fullname;
 				info.PlusBit = feature.Bit;
-				info.MinusBit = PaApp.BFeatureCache.GetOppositeFeature(feature).Bit;
+				info.MinusBit = App.BFeatureCache.GetOppositeFeature(feature).Bit;
 				info.IsBinary = true;
 				info.CacheEntry = feature;
 				ListViewItem item = new ListViewItem(info.Name);

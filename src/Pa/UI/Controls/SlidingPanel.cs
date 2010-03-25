@@ -148,7 +148,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadSettings()
 		{
-			m_pnlContainer.Width = PaApp.SettingsHandler.GetIntSettingsValue(m_settingName,
+			m_pnlContainer.Width = App.SettingsHandler.GetIntSettingsValue(m_settingName,
 				"sidepanelwidth", m_pnlContainer.Width);
 
 			ProcessUndockedContainerSizeChanged();
@@ -279,7 +279,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_lblTab_MouseEnter(object sender, EventArgs e)
 		{
-			if (PaApp.IsFormActive(FindForm()) && Enabled)
+			if (App.IsFormActive(FindForm()) && Enabled)
 			{
 				if (!m_pnlContainer.Visible && !m_tmrOpener.Enabled)
 					m_tmrOpener.Start();
@@ -387,7 +387,7 @@ namespace SIL.Pa.UI.Controls
 			m_sliderOpen = true;
 			Invalidate();
 			Application.DoEvents();
-			PaApp.MsgMediator.SendMessage("SlidingPanelOpened", this);	
+			App.MsgMediator.SendMessage("SlidingPanelOpened", this);	
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -426,7 +426,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlContainer.Visible = false;
 			m_sliderOpen = false;
 			Invalidate();
-			PaApp.MsgMediator.SendMessage("SlidingPanelClosed", this);
+			App.MsgMediator.SendMessage("SlidingPanelClosed", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -461,7 +461,7 @@ namespace SIL.Pa.UI.Controls
 				m_sizingLine.Dispose();
 
 				// Save the new size in the settings file.
-				PaApp.SettingsHandler.SaveSettingsValue(m_settingName, "sidepanelwidth",
+				App.SettingsHandler.SaveSettingsValue(m_settingName, "sidepanelwidth",
 					m_pnlContainer.Width);
 			}
 		}
@@ -560,7 +560,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_pnlContainer.ResumeLayout();
 			dockingTarget.ResumeLayout();
-			PaApp.MsgMediator.SendMessage("SlidingPanelsControlDocked", this);
+			App.MsgMediator.SendMessage("SlidingPanelsControlDocked", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -599,7 +599,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlContainer.ResumeLayout();
 			m_owningContainer.ResumeLayout();
 			dockingHost.ResumeLayout();
-			PaApp.MsgMediator.SendMessage("SlidingPanelsControlUndocked", this);
+			App.MsgMediator.SendMessage("SlidingPanelsControlUndocked", this);
 		}
 
 		#endregion

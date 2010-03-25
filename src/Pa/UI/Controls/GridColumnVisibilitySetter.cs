@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 	
 			foreach (DataGridViewColumn col in grid.Columns)
 			{
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[col.Name];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[col.Name];
 				
 				// Phonetic column cannot be hidden so don't include it in the list.
 				if (!fieldInfo.IsPhonetic)

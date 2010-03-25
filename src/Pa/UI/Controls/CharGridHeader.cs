@@ -654,10 +654,10 @@ namespace SIL.Pa.UI.Controls
 
 			Tag = lbl;
 
-			PaApp.MsgMediator.SendMessage("CharGridHeaderClicked", this);
+			App.MsgMediator.SendMessage("CharGridHeaderClicked", this);
 			if (e.Button == MouseButtons.Right)
 			{
-				PaApp.MsgMediator.SendMessage("CharGridHeaderRightClicked", this);
+				App.MsgMediator.SendMessage("CharGridHeaderRightClicked", this);
 			}
 		}
 

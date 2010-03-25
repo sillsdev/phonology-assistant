@@ -106,7 +106,7 @@ namespace SIL.Pa.PhoneticSearching
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
 			{
 				m_errors.Add(string.Format(Properties.Resources.kstidPatternSyntaxError,
-					PaApp.kEmptyDiamondPattern));
+					App.kEmptyDiamondPattern));
 
 				return;
 			}
@@ -122,8 +122,8 @@ namespace SIL.Pa.PhoneticSearching
 			if (string.IsNullOrEmpty(patterns[2]))
 				patterns[2] = "*";
 
-			patterns[1] = patterns[1].Replace(PaApp.kSearchPatternDiamond, "*");
-			patterns[2] = patterns[2].Replace(PaApp.kSearchPatternDiamond, "*");
+			patterns[1] = patterns[1].Replace(App.kSearchPatternDiamond, "*");
+			patterns[2] = patterns[2].Replace(App.kSearchPatternDiamond, "*");
 
 			try
 			{
@@ -138,7 +138,7 @@ namespace SIL.Pa.PhoneticSearching
 			catch
 			{
 				m_errors.Add(string.Format(Properties.Resources.kstidPatternSyntaxError,
-					PaApp.kEmptyDiamondPattern));
+					App.kEmptyDiamondPattern));
 			}
 
 			m_srchItemStr = patterns[0];
@@ -289,7 +289,7 @@ namespace SIL.Pa.PhoneticSearching
 				// are not base characters are only one codepoint in length.
 				foreach (string ignoredItem in value.CompleteIgnoredList)
 				{
-					IPASymbol charInfo = PaApp.IPASymbolCache[ignoredItem];
+					IPASymbol charInfo = App.IPASymbolCache[ignoredItem];
 					if (charInfo != null)
 					{
 						if (charInfo.IsBase)
@@ -311,9 +311,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private static void MergeInUndefinedIgnoredPhones()
 		{
-			if (PaApp.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (App.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in PaApp.IPASymbolCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
 				{
 					if (!s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Add(upci.Character.ToString());
@@ -328,9 +328,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private static void UnMergeInUndefinedIgnoredPhones()
 		{
-			if (PaApp.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (App.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in PaApp.IPASymbolCache.UndefinedCharacters)
+				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
 				{
 					if (s_ignoredPhones.Contains(upci.Character.ToString()))
 						s_ignoredPhones.Remove(upci.Character.ToString());
@@ -434,7 +434,7 @@ namespace SIL.Pa.PhoneticSearching
 				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 				
 				return (bldrPhones.Length == 0 ? null :
-					PaApp.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+					App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
 					s_convertPatternWithExperimentalTrans));
 			}
 		}
@@ -560,7 +560,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			pattern = pattern.ToLower();
 
-			foreach (Feature feature in PaApp.BFeatureCache.Values)
+			foreach (Feature feature in App.BFeatureCache.Values)
 			{
 				// Remove those whose short name was specified.
 				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
@@ -584,7 +584,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			int start = 0;
 
-			while ((start = pattern.IndexOf(PaApp.kDottedCircleC, start)) >= 0)
+			while ((start = pattern.IndexOf(App.kDottedCircleC, start)) >= 0)
 			{
 				int end = pattern.IndexOf(']', start);
 				if (end < start)
@@ -677,7 +677,7 @@ namespace SIL.Pa.PhoneticSearching
 		public static List<char> ParsePhone(string phone, out string basePhone, out string diacritics)
 		{
 			// First, check if the phone is a tone letter.
-			if (PaApp.IPASymbolCache.ToneLetterInfo(phone) != null)
+			if (App.IPASymbolCache.ToneLetterInfo(phone) != null)
 			{
 				basePhone = phone;
 				diacritics = null;
@@ -691,7 +691,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			foreach (char c in phone)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[c];
+				IPASymbol charInfo = App.IPASymbolCache[c];
 
 				// This should never be null.
 				if (charInfo == null || charInfo.IsUndefined)
@@ -700,10 +700,10 @@ namespace SIL.Pa.PhoneticSearching
 				if (charInfo != null)
 				{
 					// Tie bars are counted as part of the base character.
-					if (charInfo.IsBase || c == PaApp.kBottomTieBarC || c == PaApp.kTopTieBarC)
+					if (charInfo.IsBase || c == App.kBottomTieBarC || c == App.kTopTieBarC)
 					{
 						sbBasePhone.Append(c);
-						if (!tiebarFound && (c == PaApp.kBottomTieBarC || c == PaApp.kTopTieBarC))
+						if (!tiebarFound && (c == App.kBottomTieBarC || c == App.kTopTieBarC))
 							tiebarFound = true;
 					}
 					else
@@ -733,11 +733,11 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			result = new[] { -1, -1 };
 
-			if (PaApp.IPASymbolCache == null)
+			if (App.IPASymbolCache == null)
 				return false;
 
 			m_matchIndex = 0;
-			return SearchWord(PaApp.IPASymbolCache.PhoneticParser(phonetic, true), out result);
+			return SearchWord(App.IPASymbolCache.PhoneticParser(phonetic, true), out result);
 		}
 
 		/// ------------------------------------------------------------------------------------

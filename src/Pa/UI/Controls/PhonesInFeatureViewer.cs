@@ -14,8 +14,8 @@ namespace SIL.Pa.UI.Controls
 		private bool m_compactView;
 		private bool m_canViewExpandAndCompact = true;
 		private bool m_allFeaturesMustMatch;
-		private FeatureMask m_aMask = PaApp.AFeatureCache.GetEmptyMask();
-		private FeatureMask m_bMask = PaApp.BFeatureCache.GetEmptyMask();
+		private FeatureMask m_aMask = App.AFeatureCache.GetEmptyMask();
+		private FeatureMask m_bMask = App.BFeatureCache.GetEmptyMask();
 		private Control m_pnlView;
 		private SearchClassType m_srchClassType;
 		private int m_lblHeight;
@@ -44,10 +44,10 @@ namespace SIL.Pa.UI.Controls
 			m_lableRows = new SortedList<int, List<Label>>();
 			header.Font = FontHelper.UIFont;
 
-			if (!PaApp.DesignMode)
+			if (!App.DesignMode)
 				base.Font = FontHelper.MakeEticRegFontDerivative(14);
 
-			m_extraPhoneHeight += PaApp.SettingsHandler.GetIntSettingsValue(
+			m_extraPhoneHeight += App.SettingsHandler.GetIntSettingsValue(
 				"phonesinfeatureslists", "extraphoneheight", 3);
 		}
 
@@ -62,10 +62,10 @@ namespace SIL.Pa.UI.Controls
 			m_settingValPrefix = settingValPrefix;
 			m_frmName = frmName;
 			
-			m_showAll = PaApp.SettingsHandler.GetBoolSettingsValue(frmName,
+			m_showAll = App.SettingsHandler.GetBoolSettingsValue(frmName,
 				m_settingValPrefix + "ShowAll", true);
 			
-			m_compactView = PaApp.SettingsHandler.GetBoolSettingsValue(frmName,
+			m_compactView = App.SettingsHandler.GetBoolSettingsValue(frmName,
 				m_settingValPrefix + "CompactView", false);
 
 			pnlCompactView.Dock = DockStyle.Fill;
@@ -85,10 +85,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			Disposed -= PhonesInFeatureViewer_Disposed;
 
-			PaApp.SettingsHandler.SaveSettingsValue(m_frmName,
+			App.SettingsHandler.SaveSettingsValue(m_frmName,
 				m_settingValPrefix + "ShowAll", m_showAll);
 
-			PaApp.SettingsHandler.SaveSettingsValue(m_frmName,
+			App.SettingsHandler.SaveSettingsValue(m_frmName,
 				m_settingValPrefix + "CompactView", m_compactView);
 		}
 
@@ -148,7 +148,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Load all non consonant/vowel phones by first adding them to a list
 				// in POA order.
-				foreach (KeyValuePair<string, IPhoneInfo> kvpPhoneInfo in PaApp.PhoneCache)
+				foreach (KeyValuePair<string, IPhoneInfo> kvpPhoneInfo in App.PhoneCache)
 				{
 					IPhoneInfo iPhoneInfo = kvpPhoneInfo.Value;
 					PhoneInfo phoneInfo = iPhoneInfo as PhoneInfo;
@@ -221,7 +221,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private Label CreateLabel(string phone)
 		{
-			IPhoneInfo phoneInfo = PaApp.PhoneCache[phone];
+			IPhoneInfo phoneInfo = App.PhoneCache[phone];
 			return CreateLabel(phone, phoneInfo);
 		}
 

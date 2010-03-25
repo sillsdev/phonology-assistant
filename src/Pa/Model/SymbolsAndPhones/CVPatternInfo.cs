@@ -86,7 +86,7 @@ namespace SIL.Pa.Model
 			int baseIndex = -1;
 			for (int i = 0; i < phone.Length; i++)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[phone[i]];
+				IPASymbol charInfo = App.IPASymbolCache[phone[i]];
 				if (charInfo != null && charInfo.IsBase)
 				{
 					baseIndex = i;
@@ -139,7 +139,7 @@ namespace SIL.Pa.Model
 				m_phone = FFNormalizer.Normalize(value);
 
 				// If the phone is also a base phonetic character, we're done now.
-				IPASymbol charInfo = PaApp.IPASymbolCache[m_phone];
+				IPASymbol charInfo = App.IPASymbolCache[m_phone];
 				if (charInfo != null && charInfo.IsBase)
 					return;
 
@@ -156,11 +156,11 @@ namespace SIL.Pa.Model
 				// follows it are diacritics that will follow the C or V.
 				foreach (char c in m_phone)
 				{
-					charInfo = PaApp.IPASymbolCache[c];
+					charInfo = App.IPASymbolCache[c];
 					if (charInfo != null && charInfo.IsBase)
 						return;
 
-					if (c != PaApp.kDottedCircleC)
+					if (c != App.kDottedCircleC)
 						bldrDiacritics.Append(c);
 					else if (!foundDiacriticPlaceholder)
 					{

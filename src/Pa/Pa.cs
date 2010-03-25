@@ -70,7 +70,7 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ------------------------------------------------------------------------------------
-	public static class PaApp
+	public static class App
 	{
 		public enum FeatureType
 		{
@@ -104,7 +104,7 @@ namespace SIL.Pa
 		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
 		public static string kOpenClassBracket = LocalizationManager.LocalizeString(
-			"OpenClassSymbol", "<", "Character used to delineate the opening of a phonetic search class.",
+			"Misc.Strings.OpenClassSymbol", "<", "Character used to delineate the opening of a phonetic search class.",
 			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
 
 		public static string kCloseClassBracket = LocalizationManager.LocalizeString(
@@ -198,7 +198,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		static PaApp()
+		static App()
 		{
 			InitializePaRegKey();
 			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
@@ -2130,5 +2130,58 @@ namespace SIL.Pa
 
 			return keybldr.ToString();
 		}
+
+		#region Method to migrate previous versions of a file to current.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool MigrateToLatestVersion(string filename, Assembly assembly,
+			string transformNamespace, string errMsg)
+		{
+			var oldFile = Path.ChangeExtension(filename, "old");
+
+			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
+			{
+				var updatedFile = XmlHelper.TransformFile(filename, stream);
+				if (updatedFile == null)
+					return false;
+
+				try
+				{
+					if (File.Exists(oldFile))
+						File.Delete(oldFile);
+
+					File.Move(filename, oldFile);
+					File.Move(updatedFile, filename);
+					return true;
+				}
+				catch (Exception e1)
+				{
+					try
+					{
+						errMsg = string.Format(errMsg, e1.Message, oldFile);
+					}
+					catch { }
+
+					Utils.MsgBox(errMsg);
+
+					try
+					{
+						if (!File.Exists(oldFile))
+							File.Move(filename, oldFile);
+					}
+					catch (Exception e2)
+					{
+						Utils.MsgBox(e2.Message);
+					}
+				}
+			}
+
+			return false;
+		}
+
+		#endregion
 	}
 }

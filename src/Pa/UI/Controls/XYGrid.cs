@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Controls
 			ShowCellToolTips = false;
 
 			Reset();
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 			m_cellInfoPopup = new XYChartCellInfoPopup(this);
 
 			SetToolTips();
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 				if (m_errorInCell != null)
 					m_errorInCell.Dispose();
 
-				PaApp.RemoveMediatorColleague(this);
+				App.RemoveMediatorColleague(this);
 			}
 			
 			base.Dispose(disposing);
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Controls
 			IsDirty = false;
 			m_loadedLayout = true;
 
-			PaApp.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
+			App.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
 
 			// Go ahead and fill the chart after loading it.
 			if (!IsEmpty)
@@ -574,7 +574,7 @@ namespace SIL.Pa.UI.Controls
 					if ((ModifierKeys & Keys.Control) == Keys.Control &&
 						m.WParam.ToInt32() == (int)Keys.D0)
 					{
-						PatternTextBox.Insert(m_txtBox, PaApp.kDiacriticPlaceholder);
+						PatternTextBox.Insert(m_txtBox, App.kDiacriticPlaceholder);
 						return true;
 					}
 					
@@ -949,10 +949,10 @@ namespace SIL.Pa.UI.Controls
 				if (val > -1)
 				{
 					e.CellStyle.BackColor = (val > 0 ?
-						PaApp.XYChartNonZeroBackColor :	PaApp.XYChartZeroBackColor);
+						App.XYChartNonZeroBackColor :	App.XYChartZeroBackColor);
 						
 					e.CellStyle.ForeColor = (val > 0 ?
-						PaApp.XYChartNonZeroForeColor : PaApp.XYChartZeroForeColor);
+						App.XYChartNonZeroForeColor : App.XYChartZeroForeColor);
 				}
 			}
 
@@ -1290,7 +1290,7 @@ namespace SIL.Pa.UI.Controls
 
 			IsDirty = false;
 			m_loadedLayout = false;
-			PaApp.MsgMediator.SendMessage("XYChartReset", this);
+			App.MsgMediator.SendMessage("XYChartReset", this);
 		}
 
 		#endregion
@@ -1310,11 +1310,11 @@ namespace SIL.Pa.UI.Controls
 			if (RowCount <= 1 || ColumnCount <= 1)
 				return;
 
-			if (PaApp.MsgMediator.SendMessage("BeforeXYChartFilled", this))
+			if (App.MsgMediator.SendMessage("BeforeXYChartFilled", this))
 				return;
 
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
-			PaApp.InitializeProgressBar(
+			App.InitializeProgressBar(
 				ResourceHelper.GetString("kstidQuerySearchingMsg"), progBarMax);
 
 			FixEnvironments();
@@ -1326,17 +1326,17 @@ namespace SIL.Pa.UI.Controls
 
 				for (int i = 1; i < Columns.Count; i++)
 				{
-					PaApp.IncProgressBar();
+					App.IncProgressBar();
 					row.Cells[i].Value = row.Cells[i].Tag = null;
 					GetResultsForCell(row.Cells[i], row.Cells[0].Value as string,
 						Columns[i].Tag as SearchQuery);
 				}
 			}
 
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 			Cursor = Cursors.Default;
 
-			PaApp.MsgMediator.SendMessage("XYChartFilled", this);
+			App.MsgMediator.SendMessage("XYChartFilled", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1347,7 +1347,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void FixEnvironments()
 		{
-			if (PaApp.MsgMediator.SendMessage("XYChartBeginEnvironmentFixes", this))
+			if (App.MsgMediator.SendMessage("XYChartBeginEnvironmentFixes", this))
 				return;
 
 			if (RowCount > 0 && NewRowIndex > 0)
@@ -1382,7 +1382,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			UpdateLayout();
-			PaApp.MsgMediator.SendMessage("XYChartAfterEnvironmentFixes", this);
+			App.MsgMediator.SendMessage("XYChartAfterEnvironmentFixes", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1403,7 +1403,7 @@ namespace SIL.Pa.UI.Controls
 					int count;
 					query = qryEnvironment.Clone();
 					query.Pattern = srchItem + "/" + qryEnvironment.Pattern;
-					PaApp.Search(query, false, true, false, 0, out count);
+					App.Search(query, false, true, false, 0, out count);
 
 					if (count < 0)
 						cell.Value = new XYChartException(query);
@@ -1434,17 +1434,17 @@ namespace SIL.Pa.UI.Controls
 		{
 			query.ErrorMessages.Clear();
 			SearchQuery modifiedQuery;
-			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false))
+			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false))
 			{
 				cell.Value = new XYChartException(query);
 				return;
 			}
 
 			SearchEngine.ConvertPatternWithExperimentalTrans =
-				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 			
-			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
 			string[] phonesInQuery = engine.PhonesInPattern;
 			List<string> phonesNotInData = new List<string>();
 
@@ -1452,7 +1452,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				foreach (string phone in phonesInQuery)
 				{
-					if (!PaApp.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
+					if (!App.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
 						phonesNotInData.Add(phone);
 				}
 			}
@@ -1471,17 +1471,17 @@ namespace SIL.Pa.UI.Controls
 		{
 			query.ErrorMessages.Clear();
 			SearchQuery modifiedQuery;
-			if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false))
+			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false))
 			{
 				cell.Value = new XYChartException(query);
 				return;
 			}
 
 			SearchEngine.ConvertPatternWithExperimentalTrans =
-				PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 
-			SearchEngine engine = new SearchEngine(modifiedQuery, PaApp.PhoneCache);
+			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
 			cell.Tag = engine.InvalidCharactersInPattern;
 		}
 
@@ -1747,7 +1747,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_owningView.ActiveView)
 				return false;
 
-			InsertTextInCell(PaApp.kDiacriticPlaceholder);
+			InsertTextInCell(App.kDiacriticPlaceholder);
 			return true;
 		}
 
@@ -1923,7 +1923,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic("hidSearchOptionsXYChartsView");
+			App.ShowHelpTopic("hidSearchOptionsXYChartsView");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1997,11 +1997,11 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				SearchQuery modifiedQuery;
-				if (!PaApp.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
+				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
 
 				SearchEngine.ConvertPatternWithExperimentalTrans =
-					PaApp.SettingsHandler.GetBoolSettingsValue("searchengine",
+					App.SettingsHandler.GetBoolSettingsValue("searchengine",
 					"convertpatternswithexperimentaltrans", false);
 
 				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);

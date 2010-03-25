@@ -146,11 +146,11 @@ namespace SIL.Pa.UI.Controls
 				if (!cgc1.Visible || cgc1.Row >= 0)
 					continue;
 
-				IPhoneInfo phoneInfo = PaApp.PhoneCache[cgc1.Phone];
+				IPhoneInfo phoneInfo = App.PhoneCache[cgc1.Phone];
 				if (phoneInfo == null)
 					continue;
 
-				IPASymbol charInfo = PaApp.IPASymbolCache[phoneInfo.BaseCharacter];
+				IPASymbol charInfo = App.IPASymbolCache[phoneInfo.BaseCharacter];
 				if (charInfo == null)
 					continue;
 

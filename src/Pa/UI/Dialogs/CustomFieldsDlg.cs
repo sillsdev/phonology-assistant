@@ -171,8 +171,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.AutoResizeColumns();
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			App.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -406,8 +406,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -828,7 +828,7 @@ namespace SIL.Pa.Model
 			if (s_dbAccessInfo == null)
 			{
 				// Find the file that contains information about connecting to an FW database.
-				s_accessInfoFile = Path.Combine(PaApp.ConfigFolder, "FwDBAccessInfo.xml");
+				s_accessInfoFile = Path.Combine(App.ConfigFolder, "FwDBAccessInfo.xml");
 				s_dbAccessInfo =
 					Utils.DeserializeData(s_accessInfoFile, typeof(FwDBAccessInfo)) as FwDBAccessInfo;
 			}
@@ -1134,11 +1134,11 @@ namespace SIL.Pa.Model
 		private static bool CheckForShortNameFile(string dbName, string machineName, string filename)
 		{
 			// Find the file that contains the queries.
-			string queryFile = Path.Combine(PaApp.ConfigFolder, filename);
+			string queryFile = Path.Combine(App.ConfigFolder, filename);
 
 			if (!File.Exists(queryFile))
 			{
-				string path = Utils.PrepFilePathForMsgBox(PaApp.ConfigFolder);
+				string path = Utils.PrepFilePathForMsgBox(App.ConfigFolder);
 				string[] args = new[] {dbName, machineName, filename, path, filename};
 				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
 				Utils.MsgBox(msg, MessageBoxButtons.OK);
@@ -1156,7 +1156,7 @@ namespace SIL.Pa.Model
 		private static FwQueries Load(string filename)
 		{
 			// Find the file that contains the queries.
-			string queryFile = Path.Combine(PaApp.ConfigFolder, filename);
+			string queryFile = Path.Combine(App.ConfigFolder, filename);
 			FwQueries fwqueries = Utils.DeserializeData(queryFile, typeof(FwQueries)) as FwQueries;
 
 			if (fwqueries != null)

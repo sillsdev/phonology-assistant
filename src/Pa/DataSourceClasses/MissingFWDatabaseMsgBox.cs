@@ -32,7 +32,7 @@ namespace SIL.Pa.DataSource
 			using (MissingFWDatabaseMsgBox msgBox = new MissingFWDatabaseMsgBox())
 			{
 				msgBox.lblDBName.Text = dbName;
-				PaApp.CloseSplashScreen();
+				App.CloseSplashScreen();
 				return msgBox.ShowDialog();
 			}
 		}
@@ -44,7 +44,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeFontTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (PaApp.Project == null)
+			if (App.Project == null)
 			{
 				tabOptions.TabPages.Remove(tpgFonts);
 				return;
@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)m_fontGrid.Columns["font"]).DropDownWidth = 250;
 
 			string gridLinesValue;
-			if (!PaApp.SettingsHandler.LoadGridProperties(m_fontGrid, out gridLinesValue))
+			if (!App.SettingsHandler.LoadGridProperties(m_fontGrid, out gridLinesValue))
 			{
 				m_fontGrid.AutoResizeColumns();
 				m_fontGrid.AutoResizeColumnHeadersHeight();
@@ -112,7 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadFonts()
 		{
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo.SortedList)
+			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo.SortedList)
 			{
 				if (fieldInfo.Font == null)
 					continue;
@@ -223,7 +223,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsFontsTabDirty)
 				return;
 
-			PaApp.SettingsHandler.SaveGridProperties(m_fontGrid, null);
+			App.SettingsHandler.SaveGridProperties(m_fontGrid, null);
 
 			if (!m_fontChanged)
 				return;
@@ -237,9 +237,9 @@ namespace SIL.Pa.UI.Dialogs
 						fieldInfo.Font = (Font)row.Tag;
 				}
 
-				PaApp.Project.Save();
-				PaApp.Project.InitializeFontHelperFonts();
-				PaApp.MsgMediator.SendMessage("PaFontsChanged", null);
+				App.Project.Save();
+				App.Project.InitializeFontHelperFonts();
+				App.MsgMediator.SendMessage("PaFontsChanged", null);
 			}
 			catch {}
 		}

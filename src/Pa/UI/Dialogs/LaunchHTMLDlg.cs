@@ -20,7 +20,7 @@ namespace SIL.Pa.UI.Dialogs
 		public static void PostExportProcess(Form parent, string filename)
 		{
 			bool autoLaunch;
-			bool showdialog = !PaApp.SettingsHandler.GetBoolSettingsValue(
+			bool showdialog = !App.SettingsHandler.GetBoolSettingsValue(
 				kstidHTMLExportSetting, "dontshowdialog", false);
 
 			if (showdialog)
@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else
 			{
-				autoLaunch = PaApp.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
+				autoLaunch = App.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
 					"autolaunch", false);
 			}
 
@@ -65,11 +65,11 @@ namespace SIL.Pa.UI.Dialogs
 			lblQuestion.Font = FontHelper.UIFont;
 
 			chkAlwaysOpen.Checked =
-				PaApp.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
+				App.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
 				"autolaunch", false);
 
 			chkDontShowAgain.Checked =
-				PaApp.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
+				App.SettingsHandler.GetBoolSettingsValue(kstidHTMLExportSetting,
 				"dontshowdialog", false);
 		}
 
@@ -81,7 +81,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,10 +136,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnClosing(e);
 
-			PaApp.SettingsHandler.SaveSettingsValue(kstidHTMLExportSetting, "dontshowdialog",
+			App.SettingsHandler.SaveSettingsValue(kstidHTMLExportSetting, "dontshowdialog",
 				chkDontShowAgain.Checked);
 
-			PaApp.SettingsHandler.SaveSettingsValue(kstidHTMLExportSetting, "autolaunch",
+			App.SettingsHandler.SaveSettingsValue(kstidHTMLExportSetting, "autolaunch",
 				chkAlwaysOpen.Checked);
 		}
 

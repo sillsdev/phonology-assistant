@@ -42,22 +42,22 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public static void Show(string projectName, bool forceShow)
 		{
-			if (!forceShow && (PaApp.Project != null && !PaApp.Project.ShowUndefinedCharsDlg))
+			if (!forceShow && (App.Project != null && !App.Project.ShowUndefinedCharsDlg))
 				return;
 
-			if (PaApp.IPASymbolCache.UndefinedCharacters != null &&
-				PaApp.IPASymbolCache.UndefinedCharacters.Count > 0)
+			if (App.IPASymbolCache.UndefinedCharacters != null &&
+				App.IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
 				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
-					projectName, PaApp.IPASymbolCache.UndefinedCharacters))
+					projectName, App.IPASymbolCache.UndefinedCharacters))
 				{
-					if (PaApp.MainForm != null)
-						PaApp.MainForm.AddOwnedForm(dlg);
+					if (App.MainForm != null)
+						App.MainForm.AddOwnedForm(dlg);
 
 					dlg.ShowDialog();
 
-					if (PaApp.MainForm != null)
-						PaApp.MainForm.RemoveOwnedForm(dlg);
+					if (App.MainForm != null)
+						App.MainForm.RemoveOwnedForm(dlg);
 				}
 			}
 		}
@@ -73,13 +73,13 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				using (UndefinedPhoneticCharactersDlg dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
 				{
-					if (PaApp.MainForm != null)
-						PaApp.MainForm.AddOwnedForm(dlg);
+					if (App.MainForm != null)
+						App.MainForm.AddOwnedForm(dlg);
 
 					dlg.ShowDialog();
 
-					if (PaApp.MainForm != null)
-						PaApp.MainForm.RemoveOwnedForm(dlg);
+					if (App.MainForm != null)
+						App.MainForm.RemoveOwnedForm(dlg);
 				}
 			}
 		}
@@ -118,10 +118,10 @@ namespace SIL.Pa.UI.Dialogs
 			HandleGridEnter(m_gridChars, null);
 			HandleGridLeave(m_gridWhere, null);
 
-			if (PaApp.Project != null)
+			if (App.Project != null)
 			{
-				chkShowUndefinedCharDlg.Checked = PaApp.Project.ShowUndefinedCharsDlg;
-				chkIgnoreInSearches.Checked = PaApp.Project.IgnoreUndefinedCharsInSearches;
+				chkShowUndefinedCharDlg.Checked = App.Project.ShowUndefinedCharsDlg;
+				chkIgnoreInSearches.Checked = App.Project.IgnoreUndefinedCharsInSearches;
 			}
 		}
 		
@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			Utils.CenterFormInScreen(this);
 			float splitRatio =
-				PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
+				App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
 
 			// If the split ratio is zero, assume any form and grid settings found were
 			// for the dialog as it was before my significant design changes made on
@@ -374,13 +374,13 @@ namespace SIL.Pa.UI.Dialogs
 			// will probably make the dialog too small.
 			if (splitRatio > 0)
 			{
-				PaApp.SettingsHandler.LoadFormProperties(this);
-				PaApp.SettingsHandler.LoadGridProperties(m_gridChars);
-				PaApp.SettingsHandler.LoadGridProperties(m_gridWhere);
+				App.SettingsHandler.LoadFormProperties(this);
+				App.SettingsHandler.LoadGridProperties(m_gridChars);
+				App.SettingsHandler.LoadGridProperties(m_gridWhere);
 				splitContainer1.SplitterDistance = (int)(splitContainer1.Width * splitRatio);
 			}
 
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -390,21 +390,21 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_gridChars);
-			PaApp.SettingsHandler.SaveGridProperties(m_gridWhere);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_gridChars);
+			App.SettingsHandler.SaveGridProperties(m_gridWhere);
 
 			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Width;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 
-			if (PaApp.Project != null)
+			if (App.Project != null)
 			{
-				if (PaApp.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
-					PaApp.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
+				if (App.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
+					App.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
 				{
-					PaApp.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
-					PaApp.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
-					PaApp.Project.Save();
+					App.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
+					App.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
+					App.Project.Save();
 				}
 			}
 			
@@ -482,7 +482,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 
 		#endregion

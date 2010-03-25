@@ -57,7 +57,7 @@ namespace SIL.Pa.Model
 			// is returned then something handled the sort (e.g. an add-on).
 			// Otherwise use the default sorting routine.
 			object[] sortInfo = new object[] { this, sortOptions };
-			if (!PaApp.MsgMediator.SendMessage("SortCache", sortInfo))
+			if (!App.MsgMediator.SendMessage("SortCache", sortInfo))
 				Sort(new CacheSortComparer(sortOptions));
 		}
 
@@ -74,7 +74,7 @@ namespace SIL.Pa.Model
 			// is returned then something handled the sort (e.g. an add-on).
 			// Otherwise use the default sorting routine.
 			object[] sortInfo = new object[] { this, sortOptions };
-			if (!PaApp.MsgMediator.SendMessage("SortCache", sortInfo))
+			if (!App.MsgMediator.SendMessage("SortCache", sortInfo))
 				Sort(new CacheSortComparer(sortOptions));
 			
 			return ascending;
@@ -510,10 +510,10 @@ namespace SIL.Pa.Model
 			// Default sort is by point of articulation and phonetic field.
 			SortType = PhoneticSortType.POA;
 
-			if (initializeWithPhonetic && PaApp.FieldInfo != null &&
-				PaApp.FieldInfo.PhoneticField != null)
+			if (initializeWithPhonetic && App.FieldInfo != null &&
+				App.FieldInfo.PhoneticField != null)
 			{
-				SetPrimarySortField(PaApp.FieldInfo.PhoneticField, false, true);
+				SetPrimarySortField(App.FieldInfo.PhoneticField, false, true);
 			}
 		}
 
@@ -633,7 +633,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool SetPrimarySortField(string newPrimarySortField, bool changeDirection)
 		{
-			return SetPrimarySortField(PaApp.Project.FieldInfo[newPrimarySortField],
+			return SetPrimarySortField(App.Project.FieldInfo[newPrimarySortField],
 				changeDirection);
 		}
 

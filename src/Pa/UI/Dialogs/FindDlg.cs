@@ -84,21 +84,21 @@ namespace SIL.Pa.UI.Dialogs
 		private void LoadSettings()
 		{
 			// Load saved window settings
-			cboFindWhat.Text = PaApp.SettingsHandler.GetStringSettingsValue(Name, "findwhat", string.Empty);
-			chkMatchCase.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "matchcase", false);
+			cboFindWhat.Text = App.SettingsHandler.GetStringSettingsValue(Name, "findwhat", string.Empty);
+			chkMatchCase.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "matchcase", false);
 			chkMatchEntireWord.Checked =
-				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "matchentireword", false);
+				App.SettingsHandler.GetBoolSettingsValue(Name, "matchentireword", false);
 			
-			chkStartsWith.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "startswith", false);
-			chkRegEx.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "regex", false);
-			chkReverseSearch.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "reverse", false);
-			chkSrchCollapsedGrps.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "srchcollapsedgrps", true);
+			chkStartsWith.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "startswith", false);
+			chkRegEx.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "regex", false);
+			chkReverseSearch.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "reverse", false);
+			chkSrchCollapsedGrps.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "srchcollapsedgrps", true);
 
 			// Save the height of the form minus the caption bar.
 			m_optionsPanelHeight = pnlColumnOptions.Height;
 			m_dyHeightClientHeight = Height - ClientSize.Height;
 			int saveOriginalHeight = Height;
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 			Height = saveOriginalHeight;
 		}
 
@@ -109,7 +109,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 
 			// Save the FieldNames of the search columns for initial selection when
 			// the FindDlg is reopened
@@ -133,13 +133,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "findwhat", cboFindWhat.Text);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "matchcase", chkMatchCase.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "matchentireword", chkMatchEntireWord.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "startswith", chkStartsWith.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "regex", chkRegEx.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "reverse", chkReverseSearch.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "srchcollapsedgrps", chkSrchCollapsedGrps.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "findwhat", cboFindWhat.Text);
+			App.SettingsHandler.SaveSettingsValue(Name, "matchcase", chkMatchCase.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "matchentireword", chkMatchEntireWord.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "startswith", chkStartsWith.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "regex", chkRegEx.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "reverse", chkReverseSearch.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "srchcollapsedgrps", chkSrchCollapsedGrps.Checked);
 		}
 
 		#endregion
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 
 		#endregion
@@ -320,7 +320,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------

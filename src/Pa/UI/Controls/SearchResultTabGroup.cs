@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 
 			SetContextMenus();
 			SetToolTips();
@@ -183,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			using (Graphics g = CreateGraphics())
 			{
-				int extraTabHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+				int extraTabHeight = App.SettingsHandler.GetIntSettingsValue(
 					"SearchVw", "extrasearchtabheight", 12);
 
 				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
@@ -285,7 +285,7 @@ namespace SIL.Pa.UI.Controls
 				// PaApp.ShowClassNames has not been set yet to the new value
 				// in OptionsDialog.FindPhonesTab>>SaveFindPhonesTabSettings()
 
-				string replacedText = PaApp.Project.SearchClasses.ModifyPatternText(tab.Text);
+				string replacedText = App.Project.SearchClasses.ModifyPatternText(tab.Text);
 				if (replacedText != string.Empty)
 				{
 					UpdateTabsText(tab, replacedText);
@@ -329,7 +329,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,7 +369,7 @@ namespace SIL.Pa.UI.Controls
 					Properties.Resources.kstidEmtpyTabInfoText, fnt, rc, clr, kFlags);
 			}
 
-			PaApp.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
+			App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -604,7 +604,7 @@ namespace SIL.Pa.UI.Controls
 				m_rsltVwMngr.SearchResultTabGroupChanged(this);
 
 				// This is used to inform other tab groups in the same view tabs manager.
-				PaApp.MsgMediator.SendMessage("SearchResultTabGroupChanged", this);
+				App.MsgMediator.SendMessage("SearchResultTabGroupChanged", this);
 			}
 
 			newSelectedTab.Selected = true;
@@ -636,7 +636,7 @@ namespace SIL.Pa.UI.Controls
 				if (!m_isCurrentTabGroup)
 				{
 					m_rsltVwMngr.SearchResultTabGroupChanged(this);
-					PaApp.MsgMediator.SendMessage("SearchResultTabGroupChanged", this);
+					App.MsgMediator.SendMessage("SearchResultTabGroupChanged", this);
 					m_rsltVwMngr.CurrentSearchResultTabChanged(m_currTab);
 				}
 
@@ -730,7 +730,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_contextMenuTab != null)
 			{
-				PaApp.MsgMediator.SendMessage("ReflectMoveToNewSideBySideTabGroup",
+				App.MsgMediator.SendMessage("ReflectMoveToNewSideBySideTabGroup",
 					m_contextMenuTab);
 
 				m_contextMenuTab = null;
@@ -750,7 +750,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_contextMenuTab != null)
 			{
-				PaApp.MsgMediator.SendMessage("ReflectMoveToNewStackedTabGroup",
+				App.MsgMediator.SendMessage("ReflectMoveToNewStackedTabGroup",
 					m_contextMenuTab);
 
 				m_contextMenuTab = null;
@@ -808,7 +808,7 @@ namespace SIL.Pa.UI.Controls
 				m_btnClose_Click(null, null);
 			}
 
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1154,7 +1154,7 @@ namespace SIL.Pa.UI.Controls
 			else if (query != null && !query.PatternOnly)
 			{
 				SelectTab(m_currTab, true);
-				PaApp.MsgMediator.SendMessage("PatternDroppedOnTabGroup", query);
+				App.MsgMediator.SendMessage("PatternDroppedOnTabGroup", query);
 			}
 		}
 
@@ -1292,8 +1292,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_currTab.CieOptionsDropDown.OptionsChanged)
 			{
 				// Save the options as the new defaults for the project.
-				PaApp.Project.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
-				PaApp.Project.Save();
+				App.Project.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
+				App.Project.Save();
 				m_currTab.ResultView.Grid.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
 				m_currTab.CIEViewRefresh();
 			}
@@ -1361,7 +1361,7 @@ namespace SIL.Pa.UI.Controls
 			base.Font = FontHelper.PhoneticFont;
 			m_owningTabGroup = owningTabControl;
 			m_query = new SearchQuery();
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 			SetContextMenus();
 
 			// Prepare the tab's minimal pair options button.
@@ -1411,25 +1411,25 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetTabColors()
 		{
-			m_activeTabInactiveGroupBack1 = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_activeTabInactiveGroupBack1 = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "activeininactivegroup1", Color.White);
 
-			m_activeTabInactiveGroupBack2 = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_activeTabInactiveGroupBack2 = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "activeininactivegroup1", 0xFFD7D1C4);
 
-			m_activeTabInactiveGroupFore = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_activeTabInactiveGroupFore = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "activeininactivegroupfore", Color.Black);
 
-			m_activeTabBack = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_activeTabBack = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "activetabback", Color.White);
 
-			m_activeTabFore = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_activeTabFore = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "activetabfore", Color.Black);
 
-			m_inactiveTabBack = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_inactiveTabBack = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "inactivetabback", SystemColors.Control);
 
-			m_inactiveTabFore = PaApp.SettingsHandler.GetColorSettingsValue(
+			m_inactiveTabFore = App.SettingsHandler.GetColorSettingsValue(
 				"srchresulttabs", "inactivetabfore", SystemColors.ControlText);
 		}
 
@@ -1447,7 +1447,7 @@ namespace SIL.Pa.UI.Controls
 				if (ContextMenuStrip != null && !ContextMenuStrip.IsDisposed)
 					ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 
-				PaApp.RemoveMediatorColleague(this);
+				App.RemoveMediatorColleague(this);
 				
 				if (!m_btnCIEOptions.IsDisposed)
 					m_btnCIEOptions.Dispose();
@@ -2051,7 +2051,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Form frm = FindForm();
-				if (!PaApp.IsFormActive(frm))
+				if (!App.IsFormActive(frm))
 					frm.Focus();
 			}
 

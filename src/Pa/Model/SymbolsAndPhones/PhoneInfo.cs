@@ -77,13 +77,13 @@ namespace SIL.Pa.Model
 			if (phoneIsAmbiguous && FeaturesAreOverridden)
 				return;
 
-			m_aMask = PaApp.AFeatureCache.GetEmptyMask();
-			m_bMask = PaApp.BFeatureCache.GetEmptyMask();
+			m_aMask = App.AFeatureCache.GetEmptyMask();
+			m_bMask = App.BFeatureCache.GetEmptyMask();
 
 			// Go through each codepoint of the phone, building the feature masks along the way.
 			foreach (char c in phone)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[c];
+				IPASymbol charInfo = App.IPASymbolCache[c];
 				if (charInfo == null)
 					continue;
 
@@ -111,15 +111,15 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private bool CheckIfAmbiguous(string phone)
 		{
-			if (PaApp.IPASymbolCache.AmbiguousSequences == null)
+			if (App.IPASymbolCache.AmbiguousSequences == null)
 				return false;
 
 			AmbiguousSeq ambigSeq =
-				PaApp.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+				App.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
 
 			if (ambigSeq != null)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[ambigSeq.BaseChar];
+				IPASymbol charInfo = App.IPASymbolCache[ambigSeq.BaseChar];
 				if (charInfo != null)
 				{
 					m_baseChar = ambigSeq.BaseChar[0];
@@ -274,14 +274,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_aMask == null || m_aMask.IsEmpty)
 				{
-					m_aMask = PaApp.AFeatureCache.GetMask(m_aFeatures);
+					m_aMask = App.AFeatureCache.GetMask(m_aFeatures);
 					if (m_aFeatures != null && m_aFeatures.Count > 0)
 						m_aFeatures = null;
 				}
 
 				return m_aMask;
 			}
-			set { m_aMask = (value ?? PaApp.AFeatureCache.GetEmptyMask()); }
+			set { m_aMask = (value ?? App.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -296,14 +296,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_bMask == null || m_bMask.IsEmpty)
 				{
-					m_bMask = PaApp.BFeatureCache.GetMask(m_bFeatures);
+					m_bMask = App.BFeatureCache.GetMask(m_bFeatures);
 					if (m_bFeatures != null && m_bFeatures.Count > 0)
 						m_bFeatures = null;
 				}
 
 				return m_bMask;
 			}
-			set { m_bMask = (value ?? PaApp.BFeatureCache.GetEmptyMask()); }
+			set { m_bMask = (value ?? App.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					PaApp.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+					App.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
 			}
 			set { m_aFeatures = value; }
 		}
@@ -335,7 +335,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					PaApp.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+					App.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
 			}
 			set { m_bFeatures = value; }
 		}
@@ -359,7 +359,7 @@ namespace SIL.Pa.Model
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					m_moaKey = PaApp.GetMOAKey(Phone) ?? string.Empty;
+					m_moaKey = App.GetMOAKey(Phone) ?? string.Empty;
 				}
 
 				return (m_moaKey == string.Empty ? null : m_moaKey);
@@ -385,7 +385,7 @@ namespace SIL.Pa.Model
 					// will tell us in future references to this property that a failed attempt
 					// was already made to get the key. Therefore, the program will not keep
 					// trying and failing. Thus wasting processing time.
-					m_poaKey = PaApp.GetPOAKey(Phone) ?? string.Empty;
+					m_poaKey = App.GetPOAKey(Phone) ?? string.Empty;
 				}
 
 				return (m_poaKey == string.Empty ? null : m_poaKey);

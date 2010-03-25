@@ -42,7 +42,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
 
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			// Add the column for the check box.
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 			Rows.Clear();
 
 			// Build a sorted list based on display index.
-			foreach (PaFieldInfo fieldInfo in PaApp.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
 			{
 				if ((!forGrid && fieldInfo.DisplayIndexInRecView >= 0) ||
 					(forGrid && fieldInfo.DisplayIndexInGrid >= 0))
@@ -183,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 				if (fieldName == null)
 					continue;
 
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[fieldName];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[fieldName];
 				if (fieldInfo != null)
 				{
 					if (forGrid)
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Controls
 			if (AfterUserChangedValue != null)
 			{
 				string fieldName = Rows[e.RowIndex].Tag as string;
-				AfterUserChangedValue(PaApp.Project.FieldInfo[fieldName],
+				AfterUserChangedValue(App.Project.FieldInfo[fieldName],
 					e.RowIndex == 0, (bool)Rows[e.RowIndex].Cells[0].Value);
 			}
 		}
@@ -314,7 +314,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					string fieldName = row.Tag as string;
 					if (fieldName != null && (bool)row.Cells[kCheckCol].Value)
-						checkedList.Add(PaApp.Project.FieldInfo[fieldName]);
+						checkedList.Add(App.Project.FieldInfo[fieldName]);
 				}
 
 				return checkedList;
@@ -338,7 +338,7 @@ namespace SIL.Pa.UI.Controls
 				foreach (DataGridViewRow row in Rows)
 				{
 					string fieldName = row.Tag as string;
-					if (fieldName != null && PaApp.Project.FieldInfo[fieldName].IsPhonetic)
+					if (fieldName != null && App.Project.FieldInfo[fieldName].IsPhonetic)
 					{
 						m_phoneticRow = row;
 						return (bool)row.Cells[kCheckCol].Value;

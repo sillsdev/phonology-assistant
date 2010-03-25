@@ -41,7 +41,7 @@ namespace SIL.Pa.UI.Controls
 		public PatternBuilderComponents()
 		{
 			InitializeComponent();
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Controls
 				if (components != null)
 					components.Dispose();
 
-				PaApp.RemoveMediatorColleague(this);
+				App.RemoveMediatorColleague(this);
 			}
 
 			base.Dispose(disposing);
@@ -86,8 +86,8 @@ namespace SIL.Pa.UI.Controls
 			SetupVowConPickers(true);
 			SetupOtherPicker();
 
-			m_lvArticulatoryFeatures = InitializeFeatureList(PaApp.FeatureType.Articulatory);
-			m_lvBinaryFeatures = InitializeFeatureList(PaApp.FeatureType.Binary);
+			m_lvArticulatoryFeatures = InitializeFeatureList(App.FeatureType.Articulatory);
+			m_lvBinaryFeatures = InitializeFeatureList(App.FeatureType.Binary);
 			tpgAFeatures.Controls.Add(m_lvArticulatoryFeatures);
 			tpgBFeatures.Controls.Add(m_lvBinaryFeatures);
 
@@ -235,11 +235,11 @@ namespace SIL.Pa.UI.Controls
 
 			// Go through all the phones in the cache and strip off their diacritics,
 			// add the diacritics to a collection of diacritics.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in PaApp.PhoneCache)
+			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
 			{
 				foreach (char c in phoneInfo.Key)
 				{
-					IPASymbol charInfo = PaApp.IPASymbolCache[c];
+					IPASymbol charInfo = App.IPASymbolCache[c];
 					if (charInfo != null && !charInfo.IsBase)
 						m_diacriticsInCache.Add(c);
 				}
@@ -272,7 +272,7 @@ namespace SIL.Pa.UI.Controls
 		/// Creates and initializes a feature list resultView and returns it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(PaApp.FeatureType featureType)
+		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
 		{
 			FeatureListView flv = new FeatureListView(featureType);
 			flv.Load();
@@ -280,7 +280,7 @@ namespace SIL.Pa.UI.Controls
 			flv.LabelEdit = false;
 			flv.AllowDoubleClickToChangeCheckState = false;
 			flv.EmphasizeCheckedItems = false;
-			flv.CheckBoxes = (featureType == PaApp.FeatureType.Binary);
+			flv.CheckBoxes = (featureType == App.FeatureType.Binary);
 			flv.ItemDrag += FeatureListsItemDragHandler;
 			flv.KeyPress += FeatureListsKeyPressHandler;
 			flv.CustomDoubleClick += FeatureListDoubleClickHandler;
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI.Controls
 
 			// The only consonants to allow are the tie bars.
 			return (m_diacriticsInCache.Contains(chr) ||
-				chr == PaApp.kTopTieBarC || chr == PaApp.kBottomTieBarC);
+				chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			PaApp.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 9);
+			App.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 9);
 
 			Utils.WaitCursors(true);
 			InitializeComponent();
@@ -33,30 +33,30 @@ namespace SIL.Pa.UI.Dialogs
 			// I'm hesitant to yank all the code just yet.
 			tabOptions.TabPages.Remove(tpgFindPhones);
 
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeFontTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			//InitializeFindPhonesTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeWordListTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeRecViewTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeCVPatternsTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeSortingTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			InitializeUserInterfaceTab();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
-			PaApp.SettingsHandler.LoadFormProperties(this, true);
+			App.SettingsHandler.LoadFormProperties(this, true);
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
 			lblSaveInfo.Top = (pnlButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
 			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
 			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			Utils.WaitCursors(false);
 			base.OnShown(e);
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 			base.OnFormClosing(e);
 		}
 
@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
 			if (m_tabPageHelpTopicIds.ContainsKey(tabOptions.SelectedTab))
-				PaApp.ShowHelpTopic(m_tabPageHelpTopicIds[tabOptions.SelectedTab]);
+				App.ShowHelpTopic(m_tabPageHelpTopicIds[tabOptions.SelectedTab]);
 		}
 	}
 }

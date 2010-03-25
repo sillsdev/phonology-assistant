@@ -37,18 +37,18 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ChartVwBase()
 		{
-			PaApp.InitializeProgressBarForLoadingView(
+			App.InitializeProgressBarForLoadingView(
 				(CharacterType == IPASymbolType.Consonant ?
 				Properties.Resources.kstidConsonantChartViewText :
 				Properties.Resources.kstidVowelChartViewText), 5);
 			
 			InitializeComponent();
 			base.DoubleBuffered = true;
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			
 			LoadToolbarAndContextMenus();
 			m_chrGrid.OwningViewType = GetType();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Views
 			CharGridBuilder bldr = new CharGridBuilder(m_chrGrid, CharacterType);
 			m_phoneList = bldr.Build();
 			m_persistedInfoFilename = bldr.PersistedInfoFilename;
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			// This should only be null when something has gone wrong...
 			// which should never happen. :o)
@@ -81,10 +81,10 @@ namespace SIL.Pa.UI.Views
 				}
 			}
 
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			m_histogram.LoadPhones(histogramPhones);
-			PaApp.MsgMediator.PostMessage("LayoutHistogram", Name);
-			PaApp.IncProgressBar();
+			App.MsgMediator.PostMessage("LayoutHistogram", Name);
+			App.IncProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ namespace SIL.Pa.UI.Views
 				if (argArray[0] == m_chrGrid)
 				{
 					CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
-					PaApp.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
+					App.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
 				}
 			}
 			catch { }
@@ -140,7 +140,7 @@ namespace SIL.Pa.UI.Views
 			Initialize();
 			m_chrGrid.ForceCurrentCellUpdate();
 			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
-			PaApp.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
+			App.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,12 +150,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			if (m_tmAdapter != null)
 			{
-				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
 			}
 
@@ -164,11 +164,11 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
-				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
-				defs[0] = Path.Combine(PaApp.ConfigFolder, "CVChartsTMDefinition.xml");
-				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
+				defs[0] = Path.Combine(App.ConfigFolder, "CVChartsTMDefinition.xml");
+				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 
@@ -262,8 +262,8 @@ namespace SIL.Pa.UI.Views
 			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
 
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
+					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
 					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
 				}
 				catch { }
@@ -408,16 +408,16 @@ namespace SIL.Pa.UI.Views
 		{
 			base.OnHandleCreated(e);
 
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
-			HistogramOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
+			HistogramOn = App.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
 			m_chrGrid.Reset();
 			Initialize();
 			
 			OnViewDocked(this);
 			m_initialDock = true;
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -532,14 +532,14 @@ namespace SIL.Pa.UI.Views
 				// Check if the phone only exists as an uncertain phone. If so,
 				// then set the flag in the query to include searching words
 				// made using all uncertain uncertain derivations.
-				IPhoneInfo phoneInfo = PaApp.PhoneCache[phone];
+				IPhoneInfo phoneInfo = App.PhoneCache[phone];
 				if (phoneInfo != null && phoneInfo.TotalCount == 0)
 					query.IncludeAllUncertainPossibilities = true;
 				
 				queries.Add(query);
 			}
 
-			PaApp.MsgMediator.SendMessage("ViewFindPhones", queries);
+			App.MsgMediator.SendMessage("ViewFindPhones", queries);
 
 			// Now set the image of the search button to the image associated
 			// with the last search environment chosen by the user.
@@ -667,7 +667,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			string defaultHTMLFileName = 
-				string.Format(m_defaultHTMLOutputFile, PaApp.Project.Language);
+				string.Format(m_defaultHTMLOutputFile, App.Project.LanguageName);
 
 			string outputFileName =
 				HTMLChartWriter.Export(m_chrGrid, defaultHTMLFileName, m_htmlChartName);
@@ -685,7 +685,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -834,7 +834,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -844,7 +844,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -854,7 +854,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -864,7 +864,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -874,7 +874,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowCIEResults(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -884,7 +884,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -894,7 +894,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -904,7 +904,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -914,7 +914,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			return PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		#endregion

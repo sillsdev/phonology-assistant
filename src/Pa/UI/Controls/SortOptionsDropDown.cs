@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public SortOptionsDropDown(SortOptions sortOptions,	bool showAdvancedOptions) : this()
 		{
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			// Reset the SortOptions object
@@ -314,7 +314,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			Close();
 			
-			PaApp.ShowHelpTopic((m_showAdvancedOptions ?
+			App.ShowHelpTopic((m_showAdvancedOptions ?
 				"hidAdvancedPhoneticSortOptions" : "hidBasicPhoneticSortOptions"));
 		}
 		
@@ -328,7 +328,7 @@ namespace SIL.Pa.UI.Controls
 			if (SortOptionsChanged != null)
 			{
 				if (m_makePhoneticPrimarySortFieldOnChange)
-					m_sortOptions.SetPrimarySortField(PaApp.Project.FieldInfo.PhoneticField, false);
+					m_sortOptions.SetPrimarySortField(App.Project.FieldInfo.PhoneticField, false);
 	
 				SortOptionsChanged(m_sortOptions);
 			}

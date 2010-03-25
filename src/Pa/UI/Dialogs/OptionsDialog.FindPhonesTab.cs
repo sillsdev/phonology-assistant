@@ -15,7 +15,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeFindPhonesTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (PaApp.Project == null)
+			if (App.Project == null)
 			{
 				tabOptions.TabPages.Remove(tpgFindPhones);
 				return;
@@ -28,7 +28,7 @@ namespace SIL.Pa.UI.Dialogs
 			lblShowDiamondPattern.Font = FontHelper.UIFont;
 
 			lblShowDiamondPattern.Text = string.Format(lblShowDiamondPattern.Text,
-				PaApp.kEmptyDiamondPattern);
+				App.kEmptyDiamondPattern);
 
 			// Adjust the height of the label control to fit the text more tightly.
 			using (Graphics g = lblClassDisplayBehavior.CreateGraphics())
@@ -40,10 +40,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			rdoClassName.Top = lblClassDisplayBehavior.Bottom + 6;
 			rdoClassMembers.Top = rdoClassName.Bottom + 4;
-			rdoClassName.Checked = PaApp.Project.ShowClassNamesInSearchPatterns;
+			rdoClassName.Checked = App.Project.ShowClassNamesInSearchPatterns;
 			rdoClassMembers.Checked = !rdoClassName.Checked;
 
-			chkShowDiamondPattern.Checked = PaApp.Project.ShowDiamondsInEmptySearchPattern;
+			chkShowDiamondPattern.Checked = App.Project.ShowDiamondsInEmptySearchPattern;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,8 +55,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				return rdoClassName.Checked != PaApp.Project.ShowClassNamesInSearchPatterns ||
-				  chkShowDiamondPattern.Checked != PaApp.Project.ShowDiamondsInEmptySearchPattern;
+				return rdoClassName.Checked != App.Project.ShowClassNamesInSearchPatterns ||
+				  chkShowDiamondPattern.Checked != App.Project.ShowDiamondsInEmptySearchPattern;
 			}
 		}
 
@@ -70,15 +70,15 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsFindPhoneTabDirty)
 				return;
 
-			if (rdoClassName.Checked != PaApp.Project.ShowClassNamesInSearchPatterns)
+			if (rdoClassName.Checked != App.Project.ShowClassNamesInSearchPatterns)
 			{
-				PaApp.Project.ShowClassNamesInSearchPatterns = rdoClassName.Checked;
-				PaApp.MsgMediator.SendMessage("ClassDisplayBehaviorChanged", null);
+				App.Project.ShowClassNamesInSearchPatterns = rdoClassName.Checked;
+				App.MsgMediator.SendMessage("ClassDisplayBehaviorChanged", null);
 			}
 
-			PaApp.Project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
-			PaApp.Project.Save();
-			PaApp.MsgMediator.SendMessage("FindPhonesSettingsChanged", null);
+			App.Project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
+			App.Project.Save();
+			App.MsgMediator.SendMessage("FindPhonesSettingsChanged", null);
 		}
 	}
 }

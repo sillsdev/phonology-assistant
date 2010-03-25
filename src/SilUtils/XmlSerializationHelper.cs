@@ -112,28 +112,28 @@ namespace SilUtils
 
 		#endregion
 
+		#region Methods for XML serializing and deserializing data
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Full path and file name of the xml file to verify.
+		/// Serializes an object to an XML represented in an array of UTF-8 bytes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool IsEmptyOrInvalid(string fileName)
+		public static byte[] SerializeToByteArray<T>(T data)
 		{
-			var doc = new XmlDocument();
-
-			try
-			{
-				doc.Load(fileName);
-				return true;
-			}
-			catch
-			{
-			}
-
-			return false;
+			return SerializeToByteArray(data, false);
 		}
 
-		#region Methods for XML serializing and deserializing data
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to an XML represented in an array of UTF-8 bytes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static byte[] SerializeToByteArray<T>(T data, bool omitXmlDeclaration)
+		{
+			var utf16 = SerializeToString(data, omitXmlDeclaration);
+			return Encoding.UTF8.GetBytes(utf16);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Serializes an object to an XML string.
@@ -141,19 +141,41 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static string SerializeToString<T>(T data)
 		{
+			return SerializeToString(data, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to an XML string. (Of course, the string is a UTF-16 string.)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string SerializeToString<T>(T data, bool omitXmlDeclaration)
+		{
 			try
 			{
-				StringBuilder output = new StringBuilder();
-				using (StringWriter writer = new StringWriter(output))
+				using (var strWriter = new StringWriter())
 				{
-					XmlSerializerNamespaces nameSpace = new XmlSerializerNamespaces();
-					nameSpace.Add(string.Empty, string.Empty);
-					XmlSerializer serializer = new XmlSerializer(typeof(T));
-					serializer.Serialize(writer, data, nameSpace);
-					writer.Close();
-				}
+					var settings = new XmlWriterSettings();
+					settings.Indent = true;
+					settings.IndentChars = "\t";
+					settings.CheckCharacters = true;
+					settings.OmitXmlDeclaration = omitXmlDeclaration;
 
-				return (output.Length == 0 ? null : output.ToString());
+					using (var xmlWriter = XmlWriter.Create(strWriter, settings))
+					{
+						var nameSpace = new XmlSerializerNamespaces();
+						nameSpace.Add(string.Empty, string.Empty);
+						var serializer = new XmlSerializer(typeof(T));
+						serializer.Serialize(xmlWriter, data, nameSpace);
+						xmlWriter.Flush();
+						xmlWriter.Close();
+						strWriter.Flush();
+						strWriter.Close();
+
+						var result = strWriter.ToString();
+						return (result == string.Empty ? null : result);
+					}
+				}
 			}
 			catch (Exception e)
 			{
@@ -232,7 +254,11 @@ namespace SilUtils
 				{
 					xmlData = reader.ReadOuterXml();
 					if (xmlData.Length > 0)
-						writer.WriteRaw(Environment.NewLine + xmlData + Environment.NewLine);
+					{
+						writer.WriteWhitespace(Environment.NewLine);
+						writer.WriteRaw(xmlData);
+						writer.WriteWhitespace(Environment.NewLine);
+					}
 
 					return true;
 				}

@@ -146,7 +146,7 @@ namespace SIL.Pa.Filters
 
 			if (!m_fieldTypeDetermined)
 			{
-				PaFieldInfo fieldInfo = PaApp.FieldInfo[FieldName];
+				PaFieldInfo fieldInfo = App.FieldInfo[FieldName];
 				if (fieldInfo != null)
 				{
 					m_fieldIsDate = fieldInfo.IsDate;

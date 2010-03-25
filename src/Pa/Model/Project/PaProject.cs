@@ -45,7 +45,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
-			ProjectName = Properties.Resources.kstidDefaultNewProjectName;
+			Name = Properties.Resources.kstidDefaultNewProjectName;
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			DataSources = new List<PaDataSource>();
@@ -59,7 +59,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject(bool newProject)
 		{
-			ProjectName = Properties.Resources.kstidDefaultNewProjectName;
+			Name = Properties.Resources.kstidDefaultNewProjectName;
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			DataSources = new List<PaDataSource>();
@@ -242,7 +242,7 @@ namespace SIL.Pa
 				msg = LocalizationManager.LocalizeString("ProjectFileNonExistent",
 					"Project file '{0}' does not exist.", "Message displayed when an " +
 					"attempt is made to open a non existant project file. The parameter " +
-					"is the project file name.", PaApp.kLocalizationGroupInfoMsg,
+					"is the project file name.", App.kLocalizationGroupInfoMsg,
 					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(prjFileName));
@@ -271,6 +271,7 @@ namespace SIL.Pa
 				project = null;
 			}
 
+			ProjectInventory.Save(project);
 			return project;
 		}
 
@@ -343,10 +344,10 @@ namespace SIL.Pa
 					CopyLastModifiedTimes(project);
 				}
 
-				PaApp.IPASymbolCache.ExperimentalTranscriptions =
-					ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
+				App.IPASymbolCache.TranscriptionChanges =
+					TranscriptionChanges.Load(ProjectPathFilePrefix);
 
-				PaApp.IPASymbolCache.AmbiguousSequences = 
+				App.IPASymbolCache.AmbiguousSequences = 
 					AmbiguousSequences.Load(ProjectPathFilePrefix);
 			}
 
@@ -404,7 +405,7 @@ namespace SIL.Pa
 				if (saveAfterLoadingFields)
 					Save();
 
-				PaApp.FieldInfo = m_fieldInfoList;
+				App.FieldInfo = m_fieldInfoList;
 				InitializeFontHelperFonts();
 				DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
 				SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
@@ -414,7 +415,7 @@ namespace SIL.Pa
 			{
 				Utils.MsgBox(
 					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
-					ProjectName, e.Message));
+					Name, e.Message));
 			}
 		}
 
@@ -456,7 +457,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void appWindow_Activated(object sender, EventArgs e)
 		{
-			if (PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,
+			if (App.SettingsHandler.GetBoolSettingsValue(App.kAppSettingsName,
 				"reloadprojectsonactivate", true))
 			{
 				CheckForModifiedDataSources();
@@ -515,7 +516,7 @@ namespace SIL.Pa
 					// it directly because there is an issue when project's are reloaded
 					// (which causes a DoEvents to get called along the way) while still
 					// in window activate events. See PA-440.
-					PaApp.MsgMediator.PostMessage("ReloadProject", null);
+					App.MsgMediator.PostMessage("ReloadProject", null);
 					break;
 				}
 			}
@@ -530,7 +531,7 @@ namespace SIL.Pa
 		{
 			m_reloadingProjectInProcess = true;
 			LoadDataSources();
-			PaApp.MsgMediator.SendMessage("DataSourcesModified", ProjectFileName);
+			App.MsgMediator.SendMessage("DataSourcesModified", ProjectFileName);
 			m_reloadingProjectInProcess = false;
 		}
 
@@ -541,18 +542,18 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void LoadDataSources()
 		{
-			PaApp.IPASymbolCache.ExperimentalTranscriptions =
-				ExperimentalTranscriptions.Load(ProjectPathFilePrefix);
+			App.IPASymbolCache.TranscriptionChanges =
+				TranscriptionChanges.Load(ProjectPathFilePrefix);
 			
-			PaApp.IPASymbolCache.AmbiguousSequences =
+			App.IPASymbolCache.AmbiguousSequences =
 				AmbiguousSequences.Load(ProjectPathFilePrefix);
 			
 			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
-			PaApp.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
+			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			DataSourceReader reader = new DataSourceReader(this);
 			reader.Read();
 			EnsureSortOptionsValid();
-			PaApp.MsgMediator.SendMessage("AfterLoadingDataSources", this);
+			App.MsgMediator.SendMessage("AfterLoadingDataSources", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -578,7 +579,7 @@ namespace SIL.Pa
 				// Copy the default XY Chart definitions to the project's XY Chart def. file.
 				try
 				{
-					string srcPath = Path.Combine(PaApp.ConfigFolder, "DefaultXYCharts.xml");
+					string srcPath = Path.Combine(App.ConfigFolder, "DefaultXYCharts.xml");
 					string destPath = ProjectPathFilePrefix + "XYCharts.xml";
 					File.Copy(srcPath, destPath);
 				}
@@ -698,7 +699,7 @@ namespace SIL.Pa
 			get
 			{
 				return Path.Combine(string.IsNullOrEmpty(m_fileName) ? string.Empty :
-					Path.GetDirectoryName(m_fileName), ProjectName) + ".";
+					Path.GetDirectoryName(m_fileName), Name) + ".";
 			}
 		}
 
@@ -740,14 +741,21 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string ProjectName { get; set; }
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Language { get; set; }
+		public string LanguageName { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string LanguageCode { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -277,7 +277,7 @@ namespace SIL.Pa.UI.Controls
 			Columns.Add(hdr);
 
 			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", null,
-				null, "Name column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
+				null, "Name column heading for list of classes", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 			
 			if (m_showMembersAndClassTypeColumns)
@@ -297,7 +297,7 @@ namespace SIL.Pa.UI.Controls
 				hdr.Width = 205;
 				Columns.Add(hdr);
 				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", null,
-					 null, "Members column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
+					 null, "Members column heading for list of classes", App.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
 				
 				// Add a column for the text showing what the class is based on.
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI.Controls
 				hdr.Width = 175;
 				Columns.Add(hdr);
 				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", null,
-					 null, "Type column heading for list of classes", PaApp.kLocalizationGroupUICtrls,
+					 null, "Type column heading for list of classes", App.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
 			}
 		}
@@ -318,12 +318,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			Items.Clear();
 
-			foreach (SearchClass srchClass in PaApp.Project.SearchClasses)
+			foreach (SearchClass srchClass in App.Project.SearchClasses)
 				Items.Add(ClassListViewItem.Create(srchClass, m_showMembersAndClassTypeColumns));
 		}
 
@@ -365,16 +365,16 @@ namespace SIL.Pa.UI.Controls
 		{
 			foreach (ColumnHeader hdr in Columns)
 			{
-				hdr.Width = PaApp.SettingsHandler.GetIntSettingsValue(
+				hdr.Width = App.SettingsHandler.GetIntSettingsValue(
 					parentFormName, "col" + hdr.Index, hdr.Width);
 			}
 
-			m_sortColumn = PaApp.SettingsHandler.GetIntSettingsValue(
+			m_sortColumn = App.SettingsHandler.GetIntSettingsValue(
 				parentFormName, "sortedcolumn", -1);
 
 			try
 			{
-				string sortOrder = PaApp.SettingsHandler.GetStringSettingsValue(
+				string sortOrder = App.SettingsHandler.GetStringSettingsValue(
 					parentFormName, "sortorder", "None");
 
 				m_sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), sortOrder, true);
@@ -393,10 +393,10 @@ namespace SIL.Pa.UI.Controls
 		public void SaveSettings(string parentFormName)
 		{
 			foreach (ColumnHeader hdr in Columns)
-				PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "col" + hdr.Index, hdr.Width);
+				App.SettingsHandler.SaveSettingsValue(parentFormName, "col" + hdr.Index, hdr.Width);
 
-			PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "sortedcolumn", m_sortColumn);
-			PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "sortorder", m_sortOrder);
+			App.SettingsHandler.SaveSettingsValue(parentFormName, "sortedcolumn", m_sortColumn);
+			App.SettingsHandler.SaveSettingsValue(parentFormName, "sortorder", m_sortOrder);
 		}
 
 		#endregion
@@ -410,7 +410,7 @@ namespace SIL.Pa.UI.Controls
 		public void SaveChanges()
 		{
 			m_deletedClass = false;
-			SearchClassList list = PaApp.Project.SearchClasses;
+			SearchClassList list = App.Project.SearchClasses;
 			list.Clear();
 
 			foreach (ClassListViewItem item in Items)

@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void Initialize()
 		{
 			// If the grid is not null, we've already been here.
-			if (PaApp.DesignMode || m_grid != null)
+			if (App.DesignMode || m_grid != null)
 				return;
 
 			// For some reason when I set these values in the designer, I can't open
@@ -107,7 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 			BuildMappingGrid();
 			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 
 			// Make sure the stuff in the left (fixed) panel can all be seen.
 			if (cboFirstInterlinear.Right > splitOuter.SplitterDistance - 11)
@@ -119,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 				// split container control. That means the file contents gets 35%.
 				scImport.SplitterDistance = (int)(scImport.Width * .65);
 
-				int splitterDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
+				int splitterDistance = App.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
 				if (splitterDistance > -1)
 					scImport.SplitterDistance = splitterDistance;
 			}
@@ -416,7 +416,7 @@ namespace SIL.Pa.UI.Dialogs
 			// If there weren't values previously saved for this grid, then set some of the
 			// grid's properties to their initial values.
 			string gridLinesValue;
-			if (!PaApp.SettingsHandler.LoadGridProperties(m_grid, out gridLinesValue))
+			if (!App.SettingsHandler.LoadGridProperties(m_grid, out gridLinesValue))
 			{
 				m_grid.AutoResizeColumnHeadersHeight();
 				m_grid.AutoResizeColumns();
@@ -435,9 +435,9 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid, null);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitter", scImport.SplitterDistance);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_grid, null);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitter", scImport.SplitterDistance);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -681,7 +681,7 @@ namespace SIL.Pa.UI.Dialogs
 			string filter = ResourceHelper.GetString("kstidFileTypeAllExe") +"|" +
 				ResourceHelper.GetString("kstidFileTypeAllFiles");
 
-			string editor = PaApp.OpenFileDialog("exe", filter,
+			string editor = App.OpenFileDialog("exe", filter,
 				Properties.Resources.kstidSFMEditorCaptionOFD);
 
 			if (!string.IsNullOrEmpty(editor))

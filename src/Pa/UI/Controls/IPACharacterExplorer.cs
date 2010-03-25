@@ -146,7 +146,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			Utils.SetWindowRedraw(this, false, false);
@@ -231,7 +231,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button, 
 				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", null, null,
 				"Text on heading above list of consonants from which to choose " +
-				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 		}
 
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", null, null,
 				"Text on heading above list of non pulmonic consonants from which to " +
-				"choose in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls, 
+				"choose in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls, 
 				LocalizationPriority.High);
 		}
 
@@ -281,7 +281,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols", null, null,
 				"Text on heading above list of other symbols from which to choose " +
-				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 		}
 
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels", null, null,
 				"Text on heading above list of vowels from which to choose in side bar " +
-				"of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 		}
         
@@ -332,7 +332,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics", null, null,
 				"Text on heading above list of diacritics from which to choose in side bar " +
-				"of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
@@ -362,7 +362,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
 				null, null, "Text on heading above list of suprasegmentals from which to choose " +
-				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
@@ -392,7 +392,7 @@ namespace SIL.Pa.UI.Controls
 			LocalizationManager.LocalizeObject(item.Button,
 				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents", null, null,
 				"Text on heading above list of tones and accents from which to choose " +
-				"in side bar of search and XY chart views.", PaApp.kLocalizationGroupUICtrls,
+				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 
 			// Enlarge the font and cell size
@@ -458,7 +458,7 @@ namespace SIL.Pa.UI.Controls
 			for (int i = 0; i < Items.Length; i++)
 			{
 				Items[i].IsExpanded =
-					PaApp.SettingsHandler.GetBoolSettingsValue(parentFormName, "chooser" + i, true);
+					App.SettingsHandler.GetBoolSettingsValue(parentFormName, "chooser" + i, true);
 			}
 
 			AutoScrollPosition = new Point(0, 0);
@@ -472,7 +472,7 @@ namespace SIL.Pa.UI.Controls
 		public void SaveSettings(string parentFormName)
 		{
 			for (int i = 0; i < Items.Length; i++)
-				PaApp.SettingsHandler.SaveSettingsValue(parentFormName, "chooser" + i, Items[i].IsExpanded);
+				App.SettingsHandler.SaveSettingsValue(parentFormName, "chooser" + i, Items[i].IsExpanded);
 		}
 
 		#endregion

@@ -35,7 +35,7 @@ namespace SIL.Pa.DataSource
 			using (MissingDataSourceMsgBox msgBox = new MissingDataSourceMsgBox())
 			{
 				msgBox.m_filename = dataSourceFileName;
-				PaApp.CloseSplashScreen();
+				App.CloseSplashScreen();
 				return msgBox.ShowDialog();
 			}
 		}
@@ -72,7 +72,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 		
 		/// ------------------------------------------------------------------------------------

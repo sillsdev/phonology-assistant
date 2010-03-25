@@ -53,14 +53,14 @@ namespace SIL.Pa.UI.Dialogs
 			rbFmtTabDelim.Tag = RtfCreator.ExportFormat.TabDelimited;
 
 			// Load saved window settings
-			m_rtfEditor = PaApp.SettingsHandler.GetStringSettingsValue(Name, "editor", null);
-			rbToFile.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "file", true);
-			rbToFileOpen.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "fileopen", false);
-			rbToClipboard.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "clipboard", false);
-			rbFmtTable.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "table", true);
-			rbFmtTabDelim.Checked = PaApp.SettingsHandler.GetBoolSettingsValue(Name, "tabdelim", false);
+			m_rtfEditor = App.SettingsHandler.GetStringSettingsValue(Name, "editor", null);
+			rbToFile.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "file", true);
+			rbToFileOpen.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "fileopen", false);
+			rbToClipboard.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "clipboard", false);
+			rbFmtTable.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "table", true);
+			rbFmtTabDelim.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "tabdelim", false);
 
-			PaApp.SettingsHandler.LoadFormProperties(this, true);
+			App.SettingsHandler.LoadFormProperties(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 
 			if (Parent is Form)
 				((Form)Parent).AddOwnedForm(this);
@@ -104,13 +104,13 @@ namespace SIL.Pa.UI.Dialogs
 				((Form)Parent).RemoveOwnedForm(this);
 			
 			// Save settings
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "editor", m_rtfEditor);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "file", rbToFile.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "fileopen", rbToFileOpen.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "clipboard", rbToClipboard.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "table", rbFmtTable.Checked);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "tabdelim", rbFmtTabDelim.Checked);
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveSettingsValue(Name, "editor", m_rtfEditor);
+			App.SettingsHandler.SaveSettingsValue(Name, "file", rbToFile.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "fileopen", rbToFileOpen.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "clipboard", rbToClipboard.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "table", rbFmtTable.Checked);
+			App.SettingsHandler.SaveSettingsValue(Name, "tabdelim", rbFmtTabDelim.Checked);
+			App.SettingsHandler.SaveFormProperties(this);
 			
 			base.OnClosing(e);
 		}
@@ -398,7 +398,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 
 		#endregion

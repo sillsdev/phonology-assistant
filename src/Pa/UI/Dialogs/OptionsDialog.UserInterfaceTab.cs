@@ -45,9 +45,9 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			string newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
-			PaApp.SettingsHandler.SaveSettingsValue("UserInterface", "lang", newLangId);
+			App.SettingsHandler.SaveSettingsValue("UserInterface", "lang", newLangId);
 			LocalizationManager.UILangId = newLangId;
-			PaApp.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
+			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -64,11 +64,11 @@ namespace SIL.Pa.UI
 				Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation);
 			}
-			else if (PaApp.Project == null || PaApp.Project.ProjectFileName != filename)
+			else if (App.Project == null || App.Project.ProjectFileName != filename)
 			{
 				LoadProject(filename);
-				UndefinedPhoneticCharactersDlg.Show(PaApp.Project == null ?
-					string.Empty : PaApp.Project.ProjectName);
+				UndefinedPhoneticCharactersDlg.Show(App.Project == null ?
+					string.Empty : App.Project.Name);
 			}
 
 			return true;
@@ -85,7 +85,7 @@ namespace SIL.Pa.UI
 			if (project != null)
 			{
 				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
-					project.ProjectName, Application.ProductName);
+					project.Name, Application.ProductName);
 				Invalidate();
 			}
 
@@ -100,7 +100,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpPA(object args)
 		{
-			PaApp.ShowHelpTopic("hidGettingStarted");
+			App.ShowHelpTopic("hidGettingStarted");
 			return true;
 		}
 
@@ -157,7 +157,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private static void OpenTrainingDocument(string docName)
 		{
-			string path = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
+			string path = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
 			path = Path.Combine(path, docName);
 
 			if (!File.Exists(path))
@@ -201,10 +201,10 @@ namespace SIL.Pa.UI
 			{
 				if (Utils.MsgBox(
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
-					dlg.Project.ProjectName), MessageBoxButtons.YesNo) == DialogResult.Yes)
+					dlg.Project.Name), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.ProjectFileName);
-					UndefinedPhoneticCharactersDlg.Show(dlg.Project.ProjectName, true);
+					UndefinedPhoneticCharactersDlg.Show(dlg.Project.Name, true);
 				}
 			}
 
@@ -228,15 +228,15 @@ namespace SIL.Pa.UI
 			string dlgTitle =
 				string.Format(Properties.Resources.kstidPAFilesCaptionOFD, Application.ProductName);
 			
-			string initialDir = PaApp.SettingsHandler.GetStringSettingsValue(Name, "lastprojdir",
-				PaApp.DefaultProjectFolder);
+			string initialDir = App.SettingsHandler.GetStringSettingsValue(Name, "lastprojdir",
+				App.DefaultProjectFolder);
 
-			string[] filenames = PaApp.OpenFileDialog("pap", filter, ref filterindex,
+			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
 				dlgTitle, false, initialDir);
 
 			if (filenames.Length > 0 && File.Exists(filenames[0]))
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "lastprojdir",
+				App.SettingsHandler.SaveSettingsValue(Name, "lastprojdir",
 					Path.GetDirectoryName(filenames[0]));
 				
 				LoadProject(filenames[0]);
@@ -254,7 +254,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(PaApp.Project))
+			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(App.Project))
 			{
 				dlg.ShowDialog(this);
 				if (dlg.ChangesWereMade)
@@ -274,19 +274,19 @@ namespace SIL.Pa.UI
 		{
 			Utils.WaitCursors(false);
 
-			PaProject project = PaProject.Load(PaApp.Project.ProjectFileName, this);
+			PaProject project = PaProject.Load(App.Project.ProjectFileName, this);
 			if (project != null)
 			{
 				// If there was a project loaded before this,
 				// then get rid of it to make way for the new one.
-				if (PaApp.Project != null)
+				if (App.Project != null)
 				{
-					PaApp.Project.Dispose();
-					PaApp.Project = null;
+					App.Project.Dispose();
+					App.Project = null;
 				}
 
-				PaApp.Project = project;
-				PaApp.MsgMediator.SendMessage("DataSourcesModified", project);
+				App.Project = project;
+				App.MsgMediator.SendMessage("DataSourcesModified", project);
 			}
 
 			Utils.WaitCursors(false);
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (PaApp.Project != null);
+			itemProps.Enabled = (App.Project != null);
 			itemProps.Update = true;
 			return true;
 		}
@@ -341,13 +341,13 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 			dlg.Title = string.Format(Properties.Resources.kstidPAXMLExportCaptionSFD, Application.ProductName);
-			dlg.FileName = PaApp.Project.ProjectName + ".paxml";
+			dlg.FileName = App.Project.Name + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(ResourceHelper.GetString("kstidFileTypePAXML"),
 				Application.ProductName) + "|" + ResourceHelper.GetString("kstidFileTypeAllFiles");
 
 			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
-				PaApp.RecordCache.Save(dlg.FileName);
+				App.RecordCache.Save(dlg.FileName);
 			
 			return true;
 		}
@@ -368,7 +368,7 @@ namespace SIL.Pa.UI
 			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
-			itemProps.Enabled = (PaApp.Project != null && PaApp.RecordCache != null);
+			itemProps.Enabled = (App.Project != null && App.RecordCache != null);
 			return true;
 		}
 
@@ -405,7 +405,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Update = true;
 			itemProps.Visible = true;
-			itemProps.Enabled = (PaApp.Project != null);
+			itemProps.Enabled = (App.Project != null);
 			return true;
 		}
 
@@ -416,7 +416,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedPhoneticCharactersDlg.Show(PaApp.Project.ProjectName, true);
+			UndefinedPhoneticCharactersDlg.Show(App.Project.Name, true);
 			return true;
 		}
 		
@@ -433,9 +433,9 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (PaApp.Project != null &&
-				PaApp.IPASymbolCache.UndefinedCharacters != null &&
-				PaApp.IPASymbolCache.UndefinedCharacters.Count > 0);
+			itemProps.Enabled = (App.Project != null &&
+				App.IPASymbolCache.UndefinedCharacters != null &&
+				App.IPASymbolCache.UndefinedCharacters.Count > 0);
 
 			return true;
 		}
@@ -447,7 +447,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
-			PaApp.Project.ReloadDataSources();
+			App.Project.ReloadDataSources();
 			return true;
 		}
 
@@ -464,7 +464,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Enabled =
-				(PaApp.Project != null && PaApp.Project.DataSources != null && PaApp.Project.DataSources.Count > 0);
+				(App.Project != null && App.Project.DataSources != null && App.Project.DataSources.Count > 0);
 			itemProps.Update = true;
 			return true;
 		}
@@ -556,7 +556,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (PaApp.Project != null && grid != null && enabled && PaApp.WordCache.Count != 0);
+			itemProps.Enabled = (App.Project != null && grid != null && enabled && App.WordCache.Count != 0);
 			return true;
 		}
 
@@ -716,7 +716,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateFilters(object args)
 		{
-			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
@@ -760,7 +760,7 @@ namespace SIL.Pa.UI
 			if (filter != null)
 				sblblFilter.Text = filter.Name;
 
-			PaApp.Project.Save();
+			App.Project.Save();
 			return false;
 		}
 
@@ -784,7 +784,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAmbiguousSequences(object args)
 		{
-			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
@@ -808,7 +808,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExperimentalTranscriptions(object args)
 		{
-			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
@@ -832,7 +832,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateDefineClasses(object args)
 		{
-			PaApp.EnableWhenProjectOpen(args as TMItemProperties);
+			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
@@ -861,7 +861,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewDataCorpus(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DataCorpusVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DataCorpusVw));
 			return true;
 		}
 
@@ -895,7 +895,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewFindPhones(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(SearchVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(SearchVw));
 			return true;
 		}
 
@@ -921,7 +921,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewConsonantChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(ConsonantChartVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(ConsonantChartVw));
 			return true;
 		}
 
@@ -947,7 +947,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewVowelChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(VowelChartVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(VowelChartVw));
 			return true;
 		}
 
@@ -973,7 +973,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewXYChart(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(XYChartVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(XYChartVw));
 			return true;
 		}
 
@@ -999,7 +999,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewPhoneInventory(object args)
 		{
-			PaApp.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(PhoneInventoryVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(PhoneInventoryVw));
 			return true;
 		}
 

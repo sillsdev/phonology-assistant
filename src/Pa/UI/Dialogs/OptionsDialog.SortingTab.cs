@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeSortingTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (PaApp.Project == null)
+			if (App.Project == null)
 			{
 				tabOptions.TabPages.Remove(tpgSorting);
 				return;
@@ -39,18 +39,18 @@ namespace SIL.Pa.UI.Dialogs
 			lblSaveManual.Font = FontHelper.UIFont;
 
 			SortOptionsTypeComboItem item = new SortOptionsTypeComboItem(
-				cboListType.Items[0].ToString(), PaApp.Project.DataCorpusVwSortOptions.Clone());
+				cboListType.Items[0].ToString(), App.Project.DataCorpusVwSortOptions.Clone());
 
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[1].ToString(),
-				PaApp.Project.SearchVwSortOptions.Clone());
+				App.Project.SearchVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(1);
 			cboListType.Items.Insert(1, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[2].ToString(),
-				PaApp.Project.XYChartVwSortOptions.Clone());
+				App.Project.XYChartVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(2);
 			cboListType.Items.Add(item);
 
@@ -116,18 +116,18 @@ namespace SIL.Pa.UI.Dialogs
 
 			SortOptionsTypeComboItem item = cboListType.Items[0] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.DataCorpusVwSortOptions = item.SortOptions;
+				App.Project.DataCorpusVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[1] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.SearchVwSortOptions = item.SortOptions;
+				App.Project.SearchVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[2] as SortOptionsTypeComboItem;
 			if (item != null)
-				PaApp.Project.XYChartVwSortOptions = item.SortOptions;
+				App.Project.XYChartVwSortOptions = item.SortOptions;
 
-			PaApp.Project.Save();
-			PaApp.MsgMediator.SendMessage("SortingOptionsChanged", null);
+			App.Project.Save();
+			App.MsgMediator.SendMessage("SortingOptionsChanged", null);
 		}
 
 		/// ------------------------------------------------------------------------------------

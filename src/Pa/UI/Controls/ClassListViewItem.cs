@@ -22,8 +22,8 @@ namespace SIL.Pa.UI.Controls
 		public const string kFeatureBracketing = "[{0}]";
 		public const string kANDBracketing = "[{0}]";
 		public const string kORBracketing = "{{{0}}}";
-		public static string kClassBracketing = PaApp.kOpenClassBracket + "{0}" +
-			PaApp.kCloseClassBracket;
+		public static string kClassBracketing = App.kOpenClassBracket + "{0}" +
+			App.kCloseClassBracket;
 
 		public SearchClassType ClassType = SearchClassType.Phones;
 		public bool AllowEdit = true;
@@ -145,19 +145,19 @@ namespace SIL.Pa.UI.Controls
 					case SearchClassType.Phones:
 						return LocalizationManager.LocalizeString("PhonesClassTypeLabel",
 							"Phones", "Label on the define classes dialog box indicating class type",
-							PaApp.kLocalizationGroupMisc, LocalizationCategory.Label,
+							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);
 
 					case SearchClassType.Articulatory:
 						return LocalizationManager.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
 							"Articulatory features", "Articulatory features class type label.",
-							PaApp.kLocalizationGroupMisc, LocalizationCategory.Label,
+							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);
 
 					case SearchClassType.Binary:
 						return LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
 							"Binary features", "Binary features class type label.",
-							PaApp.kLocalizationGroupMisc, LocalizationCategory.Label,
+							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);
 				
 					default:
@@ -220,10 +220,10 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				if (ClassType == SearchClassType.Articulatory)
-					return PaApp.AFeatureCache.GetFeatureList(Mask).ToArray();
+					return App.AFeatureCache.GetFeatureList(Mask).ToArray();
 
 				if (ClassType == SearchClassType.Binary)
-					return PaApp.BFeatureCache.GetFeatureList(Mask).ToArray();
+					return App.BFeatureCache.GetFeatureList(Mask).ToArray();
 
 				return null;
 			}
@@ -264,8 +264,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Get the features that make up this class.
 					members = (ClassType == SearchClassType.Articulatory ?
-						PaApp.AFeatureCache.GetFeatureList(Mask).ToArray() :
-						PaApp.BFeatureCache.GetFeatureList(Mask).ToArray());
+						App.AFeatureCache.GetFeatureList(Mask).ToArray() :
+						App.BFeatureCache.GetFeatureList(Mask).ToArray());
 
 					brackets = kFeatureBracketing;
 				}
@@ -435,12 +435,12 @@ namespace SIL.Pa.UI.Controls
 
 			if (srchClass.SearchClassType == SearchClassType.Articulatory)
 			{
-				item.Mask = PaApp.AFeatureCache.GetEmptyMask();
+				item.Mask = App.AFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
 			else if (srchClass.SearchClassType == SearchClassType.Binary)
 			{
-				item.Mask = PaApp.BFeatureCache.GetEmptyMask();
+				item.Mask = App.BFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
 
@@ -470,8 +470,8 @@ namespace SIL.Pa.UI.Controls
 			foreach (string feature in features)
 			{
 				Feature feat = (item.ClassType == SearchClassType.Articulatory ?
-					PaApp.AFeatureCache[feature] :
-					PaApp.BFeatureCache[feature]);
+					App.AFeatureCache[feature] :
+					App.BFeatureCache[feature]);
 					
 				if (feat != null)
 					item.Mask[feat.Bit] = true;

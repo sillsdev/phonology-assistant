@@ -146,7 +146,7 @@ namespace SIL.Pa.DataSource
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.FileName = Path.GetFileName(dataSourceFile);
-			dlg.Filter = PaApp.kstidFileTypeAllFiles;
+			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.Title =	Properties.Resources.kstidMissingDataSourceOFDMsg;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
@@ -167,27 +167,27 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public WordCache Read()
 		{
-			if (PaApp.RecordCache != null)
-				PaApp.RecordCache.Dispose();
+			if (App.RecordCache != null)
+				App.RecordCache.Dispose();
 
 			Application.DoEvents();
 			TempRecordCache.Dispose();
 			m_recCache = new RecordCache();
-			PaApp.RecordCache = m_recCache;
-			PaApp.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			PaApp.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			App.RecordCache = m_recCache;
+			App.InitializeProgressBar(string.Empty, m_totalLinesToRead);
+			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
 
 			foreach (PaDataSource source in m_dataSources)
 			{
-				PaApp.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
+				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
-				PaApp.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
+				App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
 
 				m_currDataSource = source;
 
-				PaApp.UpdateProgressBarLabel(string.Format(
+				App.UpdateProgressBarLabel(string.Format(
 					Properties.Resources.kstidReadingDataSourceProgressLabel,
 					(source.FwSourceDirectFromDB && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
@@ -196,7 +196,7 @@ namespace SIL.Pa.DataSource
 
 				try
 				{
-					PaApp.MsgMediator.SendMessage("BeforeReadingDataSource", source);
+					App.MsgMediator.SendMessage("BeforeReadingDataSource", source);
 					bool readSuccess = true;
 
 					switch (source.DataSourceType)
@@ -231,7 +231,7 @@ namespace SIL.Pa.DataSource
 					}
 
 					if (readSuccess)
-						PaApp.MsgMediator.SendMessage("AfterReadingDataSource", source);
+						App.MsgMediator.SendMessage("AfterReadingDataSource", source);
 					else
 					{
 						string msg =
@@ -239,7 +239,7 @@ namespace SIL.Pa.DataSource
 							Utils.PrepFilePathForMsgBox(source.DataSourceFile));
 
 						Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-						PaApp.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
+						App.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
 					}
 				}
 				catch (Exception e)
@@ -257,12 +257,12 @@ namespace SIL.Pa.DataSource
 				}
 			}
 
-			PaApp.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
-			m_recCache.BuildWordCache(PaApp.ProgressBar);
-			PaApp.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
-			PaApp.IncProgressBar();
+			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
+			m_recCache.BuildWordCache(App.ProgressBar);
+			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
+			App.IncProgressBar();
 			TempRecordCache.Save();
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 
 			return (m_recCache.WordCache.Count == 0 ? null : m_recCache.WordCache);
 		}
@@ -275,7 +275,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void ReadFwDataSource()
 		{
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			if (m_currDataSource.FwDataSourceInfo != null)
 			{
@@ -374,14 +374,14 @@ namespace SIL.Pa.DataSource
 			// member variable cache.
 			if (m_recCache.Count == 0)
 			{
-				PaApp.IncProgressBar(cache.Count);
+				App.IncProgressBar(cache.Count);
 				m_recCache = cache;
 			}
 			else
 			{
 				while (cache.Count > 0)
 				{
-					PaApp.IncProgressBar();
+					App.IncProgressBar();
 					m_recCache.Add(cache[0]);
 					cache.RemoveAt(0);
 				}
@@ -427,7 +427,7 @@ namespace SIL.Pa.DataSource
 			// encoding conversion dialog's static variables so the proper help file and
 			// topic are jumped to if the user is presented with that dialog and chooses
 			// to click its help button.
-			TransConvertersDlg.HelpFilePath = PaApp.HelpFilePath;
+			TransConvertersDlg.HelpFilePath = App.HelpFilePath;
 			TransConvertersDlg.HelpTopic = HelpTopicPaths.hidTransConvertersDlg;
 
 			m_currDataSource.LastModification =
@@ -450,11 +450,11 @@ namespace SIL.Pa.DataSource
 			m_recCacheEntry.SamplesPerSecond = reader.SamplesPerSecond;
 			ReadRecLevelSaFields(reader);
 
-			PaFieldInfo fieldInfo = PaApp.FieldInfo.AudioFileField;
+			PaFieldInfo fieldInfo = App.FieldInfo.AudioFileField;
 			if (fieldInfo != null)
 				m_recCacheEntry.SetValue(fieldInfo.FieldName, audioFile);
 
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			int wordIndex = 0;
 			List<WordCacheEntry> wordEntries = new List<WordCacheEntry>();
 
@@ -463,35 +463,35 @@ namespace SIL.Pa.DataSource
 			{
 				WordCacheEntry wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
 				
-				fieldInfo = PaApp.FieldInfo.PhoneticField;
+				fieldInfo = App.FieldInfo.PhoneticField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Phonetic;
 
-				fieldInfo = PaApp.FieldInfo.PhonemicField;
+				fieldInfo = App.FieldInfo.PhonemicField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Phonemic;
 
-				fieldInfo = PaApp.FieldInfo.ToneField;
+				fieldInfo = App.FieldInfo.ToneField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Tone;
 
-				fieldInfo = PaApp.FieldInfo.OrthoField;
+				fieldInfo = App.FieldInfo.OrthoField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Orthographic;
 
-				fieldInfo = PaApp.FieldInfo.GlossField;
+				fieldInfo = App.FieldInfo.GlossField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Gloss;
 
-				fieldInfo = PaApp.FieldInfo.ReferenceField;
+				fieldInfo = App.FieldInfo.ReferenceField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.Reference;
 
-				fieldInfo = PaApp.FieldInfo.AudioFileLengthField;
+				fieldInfo = App.FieldInfo.AudioFileLengthField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Value.AudioLength.ToString();
 
-				fieldInfo = PaApp.FieldInfo.AudioFileOffsetField;
+				fieldInfo = App.FieldInfo.AudioFileOffsetField;
 				if (fieldInfo != null)
 					wentry[fieldInfo.FieldName] = adw.Key.ToString();
 
@@ -581,7 +581,7 @@ namespace SIL.Pa.DataSource
 
 			while ((currLine = file.ReadLine()) != null) 
 			{
-				PaApp.IncProgressBar();
+				App.IncProgressBar();
 				currLine = currLine.Trim();
 				string currMarker = null;
 

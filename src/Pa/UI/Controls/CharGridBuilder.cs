@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return PaApp.Project.ProjectPathFilePrefix +
+				return App.Project.ProjectPathFilePrefix +
 					(m_chrType == IPASymbolType.Consonant ? "Consonant" : "Vowel") +
 					"Chart.xml";
 			}
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public List<CharGridCell> Build()
 		{
-		    if (PaApp.DesignMode || (m_chrGrid == null && m_phoneLstVwr == null))
+		    if (App.DesignMode || (m_chrGrid == null && m_phoneLstVwr == null))
 		        return null;
 
 			try
@@ -162,8 +162,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					IPhoneInfo xpi = PaApp.PhoneCache[x.Phone];
-					IPhoneInfo ypi = PaApp.PhoneCache[y.Phone];
+					IPhoneInfo xpi = App.PhoneCache[x.Phone];
+					IPhoneInfo ypi = App.PhoneCache[y.Phone];
 					return string.CompareOrdinal(xpi.MOAKey, ypi.MOAKey);
 				}
 				catch { }
@@ -282,7 +282,7 @@ namespace SIL.Pa.UI.Controls
 			SortedList<string, CharGridCell> tmpPhoneList = new SortedList<string, CharGridCell>();
 
 			// This should only happen in design mode.
-			if (PaApp.PhoneCache == null)
+			if (App.PhoneCache == null)
 				return;
 
 			const TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix |
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Controls
 			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : FontHelper.PhoneticFont);
 
 			// Get phones from the Phone cache.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in PaApp.PhoneCache)
+			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
 			{
 				string phone = QualifyingPhone(phoneInfo.Key, phoneInfo.Value, tmpPhoneList);
 				if (phone == null)
@@ -299,7 +299,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Find the Phone's base character in the IPA character cache
 				// in order to find it's default placement in the chart.
-				IPASymbol info = PaApp.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
+				IPASymbol info = App.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
 
 				if (info != null)
 				{
@@ -316,7 +316,7 @@ namespace SIL.Pa.UI.Controls
 							new List<string>(phoneInfo.Value.SiblingUncertainties);
 					}
 
-					tmpPhoneList[PaApp.GetMOAKey(phone)] = cgc;
+					tmpPhoneList[App.GetMOAKey(phone)] = cgc;
 
 					maxPhoneWidth = Math.Max(maxPhoneWidth, TextRenderer.MeasureText(phone,
 						fnt, Size.Empty, flags).Width);
@@ -333,7 +333,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_chrGrid != null)
 			{
 				m_chrGrid.CellWidth = maxPhoneWidth +
-					PaApp.SettingsHandler.GetIntSettingsValue("cvcharts", "extracellwidth", 8);
+					App.SettingsHandler.GetIntSettingsValue("cvcharts", "extracellwidth", 8);
 			}
 		}
 
@@ -580,7 +580,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private CharGridCell FindSimilarPhone(CharGridCell cgc)
 		{
-			IPhoneInfo phoneInfo = PaApp.PhoneCache[cgc.Phone];
+			IPhoneInfo phoneInfo = App.PhoneCache[cgc.Phone];
 			if (phoneInfo == null)
 				return null;
 
@@ -597,7 +597,7 @@ namespace SIL.Pa.UI.Controls
 					CharGridCell tmpcgc = row.Cells[c].Value as CharGridCell;
 					if (tmpcgc != null)
 					{
-						IPhoneInfo tmppi = PaApp.PhoneCache[tmpcgc.Phone];
+						IPhoneInfo tmppi = App.PhoneCache[tmpcgc.Phone];
 						if (tmppi != null && tmppi.BaseCharacter == phoneInfo.BaseCharacter)
 							return tmpcgc;
 					}

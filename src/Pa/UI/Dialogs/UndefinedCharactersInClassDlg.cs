@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic(this);
+			App.ShowHelpTopic(this);
 		}
 
 		private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)

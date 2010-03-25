@@ -119,15 +119,15 @@ namespace SIL.Pa.UI.Controls
 			m_rtfBldr = new StringBuilder();
 
 			// Default value is 1/8" gap between columns.
-			m_colRightPadding =	PaApp.SettingsHandler.GetIntSettingsValue(
+			m_colRightPadding =	App.SettingsHandler.GetIntSettingsValue(
 				"RTFExport", "gapbetweencolumns", 180);
 
 			// Add support for highlighting the search item
 			if (m_cache.IsForSearchResults)
 			{
 				Dictionary<int, int> colorReferences;
-				RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences);
-				m_searchItemColorRefNumber = colorReferences[PaApp.QuerySearchItemBackColor.ToArgb()];
+				RtfHelper.ColorTable(App.QuerySearchItemBackColor, out colorReferences);
+				m_searchItemColorRefNumber = colorReferences[App.QuerySearchItemBackColor.ToArgb()];
 			}
 
 			// Sort the visible columns by their display order.
@@ -168,7 +168,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetPaperAndMarginValues()
 		{
-			string paperSize = PaApp.SettingsHandler.GetStringSettingsValue(
+			string paperSize = App.SettingsHandler.GetStringSettingsValue(
 				"RTFExport", "papersize", "letter").ToLower();
 
 			m_paperWidth = (int)(paperSize == "a4" ? kTwipsPerCm * 21 : kTwipsPerInch * 8.5);
@@ -177,10 +177,10 @@ namespace SIL.Pa.UI.Controls
 			int defaultHMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch * 0.75);
 			int defaultVMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch);
 
-			m_leftMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "lmargin", defaultHMargin);
-			m_rightMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "rmargin", defaultHMargin);
-			m_topMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "tmargin", defaultVMargin);
-			m_bottomMargin = PaApp.SettingsHandler.GetIntSettingsValue("RTFExport", "bmargin", defaultVMargin);
+			m_leftMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "lmargin", defaultHMargin);
+			m_rightMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "rmargin", defaultHMargin);
+			m_topMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "tmargin", defaultVMargin);
+			m_bottomMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "bmargin", defaultVMargin);
 
 			m_pageWidth = m_paperWidth - (m_leftMargin + m_rightMargin);
 		}
@@ -265,7 +265,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void CalculateWidestColumnHeadingText(DataGridViewColumn column)
 		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[column.Name];
+			PaFieldInfo fieldInfo = App.Project.FieldInfo[column.Name];
 
 			using (Font fnt = new Font(FontHelper.UIFont.FontFamily, kheadingFontSize,
 				FontStyle.Bold, GraphicsUnit.Point))
@@ -331,7 +331,7 @@ namespace SIL.Pa.UI.Controls
 			Font columnFont =
 				(m_grid.Columns[colIndex].DefaultCellStyle.Font ?? FontHelper.UIFont);
 
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[colIndex].Name];
+			PaFieldInfo fieldInfo = App.Project.FieldInfo[m_grid.Columns[colIndex].Name];
 
 			// Are we looking at a phonetic cell for a search result word list?
 			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
@@ -389,7 +389,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache.IsForSearchResults)
 			{
 				Dictionary<int, int> colorReferences;
-				m_rtfBldr.AppendLine(RtfHelper.ColorTable(PaApp.QuerySearchItemBackColor, out colorReferences));
+				m_rtfBldr.AppendLine(RtfHelper.ColorTable(App.QuerySearchItemBackColor, out colorReferences));
 			}
 
 			m_rtfBldr.AppendLine(@"\pard\plain ");
@@ -438,9 +438,9 @@ namespace SIL.Pa.UI.Controls
 			}
 			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,	ktab, PaApp.Project.ProjectName);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,	ktab, App.Project.Name);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrLanguageName, ktab, PaApp.Project.Language);
+			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrLanguageName, ktab, App.Project.LanguageName);
 			m_rtfBldr.AppendLine(kline);
 			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrDateTimeName, ktab, DateTime.Now);
 			
@@ -475,7 +475,7 @@ namespace SIL.Pa.UI.Controls
 			preferredPageWidth += (m_colRightPadding * (m_maxFieldWidths.Count - 1));
 
 			// By default, if the data is too wide for portrait, landscape is tried.
-			bool tryLandscapeWhenDataTooWide = PaApp.SettingsHandler.GetBoolSettingsValue(
+			bool tryLandscapeWhenDataTooWide = App.SettingsHandler.GetBoolSettingsValue(
 				"RTFExport", "trylandscape", true);
 
 			if (preferredPageWidth > m_pageWidth && tryLandscapeWhenDataTooWide)
@@ -494,7 +494,7 @@ namespace SIL.Pa.UI.Controls
 
 			// By default, the paper width will not be set to a
 			// custom width in order to accomodate all the data.
-			bool useCustomPaperWidth = PaApp.SettingsHandler.GetBoolSettingsValue(
+			bool useCustomPaperWidth = App.SettingsHandler.GetBoolSettingsValue(
 				"RTFExport", "usecustompaperwidth", false);
 
 			if (preferredPageWidth > m_pageWidth && useCustomPaperWidth)
@@ -507,7 +507,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			// Default for minimum column width is 1/4" (only applies to non phonetic columns).
-			int minColWidthAllowed = PaApp.SettingsHandler.GetIntSettingsValue(
+			int minColWidthAllowed = App.SettingsHandler.GetIntSettingsValue(
 				"RTFExport", "minimumcolwidth", 360);
 
 			List<int> colsAtMinWidth = new List<int>();
@@ -574,7 +574,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void OutputDataColumnWidthInformation(int colIndex, int width)
 		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_grid.Columns[colIndex].Name];
+			PaFieldInfo fieldInfo = App.Project.FieldInfo[m_grid.Columns[colIndex].Name];
 
 			// Create the 2 tabs for the aligning the Phonetic column's search item
 			if (fieldInfo.IsPhonetic && m_cache.IsForSearchResults)
@@ -671,7 +671,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_fontSizes = new Dictionary<string, int>();
 
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
 			{
 				if (fieldInfo.Font != null)
 					m_fontSizes[fieldInfo.FieldName] = (int)(fieldInfo.Font.SizeInPoints * 2);
@@ -706,7 +706,7 @@ namespace SIL.Pa.UI.Controls
 				if (colName == string.Empty)
 					continue;
 
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[colName];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[colName];
 				int fontNumber = m_fontNumbers[colName];
 				int fontSize = m_fontSizes[colName];
 				string colValue = col.Value[(int)ArrayDataType.GroupingFieldName].ToString().Replace("\\", "\\\\");
@@ -764,7 +764,7 @@ namespace SIL.Pa.UI.Controls
 			if (grid != null && grid.GroupByField != null)
 				groupFieldName = grid.GroupByField.FieldName;
 			else if (m_cache.IsCIEList)
-				groupFieldName = PaApp.FieldInfo.PhoneticField.FieldName;
+				groupFieldName = App.FieldInfo.PhoneticField.FieldName;
 			
 			int fontNumber = (string.IsNullOrEmpty(groupFieldName) ? 0 : m_fontNumbers[groupFieldName]);
 			int fontSize = (string.IsNullOrEmpty(groupFieldName) ? 20 : m_fontSizes[groupFieldName]);
@@ -795,7 +795,7 @@ namespace SIL.Pa.UI.Controls
 
 			// By default, put 12 points of space between the
 			// group heading and the row above it.
-			int spaceB4GrpHdg = PaApp.SettingsHandler.GetIntSettingsValue(
+			int spaceB4GrpHdg = App.SettingsHandler.GetIntSettingsValue(
 				"RTFExport", "spacebeforegroupheading", 240);
 
 			m_rtfBldr.AppendFormat(@"\sb{0}\f{1} \fs{2}{{\b ", spaceB4GrpHdg, fontNumber, fontSize);
@@ -809,7 +809,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				// Underline the group heading, by default.
-				if (PaApp.SettingsHandler.GetBoolSettingsValue("RTFExport",	"brdrundergroupheading", true))
+				if (App.SettingsHandler.GetBoolSettingsValue("RTFExport",	"brdrundergroupheading", true))
 					m_rtfBldr.Append(@"\brdrb\brdrs\brdrw10\brsp20");
 
 				m_rtfBldr.Append(kparagraph);
@@ -844,7 +844,7 @@ namespace SIL.Pa.UI.Controls
 				ResourceHelper.GetString("kstidFileTypeAllFiles");
 
 			int filterIndex = 0;
-			string filename = PaApp.SaveFileDialog("rtf", filter, ref filterIndex,
+			string filename = App.SaveFileDialog("rtf", filter, ref filterIndex,
 				Properties.Resources.kstidRTFExportCaptionSFD, string.Empty);
 
 			if (filename != string.Empty)

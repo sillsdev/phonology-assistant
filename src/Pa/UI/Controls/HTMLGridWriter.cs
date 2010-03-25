@@ -157,7 +157,7 @@ namespace SIL.Pa.UI.Controls
 				element.SetAttribute("class", "colhead");
 
 				// If the column is phonetic then we know it will span three columns.
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[col.Name];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[col.Name];
 				if (m_isForSearchResult && fieldInfo != null && fieldInfo.IsPhonetic)
 					element.SetAttribute("colspan", "3");
 				
@@ -201,7 +201,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			foreach (DataGridViewColumn col in m_sortedColList.Values)
 			{
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[col.Name];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[col.Name];
 				if (!m_isForSearchResult || fieldInfo == null || !fieldInfo.IsPhonetic)
 					WriteRowDataValue(col.Name, row.Cells[col.Index].Value as string);
 				else

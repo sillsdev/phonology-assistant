@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			lnkApplyToAll.Font = FontHelper.UIFont;
@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Controls
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
 
-			int fontsize = PaApp.SettingsHandler.GetIntSettingsValue(
+			int fontsize = App.SettingsHandler.GetIntSettingsValue(
 				"searchoptionsdropdown", "pickerlabelfontsize", 0);
 
 			if (fontsize > 0)
@@ -106,10 +106,10 @@ namespace SIL.Pa.UI.Controls
 			// and the group in which they are contained.
 			int dxGrpPickerDiff = grpPadding.Left + grpPadding.Right;
 
-			int extraWidth = PaApp.SettingsHandler.GetIntSettingsValue(
+			int extraWidth = App.SettingsHandler.GetIntSettingsValue(
 				"searchoptionsdropdown", "extrapickerlabelwidth", 0);
 
-			int extraHeight = PaApp.SettingsHandler.GetIntSettingsValue(
+			int extraHeight = App.SettingsHandler.GetIntSettingsValue(
 				"searchoptionsdropdown", "extrapickerlabelheight", 3);
 
 			// Get the difference between a group's left edge and the
@@ -174,7 +174,7 @@ namespace SIL.Pa.UI.Controls
 			base.OnVisibleChanged(e);
 
 			// This is a kludge but I don't know any othe way to give the drop-down focus.
-			if (Visible && !PaApp.DesignMode)
+			if (Visible && !App.DesignMode)
 				SendKeys.Send("{DOWN}");
 		}
 
@@ -299,7 +299,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (item.Checked)
 				{
-					ignoreList.Append(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
+					ignoreList.Append(item.Text.Replace(App.kDottedCircle, string.Empty));
 					ignoreList.Append(',');
 				}
 			}
@@ -318,7 +318,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button's text to see if it's found in the ignore list.
-				string chr = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
+				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
 				item.Checked = (ignoreList != null && ignoreList.Contains(chr));
 				item.Tag = item.Checked;
 			}

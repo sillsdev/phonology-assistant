@@ -34,23 +34,23 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw()
 		{
-			if (!PaApp.DesignMode)
+			if (!App.DesignMode)
 			{
-				PaApp.InitializeProgressBarForLoadingView(
+				App.InitializeProgressBarForLoadingView(
 					Properties.Resources.kstidDataCorpusViewText, 2);
 			}
 
 			InitializeComponent();
 			Name = "DataCorpusVw";
 
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			LoadToolbar();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			LoadWindow();
-			PaApp.UninitializeProgressBar();
+			App.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
 		}
@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_tmAdapter != null)
 			{
-				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
 			}
 
@@ -75,11 +75,11 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
-				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				string[] defs = new string[1];
-				defs[0] = Path.Combine(PaApp.ConfigFolder, "DataCorpusTMDefinition.xml");
-				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
+				defs[0] = Path.Combine(App.ConfigFolder, "DataCorpusTMDefinition.xml");
+				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 		}
@@ -147,7 +147,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
-				m_grid.SortOptions = PaApp.Project.DataCorpusVwSortOptions;
+				m_grid.SortOptions = App.Project.DataCorpusVwSortOptions;
 				m_grid.IsCurrentPlaybackGrid = true;
 				m_grid.UseWaitCursor = false;
 				m_grid.Cursor = Cursors.Default;
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadWindow()
 		{
 			WordListCache cache = new WordListCache();
-			foreach (WordCacheEntry entry in PaApp.WordCache)
+			foreach (WordCacheEntry entry in App.WordCache)
 				cache.Add(entry);
 
 			Initialize(cache);
@@ -240,8 +240,8 @@ namespace SIL.Pa.UI.Views
 			m_grid.SaveSettings();
 			
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
+					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
 					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
 				}
 				catch { }
@@ -351,7 +351,7 @@ namespace SIL.Pa.UI.Views
 			}
 
 			m_playbackSpeedAdjuster.PlaybackSpeed =
-				PaApp.SettingsHandler.GetIntSettingsValue(GetType().Name, "playbackspeed", 100);
+				App.SettingsHandler.GetIntSettingsValue(GetType().Name, "playbackspeed", 100);
 
 			return true;
 		}
@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			PaApp.SettingsHandler.SaveSettingsValue(GetType().Name, "playbackspeed",
+			App.SettingsHandler.SaveSettingsValue(GetType().Name, "playbackspeed",
 				m_playbackSpeedAdjuster.PlaybackSpeed);
 		
 			return true;
@@ -384,7 +384,7 @@ namespace SIL.Pa.UI.Views
 			base.OnHandleCreated(e);
 
 			RawRecViewOn =
-				PaApp.SettingsHandler.GetBoolSettingsValue(Name, "recordpanevisible", true);
+				App.SettingsHandler.GetBoolSettingsValue(Name, "recordpanevisible", true);
 
 			OnViewDocked(this);
 			m_initialDock = true;
@@ -493,7 +493,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView || itemProps == null || itemProps.Name.StartsWith("tbb"))
 				return false;
 
-			m_grid.BuildGroupByMenu(itemProps.Name, PaApp.TMAdapter);
+			m_grid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);
 			return true;
 		}
 
@@ -513,7 +513,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.SortOptions.SortInformationList.Count > 0)
 			{
 				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
-				if (PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+				if (App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
 					m_grid.ToggleGroupExpansion(false);
 			}
 
@@ -879,7 +879,7 @@ namespace SIL.Pa.UI.Views
 
 			string defaultHTMLFileName =
 				string.Format(Properties.Resources.kstidDataCorpusHTMLFileName,
-				PaApp.Project.Language);
+				App.Project.LanguageName);
 
 			string outputFileName = HTMLGridWriter.Export(m_grid, defaultHTMLFileName,
 				new[] { Properties.Resources.kstidDataCorpusHTMLChartType });

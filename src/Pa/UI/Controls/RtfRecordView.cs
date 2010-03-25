@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Controls
 			TabStop = false;
 			WordWrap = false;
 
-			if (!PaApp.DesignMode)
+			if (!App.DesignMode)
 				UpdateFonts();
 		}
 
@@ -155,11 +155,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_uiFontSize = (int)FontHelper.UIFont.SizeInPoints * 2;
 
-			if (PaApp.Project.FieldInfo == null)
+			if (App.Project.FieldInfo == null)
 				return;
 
 			m_fontSizes = new Dictionary<string, int>();
-			foreach (PaFieldInfo fieldInfo in PaApp.Project.FieldInfo)
+			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
 			{
 				if (fieldInfo.Font != null)
 				{
@@ -202,7 +202,7 @@ namespace SIL.Pa.UI.Controls
 			if (entry == m_recEntry && !forceUpdate)
 				return;
 
-			if (m_fontSizes.Count != PaApp.FieldInfo.Count)
+			if (m_fontSizes.Count != App.FieldInfo.Count)
 				UpdateFonts(false);
 
 			m_recEntry = entry;
@@ -266,7 +266,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			StringBuilder lines = new StringBuilder(m_rtf);
 			Dictionary<int, int> colorReferences;
-			Color clrFieldLabel = PaApp.RecordViewFieldLabelColor;
+			Color clrFieldLabel = App.RecordViewFieldLabelColor;
 			lines.AppendLine();
 			lines.AppendLine(RtfHelper.ColorTable(clrFieldLabel, out colorReferences));
 
@@ -346,13 +346,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetLargestFontInfo()
 		{
-			m_useExactLineSpacing = PaApp.SettingsHandler.GetBoolSettingsValue(
+			m_useExactLineSpacing = App.SettingsHandler.GetBoolSettingsValue(
 				"rtfrecview", "useexactlinespacing", false);
 			
 			if (!m_useExactLineSpacing)
 				return;
 
-			float exactLineHeightMultiplier = PaApp.SettingsHandler.GetIntSettingsValue(
+			float exactLineHeightMultiplier = App.SettingsHandler.GetIntSettingsValue(
 				"rtfrecview", "percentageofexactlineheighttouse", 1) / 100f;
 						
 			float dpiY;
@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Controls
 
 			for (int i = 0; i < m_rtfFields.Count; i++)
 			{
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[m_rtfFields[i].field];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[m_rtfFields[i].field];
 
 				if (fieldInfo != null && maxFontHeight < fieldInfo.Font.GetHeight(dpiY))
 				{
@@ -467,7 +467,7 @@ namespace SIL.Pa.UI.Controls
 				// from the record cache entry. Don't bother with fields whose value is null,
 				// those that aren't supposed to be visible in the record view, and those
 				// that are interlinear (interlinear fields are handled above).
-				foreach (PaFieldInfo field in PaApp.Project.FieldInfo)
+				foreach (PaFieldInfo field in App.Project.FieldInfo)
 				{
 					string fieldValue = m_recEntry[field.FieldName];
 					if (!field.VisibleInRecView || field.DisplayIndexInRecView < 0 ||
@@ -524,7 +524,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (string field in m_recEntry.InterlinearFields)
 			{
-				PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[field];
+				PaFieldInfo fieldInfo = App.Project.FieldInfo[field];
 				string[] colValues = m_recEntry.GetParsedFieldValues(fieldInfo, true);
 				if (fieldInfo == null || !fieldInfo.VisibleInRecView ||
 					fieldInfo.DisplayIndexInRecView < 0 || colValues == null)
@@ -737,7 +737,7 @@ namespace SIL.Pa.UI.Controls
 			RTFFieldInfo secondField;
 			GetFirstAndSecondInterlinearFields(out firstField, out secondField);
 
-			Font firstLineFont = PaApp.FieldInfo[firstField.field].Font;
+			Font firstLineFont = App.FieldInfo[firstField.field].Font;
 			int numInterlinearColumns = firstField.columnValues.Length;
 
 			using (Graphics g = CreateGraphics())
@@ -833,7 +833,7 @@ namespace SIL.Pa.UI.Controls
 					continue;
 				}
 
-				PaFieldInfo fieldInfo = PaApp.FieldInfo[m_rtfFields[row].field];
+				PaFieldInfo fieldInfo = App.FieldInfo[m_rtfFields[row].field];
 				int width = TextRenderer.MeasureText(g,
 					m_rtfFields[row].parsedColValues[col][subcol],
 					fieldInfo.Font, Size.Empty, m_txtFmtFlags).Width;

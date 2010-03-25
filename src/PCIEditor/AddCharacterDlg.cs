@@ -12,7 +12,7 @@ namespace SIL.Pa
 	public partial class AddCharacterDlg : OKCancelDlgBase
 	{
 		private readonly string m_invalidPhoneticChars = "{}[],_/<>$+#=*%CV" +
-			PaApp.kOrc + PaApp.kDottedCircle;
+			App.kOrc + App.kDottedCircle;
 
 		private const string kInvalidPhoneticCharsDisplay =
 			"{ } [ ] <> ( ) , $ _ % # / + = * C V\n\nU+25CC and U+FFFC";
@@ -217,8 +217,8 @@ namespace SIL.Pa
 			{
 				m_aMask = ((IPASymbol)row.Tag).AMask.Clone();
 				m_bMask = ((IPASymbol)row.Tag).BMask.Clone();
-				txtArticulatory.Text = PaApp.AFeatureCache.GetFeaturesText(m_aMask);
-				txtBinary.Text = PaApp.BFeatureCache.GetFeaturesText(m_bMask);
+				txtArticulatory.Text = App.AFeatureCache.GetFeaturesText(m_aMask);
+				txtBinary.Text = App.BFeatureCache.GetFeaturesText(m_bMask);
 			}
 
 			// Identity
@@ -901,7 +901,7 @@ namespace SIL.Pa
 			if (m_pciEditor.m_lvAFeatures.CurrentMask != m_aMask)
 			{
 				m_aMask = m_pciEditor.m_lvAFeatures.CurrentMask;
-				txtArticulatory.Text = PaApp.AFeatureCache.GetFeaturesText(m_aMask);
+				txtArticulatory.Text = App.AFeatureCache.GetFeaturesText(m_aMask);
 				m_dirty = true;
 			}
 		}
@@ -917,7 +917,7 @@ namespace SIL.Pa
 			if (m_pciEditor.m_lvBFeatures.CurrentMask != m_bMask)
 			{
 				m_bMask = m_pciEditor.m_lvBFeatures.CurrentMask;
-				txtBinary.Text = PaApp.BFeatureCache.GetFeaturesText(m_bMask);
+				txtBinary.Text = App.BFeatureCache.GetFeaturesText(m_bMask);
 				m_dirty = true;
 			}
 		}

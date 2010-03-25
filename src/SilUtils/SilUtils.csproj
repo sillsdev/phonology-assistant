@@ -133,7 +133,7 @@
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="SettingsHandler.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="XMLHelper.cs" />
+    <Compile Include="XmlHelper.cs" />
     <Compile Include="XmlSerializationHelper.cs" />
   </ItemGroup>
   <ItemGroup>

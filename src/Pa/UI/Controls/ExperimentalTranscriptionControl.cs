@@ -81,7 +81,7 @@ namespace SIL.Pa.UI.Controls
 			BuildGrid();
 			LoadGrid();
 
-			PaApp.MsgMediator.AddColleague(this);
+			App.MsgMediator.AddColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			PaApp.MsgMediator.RemoveColleague(this);
+			App.MsgMediator.RemoveColleague(this);
 			base.Dispose(disposing);
 		}
 
@@ -157,7 +157,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			ExperimentalTranscriptions expList = PaApp.IPASymbolCache.ExperimentalTranscriptions;
+			TranscriptionChanges expList = App.IPASymbolCache.TranscriptionChanges;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -169,7 +169,7 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Rows.Add(expList.Count);
 
 			int i = 0;
-			foreach (ExperimentalTrans info in expList)
+			foreach (TranscriptionChange info in expList)
 			{
 				m_grid[0, i].Value = info.ConvertFromItem;
 				bool noneChecked = false;
@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Columns.Add(new RadioButtonColumn("col" + m_grid.Columns.Count));
 			m_grid.EndEdit();
 
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			App.SettingsHandler.LoadGridProperties(m_grid);
 			m_grid.Invalidate();
 
 			// Make sure the grid is not considered to be dirty after loading it.
@@ -327,7 +327,7 @@ namespace SIL.Pa.UI.Controls
 			// finished processing the RowsRemoved event. Therefore, I have moved the steps
 			// I need to perform into a post message handler so the grid can completely
 			// finish its handling of removed rows before I do my part.
-			PaApp.MsgMediator.PostMessage("RowWasRemoved", e.RowIndex);
+			App.MsgMediator.PostMessage("RowWasRemoved", e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -411,14 +411,14 @@ namespace SIL.Pa.UI.Controls
 			// empty column (which is for columns as the new row is for rows).
 			if (string.IsNullOrEmpty(m_grid.Rows[e.RowIndex].Cells[0].Value as string))
 			{
-				PaApp.MsgMediator.PostMessage("RemoveRow", e.RowIndex);
+				App.MsgMediator.PostMessage("RemoveRow", e.RowIndex);
 				return;
 			}
 			
 			if (IsRowFull(m_grid.Rows[e.RowIndex]))
 				m_grid.Columns.Add(new RadioButtonColumn());
-			else if (AreLastTwoColumnsEmpty && PaApp.MsgMediator != null)
-				PaApp.MsgMediator.PostMessage("RemoveLastColumn", e.RowIndex);
+			else if (AreLastTwoColumnsEmpty && App.MsgMediator != null)
+				App.MsgMediator.PostMessage("RemoveLastColumn", e.RowIndex);
 
 			if (e.ColumnIndex > kCnvrtCol)
 			{
@@ -515,7 +515,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (DataGridViewColumn col in m_grid.Columns)
 				col.Name = "col" + col.DisplayIndex;
 
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+			App.SettingsHandler.SaveGridProperties(m_grid);
 
 			if (e.Column.Index == 0)
 				RefreshHeader();
@@ -698,13 +698,13 @@ namespace SIL.Pa.UI.Controls
 			// Commit pending changes in the grid.
 			m_grid.EndEdit();
 
-			ExperimentalTranscriptions experimentalTransList = new ExperimentalTranscriptions();
+			TranscriptionChanges experimentalTransList = new TranscriptionChanges();
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				if (row.Index == m_grid.NewRowIndex)
 					continue;
 
-				ExperimentalTrans experimentalTrans = new ExperimentalTrans();
+				TranscriptionChange experimentalTrans = new TranscriptionChange();
 				experimentalTrans.ConvertFromItem = (row.Cells[0].Value as string);
 				experimentalTrans.Convert = GetRowsConvertValue(row.Index);
 
@@ -726,11 +726,11 @@ namespace SIL.Pa.UI.Controls
 				experimentalTransList.Add(experimentalTrans);
 			}
 
-			PaApp.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
-			experimentalTransList.Save(PaApp.Project.ProjectPathFilePrefix);
-			PaApp.IPASymbolCache.ExperimentalTranscriptions = experimentalTransList;
+			App.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
+			experimentalTransList.Save(App.Project.ProjectPathFilePrefix);
+			App.IPASymbolCache.TranscriptionChanges = experimentalTransList;
 			m_grid.IsDirty = false;
-			PaApp.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
+			App.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
 		}
 
 		#endregion
@@ -903,8 +903,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonCell()
 		{
-			if (PaApp.Project.FieldInfo.CVPatternField != null)
-				m_fntCV = PaApp.Project.FieldInfo.CVPatternField.Font;
+			if (App.Project.FieldInfo.CVPatternField != null)
+				m_fntCV = App.Project.FieldInfo.CVPatternField.Font;
 
 			m_noneText = LocalizationManager.LocalizeString(
 				"ExperimentalTranscriptionsDlg.DontConvertText", "None",
@@ -1336,7 +1336,7 @@ namespace SIL.Pa.UI.Controls
 				//bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
 				
 				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
-					PaApp.PhoneCache.GetCVPattern(Value as string, false));
+					App.PhoneCache.GetCVPattern(Value as string, false));
 			}
 		}
 	}

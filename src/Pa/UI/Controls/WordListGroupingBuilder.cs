@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (s_numberOfBeforePhonesToMatch < 0)
 				{
-					s_numberOfBeforePhonesToMatch = PaApp.SettingsHandler.GetIntSettingsValue(
+					s_numberOfBeforePhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
 						"phonestomatchforgrouping", "before", 1); 
 				}
 				
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				s_numberOfBeforePhonesToMatch = value;
-				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "before", value);
+				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "before", value);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (s_numberOfAfterPhonesToMatch < 0)
 				{
-					s_numberOfAfterPhonesToMatch = PaApp.SettingsHandler.GetIntSettingsValue(
+					s_numberOfAfterPhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
 						"phonestomatchforgrouping", "after", 1); 
 				}
 				
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				s_numberOfAfterPhonesToMatch = value;
-				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "after", value);
+				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "after", value);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (s_numberOfBeforePhonesToMatchCIE < 0)
 				{
-					s_numberOfBeforePhonesToMatch = PaApp.SettingsHandler.GetIntSettingsValue(
+					s_numberOfBeforePhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
 						"phonestomatchforgrouping", "beforecie", 0);
 				}
 
@@ -105,7 +105,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				s_numberOfBeforePhonesToMatchCIE = value;
-				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "beforecie", value);
+				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "beforecie", value);
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (s_numberOfAfterPhonesToMatchCIE < 0)
 				{
-					s_numberOfAfterPhonesToMatchCIE = PaApp.SettingsHandler.GetIntSettingsValue(
+					s_numberOfAfterPhonesToMatchCIE = App.SettingsHandler.GetIntSettingsValue(
 						"phonestomatchforgrouping", "aftercie", 0);
 				}
 
@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				s_numberOfAfterPhonesToMatchCIE = value;
-				PaApp.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "aftercie", value);
+				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "aftercie", value);
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace SIL.Pa.UI.Controls
 				grid.Invalidate();
 
 				if (grid.GroupByField != null)
-					PaApp.MsgMediator.SendMessage("AfterWordListGroupedByField", grid);
+					App.MsgMediator.SendMessage("AfterWordListGroupedByField", grid);
 			}
 		}
 
@@ -171,7 +171,7 @@ namespace SIL.Pa.UI.Controls
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalUnGroup();
 				Utils.SetWindowRedraw(grid, true, true);
-				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
+				App.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}
 

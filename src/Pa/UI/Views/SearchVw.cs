@@ -51,10 +51,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			PaApp.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
+			App.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
 			InitializeComponent();
 			Name = "SearchVw";
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			hlblRecentPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblSavedPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
@@ -64,21 +64,21 @@ namespace SIL.Pa.UI.Views
 			LoadToolbarAndContextMenus();
 
 			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			SetToolTips();
 			SetupSidePanelContents();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			SetupSlidingPanel();
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 			OnPaFontsChanged(null);
-			PaApp.IncProgressBar();
+			App.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 
 			LoadSettings();
-			PaApp.IncProgressBar();
-			PaApp.UninitializeProgressBar();
+			App.IncProgressBar();
+			App.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
 			ReflectionHelper.SetProperty(splitOuter, "DoubleBuffered", true);
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Views
 					// Make sure the user isn't in the middle of editing a saved pattern's name.
 					if (tvSavedPatterns.SelectedNode == null || !tvSavedPatterns.SelectedNode.IsEditing)
 					{
-						PaApp.MsgMediator.SendMessage("SavePattern", null);
+						App.MsgMediator.SendMessage("SavePattern", null);
 						return true;
 					}
 				}
@@ -178,7 +178,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_tmAdapter != null)
 			{
-				PaApp.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
 			}
 
@@ -191,12 +191,12 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
-				PaApp.PrepareAdapterForLocalizationSupport(m_tmAdapter);
+				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				string[] defs = new string[1];
-				defs[0] = Path.Combine(PaApp.ConfigFolder, "SearchTMDefinition.xml");
-				m_tmAdapter.Initialize(this, PaApp.MsgMediator, PaApp.ApplicationRegKeyPath, defs);
+				defs[0] = Path.Combine(App.ConfigFolder, "SearchTMDefinition.xml");
+				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
 
@@ -292,7 +292,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private static bool ShowClassNames
 		{
-			get { return (PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns); }
+			get { return (App.Project == null || App.Project.ShowClassNamesInSearchPatterns); }
 		}
 		
 		#endregion
@@ -368,9 +368,9 @@ namespace SIL.Pa.UI.Views
 		public void SaveSettings()
 		{
 			if (m_slidingPanel.SlideFromLeft)
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
+				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
 			else
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel2Collapsed);
+				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel2Collapsed);
 
 			tvSavedPatterns.SaveSettings();
 
@@ -379,7 +379,7 @@ namespace SIL.Pa.UI.Views
 			for (int i = 0; i < lstRecentPatterns.Items.Count; i++)
 				recentList.Add(lstRecentPatterns.Items[i] as SearchQuery);
 
-			string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
+			string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
 				Utils.SerializeData(path, recentList);
 			else
@@ -387,19 +387,19 @@ namespace SIL.Pa.UI.Views
 
 			ptrnBldrComponent.SaveSettings(Name);
 
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RecordViewOn);
+			App.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RecordViewOn);
 
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
 
 			splitRatio = splitResults.SplitterDistance / (float)splitResults.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
 
 			splitRatio = splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
 
 			splitRatio = splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -432,16 +432,16 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
+					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
 					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
 					splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
 					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
 
-					splitRatio = PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
+					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
 					splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height * splitRatio);
 				}
 				catch { }
@@ -516,7 +516,7 @@ namespace SIL.Pa.UI.Views
 		{
 			ptrnBldrComponent.LoadSettings(Name);
 
-			bool sidePanelDocked = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			bool sidePanelDocked = App.SettingsHandler.GetBoolSettingsValue(Name,
 				"sidepaneldocked", true);
 
 			if (sidePanelDocked)
@@ -528,12 +528,12 @@ namespace SIL.Pa.UI.Views
 			m_initialDock = true;
 			m_slidingPanel.LoadSettings();
 
-			m_rsltVwMngr.RecordViewOn = PaApp.SettingsHandler.GetBoolSettingsValue(Name,
+			m_rsltVwMngr.RecordViewOn = App.SettingsHandler.GetBoolSettingsValue(Name,
 				"recordpanevisible", true);
 
 			try
 			{
-				string path = Path.Combine(PaApp.DefaultProjectFolder, kRecentlyUsedPatternFile);
+				string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
 				List<SearchQuery> recentList = Utils.DeserializeData(path,
 					typeof(List<SearchQuery>)) as List<SearchQuery>;
 
@@ -581,7 +581,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnCategoryCut_Click(object sender, EventArgs e)
 		{
-			PaApp.MsgMediator.SendMessage("CutSavedPattern", btnCategoryCut);
+			App.MsgMediator.SendMessage("CutSavedPattern", btnCategoryCut);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -591,7 +591,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnCategoryCopy_Click(object sender, EventArgs e)
 		{
-			PaApp.MsgMediator.SendMessage("CopySavedPattern", btnCategoryCopy);
+			App.MsgMediator.SendMessage("CopySavedPattern", btnCategoryCopy);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -601,7 +601,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnCategoryPaste_Click(object sender, EventArgs e)
 		{
-			PaApp.MsgMediator.SendMessage("PasteSavedPattern", btnCategoryPaste);
+			App.MsgMediator.SendMessage("PasteSavedPattern", btnCategoryPaste);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -813,7 +813,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
-			PaApp.ShowHelpTopic("hidSearchOptionsSearchView");
+			App.ShowHelpTopic("hidSearchOptionsSearchView");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -899,7 +899,7 @@ namespace SIL.Pa.UI.Views
 		{
 			// This is just like clicking the "Show Results" button.
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
-			PaApp.MsgMediator.SendMessage("ShowResults", itemProps);
+			App.MsgMediator.SendMessage("ShowResults", itemProps);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -932,7 +932,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (splitResults.Panel1.Controls.Count == 0)
 			{
-				PaApp.DrawWatermarkImage("kimidSearchWatermark", e.Graphics,
+				App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics,
 					splitResults.Panel1.ClientRectangle);
 			}
 		}
@@ -974,8 +974,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			if (!string.IsNullOrEmpty(item.Text.Replace(PaApp.kDottedCircle, string.Empty)))
-				ptrnTextBox.Insert(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
+			if (!string.IsNullOrEmpty(item.Text.Replace(App.kDottedCircle, string.Empty)))
+				ptrnTextBox.Insert(item.Text.Replace(App.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1006,7 +1006,7 @@ namespace SIL.Pa.UI.Views
 				if (item != null)
 				{
 					ptrnTextBox.Insert((item.Pattern == null || ShowClassNames ?
-						PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket : item.Pattern));
+						App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern));
 				}
 			}
 		}
@@ -1051,7 +1051,7 @@ namespace SIL.Pa.UI.Views
 				if (item != null)
 				{
 					dragText = (item.Pattern == null || ShowClassNames ?
-						PaApp.kOpenClassBracket + item.Text + PaApp.kCloseClassBracket :
+						App.kOpenClassBracket + item.Text + App.kCloseClassBracket :
 						item.Pattern);
 				}
 			}
@@ -1062,7 +1062,7 @@ namespace SIL.Pa.UI.Views
 			if (dragText != null)
 			{
 				SearchQuery query = new SearchQuery();
-				query.Pattern = dragText.Replace(PaApp.kDottedCircle, string.Empty);
+				query.Pattern = dragText.Replace(App.kDottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
 			}
@@ -1129,7 +1129,7 @@ namespace SIL.Pa.UI.Views
 
 			// If we've exceeded the number of queries to save in
 			// the list then remove the last one.
-			if (lstRecentPatterns.Items.Count > PaApp.NumberOfRecentlyUsedQueries)
+			if (lstRecentPatterns.Items.Count > App.NumberOfRecentlyUsedQueries)
 				lstRecentPatterns.Items.RemoveAt(lstRecentPatterns.Items.Count - 1);
 
 			OnUpdateRemovePattern(null);
@@ -1416,9 +1416,9 @@ namespace SIL.Pa.UI.Views
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
 			
-			int fontsz = PaApp.SettingsHandler.GetIntSettingsValue(Name, "recentpatternslistfontsize", 10);
+			int fontsz = App.SettingsHandler.GetIntSettingsValue(Name, "recentpatternslistfontsize", 10);
 			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
-			fontsz = PaApp.SettingsHandler.GetIntSettingsValue(Name, "savedpatternslistfontsize", 10);
+			fontsz = App.SettingsHandler.GetIntSettingsValue(Name, "savedpatternslistfontsize", 10);
 			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
 
 			pnlCurrPattern.Invalidate();

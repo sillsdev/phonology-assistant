@@ -54,30 +54,31 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaMainWnd(bool showSplashScreen) : this()
+		public PaMainWnd(bool showSplashScreen)
+			: this()
 		{
 			if (showSplashScreen)
-				PaApp.ShowSplashScreen();
+				App.ShowSplashScreen();
 
 			sblblMain.Text = string.Empty;
-			PaApp.MainForm = this;
-			PaApp.StatusBarLabel = sblblMain;
-			PaApp.ProgressBar = sbProgress;
-			PaApp.ProgressBarLabel = sblblProgress;
-			PaApp.AddMediatorColleague(this);
+			App.MainForm = this;
+			App.StatusBarLabel = sblblMain;
+			App.ProgressBar = sbProgress;
+			App.ProgressBarLabel = sblblProgress;
+			App.AddMediatorColleague(this);
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
 			sblblFilter.Text = string.Empty;
 			sblblFilter.Visible = false;
 			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
 
-			base.MinimumSize = PaApp.MinimumViewWindowSize;
+			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
 			SetUIFont();
 			Show();
 
-			if (PaApp.SplashScreen != null && PaApp.SplashScreen.StillAlive)
-				PaApp.SplashScreen.Activate();
+			if (App.SplashScreen != null && App.SplashScreen.StillAlive)
+				App.SplashScreen.Activate();
 
 			Application.DoEvents();
 
@@ -91,21 +92,23 @@ namespace SIL.Pa.UI
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.
 			string projArg = (from args in Environment.GetCommandLineArgs()
-						where args.StartsWith("/o:") || args.StartsWith("-o:")
-						select args).FirstOrDefault();
+							  where args.StartsWith("/o:") || args.StartsWith("-o:")
+							  select args).FirstOrDefault();
 
 			if (projArg != null)
 				LoadProject(projArg.Substring(3));
 			else
-				LoadProject(PaApp.SettingsHandler.LastProject);
+				LoadProject(App.SettingsHandler.LastProject);
 
-			PaApp.CloseSplashScreen();
-			
-			if (PaApp.Project != null)
-				OnDataSourcesModified(PaApp.Project.ProjectName);
+			App.CloseSplashScreen();
 
-			OnFilterChanged(FilterHelper.CurrentFilter);
-			PaApp.MsgMediator.SendMessage("MainViewOpened", this);
+			if (App.Project != null)
+			{
+				OnDataSourcesModified(App.Project.Name);
+				OnFilterChanged(FilterHelper.CurrentFilter);
+			}
+
+			App.MsgMediator.SendMessage("MainViewOpened", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -118,22 +121,22 @@ namespace SIL.Pa.UI
 		{
 			const string kFontEntry = "UIFont";
 
-			string name = PaApp.SettingsHandler.GetStringSettingsValue(kFontEntry, "name", null);
+			string name = App.SettingsHandler.GetStringSettingsValue(kFontEntry, "name", null);
 			if (name == null)
 				return;
 
-			float size = PaApp.SettingsHandler.GetFloatSettingsValue(kFontEntry, "size",
+			float size = App.SettingsHandler.GetFloatSettingsValue(kFontEntry, "size",
 				SystemInformation.MenuFont.SizeInPoints);
 
 			FontStyle style = FontStyle.Regular;
 
-			if (PaApp.SettingsHandler.GetBoolSettingsValue(
+			if (App.SettingsHandler.GetBoolSettingsValue(
 				kFontEntry, "bold", SystemInformation.MenuFont.Bold))
 			{
 				style |= FontStyle.Bold;
 			}
 
-			if (PaApp.SettingsHandler.GetBoolSettingsValue(kFontEntry, "italic",
+			if (App.SettingsHandler.GetBoolSettingsValue(kFontEntry, "italic",
 				SystemInformation.MenuFont.Italic))
 			{
 				style |= FontStyle.Italic;
@@ -186,10 +189,10 @@ namespace SIL.Pa.UI
 			if (string.IsNullOrEmpty(projectFileName))
 				return;
 
-			if (PaApp.Project != null)
-				PaApp.Project.EnsureSortOptionsSaved();
+			if (App.Project != null)
+				App.Project.EnsureSortOptionsSaved();
 
-			PaApp.ProjectLoadInProcess = true;
+			App.ProjectLoadInProcess = true;
 			Utils.WaitCursors(true);
 			PaProject project = PaProject.Load(projectFileName, this);
 
@@ -197,40 +200,40 @@ namespace SIL.Pa.UI
 			{
 				vwTabGroup.CloseAllViews();
 
-				if (PaApp.Project != null)
-					PaApp.Project.Dispose();
+				if (App.Project != null)
+					App.Project.Dispose();
 
-				PaApp.Project = project;
-				PaApp.SettingsHandler.LastProject = projectFileName;
+				App.Project = project;
+				App.SettingsHandler.LastProject = projectFileName;
 
 				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
-					project.ProjectName, Application.ProductName);
+					project.Name, Application.ProductName);
 
 				// When there are already tabs it means there was a project loaded before
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
 				if (vwTabGroup.CurrentTab != null)
 				{
-					PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
+					App.SettingsHandler.SaveSettingsValue(Name, "currentview",
 						vwTabGroup.CurrentTab.ViewType.ToString());
 				}
 
 				LoadViewTabs();
 
 				// Make the last tab that was current the current one now.
-				Type type = Type.GetType(PaApp.SettingsHandler.GetStringSettingsValue(
+				Type type = Type.GetType(App.SettingsHandler.GetStringSettingsValue(
 					Name, "currentview", typeof(DataCorpusVw).FullName));
 
 				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
 
-				PaApp.AddProjectToRecentlyUsedProjectsList(projectFileName);
+				App.AddProjectToRecentlyUsedProjectsList(projectFileName);
 				
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
 			}
 
 			BackColor = vwTabGroup.BackColor;
-			PaApp.ProjectLoadInProcess = false;
+			App.ProjectLoadInProcess = false;
 			Utils.WaitCursors(false);
 		}
 
@@ -301,8 +304,8 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarsAndMenus()
 		{
-			m_tmAdapter = PaApp.LoadDefaultMenu(this);
-			PaApp.TMAdapter = m_tmAdapter;
+			m_tmAdapter = App.LoadDefaultMenu(this);
+			App.TMAdapter = m_tmAdapter;
 
 			// This item is only visible for the main PA window (i.e. this one).
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
@@ -345,7 +348,7 @@ namespace SIL.Pa.UI
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -356,26 +359,26 @@ namespace SIL.Pa.UI
 		protected override void OnClosing(CancelEventArgs e)
 		{
 			// Closing isn't allowed in the middle of loading a project.
-			if (PaApp.ProjectLoadInProcess)
+			if (App.ProjectLoadInProcess)
 			{
 				e.Cancel = true;
 				return;
 			}
 
-			if (PaApp.MsgMediator.SendMessage("PaShuttingDown", e))
+			if (App.MsgMediator.SendMessage("PaShuttingDown", e))
 			{
 				e.Cancel = true;
 				return;
 			}
 
-			if (PaApp.Project != null)
-				PaApp.Project.EnsureSortOptionsSaved();
+			if (App.Project != null)
+				App.Project.EnsureSortOptionsSaved();
 
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 
 			if (vwTabGroup.CurrentTab != null)
 			{
-				PaApp.SettingsHandler.SaveSettingsValue(Name, "currentview",
+				App.SettingsHandler.SaveSettingsValue(Name, "currentview",
 					vwTabGroup.CurrentTab.ViewType.ToString());
 			}
 
@@ -401,7 +404,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (PaApp.Project != null)
+			if (App.Project != null)
 			{
 				base.OnPaintBackground(e);
 				return;
@@ -434,7 +437,7 @@ namespace SIL.Pa.UI
 		{
 			base.OnResize(e);
 
-			if (PaApp.Project == null)
+			if (App.Project == null)
 				Invalidate();
 
 			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);

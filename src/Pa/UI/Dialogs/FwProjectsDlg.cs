@@ -73,17 +73,17 @@ namespace SIL.Pa.UI.Dialogs
 			base.OnHandleCreated(e);
 
 			float splitRatio =
-				PaApp.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
+				App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
 
 			// If the split ratio is zero, assume any form settings found were for the
 			// dialog as it was before my significant design changes made on 03-Oct-07.
 			if (splitRatio > 0)
 			{
-				PaApp.SettingsHandler.LoadFormProperties(this);
+				App.SettingsHandler.LoadFormProperties(this);
 				splitContainer1.SplitterDistance = (int)(splitContainer1.Width * splitRatio);
 			}
 
-			PaApp.MsgMediator.SendMessage(Name + "HandleCreated", this);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,9 +93,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveFormProperties(this);
 			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Width;
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
 			base.OnFormClosing(e);
 		}
 

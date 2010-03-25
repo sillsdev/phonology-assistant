@@ -101,7 +101,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					PaApp.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+					App.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
 			}
 			set { m_aFeatures = value; }
 		}
@@ -117,7 +117,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					PaApp.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+					App.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
 			}
 			set { m_bFeatures = value; }
 		}
@@ -134,14 +134,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_aMask == null || m_aMask.IsEmpty)
 				{
-					m_aMask = PaApp.AFeatureCache.GetMask(m_aFeatures);
+					m_aMask = App.AFeatureCache.GetMask(m_aFeatures);
 					if (m_aFeatures != null && m_aFeatures.Count > 0)
 						m_aFeatures = null;
 				}
 
 				return m_aMask;
 			}
-			set { m_aMask = (value ?? PaApp.AFeatureCache.GetEmptyMask()); }
+			set { m_aMask = (value ?? App.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,14 +156,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_bMask == null || m_bMask.IsEmpty)
 				{
-					m_bMask = PaApp.BFeatureCache.GetMask(m_bFeatures);
+					m_bMask = App.BFeatureCache.GetMask(m_bFeatures);
 					if (m_bFeatures != null && m_bFeatures.Count > 0)
 						m_bFeatures = null;
 				}
 
 				return m_bMask;
 			}
-			set { m_bMask = (value ?? PaApp.BFeatureCache.GetEmptyMask()); }
+			set { m_bMask = (value ?? App.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

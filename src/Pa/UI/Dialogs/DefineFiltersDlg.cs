@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 			hlblFilters.Font = FontHelper.UIFont;
 			lvFilters.Font = FontHelper.UIFont;
 			m_grid.Font = FontHelper.UIFont;
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				int splitDistance = PaApp.SettingsHandler.GetIntSettingsValue(Name, "splitter", 0);
+				int splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "splitter", 0);
 				if (splitDistance > 0)
 					splitFilters.SplitterDistance = splitDistance;
 			}
@@ -314,7 +314,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AllowUserToResizeColumns = true;
 			m_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
 
-			var fieldNames = (from x in PaApp.FieldInfo
+			var fieldNames = (from x in App.FieldInfo
 							  orderby x.DisplayText
 							  select x.DisplayText).ToList();
 
@@ -355,7 +355,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AutoResizeColumn(3, DataGridViewAutoSizeColumnMode.ColumnHeader);
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.ColumnHeadersHeight += 4;
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			App.SettingsHandler.LoadGridProperties(m_grid);
 			m_grid.IsDirty = false;
 		}
 
@@ -377,7 +377,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					string fieldName = expression.FieldName;
 					if (fieldName != FilterExpression.OtherFilterField)
-						fieldName = PaApp.FieldInfo[fieldName].DisplayText;
+						fieldName = App.FieldInfo[fieldName].DisplayText;
 
 					m_grid.Rows.Add(fieldName, m_operatorToText[expression.Operator],
 						expression.Pattern, m_expTypeToText[expression.ExpressionType]);
@@ -410,7 +410,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (e.ColumnIndex == 2)
 			{
 				string fieldName = m_grid[kFieldCol, e.RowIndex].Value as string;
-				PaFieldInfo fieldInfo = PaApp.FieldInfo[fieldName];
+				PaFieldInfo fieldInfo = App.FieldInfo[fieldName];
 				e.CellStyle.Font = (fieldInfo != null ? fieldInfo.Font : FontHelper.UIFont);
 			}
 		}
@@ -563,7 +563,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Force the field to be phonetic and the operation to be a match, then
 				// set those cells to readonly because those values are the only valid
 				// ones for the phonetic search pattern expression type.
-				m_grid[kFieldCol, row].Value = PaApp.FieldInfo.PhoneticField.DisplayText;
+				m_grid[kFieldCol, row].Value = App.FieldInfo.PhoneticField.DisplayText;
 				m_grid[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches];
 				m_grid[kFieldCol, row].ReadOnly = true;
 				m_grid[kOpCol, row].ReadOnly = true;
@@ -824,7 +824,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (fieldName != FilterExpression.OtherFilterField)
 			{
 				PaFieldInfo fieldInfo =
-					PaApp.FieldInfo.GetFieldFromDisplayText(fieldName);
+					App.FieldInfo.GetFieldFromDisplayText(fieldName);
 
 				if (fieldInfo != null)
 					fieldName = fieldInfo.FieldName;
@@ -862,9 +862,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
-			PaApp.SettingsHandler.SaveSettingsValue(Name, "splitter", splitFilters.SplitterDistance);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_grid);
+			App.SettingsHandler.SaveSettingsValue(Name, "splitter", splitFilters.SplitterDistance);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1104,7 +1104,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		internal void Show(DataGridViewCell cell, string field)
 		{
-			PaFieldInfo fieldInfo = PaApp.FieldInfo[field];
+			PaFieldInfo fieldInfo = App.FieldInfo[field];
 			if (fieldInfo == null)
 				return;
 
@@ -1114,7 +1114,7 @@ namespace SIL.Pa.UI.Dialogs
 			var list = new List<string>();
 	
 			//SortedDictionary<string, bool> list = new SortedDictionary<string, bool>();
-			foreach (WordCacheEntry entry in PaApp.WordCache)
+			foreach (WordCacheEntry entry in App.WordCache)
 			{
 				string val = entry[field];
 				if (!string.IsNullOrEmpty(val))
@@ -1122,7 +1122,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Make sure to include values that are filtered out.
-			foreach (var entry in PaApp.RecordCache.WordsNotInCurrentFilter)
+			foreach (var entry in App.RecordCache.WordsNotInCurrentFilter)
 			{
 				string val = entry[field];
 				if (!string.IsNullOrEmpty(val))

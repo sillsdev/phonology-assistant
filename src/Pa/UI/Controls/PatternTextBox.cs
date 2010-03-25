@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Controls
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			InitializeComponent();
 
-			if (PaApp.DesignMode)
+			if (App.DesignMode)
 				return;
 
 			txtPattern.OwningPatternTextBoxControl = this;
@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 		
 			base.BackColor = Color.Transparent;
 			m_searchQuery = new SearchQuery();
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,9 +217,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return (/* m_allowFullSearchPattern && */ !PaApp.DesignMode &&
-					(PaApp.Project == null || PaApp.Project.ShowClassNamesInSearchPatterns) ?
-					PaApp.kEmptyDiamondPattern : string.Empty);
+				return (/* m_allowFullSearchPattern && */ !App.DesignMode &&
+					(App.Project == null || App.Project.ShowClassNamesInSearchPatterns) ?
+					App.kEmptyDiamondPattern : string.Empty);
 			}
 		}
 
@@ -333,7 +333,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -470,13 +470,13 @@ namespace SIL.Pa.UI.Controls
 			// If the new text contains a dotted circle diacritic placeholder, then make
 			// sure it's not being inserted next to another and if not, make sure it is
 			// surrounded by square brackets.
-			if (text.IndexOf(PaApp.kDottedCircleC) >= 0)
+			if (text.IndexOf(App.kDottedCircleC) >= 0)
 				ProcessTextWithDottedCircle(newText, selstart, ref text);
 
 			newText = newText.Insert(selstart, text);
 			txt.Text = newText;
 			txt.SelectionStart = selstart + (text == "{}" || text == "[]"
-				|| text == PaApp.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
+				|| text == App.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
 
 			Application.DoEvents();
 		}
@@ -491,10 +491,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Strip out the dotted circle and check if what's left is a single tie-bar-
 			// type character. If so, then just return the text without the dotted circle.
-			string nonDottedCirclePart = text.Replace(PaApp.kDottedCircle, string.Empty);
+			string nonDottedCirclePart = text.Replace(App.kDottedCircle, string.Empty);
 			if (nonDottedCirclePart.Length == 1)
 			{
-				IPASymbol charInfo = PaApp.IPASymbolCache[nonDottedCirclePart];
+				IPASymbol charInfo = App.IPASymbolCache[nonDottedCirclePart];
 				if (charInfo != null && charInfo.CanPrecedeBase)
 				{
 					text = nonDottedCirclePart;
@@ -509,7 +509,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (i < newText.Length)
 				{
-					if (newText[i] == PaApp.kDottedCircleC)
+					if (newText[i] == App.kDottedCircleC)
 						dottedCircle = i;
 					else if (newText[i] == '[' || (newText[i] == ']' && i < selstart))
 						break;
@@ -519,7 +519,7 @@ namespace SIL.Pa.UI.Controls
 			// Go forward, looking for a dotted circle or open/close brackets.
 			for (int i = selstart; i < newText.Length && newText.Length > 0 && dottedCircle < 0; i++)
 			{
-				if (newText[i] == PaApp.kDottedCircleC)
+				if (newText[i] == App.kDottedCircleC)
 					dottedCircle = i;
 				else if (newText[i] == ']' || newText[i] == '[')
 					break;
@@ -530,7 +530,7 @@ namespace SIL.Pa.UI.Controls
 			if (dottedCircle >= 0)
 			{
 				// Remove the dotted circle.
-				int i = text.IndexOf(PaApp.kDottedCircleC);
+				int i = text.IndexOf(App.kDottedCircleC);
 				text = text.Substring(0, i) + text.Substring(i + 1);
 			}
 		}
@@ -616,7 +616,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_owningView.ActiveView)
 				return false;
 
-			Insert(PaApp.kDiacriticPlaceholder);
+			Insert(App.kDiacriticPlaceholder);
 			return true;
 		}
 		
@@ -738,7 +738,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFindPhonesSettingsChanged(object args)
 		{
-			if (txtPattern.Text == PaApp.kEmptyDiamondPattern ||
+			if (txtPattern.Text == App.kEmptyDiamondPattern ||
 				txtPattern.Text == string.Empty)
 				txtPattern.Text = EmptyPattern;
 			txtPattern.SelectionStart = 0;
@@ -755,7 +755,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClassDisplayBehaviorChanged(object args)
 		{
-			string replacedText = PaApp.Project.SearchClasses.ModifyPatternText(TextBox.Text);
+			string replacedText = App.Project.SearchClasses.ModifyPatternText(TextBox.Text);
 			if (replacedText != string.Empty)
 			{
 				
@@ -1083,7 +1083,7 @@ namespace SIL.Pa.UI.Controls
 			// Process enter as though the user wants to begin a search.
 			if (e.KeyChar == (char)Keys.Enter && ptrTextBox != null && ptrTextBox.IsPatternFull)
 			{
-				PaApp.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", ptrTextBox.SearchQuery);
+				App.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", ptrTextBox.SearchQuery);
 				e.Handled = true;
 				return;
 			}
@@ -1164,7 +1164,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool SurroundCVInBrackets(TextBox txt)
 		{
-			if (!PaApp.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true))
+			if (!App.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true))
 				return false;
 
 			return (!InsideBraketedGroup(txt, '[', ']') && !InsideBraketedGroup(txt, '<', '>'));
@@ -1256,7 +1256,7 @@ namespace SIL.Pa.UI.Controls
 			else if (keyCode == (int)Keys.OemMinus)
 				toInsert = "_";
 			else if (keyCode == (int)Keys.D0)
-				toInsert = PaApp.kDiacriticPlaceholder;
+				toInsert = App.kDiacriticPlaceholder;
 
 			if (toInsert != null)
 			{

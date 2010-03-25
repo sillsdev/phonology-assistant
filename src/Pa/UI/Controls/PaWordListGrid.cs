@@ -142,7 +142,7 @@ namespace SIL.Pa.UI.Controls
 			OnSystemColorsChanged(null);
 			BuildColumns();
 			OnWordListOptionsChanged(null);
-			PaApp.AddMediatorColleague(this);
+			App.AddMediatorColleague(this);
 
 			// Create the popup for the uncertain phone possibilities
 			// list and the experimental transcriptions list.
@@ -155,15 +155,15 @@ namespace SIL.Pa.UI.Controls
 			m_fwRootDataDir = GetFwRootDataDir();
 
 			m_drawFocusRectAroundCurrCell =
-				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
+				App.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
 
 			m_widthOfWrdBoundarySrchRsltMatch =
-				PaApp.SettingsHandler.GetIntSettingsValue("wordlists",
+				App.SettingsHandler.GetIntSettingsValue("wordlists",
 				"srchresultwidthonwordboundarymatch", 2);
 
-			if (PaApp.TMAdapter != null)
+			if (App.TMAdapter != null)
 			{
-				TMItemProperties itemProps = PaApp.TMAdapter.GetItemProperties("mnuStopPlayback");
+				TMItemProperties itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
 			}
@@ -203,7 +203,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				if (m_fieldInfoList == null || m_fieldInfoList.Count == 0)
-					m_fieldInfoList = PaApp.Project.FieldInfo;
+					m_fieldInfoList = App.Project.FieldInfo;
 
 				if (m_fieldInfoList == null)
 					m_fieldInfoList = new PaFieldInfoList();
@@ -288,24 +288,24 @@ namespace SIL.Pa.UI.Controls
 		{
 			ForeColor = SystemColors.WindowText;
 			BackgroundColor = SystemColors.Window;
-			GridColor = PaApp.WordListGridColor;
+			GridColor = App.WordListGridColor;
 
-			m_uncertainPhoneForeColor = PaApp.UncertainPhoneForeColor;
-			m_searchItemBackColor = PaApp.QuerySearchItemBackColor;
-			m_searchItemForeColor = PaApp.QuerySearchItemForeColor;
-			m_selectedCellBackColor = PaApp.SelectedWordListCellBackColor;
-			m_selectedCellForeColor = PaApp.SelectedWordListCellForeColor;
-			m_selectedFocusedRowBackColor = PaApp.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = PaApp.SelectedFocusedWordListRowForeColor;
+			m_uncertainPhoneForeColor = App.UncertainPhoneForeColor;
+			m_searchItemBackColor = App.QuerySearchItemBackColor;
+			m_searchItemForeColor = App.QuerySearchItemForeColor;
+			m_selectedCellBackColor = App.SelectedWordListCellBackColor;
+			m_selectedCellForeColor = App.SelectedWordListCellForeColor;
+			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
+			m_selectedFocusedRowForeColor = App.SelectedFocusedWordListRowForeColor;
 
-			bool changeSelectionOnFocusLoss = PaApp.SettingsHandler.GetBoolSettingsValue(
+			bool changeSelectionOnFocusLoss = App.SettingsHandler.GetBoolSettingsValue(
 				"wordlists", "chgselonfocusloss", true);
 
 			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
-				PaApp.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
+				App.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
 			
 			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
-				PaApp.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
+				App.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
 
 			RowsDefaultCellStyle.SelectionForeColor = (Focused ?
 				m_selectedFocusedRowForeColor : m_selectedUnFocusedRowForeColor);
@@ -352,10 +352,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			if (PaApp.Project.GridLayoutInfo.ColHeaderHeight < 10)
+			if (App.Project.GridLayoutInfo.ColHeaderHeight < 10)
 				AutoResizeColumnHeadersHeight();
 			else
-				ColumnHeadersHeight = PaApp.Project.GridLayoutInfo.ColHeaderHeight;
+				ColumnHeadersHeight = App.Project.GridLayoutInfo.ColHeaderHeight;
 
 			m_suspendSavingColumnChanges = false;
 		}
@@ -378,8 +378,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (!m_suspendSavingColumnChanges)
 			{
-				PaApp.Project.GridLayoutInfo.Save(this);
-				PaApp.Project.Save();
+				App.Project.GridLayoutInfo.Save(this);
+				App.Project.Save();
 			}
 		}
 
@@ -545,7 +545,7 @@ namespace SIL.Pa.UI.Controls
 				return true;
 
 			// Check a path relative to the project file's path
-			if (TryToFindAudioFile(entry, audioFilePath, PaApp.Project.ProjectPath))
+			if (TryToFindAudioFile(entry, audioFilePath, App.Project.ProjectPath))
 				return true;
 			
 			// Check a path relative to the application's startup path
@@ -554,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Now try the alternate path location the user may have specified in
 			// the project's undocumented alternate audio file location field.
-			return TryToFindAudioFile(entry, audioFilePath,	PaApp.Project.AlternateAudioFileFolder);
+			return TryToFindAudioFile(entry, audioFilePath,	App.Project.AlternateAudioFileFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -638,12 +638,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !Focused ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
 
-			GroupByField = PaApp.FieldInfo[itemProps.Name];
+			GroupByField = App.FieldInfo[itemProps.Name];
 			return true;
 		}
 
@@ -735,28 +735,28 @@ namespace SIL.Pa.UI.Controls
 				switch (value)
 				{
 					case DataGridViewCellBorderStyle.None:
-						itemProps = PaApp.TMAdapter.GetItemProperties("tbbGridLinesNone");
+						itemProps = App.TMAdapter.GetItemProperties("tbbGridLinesNone");
 						break;
 					case DataGridViewCellBorderStyle.SingleHorizontal:
-						itemProps = PaApp.TMAdapter.GetItemProperties("tbbGridLinesHorizontal");
+						itemProps = App.TMAdapter.GetItemProperties("tbbGridLinesHorizontal");
 						break;
 					case DataGridViewCellBorderStyle.SingleVertical:
-						itemProps = PaApp.TMAdapter.GetItemProperties("tbbGridLinesVertical");
+						itemProps = App.TMAdapter.GetItemProperties("tbbGridLinesVertical");
 						break;
 					default:
-						itemProps = PaApp.TMAdapter.GetItemProperties("tbbGridLinesBoth");
+						itemProps = App.TMAdapter.GetItemProperties("tbbGridLinesBoth");
 						break;
 				}
 
 				if (itemProps != null)
 				{
 					Image img = itemProps.Image;
-					itemProps = PaApp.TMAdapter.GetItemProperties("tbbShowGridLines");
+					itemProps = App.TMAdapter.GetItemProperties("tbbShowGridLines");
 					if (itemProps != null)
 					{
 						itemProps.Image = img;
 						itemProps.Update = true;
-						PaApp.TMAdapter.SetItemProperties("tbbShowGridLines", itemProps);
+						App.TMAdapter.SetItemProperties("tbbShowGridLines", itemProps);
 					}
 				}
 			}
@@ -799,7 +799,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Make the grid update its display
 				Invalidate();
-				PaApp.MsgMediator.SendMessage("WordListGridSorted", this);
+				App.MsgMediator.SendMessage("WordListGridSorted", this);
 			}
 		}
 
@@ -894,7 +894,7 @@ namespace SIL.Pa.UI.Controls
 			base.OnCellMouseDoubleClick(e);
 
 			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
-				PaApp.SettingsHandler.GetBoolSettingsValue("wordlists", "editsourceondoublclick", false))
+				App.SettingsHandler.GetBoolSettingsValue("wordlists", "editsourceondoublclick", false))
 			{
 				OnEditSourceRecord(null);
 			}
@@ -938,7 +938,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLeave(EventArgs e)
 		{
-			PaApp.StatusBarLabel.Text = string.Empty;
+			App.StatusBarLabel.Text = string.Empty;
 			base.OnLeave(e);
 
 			if (m_audioFilePathToolTip != null)
@@ -1029,7 +1029,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetStatusBarText(int rowIndex)
 		{
-			SetStatusBarText(rowIndex, PaApp.StatusBarLabel);
+			SetStatusBarText(rowIndex, App.StatusBarLabel);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -1134,7 +1134,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			PaApp.RemoveMediatorColleague(this);
+			App.RemoveMediatorColleague(this);
 			base.OnHandleDestroyed(e);
 		}
 
@@ -1319,7 +1319,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnCellMouseEnter(e);
 
-			if (PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) &&
+			if (App.IsViewOrFormActive(m_owningViewType, FindForm()) &&
 				e.ColumnIndex >= 0 && e.RowIndex >= 0 && m_cache != null)
 			{
 				string colName = Columns[e.ColumnIndex].Name;
@@ -1400,7 +1400,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnCellMouseMove(e);
 
-			if (!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()) ||
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
 				e.ColumnIndex < 0 || e.RowIndex < 0 || m_cache == null ||
 				Columns[e.ColumnIndex].Name != m_phoneticColName)
 			{
@@ -1607,7 +1607,7 @@ namespace SIL.Pa.UI.Controls
 			string hdgText = LocalizationManager.LocalizeString("CellInfoExperimentalTransHdgText",
 				"Experimental transcription(s)\nconverted in this entry:",
 				"Heading text on experimental transcription popup in word lists.",
-				PaApp.kLocalizationGroupUICtrls + ".Word Lists", LocalizationCategory.Other,
+				App.kLocalizationGroupUICtrls + ".Word Lists", LocalizationCategory.Other,
 				LocalizationPriority.MediumHigh);
 			
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
@@ -1792,7 +1792,7 @@ namespace SIL.Pa.UI.Controls
 		void PopupsCommandLink_Click(object sender, EventArgs e)
 		{
 			if (m_cellInfoPopup.PurposeIndicator == GridCellInfoPopup.Purpose.ExperimentalTranscription)
-				PaApp.MsgMediator.SendMessage("ViewPhoneInventory", null);
+				App.MsgMediator.SendMessage("ViewPhoneInventory", null);
 			else if (m_cellInfoPopup.AssociatedCell != null)
 			{
 				if (!Focused)
@@ -2476,7 +2476,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			if (m_cieOptions == null)
-				m_cieOptions = PaApp.Project.CIEOptions;
+				m_cieOptions = App.Project.CIEOptions;
 
 			CIEBuilder builder = new CIEBuilder(m_cache, m_sortOptions, m_cieOptions);
 			WordListCache cieCache = builder.FindMinimalPairs();
@@ -2506,7 +2506,7 @@ namespace SIL.Pa.UI.Controls
 			m_backupCache = m_cache;
 			m_cache = cieCache;
 			RefreshRows(true);
-			PaApp.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
+			App.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
 
 			return true;
 		}
@@ -2528,7 +2528,7 @@ namespace SIL.Pa.UI.Controls
 				m_backupCache = null;
 				m_cache.Sort(m_sortOptions);
 				RefreshRows(true);
-				PaApp.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
+				App.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
 			}
 		}
 
@@ -2570,7 +2570,7 @@ namespace SIL.Pa.UI.Controls
 				m_noCIEResultsMsg.MouseDown += delegate { Focus(); };
 				Controls.Add(m_noCIEResultsMsg);
 				m_noCIEResultsMsg.BringToFront();
-				PaApp.MsgMediator.SendMessage("NoCIEResultsShowing", this);
+				App.MsgMediator.SendMessage("NoCIEResultsShowing", this);
 			}
 
 			Utils.SetWindowRedraw(this, true, true);
@@ -2624,7 +2624,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			object[] args = new object[] {colName, changeSortDirection};
-			if (PaApp.MsgMediator.SendMessage("BeforeWordListSorted", args))
+			if (App.MsgMediator.SendMessage("BeforeWordListSorted", args))
 				return;
 			
 			// Do this just in case the message mediator call changed the values.
@@ -2670,7 +2670,7 @@ namespace SIL.Pa.UI.Controls
 			
 			// Make the grid update its display
 			Invalidate();
-			PaApp.MsgMediator.SendMessage("WordListGridSorted", this);
+			App.MsgMediator.SendMessage("WordListGridSorted", this);
 
 			if (Cursor == Cursors.WaitCursor)
 				Cursor = Cursors.Default;
@@ -2704,7 +2704,7 @@ namespace SIL.Pa.UI.Controls
 			AllGroupsCollapsed = !expand;
 			AllGroupsExpanded = expand;
 
-			PaApp.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
+			App.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
 				Properties.Resources.kstidCollapsingGroups, RowCount);
 
 			foreach (DataGridViewRow row in Rows)
@@ -2712,7 +2712,7 @@ namespace SIL.Pa.UI.Controls
 				if (row is SilHierarchicalGridRow)
 				{
 					((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange, false);
-					PaApp.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
+					App.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
 				}
 			}
 
@@ -2721,8 +2721,8 @@ namespace SIL.Pa.UI.Controls
 				FindInfo.CanFindAgain = false;
 
 			SetCurrentCell(0, 0);
-			PaApp.IncProgressBar(RowCount);
-			PaApp.UninitializeProgressBar();
+			App.IncProgressBar(RowCount);
+			App.UninitializeProgressBar();
 			m_ToggleGroupExpansion = false;
 			Utils.SetWindowRedraw(this, true, true);
 		}
@@ -2751,7 +2751,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Add a little vertical padding.
 			m_defaultRowHeight +=
-				PaApp.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 5);
+				App.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 5);
 
 			// Get rid of all custom row heights (i.e. row heights adjusted by the user).
 			m_customRowHeights = null;
@@ -2880,11 +2880,11 @@ namespace SIL.Pa.UI.Controls
 			// types because the m_owningViewType's are declared in PaDll which cannot
 			// be referenced by PaControls since PaControls is referenced by PaDll.
 			if (m_owningViewType.Name == "DataCorpusVw")
-				sortOptions = PaApp.Project.DataCorpusVwSortOptions;
+				sortOptions = App.Project.DataCorpusVwSortOptions;
 			else if (m_owningViewType.Name == "SearchVw")
-				sortOptions = PaApp.Project.SearchVwSortOptions.Clone();
+				sortOptions = App.Project.SearchVwSortOptions.Clone();
 			else if (m_owningViewType.Name == "XYChartVw")
-				sortOptions = PaApp.Project.XYChartVwSortOptions.Clone();
+				sortOptions = App.Project.XYChartVwSortOptions.Clone();
 
 			if (sortOptions == null)
 				sortOptions = new SortOptions(true);
@@ -2915,7 +2915,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_fieldInfoList = null;
 
-			if (PaApp.Project == null || FieldInfoList.Count == 0)
+			if (App.Project == null || FieldInfoList.Count == 0)
 				return false;
 			
 			m_suspendSavingColumnChanges = true;
@@ -3063,7 +3063,7 @@ namespace SIL.Pa.UI.Controls
 			// to get saved each time. Therefore, we set a flag here to prevent the saving
 			// of field settings each time the OnColumnDisplayIndexChanged event is fired.
 			m_suspendSavingColumnChanges = true;
-			PaApp.Project.GridLayoutInfo.Load(this);
+			App.Project.GridLayoutInfo.Load(this);
 			m_suspendSavingColumnChanges = false;
 
 			// Force users to restart Find when adding or removing columns
@@ -3146,7 +3146,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnEditSourceRecord(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			int row = -1;
@@ -3180,7 +3180,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			if (e.KeyCode == Keys.Enter && PaApp.SettingsHandler.GetBoolSettingsValue(
+			if (e.KeyCode == Keys.Enter && App.SettingsHandler.GetBoolSettingsValue(
 				"wordlists", "editsourceonenterkey", false))
 			{
 				e.Handled = true;
@@ -3229,7 +3229,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownShowGridColumns(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
@@ -3270,7 +3270,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			Form parentForm = FindForm();
 
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, parentForm))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, parentForm))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -3290,7 +3290,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesNone(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
@@ -3304,7 +3304,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesBoth(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			CellBorderStyle = DataGridViewCellBorderStyle.Single;
@@ -3318,7 +3318,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesHorizontal(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -3332,7 +3332,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesVertical(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			CellBorderStyle = DataGridViewCellBorderStyle.SingleVertical;
@@ -3360,7 +3360,7 @@ namespace SIL.Pa.UI.Controls
 		public bool OnPlayback(object args)
 		{
 			if ((!Focused && !m_isCurrentPlaybackGrid) ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3377,7 +3377,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnPlaybackRepeatedly(object args)
 		{
 			if ((!Focused && !m_isCurrentPlaybackGrid) ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3395,7 +3395,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || (!Focused && !m_isCurrentPlaybackGrid) ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3449,7 +3449,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnStopPlayback(object args)
 		{
 			if ((!Focused && !m_isCurrentPlaybackGrid) ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3472,7 +3472,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || (!Focused && !m_isCurrentPlaybackGrid) ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3560,10 +3560,10 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnEditFind(object args)
 		{
 			bool isGridCurrent =
-				PaApp.MsgMediator.SendMessage("CompareGrid", this) || Focused;
+				App.MsgMediator.SendMessage("CompareGrid", this) || Focused;
 
 			if (FindInfo.FindDlgIsOpen || !isGridCurrent ||
-				!PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+				!App.IsViewOrFormActive(m_owningViewType, FindForm()))
 			{
 				return false;
 			}
@@ -3582,9 +3582,9 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnEditFindNext(object args)
 		{
 			bool isGridCurrent =
-				PaApp.MsgMediator.SendMessage("CompareGrid", this) || Focused;
+				App.MsgMediator.SendMessage("CompareGrid", this) || Focused;
 
-			if (!isGridCurrent || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!isGridCurrent || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			FindInfo.Grid = this;
@@ -3602,9 +3602,9 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnEditFindPrevious(object args)
 		{
 			bool isGridCurrent =
-				PaApp.MsgMediator.SendMessage("CompareGrid", this) || Focused;
+				App.MsgMediator.SendMessage("CompareGrid", this) || Focused;
 
-			if (!isGridCurrent || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!isGridCurrent || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			FindInfo.Grid = this;
@@ -3654,7 +3654,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_playbackInProgress = false;
 			m_audioPlayer = null;
-			PaApp.MsgMediator.SendMessage("PlaybackEnded", null);
+			App.MsgMediator.SendMessage("PlaybackEnded", null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -3705,7 +3705,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Inform the main window what's happening.
-			PaApp.MsgMediator.SendMessage("PlaybackBeginning", null);
+			App.MsgMediator.SendMessage("PlaybackBeginning", null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -3726,7 +3726,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Get the playback speed for the Control grid
 			m_playbackSpeed =
-				PaApp.SettingsHandler.GetIntSettingsValue(m_owningViewType.Name, "playbackspeed", 100);
+				App.SettingsHandler.GetIntSettingsValue(m_owningViewType.Name, "playbackspeed", 100);
 			
 			// If the speed is not 100% then use Speech Analyzer to playback the utterance.
 			if (m_playbackSpeed != 100f)
@@ -3830,7 +3830,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGridLinesNone(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -3850,7 +3850,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGridLinesBoth(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -3870,7 +3870,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGridLinesHorizontal(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -3890,7 +3890,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGridLinesVertical(object args)
 		{
-			if (!Focused || !PaApp.IsViewOrFormActive(m_owningViewType, FindForm()))
+			if (!Focused || !App.IsViewOrFormActive(m_owningViewType, FindForm()))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;

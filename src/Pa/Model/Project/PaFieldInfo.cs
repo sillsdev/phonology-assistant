@@ -645,7 +645,7 @@ namespace SIL.Pa.Model
 				XmlNode node = xmlDoc.SelectSingleNode("PaFields");
 
 				if (getVer)
-					return XMLHelper.GetFloatFromAttribute(node, "version", 0f);
+					return XmlHelper.GetFloatFromAttribute(node, "version", 0f);
 
 				// Write the version to the file. Save the file using a XmlTextWriter
 				// instead of just passing the file name to the save method. Otherwise

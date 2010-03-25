@@ -443,7 +443,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (sender == lnkHelp)
 			{
-				PaApp.ShowHelpTopic(m_purposeIndicator == Purpose.ExperimentalTranscription ?
+				App.ShowHelpTopic(m_purposeIndicator == Purpose.ExperimentalTranscription ?
 					"hidExperimentalTranscriptionsPopup" : "hidUncertainPhonesPopup");
 			}
 		}

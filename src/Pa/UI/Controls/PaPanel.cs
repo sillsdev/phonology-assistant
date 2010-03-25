@@ -110,7 +110,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (!PaApp.DesignMode && m_paintExplorerBarBackground)
+			if (!App.DesignMode && m_paintExplorerBarBackground)
 			{
 				VisualStyleElement element = VisualStyleElement.ExplorerBar.NormalGroupBackground.Normal;
 				if (PaintingHelper.CanPaintVisualStyle(element))

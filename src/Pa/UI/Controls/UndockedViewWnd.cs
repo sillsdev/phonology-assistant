@@ -37,22 +37,22 @@ namespace SIL.Pa.UI.Controls
 			if (view != null)
 				Name = view.GetType().Name;
 
-			m_mainMenuAdapter = PaApp.LoadDefaultMenu(this);
+			m_mainMenuAdapter = App.LoadDefaultMenu(this);
 			m_mainMenuAdapter.AllowUpdates = false;
 			Controls.Add(view);
 			view.BringToFront();
 			m_view = view;
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 			Opacity = 0;
 
 			sbProgress.Visible = false;
 			sblblMain.Text = sblblProgress.Text = string.Empty;
-			MinimumSize = PaApp.MinimumViewWindowSize;
+			MinimumSize = App.MinimumViewWindowSize;
 
 			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
 			OnFilterChanged(FilterHelper.CurrentFilter);
 
-			PaApp.MsgMediator.AddColleague(this);
+			App.MsgMediator.AddColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,11 +122,11 @@ namespace SIL.Pa.UI.Controls
 			Utils.UpdateWindow(Handle);
 
 			bool reloadProjectsOnActivate =
-				PaApp.SettingsHandler.GetBoolSettingsValue(PaApp.kAppSettingsName,
+				App.SettingsHandler.GetBoolSettingsValue(App.kAppSettingsName,
 				"reloadprojectsonactivate", true);
 
-			if (PaApp.Project != null && m_checkForModifiedDataSources && reloadProjectsOnActivate)
-				PaApp.Project.CheckForModifiedDataSources();
+			if (App.Project != null && m_checkForModifiedDataSources && reloadProjectsOnActivate)
+				App.Project.CheckForModifiedDataSources();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,10 +149,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			PaApp.MsgMediator.RemoveColleague(this);
-			PaApp.SettingsHandler.SaveFormProperties(this);
+			App.MsgMediator.RemoveColleague(this);
+			App.SettingsHandler.SaveFormProperties(this);
 			Visible = false;
-			PaApp.UnloadDefaultMenu(m_mainMenuAdapter);
+			App.UnloadDefaultMenu(m_mainMenuAdapter);
 			m_mainMenuAdapter.Dispose();
 			m_mainMenuAdapter = null;
 			Controls.Remove(m_view);
@@ -169,7 +169,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnResize(e);
 
-			if (PaApp.Project == null)
+			if (App.Project == null)
 				Invalidate();
 
 			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);

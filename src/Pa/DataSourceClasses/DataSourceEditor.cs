@@ -182,7 +182,7 @@ namespace SIL.Pa.DataSource
 			}
 
 			// Find the field information for the specified sort field.
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo[sortField];
+			PaFieldInfo fieldInfo = App.Project.FieldInfo[sortField];
 			if (fieldInfo == null)
 			{
 				string msg = Properties.Resources.kstidInvalidToolboxSortField;
@@ -232,7 +232,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.GuidField;
+			PaFieldInfo fieldInfo = App.Project.FieldInfo.GuidField;
 			string url = Model.FwDBAccessInfo.JumpUrl;
 
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
@@ -275,7 +275,7 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInSA(WordCacheEntry wcentry, string callingApp)
 		{
 			// Get the audio file field.
-			PaFieldInfo fieldInfo = PaApp.Project.FieldInfo.AudioFileField;
+			PaFieldInfo fieldInfo = App.Project.FieldInfo.AudioFileField;
 			if (fieldInfo == null)
 			{
 				Utils.MsgBox(Properties.Resources.kstidNoAudioField);
@@ -363,13 +363,13 @@ namespace SIL.Pa.DataSource
 		{
 			// Get the utterance's offset.
 			ulong offset;
-			PaFieldInfo fieldInfo = PaApp.FieldInfo.AudioFileOffsetField;
+			PaFieldInfo fieldInfo = App.FieldInfo.AudioFileOffsetField;
 			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out offset))
 				offset = 0;
 
 			// Get the utterance's length.
 			ulong length;
-			fieldInfo = PaApp.FieldInfo.AudioFileLengthField;
+			fieldInfo = App.FieldInfo.AudioFileLengthField;
 			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out length))
 				length = 0;
 

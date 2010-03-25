@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 			rbPronunField.Checked =
 				(m_fwSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField);
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 			m_dirty = false;
 
 			// This is annoying to have to do this, but setting the tab order in the
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 
 			m_grid.AutoResizeColumnHeadersHeight();
-			PaApp.SettingsHandler.LoadGridProperties(m_grid);
+			App.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -335,8 +335,8 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_grid);
 		}
 		
 		/// ------------------------------------------------------------------------------------

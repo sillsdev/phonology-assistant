@@ -706,8 +706,8 @@ namespace SIL.Pa.PhoneticSearching
 				if (closed > open)
 				{
 					string text = pattern.Substring(open + 1, closed - open - 1);
-					if (PaApp.AFeatureCache[text] == null &&
-						PaApp.BFeatureCache[text] == null)
+					if (App.AFeatureCache[text] == null &&
+						App.BFeatureCache[text] == null)
 					{
 						return false;
 					}
@@ -777,7 +777,7 @@ namespace SIL.Pa.PhoneticSearching
 		private bool VerifyDiacriticPlaceholderCluster(ref string pattern)
 		{
 			int i = 0;
-			while ((i = pattern.IndexOf(PaApp.kDottedCircleC, i)) >= 0)
+			while ((i = pattern.IndexOf(App.kDottedCircleC, i)) >= 0)
 			{
 				// The dotted circle may not be at the extremes of the pattern and it
 				// must be preceeded by an open square bracket but must not be the only
@@ -819,7 +819,7 @@ namespace SIL.Pa.PhoneticSearching
 
 				string cluster = bldr.ToString();
 				cluster = cluster.Normalize(NormalizationForm.FormD);
-				cluster = cluster.Replace(PaApp.kDottedCircle, string.Empty);
+				cluster = cluster.Replace(App.kDottedCircle, string.Empty);
 
 				if (foundZeroOrMoreSymbol && foundOneOrMoreSymbol)
 					LogError("kstidZeroAndOneOrMoreFoundErr");
@@ -992,7 +992,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			string tmpPattern = pattern.ToLower();
 
-			foreach (KeyValuePair<string, Feature> info in PaApp.AFeatureCache)
+			foreach (KeyValuePair<string, Feature> info in App.AFeatureCache)
 			{
 				string feature = "[" + info.Value.Name.ToLower();
 				if (!CommaDelimitBracketedMember(feature, tmpPattern, ref modifiedPtrn))
@@ -1023,7 +1023,7 @@ namespace SIL.Pa.PhoneticSearching
 				while (closeIndex < pattern.Length && pattern[closeIndex] != ']')
 				{
 					// Check if we've run into a diacritic pattern cluster along the way.
-					if (!foundDiacriticPlaceholder && pattern[closeIndex] == PaApp.kDottedCircleC)
+					if (!foundDiacriticPlaceholder && pattern[closeIndex] == App.kDottedCircleC)
 						foundDiacriticPlaceholder = true;
 
 					closeIndex++;
@@ -1235,7 +1235,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (eticWord != m_cachedSearchWord)
 			{
 				m_cachedSearchWord = eticWord;
-				m_cachedSearchChars = PaApp.IPASymbolCache.PhoneticParser(eticWord, false);
+				m_cachedSearchChars = App.IPASymbolCache.PhoneticParser(eticWord, false);
 			}
 
 			// TODO: For this overload of Search, the index in results should probably

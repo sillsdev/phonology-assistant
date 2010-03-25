@@ -19,7 +19,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeRecViewTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (PaApp.Project == null)
+			if (App.Project == null)
 			{
 				tabOptions.TabPages.Remove(tpgRecView);
 				return;
@@ -41,8 +41,8 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			fldSelGridRecView.Save(false);
-			PaApp.Project.Save();
-			PaApp.MsgMediator.SendMessage("RecordViewOptionsChanged", null);
+			App.Project.Save();
+			App.MsgMediator.SendMessage("RecordViewOptionsChanged", null);
 		}
 
 		/// ------------------------------------------------------------------------------------

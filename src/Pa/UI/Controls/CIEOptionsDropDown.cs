@@ -24,7 +24,7 @@ namespace SIL.Pa.UI.Controls
 			InitializeComponent();
 			grpUncertainties.Visible = false;
 			LayoutDropDown();
-			CIEOptions = (PaApp.Project != null ? PaApp.Project.CIEOptions.Clone() : new CIEOptions());
+			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
 			
 			rbAfter.Font = FontHelper.UIFont;
 			rbBefore.Font = FontHelper.UIFont;
@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_canceled = true;
 			base.HandleHelpClicked(sender, e);
-			PaApp.ShowHelpTopic("hidMinimalPairsOptions");
+			App.ShowHelpTopic("hidMinimalPairsOptions");
 		}
 
 		/// ------------------------------------------------------------------------------------

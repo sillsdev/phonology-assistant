@@ -66,7 +66,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (ToolStripButton item in pickerIgnore.Items)
 			{
 				if (item.Checked)
-					ignoreList.Append(item.Text.Replace(PaApp.kDottedCircle, string.Empty));
+					ignoreList.Append(item.Text.Replace(App.kDottedCircle, string.Empty));
 			}
 
 			return (ignoreList.ToString());
@@ -83,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button if its text is found in the ignore list.
-				string chr = item.Text.Replace(PaApp.kDottedCircle, string.Empty);
+				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
 				item.Checked = (ignoreList != null && ignoreList.Contains(chr));
 			}
 		}
@@ -95,7 +95,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void lnkHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			PaApp.ShowHelpTopic("hidIgnoredSuprasegmentalsPopup");
+			App.ShowHelpTopic("hidIgnoredSuprasegmentalsPopup");
 		}
 	}
 }

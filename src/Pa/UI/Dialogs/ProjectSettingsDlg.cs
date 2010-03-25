@@ -70,15 +70,15 @@ namespace SIL.Pa.UI.Dialogs
 			pnlGridHdg.BorderStyle = BorderStyle.None;
 			pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
-			PaApp.SettingsHandler.LoadFormProperties(this);
+			App.SettingsHandler.LoadFormProperties(this);
 
 			if (project == null)
 				m_project = new PaProject(true);
 			else
 			{
 				m_project = project;
-				txtProjName.Text = project.ProjectName;
-				txtLanguage.Text = project.Language;
+				txtProjName.Text = project.Name;
+				txtLanguage.Text = project.LanguageName;
 				txtTranscriber.Text = project.Transcriber;
 				txtSpeaker.Text = project.SpeakerName;
 				txtComments.Text = project.Comments;
@@ -188,7 +188,7 @@ namespace SIL.Pa.UI.Dialogs
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
 				LocalizationPriority.High);
 
-		    PaApp.SettingsHandler.LoadGridProperties(m_grid);
+		    App.SettingsHandler.LoadGridProperties(m_grid);
 
 			// When xslt transforms are supported when reading data, then this should become visible.
 			m_grid.Columns["xslt"].Visible = false;
@@ -345,10 +345,10 @@ namespace SIL.Pa.UI.Dialogs
 					PaProject project = m_project.ReLoadProjectFileOnly(true);
 					if (project != null)
 					{
-						if (PaApp.Project != null)
-							PaApp.Project.Dispose();
+						if (App.Project != null)
+							App.Project.Dispose();
 
-						PaApp.Project = project;
+						App.Project = project;
 					}
 				}
 
@@ -365,8 +365,8 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			PaApp.SettingsHandler.SaveFormProperties(this);
-			PaApp.SettingsHandler.SaveGridProperties(m_grid);
+			App.SettingsHandler.SaveFormProperties(this);
+			App.SettingsHandler.SaveGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -483,8 +483,8 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 			}
 
-			m_project.ProjectName = txtProjName.Text.Trim();
-			m_project.Language = txtLanguage.Text.Trim();
+			m_project.Name = txtProjName.Text.Trim();
+			m_project.LanguageName = txtLanguage.Text.Trim();
 			m_project.Transcriber = txtTranscriber.Text.Trim();
 			m_project.SpeakerName = txtSpeaker.Text.Trim();
 			m_project.Comments = txtComments.Text.Trim();
@@ -516,7 +516,7 @@ namespace SIL.Pa.UI.Dialogs
 		    dlg.InitialDirectory = Environment.CurrentDirectory;
 		    dlg.FilterIndex = 0;
 			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
-				m_project.ProjectName : txtProjName.Text.Trim()) + ".pap";
+				m_project.Name : txtProjName.Text.Trim()) + ".pap";
 
 		    DialogResult result = dlg.ShowDialog(this);
 
@@ -560,7 +560,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddOtherDataSource_Click(object sender, EventArgs e)
 		{
-			int filterIndex = PaApp.SettingsHandler.GetIntSettingsValue("DataSourceOFD", "filter", 0);
+			int filterIndex = App.SettingsHandler.GetIntSettingsValue("DataSourceOFD", "filter", 0);
 
 			StringBuilder fileTypes = new StringBuilder();
 			fileTypes.Append(ResourceHelper.GetString("kstidFileTypeToolboxDB"));
@@ -579,12 +579,12 @@ namespace SIL.Pa.UI.Dialogs
 			fileTypes.Append("|");
 			fileTypes.Append(ResourceHelper.GetString("kstidFileTypeAllFiles"));
 
-			string[] filenames = PaApp.OpenFileDialog("db", fileTypes.ToString(),
+			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
 				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption, true);
 
 			if (filenames.Length > 0)
 			{
-				PaApp.SettingsHandler.SaveSettingsValue("DataSourceOFD", "filter", filterIndex);
+				App.SettingsHandler.SaveSettingsValue("DataSourceOFD", "filter", filterIndex);
 
 				// Add the selected files to the data source list.
 				foreach (string file in filenames)
@@ -791,19 +791,19 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleSpecifyXSLTClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			int filterIndex =
-				PaApp.SettingsHandler.GetIntSettingsValue("DataSourceXSLTOFD", "filter", 0);
+				App.SettingsHandler.GetIntSettingsValue("DataSourceXSLTOFD", "filter", 0);
 
 			string filter = ResourceHelper.GetString("kstidFileTypeXSLT") + "|" +
 				ResourceHelper.GetString("kstidFileTypeAllFiles");
 
-			string filename = PaApp.OpenFileDialog("xslt", filter, ref filterIndex,
+			string filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
 				Properties.Resources.kstidDataSourceOpenFileXSLTCaption);
 
 			if (filename != null)
 			{
 				m_project.DataSources[e.RowIndex].XSLTFile = filename;
 				m_grid.Refresh();
-				PaApp.SettingsHandler.SaveSettingsValue("DataSourceXSLTOFD", "filter", filterIndex);
+				App.SettingsHandler.SaveSettingsValue("DataSourceXSLTOFD", "filter", filterIndex);
 			}
 		}
 
@@ -875,7 +875,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
 			if (m_newProject)
-				PaApp.ShowHelpTopic("hidNewProjectSettingsDlg");
+				App.ShowHelpTopic("hidNewProjectSettingsDlg");
 			else
 				base.HandleHelpClick(sender, e);
 		}

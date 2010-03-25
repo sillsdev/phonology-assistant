@@ -114,7 +114,7 @@ namespace SIL.Pa.Model
 				// Build the key for the current phone in the 'x' entry.
 				if (i < xPhoneCount)
 				{
-					phoneInfo = PaApp.PhoneCache[x.Phones[i]];
+					phoneInfo = App.PhoneCache[x.Phones[i]];
 					if (phoneInfo != null)
 					{
 						xkey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
@@ -125,7 +125,7 @@ namespace SIL.Pa.Model
 				// Build the key for the current phone in the 'y' entry.
 				if (i < yPhoneCount)
 				{
-					phoneInfo = PaApp.PhoneCache[y.Phones[i]];
+					phoneInfo = App.PhoneCache[y.Phones[i]];
 					if (phoneInfo != null)
 					{
 						ykey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
@@ -209,7 +209,7 @@ namespace SIL.Pa.Model
 			// according to the current sort options (i.e. MOA or POA, R/L or L/R).
 			for (int i = 0; i < cacheEntry.Phones.Length; i++)
 			{
-				phoneInfo = PaApp.PhoneCache[cacheEntry.Phones[i]];
+				phoneInfo = App.PhoneCache[cacheEntry.Phones[i]];
 				if (phoneInfo == null)
 					continue;
 

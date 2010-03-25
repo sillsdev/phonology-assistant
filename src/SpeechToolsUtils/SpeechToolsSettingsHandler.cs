@@ -48,7 +48,7 @@ namespace SIL.SpeechTools.Utils
 				if (node == null)
 					return null;
 
-				return XMLHelper.GetAttributeValue(node, "RelPath");
+				return XmlHelper.GetAttributeValue(node, "RelPath");
 			}
 		}
 
@@ -66,18 +66,18 @@ namespace SIL.SpeechTools.Utils
 
 			foreach (XmlNode childNode in node.ChildNodes)
 			{
-				string id = XMLHelper.GetAttributeValue(childNode, "id");
-				string name = XMLHelper.GetAttributeValue(childNode, "name");
+				string id = XmlHelper.GetAttributeValue(childNode, "id");
+				string name = XmlHelper.GetAttributeValue(childNode, "name");
 				if (id == null || name == null)
 					continue;
 
-				int size = XMLHelper.GetIntFromAttribute(childNode, "size", 12);
+				int size = XmlHelper.GetIntFromAttribute(childNode, "size", 12);
 
 				FontStyle style = FontStyle.Regular;
-				if (XMLHelper.GetBoolFromAttribute(childNode, "bold"))
+				if (XmlHelper.GetBoolFromAttribute(childNode, "bold"))
 					style = FontStyle.Bold;
 
-				if (XMLHelper.GetBoolFromAttribute(childNode, "italic"))
+				if (XmlHelper.GetBoolFromAttribute(childNode, "italic"))
 					style |= FontStyle.Italic;
 
 				Font font = FontHelper.MakeFont(name, size, style);

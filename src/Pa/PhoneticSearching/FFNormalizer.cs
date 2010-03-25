@@ -42,7 +42,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			s_loadAttempted = true;
 
-			string filename = Path.Combine(PaApp.ConfigFolder, kstidNormalizationExceptionsFile);
+			string filename = Path.Combine(App.ConfigFolder, kstidNormalizationExceptionsFile);
 			if (File.Exists(filename))
 			{
 				s_exceptionsList = Utils.DeserializeData(filename,

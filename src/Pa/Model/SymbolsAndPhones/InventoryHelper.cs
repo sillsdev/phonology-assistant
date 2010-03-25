@@ -56,7 +56,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void Load()
 		{
-			var path = Path.Combine(PaApp.ConfigFolder, kDefaultInventoryFileName);
+			var path = Path.Combine(App.ConfigFolder, kDefaultInventoryFileName);
 			Load(path);
 		}
 
@@ -78,20 +78,20 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void ReLoad()
 		{
-			InventoryHelper ir = DeserializeInventory();
+			InventoryHelper ih = DeserializeInventory();
 
 			IPASymbolCache = new IPASymbolCache();
-			IPASymbolCache.LoadFromList(ir.IPASymbols);
+			IPASymbolCache.LoadFromList(ih.IPASymbols);
 
 			AFeatureCache = new AFeatureCache();
-			AFeatureCache.LoadFromList(ir.AFeatures);
+			AFeatureCache.LoadFromList(ih.AFeatures);
 
 			BFeatureCache = new BFeatureCache();
-			BFeatureCache.LoadFromList(ir.BFeatures);
+			BFeatureCache.LoadFromList(ih.BFeatures);
 
-			ir.IPASymbols = null;
-			ir.AFeatures = null;
-			ir.BFeatures = null;
+			ih.IPASymbols = null;
+			ih.AFeatures = null;
+			ih.BFeatures = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,14 +107,14 @@ namespace SIL.Pa.Model
 					s_filePath + "' not found.");
 			}
 
-			var ir = Utils.DeserializeData(s_filePath, typeof(InventoryHelper)) as InventoryHelper;
-			if (ir == null)
+			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(s_filePath);
+			if (ih == null)
 			{
 				throw new Exception("Error reading IPA symbol and feature inventory file '" +
 					s_filePath + "'");
 			}
 
-			return ir;
+			return ih;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,16 +137,16 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(filePath))
 				return false;
 
-			var ir = new InventoryHelper();
-			ir.IPASymbols = IPASymbolCache.Values.ToList();
-			ir.AFeatures = AFeatureCache.Values.ToList();
-			ir.BFeatures = BFeatureCache.Values.ToList();
+			var ih = new InventoryHelper();
+			ih.IPASymbols = IPASymbolCache.Values.ToList();
+			ih.AFeatures = AFeatureCache.Values.ToList();
+			ih.BFeatures = BFeatureCache.Values.ToList();
 			
-			Utils.SerializeData(s_filePath, ir);
+			Utils.SerializeData(s_filePath, ih);
 
-			ir.IPASymbols = null;
-			ir.AFeatures = null;
-			ir.BFeatures = null;
+			ih.IPASymbols = null;
+			ih.AFeatures = null;
+			ih.BFeatures = null;
 
 			return true;
 		}

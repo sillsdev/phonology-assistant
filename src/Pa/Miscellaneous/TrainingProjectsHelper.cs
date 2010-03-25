@@ -28,7 +28,7 @@ namespace SIL.Pa
 			try
 			{
 				// Don't bother unpacking if that's been done before.
-				RegistryKey key = Registry.CurrentUser.OpenSubKey(PaApp.kPaRegKeyName);
+				RegistryKey key = Registry.CurrentUser.OpenSubKey(App.kPaRegKeyName);
 				if (key != null && (int)key.GetValue(kRegKey, 0) > 0)
 					return;
 
@@ -37,13 +37,13 @@ namespace SIL.Pa
 					return;
 
 				// Can't unpack the samples if the training projects zip file doesn't exist.
-				string zipFile = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
+				string zipFile = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
 				zipFile = Path.Combine(zipFile, tpsi.TrainingProjectsZipFile);
 				if (!File.Exists(zipFile))
 					return;
 
 				// Make sure the target folder for the training projects exists.
-				string destFolder = Path.Combine(PaApp.DefaultProjectFolder,
+				string destFolder = Path.Combine(App.DefaultProjectFolder,
 					tpsi.TrainingProjectFolder);
 
 				// Do this just in case there's a dot or dot, dot at the end.
@@ -58,7 +58,7 @@ namespace SIL.Pa
 				// again. I could write this to the settings file but I don't want to
 				// unpack if the user has deleted the training projects and his settings
 				// file at some point after having already unpacked the training projects.
-				key = Registry.CurrentUser.CreateSubKey(PaApp.kPaRegKeyName);
+				key = Registry.CurrentUser.CreateSubKey(App.kPaRegKeyName);
 				key.SetValue(kRegKey, 1);
 
 				foreach (PapModification papmod in tpsi.PapModifications)
@@ -89,7 +89,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static TrainingProjectSetupInfo Load()
 		{
-			s_tpsPath = Path.Combine(Application.StartupPath, PaApp.kTrainingSubFolder);
+			s_tpsPath = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
 			s_tpsPath = Path.Combine(s_tpsPath, "TrainingProjectsSetup.xml");
 
 			try
@@ -160,7 +160,7 @@ namespace SIL.Pa
 			}
 
 			Utils.SerializeData(papFilePath, prj);
-			PaApp.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
+			App.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
 		}
 	}
 }
