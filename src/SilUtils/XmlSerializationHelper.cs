@@ -112,6 +112,27 @@ namespace SilUtils
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Full path and file name of the xml file to verify.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsEmptyOrInvalid(string fileName)
+		{
+			var doc = new XmlDocument();
+
+			try
+			{
+				doc.Load(fileName);
+				return true;
+			}
+			catch
+			{
+			}
+
+			return false;
+		}
+
 		#region Methods for XML serializing and deserializing data
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

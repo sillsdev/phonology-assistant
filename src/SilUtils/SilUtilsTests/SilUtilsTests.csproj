@@ -71,6 +71,7 @@
     <Compile Include="MsgDispatcherTests.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="XmlHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -193,7 +193,7 @@ namespace SilUtils
 			if (node == null) 
 				return false;
 
-			string sdpi = XMLHelper.GetAttributeValue(node, "dpi");
+			string sdpi = XmlHelper.GetAttributeValue(node, "dpi");
 			float dpi;
 			if (!float.TryParse(sdpi, out dpi))
 				dpi = 0;
@@ -204,17 +204,17 @@ namespace SilUtils
 			{
 				if (!setLocationOnly)
 				{
-					frm.Height = XMLHelper.GetIntFromAttribute(node, "height", frm.Height);
-					frm.Width = XMLHelper.GetIntFromAttribute(node, "width", frm.Width);
+					frm.Height = XmlHelper.GetIntFromAttribute(node, "height", frm.Height);
+					frm.Width = XmlHelper.GetIntFromAttribute(node, "width", frm.Width);
 				}
 				
-				frm.Top = XMLHelper.GetIntFromAttribute(node, "top", frm.Top);
-				frm.Left = XMLHelper.GetIntFromAttribute(node, "left", frm.Left);
+				frm.Top = XmlHelper.GetIntFromAttribute(node, "top", frm.Top);
+				frm.Left = XmlHelper.GetIntFromAttribute(node, "left", frm.Left);
 			}
 
 			if (!setLocationOnly)
 			{
-				frm.WindowState = (XMLHelper.GetAttributeValue(node, "state") == "Maximized" ?
+				frm.WindowState = (XmlHelper.GetAttributeValue(node, "state") == "Maximized" ?
 					FormWindowState.Maximized : frm.WindowState = FormWindowState.Normal);
 			}
 
@@ -326,12 +326,12 @@ namespace SilUtils
 				return false;
 
 			// Get the cell border style.
-			gridLinesValue = XMLHelper.GetAttributeValue(node, "lines");
+			gridLinesValue = XmlHelper.GetAttributeValue(node, "lines");
 
 			// Get the column header height and dpi setting
 			// when the grid's settings were last saved.
-			int colHdrHeight = XMLHelper.GetIntFromAttribute(node, "colheaderheight", -1);
-			string sdpi = XMLHelper.GetAttributeValue(node, "dpi");
+			int colHdrHeight = XmlHelper.GetIntFromAttribute(node, "colheaderheight", -1);
+			string sdpi = XmlHelper.GetAttributeValue(node, "dpi");
 			float dpi;
 			if (!float.TryParse(sdpi, out dpi))
 				dpi = 0;
@@ -344,14 +344,14 @@ namespace SilUtils
 				{
 					try
 					{
-						string id = XMLHelper.GetAttributeValue(node, "id");
-						grid.Columns[id].Visible = XMLHelper.GetBoolFromAttribute(node, "visible", true);
+						string id = XmlHelper.GetAttributeValue(node, "id");
+						grid.Columns[id].Visible = XmlHelper.GetBoolFromAttribute(node, "visible", true);
 
-						int width = XMLHelper.GetIntFromAttribute(node, "width", -1);
+						int width = XmlHelper.GetIntFromAttribute(node, "width", -1);
 						if (width > -1)
 							grid.Columns[id].Width = width;
 
-						int displayIndex = XMLHelper.GetIntFromAttribute(node, "displayindex", -1);
+						int displayIndex = XmlHelper.GetIntFromAttribute(node, "displayindex", -1);
 						if (displayIndex > -1)
 							grid.Columns[id].DisplayIndex = displayIndex;
 					}
@@ -537,7 +537,7 @@ namespace SilUtils
 			if (node == null)
 				return null;
 
-			return XMLHelper.GetAttributeValue(node, property);
+			return XmlHelper.GetAttributeValue(node, property);
 		}
 
 		/// ------------------------------------------------------------------------------------

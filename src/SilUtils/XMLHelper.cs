@@ -2,7 +2,7 @@ using System.Xml;
 
 namespace SilUtils
 {
-	public class XMLHelper
+	public class XmlHelper
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -24,9 +24,6 @@ namespace SilUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="attrValue"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static int GetIntFromAttribute(XmlNode node, string attribute, int defaultValue)
 		{
@@ -39,9 +36,6 @@ namespace SilUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="attrValue"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static float GetFloatFromAttribute(XmlNode node, string attribute, float defaultValue)
 		{
@@ -54,9 +48,6 @@ namespace SilUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="node"></param>
-		/// <param name="attrValue"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static bool GetBoolFromAttribute(XmlNode node, string attribute)
 		{
@@ -67,10 +58,6 @@ namespace SilUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="node"></param>
-		/// <param name="attrValue"></param>
-		/// <param name="defaultValue"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static bool GetBoolFromAttribute(XmlNode node, string attribute, bool defaultValue)
 		{
