@@ -27,11 +27,7 @@ namespace SIL.Pa.Model
 	[XmlType("feature")]
 	public class Feature
 	{
-		protected int m_bit;
-		protected string m_name;
 		protected string m_fullname;
-		protected string m_class;
-		protected string m_clements;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -41,11 +37,13 @@ namespace SIL.Pa.Model
 		public Feature Clone()
 		{
 			var clone = new Feature();
-			clone.m_bit = m_bit;
-			clone.m_name = m_name;
+			clone.Bit = Bit;
+			clone.Name = Name;
 			clone.m_fullname = m_fullname;
-			clone.m_class = m_class;
-			clone.m_clements = m_clements;
+			clone.Class = Class;
+			clone.SubClass = SubClass;
+			clone.FeatureType = FeatureType;
+			clone.Clements = Clements;
 			return clone;
 		}
 
@@ -56,7 +54,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return FullName + " (bit: " + m_bit + ")";
+			return FullName + " (bit: " + Bit + ")";
 		}
 
 		#region Properties
@@ -66,11 +64,23 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("class")]
-		public string Class
-		{
-			get { return m_class; }
-			set { m_class = value; }
-		}
+		public string Class { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("subclass")]
+		public string SubClass { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("type")]
+		public string FeatureType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -78,23 +88,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("clements")]
-		public string Clements
-		{
-			get { return m_clements; }
-			set { m_clements = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public int Bit
-		{
-			get { return m_bit; }
-			internal set { m_bit = value; }
-		}
+		public string Clements { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -102,11 +96,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("name")]
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -119,6 +109,14 @@ namespace SIL.Pa.Model
 			get { return (string.IsNullOrEmpty(m_fullname) ? Name : m_fullname); }
 			set { m_fullname = value; }
 		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int Bit { get; protected internal set; }
 
 		#endregion
 	}

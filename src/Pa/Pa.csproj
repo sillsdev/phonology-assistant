@@ -193,6 +193,8 @@
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
+    <Compile Include="Processing\Pipeline.cs" />
+    <Compile Include="Processing\Step.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -875,38 +877,24 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>md "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\SearchTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\PhoneticInventory.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultConsonantChartHeadings.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\DefaultVowelChartHeadings.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\CVChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\FwDBAccessInfo.xml" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)\Configuration"
+md "$(ProjectDir)$(OutDir)\Processing"
+md "$(ProjectDir)$(OutDir)\Training"
+copy "$(TargetDir)..\..\DistFiles\Configuration\*.*" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Processing"
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GoogleTranslateAPI.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\TMXUtils.dll" "$(ProjectDir)$(OutDir)"
-rem md "$(ProjectDir)$(OutDir)\Localizations"
-rem copy "$(TargetDir)..\..\DistFiles\Pa.??.tmx" "$(ProjectDir)$(OutDir)\Localizations"
-md "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"</PreBuildEvent>
+copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"
+
+rem md "$(ProjectDir)$(OutDir)\Localizations"
+rem copy "$(TargetDir)..\..\DistFiles\Pa.??.tmx" "$(ProjectDir)$(OutDir)\Localizations"
+</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>

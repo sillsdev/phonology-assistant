@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<processing version="3.5">
+	<!-- Insert features for units that the program found in data sources of a project. -->
+	<process type="inventory">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_1a.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_1b_ambiguous_sequences.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_articulatory_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_binary_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2a_diacritics.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_articulatory_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2b_base_sequences.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2c_feature_overrides.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2d_feature_rules.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2e_hierarchical_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_articulatory_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_binary_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_3a_feature_order.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_3b_feature_changes.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_4a_phonetic_sort_order.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_4b_place_of_articulation.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_4c_manner_of_articulation.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_5a_description.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_5b_description.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_7.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
+	<!-- Transform filtered units to a .ConsonantChart.xml or .VowelChart.xml file. -->
+	<!-- The inventory element must have a view="Consonant Chart" or view="Vowel Chart" attribute. -->
+	<process type="view" view="CV Chart">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_to_CV_chart_1a.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_to_CV_chart_1b.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_to_CV_chart_2.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
+	<!-- Here are placeholders for processes for the Export command. -->
+	<process type="export" view="Data Corpus" />
+	<process type="export" view="Search" />
+	<process type="export" view="CV Chart" />
+	<process type="export" view="Distribution Chart" />
+	<process type="export" format="CSS" />
+	<process type="export" format="Word_2003_XML" />
+	<process type="export" format="XHTML" />
+</processing>

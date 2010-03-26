@@ -1,111 +1,141 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
 namespace SIL.Pa.Processing
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Corresponds to one pipeline element in the Processing.xml file.
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class Pipeline
 	{
-		private List<Step> m_stepList;
-
+		private const string s_namespacePrefix = "p";
+		private const string s_namespaceURI = "http://www.w3.org/ns/xproc";
+		
 		// In the Processing.xml file, each pipeline and its children are in the XProc namespace.
 		// However, the file does not necessarily specify the p: prefix on the inndividual elements.
-		static private XmlNameTable s_nameTable = null;
-		static private XmlNamespaceManager s_namespaceManager = null;
-		static private readonly string s_NamespacePrefix = "p";
-		static private readonly string s_NamespaceURI = "http://www.w3.org/ns/xproc";
+		private static XmlNameTable s_nameTable;
+		private static XmlNamespaceManager s_namespaceManager;
 
-		// navigator: The parent process element containing the pipeline element.
-		// processingFolderPath: Full path to folder containing the *.xsl files.
-		// pipeline: Initially null, returns the object if this function returns true.
-		static public bool Create(XPathNavigator navigator, string processingFolderPath,
-			ref Pipeline pipeline)
+		private readonly List<Step> m_processingSteps;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static public Pipeline Create(string processName, string processFileName,
+			string processingFolder)
 		{
-			Debug.Assert(pipeline == null);
+			var settings = new XmlReaderSettings();
+			var processingDocument = new XPathDocument(XmlReader.Create(processFileName, settings));
+			var processingNavigator = processingDocument.CreateNavigator();
+			var xpath = string.Format("processing/process[@type='{0}']", processName);
+			var processNavigator = processingNavigator.SelectSingleNode(xpath);
+			
+			processNavigator = processNavigator.SelectSingleNode("p:pipeline", NamespaceManager);
+			if (processNavigator == null)
+				return null;
 
-			// Create nameTable and namespaceManager once, when first needed.
-			// DAVID: Is this okay, and is there a better way to do it in C#?
-			if (s_namespaceManager == null)
-			{
-				s_nameTable = new NameTable();
-				s_namespaceManager = new XmlNamespaceManager(s_nameTable);
-				s_namespaceManager.AddNamespace(s_NamespacePrefix, s_NamespaceURI);
-			}
-
-			navigator = navigator.SelectSingleNode("p:pipeline", s_namespaceManager);
-			if (navigator == null)
-				return false;
-
-			List<Step> stepList = new List<Step>();
-			XPathNodeIterator iterator = navigator.Select("p:xslt", s_namespaceManager);
+			var stepList = new List<Step>();
+			var iterator = processNavigator.Select("p:xslt", NamespaceManager);
 			while (iterator.MoveNext())
 			{
-				XPathNavigator node = iterator.Current;
-				Step step = null;
-				if (Step.Create(node, s_namespaceManager, processingFolderPath, ref step))
+				var node = iterator.Current;
+				var step = Step.Create(node, NamespaceManager, processingFolder);
+				if (step != null)
 					stepList.Add(step);
 			}
-			if (stepList.Count == 0)
-				return false;
-
-			pipeline = new Pipeline(stepList);
-			return true;
+	
+			return (stepList.Count == 0 ? null : new Pipeline(stepList));
 		}
 
-		Pipeline(IList<Step> stepList)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static XmlNamespaceManager NamespaceManager
+		{
+			get
+			{
+				// Create nameTable and namespaceManager once, when first needed.
+				if (s_namespaceManager == null)
+				{
+					s_nameTable = new NameTable();
+					s_namespaceManager = new XmlNamespaceManager(s_nameTable);
+					s_namespaceManager.AddNamespace(s_namespacePrefix, s_namespaceURI);
+				}
+
+				return s_namespaceManager;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private Pipeline(IEnumerable<Step> stepList)
         {
-			m_stepList = new List<Step>(stepList);
+			m_processingSteps = new List<Step>(stepList);
         }
 
-		// Given inputStream, return outputStream containing results from the pipeline.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Transform(string inputFileName, string outputFileName)
+		{
+			using (var inputStream = new FileStream(inputFileName, FileMode.Open))
+			{
+				MemoryStream outputStream = null;
+				Transform(inputStream, ref outputStream);
+				inputStream.Close();
+
+				using (var outputFileStream = new FileStream(outputFileName, FileMode.Create))
+				{
+					outputStream.WriteTo(outputFileStream);
+					outputStream.Close();
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Given inputStream, return outputStream containing results from the pipeline. 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void Transform(Stream inputStream, ref MemoryStream outputStream)
 		{
 			Debug.Assert(outputStream == null);
-			outputStream = new MemoryStream();
-			Debug.Assert(m_stepList.Count != 0);
-			m_stepList[0].Transform(inputStream, outputStream);
-			for (int i = 1; i != m_stepList.Count; i++)
+			//outputStream = new MemoryStream();
+			Debug.Assert(m_processingSteps.Count != 0);
+
+			foreach (var step in m_processingSteps)
 			{
-				MemoryStream outputStreamFromPreviousFilter = outputStream;
 				outputStream = new MemoryStream();
-				// Because the output from the current filter is the input to the next filter
-				// or the data sink, seek to the beginning of the stream.
+				step.Transform(inputStream, outputStream);
+				inputStream = outputStream;
 				inputStream.Seek(0, SeekOrigin.Begin);
-				m_stepList[i].Transform(outputStreamFromPreviousFilter, outputStream);
 			}
-		}
 
-		// Here is sample code to create a pipeline and transform data.
-		static void example()
-		{
-			// Create the pipeline.
-			string processingFolderPath = "...\\Processing";
-			string processingFilePath = Path.Combine(processingFolderPath, "Processing.xml");
-			XmlReaderSettings settings = new XmlReaderSettings();
-			XPathDocument processingDocument = new XPathDocument(XmlReader.Create(processingFilePath, settings));
-			XPathNavigator processingNavigator = processingDocument.CreateNavigator();
-			XPathNavigator processNavigator = processingNavigator.SelectSingleNode("processing/process[@type='inventory']");
-			Pipeline pipeline = null;
-			if (!Pipeline.Create(processNavigator, processingFolderPath, ref pipeline))
-				return;
-
-			// Use the pipeline.
-			Stream inputStream = null; // Represents what the program produces.
-			MemoryStream outputStream = null;
-			pipeline.Transform(inputStream, ref outputStream);
-			string outputFilePath = "...\\PROJECT.PhoneticInventory.xml";
-			using (Stream outputFileStream = new FileStream(outputFilePath, FileMode.Create))
-			{
-				outputStream.WriteTo(outputFileStream);
-				outputStream.Close();
-			}
+			//m_processingSteps[0].Transform(inputStream, outputStream);
+			
+			//for (int i = 1; i != m_processingSteps.Count; i++)
+			//{
+			//    inputStream = outputStream;
+				
+			//    // Because the output from the current filter is the input
+			//    // to the next filter, seek to the beginning of the stream.
+			//    inputStream.Seek(0, SeekOrigin.Begin);
+			//    m_processingSteps[i].Transform(inputStream, new MemoryStream());
+			//}
 		}
 	}
 }

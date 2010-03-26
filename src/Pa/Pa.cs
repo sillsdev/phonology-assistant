@@ -514,7 +514,7 @@ namespace SIL.Pa
 		{
 			s_phoneCache = GetPhonesFromWordCache(WordCache);
 			SearchEngine.PhoneCache = s_phoneCache;
-			ProjectInventory.Save(Project);
+			ProjectInventory.Process(Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -771,12 +771,22 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path where the application's installed configuration files are stored.
+		/// Gets the path where the application's factory configuration files are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string ConfigFolder
 		{
 			get { return Path.Combine(Application.StartupPath, "Configuration"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the path where the application's processing files (i.e. xslt) are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ProcessingFolder
+		{
+			get { return Path.Combine(Application.StartupPath, "Processing"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -790,7 +800,7 @@ namespace SIL.Pa
 			set 
 			{
 				if (value != s_project)
-					ProjectInventory.Save(value);
+					ProjectInventory.Process(value);
 				
 				s_project = value;
 			}

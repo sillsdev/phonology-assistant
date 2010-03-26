@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Xml.Xsl;
+using SIL.Pa.Processing;
 using SilUtils;
 
 namespace SIL.Pa.Model
@@ -17,20 +20,79 @@ namespace SIL.Pa.Model
 		private const string kFileNameWrite = "PhoneticInventory-out.xml";
 		private const string kFileNameRead = "PhoneticInventory.xml";
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void Process(PaProject project)
+		{
+			if (project == null)
+				return;
+
+			var initialFilename = project.ProjectPathFilePrefix + kFileNameWrite;
+			CreateProjectIventory(initialFilename, project);
+			
+			var finalFilename = project.ProjectPathFilePrefix + kFileNameRead;
+			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
+			
+			var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
+			if (pipeline != null)
+				pipeline.Transform(initialFilename, finalFilename);
+			
+			//var xsltFilename = Path.Combine(App.ConfigFolder, "phonology_project_inventory.xsl");
+			//var readFilename = project.ProjectPathFilePrefix + kFileNameRead;
+
+			//using (var reader = new XmlTextReader(xsltFilename))
+			//{
+			//    var xslt = new XslCompiledTransform();
+			//    var settings = new XsltSettings();
+			//    settings.EnableDocumentFunction = true;
+			//    xslt.Load(reader, settings, null);
+			//    xslt.Transform(writeFilename, readFilename);
+			//    reader.Close();
+
+			//    // This makes it all pretty, with proper indentation and line-breaking.
+			//    var doc = new XmlDocument();
+			//    doc.Load(readFilename);
+			//    doc.Save(readFilename);
+			//}
+
+		}
+		
+				// Here is sample code to create a pipeline and transform data.
+		//static void example()
+		//{
+		//    // Create the pipeline.
+		//    var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
+		//    var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
+		//    if (pipeline == null)
+		//        return;
+
+		//    // Use the pipeline.
+		//    Stream inputStream = null; // Represents what the program produces.
+		//    MemoryStream outputStream = null;
+		//    pipeline.Transform(inputStream, ref outputStream);
+		//    string outputFilePath = "...\\PROJECT.PhoneticInventory.xml";
+		//    using (Stream outputFileStream = new FileStream(outputFilePath, FileMode.Create))
+		//    {
+		//        outputStream.WriteTo(outputFileStream);
+		//        outputStream.Close();
+		//    }
+		//}
+
 		#region Methods for writing project's phonetic inventory file.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Save(PaProject project)
+		private static void CreateProjectIventory(string outputFile, PaProject project)
 		{
 			if (project == null)
 				return;
 			
-			var filename = project.ProjectPathFilePrefix + kFileNameWrite;
-
-			using (var writer = XmlWriter.Create(filename))
+			using (var writer = XmlWriter.Create(outputFile))
 			{
 				writer.WriteStartDocument();
 
@@ -56,8 +118,8 @@ namespace SIL.Pa.Model
 
 			// This makes it all pretty, with proper indentation and line-breaking.
 			var doc = new XmlDocument();
-			doc.Load(filename);
-			doc.Save(filename);
+			doc.Load(outputFile);
+			doc.Save(outputFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,18 +165,26 @@ namespace SIL.Pa.Model
 			writer.WriteString("settings");
 			writer.WriteEndAttribute();
 
+			var path = project.ProjectPath;
+			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
+				path += Path.DirectorySeparatorChar.ToString();
+
 			writer.WriteStartElement("li");
 			writer.WriteStartAttribute("class");
 			writer.WriteString("projectFolder");
 			writer.WriteEndAttribute();
-			writer.WriteString(project.ProjectPath);
+			writer.WriteString(path);
 			writer.WriteEndElement();
+
+			path = App.ConfigFolder;
+			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
+				path += Path.DirectorySeparatorChar.ToString();
 
 			writer.WriteStartElement("li");
 			writer.WriteStartAttribute("class");
-			writer.WriteString("configurationFolder");
+			writer.WriteString("programConfigurationFolder");
 			writer.WriteEndAttribute();
-			writer.WriteString(App.ConfigFolder);
+			writer.WriteString(path);
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");
