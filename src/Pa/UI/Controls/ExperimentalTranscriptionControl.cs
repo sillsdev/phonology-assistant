@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -180,29 +181,29 @@ namespace SIL.Pa.UI.Controls
 				if (cell != null)
 				{
 					cell.Checked = !info.Convert ||
-						string.IsNullOrEmpty(info.CurrentConvertToItem);
+						string.IsNullOrEmpty(info.CurrentReplacement);
 
 					noneChecked = cell.Checked;
 				}
 
-				if (info.TranscriptionsToConvertTo != null)
+				if (info.ReplacementOptions.Count > 0)
 				{
-					// Now add the possible experimentaTransList to
+					// Now add the possible translation changes list to
 					// which the ambiguous item may be converted.
 					int col = kFirstCnvrtToCol;
-					foreach (string cnvrtToItem in info.TranscriptionsToConvertTo)
+					foreach (string option in info.ReplacementOptions.Select(x => x.Literal))
 					{
 						// If there aren't enough columns to accomodate the
 						// next convert to item, then add a new one.
 						if (col == m_grid.Columns.Count)
 							m_grid.Columns.Add(new RadioButtonColumn("col" + col));
 
-						m_grid[col, i].Value = cnvrtToItem;
+						m_grid[col, i].Value = option;
 						cell = m_grid[col, i] as RadioButtonCell;
 						if (cell != null)
 						{
 							cell.Checked = (!noneChecked &&
-								cnvrtToItem == info.CurrentConvertToItem);
+								option == info.CurrentReplacement);
 						}
 
 						col++;
@@ -698,39 +699,39 @@ namespace SIL.Pa.UI.Controls
 			// Commit pending changes in the grid.
 			m_grid.EndEdit();
 
-			TranscriptionChanges experimentalTransList = new TranscriptionChanges();
+			TranscriptionChanges transChanges = new TranscriptionChanges();
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				if (row.Index == m_grid.NewRowIndex)
 					continue;
 
-				TranscriptionChange experimentalTrans = new TranscriptionChange();
-				experimentalTrans.ConvertFromItem = (row.Cells[0].Value as string);
-				experimentalTrans.Convert = GetRowsConvertValue(row.Index);
+				TranscriptionChange change = new TranscriptionChange();
+				change.ConvertFromItem = (row.Cells[0].Value as string);
+				change.Convert = GetRowsConvertValue(row.Index);
 
-				List<string> convertToItems = new List<string>();
+				List<string> replacementOptions = new List<string>();
 				for (int i = kFirstCnvrtToCol; i < m_grid.Columns.Count; i++)
 				{
 					RadioButtonCell cell = row.Cells[i] as RadioButtonCell;
 					if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					{
-						convertToItems.Add(cell.Value as string);
+						replacementOptions.Add(cell.Value as string);
 						if (cell.Checked)
-							experimentalTrans.CurrentConvertToItem = cell.Value as string;
+							change.CurrentReplacement = cell.Value as string;
 					}
 				}
 
-				if (convertToItems.Count > 0)
-					experimentalTrans.TranscriptionsToConvertTo = convertToItems;
+				if (replacementOptions.Count > 0)
+					change.SetReplacementOptions(replacementOptions);
 
-				experimentalTransList.Add(experimentalTrans);
+				transChanges.Add(change);
 			}
 
-			App.MsgMediator.SendMessage("BeforeExperimentalTranscriptionsSaved", experimentalTransList);
-			experimentalTransList.Save(App.Project.ProjectPathFilePrefix);
-			App.IPASymbolCache.TranscriptionChanges = experimentalTransList;
+			App.MsgMediator.SendMessage("BeforeTranscriptionChangesSaved", transChanges);
+			transChanges.Save(App.Project.ProjectPathFilePrefix);
+			App.IPASymbolCache.TranscriptionChanges = transChanges;
 			m_grid.IsDirty = false;
-			App.MsgMediator.SendMessage("AfterExperimentalTranscriptionsSaved", experimentalTransList);
+			App.MsgMediator.SendMessage("AfterTranscriptionChangesSaved", transChanges);
 		}
 
 		#endregion

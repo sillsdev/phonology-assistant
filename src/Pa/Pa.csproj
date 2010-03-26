@@ -822,6 +822,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
+    <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\XYChartDirty.png" />
     <None Include="Resources\XYChartError.png" />

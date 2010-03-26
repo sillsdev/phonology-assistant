@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Xml.Serialization;
 using SIL.Localization;
 using SilUtils;
@@ -11,6 +13,7 @@ namespace SIL.Pa.Model
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[XmlType("transcriptionChanges")]
 	public class TranscriptionChanges : List<TranscriptionChange>
 	{
 		public const string kFileName = "ExperimentalTranscriptions.xml";
@@ -33,8 +36,8 @@ namespace SIL.Pa.Model
 				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.MediumHigh);
 
-			//App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-			//    "SIL.Pa.Model.UpdateFileTransforms.UpdateAmbiguousSequenceFile.xslt", errMsg);
+			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
+			    "SIL.Pa.Model.UpdateFileTransforms.UpdateExperimentalTranscriptionFile.xslt", errMsg);
 		}
 
 		#endregion
@@ -103,7 +106,7 @@ namespace SIL.Pa.Model
 				foreach (TranscriptionChange info in this)
 				{
 					if (info.Convert && !info.TreatAsSinglePhone &&
-						info.CurrentConvertToItem != null)
+						info.CurrentReplacement != null)
 					{
 						return true;
 					}
@@ -119,6 +122,7 @@ namespace SIL.Pa.Model
 		/// from and the key's value is what the item should be converted to.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public Dictionary<string, string> ConversionList
 		{
 			get
@@ -145,7 +149,7 @@ namespace SIL.Pa.Model
 				Dictionary<string, string> list = new Dictionary<string, string>();
 				foreach (TranscriptionChange item in tmpList)
 				{
-					string convertToItem = item.CurrentConvertToItem;
+					string convertToItem = item.CurrentReplacement;
 					if (item.ConvertFromItem != null && convertToItem != null &&
 						item.Convert && !item.TreatAsSinglePhone)
 					{
@@ -277,15 +281,10 @@ namespace SIL.Pa.Model
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("ExperimentalTranscription")]
+	[XmlType("change")]
 	public class TranscriptionChange
 	{
-		private string m_convertFromItem;
-		private List<string> m_convertToItems;
 		private string m_currentConvertToItem;
-		private bool m_convert = true;
-		private bool m_treatAsSinglePhone;
-		private int m_displayIndex;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -294,7 +293,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionChange()
 		{
-			m_convertToItems = new List<string>();
+			Convert = true;
+			ReplacementOptions = new List<ReplacementOption>();
+			//TranscriptionsToConvertTo = new List<string>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,8 +307,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionChange(string item) : this()
 		{
-			m_convertFromItem = item;
-			m_treatAsSinglePhone = true;
+			ConvertFromItem = item;
+			TreatAsSinglePhone = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -315,12 +316,8 @@ namespace SIL.Pa.Model
 		/// Gets or sets the experimental transcription to be converted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string ConvertFromItem
-		{
-			get { return m_convertFromItem; }
-			set { m_convertFromItem = value; }
-		}
+		[XmlAttribute("findWhat")]
+		public string ConvertFromItem { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -328,19 +325,22 @@ namespace SIL.Pa.Model
 		/// converted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string CurrentConvertToItem
+		[XmlAttribute("replaceWith")]
+		public string CurrentReplacement
 		{
 			get
 			{
-				if (!m_convert)
+				if (!Convert)
 					return null;
 
-				if (m_treatAsSinglePhone)
-					return m_convertFromItem;
+				if (TreatAsSinglePhone)
+					return ConvertFromItem;
 
-				return (m_convertToItems.Contains(m_currentConvertToItem) ?
+				return (ReplacementOptions.Any(x => x.Literal == m_currentConvertToItem) ?
 					m_currentConvertToItem : null);
+
+				//return (TranscriptionsToConvertTo.Contains(m_currentConvertToItem) ?
+				//    m_currentConvertToItem : null);
 			}
 			set { m_currentConvertToItem = value; }
 		}
@@ -355,12 +355,8 @@ namespace SIL.Pa.Model
 		/// converted data.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public bool Convert
-		{
-			get { return m_convert; }
-			set { m_convert = value; }
-		}
+		[XmlAttribute("convert")]
+		public bool Convert { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -368,12 +364,8 @@ namespace SIL.Pa.Model
 		/// to be converted to anything but rather forced to be recognized as a single phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public bool TreatAsSinglePhone
-		{
-			get { return m_treatAsSinglePhone; }
-			set { m_treatAsSinglePhone = value; }
-		}
+		[XmlAttribute("unit")]
+		public bool TreatAsSinglePhone { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -381,12 +373,10 @@ namespace SIL.Pa.Model
 		/// will be converted. (The setting is mainly for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("TranscriptionToConvert")]
-		public List<string> TranscriptionsToConvertTo
-		{
-			get { return m_convertToItems; }
-			set { m_convertToItems = value; }
-		}
+		//public List<string> TranscriptionsToConvertTo { get; set; }
+
+		[XmlElement("replacementOption")]
+		public List<ReplacementOption> ReplacementOptions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -394,10 +384,30 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		internal int DisplayIndex
+		internal int DisplayIndex { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetReplacementOptions(List<string> replacementOptions)
 		{
-			get { return m_displayIndex; }
-			set { m_displayIndex = value; }
+			ReplacementOptions.Clear();
+
+			foreach (var option in replacementOptions)
+				ReplacementOptions.Add(new ReplacementOption { Literal = option });
 		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class ReplacementOption
+	{
+		[XmlAttribute("literal")]
+		public string Literal { get; set; }
 	}
 }
