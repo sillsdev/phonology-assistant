@@ -115,7 +115,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_grid = new SilGrid();
 			m_grid.BorderStyle = BorderStyle.None;
-			m_grid.Name = "ExperimentalTranscriptionsGrid";
+			m_grid.Name = "TranscriptionChangesGrid";
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.AllowUserToAddRows = true;
 			m_grid.AllowUserToDeleteRows = true;
@@ -172,17 +172,15 @@ namespace SIL.Pa.UI.Controls
 			int i = 0;
 			foreach (TranscriptionChange info in expList)
 			{
-				m_grid[0, i].Value = info.ConvertFromItem;
+				m_grid[0, i].Value = info.WhatToReplace;
 				bool noneChecked = false;
 
 				// Load the cell indicating whether or not a
-				// conversion will take place for this item.
+				// replacement will take place for this item.
 				RadioButtonCell cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
 				if (cell != null)
 				{
-					cell.Checked = !info.Convert ||
-						string.IsNullOrEmpty(info.CurrentReplacement);
-
+					cell.Checked = (info.ReplaceWith == null);
 					noneChecked = cell.Checked;
 				}
 
@@ -203,7 +201,7 @@ namespace SIL.Pa.UI.Controls
 						if (cell != null)
 						{
 							cell.Checked = (!noneChecked &&
-								option == info.CurrentReplacement);
+								option == info.ReplaceWith);
 						}
 
 						col++;
@@ -706,8 +704,7 @@ namespace SIL.Pa.UI.Controls
 					continue;
 
 				TranscriptionChange change = new TranscriptionChange();
-				change.ConvertFromItem = (row.Cells[0].Value as string);
-				change.Convert = GetRowsConvertValue(row.Index);
+				change.WhatToReplace = (row.Cells[0].Value as string);
 
 				List<string> replacementOptions = new List<string>();
 				for (int i = kFirstCnvrtToCol; i < m_grid.Columns.Count; i++)
@@ -717,7 +714,7 @@ namespace SIL.Pa.UI.Controls
 					{
 						replacementOptions.Add(cell.Value as string);
 						if (cell.Checked)
-							change.CurrentReplacement = cell.Value as string;
+							change.ReplaceWith = cell.Value as string;
 					}
 				}
 
