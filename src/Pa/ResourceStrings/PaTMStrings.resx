@@ -915,7 +915,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidExperimentalTranscriptionsText" xml:space="preserve">
-    <value>&amp;Experimental Transcriptions...</value>
+    <value>&amp;Transcription Changes...</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidFeaturesText" xml:space="preserve">

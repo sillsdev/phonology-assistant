@@ -1,4 +1,3 @@
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -60,53 +59,14 @@ namespace SIL.Pa.Model
 		/// Loads the default and project-specific ambiguous sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static AmbiguousSequences Load(string pathPrefix)
+		public static AmbiguousSequences Load(string projectPathPrefix)
 		{
-			// Get the default list of sequences.
-			var defaultFile = Path.Combine(App.ConfigFolder, kDefaultFileName);
-
-			AmbiguousSequences defaultList =
-				XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(
-				defaultFile) ?? new AmbiguousSequences();
-
-			// Make sure there is a default list.
-
-			// Mark the default sequences before adding the project specific ones.
-			foreach (AmbiguousSeq seq in defaultList)
-				seq.IsDefault = true;
-
-			string filename = pathPrefix + kFileName;
+			string filename = projectPathPrefix + kFileName;
 			MigrateToLatestVersion(filename);
 
-			// Get the project-specific sequences.
-			var projectList = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
+			var list = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
 
-			if (projectList != null && projectList.Count > 0)
-			{
-				// If any sequences are found in the project-specific list that are
-				// also found in the default list, then remove them from the default list.
-				for (int i = projectList.Count - 1; i >= 0; i--)
-				{
-					int index = defaultList.GetSequenceIndex(projectList[i].Literal);
-					if (index >= 0)
-						defaultList.RemoveAt(index);
-					else if (projectList[i].IsDefault)
-					{
-						// At this point, we know we've found a sequence in the project list
-						// that is marked as a default but it's not also in the default list.
-						// Therefore, remove it from the project list since the default set
-						// of ambiguous sequences must have changed. This should almost
-						// never happen... and probably never happen.
-						projectList.RemoveAt(i);
-						projectList.Save(pathPrefix);
-					}
-				}
-
-				// Now Combine the project-specific sequences with the default ones.
-				defaultList.AddRange(projectList);
-			}
-
-			return (defaultList.Count == 0 ? null : defaultList);
+			return (list ?? new AmbiguousSequences());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,41 +253,6 @@ namespace SIL.Pa.Model
 			return ambigSeq;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// The parse tokens list is a hash table of character tokens unique to each ambiguous
-		///// sequence in the list. They are used when parsing phonetic text containing
-		///// ambiguous sequences. Before a phonetic transcription is parsed into phones, each
-		///// ambiguous sequence in the transcription is replaced by a single token. Then the
-		///// transcription is parsed into phones, the tokens are replaced by the ambiguous
-		///// sequences they represent.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//internal Dictionary<char, string> ParseTokens
-		//{
-		//    get { return m_parseTokens; }
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the number of sequences in the list that are not default sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int NonDefaultCount
-		{
-			get
-			{
-				int i = 0;
-				foreach (AmbiguousSeq seq in this)
-				{
-					if (!seq.IsDefault)
-						i++;
-				}
-
-				return i;
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -384,12 +309,9 @@ namespace SIL.Pa.Model
 		public string BaseChar;
 		
 		// This flag is only used for sequences that were added
-		// from the PhoneticParser in the IPA character cache.
+		// from the PhoneticParser in the IPA symbols cache.
 		[XmlAttribute("generated")]
 		public bool IsGenerated;
-
-		[XmlAttribute("default")]
-		public bool IsDefault;
 
 		[XmlIgnore]
 		internal int DisplayIndex;

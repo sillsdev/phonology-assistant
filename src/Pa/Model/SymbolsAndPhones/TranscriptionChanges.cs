@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
@@ -16,7 +17,7 @@ namespace SIL.Pa.Model
 	[XmlType("transcriptionChanges")]
 	public class TranscriptionChanges : List<TranscriptionChange>
 	{
-		public const string kFileName = "ExperimentalTranscriptions.xml";
+		public const string kFileName = "TranscriptionChanges.xml";
 
 		#region Method to migrate previous versions of transcription changes file to current.
 		/// ------------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
+		public static void MigrateToLatestVersion(string newFileName, string projectPathPrefix)
 		{
 			var errMsg = LocalizationManager.LocalizeString(
 				"Misc.Strings.TranscriptionChangesMigrationErrMsg",
@@ -36,8 +37,13 @@ namespace SIL.Pa.Model
 				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.MediumHigh);
 
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
+			var oldFileName = projectPathPrefix + "ExperimentalTranscriptions.xml";
+
+			App.MigrateToLatestVersion(oldFileName, Assembly.GetExecutingAssembly(),
 			    "SIL.Pa.Model.UpdateFileTransforms.UpdateExperimentalTranscriptionFile.xslt", errMsg);
+
+			if (File.Exists(oldFileName) && !File.Exists(newFileName))
+				File.Move(oldFileName, newFileName);
 		}
 
 		#endregion
@@ -47,11 +53,11 @@ namespace SIL.Pa.Model
 		/// Loads the project's transcription changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static TranscriptionChanges Load(string pathPrefix)
+		public static TranscriptionChanges Load(string projectPathPrefix)
 		{
-			string filename = pathPrefix + kFileName;
+			string filename = projectPathPrefix + kFileName;
 
-			MigrateToLatestVersion(filename);
+			MigrateToLatestVersion(filename, projectPathPrefix);
 			
 			TranscriptionChanges experimentalTrans = Utils.DeserializeData(filename,
 				typeof(TranscriptionChanges)) as TranscriptionChanges;
@@ -63,7 +69,7 @@ namespace SIL.Pa.Model
 			{
 				for (int i = experimentalTrans.Count - 1; i >= 0; i--)
 				{
-					if (experimentalTrans[i].ConvertFromItem == null)
+					if (experimentalTrans[i].WhatToReplace == null)
 						experimentalTrans.RemoveAt(i);
 				}
 			}
@@ -94,32 +100,8 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not there are any transcription changes
-		/// that should be converted.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool AnyChangesToConvert
-		{
-			get
-			{
-				foreach (TranscriptionChange info in this)
-				{
-					if (info.Convert && !info.TreatAsSinglePhone &&
-						info.CurrentReplacement != null)
-					{
-						return true;
-					}
-				}
-
-				return false;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of the items to convert. The returned list's key is what to convert
-		/// from and the key's value is what the item should be converted to.
+		/// Gets a list of the items to convert. The returned list's key is what to replace
+		/// and the key's value is what to replace it with.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -127,14 +109,14 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (!AnyChangesToConvert)
+				if (TrueForAll(x => x.ReplaceWith == null))
 					return null;
 
 				// First, sort the list of items to convert on the length of the item
 				// to convert to -- longest to shortest.
 				List<TranscriptionChange> tmpList = new List<TranscriptionChange>();
 
-				// Copy the ExperimentalTrans references.
+				// Copy the TranscriptionChange references.
 				for (int i = 0; i < Count; i++)
 				{
 					this[i].DisplayIndex = i;
@@ -149,12 +131,9 @@ namespace SIL.Pa.Model
 				Dictionary<string, string> list = new Dictionary<string, string>();
 				foreach (TranscriptionChange item in tmpList)
 				{
-					string convertToItem = item.CurrentReplacement;
-					if (item.ConvertFromItem != null && convertToItem != null &&
-						item.Convert && !item.TreatAsSinglePhone)
-					{
-						list[item.ConvertFromItem] = convertToItem;
-					}
+					string convertToItem = item.ReplaceWith;
+					if (item.WhatToReplace != null && convertToItem != null)
+						list[item.WhatToReplace] = convertToItem;
 				}
 				
 				return (list.Count > 0 ? list : null);
@@ -168,46 +147,24 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static int TransChangeComparer(TranscriptionChange x, TranscriptionChange y)
 		{
-			if (x == y || ((x == null || x.ConvertFromItem == null) &&
-				(y == null || y.ConvertFromItem == null)))
+			if (x == y || ((x == null || x.WhatToReplace == null) &&
+				(y == null || y.WhatToReplace == null)))
 			{
 				return 0;
 			}
 
-			if (x == null || x.ConvertFromItem == null)
+			if (x == null || x.WhatToReplace == null)
 				return 1;
 
-			if (y == null || y.ConvertFromItem == null)
+			if (y == null || y.WhatToReplace == null)
 				return -1;
 
 			// For items of the same length, this will preserve the order in
 			// which the user entered the items in the Phone Inventory view.
-			if (x.ConvertFromItem.Length == y.ConvertFromItem.Length)
+			if (x.WhatToReplace.Length == y.WhatToReplace.Length)
 				return x.DisplayIndex.CompareTo(y.DisplayIndex);
 
-			return -(x.ConvertFromItem.Length.CompareTo(y.ConvertFromItem.Length));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating if the specified item is in the collection of experimental
-		/// transcriptions to convert. When itemMustBeTreatedAsSinglePhone is true, it means
-		/// that a match will only be returned if the item is found and the ExperimentalTrans
-		/// object to which it belongs has its TreatAsSinglePhone flag set to true.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ContainsItem(string item, bool itemMustBeTreatedAsSinglePhone)
-		{
-			foreach (TranscriptionChange experimentalTrans in this)
-			{
-				if (experimentalTrans.ConvertFromItem == item)
-				{
-					return (itemMustBeTreatedAsSinglePhone ?
-						experimentalTrans.TreatAsSinglePhone : true);
-				}
-			}
-
-			return false;
+			return -(x.WhatToReplace.Length.CompareTo(y.WhatToReplace.Length));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,21 +175,22 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string Convert(string text)
 		{
-			Dictionary<string, string> actualConversions;
-			return Convert(text, out actualConversions);
+			Dictionary<string, string> actualReplacements;
+			return Convert(text, out actualReplacements);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Converts all the specified text to contain the experimental transcriptions that
-		/// are marked for converting.
+		/// Searches the specified text and replaces all the occurrances of the "WhatToReplace"
+		/// strings (from each transcription change in the list) with the "ReplaceWith"
+		/// strings (from each transcription change in the list).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Convert(string text, out Dictionary<string, string> actualConversions)
+		public string Convert(string text, out Dictionary<string, string> actualReplacements)
 		{
 			if (ConversionList == null || ConversionList.Count == 0)
 			{
-				actualConversions = null;
+				actualReplacements = null;
 				return text;
 			}
 
@@ -255,7 +213,7 @@ namespace SIL.Pa.Model
 				}
 			}
 
-			actualConversions = new Dictionary<string, string>();
+			actualReplacements = new Dictionary<string, string>();
 			
 			// Now replace each token with it's experimental transcription
 			// and build a list of the conversions that were actually made.
@@ -265,12 +223,12 @@ namespace SIL.Pa.Model
 				{
 					string convertTo = kvp.Value.Value;
 					text = text.Replace(kvp.Key.ToString(), convertTo);
-					actualConversions[kvp.Value.Key] = convertTo;
+					actualReplacements[kvp.Value.Key] = convertTo;
 				}
 			}
 
-			if (actualConversions.Count == 0)
-				actualConversions = null;
+			if (actualReplacements.Count == 0)
+				actualReplacements = null;
 
 			return text;
 		}
@@ -284,7 +242,7 @@ namespace SIL.Pa.Model
 	[XmlType("change")]
 	public class TranscriptionChange
 	{
-		private string m_currentConvertToItem;
+		private string m_replaceWith;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -293,22 +251,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionChange()
 		{
-			Convert = true;
 			ReplacementOptions = new List<ReplacementOption>();
-			//TranscriptionsToConvertTo = new List<string>();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates an experimental transcription with the specified item that will be treated
-		/// as a single phone. That means the object's TreatAsSinglePhone flag will be set to
-		/// true.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public TranscriptionChange(string item) : this()
-		{
-			ConvertFromItem = item;
-			TreatAsSinglePhone = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -317,7 +260,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("findWhat")]
-		public string ConvertFromItem { get; set; }
+		public string WhatToReplace { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -326,55 +269,27 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("replaceWith")]
-		public string CurrentReplacement
+		public string ReplaceWith
 		{
 			get
 			{
-				if (!Convert)
-					return null;
-
-				if (TreatAsSinglePhone)
-					return ConvertFromItem;
-
-				return (ReplacementOptions.Any(x => x.Literal == m_currentConvertToItem) ?
-					m_currentConvertToItem : null);
-
-				//return (TranscriptionsToConvertTo.Contains(m_currentConvertToItem) ?
-				//    m_currentConvertToItem : null);
+				return (ReplacementOptions.Any(x => x.Literal == m_replaceWith) ?
+					m_replaceWith : null);
 			}
-			set { m_currentConvertToItem = value; }
+			set
+			{
+				m_replaceWith = (value != null ? value.Trim() : value);
+				if (m_replaceWith == string.Empty)
+					m_replaceWith = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the experimental transcription will
-		/// be converted when data sources are read. This value can turned on and off to
-		/// provide a way for the user to store experimental transcriptions to be converted
-		/// while controlling when conversion takes place. For example, the user may
-		/// temporarily want to see the source data unconverted, then return to analyzing
-		/// converted data.
+		/// Gets or sets the list of possible replacement transcriptions. (The setting is
+		/// mainly for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("convert")]
-		public bool Convert { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the item to convert is not really
-		/// to be converted to anything but rather forced to be recognized as a single phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("unit")]
-		public bool TreatAsSinglePhone { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of possible items to which the experimental transcription
-		/// will be converted. (The setting is mainly for XML deserialization.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		//public List<string> TranscriptionsToConvertTo { get; set; }
-
 		[XmlElement("replacementOption")]
 		public List<ReplacementOption> ReplacementOptions { get; set; }
 
@@ -398,6 +313,17 @@ namespace SIL.Pa.Model
 			foreach (var option in replacementOptions)
 				ReplacementOptions.Add(new ReplacementOption { Literal = option });
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return WhatToReplace + (string.IsNullOrEmpty(ReplaceWith) ?
+				" will not be replaced" : " -> " + ReplaceWith);
+		}
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -409,5 +335,15 @@ namespace SIL.Pa.Model
 	{
 		[XmlAttribute("literal")]
 		public string Literal { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Literal;
+		}
 	}
 }

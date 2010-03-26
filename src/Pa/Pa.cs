@@ -187,6 +187,7 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_progressBarLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
+		private static PaProject s_project;
 		private static PhoneCache s_phoneCache;
 		private static PaFieldInfoList s_fieldInfo;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
@@ -513,6 +514,7 @@ namespace SIL.Pa
 		{
 			s_phoneCache = GetPhonesFromWordCache(WordCache);
 			SearchEngine.PhoneCache = s_phoneCache;
+			ProjectInventory.Save(Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -774,7 +776,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static string ConfigFolder
 		{
-			get { return Application.StartupPath; } // Path.Combine(Application.StartupPath, "Configuration"); }
+			get { return Path.Combine(Application.StartupPath, "Configuration"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -782,7 +784,17 @@ namespace SIL.Pa
 		/// Gets or sets the currently opened PA project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static PaProject Project { get; set; }
+		public static PaProject Project
+		{
+			get { return s_project; }
+			set 
+			{
+				if (value != s_project)
+					ProjectInventory.Save(value);
+				
+				s_project = value;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

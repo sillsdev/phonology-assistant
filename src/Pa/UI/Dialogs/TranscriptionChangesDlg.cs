@@ -10,16 +10,16 @@ namespace SIL.Pa.UI.Dialogs
 	/// Dialog for defining ambiguous sequences.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ExperimentalTranscriptionsDlg : OKCancelDlgBase, IxCoreColleague
+	public partial class TranscriptionChangesDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private readonly ExperimentalTranscriptionControl m_experimentalTransCtrl;
+		private readonly TranscriptionChangesControl m_TransChangeCtrl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExperimentalTranscriptionsDlg()
+		public TranscriptionChangesDlg()
 		{
 			InitializeComponent();
 			App.SettingsHandler.LoadFormProperties(this);
@@ -27,12 +27,12 @@ namespace SIL.Pa.UI.Dialogs
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
 
-			m_experimentalTransCtrl = new ExperimentalTranscriptionControl();
-			m_experimentalTransCtrl.BorderStyle = BorderStyle.None;
-			m_experimentalTransCtrl.Dock = DockStyle.Fill;
-			m_experimentalTransCtrl.TabIndex = 0;
-			m_experimentalTransCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
-			pnlGrid.Controls.Add(m_experimentalTransCtrl);
+			m_TransChangeCtrl = new TranscriptionChangesControl();
+			m_TransChangeCtrl.BorderStyle = BorderStyle.None;
+			m_TransChangeCtrl.Dock = DockStyle.Fill;
+			m_TransChangeCtrl.TabIndex = 0;
+			m_TransChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
+			pnlGrid.Controls.Add(m_TransChangeCtrl);
 			AdjustGridRows();
 			
 			App.AddMediatorColleague(this);
@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			m_experimentalTransCtrl.RefreshHeader();
+			m_TransChangeCtrl.RefreshHeader();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,16 +73,16 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Sometimes (or maybe always) this throws an exception when
 				// the first row is the only row and is the NewRowIndex row.
-				m_experimentalTransCtrl.Grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+				m_TransChangeCtrl.Grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			}
 			catch { }
 
-			m_experimentalTransCtrl.Grid.AutoResizeRows();
+			m_TransChangeCtrl.Grid.AutoResizeRows();
 
 			int extraRowHeight =
 				App.SettingsHandler.GetIntSettingsValue(Name, "exptransgridextrarowheight", 2);
 
-			foreach (DataGridViewRow row in m_experimentalTransCtrl.Grid.Rows)
+			foreach (DataGridViewRow row in m_TransChangeCtrl.Grid.Rows)
 				row.Height += extraRowHeight;
 		}
 
@@ -94,7 +94,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return m_experimentalTransCtrl.Grid.IsDirty; }
+			get { return m_TransChangeCtrl.Grid.IsDirty; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,9 +113,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (m_experimentalTransCtrl.Grid.IsDirty)
+			if (m_TransChangeCtrl.Grid.IsDirty)
 			{
-				m_experimentalTransCtrl.SaveChanges();
+				m_TransChangeCtrl.SaveChanges();
 				App.Project.ReloadDataSources();
 			}
 

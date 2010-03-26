@@ -271,7 +271,6 @@ namespace SIL.Pa
 				project = null;
 			}
 
-			ProjectInventory.Save(project);
 			return project;
 		}
 

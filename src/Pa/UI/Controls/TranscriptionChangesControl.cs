@@ -15,10 +15,10 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates a control class combining a heading panel and a grid for entering
-	/// experimental transcriptions.
+	/// transcription changes.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ExperimentalTranscriptionControl : SilPanel, IxCoreColleague
+	public class TranscriptionChangesControl : SilPanel, IxCoreColleague
 	{
 		private const int kFirstCnvrtToCol = 2;
 		private const int kCnvrtCol = 1;
@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExperimentalTranscriptionControl()
+		public TranscriptionChangesControl()
 		{
 			// Create the label over the column containing transcriptions to convert.
 			lblSourceHdg = new Label();
@@ -70,13 +70,13 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			LocalizationManager.LocalizeObject(lblSourceHdg, "ExperimentalTranscriptionsDlg.Heading1",
-				"Transcribed in source as:", null, null, "Heading in experimental transcriptions control.",
+			LocalizationManager.LocalizeObject(lblSourceHdg, "TranscriptionChangesDlg.Heading1",
+				"Transcribed in source as:", null, null, "Heading in transcription changes control.",
 				"Dialog Boxes", LocalizationPriority.High);
 
-			LocalizationManager.LocalizeObject(lblTargetHdg, "ExperimentalTranscriptionsDlg.Heading2",
-				"Convert to one of these options:", null, null,
-				"Heading in experimental transcriptions control.", "Dialog Boxes",
+			LocalizationManager.LocalizeObject(lblTargetHdg, "TranscriptionChangesDlg.Heading2",
+				"Replace with one of these options:", null, null,
+				"Heading in transcription changes control.", "Dialog Boxes",
 				LocalizationPriority.High);
 
 			BuildGrid();

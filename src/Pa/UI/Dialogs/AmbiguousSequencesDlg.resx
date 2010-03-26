@@ -118,52 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="chkShowDefaults.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="chkShowGenerated.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="chkShowDefaults.AutoSize" type="System.Boolean, mscorlib">
+  <data name="chkShowGenerated.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="chkShowDefaults.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="chkShowGenerated.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="chkShowDefaults.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="chkShowGenerated.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 12</value>
   </data>
-  <data name="chkShowDefaults.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 17</value>
+  <data name="chkShowGenerated.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 17</value>
   </data>
-  <data name="chkShowDefaults.TabIndex" type="System.Int32, mscorlib">
+  <data name="chkShowGenerated.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="chkShowDefaults.Text" xml:space="preserve">
-    <value>Show &amp;Default Set</value>
+  <data name="chkShowGenerated.Text" xml:space="preserve">
+    <value>Show &amp;Generated Sequences</value>
   </data>
-  <data name="chkShowDefaults.Visible" type="System.Boolean, mscorlib">
+  <data name="chkShowGenerated.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;chkShowDefaults.Name" xml:space="preserve">
-    <value>chkShowDefaults</value>
+  <data name="&gt;&gt;chkShowGenerated.Name" xml:space="preserve">
+    <value>chkShowGenerated</value>
   </data>
-  <data name="&gt;&gt;chkShowDefaults.Type" xml:space="preserve">
+  <data name="&gt;&gt;chkShowGenerated.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;chkShowDefaults.Parent" xml:space="preserve">
+  <data name="&gt;&gt;chkShowGenerated.Parent" xml:space="preserve">
     <value>pnlButtons</value>
   </data>
-  <data name="&gt;&gt;chkShowDefaults.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;chkShowGenerated.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 291</value>
+    <value>10, 284</value>
   </data>
   <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 40</value>
+    <value>443, 40</value>
   </data>
   <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
     <value>pnlButtons</value>
@@ -178,7 +178,7 @@
     <value>1</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>197, 7</value>
+    <value>191, 7</value>
   </data>
   <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
     <value>btnOK</value>
@@ -193,7 +193,7 @@
     <value>3</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>283, 7</value>
+    <value>277, 7</value>
   </data>
   <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
     <value>btnCancel</value>
@@ -208,7 +208,7 @@
     <value>2</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>369, 7</value>
+    <value>363, 7</value>
   </data>
   <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
     <value>btnHelp</value>
@@ -225,6 +225,9 @@
   <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="m_grid.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -232,7 +235,7 @@
     <value>22</value>
   </data>
   <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>447, 279</value>
+    <value>441, 272</value>
   </data>
   <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -259,7 +262,7 @@
     <value>10, 10</value>
   </data>
   <data name="pnlGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 281</value>
+    <value>443, 274</value>
   </data>
   <data name="pnlGrid.TabIndex" type="System.Int32, mscorlib">
     <value>102</value>
@@ -283,7 +286,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>469, 331</value>
+    <value>463, 324</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>455, 225</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Ambiguous Sequences</value>
@@ -292,12 +298,12 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AmbiguousSequencesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.40419, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3737.17853, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

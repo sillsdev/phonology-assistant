@@ -191,6 +191,9 @@
   <data name="pnlGrid.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 11world</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="pnlGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
   </data>
@@ -223,18 +226,18 @@
     <value>469, 331</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Experimental Transcriptions</value>
+    <value>Transcription Changes</value>
   </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ExperimentalTranscriptionsDlg</value>
+    <value>TranscriptionChangesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3631.41083, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3737.18925, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

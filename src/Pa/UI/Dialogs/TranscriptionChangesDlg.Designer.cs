@@ -2,7 +2,7 @@ using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	partial class ExperimentalTranscriptionsDlg
+	partial class TranscriptionChangesDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExperimentalTranscriptionsDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranscriptionChangesDlg));
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
 			this.locExtender.SetLocalizationPriority(this.pnlGrid, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlGrid, "ExperimentalTranscriptionsDlg.pnlGrid");
+			this.locExtender.SetLocalizingId(this.pnlGrid, "TranscriptionChangesDlg.pnlGrid");
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
 			this.pnlGrid.PaintExplorerBarBackground = false;
@@ -86,15 +86,15 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
-			// ExperimentalTranscriptionsDlg
+			// TranscriptionChangesDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ExperimentalTranscriptionsDlg.WindowTitle");
-			this.Name = "ExperimentalTranscriptionsDlg";
+			this.locExtender.SetLocalizingId(this, "TranscriptionChangesDlg.WindowTitle");
+			this.Name = "TranscriptionChangesDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
 			this.pnlButtons.ResumeLayout(false);

@@ -229,24 +229,20 @@ namespace SIL.Pa.Model
 			if (ambigSeqs.Count == 0)
 				return;
 
-			var masterList = App.IPASymbolCache.AmbiguousSequences ?? new AmbiguousSequences();
+			var list = App.IPASymbolCache.AmbiguousSequences ?? new AmbiguousSequences();
 
-			int i = 0;
-			while (i < masterList.Count && masterList[i].IsDefault)
-				i++;
-
-			foreach (string unit in ambigSeqs)
+			foreach (string seq in ambigSeqs)
 			{
-				AmbiguousSeq seq = new AmbiguousSeq(unit);
-				seq.Convert = true;
-				seq.IsGenerated = true;
-				masterList.Insert(i, seq);
+				AmbiguousSeq newSeq = new AmbiguousSeq(seq);
+				newSeq.Convert = true;
+				newSeq.IsGenerated = true;
+				list.Add(newSeq);
 			}
 
 			// This may seem unecessary since PaApp.IPASymbolCache.AmbiguousSequences is
-			// a reference type and masterList just points to it, but it forces a rebuild
-			// of an internal list kept by the IPACharCache.
-			App.IPASymbolCache.AmbiguousSequences = masterList;
+			// a reference type and list just points to it, but it forces a rebuild
+			// of an internal list kept by the IPASymbolCache.
+			App.IPASymbolCache.AmbiguousSequences = list;
 		}
 
 		/// ------------------------------------------------------------------------------------

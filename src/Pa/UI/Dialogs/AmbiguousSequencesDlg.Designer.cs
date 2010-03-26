@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbiguousSequencesDlg));
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
-			this.chkShowDefaults = new System.Windows.Forms.CheckBox();
+			this.chkShowGenerated = new System.Windows.Forms.CheckBox();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
@@ -45,12 +45,12 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlButtons
 			// 
-			this.pnlButtons.Controls.Add(this.chkShowDefaults);
+			this.pnlButtons.Controls.Add(this.chkShowGenerated);
 			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
 			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
 			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.chkShowDefaults, 0);
+			this.pnlButtons.Controls.SetChildIndex(this.chkShowGenerated, 0);
 			// 
 			// btnCancel
 			// 
@@ -133,19 +133,18 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEndEdit);
 			this.m_grid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.m_grid_DefaultValuesNeeded);
 			// 
-			// chkShowDefaults
+			// chkShowGenerated
 			// 
-			resources.ApplyResources(this.chkShowDefaults, "chkShowDefaults");
-			this.chkShowDefaults.BackColor = System.Drawing.Color.Transparent;
-			this.chkShowDefaults.Checked = true;
-			this.chkShowDefaults.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.locExtender.SetLocalizableToolTip(this.chkShowDefaults, null);
-			this.locExtender.SetLocalizationComment(this.chkShowDefaults, null);
-			this.locExtender.SetLocalizationPriority(this.chkShowDefaults, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.chkShowDefaults, "AmbiguousSequencesDlg.chkShowDefaults");
-			this.chkShowDefaults.Name = "chkShowDefaults";
-			this.chkShowDefaults.UseVisualStyleBackColor = false;
-			this.chkShowDefaults.CheckedChanged += new System.EventHandler(this.chkShowDefaults_CheckedChanged);
+			resources.ApplyResources(this.chkShowGenerated, "chkShowGenerated");
+			this.chkShowGenerated.BackColor = System.Drawing.Color.Transparent;
+			this.chkShowGenerated.Checked = true;
+			this.chkShowGenerated.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.locExtender.SetLocalizableToolTip(this.chkShowGenerated, null);
+			this.locExtender.SetLocalizationComment(this.chkShowGenerated, null);
+			this.locExtender.SetLocalizingId(this.chkShowGenerated, "AmbiguousSequencesDlg.chkShowGenerated");
+			this.chkShowGenerated.Name = "chkShowGenerated";
+			this.chkShowGenerated.UseVisualStyleBackColor = false;
+			this.chkShowGenerated.CheckedChanged += new System.EventHandler(this.HandleShowGeneratedCheckedChanged);
 			// 
 			// locExtender
 			// 
@@ -175,7 +174,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		private SilPanel pnlGrid;
 		private SilUtils.SilGrid m_grid;
-		private System.Windows.Forms.CheckBox chkShowDefaults;
+		private System.Windows.Forms.CheckBox chkShowGenerated;
 		private SIL.Localization.LocalizationExtender locExtender;
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Model;
@@ -13,8 +14,7 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class AmbiguousSequencesDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private const string kCantDeleteDefault = "AmbiguousSequencesDlg.CantDeleteDefaultAmbiguousSeqMsg";
-		private const string kCantDeleteAutoGen = "AmbiguousSequencesDlg.CantDeleteAutoGenAmbiguousSeqMsg";
+		private const string kCantDeleteGenerated = "AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg";
 		private const string kBaseCharMissing = "AmbiguousSequencesDlg.BaseCharMissingMsg";
 		private const string kBaseCharNotInSeq = "AmbiguousSequencesDlg.BaseCharNotInSeqMsg";
 		private const string kSeqMissing = "AmbiguousSequencesDlg.MissingSequenceMsg";
@@ -67,19 +67,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitStrings()
 		{
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteAutoGenAmbiguousSeqMsg",
+			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg",
 				"This ambiguous sequence was automatically generated based\non phonetic " +
 				"transcriptions found in one or more data sources.\nAutomatically " +
 				"generated ambiguous sequences may not be\ndeleted. If you do not want " +
 				"Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat " +
 				"as one Unit?’check box.", "Message displayed when trying to delete an " +
 				"automatically generated ambiguous sequence in the ambiguous sequence " +
-				"dialog box.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
-				LocalizationPriority.Medium);
-
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteDefaultAmbiguousSeqMsg",
-				"Default sequences may not be deleted.", "Message displayed when trying " +
-				"to delete a default ambiguous sequence in the ambiguous sequence " +
 				"dialog box.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
@@ -108,9 +102,9 @@ namespace SIL.Pa.UI.Dialogs
 				LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 
 			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
-				"That sequence already exists as a default sequence.", "Message displayed in " +
+				"That sequence already exists as a generated sequence.", "Message displayed in " +
 				"ambiguous sequences dialog box when a user-added sequence is identical to a " +
-				"default sequences.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
+				"generated sequences.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 		}
 
@@ -187,11 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_grid.Columns.Add(col);
 
-			col = SilGrid.CreateCheckBoxColumn("default");
-			col.Visible = false;
-			m_grid.Columns.Add(col);
-
-			col = SilGrid.CreateCheckBoxColumn("autodefault");
+			col = SilGrid.CreateCheckBoxColumn("generated");
 			col.Visible = false;
 			m_grid.Columns.Add(col);
 		}
@@ -203,15 +193,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			// Uncomment if we ever go back to having a default set of ambiguous sequences.
-			//bool showDefaults = chkShowDefaults.Checked ||
-			//    PaApp.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true);
-
-			bool showDefaults = true;
 			int prevRow = m_grid.CurrentCellAddress.Y;
 
 			m_grid.Rows.Clear();
-			AmbiguousSequences ambigSeqList = App.IPASymbolCache.AmbiguousSequences;
+			var ambigSeqList = App.IPASymbolCache.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -219,7 +204,6 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			bool hasDefaultSequences = false;
 			m_grid.Rows.Add(ambigSeqList.Count);
 
 			for (int i = 0; i < ambigSeqList.Count; i++)
@@ -227,8 +211,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_grid["seq", i].Value = ambigSeqList[i].Literal;
 				m_grid["convert", i].Value = ambigSeqList[i].Convert;
 				m_grid["base", i].Value = ambigSeqList[i].BaseChar;
-				m_grid["default", i].Value = ambigSeqList[i].IsDefault;
-				m_grid["autodefault", i].Value = ambigSeqList[i].IsGenerated;
+				m_grid["generated", i].Value = ambigSeqList[i].IsGenerated;
 
 				if (!string.IsNullOrEmpty(ambigSeqList[i].BaseChar))
 				{
@@ -236,11 +219,10 @@ namespace SIL.Pa.UI.Dialogs
 						App.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
 				}
 
-				if (ambigSeqList[i].IsDefault || ambigSeqList[i].IsGenerated)
+				if (ambigSeqList[i].IsGenerated)
 				{
 					m_grid.Rows[i].Cells[0].ReadOnly = true;
-					hasDefaultSequences = true;
-					if (!showDefaults)
+					if (!chkShowGenerated.Checked)
 						m_grid.Rows[i].Visible = false;
 				}
 			}
@@ -262,7 +244,7 @@ namespace SIL.Pa.UI.Dialogs
 			App.SettingsHandler.LoadGridProperties(m_grid);
 			AdjustGridRows();
 			m_grid.IsDirty = false;
-			chkShowDefaults.Enabled = hasDefaultSequences;
+			chkShowGenerated.Visible = ambigSeqList.Any(x => x.IsGenerated);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -348,8 +330,7 @@ namespace SIL.Pa.UI.Dialogs
 						seq.Convert = (row.Cells["convert"].Value == null ?
 							false : (bool)row.Cells["convert"].Value);
 
-						seq.IsDefault = (bool)row.Cells["default"].Value;
-						seq.IsGenerated = (bool)row.Cells["autodefault"].Value;
+						seq.IsGenerated = (bool)row.Cells["generated"].Value;
 						ambigSeqList.Add(seq);
 					}
 				}
@@ -428,8 +409,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			e.Row.Cells["seq"].Value = string.Empty;
 			e.Row.Cells["convert"].Value = true;
-			e.Row.Cells["default"].Value = false;
-			e.Row.Cells["autodefault"].Value = false;
+			e.Row.Cells["generated"].Value = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -456,18 +436,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private bool ValidateSequence(int row, string newSeq)
 		{
-			// Make sure a unit was specified.
-			//if (string.IsNullOrEmpty(newUnit))
-			//    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
-
 			for (int i = 0; i < m_grid.NewRowIndex; i++)
 			{
 				if (i != row && m_grid[0, i].Value as string == newSeq)
 				{
-					bool isDefault = ((bool)m_grid["default", row].Value ||
-						(bool)m_grid["autodefault", row].Value);
-
-					string msg = (isDefault ?
+					string msg = ((bool)m_grid["generated", row].Value ?
 						LocalizationManager.GetString(kDuplicateSeq2) :
 						LocalizationManager.GetString(kDuplicateSeq1));
 
@@ -608,7 +581,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Don't allow deleting default sequences.
+		/// Don't allow deleting generated sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
@@ -616,15 +589,9 @@ namespace SIL.Pa.UI.Dialogs
 			if (e.Row == null)
 				return;
 
-			string msg = null;
-
-			if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
-				msg = LocalizationManager.GetString(kCantDeleteAutoGen);
-			else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
-				msg = LocalizationManager.GetString(kCantDeleteDefault);
-
-			if (msg != null)
+			if (e.Row.Cells["generated"].Value != null && (bool)e.Row.Cells["generated"].Value)
 			{
+				var msg = LocalizationManager.GetString(kCantDeleteGenerated);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}
@@ -634,21 +601,21 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Change the visible state of the default ambiguous sequences.
+		/// Change the visible state of the generated ambiguous sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void chkShowDefaults_CheckedChanged(object sender, EventArgs e)
+		private void HandleShowGeneratedCheckedChanged(object sender, EventArgs e)
 		{
 			foreach (DataGridViewRow row in m_grid.Rows)
 			{
 				if (row.Index == m_grid.NewRowIndex)
 					continue;
 
-				if ((bool)row.Cells["default"].Value || (bool)row.Cells["autodefault"].Value)
-					row.Visible = chkShowDefaults.Checked;
+				if ((bool)row.Cells["generated"].Value)
+					row.Visible = chkShowGenerated.Checked;
 			}
 
-			if (chkShowDefaults.Checked)
+			if (chkShowGenerated.Checked)
 				return;
 
 			int currRow = m_grid.CurrentCellAddress.Y;

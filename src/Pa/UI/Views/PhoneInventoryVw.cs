@@ -25,7 +25,6 @@ namespace SIL.Pa.UI.Views
 		private SizableDropDownPanel m_sddpBFeatures;
 		private CustomDropDown m_bFeatureDropdown;
 		private FeatureListView m_lvBFeatures;
-		private ExperimentalTranscriptionControl m_experimentalTransCtrl;
 		private ToolTip m_phoneToolTip;
 		private ToolTip m_bFeatureToolTip;
 		private readonly ITMAdapter m_tmAdapter;
@@ -54,36 +53,18 @@ namespace SIL.Pa.UI.Views
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 			App.IncProgressBar();
 
-			m_experimentalTransCtrl = new ExperimentalTranscriptionControl();
-			m_experimentalTransCtrl.BorderStyle = BorderStyle.None;
-			m_experimentalTransCtrl.Dock = DockStyle.Fill;
-			m_experimentalTransCtrl.TabIndex = pgpExperimental.TabIndex;
-			m_experimentalTransCtrl.Grid.ShowWaterMarkWhenDirty = true;
-			m_experimentalTransCtrl.Grid.GetWaterMarkRect += HandleGetWaterMarkRect;
-			m_experimentalTransCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
-			pnlExperimental.Controls.Add(m_experimentalTransCtrl);
-			m_experimentalTransCtrl.BringToFront();
-			pgpExperimental.ControlReceivingFocusOnMnemonic = m_experimentalTransCtrl.Grid;
-			pgpExperimental.BorderStyle = BorderStyle.None;
-			pgpAmbiguous.BorderStyle = BorderStyle.None;
 			pgpPhoneList.BorderStyle = BorderStyle.None;
 
 			pgpPhoneList.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
-			pgpExperimental.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
-			pgpAmbiguous.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblAFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblBFeatures.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
-
-			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
 
 			App.IncProgressBar();
 			BuildPhoneGrid();
 			App.IncProgressBar();
 			LoadPhoneGrid();
 			App.IncProgressBar();
-			BuildAmbiguousGrid();
 			App.IncProgressBar();
-			LoadAmbiguousGrid();
 			App.IncProgressBar();
 			OnPaFontsChanged(null);
 			App.IncProgressBar();
@@ -134,12 +115,6 @@ namespace SIL.Pa.UI.Views
 			{
 				m_sddpBFeatures.Dispose();
 				m_sddpBFeatures = null;
-			}
-
-			if (m_experimentalTransCtrl != null && !m_experimentalTransCtrl.IsDisposed)
-			{
-				m_experimentalTransCtrl.Dispose();
-				m_experimentalTransCtrl = null;
 			}
 
 			if (m_lvAFeatures != null && !m_lvAFeatures.IsDisposed)
@@ -304,131 +279,6 @@ namespace SIL.Pa.UI.Views
 
 		#endregion
 
-		#region Build and load ambiguous seq. grid
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildAmbiguousGrid()
-		{
-			gridAmbiguous.Name = Name + "AmbigGrid";
-			gridAmbiguous.AutoGenerateColumns = false;
-			gridAmbiguous.AllowUserToAddRows = true;
-			gridAmbiguous.AllowUserToDeleteRows = true;
-			gridAmbiguous.AllowUserToOrderColumns = false;
-			gridAmbiguous.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			gridAmbiguous.Font = FontHelper.UIFont;
-
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
-			col.Width = 90;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			//col.HeaderText = Properties.Resources.kstidAmbiguousSeqHdg;
-			gridAmbiguous.Columns.Add(col);
-
-			col = SilGrid.CreateCheckBoxColumn("convert");
-			col.Width = 75;
-			//col.HeaderText = Properties.Resources.kstidAmbiguousConvertHdg;
-			col.CellTemplate.ValueType = typeof(bool);
-			gridAmbiguous.Columns.Add(col);
-
-			col = SilGrid.CreateTextBoxColumn("base");
-			col.Width = 75;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			//col.HeaderText = Properties.Resources.kstidAmbiguousBaseCharHdg;
-			gridAmbiguous.Columns.Add(col);
-
-			col = SilGrid.CreateTextBoxColumn("cvpattern");
-			col.ReadOnly = true;
-			col.Width = 70;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			//col.HeaderText = Properties.Resources.kstidAmbiguousCVPatternHdg;
-			gridAmbiguous.Columns.Add(col);
-
-			col = SilGrid.CreateCheckBoxColumn("default");
-			col.Visible = false;
-			gridAmbiguous.Columns.Add(col);
-
-			col = SilGrid.CreateCheckBoxColumn("autodefault");
-			col.Visible = false;
-			gridAmbiguous.Columns.Add(col);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the ambiguous sequences grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadAmbiguousGrid()
-		{
-			// Uncomment if we ever go back to having a default set of ambiguous sequences.
-			//bool showDefaults = chkShowDefaults.Checked ||
-			//    PaApp.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true);
-
-			bool showDefaults = true;
-			int prevRow = gridAmbiguous.CurrentCellAddress.Y;
-
-			gridAmbiguous.Rows.Clear();
-			AmbiguousSequences ambigSeqList = App.IPASymbolCache.AmbiguousSequences;
-
-			if (ambigSeqList == null || ambigSeqList.Count == 0)
-			{
-				gridAmbiguous.IsDirty = false;
-				return;
-			}
-
-			bool hasDefaultSequences = false;
-			gridAmbiguous.Rows.Add(ambigSeqList.Count);
-
-			for (int i = 0; i < ambigSeqList.Count; i++)
-			{
-				gridAmbiguous["seq", i].Value = ambigSeqList[i].Literal;
-				gridAmbiguous["convert", i].Value = ambigSeqList[i].Convert;
-				gridAmbiguous["base", i].Value = ambigSeqList[i].BaseChar;
-				gridAmbiguous["default", i].Value = ambigSeqList[i].IsDefault;
-				gridAmbiguous["autodefault", i].Value = ambigSeqList[i].IsGenerated;
-
-				if (!string.IsNullOrEmpty(ambigSeqList[i].BaseChar))
-				{
-					gridAmbiguous["cvpattern", i].Value =
-						App.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
-				}
-
-				if (ambigSeqList[i].IsDefault || ambigSeqList[i].IsGenerated)
-				{
-					gridAmbiguous.Rows[i].Cells[0].ReadOnly = true;
-					hasDefaultSequences = true;
-					if (!showDefaults)
-						gridAmbiguous.Rows[i].Visible = false;
-				}
-			}
-
-			// Select a row if there isn't one currently selected.
-			if (gridAmbiguous.CurrentCellAddress.Y < 0 && gridAmbiguous.RowCountLessNewRow > 0 &&
-				gridAmbiguous.Rows.GetRowCount(DataGridViewElementStates.Visible) > 0)
-			{
-				// Check if the previous row is a valid row.
-				if (prevRow < 0 || prevRow >= gridAmbiguous.RowCountLessNewRow ||
-					!gridAmbiguous.Rows[prevRow].Visible)
-				{
-					prevRow = gridAmbiguous.FirstDisplayedScrollingRowIndex;
-				}
-
-				gridAmbiguous.CurrentCell =	gridAmbiguous[0, prevRow];
-			}
-
-			App.SettingsHandler.LoadGridProperties(gridAmbiguous);
-			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
-			gridAmbiguous.IsDirty = false;
-			chkShowDefaults.Enabled = hasDefaultSequences;
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adjusts the rows in the specified grid by letting the grid calculate the row
@@ -455,8 +305,6 @@ namespace SIL.Pa.UI.Views
 				row.Height += extraRowHeight;
 		}
 
-		#endregion
-
 		#region Loading/Saving settings
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -466,12 +314,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadSettings()
 		{
 			OnViewDocked(this);
-
-			App.SettingsHandler.LoadGridProperties(gridAmbiguous);
 			App.SettingsHandler.LoadGridProperties(gridPhones);
-
-			chkShowDefaults.Checked = (chkShowDefaults.Enabled &&
-				App.SettingsHandler.GetBoolSettingsValue(Name, "showdefault", true));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -483,7 +326,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaShuttingDown(object args)
 		{
-			if (PhoneFeaturesChanged || AmbiguousSequencesChanged || m_experimentalTransCtrl.Grid.IsDirty)
+			if (PhoneFeaturesChanged)
 			{
 				string msg = Properties.Resources.kstidUnAppliedPhoneInventoryChangesMsg;
 				DialogResult rslt = Utils.MsgBox(msg, MessageBoxButtons.YesNoCancel);
@@ -547,11 +390,6 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			// Save the value of the show default ambiguous sequences check box.
-			if (chkShowDefaults.Enabled)
-				App.SettingsHandler.SaveSettingsValue(Name, "showdefault", chkShowDefaults.Checked);
-
-			App.SettingsHandler.SaveGridProperties(gridAmbiguous);
 			App.SettingsHandler.SaveGridProperties(gridPhones);
 			
 			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
@@ -655,15 +493,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-			{
 				SetToolTips();
-
-				// For some reason, (a timing issue, no doubt) the headings above the
-				// experimental transcription grid are messed up (i.e. the heading over
-				// the target transcriptions is all the way to the left) after the view
-				// is undocked. This will fix that so they display correctly.
-				m_experimentalTransCtrl.RefreshHeader();
-			}
 
 			return false;
 		}
@@ -681,10 +511,9 @@ namespace SIL.Pa.UI.Views
 			System.ComponentModel.ComponentResourceManager resources =
 				new System.ComponentModel.ComponentResourceManager(GetType());
 			
-			m_tooltip = new System.Windows.Forms.ToolTip(components);
+			m_tooltip = new ToolTip(components);
 			m_tooltip.SetToolTip(btnADropDownArrow, resources.GetString("btnADropDownArrow.ToolTip"));
 			m_tooltip.SetToolTip(btnBDropDownArrow, resources.GetString("btnBDropDownArrow.ToolTip"));
-			m_tooltip.SetToolTip(chkShowDefaults, resources.GetString("chkShowDefaults.ToolTip"));
 			m_tooltip.SetToolTip(btnApply, resources.GetString("btnApply.ToolTip"));
 		}
 
@@ -870,216 +699,6 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure new rows get proper default values
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void gridAmbiguous_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
-		{
-			e.Row.Cells["seq"].Value = string.Empty;
-			e.Row.Cells["convert"].Value = true;
-			e.Row.Cells["default"].Value = false;
-			e.Row.Cells["autodefault"].Value = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Validate the edited base character.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-		{
-			if (e.RowIndex == gridAmbiguous.NewRowIndex)
-				return;
-
-			if (e.ColumnIndex == 0)
-				e.Cancel = ValidateSequence(e.RowIndex, e.FormattedValue as string);
-			else if (e.ColumnIndex == 2)
-				e.Cancel = ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns whether or not the row edit should be cancelled due to a duplicate
-		/// sequence.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ValidateSequence(int row, string newSeq)
-		{
-			//// Make sure a unit was specified.
-			////if (string.IsNullOrEmpty(newUnit))
-			////    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
-
-			//for (int i = 0; i < gridAmbiguous.NewRowIndex; i++)
-			//{
-			//    if (i != row && gridAmbiguous[0, i].Value as string == newSeq)
-			//    {
-			//        bool isDefault = ((bool)gridAmbiguous["default", row].Value ||
-			//            (bool)gridAmbiguous["autodefault", row].Value);
-
-			//        string msg = (isDefault ?
-			//            Properties.Resources.kstidAmbiguousSeqDuplicateMsg2 :
-			//            Properties.Resources.kstidAmbiguousSeqDuplicateMsg1);
-
-			//        Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			//        return true;
-			//    }
-			//}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns whether or not the row edit should be cancelled due to an invalid
-		/// base character.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ValidateBaseCharacter(int row, string newBaseChar)
-		{
-			//if (row < 0 || row >= gridAmbiguous.RowCount)
-			//    return false;
-
-			//string msg = null;
-			//string phone = gridAmbiguous["seq", row].Value as string;
-
-			//// Check if a base character has been specified.
-			//if (string.IsNullOrEmpty(newBaseChar))
-			//{
-			//    // No base character is fine when there isn't a sequence specified.
-			//    if (string.IsNullOrEmpty(phone))
-			//        return false;
-
-			//    // At this point, we know we have a sequence but no base character
-			//    msg = Properties.Resources.kstidAmbiguousBaseCharMissingMsg;
-			//}
-
-			//if (msg == null)
-			//{
-			//    // Make sure there is an ambiguous sequence before specifying a base character.
-			//    if (string.IsNullOrEmpty(phone))
-			//        msg = Properties.Resources.kstidAmbiguousTransMissingMsg;
-			//}
-
-			//// Make sure the new base character is part of the ambiguous sequence.
-			//if (msg == null && phone != null && !phone.Contains(newBaseChar))
-			//    msg = Properties.Resources.kstidAmbiguousBaseCharNotInTransMsg;
-
-			//if (msg != null)
-			//{
-			//    Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			//    return true;
-			//}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-		{
-			if (e.ColumnIndex == 1 && e.RowIndex == gridAmbiguous.NewRowIndex)
-				e.Cancel = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-		{
-			// Get the ambiguous sequence.
-			string phone = gridAmbiguous["seq", e.RowIndex].Value as string;
-			if (phone != null)
-				phone = phone.Trim();
-
-			if (string.IsNullOrEmpty(phone))
-			{
-				App.MsgMediator.PostMessage("RemoveAmbiguousSeqRow", e.RowIndex);
-				return;
-			}
-
-			// When the base character was edited then automatically determine
-			// the C or V type of the ambiguous sequence.
-			if (e.ColumnIndex == 2)
-			{
-				string newBaseChar = gridAmbiguous["base", e.RowIndex].Value as string;
-				gridAmbiguous["cvpattern", e.RowIndex].Value =
-					App.PhoneCache.GetCVPattern(newBaseChar);
-			}
-			else if (e.ColumnIndex == 0)
-			{
-				PhoneInfo phoneInfo = new PhoneInfo(phone);
-
-				string prevBaseChar = gridAmbiguous["base", e.RowIndex].Value as string;
-				if (prevBaseChar == null || !phone.Contains(prevBaseChar))
-				{
-					string newBaseChar = phoneInfo.BaseCharacter.ToString();
-					gridAmbiguous["base", e.RowIndex].Value = newBaseChar;
-					gridAmbiguous["cvpattern", e.RowIndex].Value =
-						App.PhoneCache.GetCVPattern(newBaseChar);
-				}
-			}
-
-			gridAmbiguous.IsDirty = AmbiguousSequencesChanged;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This message is called when a user edits away the ambiguous transcription. It is
-		/// posted in the after cell edit event because rows cannot be removed in the after
-		/// cell edit event handler.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnRemoveAmbiguousSeqRow(object args)
-		{
-			if (args.GetType() == typeof(int))
-			{
-				int rowIndex = (int)args;
-				if (rowIndex >= 0 && rowIndex < gridAmbiguous.RowCountLessNewRow)
-				{
-					gridAmbiguous.Rows.RemoveAt(rowIndex);
-
-					while (rowIndex >= 0 && rowIndex >= gridAmbiguous.RowCount)
-						rowIndex--;
-
-					if (rowIndex >= 0 && rowIndex < gridAmbiguous.RowCountLessNewRow)
-						gridAmbiguous.CurrentCell = gridAmbiguous["seq", rowIndex];
-				}
-			}
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Don't allow deleting default sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-		{
-			//if (e.Row == null)
-			//    return;
-
-			//string msg = null;
-
-			//if (e.Row.Cells["autodefault"].Value != null && (bool)e.Row.Cells["autodefault"].Value)
-			//    msg = Properties.Resources.kstidAmbiguousSeqCantDeleteAutoGenMsg;
-			//else if (e.Row.Cells["default"].Value != null && (bool)e.Row.Cells["default"].Value)
-			//    msg = Properties.Resources.kstidAmbiguousSeqCantDeleteDefaultMsg;
-
-			//if (msg != null)
-			//{
-			//    Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			//    e.Cancel = true;
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Show unicode information about the phone being hovered over.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1194,52 +813,6 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not there are any changes to the ambiguous
-		/// sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool AmbiguousSequencesChanged
-		{
-			get
-			{
-				if (App.IPASymbolCache.AmbiguousSequences == null)
-				{
-					if (gridAmbiguous.RowCountLessNewRow > 0)
-						return true;
-				}
-				else if (App.IPASymbolCache.AmbiguousSequences.Count !=
-					gridAmbiguous.RowCountLessNewRow)
-				{
-					return true;
-				}
-
-				int i = 0;
-
-				// Go through the ambiguous sequences in the grid and check them against
-				// those found in the project's list of ambiguous sequences.
-				foreach (DataGridViewRow row in gridAmbiguous.Rows)
-				{
-					if (row.Index == gridAmbiguous.NewRowIndex)
-						continue;
-
-					i++;
-					string seq = row.Cells["seq"].Value as string;
-					string baseChar = row.Cells["base"].Value as string;
-					bool convert = (bool)row.Cells["convert"].Value;
-
-					AmbiguousSeq ambigSeq =
-						App.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
-
-					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
-						return true;
-				}
-
-				return false;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1257,65 +830,8 @@ namespace SIL.Pa.UI.Views
 		{
 			bool changed = ApplyPhoneFeatureChanges();
 
-			if (ApplyAmbiguousSequencesChanges())
-				changed = true;
-
-			if (m_experimentalTransCtrl.Grid.IsDirty)
-			{
-				m_experimentalTransCtrl.SaveChanges();
-				changed = true;
-			}
-
 			if (reloadProject && changed)
 				App.Project.ReloadDataSources();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save any changes made to ambiguous sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ApplyAmbiguousSequencesChanges()
-		{
-			if (!AmbiguousSequencesChanged)
-			{
-				gridAmbiguous.IsDirty = false;
-				return false;
-			}
-
-			AmbiguousSequences ambigSeqList = new AmbiguousSequences();
-
-			foreach (DataGridViewRow row in gridAmbiguous.Rows)
-			{
-				if (row.Index != gridAmbiguous.NewRowIndex)
-				{
-					string phone = row.Cells["seq"].Value as string;
-					string basechar = row.Cells["base"].Value as string;
-
-					// Don't bother saving anything if there isn't
-					// a phone (sequence) or base character.
-					if (phone != null && phone.Trim().Length > 0 &&
-						basechar != null && basechar.Trim().Length > 0)
-					{
-						AmbiguousSeq seq = new AmbiguousSeq(phone.Trim());
-						seq.BaseChar = basechar.Trim(); ;
-						seq.Convert = (row.Cells["convert"].Value == null ?
-							false : (bool)row.Cells["convert"].Value);
-
-						seq.IsDefault = (bool)row.Cells["default"].Value;
-						seq.IsGenerated = (bool)row.Cells["autodefault"].Value;
-						ambigSeqList.Add(seq);
-					}
-				}
-			}
-
-			ambigSeqList.Save(App.Project.ProjectPathFilePrefix);
-			App.IPASymbolCache.AmbiguousSequences =
-				AmbiguousSequences.Load(App.Project.ProjectPathFilePrefix);
-
-			LoadAmbiguousGrid();
-			App.MsgMediator.SendMessage("AmbiguousSequencesSaved", ambigSeqList);
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1366,27 +882,6 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure the new row has its height set correctly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleExperimentalTransCtrlRowsAdded(object sender,
-			DataGridViewRowsAddedEventArgs e)
-		{
-			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the new row has its height set correctly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void gridAmbiguous_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-		{
-			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Return the location where water marks should be displayed in the grids.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1401,39 +896,6 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Change the visible state of the default ambiguous sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void chkShowDefaults_CheckedChanged(object sender, EventArgs e)
-		{
-			foreach (DataGridViewRow row in gridAmbiguous.Rows)
-			{
-				if (row.Index == gridAmbiguous.NewRowIndex)
-					continue;
-
-				if ((bool)row.Cells["default"].Value || (bool)row.Cells["autodefault"].Value)
-					row.Visible = chkShowDefaults.Checked;
-			}
-
-			if (chkShowDefaults.Checked)
-				return;
-
-			int currRow = gridAmbiguous.CurrentCellAddress.Y;
-			if (currRow < 0 || !gridAmbiguous.Rows[currRow].Visible)
-			{
-				foreach (DataGridViewRow row in gridAmbiguous.Rows)
-				{
-					if (row.Visible)
-					{
-						row.Selected = true;
-						return;
-					}
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1441,7 +903,6 @@ namespace SIL.Pa.UI.Views
 		{
 			LoadPhoneGrid();
 			UpdatePhonesFeatureText();
-			LoadAmbiguousGrid();
 			return false;
 		}
 
@@ -1456,39 +917,15 @@ namespace SIL.Pa.UI.Views
 			hlblBFeatures.Font = FontHelper.UIFont;
 			txtAFeatures.Font = FontHelper.UIFont;
 			txtBFeatures.Font = FontHelper.UIFont;
-			pnlAmbiguous.Font = FontHelper.UIFont;
-			chkShowDefaults.Font = FontHelper.UIFont;
-			pgpAmbiguous.Font = FontHelper.UIFont;
-			pgpExperimental.Font = FontHelper.UIFont;
 			pgpPhoneList.Font = FontHelper.UIFont;
 			gridPhones.Font = FontHelper.UIFont;
-			gridAmbiguous.Font = FontHelper.UIFont;
-
-			int y = (pgpAmbiguous.Height - chkShowDefaults.Height) / 2 + 1;
-			chkShowDefaults.Location = new Point(pgpAmbiguous.Width - chkShowDefaults.Width - 3, y);
 
 			gridPhones.Columns["phone"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			gridPhones.Columns["phone"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			foreach (DataGridViewRow row in gridPhones.Rows)
 				row.Cells["phone"].Style.Font = FontHelper.PhoneticFont;
 
-			gridAmbiguous.Columns["seq"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			gridAmbiguous.Columns["seq"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			gridAmbiguous.Columns["base"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			gridAmbiguous.Columns["base"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			gridAmbiguous.Columns["cvpattern"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			gridAmbiguous.Columns["cvpattern"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			
-			foreach (DataGridViewRow row in gridAmbiguous.Rows)
-			{
-				row.Cells["seq"].Style.Font = FontHelper.PhoneticFont;
-				row.Cells["base"].Style.Font = FontHelper.PhoneticFont;
-				row.Cells["cvpattern"].Style.Font = FontHelper.PhoneticFont;
-			}
-
 			AdjustGridRows(gridPhones, "phonegridextrarowheight", 3);
-			AdjustGridRows(m_experimentalTransCtrl.Grid, "exptransgridextrarowheight", 2);
-			AdjustGridRows(gridAmbiguous, "ambiggridextrarowheight", 3);
 
 			// Return false to allow other windows to update their fonts.
 			return false;

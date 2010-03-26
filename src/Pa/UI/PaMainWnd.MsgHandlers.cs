@@ -795,7 +795,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExperimentalTranscriptions(object args)
 		{
-			using (var dlg = new ExperimentalTranscriptionsDlg())
+			using (var dlg = new TranscriptionChangesDlg())
 				dlg.ShowDialog(this);
 
 			return true;

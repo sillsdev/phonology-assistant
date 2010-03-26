@@ -799,7 +799,7 @@ namespace SIL.Pa.ResourceStrings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Experimental Transcriptions....
+        ///   Looks up a localized string similar to &amp;Transcription Changes....
         /// </summary>
         public static string kstidExperimentalTranscriptionsText {
             get {

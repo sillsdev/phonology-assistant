@@ -25,6 +25,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void Save(PaProject project)
 		{
+			if (project == null)
+				return;
+			
 			var filename = project.ProjectPathFilePrefix + kFileNameWrite;
 
 			using (var writer = XmlWriter.Create(filename))
@@ -33,6 +36,7 @@ namespace SIL.Pa.Model
 
 				WriteRoot(writer, project);
 				WriteMetadata(writer, project);
+				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.TranscriptionChanges);
 				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.AmbiguousSequences);
 
 				writer.WriteStartElement("units");

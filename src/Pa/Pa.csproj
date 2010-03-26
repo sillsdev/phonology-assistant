@@ -265,9 +265,6 @@
     <Compile Include="UI\Controls\DockAndAutoHideButtons.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\ExperimentalTranscriptionControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\Controls\ExplorerBarItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -400,6 +397,9 @@
     <Compile Include="UI\Controls\SortOptionsDropDown.Designer.cs">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\TranscriptionChangesControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\TranslucentOverlay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -449,12 +449,6 @@
     </Compile>
     <Compile Include="UI\Dialogs\DefineFiltersDlg.Designer.cs">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Dialogs\ExperimentalTranscriptionsDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\ExperimentalTranscriptionsDlg.Designer.cs">
-      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FindDlg.cs">
       <SubType>Form</SubType>
@@ -539,6 +533,12 @@
     </Compile>
     <Compile Include="UI\Dialogs\SFDataSourcePropertiesDlg.Designer.cs">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.designer.cs">
+      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\UndefinedCharactersInClassDlg.cs">
       <SubType>Form</SubType>
@@ -714,9 +714,6 @@
     <EmbeddedResource Include="UI\Dialogs\DefineFiltersDlg.resx">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\ExperimentalTranscriptionsDlg.resx">
-      <DependentUpon>ExperimentalTranscriptionsDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -823,6 +820,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
+    <EmbeddedResource Include="UI\Dialogs\TranscriptionChangesDlg.resx">
+      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <Content Include="pa.ico" />
     <None Include="Resources\XYChartDirty.png" />
     <None Include="Resources\XYChartError.png" />
@@ -874,26 +874,26 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\SearchTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\PhoneticInventory.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultAmbiguousSequences.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultConsonantChartHeadings.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\DefaultVowelChartHeadings.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\CVChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwDBAccessInfo.xml" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)"
+    <PreBuildEvent>md "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\PaTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefineFeaturesTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DataCorpusTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\SearchTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\CVChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\XYChartsTMDefinition.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\PhoneticInventory.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultSearchClasses.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultSearchQueries.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultXYCharts.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultFieldInfo.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultConsonantChartHeadings.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\DefaultVowelChartHeadings.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\NormalizationExceptions.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\CVChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\XYChartXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\GridXml2Xhtml.xsl" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\FwDBAccessInfo.xml" "$(ProjectDir)$(OutDir)\Configuration"
+copy "$(TargetDir)..\..\DistFiles\FwSQLQueries.xml" "$(ProjectDir)$(OutDir)\Configuration"
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GoogleTranslateAPI.dll" "$(ProjectDir)$(OutDir)"
