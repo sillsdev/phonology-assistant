@@ -1,0 +1,57 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SIL.Pa.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="KeepIntermediateProjectInventoryFile" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LastProjectLoaded" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UserInterfaceLanguage" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShowMsgWhenGatheringFwInfo" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MinimumViewWindowSize" Type="System.Drawing.Size" Scope="Application">
+      <Value Profile="(Default)">550, 450</Value>
+    </Setting>
+    <Setting Name="UncertainGroupAbsentPhoneChars" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UncertainGroupAbsentPhoneChar" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShowSplashScreen" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ConsonantSymbol" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C</Value>
+    </Setting>
+    <Setting Name="VowelSymbol" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">V</Value>
+    </Setting>
+    <Setting Name="WordBreakCharacters" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MaximumAllowedRecentlyUsedQueries" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="RecordViewFieldLabelColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">DarkRed</Value>
+    </Setting>
+    <Setting Name="WordListGridColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">Transparent</Value>
+    </Setting>
+    <Setting Name="ConvertPatternsWithTranscriptionChanges" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="LastViewShowing" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SkipAdditionalProcessingWhenPhonesAreLoaded" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

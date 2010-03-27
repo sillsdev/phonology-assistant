@@ -74,7 +74,7 @@ namespace SIL.Pa.Processing
 		/// Given inputStream and outputStream, do one XSL Transformation step. 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Transform(Stream inputStream, MemoryStream outputStream)
+		public MemoryStream Transform(MemoryStream inputStream)
 		{
 			var readerSettings = new XmlReaderSettings();
 			readerSettings.ProhibitDtd = false; // If true, it throws an exception if there is a DTD.
@@ -86,14 +86,15 @@ namespace SIL.Pa.Processing
 			if (writerSettings.Indent) // Cause indent="true" to insert line breaks but not tabs.
 				writerSettings.IndentChars = string.Empty; // Even if the document element is html.
 
+			var outputStream = new MemoryStream();
 			var outputXML = XmlWriter.Create(outputStream, writerSettings);
 			try
 			{
 				m_xslt.Transform(inputXML, outputXML);
 			}
-			catch (Exception innerException)
+			catch (Exception e)
 			{
-				Exception exception = new Exception("Unable to convert using XSL Transformation filter.", innerException);
+				var exception = new Exception("Unable to convert using XSL Transformation filter.", e);
 				exception.Data.Add("XSL Transformation file path", m_xsltFilePath);
 				throw exception;
 			}
@@ -102,6 +103,9 @@ namespace SIL.Pa.Processing
 				inputXML.Close();
 				outputXML.Flush(); // The next filter or the data sink will close the stream
 			}
+
+			outputStream.Flush();
+			return outputStream;
 		}
 	}
 }

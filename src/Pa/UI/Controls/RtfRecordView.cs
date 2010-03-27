@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -266,7 +267,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			StringBuilder lines = new StringBuilder(m_rtf);
 			Dictionary<int, int> colorReferences;
-			Color clrFieldLabel = App.RecordViewFieldLabelColor;
+			Color clrFieldLabel = Settings.Default.RecordViewFieldLabelColor;
 			lines.AppendLine();
 			lines.AppendLine(RtfHelper.ColorTable(clrFieldLabel, out colorReferences));
 

@@ -104,6 +104,7 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -151,6 +152,7 @@
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
+    <Compile Include="Miscellaneous\PaSettingsProvider.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
     <Compile Include="Miscellaneous\ZipUtils.cs" />
     <Compile Include="Model\Features\AFeatureCache.cs" />
@@ -200,6 +202,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ResourceHelper.cs">
       <SubType>Form</SubType>
@@ -826,6 +833,11 @@
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="pa.ico" />
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\XYChartDirty.png" />
     <None Include="Resources\XYChartError.png" />
     <None Include="Resources\Warning.png" />

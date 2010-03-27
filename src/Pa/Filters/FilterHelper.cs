@@ -204,7 +204,7 @@ namespace SIL.Pa.Filters
 			if (App.Project != null)
 				SearchEngine.IgnoreUndefinedCharacters = App.Project.IgnoreUndefinedCharsInSearches;
 
-			SearchEngine.ConvertPatternWithExperimentalTrans =
+			SearchEngine.ConvertPatternWithTranscriptionChanges =
 				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 

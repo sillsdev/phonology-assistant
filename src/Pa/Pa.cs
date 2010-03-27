@@ -27,6 +27,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.ResourceStrings;
 using SilUtils;
 using SilUtils.Controls;
@@ -180,7 +181,6 @@ namespace SIL.Pa
 
 		#endregion
 
-		private static string s_breakChars;
 		private static string s_helpFilePath;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
@@ -207,32 +207,22 @@ namespace SIL.Pa
 			MsgMediator = new Mediator();
 
 			LocalizationManager.Initialize();
-			string langId = SettingsHandler.GetStringSettingsValue("UserInterface", "lang", null);
+			string langId = Settings.Default.UserInterfaceLanguage;
 			LocalizationManager.UILangId = langId ?? LocalizationManager.kDefaultLang;
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
 			s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
 
-			MinimumViewWindowSize = new Size(
-				SettingsHandler.GetIntSettingsValue("minviewwindowsize", "width", 550),
-				SettingsHandler.GetIntSettingsValue("minviewwindowsize", "height", 450));
+			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
 
-			string val = SettingsHandler.GetStringSettingsValue("uncertainphonegroups",
-				"absenceofphonechars", null);
-			
-			if (val != null)
-				IPASymbolCache.UncertainGroupAbsentPhoneChars = val;
+			if (Settings.Default.UncertainGroupAbsentPhoneChars != null)
+				IPASymbolCache.UncertainGroupAbsentPhoneChars = Settings.Default.UncertainGroupAbsentPhoneChars;
 
-			val = SettingsHandler.GetStringSettingsValue("uncertainphonegroups",
-				"absenceofphonecharinpopup", "\u2205");
+			if (Settings.Default.UncertainGroupAbsentPhoneChar != null)
+				IPASymbolCache.UncertainGroupAbsentPhoneChar = Settings.Default.UncertainGroupAbsentPhoneChar;
 				
-			if (val != null)
-				IPASymbolCache.UncertainGroupAbsentPhoneChar = val;
-				
-			FwDBUtils.ShowMsgWhenGatheringFWInfo = SettingsHandler.GetBoolSettingsValue(
-				"fieldworks", "showmsgwhengatheringinfo", false);
-
 			ReadAddOns();
 
 			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
@@ -295,9 +285,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void ShowSplashScreen()
 		{
-			// Show the splash screen only if the show property of the
-			// SplashScreen item in the settings file is not set to false.
-			if (SettingsHandler.GetBoolSettingsValue("SplashScreen", "show", true))
+			if (Settings.Default.ShowSplashScreen)
 			{
 				SplashScreen = new SplashScreen(false, false);
 				SplashScreen.Show();
@@ -514,7 +502,7 @@ namespace SIL.Pa
 		{
 			s_phoneCache = GetPhonesFromWordCache(WordCache);
 			SearchEngine.PhoneCache = s_phoneCache;
-			ProjectInventory.Process(Project);
+			ProjectInventory.Process(Project, s_phoneCache);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -524,8 +512,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static PhoneCache GetPhonesFromWordCache(WordCache wordCache)
 		{
-			string conSymbol = SettingsHandler.GetStringSettingsValue("cvpattern", "consonantsymbol", "C");
-			string vowSymbol = SettingsHandler.GetStringSettingsValue("cvpattern", "vowelsymbol", "V");
+			string conSymbol = Settings.Default.ConsonantSymbol;
+			string vowSymbol = Settings.Default.VowelSymbol;
 
 			var phoneCache = new PhoneCache(conSymbol, vowSymbol);
 
@@ -730,21 +718,16 @@ namespace SIL.Pa
 		{
 			get
 			{
-				if (s_breakChars == null)
-				{
-					s_breakChars = SettingsHandler.GetStringSettingsValue(
-						"application", "wordbreakchars", " ");
-				}
-
-				return s_breakChars;
+				return (string.IsNullOrEmpty(Settings.Default.WordBreakCharacters) ?
+					" " : Settings.Default.WordBreakCharacters);
 			}
 		}
 
-		/// --------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the XCore message mediator for the application.
 		/// </summary>
-		/// --------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		public static Mediator MsgMediator { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -800,7 +783,7 @@ namespace SIL.Pa
 			set 
 			{
 				if (value != s_project)
-					ProjectInventory.Process(value);
+					ProjectInventory.Process(value, s_phoneCache);
 				
 				s_project = value;
 			}
@@ -955,29 +938,6 @@ namespace SIL.Pa
 		#region Options Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the number of queries to remember in the recently used queries list
-		/// in the search window's side panel.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int NumberOfRecentlyUsedQueries
-		{
-			get {return SettingsHandler.GetIntSettingsValue("recentlyusedqueries", "maxallowed", 20);}
-			set {SettingsHandler.SaveSettingsValue("recentlyusedqueries", "maxallowed", value);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the color of the record view's field labels.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color RecordViewFieldLabelColor
-		{
-			get {return SettingsHandler.GetColorSettingsValue("recordviewcolors", "label", Color.DarkRed);}
-			set {SettingsHandler.SaveSettingsValue("recordviewcolors", "label", value);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -985,10 +945,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return SettingsHandler.GetColorSettingsValue("wordlists", "gridcolor",
-					ColorHelper.CalculateColor(SystemColors.Window, SystemColors.GrayText, 100));
+				var clr = Settings.Default.WordListGridColor;
+				return (clr != Color.Transparent && clr != Color.Empty ? clr :
+					ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
 			}
-			set { SettingsHandler.SaveSettingsValue("wordlists", "gridcolor", value); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1818,9 +1778,8 @@ namespace SIL.Pa
 			if (Project != null)
 				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 
-			SearchEngine.ConvertPatternWithExperimentalTrans =
-				SettingsHandler.GetBoolSettingsValue("searchengine",
-				"convertpatternswithexperimentaltrans", false);
+			SearchEngine.ConvertPatternWithTranscriptionChanges =
+				Settings.Default.ConvertPatternsWithTranscriptionChanges;
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 

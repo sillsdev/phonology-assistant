@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
-using SIL.Pa.Model;
 using SIL.Pa.Filters;
 using SilUtils;
 

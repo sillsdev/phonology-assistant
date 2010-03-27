@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -119,6 +120,8 @@ namespace SIL.Pa.UI.Dialogs
 			SaveSortingTabSettings();
 			SaveCvPatternsTabSettings();
 			SaveUserInterfaceTabSettings();
+
+			Settings.Default.Save();
 			return true;
 		}
 

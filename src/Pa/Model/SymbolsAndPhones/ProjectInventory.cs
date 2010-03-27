@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Xml.Xsl;
 using SIL.Pa.Processing;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.Model
@@ -17,82 +18,84 @@ namespace SIL.Pa.Model
 	public class ProjectInventory
 	{
 		public const string kVersion = "3.5";
-		private const string kFileNameWrite = "PhoneticInventory-out.xml";
+		private const string kFileNameIntermediate = "PhoneticInventory.Intermediate.xml";
 		private const string kFileNameRead = "PhoneticInventory.xml";
 
+		[XmlArray("units"), XmlArrayItem("unit")]
+		public List<TempPhoneInfo> Phones { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Process(PaProject project)
+		public static void Process(PaProject project, PhoneCache phoneCache)
 		{
-			if (project == null)
+			if (project == null || Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
 				return;
 
-			var initialFilename = project.ProjectPathFilePrefix + kFileNameWrite;
-			CreateProjectIventory(initialFilename, project);
-			
-			var finalFilename = project.ProjectPathFilePrefix + kFileNameRead;
+			// Create a stream of xml data containing the phones in the project.
+			var inputStream = CreateIntermediateInventory(project, phoneCache);
+
+			if (Settings.Default.KeepIntermediateProjectInventoryFile)
+				WriteIntermediateFile(project, inputStream);
+
+			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-			
 			var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
-			if (pipeline != null)
-				pipeline.Transform(initialFilename, finalFilename);
-			
-			//var xsltFilename = Path.Combine(App.ConfigFolder, "phonology_project_inventory.xsl");
-			//var readFilename = project.ProjectPathFilePrefix + kFileNameRead;
+			if (pipeline == null)
+				return;
 
-			//using (var reader = new XmlTextReader(xsltFilename))
-			//{
-			//    var xslt = new XslCompiledTransform();
-			//    var settings = new XsltSettings();
-			//    settings.EnableDocumentFunction = true;
-			//    xslt.Load(reader, settings, null);
-			//    xslt.Transform(writeFilename, readFilename);
-			//    reader.Close();
+			// Kick off the processing and then save the results to a file.
+			var outputStream = pipeline.Transform(inputStream);
+			var outputFileName = project.ProjectPathFilePrefix + kFileNameRead;
+			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
+			{
+				outputStream.WriteTo(fileStream);
+				outputStream.Close();
+				fileStream.Close();
+			}
 
-			//    // This makes it all pretty, with proper indentation and line-breaking.
-			//    var doc = new XmlDocument();
-			//    doc.Load(readFilename);
-			//    doc.Save(readFilename);
-			//}
+			// This makes it all pretty, with proper indentation and line-breaking.
+			var doc = new XmlDocument();
+			doc.Load(outputFileName);
+			doc.Save(outputFileName);
 
+			UpdatePhoneInformation(outputFileName, phoneCache);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This should only be done for debugging.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void WriteIntermediateFile(PaProject project, MemoryStream stream)
+		{
+			var intermediateFileName = project.ProjectPathFilePrefix + kFileNameIntermediate;
+			using (var fileStream = new FileStream(intermediateFileName, FileMode.Create))
+			{
+				stream.WriteTo(fileStream);
+				fileStream.Close();
+			}
+
+			// This makes it all pretty, with proper indentation and line-breaking.
+			var doc = new XmlDocument();
+			doc.Load(intermediateFileName);
+			doc.Save(intermediateFileName);
 		}
 		
-				// Here is sample code to create a pipeline and transform data.
-		//static void example()
-		//{
-		//    // Create the pipeline.
-		//    var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-		//    var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
-		//    if (pipeline == null)
-		//        return;
-
-		//    // Use the pipeline.
-		//    Stream inputStream = null; // Represents what the program produces.
-		//    MemoryStream outputStream = null;
-		//    pipeline.Transform(inputStream, ref outputStream);
-		//    string outputFilePath = "...\\PROJECT.PhoneticInventory.xml";
-		//    using (Stream outputFileStream = new FileStream(outputFilePath, FileMode.Create))
-		//    {
-		//        outputStream.WriteTo(outputFileStream);
-		//        outputStream.Close();
-		//    }
-		//}
-
-		#region Methods for writing project's phonetic inventory file.
+		#region Methods for writing inventory file to send through the xslt processing
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void CreateProjectIventory(string outputFile, PaProject project)
+		private static MemoryStream CreateIntermediateInventory(PaProject project,
+			Dictionary<string, IPhoneInfo> phoneCache)
 		{
-			if (project == null)
-				return;
+			var memStream = new MemoryStream();
 			
-			using (var writer = XmlWriter.Create(outputFile))
+			using (var writer = XmlWriter.Create(memStream))
 			{
 				writer.WriteStartDocument();
 
@@ -105,9 +108,7 @@ namespace SIL.Pa.Model
 				writer.WriteStartAttribute("type");
 				writer.WriteString("phonetic");
 				writer.WriteEndAttribute();
-
-				WritePhones(writer, App.PhoneCache);
-				WritePhones(writer, App.GetPhonesFromWordCache(App.RecordCache.WordsNotInCurrentFilter));
+				WritePhones(writer, phoneCache);
 				writer.WriteEndElement();
 
 				// Close root and the writer.
@@ -116,10 +117,7 @@ namespace SIL.Pa.Model
 				writer.Close();
 			}
 
-			// This makes it all pretty, with proper indentation and line-breaking.
-			var doc = new XmlDocument();
-			doc.Load(outputFile);
-			doc.Save(outputFile);
+			return memStream;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,6 +212,75 @@ namespace SIL.Pa.Model
 				writer.WriteEndAttribute();
 				writer.WriteEndElement();
 			}
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void UpdatePhoneInformation(string fileName,
+			IDictionary<string, IPhoneInfo> phoneCache)
+		{
+			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventory>(fileName);
+			if (prjInventory == null)
+				return;
+
+			foreach (var phone in prjInventory.Phones)
+			{
+				IPhoneInfo iPhoneInfo;
+				if (phoneCache.TryGetValue(phone.Literal, out iPhoneInfo))
+				{
+					var phoneInfo = iPhoneInfo as PhoneInfo;
+					if (phoneInfo != null)
+					{
+						phoneInfo.AFeatures = phone.AFeatures;
+						phoneInfo.BFeatures = phone.BFeatures;
+						phoneInfo.Description = phone.Description;
+						phoneInfo.MOAKey = phone.GetSortKey("mannerOfArticulation", phoneInfo.MOAKey);
+						phoneInfo.POAKey = phone.GetSortKey("placeOfArticulation", phoneInfo.POAKey);
+					}
+				}
+			}
+		}
+
+		#region TempPhoneInfo and TempPhoneSortKey classes
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public class TempPhoneInfo : IPASymbol
+		{
+			[XmlArray("keys"), XmlArrayItem("sortKey")]
+			public List<TempPhoneSortKey> SortKeys { get; set; }
+
+			/// --------------------------------------------------------------------------------
+			/// <summary>
+			/// 
+			/// </summary>
+			/// --------------------------------------------------------------------------------
+			public string GetSortKey(string sortType, string origKey)
+			{
+				var newKey = SortKeys.FirstOrDefault(x => x.SortType == sortType);
+				return (newKey != null ? newKey.Key : origKey);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public class TempPhoneSortKey
+		{
+			[XmlAttribute("class")]
+			public string SortType { get; set; }
+
+			[XmlText]
+			public string Key { get; set; }
 		}
 
 		#endregion

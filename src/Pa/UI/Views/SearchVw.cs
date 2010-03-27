@@ -9,6 +9,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilUtils;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -1129,7 +1130,7 @@ namespace SIL.Pa.UI.Views
 
 			// If we've exceeded the number of queries to save in
 			// the list then remove the last one.
-			if (lstRecentPatterns.Items.Count > App.NumberOfRecentlyUsedQueries)
+			if (lstRecentPatterns.Items.Count > Settings.Default.MaximumAllowedRecentlyUsedQueries)
 				lstRecentPatterns.Items.RemoveAt(lstRecentPatterns.Items.Count - 1);
 
 			OnUpdateRemovePattern(null);

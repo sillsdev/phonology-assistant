@@ -155,11 +155,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\PhoneticCharacterInventory.xml" />
+    <None Include="Resources\PhoneticInventory.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\PhoneticCharacterInventory.xml" "$(ProjectDir)Resources"</PreBuildEvent>
+    <PreBuildEvent>copy "$(ProjectDir)..\..\DistFiles\Configuration\PhoneticInventory.xml" "$(ProjectDir)Resources"</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>

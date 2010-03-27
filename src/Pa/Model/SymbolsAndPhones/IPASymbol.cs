@@ -19,7 +19,7 @@ using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
 {
-	#region IPACharInfo class
+	#region IPASymbol class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Stores information about IPA characters.

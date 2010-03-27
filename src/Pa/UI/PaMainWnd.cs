@@ -24,6 +24,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Filters;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
 using SilUtils;
 
@@ -98,7 +99,7 @@ namespace SIL.Pa.UI
 			if (projArg != null)
 				LoadProject(projArg.Substring(3));
 			else
-				LoadProject(App.SettingsHandler.LastProject);
+				LoadProject(Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();
 
@@ -204,7 +205,7 @@ namespace SIL.Pa.UI
 					App.Project.Dispose();
 
 				App.Project = project;
-				App.SettingsHandler.LastProject = projectFileName;
+				Settings.Default.LastProjectLoaded = projectFileName;
 
 				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
 					project.Name, Application.ProductName);
@@ -213,16 +214,17 @@ namespace SIL.Pa.UI
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
 				if (vwTabGroup.CurrentTab != null)
-				{
-					App.SettingsHandler.SaveSettingsValue(Name, "currentview",
-						vwTabGroup.CurrentTab.ViewType.ToString());
-				}
+					Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
 				LoadViewTabs();
 
 				// Make the last tab that was current the current one now.
-				Type type = Type.GetType(App.SettingsHandler.GetStringSettingsValue(
-					Name, "currentview", typeof(DataCorpusVw).FullName));
+				var type = Type.GetType(typeof(DataCorpusVw).FullName);
+				try
+				{
+					type = Type.GetType(Settings.Default.LastViewShowing);
+				}
+				catch { }
 
 				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
 
@@ -358,6 +360,8 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
+			Settings.Default.Save();
+
 			// Closing isn't allowed in the middle of loading a project.
 			if (App.ProjectLoadInProcess)
 			{
@@ -377,10 +381,7 @@ namespace SIL.Pa.UI
 			App.SettingsHandler.SaveFormProperties(this);
 
 			if (vwTabGroup.CurrentTab != null)
-			{
-				App.SettingsHandler.SaveSettingsValue(Name, "currentview",
-					vwTabGroup.CurrentTab.ViewType.ToString());
-			}
+				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
 			// Close all the instances of SA that we started, if there are any.
 			DataSourceEditor.CloseSAInstances();
@@ -389,7 +390,9 @@ namespace SIL.Pa.UI
 			vwTabGroup.CloseAllViews();
 			IsShuttingDown = false;
 			base.OnClosing(e);
-			
+
+			Settings.Default.Save();
+
 			// This shouldn't be necessary but is in order to fix PA-431, which is
 			// a little disconcerting. I have no clue how PA could get into a state
 			// where it can get this far without the app. window going away and

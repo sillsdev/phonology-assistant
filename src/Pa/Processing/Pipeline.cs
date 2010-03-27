@@ -93,14 +93,13 @@ namespace SIL.Pa.Processing
 		public void Transform(string inputFileName, string outputFileName)
 		{
 			using (var inputStream = new FileStream(inputFileName, FileMode.Open))
+			using (var outputStream = Transform(inputStream))
 			{
-				MemoryStream outputStream = null;
-				Transform(inputStream, ref outputStream);
 				inputStream.Close();
 
-				using (var outputFileStream = new FileStream(outputFileName, FileMode.Create))
+				using (var fileStream = new FileStream(outputFileName, FileMode.Create))
 				{
-					outputStream.WriteTo(outputFileStream);
+					outputStream.WriteTo(fileStream);
 					outputStream.Close();
 				}
 			}
@@ -108,34 +107,29 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Given inputStream, return outputStream containing results from the pipeline. 
+		/// Given inputStream, return an output stream containing results from the pipeline. 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Transform(Stream inputStream, ref MemoryStream outputStream)
+		public MemoryStream Transform(Stream stream)
 		{
-			Debug.Assert(outputStream == null);
-			//outputStream = new MemoryStream();
+			Debug.Assert(stream != null);
 			Debug.Assert(m_processingSteps.Count != 0);
+
+			// Write all the bytes from the input stream to a memory stream.
+			stream.Seek(0, SeekOrigin.Begin);
+			var memStream = new MemoryStream();
+			for (long i = 0; i < stream.Length; i++)
+				memStream.WriteByte((byte)stream.ReadByte());
+
+			stream.Close();
 
 			foreach (var step in m_processingSteps)
 			{
-				outputStream = new MemoryStream();
-				step.Transform(inputStream, outputStream);
-				inputStream = outputStream;
-				inputStream.Seek(0, SeekOrigin.Begin);
+				memStream.Seek(0, SeekOrigin.Begin);
+				memStream = step.Transform(memStream);
 			}
 
-			//m_processingSteps[0].Transform(inputStream, outputStream);
-			
-			//for (int i = 1; i != m_processingSteps.Count; i++)
-			//{
-			//    inputStream = outputStream;
-				
-			//    // Because the output from the current filter is the input
-			//    // to the next filter, seek to the beginning of the stream.
-			//    inputStream.Seek(0, SeekOrigin.Begin);
-			//    m_processingSteps[i].Transform(inputStream, new MemoryStream());
-			//}
+			return memStream;
 		}
 	}
 }

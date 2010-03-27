@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -210,6 +211,8 @@ namespace SIL.Pa.UI.Views
 			gridPhones.AutoGenerateColumns = false;
 			gridPhones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			gridPhones.Font = FontHelper.UIFont;
+			gridPhones.VirtualMode = true;
+			gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("phone");
 			col.ReadOnly = true;
@@ -236,48 +239,51 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		private List<IPhoneInfo> Phones { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void LoadPhoneGrid()
 		{
 			gridPhones.Rows.Clear();
 
-			SortedList<string, KeyValuePair<string, IPhoneInfo>> sortedPhones =
-				new SortedList<string, KeyValuePair<string, IPhoneInfo>>();
+			Phones = (from x in App.PhoneCache.Values
+						orderby x.POAKey
+						select x.Clone()).ToList();
 
-			// Create a sorted list of phones by place of articulation.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
-			{
-				if (phoneInfo.Value is PhoneInfo && ((PhoneInfo)phoneInfo.Value).IsUndefined)
-					continue;
+			gridPhones.RowCount = Phones.Count;
 
-				KeyValuePair<string, IPhoneInfo> kvpPhoneInfo =
-					   new KeyValuePair<string, IPhoneInfo>(phoneInfo.Key, phoneInfo.Value.Clone());
-
-				if (phoneInfo.Key.Trim() != string.Empty)
-					sortedPhones[phoneInfo.Value.POAKey] = kvpPhoneInfo;
-			}
-
-			if (sortedPhones.Count > 0)
-			{
-				// Now fill the grid with the sorted list.
-				gridPhones.Rows.Add(sortedPhones.Count);
-
-				int i = 0;
-				foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in sortedPhones.Values)
-				{
-					gridPhones.Rows[i].Cells["phone"].Value = phoneInfo.Value;
-					gridPhones.Rows[i++].Cells["count"].Value =
-						phoneInfo.Value.TotalCount + phoneInfo.Value.CountAsPrimaryUncertainty;
-
-					if (i == 0)
-						gridPhones.Rows[0].Selected = true;
-				}
-			}
+			if (Phones.Count > 0)
+				gridPhones.CurrentCell = gridPhones[0, 0];
 
 			AdjustGridRows(gridPhones, "phonegridextrarowheight", 3);
 			gridPhones.IsDirty = false;
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandlePhoneGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			int i = e.RowIndex;
+			if (Phones == null || i < 0 || i >= Phones.Count)
+			{
+				e.Value = null;
+				return;
+			}
+
+			if (e.ColumnIndex == 0)
+				e.Value = Phones[i].Phone;
+			else
+				e.Value = Phones[i].TotalCount + Phones[i].CountAsPrimaryUncertainty;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -540,8 +546,8 @@ namespace SIL.Pa.UI.Views
 		{
 			txtAFeatures.Text = txtBFeatures.Text = string.Empty;
 
-			if (gridPhones.SelectedRows.Count > 0)
-				UpdatePhonesFeatureText(gridPhones.SelectedRows[0].Index);
+			if (gridPhones.CurrentCellAddress.Y > 0)
+				UpdatePhonesFeatureText(gridPhones.CurrentCellAddress.Y);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -555,7 +561,7 @@ namespace SIL.Pa.UI.Views
 			txtAFeatures.Text = txtBFeatures.Text = string.Empty;
 
 			if (rowIndex >= 0 && rowIndex < gridPhones.RowCount)
-				UpdatePhonesFeatureText(gridPhones["phone", rowIndex].Value as PhoneInfo);
+				UpdatePhonesFeatureText(Phones[rowIndex]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -625,19 +631,16 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnADropDownArrow_Click(object sender, EventArgs e)
 		{
-			if (gridPhones.CurrentRow == null)
+			int i = gridPhones.CurrentCellAddress.Y;
+			if (Phones == null || i < 0 || i >= Phones.Count)
 				return;
 
-			PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
-			if (phoneInfo != null)
-			{
-				m_lvAFeatures.CurrentMask = phoneInfo.AMask.Clone();
-				Rectangle rc = hlblAFeatures.DisplayRectangle;
-				Point pt = new Point(rc.Left, rc.Bottom);
-				pt = pnlAFeatures.PointToScreen(pt);
-				m_aFeatureDropdown.Show(pt);
-				m_lvAFeatures.Focus();
-			}
+			m_lvAFeatures.CurrentMask = Phones[i].AMask.Clone();
+			Rectangle rc = hlblAFeatures.DisplayRectangle;
+			Point pt = new Point(rc.Left, rc.Bottom);
+			pt = pnlAFeatures.PointToScreen(pt);
+			m_aFeatureDropdown.Show(pt);
+			m_lvAFeatures.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -647,14 +650,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnBDropDownArrow_Click(object sender, EventArgs e)
 		{
-			if (gridPhones.CurrentRow == null)
-				return;
-
-			PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
-			if (phoneInfo == null)
+			int i = gridPhones.CurrentCellAddress.Y;
+			if (Phones == null || i < 0 || i >= Phones.Count)
 				return;
 			
-			m_lvBFeatures.CurrentMask = phoneInfo.BMask.Clone();
+			m_lvBFeatures.CurrentMask = Phones[i].BMask.Clone();
 			Rectangle rc = hlblBFeatures.DisplayRectangle;
 			Point pt = new Point(rc.Left, rc.Bottom);
 			pt = pnlBFeatures.PointToScreen(pt);
@@ -669,12 +669,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void m_featureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
-			if (gridPhones.CurrentRow == null)
+			int i = gridPhones.CurrentCellAddress.Y;
+			if (Phones == null || i < 0 || i >= Phones.Count)
 				return;
 
 			FeatureListView lv = (sender == m_aFeatureDropdown ? m_lvAFeatures : m_lvBFeatures);
 
-			PhoneInfo phoneInfo = gridPhones.CurrentRow.Cells["phone"].Value as PhoneInfo;
+			PhoneInfo phoneInfo = Phones[i] as PhoneInfo;
 			if (phoneInfo == null)
 				return;
 
@@ -709,7 +710,7 @@ namespace SIL.Pa.UI.Views
 				if (e.ColumnIndex != 0)
 					return;
 
-				PhoneInfo phoneInfo = gridPhones[0, e.RowIndex].Value as PhoneInfo;
+				PhoneInfo phoneInfo = Phones[e.RowIndex] as PhoneInfo;
 				if (phoneInfo == null || phoneInfo.Phone.Trim().Length == 0)
 					return;
 
@@ -792,9 +793,9 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				foreach (DataGridViewRow row in gridPhones.Rows)
+				foreach (var pi in Phones)
 				{
-					PhoneInfo phoneInfo = row.Cells["phone"].Value as PhoneInfo;
+					PhoneInfo phoneInfo = pi as PhoneInfo;
 					if (phoneInfo == null)
 						continue;
 
@@ -849,10 +850,10 @@ namespace SIL.Pa.UI.Views
 
 			FeatureOverrides featureOverrideList = new FeatureOverrides();
 
-			foreach (DataGridViewRow row in gridPhones.Rows)
+			foreach (var pi in Phones)
 			{
 				// Get the phone from the grid.
-				PhoneInfo phoneInfo = row.Cells["phone"].Value as PhoneInfo;
+				PhoneInfo phoneInfo = pi as PhoneInfo;
 				if (phoneInfo == null)
 					continue;
 

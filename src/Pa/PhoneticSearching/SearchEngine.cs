@@ -35,12 +35,7 @@ namespace SIL.Pa.PhoneticSearching
 		
 		public const string kIgnoredPhone = "\uFFFC";
 		private static SearchQuery s_currQuery = new SearchQuery();
-		private readonly static List<string> s_ignoredPhones = new List<string>();
-		private readonly static List<char> s_ignoredChars = new List<char>();
 
-		private static bool s_convertPatternWithExperimentalTrans;
-		private static bool s_ignoreDiacritics = true;
-		private static Dictionary<string, IPhoneInfo> s_phoneCache;
 		private static bool s_ignoreUndefinedChars = true;
 
 		private readonly PatternGroup m_envBefore;
@@ -146,6 +141,13 @@ namespace SIL.Pa.PhoneticSearching
 			m_envAfterStr = patterns[2];
 		}
 
+		static SearchEngine()
+		{
+			IgnoredPhones = new List<string>();
+			IgnoredChars = new List<char>();
+			IgnoreDiacritics = true;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Parses the pattern into its search item pattern, its environment before pattern
@@ -205,11 +207,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// should be run through the experimental transcription conversion process.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool ConvertPatternWithExperimentalTrans
-		{
-			get { return s_convertPatternWithExperimentalTrans; }
-			set { s_convertPatternWithExperimentalTrans = value; }
-		}
+		public static bool ConvertPatternWithTranscriptionChanges { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -261,11 +259,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// Gets or sets the phone cache the search engine will use when searching.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Dictionary<string, IPhoneInfo> PhoneCache
-		{
-			get { return s_phoneCache; }
-			set { s_phoneCache = value; }
-		}
+		public static Dictionary<string, IPhoneInfo> PhoneCache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -278,10 +272,10 @@ namespace SIL.Pa.PhoneticSearching
 			set
 			{
 				s_currQuery = value;
-				s_ignoreDiacritics = value.IgnoreDiacritics;
+				IgnoreDiacritics = value.IgnoreDiacritics;
 
-				s_ignoredPhones.Clear();
-				s_ignoredChars.Clear();
+				IgnoredPhones.Clear();
+				IgnoredChars.Clear();
 
 				// Go through the ignored items and move those that are base characters
 				// or complete phones (e.g. tone stick figures) to one collection and
@@ -293,9 +287,9 @@ namespace SIL.Pa.PhoneticSearching
 					if (charInfo != null)
 					{
 						if (charInfo.IsBase)
-							s_ignoredPhones.Add(ignoredItem);
+							IgnoredPhones.Add(ignoredItem);
 						else
-							s_ignoredChars.Add(ignoredItem[0]);
+							IgnoredChars.Add(ignoredItem[0]);
 					}
 				}
 
@@ -311,12 +305,12 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private static void MergeInUndefinedIgnoredPhones()
 		{
-			if (App.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
 				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
 				{
-					if (!s_ignoredPhones.Contains(upci.Character.ToString()))
-						s_ignoredPhones.Add(upci.Character.ToString());
+					if (!IgnoredPhones.Contains(upci.Character.ToString()))
+						IgnoredPhones.Add(upci.Character.ToString());
 				}
 			}
 		}
@@ -328,12 +322,12 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private static void UnMergeInUndefinedIgnoredPhones()
 		{
-			if (App.IPASymbolCache.UndefinedCharacters != null && s_ignoredPhones != null)
+			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
 				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
 				{
-					if (s_ignoredPhones.Contains(upci.Character.ToString()))
-						s_ignoredPhones.Remove(upci.Character.ToString());
+					if (IgnoredPhones.Contains(upci.Character.ToString()))
+						IgnoredPhones.Remove(upci.Character.ToString());
 				}
 			}
 		}
@@ -343,30 +337,21 @@ namespace SIL.Pa.PhoneticSearching
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<char> IgnoredChars
-		{
-			get { return s_ignoredChars; }
-		}
+		public static List<char> IgnoredChars { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a collection of all the characters to ignore when searching.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<string> IgnoredPhones
-		{
-			get { return s_ignoredPhones; }
-		}
+		public static List<string> IgnoredPhones { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not diacritics are ignored when searching.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool IgnoreDiacritics
-		{
-			get { return s_ignoreDiacritics; }
-		}
+		public static bool IgnoreDiacritics { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -435,7 +420,7 @@ namespace SIL.Pa.PhoneticSearching
 				
 				return (bldrPhones.Length == 0 ? null :
 					App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
-					s_convertPatternWithExperimentalTrans));
+					ConvertPatternWithTranscriptionChanges));
 			}
 		}
 

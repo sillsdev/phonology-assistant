@@ -161,6 +161,7 @@ namespace SIL.Pa.Model
 		public IPhoneInfo Clone()
 		{
 			PhoneInfo clone = new PhoneInfo(Phone);
+			clone.Description = Description;
 			clone.TotalCount = TotalCount;
 			clone.CountAsNonPrimaryUncertainty = CountAsNonPrimaryUncertainty;
 			clone.CountAsPrimaryUncertainty = CountAsPrimaryUncertainty;
@@ -184,7 +185,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return Phone;
+			return Phone + (string.IsNullOrEmpty(Description) ? string.Empty : ": " + Description);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,6 +206,14 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Phone { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string Description { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -364,6 +373,7 @@ namespace SIL.Pa.Model
 
 				return (m_moaKey == string.Empty ? null : m_moaKey);
 			}
+			set { m_moaKey = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -390,8 +400,8 @@ namespace SIL.Pa.Model
 
 				return (m_poaKey == string.Empty ? null : m_poaKey);
 			}
+			set { m_poaKey = value; }
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

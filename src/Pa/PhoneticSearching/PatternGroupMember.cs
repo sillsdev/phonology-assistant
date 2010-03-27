@@ -223,7 +223,7 @@ namespace SIL.Pa.PhoneticSearching
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
 			string[] phones = App.IPASymbolCache.PhoneticParser(m_member, true,
-				SearchEngine.ConvertPatternWithExperimentalTrans);
+				SearchEngine.ConvertPatternWithTranscriptionChanges);
 
 			if (phones == null || phones.Length == 0)
 				return null;

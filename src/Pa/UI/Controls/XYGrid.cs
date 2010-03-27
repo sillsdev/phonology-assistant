@@ -1440,7 +1440,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			SearchEngine.ConvertPatternWithExperimentalTrans =
+			SearchEngine.ConvertPatternWithTranscriptionChanges =
 				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 			
@@ -1477,7 +1477,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			SearchEngine.ConvertPatternWithExperimentalTrans =
+			SearchEngine.ConvertPatternWithTranscriptionChanges =
 				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 
@@ -2000,7 +2000,7 @@ namespace SIL.Pa.UI.Controls
 				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
 
-				SearchEngine.ConvertPatternWithExperimentalTrans =
+				SearchEngine.ConvertPatternWithTranscriptionChanges =
 					App.SettingsHandler.GetBoolSettingsValue("searchengine",
 					"convertpatternswithexperimentaltrans", false);
 
