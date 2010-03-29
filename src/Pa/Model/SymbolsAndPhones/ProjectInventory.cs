@@ -24,44 +24,74 @@ namespace SIL.Pa.Model
 		[XmlArray("units"), XmlArrayItem("unit")]
 		public List<TempPhoneInfo> Phones { get; set; }
 
+		private readonly PaProject m_project;
+		private readonly PhoneCache m_phoneCache;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Process(PaProject project, PhoneCache phoneCache)
+		public static bool Process(PaProject project, PhoneCache phoneCache)
 		{
 			if (project == null || Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
-				return;
+				return false;
 
+			App.MsgMediator.SendMessage("BeforeBuildProjectInventory",
+				new object[] { project, phoneCache });
+			
+			var prjInventoryBldr = new ProjectInventory(project, phoneCache);
+			var buildResult = prjInventoryBldr.InternalProcess();
+			
+			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
+				new object[] { project, phoneCache, buildResult });
+			
+			return buildResult;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Avoid external construction.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private ProjectInventory(PaProject project, PhoneCache phoneCache)
+		{
+			m_project = project;
+			m_phoneCache = phoneCache;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool InternalProcess()
+		{
 			// Create a stream of xml data containing the phones in the project.
-			var inputStream = CreateIntermediateInventory(project, phoneCache);
+			var inputStream = CreateIntermediateInventory();
 
 			if (Settings.Default.KeepIntermediateProjectInventoryFile)
-				WriteIntermediateFile(project, inputStream);
+				WriteIntermediateFile(inputStream);
 
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
 			var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
+
+			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)
-				return;
+				return false;
 
 			// Kick off the processing and then save the results to a file.
-			var outputStream = pipeline.Transform(inputStream);
-			var outputFileName = project.ProjectPathFilePrefix + kFileNameRead;
-			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
-			{
-				outputStream.WriteTo(fileStream);
-				outputStream.Close();
-				fileStream.Close();
-			}
+			var outputFileName = m_project.ProjectPathFilePrefix + kFileNameRead;
+			pipeline.Transform(inputStream, outputFileName);
 
 			// This makes it all pretty, with proper indentation and line-breaking.
 			var doc = new XmlDocument();
 			doc.Load(outputFileName);
 			doc.Save(outputFileName);
 
-			UpdatePhoneInformation(outputFileName, phoneCache);
+			UpdatePhoneInformation(outputFileName, m_phoneCache);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -69,9 +99,9 @@ namespace SIL.Pa.Model
 		/// This should only be done for debugging.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void WriteIntermediateFile(PaProject project, MemoryStream stream)
+		private void WriteIntermediateFile(MemoryStream stream)
 		{
-			var intermediateFileName = project.ProjectPathFilePrefix + kFileNameIntermediate;
+			var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
 			using (var fileStream = new FileStream(intermediateFileName, FileMode.Create))
 			{
 				stream.WriteTo(fileStream);
@@ -90,8 +120,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static MemoryStream CreateIntermediateInventory(PaProject project,
-			Dictionary<string, IPhoneInfo> phoneCache)
+		private MemoryStream CreateIntermediateInventory()
 		{
 			var memStream = new MemoryStream();
 			
@@ -99,8 +128,8 @@ namespace SIL.Pa.Model
 			{
 				writer.WriteStartDocument();
 
-				WriteRoot(writer, project);
-				WriteMetadata(writer, project);
+				WriteRoot(writer);
+				WriteMetadata(writer);
 				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.TranscriptionChanges);
 				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.AmbiguousSequences);
 
@@ -108,7 +137,7 @@ namespace SIL.Pa.Model
 				writer.WriteStartAttribute("type");
 				writer.WriteString("phonetic");
 				writer.WriteEndAttribute();
-				WritePhones(writer, phoneCache);
+				WritePhones(writer);
 				writer.WriteEndElement();
 
 				// Close root and the writer.
@@ -125,7 +154,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void WriteRoot(XmlWriter writer, PaProject project)
+		private void WriteRoot(XmlWriter writer)
 		{
 			writer.WriteStartElement("inventory");
 			writer.WriteStartAttribute("version");
@@ -133,15 +162,15 @@ namespace SIL.Pa.Model
 			writer.WriteEndAttribute();
 
 			writer.WriteStartAttribute("projectName");
-			writer.WriteString(project.Name);
+			writer.WriteString(m_project.Name);
 			writer.WriteEndAttribute();
 
 			writer.WriteStartAttribute("languageName");
-			writer.WriteString(project.LanguageName);
+			writer.WriteString(m_project.LanguageName);
 			writer.WriteEndAttribute();
 
 			writer.WriteStartAttribute("languageCode");
-			writer.WriteString(project.LanguageCode);
+			writer.WriteString(m_project.LanguageCode);
 			writer.WriteEndAttribute();
 		}
 
@@ -150,7 +179,7 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void WriteMetadata(XmlWriter writer, PaProject project)
+		private void WriteMetadata(XmlWriter writer)
 		{
 			writer.WriteStartElement("div");
 			writer.WriteStartAttribute("id");
@@ -163,7 +192,7 @@ namespace SIL.Pa.Model
 			writer.WriteString("settings");
 			writer.WriteEndAttribute();
 
-			var path = project.ProjectPath;
+			var path = m_project.ProjectPath;
 			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
 				path += Path.DirectorySeparatorChar.ToString();
 
@@ -202,14 +231,32 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void WritePhones(XmlWriter writer, Dictionary<string, IPhoneInfo> cache)
+		private void WritePhones(XmlWriter writer)
 		{
-			foreach (var phone in cache.Keys)
+			foreach (var phone in m_phoneCache)
 			{
 				writer.WriteStartElement("unit");
 				writer.WriteStartAttribute("literal");
-				writer.WriteString(phone);
+				writer.WriteString(phone.Key);
 				writer.WriteEndAttribute();
+
+				if (phone.Value.AFeaturesAreOverridden)
+				{
+					writer.WriteStartElement("articulatoryFeatures");
+					writer.WriteStartAttribute("changed");
+					writer.WriteString("true");
+					writer.WriteEndAttribute();
+
+					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
+					{
+						writer.WriteStartElement("features");
+						writer.WriteString(feature);
+						writer.WriteEndElement();
+					}
+
+					writer.WriteEndElement();
+				}
+				
 				writer.WriteEndElement();
 			}
 		}

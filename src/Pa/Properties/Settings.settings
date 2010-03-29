@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="KeepIntermediateProjectInventoryFile" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastProjectLoaded" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

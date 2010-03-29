@@ -43,13 +43,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public FeatureMask(int size)
 		{
-			if (size <= 0)
+			if (size < 0)
 				throw new ArgumentException("Mask size may not be negative.");
 
-			int remainder;
-			m_maskCount = Math.DivRem(size, 64, out remainder);
-			if (remainder > 0)
-				m_maskCount++;
+			if (size > 0)
+			{
+				int remainder;
+				m_maskCount = Math.DivRem(size, 64, out remainder);
+				if (remainder > 0)
+					m_maskCount++;
+			}
 
 			m_size = size;
 			m_masks = new UInt64[m_maskCount];
@@ -69,12 +72,22 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static FeatureMask Empty
+		{
+			get { return new FeatureMask(0); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a value indicating whether or not all the bits are set in the mask.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsEmpty
 		{
-			get { return (m_masks.Count(x => x > 0) == 0); }
+			get { return (m_masks.Count() == 0); }
 		}
 
 		/// ------------------------------------------------------------------------------------

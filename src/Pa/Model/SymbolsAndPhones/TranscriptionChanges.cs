@@ -28,7 +28,7 @@ namespace SIL.Pa.Model
 		public static void MigrateToLatestVersion(string newFileName, string projectPathPrefix)
 		{
 			var errMsg = LocalizationManager.LocalizeString(
-				"Misc.Strings.TranscriptionChangesMigrationErrMsg",
+				"TranscriptionChangesMigrationErrMsg",
 				"The following error occurred while attempting to update the your project’s " +
 				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
 				"In order to continue working, your original file containing transcriptions " +

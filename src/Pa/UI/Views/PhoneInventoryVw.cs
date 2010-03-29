@@ -799,10 +799,11 @@ namespace SIL.Pa.UI.Views
 					if (phoneInfo == null)
 						continue;
 
-					IPhoneInfo cachePhoneInfo = App.PhoneCache[phoneInfo.Phone];
-					if (cachePhoneInfo == null ||
-						phoneInfo.AMask != cachePhoneInfo.AMask ||
-						phoneInfo.BMask != cachePhoneInfo.BMask)
+					IPhoneInfo origPhoneInfo = App.PhoneCache[phoneInfo.Phone];
+
+					if (origPhoneInfo == null ||
+						phoneInfo.AMask != origPhoneInfo.AMask ||
+						phoneInfo.BMask != origPhoneInfo.BMask)
 					{
 						return true;
 					}
@@ -861,16 +862,15 @@ namespace SIL.Pa.UI.Views
 				// features in the grid phone are different from those in the phone
 				// cache entry, then add the phone from the grid to our temporary list
 				// of phone features to override.
-				IPhoneInfo phoneCacheEntry = App.PhoneCache[phoneInfo.Phone];
-				if (phoneCacheEntry == null)
+				IPhoneInfo origPhoneInfo = App.PhoneCache[phoneInfo.Phone];
+				if (origPhoneInfo == null)
 					continue;
 
-				if (phoneCacheEntry.AMask != phoneInfo.AMask ||
-					phoneCacheEntry.BMask != phoneInfo.BMask ||
-					phoneCacheEntry.FeaturesAreOverridden)
-				{
+				phoneInfo.AFeaturesAreOverridden = (origPhoneInfo.AMask != phoneInfo.AMask);
+				phoneInfo.BFeaturesAreOverridden = (origPhoneInfo.BMask != phoneInfo.BMask);
+
+				if (phoneInfo.AFeaturesAreOverridden || phoneInfo.BFeaturesAreOverridden)
 					featureOverrideList[phoneInfo.Phone] = phoneInfo;
-				}
 			}
 
 			featureOverrideList.Save(App.Project.ProjectPathFilePrefix);

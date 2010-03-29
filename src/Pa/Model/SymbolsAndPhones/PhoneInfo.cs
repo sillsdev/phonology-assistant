@@ -68,15 +68,19 @@ namespace SIL.Pa.Model
 			Phone = phone;
 			IsUndefined = isUndefined;
 
-			if (string.IsNullOrEmpty(phone))
-				return;
+			if (!string.IsNullOrEmpty(phone))
+				InitializeFeatureMasks(phone);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InitializeFeatureMasks(string phone)
+		{
 			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
-			FeaturesAreOverridden = ShouldFeaturesBeOverridden(phone);
-
-			if (phoneIsAmbiguous && FeaturesAreOverridden)
-				return;
-
+	
 			m_aMask = App.AFeatureCache.GetEmptyMask();
 			m_bMask = App.BFeatureCache.GetEmptyMask();
 
@@ -96,11 +100,8 @@ namespace SIL.Pa.Model
 					m_baseChar = c;
 				}
 
-				if (!FeaturesAreOverridden)
-				{
-					m_aMask |= charInfo.AMask;
-					m_bMask |= charInfo.BMask;
-				}
+				m_aMask |= charInfo.AMask;
+				m_bMask |= charInfo.BMask;
 			}
 		}
 
@@ -133,28 +134,6 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Determines whether or not the features for the specified phone should be overridden
-		/// by those specified in the PhoneFeatureOverrides list. If so, the masks are set
-		/// from that list rather than determined by the features found in the IPACharCache
-		/// for each of the phone's codepoints.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool ShouldFeaturesBeOverridden(string phone)
-		{
-			if (PhoneCache.FeatureOverrides == null)
-				return false;
-
-			IPhoneInfo phoneInfo = PhoneCache.FeatureOverrides[phone];
-			if (phoneInfo == null)
-				return false;
-
-			m_aMask = phoneInfo.AMask.Clone();
-			m_bMask = phoneInfo.BMask.Clone();
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Returns a clone of the phone information object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -171,7 +150,8 @@ namespace SIL.Pa.Model
 			clone.m_baseChar = m_baseChar;
 			clone.SiblingUncertainties = new List<string>(SiblingUncertainties);
 			clone.IsUndefined = IsUndefined;
-			clone.FeaturesAreOverridden = FeaturesAreOverridden;
+			clone.AFeaturesAreOverridden = AFeaturesAreOverridden;
+			clone.BFeaturesAreOverridden = BFeaturesAreOverridden;
 			clone.m_aMask = m_aMask.Clone();
 			clone.m_bMask = m_bMask.Clone();
 
@@ -190,14 +170,6 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool FeaturesAreOverridden { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// This property is only exposed for PhoneInfo instances that are included in
 		/// collections other than a PhoneCache (e.g. list of phones whose features are
 		/// overridden.) and, even then, it is used mainly for XML
@@ -206,6 +178,22 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Phone { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("articulatoryFeaturesChanged")]
+		public bool AFeaturesAreOverridden { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("binaryFeaturesChanged")]
+		public bool BFeaturesAreOverridden { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

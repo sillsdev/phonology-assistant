@@ -11,29 +11,17 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureOverrides : PhoneCache
 	{
-		public const string kOverrideFile = "FeatureOverrides.xml";
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct the file name for the project-specific overrides.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string BuildFileName(string projectFileName)
-		{
-			string filename = (projectFileName ?? string.Empty);
-			filename += (filename.EndsWith(".") ? string.Empty : ".") + kOverrideFile;
-			return filename;
-		}
+		public const string kFileName = "FeatureOverrides.xml";
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific list of overriding phone features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FeatureOverrides Load(string projectFileName)
+		public static FeatureOverrides Load(string projectPathPrefix)
 		{
-			string filename = BuildFileName(projectFileName);
-			var list = Utils.DeserializeData(filename, typeof(List<PhoneInfo>)) as List<PhoneInfo>;
+			string filename = projectPathPrefix + kFileName;
+			var list = XmlSerializationHelper.DeserializeFromFile<List<PhoneInfo>>(filename, "phones");
 
 			if (list == null || list.Count == 0)
 				return null;
@@ -50,11 +38,22 @@ namespace SIL.Pa.Model
 		/// Saves the list of phones with overridden features to a project-specific xml file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Save(string projectFileName)
+		public void Save(string projectPathPrefix)
 		{
 			// Move the entries into a list because dictionaries are not serializable.
 			var list = Values.Select(x => x as PhoneInfo).ToList();
-			Utils.SerializeData(BuildFileName(projectFileName), list);
+
+			foreach (var phone in list)
+			{
+				if (!phone.AFeaturesAreOverridden)
+					phone.AMask = FeatureMask.Empty;
+
+				if (!phone.BFeaturesAreOverridden)
+					phone.BMask = FeatureMask.Empty;
+			}
+			
+			string filename = projectPathPrefix + kFileName;
+			XmlSerializationHelper.SerializeToFile(filename, list, "phones");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,11 +67,21 @@ namespace SIL.Pa.Model
 		{
 			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
 			{
-				IPhoneInfo phoneCacheEntry = phoneCache[kvp.Key];
-				if (phoneCacheEntry != null)
+				var phoneOverride = kvp.Value as PhoneInfo;
+				var phoneCacheEntry = phoneCache[kvp.Key] as PhoneInfo;
+				if (phoneOverride == null || phoneCacheEntry == null)
+					continue;
+
+				if (phoneOverride.AFeaturesAreOverridden)
 				{
-					((PhoneInfo)phoneCacheEntry).AMask = kvp.Value.AMask.Clone();
-					((PhoneInfo)phoneCacheEntry).BMask = kvp.Value.BMask.Clone();
+					phoneCacheEntry.AMask = phoneOverride.AMask.Clone();
+					phoneCacheEntry.AFeaturesAreOverridden = true;
+				}
+
+				if (phoneOverride.BFeaturesAreOverridden)
+				{
+					phoneCacheEntry.BMask = phoneOverride.BMask.Clone();
+					phoneCacheEntry.BFeaturesAreOverridden = true;
 				}
 			}
 		}

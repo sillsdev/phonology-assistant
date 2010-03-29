@@ -87,49 +87,76 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Transform the specified file and return the results in the specified output file.
+		/// If the output file already exists, its contents will be lost and replaced with
+		/// the new results.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Transform(string inputFileName, string outputFileName)
 		{
-			using (var inputStream = new FileStream(inputFileName, FileMode.Open))
-			using (var outputStream = Transform(inputStream))
+			using (var outputStream = Transform(inputFileName))
+			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
 			{
-				inputStream.Close();
-
-				using (var fileStream = new FileStream(outputFileName, FileMode.Create))
-				{
-					outputStream.WriteTo(fileStream);
-					outputStream.Close();
-				}
+				outputStream.WriteTo(fileStream);
+				outputStream.Close();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Given inputStream, return an output stream containing results from the pipeline. 
+		/// Transform the contents of the specified input stream and returns the results in
+		/// the specified output file. If the output file already exists, its contents will
+		/// be lost and replaced with the new results.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public MemoryStream Transform(Stream stream)
+		public void Transform(MemoryStream inputStream, string outputFileName)
+		{
+			using (var outputStream = Transform(inputStream))
+			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
+			{
+				outputStream.WriteTo(fileStream);
+				outputStream.Close();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Transform the specified file and return the results in a memory stream.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public MemoryStream Transform(string inputFileName)
+		{
+			using (var inputStream = new FileStream(inputFileName, FileMode.Open))
+			{
+				// Write all the bytes from the file stream to a memory stream.
+				// It seems to me there has to be a better way to do this, but
+				// I could not find one in my limited search.
+				var memStream = new MemoryStream();
+				for (long i = 0; i < inputStream.Length; i++)
+					memStream.WriteByte((byte)inputStream.ReadByte());
+
+				inputStream.Close();
+				return Transform(memStream);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Given stream, return an output stream containing results from the pipeline. 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public MemoryStream Transform(MemoryStream stream)
 		{
 			Debug.Assert(stream != null);
 			Debug.Assert(m_processingSteps.Count != 0);
 
-			// Write all the bytes from the input stream to a memory stream.
-			stream.Seek(0, SeekOrigin.Begin);
-			var memStream = new MemoryStream();
-			for (long i = 0; i < stream.Length; i++)
-				memStream.WriteByte((byte)stream.ReadByte());
-
-			stream.Close();
-
 			foreach (var step in m_processingSteps)
 			{
-				memStream.Seek(0, SeekOrigin.Begin);
-				memStream = step.Transform(memStream);
+				stream.Seek(0, SeekOrigin.Begin);
+				stream = step.Transform(stream);
 			}
 
-			return memStream;
+			return stream;
 		}
 	}
 }
