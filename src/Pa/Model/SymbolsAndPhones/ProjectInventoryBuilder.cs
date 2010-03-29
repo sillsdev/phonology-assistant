@@ -21,11 +21,11 @@ namespace SIL.Pa.Model
 		private const string kFileNameIntermediate = "PhoneticInventory.Intermediate.xml";
 		private const string kFileNameRead = "PhoneticInventory.xml";
 
-		[XmlArray("units"), XmlArrayItem("unit")]
-		public List<TempPhoneInfo> Phones { get; set; }
-
 		private readonly PaProject m_project;
 		private readonly PhoneCache m_phoneCache;
+		
+		[XmlArray("units"), XmlArrayItem("unit")]
+		public List<TempPhoneInfo> Phones { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

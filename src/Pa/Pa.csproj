@@ -896,7 +896,6 @@ copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Proces
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GoogleTranslateAPI.dll" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\TMXUtils.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
