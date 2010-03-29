@@ -502,7 +502,7 @@ namespace SIL.Pa
 		{
 			s_phoneCache = GetPhonesFromWordCache(WordCache);
 			SearchEngine.PhoneCache = s_phoneCache;
-			ProjectInventory.Process(Project, s_phoneCache);
+			ProjectInventoryBuilder.Process(Project, s_phoneCache);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -783,7 +783,7 @@ namespace SIL.Pa
 			set 
 			{
 				if (value != s_project)
-					ProjectInventory.Process(value, s_phoneCache);
+					ProjectInventoryBuilder.Process(value, s_phoneCache);
 				
 				s_project = value;
 			}

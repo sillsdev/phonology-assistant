@@ -15,7 +15,7 @@ namespace SIL.Pa.Model
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("inventory")]
-	public class ProjectInventory
+	public class ProjectInventoryBuilder
 	{
 		public const string kVersion = "3.5";
 		private const string kFileNameIntermediate = "PhoneticInventory.Intermediate.xml";
@@ -40,7 +40,7 @@ namespace SIL.Pa.Model
 			App.MsgMediator.SendMessage("BeforeBuildProjectInventory",
 				new object[] { project, phoneCache });
 			
-			var prjInventoryBldr = new ProjectInventory(project, phoneCache);
+			var prjInventoryBldr = new ProjectInventoryBuilder(project, phoneCache);
 			var buildResult = prjInventoryBldr.InternalProcess();
 			
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
@@ -54,7 +54,7 @@ namespace SIL.Pa.Model
 		/// Avoid external construction.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private ProjectInventory(PaProject project, PhoneCache phoneCache)
+		private ProjectInventoryBuilder(PaProject project, PhoneCache phoneCache)
 		{
 			m_project = project;
 			m_phoneCache = phoneCache;
@@ -271,7 +271,7 @@ namespace SIL.Pa.Model
 		private static void UpdatePhoneInformation(string fileName,
 			IDictionary<string, IPhoneInfo> phoneCache)
 		{
-			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventory>(fileName);
+			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventoryBuilder>(fileName);
 			if (prjInventory == null)
 				return;
 
