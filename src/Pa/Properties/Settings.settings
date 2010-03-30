@@ -53,5 +53,8 @@
     <Setting Name="SkipAdditionalProcessingWhenPhonesAreLoaded" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="KeepIntermediateDistributionChartExportFile" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

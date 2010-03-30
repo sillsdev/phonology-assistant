@@ -5,8 +5,10 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -1314,8 +1316,12 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
-			App.InitializeProgressBar(
-				ResourceHelper.GetString("kstidQuerySearchingMsg"), progBarMax);
+			
+			var msg = LocalizationManager.LocalizeString("DistributionChartControl.SearchingMsg",
+				"Searching...", null, "Misc.Strings", LocalizationCategory.GeneralMessage,
+				LocalizationPriority.MediumHigh);
+			
+			App.InitializeProgressBar(msg, progBarMax);
 
 			FixEnvironments();
 

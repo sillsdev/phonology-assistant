@@ -188,5 +188,14 @@ namespace SIL.Pa.Properties {
                 return ((bool)(this["SkipAdditionalProcessingWhenPhonesAreLoaded"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepIntermediateDistributionChartExportFile {
+            get {
+                return ((bool)(this["KeepIntermediateDistributionChartExportFile"]));
+            }
+        }
     }
 }

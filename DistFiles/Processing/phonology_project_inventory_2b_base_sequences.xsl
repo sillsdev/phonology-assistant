@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_2b_base_sequences.xsl 2010-03-26 -->
+  <!-- phonology_project_inventory_2b_base_sequences.xsl 2010-03-29 -->
   <!-- Merge articulatory features of base character sequences. -->
 	<!-- General rule: Keep features of the primary base symbol; omit features of non-primary base symbols. -->
 	<!-- Specific rules might do any of the following: -->
@@ -12,8 +12,8 @@
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
-	<xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@id = 'settings']/li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@id = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
+	<xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programConfigurationFolder']" />
+	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
 	
 	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 	<xsl:variable name="sequences" select="document($programPhoneticInventoryXML)/inventory/sequences" />

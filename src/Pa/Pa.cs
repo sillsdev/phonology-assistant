@@ -27,6 +27,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStrings;
 using SilUtils;

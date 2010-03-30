@@ -28,15 +28,31 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static public Pipeline Create(string processName, string processFileName,
-			string processingFolder)
+		static public Pipeline Create(string processType, string processName,
+			string processFileName, string processingFolder)
 		{
+			string xpath = null;
+			switch (processType)
+			{
+				case "inventory":
+					xpath = "processing/process[@type='inventory']";
+					break;
+
+				case "view":
+					xpath = string.Format("processing/process[@type='view'][@view='{0}']", processName);
+					break;
+
+				case "export":
+					xpath = string.Format("processing/process[@type='export'][@view='{0}']", processName);
+					break;
+
+				// Handle exporting to a format.
+			}
+
 			var settings = new XmlReaderSettings();
 			var processingDocument = new XPathDocument(XmlReader.Create(processFileName, settings));
 			var processingNavigator = processingDocument.CreateNavigator();
-			var xpath = string.Format("processing/process[@type='{0}']", processName);
 			var processNavigator = processingNavigator.SelectSingleNode(xpath);
-			
 			processNavigator = processNavigator.SelectSingleNode("p:pipeline", NamespaceManager);
 			if (processNavigator == null)
 				return null;

@@ -704,7 +704,7 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// This is the full path to the .pap file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -718,6 +718,17 @@ namespace SIL.Pa
 				if (m_fileName == null)
 					m_fileName = value;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is the full path to the project's phone inventory file recreated each time
+		/// the project's data sources are read or the phone cache is updated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ProjectInventoryFileName
+		{
+			get { return ProjectPathFilePrefix + "PhoneticInventory.xml"; }
 		}
 
 		/// ------------------------------------------------------------------------------------

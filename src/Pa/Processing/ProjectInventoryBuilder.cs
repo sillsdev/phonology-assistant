@@ -3,11 +3,11 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using SIL.Pa.Processing;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilUtils;
 
-namespace SIL.Pa.Model
+namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -19,7 +19,6 @@ namespace SIL.Pa.Model
 	{
 		public const string kVersion = "3.5";
 		private const string kFileNameIntermediate = "PhoneticInventory.Intermediate.xml";
-		private const string kFileNameRead = "PhoneticInventory.xml";
 
 		private readonly PaProject m_project;
 		private readonly PhoneCache m_phoneCache;
@@ -51,6 +50,15 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// For serialization/deserialization
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ProjectInventoryBuilder()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Avoid external construction.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -71,18 +79,21 @@ namespace SIL.Pa.Model
 			var inputStream = CreateIntermediateInventory();
 
 			if (Settings.Default.KeepIntermediateProjectInventoryFile)
-				WriteIntermediateFile(inputStream);
+			{
+				var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
+				ProcessHelper.WriteStreamToFile(inputStream, intermediateFileName);
+			}
 
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-			var pipeline = Pipeline.Create("inventory", processFileName, App.ProcessingFolder);
+			var pipeline = Pipeline.Create("inventory", null, processFileName, App.ProcessingFolder);
 
 			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)
 				return false;
 
 			// Kick off the processing and then save the results to a file.
-			var outputFileName = m_project.ProjectPathFilePrefix + kFileNameRead;
+			var outputFileName = m_project.ProjectInventoryFileName;
 			pipeline.Transform(inputStream, outputFileName);
 
 			// This makes it all pretty, with proper indentation and line-breaking.
@@ -92,26 +103,6 @@ namespace SIL.Pa.Model
 
 			UpdatePhoneInformation(outputFileName, m_phoneCache);
 			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This should only be done for debugging.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void WriteIntermediateFile(MemoryStream stream)
-		{
-			var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
-			using (var fileStream = new FileStream(intermediateFileName, FileMode.Create))
-			{
-				stream.WriteTo(fileStream);
-				fileStream.Close();
-			}
-
-			// This makes it all pretty, with proper indentation and line-breaking.
-			var doc = new XmlDocument();
-			doc.Load(intermediateFileName);
-			doc.Save(intermediateFileName);
 		}
 		
 		#region Methods for writing inventory file to send through the xslt processing
@@ -127,21 +118,7 @@ namespace SIL.Pa.Model
 			using (var writer = XmlWriter.Create(memStream))
 			{
 				writer.WriteStartDocument();
-
 				WriteRoot(writer);
-				WriteMetadata(writer);
-				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.TranscriptionChanges);
-				XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.AmbiguousSequences);
-
-				writer.WriteStartElement("units");
-				writer.WriteStartAttribute("type");
-				writer.WriteString("phonetic");
-				writer.WriteEndAttribute();
-				WritePhones(writer);
-				writer.WriteEndElement();
-
-				// Close root and the writer.
-				writer.WriteEndElement();
 				writer.Flush();
 				writer.Close();
 			}
@@ -156,73 +133,23 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void WriteRoot(XmlWriter writer)
 		{
-			writer.WriteStartElement("inventory");
-			writer.WriteStartAttribute("version");
-			writer.WriteString(kVersion);
-			writer.WriteEndAttribute();
+			ProcessHelper.WriteStartElementWithAttrib(writer, "inventory", "version", kVersion);
+			ProcessHelper.WriteAttrib(writer, "projectName", m_project.Name);
+			ProcessHelper.WriteAttrib(writer, "languageName", m_project.LanguageName);
+			ProcessHelper.WriteAttrib(writer, "languageCode", m_project.LanguageCode);
 
-			writer.WriteStartAttribute("projectName");
-			writer.WriteString(m_project.Name);
-			writer.WriteEndAttribute();
+			ProcessHelper.WriteMetadata(writer, m_project, true);
+			
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.TranscriptionChanges);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.AmbiguousSequences);
 
-			writer.WriteStartAttribute("languageName");
-			writer.WriteString(m_project.LanguageName);
-			writer.WriteEndAttribute();
-
-			writer.WriteStartAttribute("languageCode");
-			writer.WriteString(m_project.LanguageCode);
-			writer.WriteEndAttribute();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void WriteMetadata(XmlWriter writer)
-		{
-			writer.WriteStartElement("div");
-			writer.WriteStartAttribute("id");
-			writer.WriteString("metadata");
-			writer.WriteEndAttribute();
-				
-			// Open ul and div
-			writer.WriteStartElement("ul");
-			writer.WriteStartAttribute("id");
-			writer.WriteString("settings");
-			writer.WriteEndAttribute();
-
-			var path = m_project.ProjectPath;
-			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
-				path += Path.DirectorySeparatorChar.ToString();
-
-			writer.WriteStartElement("li");
-			writer.WriteStartAttribute("class");
-			writer.WriteString("projectFolder");
-			writer.WriteEndAttribute();
-			writer.WriteString(path);
+			ProcessHelper.WriteStartElementWithAttrib(writer, "units", "type", "phonetic");
+			WritePhones(writer);
+			
+			// Close units
 			writer.WriteEndElement();
 
-			path = App.ConfigFolder;
-			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
-				path += Path.DirectorySeparatorChar.ToString();
-
-			writer.WriteStartElement("li");
-			writer.WriteStartAttribute("class");
-			writer.WriteString("programConfigurationFolder");
-			writer.WriteEndAttribute();
-			writer.WriteString(path);
-			writer.WriteEndElement();
-
-			writer.WriteStartElement("li");
-			writer.WriteStartAttribute("class");
-			writer.WriteString("programPhoneticInventoryFile");
-			writer.WriteEndAttribute();
-			writer.WriteString(InventoryHelper.kDefaultInventoryFileName);
-			writer.WriteEndElement();
-	
-			// Close ul and div
-			writer.WriteEndElement();
+			// Close inventory
 			writer.WriteEndElement();
 		}
 
@@ -235,24 +162,15 @@ namespace SIL.Pa.Model
 		{
 			foreach (var phone in m_phoneCache)
 			{
-				writer.WriteStartElement("unit");
-				writer.WriteStartAttribute("literal");
-				writer.WriteString(phone.Key);
-				writer.WriteEndAttribute();
+				ProcessHelper.WriteStartElementWithAttrib(writer, "unit", "literal", phone.Key);
 
 				if (phone.Value.AFeaturesAreOverridden)
 				{
-					writer.WriteStartElement("articulatoryFeatures");
-					writer.WriteStartAttribute("changed");
-					writer.WriteString("true");
-					writer.WriteEndAttribute();
+					ProcessHelper.WriteStartElementWithAttrib(writer,
+						"articulatoryFeatures", "changed", "true");
 
 					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
-					{
-						writer.WriteStartElement("features");
-						writer.WriteString(feature);
-						writer.WriteEndElement();
-					}
+						ProcessHelper.WriteElement(writer, "features", feature);
 
 					writer.WriteEndElement();
 				}
@@ -283,9 +201,15 @@ namespace SIL.Pa.Model
 					var phoneInfo = iPhoneInfo as PhoneInfo;
 					if (phoneInfo != null)
 					{
-						phoneInfo.AFeatures = phone.AFeatures;
-						phoneInfo.BFeatures = phone.BFeatures;
-						phoneInfo.Description = phone.Description;
+						if (phone.AFeatures.Count > 0)
+							phoneInfo.AFeatures = phone.AFeatures;
+						
+						if (phone.BFeatures.Count > 0)
+							phoneInfo.BFeatures = phone.BFeatures;
+	
+						if (!string.IsNullOrEmpty(phone.Description))
+							phoneInfo.Description = phone.Description;
+	
 						phoneInfo.MOAKey = phone.GetSortKey("mannerOfArticulation", phoneInfo.MOAKey);
 						phoneInfo.POAKey = phone.GetSortKey("placeOfArticulation", phoneInfo.POAKey);
 					}

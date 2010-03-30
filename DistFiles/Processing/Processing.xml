@@ -127,11 +127,100 @@
 		</pipeline>
 	</process>
 	<!-- Here are placeholders for processes for the Export command. -->
-	<process type="export" view="Data Corpus" />
+	<process type="export" view="Data Corpus">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2a_sort.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2b_sort_manner.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2c_sort_place.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2d_sort.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
 	<process type="export" view="Search" />
-	<process type="export" view="CV Chart" />
-	<process type="export" view="Distribution Chart" />
+	<process type="export" view="CV Chart">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_1a.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_1b.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_1c.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_2a.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_2b.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
+	<process type="export" view="Distribution Chart">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_distribution_chart_generalize_1.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_distribution_chart_generalize_2.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_distribution_chart_transpose.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
+	<process type="export" format="XHTML">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_to_XHTML.xsl" />
+				</input>
+			</xslt>
+			<!--
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_project_formatting_to_CSS.xsl" />
+				</input>
+			</xslt>
+			-->
+		</pipeline>
+		<!-- TO DO: enclose pipeline postprocessing in a generic element? -->
+		<!-- TO DO: Is Tidy an exec step in the pipeline or does it follow the pipeline? -->
+		<!--
+		<tidy config="output_to_XHTML_Strict.tidy" />
+		-->
+	</process>
 	<process type="export" format="CSS" />
 	<process type="export" format="Word_2003_XML" />
-	<process type="export" format="XHTML" />
 </processing>

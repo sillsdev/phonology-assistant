@@ -222,8 +222,8 @@ namespace SIL.Pa.UI
 		{
 			int filterindex = 0;
 
-			string filter = string.Format(ResourceHelper.GetString("kstidFileTypePAProject"),
-				Application.ProductName) + "|" + ResourceHelper.GetString("kstidFileTypeAllFiles");
+			string filter = string.Format(App.kstidFileTypePAProject,
+				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
 			string dlgTitle =
 				string.Format(Properties.Resources.kstidPAFilesCaptionOFD, Application.ProductName);

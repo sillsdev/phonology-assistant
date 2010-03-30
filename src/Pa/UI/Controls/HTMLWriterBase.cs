@@ -174,8 +174,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			defaultHTMLFileName = defaultHTMLFileName.Replace(" ", string.Empty);
 
-			string fileTypes = ResourceHelper.GetString("kstidFileTypeHTML") + "|" +
-				ResourceHelper.GetString("kstidFileTypeAllFiles");
+			string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			return App.SaveFileDialog("html", fileTypes, ref filterIndex,

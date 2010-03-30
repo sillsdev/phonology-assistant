@@ -8,6 +8,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
@@ -1434,6 +1435,10 @@ namespace SIL.Pa.UI.Views
 		{
 			if (!m_activeView)
 				return false;
+
+			return DistributionChartExporter.Process(App.Project, m_xyGrid);
+			
+
 
 			string outputFileName;
 			object objForExport = ObjectForHTMLExport;
