@@ -68,5 +68,8 @@
     <Setting Name="OpenHTMLDataCorpusAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="KeepIntermediateDataCorpusExportFile" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

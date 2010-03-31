@@ -249,5 +249,14 @@ namespace SIL.Pa.Properties {
                 this["OpenHTMLDataCorpusAfterExport"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepIntermediateDataCorpusExportFile {
+            get {
+                return ((bool)(this["KeepIntermediateDataCorpusExportFile"]));
+            }
+        }
     }
 }

@@ -24,7 +24,9 @@ namespace SIL.Pa.Processing
 		public static bool Process(PaProject project, string outputFileName, XYGrid distChartGrid)
 		{
 			var exporter = new DistributionChartExporter(project, outputFileName, distChartGrid);
-			return exporter.InternalProcess(Settings.Default.KeepIntermediateDistributionChartExportFile);
+			return exporter.InternalProcess(
+				Settings.Default.KeepIntermediateDistributionChartExportFile,
+				Pipeline.ProcessType.ExportDistributionChart, Pipeline.ProcessType.ExportToXHTML);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,6 +39,16 @@ namespace SIL.Pa.Processing
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override Pipeline.ProcessType ProcessType
+		{
+			get { return Pipeline.ProcessType.ExportDistributionChart; }
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

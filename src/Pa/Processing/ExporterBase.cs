@@ -83,8 +83,11 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool InternalProcess(bool keepIntermediateFile)
+		protected virtual bool InternalProcess(bool keepIntermediateFile,
+			params Pipeline.ProcessType[] processTypes)
 		{
+			System.Diagnostics.Debug.Assert(processTypes.Length > 0);
+	
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateXHTML();
 
@@ -96,17 +99,34 @@ namespace SIL.Pa.Processing
 
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-			var pipeline = Pipeline.Create(Pipeline.ProcessType.ExportDistributionChart,
-				processFileName, App.ProcessingFolder);
 
-			// REVIEW: Should we warn the user that this failed?
-			if (pipeline == null)
-				return false;
+			MemoryStream outputStream = null;
 
-			// Kick off the processing and then save the results to a file.
-			pipeline.Transform(inputStream, m_outputFileName);
+			foreach (var prsType in processTypes)
+			{
+				var pipeline = Pipeline.Create(prsType, processFileName, App.ProcessingFolder);
 
+				// REVIEW: Should we warn the user that this failed?
+				if (pipeline == null)
+					continue;
+
+				// Kick off the processing and then save the results to a file.
+				outputStream = pipeline.Transform(inputStream);
+				inputStream = outputStream;
+			}
+
+			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName);
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual Pipeline.ProcessType ProcessType
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

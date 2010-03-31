@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.Processing
@@ -19,7 +20,8 @@ namespace SIL.Pa.Processing
 		public static bool Process(PaProject project, string outputFileName, PaWordListGrid grid)
 		{
 			var exporter = new DataCorpusExporter(project, outputFileName, grid);
-			return exporter.InternalProcess(true);
+			return exporter.InternalProcess(Settings.Default.KeepIntermediateDataCorpusExportFile,
+				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToXHTML);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,6 +34,16 @@ namespace SIL.Pa.Processing
 		{
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override Pipeline.ProcessType ProcessType
+		{
+			get { return Pipeline.ProcessType.ExportDataCorpus; }
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

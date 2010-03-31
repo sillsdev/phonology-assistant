@@ -99,6 +99,15 @@ namespace SIL.Pa.Processing
 
 				case ProcessType.ExportDistributionChart:
 					return "processing/process[@type='export'][@view='Distribution Chart']";
+
+				case ProcessType.ExportToXHTML:
+					return "processing/process[@type='export'][@format='XHTML']";
+	
+				case ProcessType.ExportToCss:
+					return "processing/process[@type='export'][@format='CSS']";
+			
+				case ProcessType.ExportToWord:
+					return "processing/process[@type='export'][@format='Word_2003_XML']";
 			}
 
 			return null;
