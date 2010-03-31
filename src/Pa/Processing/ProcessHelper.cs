@@ -63,11 +63,6 @@ namespace SIL.Pa.Processing
 			writer.WriteAttributeString("class", "settings");
 
 			writer.WriteStartElement("li");
-			writer.WriteAttributeString("class", "projectFolder");
-			writer.WriteString(TerminateFolderPath(project.ProjectPath));
-			writer.WriteEndElement();
-
-			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "programConfigurationFolder");
 			writer.WriteString(TerminateFolderPath(App.ConfigFolder));
 			writer.WriteEndElement();
@@ -80,6 +75,11 @@ namespace SIL.Pa.Processing
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "userFolder");
 			writer.WriteString(TerminateFolderPath(App.DefaultProjectFolder));
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("li");
+			writer.WriteAttributeString("class", "projectFolder");
+			writer.WriteString(TerminateFolderPath(project.ProjectPath));
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");

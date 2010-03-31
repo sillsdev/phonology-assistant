@@ -115,8 +115,11 @@ namespace SIL.Pa.Processing
 			foreach (var sortInfo in grid.SortOptions.SortInformationList)
 			{
 				var field = sortInfo.FieldInfo.DisplayText;
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "title", field);
-				m_writer.WriteAttributeString("class", ProcessHelper.MakeAlphaNumeric(field));
+				
+				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
+					ProcessHelper.MakeAlphaNumeric(field));
+				
+				m_writer.WriteAttributeString("title", field);
 				m_writer.WriteString(sortInfo.ascending ? "ascending" : "descending");
 				m_writer.WriteEndElement();
 			}
