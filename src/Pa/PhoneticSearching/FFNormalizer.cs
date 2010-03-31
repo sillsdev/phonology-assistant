@@ -44,10 +44,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			string filename = Path.Combine(App.ConfigFolder, kstidNormalizationExceptionsFile);
 			if (File.Exists(filename))
-			{
-				s_exceptionsList = Utils.DeserializeData(filename,
-					typeof(List<NormalizationException>)) as List<NormalizationException>;
-			}
+				s_exceptionsList = XmlSerializationHelper.DeserializeFromFile<List<NormalizationException>>(filename);
 		}
 
 		/// ------------------------------------------------------------------------------------

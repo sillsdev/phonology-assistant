@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Dialogs
 					"autolaunch", false);
 			}
 
-			// Putting this is a try/catch is probably not necessary for most users, but
+			// Putting this in a try/catch is probably not necessary for most users, but
 			// at some point (the one at which I write this) opening files on my computer
 			// with my browser (which is what opens html files) throws an error before the
 			// file is opened. It happens just when clicking on an html file in Windows

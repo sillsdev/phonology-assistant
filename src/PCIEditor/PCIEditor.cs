@@ -411,7 +411,7 @@ namespace SIL.Pa
 			}
 
 			App.IPASymbolCache.LoadFromList(tmpCache);
-			InventoryHelper.Save();// Utils.SerializeData(m_xmlFilePath, tmpCache);
+			InventoryHelper.Save();
 		}
 
 		/// --------------------------------------------------------------------------------------------

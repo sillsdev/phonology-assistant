@@ -194,9 +194,11 @@
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
+    <Compile Include="Processing\DataCorpusExporter.cs" />
     <Compile Include="Processing\DistributionChartExporter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Processing\ExporterBase.cs" />
     <Compile Include="Processing\Pipeline.cs" />
     <Compile Include="Processing\ProcessHelper.cs" />
     <Compile Include="Processing\ProjectInventoryBuilder.cs" />
@@ -836,6 +838,7 @@
     <EmbeddedResource Include="UI\Dialogs\TranscriptionChangesDlg.resx">
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateProjectFile.xslt" />
     <Content Include="pa.ico" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

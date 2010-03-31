@@ -86,9 +86,7 @@ namespace SIL.Pa.Model
 
 			try
 			{
-				PaXMLContent paxmlcontent =
-					Utils.DeserializeData(filename, typeof(PaXMLContent)) as PaXMLContent;
-
+				var paxmlcontent = XmlSerializationHelper.DeserializeFromFile<PaXMLContent>(filename);
 				RecordCache cache = (paxmlcontent == null ? null : paxmlcontent.Cache);
 
 				if (cache != null)
@@ -148,7 +146,7 @@ namespace SIL.Pa.Model
 				if (paxmlcontent.CustomFields.Count == 0)
 					paxmlcontent.CustomFields = null;
 
-				Utils.SerializeData(filename, paxmlcontent);
+				XmlSerializationHelper.SerializeToFile(filename, paxmlcontent);
 			}
 			catch (Exception e)
 			{
@@ -453,9 +451,7 @@ namespace SIL.Pa.Model
 			if (!File.Exists(s_tmpFilename))
 				return null;
 
-			List<TempRecordCacheEntry> tmpList = Utils.DeserializeData(s_tmpFilename,
-				typeof(List<TempRecordCacheEntry>)) as List<TempRecordCacheEntry>;
-
+			var tmpList = XmlSerializationHelper.DeserializeFromFile<List<TempRecordCacheEntry>>(s_tmpFilename);
 			if (tmpList == null)
 				return null;
 
@@ -480,11 +476,11 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(s_tmpFilename))
 				s_tmpFilename = Path.GetTempFileName();
 
-			List<TempRecordCacheEntry> tmpList = new List<TempRecordCacheEntry>();
-			foreach (KeyValuePair<int, string> entry in s_cache)
+			var tmpList = new List<TempRecordCacheEntry>();
+			foreach (var entry in s_cache)
 				tmpList.Add(new TempRecordCacheEntry(entry.Key, entry.Value));
 
-			Utils.SerializeData(s_tmpFilename, tmpList);
+			XmlSerializationHelper.SerializeToFile(s_tmpFilename, tmpList);
 			s_cache.Clear();
 			tmpList.Clear();
 			s_cache = null;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -419,8 +420,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				PaFieldInfoList fieldInfoList = Utils.DeserializeData("DefaultFieldInfo.xml",
-					typeof(PaFieldInfoList)) as PaFieldInfoList;
+				var filename = Path.Combine(App.ConfigFolder, "DefaultFieldInfo.xml");
+				var fieldInfoList = XmlSerializationHelper.DeserializeFromFile<PaFieldInfoList>(filename);
 
 				if (fieldInfoList != null)
 				{
@@ -472,8 +473,7 @@ namespace SIL.Pa.Model
 			string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
 
 			// Get the project specific field information.
-			PaFieldInfoList fieldInfoList = Utils.DeserializeData(filename,
-				typeof(PaFieldInfoList)) as PaFieldInfoList;
+			var fieldInfoList = XmlSerializationHelper.DeserializeFromFile<PaFieldInfoList>(filename);
 
 			if (fieldInfoList != null)
 			{
@@ -612,7 +612,7 @@ namespace SIL.Pa.Model
 			if (project != null)
 			{
 				string filename = project.ProjectPathFilePrefix + "FieldInfo.xml";
-				Utils.SerializeData(filename, this);
+				XmlSerializationHelper.SerializeToFile(filename, this);
 				ManageVersion(filename, false);
 			}
 		}
@@ -624,7 +624,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			Utils.SerializeData("DefaultFieldInfo.xml", this);
+			var filename = Path.Combine(App.ConfigFolder, "DefaultFieldInfo.xml");
+			XmlSerializationHelper.SerializeToFile(filename, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -640,9 +641,9 @@ namespace SIL.Pa.Model
 		{
 			try
 			{
-				XmlDocument xmlDoc = new XmlDocument();
+				var xmlDoc = new XmlDocument();
 				xmlDoc.Load(filename);
-				XmlNode node = xmlDoc.SelectSingleNode("PaFields");
+				var node = xmlDoc.SelectSingleNode("PaFields");
 
 				if (getVer)
 					return XmlHelper.GetFloatFromAttribute(node, "version", 0f);

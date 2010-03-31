@@ -9,12 +9,14 @@
 #endregion
 // 
 // File: ProcessHelper.cs
-// Responsibility: Olson
+// Responsibility: D. Olson
 // 
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Xml;
 using SIL.Pa.Model;
 
@@ -94,6 +96,70 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void WriteFieldFormattingInfo(XmlWriter writer, string fieldName, Font fnt)
+		{
+			// Open table row
+			writer.WriteStartElement("tr");
+
+			WriteStartElementWithAttribAndValue(writer, "td", "class", "name", fieldName);
+			WriteStartElementWithAttribAndValue(writer, "td", "class", "class", MakeAlphaNumeric(fieldName));
+			WriteStartElementWithAttribAndValue(writer, "td", "class", "font-family", fnt.Name);
+			WriteStartElementWithAttribAndValue(writer, "td", "class", "font-size", fnt.SizeInPoints.ToString());
+
+			if (!fnt.Bold)
+				WriteEmptyElement(writer, "td");
+			else
+				WriteStartElementWithAttribAndValue(writer, "td", "class", "font-weight", "bold");
+
+			if (!fnt.Italic)
+				WriteEmptyElement(writer, "td");
+			else
+				WriteStartElementWithAttribAndValue(writer, "td", "class", "font-style", "italic");
+
+			// Close tr
+			writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void WriteColumnGroup(XmlWriter writer, int colsInGroup)
+		{
+			writer.WriteStartElement("colgroup");
+			
+			for (int i = 0; i < colsInGroup; i++)
+				WriteEmptyElement(writer, "col");
+			
+			writer.WriteEndElement();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes all non alphanumeric characters (including spaces) from the specified text.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MakeAlphaNumeric(string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return text;
+
+			var bldr = new StringBuilder();
+			foreach (char c in text)
+			{
+				if (char.IsLetterOrDigit(c))
+					bldr.Append(c);
+			}
+
+			return bldr.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Makes sure the last character in the specified path is a directory separator
 		/// character.
 		/// </summary>
@@ -105,30 +171,6 @@ namespace SIL.Pa.Processing
 				path += Path.DirectorySeparatorChar.ToString();
 
 			return path;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes the attribute.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void WriteAttrib(XmlWriter writer, string attribName, string attribValue)
-		{
-			writer.WriteStartAttribute(attribName);
-			writer.WriteString(attribValue);
-			writer.WriteEndAttribute();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes the element.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void WriteElement(XmlWriter writer, string elementName, string elementValue)
-		{
-			writer.WriteStartElement(elementName);
-			writer.WriteString(elementValue);
-			writer.WriteEndElement();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -151,9 +193,7 @@ namespace SIL.Pa.Processing
 			string attribName, string attribValue)
 		{
 			writer.WriteStartElement(elementName);
-			writer.WriteStartAttribute(attribName);
-			writer.WriteString(attribValue);
-			writer.WriteEndAttribute();
+			writer.WriteAttributeString(attribName, attribValue);
 		}
 
 		/// ------------------------------------------------------------------------------------

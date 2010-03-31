@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Resources;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -507,8 +507,8 @@ namespace SIL.Pa.UI.Dialogs
 		    dlg.AddExtension = true;
 		    dlg.DefaultExt = "pap";
 			
-			dlg.Filter = string.Format(ResourceHelper.GetString("kstidFileTypePAProject"),
-				Application.ProductName) + "|" + ResourceHelper.GetString("kstidFileTypeAllFiles");
+			dlg.Filter = string.Format(App.kstidFileTypePAProject,
+				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 			
 			dlg.ShowHelp = false;
 		    dlg.Title = string.Format(Properties.Resources.kstidPAFilesCaptionSFD, Application.ProductName);
@@ -560,31 +560,29 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddOtherDataSource_Click(object sender, EventArgs e)
 		{
-			int filterIndex = App.SettingsHandler.GetIntSettingsValue("DataSourceOFD", "filter", 0);
+			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSource;
 
 			StringBuilder fileTypes = new StringBuilder();
-			fileTypes.Append(ResourceHelper.GetString("kstidFileTypeToolboxDB"));
+			fileTypes.Append(App.kstidFileTypeToolboxDB);
 			fileTypes.Append("|");
-			fileTypes.Append(ResourceHelper.GetString("kstidFileTypeToolboxITX"));
+			fileTypes.Append(App.kstidFileTypeToolboxITX);
 			fileTypes.Append("|");
-			fileTypes.Append(string.Format(ResourceHelper.GetString("kstidFileTypePAXML"), Application.ProductName));
+			fileTypes.Append(string.Format(App.kstidFileTypePAXML, Application.ProductName));
 			fileTypes.Append("|");
-		/*	fileTypes.Append(ResourceHelper.GetString("kstidFileTypeXML"));
-			fileTypes.Append("|");		ADD WHEN WE SUPPORT XML TRANSFORMING ON DATA READ  */
-			fileTypes.Append(ResourceHelper.GetString("kstidFiletypeSASoundWave"));
+			fileTypes.Append(App.kstidFiletypeSASoundWave);
 			fileTypes.Append("|");
-			fileTypes.Append(ResourceHelper.GetString("kstidFiletypeSASoundMP3"));
+			fileTypes.Append(App.kstidFiletypeSASoundMP3);
 			fileTypes.Append("|");
-			fileTypes.Append(ResourceHelper.GetString("kstidFiletypeSASoundWMA"));
+			fileTypes.Append(App.kstidFiletypeSASoundWMA);
 			fileTypes.Append("|");
-			fileTypes.Append(ResourceHelper.GetString("kstidFileTypeAllFiles"));
+			fileTypes.Append(App.kstidFileTypeAllFiles);
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
 				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption, true);
 
 			if (filenames.Length > 0)
 			{
-				App.SettingsHandler.SaveSettingsValue("DataSourceOFD", "filter", filterIndex);
+				Settings.Default.OFD_LastFileTypeChosen_DataSource = filterIndex;
 
 				// Add the selected files to the data source list.
 				foreach (string file in filenames)
@@ -790,20 +788,17 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSpecifyXSLTClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			int filterIndex =
-				App.SettingsHandler.GetIntSettingsValue("DataSourceXSLTOFD", "filter", 0);
+			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSourceXSLT;
 
-			string filter = ResourceHelper.GetString("kstidFileTypeXSLT") + "|" +
-				ResourceHelper.GetString("kstidFileTypeAllFiles");
-
-			string filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
+			var filter = App.kstidFileTypeXSLT + "|" + App.kstidFileTypeAllFiles;
+			var filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
 				Properties.Resources.kstidDataSourceOpenFileXSLTCaption);
 
 			if (filename != null)
 			{
 				m_project.DataSources[e.RowIndex].XSLTFile = filename;
 				m_grid.Refresh();
-				App.SettingsHandler.SaveSettingsValue("DataSourceXSLTOFD", "filter", filterIndex);
+				Settings.Default.OFD_LastFileTypeChosen_DataSourceXSLT = filterIndex;
 			}
 		}
 

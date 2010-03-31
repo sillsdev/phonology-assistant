@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
@@ -208,9 +210,7 @@ namespace SIL.Pa.UI.Views
 		{
 			string filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
 
-			m_savedCharts = Utils.DeserializeData(filename,
-				typeof(List<XYChartLayout>)) as List<XYChartLayout>;
-
+			m_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<XYChartLayout>>(filename);
 			if (m_savedCharts == null)
 				return;
 
@@ -231,8 +231,8 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_savedCharts != null)
 			{
-				string filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
-				Utils.SerializeData(filename, m_savedCharts);
+				var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
+				XmlSerializationHelper.SerializeToFile(filename, m_savedCharts);
 			}
 		}
 
@@ -1436,10 +1436,6 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			return DistributionChartExporter.Process(App.Project, m_xyGrid);
-			
-
-
 			string outputFileName;
 			object objForExport = ObjectForHTMLExport;
 
@@ -1448,19 +1444,34 @@ namespace SIL.Pa.UI.Views
 				outputFileName = m_rsltVwMngr.HTMLExport();
 			else
 			{
-				string defaultHTMLFileName = string.Format(
-					Properties.Resources.kstidXYChartHTMLFileName,
+				string defaultHTMLFileName = string.Format(Properties.Resources.kstidXYChartHTMLFileName,
 					App.Project.LanguageName, m_xyGrid.ChartName);
 
-				outputFileName = HTMLXYChartWriter.Export(m_xyGrid, defaultHTMLFileName,
-					Properties.Resources.kstidXYChartHTMLChartType, m_xyGrid.ChartName);
+				defaultHTMLFileName = defaultHTMLFileName.Replace(" ", string.Empty);
+
+				string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
+
+				int filterIndex = 0;
+				outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
+					App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
 			}
 
 			if (outputFileName == null)
 				return false;
 
-			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
+			if (!(objForExport is XYGrid))
+			{
+				if (File.Exists(outputFileName))
+					LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
+			}
+			else
+			{
+				if (DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid) &&
+					File.Exists(outputFileName) && Settings.Default.OpenHTMLDistChartAfterExport)
+				{
+					Process.Start(outputFileName);
+				}
+			}
 
 			return true;
 		}

@@ -94,10 +94,7 @@ namespace SIL.Pa
 
 			try
 			{
-				TrainingProjectSetupInfo tpsi = Utils.DeserializeData(
-					s_tpsPath, typeof(TrainingProjectSetupInfo)) as TrainingProjectSetupInfo;
-
-				return tpsi;
+				return XmlSerializationHelper.DeserializeFromFile<TrainingProjectSetupInfo>(s_tpsPath);
 			}
 			catch { }
 
@@ -145,7 +142,7 @@ namespace SIL.Pa
 			if (!File.Exists(papFilePath))
 				return;
 
-			PaProject prj = Utils.DeserializeData(papFilePath, typeof(PaProject)) as PaProject;
+			var prj = XmlSerializationHelper.DeserializeFromFile<PaProject>(papFilePath);
 			if (prj == null)
 				return;
 
@@ -159,7 +156,7 @@ namespace SIL.Pa
 				}
 			}
 
-			Utils.SerializeData(papFilePath, prj);
+			XmlSerializationHelper.SerializeToFile(papFilePath, prj);
 			App.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
 		}
 	}

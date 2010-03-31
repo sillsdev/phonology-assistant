@@ -25,8 +25,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool Load(CharGridBuilder chrGridBldr, IPASymbolType chrType)
 		{
-			string filename = Utils.GetLocalPath(chrType == IPASymbolType.Consonant ?
-				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile, true);
+			var filename = Path.Combine(App.ConfigFolder, (chrType == IPASymbolType.Consonant ?
+				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile));
 
 			return Load(chrGridBldr, filename);
 		}
@@ -197,7 +197,7 @@ namespace SIL.Pa.UI.Controls
 			cgp.StoreHeaders(chrGrid, true);
 			cgp.StoreHeaders(chrGrid, false);
 
-			Utils.SerializeData(filename, cgp);
+			XmlSerializationHelper.SerializeToFile(filename, cgp);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,9 +282,7 @@ namespace SIL.Pa.UI.Controls
 			if (!File.Exists(filename))
 				return false;
 
-			CharGridPersistence cgp =
-				Utils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
-
+			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(filename);
 			if (cgp == null || cgp.ColHeadings.Count == 0 || cgp.RowHeadings.Count == 0)
 				return false;
 
@@ -307,13 +305,11 @@ namespace SIL.Pa.UI.Controls
 			if (chrGridBldr == null || !File.Exists(filename))
 				return false;
 
-			CharGridPersistence cgp =
-				Utils.DeserializeData(filename, typeof(CharGridPersistence)) as CharGridPersistence;
-
+			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(filename);
 			if (cgp == null || cgp.ColHeadings.Count == 0 || cgp.RowHeadings.Count == 0)
 				return false;
 
-			List<CharGridCell> phoneList = chrGridBldr.InitializeFromPersistedSource(cgp);
+			var phoneList = chrGridBldr.InitializeFromPersistedSource(cgp);
 			cgp.LoadPhones(phoneList);
 			return true;
 		}

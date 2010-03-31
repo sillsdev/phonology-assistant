@@ -197,5 +197,57 @@ namespace SIL.Pa.Properties {
                 return ((bool)(this["KeepIntermediateDistributionChartExportFile"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int OFD_LastFileTypeChosen_DataSource {
+            get {
+                return ((int)(this["OFD_LastFileTypeChosen_DataSource"]));
+            }
+            set {
+                this["OFD_LastFileTypeChosen_DataSource"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int OFD_LastFileTypeChosen_DataSourceXSLT {
+            get {
+                return ((int)(this["OFD_LastFileTypeChosen_DataSourceXSLT"]));
+            }
+            set {
+                this["OFD_LastFileTypeChosen_DataSourceXSLT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenHTMLDistChartAfterExport {
+            get {
+                return ((bool)(this["OpenHTMLDistChartAfterExport"]));
+            }
+            set {
+                this["OpenHTMLDistChartAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenHTMLDataCorpusAfterExport {
+            get {
+                return ((bool)(this["OpenHTMLDataCorpusAfterExport"]));
+            }
+            set {
+                this["OpenHTMLDataCorpusAfterExport"] = value;
+            }
+        }
     }
 }

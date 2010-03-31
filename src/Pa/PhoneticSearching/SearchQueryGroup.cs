@@ -44,10 +44,7 @@ namespace SIL.Pa.PhoneticSearching
 			SearchQueryGroupList srchQueries = null;
 
 			if (File.Exists(filename))
-			{
-				srchQueries = Utils.DeserializeData(filename,
-					typeof(SearchQueryGroupList)) as SearchQueryGroupList;
-			}
+				srchQueries = XmlSerializationHelper.DeserializeFromFile<SearchQueryGroupList>(filename);
 
 			if (srchQueries == null)
 				return new SearchQueryGroupList();
@@ -99,8 +96,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (project != null)
 			{
-				string filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
-				Utils.SerializeData(filename, this);
+				var filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
+				XmlSerializationHelper.SerializeToFile(filename, this);
 			}
 		}
 

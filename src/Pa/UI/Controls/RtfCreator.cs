@@ -840,8 +840,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			string filter = ResourceHelper.GetString("kstidFiletypeRTF") + "|" +
-				ResourceHelper.GetString("kstidFileTypeAllFiles");
+			string filter = App.kstidFiletypeRTF + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			string filename = App.SaveFileDialog("rtf", filter, ref filterIndex,

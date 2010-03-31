@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
+using SIL.Pa.Processing;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;
@@ -881,11 +884,20 @@ namespace SIL.Pa.UI.Views
 				string.Format(Properties.Resources.kstidDataCorpusHTMLFileName,
 				App.Project.LanguageName);
 
-			string outputFileName = HTMLGridWriter.Export(m_grid, defaultHTMLFileName,
-				new[] { Properties.Resources.kstidDataCorpusHTMLChartType });
+			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
-			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
+
+			if (outputFileName == null)
+				return false;
+
+			if (DataCorpusExporter.Process(App.Project, outputFileName, m_grid) &&
+				File.Exists(outputFileName) && Settings.Default.OpenHTMLDataCorpusAfterExport)
+			{
+				Process.Start(outputFileName);
+			}
 
 			return true;
 		}

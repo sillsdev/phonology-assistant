@@ -145,15 +145,15 @@ namespace SIL.Pa.Model
 			clone.CountAsNonPrimaryUncertainty = CountAsNonPrimaryUncertainty;
 			clone.CountAsPrimaryUncertainty = CountAsPrimaryUncertainty;
 			clone.CharType = CharType;
-			clone.m_moaKey = m_moaKey;
-			clone.m_poaKey = m_poaKey;
+			clone.m_moaKey = MOAKey;
+			clone.m_poaKey = POAKey;
 			clone.m_baseChar = m_baseChar;
 			clone.SiblingUncertainties = new List<string>(SiblingUncertainties);
 			clone.IsUndefined = IsUndefined;
 			clone.AFeaturesAreOverridden = AFeaturesAreOverridden;
 			clone.BFeaturesAreOverridden = BFeaturesAreOverridden;
-			clone.m_aMask = m_aMask.Clone();
-			clone.m_bMask = m_bMask.Clone();
+			clone.m_aMask = AMask.Clone();
+			clone.m_bMask = BMask.Clone();
 
 			return clone;
 		}
@@ -258,6 +258,28 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public IPASymbolType CharType { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetAFeatures(List<string> list)
+		{
+			m_aMask = null;
+			AFeatures = list;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetBFeatures(List<string> list)
+		{
+			m_bMask = null;
+			BFeatures = list;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

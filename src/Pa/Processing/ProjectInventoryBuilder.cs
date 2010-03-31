@@ -86,7 +86,8 @@ namespace SIL.Pa.Processing
 
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-			var pipeline = Pipeline.Create("inventory", null, processFileName, App.ProcessingFolder);
+			var pipeline = Pipeline.Create(Pipeline.ProcessType.PrepareInventory,
+				processFileName, App.ProcessingFolder);
 
 			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)
@@ -134,9 +135,9 @@ namespace SIL.Pa.Processing
 		private void WriteRoot(XmlWriter writer)
 		{
 			ProcessHelper.WriteStartElementWithAttrib(writer, "inventory", "version", kVersion);
-			ProcessHelper.WriteAttrib(writer, "projectName", m_project.Name);
-			ProcessHelper.WriteAttrib(writer, "languageName", m_project.LanguageName);
-			ProcessHelper.WriteAttrib(writer, "languageCode", m_project.LanguageCode);
+			writer.WriteAttributeString("projectName", m_project.Name);
+			writer.WriteAttributeString("languageName", m_project.LanguageName);
+			writer.WriteAttributeString("languageCode", m_project.LanguageCode);
 
 			ProcessHelper.WriteMetadata(writer, m_project, true);
 			
@@ -170,7 +171,7 @@ namespace SIL.Pa.Processing
 						"articulatoryFeatures", "changed", "true");
 
 					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
-						ProcessHelper.WriteElement(writer, "features", feature);
+						writer.WriteElementString("features", feature);
 
 					writer.WriteEndElement();
 				}
@@ -202,11 +203,11 @@ namespace SIL.Pa.Processing
 					if (phoneInfo != null)
 					{
 						if (phone.AFeatures.Count > 0)
-							phoneInfo.AFeatures = phone.AFeatures;
-						
+							phoneInfo.SetAFeatures(phone.AFeatures);
+
 						if (phone.BFeatures.Count > 0)
-							phoneInfo.BFeatures = phone.BFeatures;
-	
+							phoneInfo.SetBFeatures(phone.BFeatures);
+
 						if (!string.IsNullOrEmpty(phone.Description))
 							phoneInfo.Description = phone.Description;
 	

@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -109,10 +108,9 @@ namespace SIL.Pa.UI.Dialogs
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				DialogResult result = Utils.MsgBox(
-					ResourceHelper.GetString("kstidSaveChangesMsg"),
+				DialogResult result = Utils.MsgBox(App.kstidSaveChangesMsg,
 					MessageBoxButtons.YesNoCancel);
-
+				
 				if (result == DialogResult.Cancel)
 				{
 					e.Cancel = true;

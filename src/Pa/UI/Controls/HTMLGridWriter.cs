@@ -19,8 +19,8 @@ namespace SIL.Pa.UI.Controls
 		private SortedList<int, DataGridViewColumn> m_sortedColList;
 		private readonly PaWordListGrid m_grid;
 		private readonly bool m_isForSearchResult;
-		private readonly bool m_writeGrpHdgCount = false;
-		private readonly int m_grpHdgRowColSpan = 0;
+		private readonly bool m_writeGrpHdgCount;
+		private readonly int m_grpHdgRowColSpan;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

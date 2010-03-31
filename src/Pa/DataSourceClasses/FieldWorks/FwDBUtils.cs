@@ -829,8 +829,7 @@ namespace SIL.Pa.Model
 			{
 				// Find the file that contains information about connecting to an FW database.
 				s_accessInfoFile = Path.Combine(App.ConfigFolder, "FwDBAccessInfo.xml");
-				s_dbAccessInfo =
-					Utils.DeserializeData(s_accessInfoFile, typeof(FwDBAccessInfo)) as FwDBAccessInfo;
+				s_dbAccessInfo = XmlSerializationHelper.DeserializeFromFile<FwDBAccessInfo>(s_accessInfoFile);
 			}
 
 			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
@@ -1156,8 +1155,8 @@ namespace SIL.Pa.Model
 		private static FwQueries Load(string filename)
 		{
 			// Find the file that contains the queries.
-			string queryFile = Path.Combine(App.ConfigFolder, filename);
-			FwQueries fwqueries = Utils.DeserializeData(queryFile, typeof(FwQueries)) as FwQueries;
+			var queryFile = Path.Combine(App.ConfigFolder, filename);
+			var fwqueries = XmlSerializationHelper.DeserializeFromFile<FwQueries>(queryFile);
 
 			if (fwqueries != null)
 				fwqueries.m_queryFile = queryFile;

@@ -141,8 +141,8 @@ namespace SIL.Pa.Model
 			ih.IPASymbols = IPASymbolCache.Values.ToList();
 			ih.AFeatures = AFeatureCache.Values.ToList();
 			ih.BFeatures = BFeatureCache.Values.ToList();
-			
-			Utils.SerializeData(s_filePath, ih);
+
+			XmlSerializationHelper.SerializeToFile(s_filePath, ih);
 
 			ih.IPASymbols = null;
 			ih.AFeatures = null;

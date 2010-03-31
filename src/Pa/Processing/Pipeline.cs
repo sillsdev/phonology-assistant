@@ -13,6 +13,19 @@ namespace SIL.Pa.Processing
 	/// ----------------------------------------------------------------------------------------
 	public class Pipeline
 	{
+		public enum ProcessType
+		{
+			PrepareInventory,
+			ViewCVChart,
+			ExportDataCorpus,
+			ExportSearchResult,
+			ExportCVChart,
+			ExportDistributionChart,
+			ExportToXHTML,
+			ExportToCss,
+			ExportToWord
+		}
+
 		private const string s_namespacePrefix = "p";
 		private const string s_namespaceURI = "http://www.w3.org/ns/xproc";
 		
@@ -28,31 +41,21 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static public Pipeline Create(string processType, string processName,
-			string processFileName, string processingFolder)
+		static public Pipeline Create(ProcessType prsType, string processFileName,
+			string processingFolder)
 		{
-			string xpath = null;
-			switch (processType)
-			{
-				case "inventory":
-					xpath = "processing/process[@type='inventory']";
-					break;
-
-				case "view":
-					xpath = string.Format("processing/process[@type='view'][@view='{0}']", processName);
-					break;
-
-				case "export":
-					xpath = string.Format("processing/process[@type='export'][@view='{0}']", processName);
-					break;
-
-				// Handle exporting to a format.
-			}
-
 			var settings = new XmlReaderSettings();
 			var processingDocument = new XPathDocument(XmlReader.Create(processFileName, settings));
 			var processingNavigator = processingDocument.CreateNavigator();
+
+			var xpath = GetProcessXPath(prsType);
+			if (xpath == null)
+				return null;
+	
 			var processNavigator = processingNavigator.SelectSingleNode(xpath);
+			if (processNavigator == null)
+				return null;
+			
 			processNavigator = processNavigator.SelectSingleNode("p:pipeline", NamespaceManager);
 			if (processNavigator == null)
 				return null;
@@ -68,6 +71,37 @@ namespace SIL.Pa.Processing
 			}
 	
 			return (stepList.Count == 0 ? null : new Pipeline(stepList));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string GetProcessXPath(ProcessType prsType)
+		{
+			switch (prsType)
+			{
+				case ProcessType.PrepareInventory:
+					return "processing/process[@type='inventory']";
+
+				case ProcessType.ViewCVChart:
+					return "processing/process[@type='view'][@view='CV Chart']";
+
+				case ProcessType.ExportDataCorpus:
+					return "processing/process[@type='export'][@view='Data Corpus']";
+
+				case ProcessType.ExportSearchResult:
+					return "processing/process[@type='export'][@view='Search']";
+
+				case ProcessType.ExportCVChart:
+					return "processing/process[@type='export'][@view='CV Chart']";
+
+				case ProcessType.ExportDistributionChart:
+					return "processing/process[@type='export'][@view='Distribution Chart']";
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------

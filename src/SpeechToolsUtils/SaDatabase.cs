@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.Win32;
+using SilUtils;
 
 namespace SIL.SpeechTools.Utils
 {
@@ -49,9 +50,7 @@ namespace SIL.SpeechTools.Utils
 				return false;
 
 			// Load the contents of the database into the cache.
-			s_docCache =
-				SilUtils.Utils.DeserializeData(fullDbPath, typeof(SaDocumentCache)) as SaDocumentCache;
-
+			s_docCache = XmlSerializationHelper.DeserializeFromFile<SaDocumentCache>(fullDbPath);
 			if (s_docCache == null)
 				return false;
 
@@ -82,7 +81,7 @@ namespace SIL.SpeechTools.Utils
 
 			try
 			{
-				SilUtils.Utils.SerializeData(s_dbPath, s_docCache);
+				XmlSerializationHelper.SerializeToFile(s_dbPath, s_docCache);
 			}
 			catch { }
 

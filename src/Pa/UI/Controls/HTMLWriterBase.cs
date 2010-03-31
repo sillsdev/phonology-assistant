@@ -4,11 +4,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Xsl;
 using SIL.Pa.Model;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -178,8 +176,7 @@ namespace SIL.Pa.UI.Controls
 
 			int filterIndex = 0;
 			return App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				ResourceHelper.GetString("kstidSaveFileDialogGenericCaption"),
-				defaultHTMLFileName, App.Project.ProjectPath);
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
 		}
 
 		/// ------------------------------------------------------------------------------------

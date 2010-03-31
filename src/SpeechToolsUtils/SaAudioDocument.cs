@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.SpeechTools.Utils.Properties;
+using SilUtils;
 
 namespace SIL.SpeechTools.Utils
 {
@@ -195,8 +196,8 @@ namespace SIL.SpeechTools.Utils
 
 			clone.m_isForTmpOperation = m_isForTmpOperation;
 			clone.DocVersion = m_docVer;
-			clone.Segments = (SegmentData[])this.Segments.Clone();
-			clone.MusicSegments = (MusicSegmentData[])this.MusicSegments.Clone();
+			clone.Segments = (SegmentData[])Segments.Clone();
+			clone.MusicSegments = (MusicSegmentData[])MusicSegments.Clone();
 			clone.AudioFile = m_audioFile;
 			clone.MD5HashCode = m_MD5HashCode;
 			clone.SpeakerName = m_speakerName;
@@ -272,14 +273,13 @@ namespace SIL.SpeechTools.Utils
 			else
 			{
 				// Get the transcription data from the companion transcription file.
-				Exception e;
+				Exception e = null;
 				s_audioFileLoading = audioFilePath;
-				doc = SilUtils.Utils.DeserializeData(transcriptionFile,
-					typeof(SaAudioDocument), out e) as SaAudioDocument;
+				doc = XmlSerializationHelper.DeserializeFromFile<SaAudioDocument>(transcriptionFile, out e);
 
 				if (e != null)
 				{
-					SilUtils.ExceptionViewer viewer = new SilUtils.ExceptionViewer(e);
+					ExceptionViewer viewer = new ExceptionViewer(e);
 					viewer.ShowDialog();
 					return null;
 				}
@@ -363,7 +363,7 @@ namespace SIL.SpeechTools.Utils
 				AudioFile = audioFile;
 			}
 
-			return SilUtils.Utils.SerializeData(TranscriptionFile, this);
+			return XmlSerializationHelper.SerializeToFile(TranscriptionFile, this);
 		}
 
 		/// ------------------------------------------------------------------------------------

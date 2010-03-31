@@ -59,8 +59,7 @@ namespace SIL.Pa.Model
 
 			MigrateToLatestVersion(filename, projectPathPrefix);
 			
-			TranscriptionChanges experimentalTrans = Utils.DeserializeData(filename,
-				typeof(TranscriptionChanges)) as TranscriptionChanges;
+			var experimentalTrans = XmlSerializationHelper.DeserializeFromFile<TranscriptionChanges>(filename);
 
 			// This should never need to be done, but just in case there are entries in
 			// the list whose source transcription (i.e. Item) is null, remove them from
@@ -84,7 +83,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save(string pathPrefix)
 		{
-			Utils.SerializeData(pathPrefix + kFileName, this);
+			XmlSerializationHelper.SerializeToFile(pathPrefix + kFileName, this);
 		}
 
 		/// ------------------------------------------------------------------------------------

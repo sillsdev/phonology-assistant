@@ -118,6 +118,26 @@ namespace SIL.Pa
 			}
 		}
 
+		#region Method to migrate previous versions of .pap files to current.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void MigrateToLatestVersion(string filename)
+		{
+			var errMsg = LocalizationManager.LocalizeString("ProjectFileMigrationErrMsg",
+				"The following error occurred while attempting to update the your project file:\n\n{0}",
+				"Message displayed when updating ambiguous sequences file to new version.",
+				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
+				LocalizationPriority.MediumHigh);
+
+			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
+				"SIL.Pa.Model.UpdateFileTransforms.UpdateProjectFile.xslt", errMsg);
+		}
+
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Makes sure that FW, SFM and Toolbox data sources are informed that a field has
@@ -239,7 +259,7 @@ namespace SIL.Pa
 
 			if (!File.Exists(prjFileName))
 			{
-				msg = LocalizationManager.LocalizeString("ProjectFileNonExistent",
+				msg = LocalizationManager.LocalizeString("ProjectFileNonExistentMsg",
 					"Project file '{0}' does not exist.", "Message displayed when an " +
 					"attempt is made to open a non existant project file. The parameter " +
 					"is the project file name.", App.kLocalizationGroupInfoMsg,
@@ -249,7 +269,10 @@ namespace SIL.Pa
 			}
 
 			if (msg == null)
+			{
+				MigrateToLatestVersion(prjFileName);
 				project = LoadProjectFileOnly(prjFileName, false, ref msg);
+			}
 
 			if (msg == null)
 			{
@@ -286,7 +309,7 @@ namespace SIL.Pa
 
 			try
 			{
-				project = Utils.DeserializeData(projFileName, typeof(PaProject)) as PaProject;
+				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
 				project.LoadFieldInfo();
@@ -571,7 +594,7 @@ namespace SIL.Pa
 				m_queryGroups.Save(this);
 
 			if (m_fileName != null)
-				Utils.SerializeData(m_fileName, this);
+				XmlSerializationHelper.SerializeToFile(m_fileName, this);
 
 			if (m_newProject)
 			{
@@ -751,6 +774,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("name")]
 		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -758,6 +782,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("languageName")]
 		public string LanguageName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -765,6 +790,7 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("languageCode")]
 		public string LanguageCode { get; set; }
 
 		/// ------------------------------------------------------------------------------------

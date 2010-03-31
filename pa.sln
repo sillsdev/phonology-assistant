@@ -1,11 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaApp", "src\PaApp\PaApp.csproj", "{9292E7CB-A2C6-427D-A175-3D3311E7E47F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B} = {8A5CC7A9-D574-4139-8FF0-2CA7E688EC7B}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCIEditor", "src\PCIEditor\PCIEditor.csproj", "{2DF12F00-34A3-48F1-AA94-0164368B45DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIAdapters", "src\UIAdapter (Framework 2.0)\UIAdapters.csproj", "{1B1BC7F4-3A87-485C-B0A8-84947821E55A}"
@@ -19,8 +14,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtils", "src\SilUtils\SilUtils.csproj", "{87F94FCC-BC32-4203-A919-115F4FF43FF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "src\TestUtils\TestUtils.csproj", "{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMXUtils", "..\TMXUtils\TMXUtils.csproj", "{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationManager", "..\LocalizationManager\LocalizationManager.csproj", "{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}"
 EndProject
@@ -38,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9292E7CB-A2C6-427D-A175-3D3311E7E47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9292E7CB-A2C6-427D-A175-3D3311E7E47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9292E7CB-A2C6-427D-A175-3D3311E7E47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9292E7CB-A2C6-427D-A175-3D3311E7E47F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DF12F00-34A3-48F1-AA94-0164368B45DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2DF12F00-34A3-48F1-AA94-0164368B45DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DF12F00-34A3-48F1-AA94-0164368B45DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -70,10 +59,6 @@ Global
 		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADB1EF2D-B54E-430E-864F-8ECC6F9674E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D85B90E7-5C12-4934-90BE-AEF5187BAEDE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}.Release|Any CPU.ActiveCfg = Release|Any CPU

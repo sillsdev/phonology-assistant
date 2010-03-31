@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -1007,7 +1006,7 @@ namespace SIL.Pa.UI.Controls
 			//}
 
 			m_srchRsltVwHost.BeforeSearchPerformed(query, null);
-			App.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
+			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
 			WordListCache resultCache = App.Search(query, 5);
 
 			if (resultCache != null)
@@ -1376,7 +1375,7 @@ namespace SIL.Pa.UI.Controls
 		/// to find minimal pairs and it couldn't find any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void OnNoCIEResultsShowing(object args)
+		protected void OnNoCIEResultsShowing(object args)
 		{
 			if (CurrentViewsGrid != null && CurrentViewsGrid == args)
 				m_recView.UpdateRecord(null);

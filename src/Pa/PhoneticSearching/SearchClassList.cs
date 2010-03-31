@@ -100,10 +100,7 @@ namespace SIL.Pa.PhoneticSearching
 			SearchClassList srchClasses = null;
 
 			if (File.Exists(filename))
-			{
-				srchClasses = Utils.DeserializeData(filename,
-					typeof(SearchClassList)) as SearchClassList;
-			}
+				srchClasses = XmlSerializationHelper.DeserializeFromFile<SearchClassList>(filename);
 
 			if (srchClasses != null)
 			{
@@ -146,8 +143,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (project != null)
 			{
-				string filename = project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
-				Utils.SerializeData(filename, this);
+				var filename = project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
+				XmlSerializationHelper.SerializeToFile(filename, this);
 			}
 		}
 		

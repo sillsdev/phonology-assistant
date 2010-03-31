@@ -6,7 +6,6 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -678,11 +677,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnBrowse_Click(object sender, EventArgs e)
 		{
-			string filter = ResourceHelper.GetString("kstidFileTypeAllExe") +"|" +
-				ResourceHelper.GetString("kstidFileTypeAllFiles");
-
-			string editor = App.OpenFileDialog("exe", filter,
-				Properties.Resources.kstidSFMEditorCaptionOFD);
+			string filter = App.kstidFileTypeAllExe + "|" + App.kstidFileTypeAllFiles;
+			string editor = App.OpenFileDialog("exe", filter, Properties.Resources.kstidSFMEditorCaptionOFD);
 
 			if (!string.IsNullOrEmpty(editor))
 				txtEditor.Text = editor.Trim();

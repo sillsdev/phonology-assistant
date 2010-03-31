@@ -343,8 +343,8 @@ namespace SIL.Pa.UI
 			dlg.Title = string.Format(Properties.Resources.kstidPAXMLExportCaptionSFD, Application.ProductName);
 			dlg.FileName = App.Project.Name + ".paxml";
 			dlg.FilterIndex = 0;
-			dlg.Filter = string.Format(ResourceHelper.GetString("kstidFileTypePAXML"),
-				Application.ProductName) + "|" + ResourceHelper.GetString("kstidFileTypeAllFiles");
+			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
+				"|" + App.kstidFileTypeAllFiles;
 
 			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
 				App.RecordCache.Save(dlg.FileName);

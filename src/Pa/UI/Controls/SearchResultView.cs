@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -129,7 +128,7 @@ namespace SIL.Pa.UI.Controls
 				savCIEOptions = m_grid.CIEOptions;
 			}
 
-			App.InitializeProgressBar(ResourceHelper.GetString("kstidQuerySearchingMsg"));
+			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
 			WordListCache resultCache = App.Search(m_searchQuery, 5);
 			if (resultCache != null)
 			{

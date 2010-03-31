@@ -5,11 +5,8 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SIL.Pa.Resources;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -1316,13 +1313,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
-			
-			var msg = LocalizationManager.LocalizeString("DistributionChartControl.SearchingMsg",
-				"Searching...", null, "Misc.Strings", LocalizationCategory.GeneralMessage,
-				LocalizationPriority.MediumHigh);
-			
-			App.InitializeProgressBar(msg, progBarMax);
-
+			App.InitializeProgressBar(App.kstidQuerySearchingMsg, progBarMax);
 			FixEnvironments();
 
 			foreach (DataGridViewRow row in Rows)
@@ -1447,8 +1438,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				App.SettingsHandler.GetBoolSettingsValue("searchengine",
-				"convertpatternswithexperimentaltrans", false);
+				Settings.Default.ConvertPatternsWithTranscriptionChanges;
 			
 			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
 			string[] phonesInQuery = engine.PhonesInPattern;
@@ -1484,8 +1474,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				App.SettingsHandler.GetBoolSettingsValue("searchengine",
-				"convertpatternswithexperimentaltrans", false);
+				Settings.Default.ConvertPatternsWithTranscriptionChanges;
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
 			cell.Tag = engine.InvalidCharactersInPattern;
@@ -2007,8 +1996,7 @@ namespace SIL.Pa.UI.Controls
 					return;
 
 				SearchEngine.ConvertPatternWithTranscriptionChanges =
-					App.SettingsHandler.GetBoolSettingsValue("searchengine",
-					"convertpatternswithexperimentaltrans", false);
+					Settings.Default.ConvertPatternsWithTranscriptionChanges;
 
 				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
 
@@ -2021,7 +2009,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			
 			if (string.IsNullOrEmpty(m_queryErrorMsg))
-				m_queryErrorMsg = "Unkown Error.";
+				m_queryErrorMsg = "Unknown Error.";
 
 			m_queryErrorMsg = Utils.ConvertLiteralNewLines(m_queryErrorMsg);
 			m_queryErrorMsg = m_queryErrorMsg.TrimEnd("\n\r".ToCharArray());
