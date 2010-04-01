@@ -27,7 +27,7 @@ namespace SIL.Pa.Processing
 		/// <param name="processingFolder">Full path to folder containing Processing.xml
 		/// and *.xsl files.</param>
 		/// ------------------------------------------------------------------------------------
-		static public Step Create(XPathNavigator navigator,
+		public static Step Create(XPathNavigator navigator,
 			XmlNamespaceManager namespaceManager, string processingFolder)
 		{
 			XPathNavigator documentNavigator =

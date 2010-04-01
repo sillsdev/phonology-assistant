@@ -1,0 +1,21 @@
+﻿/* phonology.css 2010-02-25 */
+/* Print formatting for XHTML files exported from Phonology Assistant. */
+
+/* Typography =============================================================== */
+
+/* Layout =================================================================== */
+
+table.CV,
+table.features,
+table.feature
+{
+page-break-inside: avoid;
+}
+
+/* Interactive ============================================================== */
+
+/* Color ==================================================================== */
+
+/*     Hex    R   G   B    H    S    V   Description          Meaning         */
+/* #000000    0   0   0    0°   0%   0%  black                text            */
+/* #ffffff  255 255 255    0°   0% 100%  white                background      */

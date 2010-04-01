@@ -41,7 +41,7 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static public Pipeline Create(ProcessType prsType, string processFileName,
+		public static Pipeline Create(ProcessType prsType, string processFileName,
 			string processingFolder)
 		{
 			var settings = new XmlReaderSettings();

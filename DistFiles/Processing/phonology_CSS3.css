@@ -1,0 +1,55 @@
+﻿/* phonology_CSS3.css 2010-03-31 */
+/* Generic formatting for XHTML files exported from Phonology Assistant. */
+/* Properties from CSS level 3 and corresponding proprietary extensions. */
+
+/* Rounded borders ---------------------------------------------------------- */
+
+/* Standard CSS3: */
+/* Chrome 4 or later. */
+/* Internet Explorer 9 or later. */
+/* Opera 10.5 or later */
+
+/* -webkit- extension: Safari 3 or later; Chrome 3 or earlier. */
+/* -moz- extension: Firefox 1 or later. */
+
+table.features th
+{
+border-top-left-radius: 0.5em;
+border-top-right-radius: 0.5em;
+-webkit-border-top-left-radius: 0.5em;
+-webkit-border-top-right-radius: 0.5em;
+-moz-border-radius-topleft: 0.5em;
+-moz-border-radius-topright: 0.5em;
+}
+
+ul.environments.interactive li
+{
+border-top-left-radius: 0.5em;
+border-top-right-radius: 0.5em;
+-webkit-border-top-left-radius: 0.5em;
+-webkit-border-top-right-radius: 0.5em;
+-moz-border-radius-topleft: 0.5em;
+-moz-border-radius-topright: 0.5em;
+}
+
+table.distribution.interactive thead tr:first-child th:first-child div span
+{
+border-top-left-radius: 0.25em;
+-webkit-border-top-left-radius: 0.25em;
+-moz-border-radius-topleft: 0.5em;
+}
+
+/* Background color --------------------------------------------------------- */
+
+/* Standard CSS3: */
+/* Chrome 1 or later. */
+/* Firefox 3 or later. */
+/* Not in Internet Explorer 8 or earlier. */
+/* Opera 10 or later */
+/* Safari 3 or later. */
+
+table.list.pairs .pair.complementary > ul > li,
+table.CV .notInEnvironment span
+{
+background-color: rgba(255, 255, 0, 0.2); /* Not in Internet Explorer 8 or earlier. */
+}

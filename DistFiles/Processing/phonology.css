@@ -1,0 +1,885 @@
+﻿/* phonology.css 2010-03-31 */
+/* Generic formatting for XHTML files exported from Phonology Assistant. */
+
+@import url('phonology_CSS3.css'); /* For rounded border properties. */
+
+/* Reset default values of Web browsers. ------------------------------------ */
+
+*
+{
+font-size: 100%;
+margin: 0;
+border: 0;
+padding: 0;
+}
+
+body
+{
+line-height: 1;
+}
+
+table
+{
+border-spacing: 0; /* Internet Explorer 8 or later. */
+/* For Internet Explorer 7 or earlier, table element has cellspacing attribute. */
+}
+
+/* Typography =============================================================== */
+
+body
+{
+font-family: Verdana, Helvetica, sans-serif;
+font-size: 100%;
+padding: 1em; /* 0.5em */
+}
+
+/* Reports ------------------------------------------------------------------ */
+
+/* Each division in a report consists of a heading, optional paragraphs, */
+/* one or more tables, and optional child divisions. */
+
+div.report
+{
+clear: left;
+padding-top: 0.5em;
+}
+
+div.report:first-child
+{
+padding-top: 0;
+}
+
+/* Headings: the value in em of margin-top or margin-bottom depends on font-size. */
+
+h1 /* Heading 1 */
+{
+font-size: 200%; /* ??px */
+margin-bottom: 0.4em; /* 7px = 0.4 * 150% * 12px */
+}
+
+h2 /* Heading 2 */
+{
+font-size: 150%; /* 18px */
+margin-top: 0.4em; /* 7px = 0.4 * 150% * 12px */
+margin-bottom: 0.4em; /* 7px = 0.4 * 150% * 12px */
+}
+
+h3 /* Heading 3 */
+{
+font-size: 115%; /* 14px */
+margin-bottom: 0.52em; /* 7px = 0.52 * 115% * 12px */
+padding-left: 0.4347em; /* Equivalent to table cells. */
+}
+
+div.report > h4 /* Heading 4 */
+{
+font-size: 100%; /* 12px */
+margin-top: 1em;
+margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
+}
+
+div.report:first-child > h4
+{
+margin-top: 0;
+}
+
+div.report > table.list,
+div.report > table.chart
+{
+margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
+}
+
+h4 /* When table.details follows. */
+{
+font-size: 75%;
+padding-left: 0.5em;
+padding-bottom: 0.25em;
+}
+
+/* Paragraphs */
+
+p.BodyText
+{
+line-height: 1.34; /* 16px */
+margin-bottom: 0.6em; /* 7px */
+}
+
+/* Tables ------------------------------------------------------------------- */
+
+table.details
+{
+font-size: 75%;
+}
+
+table.list tbody tr td.occurrences.item, /* More-similar minimal pairs. */
+th.sortOptions ul,
+th
+{
+font-weight: normal;
+}
+
+table.list thead tr th.sortField,
+table.list tbody tr .item /* Matched items in search result lists. */
+{
+font-weight: bold;
+}
+
+table.list tbody tr td.occurrences.item, /* More-similar minimal pairs. */
+table.list thead th,
+table.list .count,
+table.list .small,
+table.CV th,
+table.features th,
+table.features td,
+table.feature th:first-child,
+table.feature td,
+table.distribution td
+{
+font-size: 75%;
+}
+
+table.hierarchical table td
+{
+font-size: 100%;
+font-size: inherit; /* Does not work in Internet Explorer 7. */
+}
+
+/* Layout =================================================================== */
+
+table
+{
+margin-top: 1em;
+}
+
+table.hierarchical table
+{
+margin-top: 0;
+}
+
+table.details
+{
+margin-top: 0;
+}
+
+table.CV,
+table.features
+{
+float: left;
+}
+
+table.features
+{
+margin-left: 1em;
+}
+
+table.feature
+{
+margin-top: 0.5em;
+margin-left: 0;
+}
+
+table.feature th,
+table.feature td
+{
+text-align: center;
+}
+
+table.features .name,
+th, td
+{
+width: auto;
+padding-top: 0.1875em;
+padding-right: 0.5em;
+padding-bottom: 0.1875em;
+padding-left: 0.5em;
+vertical-align: baseline;
+}
+
+table.features td
+{
+width: 1.3333em;
+padding-right: 0;
+padding-left: 0;
+}
+
+table.features td.plus,
+table.features td.minus
+{
+text-align: center;
+}
+
+table.features td.univalent
+{
+width: auto;
+padding-top: 0;
+padding-right: 0;
+padding-bottom: 0;
+padding-left: 2.6667em; /* Because colspan="3", sum of .plus and .minus cell widths. */
+border-left-style: solid;
+border-left-width: 4px; /* Because colspan="3", sum of .plus and .minus border widths. */
+}
+
+ul.environments.interactive + table.CV thead th,
+ul.environments.interactive + table.CV + table.articulatory thead th,
+ul.environments.interactive + table.CV + table.articulatory + table.binary thead th,
+table.list tr.heading th
+{
+padding-top: 0.375em;
+}
+
+table.list th.sortOptions ul
+{
+margin-top: 0.1875em; /* Same as th padding-top. TO DO: Necessary? */
+margin-left: -0.5em; /* Negative of th padding-left. */
+}
+
+table.list th.sortOptions ul li
+{
+padding-top: 0.25em; /* More than th. */
+padding-right: 0.5em; /* Same as th. */
+padding-bottom: 0.25em;
+padding-left: 0.5em;
+}
+
+table.CV thead th
+{
+vertical-align: bottom; /* Prevent trapped white space if some cells have line breaks. */
+}
+
+thead th,
+table.list div.differences li,
+table.chart tbody th,
+table.features th,
+table.features .name
+{
+white-space: nowrap;
+}
+
+/* Horizontal alignment ----------------------------------------------------- */
+
+table.distribution thead tr.general th.Phonetic,
+table.distribution tbody tr.general th.Phonetic,
+th
+{
+text-align: left;
+}
+
+table.list .count,
+table.CV tbody th,
+table.feature tbody th:first-child,
+table.distribution th,
+table.distribution td
+{
+text-align: right;
+}
+
+table.list .preceding /* Environment preceding matched items in search result lists. */
+{
+text-align: right;
+padding-right: 0;
+}
+
+table.list .item /* Matched items in search result lists. */
+{
+text-align: center;
+padding-left: 0;
+padding-right: 0;
+}
+
+table.list .following /* Environment following matched items in search result lists. */
+{
+padding-left: 0;
+}
+
+/* List of multiple phones in a cell in consonant or vowel charts ----------- */
+
+table.CV td.Phonetic > ul
+{
+list-style: none;
+}
+
+table.CV td.Phonetic > ul li
+{
+display: inline;
+}
+
+/* Lists of feature differences for a minimal pair -------------------------- */
+
+table.list th.pair ul
+{
+list-style: none;
+}
+
+table.list th.pair > ul li
+{
+position: relative;
+display: inline;
+}
+
+table.list th.pair > ul li span
+{
+padding-left: 0.25em;
+padding-right: 0.25em;
+}
+
+table.list th.pair > ul li div.features,
+table.list.collapsed tbody th.pair > ul li div.differences,
+table.list tbody.collapsed th.pair > ul li div.differences,
+table.list th.pair > ul li div.differences
+{
+display: none;
+}
+
+table.list th.pair > ul li:hover div.differences
+{
+display: block;
+position: absolute;
+z-index: 1;
+left: 0;
+top: 1.5em;
+padding-top: 0.25em;
+padding-bottom: 0.25em;
+padding-left: 0.25em;
+padding-right: 0.25em;
+}
+
+table.list th.pair > ul li div.differences ul li
+{
+display: block;
+font-family: Verdana, Helvetica, sans-serif;
+font-size: 75%;
+line-height: 1.1666;
+}
+
+/* Matching minimal pairs by phone or features ------------------------------ */
+
+table.list tbody.notInEnvironment,
+table.list tbody.unmatched
+{
+display: none;
+}
+
+/* List of phonetically similar phones -------------------------------------- */
+
+table.phoneticSimilarity thead th[colspan]
+{
+border-bottom-style: none;
+}
+
+table.phoneticSimilarity thead th
+{
+vertical-align: bottom; /* Prevent trapped white space if some cells have rowspan. */
+}
+
+table.phoneticSimilarity td > ul
+{
+list-style: none;
+}
+
+/*
+table.phoneticSimilarity td > ul li
+{
+display: inline;
+}
+*/
+
+table.phoneticSimilarity td
+{
+font-size: 75%;
+}
+
+
+/* Borders ------------------------------------------------------------------ */
+
+table.features div,
+th.sortOptions ul,
+th.sortOptions li,
+colgroup, thead, tbody, /* Row and column groups in consonant or vowel charts. */
+th, td
+{
+border-width: 1px;
+}
+
+thead th,
+table.distribution.collapsed thead tr.general th
+{
+border-bottom-style: solid;
+}
+
+table.distribution thead tr.general th,
+/*  */
+table.chart thead tr:first-child th:first-child /* Internet Explorer 7 or later. */
+{
+border-bottom-style: none;
+}
+
+table.chart tbody tr th,
+table.distribution.collapsed tbody tr.general th.Phonetic
+{
+border-right-style: solid;
+}
+
+/*
+*/
+table.feature tbody tr th.Phonetic,
+table.distribution tbody tr.general th.Phonetic
+{
+border-right-style: none;
+}
+
+table.list tr.heading th
+{
+border-top-style: solid;
+}
+
+/* Class selector hides some border rules from Internet Explorer 6 and earlier, */
+/* because it ignores border-color: transparent. */
+
+table[class].list tbody td,
+table[class].distribution tbody tr *
+{
+border-top-style: dotted;
+border-bottom-style: dotted;
+}
+
+table[class].list tbody th
+{
+border-top-style: solid;
+border-bottom-style: dotted;
+}
+
+table[class].articulatory td,
+table[class].features .plus,
+table[class].features .minus,
+table[class].features .name,
+table[class].list th.sortOptions li,
+table.list th.sortOptions ul
+{
+border-style: solid;
+}
+
+table.features th
+{
+/* For rounded border properties, see the phonology_CSS3.css file. */
+}
+
+table.chart
+{
+border-collapse: collapse; /* For thead, tbody, and colgroup borders. */
+}
+
+table.chart thead,
+table.chart tbody
+{
+border-bottom-style: solid; /* Internet Explorer 8 or later. */
+}
+
+table.chart colgroup
+{
+border-right-style: solid; /* Internet Explorer 8 or later; not Opera 10 or earlier. */
+}
+
+/* Interactive divisions in reports ----------------------------------------- */
+
+div.collapsed div,
+div.collapsed p,
+div.collapsed table,
+div.collapsed ul
+{
+display: none;
+}
+
+/* Interactive sorting in lists --------------------------------------------- */
+
+table.list th.sortOptions ul,
+table.list ul.sortOrder
+{
+display: none;
+}
+
+/* TO DO: Assume cells do not have the sortOptions class */
+/* if generic groups have a non-phonetic primary sort field. */
+table.interactive th.sortOptions:hover ul
+{
+display: block;
+position: absolute;
+list-style: none;
+}
+
+/* Interactive groups in lists ---------------------------------------------- */
+
+.collapsed tr.subheading,
+.collapsed tr.data
+{
+display: none;
+}
+
+/* Interactive features in consonant or vowel charts  ----------------------- */
+
+table.CV td.Phonetic div.features
+{
+display: none;
+}
+
+/* Interactive environments in consonant or vowel charts -------------------- */
+
+ul.environments
+{
+display: none;
+}
+
+ul.environments.interactive
+{
+display: block;
+margin-top: 2em;
+list-style: none;
+}
+
+ul.environments.interactive li
+{
+display: inline;
+float: left; /* Eliminate gaps between tabs. */
+padding: 0.125em 0.5em 0.25em 0.5em;
+border-style: solid;
+border-bottom-style: none;
+border-width: 1px;
+border-color: #dddddd; /* lighter border */
+/* For rounded border properties, see the phonology_CSS3.css file. */
+}
+
+ul.environments.interactive li.Phonetic.selected
+{
+background-color: #ffffff; /* background */
+}
+
+table.list,
+table.chart
+{
+clear: left;
+}
+
+ul.environments.interactive + table.CV
+{
+border-top-style: solid;
+border-left-style: solid;
+border-width: 1px;
+border-color: #dddddd; /* lighter border */
+}
+
+ul.environments.interactive + table.CV,
+ul.environments.interactive + table.CV + table.articulatory,
+ul.environments.interactive + table.CV + table.articulatory + table.binary
+{
+margin-top: 0;
+}
+
+table.features tbody + tbody tr:first-child td
+{
+border-top: 1px solid #999999;
+}
+
+/* Collapse or expand tables of features ------------------------------------ */
+
+table.features ins,
+table.features del
+{
+text-decoration: none;
+}
+
+table.features del,
+table.features.collapsed ins
+{
+display: none;
+}
+
+table.features.collapsed del
+{
+display: inline;
+}
+
+table.features.collapsed tbody
+{
+display: none;
+}
+
+/* Interactive columns in distribution charts ------------------------------- */
+
+table.distribution ins,
+table.distribution del
+{
+text-decoration: none;
+}
+
+table.distribution del,
+table.distribution th.reduced ins,
+table.distribution.reduced th ins,
+table.distribution tbody.collapsed tr.individual,
+table.distribution thead tr.individual th.collapsed,
+table.distribution tbody tr td.collapsed,
+table.distribution.collapsed tr.individual,
+table.distribution.collapsed tr th.individual,
+table.distribution.collapsed tr td.individual
+{
+display: none;
+}
+
+table.distribution th.reduced del,
+table.distribution.reduced th del
+{
+display: inline;
+}
+
+table.distribution.interactive thead tr:first-child th:first-child
+{
+vertical-align: bottom;
+}
+
+table.distribution.interactive thead tr:first-child th:first-child div
+{
+position: relative;
+}
+
+table.distribution.interactive thead tr:first-child th:first-child div span
+{
+display: block;
+position: absolute;
+right: -0.6667em; /* corresponds to 0.5em at 100% */
+bottom: -0.25em;
+z-index: 1;
+font-size: 75%;
+padding-top: 0.25em; /* corresponds to 0.1875em at 100% */
+padding-bottom: 0.25em;
+padding-left: 0.3333em; /* corresponds to 0.25em at 100% */
+padding-right: 0.3333em;
+border-top-style: solid;
+border-top-width: 1px;
+border-left-style: solid;
+border-left-width: 1px;
+/* For rounded border properties, see the phonology_CSS3.css file. */
+}
+
+/* Color ==================================================================== */
+
+/*     Hex    R   G   B    H    S    V   Description          Meaning         */
+/* #000000    0   0   0    0°   0%   0%  black                text normal     */
+/* #404040   64  64  64    0°   0%  25%  gray                 text bold       */
+/* #999999  153 153 153    0°   0%  60%  gray-40%             text collapsed  */
+/* #ffffff  255 255 255    0°   0% 100%  white                background      */
+
+/* #ffff00  255 255   0   60° 100% 100%  yellow               important       */
+/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow   significant     */
+/* #ffabab  255 171 171    0°  33% 100%  desaturated red      error           */
+
+/*                                                            border          */
+/* #dddddd  221 221 221    0°   0%  87%  light gray           lighter border  */
+
+/* #cfe6cf  207 230 207  120°  10%  90%  lightest green       interactive     */
+/* #b8d9b8  184 217 184  120°  15%  85%  lighter green        interactive alt */
+/* #a3cca3  163 204 163  120°  20%  80%  light green          active          */
+/* #7db27d  125 178 125  120°  30%  70%  green                selected        */
+/*                                       transparent          inactive        */
+
+/* Color -------------------------------------------------------------------- */
+
+*
+{
+color: #000000; /* text normal */
+}
+
+div.collapsed h1,
+div.collapsed h2,
+div.collapsed h3,
+div.collapsed h4,
+table.list tbody.collapsed *
+{
+color: #999999; /* text collapsed */
+}
+
+/* table.list.pairs .pair.complementary span, */
+table.CV .notInEnvironment span
+{
+color: #99995c; /* rgb(153, 153, 92) hsv(60, 40, 60) not in environment */
+}
+
+a:active,
+a:focus,
+a:hover
+{
+color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
+}
+
+/* Background color --------------------------------------------------------- */
+
+table.details tbody tr.filter strong
+{
+background-color: #ffff00; /* important */
+}
+
+/*
+table.list.interactive tr.heading th.pair[title=chart],
+*/
+table.list .item,
+table.list th.pair > ul > li.matched span,
+table.CV.interactive td.Phonetic.matched,
+table.articulatory.interactive td.matched,
+table.features.interactive div.matched,
+table.features.interactive td.minus.matched,
+table.features.interactive td.plus.matched,
+table.phone td.different,
+table.distribution.nonZero td,
+table.distribution .zero
+{
+background-color: #ffffab; /* significant */
+}
+
+table.list.pairs .pair.complementary > ul > li,
+table.CV .notInEnvironment span
+{
+/* For background color property, see the phonology_CSS3.css file. */
+}
+
+table.distribution td,
+table.distribution.nonZero .zero
+{
+background-color: #ffffff; /* background */
+}
+
+table.distribution .error
+{
+background-color: #ffabab; /* error */
+}
+
+ul.environments.interactive li.Phonetic,
+div.interactive h1,
+div.interactive h2,
+div.interactive h3,
+div.interactive h4,
+table.list.interactive th.group,
+table.list.interactive th.count,
+table.list.interactive tr.heading th.pair,
+table.list.interactive thead th.sortable,
+table.list.interactive th.sortOptions ul,
+table.list.interactive th.mannerOfArticulation ul li.placeOfArticulation,
+table.list.interactive th.sortOptions ul:hover li.placeOfArticulation,
+table.list.interactive th.sortOptions ul:hover li.mannerOfArticulation,
+table.CV.interactive td.Phonetic,
+table.features.interactive th,
+table.articulatory.interactive td,
+table.features.interactive td.minus,
+table.features.interactive td.plus,
+table.features.interactive div,
+table.distribution.interactive th[class] /* Internet Explorer 7 and later. */
+{
+background-color: #cfe6cf; /* interactive */
+}
+
+table.distribution.interactive tr.individual th.Phonetic /* Internet Explorer 7 and later. */
+{
+background-color: #b8d9b8; /* interactive alt */
+}
+
+table.distribution tr.individual td.individual
+{
+font-weight: bold;
+color: #404040; /* text bold */
+}
+
+/* Pseudo-class :hover in tables: Internet Explorer 7 or later. */
+
+ul.environments.interactive li.Phonetic:hover,
+div.interactive h1:hover,
+div.interactive h2:hover,
+div.interactive h3:hover,
+div.interactive h4:hover,
+table.list.collapsed tbody th.pair > ul li:hover span,
+table.list tbody.collapsed th.pair > ul li:hover span,
+table.list.interactive th.group:hover,
+table.list.interactive th.count:hover,
+table.list.interactive tr.heading th.pair:hover,
+table.list.interactive thead th.sortable:hover,
+table.list.interactive th.sortOptions li.placeOfArticulation,
+table.list.interactive th.mannerOfArticulation li.mannerOfArticulation,
+table.list.interactive th.sortOptions ul:hover li.placeOfArticulation:hover,
+table.list.interactive th.sortOptions ul:hover li.mannerOfArticulation:hover,
+table.CV.interactive td.Phonetic:hover,
+table.features.interactive th:hover,
+table.articulatory.interactive td.active,
+table.features.interactive div.active,
+table.features.interactive td.minus.active,
+table.features.interactive td.plus.active,
+table.articulatory.interactive td:hover,
+table.features.interactive div:hover,
+table.features.interactive td.minus:hover,
+table.features.interactive td.plus:hover,
+table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and later. */
+{
+background-color: #a3cca3; /* active */
+}
+
+table.list th.pair > ul li:hover span,
+table.list th.pair div.differences,
+table.CV td.Phonetic > ul li:hover span,
+table.CV.interactive td.Phonetic.selected,
+table.articulatory.interactive td.selected,
+table.features.interactive div.selected,
+table.features.interactive td.minus.selected,
+table.features.interactive td.plus.selected
+{
+background-color: #7db27d; /* selected */
+}
+
+table.CV.inactive td.Phonetic,
+table.features.inactive th,
+table.articulatory.inactive td,
+table.features.inactive div,
+table.features.inactive td.minus,
+table.features.inactive td.plus,
+table.articulatory.interactive td.inactive,
+table.features.interactive div.inactive,
+table.features.interactive td.minus.inactive,
+table.features.interactive td.plus.inactive
+{
+background-color: transparent; /* inactive */
+}
+
+/* Border color ------------------------------------------------------------- */
+
+table.list tbody tr:hover th,
+table.list tbody tr:hover td,
+table.list th.sortOptions ul,
+table.list th.sortOptions li:hover,
+table.articulatory.interactive td:hover,
+table.features.interactive .plus:hover,
+table.features.interactive .minus:hover,
+table.features.interactive div:hover,
+table.distribution tbody tr:hover *,
+th, td
+{
+border-color: #999999; /* border */
+}
+
+table.list tbody tr th,
+table.list tbody tr td,
+table.list th.sortOptions li,
+table.features td,
+table.features div,
+table.distribution tbody tr *
+{
+border-color: transparent; /* not active */
+}
+
+table.list tbody tr th
+{
+border-top-color: #999999; /* border */
+}
+
+table.distribution tbody tr th
+{
+border-right-color: #999999; /* border */
+}
+
+table.distribution.interactive thead tr:first-child th:first-child div span,
+colgroup, thead, tbody /* Row and column groups in consonant or vowel charts. */
+{
+border-color: #dddddd; /* lighter border */
+}

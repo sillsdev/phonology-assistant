@@ -27,8 +27,31 @@ namespace SIL.Pa.Processing
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class ProcessHelper
+	public static class ProcessHelper
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Copies cascading stylesheets and java script files from the process folder to the
+		/// default user folder (i.e. the folder PA suggests as the parent for projects).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CopyFilesForPrettyHTMLExports()
+		{
+			foreach (var filename in Directory.GetFiles(App.ProcessingFolder, "*.css"))
+			{
+				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
+				if (!File.Exists(dst))
+					File.Copy(filename, dst);
+			}
+
+			foreach (var filename in Directory.GetFiles(App.ProcessingFolder, "*.js"))
+			{
+				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
+				if (!File.Exists(dst))
+					File.Copy(filename, dst);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This should only be done for debugging.
@@ -36,16 +59,29 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static void WriteStreamToFile(MemoryStream stream, string outputFileName)
 		{
+			WriteStreamToFile(stream, outputFileName, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This should only be done for debugging.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void WriteStreamToFile(MemoryStream stream, string outputFileName, bool tidy)
+		{
 			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
 			{
 				stream.WriteTo(fileStream);
 				fileStream.Close();
 			}
 
-			// This makes it all pretty, with proper indentation and line-breaking.
-			var doc = new XmlDocument();
-			doc.Load(outputFileName);
-			doc.Save(outputFileName);
+			if (tidy)
+			{
+				// This makes it all pretty, with proper indentation and line-breaking.
+				var doc = new XmlDocument();
+				doc.Load(outputFileName);
+				doc.Save(outputFileName);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -164,7 +200,7 @@ namespace SIL.Pa.Processing
 		/// character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string TerminateFolderPath(string path)
+		public static string TerminateFolderPath(string path)
 		{
 			path = path.Trim();
 			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))

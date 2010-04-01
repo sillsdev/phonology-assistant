@@ -39,16 +39,6 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override Pipeline.ProcessType ProcessType
-		{
-			get { return Pipeline.ProcessType.ExportDataCorpus; }
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
 			get { return "Data Corpus"; }

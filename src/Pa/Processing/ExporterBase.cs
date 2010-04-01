@@ -115,18 +115,8 @@ namespace SIL.Pa.Processing
 				inputStream = outputStream;
 			}
 
-			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName);
+			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName, false);
 			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual Pipeline.ProcessType ProcessType
-		{
-			get { throw new NotImplementedException(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,7 +164,10 @@ namespace SIL.Pa.Processing
 		{
 			var memStream = new MemoryStream();
 
-			using (m_writer = XmlWriter.Create(memStream))
+			var settings = new XmlWriterSettings();
+			settings.Indent = false;
+
+			using (m_writer = XmlWriter.Create(memStream, settings))
 			{
 				m_writer.WriteStartDocument();
 				m_writer.WriteStartElement("html", "http://www.w3.org/1999/xhtml");
@@ -252,11 +245,19 @@ namespace SIL.Pa.Processing
 
 			m_writer.WriteStartElement("ul");
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"genericRelativePath", "../../");
+			var prjPath = ProcessHelper.TerminateFolderPath(m_project.ProjectPath);
+			var usrPath = ProcessHelper.TerminateFolderPath(App.DefaultProjectFolder);
+			var uri = new Uri(prjPath);
+			var relativePath = uri.MakeRelativeUri(new Uri(usrPath)).ToString();
+			relativePath = relativePath.Replace("%20", " ");
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"specificRelativePath", string.Empty);
+				"genericRelativePath", relativePath);
+
+			// TODO: Correct this when I know what to do.
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
+				"specificRelativePath");
+			m_writer.WriteEndElement();
 
 			var cssFileName = (m_project.Name).Replace(' ', '_') + ".css";
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",

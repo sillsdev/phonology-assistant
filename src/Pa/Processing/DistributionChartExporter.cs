@@ -44,16 +44,6 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override Pipeline.ProcessType ProcessType
-		{
-			get { return Pipeline.ProcessType.ExportDistributionChart; }
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
 			get
