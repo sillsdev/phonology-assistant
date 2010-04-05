@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1a.xsl 2010-03-29 -->
+  <!-- phonology_export_view_CV_chart_1a.xsl 2010-04-03 -->
   <!-- Temporarily convert the table of phones to a list of phones. -->
   <!-- From the project phonetic inventory file, for each phone: -->
   <!-- * Get the lists of articulatory and binary features. -->
@@ -17,21 +17,53 @@ exclude-result-prefixes="xhtml"
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
 
 	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
-	<xsl:variable name="projectFolder" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'projectFolder']" />
-	<xsl:variable name="projectPhoneticInventoryFile" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
+	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
+	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
 	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units" />
 
 	<!-- The program phonetic character inventory file contains the features, symbols, and so on. -->
-	<xsl:variable name="programConfigurationFolder" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'programPhoneticInventoryFile']" />
+	<xsl:variable name="programConfigurationFolder" select="$settings/xhtml:li[@class = 'programConfigurationFolder']" />
+	<xsl:variable name="programPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'programPhoneticInventoryFile']" />
 	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 	<xsl:variable name="articulatoryFeatures" select="document($programPhoneticInventoryXML)/inventory/articulatoryFeatures" />
 	<xsl:variable name="binaryFeatures" select="document($programPhoneticInventoryXML)/inventory/binaryFeatures" />
 	<xsl:variable name="hierarchicalFeatures" select="document($programPhoneticInventoryXML)/inventory/hierarchicalFeatures" />
 
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
+	<xsl:variable name="interactiveWebPage">
+		<xsl:if test="$format = 'XHTML'">
+			<xsl:value-of select="$options/xhtml:li[@class = 'interactiveWebPage']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="articulatoryFeatureTable">
+		<xsl:if test="$interactiveWebPage = 'true'">
+			<xsl:value-of select="$options/xhtml:li[@class = 'articulatoryFeatureTable']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="binaryFeatureTable">
+		<xsl:if test="$interactiveWebPage = 'true'">
+			<xsl:value-of select="$options/xhtml:li[@class = 'binaryFeatureTable']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="hierarchicalFeatureTable">
+		<xsl:if test="$interactiveWebPage = 'true'">
+			<xsl:value-of select="$options/xhtml:li[@class = 'hierarchicalFeatureTable']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="features">
+		<xsl:if test="$articulatoryFeatureTable = 'true' or $binaryFeatureTable = 'true' or $hierarchicalFeatureTable = 'true'">
+			<xsl:value-of select="'true'" />
+		</xsl:if>
+	</xsl:variable>
+
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+	
 	<xsl:variable name="rowKeyFormat" select="translate(count($articulatoryFeatures/feature), '0123456789', '0000000000')" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
@@ -42,7 +74,6 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <xsl:template match="xhtml:table[@class = 'CV chart']">
-    <xsl:variable name="view" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view']" />
     <xsl:variable name="type">
       <xsl:choose>
         <xsl:when test="$view = 'Consonant Chart'">
@@ -66,61 +97,67 @@ exclude-result-prefixes="xhtml"
     <ul class="rowgroup features" xmlns="http://www.w3.org/1999/xhtml">
       <xsl:apply-templates select="$articulatoryFeatures/feature[@class = 'rowgroup'][@type = $type]" mode="rowgroup" />
     </ul>
-    <table class="articulatory features" xmlns="http://www.w3.org/1999/xhtml">
-      <col />
-      <thead>
-        <tr>
-          <th scope="col">
-            <xsl:value-of select="'Articulatory'" />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <xsl:apply-templates select="$articulatoryFeatures/feature[@class = 'col-row' or @class = 'row-col']" mode="auxilliary" />
-      </tbody>
-			<tbody>
-				<xsl:apply-templates select="$articulatoryFeatures/feature[@class = 'row']" mode="auxilliary" />
-			</tbody>
-		</table>
-    <table class="binary features" xmlns="http://www.w3.org/1999/xhtml">
-      <colgroup>
-        <col />
-        <col />
-        <col />
-      </colgroup>
-      <thead>
-        <tr>
-          <th scope="colgroup" colspan="3">
-            <xsl:value-of select="'binary'" />
-          </th>
-        </tr>
-      </thead>
-			<xsl:for-each select="$binaryFeatures/feature[@class]">
-				<xsl:variable name="class" select="@class" />
-				<xsl:if test="not(preceding-sibling::feature[@class = $class])">
-					<tbody>
-						<xsl:apply-templates select="$binaryFeatures/feature[@class = $class]" mode="auxilliary" />
-					</tbody>
-				</xsl:if>
-			</xsl:for-each>
-		</table>
-		<table class="hierarchical features" xmlns="http://www.w3.org/1999/xhtml">
-			<colgroup>
+		<xsl:if test="$articulatoryFeatureTable = 'true'">
+			<table class="articulatory features" xmlns="http://www.w3.org/1999/xhtml">
 				<col />
-				<col />
-				<col />
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="colgroup" colspan="3">
-						<xsl:value-of select="'hierarchical'" />
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<xsl:apply-templates select="$hierarchicalFeatures/feature[@parent = 'root']" mode="auxilliary" />
-			</tbody>
-		</table>
+				<thead>
+					<tr>
+						<th scope="col">
+							<xsl:value-of select="'Articulatory'" />
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="$articulatoryFeatures/feature[@class = 'col-row' or @class = 'row-col']" mode="auxilliary" />
+				</tbody>
+				<tbody>
+					<xsl:apply-templates select="$articulatoryFeatures/feature[@class = 'row']" mode="auxilliary" />
+				</tbody>
+			</table>
+		</xsl:if>
+		<xsl:if test="$binaryFeatureTable = 'true'">
+			<table class="binary features" xmlns="http://www.w3.org/1999/xhtml">
+				<colgroup>
+					<col />
+					<col />
+					<col />
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="colgroup" colspan="3">
+							<xsl:value-of select="'binary'" />
+						</th>
+					</tr>
+				</thead>
+				<xsl:for-each select="$binaryFeatures/feature[@class]">
+					<xsl:variable name="class" select="@class" />
+					<xsl:if test="not(preceding-sibling::feature[@class = $class])">
+						<tbody>
+							<xsl:apply-templates select="$binaryFeatures/feature[@class = $class]" mode="auxilliary" />
+						</tbody>
+					</xsl:if>
+				</xsl:for-each>
+			</table>
+		</xsl:if>
+		<xsl:if test="$hierarchicalFeatureTable = 'true'">
+			<table class="hierarchical features" xmlns="http://www.w3.org/1999/xhtml">
+				<colgroup>
+					<col />
+					<col />
+					<col />
+				</colgroup>
+				<thead>
+					<tr>
+						<th scope="colgroup" colspan="3">
+							<xsl:value-of select="'hierarchical'" />
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="$hierarchicalFeatures/feature[@parent = 'root']" mode="auxilliary" />
+				</tbody>
+			</table>
+		</xsl:if>
 	</xsl:template>
 
   <xsl:template match="feature" mode="colgroup">
@@ -190,17 +227,25 @@ exclude-result-prefixes="xhtml"
       <span>
         <xsl:value-of select="@literal" />
       </span>
-      <div class="features">
-        <ul class="articulatory">
-          <xsl:apply-templates select="articulatoryFeatures/feature" />
-        </ul>
-        <ul class="binary">
-          <xsl:apply-templates select="binaryFeatures/feature" />
-        </ul>
-				<ul class="hierarchical">
-					<xsl:apply-templates select="hierarchicalFeatures/feature" />
-				</ul>
-			</div>
+			<xsl:if test="$features = 'true'">
+				<div class="features">
+					<xsl:if test="$articulatoryFeatureTable = 'true'">
+						<ul class="articulatory">
+							<xsl:apply-templates select="articulatoryFeatures/feature" />
+						</ul>
+					</xsl:if>
+					<xsl:if test="$binaryFeatureTable = 'true'">
+						<ul class="binary">
+							<xsl:apply-templates select="binaryFeatures/feature" />
+						</ul>
+					</xsl:if>
+					<xsl:if test="$hierarchicalFeatureTable = 'true'">
+						<ul class="hierarchical">
+							<xsl:apply-templates select="hierarchicalFeatures/feature" />
+						</ul>
+					</xsl:if>
+				</div>
+			</xsl:if>
       <ul class="chart features">
         <li class="colgroup">
 					<xsl:variable name="colgroupFeature" select="articulatoryFeatures/feature[@class = 'colgroup'][not(@primary = 'false')]" />

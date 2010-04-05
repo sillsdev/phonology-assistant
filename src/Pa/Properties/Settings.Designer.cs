@@ -258,5 +258,27 @@ namespace SIL.Pa.Properties {
                 return ((bool)(this["KeepIntermediateDataCorpusExportFile"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenHTMLSearchResultAfterExport {
+            get {
+                return ((bool)(this["OpenHTMLSearchResultAfterExport"]));
+            }
+            set {
+                this["OpenHTMLSearchResultAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepIntermediateSearchResultExportFile {
+            get {
+                return ((bool)(this["KeepIntermediateSearchResultExportFile"]));
+            }
+        }
     }
 }

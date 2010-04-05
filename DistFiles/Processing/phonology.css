@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-03-31 */
+﻿/* phonology.css 2010-04-03 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For rounded border properties. */
@@ -73,7 +73,6 @@ padding-left: 0.4347em; /* Equivalent to table cells. */
 
 div.report > h4 /* Heading 4 */
 {
-font-size: 100%; /* 12px */
 margin-top: 1em;
 margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
 }
@@ -91,9 +90,9 @@ margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
 
 h4 /* When table.details follows. */
 {
-font-size: 75%;
-padding-left: 0.5em;
-padding-bottom: 0.25em;
+font-size: 100%;
+padding-left: 0.375em; /* Equivalent to 0.5em at font-size: 75% */
+padding-bottom: 0.1875em; /* Equivalent to 0.25em at font-size: 75% */
 }
 
 /* Paragraphs */
@@ -549,7 +548,7 @@ border-color: #dddddd; /* lighter border */
 
 ul.environments.interactive li.Phonetic.selected
 {
-background-color: #ffffff; /* background */
+background-color: #fffffc; /* #ffffff; /* background */
 }
 
 table.list,
@@ -665,6 +664,7 @@ border-left-width: 1px;
 /* #404040   64  64  64    0°   0%  25%  gray                 text bold       */
 /* #999999  153 153 153    0°   0%  60%  gray-40%             text collapsed  */
 /* #ffffff  255 255 255    0°   0% 100%  white                background      */
+/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory    background      */
 
 /* #ffff00  255 255   0   60° 100% 100%  yellow               important       */
 /* #ffffab  255 255 171   60°  33% 100%  desaturated yellow   significant     */
@@ -710,6 +710,11 @@ color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
 
 /* Background color --------------------------------------------------------- */
 
+body
+{
+background-color: #fffffc; /* #ffffff; /* background */
+}
+
 table.details tbody tr.filter strong
 {
 background-color: #ffff00; /* important */
@@ -741,7 +746,7 @@ table.CV .notInEnvironment span
 table.distribution td,
 table.distribution.nonZero .zero
 {
-background-color: #ffffff; /* background */
+background-color: #fffffc; /* #ffffff; /* background */
 }
 
 table.distribution .error

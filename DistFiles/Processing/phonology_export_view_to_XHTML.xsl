@@ -3,38 +3,37 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-03-29 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-05 -->
   <!-- Converts any exported view to XHTML. -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
-  <!-- Instead of specifying the !DOCTYPE declaration in xsl:output, -->
-  <!-- specify output_to_XHTML_Strict.tidy or output_to_XHTML_Transitional.tidy in the conversion process. -->
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
 
   <!--
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="xhtml:h1 xhtml:h2 xhtml:h3 xhtml:h4 xhtml:p xhtml:span xhtml:a xhtml:cite xhtml:em xhtml:strong" />
   -->
 
-  <xsl:param name="langDefault" select="'en'" />
-  <xsl:param name="meta-http-equiv-X-UA-Compatible" select="''" />
-  <!-- Test compatibility with Internet Explorer 7. -->
-  <!--
-  <xsl:param name="meta-http-equiv-X-UA-Compatible" select="'IE=7'" />
-  -->
-
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="options" select="$metadata/xhtml:div[@class = 'options']" />
-	<xsl:variable name="details" select="$options/xhtml:ul[@class = 'view']/xhtml:li/xhtml:ul/xhtml:li[@class = 'details']" />
-	<xsl:variable name="dateAndTime" select="$options/xhtml:ul[@class = 'view']/xhtml:li/xhtml:ul/xhtml:li[@class = 'dateAndTime']" />
-  <xsl:variable name="genericRelativePathXHTML" select="$options/xhtml:ul[@class = 'format']/xhtml:li[@class = 'XHTML']/xhtml:ul/xhtml:li[@class = 'genericRelativePath']" />
-  <xsl:variable name="specificRelativePathXHTML" select="$options/xhtml:ul[@class = 'format']/xhtml:li[@class = 'XHTML']/xhtml:ul/xhtml:li[@class = 'specificRelativePath']" />
-  <xsl:variable name="specificStylesheetFileXHTML" select="$options/xhtml:ul[@class = 'format']/xhtml:li[@class = 'XHTML']/xhtml:ul/xhtml:li[@class = 'specificStylesheetFile']" />
-  <xsl:variable name="nonBreakingSpaceInEmptyTableCellsXHTML" select="$options/xhtml:ul[@class = 'format']/xhtml:li[@class = 'XHTML']/xhtml:ul/xhtml:li[@class = 'nonBreakingSpaceInEmptyTableCell']" />
-  <xsl:variable name="interactiveXHTML" select="$options/xhtml:ul[@class = 'format']/xhtml:li[@class = 'XHTML']/xhtml:ul/xhtml:li[@class = 'interactive']" />
+	
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
 
-	<xsl:variable name="markOfTheWeb" select="'about:internet'" />
-	<xsl:param name="genericStylesheetFileXHTML" select="'phonology.css'" />
-	<xsl:param name="genericStylesheetPrintFileXHTML" select="'phonology_print.css'" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="interactiveWebPage" select="$options/xhtml:li[@class = 'interactiveWebPage']" />
+	<xsl:variable name="tableOfDetails" select="$options/xhtml:li[@class = 'tableOfDetails']" />
+	<xsl:variable name="hyperlinkToEthnologue" select="$options/xhtml:li[@class = 'hyperlinkToEthnologue']" />
+	<xsl:variable name="dateAndTime" select="$options/xhtml:li[@class = 'dateAndTime']" />
+	<xsl:variable name="genericRelativePath" select="$options/xhtml:li[@class = 'genericRelativePath']" />
+	<xsl:variable name="specificRelativePath" select="$options/xhtml:li[@class = 'specificRelativePath']" />
+  <xsl:variable name="specificStylesheetFile" select="$options/xhtml:li[@class = 'specificStylesheetFile']" />
+
+	<xsl:variable name="nonBreakingSpaceInEmptyTableCells" select="'true'" />
+	<!-- TO DO: title, heading, p elements also? -->
+
+	<xsl:param name="langDefault" select="'en'" />
+	<xsl:param name="markOfTheWeb" select="'about:internet'" />
+	<xsl:param name="genericStylesheetFile" select="'phonology.css'" />
+	<xsl:param name="genericStylesheetPrintFile" select="'phonology_print.css'" />
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
   <xsl:param name="phonologyScriptFile" select="'phonology.js'" />
 
@@ -53,51 +52,55 @@ exclude-result-prefixes="xhtml"
       <!-- MSXML XSL Transformations and HTML Tidy both move comments preceding the html tag, -->
       <!-- which is the default location of the mark, to the beginning of the file preceding the !DOCTYPE declaration. -->
       <!-- However, the !DOCTYPE declaration must be first to enable Standards mode in Internet Explorer. -->
-      <xsl:variable name="markOfTheWebLength" select="string-length($markOfTheWeb)" />
-      <xsl:if test="$markOfTheWebLength != 0">
-        <xsl:comment>
-          <xsl:value-of select="concat(' saved from url=(', format-number($markOfTheWebLength, '0000'), ')', $markOfTheWeb, ' ')" />
-        </xsl:comment>
-      </xsl:if>
-      <head>
-        <title>
+			<xsl:variable name="markOfTheWebLength" select="string-length($markOfTheWeb)" />
+			<xsl:if test="$markOfTheWebLength != 0">
+				<xsl:comment>
+					<xsl:value-of select="concat(' saved from url=(', format-number($markOfTheWebLength, '0000'), ')', $markOfTheWeb, ' ')" />
+				</xsl:comment>
+			</xsl:if>
+			<head>
+				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+				<title>
           <xsl:value-of select="xhtml:head/xhtml:title" />
         </title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <xsl:if test="$meta-http-equiv-X-UA-Compatible != ''">
-          <meta http-equiv="X-UA-Compatible" content="{$meta-http-equiv-X-UA-Compatible}" />
-        </xsl:if>
 				<!--
-        <xsl:if test="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'researcher']">
-          <meta name="author" content="{$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'researcher']}" />
+        <xsl:if test="$details/xhtml:li[@class = 'researcher']">
+          <meta name="author" content="{$details/xhtml:li[@class = 'researcher']}" />
         </xsl:if>
 				-->
-        <link rel="stylesheet" type="text/css" href="{concat($genericRelativePathXHTML, $genericStylesheetFileXHTML)}" media="all" />
-				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePathXHTML, $genericStylesheetPrintFileXHTML)}" media="print" />
+        <link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFile)}" media="all" />
+				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetPrintFile)}" media="print" />
 				<xsl:choose>
-          <xsl:when test="$specificStylesheetFileXHTML != ''">
-            <link rel="stylesheet" type="text/css" href="{concat($specificRelativePathXHTML, $specificStylesheetFileXHTML)}" />
+          <xsl:when test="string-length($specificStylesheetFile) != 0">
+            <link rel="stylesheet" type="text/css" href="{concat($specificRelativePath, $specificStylesheetFile)}" />
           </xsl:when>
           <xsl:when test="$metadata/xhtml:table[@class = 'formatting']">
             <xsl:call-template name="internalStylesheet">
-              <xsl:with-param name="tableFormatting" select="$metadata/xhtml:table[@class = 'formatting']" />
+              <xsl:with-param name="formatting" select="$metadata/xhtml:table[@class = 'formatting']" />
             </xsl:call-template>
           </xsl:when>
         </xsl:choose>
-        <xsl:if test="$interactiveXHTML = 'true'">
-          <script type="text/javascript" src="{concat($genericRelativePathXHTML, $jqueryScriptFile)}"></script>
-          <script type="text/javascript" src="{concat($genericRelativePathXHTML, $phonologyScriptFile)}"></script>
+				<!-- Newline necessary to force start and end tags on separate lines. -->
+				<xsl:if test="$interactiveWebPage = 'true'">
+					<script type="text/javascript" src="{concat($genericRelativePath, $jqueryScriptFile)}">
+						<xsl:value-of select="'&#xA;'" />
+					</script>
+          <script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
+						<xsl:value-of select="'&#xA;'" />
+					</script>
         </xsl:if>
       </head>
 			<xsl:apply-templates select="xhtml:body" />
     </html>
   </xsl:template>
 
-  <!-- Add cellspacing attribute to tables for Internet Explorer 7 and earlier. -->
+	<!-- TO DO: Some of the steps for views need to use options, so this step does not need to remove elements! -->
+
+	<!-- Add cellspacing attribute to tables for Internet Explorer 7 and earlier. -->
   <xsl:template match="xhtml:table">
     <xsl:choose>
-      <!-- If not interactive, omit tables of features. -->
-      <xsl:when test="($interactiveXHTML = 'false') and (@class = 'articulatory features' or @class = 'binary features' or @class = 'hierarchical features')" />
+      <!-- If not interactiveWebPage, omit tables of features. -->
+      <xsl:when test="($interactiveWebPage = 'false') and (@class = 'articulatory features' or @class = 'binary features' or @class = 'hierarchical features')" />
       <xsl:otherwise>
         <xsl:copy>
           <xsl:apply-templates select="@*" />
@@ -119,12 +122,12 @@ exclude-result-prefixes="xhtml"
         <xsl:if test="$fieldName = $primarySortFieldName">
           <xsl:value-of select="'sortField'" />
         </xsl:if>
-        <xsl:if test="$interactiveXHTML = 'true'">
+        <xsl:if test="$interactiveWebPage = 'true'">
           <xsl:if test="$fieldName = 'Phonetic'">
             <!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, . -->
             <!-- That is, omit the options in a list of minimal pairs or a list with generic groups for which Phonetic is not the primary sort field. -->
             <xsl:if test="$primarySortFieldName = 'Phonetic' or ancestor::xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])]">
-							<xsl:if test="not($metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'minimalPairs'])">
+							<xsl:if test="not($minimalPairs)">
 								<xsl:value-of select="' sortOptions'" />
 								<xsl:if test="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
 									<xsl:value-of select="' mannerOfArticulation'" />
@@ -157,8 +160,8 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <xsl:template match="xhtml:ul[@class = 'sortOrder' or @class = 'articulatory' or @class = 'binary']">
-    <!-- If interactive, include lists of numbers for sorting in lists or features for phones in charts. -->
-    <xsl:if test="$interactiveXHTML = 'true'">
+    <!-- If interactiveWebPage, include lists of numbers for sorting in lists or features for phones in charts. -->
+    <xsl:if test="$interactiveWebPage = 'true'">
       <xsl:copy>
         <xsl:apply-templates select="@*|node()" />
       </xsl:copy>
@@ -167,8 +170,8 @@ exclude-result-prefixes="xhtml"
 
   <xsl:template match="xhtml:span[following-sibling::xhtml:ul[@class = 'sortOrder'] or xhtml:div[@class = 'differences' or @class = 'features']]">
     <xsl:choose>
-      <xsl:when test="$interactiveXHTML = 'true'">
-        <!-- If interactive, include span enclosing text followed by lists of numbers for sorting in lists or features for phones in charts. -->
+      <xsl:when test="$interactiveWebPage = 'true'">
+        <!-- If interactiveWebPage, include span enclosing text followed by lists of numbers for sorting in lists or features for phones in charts. -->
         <xsl:copy>
           <xsl:apply-templates select="@*|node()" />
         </xsl:copy>
@@ -181,14 +184,14 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- For :hover formatting, remove Phonetic class from empty cells in CV chart. -->
-  <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(node())][@class = 'Phonetic']/@class" />
+  <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(*)][@class = 'Phonetic']/@class" />
 
   <!-- There is an option to insert a non-breaking space in empty table cells -->
   <!-- for the borders in Internet Explorer 7 and earlier. -->
   <xsl:template match="xhtml:table//xhtml:tr/xhtml:*[not(node())]">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
-      <xsl:if test="$nonBreakingSpaceInEmptyTableCellsXHTML = 'true'">
+      <xsl:if test="$nonBreakingSpaceInEmptyTableCells = 'true'">
         <xsl:value-of select="'&#xA0;'" />
       </xsl:if>
     </xsl:copy>
@@ -227,9 +230,10 @@ exclude-result-prefixes="xhtml"
   <!-- Convert table of field formatting properties to style rules. -->
   
   <xsl:template name="internalStylesheet">
-    <xsl:param name="tableFormatting" />
+    <xsl:param name="formatting" />
     <style type="text/css" xmlns="http://www.w3.org/1999/xhtml">
-      <xsl:for-each select="$tableFormatting/xhtml:tbody/xhtml:tr[xhtml:td[@class = 'class']/text()]">
+			<xsl:value-of select="'&#xA;'" />
+      <xsl:for-each select="$formatting/xhtml:tbody/xhtml:tr[xhtml:td[@class = 'class']/text()]">
         <xsl:value-of select="concat('.', xhtml:td[@class = 'class']/text(), '&#xA;{&#xA;')" />
         <xsl:if test="xhtml:td[@class = 'font-family']/text()">
           <xsl:variable name="font-family" select="xhtml:td[@class = 'font-family']/text()" />
@@ -260,7 +264,7 @@ exclude-result-prefixes="xhtml"
   <!-- Table of details. -->
 
 	<xsl:template match="xhtml:div[@id = 'metadata']">
-		<xsl:if test="$details = 'true'">
+		<xsl:if test="$tableOfDetails = 'true'">
 			<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
 			<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
 			<xsl:variable name="primarySortFieldDirection" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
@@ -275,17 +279,18 @@ exclude-result-prefixes="xhtml"
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:variable name="searchPattern" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'searchPattern']" />
-			<xsl:variable name="filter" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'filter']" />
-			<xsl:variable name="numberOfPhones" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfPhones']" />
-			<xsl:variable name="numberOfPhonemes" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfPhonemes']" />
-			<xsl:variable name="numberOfRecords" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfRecords']" />
-			<xsl:variable name="numberOfGroups" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfGroups']" />
-			<xsl:variable name="projectName" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'projectName']" />
-			<xsl:variable name="languageName" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'languageName']" />
-			<xsl:variable name="languageCode" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'languageCode']" />
-			<xsl:variable name="date" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'date']" />
-			<xsl:variable name="time" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'time']" />
+			<xsl:variable name="searchPattern" select="$details/xhtml:li[@class = 'searchPattern']" />
+			<xsl:variable name="filter" select="$details/xhtml:li[@class = 'filter']" />
+			<xsl:variable name="numberOfPhones" select="$details/xhtml:li[@class = 'numberOfPhones']" />
+			<xsl:variable name="numberOfPhonemes" select="$details/xhtml:li[@class = 'numberOfPhonemes']" />
+			<xsl:variable name="numberOfRecords" select="$details/xhtml:li[@class = 'numberOfRecords']" />
+			<xsl:variable name="numberOfGroups" select="$details/xhtml:li[@class = 'numberOfGroups']" />
+			<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
+			<xsl:variable name="projectName" select="$details/xhtml:li[@class = 'projectName']" />
+			<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
+			<xsl:variable name="languageCode" select="$details/xhtml:li[@class = 'languageCode']" />
+			<xsl:variable name="date" select="$details/xhtml:li[@class = 'date']" />
+			<xsl:variable name="time" select="$details/xhtml:li[@class = 'time']" />
 			<h4 xmlns="http://www.w3.org/1999/xhtml">
 				<xsl:value-of select="/xhtml:html/xhtml:head/xhtml:title" />
 			</h4>
@@ -319,7 +324,7 @@ exclude-result-prefixes="xhtml"
 						<xsl:when test="$numberOfPhones">
 							<tr class="numberOfPhones" xmlns="http://www.w3.org/1999/xhtml">
 								<th scope="row">
-									<xsl:value-of select="'Number of phones'" />
+									<xsl:value-of select="'Number of phones:'" />
 								</th>
 								<td>
 									<xsl:value-of select="$numberOfPhones" />
@@ -329,7 +334,7 @@ exclude-result-prefixes="xhtml"
 						<xsl:when test="$numberOfPhonemes">
 							<tr class="numberOfPhonemes" xmlns="http://www.w3.org/1999/xhtml">
 								<th scope="row">
-									<xsl:value-of select="'Number of Phonemes'" />
+									<xsl:value-of select="'Number of Phonemes:'" />
 								</th>
 								<td>
 									<xsl:value-of select="$numberOfPhonemes" />
@@ -357,6 +362,26 @@ exclude-result-prefixes="xhtml"
 							</td>
 						</tr>
 					</xsl:if>
+					<xsl:if test="$minimalPairs">
+						<tr class="minimalPairs" xmlns="http://www.w3.org/1999/xhtml">
+							<th scope="row">
+								<xsl:value-of select="'Minimal pairs:'" />
+							</th>
+							<td>
+								<xsl:choose>
+									<xsl:when test="$minimalPairs = 'Before'">
+										<xsl:value-of select="'Identical preceding environment'" />
+									</xsl:when>
+									<xsl:when test="$minimalPairs = 'After'">
+										<xsl:value-of select="'Identical following environment'" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="'Both environments identical'" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</td>
+						</tr>
+					</xsl:if>
 					<xsl:if test="$sorting">
 						<tr class="primarySortField" xmlns="http://www.w3.org/1999/xhtml">
 							<th scope="row">
@@ -372,7 +397,6 @@ exclude-result-prefixes="xhtml"
 								</xsl:if>
 							</td>
 						</tr>
-						<!-- TO DO: Minimal pairs options. -->
 					</xsl:if>
 					<!-- TO DO: Researcher? -->
 					<xsl:if test="$projectName != $languageName">
@@ -395,14 +419,14 @@ exclude-result-prefixes="xhtml"
 							</td>
 						</tr>
 					</xsl:if>
-					<xsl:if test="$languageCode">
+					<xsl:if test="string-length($languageCode) != 0">
 						<tr class="languageCode">
 							<th scope="row">
 								<xsl:value-of select="'ISO 639-3 code:'" />
 							</th>
 							<td>
 								<xsl:choose>
-									<xsl:when test="string-length($languageCode) = 3 and string-length(translate($languageCode, 'abcdefghijklmnopqrstuvwxyz', '')) = 0">
+									<xsl:when test="$hyperlinkToEthnologue and string-length($languageCode) = 3 and string-length(translate($languageCode, 'abcdefghijklmnopqrstuvwxyz', '')) = 0">
 										<a href="{concat('http://www.ethnologue.com/show_language.asp?code=', $languageCode)}" title="http://www.ethnologue.com">
 											<xsl:value-of select="$languageCode" />
 										</a>

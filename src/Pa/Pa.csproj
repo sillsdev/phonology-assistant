@@ -202,6 +202,7 @@
     <Compile Include="Processing\Pipeline.cs" />
     <Compile Include="Processing\ProcessHelper.cs" />
     <Compile Include="Processing\ProjectInventoryBuilder.cs" />
+    <Compile Include="Processing\SearchResultExporter.cs" />
     <Compile Include="Processing\Step.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

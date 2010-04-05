@@ -3,11 +3,14 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-03-29 -->
+  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-04-05 -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="transposeColumnsAndRows" select="$options/xhtml:li[@class = 'transposeColumnsAndRows']" />
+	<!-- TO DO: If this becomes a property of the individual chart, where would it go in the metadata? -->
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@*|node()">
@@ -18,7 +21,7 @@ exclude-result-prefixes="xhtml"
 
   <xsl:template match="xhtml:table[@class = 'distribution chart']">
     <xsl:choose>
-      <xsl:when test="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'view']/xhtml:li[@class = 'distribution chart']/xhtml:ul/xhtml:li[@class = 'transpose'] = 'true'">
+      <xsl:when test="$transposeColumnsAndRows = 'true'">
         <xsl:variable name="generalChart" select="xhtml:*/xhtml:tr[@class = 'general']" />
         <xsl:variable name="generalEnvironmentsTransposed" select="xhtml:tbody/xhtml:tr[@class = 'general']" />
         <xsl:variable name="generalItemsTransposed" select="xhtml:thead/xhtml:tr[@class = 'general']" />

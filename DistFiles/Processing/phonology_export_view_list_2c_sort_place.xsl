@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2c_sort_place.xsl 2010-03-29 -->
+  <!-- phonology_export_view_list_2c_sort_place.xsl 2010-04-03 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
   <!-- Sort records by place of articulation. -->
 
@@ -11,17 +11,22 @@ exclude-result-prefixes="xhtml"
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
-	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="phoneticSortOrder" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'phoneticSortOrder']" />
-	<xsl:variable name="phoneticSortOption" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSortOption']" />
 	<xsl:variable name="phoneticSortClass" select="'placeOfArticulation'" />
 
+	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
+	<xsl:variable name="phoneticSortOrder" select="$sorting/xhtml:li[@class = 'phoneticSortOrder']" />
+	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
+
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:param name="position" />
     <xsl:param name="sortOrderFormat" />
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()">
+      <xsl:apply-templates select="@* | node()">
         <xsl:with-param name="position" select="$position" />
         <xsl:with-param name="sortOrderFormat" select="$sortOrderFormat" />
       </xsl:apply-templates>
@@ -51,9 +56,9 @@ exclude-result-prefixes="xhtml"
 									</xsl:for-each>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:variable name="subfieldClass1" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[1]/@class" />
-									<xsl:variable name="subfieldClass2" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[2]/@class" />
-									<xsl:variable name="subfieldClass3" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[3]/@class" />
+									<xsl:variable name="subfieldClass1" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[1]/@class" />
+									<xsl:variable name="subfieldClass2" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[2]/@class" />
+									<xsl:variable name="subfieldClass3" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[3]/@class" />
 									<xsl:for-each select="xhtml:tbody">
 										<xsl:sort select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']//xhtml:li[@class = $phoneticSortClass]" />
 										<xsl:sort select="xhtml:tr[@class = 'heading']/xhtml:th[@class = $subfieldClass1]//xhtml:li[@class = $phoneticSortClass]" />
@@ -97,11 +102,11 @@ exclude-result-prefixes="xhtml"
         <xsl:with-param name="sortOrderFormat" select="$sortOrderFormat" />
       </xsl:apply-templates>
       <xsl:choose>
-        <xsl:when test="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view'] = 'Search'">
+        <xsl:when test="$view = 'Search'">
           <!-- In Search view, sort the three subfields according to advanced phonetic sort options. -->
-          <xsl:variable name="subfieldClass1" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[1]/@class" />
-          <xsl:variable name="subfieldClass2" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[2]/@class" />
-          <xsl:variable name="subfieldClass3" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[3]/@class" />
+          <xsl:variable name="subfieldClass1" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[1]/@class" />
+          <xsl:variable name="subfieldClass2" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[2]/@class" />
+          <xsl:variable name="subfieldClass3" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[3]/@class" />
           <xsl:for-each select="xhtml:tr[not(@class = 'heading')]">
             <xsl:sort select="xhtml:td[@class = $subfieldClass1]//xhtml:li[@class = $phoneticSortClass]" />
             <xsl:sort select="xhtml:td[@class = $subfieldClass2]//xhtml:li[@class = $phoneticSortClass]" />

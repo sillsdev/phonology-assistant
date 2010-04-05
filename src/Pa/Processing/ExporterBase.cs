@@ -21,6 +21,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using SIL.Pa.Filters;
 
 namespace SIL.Pa.Processing
 {
@@ -31,10 +32,17 @@ namespace SIL.Pa.Processing
 	/// ----------------------------------------------------------------------------------------
 	public class ExporterBase
 	{
+		public enum OutputFormat
+		{
+			XHTML,
+			WordXml
+		}
+
 		protected XmlWriter m_writer;
 		protected readonly string m_outputFileName;
 		protected DataGridView m_grid;
 		protected readonly PaProject m_project;
+		protected readonly OutputFormat m_outputFormat;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -46,6 +54,7 @@ namespace SIL.Pa.Processing
 			m_project = project;
 			m_outputFileName = outputFileName;
 			m_grid = grid;
+			m_outputFormat = OutputFormat.XHTML;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,9 +202,9 @@ namespace SIL.Pa.Processing
 		protected virtual void WriteHead()
 		{
 			m_writer.WriteStartElement("head");
-			m_writer.WriteElementString("title", Title);
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "meta", "http-equiv", "content-type");
 			m_writer.WriteAttributeString("content", "text/html; charset=utf-8");
+			m_writer.WriteElementString("title", Title);
 
 			// Close meta
 			m_writer.WriteEndElement();
@@ -239,38 +248,41 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataOptions()
 		{
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "div", "class", "options");
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "ul", "class", "format");
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "XHTML");
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "ul", "class", "options");
 
-			m_writer.WriteStartElement("ul");
+			if (m_outputFormat == OutputFormat.WordXml)
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "format", "Word 2003 XML");
 
-			var prjPath = ProcessHelper.TerminateFolderPath(m_project.ProjectPath);
-			var usrPath = ProcessHelper.TerminateFolderPath(App.DefaultProjectFolder);
-			var uri = new Uri(prjPath);
-			var relativePath = uri.MakeRelativeUri(new Uri(usrPath)).ToString();
-			relativePath = relativePath.Replace("%20", " ");
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "fileName", m_outputFileName);
+			}
+			else if (m_outputFormat == OutputFormat.XHTML)
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "format", "XHTML");
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"genericRelativePath", relativePath);
+				var prjPath = ProcessHelper.TerminateFolderPath(m_project.ProjectPath);
+				var usrPath = ProcessHelper.TerminateFolderPath(App.DefaultProjectFolder);
+				var uri = new Uri(prjPath);
+				var relativePath = uri.MakeRelativeUri(new Uri(usrPath)).ToString();
+				relativePath = relativePath.Replace("%20", " ");
 
-			// TODO: Correct this when I know what to do.
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
-				"specificRelativePath");
-			m_writer.WriteEndElement();
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
+					"genericRelativePath", relativePath);
 
-			var cssFileName = (m_project.Name).Replace(' ', '_') + ".css";
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"specificStylesheetFile", cssFileName);
+				// TODO: Correct this when I know what to do.
+				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
+					"specificRelativePath");
+				m_writer.WriteEndElement();
 
-			// Close ul, li and ul elements
-			m_writer.WriteEndElement();
-			m_writer.WriteEndElement();
-			m_writer.WriteEndElement();
+				var cssFileName = (m_project.Name).Replace(' ', '_') + ".css";
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
+					"specificStylesheetFile", cssFileName);
+			}
 
-			// When the program displays Export To Whatever dialog boxes, view options will go here.
-
-			// Close div
+			// Close ul
 			m_writer.WriteEndElement();
 		}
 
@@ -316,6 +328,13 @@ namespace SIL.Pa.Processing
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "ul", "class", "details");
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class", "view", View);
+
+			if (FilterHelper.CurrentFilter != null)
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "filter", FilterHelper.CurrentFilter.Name);
+			}
+			
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class", "title", Title);
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
 				"numberOfRecords", App.WordCache.Count.ToString());
@@ -437,16 +456,24 @@ namespace SIL.Pa.Processing
 		protected virtual void WriteTableRowContent(DataGridViewRow row)
 		{
 			foreach (var col in GetGridColumns())
-			{
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "td", "class",
-					ProcessHelper.MakeAlphaNumeric(col.HeaderText));
+				WriteTableRowCell(row, col);
+		}
 
-				var value = row.Cells[col.Index].Value;
-				if (value != null && value.ToString() != string.Empty)
-					m_writer.WriteString(value.ToString());
-				
-				m_writer.WriteEndElement();
-			}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteTableRowCell(DataGridViewRow row, DataGridViewColumn col)
+		{
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "td", "class",
+				ProcessHelper.MakeAlphaNumeric(col.HeaderText));
+
+			var value = row.Cells[col.Index].Value;
+			if (value != null && value.ToString() != string.Empty)
+				m_writer.WriteString(value.ToString());
+
+			m_writer.WriteEndElement();
 		}
 	}
 }

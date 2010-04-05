@@ -3,15 +3,19 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-03-29 -->
+  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-02 -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="generalizeEnvironments" select="$options/xhtml:li[@class = 'generalizeEnvironments']" />
+	<xsl:variable name="generalizeItems" select="$options/xhtml:li[@class = 'generalizeItems']" />
+	<!-- TO DO: If these become properties of the individual chart, where would they go in the metadata? -->
 
 	<xsl:variable name="generalEnvironments">
     <xsl:choose>
-      <xsl:when test="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'view']/xhtml:li[@class = 'distribution chart']/xhtml:ul/xhtml:li[@class = 'generalizeEnvironments'] = 'true' and //xhtml:table[@class = 'distribution chart']/xhtml:thead/xhtml:tr/xhtml:th[contains(., '[')][following-sibling::xhtml:th[1][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]]">
+      <xsl:when test="$generalizeEnvironments = 'true' and //xhtml:table[@class = 'distribution chart']/xhtml:thead/xhtml:tr/xhtml:th[contains(., '[')][following-sibling::xhtml:th[1][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]]">
         <xsl:value-of select="'true'" />
       </xsl:when>
       <xsl:otherwise>
@@ -22,7 +26,7 @@ exclude-result-prefixes="xhtml"
 
   <xsl:variable name="generalItems">
     <xsl:choose>
-      <xsl:when test="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'view']/xhtml:li[@class = 'distribution chart']/xhtml:ul/xhtml:li[@class = 'generalizeItems'] = 'true' and //xhtml:table[@class = 'distribution chart']/xhtml:tbody/xhtml:tr[xhtml:th[contains(., '[')]][following-sibling::xhtml:tr[1][xhtml:th[not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]]]">
+      <xsl:when test="$generalizeItems = 'true' and //xhtml:table[@class = 'distribution chart']/xhtml:tbody/xhtml:tr[xhtml:th[contains(., '[')]][following-sibling::xhtml:tr[1][xhtml:th[not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]]]">
         <xsl:value-of select="'true'" />
       </xsl:when>
       <xsl:otherwise>

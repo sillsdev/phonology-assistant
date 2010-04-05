@@ -126,9 +126,13 @@
 			</xslt>
 		</pipeline>
 	</process>
-	<!-- Here are placeholders for processes for the Export command. -->
 	<process type="export" view="Data Corpus">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_options.xsl" />
+				</input>
+			</xslt>
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_list_2a_sort.xsl" />
@@ -151,9 +155,72 @@
 			</xslt>
 		</pipeline>
 	</process>
-	<process type="export" view="Search" />
+	<process type="export" view="Search">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_options.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_1a_minimal_pairs_omit.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_1b_minimal_pairs_split.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_1c_minimal_pairs_similar.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2a_sort.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2b_sort_manner.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2c_sort_place.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_2d_sort.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_3a_minimal_pairs_merge.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_3b_minimal_pairs_differences.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_list_3c_minimal_pairs.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
 	<process type="export" view="CV Chart">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_options.xsl" />
+				</input>
+			</xslt>
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_CV_chart_1a.xsl" />
@@ -185,6 +252,11 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
+					<document href="phonology_export_options.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
 					<document href="phonology_export_view_distribution_chart_generalize_1.xsl" />
 				</input>
 			</xslt>
@@ -200,6 +272,24 @@
 			</xslt>
 		</pipeline>
 	</process>
+	<process type="export" format="CSS">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_to_CSS.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
+	<process type="export" format="Word 2003 XML">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_to_Word_2003_XML.xsl" />
+				</input>
+			</xslt>
+		</pipeline>
+	</process>
 	<process type="export" format="XHTML">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
@@ -207,20 +297,6 @@
 					<document href="phonology_export_view_to_XHTML.xsl" />
 				</input>
 			</xslt>
-			<!--
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_project_formatting_to_CSS.xsl" />
-				</input>
-			</xslt>
-			-->
 		</pipeline>
-		<!-- TO DO: enclose pipeline postprocessing in a generic element? -->
-		<!-- TO DO: Is Tidy an exec step in the pipeline or does it follow the pipeline? -->
-		<!--
-		<tidy config="output_to_XHTML_Strict.tidy" />
-		-->
 	</process>
-	<process type="export" format="CSS" />
-	<process type="export" format="Word_2003_XML" />
 </processing>

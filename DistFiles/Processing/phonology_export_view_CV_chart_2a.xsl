@@ -3,15 +3,20 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a.xsl 2010-03-29 -->
+  <!-- phonology_export_view_CV_chart_2a.xsl 2010-04-03 -->
+	<!-- Convert from list to table with column groups, columns, row groups, and rows. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="hyphenateColumnHeadings" select="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'view']/xhtml:li[@class = 'CV chart']/xhtml:ul/xhtml:li[@class = 'hyphenateColumnHeadings']" />
-	<xsl:variable name="view" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view']" />
+	
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="hyphenateColumnHeadings" select="$options/xhtml:li[@class = 'hyphenatedColumnHeadings']" />
 
-  <xsl:variable name="colA">
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+
+	<xsl:variable name="colA">
     <xsl:choose>
       <xsl:when test="$view = 'Consonant Chart'">
         <xsl:value-of select="'Voiceless'" />

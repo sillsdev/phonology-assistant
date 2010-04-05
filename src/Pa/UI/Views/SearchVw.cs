@@ -1645,18 +1645,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!m_activeView)
-				return false;
-
-			string outputFileName = m_rsltVwMngr.HTMLExport();
-
-			if (outputFileName == null)
-				return false;
-
-			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
-
-			return true;
+			return (m_activeView && m_rsltVwMngr.HTMLExport() != null);
 		}
 
 		/// ------------------------------------------------------------------------------------

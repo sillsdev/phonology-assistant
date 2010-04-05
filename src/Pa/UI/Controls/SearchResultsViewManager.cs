@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -1554,8 +1556,22 @@ namespace SIL.Pa.UI.Controls
 				Properties.Resources.kstidSearchResultHTMLFileName,
 				App.Project.LanguageName, queryName);
 
-			return HTMLGridWriter.Export(grid, defaultHTMLFileName,
-				new[] { queryName, grid.Cache.SearchQuery.Pattern });
+			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
+
+			if (outputFileName == null)
+				return null;
+
+			if (SearchResultExporter.Process(App.Project, outputFileName, grid) &&
+				File.Exists(outputFileName) && Settings.Default.OpenHTMLSearchResultAfterExport)
+			{
+				Process.Start(outputFileName);
+			}
+
+			return outputFileName;
 		}
 
 		#endregion

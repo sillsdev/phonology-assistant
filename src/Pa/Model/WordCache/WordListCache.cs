@@ -705,14 +705,16 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets AdvSortOrder.
+		/// Gets or sets AdvSortOrder. This array holds three items. 0 = preceding environment,
+		/// 1 = search item, and 2 = following environment.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public int[] AdvSortOrder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets AdvRlOptions.
+		/// Gets or sets AdvRlOptions. This array holds three items. 0 = preceding environment,
+		/// 1 = search item, and 2 = following environment.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool[] AdvRlOptions { get; set; }
@@ -733,6 +735,75 @@ namespace SIL.Pa.Model
 			}
 			set { m_sortInfoList = value; }
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets 0 when the preceding environment is sorted first in the advanced search
+		///// option order, 1 when it is second, and 2 when it is third. When advanced sorting
+		///// is not enabled, return -1.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public int PrecedingEnvironmentsAdvOrder
+		//{
+		//    get { return (AdvancedEnabled ? AdvSortOrder[0] : -1); }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets 0 when the search item is sorted first in the advanced search option
+		///// order, 1 when it is second, and 2 when it is third. When advanced sorting
+		///// is not enabled, return -1.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public int SearchItemAdvOrder
+		//{
+		//    get { return (AdvancedEnabled ? AdvSortOrder[1] : -1); }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets 0 when the following environment is sorted first in the advanced search
+		///// option order, 1 when it is second, and 2 when it is third. When advanced sorting
+		///// is not enabled, return -1.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public int FollowingEnvironmentsAdvOrder
+		//{
+		//    get { return (AdvancedEnabled ? AdvSortOrder[2] : -1); }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a value indicating whether or not (when advanced sorting is enabled) the
+		///// preceding environment is sorted right-to-left.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool IsPrecedingEnvironmentsSortedRtoL
+		//{
+		//    get { return (AdvancedEnabled && AdvRlOptions[0]); }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a value indicating whether or not (when advanced sorting is enabled) the
+		///// search item is sorted right-to-left.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool IsSearchItemSortedRtoL
+		//{
+		//    get { return (AdvancedEnabled && AdvRlOptions[1]); }
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a value indicating whether or not (when advanced sorting is enabled) the
+		///// following environment is sorted right-to-left.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public bool FollowingEnvironmentsSortedRtoL
+		//{
+		//    get { return (AdvancedEnabled && AdvRlOptions[2]); }
+		//}
 	}
 
 	#endregion

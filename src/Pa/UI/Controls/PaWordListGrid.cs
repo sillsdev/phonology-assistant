@@ -650,6 +650,16 @@ namespace SIL.Pa.UI.Controls
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the column that's marked as the phonetic column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public DataGridViewColumn PhoneticColumn
+		{
+			get { return (Columns.Contains(m_phoneticColName) ? Columns[m_phoneticColName] : null); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// This gets assigned to a new font when the grid is grouped by a field or minimal
 		/// pairs. When the grid is ungrouped, then it gets disposed.
 		/// </summary>

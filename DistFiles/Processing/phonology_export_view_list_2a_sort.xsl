@@ -3,32 +3,40 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2010-03-29 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-05 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
 
   <!-- Important: If the input is from any other view, copy it with no changes. -->
 
 	<!-- TO DO: Select phonetic/phonological units. -->
+	<!-- TO DO: phoneticSortOrder for minimal pairs, even if not interactiveWebPage. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
+	<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
 
 	<!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, lists grouped by minimal pairs. -->
   <!-- That is, omit the options only in a list with generic groups for which Phonetic is not the primary sort field. -->
 	<xsl:variable name="phoneticSortOrder">
-    <xsl:if test="//xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
-      <xsl:variable name="primarySortFieldName" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
-      <xsl:if test="$primarySortFieldName = 'Phonetic' or //xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])] or //xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
-        <xsl:value-of select="'true'" />
-      </xsl:if>
-    </xsl:if>
-  </xsl:variable>
-	<xsl:variable name="phoneticSortOption" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSortOption']" />
+		<xsl:if test="$minimalPairs or ($options/xhtml:li[@class = 'format'] = 'XHTML' and $options/xhtml:li[@class = 'interactiveWebPage'] = 'true')">
+			<xsl:if test="//xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
+				<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
+				<xsl:if test="$primarySortFieldName = 'Phonetic' or //xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])] or //xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
+					<xsl:value-of select="'true'" />
+				</xsl:if>
+			</xsl:if>
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
 
   <!-- A project phonetic inventory file contains digits for sort keys. -->
-	<xsl:variable name="projectFolder" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'projectFolder']" />
-	<xsl:variable name="projectPhoneticInventoryFile" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
+	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
+	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
 	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
 	
@@ -42,16 +50,16 @@ exclude-result-prefixes="xhtml"
   </xsl:variable>
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
   <!-- Insert a metadata setting for the rest of the transformations. -->
-  <xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'settings']">
+  <xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'sorting']">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
       <xsl:if test="$phoneticSortOrder = 'true'">
         <li class="phoneticSortOrder" xmlns="http://www.w3.org/1999/xhtml">
           <xsl:value-of select="$phoneticSortOrder" />
@@ -60,16 +68,16 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <!-- Apply or ignore this transformation. -->
+  <!-- Apply or ignore transformations. -->
   <xsl:template match="xhtml:table[@class = 'list']">
     <xsl:choose>
       <xsl:when test="$phoneticSortOrder = 'true'">
         <xsl:copy>
-          <xsl:apply-templates select="@*|node()" />
+          <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
       </xsl:when>
       <xsl:otherwise>
-        <!-- To ignore all of the following rules, copy instead of apply templates. -->
+        <!-- To ignore the following rules, copy instead of apply-templates. -->
         <xsl:copy-of select="." />
       </xsl:otherwise>
     </xsl:choose>
@@ -155,7 +163,7 @@ exclude-result-prefixes="xhtml"
 							<xsl:value-of select="'leftToRight'" />
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[@class = $class]" />
+							<xsl:value-of select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[@class = $class]" />
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
@@ -182,7 +190,7 @@ exclude-result-prefixes="xhtml"
 							<xsl:value-of select="'leftToRight'" />
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[@class = $class]" />
+							<xsl:value-of select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol/xhtml:li[@class = $class]" />
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>

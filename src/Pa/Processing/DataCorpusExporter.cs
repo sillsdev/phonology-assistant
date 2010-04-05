@@ -29,7 +29,7 @@ namespace SIL.Pa.Processing
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private DataCorpusExporter(PaProject project, string outputFileName, DataGridView grid)
+		public DataCorpusExporter(PaProject project, string outputFileName, DataGridView grid)
 			: base(project, outputFileName, grid)
 		{
 		}
@@ -72,15 +72,19 @@ namespace SIL.Pa.Processing
 		protected override void WriteMeatadataSortInformation()
 		{
 			var grid = m_grid as PaWordListGrid;
-
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "ul", "class", "sorting");
+			WriteFieldSortOrder(grid);
+			WriteMeatadataPhoneticSortOptions(grid);
+			m_writer.WriteEndElement();
+		}
 
-			if (grid.SortOptions.SortInformationList != null &&
-				grid.SortOptions.SortInformationList.Count > 0)
-			{
-				WriteFieldSortOrder(grid);
-			}
-
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteMeatadataPhoneticSortOptions(PaWordListGrid grid)
+		{
 			if (grid.SortOptions.SortType != Model.PhoneticSortType.Unicode)
 			{
 				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "phoneticSortOption");
@@ -88,8 +92,6 @@ namespace SIL.Pa.Processing
 					"mannerOfArticulation" : "placeOfArticulation");
 				m_writer.WriteEndElement();
 			}
-
-			m_writer.WriteEndElement();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,6 +101,12 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		private void WriteFieldSortOrder(PaWordListGrid grid)
 		{
+			if (grid.SortOptions.SortInformationList == null ||
+				grid.SortOptions.SortInformationList.Count == 0)
+			{
+				return;
+			}
+
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "fieldOrder");
 			m_writer.WriteStartElement("ol");
 

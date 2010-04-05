@@ -1436,41 +1436,30 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			string outputFileName;
 			object objForExport = ObjectForHTMLExport;
 
 			// Determine whether to export the XY Chart or a search result word list.
 			if (!(objForExport is XYGrid))
-				outputFileName = m_rsltVwMngr.HTMLExport();
-			else
-			{
-				string defaultHTMLFileName = string.Format(Properties.Resources.kstidXYChartHTMLFileName,
-					App.Project.LanguageName, m_xyGrid.ChartName);
+				return (m_rsltVwMngr.HTMLExport() != null);
 
-				defaultHTMLFileName = defaultHTMLFileName.Replace(" ", string.Empty);
+			string defaultHTMLFileName = string.Format(Properties.Resources.kstidXYChartHTMLFileName,
+				App.Project.LanguageName, m_xyGrid.ChartName);
 
-				string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
+			defaultHTMLFileName = defaultHTMLFileName.Replace(" ", string.Empty);
 
-				int filterIndex = 0;
-				outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-					App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
-			}
+			string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
 
 			if (outputFileName == null)
 				return false;
 
-			if (!(objForExport is XYGrid))
+			if (DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid) &&
+				File.Exists(outputFileName) && Settings.Default.OpenHTMLDistChartAfterExport)
 			{
-				if (File.Exists(outputFileName))
-					LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
-			}
-			else
-			{
-				if (DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid) &&
-					File.Exists(outputFileName) && Settings.Default.OpenHTMLDistChartAfterExport)
-				{
-					Process.Start(outputFileName);
-				}
+				Process.Start(outputFileName);
 			}
 
 			return true;

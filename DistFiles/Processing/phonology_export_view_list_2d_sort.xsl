@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2d_sort.xsl 2010-03-29 -->
+  <!-- phonology_export_view_list_2d_sort.xsl 2010-04-03 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column. -->
 
   <!-- Important: If the input is from any other view, copy it with no changes. -->
@@ -11,14 +11,18 @@ exclude-result-prefixes="xhtml"
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="phoneticSortOrder" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'phoneticSortOrder']" />
-	<xsl:variable name="phoneticSortOption" select="$metadata/xhtml:ul[@class = 'settings']/xhtml:li[@class = 'phoneticSortOption']" />
-	<xsl:variable name="fieldOrderPhonetic" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = 'Phonetic']" />
+	<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
+	<xsl:variable name="phoneticSortOrder" select="$sorting/xhtml:li[@class = 'phoneticSortOrder']" />
+	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
+	<xsl:variable name="fieldOrderPhonetic" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = 'Phonetic']" />
 
-  <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+
+	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -53,7 +57,7 @@ exclude-result-prefixes="xhtml"
   <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody">
     <xsl:variable name="phoneticFieldClass">
       <xsl:choose>
-        <xsl:when test="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view'] = 'Search'">
+        <xsl:when test="$view = 'Search'">
           <xsl:value-of select="'Phonetic item'" />
         </xsl:when>
         <xsl:otherwise>
@@ -61,18 +65,18 @@ exclude-result-prefixes="xhtml"
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="order" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
+    <xsl:variable name="order" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
       <xsl:apply-templates select="xhtml:tr[@class = 'heading']" />
       <xsl:choose>
-        <xsl:when test="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title != 'Phonetic'">
+        <xsl:when test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title != 'Phonetic'">
           <!-- If primary sort order was not Phonetic, sort by exported order. -->
           <xsl:apply-templates select="xhtml:tr[not(@class = 'heading')]">
             <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'exported']" />
           </xsl:apply-templates>
         </xsl:when>
-        <xsl:when test="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
+        <xsl:when test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
           <!-- If the primary sort order was Phonetic, manner of articulation. -->
           <xsl:choose>
             <xsl:when test="$order = 'descending'">
