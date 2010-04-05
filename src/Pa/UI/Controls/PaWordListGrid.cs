@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -176,7 +177,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetFwRootDataDir()
 		{
-			string key = Model.FwDBAccessInfo.FwRegKey;
+			string key = FwDBAccessInfo.FwRegKey;
 			if (string.IsNullOrEmpty(key))
 				return null;
 
@@ -185,7 +186,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (regKey != null)
 				{
-					return regKey.GetValue(Model.FwDBAccessInfo.RootDataDirValue, null)
+					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null)
 						as string;
 				}
 			}
@@ -690,6 +691,17 @@ namespace SIL.Pa.UI.Controls
 		{
 			get { return m_allGroupsExpanded; }
 			set { m_allGroupsExpanded = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the number of groups in a grouped word list. If the word list is not grouped,
+		/// then zero is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public int GroupCount
+		{
+			get { return Rows.Cast<DataGridViewRow>().Count(x => x is SilHierarchicalGridRow); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -3539,11 +3551,12 @@ namespace SIL.Pa.UI.Controls
 			// of them are expanded. If so, set AllGroupsCollapsed to false.
 			AllGroupsCollapsed = true;
 			AllGroupsExpanded = true;
-			foreach (DataGridViewRow dgvRow in Rows)
+			foreach (DataGridViewRow rw in Rows)
 			{
-				if (dgvRow is SilHierarchicalGridRow)
+				var shgr = rw as SilHierarchicalGridRow;
+				if (shgr != null)
 				{
-					if ((dgvRow as SilHierarchicalGridRow).Expanded)
+					if (shgr.Expanded)
 					{
 						AllGroupsCollapsed = false;
 						if (!AllGroupsExpanded)
