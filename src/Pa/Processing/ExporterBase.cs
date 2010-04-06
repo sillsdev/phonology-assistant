@@ -42,9 +42,10 @@ namespace SIL.Pa.Processing
 
 		protected XmlWriter m_writer;
 		protected DataGridView m_grid;
-		protected readonly int m_leftColSpanForGroupedList;
-		protected readonly int m_rightColSpanForGroupedList;
+		protected int m_leftColSpanForGroupedList;
+		protected int m_rightColSpanForGroupedList;
 		protected readonly string m_groupedFieldName;
+		protected readonly bool m_isGridGrouped;
 		protected readonly PaProject m_project;
 		protected readonly OutputFormat m_outputFormat;
 		protected readonly string m_outputFileName;
@@ -54,14 +55,19 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExporterBase(PaProject project, string outputFileName, DataGridView grid)
+		public ExporterBase(PaProject project, string outputFileName, DataGridView dgrid)
 		{
 			m_project = project;
 			m_outputFileName = outputFileName;
-			m_grid = grid;
+			m_grid = dgrid;
 			m_outputFormat = OutputFormat.XHTML;
 
-			if (IsGridGrouped)
+			var grid = m_grid as PaWordListGrid;
+
+			m_isGridGrouped = (grid != null && grid.IsGroupedByField && grid.GroupByColumn != null &&
+					grid.Columns[0] is SilHierarchicalGridColumn);
+
+			if (m_isGridGrouped)
 			{
 				int groupByColIndex = ((PaWordListGrid)m_grid).GroupByColumn.DisplayIndex;
 
@@ -77,21 +83,6 @@ namespace SIL.Pa.Processing
 
 				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(
 					((PaWordListGrid)m_grid).GroupByField.DisplayText);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool IsGridGrouped
-		{
-			get
-			{
-				var grid = m_grid as PaWordListGrid;
-				return (grid != null && grid.IsGroupedByField && grid.GroupByColumn != null &&
-					grid.Columns[0] is SilHierarchicalGridColumn);
 			}
 		}
 
@@ -393,9 +384,9 @@ namespace SIL.Pa.Processing
 			}
 			
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"numberOfRecords", App.WordCache.Count.ToString());
+				"numberOfRecords", ((PaWordListGrid)m_grid).Cache.Count.ToString());
 
-			if (IsGridGrouped && ((PaWordListGrid)m_grid).GroupCount > 0)
+			if (m_isGridGrouped && ((PaWordListGrid)m_grid).GroupCount > 0)
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
 					"numberOfGroups", ((PaWordListGrid)m_grid).GroupCount.ToString());
@@ -469,22 +460,30 @@ namespace SIL.Pa.Processing
 		protected virtual void WriteTableHeadingContent()
 		{
 			foreach (var col in GetGridColumns())
+				WriteTableHeadingContentForColumn(col);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteTableHeadingContentForColumn(DataGridViewColumn col)
+		{
+			m_writer.WriteStartElement("th");
+
+			if (col is SilHierarchicalGridColumn)
 			{
-				m_writer.WriteStartElement("th");
-
-				if (col is SilHierarchicalGridColumn)
-				{
-					m_writer.WriteAttributeString("class", "group");
-					m_writer.WriteAttributeString("scope", "colgroup");
-				}
-				else
-				{
-					m_writer.WriteAttributeString("scope", "colgroup");
-					m_writer.WriteString(col.HeaderText);
-				}
-
-				m_writer.WriteEndElement();
+				m_writer.WriteAttributeString("class", "group");
+				m_writer.WriteAttributeString("scope", "colgroup");
 			}
+			else
+			{
+				m_writer.WriteAttributeString("scope", "colgroup");
+				m_writer.WriteString(col.HeaderText);
+			}
+
+			m_writer.WriteEndElement();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -494,12 +493,12 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableBody()
 		{
-			if (!IsGridGrouped)
+			if (!m_isGridGrouped)
 				m_writer.WriteStartElement("tbody");
 		
 			WriteTableBodyContent();
 
-			if (!IsGridGrouped)
+			if (!m_isGridGrouped)
 				m_writer.WriteEndElement();
 		}
 
@@ -512,7 +511,7 @@ namespace SIL.Pa.Processing
 		{
 			foreach (var row in GetGridRows())
 			{
-				if (IsGridGrouped && row is SilHierarchicalGridRow)
+				if (m_isGridGrouped && row is SilHierarchicalGridRow)
 				{
 					// Close previous group when not on first row.
 					if (row.Index > 0)
@@ -526,7 +525,7 @@ namespace SIL.Pa.Processing
 			}
 
 			// Close last group
-			if (IsGridGrouped)
+			if (m_isGridGrouped)
 				m_writer.WriteEndElement();
 		}
 
@@ -542,17 +541,25 @@ namespace SIL.Pa.Processing
 				"count", row.ChildCount.ToString());
 
 			WriteLeftColSpan();
+			WriteTableGroupHeadingGroupField(row);
+			WriteRightColSpan();
 
+			// Close tr
+			m_writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteTableGroupHeadingGroupField(SilHierarchicalGridRow row)
+		{
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "th", "class", m_groupedFieldName);
 			m_writer.WriteAttributeString("scope", "colgroup");
 			if (!string.IsNullOrEmpty(row.Text))
 				m_writer.WriteString(row.Text);
 			
-			m_writer.WriteEndElement();
-
-			WriteRightColSpan();
-
-			// Close tr
 			m_writer.WriteEndElement();
 		}
 
@@ -596,6 +603,10 @@ namespace SIL.Pa.Processing
 		protected virtual void WriteTableRow(DataGridViewRow row)
 		{
 			m_writer.WriteStartElement("tr");
+
+			if (m_isGridGrouped)
+				m_writer.WriteAttributeString("class", "data");
+
 			WriteTableRowContent(row);
 			m_writer.WriteEndElement();
 		}
@@ -607,16 +618,8 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableRowContent(DataGridViewRow row)
 		{
-			if (row is SilHierarchicalGridRow)
-			{
-				m_writer.WriteAttributeString("class", "data");
-				m_writer.WriteElementString("td", null);
-			}
-			else
-			{
-				foreach (var col in GetGridColumns())
-					WriteTableRowCell(row, col);
-			}
+			foreach (var col in GetGridColumns())
+				WriteTableRowCell(row, col);
 		}
 
 		/// ------------------------------------------------------------------------------------

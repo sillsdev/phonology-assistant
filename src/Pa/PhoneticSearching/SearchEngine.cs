@@ -155,7 +155,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// slashes and underscores that may be part of feature names (e.g. Tap/Flap).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string[] GetPatternPieces(string pattern)
+		public static string[] GetPatternPieces(string pattern)
 		{
 			// Replace slashes and underscores that occur between square brackets with tokens
 			// that are replaced with the slashes and underscores after the pattern is split up.
@@ -184,7 +184,7 @@ namespace SIL.Pa.PhoneticSearching
 				}
 
 				// Split up the pattern into it's pieces. Three pieces are expected.
-				string[] pieces = bldr.ToString().Split(new[] { '/', '_' });
+				string[] pieces = bldr.ToString().Split('/', '_');
 
 				// Now go through the pieces and put back any slashes
 				// or undersores that were replace by tokens above.

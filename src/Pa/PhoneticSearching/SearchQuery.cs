@@ -17,25 +17,25 @@ namespace SIL.Pa.PhoneticSearching
 	{
 		private const float kCurrVersion = 2.0f;
 
-		public static string s_defaultIgnoredStressChars = null;
-		public static string s_defaultIgnoredToneChars = null;
-		public static string s_defaultIgnoredLengthChars = null;
+		public static string s_defaultIgnoredStressChars;
+		public static string s_defaultIgnoredToneChars;
+		public static string s_defaultIgnoredLengthChars;
 
 		private string m_name;
-		private int m_id = 0;
+		private int m_id;
 		private string m_pattern;
 		private bool m_showAllOccurrences = true;
-		private bool m_includeAllUncertainPossibilities = false;
-		private bool m_ignoreDiacritics = false;
+		private bool m_includeAllUncertainPossibilities;
+		private bool m_ignoreDiacritics;
 		private string m_ignoredStressChars = DefaultIgnoredStressChars;
 		private string m_ignoredToneChars = DefaultIgnoredToneChars;
 		private string m_ignoredLengthChars = DefaultIgnoredLengthChars;
-		private bool m_patternOnly = false;
+		private bool m_patternOnly;
 		private string m_category;
 		private List<string> m_ignoredStressList;
 		private List<string> m_ignoredToneList;
 		private List<string> m_ignoredLengthList;
-		private bool m_isPatternRegExp = false;
+		private bool m_isPatternRegExp;
 
 		private List<string> m_errors = new List<string>();
 
@@ -155,7 +155,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (m_isPatternRegExp)
 			{
-				string[] patternParts = m_pattern.Split(new char[] { App.kOrc });
+				string[] patternParts = m_pattern.Split(App.kOrc);
 
 				if (patternParts.Length == 3)
 					return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
@@ -175,7 +175,7 @@ namespace SIL.Pa.PhoneticSearching
 		[XmlIgnore]
 		public List<string> ErrorMessages
 		{
-			get { return (m_errors != null ? m_errors : (m_errors = new List<string>())); }
+			get { return (m_errors ?? (m_errors = new List<string>())); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ namespace SIL.Pa.PhoneticSearching
 		public float Version
 		{
 			get { return kCurrVersion; }
-			set { ; }
+			set { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -237,6 +237,48 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get { return m_isPatternRegExp; }
 			set { m_isPatternRegExp = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string PrecedingEnvironment
+		{
+			get
+			{
+				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				return (pieces.Length == 3 ? pieces[1] : string.Empty);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string SearchItem
+		{
+			get
+			{
+				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				return (pieces.Length == 3 ? pieces[0] : string.Empty);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string FollowingEnvironment
+		{
+			get
+			{
+				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				return (pieces.Length == 3 ? pieces[2] : string.Empty);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
