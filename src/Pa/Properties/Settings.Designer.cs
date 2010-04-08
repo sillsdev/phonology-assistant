@@ -280,5 +280,14 @@ namespace SIL.Pa.Properties {
                 return ((bool)(this["KeepIntermediateSearchResultExportFile"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepIntermediateProjectCssXHTMLFile {
+            get {
+                return ((bool)(this["KeepIntermediateProjectCssXHTMLFile"]));
+            }
+        }
     }
 }

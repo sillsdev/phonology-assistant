@@ -185,7 +185,7 @@ namespace SIL.Pa.Filters
 			App.RecordCache.BuildWordCache(App.ProgressBar);
 			App.UninitializeProgressBar();
 
-			App.MsgMediator.SendMessage("DataSourcesModified", App.Project.ProjectFileName);
+			App.MsgMediator.SendMessage("DataSourcesModified", App.Project.FileName);
 			App.MsgMediator.SendMessage("FilterChanged", filter);
 		}
 

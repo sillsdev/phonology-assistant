@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-03-27
+﻿// phonology.js 2010-04-06
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // Requires jQuery 1.3 or later.
 
@@ -42,7 +42,7 @@ function readyList() {
 		if (hasGroups) {
 			$table.find("thead tr th.group")
 				.click(clickUpperLeftList)
-			.end().find("tbody.group tr.heading th:first") // Does first-child fail in Opera 10.51?
+			.end().find("tbody.group tr.heading th:first-child")
 				.click(clickGroupHeadingList);
 		}
 		$table.find("thead th.sortOptions")
@@ -211,36 +211,6 @@ function matchPhonesForSelectedEnvironmentsCV($environment) {
 		if ($.inArray(environment, phoneEnvironments) < 0)
 			$phone.addClass("notInEnvironment");
 	});
-	
-	var $list = $listOfEnvironments.parent().find("table.list");
-	if ($list.length === 1 && $list.find("tbody.group tr.heading th.pair").length !== 0) {
-		$list.find("tbody.group").each(function () {
-			var $group = $(this);
-			var preceding = $group.find("tr.heading th.preceding").text();
-			var following = $group.find("tr.heading th.following").text();
-			switch (environment) {
-			case "*_*":
-				$group.removeClass("notInEnvironment");
-				break;
-			case "#_*":
-				groupInEnvironment($group, preceding === '#');
-				break;
-			case "+_+":
-				groupInEnvironment($group, preceding !== '#' && following !== '#');
-				break;
-			case "*_#":
-				groupInEnvironment($group, following === '#');
-				break;
-			}
-		});
-	}
-}
-
-function groupInEnvironment($group, inEnvironment) {
-	if (inEnvironment)
-		$group.removeClass("notInEnvironment");
-	else
-		$group.addClass("notInEnvironment");
 }
 
 // =============================================================================

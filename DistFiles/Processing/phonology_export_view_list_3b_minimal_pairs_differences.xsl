@@ -19,6 +19,11 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
 
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
+	<xsl:variable name="interactiveWebPage">
+		<xsl:if test="$format = 'XHTML'">
+			<xsl:value-of select="$options/xhtml:li[@class = 'interactiveWebPage']" />
+		</xsl:if>
+	</xsl:variable>
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
@@ -30,7 +35,7 @@ exclude-result-prefixes="xhtml"
 	<!-- Apply or ignore transformations. -->
 	<xsl:template match="xhtml:table[@class = 'list']">
 		<xsl:choose>
-			<xsl:when test="$format = 'XHTML'">
+			<xsl:when test="$interactiveWebPage = 'true'">
 				<xsl:copy>
 					<xsl:apply-templates select="@* | node()" />
 				</xsl:copy>

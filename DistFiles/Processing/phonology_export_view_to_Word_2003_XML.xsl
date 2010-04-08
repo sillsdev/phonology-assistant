@@ -54,7 +54,6 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="options" select="$metadata/xhtml:div[@class = 'options']" />
 	<xsl:variable name="format_Word_2003_XML" select="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'format']/xhtml:li[@class = 'Word_2003_XML']/xhtml:ul" />
-	<xsl:variable name="details" select="$options/xhtml:ul[@class = 'view']/xhtml:li/xhtml:ul/xhtml:li[@class = 'details']" />
 	<xsl:variable name="orientation">
 		<xsl:choose>
 			<xsl:when test="$format_Word_2003_XML/xhtml:li[@class = 'orientation']">
@@ -83,6 +82,9 @@ exclude-result-prefixes="xhtml"
 	-->
 	<xsl:variable name="fileName" select="$format_Word_2003_XML/xhtml:li[@class = 'fileName']" />
 
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="researcher" select="$details/xhtml:li[@class = 'researcher']" />
+
 	<xsl:template match="/xhtml:html">
     <xsl:processing-instruction name="mso-application">progid="Word.Document"</xsl:processing-instruction>
     <!-- Use the xsl:attribute element instead of a literal xml:space attribute in the w:wordDocument element -->
@@ -95,14 +97,12 @@ exclude-result-prefixes="xhtml"
         <o:Title>
           <xsl:value-of select="xhtml:head/xhtml:title" />
         </o:Title>
-        <!--
-        <xsl:if test="xhtml:body//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'researcher']">
-          <o:Author>
-            <xsl:value-of select="xhtml:body//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'researcher']" />
-          </o:Author>
-        </xsl:if>
-        -->
-      </o:DocumentProperties>
+				<xsl:if test="string-length($researcher) != 0">
+					<o:Author>
+						<xsl:value-of select="$researcher" />
+					</o:Author>
+				</xsl:if>
+			</o:DocumentProperties>
       <xsl:call-template name="fonts">
         <xsl:with-param name="formatting" select="$formatting" />
       </xsl:call-template>

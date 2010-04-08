@@ -1560,16 +1560,13 @@ namespace SIL.Pa.UI.Controls
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
 			if (outputFileName == null)
 				return null;
 
-			if (SearchResultExporter.Process(App.Project, outputFileName, grid) &&
-				File.Exists(outputFileName) && Settings.Default.OpenHTMLSearchResultAfterExport)
-			{
-				Process.Start(outputFileName);
-			}
+			SearchResultExporter.Process(App.Project, outputFileName, grid,
+				Settings.Default.OpenHTMLSearchResultAfterExport);
 
 			return outputFileName;
 		}

@@ -13,7 +13,7 @@ namespace SIL.Pa.Processing
 	/// ----------------------------------------------------------------------------------------
 	public class Step
 	{
-		private readonly string m_xsltFilePath;
+		public string XsltFilePath { get; private set; }
 		private readonly XslCompiledTransform m_xslt;
 
 		/// ------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		private Step (string xsltFilePath, XslCompiledTransform xslt)
 		{
-			m_xsltFilePath = xsltFilePath;
+			XsltFilePath = xsltFilePath;
 			m_xslt = xslt;
 		}
 
@@ -95,7 +95,7 @@ namespace SIL.Pa.Processing
 			catch (Exception e)
 			{
 				var exception = new Exception("Unable to convert using XSL Transformation filter.", e);
-				exception.Data.Add("XSL Transformation file path", m_xsltFilePath);
+				exception.Data.Add("XSL Transformation file path", XsltFilePath);
 				throw exception;
 			}
 			finally

@@ -3,6 +3,7 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilUtils;
@@ -78,24 +79,28 @@ namespace SIL.Pa.Processing
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateIntermediateInventory();
 
-			if (Settings.Default.KeepIntermediateProjectInventoryFile)
-			{
-				var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
-				ProcessHelper.WriteStreamToFile(inputStream, intermediateFileName);
-			}
-
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
-			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-			var pipeline = Pipeline.Create(Pipeline.ProcessType.PrepareInventory,
-				processFileName, App.ProcessingFolder);
+			var pipeline = ProcessHelper.CreatePipline(Pipeline.ProcessType.PrepareInventory);
 
 			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)
 				return false;
 
-			// Kick off the processing and then save the results to a file.
+			var msg = LocalizationManager.LocalizeString("ProcessingPhoneInventoryMsg",
+				"Processing Phone Inventory",
+				"Message displayed whenever the phone inventory is built or updated.",
+				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+				LocalizationPriority.Medium);
+
+			App.InitializeProgressBar(string.Format(msg),
+				pipeline.ProcessingSteps.Count);
+
 			var outputFileName = m_project.ProjectInventoryFileName;
+
+			// Kick off the processing and then save the results to a file.
+			pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
 			pipeline.Transform(inputStream, outputFileName);
+			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
 			// This makes it all pretty, with proper indentation and line-breaking.
 			var doc = new XmlDocument();
@@ -103,9 +108,20 @@ namespace SIL.Pa.Processing
 			doc.Save(outputFileName);
 
 			UpdatePhoneInformation(outputFileName, m_phoneCache);
+			App.UninitializeProgressBar();
 			return true;
 		}
 		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
+		{
+			App.IncProgressBar();
+		}
+	
 		#region Methods for writing inventory file to send through the xslt processing
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -122,6 +138,12 @@ namespace SIL.Pa.Processing
 				WriteRoot(writer);
 				writer.Flush();
 				writer.Close();
+			}
+
+			if (Settings.Default.KeepIntermediateProjectInventoryFile)
+			{
+				var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
+				ProcessHelper.WriteStreamToFile(memStream, intermediateFileName);
 			}
 
 			return memStream;

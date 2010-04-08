@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilUtils;
@@ -239,6 +240,12 @@ namespace SIL.Pa.UI.Dialogs
 
 				App.Project.Save();
 				App.Project.InitializeFontHelperFonts();
+
+				// Since the fonts changed, delete the project's style sheet file. This will
+				// force it to be recreated the next time something is exported that needs it.
+				if (File.Exists(App.Project.CssFileName))
+					File.Delete(App.Project.CssFileName);
+
 				App.MsgMediator.SendMessage("PaFontsChanged", null);
 			}
 			catch {}

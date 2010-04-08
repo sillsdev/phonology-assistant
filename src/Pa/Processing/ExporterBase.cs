@@ -15,13 +15,17 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using SIL.Localization;
 using SIL.Pa.Filters;
+using SIL.Pa.Model;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -40,36 +44,61 @@ namespace SIL.Pa.Processing
 			WordXml
 		}
 
+		protected BackgroundWorker m_worker;
 		protected XmlWriter m_writer;
 		protected DataGridView m_grid;
 		protected int m_leftColSpanForGroupedList;
 		protected int m_rightColSpanForGroupedList;
+		protected string m_outputFileName;
+		protected readonly OutputFormat m_outputFormat;
+		protected readonly bool m_openAfterExport;
 		protected readonly string m_groupedFieldName;
+		protected readonly DataGridViewColumn m_groupByColumn;
+		protected readonly PaFieldInfo m_groupByField;
 		protected readonly bool m_isGridGrouped;
 		protected readonly PaProject m_project;
-		protected readonly OutputFormat m_outputFormat;
-		protected readonly string m_outputFileName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ExporterBase(PaProject project, string outputFileName, DataGridView dgrid)
+		protected ExporterBase(PaProject project)
 		{
 			m_project = project;
+
+			// Make sure the project has a style sheet file.
+			if (!(this is ProjectCssBuilder))
+				ProjectCssBuilder.Process(m_project);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected ExporterBase(PaProject project, string outputFileName, DataGridView dgrid,
+			bool openAfterExport) : this(project)
+		{
 			m_outputFileName = outputFileName;
 			m_grid = dgrid;
+			m_openAfterExport = openAfterExport;
 			m_outputFormat = OutputFormat.XHTML;
 
 			var grid = m_grid as PaWordListGrid;
+			if (grid == null)
+				return;
 
-			m_isGridGrouped = (grid != null && grid.IsGroupedByField && grid.GroupByColumn != null &&
-					grid.Columns[0] is SilHierarchicalGridColumn);
+			if (grid.Cache.IsCIEList)
+				m_groupByColumn = grid.PhoneticColumn;
+			else if (grid.IsGroupedByField)
+				m_groupByColumn = grid.GroupByColumn;
+
+			m_isGridGrouped = (grid.Columns[0] is SilHierarchicalGridColumn && m_groupByColumn != null);
 
 			if (m_isGridGrouped)
 			{
-				int groupByColIndex = ((PaWordListGrid)m_grid).GroupByColumn.DisplayIndex;
+				int groupByColIndex = m_groupByColumn.DisplayIndex;
 
 				// Subtract on at the end to account for the column containing the
 				// expand/collapse glyph. That doesn't count in the col. span.
@@ -81,11 +110,74 @@ namespace SIL.Pa.Processing
 						where x.Visible && x.DisplayIndex > groupByColIndex
 						select x).Count();
 
-				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(
-					((PaWordListGrid)m_grid).GroupByField.DisplayText);
+				m_groupByField = (grid.Cache.IsCIEList ? App.FieldInfo.PhoneticField :
+					((PaWordListGrid)m_grid).GroupByField);
+
+				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayText);
 			}
 		}
 
+		#region Processing methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool InternalProcess(bool keepIntermediateFile,
+			params Pipeline.ProcessType[] processTypes)
+		{
+			Debug.Assert(processTypes.Length > 0);
+
+			// Create a stream of xml data containing the phones in the project.
+			var inputStream = CreateXHTML(keepIntermediateFile);
+
+			var msg = LocalizationManager.LocalizeString("ExportProgressMsg", "Exporting (Step {0}):",
+				"Message displayed when exporting lists and charts.", App.kLocalizationGroupInfoMsg,
+				LocalizationCategory.GeneralMessage, LocalizationPriority.Medium);
+
+			MemoryStream outputStream = null;
+			int processingStep = 0;
+
+			foreach (var prsType in processTypes)
+			{
+				var pipeline = ProcessHelper.CreatePipline(prsType);
+
+				// REVIEW: Should we warn the user that this failed?
+				if (pipeline == null)
+					continue;
+
+				App.InitializeProgressBar(string.Format(msg, ++processingStep),
+					pipeline.ProcessingSteps.Count);
+				
+				// Kick off the processing and then save the results to a file.
+				pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
+				outputStream = pipeline.Transform(inputStream);
+				inputStream = outputStream;
+				pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
+			}
+
+			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName, false);
+	
+			if (File.Exists(m_outputFileName) && m_openAfterExport)
+				Process.Start(m_outputFileName);
+
+			App.UninitializeProgressBar();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
+		{
+			App.IncProgressBar();
+		}
+
+		#endregion
+
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -94,6 +186,16 @@ namespace SIL.Pa.Processing
 		protected virtual string Title
 		{
 			get { return "unknown title"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string Name
+		{
+			get { return null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,42 +233,24 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual bool InternalProcess(bool keepIntermediateFile,
-			params Pipeline.ProcessType[] processTypes)
+		protected virtual string CIEOption
 		{
-			System.Diagnostics.Debug.Assert(processTypes.Length > 0);
-	
-			// Create a stream of xml data containing the phones in the project.
-			var inputStream = CreateXHTML();
-
-			if (keepIntermediateFile)
-			{
-				var intermediateFileName = Path.ChangeExtension(m_outputFileName, "htm");
-				ProcessHelper.WriteStreamToFile(inputStream, intermediateFileName);
-			}
-
-			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
-			var processFileName = Path.Combine(App.ProcessingFolder, "Processing.xml");
-
-			MemoryStream outputStream = null;
-
-			foreach (var prsType in processTypes)
-			{
-				var pipeline = Pipeline.Create(prsType, processFileName, App.ProcessingFolder);
-
-				// REVIEW: Should we warn the user that this failed?
-				if (pipeline == null)
-					continue;
-
-				// Kick off the processing and then save the results to a file.
-				outputStream = pipeline.Transform(inputStream);
-				inputStream = outputStream;
-			}
-
-			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName, false);
-			return true;
+			get { return null; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string IntermediateFileName
+		{
+			get { return Path.ChangeExtension(m_outputFileName, "htm"); }
+		}
+
+		#endregion
+
+		#region Methods for getting the rows, columns and field info. for the grid
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -187,9 +271,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<DataGridViewRow> GetGridRows()
 		{
-			return from x in m_grid.Rows.Cast<DataGridViewRow>()
-				   where x.Visible && x.Index != m_grid.NewRowIndex
-				   select x;
+			return m_grid.Rows.Cast<DataGridViewRow>().Where(x => x.Index != m_grid.NewRowIndex);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -203,12 +285,14 @@ namespace SIL.Pa.Processing
 				yield return new KeyValuePair<string, Font>(col.HeaderText, col.DefaultCellStyle.Font);
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual MemoryStream CreateXHTML()
+		protected virtual MemoryStream CreateXHTML(bool writeStreamToDisk)
 		{
 			var memStream = new MemoryStream();
 
@@ -229,6 +313,9 @@ namespace SIL.Pa.Processing
 				m_writer.Flush();
 				m_writer.Close();
 			}
+
+			if (writeStreamToDisk)
+				ProcessHelper.WriteStreamToFile(memStream, IntermediateFileName);
 
 			return memStream;
 		}
@@ -288,38 +375,62 @@ namespace SIL.Pa.Processing
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "ul", "class", "options");
 
 			if (m_outputFormat == OutputFormat.WordXml)
-			{
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "format", "Word 2003 XML");
-
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "fileName", m_outputFileName);
-			}
+				WriteMetadataWordXMLOptions();
 			else if (m_outputFormat == OutputFormat.XHTML)
-			{
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "format", "XHTML");
+				WriteMetadataXHTMLOptions();
 
-				var prjPath = ProcessHelper.TerminateFolderPath(m_project.ProjectPath);
-				var usrPath = ProcessHelper.TerminateFolderPath(App.DefaultProjectFolder);
-				var uri = new Uri(prjPath);
-				var relativePath = uri.MakeRelativeUri(new Uri(usrPath)).ToString();
-				relativePath = relativePath.Replace("%20", " ");
+			m_writer.WriteEndElement();
+		}
 
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-					"genericRelativePath", relativePath);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteMetadataWordXMLOptions()
+		{
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+			"li", "class", "format", "Word 2003 XML");
 
-				// TODO: Correct this when I know what to do.
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
-					"specificRelativePath");
-				m_writer.WriteEndElement();
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "fileName", m_outputFileName);
+		}
 
-				var cssFileName = (m_project.Name).Replace(' ', '_') + ".css";
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-					"specificStylesheetFile", cssFileName);
-			}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteMetadataXHTMLOptions()
+		{
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "format", "XHTML");
 
-			// Close ul
+			var outPath = Path.GetDirectoryName(m_outputFileName);
+			WriteRelativePath("genericRelativePath", outPath, App.DefaultProjectFolder);
+			WriteRelativePath("specificRelativePath", outPath, Path.GetDirectoryName(m_project.CssFileName));
+
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
+				"specificStylesheetFile", Path.GetFileName(m_project.CssFileName));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void WriteRelativePath(string elementName, string path1, string path2)
+		{
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", elementName);
+
+			path1 = ProcessHelper.TerminateFolderPath(path1);
+			path2 = ProcessHelper.TerminateFolderPath(path2);
+			var uri = new Uri(path1);
+			var relativePath = uri.MakeRelativeUri(new Uri(path2)).ToString();
+			relativePath = relativePath.Replace("%20", " ");
+			if (relativePath != string.Empty)
+				m_writer.WriteString(relativePath);
+
 			m_writer.WriteEndElement();
 		}
 
@@ -374,13 +485,23 @@ namespace SIL.Pa.Processing
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
 					"li", "class", "filter", FilterHelper.CurrentFilter.Name);
 			}
-			
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class", "title", Title);
-			
+
+			if (View != Title && !string.IsNullOrEmpty(Title))
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "title", Title);
+			}
+
+			if (!string.IsNullOrEmpty(Name))
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "name", Name);
+			}
+
 			if (!string.IsNullOrEmpty(SearchPattern))
 			{
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-					"searchPattern", SearchPattern);
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "searchPattern", SearchPattern);
 			}
 			
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
@@ -392,20 +513,26 @@ namespace SIL.Pa.Processing
 					"numberOfGroups", ((PaWordListGrid)m_grid).GroupCount.ToString());
 			}
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"projectName", m_project.Name);
+			if (CIEOption != null)
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "minimalPairs", CIEOption);
+			}
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"languageName", m_project.LanguageName);
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "projectName", m_project.Name);
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"languageCode", m_project.LanguageCode);
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "languageName", m_project.LanguageName);
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"date", DateTime.Today.ToShortDateString());
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "languageCode", m_project.LanguageCode);
 
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"time", DateTime.Now.ToShortTimeString());
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "date", DateTime.Today.ToShortDateString());
+
+			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+				"li", "class", "time", DateTime.Now.ToShortTimeString());
 
 			// Close ul
 			m_writer.WriteEndElement();

@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-04-03 */
+﻿/* phonology.css 2010-04-06 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For rounded border properties. */
@@ -350,14 +350,6 @@ font-size: 75%;
 line-height: 1.1666;
 }
 
-/* Matching minimal pairs by phone or features ------------------------------ */
-
-table.list tbody.notInEnvironment,
-table.list tbody.unmatched
-{
-display: none;
-}
-
 /* List of phonetically similar phones -------------------------------------- */
 
 table.phoneticSimilarity thead th[colspan]
@@ -548,7 +540,7 @@ border-color: #dddddd; /* lighter border */
 
 ul.environments.interactive li.Phonetic.selected
 {
-background-color: #fffffc; /* #ffffff; /* background */
+background-color: #fffffc; /* background, see phonology_print.css */
 }
 
 table.list,
@@ -695,7 +687,6 @@ table.list tbody.collapsed *
 color: #999999; /* text collapsed */
 }
 
-/* table.list.pairs .pair.complementary span, */
 table.CV .notInEnvironment span
 {
 color: #99995c; /* rgb(153, 153, 92) hsv(60, 40, 60) not in environment */
@@ -712,7 +703,7 @@ color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
 
 body
 {
-background-color: #fffffc; /* #ffffff; /* background */
+background-color: #fffffc; /* background, see phonology_print.css */
 }
 
 table.details tbody tr.filter strong
@@ -724,7 +715,6 @@ background-color: #ffff00; /* important */
 table.list.interactive tr.heading th.pair[title=chart],
 */
 table.list .item,
-table.list th.pair > ul > li.matched span,
 table.CV.interactive td.Phonetic.matched,
 table.articulatory.interactive td.matched,
 table.features.interactive div.matched,
@@ -737,7 +727,6 @@ table.distribution .zero
 background-color: #ffffab; /* significant */
 }
 
-table.list.pairs .pair.complementary > ul > li,
 table.CV .notInEnvironment span
 {
 /* For background color property, see the phonology_CSS3.css file. */
@@ -746,7 +735,7 @@ table.CV .notInEnvironment span
 table.distribution td,
 table.distribution.nonZero .zero
 {
-background-color: #fffffc; /* #ffffff; /* background */
+background-color: #fffffc; /* background, see phonology_print.css */
 }
 
 table.distribution .error
@@ -821,7 +810,7 @@ table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and lat
 background-color: #a3cca3; /* active */
 }
 
-table.list th.pair > ul li:hover span,
+table.list.interactive th.pair > ul li:hover span,
 table.list th.pair div.differences,
 table.CV td.Phonetic > ul li:hover span,
 table.CV.interactive td.Phonetic.selected,

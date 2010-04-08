@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -1451,16 +1450,13 @@ namespace SIL.Pa.UI.Views
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
 			if (outputFileName == null)
 				return false;
 
-			if (DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid) &&
-				File.Exists(outputFileName) && Settings.Default.OpenHTMLDistChartAfterExport)
-			{
-				Process.Start(outputFileName);
-			}
+			DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid,
+				Settings.Default.OpenHTMLDistChartAfterExport);
 
 			return true;
 		}

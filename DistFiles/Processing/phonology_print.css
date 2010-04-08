@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-02-25 */
+﻿/* phonology_print.css 2010-04-06 */
 /* Print formatting for XHTML files exported from Phonology Assistant. */
 
 /* Typography =============================================================== */
@@ -19,3 +19,11 @@ page-break-inside: avoid;
 /*     Hex    R   G   B    H    S    V   Description          Meaning         */
 /* #000000    0   0   0    0°   0%   0%  black                text            */
 /* #ffffff  255 255 255    0°   0% 100%  white                background      */
+
+body,
+ul.environments.interactive li.Phonetic.selected,
+table.distribution td,
+table.distribution.nonZero .zero
+{
+background-color: #ffffff; /* background */
+}

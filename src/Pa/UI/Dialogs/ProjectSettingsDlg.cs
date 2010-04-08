@@ -476,10 +476,10 @@ namespace SIL.Pa.UI.Dialogs
 		protected override bool SaveChanges()
 		{
 			// Get a project file name if the project is new.
-			if (m_project.ProjectFileName == null)
+			if (m_project.FileName == null)
 			{
-				m_project.ProjectFileName = GetProjectFileName();
-				if (m_project.ProjectFileName == null)
+				m_project.FileName = GetProjectFileName();
+				if (m_project.FileName == null)
 					return false;
 			}
 

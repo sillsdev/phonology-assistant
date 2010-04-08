@@ -553,7 +553,7 @@ namespace SIL.Pa
 		{
 			m_reloadingProjectInProcess = true;
 			LoadDataSources();
-			App.MsgMediator.SendMessage("DataSourcesModified", ProjectFileName);
+			App.MsgMediator.SendMessage("DataSourcesModified", FileName);
 			m_reloadingProjectInProcess = false;
 		}
 
@@ -703,7 +703,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string ProjectPath
+		public string Folder
 		{
 			get	{return Path.GetDirectoryName(m_fileName);}
 		}
@@ -731,7 +731,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string ProjectFileName
+		public string FileName
 		{
 			get { return m_fileName; }
 			set
@@ -741,6 +741,16 @@ namespace SIL.Pa
 				if (m_fileName == null)
 					m_fileName = value;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the full path to the project's style sheet file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string CssFileName
+		{
+			get { return Path.Combine(Folder, Name.Replace(' ', '_') + ".css"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

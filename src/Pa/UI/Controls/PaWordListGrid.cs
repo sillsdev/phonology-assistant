@@ -546,7 +546,7 @@ namespace SIL.Pa.UI.Controls
 				return true;
 
 			// Check a path relative to the project file's path
-			if (TryToFindAudioFile(entry, audioFilePath, App.Project.ProjectPath))
+			if (TryToFindAudioFile(entry, audioFilePath, App.Project.Folder))
 				return true;
 			
 			// Check a path relative to the application's startup path

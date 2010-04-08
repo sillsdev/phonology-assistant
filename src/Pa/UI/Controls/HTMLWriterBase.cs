@@ -176,7 +176,7 @@ namespace SIL.Pa.UI.Controls
 
 			int filterIndex = 0;
 			return App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.ProjectPath);
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------

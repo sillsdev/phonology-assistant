@@ -21,9 +21,12 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, string outputFileName, XYGrid distChartGrid)
+		public static bool Process(PaProject project, string outputFileName,
+			XYGrid distChartGrid, bool openAfterExport)
 		{
-			var exporter = new DistributionChartExporter(project, outputFileName, distChartGrid);
+			var exporter = new DistributionChartExporter(project, outputFileName,
+				distChartGrid, openAfterExport);
+
 			return exporter.InternalProcess(
 				Settings.Default.KeepIntermediateDistributionChartExportFile,
 				Pipeline.ProcessType.ExportDistributionChart, Pipeline.ProcessType.ExportToXHTML);
@@ -34,8 +37,9 @@ namespace SIL.Pa.Processing
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private DistributionChartExporter(PaProject project, string outputFileName, DataGridView distChartGrid)
-			: base(project, outputFileName, distChartGrid)
+		private DistributionChartExporter(PaProject project, string outputFileName,
+			DataGridView distChartGrid, bool openAfterExport)
+			: base(project, outputFileName, distChartGrid, openAfterExport)
 		{
 		}
 
@@ -51,6 +55,16 @@ namespace SIL.Pa.Processing
 				return (string.IsNullOrEmpty(((XYGrid)m_grid).ChartName) ?
 					"Distribution Chart" : ((XYGrid)m_grid).ChartName);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string Name
+		{
+			get { return ((XYGrid)m_grid).ChartName; }
 		}
 
 		/// ------------------------------------------------------------------------------------

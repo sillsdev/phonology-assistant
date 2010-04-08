@@ -3,11 +3,13 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-05 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-06 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
 
+	<!-- Phonology Assistant interprets indent="yes" to mean insert line breaks in the output but omit indentation. -->
+	<!-- Assume that the input contains no unnecessary white space. If it might, uncomment strip-space and preserve-space.  -->
   <!--
   <xsl:strip-space elements="*" />
   <xsl:preserve-space elements="xhtml:h1 xhtml:h2 xhtml:h3 xhtml:h4 xhtml:p xhtml:span xhtml:a xhtml:cite xhtml:em xhtml:strong" />
@@ -17,6 +19,10 @@ exclude-result-prefixes="xhtml"
 	
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
+	<xsl:variable name="researcher" select="$details/xhtml:li[@class = 'researcher']" />
+
+	<xsl:variable name="formatting" select="$metadata/xhtml:table[@class = 'formatting']" />
+	<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
 
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="interactiveWebPage" select="$options/xhtml:li[@class = 'interactiveWebPage']" />
@@ -27,7 +33,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="specificRelativePath" select="$options/xhtml:li[@class = 'specificRelativePath']" />
   <xsl:variable name="specificStylesheetFile" select="$options/xhtml:li[@class = 'specificStylesheetFile']" />
 
-	<xsl:variable name="nonBreakingSpaceInEmptyTableCells" select="'true'" />
+	<xsl:variable name="nonBreakingSpaceInEmptyTableCell" select="'true'" />
 	<!-- TO DO: title, heading, p elements also? -->
 
 	<xsl:param name="langDefault" select="'en'" />
@@ -38,9 +44,9 @@ exclude-result-prefixes="xhtml"
   <xsl:param name="phonologyScriptFile" select="'phonology.js'" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -63,20 +69,18 @@ exclude-result-prefixes="xhtml"
 				<title>
           <xsl:value-of select="xhtml:head/xhtml:title" />
         </title>
-				<!--
-        <xsl:if test="$details/xhtml:li[@class = 'researcher']">
-          <meta name="author" content="{$details/xhtml:li[@class = 'researcher']}" />
-        </xsl:if>
-				-->
-        <link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFile)}" media="all" />
+				<xsl:if test="string-length($researcher) != 0">
+					<meta name="author" content="{$researcher}" />
+				</xsl:if>
+				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFile)}" media="all" />
 				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetPrintFile)}" media="print" />
 				<xsl:choose>
           <xsl:when test="string-length($specificStylesheetFile) != 0">
             <link rel="stylesheet" type="text/css" href="{concat($specificRelativePath, $specificStylesheetFile)}" />
           </xsl:when>
-          <xsl:when test="$metadata/xhtml:table[@class = 'formatting']">
-            <xsl:call-template name="internalStylesheet">
-              <xsl:with-param name="formatting" select="$metadata/xhtml:table[@class = 'formatting']" />
+					<xsl:when test="$formatting">
+						<xsl:call-template name="internalStylesheet">
+              <xsl:with-param name="formatting" select="$formatting" />
             </xsl:call-template>
           </xsl:when>
         </xsl:choose>
@@ -94,29 +98,24 @@ exclude-result-prefixes="xhtml"
     </html>
   </xsl:template>
 
-	<!-- TO DO: Some of the steps for views need to use options, so this step does not need to remove elements! -->
-
-	<!-- Add cellspacing attribute to tables for Internet Explorer 7 and earlier. -->
+	<!-- Internet Explorer 7 and earlier require a cellspacing attribute for tables, -->
+	<!-- because they do not implement the border-spacing property in CSS. -->
   <xsl:template match="xhtml:table">
-    <xsl:choose>
-      <!-- If not interactiveWebPage, omit tables of features. -->
-      <xsl:when test="($interactiveWebPage = 'false') and (@class = 'articulatory features' or @class = 'binary features' or @class = 'hierarchical features')" />
-      <xsl:otherwise>
-        <xsl:copy>
-          <xsl:apply-templates select="@*" />
-          <xsl:attribute name="cellspacing">
-            <xsl:value-of select="0" />
-          </xsl:attribute>
-          <xsl:apply-templates />
-        </xsl:copy>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:if test="not(@cellspacing)">
+				<xsl:attribute name="cellspacing">
+					<xsl:value-of select="0" />
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
 
-  <!-- Insert a class for sorting in column headings of lists. -->
+  <!-- Insert a class for sorting in column headings of some lists. -->
   <xsl:template match="xhtml:table[@class = 'list']/xhtml:thead//xhtml:th">
     <xsl:variable name="fieldName" select="." />
-    <xsl:variable name="primarySortFieldName" select="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
+    <xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
     <xsl:copy>
       <xsl:variable name="classThatIsTheSumOfTheParts">
         <xsl:if test="$fieldName = $primarySortFieldName">
@@ -129,13 +128,13 @@ exclude-result-prefixes="xhtml"
             <xsl:if test="$primarySortFieldName = 'Phonetic' or ancestor::xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])]">
 							<xsl:if test="not($minimalPairs)">
 								<xsl:value-of select="' sortOptions'" />
-								<xsl:if test="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
+								<xsl:if test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
 									<xsl:value-of select="' mannerOfArticulation'" />
 								</xsl:if>
 							</xsl:if>
             </xsl:if>
           </xsl:if>
-          <xsl:if test="$metadata/xhtml:ul[@class = 'sorting']/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
+          <xsl:if test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
             <xsl:value-of select="' descending'" />
           </xsl:if>
         </xsl:if>
@@ -159,52 +158,29 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="xhtml:ul[@class = 'sortOrder' or @class = 'articulatory' or @class = 'binary']">
-    <!-- If interactiveWebPage, include lists of numbers for sorting in lists or features for phones in charts. -->
-    <xsl:if test="$interactiveWebPage = 'true'">
-      <xsl:copy>
-        <xsl:apply-templates select="@*|node()" />
-      </xsl:copy>
-    </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="xhtml:span[following-sibling::xhtml:ul[@class = 'sortOrder'] or xhtml:div[@class = 'differences' or @class = 'features']]">
-    <xsl:choose>
-      <xsl:when test="$interactiveWebPage = 'true'">
-        <!-- If interactiveWebPage, include span enclosing text followed by lists of numbers for sorting in lists or features for phones in charts. -->
-        <xsl:copy>
-          <xsl:apply-templates select="@*|node()" />
-        </xsl:copy>
-      </xsl:when>
-      <xsl:otherwise>
-        <!-- Omit the span. -->
-        <xsl:apply-templates />
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <!-- For :hover formatting, remove Phonetic class from empty cells in CV chart. -->
+  <!-- For interactive :hover formatting, remove Phonetic class from empty data cells in CV charts. -->
   <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(*)][@class = 'Phonetic']/@class" />
 
-  <!-- There is an option to insert a non-breaking space in empty table cells -->
-  <!-- for the borders in Internet Explorer 7 and earlier. -->
-  <xsl:template match="xhtml:table//xhtml:tr/xhtml:*[not(node())]">
+  <!-- For borders in Internet Explorer 7 and earlier, insert a non-breaking space in most empty table cells. -->
+	<!-- This replacement requires a special case to sort non-Phonetic columns in the phonology.js file. -->
+	<xsl:template match="xhtml:table//xhtml:tr/xhtml:*[not(node())]">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
-      <xsl:if test="$nonBreakingSpaceInEmptyTableCells = 'true'">
+      <xsl:if test="$nonBreakingSpaceInEmptyTableCell = 'true'">
         <xsl:value-of select="'&#xA0;'" />
       </xsl:if>
     </xsl:copy>
   </xsl:template>
   
-  <!-- Exception: In charts or grouped lists, the upper-left cell can be empty. -->
+  <!-- Exceptions: In charts or grouped lists, the upper-left cell can be empty. -->
   <xsl:template match="xhtml:table[contains(@class, 'chart') or (@class = 'list' and xhtml:tbody[@class = 'group'])]/xhtml:thead/xhtml:tr[1]/xhtml:th[1]">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
   <!-- At the beginning or end of the text in a table cell, replace space with non-breaking space. -->
+	<!-- This replacement requires a special case to sort non-Phonetic columns in the phonology.js file. -->
   <xsl:template match="xhtml:tr/*//text()">
     <xsl:variable name="text" select="." />
     <xsl:variable name="text-replace-start">
@@ -227,8 +203,8 @@ exclude-result-prefixes="xhtml"
     </xsl:choose>
   </xsl:template>
 
-  <!-- Convert table of field formatting properties to style rules. -->
-  
+  <!-- Convert table of field formatting properties to CSS style rules. -->
+	<!-- Similar to phonology_export_view_to_CSS.xsl for an external style sheet file. -->
   <xsl:template name="internalStylesheet">
     <xsl:param name="formatting" />
     <style type="text/css" xmlns="http://www.w3.org/1999/xhtml">
@@ -262,10 +238,8 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
   
   <!-- Table of details. -->
-
 	<xsl:template match="xhtml:div[@id = 'metadata']">
 		<xsl:if test="$tableOfDetails = 'true'">
-			<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
 			<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
 			<xsl:variable name="primarySortFieldDirection" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
 			<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />

@@ -60,6 +60,9 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
+				if (cboUILanguage.SelectedItem == null)
+					return false;
+
 				return (LocalizationManager.UILangId != ((CultureInfo)cboUILanguage.SelectedItem).Name);
 			}
 		}

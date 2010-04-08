@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-04-05 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-04-06 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
 	<!-- TO DO: Correct for Both Environments Identical, but must adapt enumeration for Before or After. -->
 
@@ -43,22 +43,34 @@ exclude-result-prefixes="xhtml"
     <xsl:apply-templates select="xhtml:tr[@class = 'data'][1]" mode="enumerate1" />
   </xsl:template>
 
-  <xsl:template match="xhtml:tr" mode="enumerate1">
-    <xsl:variable name="PhoneticItem1" select="xhtml:td[@class = 'Phonetic item']" />
-		<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][1]" mode="enumerate2">
-			<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
-		</xsl:apply-templates>
+	<!-- Enumerate the first unit of pairs. -->
+	<!-- That is, all units in the group, except the last (but excluding any duplicate units). -->
+	<xsl:template match="xhtml:tr" mode="enumerate1">
+		<xsl:variable name="PhoneticItem1" select="xhtml:td[@class = 'Phonetic item']" />
+		<!-- Especially for contrast in analogous environments (that is, not Both Environments Identical), -->
+		<!-- there might be multiple non-adjacent occurrences of units. -->
+		<xsl:if test="not(preceding-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] = $PhoneticItem1])">
+			<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][1]" mode="enumerate2">
+				<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
+			</xsl:apply-templates>
+		</xsl:if>
 		<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][1]" mode="enumerate1" />
 	</xsl:template>
 
+	<!-- Enumerate the second unit of pairs. -->
+	<!-- That is, all units in the group following the first unit (but excluding any duplicate units). -->
   <xsl:template match="xhtml:tr" mode="enumerate2">
     <xsl:param name="PhoneticItem1" />
     <xsl:variable name="PhoneticItem2" select="xhtml:td[@class = 'Phonetic item']" />
-    <xsl:apply-templates select="ancestor::xhtml:tbody[@class = 'group']" mode="minimalPair">
-      <xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
-      <xsl:with-param name="PhoneticItem2" select="$PhoneticItem2" />
-    </xsl:apply-templates>
-		<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem2][1]" mode="enumerate2">
+		<!-- Especially for contrast in analogous environments (that is, not Both Environments Identical), -->
+		<!-- there might be multiple non-adjacent occurrences of units. -->
+		<xsl:if test="not(preceding-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2])">
+			<xsl:apply-templates select="ancestor::xhtml:tbody[@class = 'group']" mode="minimalPair">
+				<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
+				<xsl:with-param name="PhoneticItem2" select="$PhoneticItem2" />
+			</xsl:apply-templates>
+		</xsl:if>
+		<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][xhtml:td[@class = 'Phonetic item'] != $PhoneticItem2][1]" mode="enumerate2">
 			<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
 		</xsl:apply-templates>
 	</xsl:template>
@@ -86,8 +98,8 @@ exclude-result-prefixes="xhtml"
 				</th>
 				<xsl:apply-templates select="xhtml:tr[@class = 'heading']/xhtml:th[not(@class = 'count')]" />
 			</tr>
-      <xsl:apply-templates select="xhtml:tr[@class = 'data'][xhtml:td[@class = 'Phonetic item'] = $PhoneticItem1][1]" />
-      <xsl:apply-templates select="xhtml:tr[@class = 'data'][xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2][1]" />
+      <xsl:apply-templates select="xhtml:tr[@class = 'data'][xhtml:td[@class = 'Phonetic item'] = $PhoneticItem1]" />
+      <xsl:apply-templates select="xhtml:tr[@class = 'data'][xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2]" />
     </xsl:copy>
   </xsl:template>
 

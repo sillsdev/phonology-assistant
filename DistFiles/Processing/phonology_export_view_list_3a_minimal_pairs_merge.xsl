@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3a_minimal_pairs_merge.xsl 2010-04-05 -->
+  <!-- phonology_export_view_list_3a_minimal_pairs_merge.xsl 2010-04-06 -->
   <!-- Merge groups corresponding to the same pair of phones. -->
 	<!-- This step must follow the list sorting steps, because the order of pairs depends on -->
 	<!-- phonetic sort option (that is, place of articulation versus manner of articulation). -->
@@ -33,24 +33,12 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Merge any additional groups for a minimal pair. -->
 	<xsl:template match="xhtml:tbody[@class = 'group']" mode="merge">
-		<!-- Change the heading row to a subheading. -->
+		<!-- Change the heading row to a subheading. Change the phonetic pair heading cell to an empty data cell. -->
 		<tr class="subheading" xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:apply-templates select="xhtml:tr[@class = 'heading']/xhtml:th" mode="merge" />
+			<td />
+			<xsl:apply-templates select="xhtml:tr[@class = 'heading']/xhtml:th[not(@class = 'Phonetic pair')]" />
 		</tr>
 		<xsl:apply-templates select="xhtml:tr[@class = 'data']" />
-		<xsl:attribute name="class">
-			<xsl:value-of select="'subheading'" />
-		</xsl:attribute>
-	</xsl:template>
-
-	<!-- In subheading rows of merged groups, change heading cells to data cells. -->
-	<!-- Change the phonetic pair heading cell to an empty data cell. -->
-	<xsl:template match="xhtml:th" mode="merge">
-		<td xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:if test="not(@class = 'Phonetic pair')">
-				<xsl:apply-templates select="@* | node()" />
-			</xsl:if>
-		</td>
 	</xsl:template>
 
 </xsl:stylesheet>

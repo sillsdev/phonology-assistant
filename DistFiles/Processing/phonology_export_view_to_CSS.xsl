@@ -6,7 +6,7 @@ exclude-result-prefixes="xhtml"
   <!-- phonology_export_view_to_CSS.xsl 2010-04-01 -->
   <!-- Convert project-specific formatting to an external CSS file for exported XHTML files. -->
 
-	<xsl:output method="text" version="1.0" encoding="UTF-8" />
+	<xsl:output method="text" encoding="UTF-8" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />

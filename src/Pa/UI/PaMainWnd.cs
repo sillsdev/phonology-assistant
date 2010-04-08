@@ -42,7 +42,7 @@ namespace SIL.Pa.UI
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PaMainWnd"/> class.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaMainWnd()
@@ -55,8 +55,7 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaMainWnd(bool showSplashScreen)
-			: this()
+		public PaMainWnd(bool showSplashScreen) : this()
 		{
 			if (showSplashScreen)
 				App.ShowSplashScreen();
@@ -89,6 +88,16 @@ namespace SIL.Pa.UI
 
 			EnableOptionsMenus(false);
 			EnableUndockMenu(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
 
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.

@@ -201,6 +201,7 @@
     <Compile Include="Processing\ExporterBase.cs" />
     <Compile Include="Processing\Pipeline.cs" />
     <Compile Include="Processing\ProcessHelper.cs" />
+    <Compile Include="Processing\ProjectCssBuilder.cs" />
     <Compile Include="Processing\ProjectInventoryBuilder.cs" />
     <Compile Include="Processing\SearchResultExporter.cs" />
     <Compile Include="Processing\Step.cs" />

@@ -31,6 +31,26 @@ namespace SIL.Pa.Processing
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ProcessFile
+		{
+			get { return Path.Combine(App.ProcessingFolder, "Processing.xml"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Pipeline CreatePipline(Pipeline.ProcessType prsType)
+		{
+			return Pipeline.Create(prsType, ProcessFile, App.ProcessingFolder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Copies cascading stylesheets and java script files from the process folder to the
 		/// default user folder (i.e. the folder PA suggests as the parent for projects).
 		/// </summary>
@@ -115,7 +135,7 @@ namespace SIL.Pa.Processing
 
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "projectFolder");
-			writer.WriteString(TerminateFolderPath(project.ProjectPath));
+			writer.WriteString(TerminateFolderPath(project.Folder));
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");

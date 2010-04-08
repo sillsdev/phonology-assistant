@@ -990,47 +990,6 @@
 			<name>approx</name>
 			<fullname>Approximant</fullname>
 		</feature>
-		<feature>
-			<name>Continuant articulatory</name>
-			<fullname>Continuant articulatory</fullname>
-		</feature>
-		<feature>
-			<name>Epiglottal</name>
-			<fullname>Epiglottal</fullname>
-		</feature>
-		<feature>
-			<name>Front</name>
-			<fullname>Front</fullname>
-			<featureRule>
-				<for>
-					<articulatoryFeature>Vowel</articulatoryFeature>
-				</for>
-				<if>
-					<anyOf>
-						<articulatoryFeature>Front</articulatoryFeature>
-						<articulatoryFeature>Near-front</articulatoryFeature>
-					</anyOf>
-				</if>
-				<then>
-					<featureValue>+</featureValue>
-				</then>
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-			</featureRule>
-		</feature>
-		<feature>
-			<name>Hyper anterior</name>
-			<fullname>Hyper anterior</fullname>
-		</feature>
-		<feature>
-			<name>Implosive</name>
-			<fullname>Implosive</fullname>
-		</feature>
-		<feature>
-			<name>Labio-dental</name>
-			<fullname>Labio-dental</fullname>
-		</feature>
 	</binaryFeatures>
 	<hierarchicalFeatures>
 		<feature class="terminal" parent="root">
@@ -1676,23 +1635,18 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1836,19 +1790,14 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -1879,7 +1828,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -1887,9 +1835,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1922,19 +1868,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1966,17 +1906,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2012,20 +1948,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2056,7 +1987,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2064,9 +1994,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2100,17 +2028,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2140,12 +2064,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
 				<feature>+spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2181,20 +2102,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2230,19 +2146,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2276,17 +2187,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2319,17 +2226,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -2359,7 +2262,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2367,9 +2269,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2401,17 +2301,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2445,20 +2341,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2489,7 +2380,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2497,9 +2387,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2532,18 +2420,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2575,18 +2458,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -2618,18 +2497,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2661,18 +2536,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2706,20 +2577,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2750,7 +2616,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2758,9 +2623,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2794,20 +2657,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2841,17 +2699,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2887,21 +2741,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2934,18 +2783,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3042,19 +2887,14 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -3088,19 +2928,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3132,18 +2966,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3179,21 +3009,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -3225,18 +3050,13 @@
 				<feature>-son</feature>
 				<feature>+low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3269,17 +3089,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3313,20 +3129,15 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3542,24 +3353,18 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3590,23 +3395,18 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3729,18 +3529,13 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3775,20 +3570,15 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3819,7 +3609,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -3827,9 +3616,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3863,20 +3650,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3910,19 +3692,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3954,17 +3730,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3996,17 +3768,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4081,19 +3849,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4144,19 +3907,14 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4191,19 +3949,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4254,20 +4007,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4301,19 +4049,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4346,17 +4088,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4389,17 +4127,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4432,18 +4166,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4475,17 +4204,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4520,19 +4245,14 @@
 				<feature>-low</feature>
 				<feature>-COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4564,19 +4284,14 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4607,12 +4322,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
 				<feature>+spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4648,20 +4360,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4695,19 +4402,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4760,20 +4462,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4850,17 +4547,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4893,17 +4586,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -4936,17 +4625,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4980,19 +4665,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -5026,17 +4706,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -5067,7 +4743,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -5075,9 +4750,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5110,19 +4783,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5154,17 +4821,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5197,18 +4860,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5242,20 +4900,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5290,20 +4943,15 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5350,7 +4998,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -5358,9 +5005,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5395,18 +5040,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5440,18 +5081,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5486,18 +5123,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5546,17 +5179,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5588,17 +5217,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5647,18 +5272,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5691,19 +5311,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5735,18 +5350,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5781,19 +5392,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5826,18 +5433,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Front</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5917,17 +5519,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5961,20 +5559,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6009,20 +5602,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6053,17 +5641,14 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6098,19 +5683,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6145,20 +5725,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6193,19 +5768,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6241,21 +5810,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6288,18 +5852,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6334,21 +5894,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6436,15 +5990,12 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-delayed release</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6474,18 +6025,13 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6546,19 +6092,15 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6588,7 +6130,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -6596,10 +6137,8 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6648,18 +6187,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6689,14 +6223,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>+spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6729,18 +6258,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6774,17 +6298,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6833,15 +6353,10 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6871,14 +6386,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6930,21 +6440,17 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8260,7 +7766,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -8268,9 +7773,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8302,18 +7805,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8362,19 +7861,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8500,6 +7994,9 @@
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Mid-centralized</feature>
+			</articulatoryFeatures>
 			<ignoreType>NotApplicable</ignoreType>
 			<displayOrder>0</displayOrder>
 			<mannerOfArticulation>1205</mannerOfArticulation>
@@ -9187,6 +8684,24 @@
 				</add>
 			</symbol>
 		</sequence>
+		<sequence title="Nasal + Nasal: Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</sequence>
 		<sequence title="Nasal + Plosive or Fricative: Prenasalized.">
 			<symbol primary="false">
 				<if>
@@ -9205,6 +8720,7 @@
 				</add>
 			</symbol>
 		</sequence>
+		<!-- TO DO: Nasal + Plosive + Plosive: Prenasalized Double Articulation! -->
 		<sequence title="Plosive + Click or Lateral Click.">
 			<symbol primary="false">
 				<if>

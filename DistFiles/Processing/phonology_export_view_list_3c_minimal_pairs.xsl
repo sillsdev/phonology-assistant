@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-04-05 -->
+  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-04-06 -->
   <!-- If there are minimal pairs, count the number of records and groups. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -45,7 +45,7 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <!-- If either list contains at least one feature, copy the div containing feature differences. -->
+	<!-- If a list contains at least one feature, copy the div containing feature differences. -->
   <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']/xhtml:ul/xhtml:li/xhtml:div[@class = 'differences']">
     <xsl:if test="xhtml:ul[xhtml:li]">
       <xsl:copy>

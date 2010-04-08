@@ -17,9 +17,10 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, string outputFileName, PaWordListGrid grid)
+		public static bool Process(PaProject project, string outputFileName,
+			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new DataCorpusExporter(project, outputFileName, grid);
+			var exporter = new DataCorpusExporter(project, outputFileName, grid, openAfterExport);
 			return exporter.InternalProcess(Settings.Default.KeepIntermediateDataCorpusExportFile,
 				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToXHTML);
 		}
@@ -29,8 +30,8 @@ namespace SIL.Pa.Processing
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataCorpusExporter(PaProject project, string outputFileName, DataGridView grid)
-			: base(project, outputFileName, grid)
+		protected DataCorpusExporter(PaProject project, string outputFileName, DataGridView grid,
+			bool openAfterExport) : base(project, outputFileName, grid, openAfterExport)
 		{
 		}
 

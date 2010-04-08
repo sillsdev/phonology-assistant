@@ -64,7 +64,7 @@ namespace SIL.Pa.UI
 				Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
 					MessageBoxIcon.Exclamation);
 			}
-			else if (App.Project == null || App.Project.ProjectFileName != filename)
+			else if (App.Project == null || App.Project.FileName != filename)
 			{
 				LoadProject(filename);
 				UndefinedPhoneticCharactersDlg.Show(App.Project == null ?
@@ -203,7 +203,7 @@ namespace SIL.Pa.UI
 					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
 					dlg.Project.Name), MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
-					LoadProject(dlg.Project.ProjectFileName);
+					LoadProject(dlg.Project.FileName);
 					UndefinedPhoneticCharactersDlg.Show(dlg.Project.Name, true);
 				}
 			}
@@ -274,7 +274,7 @@ namespace SIL.Pa.UI
 		{
 			Utils.WaitCursors(false);
 
-			PaProject project = PaProject.Load(App.Project.ProjectFileName, this);
+			PaProject project = PaProject.Load(App.Project.FileName, this);
 			if (project != null)
 			{
 				// If there was a project loaded before this,
