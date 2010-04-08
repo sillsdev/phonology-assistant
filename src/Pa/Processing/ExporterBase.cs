@@ -245,7 +245,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual string IntermediateFileName
 		{
-			get { return Path.ChangeExtension(m_outputFileName, "htm"); }
+			get { return Path.ChangeExtension(m_outputFileName, "tmp"); }
 		}
 
 		#endregion

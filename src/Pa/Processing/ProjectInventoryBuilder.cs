@@ -19,7 +19,7 @@ namespace SIL.Pa.Processing
 	public class ProjectInventoryBuilder
 	{
 		public const string kVersion = "3.5";
-		private const string kFileNameIntermediate = "PhoneticInventory.Intermediate.xml";
+		private const string kFileNameIntermediate = "PhoneticInventory.tmp";
 
 		private readonly PaProject m_project;
 		private readonly PhoneCache m_phoneCache;
