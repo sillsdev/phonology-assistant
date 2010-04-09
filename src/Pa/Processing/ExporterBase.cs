@@ -128,8 +128,10 @@ namespace SIL.Pa.Processing
 		{
 			Debug.Assert(processTypes.Length > 0);
 
+			App.MsgMediator.SendMessage("BeforeExport", new object[] { this, processTypes });
+
 			// Create a stream of xml data containing the phones in the project.
-			var inputStream = CreateXHTML(keepIntermediateFile);
+			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
 			var msg = LocalizationManager.LocalizeString("ExportProgressMsg", "Exporting (Step {0}):",
 				"Message displayed when exporting lists and charts.", App.kLocalizationGroupInfoMsg,
@@ -162,6 +164,9 @@ namespace SIL.Pa.Processing
 				Process.Start(m_outputFileName);
 
 			App.UninitializeProgressBar();
+
+			App.MsgMediator.SendMessage("AfterExport", new object[] { this, processTypes });
+			
 			return true;
 		}
 
@@ -292,7 +297,7 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual MemoryStream CreateXHTML(bool writeStreamToDisk)
+		protected virtual MemoryStream CreateInputFileToTransformPipeline(bool writeStreamToDisk)
 		{
 			var memStream = new MemoryStream();
 

@@ -786,7 +786,7 @@ namespace SIL.Pa
 			{
 				if (value != s_project)
 					ProjectInventoryBuilder.Process(value, s_phoneCache);
-				
+
 				s_project = value;
 			}
 		}

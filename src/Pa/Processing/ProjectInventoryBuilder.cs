@@ -19,11 +19,12 @@ namespace SIL.Pa.Processing
 	public class ProjectInventoryBuilder
 	{
 		public const string kVersion = "3.5";
-		private const string kFileNameIntermediate = "PhoneticInventory.tmp";
 
-		private readonly PaProject m_project;
-		private readonly PhoneCache m_phoneCache;
-		
+		protected readonly PaProject m_project;
+		protected readonly PhoneCache m_phoneCache;
+		protected string m_outputFileName;
+		protected XmlWriter m_writer;
+
 		[XmlArray("units"), XmlArrayItem("unit")]
 		public List<TempPhoneInfo> Phones { get; set; }
 
@@ -40,12 +41,15 @@ namespace SIL.Pa.Processing
 			App.MsgMediator.SendMessage("BeforeBuildProjectInventory",
 				new object[] { project, phoneCache });
 			
-			var prjInventoryBldr = new ProjectInventoryBuilder(project, phoneCache);
-			var buildResult = prjInventoryBldr.InternalProcess();
+			var bldr = new ProjectInventoryBuilder(project, phoneCache);
+			var buildResult = bldr.InternalProcess();
 			
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
 				new object[] { project, phoneCache, buildResult });
-			
+
+			CVChartBuilder.Process(project, phoneCache, CVChartBuilder.ChartType.Consonant);
+			CVChartBuilder.Process(project, phoneCache, CVChartBuilder.ChartType.Vowel);
+
 			return buildResult;
 		}
 
@@ -63,10 +67,11 @@ namespace SIL.Pa.Processing
 		/// Avoid external construction.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private ProjectInventoryBuilder(PaProject project, PhoneCache phoneCache)
+		protected ProjectInventoryBuilder(PaProject project, PhoneCache phoneCache)
 		{
 			m_project = project;
 			m_phoneCache = phoneCache;
+			m_outputFileName = m_project.ProjectInventoryFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -74,44 +79,35 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool InternalProcess()
+		protected virtual bool InternalProcess()
 		{
 			// Create a stream of xml data containing the phones in the project.
-			var inputStream = CreateIntermediateInventory();
+			var inputStream = CreateInputFileToTransformPipeline();
 
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
-			var pipeline = ProcessHelper.CreatePipline(Pipeline.ProcessType.PrepareInventory);
+			var pipeline = ProcessHelper.CreatePipline(ProcessType);
 
 			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)
 				return false;
 
-			var msg = LocalizationManager.LocalizeString("ProcessingPhoneInventoryMsg",
-				"Processing Phone Inventory",
-				"Message displayed whenever the phone inventory is built or updated.",
-				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-				LocalizationPriority.Medium);
-
-			App.InitializeProgressBar(string.Format(msg),
-				pipeline.ProcessingSteps.Count);
-
-			var outputFileName = m_project.ProjectInventoryFileName;
+			App.InitializeProgressBar(ProgressMessage, pipeline.ProcessingSteps.Count);
 
 			// Kick off the processing and then save the results to a file.
 			pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
-			pipeline.Transform(inputStream, outputFileName);
+			pipeline.Transform(inputStream, m_outputFileName);
 			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
 			// This makes it all pretty, with proper indentation and line-breaking.
 			var doc = new XmlDocument();
-			doc.Load(outputFileName);
-			doc.Save(outputFileName);
+			doc.Load(m_outputFileName);
+			doc.Save(m_outputFileName);
 
-			UpdatePhoneInformation(outputFileName, m_phoneCache);
+			PostBuildUpdate();
 			App.UninitializeProgressBar();
 			return true;
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -121,30 +117,77 @@ namespace SIL.Pa.Processing
 		{
 			App.IncProgressBar();
 		}
-	
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string ProgressMessage
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("ProcessingPhoneInventoryMsg",
+					"Processing Phone Inventory: ",
+					"Message displayed whenever the phone inventory is built or updated.",
+					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+					LocalizationPriority.Medium);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string TempFileName
+		{
+			get { return m_project.ProjectPathFilePrefix + "PhoneticInventory.tmp"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool KeepTempFile
+		{
+			get { return Settings.Default.KeepTempProjectInventoryFile; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual Pipeline.ProcessType ProcessType
+		{
+			get { return Pipeline.ProcessType.PrepareInventory; }
+		}
+
+		#endregion
+
 		#region Methods for writing inventory file to send through the xslt processing
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private MemoryStream CreateIntermediateInventory()
+		protected virtual MemoryStream CreateInputFileToTransformPipeline()
 		{
 			var memStream = new MemoryStream();
 			
-			using (var writer = XmlWriter.Create(memStream))
+			using (m_writer = XmlWriter.Create(memStream))
 			{
-				writer.WriteStartDocument();
-				WriteRoot(writer);
-				writer.Flush();
-				writer.Close();
+				m_writer.WriteStartDocument();
+				WriteRoot();
+				m_writer.Flush();
+				m_writer.Close();
 			}
 
-			if (Settings.Default.KeepIntermediateProjectInventoryFile)
-			{
-				var intermediateFileName = m_project.ProjectPathFilePrefix + kFileNameIntermediate;
-				ProcessHelper.WriteStreamToFile(memStream, intermediateFileName);
-			}
+			if (KeepTempFile)
+				ProcessHelper.WriteStreamToFile(memStream, TempFileName);
 
 			return memStream;
 		}
@@ -154,26 +197,24 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void WriteRoot(XmlWriter writer)
+		private void WriteRoot()
 		{
-			ProcessHelper.WriteStartElementWithAttrib(writer, "inventory", "version", kVersion);
-			writer.WriteAttributeString("projectName", m_project.Name);
-			writer.WriteAttributeString("languageName", m_project.LanguageName);
-			writer.WriteAttributeString("languageCode", m_project.LanguageCode);
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "inventory", "version", kVersion);
+			WriteRootAttributes();
 
-			ProcessHelper.WriteMetadata(writer, m_project, true);
+			ProcessHelper.WriteMetadata(m_writer, m_project, true);
 			
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.TranscriptionChanges);
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(writer, App.IPASymbolCache.AmbiguousSequences);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, App.IPASymbolCache.TranscriptionChanges);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, App.IPASymbolCache.AmbiguousSequences);
 
-			ProcessHelper.WriteStartElementWithAttrib(writer, "units", "type", "phonetic");
-			WritePhones(writer);
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "units", "type", "phonetic");
+			WritePhones();
 			
 			// Close units
-			writer.WriteEndElement();
+			m_writer.WriteEndElement();
 
 			// Close inventory
-			writer.WriteEndElement();
+			m_writer.WriteEndElement();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,24 +222,36 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void WritePhones(XmlWriter writer)
+		protected virtual void WriteRootAttributes()
+		{
+			m_writer.WriteAttributeString("projectName", m_project.Name);
+			m_writer.WriteAttributeString("languageName", m_project.LanguageName);
+			m_writer.WriteAttributeString("languageCode", m_project.LanguageCode);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void WritePhones()
 		{
 			foreach (var phone in m_phoneCache)
 			{
-				ProcessHelper.WriteStartElementWithAttrib(writer, "unit", "literal", phone.Key);
+				ProcessHelper.WriteStartElementWithAttrib(m_writer, "unit", "literal", phone.Key);
 
 				if (phone.Value.AFeaturesAreOverridden)
 				{
-					ProcessHelper.WriteStartElementWithAttrib(writer,
+					ProcessHelper.WriteStartElementWithAttrib(m_writer,
 						"articulatoryFeatures", "changed", "true");
 
 					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
-						writer.WriteElementString("features", feature);
+						m_writer.WriteElementString("features", feature);
 
-					writer.WriteEndElement();
+					m_writer.WriteEndElement();
 				}
 				
-				writer.WriteEndElement();
+				m_writer.WriteEndElement();
 			}
 		}
 
@@ -206,20 +259,20 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Update each phone in the phone cache with information created in the process of
+		/// building the project specific inventory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void UpdatePhoneInformation(string fileName,
-			IDictionary<string, IPhoneInfo> phoneCache)
+		protected virtual void PostBuildUpdate()
 		{
-			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventoryBuilder>(fileName);
+			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventoryBuilder>(m_outputFileName);
 			if (prjInventory == null)
 				return;
 
 			foreach (var phone in prjInventory.Phones)
 			{
 				IPhoneInfo iPhoneInfo;
-				if (phoneCache.TryGetValue(phone.Literal, out iPhoneInfo))
+				if (m_phoneCache.TryGetValue(phone.Literal, out iPhoneInfo))
 				{
 					var phoneInfo = iPhoneInfo as PhoneInfo;
 					if (phoneInfo != null)

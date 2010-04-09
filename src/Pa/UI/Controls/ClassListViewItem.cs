@@ -470,8 +470,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (string feature in features)
 			{
 				Feature feat = (item.ClassType == SearchClassType.Articulatory ?
-					App.AFeatureCache[feature] :
-					App.BFeatureCache[feature]);
+					App.AFeatureCache[feature] : App.BFeatureCache[feature]);
 					
 				if (feat != null)
 					item.Mask[feat.Bit] = true;

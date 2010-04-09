@@ -194,6 +194,7 @@
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
+    <Compile Include="Processing\CVChartBuilder.cs" />
     <Compile Include="Processing\DataCorpusExporter.cs" />
     <Compile Include="Processing\DistributionChartExporter.cs">
       <SubType>Code</SubType>

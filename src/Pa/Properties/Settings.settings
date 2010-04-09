@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SIL.Pa.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="KeepIntermediateProjectInventoryFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempProjectInventoryFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastProjectLoaded" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
@@ -53,7 +53,7 @@
     <Setting Name="SkipAdditionalProcessingWhenPhonesAreLoaded" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="KeepIntermediateDistributionChartExportFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempDistributionChartExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="OFD_LastFileTypeChosen_DataSource" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
@@ -68,16 +68,19 @@
     <Setting Name="OpenHTMLDataCorpusAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="KeepIntermediateDataCorpusExportFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempDataCorpusExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="OpenHTMLSearchResultAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="KeepIntermediateSearchResultExportFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempSearchResultExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="KeepIntermediateProjectCssXHTMLFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempProjectCssXHTMLFile" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="KeepTempCVChartBuilderFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

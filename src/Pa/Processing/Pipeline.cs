@@ -241,10 +241,10 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		void worker_DoWork(object sender, DoWorkEventArgs e)
 		{
+			var worker = sender as BackgroundWorker;
 			var args = e.Argument as object[];
 			var stream = args[0] as MemoryStream;
 			var processingSteps = args[1] as List<Step>;
-			var worker = sender as BackgroundWorker;
 
 			foreach (var step in processingSteps)
 			{

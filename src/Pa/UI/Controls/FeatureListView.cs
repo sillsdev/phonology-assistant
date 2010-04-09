@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -882,13 +883,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (KeyValuePair<string, Feature> feature in App.AFeatureCache)
+			foreach (var feature in App.AFeatureCache.Values.OrderBy(x => x.Name))
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
-				info.Name = feature.Value.Name;
-				info.FullName = feature.Value.FullName;
-				info.Bit = feature.Value.Bit;
-				info.CacheEntry = feature.Value;
+				info.Name = feature.Name;
+				info.FullName = feature.FullName;
+				info.Bit = feature.Bit;
+				info.CacheEntry = feature;
 				ListViewItem item = new ListViewItem(info.Name);
 				item.Tag = info;
 				Items.Add(item);
@@ -904,7 +905,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (Feature feature in App.BFeatureCache.PlusFeatures)
+			foreach (Feature feature in App.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				string name = feature.Name.Substring(1);

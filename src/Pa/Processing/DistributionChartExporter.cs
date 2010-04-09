@@ -28,7 +28,7 @@ namespace SIL.Pa.Processing
 				distChartGrid, openAfterExport);
 
 			return exporter.InternalProcess(
-				Settings.Default.KeepIntermediateDistributionChartExportFile,
+				Settings.Default.KeepTempDistributionChartExportFile,
 				Pipeline.ProcessType.ExportDistributionChart, Pipeline.ProcessType.ExportToXHTML);
 		}
 

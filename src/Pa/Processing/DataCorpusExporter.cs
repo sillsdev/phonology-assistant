@@ -21,7 +21,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			var exporter = new DataCorpusExporter(project, outputFileName, grid, openAfterExport);
-			return exporter.InternalProcess(Settings.Default.KeepIntermediateDataCorpusExportFile,
+			return exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
 				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToXHTML);
 		}
 

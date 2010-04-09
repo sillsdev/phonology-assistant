@@ -39,7 +39,7 @@ namespace SIL.Pa.Processing
 				return true;
 
 			var builder = new ProjectCssBuilder(project);
-			return builder.InternalProcess(Settings.Default.KeepIntermediateProjectCssXHTMLFile,
+			return builder.InternalProcess(Settings.Default.KeepTempProjectCssXHTMLFile,
 				Pipeline.ProcessType.ExportToCss);
 		}
 

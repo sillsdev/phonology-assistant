@@ -85,9 +85,6 @@ namespace SIL.Pa.UI
 			// Unpack training projects if it's never been done before.
 			TrainingProjectsHelper tph = new TrainingProjectsHelper();
 			tph.Setup();
-
-			EnableOptionsMenus(false);
-			EnableUndockMenu(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,6 +94,9 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
+			EnableOptionsMenus(false);
+			EnableUndockMenu(false);
+
 			base.OnShown(e);
 
 			// If there's a project specified on the command line, then load that.

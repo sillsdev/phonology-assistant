@@ -31,23 +31,23 @@ namespace SIL.Pa.UI.Controls
 
 		private readonly int m_cellHeight; // = 60; //34;
 		private int m_cellWidth = 38;
-		private CharGridHeader m_currentHeader = null;
+		private CharGridHeader m_currentHeader;
 		private bool m_searchWhenPhoneDoubleClicked = true;
 		private Point m_mouseDownGridLocation = Point.Empty;
 		private DataGridViewCell m_cellDraggedOver;
-		private string m_phoneBeingDragged = null;
+		private string m_phoneBeingDragged;
 		private ITMAdapter m_tmAdapter;
-		private bool m_showUncertainPhones = false;
+		private bool m_showUncertainPhones;
 		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
-		private CharGridHeader m_currentRowHeader = null;
-		private CharGridHeader m_currentColHeader = null;
-		private Type m_owningViewType = null;
+		private CharGridHeader m_currentRowHeader;
+		private CharGridHeader m_currentColHeader;
+		private Type m_owningViewType;
 		private CellKBMovingCellHelper m_phoneMovingHelper;
 		private List<CharGridHeader> m_colHdrs;
 		private List<CharGridHeader> m_rowHdrs;
 		private CharGridHeaderCollectionPanel m_pnlColHeaders;
 		private CharGridHeaderCollectionPanel m_pnlRowHeaders;
-		private Font m_chartFont;
+		private readonly Font m_chartFont;
 		private PhoneInfoPopup m_phoneInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
@@ -268,7 +268,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				List<string> phones = new List<string>();
 
-				if (m_grid.SelectedCells == null || m_grid.SelectedCells.Count == 0)
+				if (m_grid.SelectedCells.Count == 0)
 				{
 					string currPhone = CurrentPhone;
 					if (!string.IsNullOrEmpty(currPhone))
@@ -807,7 +807,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			CalcWidths();
-			m_pnlColHeaders.ResumeLayout(); ;
+			m_pnlColHeaders.ResumeLayout();
 			return newHdr;
 		}
 
@@ -1020,7 +1020,7 @@ namespace SIL.Pa.UI.Controls
 				Color clr = ColorHelper.CalculateColor(SystemColors.WindowText,
 					SystemColors.Window, 65);
 
-				TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+				const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 					TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding |
 					TextFormatFlags.NoPrefix | TextFormatFlags.PreserveGraphicsClipping;
 
@@ -1393,11 +1393,11 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	internal class CellKBMovingCellHelper
 	{
-		private bool m_movingInProgress = false;
+		private bool m_movingInProgress;
 		private DataGridViewTextBoxCell m_originalCell;
 		private DataGridViewTextBoxCell m_previousCell;
 		private CharGridCell m_cgc;
-		private bool m_drawNoDropIcon = false;
+		private bool m_drawNoDropIcon;
 		private Rectangle m_rcNoDropIcon;
 		private readonly DataGridView m_grid;
 		private readonly CharGrid m_chrGrid;
@@ -1655,16 +1655,16 @@ namespace SIL.Pa.UI.Controls
 	{
 		private string m_phone;
 		private bool m_visible = true;
-		private bool m_isUncertain = false;
-		private bool m_isPlacedOnChart = false;
+		private bool m_isUncertain;
+		private bool m_isPlacedOnChart;
 		private int m_defaultCol = -1;
 		private int m_defaultGroup = -1;
 		private int m_row = -1;
 		private int m_col = -1;
 		private int m_group = -1;
-		private int m_totalCount = 0;
-		private int m_countAsPrimaryUncertainty = 0;
-		private int m_countAsNonPrimaryUncertainty = 0;
+		private int m_totalCount;
+		private int m_countAsPrimaryUncertainty;
+		private int m_countAsNonPrimaryUncertainty;
 		private List<string> m_siblingUncertainties = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
@@ -1923,7 +1923,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			Point pt = m_owner.AutoScrollPosition;
-			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			AutoScrollPositionDelegate del = SetAutoScrollPosition;
 			Object[] args = { m_owner, pt };
 			BeginInvoke(del, args);
 		}
@@ -1942,7 +1942,7 @@ namespace SIL.Pa.UI.Controls
 			try
 			{
 				Point pt = m_owner.AutoScrollPosition;
-				AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+				AutoScrollPositionDelegate del = SetAutoScrollPosition;
 				Object[] args = { m_owner, pt };
 
 				// This will throw an error when the view this grid is on is disposing. Why
@@ -1965,7 +1965,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			Point pt = m_owner.AutoScrollPosition;
-			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			AutoScrollPositionDelegate del = SetAutoScrollPosition;
 			Object[] args = { m_owner, pt };
 			BeginInvoke(del, args);
 		}
@@ -1982,7 +1982,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			Point pt = m_owner.AutoScrollPosition;
-			AutoScrollPositionDelegate del = new AutoScrollPositionDelegate(SetAutoScrollPosition);
+			AutoScrollPositionDelegate del = SetAutoScrollPosition;
 			Object[] args = { m_owner, pt };
 			BeginInvoke(del, args);
 		}
@@ -1992,7 +1992,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SetAutoScrollPosition(ScrollableControl sender, Point pt)
+		private static void SetAutoScrollPosition(ScrollableControl sender, Point pt)
 		{
 			if (!pt.IsEmpty)
 			{

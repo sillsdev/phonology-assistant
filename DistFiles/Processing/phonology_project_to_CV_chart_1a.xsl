@@ -6,11 +6,7 @@
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
-	<xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
-
-	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
-	<xsl:variable name="programArticulatoryFeatures" select="document($programPhoneticInventoryXML)/inventory/articulatoryFeatures" />
+	<xsl:variable name="programArticulatoryFeatures" select="/inventory/articulatoryFeatures" />
 
 	<xsl:variable name="subKeyFormat" select="translate(count($programArticulatoryFeatures/feature), '0123456789', '0000000000')" />
 
@@ -23,18 +19,19 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:variable name="view" select="/inventory/@view" />
+	<xsl:variable name="type">
+		<xsl:choose>
+			<xsl:when test="$view = 'Consonant Chart'">
+				<xsl:value-of select="'Consonant'" />
+			</xsl:when>
+			<xsl:when test="$view = 'Vowel Chart'">
+				<xsl:value-of select="'Vowel'" />
+			</xsl:when>
+		</xsl:choose>
+	</xsl:variable>
+
 	<xsl:template match="inventory">
-		<xsl:variable name="view" select="@view" />
-		<xsl:variable name="type">
-			<xsl:choose>
-				<xsl:when test="$view = 'Consonant Chart'">
-					<xsl:value-of select="'Consonant'" />
-				</xsl:when>
-				<xsl:when test="$view = 'Vowel Chart'">
-					<xsl:value-of select="'Vowel'" />
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 			<colgroupFeatures>
@@ -46,6 +43,13 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="units">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:apply-templates select="unit[articulatoryFeatures/feature[.=$type]]" />
+		</xsl:copy>	
+	</xsl:template>
+	
 	<!-- Select features which determine the chart cell for a unit. -->
 	<!-- Omit the sortKey elements. -->
 	<xsl:template match="unit/keys">
@@ -142,38 +146,6 @@
 	</xsl:template>
 
 	<xsl:template match="inventory/articulatoryFeatures/feature[name = 'Near-back']" />
-
-	<!-- If at least one unit has this feature, copy it. -->
-	<xsl:template match="inventory/binaryFeatures/feature">
-		<xsl:variable name="featureName" select="name" />
-		<xsl:if test="$units/unit[binaryFeatures/feature[substring(., 2) = $featureName]]">
-			<xsl:copy>
-				<xsl:apply-templates select="@*|node()" />
-			</xsl:copy>
-		</xsl:if>
-	</xsl:template>
-
-	<!-- If at least one unit has this feature, copy it. -->
-	<xsl:template match="inventory/hierarchicalFeatures/feature">
-		<xsl:variable name="featureName" select="name" />
-		<xsl:choose>
-			<xsl:when test="@class = 'terminal'">
-				<xsl:if test="$units/unit[hierarchicalFeatures/feature[substring(., 2) = $featureName]]">
-					<xsl:copy>
-						<xsl:apply-templates select="@*|node()" />
-					</xsl:copy>
-				</xsl:if>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:variable name="feature" select="." />
-				<xsl:if test="$units/unit[hierarchicalFeatures/feature[. = $featureName]]">
-					<xsl:copy>
-						<xsl:apply-templates select="@*|node()" />
-					</xsl:copy>
-				</xsl:if>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
 
 	<!-- For an inventory feature (versus a unit feature), copy only its name or fullname. -->
 	

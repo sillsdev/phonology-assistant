@@ -107,5 +107,16 @@ namespace SIL.Pa.Processing
 			outputStream.Flush();
 			return outputStream;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return (string.IsNullOrEmpty(XsltFilePath) ?
+				base.ToString() : Path.GetFileName(XsltFilePath));
+		}
 	}
 }

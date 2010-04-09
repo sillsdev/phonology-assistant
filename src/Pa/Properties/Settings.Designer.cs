@@ -26,9 +26,9 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepIntermediateProjectInventoryFile {
+        public bool KeepTempProjectInventoryFile {
             get {
-                return ((bool)(this["KeepIntermediateProjectInventoryFile"]));
+                return ((bool)(this["KeepTempProjectInventoryFile"]));
             }
         }
         
@@ -192,9 +192,9 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepIntermediateDistributionChartExportFile {
+        public bool KeepTempDistributionChartExportFile {
             get {
-                return ((bool)(this["KeepIntermediateDistributionChartExportFile"]));
+                return ((bool)(this["KeepTempDistributionChartExportFile"]));
             }
         }
         
@@ -253,9 +253,9 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepIntermediateDataCorpusExportFile {
+        public bool KeepTempDataCorpusExportFile {
             get {
-                return ((bool)(this["KeepIntermediateDataCorpusExportFile"]));
+                return ((bool)(this["KeepTempDataCorpusExportFile"]));
             }
         }
         
@@ -275,18 +275,27 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepIntermediateSearchResultExportFile {
+        public bool KeepTempSearchResultExportFile {
             get {
-                return ((bool)(this["KeepIntermediateSearchResultExportFile"]));
+                return ((bool)(this["KeepTempSearchResultExportFile"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepIntermediateProjectCssXHTMLFile {
+        public bool KeepTempProjectCssXHTMLFile {
             get {
-                return ((bool)(this["KeepIntermediateProjectCssXHTMLFile"]));
+                return ((bool)(this["KeepTempProjectCssXHTMLFile"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepTempCVChartBuilderFile {
+            get {
+                return ((bool)(this["KeepTempCVChartBuilderFile"]));
             }
         }
     }

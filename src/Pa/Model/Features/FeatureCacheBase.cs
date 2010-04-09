@@ -28,7 +28,7 @@ namespace SIL.Pa.Model
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class FeatureCacheBase : SortedDictionary<string, Feature>
+	public class FeatureCacheBase : Dictionary<string, Feature>
 	{
 		#region Methods for loading and saving
 		/// ------------------------------------------------------------------------------------
@@ -177,17 +177,32 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets an array of feature names for the features in the specified masks.
+		/// Gets an array of sorted feature names for the features in the specified masks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public List<string> GetFeatureList(FeatureMask mask)
 		{
+			return GetFeatureList(mask, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets an array of feature names for the features in the specified masks.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<string> GetFeatureList(FeatureMask mask, bool sorted)
+		{
 			if (mask == null)
 				return new List<string>();
 
-			return new List<string>(from feature in Values
-									where mask[feature.Bit]
-									select feature.Name);
+			var list = (from feature in Values
+						where mask[feature.Bit]
+						select feature.Name).ToList();
+
+			if (sorted)
+				list.Sort();
+
+			return list;
 		}
 
 		/// ------------------------------------------------------------------------------------

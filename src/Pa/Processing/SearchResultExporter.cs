@@ -23,7 +23,7 @@ namespace SIL.Pa.Processing
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			var exporter = new SearchResultExporter(project, outputFileName, grid, openAfterExport);
-			return exporter.InternalProcess(Settings.Default.KeepIntermediateSearchResultExportFile,
+			return exporter.InternalProcess(Settings.Default.KeepTempSearchResultExportFile,
 				Pipeline.ProcessType.ExportSearchResult, Pipeline.ProcessType.ExportToXHTML);
 		}
 
