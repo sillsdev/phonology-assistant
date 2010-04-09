@@ -26,7 +26,8 @@ namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// 
+	/// This class will build a project's consonant and vowel chart xml files (i.e. files from
+	/// which the Consonant and Vowel chart views are constructed).
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class CVChartBuilder : ProjectInventoryBuilder
@@ -71,50 +72,6 @@ namespace SIL.Pa.Processing
 		{
 			m_chartType = chartType;
 			m_outputFileName = m_project.ProjectPathFilePrefix + chartType + "Chart.xml";
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override bool InternalProcess()
-		{
-			var doc1 = new XmlDocument();
-			doc1.Load(m_project.ProjectInventoryFileName);
-			var node = doc1.SelectSingleNode("inventory");
-
-			var attrib = doc1.CreateAttribute("view");
-			attrib.Value = m_chartType + " Chart";
-			node.Attributes.Append(attrib);
-
-			// Load the list of articulatory features into an XML document.
-			var doc2 = new XmlDocument();
-			doc2.LoadXml(XmlSerializationHelper.SerializeToString(
-				InventoryHelper.AFeatureCache.Values.ToList()));
-
-			// Create a new node containing all the articulatory features and append that node
-			// to the project inventory.
-			var aFeatureNode = doc1.CreateNode(XmlNodeType.Element, "articulatoryFeatures", null);
-			aFeatureNode.InnerXml = doc2.SelectSingleNode("ArrayOfFeature").InnerXml;
-			node.AppendChild(aFeatureNode);
-
-			// Now save the new project inventory to a temporary file.
-			var tmpFile = Path.ChangeExtension(m_outputFileName, "tmp");
-			doc1.Save(tmpFile);
-
-			var pipeline = ProcessHelper.CreatePipline(ProcessType);
-			if (pipeline != null)
-				pipeline.Transform(tmpFile, m_outputFileName);
-
-			// This makes it all pretty, with proper indentation and line-breaking.
-			doc1.Load(m_outputFileName);
-			doc1.Save(m_outputFileName);
-
-			if (!Settings.Default.KeepTempCVChartBuilderFile)
-				File.Delete(tmpFile);
-
-			return true;
 		}
 
 		#region Properties
@@ -171,13 +128,38 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// This method will create a temporary project inventory file containing all 
+		/// possible articulatory features. It will also add an attribute to the root
+		/// element indicating what kind of chart to make (i.e. C or V).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void WriteRootAttributes()
+		protected override object CreateInputToTransformPipeline()
 		{
-			base.WriteRootAttributes();
-			m_writer.WriteAttributeString("view", m_chartType + " Chart");
+			// Read the current project inventory file and find the root node.
+			var doc1 = new XmlDocument();
+			doc1.Load(m_project.ProjectInventoryFileName);
+			var node = doc1.SelectSingleNode("inventory");
+
+			// Add an attribute to the root node indicating the chart type.
+			var attrib = doc1.CreateAttribute("view");
+			attrib.Value = m_chartType + " Chart";
+			node.Attributes.Append(attrib);
+
+			// Load the list of articulatory features into an XML document.
+			var doc2 = new XmlDocument();
+			doc2.LoadXml(XmlSerializationHelper.SerializeToString(
+				InventoryHelper.AFeatureCache.Values.ToList()));
+
+			// Create a new node containing all the articulatory features and append that node
+			// to the project inventory.
+			var aFeatureNode = doc1.CreateNode(XmlNodeType.Element, "articulatoryFeatures", null);
+			aFeatureNode.InnerXml = doc2.SelectSingleNode("ArrayOfFeature").InnerXml;
+			node.AppendChild(aFeatureNode);
+
+			// Save the new project inventory to a temporary file.
+			doc1.Save(TempFileName);
+
+			return TempFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,8 +168,10 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void PostBuildUpdate()
+		protected override void PostBuildProcess()
 		{
+			if (!Settings.Default.KeepTempCVChartBuilderFile && File.Exists(TempFileName))
+				File.Delete(TempFileName);
 		}
 	}
 }

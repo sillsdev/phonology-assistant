@@ -82,8 +82,23 @@ namespace SIL.Pa.Processing
 		protected virtual bool InternalProcess()
 		{
 			// Create a stream of xml data containing the phones in the project.
-			var inputStream = CreateInputFileToTransformPipeline();
+			var input = CreateInputToTransformPipeline();
 
+			if (!RunPipeline(input))
+				return false;
+
+			PostBuildProcess();
+			App.UninitializeProgressBar();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool RunPipeline(object input)
+		{
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var pipeline = ProcessHelper.CreatePipline(ProcessType);
 
@@ -95,7 +110,12 @@ namespace SIL.Pa.Processing
 
 			// Kick off the processing and then save the results to a file.
 			pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
-			pipeline.Transform(inputStream, m_outputFileName);
+			
+			if (input is MemoryStream)
+				pipeline.Transform((MemoryStream)input, m_outputFileName);
+			else if (input is string)
+				pipeline.Transform((string)input, m_outputFileName);
+			
 			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
 			// This makes it all pretty, with proper indentation and line-breaking.
@@ -103,8 +123,6 @@ namespace SIL.Pa.Processing
 			doc.Load(m_outputFileName);
 			doc.Save(m_outputFileName);
 
-			PostBuildUpdate();
-			App.UninitializeProgressBar();
 			return true;
 		}
 
@@ -113,7 +131,7 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
+		protected void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
 		{
 			App.IncProgressBar();
 		}
@@ -174,7 +192,7 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual MemoryStream CreateInputFileToTransformPipeline()
+		protected virtual object CreateInputToTransformPipeline()
 		{
 			var memStream = new MemoryStream();
 			
@@ -263,7 +281,7 @@ namespace SIL.Pa.Processing
 		/// building the project specific inventory.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual void PostBuildUpdate()
+		protected virtual void PostBuildProcess()
 		{
 			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventoryBuilder>(m_outputFileName);
 			if (prjInventory == null)
