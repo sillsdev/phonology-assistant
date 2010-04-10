@@ -52,8 +52,8 @@ namespace SIL.Pa.UI.Controls
 		private List<CharGridCell> m_phones;
 		private List<CharGridHeaderPersistenceInfo> m_colHeadings;
 		private List<CharGridHeaderPersistenceInfo> m_rowHeadings;
-		private bool m_showUncertainPhones = false;
-		private string m_supraSegsToIgnore = null;
+		private bool m_showUncertainPhones;
+		private string m_supraSegsToIgnore;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

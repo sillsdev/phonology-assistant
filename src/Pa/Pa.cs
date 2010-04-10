@@ -206,7 +206,9 @@ namespace SIL.Pa
 			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
 			SettingsHandler = new PaSettingsHandler(SettingsFile);
 			MsgMediator = new Mediator();
-			ProcessHelper.CopyFilesForPrettyHTMLExports();
+
+			if (!DesignMode)
+				ProcessHelper.CopyFilesForPrettyHTMLExports();
 
 			LocalizationManager.Initialize();
 			string langId = Settings.Default.UserInterfaceLanguage;

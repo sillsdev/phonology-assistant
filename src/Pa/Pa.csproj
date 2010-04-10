@@ -280,6 +280,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ClassListViewItem.cs" />
+    <Compile Include="UI\Controls\CVChart\CVChartColumnGroup.cs" />
+    <Compile Include="UI\Controls\CVChart\CVChartGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart\CVChartRowGroup.cs" />
     <Compile Include="UI\Controls\DockAndAutoHideButtons.cs">
       <SubType>Component</SubType>
     </Compile>

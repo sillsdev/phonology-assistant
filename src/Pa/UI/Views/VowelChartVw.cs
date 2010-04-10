@@ -1,3 +1,4 @@
+using SIL.Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Views
@@ -30,6 +31,33 @@ namespace SIL.Pa.UI.Views
 		protected override IPASymbolType CharacterType
 		{
 			get { return IPASymbolType.Vowel; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string InitializationMessage
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("InitializingVowelChartMsg",
+					"Initializing Vowel Chart View...",
+					"Message displayed whenever the consonant chart is being initialized.",
+					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+					LocalizationPriority.Medium);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string LayoutFile
+		{
+			get { return App.Project.ProjectPathFilePrefix + "VowelChart.xml"; }
 		}
 	}
 }

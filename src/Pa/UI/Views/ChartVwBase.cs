@@ -9,6 +9,7 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -25,6 +26,10 @@ namespace SIL.Pa.UI.Views
 		protected ChartOptionsDropDown m_chartOptionsDropDown;
 		protected string m_defaultHTMLOutputFile;
 		protected string m_htmlChartName;
+
+		protected CVChartGrid m_chartGrid;
+		protected SilPanel m_pnlGrid;
+		
 		private string m_persistedInfoFilename;
 		private bool m_histogramOn = true;
 		private bool m_initialDock = true;
@@ -37,10 +42,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ChartVwBase()
 		{
-			App.InitializeProgressBarForLoadingView(
-				(CharacterType == IPASymbolType.Consonant ?
-				Properties.Resources.kstidConsonantChartViewText :
-				Properties.Resources.kstidVowelChartViewText), 5);
+			App.InitializeProgressBarForLoadingView(InitializationMessage, 5);
 			
 			InitializeComponent();
 			base.DoubleBuffered = true;
@@ -49,6 +51,16 @@ namespace SIL.Pa.UI.Views
 			LoadToolbarAndContextMenus();
 			m_chrGrid.OwningViewType = GetType();
 			App.IncProgressBar();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string InitializationMessage
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,6 +97,70 @@ namespace SIL.Pa.UI.Views
 			m_histogram.LoadPhones(histogramPhones);
 			App.MsgMediator.PostMessage("LayoutHistogram", Name);
 			App.IncProgressBar();
+
+			m_chartGrid = new CVChartGrid();
+			m_chartGrid.Dock = DockStyle.Fill;
+			m_pnlGrid = new SilPanel();
+			m_pnlGrid.Dock = DockStyle.Fill;
+			m_pnlGrid.Controls.Add(m_chartGrid);
+			m_chrGrid.Visible = false;
+			splitOuter.Panel1.Controls.Add(m_pnlGrid);
+			LoadChart();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void LoadChart()
+		{
+			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
+
+			foreach (var col in cgp.ColHeadings)
+				m_chartGrid.AddColumnGroup(col.HeadingText);
+
+			foreach (var row in cgp.RowHeadings)
+				m_chartGrid.AddRowGroup(row.HeadingText, row.SubHeadingCount);
+
+			foreach (var phone in cgp.Phones)
+				m_chartGrid[phone.Column, phone.Row].Value = phone.Phone;
+
+			m_chartGrid.AdjustCellSizes();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Flip between the old chart and the new using Ctrl+Alt+Left or Ctrl+Alt+Right.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ProcessDialogKey(Keys keyData)
+		{
+			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control &&
+				((keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right))
+			{
+				m_pnlGrid.Visible = !m_pnlGrid.Visible;
+				m_chrGrid.Visible = !m_chrGrid.Visible;
+
+				if (m_chrGrid.Visible)
+					m_chrGrid.Focus();
+				else
+					m_chartGrid.Focus();
+
+				return true;
+			}
+
+			return base.ProcessDialogKey(keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string LayoutFile
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

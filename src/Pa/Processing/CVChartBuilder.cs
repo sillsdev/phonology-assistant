@@ -84,11 +84,18 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				var id = m_chartType + "ChartProcessingMsg";
-				var msg = string.Format("Processing {0} Chart: ", m_chartType);
+				if (m_chartType == ChartType.Consonant)
+				{
+					return LocalizationManager.LocalizeString("ProcessingConsonantChartMsg",
+						"Processing Consonant Chart...",
+						"Status bar message displayed when building a consonant chart.",
+						App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+						LocalizationPriority.Medium);
+				}
 
-				return LocalizationManager.LocalizeString(id, msg,
-					"Status bar message displayed when building a consonant or vowel chart.",
+				return LocalizationManager.LocalizeString("ProcessingVowelChartMsg",
+					"Processing Vowel Chart...",
+					"Status bar message displayed when building a vowel chart.",
 					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
 					LocalizationPriority.Medium);
 			}
