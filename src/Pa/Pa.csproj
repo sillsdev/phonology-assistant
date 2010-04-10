@@ -238,23 +238,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PaTMStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\CharGrid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CharGrid.Designer.cs">
-      <DependentUpon>CharGrid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controls\CharGrid.MsgHandlers.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CharGridBuilder.cs" />
-    <Compile Include="UI\Controls\CharGridHeader.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CharGridHeaderCollectionPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CharGridPersistence.cs" />
     <Compile Include="UI\Controls\CharPicker.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -280,6 +263,23 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ClassListViewItem.cs" />
+    <Compile Include="UI\Controls\CVChart-Old\CharGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGrid.designer.cs">
+      <DependentUpon>CharGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGrid.MsgHandlers.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGridBuilder.cs" />
+    <Compile Include="UI\Controls\CVChart-Old\CharGridHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGridHeaderCollectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGridPersistence.cs" />
     <Compile Include="UI\Controls\CVChart\CVChartColumnGroup.cs" />
     <Compile Include="UI\Controls\CVChart\CVChartGrid.cs">
       <SubType>Component</SubType>
@@ -671,9 +671,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PaTMStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\CharGrid.resx">
-      <DependentUpon>CharGrid.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CharPickerRows.resx">
       <DependentUpon>CharPickerRows.cs</DependentUpon>
     </EmbeddedResource>
@@ -843,6 +840,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
+    <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
+      <DependentUpon>CharGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\TranscriptionChangesDlg.resx">
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -900,9 +900,6 @@
     <None Include="Resources\ButtonDropDownArrow.png" />
     <None Include="Resources\Show_Vertical_and_Horizontal_Grid_Lines.png" />
     <None Include="Resources\Automatically_hide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Controls\CVChart-Old\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
