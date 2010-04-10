@@ -59,6 +59,7 @@ namespace SIL.Pa.UI.Controls
 			LeftColumn.HeaderText = headerText;
 			LeftColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
 			LeftColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			LeftColumn.ReadOnly = true;
 			int i = grid.Columns.Add(LeftColumn);
 			LeftColumn = grid.Columns[i] as DataGridViewTextBoxColumn;
 
@@ -67,6 +68,7 @@ namespace SIL.Pa.UI.Controls
 			RightColumn.HeaderText = headerText;
 			RightColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
 			RightColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			RightColumn.ReadOnly = true;
 			i = grid.Columns.Add(RightColumn);
 			RightColumn = grid.Columns[i] as DataGridViewTextBoxColumn;
 

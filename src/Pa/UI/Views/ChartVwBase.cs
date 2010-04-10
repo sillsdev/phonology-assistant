@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
@@ -68,6 +69,36 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected virtual Color ChartGridColor
+		{
+			get { return m_chartGrid.GridColor; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual int ColumnHeaderHeight
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual int RowHeaderWidth
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void Initialize()
 		{
 			CharGridBuilder bldr = new CharGridBuilder(m_chrGrid, CharacterType);
@@ -100,6 +131,7 @@ namespace SIL.Pa.UI.Views
 
 			m_chartGrid = new CVChartGrid();
 			m_chartGrid.Dock = DockStyle.Fill;
+			m_chartGrid.GridColor = ChartGridColor;
 			m_pnlGrid = new SilPanel();
 			m_pnlGrid.Dock = DockStyle.Fill;
 			m_pnlGrid.Controls.Add(m_chartGrid);
@@ -125,6 +157,12 @@ namespace SIL.Pa.UI.Views
 
 			foreach (var phone in cgp.Phones)
 				m_chartGrid[phone.Column, phone.Row].Value = phone.Phone;
+
+			if (ColumnHeaderHeight > 0)
+				m_chartGrid.ColumnHeadersHeight = ColumnHeaderHeight;
+
+			if (RowHeaderWidth > 0)
+				m_chartGrid.RowHeadersWidth = RowHeaderWidth;
 
 			m_chartGrid.AdjustCellSizes();
 		}

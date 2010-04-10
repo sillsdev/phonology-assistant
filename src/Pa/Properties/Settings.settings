@@ -83,5 +83,23 @@
     <Setting Name="KeepTempCVChartBuilderFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ConsonantChartGridColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">225, 225, 225</Value>
+    </Setting>
+    <Setting Name="VowelChartGridColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">225, 225, 225</Value>
+    </Setting>
+    <Setting Name="ConsonantChartColHdrHeight" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ConsonantChartRowHdrWidth" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VowelChartColHdrHeight" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="VowelChartRowHdrWidth" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

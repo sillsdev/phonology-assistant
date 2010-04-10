@@ -298,5 +298,71 @@ namespace SIL.Pa.Properties {
                 return ((bool)(this["KeepTempCVChartBuilderFile"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
+        public global::System.Drawing.Color ConsonantChartGridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ConsonantChartGridColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
+        public global::System.Drawing.Color VowelChartGridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["VowelChartGridColor"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int ConsonantChartColHdrHeight {
+            get {
+                return ((int)(this["ConsonantChartColHdrHeight"]));
+            }
+            set {
+                this["ConsonantChartColHdrHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int ConsonantChartRowHdrWidth {
+            get {
+                return ((int)(this["ConsonantChartRowHdrWidth"]));
+            }
+            set {
+                this["ConsonantChartRowHdrWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int VowelChartColHdrHeight {
+            get {
+                return ((int)(this["VowelChartColHdrHeight"]));
+            }
+            set {
+                this["VowelChartColHdrHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int VowelChartRowHdrWidth {
+            get {
+                return ((int)(this["VowelChartRowHdrWidth"]));
+            }
+            set {
+                this["VowelChartRowHdrWidth"] = value;
+            }
+        }
     }
 }
