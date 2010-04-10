@@ -1,5 +1,4 @@
 using System.Windows.Forms;
-using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
@@ -937,28 +936,28 @@ namespace SIL.Pa.UI.Controls
 			return false;
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Swaps the contents of the specified rows.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SwapRows(int row1, int row2)
-		{
-			// Swap the values in the row we're moving down with the
-			// values in the row below it.
-			for (int i = 0; i < m_grid.Columns.Count; i++)
-			{
-				string tmpPhone = m_grid[i, row2].Value as string;
-				m_grid[i, row2].Value = m_grid[i, row1].Value;
-				m_grid[i, row1].Value = tmpPhone;
-			}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Swaps the contents of the specified rows.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void SwapRows(int row1, int row2)
+		//{
+		//    // Swap the values in the row we're moving down with the
+		//    // values in the row below it.
+		//    for (int i = 0; i < m_grid.Columns.Count; i++)
+		//    {
+		//        string tmpPhone = m_grid[i, row2].Value as string;
+		//        m_grid[i, row2].Value = m_grid[i, row1].Value;
+		//        m_grid[i, row1].Value = tmpPhone;
+		//    }
 
-			// Now swap the row heading labels.
-			//string tmpLabel = m_rowHdrTexts[row2];
-			//m_rowHdrTexts[row2] = m_rowHdrTexts[row1];
-			//m_rowHdrTexts[row1] = tmpLabel;
-			m_grid.Refresh();
-		}
+		//    // Now swap the row heading labels.
+		//    //string tmpLabel = m_rowHdrTexts[row2];
+		//    //m_rowHdrTexts[row2] = m_rowHdrTexts[row1];
+		//    //m_rowHdrTexts[row1] = tmpLabel;
+		//    m_grid.Refresh();
+		//}
 
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------

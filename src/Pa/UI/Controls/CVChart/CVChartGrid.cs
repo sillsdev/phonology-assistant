@@ -16,8 +16,11 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using SIL.FieldWorks.Common.UIAdapters;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -27,9 +30,17 @@ namespace SIL.Pa.UI.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class CVChartGrid : SilGrid
+	public class CVChartGrid : SilGrid, IxCoreColleague
 	{
+		private PhoneInfoPopup m_phoneInfoPopup;
+		private ITMAdapter m_tmAdapter;
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<CVChartColumnGroup> ColumnGroups { get; private set; }
+
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<CVChartRowGroup> RowGroups { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -47,6 +58,110 @@ namespace SIL.Pa.UI.Controls
 
 			ColumnGroups = new List<CVChartColumnGroup>();
 			RowGroups = new List<CVChartRowGroup>();
+
+			m_phoneInfoPopup = new PhoneInfoPopup(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (m_phoneInfoPopup != null && !m_phoneInfoPopup.IsDisposed)
+					m_phoneInfoPopup.Dispose();
+
+				App.RemoveMediatorColleague(this);
+			}
+			
+			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public ITMAdapter TMAdapter
+		{
+			get { return m_tmAdapter; }
+			set
+			{
+				if (value == null)
+					return;
+
+				m_tmAdapter = value;
+				m_tmAdapter.SetContextMenuForControl(this, "cmnuCharChartGrid");
+				if (ContextMenuStrip != null)
+				{
+					ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
+					ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the current phone in the chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string CurrentPhone
+		{
+			get
+			{
+				return (CurrentCell == null || CurrentCell.Value == null ?
+					null : CurrentCell.Value as string);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the collection of selected phones phone in the chart.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string[] SelectedPhones
+		{
+			get
+			{
+				var phones = new List<string>();
+
+				if (SelectedCells.Count == 0)
+				{
+					string currPhone = CurrentPhone;
+					if (!string.IsNullOrEmpty(currPhone))
+						phones.Add(CurrentPhone);
+				}
+				else
+				{
+					phones = (from x in SelectedCells.Cast<DataGridViewCell>()
+							  where !string.IsNullOrEmpty((x.Value as string))
+							  select x.Value as string).ToList();
+				}
+
+				return (phones.Count == 0 ? null : phones.ToArray());
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			if (!App.DesignMode)
+				App.AddMediatorColleague(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,6 +220,27 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (DataGridViewColumn col in Columns)
 				col.Width = width;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
+		{
+			base.OnCellMouseEnter(e);
+			
+			// This will not be empty when the mouse button is down.
+			if (MouseButtons != MouseButtons.None || e.ColumnIndex < 0 || e.RowIndex < 0 ||
+				!App.IsFormActive(FindForm()))
+			{
+				return;
+			}
+
+			Rectangle rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+			if (m_phoneInfoPopup.Initialize(this[e.ColumnIndex, e.RowIndex]))
+				m_phoneInfoPopup.Show(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -209,5 +345,18 @@ namespace SIL.Pa.UI.Controls
 			rc.Height = ClientSize.Height;
 			Invalidate(rc);
 		}
+
+		#region IxCoreColleague Members
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IxCoreColleague[] GetMessageTargets()
+		{
+			return (new IxCoreColleague[] { this });
+		}
+
+		#endregion
 	}
 }

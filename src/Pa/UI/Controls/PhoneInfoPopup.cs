@@ -1,9 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SilUtils;
 using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
@@ -18,7 +16,7 @@ namespace SIL.Pa.UI.Controls
 	{
 		private bool m_drawLeftArrow = true;
 		private bool m_drawArrow = true;
-		private bool m_showRelativeToScreen = false;
+		private bool m_showRelativeToScreen;
 		private Point m_popupLocation;
 		private Control m_ctrl;
 		private DataGridViewCell m_associatedCell;
@@ -61,17 +59,31 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(DataGridViewCell associatedCell)
 		{
-			if (associatedCell == null)
+			if (associatedCell == null || associatedCell.Value == null)
 				return false;
 
-			CharGridCell cgc = associatedCell.Value as CharGridCell;
-			if (cgc != null)
+			try
 			{
-				Initialize(cgc);
-				m_associatedCell = associatedCell;
+				var cgc = associatedCell.Value as CharGridCell;
+				if (cgc != null)
+				{
+					Initialize(cgc);
+					m_associatedCell = associatedCell;
+					return true;
+				}
+
+				var phoneInfo = App.PhoneCache[associatedCell.Value as string];
+				if (phoneInfo != null)
+				{
+					m_content.Initialize(phoneInfo);
+					InternalInitialize();
+					m_associatedCell = associatedCell;
+					return true;
+				}
 			}
-			
-			return (cgc != null);
+			catch { }
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,11 +94,21 @@ namespace SIL.Pa.UI.Controls
 		public bool Initialize(CharGridCell cgc)
 		{
 			m_content.Initialize(cgc);
+			InternalInitialize();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalInitialize()
+		{
 			Size = m_content.Size;
 			m_drawLeftArrow = true;
 			m_drawArrow = true;
 			m_showRelativeToScreen = false;
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

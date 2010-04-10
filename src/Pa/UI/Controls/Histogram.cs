@@ -204,7 +204,7 @@ namespace SIL.Pa.UI.Controls
 			SearchQuery query = new SearchQuery();
 			query.Pattern = srchPhone + "/*_*";
 			query.IgnoreDiacritics = false;
-			App.MsgMediator.SendMessage("ViewFindPhones", query);
+			App.MsgMediator.SendMessage("ViewSearch", query);
 		}
 
 		/// ------------------------------------------------------------------------------------

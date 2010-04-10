@@ -52,6 +52,16 @@ namespace SIL.Pa.UI.Views
 			LoadToolbarAndContextMenus();
 			m_chrGrid.OwningViewType = GetType();
 			App.IncProgressBar();
+
+			m_chartGrid = new CVChartGrid();
+			m_chartGrid.Dock = DockStyle.Fill;
+			m_chartGrid.GridColor = ChartGridColor;
+			m_chartGrid.TMAdapter = m_tmAdapter;
+			m_pnlGrid = new SilPanel();
+			m_pnlGrid.Dock = DockStyle.Fill;
+			m_pnlGrid.Controls.Add(m_chartGrid);
+			m_chrGrid.Visible = false;
+			splitOuter.Panel1.Controls.Add(m_pnlGrid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,15 +139,7 @@ namespace SIL.Pa.UI.Views
 			App.MsgMediator.PostMessage("LayoutHistogram", Name);
 			App.IncProgressBar();
 
-			m_chartGrid = new CVChartGrid();
-			m_chartGrid.Dock = DockStyle.Fill;
-			m_chartGrid.GridColor = ChartGridColor;
-			m_pnlGrid = new SilPanel();
-			m_pnlGrid.Dock = DockStyle.Fill;
-			m_pnlGrid.Controls.Add(m_chartGrid);
-			m_chrGrid.Visible = false;
-			splitOuter.Panel1.Controls.Add(m_pnlGrid);
-			LoadChart();
+			LoadNewChart();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -145,7 +147,7 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual void LoadChart()
+		protected virtual void LoadNewChart()
 		{
 			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
 
@@ -632,7 +634,15 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void PerformSearch(string environment, string toolbarItemName)
 		{
-			string[] srchPhones = (m_chrGrid == null ? null : m_chrGrid.SelectedPhones);
+			string[] srchPhones = (m_chrGrid == null || !m_chrGrid.Visible ?
+				null : m_chrGrid.SelectedPhones);
+
+			if (srchPhones == null)
+			{
+				srchPhones = (m_pnlGrid == null || !m_pnlGrid.Visible ?
+					null : m_chartGrid.SelectedPhones);
+			}
+
 			if (srchPhones == null)
 				return;
 
@@ -653,7 +663,7 @@ namespace SIL.Pa.UI.Views
 				queries.Add(query);
 			}
 
-			App.MsgMediator.SendMessage("ViewFindPhones", queries);
+			App.MsgMediator.SendMessage("ViewSearch", queries);
 
 			// Now set the image of the search button to the image associated
 			// with the last search environment chosen by the user.
@@ -704,7 +714,12 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !m_activeView)
 				return false;
 
-			bool enable = (m_chrGrid != null && m_chrGrid.SelectedPhones != null);
+			bool enable = false;
+			
+			if (m_chrGrid != null && m_chrGrid.Visible && m_chrGrid.SelectedPhones != null)
+				enable = true;
+			else if (m_pnlGrid.Visible && m_chartGrid != null && m_chartGrid.SelectedPhones != null)
+				enable = true;
 
 			if (itemProps.Enabled != enable)
 			{

@@ -671,7 +671,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					App.MsgMediator.SendMessage("ViewFindPhones", SelectedNode.Tag as SearchQuery);
+					App.MsgMediator.SendMessage("ViewSearch", SelectedNode.Tag as SearchQuery);
 					App.TMAdapter.HideBarItemsPopup("tbbFindPhones");
 				}
 				catch { }
@@ -1107,7 +1107,7 @@ namespace SIL.Pa.UI.Controls
 			if (!App.IsFormActive(FindForm()))
 				return false;
 
-			App.MsgMediator.SendMessage("ViewFindPhones", CurrentQuery);
+			App.MsgMediator.SendMessage("ViewSearch", CurrentQuery);
 			return true;
 		}
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -18,14 +19,14 @@ namespace SIL.Pa.UI.Controls
 	{
 		private readonly int m_extraMonogramHeight;
 		private readonly int m_extraUncertainListHeight;
-		private readonly int m_origWidth1;
-		private readonly int m_origWidth2;
-		private readonly int m_origWidth3;
-		private readonly int m_origLeft;
+		//private readonly int m_origWidth1;
+		//private readonly int m_origWidth2;
+		//private readonly int m_origWidth3;
+		//private readonly int m_origLeft;
 		private readonly int m_origUncertaintyHeadingHeight;
 		private readonly int m_countPanelOrigHeight;
 		private readonly PhoneInfoPopup m_hostingPopup;
-		private bool m_siblingUncertaintiesExist = false;
+		private bool m_siblingUncertaintiesExist;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,10 +38,10 @@ namespace SIL.Pa.UI.Controls
 			InitializeComponent();
 			base.DoubleBuffered = true;
 
-			m_origWidth1 = lblMonogram.Width;
-			m_origWidth2 = pnlMonogram.Width;
-			m_origWidth3 = lblCountHeading.Width;
-			m_origLeft = lblCountHeading.Left;
+			//m_origWidth1 = lblMonogram.Width;
+			//m_origWidth2 = pnlMonogram.Width;
+			//m_origWidth3 = lblCountHeading.Width;
+			//m_origLeft = lblCountHeading.Left;
 			m_origUncertaintyHeadingHeight = lblUncertaintyHeading.Height;
 			m_countPanelOrigHeight = pnlCounts.Height;
 
@@ -81,6 +82,21 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		internal void Initialize(IPhoneInfo phoneInfo)
+		{
+			lblMonogram.Text = phoneInfo.Phone;
+			lblNormallyCount.Text = phoneInfo.TotalCount.ToString();
+			lblPrimaryCount.Text = phoneInfo.CountAsPrimaryUncertainty.ToString();
+			lblNonPrimaryCount.Text = phoneInfo.CountAsNonPrimaryUncertainty.ToString();
+			RefreshFonts();
+			m_siblingUncertaintiesExist = SetSiblingUncertainties(phoneInfo.SiblingUncertainties);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void RefreshFonts()
 		{
 			// Reset the with of labels that make up the black box with a white border as
@@ -104,7 +120,7 @@ namespace SIL.Pa.UI.Controls
 			// the right a bit.
 			using (Graphics g = lblMonogram.CreateGraphics())
 			{
-				TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+				const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 					TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 					TextFormatFlags.NoClipping;
 
@@ -154,12 +170,7 @@ namespace SIL.Pa.UI.Controls
 			pnlCounts.Height = m_countPanelOrigHeight;
 
 			// Weed out duplicates.
-			List<string> tmpSiblings = new List<string>();
-			foreach (string sibling in siblingUncertainties)
-			{
-				if (!tmpSiblings.Contains(sibling))
-					tmpSiblings.Add(sibling);
-			}
+			var tmpSiblings = siblingUncertainties.Distinct().ToList();
 
 			// Now build the display string.
 			StringBuilder bldr = new StringBuilder();
@@ -169,7 +180,7 @@ namespace SIL.Pa.UI.Controls
 			lblSiblingPhones.Text = bldr.ToString().TrimEnd(", ".ToCharArray());
 
 			// Set the desired height of the sibling phones list so all the phones are visible.
-			TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
 				TextFormatFlags.NoPadding | TextFormatFlags.WordBreak;
 
 			lblSiblingPhones.Height =

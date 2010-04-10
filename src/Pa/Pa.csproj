@@ -901,6 +901,9 @@
     <None Include="Resources\Show_Vertical_and_Horizontal_Grid_Lines.png" />
     <None Include="Resources\Automatically_hide.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Controls\CVChart-Old\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>md "$(ProjectDir)$(OutDir)\Configuration"
