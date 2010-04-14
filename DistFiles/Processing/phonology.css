@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-04-06 */
+﻿/* phonology.css 2010-04-14 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For rounded border properties. */
@@ -30,7 +30,7 @@ body
 {
 font-family: Verdana, Helvetica, sans-serif;
 font-size: 100%;
-padding: 1em; /* 0.5em */
+padding: 1em;
 }
 
 /* Reports ------------------------------------------------------------------ */
@@ -118,7 +118,8 @@ font-weight: normal;
 }
 
 table.list thead tr th.sortField,
-table.list tbody tr .item /* Matched items in search result lists. */
+table.list tbody tr .item, /* Matched items in search result lists. */
+table.distribution tr.individual td.individual
 {
 font-weight: bold;
 }
@@ -246,7 +247,7 @@ vertical-align: bottom; /* Prevent trapped white space if some cells have line b
 }
 
 thead th,
-table.list div.differences li,
+table.list ul.differences li,
 table.chart tbody th,
 table.features th,
 table.features .name
@@ -302,7 +303,75 @@ table.CV td.Phonetic > ul li
 display: inline;
 }
 
-/* Lists of feature differences for a minimal pair -------------------------- */
+/* Lists of uncertainties or changes in phonetic transcriptions ------------- */
+
+/* If JavaScript is unavailable, hide transcriptions. */
+table.list ul.transcription
+{
+display: none;
+}
+
+/* Interactive Web page: phonology.js inserts div.transcription */
+/* to wrap the children of any td which contains ul.transcription, */
+/* because td itself cannot have relative position. */
+table.list.interactive div.transcription
+{
+position: relative;
+}
+
+/* Closed state: a rectangle at the right edge of td. */
+table.list.interactive div.transcription ul.transcription
+{
+display: block;
+position: absolute;
+z-index: 2;
+top: -0.1875em; /* Negative padding-top of td. */
+left: 100%;
+margin-left: 0.125em; /* Margin plus width equals padding-right of td. */
+width: 0.375em;
+height: 1.1875em; /* Line-height plus padding-top of td. */
+padding-bottom: 0.1875em; /* Same as td; in addition to li. */
+list-style: none;
+}
+
+/* Open state: the left edge aligns with the next column to the right. */
+table.list.interactive div.transcription ul.transcription:hover
+{
+z-index: 1; /* Do not cover transcriptions in following rows. */
+margin-left: 0.5em; /* Same as padding-right of td. */
+width: auto;
+height: auto;
+border-style: solid;
+border-width: 1px;
+margin-top: -1px; /* Negative of border-width. */
+}
+
+table.list ul.transcription li
+{
+display: none;
+}
+
+table.list.interactive ul.transcription:hover li
+{
+display: block;
+white-space: nowrap;
+padding-top: 0.1875em; /* Same as td. */
+padding-right: 0.5em; /* Same as td. */
+padding-bottom: 0.1875em; /* Same as td. */
+padding-left: 0.5em; /* Same as td. */
+}
+
+/* The first list item covers the closed rectangle to hold the open state. */
+table.list.interactive ul.transcription li:first-child
+{
+position: relative;
+left: -0.5em; /* Negative padding-right of td. */
+border-left-style: solid;
+border-left-width: 0.5em; /* More than width of closed state. */
+min-height: 1em; /* Plus padding-top and padding-bottom equals height of closed rectangle. */
+}
+
+/* Minimal pairs and their feature differences ------------------------------ */
 
 table.list th.pair ul
 {
@@ -317,68 +386,47 @@ display: inline;
 
 table.list th.pair > ul li span
 {
+position: relative;
+z-index: 1;
+border-left-style: solid;
+border-width: 1px;
 padding-left: 0.25em;
 padding-right: 0.25em;
 }
 
-table.list th.pair > ul li div.features,
-table.list.collapsed tbody th.pair > ul li div.differences,
-table.list tbody.collapsed th.pair > ul li div.differences,
-table.list th.pair > ul li div.differences
+table.list th.pair > ul li:hover span
+{
+z-index: 3; /* Overlap ul.differences border-top. */
+}
+
+table.list.collapsed tbody th.pair > ul li ul.differences,
+table.list tbody.collapsed th.pair > ul li ul.differences,
+table.list th.pair > ul li ul.differences
 {
 display: none;
 }
 
-table.list th.pair > ul li:hover div.differences
+table.list th.pair > ul li:hover ul.differences
 {
 display: block;
 position: absolute;
-z-index: 1;
+z-index: 2; /* Overlap following th.pair > ul li span. */
 left: 0;
 top: 1.5em;
 padding-top: 0.25em;
 padding-bottom: 0.25em;
-padding-left: 0.25em;
+padding-left: 0.25em; /* Same as span. */
 padding-right: 0.25em;
+border-style: solid;
+border-width: 1px;
 }
 
-table.list th.pair > ul li div.differences ul li
+table.list th.pair > ul li ul.differences li
 {
-display: block;
 font-family: Verdana, Helvetica, sans-serif;
 font-size: 75%;
 line-height: 1.1666;
 }
-
-/* List of phonetically similar phones -------------------------------------- */
-
-table.phoneticSimilarity thead th[colspan]
-{
-border-bottom-style: none;
-}
-
-table.phoneticSimilarity thead th
-{
-vertical-align: bottom; /* Prevent trapped white space if some cells have rowspan. */
-}
-
-table.phoneticSimilarity td > ul
-{
-list-style: none;
-}
-
-/*
-table.phoneticSimilarity td > ul li
-{
-display: inline;
-}
-*/
-
-table.phoneticSimilarity td
-{
-font-size: 75%;
-}
-
 
 /* Borders ------------------------------------------------------------------ */
 
@@ -471,8 +519,10 @@ border-right-style: solid; /* Internet Explorer 8 or later; not Opera 10 or earl
 }
 
 /* Interactive divisions in reports ----------------------------------------- */
+/* To expand or collapse a division in a report, click its heading. */
+/* Assume one heading (the first child) per division. */
 
-div.collapsed div,
+div.collapsed div, /* Child division. */
 div.collapsed p,
 div.collapsed table,
 div.collapsed ul
@@ -651,25 +701,27 @@ border-left-width: 1px;
 
 /* Color ==================================================================== */
 
-/*     Hex    R   G   B    H    S    V   Description          Meaning         */
-/* #000000    0   0   0    0°   0%   0%  black                text normal     */
-/* #404040   64  64  64    0°   0%  25%  gray                 text bold       */
-/* #999999  153 153 153    0°   0%  60%  gray-40%             text collapsed  */
-/* #ffffff  255 255 255    0°   0% 100%  white                background      */
-/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory    background      */
+/*     Hex    R   G   B    H    S    V   Description            Meaning           */
+/* #000000    0   0   0    0°   0%   0%  black                  text normal       */
+/* #404040   64  64  64    0°   0%  25%  gray                   text bold         */
+/* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed    */
+/* #ffffff  255 255 255    0°   0% 100%  white                  background print  */
+/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background        */
+/* #f8fff8  248 255 248  120°   3% 100%  desaturated green      background hover  */
 
-/* #ffff00  255 255   0   60° 100% 100%  yellow               important       */
-/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow   significant     */
-/* #ffabab  255 171 171    0°  33% 100%  desaturated red      error           */
+/* #ffff00  255 255   0   60° 100% 100%  yellow                 important         */
+/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant       */
+/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  significant hover */
+/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error             */
 
-/*                                                            border          */
-/* #dddddd  221 221 221    0°   0%  87%  light gray           lighter border  */
+/*                                                              border            */
+/* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border    */
 
-/* #cfe6cf  207 230 207  120°  10%  90%  lightest green       interactive     */
-/* #b8d9b8  184 217 184  120°  15%  85%  lighter green        interactive alt */
-/* #a3cca3  163 204 163  120°  20%  80%  light green          active          */
-/* #7db27d  125 178 125  120°  30%  70%  green                selected        */
-/*                                       transparent          inactive        */
+/* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive       */
+/* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive alt   */
+/* #a3cca3  163 204 163  120°  20%  80%  light green            active            */
+/* #7db27d  125 178 125  120°  30%  70%  green                  selected          */
+/*                                       transparent            inactive          */
 
 /* Color -------------------------------------------------------------------- */
 
@@ -690,6 +742,12 @@ color: #999999; /* text collapsed */
 table.CV .notInEnvironment span
 {
 color: #99995c; /* rgb(153, 153, 92) hsv(60, 40, 60) not in environment */
+}
+
+table.list ul.transcription strong,
+table.distribution tr.individual td.individual
+{
+color: #404040; /* text bold */
 }
 
 a:active,
@@ -727,6 +785,11 @@ table.distribution .zero
 background-color: #ffffab; /* significant */
 }
 
+table.list ul.transcription strong
+{
+background-color: #ffffd6; /* significant hover */
+}
+
 table.CV .notInEnvironment span
 {
 /* For background color property, see the phonology_CSS3.css file. */
@@ -744,10 +807,10 @@ background-color: #ffabab; /* error */
 }
 
 ul.environments.interactive li.Phonetic,
-div.interactive h1,
-div.interactive h2,
-div.interactive h3,
-div.interactive h4,
+h1.interactive,
+h2.interactive,
+h3.interactive,
+h4.interactive,
 table.list.interactive th.group,
 table.list.interactive th.count,
 table.list.interactive tr.heading th.pair,
@@ -767,24 +830,26 @@ table.distribution.interactive th[class] /* Internet Explorer 7 and later. */
 background-color: #cfe6cf; /* interactive */
 }
 
+/* Class selector hides the following rules, */
+/* because Internet Explorer 6 and earlier ignore :hover pseudo-class. */
+
+table[class].list.interactive ul.transcription
+{
+background-color: #cfe6cf; /* interactive */
+}
+
 table.distribution.interactive tr.individual th.Phonetic /* Internet Explorer 7 and later. */
 {
 background-color: #b8d9b8; /* interactive alt */
 }
 
-table.distribution tr.individual td.individual
-{
-font-weight: bold;
-color: #404040; /* text bold */
-}
-
 /* Pseudo-class :hover in tables: Internet Explorer 7 or later. */
 
 ul.environments.interactive li.Phonetic:hover,
-div.interactive h1:hover,
-div.interactive h2:hover,
-div.interactive h3:hover,
-div.interactive h4:hover,
+h1.interactive:hover,
+h2.interactive:hover,
+h3.interactive:hover,
+h4.interactive:hover,
 table.list.collapsed tbody th.pair > ul li:hover span,
 table.list tbody.collapsed th.pair > ul li:hover span,
 table.list.interactive th.group:hover,
@@ -810,8 +875,6 @@ table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and lat
 background-color: #a3cca3; /* active */
 }
 
-table.list.interactive th.pair > ul li:hover span,
-table.list th.pair div.differences,
 table.CV td.Phonetic > ul li:hover span,
 table.CV.interactive td.Phonetic.selected,
 table.articulatory.interactive td.selected,
@@ -820,6 +883,13 @@ table.features.interactive td.minus.selected,
 table.features.interactive td.plus.selected
 {
 background-color: #7db27d; /* selected */
+}
+
+table.list.interactive th.pair > ul li:hover span,
+table.list.interactive th.pair > ul li:hover ul.differences,
+table.list.interactive ul.transcription:hover
+{
+background-color: #f8fff8; /* background hover */
 }
 
 table.CV.inactive td.Phonetic,
@@ -876,4 +946,21 @@ table.distribution.interactive thead tr:first-child th:first-child div span,
 colgroup, thead, tbody /* Row and column groups in consonant or vowel charts. */
 {
 border-color: #dddddd; /* lighter border */
+}
+
+table.list.interactive ul.transcription li:first-child
+{
+border-color: #a3cca3; /* active */
+}
+
+table.list.interactive th.pair > ul li span
+{
+border-color: #cfe6cf; /* interactive */
+}
+
+table.list.interactive th.pair:hover > ul li span,
+table.list.interactive th.pair > ul li:hover ul.differences,
+table.list.interactive ul.transcription:hover
+{
+border-color: #a3cca3; /* active */
 }

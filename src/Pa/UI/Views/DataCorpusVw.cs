@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -38,8 +39,13 @@ namespace SIL.Pa.UI.Views
 		{
 			if (!App.DesignMode)
 			{
-				App.InitializeProgressBarForLoadingView(
-					Properties.Resources.kstidDataCorpusViewText, 2);
+				var msg = LocalizationManager.LocalizeString("InitializingDataCorpusViewMsg",
+					"Initializing Data Corpus View...",
+					"Message displayed whenever the data corpus view is being initialized.",
+					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+					LocalizationPriority.Medium);
+
+				App.InitializeProgressBarForLoadingView(msg, 2);
 			}
 
 			InitializeComponent();
@@ -874,14 +880,47 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsWordXml(object args)
+		{
+			if (!m_activeView)
+				return false;
+
+			var fmt = LocalizationManager.LocalizeString("DefaultDataCorpusWord2003XmlExportFileAffix",
+				"{0}-DataCorpus.xml", null, App.kLocalizationGroupMisc,
+				LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+
+			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
+
+			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
+
+			if (outputFileName == null)
+				return false;
+
+			DataCorpusExporter.ToWordXml(App.Project, outputFileName, m_grid,
+				Settings.Default.OpenHTMLDataCorpusAfterExport);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			string defaultHTMLFileName =
-				string.Format(Properties.Resources.kstidDataCorpusHTMLFileName,
-				App.Project.LanguageName);
+			var fmt = LocalizationManager.LocalizeString("DefaultDataCorpusHTMLExportFileAffix",
+				"{0}-DataCorpus.html", null, App.kLocalizationGroupMisc,
+				LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+
+			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
 
 			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
@@ -892,7 +931,7 @@ namespace SIL.Pa.UI.Views
 			if (outputFileName == null)
 				return false;
 
-			DataCorpusExporter.Process(App.Project, outputFileName, m_grid,
+			DataCorpusExporter.ToHtml(App.Project, outputFileName, m_grid,
 				Settings.Default.OpenHTMLDataCorpusAfterExport);
 
 			return true;

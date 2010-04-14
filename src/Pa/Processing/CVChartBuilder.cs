@@ -20,6 +20,7 @@ using System.Xml;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
 namespace SIL.Pa.Processing
@@ -32,20 +33,14 @@ namespace SIL.Pa.Processing
 	/// ----------------------------------------------------------------------------------------
 	public class CVChartBuilder : ProjectInventoryBuilder
 	{
-		public enum ChartType
-		{
-			Consonant,
-			Vowel
-		}
-
-		protected ChartType m_chartType;
+		protected CVChartType m_chartType;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, PhoneCache phoneCache, ChartType chartType)
+		public static bool Process(PaProject project, PhoneCache phoneCache, CVChartType chartType)
 		{
 			if (project == null)
 				return false;
@@ -67,7 +62,7 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected CVChartBuilder(PaProject project, PhoneCache phoneCache, ChartType chartType)
+		protected CVChartBuilder(PaProject project, PhoneCache phoneCache, CVChartType chartType)
 			: base(project, phoneCache)
 		{
 			m_chartType = chartType;
@@ -84,7 +79,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				if (m_chartType == ChartType.Consonant)
+				if (m_chartType == CVChartType.Consonant)
 				{
 					return LocalizationManager.LocalizeString("ProcessingConsonantChartMsg",
 						"Processing Consonant Chart...",

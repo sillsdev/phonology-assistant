@@ -19,10 +19,12 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static new bool Process(PaProject project, string outputFileName,
+		public static new bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new SearchResultExporter(project, outputFileName, grid, openAfterExport);
+			var exporter = new SearchResultExporter(project, outputFileName,
+				OutputFormat.XHTML, grid, openAfterExport);
+			
 			return exporter.InternalProcess(Settings.Default.KeepTempSearchResultExportFile,
 				Pipeline.ProcessType.ExportSearchResult, Pipeline.ProcessType.ExportToXHTML);
 		}
@@ -33,8 +35,8 @@ namespace SIL.Pa.Processing
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private SearchResultExporter(PaProject project, string outputFileName,
-			DataGridView dgrid, bool openAfterExport) :
-			base(project, outputFileName, dgrid, openAfterExport)
+			OutputFormat outputFormat, DataGridView dgrid, bool openAfterExport) :
+			base(project, outputFileName, outputFormat, dgrid, openAfterExport)
 		{
 			if (!m_isGridGrouped)
 				return;

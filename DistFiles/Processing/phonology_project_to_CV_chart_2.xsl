@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_2.xsl 2010-03-25 -->
+  <!-- phonology_project_to_CV_chart_2.xsl 2010-04-09 -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
@@ -9,9 +9,9 @@
 	<xsl:variable name="units" select="/inventory/units" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-	<xsl:template match="@*|node()">
+	<xsl:template match="@* | node()">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 		</xsl:copy>
 	</xsl:template>
 
@@ -72,8 +72,18 @@
 		<xsl:variable name="literal" select="@literal" />
 		<xsl:variable name="rowgroupFeature" select="keys/chartKey[@class = 'rowgroup']" />
 		<xsl:variable name="group" select="$rowgroupFeatures/feature[name = $rowgroupFeature]/@group" />
+		<xsl:variable name="rowForNonUniqueUnit" select="$rowgroupFeatures/feature[name = $rowgroupFeature]/row[@literal = $literal]" />
 		<xsl:variable name="rowKey" select="keys/chartKey[@class = 'row']" />
-		<xsl:variable name="row" select="count($rowgroupFeatures/feature[name = $rowgroupFeature]/row[. = $rowKey]/preceding::row)" />
+		<xsl:variable name="row">
+			<xsl:choose>
+				<xsl:when test="$rowForNonUniqueUnit">
+					<xsl:value-of select="count($rowForNonUniqueUnit/preceding::row)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="count($rowgroupFeatures/feature[name = $rowgroupFeature]/row[. = $rowKey][not(@literal)]/preceding::row)" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:variable name="colgroupFeature" select="keys/chartKey[@class = 'colgroup']" />
 		<xsl:variable name="colgroup" select="number($colgroupFeatures/feature[. = $colgroupFeature]/@column)" />
 		<xsl:variable name="col" select="keys/chartKey[@class = 'col']" />

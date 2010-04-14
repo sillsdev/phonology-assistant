@@ -1,8 +1,8 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_1a.xsl 2010-03-29 -->
-	<!-- Insert lists of feature names. -->
-	<!-- Number the articulatory features. -->
+  <!-- phonology_project_to_CV_chart_1a.xsl 2010-04-13 -->
+	<!-- Insert features for column and row groups of a chart. -->
+	<!-- Insert chart keys to place units in cells of a chart. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
@@ -13,9 +13,9 @@
 	<xsl:variable name="units" select="/inventory/units" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-	<xsl:template match="@*|node()">
+	<xsl:template match="@* | node()">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 		</xsl:copy>
 	</xsl:template>
 
@@ -33,7 +33,7 @@
 
 	<xsl:template match="inventory">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 			<colgroupFeatures>
 				<xsl:apply-templates select="$programArticulatoryFeatures/feature[@class = 'colgroup'][@type = $type]" />
 			</colgroupFeatures>
@@ -99,8 +99,18 @@
 				<xsl:for-each select="$programArticulatoryFeatures/feature">
 					<xsl:variable name="featureName" select="name" />
 					<xsl:if test="$articulatoryFeatures/feature[@class = 'row'][. = $featureName] or $articulatoryFeatures/feature[@class = 'colgroup'][@primary = 'false'][. = $featureName]">
-						<!-- For a row feature, use the number of preceding siblings as the key. -->
-						<xsl:value-of select="format-number(count(preceding-sibling::feature), $subKeyFormat)" />
+						<!-- For a row feature, use the position as the key. -->
+						<xsl:value-of select="format-number(position(), $subKeyFormat)" />
+					</xsl:if>
+				</xsl:for-each>
+			</chartKey>
+			<!-- The next step uses this key to determine whether any units have identical features. -->
+			<chartKey class="all">
+				<!-- Make sure that the keys are in the correct order. -->
+				<xsl:for-each select="$programArticulatoryFeatures/feature">
+					<xsl:variable name="featureName" select="name" />
+					<xsl:if test="$articulatoryFeatures/feature[. = $featureName]">
+						<xsl:value-of select="format-number(position(), $subKeyFormat)" />
 					</xsl:if>
 				</xsl:for-each>
 			</chartKey>
@@ -149,9 +159,9 @@
 
 	<!-- For an inventory feature (versus a unit feature), copy only its name or fullname. -->
 	
-	<xsl:template match="inventory/*/feature/*" />
+	<xsl:template match="inventory/articulatoryFeatures/feature/*" />
 	
-	<xsl:template match="inventory/*/feature/name | inventory/*/feature/fullname">
+	<xsl:template match="inventory/articulatoryFeatures/feature/name | inventory/articulatoryFeatures/feature/fullname">
 		<xsl:copy-of select="." />
 	</xsl:template>
 

@@ -1,15 +1,15 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- PA_PhoneInventory_2a_diacritics.xsl 2010-03-19 -->
+  <!-- PA_PhoneInventory_2a_diacritics.xsl 2010-04-09 -->
   <!-- Merge articulatory and binary features of each diacritic into the preceding base character. -->
 	<!-- TO DO: What if there are repeated diacritics by mistake? -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 

@@ -300,10 +300,6 @@
   <data name="kstidUnableToEditSourceRecordMsg" xml:space="preserve">
     <value>There is no source record editor associated with this record.</value>
   </data>
-  <data name="kstidViewInitProgBarTemplate" xml:space="preserve">
-    <value>Initializing {0} View...</value>
-    <comment>Template for progress bar text text when a view is being initialized</comment>
-  </data>
   <data name="kstidEnvironmentAfter" xml:space="preserve">
     <value>following environment</value>
   </data>
@@ -588,10 +584,6 @@
   <data name="kstidConsonantChartViewHelpToolTip" xml:space="preserve">
     <value>Consonant Chart View Help</value>
   </data>
-  <data name="kstidConsonantChartViewText" xml:space="preserve">
-    <value>Consonant Chart</value>
-    <comment>Used in progress bar text when view is being initialized</comment>
-  </data>
   <data name="kstidConsonantChartViewToolTip" xml:space="preserve">
     <value>Consonant Chart View (Ctrl+Alt+C)</value>
   </data>
@@ -603,20 +595,8 @@
     <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
-  <data name="kstidDataCorpusHTMLChartType" xml:space="preserve">
-    <value>Data Corpus</value>
-    <comment>Written to the charttype attribute in HTML exported output</comment>
-  </data>
-  <data name="kstidDataCorpusHTMLFileName" xml:space="preserve">
-    <value>{0}-DataCorpus.html</value>
-    <comment>Default name for the HTML export file for HTML output of a data corpus view. The user may change this on the save file dialog.</comment>
-  </data>
   <data name="kstidDataCorpusViewHelpToolTip" xml:space="preserve">
     <value>Data Corpus View Help</value>
-  </data>
-  <data name="kstidDataCorpusViewText" xml:space="preserve">
-    <value>Data Corpus</value>
-    <comment>Used in progress bar text when view is being initialized</comment>
   </data>
   <data name="kstidDataCorpusViewToolTip" xml:space="preserve">
     <value>Data Corpus View (Ctrl+Alt+D)</value>
@@ -627,22 +607,6 @@
   <data name="kstidDataSourceHdg" xml:space="preserve">
     <value>Data Source</value>
     <comment>Heading for column in the undefined phonetic characters dialog</comment>
-  </data>
-  <data name="kstidDataSourceNoLangName" xml:space="preserve">
-    <value>You must specify a language name.</value>
-    <comment>Project properties dialog message.</comment>
-  </data>
-  <data name="kstidDataSourceNoMappings" xml:space="preserve">
-    <value>You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.</value>
-    <comment>Project properties dialog message.</comment>
-  </data>
-  <data name="kstidDataSourceNoProjName" xml:space="preserve">
-    <value>You must specify a project name.</value>
-    <comment>Project properties dialog message.</comment>
-  </data>
-  <data name="kstidDataSourceNoXSLT" xml:space="preserve">
-    <value>You must specify an XSLT file for '{0}'</value>
-    <comment>Project properties dialog message.</comment>
   </data>
   <data name="kstidDataSourceOpenFileCaption" xml:space="preserve">
     <value>Choose Data Source File(s)</value>
@@ -1100,10 +1064,6 @@
   <data name="kstidSearchViewHelpToolTip" xml:space="preserve">
     <value>Search View Help</value>
   </data>
-  <data name="kstidSearchViewText" xml:space="preserve">
-    <value>Search</value>
-    <comment>Used in progress bar text when view is being initialized</comment>
-  </data>
   <data name="kstidSearchViewToolTip" xml:space="preserve">
     <value>Search View (Ctrl+Alt+S)</value>
   </data>
@@ -1222,10 +1182,6 @@
   <data name="kstidVowelChartViewHelpToolTip" xml:space="preserve">
     <value>Vowel Chart View Help</value>
   </data>
-  <data name="kstidVowelChartViewText" xml:space="preserve">
-    <value>Vowel Chart</value>
-    <comment>Used in progress bar textwhen view is being initialized</comment>
-  </data>
   <data name="kstidVowelChartViewToolTip" xml:space="preserve">
     <value>Vowel Chart View (Ctrl+Alt+V)</value>
   </data>
@@ -1300,10 +1256,6 @@
   </data>
   <data name="kstidXYChartsViewHelpToolTip" xml:space="preserve">
     <value>XY Charts View Help</value>
-  </data>
-  <data name="kstidXYChartsViewText" xml:space="preserve">
-    <value>XY Charts</value>
-    <comment>Used in progress bar text when view is being initialized</comment>
   </data>
   <data name="kstidXYChartsViewToolTip" xml:space="preserve">
     <value>XY Charts View (Ctrl+Alt+X)</value>

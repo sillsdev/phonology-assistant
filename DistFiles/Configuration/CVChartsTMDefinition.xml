@@ -110,7 +110,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial"/>
 		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal"/>
 		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone"/>
-		<command id="CmdChartTBRemove"/>
+		<command id="CmdChartTBRemove" message="RemoveCVChartRowsColsParent"/>
 		<command id="CmdChartTBMenuRemoveRow" message="RemoveChartRowTBMenu"/>
 		<command id="CmdChartTBMenuRemoveCol" message="RemoveChartColTBMenu"/>
 		<command id="CmdChartTBMenuRemoveRowHeading" message="RemoveChartRowHeadingTBMenu"/>
@@ -135,7 +135,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCharChartMoveColRight" message="MoveCharChartColRight"/>
 		<command id="CmdMoveCharChartRowDown" message="MoveCharChartRowDown"/>
 		<command id="CmdMoveCharChartRowUp" message="MoveCharChartRowUp"/>
-		<command id="CmdChartTBAdd"/>
+		<command id="CmdChartTBAdd" message="AddCVChartRowsColsParent"/>
 		<command id="CmdChartTBMenuAddRowBefore" message="AddChartRowBeforeTBMenu"/>
 		<command id="CmdChartTBMenuAddRowAfter" message="AddChartRowAfterTBMenu"/>
 		<command id="CmdChartTBMenuAddColBefore" message="AddChartColBeforeTBMenu"/>
@@ -147,7 +147,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdChartTBView"/>
 		<command id="CmdChartTBMenuShowRowSubHeadings" message="ShowChartRowSubHeadingsTBMenu"/>
 		<command id="CmdChartTBMenuShowColSubHeadings" message="ShowChartColSubHeadingsTBMenu"/>
-		<command id="CmdChartTBMenuIgnoredCharsParent" />
+		<command id="CmdChartTBMenuIgnoredCharsParent" message="ChartTBMenuIgnoredCharsParent"/>
 		<command id="CmdChartTBMenuIgnoredChars" message="ChooseIgnoredCharactersTBMenu"/>
 		<command id="CmdChartTBMenuRestoreDefault" message="RestoreDefaultLayoutTBMenu"/>
 		<command id="CmdShowHistogram" message="ShowHistogram"/>

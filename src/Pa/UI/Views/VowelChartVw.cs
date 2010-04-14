@@ -57,7 +57,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("InitializingVowelChartMsg",
+				return LocalizationManager.LocalizeString("InitializingVowelChartViewMsg",
 					"Initializing Vowel Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.",
 					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,

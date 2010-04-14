@@ -45,7 +45,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public XYChartVw()
 		{
-			App.InitializeProgressBarForLoadingView(Properties.Resources.kstidXYChartsViewText, 6);
+			var msg = LocalizationManager.LocalizeString("InitializingDistributionChartViewMsg",
+				"Initializing Distribution Chart View...",
+				"Message displayed whenever the distribution chart view is being initialized.",
+				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+				LocalizationPriority.Medium);
+
+			App.InitializeProgressBarForLoadingView(msg, 6);
 			InitializeComponent();
 			Name = "XYChartVw";
 			App.IncProgressBar();

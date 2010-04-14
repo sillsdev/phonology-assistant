@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1a.xsl 2010-04-03 -->
+  <!-- phonology_export_view_CV_chart_1a.xsl 2010-04-14 -->
   <!-- Temporarily convert the table of phones to a list of phones. -->
   <!-- From the project phonetic inventory file, for each phone: -->
   <!-- * Get the lists of articulatory and binary features. -->
@@ -67,9 +67,9 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="rowKeyFormat" select="translate(count($articulatoryFeatures/feature), '0123456789', '0000000000')" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 

@@ -364,5 +364,27 @@ namespace SIL.Pa.Properties {
                 this["VowelChartRowHdrWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepTempCVChartExportFile {
+            get {
+                return ((bool)(this["KeepTempCVChartExportFile"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenHTMLCVChartAfterExport {
+            get {
+                return ((bool)(this["OpenHTMLCVChartAfterExport"]));
+            }
+            set {
+                this["OpenHTMLCVChartAfterExport"] = value;
+            }
+        }
     }
 }

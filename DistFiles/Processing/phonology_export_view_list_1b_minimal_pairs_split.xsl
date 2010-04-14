@@ -3,11 +3,16 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-04-06 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-04-14 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
-	<!-- TO DO: Correct for Both Environments Identical, but must adapt enumeration for Before or After. -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
+	<!-- Important: If table is not Search view, copy it with no changes. -->
+
+	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
+	<!-- * xhtml:table[contains(@class, 'list')] instead of @class = 'list' -->
+	<!-- * xhtml:tbody[contains(@class, 'group')] instead of @class = 'group' -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 
@@ -25,9 +30,9 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
 	<!-- Apply or ignore transformations. -->
-	<xsl:template match="xhtml:table[@class = 'list']">
+	<xsl:template match="xhtml:table">
 		<xsl:choose>
-			<xsl:when test="$minimalPairs and $oneMinimalPairPerGroup = 'true'">
+			<xsl:when test="contains(@class, 'list') and $minimalPairs and $oneMinimalPairPerGroup = 'true'">
 				<xsl:copy>
 					<xsl:apply-templates select="@* | node()" />
 				</xsl:copy>
@@ -39,7 +44,7 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:template>
 
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']">
+  <xsl:template match="xhtml:tbody[contains(@class, 'group')]">
     <xsl:apply-templates select="xhtml:tr[@class = 'data'][1]" mode="enumerate1" />
   </xsl:template>
 
@@ -65,7 +70,7 @@ exclude-result-prefixes="xhtml"
 		<!-- Especially for contrast in analogous environments (that is, not Both Environments Identical), -->
 		<!-- there might be multiple non-adjacent occurrences of units. -->
 		<xsl:if test="not(preceding-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2])">
-			<xsl:apply-templates select="ancestor::xhtml:tbody[@class = 'group']" mode="minimalPair">
+			<xsl:apply-templates select="ancestor::xhtml:tbody[contains(@class, 'group')]" mode="minimalPair">
 				<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
 				<xsl:with-param name="PhoneticItem2" select="$PhoneticItem2" />
 			</xsl:apply-templates>

@@ -147,19 +147,25 @@ namespace SIL.Pa.UI.Controls
 			TMItemProperties itemProps = args as TMItemProperties;
 
 			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
-				m_currentHeader == null || itemProps == null)
+				(m_currentHeader == null && Visible) || itemProps == null)
 			{
 				return false;
 			}
 
-			int ownedCount = (m_currentHeader.IsForColumnHeadings ?
-				m_currentHeader.OwnedColumns.Count :
-				m_currentHeader.OwnedRows.Count);
+			int ownedCount = 0;
 
+			if (Visible && m_currentHeader != null)
+			{
+				ownedCount = (m_currentHeader.IsForColumnHeadings ?
+					m_currentHeader.OwnedColumns.Count : m_currentHeader.OwnedRows.Count);
+			}
+
+			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Enabled = (ownedCount > 1);
-			itemProps.Checked = m_currentHeader.SubHeadingsVisible;
-			itemProps.Update = true;
+			itemProps.Checked = (Visible && m_currentHeader != null &&
+				m_currentHeader.SubHeadingsVisible);
+
 			return true;
 		}
 
@@ -586,7 +592,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			itemProps.Enabled = IsRowEmtpy(m_grid.CurrentCell.RowIndex);
+			itemProps.Enabled = (Visible && IsRowEmtpy(m_grid.CurrentCell.RowIndex));
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -620,7 +626,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			itemProps.Enabled = IsColumnEmtpy(m_grid.CurrentCell.ColumnIndex);
+			itemProps.Enabled = (Visible && IsColumnEmtpy(m_grid.CurrentCell.ColumnIndex));
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -690,26 +696,29 @@ namespace SIL.Pa.UI.Controls
 
 			itemProps.Enabled = false;
 
-			// Check if any row headers have empty rows.
-			foreach (CharGridHeader hdr in m_rowHdrs)
+			if (Visible)
 			{
-				if (hdr.IsAnyOwnedRowEmpty)
+				// Check if any row headers have empty rows.
+				foreach (CharGridHeader hdr in m_rowHdrs)
 				{
-					itemProps.Enabled = true;
-					break;
-				}
-			}
-
-			// If none of the row headers had any empty rows, then
-			// check if any columns headers have empty columns.
-			if (!itemProps.Enabled)
-			{
-				foreach (CharGridHeader hdr in m_colHdrs)
-				{
-					if (hdr.IsAnyOwnedColumnEmpty)
+					if (hdr.IsAnyOwnedRowEmpty)
 					{
 						itemProps.Enabled = true;
 						break;
+					}
+				}
+
+				// If none of the row headers had any empty rows, then
+				// check if any columns headers have empty columns.
+				if (!itemProps.Enabled)
+				{
+					foreach (CharGridHeader hdr in m_colHdrs)
+					{
+						if (hdr.IsAnyOwnedColumnEmpty)
+						{
+							itemProps.Enabled = true;
+							break;
+						}
 					}
 				}
 			}
@@ -771,13 +780,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
-				itemProps == null || m_currentHeader == null)
+				itemProps == null || (m_currentHeader == null && Visible))
 			{
 				return false;
 			}
 
 			itemProps.Visible = true;
-			itemProps.Enabled = m_currentHeader.AreAllOwnedRowsEmpty;
+			itemProps.Enabled = (Visible && m_currentHeader.AreAllOwnedRowsEmpty);
 			itemProps.Update = true;
 			return true;
 		}
@@ -831,13 +840,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) ||
-				itemProps == null || m_currentHeader == null)
+				itemProps == null || (m_currentHeader == null && Visible))
 			{
 				return false;
 			}
 
 			itemProps.Visible = true;
-			itemProps.Enabled = m_currentHeader.AreAllOwnedColumnsEmpty;
+			itemProps.Enabled = (Visible && m_currentHeader.AreAllOwnedColumnsEmpty);
 			itemProps.Update = true;
 			return true;
 		}
@@ -919,6 +928,82 @@ namespace SIL.Pa.UI.Controls
 			//    itemProps.Enabled = (colIndex > 0);
 			//}
 
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartColHeadingBefore(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(m_owningViewType, FindForm()) || itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
+			return true;
+		}
+
+		protected bool OnUpdateAddCharChartColHeadingAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartRowHeadingBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartRowHeadingAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartRowBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartRowAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartColBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateAddCharChartColAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		protected bool OnUpdateRemoveCVChartRowsColsParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
+			return true;
+		}
+
+		protected bool OnUpdateAddCVChartRowsColsParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
 			return true;
 		}
 

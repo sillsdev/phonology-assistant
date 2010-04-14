@@ -3,12 +3,16 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-04-05 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-04-14 -->
   <!-- If the project inventory contains lists of similar pairs, -->
   <!-- partition the list of minimal pairs into more-similar and less-similar. -->
 	<!-- Append empty groups for any similar pairs for which there are no minimal pairs. -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
+	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
+	<!-- * xhtml:table[contains(@class, 'list')] instead of @class = 'list' -->
+	<!-- * xhtml:tbody[contains(@class, 'group')] instead of @class = 'group' -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 
@@ -38,7 +42,7 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:template match="/xhtml:html">
 		<xsl:choose>
-			<xsl:when test="//xhtml:table[@class = 'list'][xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
+			<xsl:when test="//xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
 				<xsl:variable name="searchItem" select="substring-before($searchPattern, '/')" />
 				<xsl:variable name="type">
 					<xsl:choose>
@@ -54,7 +58,7 @@ exclude-result-prefixes="xhtml"
 				<xsl:choose>
 					<xsl:when test="$similarPhonePairs">
 						<xsl:copy>
-							<xsl:apply-templates select="@*|node()">
+							<xsl:apply-templates select="@* | node()">
 								<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 							</xsl:apply-templates>
 						</xsl:copy>
@@ -70,14 +74,14 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:template>
 
-  <xsl:template match="xhtml:table[@class = 'list'][xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
+  <xsl:template match="xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
 		<xsl:param name="similarPhonePairs" />
 		<xsl:variable name="table" select="." />
 		<xsl:variable name="colspan" select="count(xhtml:colgroup/xhtml:col) - 1" />
 		<div class="report" xmlns="http://www.w3.org/1999/xhtml">
 			<h4>More-similar pairs</h4>
 			<xsl:copy>
-				<xsl:apply-templates select="@*|node()">
+				<xsl:apply-templates select="@* | node()">
 					<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 					<xsl:with-param name="moreSimilar" select="'true'" />
 				</xsl:apply-templates>
@@ -121,7 +125,7 @@ exclude-result-prefixes="xhtml"
 		<div class="report" xmlns="http://www.w3.org/1999/xhtml">
 			<h4>Less-similar pairs</h4>
 			<xsl:copy>
-				<xsl:apply-templates select="@*|node()">
+				<xsl:apply-templates select="@* | node()">
 					<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 					<xsl:with-param name="moreSimilar" select="'false'" />
 				</xsl:apply-templates>
@@ -129,7 +133,7 @@ exclude-result-prefixes="xhtml"
 		</div>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody">
+	<xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody">
 		<xsl:param name="similarPhonePairs" />
 		<xsl:param name="moreSimilar" />
 		<xsl:variable name="pair" select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']" />
@@ -140,7 +144,7 @@ exclude-result-prefixes="xhtml"
 			<xsl:when test="$moreSimilar = 'true'">
 				<xsl:if test="$similarPhonePair">
 					<xsl:copy>
-						<xsl:apply-templates select="@*|node()">
+						<xsl:apply-templates select="@* | node()">
 							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 						</xsl:apply-templates>
 					</xsl:copy>

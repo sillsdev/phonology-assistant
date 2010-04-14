@@ -3,13 +3,14 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-06 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-14 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
 
-  <!-- Important: If the input is from any other view, copy it with no changes. -->
+	<!-- Important: If table is neither Data Corpus nor Search view, copy it with no changes. -->
 
-	<!-- TO DO: Select phonetic/phonological units. -->
-	<!-- TO DO: phoneticSortOrder for minimal pairs, even if not interactiveWebPage. -->
+	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
+	<!-- * xhtml:table[contains(@class, 'list')] instead of @class = 'list' -->
+	<!-- * xhtml:tbody[contains(@class, 'group')] instead of @class = 'group' -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -27,6 +28,7 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
+	<xsl:variable name="typeOfUnits" select="$details/xhtml:li[@class = 'typeOfUnits']" />
 
 	<!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, lists grouped by minimal pairs. -->
   <!-- That is, omit the options only in a list with generic groups for which Phonetic is not the primary sort field. -->
@@ -34,7 +36,7 @@ exclude-result-prefixes="xhtml"
 		<xsl:if test="$minimalPairs or $interactiveWebPage = 'true'">
 			<xsl:if test="//xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
 				<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
-				<xsl:if test="$primarySortFieldName = 'Phonetic' or //xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])] or //xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
+				<xsl:if test="$primarySortFieldName = 'Phonetic' or //xhtml:table[@class = 'list'][not(xhtml:tbody[contains(@class, 'group')])] or //xhtml:table[@class = 'list']/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
 					<xsl:value-of select="'true'" />
 				</xsl:if>
 			</xsl:if>
@@ -46,7 +48,16 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
-	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
+	<xsl:variable name="units">
+		<xsl:choose>
+			<xsl:when test="string-length($typeOfUnits) != 0">
+				<xsl:value-of select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	
   <xsl:variable name="maxUnitLength">
     <xsl:for-each select="$units/unit">
@@ -77,9 +88,9 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- Apply or ignore transformations. -->
-  <xsl:template match="xhtml:table[@class = 'list']">
+  <xsl:template match="xhtml:table">
     <xsl:choose>
-      <xsl:when test="$phoneticSortOrder = 'true'">
+      <xsl:when test="contains(@class, 'list') and $phoneticSortOrder = 'true'">
         <xsl:copy>
           <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
@@ -92,7 +103,7 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- Remember original order of rows in case Phonetic is not the primary sort field. -->
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody">
+  <xsl:template match="xhtml:tbody">
     <xsl:variable name="sortOrderFormat" select="translate(count(xhtml:tr[not(@class = 'heading')]), '0123456789', '0000000000')" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
@@ -110,7 +121,7 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- Phonetic pair heading cells contain a list of two units. -->
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic pair']/xhtml:ul">
+  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic pair']/xhtml:ul">
 		<xsl:variable name="unit1" select="xhtml:li[1]/xhtml:span" />
 		<xsl:variable name="unit2" select="xhtml:li[2]/xhtml:span" />
 		<xsl:variable name="sortKey1">
@@ -156,8 +167,8 @@ exclude-result-prefixes="xhtml"
 		</xsl:call-template>
   </xsl:template>
 
-	<!-- Phonetic cells in heading rows. -->
-	<xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic' or @class = 'Phonetic preceding' or @class = 'Phonetic item' or @class = 'Phonetic following']">
+	<!-- Phonetic cells in heading rows, but not Phonetic pair. -->
+	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic') and @class != 'Phonetic pair']">
 		<xsl:variable name="class" select="@class" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
@@ -182,18 +193,35 @@ exclude-result-prefixes="xhtml"
 	</xsl:template>
 
 	<!-- Phonetic cells in data rows. -->
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody/xhtml:tr/xhtml:td[starts-with(@class, 'Phonetic')]">
+  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:td[starts-with(@class, 'Phonetic')]">
     <xsl:param name="position" />
     <xsl:param name="sortOrderFormat" />
     <xsl:variable name="class" select="@class" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
-			<!-- Enclose the text in a span to separate it from the sort order list. -->
-			<span xmlns="http://www.w3.org/1999/xhtml">
-				<xsl:value-of select="text()" />
-			</span>
+			<xsl:choose>
+				<!-- Text is already in a span (for example, because there is a transcription list). -->
+				<xsl:when test="xhtml:span">
+					<xsl:apply-templates />
+				</xsl:when>
+				<!-- Enclose the text in a span to separate it from the sort order list. -->
+				<xsl:otherwise>
+					<span xmlns="http://www.w3.org/1999/xhtml">
+						<xsl:value-of select="text()" />
+					</span>
+				</xsl:otherwise>
+			</xsl:choose>
 			<xsl:call-template name="sortOrder">
-				<xsl:with-param name="text" select="text()" />
+				<xsl:with-param name="text">
+					<xsl:choose>
+						<xsl:when test="xhtml:span">
+							<xsl:value-of select="xhtml:span" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="text()" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 				<xsl:with-param name="direction">
 					<xsl:choose>
 						<xsl:when test="$class = 'Phonetic'">

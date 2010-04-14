@@ -130,6 +130,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdExportAs" message="FileExportAs"/>
 		<command id="CmdExportAsPAXML" message="ExportAsPAXML"/>
 		<command id="CmdExportAsHTML" message="ExportAsHTML"/>
+		<command id="CmdExportAsWordXml" message="ExportAsWordXml"/>
 		<command id="CmdExportAsRTF" message="ExportAsRTF"/>
 		<command id="CmdExportAsBMP" message="FileExportAsBMP"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
@@ -202,6 +203,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<!-- item name="mnuBackupRestore" commandid="CmdBackupRestore"/ -->
 			<item name="mnuFileExportAs" commandid="CmdExportAs">
 				<item name="mnuFileExportHTML" commandid="CmdExportAsHTML"/>
+				<item name="mnuFileExportWordXml" commandid="CmdExportAsWordXml"/>
 				<item name="mnuFileExportRTF" commandid="CmdExportAsRTF"/>
 				<item name="mnuExportAsPAXML" commandid="CmdExportAsPAXML"/>
 			</item>

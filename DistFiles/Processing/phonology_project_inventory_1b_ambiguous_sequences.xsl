@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2010-03-19 -->
+  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2010-04-09 -->
   <!-- For each sequence that contains two base characters, identify the primary base. -->
 	<!-- If any diacritics preceding the first base to follow it. -->
 
@@ -9,15 +9,15 @@
 	<xsl:variable name="ambiguousSequences" select="/inventory/ambiguousSequences" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
-	<xsl:template match="@*|node()" mode="preceding">
+	<xsl:template match="@* | node()" mode="preceding">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" mode="preceding" />
+			<xsl:apply-templates select="@* | node()" mode="preceding" />
 		</xsl:copy>
 	</xsl:template>
 

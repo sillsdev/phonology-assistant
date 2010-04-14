@@ -209,7 +209,24 @@ namespace SIL.Pa.UI.Controls
 		public ITMAdapter TMAdapter
 		{
 			get { return m_tmAdapter; }
-			set { m_tmAdapter = value; }
+			set
+			{
+				App.RemoveMediatorColleague(this);
+
+				m_tmAdapter = value;
+
+				if (m_tmAdapter != null)
+				{
+					m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuCharChartGrid");
+					if (m_grid.ContextMenuStrip != null)
+					{
+						m_grid.ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
+						m_grid.ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
+					}
+				}
+
+				App.AddMediatorColleague(this);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -409,24 +426,6 @@ namespace SIL.Pa.UI.Controls
 
 			if (!App.DesignMode)
 			{
-				if (m_tmAdapter != null)
-				{
-					m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuCharChartGrid");
-					if (m_grid.ContextMenuStrip != null)
-					{
-						m_grid.ContextMenuStrip.Opening += delegate
-						{
-							m_phoneInfoPopup.Enabled = false;
-						};
-
-						m_grid.ContextMenuStrip.Closed += delegate
-						{
-							m_phoneInfoPopup.Enabled = true;
-						};
-					}
-				}
-
-				App.AddMediatorColleague(this);
 				m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
 				m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
 				Adjust();

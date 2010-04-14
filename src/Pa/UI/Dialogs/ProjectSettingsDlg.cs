@@ -52,12 +52,14 @@ namespace SIL.Pa.UI.Dialogs
 			m_newProject = (project == null);
 
 			pnlGridHdg.Font = FontHelper.UIFont;
-			lblLanguage.Font = FontHelper.UIFont;
+			lblLanguageName.Font = FontHelper.UIFont;
+			lblLanguageCode.Font = FontHelper.UIFont;
 			lblSpeaker.Font = FontHelper.UIFont;
 			lblTranscriber.Font = FontHelper.UIFont;
 			lblProjName.Font = FontHelper.UIFont;
 			lblComments.Font = FontHelper.UIFont;
-			txtLanguage.Font = FontHelper.UIFont;
+			txtLanguageName.Font = FontHelper.UIFont;
+			txtLanguageCode.Font = FontHelper.UIFont;
 			txtSpeaker.Font = FontHelper.UIFont;
 			txtTranscriber.Font = FontHelper.UIFont;
 			txtProjName.Font = FontHelper.UIFont;
@@ -78,7 +80,8 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				m_project = project;
 				txtProjName.Text = project.Name;
-				txtLanguage.Text = project.LanguageName;
+				txtLanguageName.Text = project.LanguageName;
+				txtLanguageCode.Text = project.LanguageCode;
 				txtTranscriber.Text = project.Transcriber;
 				txtSpeaker.Text = project.SpeakerName;
 				txtComments.Text = project.Comments;
@@ -88,7 +91,8 @@ namespace SIL.Pa.UI.Dialogs
 			Utils.WaitCursors(true);
 			FwDataSourcePrep();
 			cmnuAddFwDataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
-
+			
+			DialogResult = DialogResult.Cancel;
 			m_dirty = m_newProject;
 			m_grid.IsDirty = false;
 			Utils.WaitCursors(false);
@@ -393,13 +397,23 @@ namespace SIL.Pa.UI.Dialogs
 			// Verify a project name was specified.
 			if (txtProjName.Text.Trim() == string.Empty)
 			{
-				msg = Properties.Resources.kstidDataSourceNoProjName;
+				msg = LocalizationManager.LocalizeString(
+					"Dialog Boxes.ProjectSettingsDlg.MissingProjectNameMsg",
+					"You must specify a project name.", null,
+					App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
+					LocalizationPriority.Medium);
+
 				offendingCtrl = txtProjName;
 			}
-			else if (txtLanguage.Text.Trim() == string.Empty)
+			else if (txtLanguageName.Text.Trim() == string.Empty)
 			{
-				msg = Properties.Resources.kstidDataSourceNoLangName;
-				offendingCtrl = txtLanguage;
+				msg = LocalizationManager.LocalizeString(
+					"Dialog Boxes.ProjectSettingsDlg.MissingLanguageNameMsg",
+					"You must specify a language name.", null,
+					App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
+					LocalizationPriority.Medium);
+	
+				offendingCtrl = txtLanguageName;
 			}
 			else
 			{
@@ -413,8 +427,13 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// No XSLT file was specified
 						offendingIndex = i;
-						msg = string.Format(Properties.Resources.kstidDataSourceNoXSLT,
-							Utils.PrepFilePathForMsgBox(m_project.DataSources[i].DataSourceFile));
+						
+						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingXSLTMsg",
+							"You must specify an XSLT file for '{0}'", null,
+							App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
+							LocalizationPriority.Medium);
+
+						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(m_project.DataSources[i].DataSourceFile));
 						break;
 					}
 					
@@ -424,8 +443,12 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// No mappings have been specified.
 						offendingIndex = i;
-						msg = string.Format(Properties.Resources.kstidDataSourceNoMappings,
-							m_project.DataSources[i].DataSourceFile);
+						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.NoMappingsMsg",
+							"You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
+							null, App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
+							LocalizationPriority.Medium);
+						
+						msg = string.Format(msg, m_project.DataSources[i].DataSourceFile);
 						break;
 					}
 					
@@ -436,8 +459,13 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// FW data source information is incomplete.
 						offendingIndex = i;
-						msg = string.Format(Properties.Resources.kstidFwDataSourceWsMissingMsg,
-							m_project.DataSources[i].FwDataSourceInfo);
+
+						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingFwDatasourceWsMsg",
+							"The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
+							null, App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
+							LocalizationPriority.Medium);
+
+						msg = string.Format(msg, m_project.DataSources[i].FwDataSourceInfo);
 						break;
 					}
 				}
@@ -484,7 +512,8 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			m_project.Name = txtProjName.Text.Trim();
-			m_project.LanguageName = txtLanguage.Text.Trim();
+			m_project.LanguageName = txtLanguageName.Text.Trim();
+			m_project.LanguageCode = txtLanguageCode.Text.Trim();
 			m_project.Transcriber = txtTranscriber.Text.Trim();
 			m_project.SpeakerName = txtSpeaker.Text.Trim();
 			m_project.Comments = txtComments.Text.Trim();

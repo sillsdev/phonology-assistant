@@ -312,7 +312,6 @@
 					<anyOf>
 						<articulatoryFeature>Vowel</articulatoryFeature>
 						<articulatoryFeature>Approximant</articulatoryFeature>
-						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 						<articulatoryFeature>Glottal</articulatoryFeature>
 					</anyOf>
 				</if>
@@ -324,7 +323,7 @@
 				</else>
 			</featureRule>
 		</feature>
-		<feature class="major">
+		<feature>
 			<name>syll</name>
 			<fullname>syllabic</fullname>
 			<featureRule>
@@ -359,7 +358,6 @@
 		<feature class="major">
 			<name>son</name>
 			<fullname>sonorant</fullname>
-			<!-- TO DO: What about nasal click? -->
 			<featureRule>
 				<if>
 					<anyOf>
@@ -370,6 +368,10 @@
 						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 						<articulatoryFeature>Vowel</articulatoryFeature>
 					</anyOf>
+					<!-- But not click with nasal accompaniment. -->
+					<not>
+						<articulatoryFeature>Click</articulatoryFeature>
+					</not>
 				</if>
 				<then>
 					<featureValue>+</featureValue>
@@ -379,40 +381,17 @@
 				</else>
 			</featureRule>
 		</feature>
-		<feature class="laryngeal">
-			<name>spread</name>
-			<fullname>spread glottis</fullname>
+		<feature>
+			<name>approx</name>
+			<fullname>Approximant</fullname>
 			<featureRule>
 				<if>
 					<anyOf>
-						<allOf>
-							<articulatoryFeature>Voiceless</articulatoryFeature>
-							<articulatoryFeature>Glottal</articulatoryFeature>
-							<articulatoryFeature>Fricative</articulatoryFeature>
-						</allOf>
-						<articulatoryFeature>Aspirated</articulatoryFeature>
-					</anyOf>
-				</if>
-				<then>
-					<featureValue>+</featureValue>
-				</then>
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-			</featureRule>
-		</feature>
-		<feature class="laryngeal">
-			<name>constr</name>
-			<fullname>constricted glottis (pressure)</fullname>
-			<featureRule>
-				<if>
-					<anyOf>
-						<allOf>
-							<articulatoryFeature>Glottal</articulatoryFeature>
-							<articulatoryFeature>Plosive</articulatoryFeature>
-						</allOf>
-						<articulatoryFeature>Implosive</articulatoryFeature>
-						<articulatoryFeature>Ejective</articulatoryFeature>
+						<articulatoryFeature>Trill</articulatoryFeature>
+						<articulatoryFeature>Tap/Flap</articulatoryFeature>
+						<articulatoryFeature>Approximant</articulatoryFeature>
+						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
+						<articulatoryFeature>Vowel</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
@@ -443,10 +422,52 @@
 				</then>
 			</featureRule>
 		</feature>
+		<feature class="laryngeal">
+			<name>spread</name>
+			<fullname>spread glottis</fullname>
+			<featureRule>
+				<if>
+					<anyOf>
+						<allOf>
+							<articulatoryFeature>Glottal</articulatoryFeature>
+							<articulatoryFeature>Fricative</articulatoryFeature>
+						</allOf>
+						<articulatoryFeature>Aspirated</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<featureValue>+</featureValue>
+				</then>
+				<else>
+					<featureValue>-</featureValue>
+				</else>
+			</featureRule>
+		</feature>
+		<feature class="laryngeal">
+			<name>constr</name>
+			<fullname>constricted glottis</fullname>
+			<featureRule>
+				<if>
+					<anyOf>
+						<allOf>
+							<articulatoryFeature>Glottal</articulatoryFeature>
+							<articulatoryFeature>Plosive</articulatoryFeature>
+						</allOf>
+						<articulatoryFeature>Implosive</articulatoryFeature>
+						<articulatoryFeature>Ejective</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<featureValue>+</featureValue>
+				</then>
+				<else>
+					<featureValue>-</featureValue>
+				</else>
+			</featureRule>
+		</feature>
 		<feature class="manner">
 			<name>cont</name>
-			<fullname>continuant acoustic</fullname>
-			<!-- TO DO: Is it relevant to specify cont for vowels? -->
+			<fullname>continuant</fullname>
 			<featureRule>
 				<if>
 					<anyOf>
@@ -499,9 +520,12 @@
 				<for>
 					<anyOf>
 						<articulatoryFeature>Affricate</articulatoryFeature>
-						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
 						<articulatoryFeature>Fricative</articulatoryFeature>
+						<!-- TO DO: Laterals also? -->
+						<!--
 						<articulatoryFeature>Lateral Fricative</articulatoryFeature>
+						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
+						-->
 					</anyOf>
 				</for>
 				<if>
@@ -580,17 +604,13 @@
 				<then>
 					<featureValue>+</featureValue>
 				</then>
-				<!--
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-				-->
 			</featureRule>
 		</feature>
 		<feature class="place">
 			<name>rnd</name>
 			<fullname>rounded</fullname>
 			<featureRule>
+				<!-- TO DO: Only for labial? What about vowels? -->
 				<if>
 					<anyOf>
 						<articulatoryFeature>Labial</articulatoryFeature>
@@ -629,11 +649,6 @@
 				<then>
 					<featureValue>+</featureValue>
 				</then>
-				<!--
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-				-->
 			</featureRule>
 			<featureRule class="UA">
 				<for>
@@ -927,6 +942,22 @@
 				</else>
 			</featureRule>
 		</feature>
+		<feature>
+			<name>PHAR</name>
+			<fullname>Pharyngeal</fullname>
+			<featureRule>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Pharyngeal</articulatoryFeature>
+						<!-- TO DO: Epiglottal? -->
+						<!-- TO DO: Relationship to ATR, RTR? Or even tense? -->
+					</anyOf>
+				</if>
+				<then>
+					<featureValue>+</featureValue>
+				</then>
+			</featureRule>
+		</feature>
 		<feature class="length">
 			<name>long</name>
 			<fullname>long</fullname>
@@ -982,19 +1013,11 @@
 				</else>
 			</featureRule>
 		</feature>
-		<feature>
-			<name>PHAR</name>
-			<fullname>Pharyngeal</fullname>
-		</feature>
-		<feature>
-			<name>approx</name>
-			<fullname>Approximant</fullname>
-		</feature>
 	</binaryFeatures>
 	<hierarchicalFeatures>
 		<feature class="terminal" parent="root">
 			<name>cont</name>
-			<fullname>continuant acoustic</fullname>
+			<fullname>continuant</fullname>
 			<featureRule>
 				<for>
 					<not>
@@ -1136,6 +1159,16 @@
 		</feature>
 		<feature class="nonTerminal" parent="root">
 			<name>supralaryngeal</name>
+			<featureRule>
+				<if>
+					<not>
+						<articulatoryFeature>Glottal</articulatoryFeature>
+					</not>
+				</if>
+				<then>
+					<featureClass />
+				</then>
+			</featureRule>
 		</feature>
 		<feature class="terminal" parent="supralaryngeal">
 			<name>lat</name>
@@ -1625,6 +1658,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3287,6 +3321,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Dental</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3322,6 +3357,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 				<feature>Lateral</feature>
@@ -3343,6 +3379,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Palatal</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3385,6 +3422,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -6084,6 +6122,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Bilabial</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -8622,13 +8661,14 @@
 			<chartGroup>0</chartGroup>
 		</symbol>
 	</symbols>
-	<sequences>
-		<sequence title="Plosive + Plosive: Double Articulation.">
+	<sequencePatterns>
+		<pattern title="Plosive + Plosive (primary): Double Articulation.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
 				</if>
 				<retain>
+					<feature subclass="nasalization" />
 					<feature subclass="placeOfArticulation" primary="false" />
 				</retain>
 			</symbol>
@@ -8640,8 +8680,30 @@
 					<feature>Double Articulation</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Plosive + Fricative: Affricate.">
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Plosive (primary) + Plosive: Double Articulation.">
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="nasalization" />
+				</retain>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Plosive + Fricative: Affricate.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
@@ -8661,9 +8723,9 @@
 					<feature>Affricate</feature>
 				</add>
 			</symbol>
-		</sequence>
+		</pattern>
 		<!-- If Lateral becomes independent (instead of redundant) the if condition changes. -->
-		<sequence title="Plosive + Lateral Fricative or Lateral Approximant: Lateral Affricate.">
+		<pattern title="Plosive + Lateral Fricative or Lateral Approximant: Lateral Affricate.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
@@ -8683,8 +8745,8 @@
 					<feature>Lateral Affricate</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Nasal + Nasal: Double Articulation.">
+		</pattern>
+		<pattern title="Nasal + Nasal: Double Articulation.">
 			<symbol primary="false">
 				<if>
 					<feature>Nasal</feature>
@@ -8701,12 +8763,15 @@
 					<feature>Double Articulation</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Nasal + Plosive or Fricative: Prenasalized.">
+		</pattern>
+		<pattern title="Nasal + Plosive or Fricative: Prenasalized.">
 			<symbol primary="false">
 				<if>
 					<feature>Nasal</feature>
 				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
 			</symbol>
 			<symbol primary="true">
 				<if>
@@ -8715,19 +8780,132 @@
 						<feature>Fricative</feature>
 					</anyOf>
 				</if>
+			</symbol>
+		</pattern>
+		<pattern title="Nasal + Plosive + Plosive (primary): Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
 				<add>
 					<feature>Prenasalized</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<!-- TO DO: Nasal + Plosive + Plosive: Prenasalized Double Articulation! -->
-		<sequence title="Plosive + Click or Lateral Click.">
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Nasal + Plosive (primary) + Plosive: Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Nasal + Nasal + Plosive + Plosive (primary): Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Nasal + Nasal + Plosive (primary) + Plosive: Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Plosive + Click or Lateral Click.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
 				</if>
 				<retain>
 					<feature subclass="stateOfGlottis" />
+					<feature subclass="placeOfArticulation" primary="false" />
 				</retain>
 			</symbol>
 			<symbol primary="true">
@@ -8738,15 +8916,19 @@
 						<feature>Lateral Click</feature>
 					</anyOf>
 				</if>
+				<remove>
+					<feature subclass="stateOfGlottis" />
+				</remove>
 			</symbol>
-		</sequence>
-		<sequence title="Nasal + Click or Lateral Click.">
+		</pattern>
+		<pattern title="Nasal + Click or Lateral Click.">
 			<symbol primary="false">
 				<if>
 					<feature>Nasal</feature>
 				</if>
 				<retain>
 					<feature subclass="stateOfGlottis" />
+					<feature subclass="placeOfArticulation" primary="false" />
 					<feature subclass="mannerOfArticulation" primary="false" />
 				</retain>
 			</symbol>
@@ -8758,9 +8940,12 @@
 						<feature>Lateral Click</feature>
 					</anyOf>
 				</if>
+				<remove>
+					<feature subclass="stateOfGlottis" />
+				</remove>
 			</symbol>
-		</sequence>
-	</sequences>
+		</pattern>
+	</sequencePatterns>
 	<descriptions>
 		<patterns>
 			<pattern type="Consonant">
@@ -8880,6 +9065,18 @@
 					<text>R-colored</text>
 				</replace>
 			</change>
+			<change title="In place of articulation pairs for clicks, do not replace bilabial with labial.">
+				<if>
+					<feature subclass="placeOfArticulation" count="2" />
+					<feature>Click</feature>
+				</if>
+				<find>
+					<feature>Bilabial</feature>
+				</find>
+				<replace>
+					<feature subclass="placeOfArticulation">Bilabial</feature>
+				</replace>
+			</change>
 			<change title="In place of articulation pairs, replace bilabial with labial.">
 				<if>
 					<feature subclass="placeOfArticulation" count="2" />
@@ -8918,6 +9115,22 @@
 					<text>with</text>
 					<feature />
 				</replace>
+			</change>
+			<change title="Name of click does not include dorsal place of articulation">
+				<if>
+					<feature>Click</feature>
+				</if>
+				<find>
+					<feature>Velar</feature>
+				</find>
+			</change>
+			<change title="Name of click does not include dorsal place of articulation">
+				<if>
+					<feature>Click</feature>
+				</if>
+				<find>
+					<feature>Uvular</feature>
+				</find>
 			</change>
 		</changes>
 	</descriptions>

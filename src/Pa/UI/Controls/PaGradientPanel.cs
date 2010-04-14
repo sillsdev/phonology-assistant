@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using SilUtils;
+using SilUtils.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -11,9 +12,9 @@ namespace SIL.Pa.UI.Controls
 	/// right, the panel's transition direction is from bottom to top).
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PaGradientPanel : PaPanel
+	public class PaGradientPanel : SilPanel
 	{
-		private bool m_dark = false;
+		private bool m_dark;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

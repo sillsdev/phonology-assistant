@@ -3,10 +3,14 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-04-06 -->
+  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-04-14 -->
   <!-- If there are minimal pairs, count the number of records and groups. -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
+	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
+	<!-- * xhtml:table[contains(@class, 'list')] instead of @class = 'list' -->
+	<!-- * xhtml:tbody[contains(@class, 'group')] instead of @class = 'group' -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
@@ -21,7 +25,7 @@ exclude-result-prefixes="xhtml"
       <xsl:apply-templates select="@*" />
 			<xsl:choose>
 				<xsl:when test="../xhtml:li[@class = 'minimalPairs']">
-					<xsl:value-of select="count(//xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'data'])" />
+					<xsl:value-of select="count(//xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'data'])" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates />
@@ -36,7 +40,7 @@ exclude-result-prefixes="xhtml"
       <xsl:apply-templates select="@*" />
 			<xsl:choose>
 				<xsl:when test="../xhtml:li[@class = 'minimalPairs']">
-					<xsl:value-of select="count(//xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group'])" />
+					<xsl:value-of select="count(//xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')])" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates />
@@ -45,17 +49,8 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-	<!-- If a list contains at least one feature, copy the div containing feature differences. -->
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']/xhtml:ul/xhtml:li/xhtml:div[@class = 'differences']">
-    <xsl:if test="xhtml:ul[xhtml:li]">
-      <xsl:copy>
-        <xsl:apply-templates select="@* | node()" />
-      </xsl:copy>
-    </xsl:if>
-  </xsl:template>
-
 	<!-- If a list of differences contains at least one feature, copy it. -->
-  <xsl:template match="xhtml:div[@class = 'differences']/xhtml:ul">
+  <xsl:template match="xhtml:ul[@class = 'differences']">
     <xsl:if test="xhtml:li">
       <xsl:copy>
         <xsl:apply-templates select="@* | node()" />
@@ -64,7 +59,7 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
 	<!-- If not one minimal pair per group, update the count of records. -->
-  <xsl:template match="xhtml:table[@class = 'list']/xhtml:tbody[@class = 'group']/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'count']">
+  <xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'count']">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
       <xsl:value-of select="count(../../xhtml:tr[@class = 'data'])" />

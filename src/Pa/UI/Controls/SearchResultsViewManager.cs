@@ -1565,7 +1565,7 @@ namespace SIL.Pa.UI.Controls
 			if (outputFileName == null)
 				return null;
 
-			SearchResultExporter.Process(App.Project, outputFileName, grid,
+			SearchResultExporter.ToHtml(App.Project, outputFileName, grid,
 				Settings.Default.OpenHTMLSearchResultAfterExport);
 
 			return outputFileName;

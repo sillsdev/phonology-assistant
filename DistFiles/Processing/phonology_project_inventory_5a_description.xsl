@@ -1,18 +1,20 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_5a_description.xsl 2010-03-29 -->
+  <!-- phonology_project_inventory_5a_description.xsl 2010-04-09 -->
 
-	<xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
-	
+	<xsl:variable name="metadata" select="//div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/ul[@class = 'settings']" />
+	<xsl:variable name="programConfigurationFolder" select="$settings/li[@class = 'programConfigurationFolder']" />
+	<xsl:variable name="programPhoneticInventoryFile" select="$settings/li[@class = 'programPhoneticInventoryFile']" />
+
 	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
-	<xsl:variable name="descriptions" select="document($programPhoneticInventoryXML)/inventory/descriptions" />
 	<xsl:variable name="programArticulatoryFeatures" select="document($programPhoneticInventoryXML)/inventory/articulatoryFeatures" />
+	<xsl:variable name="descriptions" select="document($programPhoneticInventoryXML)/inventory/descriptions" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -43,16 +45,28 @@
 	<xsl:template match="pattern/feature[@subclass]" mode="description">
 		<xsl:param name="articulatoryFeatures" />
 		<xsl:variable name="subclass" select="@subclass" />
-		<!-- Iterate through features in program inventory in case features of the phone are not in order. -->
-		<!-- For example, Labial follows Velar instead of preceding it. -->
-		<xsl:for-each select="$programArticulatoryFeatures/feature[@subclass = $subclass]">
-			<xsl:variable name="feature" select="name" />
-			<xsl:if test="$articulatoryFeatures/feature[. = $feature]">
-				<xsl:apply-templates select="$articulatoryFeatures/feature[. = $feature]" mode="description">
+		<xsl:choose>
+			<xsl:when test="@subclass = 'placeOfArticulation'">
+				<!-- Regardless of which is primary, in order by place (for example, labial-veiar, corono-velar). -->
+				<xsl:for-each select="$programArticulatoryFeatures/feature[@subclass = $subclass]">
+					<xsl:variable name="feature" select="name" />
+					<xsl:if test="$articulatoryFeatures/feature[. = $feature]">
+						<xsl:apply-templates select="$articulatoryFeatures/feature[. = $feature]" mode="description">
+							<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+						</xsl:apply-templates>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- Any non-primary precedes the primary feature (for example, nasal click). -->
+				<xsl:apply-templates select="$articulatoryFeatures/feature[@subclass = $subclass][@primary = 'false']" mode="description">
 					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
 				</xsl:apply-templates>
-			</xsl:if>
-		</xsl:for-each>
+				<xsl:apply-templates select="$articulatoryFeatures/feature[@subclass = $subclass][not(@primary = 'false')]" mode="description">
+					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+				</xsl:apply-templates>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- If there are any rules, apply them; otherwise just copy the feature. -->

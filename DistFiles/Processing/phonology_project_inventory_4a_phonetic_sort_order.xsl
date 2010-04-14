@@ -1,15 +1,15 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_4a_phonetic_sort_order.xsl 2010-03-24 -->
+  <!-- phonology_project_inventory_4a_phonetic_sort_order.xsl 2010-04-09 -->
   <!-- Select features for phonetic sort order. -->
   <!-- Remove the order attribute from articulatory features. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -72,7 +72,7 @@
 			</xsl:choose>
 		</keys>
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 

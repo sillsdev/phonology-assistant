@@ -6,7 +6,7 @@ namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This class provides a way to export a vowel or consonant chart to an XML format that
+	/// This class provides a way to export a data corpus list to an XML format that
 	/// is transformed into an html file with an accompanying cascading style sheet.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -17,12 +17,29 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, string outputFileName,
+		public static bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new DataCorpusExporter(project, outputFileName, grid, openAfterExport);
+			var exporter = new DataCorpusExporter(project, outputFileName,
+				OutputFormat.XHTML, grid, openAfterExport);
+
 			return exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
 				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToXHTML);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool ToWordXml(PaProject project, string outputFileName,
+			PaWordListGrid grid, bool openAfterExport)
+		{
+			var exporter = new DataCorpusExporter(project, outputFileName,
+				OutputFormat.WordXml, grid, openAfterExport);
+			
+			return exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
+				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToWord);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -30,9 +47,11 @@ namespace SIL.Pa.Processing
 		///
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected DataCorpusExporter(PaProject project, string outputFileName, DataGridView grid,
-			bool openAfterExport) : base(project, outputFileName, grid, openAfterExport)
+		protected DataCorpusExporter(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport)
+			: base(project, outputFileName, grid, openAfterExport)
 		{
+			m_outputFormat = outputFormat;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,6 +82,30 @@ namespace SIL.Pa.Processing
 		protected override string TableClass
 		{
 			get { return "list"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string NumberOfRecords
+		{
+			get { return ((PaWordListGrid)m_grid).Cache.Count.ToString(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string NumberOfGroups
+		{
+			get 
+			{
+				return (m_isGridGrouped && ((PaWordListGrid)m_grid).GroupCount > 0 ?
+					((PaWordListGrid)m_grid).GroupCount.ToString() : null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,6 +168,20 @@ namespace SIL.Pa.Processing
 
 			m_writer.WriteEndElement();
 			m_writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string GetTableRowCellValue(DataGridViewRow row, DataGridViewColumn col)
+		{
+			var grid = ((PaWordListGrid)m_grid);
+
+			return (col == grid.PhoneticColumn ?
+				grid.Cache[row.Index].WordCacheEntry.PhoneticValueWithPrimaryUncertainty :
+				grid[col.Index, row.Index].Value as string);
 		}
 	}
 }

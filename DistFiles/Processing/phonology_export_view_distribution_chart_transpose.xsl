@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-04-05 -->
+  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-04-14 -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -13,9 +13,9 @@ exclude-result-prefixes="xhtml"
 	<!-- TO DO: If this becomes a property of the individual chart, where would it go in the metadata? -->
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -143,7 +143,7 @@ exclude-result-prefixes="xhtml"
       </xsl:when>
       <xsl:otherwise>
         <xsl:copy>
-          <xsl:apply-templates select="@*|node()" />
+          <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
       </xsl:otherwise>
     </xsl:choose>

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a.xsl 2010-04-03 -->
+  <!-- phonology_export_view_CV_chart_2a.xsl 2010-04-14 -->
 	<!-- Convert from list to table with column groups, columns, row groups, and rows. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -38,9 +38,9 @@ exclude-result-prefixes="xhtml"
   </xsl:variable>
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -230,7 +230,7 @@ exclude-result-prefixes="xhtml"
       <ul>
         <xsl:for-each select="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'colgroup'] = $colgroup][xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'rowgroup'] = $rowgroup][xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'row'] = $row][xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'col'] = $col]">
           <xsl:copy>
-            <xsl:apply-templates select="@*|node()" />
+            <xsl:apply-templates select="@* | node()" />
           </xsl:copy>
         </xsl:for-each>
       </ul>

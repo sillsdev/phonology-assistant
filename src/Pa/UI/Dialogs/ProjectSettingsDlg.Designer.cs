@@ -45,8 +45,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnRemove = new System.Windows.Forms.Button();
 			this.btnCustomFields = new System.Windows.Forms.Button();
 			this.btnProperties = new System.Windows.Forms.Button();
-			this.txtLanguage = new System.Windows.Forms.TextBox();
-			this.lblLanguage = new System.Windows.Forms.Label();
+			this.txtLanguageName = new System.Windows.Forms.TextBox();
+			this.lblLanguageName = new System.Windows.Forms.Label();
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,11 +54,17 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid = new SilUtils.SilGrid();
 			this.pnlGridHdg = new SilUtils.Controls.SilGradientPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.lblLanguageCode = new System.Windows.Forms.Label();
+			this.txtLanguageCode = new System.Windows.Forms.TextBox();
+			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.tblLayout.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -123,21 +129,21 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtProjName
 			// 
+			resources.ApplyResources(this.txtProjName, "txtProjName");
 			this.locExtender.SetLocalizableToolTip(this.txtProjName, null);
 			this.locExtender.SetLocalizationComment(this.txtProjName, null);
 			this.locExtender.SetLocalizationPriority(this.txtProjName, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtProjName, "ProjectSettingsDlg.txtProjName");
-			resources.ApplyResources(this.txtProjName, "txtProjName");
 			this.txtProjName.Name = "txtProjName";
 			this.txtProjName.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
 			// txtTranscriber
 			// 
+			resources.ApplyResources(this.txtTranscriber, "txtTranscriber");
 			this.locExtender.SetLocalizableToolTip(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationPriority(this.txtTranscriber, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtTranscriber, "ProjectSettingsDlg.txtTranscriber");
-			resources.ApplyResources(this.txtTranscriber, "txtTranscriber");
 			this.txtTranscriber.Name = "txtTranscriber";
 			this.txtTranscriber.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
@@ -159,6 +165,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationPriority(this.txtComments, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtComments, "ProjectSettingsDlg.txtComments");
 			this.txtComments.Name = "txtComments";
+			this.tblLayout.SetRowSpan(this.txtComments, 3);
 			this.txtComments.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
 			// btnAdd
@@ -202,23 +209,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnProperties.UseVisualStyleBackColor = true;
 			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
 			// 
-			// txtLanguage
+			// txtLanguageName
 			// 
-			this.locExtender.SetLocalizableToolTip(this.txtLanguage, null);
-			this.locExtender.SetLocalizationComment(this.txtLanguage, null);
-			this.locExtender.SetLocalizationPriority(this.txtLanguage, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtLanguage, "ProjectSettingsDlg.txtLanguage");
-			resources.ApplyResources(this.txtLanguage, "txtLanguage");
-			this.txtLanguage.Name = "txtLanguage";
-			this.txtLanguage.TextChanged += new System.EventHandler(this.HandleTextChanged);
+			resources.ApplyResources(this.txtLanguageName, "txtLanguageName");
+			this.locExtender.SetLocalizableToolTip(this.txtLanguageName, null);
+			this.locExtender.SetLocalizationComment(this.txtLanguageName, null);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageName, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtLanguageName, "ProjectSettingsDlg.txtLanguage");
+			this.txtLanguageName.Name = "txtLanguageName";
+			this.txtLanguageName.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
-			// lblLanguage
+			// lblLanguageName
 			// 
-			resources.ApplyResources(this.lblLanguage, "lblLanguage");
-			this.locExtender.SetLocalizableToolTip(this.lblLanguage, null);
-			this.locExtender.SetLocalizationComment(this.lblLanguage, "Label on project settings dialog box.");
-			this.locExtender.SetLocalizingId(this.lblLanguage, "ProjectSettingsDlg.lblLanguage");
-			this.lblLanguage.Name = "lblLanguage";
+			resources.ApplyResources(this.lblLanguageName, "lblLanguageName");
+			this.locExtender.SetLocalizableToolTip(this.lblLanguageName, null);
+			this.locExtender.SetLocalizationComment(this.lblLanguageName, "Label on project settings dialog box.");
+			this.locExtender.SetLocalizingId(this.lblLanguageName, "ProjectSettingsDlg.lblLanguage");
+			this.lblLanguageName.Name = "lblLanguageName";
 			// 
 			// cmnuAdd
 			// 
@@ -309,14 +316,14 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGridHdg.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlGridHdg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGridHdg.ClipTextForChildControls = true;
-			this.pnlGridHdg.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGridHdg.ControlReceivingFocusOnMnemonic = this.m_grid;
 			resources.ApplyResources(this.pnlGridHdg, "pnlGridHdg");
 			this.pnlGridHdg.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlGridHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlGridHdg, "Heading above list of data sources on project settings dialog box.");
 			this.locExtender.SetLocalizingId(this.pnlGridHdg, "ProjectSettingsDlg.pnlGridHdg");
 			this.pnlGridHdg.MakeDark = false;
-			this.pnlGridHdg.MnemonicGeneratesClick = false;
+			this.pnlGridHdg.MnemonicGeneratesClick = true;
 			this.pnlGridHdg.Name = "pnlGridHdg";
 			this.pnlGridHdg.PaintExplorerBarBackground = false;
 			// 
@@ -324,50 +331,73 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
+			// lblLanguageCode
+			// 
+			resources.ApplyResources(this.lblLanguageCode, "lblLanguageCode");
+			this.locExtender.SetLocalizableToolTip(this.lblLanguageCode, null);
+			this.locExtender.SetLocalizationComment(this.lblLanguageCode, "Label on project settings dialog box.");
+			this.locExtender.SetLocalizationPriority(this.lblLanguageCode, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblLanguageCode, "ProjectSettingsDlg.lblLanguageCode");
+			this.lblLanguageCode.Name = "lblLanguageCode";
+			// 
+			// txtLanguageCode
+			// 
+			resources.ApplyResources(this.txtLanguageCode, "txtLanguageCode");
+			this.locExtender.SetLocalizableToolTip(this.txtLanguageCode, null);
+			this.locExtender.SetLocalizationComment(this.txtLanguageCode, null);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageCode, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtLanguageCode, "ProjectSettingsDlg.txtLanguage");
+			this.txtLanguageCode.Name = "txtLanguageCode";
+			this.txtLanguageCode.TextChanged += new System.EventHandler(this.HandleTextChanged);
+			// 
+			// tblLayout
+			// 
+			resources.ApplyResources(this.tblLayout, "tblLayout");
+			this.tblLayout.Controls.Add(this.txtLanguageCode, 1, 2);
+			this.tblLayout.Controls.Add(this.panel1, 0, 4);
+			this.tblLayout.Controls.Add(this.lblProjName, 0, 0);
+			this.tblLayout.Controls.Add(this.lblLanguageName, 0, 1);
+			this.tblLayout.Controls.Add(this.lblLanguageCode, 0, 2);
+			this.tblLayout.Controls.Add(this.txtProjName, 1, 0);
+			this.tblLayout.Controls.Add(this.txtLanguageName, 1, 1);
+			this.tblLayout.Controls.Add(this.lblTranscriber, 0, 3);
+			this.tblLayout.Controls.Add(this.txtTranscriber, 1, 3);
+			this.tblLayout.Controls.Add(this.lblSpeaker, 2, 0);
+			this.tblLayout.Controls.Add(this.txtSpeaker, 3, 0);
+			this.tblLayout.Controls.Add(this.lblComments, 2, 1);
+			this.tblLayout.Controls.Add(this.txtComments, 3, 1);
+			this.tblLayout.Name = "tblLayout";
+			// 
+			// panel1
+			// 
+			this.tblLayout.SetColumnSpan(this.panel1, 4);
+			this.panel1.Controls.Add(this.pnlGrid);
+			this.panel1.Controls.Add(this.btnAdd);
+			this.panel1.Controls.Add(this.btnCustomFields);
+			this.panel1.Controls.Add(this.btnRemove);
+			this.panel1.Controls.Add(this.btnProperties);
+			resources.ApplyResources(this.panel1, "panel1");
+			this.panel1.Name = "panel1";
+			// 
 			// ProjectSettingsDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.btnCustomFields);
-			this.Controls.Add(this.btnProperties);
-			this.Controls.Add(this.pnlGrid);
-			this.Controls.Add(this.txtLanguage);
-			this.Controls.Add(this.lblLanguage);
-			this.Controls.Add(this.btnRemove);
-			this.Controls.Add(this.btnAdd);
-			this.Controls.Add(this.txtComments);
-			this.Controls.Add(this.txtSpeaker);
-			this.Controls.Add(this.txtTranscriber);
-			this.Controls.Add(this.txtProjName);
-			this.Controls.Add(this.lblComments);
-			this.Controls.Add(this.lblSpeaker);
-			this.Controls.Add(this.lblTranscriber);
-			this.Controls.Add(this.lblProjName);
+			this.Controls.Add(this.tblLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
 			this.Name = "ProjectSettingsDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
-			this.Controls.SetChildIndex(this.lblProjName, 0);
-			this.Controls.SetChildIndex(this.lblTranscriber, 0);
-			this.Controls.SetChildIndex(this.lblSpeaker, 0);
-			this.Controls.SetChildIndex(this.lblComments, 0);
-			this.Controls.SetChildIndex(this.txtProjName, 0);
-			this.Controls.SetChildIndex(this.txtTranscriber, 0);
-			this.Controls.SetChildIndex(this.txtSpeaker, 0);
-			this.Controls.SetChildIndex(this.txtComments, 0);
-			this.Controls.SetChildIndex(this.btnAdd, 0);
-			this.Controls.SetChildIndex(this.btnRemove, 0);
-			this.Controls.SetChildIndex(this.lblLanguage, 0);
-			this.Controls.SetChildIndex(this.txtLanguage, 0);
-			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			this.Controls.SetChildIndex(this.btnProperties, 0);
-			this.Controls.SetChildIndex(this.btnCustomFields, 0);
+			this.Controls.SetChildIndex(this.tblLayout, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.tblLayout.ResumeLayout(false);
+			this.tblLayout.PerformLayout();
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -386,8 +416,8 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.Button btnCustomFields;
 		private System.Windows.Forms.Button btnRemove;
-		private System.Windows.Forms.TextBox txtLanguage;
-		private System.Windows.Forms.Label lblLanguage;
+		private System.Windows.Forms.TextBox txtLanguageName;
+		private System.Windows.Forms.Label lblLanguageName;
 		private System.Windows.Forms.ContextMenuStrip cmnuAdd;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddOtherDataSource;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
@@ -396,5 +426,9 @@ namespace SIL.Pa.UI.Dialogs
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
 		private SIL.Localization.LocalizationExtender locExtender;
+		private System.Windows.Forms.TableLayoutPanel tblLayout;
+		private System.Windows.Forms.Label lblLanguageCode;
+		private System.Windows.Forms.TextBox txtLanguageCode;
+		private System.Windows.Forms.Panel panel1;
 	}
 }

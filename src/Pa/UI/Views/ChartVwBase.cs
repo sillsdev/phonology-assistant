@@ -7,6 +7,8 @@ using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
@@ -53,10 +55,9 @@ namespace SIL.Pa.UI.Views
 			m_chrGrid.OwningViewType = GetType();
 			App.IncProgressBar();
 
-			m_chartGrid = new CVChartGrid();
+			m_chartGrid = new CVChartGrid(m_tmAdapter);
 			m_chartGrid.Dock = DockStyle.Fill;
 			m_chartGrid.GridColor = ChartGridColor;
-			m_chartGrid.TMAdapter = m_tmAdapter;
 			m_pnlGrid = new SilPanel();
 			m_pnlGrid.Dock = DockStyle.Fill;
 			m_pnlGrid.Controls.Add(m_chartGrid);
@@ -144,7 +145,10 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Loads the newer version of the C or V chart (i.e. the one built purely from phone
+		/// features and which cannot be customized except by changing phone features).
+		/// This version of the chart is displayed by default and the old one may eventually
+		/// go away, leaving this one only (in which case, it will no longer be called "new").
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadNewChart()
@@ -167,6 +171,11 @@ namespace SIL.Pa.UI.Views
 				m_chartGrid.RowHeadersWidth = RowHeaderWidth;
 
 			m_chartGrid.AdjustCellSizes();
+
+			// Do this to make sure the message mediator is hooked up for
+			// the toolbar/menu items.
+			if (!m_chrGrid.IsHandleCreated)
+				m_chrGrid.CreateControl();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -345,7 +354,12 @@ namespace SIL.Pa.UI.Views
 			m_activeView = makeActive;
 
 			if (m_activeView && isDocked && m_chrGrid != null && m_chrGrid.Grid != null)
-				m_chrGrid.Grid.Focus();
+			{
+				if (m_chrGrid.Visible)
+					m_chrGrid.Grid.Focus();
+				else
+					m_chartGrid.Focus();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -749,6 +763,24 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateChartTBMenuIgnoredCharsParent(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (itemProps == null || !m_activeView)
+				return false;
+
+			// TODO: Get ignored suprasegmentals working in new CV grid.
+			itemProps.Update = true;
+			itemProps.Visible = true;
+			itemProps.Enabled = m_chrGrid.Visible;
+			return true;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownChooseIgnoredCharactersTBMenu(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -798,11 +830,20 @@ namespace SIL.Pa.UI.Views
 			string defaultHTMLFileName = 
 				string.Format(m_defaultHTMLOutputFile, App.Project.LanguageName);
 
-			string outputFileName =
-				HTMLChartWriter.Export(m_chrGrid, defaultHTMLFileName, m_htmlChartName);
+			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
-			if (File.Exists(outputFileName))
-				LaunchHTMLDlg.PostExportProcess(FindForm(), outputFileName);
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
+
+			if (outputFileName == null)
+				return false;
+
+			var chrType = (CharacterType == IPASymbolType.Consonant ?
+				CVChartType.Consonant : CVChartType.Vowel);
+
+			CVChartExporter.Process(App.Project, chrType, outputFileName, m_chartGrid,
+				Settings.Default.OpenHTMLCVChartAfterExport);
 
 			return true;
 		}
@@ -845,6 +886,24 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			ReloadChart(true);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRestoreDefaultLayoutTBMenu(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!m_activeView || itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = m_chrGrid.Visible;
+			itemProps.Update = true;
+
 			return true;
 		}
 

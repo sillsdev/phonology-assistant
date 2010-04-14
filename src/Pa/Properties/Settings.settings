@@ -101,5 +101,11 @@
     <Setting Name="VowelChartRowHdrWidth" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="KeepTempCVChartExportFile" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OpenHTMLCVChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

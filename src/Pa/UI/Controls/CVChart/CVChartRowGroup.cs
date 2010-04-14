@@ -31,11 +31,11 @@ namespace SIL.Pa.UI.Controls
 	public class CVChartRowGroup
 	{
 		private readonly CVChartGrid m_grid;
-		private readonly string m_headerText;
 		private readonly int m_firstRowIndex;
 		private readonly int m_lastRowIndex;
 
 		public List<DataGridViewRow> Rows { get; private set; }
+		public string Text { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Controls
 		private CVChartRowGroup(string headerText, int rowCount, CVChartGrid grid)
 		{
 			m_grid = grid;
-			m_headerText = headerText;
+			Text = headerText;
 
 			m_lastRowIndex = grid.Rows.Add(rowCount);
 			m_firstRowIndex = m_lastRowIndex - rowCount + 1;
@@ -90,7 +90,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Adding 4 accounts for the double line along the group's right edge.
 				using (var g = m_grid.CreateGraphics())
-					return TextRenderer.MeasureText(g, m_headerText, FontHelper.UIFont).Width + 4;
+					return TextRenderer.MeasureText(g, Text, FontHelper.UIFont).Width + 4;
 			}
 		}
 
@@ -156,7 +156,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis |
 				TextFormatFlags.PreserveGraphicsClipping;
 
-			TextRenderer.DrawText(e.Graphics, m_headerText, FontHelper.UIFont, rc,
+			TextRenderer.DrawText(e.Graphics, Text, FontHelper.UIFont, rc,
 				SystemColors.WindowText, flags);
 
 			using (var pen = new Pen(m_grid.GridColor))

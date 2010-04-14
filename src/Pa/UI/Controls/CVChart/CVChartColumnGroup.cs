@@ -77,6 +77,16 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string Text
+		{
+			get { return LeftColumn.HeaderText; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the entire group's rectangle, regardless of whether or not some or all of 
 		/// it is currently not displayed.
 		/// </summary>
@@ -136,12 +146,15 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (e.ColumnIndex == LeftColumn.Index)
 					PaintPhoneCell(e);
-				
+
 				return;
 			}
 
-			var rcLeftColHdr = m_grid.GetCellDisplayRectangle(LeftColumn.Index, -1, false);
-			if (e.ColumnIndex == LeftColumn.Index || rcLeftColHdr == Rectangle.Empty)
+			// Do the painting only when getting this event for the right column in the group,
+			// unless the right column is scrolled out of view, then do the painting when the
+			// event is for the left column.
+			var rcRightColHdr = m_grid.GetCellDisplayRectangle(RightColumn.Index, -1, false);
+			if (e.ColumnIndex == RightColumn.Index || rcRightColHdr == Rectangle.Empty)
 			{
 				var rc = GroupRectangle;
 
@@ -169,7 +182,8 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Erase the cell's right border (i.e. the line between the voiced and voiceless
+		/// column in consonant charts and between rounded and unrounded in vowel charts).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void PaintPhoneCell(DataGridViewCellPaintingEventArgs e)

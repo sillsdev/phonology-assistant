@@ -50,7 +50,7 @@ namespace SIL.Pa.Processing
 		protected int m_leftColSpanForGroupedList;
 		protected int m_rightColSpanForGroupedList;
 		protected string m_outputFileName;
-		protected readonly OutputFormat m_outputFormat;
+		protected OutputFormat m_outputFormat;
 		protected readonly bool m_openAfterExport;
 		protected readonly string m_groupedFieldName;
 		protected readonly DataGridViewColumn m_groupByColumn;
@@ -251,6 +251,36 @@ namespace SIL.Pa.Processing
 		protected virtual string IntermediateFileName
 		{
 			get { return Path.ChangeExtension(m_outputFileName, "tmp"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string NumberOfRecords
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string NumberOfGroups
+		{
+			get { return null; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string NumberOfPhones
+		{
+			get { return null; }
 		}
 
 		#endregion
@@ -508,14 +538,23 @@ namespace SIL.Pa.Processing
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
 					"li", "class", "searchPattern", SearchPattern);
 			}
-			
-			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-				"numberOfRecords", ((PaWordListGrid)m_grid).Cache.Count.ToString());
 
-			if (m_isGridGrouped && ((PaWordListGrid)m_grid).GroupCount > 0)
+			if (!string.IsNullOrEmpty(NumberOfPhones))
 			{
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",
-					"numberOfGroups", ((PaWordListGrid)m_grid).GroupCount.ToString());
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "numberOfPhones", NumberOfPhones);
+			}
+
+			if (!string.IsNullOrEmpty(NumberOfRecords))
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "numberOfRecords", NumberOfRecords);
+			}
+
+			if (!string.IsNullOrEmpty(NumberOfGroups))
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "numberOfGroups", NumberOfGroups);
 			}
 
 			if (CIEOption != null)
@@ -766,12 +805,22 @@ namespace SIL.Pa.Processing
 			if (!(col is SilHierarchicalGridColumn))
 			{
 				m_writer.WriteAttributeString("class", ProcessHelper.MakeAlphaNumeric(col.HeaderText));
-				var value = row.Cells[col.Index].Value;
-				if (value != null && value.ToString() != string.Empty)
-					m_writer.WriteString(value.ToString());
+				var value = GetTableRowCellValue(row, col);
+				if (!string.IsNullOrEmpty(value))
+					m_writer.WriteString(value);
 			}
 
 			m_writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetTableRowCellValue(DataGridViewRow row, DataGridViewColumn col)
+		{
+			return row.Cells[col.Index].Value as string;
 		}
 	}
 }

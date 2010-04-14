@@ -11,7 +11,8 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-03-31 -->
+  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-12 -->
+	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
 
@@ -993,6 +994,8 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="phoneticSearchSubfieldOrder" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol" />
+		<xsl:variable name="view" select="$details//xhtml:li[@class = 'view']" />
 		<xsl:variable name="searchPattern" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'searchPattern']" />
 		<xsl:variable name="filter" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'filter']" />
 		<xsl:variable name="numberOfPhones" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfPhones']" />
@@ -1090,8 +1093,23 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
 						</xsl:if>
 					</xsl:with-param>
 				</xsl:call-template>
+				<xsl:if test="$view = 'Search' and $phoneticSearchSubfieldOrder">
+					<xsl:call-template name="detailsRow">
+						<xsl:with-param name="label" select="'Phonetic sort options:'" />
+						<xsl:with-param name="text">
+							<xsl:call-template name="phoneticSearchSubfieldOrder">
+								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[1]" />
+							</xsl:call-template>
+							<xsl:call-template name="phoneticSearchSubfieldOrder">
+								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[2]" />
+							</xsl:call-template>
+							<xsl:call-template name="phoneticSearchSubfieldOrder">
+								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[3]" />
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
 			</xsl:if>
-			<!-- TO DO: Researcher? -->
 			<xsl:if test="$projectName != $languageName">
 				<xsl:call-template name="detailsRow">
 					<xsl:with-param name="label" select="'Project name:'" />
@@ -1148,6 +1166,30 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
 				</xsl:call-template>
 			</w:tc>
 		</w:tr>
+	</xsl:template>
+
+	<xsl:template name="phoneticSearchSubfieldOrder">
+		<xsl:param name="subfield" />
+		<xsl:if test="$subfield">
+			<xsl:variable name="class" select="$subfield/@class" />
+			<xsl:if test="$subfield/preceding-sibling::*">
+				<xsl:value-of select="', '" />
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="contains($class, 'preceding')">
+					<xsl:value-of select="'Preceding'" />
+				</xsl:when>
+				<xsl:when test="contains($class, 'following')">
+					<xsl:value-of select="'Following'" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'Item'" />
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="$subfield = 'rightToLeft'">
+				<xsl:value-of select="' r-to-l'" />
+			</xsl:if>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- Section parameters -->

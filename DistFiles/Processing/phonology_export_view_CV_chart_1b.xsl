@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1b.xsl 2010-03-13 -->
+  <!-- phonology_export_view_CV_chart_1b.xsl 2010-04-14 -->
   <!-- Keep only the colgroup and rowgroup articulatory features for which there is at least one phone in this chart. -->
   <!-- Insert lists of sort keys for potential rows. -->
   <!-- Keep auxilliary articulatory features which distinguish at least one pair of phones. -->
@@ -14,9 +14,9 @@ exclude-result-prefixes="xhtml"
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -25,14 +25,14 @@ exclude-result-prefixes="xhtml"
 		<xsl:variable name="literal" select="xhtml:span" />
 		<xsl:if test="not(preceding-sibling::xhtml:li[xhtml:span = $literal])">
 			<xsl:copy>
-				<xsl:apply-templates select="@*|node()" />
+				<xsl:apply-templates select="@* | node()" />
 			</xsl:copy>
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="xhtml:ul[@class = 'chart features']">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 			<!-- Make sure there is one item for row features (if any). -->
 			<li class="row" xmlns="http://www.w3.org/1999/xhtml">
 				<!-- Sort and concatenate all the keys. -->
@@ -51,7 +51,7 @@ exclude-result-prefixes="xhtml"
     <!-- Keep this chart heading feature only if at least one phone has it. -->
     <xsl:if test="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'colgroup'][. = $feature]]">
       <xsl:copy>
-        <xsl:apply-templates select="@*|node()" />
+        <xsl:apply-templates select="@* | node()" />
       </xsl:copy>
     </xsl:if>
   </xsl:template>
@@ -61,7 +61,7 @@ exclude-result-prefixes="xhtml"
     <!-- Keep this chart heading feature only if at least one phone has it. -->
     <xsl:if test="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'rowgroup'][. = $feature]]">
       <xsl:copy>
-        <xsl:apply-templates select="@*|node()" />
+        <xsl:apply-templates select="@* | node()" />
 				<ul xmlns="http://www.w3.org/1999/xhtml">
 					<xsl:for-each select="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[xhtml:ul[@class = 'chart features']/xhtml:li[@class = 'rowgroup'][. = $feature]]">
 						<li>
@@ -83,7 +83,7 @@ exclude-result-prefixes="xhtml"
     <xsl:if test="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[xhtml:div[@class = 'features']/xhtml:ul[@class = 'articulatory']/xhtml:li[. = $feature]]">
       <xsl:if test="//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li[not(xhtml:div[@class = 'features']/xhtml:ul[@class = 'articulatory']/xhtml:li[. = $feature])]">
         <xsl:copy>
-          <xsl:apply-templates select="@*|node()" />
+          <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
       </xsl:if>
     </xsl:if>

@@ -126,6 +126,10 @@ namespace SIL.Pa
 			"HTML Files (*.html)|*.html", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
 			LocalizationPriority.Medium);
 
+		public static string kstidFileTypeWordXml = LocalizationManager.LocalizeString("Word2003XmlFileType",
+			"Word 2003 XML Files (*.xml)|*.xml", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
+			LocalizationPriority.Medium);
+
 		public static string kstidFileTypePAXML = LocalizationManager.LocalizeString("PaXMLFileType",
 			"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.", kLocalizationGroupMisc,
 			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
@@ -1462,13 +1466,12 @@ namespace SIL.Pa
 		/// Initializes the progress bar for the specified view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void InitializeProgressBarForLoadingView(string viewName, int maxValue)
+		public static void InitializeProgressBarForLoadingView(string msg, int maxValue)
 		{
-			string text = string.Format(Properties.Resources.kstidViewInitProgBarTemplate, viewName);
-			InitializeProgressBar(text, maxValue);
+			InitializeProgressBar(msg, maxValue);
 
 			if (SplashScreen != null && SplashScreen.StillAlive)
-				SplashScreen.Message = text;
+				SplashScreen.Message = msg;
 		}
 
 		/// ------------------------------------------------------------------------------------

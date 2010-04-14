@@ -1,28 +1,30 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1a.xsl 2010-03-29 -->
+  <!-- phonology_project_inventory_1a.xsl 2010-04-09 -->
 	<!-- For each phone, copy information about its symbols from the program phonetic inventory. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
-  <xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
+	<xsl:variable name="metadata" select="//div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/ul[@class = 'settings']" />
+	<xsl:variable name="programConfigurationFolder" select="$settings/li[@class = 'programConfigurationFolder']" />
+	<xsl:variable name="programPhoneticInventoryFile" select="$settings/li[@class = 'programPhoneticInventoryFile']" />
 
-  <xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
+	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 	<xsl:variable name="symbols" select="document($programPhoneticInventoryXML)/inventory/symbols" />
 
 	<xsl:variable name="languageName" select="/inventory/@languageName" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-	<xsl:template match="@*|node()">
+	<xsl:template match="@* | node()">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 		</xsl:copy>
 	</xsl:template>
 
   <xsl:template match="unit">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 			<sequence>
 				<xsl:call-template name="sequence">
 					<xsl:with-param name="text" select="@literal" />

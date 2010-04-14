@@ -1,21 +1,23 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_2d_feature_rules.xsl 2010-03-29 -->
+  <!-- phonology_project_inventory_2d_feature_rules.xsl 2010-04-09 -->
   <!-- Convert from articulatory to binary abd hierarchical features according to rules. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
-	<xsl:variable name="programConfigurationFolder" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programConfigurationFolder']" />
-	<xsl:variable name="programPhoneticInventoryFile" select="//div[@id = 'metadata']/ul[@class = 'settings']/li[@class = 'programPhoneticInventoryFile']" />
-	
+	<xsl:variable name="metadata" select="//div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/ul[@class = 'settings']" />
+	<xsl:variable name="programConfigurationFolder" select="$settings/li[@class = 'programConfigurationFolder']" />
+	<xsl:variable name="programPhoneticInventoryFile" select="$settings/li[@class = 'programPhoneticInventoryFile']" />
+
 	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 	<xsl:variable name="programBinaryFeatures" select="document($programPhoneticInventoryXML)/inventory/binaryFeatures" />
 	<xsl:variable name="programHierarchicalFeatures" select="document($programPhoneticInventoryXML)/inventory/hierarchicalFeatures" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
@@ -26,8 +28,6 @@
 				<xsl:with-param name="articulatoryFeatures" select="." />
 			</xsl:apply-templates>
 		</binaryFeatures>
-		<!--
-		-->
 		<root>
 			<xsl:apply-templates select="$programHierarchicalFeatures/feature[@parent = 'root']">
 				<xsl:with-param name="articulatoryFeatures" select="." />

@@ -194,6 +194,7 @@
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
+    <Compile Include="Processing\CVChartExporter.cs" />
     <Compile Include="Processing\CVChartBuilder.cs" />
     <Compile Include="Processing\DataCorpusExporter.cs" />
     <Compile Include="Processing\DistributionChartExporter.cs">
@@ -328,9 +329,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\PaGradientPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\PaPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\PaTextPanel.cs">

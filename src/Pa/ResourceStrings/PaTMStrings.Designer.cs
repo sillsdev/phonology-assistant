@@ -871,6 +871,24 @@ namespace SIL.Pa.ResourceStrings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To &amp;Word 2003 Xml.
+        /// </summary>
+        public static string kstidExportAsWordXmlText {
+            get {
+                return ResourceManager.GetString("kstidExportAsWordXmlText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To Word 2003 Xml.
+        /// </summary>
+        public static string kstidExportAsWordXmlToolTip {
+            get {
+                return ResourceManager.GetString("kstidExportAsWordXmlToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Features....
         /// </summary>
         public static string kstidFeaturesText {

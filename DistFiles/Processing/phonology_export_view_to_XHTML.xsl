@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-06 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-12 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -84,17 +84,20 @@ exclude-result-prefixes="xhtml"
             </xsl:call-template>
           </xsl:when>
         </xsl:choose>
+      </head>
+			<body>
+				<xsl:apply-templates select="xhtml:body/*" />
+				<!-- To reduce potential delay in loading content, script elements are at the end of the body. -->
 				<!-- Newline necessary to force start and end tags on separate lines. -->
 				<xsl:if test="$interactiveWebPage = 'true'">
 					<script type="text/javascript" src="{concat($genericRelativePath, $jqueryScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
-          <script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
+					<script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
-        </xsl:if>
-      </head>
-			<xsl:apply-templates select="xhtml:body" />
+				</xsl:if>
+			</body>
     </html>
   </xsl:template>
 
@@ -253,6 +256,8 @@ exclude-result-prefixes="xhtml"
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
+			<xsl:variable name="phoneticSearchSubfieldOrder" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol" />
+			<xsl:variable name="view" select="$details//xhtml:li[@class = 'view']" />
 			<xsl:variable name="searchPattern" select="$details/xhtml:li[@class = 'searchPattern']" />
 			<xsl:variable name="filter" select="$details/xhtml:li[@class = 'filter']" />
 			<xsl:variable name="numberOfPhones" select="$details/xhtml:li[@class = 'numberOfPhones']" />
@@ -371,8 +376,25 @@ exclude-result-prefixes="xhtml"
 								</xsl:if>
 							</td>
 						</tr>
+						<xsl:if test="$view = 'Search' and $phoneticSearchSubfieldOrder">
+							<tr class="phoneticSortOptions" xmlns="http://www.w3.org/1999/xhtml">
+								<th scope="row">
+									<xsl:value-of select="'Phonetic sort options:'" />
+								</th>
+								<td>
+									<xsl:call-template name="phoneticSearchSubfieldOrder">
+										<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[1]" />
+									</xsl:call-template>
+									<xsl:call-template name="phoneticSearchSubfieldOrder">
+										<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[2]" />
+									</xsl:call-template>
+									<xsl:call-template name="phoneticSearchSubfieldOrder">
+										<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[3]" />
+									</xsl:call-template>
+								</td>
+							</tr>
+						</xsl:if>
 					</xsl:if>
-					<!-- TO DO: Researcher? -->
 					<xsl:if test="$projectName != $languageName">
 						<tr class="projectName">
 							<th scope="row">
@@ -433,6 +455,30 @@ exclude-result-prefixes="xhtml"
 					</xsl:if>
 				</tbody>
 			</table>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="phoneticSearchSubfieldOrder">
+		<xsl:param name="subfield" />
+		<xsl:if test="$subfield">
+			<xsl:variable name="class" select="$subfield/@class" />
+			<xsl:if test="$subfield/preceding-sibling::*">
+				<xsl:value-of select="', '" />
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="contains($class, 'preceding')">
+					<xsl:value-of select="'Preceding'" />
+				</xsl:when>
+				<xsl:when test="contains($class, 'following')">
+					<xsl:value-of select="'Following'" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'Item'" />
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="$subfield = 'rightToLeft'">
+				<xsl:value-of select="' r-to-l'" />
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 

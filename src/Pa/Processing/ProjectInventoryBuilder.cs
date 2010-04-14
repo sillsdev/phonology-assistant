@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Controls;
 using SilUtils;
 
 namespace SIL.Pa.Processing
@@ -47,8 +48,8 @@ namespace SIL.Pa.Processing
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
 				new object[] { project, phoneCache, buildResult });
 
-			CVChartBuilder.Process(project, phoneCache, CVChartBuilder.ChartType.Consonant);
-			CVChartBuilder.Process(project, phoneCache, CVChartBuilder.ChartType.Vowel);
+			CVChartBuilder.Process(project, phoneCache, CVChartType.Consonant);
+			CVChartBuilder.Process(project, phoneCache, CVChartType.Vowel);
 
 			return buildResult;
 		}

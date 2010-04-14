@@ -25,6 +25,12 @@ using SilUtils;
 
 namespace SIL.Pa.UI.Controls
 {
+	public enum CVChartType
+	{
+		Consonant,
+		Vowel
+	}
+
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
@@ -32,8 +38,8 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class CVChartGrid : SilGrid, IxCoreColleague
 	{
-		private PhoneInfoPopup m_phoneInfoPopup;
-		private ITMAdapter m_tmAdapter;
+		private readonly PhoneInfoPopup m_phoneInfoPopup;
+		//private DataGridViewCell m_cellShowingPopup;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -60,6 +66,26 @@ namespace SIL.Pa.UI.Controls
 			RowGroups = new List<CVChartRowGroup>();
 
 			m_phoneInfoPopup = new PhoneInfoPopup(this);
+			//m_phoneInfoPopup.PopupOpened += HandlePhoneInfoPopupOpened;
+			//m_phoneInfoPopup.PopupClosed += HandlePhoneInfoPopupClosed;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public CVChartGrid(ITMAdapter tmAdapter) : this()
+		{
+			if (tmAdapter != null)
+			{
+				tmAdapter.SetContextMenuForControl(this, "cmnuCharChartGrid");
+				if (ContextMenuStrip != null)
+				{
+					ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
+					ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -78,31 +104,6 @@ namespace SIL.Pa.UI.Controls
 			}
 			
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public ITMAdapter TMAdapter
-		{
-			get { return m_tmAdapter; }
-			set
-			{
-				if (value == null)
-					return;
-
-				m_tmAdapter = value;
-				m_tmAdapter.SetContextMenuForControl(this, "cmnuCharChartGrid");
-				if (ContextMenuStrip != null)
-				{
-					ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
-					ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -240,8 +241,44 @@ namespace SIL.Pa.UI.Controls
 
 			Rectangle rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			if (m_phoneInfoPopup.Initialize(this[e.ColumnIndex, e.RowIndex]))
+			{
+				//m_cellShowingPopup = this[e.ColumnIndex, e.RowIndex];
 				m_phoneInfoPopup.Show(rc);
+			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
+		//{
+		//    base.OnCellMouseLeave(e);
+		//    m_cellShowingPopup = null;
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandlePhoneInfoPopupOpened(object sender, EventArgs e)
+		//{
+		//    InvalidateCell(m_cellShowingPopup);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandlePhoneInfoPopupClosed(object sender, EventArgs e)
+		//{
+		//    var tmpCell = m_cellShowingPopup;
+		//    m_cellShowingPopup = null;
+		//    InvalidateCell(tmpCell);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -252,9 +289,32 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (e.ColumnIndex == -1 && e.RowIndex == -1)
 				PaintTopLeftCornerCell(e);
+			//else if (m_cellShowingPopup != null && e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
+			//    m_cellShowingPopup == this[e.ColumnIndex, e.RowIndex])
+			//{
+			//    PaintCellShowingPhoneInfoPopup(e);
+			//}
 			else
 				base.OnCellPainting(e);
 		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void PaintCellShowingPhoneInfoPopup(DataGridViewCellPaintingEventArgs e)
+		//{
+		//    var rc = e.CellBounds;
+		//    e.Paint(rc, e.PaintParts);
+
+		//    rc.Inflate(-2, -2);
+
+		//    using (Pen pen = new Pen(e.CellStyle.ForeColor))
+		//        e.Graphics.DrawEllipse(pen, rc);
+
+		//    e.Handled = true;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -319,6 +379,19 @@ namespace SIL.Pa.UI.Controls
 			base.OnCellLeave(e);
 			RefreshColumnHeaderPainting();
 			RefreshRowHeaderPainting();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Select cells that are right-clicked on.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right && e.RowIndex >= 0 && e.ColumnIndex >= 0)
+				CurrentCell = this[e.ColumnIndex, e.RowIndex];
+			
+			base.OnCellMouseDown(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

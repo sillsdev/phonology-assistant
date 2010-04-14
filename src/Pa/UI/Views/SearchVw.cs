@@ -52,7 +52,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			App.InitializeProgressBarForLoadingView(Properties.Resources.kstidSearchViewText, 6);
+			var msg = LocalizationManager.LocalizeString("InitializingSearchViewMsg",
+				"Initializing Search View...",
+				"Message displayed whenever the search view is being initialized.",
+				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
+				LocalizationPriority.Medium);
+
+			App.InitializeProgressBarForLoadingView(msg, 6);
 			InitializeComponent();
 			Name = "SearchVw";
 			App.IncProgressBar();

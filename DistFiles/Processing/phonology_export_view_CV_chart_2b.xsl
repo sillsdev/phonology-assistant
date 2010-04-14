@@ -3,16 +3,16 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2c.xsl 2010-03-08 -->
+  <!-- phonology_export_view_CV_chart_2c.xsl 2010-04-14 -->
   <!-- If there are no phones or one phone in a data cell, remove the list. -->
   <!-- If any column heading cell contains line breaks, insert a break in the heading cells of the feature tables. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@*|node()">
+  <xsl:template match="@* | node()">
     <xsl:copy>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
   

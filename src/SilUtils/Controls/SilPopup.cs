@@ -22,6 +22,7 @@ namespace SilUtils.Controls
 		public event EventHandler MouseEntered;
 		public event EventHandler MouseLeft;
 		public event EventHandler PopupClosed;
+		public event EventHandler PopupOpened;
 
 		protected bool m_mouseOver;
 		protected bool m_monitorMouseOver = true;
@@ -61,10 +62,31 @@ namespace SilUtils.Controls
 			m_owningDropDown.Size = Size;
 			m_owningDropDown.Items.Add(m_host);
 			m_owningDropDown.VisibleChanged += m_owningDropDown_VisibleChanged;
+			m_owningDropDown.Opened += m_owningDropDown_Opened;
 			m_owningDropDown.Closed += m_owningDropDown_Closed;
 			m_owningDropDown.Closing += OnDropDownClosing;
+		}
 
-			Disposed += SilPopup_Disposed;
+		/// ------------------------------------------------------------------------------------
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				if (m_timer != null)
+				{
+					m_timer.Stop();
+					m_timer.Dispose();
+					m_timer = null;
+				}
+
+				components.Dispose();
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,28 +102,22 @@ namespace SilUtils.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void m_owningDropDown_Opened(object sender, EventArgs e)
+		{
+			if (PopupOpened != null)
+				PopupOpened(this, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Handles the Closing event of the m_owningDropDown control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnDropDownClosing(object sender, ToolStripDropDownClosingEventArgs e)
 		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void SilPopup_Disposed(object sender, EventArgs e)
-		{
-			Disposed -= SilPopup_Disposed;
-
-			if (m_timer != null)
-			{
-				m_timer.Stop();
-				m_timer.Dispose();
-				m_timer = null;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

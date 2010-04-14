@@ -1,17 +1,16 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_1b.xsl 2010-03-23 -->
-	<!-- Insert lists of feature names. -->
-	<!-- Number the articulatory features. -->
+  <!-- phonology_project_to_CV_chart_1b.xsl 2010-04-09 -->
+	<!-- Insert column and group attributes. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
 	<xsl:variable name="units" select="/inventory/units" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-	<xsl:template match="@*|node()">
+	<xsl:template match="@* | node()">
 		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
+			<xsl:apply-templates select="@* | node()" />
 		</xsl:copy>
 	</xsl:template>
 
@@ -44,11 +43,21 @@
 					<xsl:for-each select="$units/unit[keys/chartKey[@class = 'rowgroup'] = $featureName]">
 						<xsl:sort select="keys/chartKey[@class = 'row']" />
 						<xsl:variable name="rowKey" select="keys/chartKey[@class = 'row']" />
-						<xsl:if test="not(preceding-sibling::unit[keys/chartKey[@class = 'rowgroup'] = $featureName][keys/chartKey[@class = 'row'] = $rowKey])">
-							<row>
-								<xsl:value-of select="$rowKey" />
-							</row>
-						</xsl:if>
+						<xsl:variable name="allKey" select="keys/chartKey[@class = 'all']" />
+						<xsl:variable name="countPrecedingUnitsWithSameFeatures" select="count(preceding-sibling::unit[keys/chartKey[@class = 'all'] = $allKey])" />
+						<xsl:choose>
+							<!-- If a unit has the same features as a preceding unit, put it in a separate row. -->
+							<xsl:when test="$countPrecedingUnitsWithSameFeatures != 0">
+								<row literal="{@literal}">
+									<xsl:value-of select="$rowKey" />
+								</row>
+							</xsl:when>
+							<xsl:when test="not(preceding-sibling::unit[keys/chartKey[@class = 'rowgroup'] = $featureName][keys/chartKey[@class = 'row'] = $rowKey])">
+								<row>
+									<xsl:value-of select="$rowKey" />
+								</row>
+							</xsl:when>
+						</xsl:choose>
 					</xsl:for-each>
 				</xsl:copy>
 			</xsl:for-each>
