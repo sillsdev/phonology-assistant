@@ -215,12 +215,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int OFD_LastFileTypeChosen_DataSourceXSLT {
+        public int OFD_LastFileTypeChosen_DataSourceXslt {
             get {
-                return ((int)(this["OFD_LastFileTypeChosen_DataSourceXSLT"]));
+                return ((int)(this["OFD_LastFileTypeChosen_DataSourceXslt"]));
             }
             set {
-                this["OFD_LastFileTypeChosen_DataSourceXSLT"] = value;
+                this["OFD_LastFileTypeChosen_DataSourceXslt"] = value;
             }
         }
         
@@ -228,12 +228,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenHTMLDistChartAfterExport {
+        public bool OpenHtmlDistChartAfterExport {
             get {
-                return ((bool)(this["OpenHTMLDistChartAfterExport"]));
+                return ((bool)(this["OpenHtmlDistChartAfterExport"]));
             }
             set {
-                this["OpenHTMLDistChartAfterExport"] = value;
+                this["OpenHtmlDistChartAfterExport"] = value;
             }
         }
         
@@ -241,12 +241,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenHTMLDataCorpusAfterExport {
+        public bool OpenHtmlDataCorpusAfterExport {
             get {
-                return ((bool)(this["OpenHTMLDataCorpusAfterExport"]));
+                return ((bool)(this["OpenHtmlDataCorpusAfterExport"]));
             }
             set {
-                this["OpenHTMLDataCorpusAfterExport"] = value;
+                this["OpenHtmlDataCorpusAfterExport"] = value;
             }
         }
         
@@ -263,12 +263,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenHTMLSearchResultAfterExport {
+        public bool OpenHtmlSearchResultAfterExport {
             get {
-                return ((bool)(this["OpenHTMLSearchResultAfterExport"]));
+                return ((bool)(this["OpenHtmlSearchResultAfterExport"]));
             }
             set {
-                this["OpenHTMLSearchResultAfterExport"] = value;
+                this["OpenHtmlSearchResultAfterExport"] = value;
             }
         }
         
@@ -284,9 +284,9 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepTempProjectCssXHTMLFile {
+        public bool KeepTempProjectCssXhtmlFile {
             get {
-                return ((bool)(this["KeepTempProjectCssXHTMLFile"]));
+                return ((bool)(this["KeepTempProjectCssXhtmlFile"]));
             }
         }
         
@@ -378,12 +378,148 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool OpenHTMLCVChartAfterExport {
+        public bool OpenHtmlCVChartAfterExport {
             get {
-                return ((bool)(this["OpenHTMLCVChartAfterExport"]));
+                return ((bool)(this["OpenHtmlCVChartAfterExport"]));
             }
             set {
-                this["OpenHTMLCVChartAfterExport"] = value;
+                this["OpenHtmlCVChartAfterExport"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// When true and temporary export files are written to disk, the temporary XML is nicely indented and formatted for better human readability.
+        /// </summary>
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("When true and temporary export files are written to disk, the temporary XML is ni" +
+            "cely indented and formatted for better human readability.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TidyUpTempExportFilesAfterSaving {
+            get {
+                return ((bool)(this["TidyUpTempExportFilesAfterSaving"]));
+            }
+        }
+        
+        /// <summary>
+        /// Full path is legal here. When empty, the default application is used.
+        /// </summary>
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsDescriptionAttribute("Full path is legal here. When empty, the default application is used.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppToOpenWordXml {
+            get {
+                return ((string)(this["AppToOpenWordXml"]));
+            }
+            set {
+                this["AppToOpenWordXml"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWordXmlDataCorpusAfterExport {
+            get {
+                return ((bool)(this["OpenWordXmlDataCorpusAfterExport"]));
+            }
+            set {
+                this["OpenWordXmlDataCorpusAfterExport"] = value;
+            }
+        }
+        
+        /// <summary>
+        /// Full path is valid here. When left empty, the default application is used.
+        /// </summary>
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("Full path is valid here. When left empty, the default application is used.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppThatOpensHtml {
+            get {
+                return ((string)(this["AppThatOpensHtml"]));
+            }
+        }
+        
+        /// <summary>
+        /// When left empty, the default application is used.
+        /// </summary>
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("When left empty, the default application is used.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppThatOpensWordXml {
+            get {
+                return ((string)(this["AppThatOpensWordXml"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWordXmlSearchResultAfterExport {
+            get {
+                return ((bool)(this["OpenWordXmlSearchResultAfterExport"]));
+            }
+            set {
+                this["OpenWordXmlSearchResultAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWordXmlCVChartAfterExport {
+            get {
+                return ((bool)(this["OpenWordXmlCVChartAfterExport"]));
+            }
+            set {
+                this["OpenWordXmlCVChartAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenWordXmlDistChartAfterExport {
+            get {
+                return ((bool)(this["OpenWordXmlDistChartAfterExport"]));
+            }
+            set {
+                this["OpenWordXmlDistChartAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp")]
+        public string EthnologueIndexPage {
+            get {
+                return ((string)(this["EthnologueIndexPage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp?letter={0}")]
+        public string EthnologueFirstLetterOfNameSearch {
+            get {
+                return ((string)(this["EthnologueFirstLetterOfNameSearch"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/show_language.asp?code={0}")]
+        public string EthnologueCodeSearch {
+            get {
+                return ((string)(this["EthnologueCodeSearch"]));
             }
         }
     }

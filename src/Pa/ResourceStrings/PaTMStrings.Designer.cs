@@ -871,7 +871,7 @@ namespace SIL.Pa.ResourceStrings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To &amp;Word 2003 Xml.
+        ///   Looks up a localized string similar to To &amp;Word 2003 XML.
         /// </summary>
         public static string kstidExportAsWordXmlText {
             get {
@@ -880,7 +880,7 @@ namespace SIL.Pa.ResourceStrings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To Word 2003 Xml.
+        ///   Looks up a localized string similar to To Word 2003 XML.
         /// </summary>
         public static string kstidExportAsWordXmlToolTip {
             get {

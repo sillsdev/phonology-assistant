@@ -582,24 +582,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consonants.
-        /// </summary>
-        internal static string kstidConChartHTMLChartType {
-            get {
-                return ResourceManager.GetString("kstidConChartHTMLChartType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}-ConsonantChart.html.
-        /// </summary>
-        internal static string kstidConChartHTMLFileName {
-            get {
-                return ResourceManager.GetString("kstidConChartHTMLFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the saved chart?.
         /// </summary>
         internal static string kstidConfirmSavedChartRemoval {
@@ -1244,15 +1226,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidFwDataSourceInfoWithMachineName {
             get {
                 return ResourceManager.GetString("kstidFwDataSourceInfoWithMachineName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The writing system for the phonetic field has not been specified for the FieldWorks data source &apos;{0}&apos;.\n\nSelect the FieldWorks data source and click the properties button..
-        /// </summary>
-        internal static string kstidFwDataSourceWsMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidFwDataSourceWsMissingMsg", resourceCulture);
             }
         }
         
@@ -2259,15 +2232,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}-{1}SearchResults.html.
-        /// </summary>
-        internal static string kstidSearchResultHTMLFileName {
-            get {
-                return ResourceManager.GetString("kstidSearchResultHTMLFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} Records.
         /// </summary>
         internal static string kstidSearchResultTabToolTip {
@@ -2673,24 +2637,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vowels.
-        /// </summary>
-        internal static string kstidVowChartHTMLChartType {
-            get {
-                return ResourceManager.GetString("kstidVowChartHTMLChartType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}-VowelChart.html.
-        /// </summary>
-        internal static string kstidVowChartHTMLFileName {
-            get {
-                return ResourceManager.GetString("kstidVowChartHTMLFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Vowel Chart View Help.
         /// </summary>
         internal static string kstidVowelChartViewHelpToolTip {
@@ -2822,15 +2768,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidXYChartHTMLChartType {
             get {
                 return ResourceManager.GetString("kstidXYChartHTMLChartType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}-{1}XYChart.html.
-        /// </summary>
-        internal static string kstidXYChartHTMLFileName {
-            get {
-                return ResourceManager.GetString("kstidXYChartHTMLFileName", resourceCulture);
             }
         }
         

@@ -61,6 +61,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			SelectionMode = DataGridViewSelectionMode.CellSelect;
+			PaintHeaderAcrossFullGridWidth = false;
 
 			ColumnGroups = new List<CVChartColumnGroup>();
 			RowGroups = new List<CVChartRowGroup>();

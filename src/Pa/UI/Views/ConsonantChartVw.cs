@@ -21,8 +21,6 @@ namespace SIL.Pa.UI.Views
 		{
 			InitializeComponent();
 			Name = "ConsonantChartVw";
-			m_defaultHTMLOutputFile = Properties.Resources.kstidConChartHTMLFileName;
-			m_htmlChartName = Properties.Resources.kstidConChartHTMLChartType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,6 +101,34 @@ namespace SIL.Pa.UI.Views
 		protected override string LayoutFile
 		{
 			get { return App.Project.ProjectPathFilePrefix + "ConsonantChart.xml"; }
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected override string DefaultHTMLOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultConsonantChartHtmlExportFileAffix", "{0}-ConsonantChart.html");
+			}
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected override string DefaultWordXmlOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultConsonantChartWordXmlExportFileAffix", "{0}-ConsonantChart.xml");
+			}
 		}
 	}
 }

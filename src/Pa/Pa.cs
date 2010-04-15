@@ -105,84 +105,25 @@ namespace SIL.Pa
 		public const string kLocalizationGroupInfoMsg = "Information Messages";
 		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
-		public static string kOpenClassBracket = LocalizationManager.LocalizeString(
-			"Misc.Strings.OpenClassSymbol", "<", "Character used to delineate the opening of a phonetic search class.",
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-
-		public static string kCloseClassBracket = LocalizationManager.LocalizeString(
-			"CloseClassSymbol", ">", "Character used to delineate the closing of a phonetic search class.",
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-	
-		public static string kstidFileTypeAllExe = LocalizationManager.LocalizeString("ExecutableFileTypes",
-			"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
-			"File types for executable files.", kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-		
-		public static string kstidFileTypeAllFiles = LocalizationManager.LocalizeString("AllFileTypes",
-			"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-	
-		public static string kstidFileTypeHTML = LocalizationManager.LocalizeString("HTMLFileType",
-			"HTML Files (*.html)|*.html", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-
-		public static string kstidFileTypeWordXml = LocalizationManager.LocalizeString("Word2003XmlFileType",
-			"Word 2003 XML Files (*.xml)|*.xml", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-
-		public static string kstidFileTypePAXML = LocalizationManager.LocalizeString("PaXMLFileType",
-			"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.", kLocalizationGroupMisc,
-			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-
-		public static string kstidFileTypePAProject = LocalizationManager.LocalizeString("PaProjectFileType",
-			"{0} Projects (*.pap)|*.pap", "File type for Phonology Assistant projects. The parameter is the application name.",
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-		
-		public static string kstidFiletypeRTF = LocalizationManager.LocalizeString("RTFFileType",
-			"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.", kLocalizationGroupMisc,
-			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-		
-		public static string kstidFiletypeSASoundMP3 = LocalizationManager.LocalizeString("Mp3FileType",
-			"Speech Analyzer MP3 Files (*.mp3)|*.mp3", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-		
-		public static string kstidFiletypeSASoundWave = LocalizationManager.LocalizeString("WaveFileType",
-			"Speech Analyzer Wave Files (*.wav)|*.wav", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);	
-		
-		public static string kstidFiletypeSASoundWMA = LocalizationManager.LocalizeString("WindowsMediaAudioFileType",
-			"Speech Analyzer WMA Files (*.wma)|*.wma", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-		
-		public static string kstidFileTypeToolboxDB = LocalizationManager.LocalizeString("ToolboxFileType",
-			"Toolbox Files (*.db)|*.db", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-		
-		public static string kstidFileTypeToolboxITX = LocalizationManager.LocalizeString("ToolboxInterlinearFileType",
-			"Interlinear Toolbox Files (*.itx)|*.itx", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-	
-		public static string kstidFileTypeXML = LocalizationManager.LocalizeString("XmlFileType",
-			"XML Files (*.xml)|*.xml", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-
-		public static string kstidFileTypeXSLT = LocalizationManager.LocalizeString("XsltTFileType",
-			"XSLT Files (*.xslt)|*.xslt", null, kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-
-		public static string kstidQuerySearchingMsg = LocalizationManager.LocalizeString(
-			"PhoneticSearchingInProgressMessage", "Searching...",
-			"Message displayed in status bar next to the progress bar when doing a query searches.",
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified,
-			LocalizationPriority.Medium);
-			
-		public static string kstidSaveChangesMsg = LocalizationManager.LocalizeString(
-			"GenericSaveChangesQuestion", "Would you like to save your changes?", null,
-			kLocalizationGroupMisc, LocalizationCategory.Unspecified, LocalizationPriority.Medium);
-		
-		public static string kstidSaveFileDialogGenericCaption = LocalizationManager.LocalizeString(
-			"GenericSaveFileDialogCaption", "Save File", null, kLocalizationGroupMisc,
-			LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+		//public static string kOpenClassBracket;
+		//public static string kCloseClassBracket;
+		//public static string kstidFileTypeAllExe;
+		//public static string kstidFileTypeAllFiles;
+		//public static string kstidFileTypeHTML;
+		//public static string kstidFileTypeWordXml;
+		//public static string kstidFileTypePAXML;
+		//public static string kstidFileTypePAProject;
+		//public static string kstidFiletypeRTF;
+		//public static string kstidFiletypeSASoundMP3;
+		//public static string kstidFiletypeSASoundWave;
+		//public static string kstidFiletypeSASoundWMA;
+		//public static string kstidFileTypeToolboxDB;
+		//public static string kstidFileTypeToolboxITX;
+		//public static string kstidFileTypeXML;
+		//public static string kstidFileTypeXSLT;
+		//public static string kstidQuerySearchingMsg;
+		//public static string kstidSaveChangesMsg;
+		//public static string kstidSaveFileDialogGenericCaption;
 
 		#endregion
 
@@ -214,9 +155,14 @@ namespace SIL.Pa
 			if (!DesignMode)
 				ProcessHelper.CopyFilesForPrettyHTMLExports();
 
-			LocalizationManager.Initialize();
+			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
+
 			string langId = Settings.Default.UserInterfaceLanguage;
-			LocalizationManager.UILangId = langId ?? LocalizationManager.kDefaultLang;
+
+			LocalizationManager.UILangId = (string.IsNullOrEmpty(langId) ?
+				LocalizationManager.kDefaultLang : langId);
+
+			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
@@ -230,7 +176,7 @@ namespace SIL.Pa
 
 			if (Settings.Default.UncertainGroupAbsentPhoneChar != null)
 				IPASymbolCache.UncertainGroupAbsentPhoneChar = Settings.Default.UncertainGroupAbsentPhoneChar;
-				
+
 			ReadAddOns();
 
 			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
@@ -242,6 +188,287 @@ namespace SIL.Pa
 			if (!DesignMode)
 				InventoryHelper.Load();
 		}
+
+		#region Misc. localized global strings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kOpenClassBracket
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"OpenClassSymbol", "<",
+					"Character used to delineate the opening of a phonetic search class.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kCloseClassBracket
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"CloseClassSymbol", ">",
+					"Character used to delineate the closing of a phonetic search class.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeAllExe
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.ExecutableFileTypes",
+					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
+					"File types for executable files.", kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeAllFiles
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.AllFileTypes",
+					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeHTML
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeWordXml
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypePAXML
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.PaXMLFileType",
+					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypePAProject
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.PaProjectFileType",
+					"{0} Projects (*.pap)|*.pap",
+					"File type for Phonology Assistant projects. The parameter is the application name.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeRTF
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.RTFFileType",
+					"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundMP3
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundWave
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundWMA
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeToolboxDB
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.ToolboxFileType",
+					"Toolbox Files (*.db)|*.db");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeToolboxITX
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.ToolboxInterlinearFileType",
+					"Interlinear Toolbox Files (*.itx)|*.itx");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXML
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.XmlFileType",
+					"XML Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXSLT
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.XsltTFileType",
+					"XSLT Files (*.xslt)|*.xslt");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidQuerySearchingMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"PhoneticSearchingInProgressMessage", "Searching...",
+					"Message displayed in status bar next to the progress bar when doing a query searches.",
+					kLocalizationGroupMisc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidSaveChangesMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"GenericSaveChangesQuestion", "Would you like to save your changes?");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string kstidSaveFileDialogGenericCaption
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"GenericSaveFileDialogCaption", "Save File");
+			}
+		}
+
+		#endregion
 
 		#region event handlers for saving and restoring localization dialog settings
 		/// ------------------------------------------------------------------------------------
@@ -486,7 +713,7 @@ namespace SIL.Pa
 		{
 			get { return InventoryHelper.BFeatureCache; }
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -622,7 +849,7 @@ namespace SIL.Pa
 				for (int i = 0; i < uPhones.Length; i++)
 				{
 					IPhoneInfo phoneUpdating;
-					
+
 					// TODO: Log an error that the phone isn't found in the the cache
 					// Get the cache entry for the phone whose sibling list will be updated.
 					if (!phoneCache.TryGetValue(uPhones[i], out phoneUpdating))
@@ -788,7 +1015,7 @@ namespace SIL.Pa
 		public static PaProject Project
 		{
 			get { return s_project; }
-			set 
+			set
 			{
 				if (value != s_project)
 					ProjectInventoryBuilder.Process(value, s_phoneCache);
@@ -851,7 +1078,7 @@ namespace SIL.Pa
 		/// --------------------------------------------------------------------------------
 		public static string HelpFile
 		{
-			get {return null;}
+			get { return null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -924,7 +1151,7 @@ namespace SIL.Pa
 
 				return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 			}
-			set	{s_progressBarLabel = value;}
+			set { s_progressBarLabel = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1224,7 +1451,7 @@ namespace SIL.Pa
 					"xychartcolors", "nonzeroforeground", value);
 			}
 		}
-		
+
 		#endregion
 
 		#region Misc. methods
@@ -1570,7 +1797,7 @@ namespace SIL.Pa
 		public static string OpenFileDialog(string defaultFileType, string filter, string dlgTitle)
 		{
 			int filterIndex = 0;
-			return OpenFileDialog(defaultFileType, filter, ref filterIndex,	dlgTitle);
+			return OpenFileDialog(defaultFileType, filter, ref filterIndex, dlgTitle);
 		}
 
 		/// --------------------------------------------------------------------------------
@@ -1682,7 +1909,7 @@ namespace SIL.Pa
 				return dlg.FileName;
 			}
 
-			return String.Empty;
+			return string.Empty;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1882,7 +2109,7 @@ namespace SIL.Pa
 
 			if (incProgressBar)
 				IncProgressBar(-1);
-			
+
 			return resultCache;
 		}
 
@@ -2068,7 +2295,7 @@ namespace SIL.Pa
 			{
 				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
 					Utils.PrepFilePathForMsgBox(s_helpFilePath));
-				
+
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -60,6 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 			lblComments.Font = FontHelper.UIFont;
 			txtLanguageName.Font = FontHelper.UIFont;
 			txtLanguageCode.Font = FontHelper.UIFont;
+			lnkEthnologue.Font = FontHelper.UIFont;
 			txtSpeaker.Font = FontHelper.UIFont;
 			txtTranscriber.Font = FontHelper.UIFont;
 			txtProjName.Font = FontHelper.UIFont;
@@ -817,7 +819,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSpecifyXSLTClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSourceXSLT;
+			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt;
 
 			var filter = App.kstidFileTypeXSLT + "|" + App.kstidFileTypeAllFiles;
 			var filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
@@ -827,7 +829,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				m_project.DataSources[e.RowIndex].XSLTFile = filename;
 				m_grid.Refresh();
-				Settings.Default.OFD_LastFileTypeChosen_DataSourceXSLT = filterIndex;
+				Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt = filterIndex;
 			}
 		}
 
@@ -1004,6 +1006,29 @@ namespace SIL.Pa.UI.Dialogs
 				btnProperties.PerformClick();
 				e.Handled = true;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void lnkEthnologue_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var linkData = Settings.Default.EthnologueIndexPage;
+
+			if (txtLanguageCode.Text.Trim().Length == 3)
+			{
+				linkData = string.Format(
+					Settings.Default.EthnologueCodeSearch, txtLanguageCode.Text.Trim());
+			}
+			else if (txtLanguageName.Text.Trim().Length > 0)
+			{
+				linkData = string.Format(Settings.Default.EthnologueFirstLetterOfNameSearch,
+					txtLanguageName.Text.Trim()[0]);
+			}
+
+			Process.Start(linkData);
 		}
 	}
 }

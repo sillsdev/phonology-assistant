@@ -114,7 +114,7 @@ namespace SIL.Pa.Processing
 					return "processing/process[@type='export'][@format='CSS']";
 			
 				case ProcessType.ExportToWord:
-					return "processing/process[@type='export'][@format='Word_2003_XML']";
+					return "processing/process[@type='export'][@format='Word 2003 XML']";
 			}
 
 			return null;

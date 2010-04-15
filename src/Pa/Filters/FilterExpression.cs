@@ -19,9 +19,8 @@ namespace SIL.Pa.Filters
 	public class FilterExpression
 	{
 		public static string OtherFilterField = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
-				"Displayed in the filters dialog.", "Dialog Boxes",
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
+			"DefineFiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
+			"Displayed in the filters dialog.", "Dialog Boxes");
 
 		private Filter.ExpressionType m_expTypep = Filter.ExpressionType.Normal;
 		private string m_pattern;

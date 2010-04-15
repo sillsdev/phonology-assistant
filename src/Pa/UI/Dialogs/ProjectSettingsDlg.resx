@@ -226,7 +226,7 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblProjName.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="lblTranscriber.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -429,33 +429,6 @@
   <data name="tblLayout.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="txtLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 56</value>
-  </data>
-  <data name="txtLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 3, 3</value>
-  </data>
-  <data name="txtLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>238, 20</value>
-  </data>
-  <data name="txtLanguageCode.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Name" xml:space="preserve">
-    <value>txtLanguageCode</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="pnlGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
@@ -538,7 +511,7 @@
     <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>pnlDataSourcesMngmnt</value>
   </data>
   <data name="&gt;&gt;pnlGrid.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -574,7 +547,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnAdd.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>pnlDataSourcesMngmnt</value>
   </data>
   <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -604,7 +577,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnCustomFields.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>pnlDataSourcesMngmnt</value>
   </data>
   <data name="&gt;&gt;btnCustomFields.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -631,7 +604,7 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnRemove.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>pnlDataSourcesMngmnt</value>
   </data>
   <data name="&gt;&gt;btnRemove.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -661,37 +634,37 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnProperties.Parent" xml:space="preserve">
-    <value>panel1</value>
+    <value>pnlDataSourcesMngmnt</value>
   </data>
   <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="pnlDataSourcesMngmnt.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="pnlDataSourcesMngmnt.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 113</value>
   </data>
-  <data name="panel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="pnlDataSourcesMngmnt.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 3, 0, 3</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="pnlDataSourcesMngmnt.Size" type="System.Drawing.Size, System.Drawing">
     <value>648, 174</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+  <data name="pnlDataSourcesMngmnt.TabIndex" type="System.Int32, mscorlib">
     <value>103</value>
   </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
+  <data name="&gt;&gt;pnlDataSourcesMngmnt.Name" xml:space="preserve">
+    <value>pnlDataSourcesMngmnt</value>
   </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;pnlDataSourcesMngmnt.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;pnlDataSourcesMngmnt.Parent" xml:space="preserve">
     <value>tblLayout</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;pnlDataSourcesMngmnt.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="lblLanguageName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -727,6 +700,99 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblLanguageName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pnlLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="pnlLanguageCode.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pnlLanguageCode.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="txtLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="txtLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="txtLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 20</value>
+  </data>
+  <data name="txtLanguageCode.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Name" xml:space="preserve">
+    <value>txtLanguageCode</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Parent" xml:space="preserve">
+    <value>pnlLanguageCode</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lnkEthnologue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="lnkEthnologue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>156, 1</value>
+  </data>
+  <data name="lnkEthnologue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lnkEthnologue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 16</value>
+  </data>
+  <data name="lnkEthnologue.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lnkEthnologue.Text" xml:space="preserve">
+    <value>Ethnologue</value>
+  </data>
+  <data name="lnkEthnologue.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Name" xml:space="preserve">
+    <value>lnkEthnologue</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Parent" xml:space="preserve">
+    <value>pnlLanguageCode</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 56</value>
+  </data>
+  <data name="pnlLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="pnlLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>238, 20</value>
+  </data>
+  <data name="pnlLanguageCode.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;pnlLanguageCode.Name" xml:space="preserve">
+    <value>pnlLanguageCode</value>
+  </data>
+  <data name="&gt;&gt;pnlLanguageCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlLanguageCode.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;pnlLanguageCode.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="lblLanguageCode.AutoSize" type="System.Boolean, mscorlib">
@@ -814,7 +880,7 @@
     <value>0</value>
   </data>
   <data name="tblLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="txtLanguageCode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="panel1" Row="4" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="lblProjName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageCode" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtProjName" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="txtLanguageName" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblTranscriber" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtTranscriber" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblSpeaker" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtSpeaker" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblComments" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtComments" Row="1" RowSpan="3" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,50,AutoSize,0,Percent,50" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlDataSourcesMngmnt" Row="4" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="lblProjName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pnlLanguageCode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageCode" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtProjName" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="txtLanguageName" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblTranscriber" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtTranscriber" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblSpeaker" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtSpeaker" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblComments" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtComments" Row="1" RowSpan="3" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,50,AutoSize,0,Percent,50" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="txtComments.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
     <value>Vertical</value>
@@ -904,6 +970,6 @@
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3756.29407, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3757.28846, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

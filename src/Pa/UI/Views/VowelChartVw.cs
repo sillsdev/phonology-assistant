@@ -21,8 +21,6 @@ namespace SIL.Pa.UI.Views
 		{
 			InitializeComponent();
 			Name = "VowelChartVw";
-			m_defaultHTMLOutputFile = Properties.Resources.kstidVowChartHTMLFileName;
-			m_htmlChartName = Properties.Resources.kstidVowChartHTMLChartType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,6 +101,34 @@ namespace SIL.Pa.UI.Views
 		protected override int RowHeaderWidth
 		{
 			get { return Settings.Default.VowelChartRowHdrWidth; }
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected override string DefaultHTMLOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultVowelChartHtmlExportFileAffix", "{0}-VowelChart.html");
+			}
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected override string DefaultWordXmlOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart.xml");
+			}
 		}
 	}
 }

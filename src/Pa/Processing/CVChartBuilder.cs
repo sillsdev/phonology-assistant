@@ -84,15 +84,13 @@ namespace SIL.Pa.Processing
 					return LocalizationManager.LocalizeString("ProcessingConsonantChartMsg",
 						"Processing Consonant Chart...",
 						"Status bar message displayed when building a consonant chart.",
-						App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-						LocalizationPriority.Medium);
+						App.kLocalizationGroupInfoMsg);
 				}
 
 				return LocalizationManager.LocalizeString("ProcessingVowelChartMsg",
 					"Processing Vowel Chart...",
 					"Status bar message displayed when building a vowel chart.",
-					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-					LocalizationPriority.Medium);
+					App.kLocalizationGroupInfoMsg);
 			}
 		}
 

@@ -26,6 +26,7 @@ using System.Xml;
 using SIL.Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -51,12 +52,38 @@ namespace SIL.Pa.Processing
 		protected int m_rightColSpanForGroupedList;
 		protected string m_outputFileName;
 		protected OutputFormat m_outputFormat;
-		protected readonly bool m_openAfterExport;
 		protected readonly string m_groupedFieldName;
 		protected readonly DataGridViewColumn m_groupByColumn;
 		protected readonly PaFieldInfo m_groupByField;
 		protected readonly bool m_isGridGrouped;
 		protected readonly PaProject m_project;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool CallAppToOpenWordXML(string application, string outputFileName)
+		{
+			if (File.Exists(outputFileName))
+			{
+				try
+				{
+					if (string.IsNullOrEmpty(application))
+						Process.Start(outputFileName);
+					else
+						Process.Start(application, string.Format("\"{0}\"", outputFileName));
+
+					return true;
+				}
+				catch (Exception e)
+				{
+					Utils.MsgBox(e.Message);
+				}
+			}
+				
+			return false;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -77,13 +104,12 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected ExporterBase(PaProject project, string outputFileName, DataGridView dgrid,
-			bool openAfterExport) : this(project)
+		protected ExporterBase(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView dgrid) : this(project)
 		{
 			m_outputFileName = outputFileName;
+			m_outputFormat = outputFormat;
 			m_grid = dgrid;
-			m_openAfterExport = openAfterExport;
-			m_outputFormat = OutputFormat.XHTML;
 
 			var grid = m_grid as PaWordListGrid;
 			if (grid == null)
@@ -134,8 +160,7 @@ namespace SIL.Pa.Processing
 			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
 			var msg = LocalizationManager.LocalizeString("ExportProgressMsg", "Exporting (Step {0})...",
-				"Message displayed when exporting lists and charts.", App.kLocalizationGroupInfoMsg,
-				LocalizationCategory.GeneralMessage, LocalizationPriority.Medium);
+				"Message displayed when exporting lists and charts.", App.kLocalizationGroupInfoMsg);
 
 			MemoryStream outputStream = null;
 			int processingStep = 0;
@@ -159,9 +184,6 @@ namespace SIL.Pa.Processing
 			}
 
 			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName, false);
-	
-			if (File.Exists(m_outputFileName) && m_openAfterExport)
-				Process.Start(m_outputFileName);
 
 			App.UninitializeProgressBar();
 
@@ -350,7 +372,10 @@ namespace SIL.Pa.Processing
 			}
 
 			if (writeStreamToDisk)
-				ProcessHelper.WriteStreamToFile(memStream, IntermediateFileName);
+			{
+				ProcessHelper.WriteStreamToFile(memStream, IntermediateFileName,
+					Settings.Default.TidyUpTempExportFilesAfterSaving);
+			}
 
 			return memStream;
 		}
@@ -428,7 +453,7 @@ namespace SIL.Pa.Processing
 			"li", "class", "format", "Word 2003 XML");
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "fileName", m_outputFileName);
+				"li", "class", "fileName", Path.GetFileName(m_outputFileName));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -573,10 +598,10 @@ namespace SIL.Pa.Processing
 				"li", "class", "languageCode", m_project.LanguageCode);
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "date", DateTime.Today.ToShortDateString());
+				"li", "class", "date", DateTime.Today.ToString("yyyy-MM-dd"));
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "time", DateTime.Now.ToShortTimeString());
+				"li", "class", "time", DateTime.Now.ToString("HH:mm"));
 
 			// Close ul
 			m_writer.WriteEndElement();

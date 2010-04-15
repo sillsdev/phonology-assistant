@@ -56,15 +56,18 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.lblLanguageCode = new System.Windows.Forms.Label();
 			this.txtLanguageCode = new System.Windows.Forms.TextBox();
+			this.lnkEthnologue = new System.Windows.Forms.LinkLabel();
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.pnlDataSourcesMngmnt = new System.Windows.Forms.Panel();
+			this.pnlLanguageCode = new System.Windows.Forms.Panel();
 			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.tblLayout.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.pnlDataSourcesMngmnt.SuspendLayout();
+			this.pnlLanguageCode.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -302,6 +305,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.m_grid, "ProjectSettingsDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
+			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
 			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_grid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -336,7 +340,6 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblLanguageCode, "lblLanguageCode");
 			this.locExtender.SetLocalizableToolTip(this.lblLanguageCode, null);
 			this.locExtender.SetLocalizationComment(this.lblLanguageCode, "Label on project settings dialog box.");
-			this.locExtender.SetLocalizationPriority(this.lblLanguageCode, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblLanguageCode, "ProjectSettingsDlg.lblLanguageCode");
 			this.lblLanguageCode.Name = "lblLanguageCode";
 			// 
@@ -350,13 +353,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtLanguageCode.Name = "txtLanguageCode";
 			this.txtLanguageCode.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
+			// lnkEthnologue
+			// 
+			resources.ApplyResources(this.lnkEthnologue, "lnkEthnologue");
+			this.lnkEthnologue.AutoEllipsis = true;
+			this.locExtender.SetLocalizableToolTip(this.lnkEthnologue, "Lookup Language on Ethnologue Website");
+			this.locExtender.SetLocalizationComment(this.lnkEthnologue, null);
+			this.locExtender.SetLocalizingId(this.lnkEthnologue, "ProjectSettingsDlg.lnkEthnologue");
+			this.lnkEthnologue.Name = "lnkEthnologue";
+			this.lnkEthnologue.TabStop = true;
+			this.lnkEthnologue.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEthnologue_LinkClicked);
+			// 
 			// tblLayout
 			// 
 			resources.ApplyResources(this.tblLayout, "tblLayout");
-			this.tblLayout.Controls.Add(this.txtLanguageCode, 1, 2);
-			this.tblLayout.Controls.Add(this.panel1, 0, 4);
+			this.tblLayout.Controls.Add(this.pnlDataSourcesMngmnt, 0, 4);
 			this.tblLayout.Controls.Add(this.lblProjName, 0, 0);
 			this.tblLayout.Controls.Add(this.lblLanguageName, 0, 1);
+			this.tblLayout.Controls.Add(this.pnlLanguageCode, 1, 2);
 			this.tblLayout.Controls.Add(this.lblLanguageCode, 0, 2);
 			this.tblLayout.Controls.Add(this.txtProjName, 1, 0);
 			this.tblLayout.Controls.Add(this.txtLanguageName, 1, 1);
@@ -368,16 +382,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Controls.Add(this.txtComments, 3, 1);
 			this.tblLayout.Name = "tblLayout";
 			// 
-			// panel1
+			// pnlDataSourcesMngmnt
 			// 
-			this.tblLayout.SetColumnSpan(this.panel1, 4);
-			this.panel1.Controls.Add(this.pnlGrid);
-			this.panel1.Controls.Add(this.btnAdd);
-			this.panel1.Controls.Add(this.btnCustomFields);
-			this.panel1.Controls.Add(this.btnRemove);
-			this.panel1.Controls.Add(this.btnProperties);
-			resources.ApplyResources(this.panel1, "panel1");
-			this.panel1.Name = "panel1";
+			this.tblLayout.SetColumnSpan(this.pnlDataSourcesMngmnt, 4);
+			this.pnlDataSourcesMngmnt.Controls.Add(this.pnlGrid);
+			this.pnlDataSourcesMngmnt.Controls.Add(this.btnAdd);
+			this.pnlDataSourcesMngmnt.Controls.Add(this.btnCustomFields);
+			this.pnlDataSourcesMngmnt.Controls.Add(this.btnRemove);
+			this.pnlDataSourcesMngmnt.Controls.Add(this.btnProperties);
+			resources.ApplyResources(this.pnlDataSourcesMngmnt, "pnlDataSourcesMngmnt");
+			this.pnlDataSourcesMngmnt.Name = "pnlDataSourcesMngmnt";
+			// 
+			// pnlLanguageCode
+			// 
+			resources.ApplyResources(this.pnlLanguageCode, "pnlLanguageCode");
+			this.pnlLanguageCode.Controls.Add(this.txtLanguageCode);
+			this.pnlLanguageCode.Controls.Add(this.lnkEthnologue);
+			this.pnlLanguageCode.Name = "pnlLanguageCode";
 			// 
 			// ProjectSettingsDlg
 			// 
@@ -397,7 +418,9 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tblLayout.ResumeLayout(false);
 			this.tblLayout.PerformLayout();
-			this.panel1.ResumeLayout(false);
+			this.pnlDataSourcesMngmnt.ResumeLayout(false);
+			this.pnlLanguageCode.ResumeLayout(false);
+			this.pnlLanguageCode.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -429,6 +452,8 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.TableLayoutPanel tblLayout;
 		private System.Windows.Forms.Label lblLanguageCode;
 		private System.Windows.Forms.TextBox txtLanguageCode;
-		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel pnlDataSourcesMngmnt;
+		private System.Windows.Forms.Panel pnlLanguageCode;
+		private System.Windows.Forms.LinkLabel lnkEthnologue;
 	}
 }

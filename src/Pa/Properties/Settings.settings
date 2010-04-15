@@ -59,25 +59,25 @@
     <Setting Name="OFD_LastFileTypeChosen_DataSource" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="OFD_LastFileTypeChosen_DataSourceXSLT" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="OFD_LastFileTypeChosen_DataSourceXslt" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="OpenHTMLDistChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="OpenHtmlDistChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="OpenHTMLDataCorpusAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="OpenHtmlDataCorpusAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeepTempDataCorpusExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="OpenHTMLSearchResultAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="OpenHtmlSearchResultAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeepTempSearchResultExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="KeepTempProjectCssXHTMLFile" Type="System.Boolean" Scope="Application">
+    <Setting Name="KeepTempProjectCssXhtmlFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="KeepTempCVChartBuilderFile" Type="System.Boolean" Scope="Application">
@@ -104,8 +104,41 @@
     <Setting Name="KeepTempCVChartExportFile" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="OpenHTMLCVChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="OpenHtmlCVChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TidyUpTempExportFilesAfterSaving" Description="When true and temporary export files are written to disk, the temporary XML is nicely indented and formatted for better human readability." Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AppToOpenWordXml" Description="Full path is legal here. When empty, the default application is used." Provider="SIL.Pa.PaSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="OpenWordXmlDataCorpusAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AppThatOpensHtml" Description="Full path is valid here. When left empty, the default application is used." Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AppThatOpensWordXml" Description="When left empty, the default application is used." Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="OpenWordXmlSearchResultAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OpenWordXmlCVChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OpenWordXmlDistChartAfterExport" Provider="SIL.Pa.PaSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EthnologueIndexPage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.ethnologue.com/language_index.asp</Value>
+    </Setting>
+    <Setting Name="EthnologueFirstLetterOfNameSearch" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.ethnologue.com/language_index.asp?letter={0}</Value>
+    </Setting>
+    <Setting Name="EthnologueCodeSearch" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.ethnologue.com/show_language.asp?code={0}</Value>
     </Setting>
   </Settings>
 </SettingsFile>

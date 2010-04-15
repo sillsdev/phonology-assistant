@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -1523,16 +1524,16 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		#region HTML Export Methods
+		#region Export Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Attempts to export the manager's current grid contents to HTML and returns the
-		/// file the html file exported to.
+		/// html file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			PaWordListGrid grid = CurrentViewsGrid;
+			var grid = CurrentViewsGrid;
 
 			if (grid == null)
 				return null;
@@ -1552,9 +1553,10 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			string defaultHTMLFileName = string.Format(
-				Properties.Resources.kstidSearchResultHTMLFileName,
-				App.Project.LanguageName, queryName);
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultSearchResultHtmlExportFileAffix", "{0}-{1}SearchResults.html");
+
+			var defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName, queryName);
 
 			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
@@ -1562,11 +1564,59 @@ namespace SIL.Pa.UI.Controls
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
 				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
-			if (outputFileName == null)
+			if (string.IsNullOrEmpty(outputFileName))
 				return null;
 
 			SearchResultExporter.ToHtml(App.Project, outputFileName, grid,
-				Settings.Default.OpenHTMLSearchResultAfterExport);
+				Settings.Default.OpenHtmlSearchResultAfterExport);
+
+			return outputFileName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Attempts to export the manager's current grid contents to Word XML and returns the
+		/// Word XML document.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string WordXmlExport()
+		{
+			var grid = CurrentViewsGrid;
+
+			if (grid == null)
+				return null;
+
+			string queryName = (string.IsNullOrEmpty(grid.Cache.SearchQuery.Name) ?
+				string.Empty : grid.Cache.SearchQuery.Name);
+
+			// The query name may just be the pattern and in that case, we won't use it as
+			// part of the default output file name. But if all characters in the name
+			// are valid, then it will be used as part of the default file name.
+			foreach (char invalidChar in Path.GetInvalidFileNameChars())
+			{
+				if (queryName.Contains(invalidChar.ToString()))
+				{
+					queryName = string.Empty;
+					break;
+				}
+			}
+
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultSearchResultWordXmlExportFileAffix", "{0}-{1}SearchResults.xml");
+
+			var defaultOutputFileName = string.Format(fmt, App.Project.LanguageName, queryName);
+
+			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+
+			if (string.IsNullOrEmpty(outputFileName))
+				return null;
+
+			SearchResultExporter.ToWordXml(App.Project, outputFileName, grid,
+				Settings.Default.OpenWordXmlSearchResultAfterExport);
 
 			return outputFileName;
 		}

@@ -22,11 +22,40 @@ namespace SIL.Pa.Processing
 		public static new bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new SearchResultExporter(project, outputFileName,
-				OutputFormat.XHTML, grid, openAfterExport);
-			
-			return exporter.InternalProcess(Settings.Default.KeepTempSearchResultExportFile,
-				Pipeline.ProcessType.ExportSearchResult, Pipeline.ProcessType.ExportToXHTML);
+			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
+				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static new bool ToWordXml(PaProject project, string outputFileName,
+			PaWordListGrid grid, bool openAfterExport)
+		{
+			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
+				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+		{
+			var exporter = new SearchResultExporter(project, outputFileName, outputFormat, grid);
+
+			var result = exporter.InternalProcess(Settings.Default.KeepTempSearchResultExportFile,
+				Pipeline.ProcessType.ExportSearchResult, finalPipeline);
+
+			if (result && openAfterExport)
+				CallAppToOpenWordXML(appToOpenOutput, outputFileName);
+
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,8 +64,8 @@ namespace SIL.Pa.Processing
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private SearchResultExporter(PaProject project, string outputFileName,
-			OutputFormat outputFormat, DataGridView dgrid, bool openAfterExport) :
-			base(project, outputFileName, outputFormat, dgrid, openAfterExport)
+			OutputFormat outputFormat, DataGridView dgrid)
+			: base(project, outputFileName, outputFormat, dgrid)
 		{
 			if (!m_isGridGrouped)
 				return;

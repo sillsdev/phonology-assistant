@@ -1659,7 +1659,27 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsWordXml(object args)
+		{
+			return (m_activeView && m_rsltVwMngr.WordXmlExport() != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
+		{
+			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsWordXml(object args)
 		{
 			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
 		}

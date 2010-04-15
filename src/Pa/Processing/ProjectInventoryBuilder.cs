@@ -150,8 +150,7 @@ namespace SIL.Pa.Processing
 				return LocalizationManager.LocalizeString("ProcessingPhoneInventoryMsg",
 					"Processing Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.",
-					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-					LocalizationPriority.Medium);
+					App.kLocalizationGroupInfoMsg);
 			}
 		}
 

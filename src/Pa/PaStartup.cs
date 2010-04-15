@@ -8,12 +8,18 @@ using SilUtils;
 
 namespace SIL.Pa
 {
+	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// The only method in this class is <see cref="Main"/>. All other methods should go
-	/// in a Dll, so that NUnit tests can be written.
+	/// 
 	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class PaStartup
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		[STAThread]
 		static void Main(string[] commandLineArgs) 
 		{

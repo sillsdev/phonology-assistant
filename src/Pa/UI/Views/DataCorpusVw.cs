@@ -885,9 +885,8 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			var fmt = LocalizationManager.LocalizeString("DefaultDataCorpusWord2003XmlExportFileAffix",
-				"{0}-DataCorpus.xml", null, App.kLocalizationGroupMisc,
-				LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDataCorpusWordXmlExportFileAffix", "{0}-DataCorpus.xml");
 
 			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
 
@@ -897,11 +896,11 @@ namespace SIL.Pa.UI.Views
 			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
 				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
-			if (outputFileName == null)
+			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
 			DataCorpusExporter.ToWordXml(App.Project, outputFileName, m_grid,
-				Settings.Default.OpenHTMLDataCorpusAfterExport);
+				Settings.Default.OpenWordXmlDataCorpusAfterExport);
 
 			return true;
 		}
@@ -916,9 +915,8 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			var fmt = LocalizationManager.LocalizeString("DefaultDataCorpusHTMLExportFileAffix",
-				"{0}-DataCorpus.html", null, App.kLocalizationGroupMisc,
-				LocalizationCategory.Unspecified, LocalizationPriority.Medium);
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDataCorpusHTMLExportFileAffix", "{0}-DataCorpus.html");
 
 			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
 
@@ -928,11 +926,11 @@ namespace SIL.Pa.UI.Views
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
 				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
-			if (outputFileName == null)
+			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
 			DataCorpusExporter.ToHtml(App.Project, outputFileName, m_grid,
-				Settings.Default.OpenHTMLDataCorpusAfterExport);
+				Settings.Default.OpenHtmlDataCorpusAfterExport);
 
 			return true;
 		}

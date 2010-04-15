@@ -1441,16 +1441,17 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			object objForExport = ObjectForHTMLExport;
+			object objForExport = ObjectForExport;
 
 			// Determine whether to export the XY Chart or a search result word list.
 			if (!(objForExport is XYGrid))
 				return (m_rsltVwMngr.HTMLExport() != null);
 
-			string defaultHTMLFileName = string.Format(Properties.Resources.kstidXYChartHTMLFileName,
-				App.Project.LanguageName, m_xyGrid.ChartName);
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDistributionChartHtmlExportFileAffix", "{0}-{1}DistributionChart.html");
 
-			defaultHTMLFileName = defaultHTMLFileName.Replace(" ", string.Empty);
+			var defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName,
+				m_xyGrid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
@@ -1458,11 +1459,11 @@ namespace SIL.Pa.UI.Views
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
 				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
 
-			if (outputFileName == null)
+			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			DistributionChartExporter.Process(App.Project, outputFileName, m_xyGrid,
-				Settings.Default.OpenHTMLDistChartAfterExport);
+			DistributionChartExporter.ToHtml(App.Project, outputFileName, m_xyGrid,
+				Settings.Default.OpenHtmlDistChartAfterExport);
 
 			return true;
 		}
@@ -1478,7 +1479,7 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !m_activeView)
 				return false;
 
-			bool enable = (ObjectForHTMLExport != null);
+			bool enable = (ObjectForExport != null);
 			itemProps.Enabled = enable;
 			itemProps.Visible = true;
 			itemProps.Update = true;
@@ -1487,11 +1488,58 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsWordXml(object args)
+		{
+			if (!m_activeView)
+				return false;
+
+			object objForExport = ObjectForExport;
+
+			// Determine whether to export the XY Chart or a search result word list.
+			if (!(objForExport is XYGrid))
+				return (m_rsltVwMngr.WordXmlExport() != null);
+
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDistributionChartWordXmlExportFileAffix", "{0}-{1}DistributionChart.xml");
+
+			var defaultOutputFileName = string.Format(fmt, App.Project.LanguageName,
+				m_xyGrid.ChartName).Replace(" ", string.Empty);
+
+			string fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+
+			if (string.IsNullOrEmpty(outputFileName))
+				return false;
+
+			DistributionChartExporter.ToWordXml(App.Project, outputFileName, m_xyGrid,
+				Settings.Default.OpenWordXmlDistChartAfterExport);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsWordXml(object args)
+		{
+			return OnUpdateExportAsHTML(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Determines which object in the view should be exported to HTML, the XY chart grid,
 		/// or one of the search result word lists, if there are any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private object ObjectForHTMLExport
+		private object ObjectForExport
 		{
 			get
 			{

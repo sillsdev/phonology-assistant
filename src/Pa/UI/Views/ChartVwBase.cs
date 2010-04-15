@@ -10,7 +10,6 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SIL.Pa.UI.Dialogs;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -27,8 +26,6 @@ namespace SIL.Pa.UI.Views
 		protected List<CharGridCell> m_phoneList;
 		protected ITMAdapter m_tmAdapter;
 		protected ChartOptionsDropDown m_chartOptionsDropDown;
-		protected string m_defaultHTMLOutputFile;
-		protected string m_htmlChartName;
 
 		protected CVChartGrid m_chartGrid;
 		protected SilPanel m_pnlGrid;
@@ -101,6 +98,26 @@ namespace SIL.Pa.UI.Views
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual int RowHeaderWidth
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected virtual string DefaultHTMLOutputFile
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected virtual string DefaultWordXmlOutputFile
 		{
 			get { throw new NotImplementedException(); }
 		}
@@ -827,23 +844,53 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			string defaultHTMLFileName = 
-				string.Format(m_defaultHTMLOutputFile, App.Project.LanguageName);
+			string defaultOutputFileName = string.Format(DefaultHTMLOutputFile, App.Project.LanguageName);
 
 			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
 
-			if (outputFileName == null)
+			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
 			var chrType = (CharacterType == IPASymbolType.Consonant ?
 				CVChartType.Consonant : CVChartType.Vowel);
 
-			CVChartExporter.Process(App.Project, chrType, outputFileName, m_chartGrid,
-				Settings.Default.OpenHTMLCVChartAfterExport);
+			CVChartExporter.ToHtml(App.Project, chrType, outputFileName, m_chartGrid,
+				Settings.Default.OpenHtmlCVChartAfterExport);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsWordXml(object args)
+		{
+			if (!m_activeView)
+				return false;
+
+			string defaultOutputFileName =
+				string.Format(DefaultWordXmlOutputFile, App.Project.LanguageName);
+
+			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+
+			if (string.IsNullOrEmpty(outputFileName))
+				return false;
+
+			var chrType = (CharacterType == IPASymbolType.Consonant ?
+				CVChartType.Consonant : CVChartType.Vowel);
+
+			CVChartExporter.ToWordXml(App.Project, chrType, outputFileName, m_chartGrid,
+				Settings.Default.OpenWordXmlCVChartAfterExport);
 
 			return true;
 		}
@@ -875,6 +922,16 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsWordXml(object args)
+		{
+			return OnUpdateExportAsHTML(args);
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

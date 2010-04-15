@@ -932,10 +932,10 @@
     <value>(&amp;No Filter)</value>
   </data>
   <data name="kstidExportAsWordXmlText" xml:space="preserve">
-    <value>To &amp;Word 2003 Xml</value>
+    <value>To &amp;Word 2003 XML</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidExportAsWordXmlToolTip" xml:space="preserve">
-    <value>To Word 2003 Xml</value>
+    <value>To Word 2003 XML</value>
   </data>
 </root>

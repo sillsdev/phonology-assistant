@@ -570,14 +570,6 @@
   <data name="kstidCollapsingGroups" xml:space="preserve">
     <value>Collapsing groups...</value>
   </data>
-  <data name="kstidConChartHTMLChartType" xml:space="preserve">
-    <value>Consonants</value>
-    <comment>Written to the charttype attribute in HTML exported output</comment>
-  </data>
-  <data name="kstidConChartHTMLFileName" xml:space="preserve">
-    <value>{0}-ConsonantChart.html</value>
-    <comment>Default name for the HTML export file for HTML output of a consonant chart. The user may change this on the save file dialog.</comment>
-  </data>
   <data name="kstidConfirmSavedChartRemoval" xml:space="preserve">
     <value>Are you sure you want to remove the saved chart?</value>
   </data>
@@ -750,9 +742,6 @@
   <data name="kstidFontGridSize" xml:space="preserve">
     <value>Size</value>
     <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFwDataSourceWsMissingMsg" xml:space="preserve">
-    <value>The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.</value>
   </data>
   <data name="kstidFwMissingWsMsg" xml:space="preserve">
     <value>You must specify a writing system for at least one field.</value>
@@ -1049,10 +1038,6 @@
     <value>Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]</value>
     <comment>Tooltip for search pattern text box in the find phone window.</comment>
   </data>
-  <data name="kstidSearchResultHTMLFileName" xml:space="preserve">
-    <value>{0}-{1}SearchResults.html</value>
-    <comment>First parameter is language name, second is query name</comment>
-  </data>
   <data name="kstidSearchResultTabToolTip" xml:space="preserve">
     <value>{0} Records</value>
     <comment>Tooltip displayed when hovering over a search result tab in the search window.</comment>
@@ -1171,14 +1156,6 @@
     <value>Unicode\nNumber</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
-  <data name="kstidVowChartHTMLChartType" xml:space="preserve">
-    <value>Vowels</value>
-    <comment>Written to the charttype attribute in HTML exported output</comment>
-  </data>
-  <data name="kstidVowChartHTMLFileName" xml:space="preserve">
-    <value>{0}-VowelChart.html</value>
-    <comment>Default name for the HTML export file for HTML output of a vowel chart. The user may change this on the save file dialog.</comment>
-  </data>
   <data name="kstidVowelChartViewHelpToolTip" xml:space="preserve">
     <value>Vowel Chart View Help</value>
   </data>
@@ -1229,10 +1206,6 @@
   <data name="kstidXYChartHTMLChartType" xml:space="preserve">
     <value>XY Chart</value>
     <comment>Written to the charttype attribute in HTML exported output</comment>
-  </data>
-  <data name="kstidXYChartHTMLFileName" xml:space="preserve">
-    <value>{0}-{1}XYChart.html</value>
-    <comment>First parameter is language name, second is XY chart name</comment>
   </data>
   <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
     <value>(none)</value>

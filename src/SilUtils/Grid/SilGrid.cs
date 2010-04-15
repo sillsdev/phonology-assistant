@@ -52,6 +52,7 @@ namespace SilUtils
 			Color clr = SystemColors.Window;
 			GridColor = Color.FromArgb(clr.R - 30, clr.G - 30, clr.B - 30);
 			MultiSelect = false;
+			PaintHeaderAcrossFullGridWidth = true;
 		}
 
 		#region Properties
@@ -83,6 +84,14 @@ namespace SilUtils
 					Invalidate();
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Paints a header in the gap (if there is one) between the furthest right column and
+		/// the right edge of the grid control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool PaintHeaderAcrossFullGridWidth { get; set;}
 
 		#endregion
 
@@ -553,9 +562,11 @@ namespace SilUtils
 		{
 			base.OnCellPainting(e);
 
-			int colWidths = Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
-			if (e.RowIndex > -1 || e.ColumnIndex != 0 || colWidths > ClientSize.Width)
+			if (e.RowIndex > -1 || e.ColumnIndex != 0 || !PaintHeaderAcrossFullGridWidth ||
+				Columns.GetColumnsWidth(DataGridViewElementStates.Visible) > ClientSize.Width)
+			{
 				return;
+			}
 
 			Rectangle rc = e.CellBounds;
 			rc.Width = ClientSize.Width;

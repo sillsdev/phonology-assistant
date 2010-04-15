@@ -20,11 +20,8 @@ namespace SIL.Pa.Processing
 		public static bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new DataCorpusExporter(project, outputFileName,
-				OutputFormat.XHTML, grid, openAfterExport);
-
-			return exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
-				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToXHTML);
+			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
+				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,11 +32,28 @@ namespace SIL.Pa.Processing
 		public static bool ToWordXml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			var exporter = new DataCorpusExporter(project, outputFileName,
-				OutputFormat.WordXml, grid, openAfterExport);
-			
-			return exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
-				Pipeline.ProcessType.ExportDataCorpus, Pipeline.ProcessType.ExportToWord);
+			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
+				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+		{
+			var exporter = new DataCorpusExporter(project, outputFileName, outputFormat, grid);
+
+			var result = exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
+				Pipeline.ProcessType.ExportDataCorpus, finalPipeline);
+
+			if (result && openAfterExport)
+				CallAppToOpenWordXML(appToOpenOutput, outputFileName);
+
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,10 +62,9 @@ namespace SIL.Pa.Processing
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected DataCorpusExporter(PaProject project, string outputFileName,
-			OutputFormat outputFormat, DataGridView grid, bool openAfterExport)
-			: base(project, outputFileName, grid, openAfterExport)
+			OutputFormat outputFormat, DataGridView grid)
+			: base(project, outputFileName, outputFormat, grid)
 		{
-			m_outputFormat = outputFormat;
 		}
 
 		/// ------------------------------------------------------------------------------------

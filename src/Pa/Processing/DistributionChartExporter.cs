@@ -21,15 +21,43 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, string outputFileName,
+		public static bool ToHtml(PaProject project, string outputFileName,
 			XYGrid distChartGrid, bool openAfterExport)
 		{
-			var exporter = new DistributionChartExporter(project, outputFileName,
-				distChartGrid, openAfterExport);
+			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid, openAfterExport,
+				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
+		}
 
-			return exporter.InternalProcess(
-				Settings.Default.KeepTempDistributionChartExportFile,
-				Pipeline.ProcessType.ExportDistributionChart, Pipeline.ProcessType.ExportToXHTML);
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool ToWordXml(PaProject project, string outputFileName,
+			XYGrid distChartGrid, bool openAfterExport)
+		{
+			return Process(project, outputFileName, OutputFormat.WordXml, distChartGrid, openAfterExport,
+				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+		{
+			var exporter = new DistributionChartExporter(project, outputFileName, outputFormat, grid);
+
+			var result = exporter.InternalProcess(Settings.Default.KeepTempDistributionChartExportFile,
+				Pipeline.ProcessType.ExportDistributionChart, finalPipeline);
+
+			if (result && openAfterExport)
+				CallAppToOpenWordXML(appToOpenOutput, outputFileName);
+
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -38,8 +66,8 @@ namespace SIL.Pa.Processing
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private DistributionChartExporter(PaProject project, string outputFileName,
-			DataGridView distChartGrid, bool openAfterExport)
-			: base(project, outputFileName, distChartGrid, openAfterExport)
+			OutputFormat outputFormat, DataGridView distChartGrid)
+			: base(project, outputFileName, outputFormat, distChartGrid)
 		{
 		}
 
@@ -85,6 +113,16 @@ namespace SIL.Pa.Processing
 		protected override string TableClass
 		{
 			get { return "distribution chart"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string NumberOfRecords
+		{
+			get { return App.WordCache.Count.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -176,7 +214,14 @@ namespace SIL.Pa.Processing
 				var value = row.Cells[col.Index].Value;
 
 				if (value is XYChartException)
-					ProcessHelper.WriteStartElementWithAttribAndEmptyValue(m_writer, "td", "class", "error");
+				{
+					ProcessHelper.WriteStartElementWithAttrib(m_writer, "td", "class", "error");
+
+					var msg = ((XYChartException)value).QueryErrorMessage;
+					msg = msg.Replace(System.Environment.NewLine, " ");
+					m_writer.WriteAttributeString("title", msg);
+					m_writer.WriteEndElement();
+				}
 				else if (value == null)
 					ProcessHelper.WriteEmptyElement(m_writer, "td");
 				else

@@ -28,7 +28,16 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
-	<xsl:variable name="typeOfUnits" select="$details/xhtml:li[@class = 'typeOfUnits']" />
+	<xsl:variable name="typeOfUnits">
+		<xsl:choose>
+			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
+				<xsl:value-of select="$details/xhtml:li[@class = 'typeOfUnits']" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'phonetic'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
 	<!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, lists grouped by minimal pairs. -->
   <!-- That is, omit the options only in a list with generic groups for which Phonetic is not the primary sort field. -->
@@ -48,16 +57,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
-	<xsl:variable name="units">
-		<xsl:choose>
-			<xsl:when test="string-length($typeOfUnits) != 0">
-				<xsl:value-of select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
 	
   <xsl:variable name="maxUnitLength">
     <xsl:for-each select="$units/unit">
