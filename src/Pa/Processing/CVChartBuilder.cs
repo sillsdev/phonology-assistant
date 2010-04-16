@@ -66,7 +66,7 @@ namespace SIL.Pa.Processing
 			: base(project, phoneCache)
 		{
 			m_chartType = chartType;
-			m_outputFileName = m_project.ProjectPathFilePrefix + chartType + "Chart.xml";
+			m_outputFileName = m_project.ProjectPathFilePrefix + chartType + "ChartBeta.xml";
 		}
 
 		#region Properties
