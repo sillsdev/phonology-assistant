@@ -11,12 +11,12 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-12 -->
+  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-16 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
+  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="yes" />
 
   <!-- Parameters -->
 
@@ -49,16 +49,24 @@ exclude-result-prefixes="xhtml"
   <xsl:param name="highlight_val" select="'yellow'" />
   <xsl:param name="non-breaking" select="true()" />
 
-  <xsl:variable name="dateAndTime" select="//xhtml:div[@id = 'metadata']/xhtml:div[@class = 'options']/xhtml:ul[@class = 'view']/xhtml:li/xhtml:ul/xhtml:li[@class = 'dateAndTime']" />
-  <xsl:param name="tblHeader-textFlow" select="//xhtml:div[@id = 'metadata']/xhtml:div[@class = 'options']/xhtml:ul[@class = 'format']/xhtml:li[@class = 'Word_2003_XML']/xhtml:ul/xhtml:li[@class = 'chart-tblHeader-textFlow']" />
-
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="options" select="$metadata/xhtml:div[@class = 'options']" />
-	<xsl:variable name="format_Word_2003_XML" select="$metadata/xhtml:div[@class = 'options']/xhtml:ul[@class = 'format']/xhtml:li[@class = 'Word_2003_XML']/xhtml:ul" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="dateAndTime" select="$options/xhtml:li[@class = 'dateAndTime']" />
+	<xsl:variable name="textFlowOfColumnHeadings" select="$options/xhtml:li[@class = 'textFlowOfColumnHeadings']" />
+	<xsl:variable name="tblHeader-textFlow">
+		<xsl:choose>
+			<xsl:when test="$textFlowOfColumnHeadings = 'verticalCounterClockwise'">
+				<xsl:value-of select="'bt-lr'" />
+			</xsl:when>
+			<xsl:when test="$textFlowOfColumnHeadings = 'verticalClockwise'">
+				<xsl:value-of select="'tb-rl'" />
+			</xsl:when>
+		</xsl:choose>
+	</xsl:variable>
 	<xsl:variable name="orientation">
 		<xsl:choose>
-			<xsl:when test="$format_Word_2003_XML/xhtml:li[@class = 'orientation']">
-				<xsl:value-of select="$format_Word_2003_XML/xhtml:li[@class = 'orientation']" />
+			<xsl:when test="$options/xhtml:li[@class = 'orientation']">
+				<xsl:value-of select="$options/xhtml:li[@class = 'orientation']" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="'Portrait'"/>
@@ -67,8 +75,8 @@ exclude-result-prefixes="xhtml"
 	</xsl:variable>
 	<xsl:variable name="paperSize">
 		<xsl:choose>
-			<xsl:when test="$format_Word_2003_XML/xhtml:li[@class = 'paperSize']">
-				<xsl:value-of select="$format_Word_2003_XML/xhtml:li[@class = 'paperSize']" />
+			<xsl:when test="$options/xhtml:li[@class = 'paperSize']">
+				<xsl:value-of select="$options/xhtml:li[@class = 'paperSize']" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="'Letter'"/>
@@ -81,9 +89,11 @@ exclude-result-prefixes="xhtml"
 	<!--
   <xsl:param name="file-name-without-extension" select="''" />
 	-->
-	<xsl:variable name="fileName" select="$format_Word_2003_XML/xhtml:li[@class = 'fileName']" />
+	<xsl:variable name="fileName" select="$options/xhtml:li[@class = 'fileName']" />
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="date" select="$details/xhtml:li[@class = 'date']" />
+	<xsl:variable name="time" select="$details/xhtml:li[@class = 'time']" />
 	<xsl:variable name="researcher" select="$details/xhtml:li[@class = 'researcher']" />
 
 	<xsl:template match="/xhtml:html">
@@ -559,7 +569,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </xsl:if>
         <!-- Table style determines vertical alignment for table cells. -->
         <!-- Table style determines borders, except for groups. -->
-        <xsl:if test="../@class = 'group-heading'">
+        <xsl:if test="../@class = 'heading'">
           <w:tcBorders>
             <w:top w:val="single" w:sz="{$tc-tcPr-tcBorders-sz-thin}" w:space="0" w:color="auto" />
             <w:left w:val="nil" />
@@ -1403,6 +1413,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
             </xsl:if>
             <w:t>Edited on </w:t>
           </w:r>
+					<!--
           <w:fldSimple w:instr=" SAVEDATE  \* MERGEFORMAT ">
             <w:r>
               <w:rPr>
@@ -1411,7 +1422,35 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
               <w:t>0/0/00 0:00:00 AM</w:t>
             </w:r>
           </w:fldSimple>
-        </w:p>
+					-->
+					<w:r>
+						<w:fldChar w:fldCharType="begin" />
+					</w:r>
+					<w:r>
+						<w:instrText> SAVEDATE  \@ "yyyy-MM-dd HH:mm"  \* MERGEFORMAT </w:instrText>
+					</w:r>
+					<w:r>
+						<w:fldChar w:fldCharType="separate" />
+					</w:r>
+					<w:r>
+						<w:rPr>
+							<w:noProof />
+						</w:rPr>
+						<w:t>
+							<xsl:choose>
+								<xsl:when test="$dateAndTime = 'true' and string-length($date) != 0 and string-length($time) != 0">
+									<xsl:value-of select="concat($date, ' ', $time)" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="'yyyy-mm-dd hh:mm'" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</w:t>
+					</w:r>
+					<w:r>
+						<w:fldChar w:fldCharType="end" />
+					</w:r>
+				</w:p>
       </w:ftr>
       <xsl:if test="$sectPr_type != ''">
         <w:type w:val="{$sectPr_type}"/>

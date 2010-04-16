@@ -55,6 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			pnlGridHdg.Font = FontHelper.UIFont;
 			lblLanguageName.Font = FontHelper.UIFont;
 			lblLanguageCode.Font = FontHelper.UIFont;
+			lblResearcher.Font = FontHelper.UIFont;
 			lblSpeaker.Font = FontHelper.UIFont;
 			lblTranscriber.Font = FontHelper.UIFont;
 			lblProjName.Font = FontHelper.UIFont;
@@ -62,13 +63,11 @@ namespace SIL.Pa.UI.Dialogs
 			txtLanguageName.Font = FontHelper.UIFont;
 			txtLanguageCode.Font = FontHelper.UIFont;
 			lnkEthnologue.Font = FontHelper.UIFont;
+			txtResearcher.Font = FontHelper.UIFont;
 			txtSpeaker.Font = FontHelper.UIFont;
 			txtTranscriber.Font = FontHelper.UIFont;
 			txtProjName.Font = FontHelper.UIFont;
 			txtComments.Font = FontHelper.UIFont;
-
-			// Changing the font sometimes (depending on the font) moves the text box up.
-			txtComments.Top = txtTranscriber.Bottom - txtComments.Height;
 
 			BuildGrid();
 			pnlGridHdg.BorderStyle = BorderStyle.None;
@@ -84,6 +83,7 @@ namespace SIL.Pa.UI.Dialogs
 				txtProjName.Text = project.Name;
 				txtLanguageName.Text = project.LanguageName;
 				txtLanguageCode.Text = project.LanguageCode;
+				txtResearcher.Text = project.Researcher;
 				txtTranscriber.Text = project.Transcriber;
 				txtSpeaker.Text = project.SpeakerName;
 				txtComments.Text = project.Comments;
@@ -516,6 +516,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_project.Name = txtProjName.Text.Trim();
 			m_project.LanguageName = txtLanguageName.Text.Trim();
 			m_project.LanguageCode = txtLanguageCode.Text.Trim();
+			m_project.Researcher = txtResearcher.Text.Trim();
 			m_project.Transcriber = txtTranscriber.Text.Trim();
 			m_project.SpeakerName = txtSpeaker.Text.Trim();
 			m_project.Comments = txtComments.Text.Trim();

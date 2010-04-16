@@ -140,5 +140,8 @@
     <Setting Name="EthnologueCodeSearch" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.ethnologue.com/show_language.asp?code={0}</Value>
     </Setting>
+    <Setting Name="TempProcessingFilesFolder" Description="This is a subfolder of the project's folder where temp. files are created during exports and while data sources are read. This value only matters when those temp. files are saved. There are other settings that can prevent the temp. files from being saved. If this value is left blank, temp. files are saved in the project folder." Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TemporaryProcessingFiles</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -2,14 +2,14 @@
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-	<!-- phonology_export_options.xsl 2010-04-02 -->
+	<!-- phonology_export_options.xsl 2010-04-16 -->
 	<!-- Insert options for other XSL Transformations in the pipeline. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
 	<!-- Help Converter provides the following options. -->
 	<xsl:param name="optionsFile" select="''" />
-	<xsl:param name="format" select="'XHTML'" />
+	<xsl:param name="format" select="''" />
 	<xsl:param name="file-name-without-extension" select="''" />
 
 	<!-- Assume that the program has inserted a metadata div with a settings list. -->
@@ -27,14 +27,14 @@ exclude-result-prefixes="xhtml"
 	<!-- Insert additional options. -->
 	<xsl:template match="/xhtml:html/xhtml:body/xhtml:div[@id = 'metadata']/*[@class = 'options']">
 		<ul class="options" xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:if test="string-length($format) != 0 and not($metadata//xhtml:li[@class = 'format'])">
+			<xsl:if test="string-length($format) != 0">
 				<li class="format">
 					<xsl:value-of select="$format" />
 				</li>
 			</xsl:if>
 			<xsl:if test="$format = 'Word 2003 XML' and string-length($file-name-without-extension) != 0">
 				<li class="fileName">
-					<xsl:value-of select="$format" />
+					<xsl:value-of select="concat($file-name-without-extension, '.xml')" />
 				</li>
 			</xsl:if>
 			<!-- Copy any options exported by the program. -->
@@ -58,9 +58,6 @@ exclude-result-prefixes="xhtml"
 					<li class="textFlowOfColumnHeadings">horizontal</li>
 					<li class="textFlowOfColumnHeadings">verticalCounterClockwise</li>
 					<li class="textFlowOfColumnHeadings">verticalClockwise</li>
-					-->
-					<!--
-					<li class="chart-tblHeader-textFlow">bt-lr</li>
 					-->
 					<li class="textFlowOfColumnHeadings">horizontal</li>
 					<li class="hyphenatedColumnHeadings">true</li>
@@ -89,6 +86,22 @@ exclude-result-prefixes="xhtml"
 				</xsl:otherwise>
 			</xsl:choose>
 		</ul>
+	</xsl:template>
+
+	<xsl:template match="/xhtml:html/xhtml:body/xhtml:div[@id = 'metadata']/*[@class = 'options']/xhtml:li[@class = 'format']">
+		<xsl:if test="string-length($format) = 0">
+			<xsl:copy>
+				<xsl:apply-templates select="@* | node()" />
+			</xsl:copy>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match="/xhtml:html/xhtml:body/xhtml:div[@id = 'metadata']/*[@class = 'options']/xhtml:li[@class = 'fileName']">
+		<xsl:if test="$format != 'Word 2003 XML' or string-length($file-name-without-extension) = 0">
+			<xsl:copy>
+				<xsl:apply-templates select="@* | node()" />
+			</xsl:copy>
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

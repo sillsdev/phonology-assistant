@@ -105,7 +105,8 @@ margin-bottom: 0.6em; /* 7px */
 
 /* Tables ------------------------------------------------------------------- */
 
-table.details
+table.details,
+table.features
 {
 font-size: 75%;
 }
@@ -129,8 +130,6 @@ table.list thead th,
 table.list .count,
 table.list .small,
 table.CV th,
-table.features th,
-table.features td,
 table.feature th:first-child,
 table.feature td,
 table.distribution td
@@ -151,6 +150,12 @@ table
 margin-top: 1em;
 }
 
+table.features
+{
+margin-top: 1.3333em; /* 1em / font-size */
+margin-left: 1.3333em; /* 1em / font-size */
+}
+
 table.hierarchical table
 {
 margin-top: 0;
@@ -165,11 +170,6 @@ table.CV,
 table.features
 {
 float: left;
-}
-
-table.features
-{
-margin-left: 1em;
 }
 
 table.feature
@@ -187,7 +187,6 @@ text-align: center;
 table.features .name,
 th, td
 {
-width: auto;
 padding-top: 0.1875em;
 padding-right: 0.5em;
 padding-bottom: 0.1875em;
@@ -195,16 +194,13 @@ padding-left: 0.5em;
 vertical-align: baseline;
 }
 
-table.features td
+table.features td.plus,
+table.features td.minus,
+table.features td.unused
 {
 width: 1.3333em;
 padding-right: 0;
 padding-left: 0;
-}
-
-table.features td.plus,
-table.features td.minus
-{
 text-align: center;
 }
 

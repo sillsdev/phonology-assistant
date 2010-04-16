@@ -101,7 +101,11 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string TempFileName
 		{
-			get { return Path.ChangeExtension(m_outputFileName, "tmp"); }
+			get
+			{
+				return ProcessHelper.MakeTempFilePath(m_project,
+					Path.ChangeExtension(m_outputFileName, "tmp"));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

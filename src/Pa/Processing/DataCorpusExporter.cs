@@ -192,9 +192,11 @@ namespace SIL.Pa.Processing
 		{
 			var grid = ((PaWordListGrid)m_grid);
 
-			return (col == grid.PhoneticColumn ?
-				grid.Cache[row.Index].WordCacheEntry.PhoneticValueWithPrimaryUncertainty :
-				grid[col.Index, row.Index].Value as string);
+			if (col != grid.PhoneticColumn)
+				return grid[col.Index, row.Index].Value as string;
+
+			int i = (row is PaCacheGridRow ? ((PaCacheGridRow)row).CacheEntryIndex : row.Index);
+			return grid.Cache[i].WordCacheEntry.PhoneticValueWithPrimaryUncertainty;
 		}
 	}
 }

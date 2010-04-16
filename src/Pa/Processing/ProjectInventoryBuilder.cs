@@ -161,7 +161,11 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual string TempFileName
 		{
-			get { return m_project.ProjectPathFilePrefix + "PhoneticInventory.tmp"; }
+			get
+			{
+				return ProcessHelper.MakeTempFilePath(m_project,
+					m_project.ProjectPathFilePrefix + "PhoneticInventory.tmp");
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

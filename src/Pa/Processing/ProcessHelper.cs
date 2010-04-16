@@ -14,11 +14,15 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
+using SilUtils;
 
 namespace SIL.Pa.Processing
 {
@@ -37,6 +41,30 @@ namespace SIL.Pa.Processing
 		public static string ProcessFile
 		{
 			get { return Path.Combine(App.ProcessingFolder, "Processing.xml"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// If the settings file specifies a temporary folder (which is assumed to be relative
+		/// to the current project's folder) then this method removes the file name from the
+		/// specified defaultPath and builds a full path directing the file to the temp. folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string MakeTempFilePath(PaProject project, string defaultPath)
+		{
+			var path = defaultPath;
+
+			if (!string.IsNullOrEmpty(Settings.Default.TempProcessingFilesFolder))
+			{
+				path = Path.Combine(project.Folder, Settings.Default.TempProcessingFilesFolder);
+
+				if (!Directory.Exists(path))
+					Directory.CreateDirectory(path);
+				
+				path = Path.Combine(path, Path.GetFileName(defaultPath));
+			}
+
+			return path;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,15 +112,43 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This should only be done for debugging.
+		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void WriteStreamToFile(MemoryStream stream, string outputFileName, bool tidy)
+		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName, bool tidy)
 		{
-			using (var fileStream = new FileStream(outputFileName, FileMode.Create))
+			return WriteStreamToFile(stream, outputFileName, false, tidy);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName,
+			bool showExceptions, bool tidy)
+		{
+			while (true)
 			{
-				stream.WriteTo(fileStream);
-				fileStream.Close();
+				try
+				{
+					using (var fileStream = new FileStream(outputFileName, FileMode.Create))
+					{
+						stream.WriteTo(fileStream);
+						fileStream.Close();
+						break;
+					}
+				}
+				catch (Exception e)
+				{
+					if (showExceptions &&
+						Utils.MsgBox(e.Message, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+					{
+							continue;
+					}
+
+					return false;
+				}
 			}
 
 			if (tidy)
@@ -102,6 +158,8 @@ namespace SIL.Pa.Processing
 				doc.Load(outputFileName);
 				doc.Save(outputFileName);
 			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

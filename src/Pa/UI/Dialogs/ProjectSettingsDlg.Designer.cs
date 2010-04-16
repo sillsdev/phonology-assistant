@@ -57,6 +57,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblLanguageCode = new System.Windows.Forms.Label();
 			this.txtLanguageCode = new System.Windows.Forms.TextBox();
 			this.lnkEthnologue = new System.Windows.Forms.LinkLabel();
+			this.txtResearcher = new System.Windows.Forms.TextBox();
+			this.lblResearcher = new System.Windows.Forms.Label();
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlDataSourcesMngmnt = new System.Windows.Forms.Panel();
 			this.pnlLanguageCode = new System.Windows.Forms.Panel();
@@ -168,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationPriority(this.txtComments, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtComments, "ProjectSettingsDlg.txtComments");
 			this.txtComments.Name = "txtComments";
-			this.tblLayout.SetRowSpan(this.txtComments, 3);
+			this.tblLayout.SetRowSpan(this.txtComments, 2);
 			this.txtComments.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
 			// btnAdd
@@ -364,9 +366,29 @@ namespace SIL.Pa.UI.Dialogs
 			this.lnkEthnologue.TabStop = true;
 			this.lnkEthnologue.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEthnologue_LinkClicked);
 			// 
+			// txtResearcher
+			// 
+			resources.ApplyResources(this.txtResearcher, "txtResearcher");
+			this.locExtender.SetLocalizableToolTip(this.txtResearcher, null);
+			this.locExtender.SetLocalizationComment(this.txtResearcher, null);
+			this.locExtender.SetLocalizationPriority(this.txtResearcher, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.txtResearcher, "ProjectSettingsDlg.txtLanguage");
+			this.txtResearcher.Name = "txtResearcher";
+			this.txtResearcher.TextChanged += new System.EventHandler(this.HandleTextChanged);
+			// 
+			// lblResearcher
+			// 
+			resources.ApplyResources(this.lblResearcher, "lblResearcher");
+			this.locExtender.SetLocalizableToolTip(this.lblResearcher, null);
+			this.locExtender.SetLocalizationComment(this.lblResearcher, "Label on project settings dialog box.");
+			this.locExtender.SetLocalizingId(this.lblResearcher, "ProjectSettingsDlg.lblResearcher");
+			this.lblResearcher.Name = "lblResearcher";
+			// 
 			// tblLayout
 			// 
 			resources.ApplyResources(this.tblLayout, "tblLayout");
+			this.tblLayout.Controls.Add(this.lblResearcher, 0, 3);
+			this.tblLayout.Controls.Add(this.txtResearcher, 1, 3);
 			this.tblLayout.Controls.Add(this.pnlDataSourcesMngmnt, 0, 4);
 			this.tblLayout.Controls.Add(this.lblProjName, 0, 0);
 			this.tblLayout.Controls.Add(this.lblLanguageName, 0, 1);
@@ -374,12 +396,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Controls.Add(this.lblLanguageCode, 0, 2);
 			this.tblLayout.Controls.Add(this.txtProjName, 1, 0);
 			this.tblLayout.Controls.Add(this.txtLanguageName, 1, 1);
-			this.tblLayout.Controls.Add(this.lblTranscriber, 0, 3);
-			this.tblLayout.Controls.Add(this.txtTranscriber, 1, 3);
-			this.tblLayout.Controls.Add(this.lblSpeaker, 2, 0);
-			this.tblLayout.Controls.Add(this.txtSpeaker, 3, 0);
-			this.tblLayout.Controls.Add(this.lblComments, 2, 1);
-			this.tblLayout.Controls.Add(this.txtComments, 3, 1);
+			this.tblLayout.Controls.Add(this.lblComments, 2, 2);
+			this.tblLayout.Controls.Add(this.txtComments, 3, 2);
+			this.tblLayout.Controls.Add(this.txtSpeaker, 3, 1);
+			this.tblLayout.Controls.Add(this.lblSpeaker, 2, 1);
+			this.tblLayout.Controls.Add(this.lblTranscriber, 2, 0);
+			this.tblLayout.Controls.Add(this.txtTranscriber, 3, 0);
 			this.tblLayout.Name = "tblLayout";
 			// 
 			// pnlDataSourcesMngmnt
@@ -409,8 +431,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
 			this.Name = "ProjectSettingsDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.tblLayout, 0);
+			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
@@ -455,5 +477,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Panel pnlDataSourcesMngmnt;
 		private System.Windows.Forms.Panel pnlLanguageCode;
 		private System.Windows.Forms.LinkLabel lnkEthnologue;
+		private System.Windows.Forms.Label lblResearcher;
+		private System.Windows.Forms.TextBox txtResearcher;
 	}
 }

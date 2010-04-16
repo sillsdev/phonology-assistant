@@ -3,12 +3,15 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-14 -->
+  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-16 -->
 
-  <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
+	<!-- Important: If format is not XHTML, copy the table with no changes. -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 	<xsl:variable name="generalizeEnvironments" select="$options/xhtml:li[@class = 'generalizeEnvironments']" />
 	<xsl:variable name="generalizeItems" select="$options/xhtml:li[@class = 'generalizeItems']" />
 	<!-- TO DO: If these become properties of the individual chart, where would they go in the metadata? -->
@@ -49,12 +52,12 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <xsl:template match="xhtml:table[@class = 'distribution chart']">
-    <xsl:copy>
-      <xsl:choose>
-        <xsl:when test="$generalEnvironments = 'true' or $generalItems = 'true'">
-          <xsl:apply-templates select="@*" mode="generalize" />
-          <!-- Replace original colgroups according to the heading row. -->
-          <xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[1]" mode="colgroup" />
+		<xsl:choose>
+			<xsl:when test="$format = 'XHTML' and ($generalEnvironments = 'true' or $generalItems = 'true')">
+				<xsl:copy>
+					<xsl:apply-templates select="@*" mode="generalize" />
+					<!-- Replace original colgroups according to the heading row. -->
+					<xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[1]" mode="colgroup" />
 					<xsl:choose>
 						<xsl:when test="$generalEnvironments = 'true'">
 							<xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic'][1]" mode="colgroup" />
@@ -67,14 +70,15 @@ exclude-result-prefixes="xhtml"
 							</colgroup>
 						</xsl:otherwise>
 					</xsl:choose>
-          <xsl:apply-templates select="xhtml:thead" mode="generalize" />
-          <xsl:apply-templates select="xhtml:tbody" mode="generalize" />
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates select="@* | node()" />
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:copy>
+					<xsl:apply-templates select="xhtml:thead" mode="generalize" />
+					<xsl:apply-templates select="xhtml:tbody" mode="generalize" />
+				</xsl:copy>				
+			</xsl:when>
+			<!-- To ignore the following rules, copy instead of apply-templates. -->
+			<xsl:otherwise>
+				<xsl:copy-of select="." />
+			</xsl:otherwise>
+		</xsl:choose>
   </xsl:template>
 
   <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[1]" mode="colgroup">

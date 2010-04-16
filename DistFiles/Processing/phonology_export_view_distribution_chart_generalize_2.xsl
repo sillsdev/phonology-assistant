@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize_2.xsl 2010-04-14 -->
+  <!-- phonology_export_view_distribution_chart_generalize_2.xsl 2010-04-15 -->
 	<!-- Add attribute to any data cell that has a zero value, or an individual value in a generalized chart, or both. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -36,14 +36,20 @@ exclude-result-prefixes="xhtml"
 						<!-- If neither items nor environments are generalized, do nothing. -->
 					</xsl:choose>
 				</xsl:variable>
-				<xsl:variable name="zero">
-					<xsl:if test=". = '0'">
-						<xsl:value-of select="'zero'" />
-					</xsl:if>
+				<!-- If the search pattern has a problem: <td class="error" title="..." /> -->
+				<xsl:variable name="classErrorOrZero">
+					<xsl:choose>
+						<xsl:when test="@class">
+							<xsl:value-of select="@class" />
+						</xsl:when>
+						<xsl:when test=". = '0'">
+							<xsl:value-of select="'zero'" />
+						</xsl:when>
+					</xsl:choose>
 				</xsl:variable>
 				<xsl:variable name="class">
-					<xsl:value-of select="$zero" />
-					<xsl:if test="string-length($individual) != 0 and string-length($zero) != 0">
+					<xsl:value-of select="$classErrorOrZero" />
+					<xsl:if test="string-length($individual) != 0 and string-length($classErrorOrZero) != 0">
 						<xsl:value-of select="' '" />
 					</xsl:if>
 					<xsl:value-of select="$individual" />
@@ -54,6 +60,7 @@ exclude-result-prefixes="xhtml"
 							<xsl:value-of select="$class" />
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:apply-templates select="@title" />
 					<xsl:apply-templates />
 				</xsl:copy>
 			</xsl:for-each>

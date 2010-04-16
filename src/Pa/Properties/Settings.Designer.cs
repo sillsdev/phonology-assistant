@@ -522,5 +522,18 @@ namespace SIL.Pa.Properties {
                 return ((string)(this["EthnologueCodeSearch"]));
             }
         }
+        
+        /// <summary>
+        /// This is a subfolder of the project&apos;s folder where temp. files are created during exports and while data sources are read. This value only matters when those temp. files are saved. There are other settings that can prevent the temp. files from being saved. If this value is left blank, temp. files are saved in the project folder.
+        /// </summary>
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute(@"This is a subfolder of the project's folder where temp. files are created during exports and while data sources are read. This value only matters when those temp. files are saved. There are other settings that can prevent the temp. files from being saved. If this value is left blank, temp. files are saved in the project folder.")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TemporaryProcessingFiles")]
+        public string TempProcessingFilesFolder {
+            get {
+                return ((string)(this["TempProcessingFilesFolder"]));
+            }
+        }
     }
 }

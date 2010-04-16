@@ -183,13 +183,14 @@ namespace SIL.Pa.Processing
 				pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 			}
 
-			ProcessHelper.WriteStreamToFile(outputStream, m_outputFileName, false);
+			var result = ProcessHelper.WriteStreamToFile(outputStream,
+				m_outputFileName, true, false);
 
 			App.UninitializeProgressBar();
 
 			App.MsgMediator.SendMessage("AfterExport", new object[] { this, processTypes });
 			
-			return true;
+			return result;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -272,7 +273,11 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual string IntermediateFileName
 		{
-			get { return Path.ChangeExtension(m_outputFileName, "tmp"); }
+			get
+			{
+				return ProcessHelper.MakeTempFilePath(m_project,
+					Path.ChangeExtension(m_outputFileName, "tmp"));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -596,6 +601,12 @@ namespace SIL.Pa.Processing
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
 				"li", "class", "languageCode", m_project.LanguageCode);
+
+			if (!string.IsNullOrEmpty(m_project.Researcher))
+			{
+				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+					"li", "class", "researcher", m_project.Researcher);
+			}
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
 				"li", "class", "date", DateTime.Today.ToString("yyyy-MM-dd"));
