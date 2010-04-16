@@ -1,7 +1,10 @@
 using System.Drawing;
+using System.IO;
 using SIL.Localization;
 using SIL.Pa.Model;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -19,6 +22,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ConsonantChartVw()
 		{
+			try
+			{
+				File.Delete(App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
+			}
+			catch { }
+			
 			InitializeComponent();
 			Name = "ConsonantChartVw";
 		}
@@ -32,8 +41,19 @@ namespace SIL.Pa.UI.Views
 		{
 			Settings.Default.ConsonantChartColHdrHeight = m_chartGrid.ColumnHeadersHeight;
 			Settings.Default.ConsonantChartRowHdrWidth = m_chartGrid.RowHeadersWidth;
+			Settings.Default.HtmlConsonantChartVisible = m_htmlVw.Visible;
 			
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ShowHtmlChartWhenViewLoaded
+		{
+			get { return Settings.Default.HtmlConsonantChartVisible; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,6 +149,18 @@ namespace SIL.Pa.UI.Views
 				return LocalizationManager.LocalizeString(
 					"DefaultConsonantChartWordXmlExportFileAffix", "{0}-ConsonantChart.xml");
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string CreateHtmlViewFile()
+		{
+			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
+			return (CVChartExporter.ToHtml(App.Project, CVChartType.Consonant, outputFile,
+				m_chartGrid, false) ? outputFile : string.Empty);
 		}
 	}
 }

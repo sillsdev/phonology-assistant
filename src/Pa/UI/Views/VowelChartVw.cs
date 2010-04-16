@@ -1,7 +1,10 @@
 using System.Drawing;
+using System.IO;
 using SIL.Localization;
 using SIL.Pa.Model;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -19,6 +22,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public VowelChartVw()
 		{
+			try
+			{
+				File.Delete(App.Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html");
+			}
+			catch { }
+
 			InitializeComponent();
 			Name = "VowelChartVw";
 		}
@@ -32,8 +41,19 @@ namespace SIL.Pa.UI.Views
 		{
 			Settings.Default.VowelChartColHdrHeight = m_chartGrid.ColumnHeadersHeight;
 			Settings.Default.VowelChartRowHdrWidth = m_chartGrid.RowHeadersWidth;
+			Settings.Default.HtmlVowelChartVisible = m_htmlVw.Visible;
 
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override bool ShowHtmlChartWhenViewLoaded
+		{
+			get { return Settings.Default.HtmlVowelChartVisible; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,6 +149,18 @@ namespace SIL.Pa.UI.Views
 				return LocalizationManager.LocalizeString(
 					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart.xml");
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override string CreateHtmlViewFile()
+		{
+			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
+			return (CVChartExporter.ToHtml(App.Project, CVChartType.Vowel, outputFile,
+				m_chartGrid, false) ? outputFile : string.Empty);
 		}
 	}
 }

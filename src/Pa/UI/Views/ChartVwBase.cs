@@ -29,6 +29,7 @@ namespace SIL.Pa.UI.Views
 
 		protected CVChartGrid m_chartGrid;
 		protected SilPanel m_pnlGrid;
+		protected WebBrowser m_htmlVw;
 		
 		private string m_persistedInfoFilename;
 		private bool m_histogramOn = true;
@@ -58,6 +59,12 @@ namespace SIL.Pa.UI.Views
 			m_pnlGrid = new SilPanel();
 			m_pnlGrid.Dock = DockStyle.Fill;
 			m_pnlGrid.Controls.Add(m_chartGrid);
+
+			m_htmlVw = new WebBrowser();
+			m_htmlVw.Dock = DockStyle.Fill;
+			m_htmlVw.Visible = false;
+			m_pnlGrid.Controls.Add(m_htmlVw);
+			
 			m_chrGrid.Visible = false;
 			splitOuter.Panel1.Controls.Add(m_pnlGrid);
 		}
@@ -127,7 +134,7 @@ namespace SIL.Pa.UI.Views
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void Initialize()
+		private void LoadOldChart()
 		{
 			CharGridBuilder bldr = new CharGridBuilder(m_chrGrid, CharacterType);
 			m_phoneList = bldr.Build();
@@ -156,8 +163,6 @@ namespace SIL.Pa.UI.Views
 			m_histogram.LoadPhones(histogramPhones);
 			App.MsgMediator.PostMessage("LayoutHistogram", Name);
 			App.IncProgressBar();
-
-			LoadNewChart();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -168,8 +173,11 @@ namespace SIL.Pa.UI.Views
 		/// go away, leaving this one only (in which case, it will no longer be called "new").
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual void LoadNewChart()
+		protected virtual void LoadChart()
 		{
+			m_chartGrid.Rows.Clear();
+			m_chartGrid.Columns.Clear();
+
 			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
 
 			foreach (var col in cgp.ColHeadings)
@@ -197,26 +205,77 @@ namespace SIL.Pa.UI.Views
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void LoadHtmlChart()
+		{
+			var outputFile = CreateHtmlViewFile();
+			m_htmlVw.Url = new Uri(File.Exists(outputFile) ? outputFile : "about:blank");
+			m_htmlVw.Dock = DockStyle.Fill;
+			m_pnlGrid.Controls.Add(m_htmlVw);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Flip between the old chart and the new using Ctrl+Alt+Left or Ctrl+Alt+Right.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control &&
-				((keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right))
+			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control)
 			{
-				m_pnlGrid.Visible = !m_pnlGrid.Visible;
-				m_chrGrid.Visible = !m_chrGrid.Visible;
+				if ((keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right)
+				{
+					m_pnlGrid.Visible = !m_pnlGrid.Visible;
+					m_chrGrid.Visible = !m_chrGrid.Visible;
 
-				if (m_chrGrid.Visible)
-					m_chrGrid.Focus();
-				else
-					m_chartGrid.Focus();
+					if (m_chrGrid.Visible)
+						m_chrGrid.Focus();
+					else
+						m_chartGrid.Focus();
 
-				return true;
+					return true;
+				}
+
+				if ((keyData & Keys.W) == Keys.W)
+				{
+					m_chrGrid.Visible = false;
+					m_pnlGrid.Visible = true;
+
+					m_htmlVw.Visible = !m_htmlVw.Visible;
+					m_chartGrid.Visible = !m_htmlVw.Visible;
+
+					if (m_htmlVw.Visible)
+						m_htmlVw.Focus();
+					else
+						m_chartGrid.Focus();
+					
+					return true;
+				}
 			}
 
 			return base.ProcessDialogKey(keyData);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool ShowHtmlChartWhenViewLoaded
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual string CreateHtmlViewFile()
+		{
+			throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -273,13 +332,16 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void ReloadChart(bool restoreDefault)
 		{
+			LoadChart();
+			LoadHtmlChart();
+
 			if (restoreDefault)
 				File.Delete(m_persistedInfoFilename);
 			else
 				CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
 			
 			m_chrGrid.Reset();
-			Initialize();
+			LoadOldChart();
 			m_chrGrid.ForceCurrentCellUpdate();
 			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
 			App.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
@@ -560,11 +622,20 @@ namespace SIL.Pa.UI.Views
 
 			HistogramOn = App.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
 			m_chrGrid.Reset();
-			Initialize();
-			
+			LoadOldChart();
+			LoadChart();
+			LoadHtmlChart();
+
 			OnViewDocked(this);
 			m_initialDock = true;
 			App.UninitializeProgressBar();
+
+			if (ShowHtmlChartWhenViewLoaded)
+			{
+				m_chartGrid.Visible = false;
+				m_htmlVw.Visible = true;
+				m_htmlVw.Focus();
+			}
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -746,11 +817,10 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			bool enable = false;
-			
-			if (m_chrGrid != null && m_chrGrid.Visible && m_chrGrid.SelectedPhones != null)
-				enable = true;
-			else if (m_pnlGrid.Visible && m_chartGrid != null && m_chartGrid.SelectedPhones != null)
-				enable = true;
+
+			enable = ((m_chrGrid != null && m_chrGrid.Visible && m_chrGrid.SelectedPhones != null) ||
+				(m_pnlGrid.Visible && m_chartGrid != null && m_chartGrid.Visible &&
+				m_chartGrid.SelectedPhones != null));
 
 			if (itemProps.Enabled != enable)
 			{

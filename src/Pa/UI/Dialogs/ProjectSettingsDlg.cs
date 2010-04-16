@@ -612,21 +612,27 @@ namespace SIL.Pa.UI.Dialogs
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
 				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption, true);
 
-			if (filenames.Length > 0)
-			{
-				Settings.Default.OFD_LastFileTypeChosen_DataSource = filterIndex;
+			if (filenames.Length == 0)
+				return;
 
-				// Add the selected files to the data source list.
-				foreach (string file in filenames)
+			Settings.Default.OFD_LastFileTypeChosen_DataSource = filterIndex;
+
+			// Add the selected files to the data source list.
+			foreach (string file in filenames)
+			{
+				if (ProjectContainsDataSource(file) &&
+					Utils.MsgBox(string.Format(DupDataSourceMsg, file),
+						MessageBoxButtons.YesNo) == DialogResult.No)
 				{
-					if (!ProjectContainsDataSource(file))
-						m_project.DataSources.Add(new PaDataSource(file));
+					continue;
 				}
 
-				LoadGrid(m_grid.Rows.Count);
-				m_grid.Focus();
-				m_grid.IsDirty = true;
+				m_project.DataSources.Add(new PaDataSource(file));
 			}
+
+			LoadGrid(m_grid.Rows.Count);
+			m_grid.Focus();
+			m_grid.IsDirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -661,13 +667,33 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
-					if (!ProjectContainsFwDataSource(dlg.ChosenDatabase))
+					if (ProjectContainsFwDataSource(dlg.ChosenDatabase) &&
+						Utils.MsgBox(string.Format(DupDataSourceMsg, dlg.ChosenDatabase.ProjectName),
+							MessageBoxButtons.YesNo) == DialogResult.No)
 					{
-						m_project.DataSources.Add(new PaDataSource(dlg.ChosenDatabase));
-						LoadGrid(m_grid.Rows.Count);
-						m_dirty = true;
+						return;
 					}
+
+					m_project.DataSources.Add(new PaDataSource(dlg.ChosenDatabase));
+					LoadGrid(m_grid.Rows.Count);
+					m_dirty = true;
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string DupDataSourceMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"ProjectSettingsDlg.DuplicateDataSourceQuestion",
+					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?",
+					"Dialog Boxes");
 			}
 		}
 

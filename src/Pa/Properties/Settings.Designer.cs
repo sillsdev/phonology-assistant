@@ -535,5 +535,29 @@ namespace SIL.Pa.Properties {
                 return ((string)(this["TempProcessingFilesFolder"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool HtmlVowelChartVisible {
+            get {
+                return ((bool)(this["HtmlVowelChartVisible"]));
+            }
+            set {
+                this["HtmlVowelChartVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool HtmlConsonantChartVisible {
+            get {
+                return ((bool)(this["HtmlConsonantChartVisible"]));
+            }
+            set {
+                this["HtmlConsonantChartVisible"] = value;
+            }
+        }
     }
 }
