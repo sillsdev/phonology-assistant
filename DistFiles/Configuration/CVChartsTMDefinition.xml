@@ -99,7 +99,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdChartPhoneSearchFinal, CmdChartPhoneSearchAlone,
 				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, 48, CmdChartTBRemove,
-				CmdChartTBMenuRestoreDefault, 51, 52">
+				CmdChartTBMenuRestoreDefault, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
+				62, 63, 64, 65, 66, 67, CmdShowHtmlChart">
 		</imageList>
 	</resources>
 
@@ -151,6 +152,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdChartTBMenuIgnoredChars" message="ChooseIgnoredCharactersTBMenu"/>
 		<command id="CmdChartTBMenuRestoreDefault" message="RestoreDefaultLayoutTBMenu"/>
 		<command id="CmdShowHistogram" message="ShowHistogram"/>
+		<command id="CmdShowHtmlChart" message="ShowHtmlChart"/>
 		
 	</commands>
 
@@ -190,6 +192,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbChartTBMenuRestoreDefault" commandid="CmdChartTBMenuRestoreDefault" type="0" displaytype="2" begingroup="true"/>
 			</item>
 			<item name="tbbShowHistogram" commandid="CmdShowHistogram" type="0" begingroup="true"/>
+			<item name="tbbShowHtmlChart" commandid="CmdShowHtmlChart" type="0" leftmargin="3"/>
 		</toolbar>
 	</toolbars>
 	<contextmenus>

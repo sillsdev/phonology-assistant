@@ -145,7 +145,7 @@
     <value>m_chrGrid</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharGrid, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharGrid, Pa, Version=3.1.3758.36619, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_chrGrid.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -190,7 +190,7 @@
     <value>m_histogram</value>
   </data>
   <data name="&gt;&gt;m_histogram.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.Histogram, PaControls, Version=1.0.2792.18440, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.Histogram, Pa, Version=3.1.3758.36619, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_histogram.Parent" xml:space="preserve">
     <value>splitOuter.Panel2</value>

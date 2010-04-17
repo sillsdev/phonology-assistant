@@ -30,7 +30,8 @@ namespace SIL.Pa.UI.Dialogs
 
 		private readonly DropDownFiltersListBox m_filterDropDown;
 		private readonly ImageList m_images;
-		private CustomDropDown m_queryDropDown;
+		private CustomDropDown m_queryOptionsDropDownHost;
+		private SearchOptionsDropDown m_queryOptionsDropDown;
 		private Dictionary<Filter.Operator, string> m_operatorToText;
 		private Dictionary<string, Filter.Operator> m_textToOperator;
 		private Dictionary<Filter.ExpressionType, string> m_expTypeToText;
@@ -45,6 +46,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
+			m_queryOptionsDropDown = new SearchOptionsDropDown();
 			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
 
 			InitializeExpressionTypetrings();
@@ -53,6 +55,11 @@ namespace SIL.Pa.UI.Dialogs
 			hlblFilters.Font = FontHelper.UIFont;
 			lvFilters.Font = FontHelper.UIFont;
 			m_grid.Font = FontHelper.UIFont;
+			rbMatchAll.Font = FontHelper.UIFont;
+			rbMatchAny.Font = FontHelper.UIFont;
+			chkIncludeInList.Font = FontHelper.UIFont;
+			hlblExpressions.Font = FontHelper.UIFont;
+
 			App.SettingsHandler.LoadFormProperties(this);
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
@@ -74,7 +81,7 @@ namespace SIL.Pa.UI.Dialogs
 			lvFilters.SmallImageList = m_images;
 
 			string tip = Utils.ConvertLiteralNewLines(Properties.Resources.kstidShowFilterToolTipText);
-			m_tooltip.SetToolTip(chkShowHide, tip);
+			m_tooltip.SetToolTip(chkIncludeInList, tip);
 			m_filterDropDown = new DropDownFiltersListBox();
 			BuildGrid();
 			LoadFilters();
@@ -88,29 +95,27 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeExpressionTypetrings()
 		{
-			const string msg = "Displayed in the filters dialog.";
 			const string category = "Dialog Boxes";
 
 			m_expTypeToText = new Dictionary<Filter.ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, Filter.ExpressionType>();
 
 			var text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionTypes.Normal", "Normal",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionTypes.Normal", "Normal", category);
 
 			m_expTypeToText[Filter.ExpressionType.Normal] = text;
 			m_textToExpType[text] = Filter.ExpressionType.Normal;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionTypes.PhoneticSearchPattern", "Phonetic Search Pattern",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionTypes.PhoneticSearchPattern",
+				"Phonetic Search Pattern", category);
 
 			m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn] = text;
 			m_textToExpType[text] = Filter.ExpressionType.PhoneticSrchPtrn;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionTypes.RegularExpression", "Regular Expression",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionTypes.RegularExpression",
+				"Regular Expression", category);
 
 			m_expTypeToText[Filter.ExpressionType.RegExp] = text;
 			m_textToExpType[text] = Filter.ExpressionType.RegExp;
@@ -127,7 +132,6 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeOperatorStrings()
 		{
-			const string msg = "Displayed in the filters dialog.";
 			const string category = "Dialog Boxes";
 
 			// Create lists that map the FilterOperator enumeration to it's string equivalent and back
@@ -135,106 +139,106 @@ namespace SIL.Pa.UI.Dialogs
 			m_textToOperator = new Dictionary<string, Filter.Operator>();
 
 			var text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.BeginsWith", "Begins with",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.BeginsWith",
+				"Begins with", category);
 
 			m_operatorToText[Filter.Operator.BeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.BeginsWith;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.Contains", "Contains",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.Contains",
+				"Contains", category);
 
 			m_operatorToText[Filter.Operator.Contains] = text;
 			m_textToOperator[text] = Filter.Operator.Contains;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.DoesNotBeginWith", "Does not begin with",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.DoesNotBeginWith",
+				"Does not begin with", category);
 
 			m_operatorToText[Filter.Operator.DoesNotBeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotBeginsWith;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.DoesNotContain", "Does not contain",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.DoesNotContain",
+				"Does not contain", category);
 
 			m_operatorToText[Filter.Operator.DoesNotContain] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotContain;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.DoesNotEndWith", "Does not end with",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.DoesNotEndWith",
+				"Does not end with", category);
 
 			m_operatorToText[Filter.Operator.DoesNotEndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotEndsWith;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.EndsWith", "Ends with",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.EndsWith",
+				"Ends with", category);
 
 			m_operatorToText[Filter.Operator.EndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.EndsWith;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.Equals", "Equals",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.Equals",
+				"Equals", category);
 
 			m_operatorToText[Filter.Operator.Equals] = text;
 			m_textToOperator[text] = Filter.Operator.Equals;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.GreaterThan", "Greater than",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.GreaterThan",
+				"Greater than", category);
 
 			m_operatorToText[Filter.Operator.GreaterThan] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThan;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "Greater than or equal",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.GreaterThanOrEqual",
+				"Greater than or equal", category);
 
 			m_operatorToText[Filter.Operator.GreaterThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThanOrEqual;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.LessThan", "Less than",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.LessThan",
+				"Less than", category);
 
 			m_operatorToText[Filter.Operator.LessThan] = text;
 			m_textToOperator[text] = Filter.Operator.LessThan;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.LessThanOrEqual", "Less than or equal",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.LessThanOrEqual",
+				"Less than or equal", category);
 
 			m_operatorToText[Filter.Operator.LessThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.LessThanOrEqual;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.Matches", "Matches",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.Matches",
+				"Matches", category);
 
 			m_operatorToText[Filter.Operator.Matches] = text;
 			m_textToOperator[text] = Filter.Operator.Matches;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.NoteEqualTo", "Not equal to",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.NoteEqualTo",
+				"Not equal to", category);
 
 			m_operatorToText[Filter.Operator.NotEquals] = text;
 			m_textToOperator[text] = Filter.Operator.NotEquals;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.PathDoesNotExist", "Path does not exist",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.PathDoesNotExist",
+				"Path does not exist", category);
 
 			m_operatorToText[Filter.Operator.PathDoesNotExist] = text;
 			m_textToOperator[text] = Filter.Operator.PathDoesNotExist;
 
 			text = LocalizationManager.LocalizeString(
-				"DefineFiltersDlg.FilterExpressionOperators.PathExists", "Path exists",
-				msg, category, LocalizationCategory.Unspecified, LocalizationPriority.High);
+				"DefineFiltersDlg.FilterExpressionOperators.PathExists",
+				"Path exists", category);
 
 			m_operatorToText[Filter.Operator.PathExists] = text;
 			m_textToOperator[text] = Filter.Operator.PathExists;
@@ -297,7 +301,7 @@ namespace SIL.Pa.UI.Dialogs
 				lvFilters.Items[0].Selected = true;
 			}
 
-			btnCopy.Enabled = btnRemove.Enabled = (lvFilters.Items.Count > 0);
+			UpdateView();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -379,8 +383,11 @@ namespace SIL.Pa.UI.Dialogs
 					if (fieldName != FilterExpression.OtherFilterField)
 						fieldName = App.FieldInfo[fieldName].DisplayText;
 
-					m_grid.Rows.Add(fieldName, m_operatorToText[expression.Operator],
+					int i = m_grid.Rows.Add(fieldName, m_operatorToText[expression.Operator],
 						expression.Pattern, m_expTypeToText[expression.ExpressionType]);
+
+					m_grid[kTypeCol, i].Tag = expression.SearchQuery;
+					m_grid.Rows[i].Tag = expression;
 				}
 			}
 
@@ -475,13 +482,13 @@ namespace SIL.Pa.UI.Dialogs
 			else if (expType == m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn])
 			{
 				SearchQuery query = m_grid[kTypeCol, e.RowIndex].Tag as SearchQuery;
-				SearchOptionsDropDown sodd = new SearchOptionsDropDown(query);
-				m_queryDropDown = new CustomDropDown();
-				m_queryDropDown.Closed += m_queryDropDown_Closed;
-				m_queryDropDown.AddControl(sodd);
+				m_queryOptionsDropDown.SearchQuery = query ?? new SearchQuery();
+				m_queryOptionsDropDownHost = new CustomDropDown();
+				m_queryOptionsDropDownHost.Closed += m_queryDropDown_Closed;
+				m_queryOptionsDropDownHost.AddControl(m_queryOptionsDropDown);
 				Rectangle rc = m_grid.GetCellDisplayRectangle(2, e.RowIndex, false);
 				rc.Y += rc.Height;
-				m_queryDropDown.Show(m_grid.PointToScreen(rc.Location));
+				m_queryOptionsDropDownHost.Show(m_grid.PointToScreen(rc.Location));
 			}
 			else
 			{
@@ -497,8 +504,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void m_queryDropDown_Closed(object sender, ToolStripDropDownClosedEventArgs e)
 		{
-			m_queryDropDown.Closed -= m_queryDropDown_Closed;
-			m_queryDropDown = null;
+			m_grid[kTypeCol, m_grid.CurrentCellAddress.Y].Tag = m_queryOptionsDropDown.SearchQuery;
+			m_queryOptionsDropDownHost.Closed -= m_queryDropDown_Closed;
+			m_queryOptionsDropDownHost = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -596,21 +604,21 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void lvFilters_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
-			chkShowHide.CheckedChanged -= chkShowHide_CheckedChanged;
-			rbOr.CheckedChanged -= HandleLogicalExpressionRelationshipChange;
-			Filter filter = CurrentFilter;
+			chkIncludeInList.CheckedChanged -= chkShowHide_CheckedChanged;
+			rbMatchAny.CheckedChanged -= HandleLogicalExpressionRelationshipChange;
+			var filter = CurrentFilter;
 			LoadExpressions(filter);
 
 			if (filter != null)
 			{
-				chkShowHide.Checked = filter.ShowInToolbarList;
-				rbAnd.Checked = !filter.OrExpressions;
-				rbOr.Checked = filter.OrExpressions;
+				chkIncludeInList.Checked = filter.ShowInToolbarList;
+				rbMatchAll.Checked = !filter.MatchAny;
+				rbMatchAny.Checked = filter.MatchAny;
 			}
 
-			chkShowHide.Enabled = lblAndOr.Enabled = rbOr.Enabled = rbAnd.Enabled = (filter != null);
-			chkShowHide.CheckedChanged += chkShowHide_CheckedChanged;
-			rbOr.CheckedChanged += HandleLogicalExpressionRelationshipChange;
+			chkIncludeInList.CheckedChanged += chkShowHide_CheckedChanged;
+			rbMatchAny.CheckedChanged += HandleLogicalExpressionRelationshipChange;
+			UpdateView();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -671,7 +679,7 @@ namespace SIL.Pa.UI.Dialogs
 			lvFilters.Focus();
 			item.BeginEdit();
 			m_dirty = true;
-			btnRemove.Enabled = btnCopy.Enabled = true;
+			UpdateView();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -716,15 +724,14 @@ namespace SIL.Pa.UI.Dialogs
 			m_dirty = true;
 
 			if (index < 0)
-			{
-				btnRemove.Enabled = btnCopy.Enabled = false;
 				m_grid.Rows.Clear();
-			}
 			else
 			{
 				lvFilters.FocusedItem.Selected = true;
 				lvFilters.FocusedItem = lvFilters.Items[index];
 			}
+
+			UpdateView();
 		}
 
 		#endregion
@@ -757,8 +764,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (CurrentFilter != null)
 			{
-				CurrentFilter.ShowInToolbarList = chkShowHide.Checked;
-				lvFilters.FocusedItem.ImageIndex = (chkShowHide.Checked ? 0 : 1);
+				CurrentFilter.ShowInToolbarList = chkIncludeInList.Checked;
+				lvFilters.FocusedItem.ImageIndex = (chkIncludeInList.Checked ? 0 : 1);
 				m_dirty = true;
 			}
 		}
@@ -772,7 +779,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (CurrentFilter != null)
 			{
-				CurrentFilter.OrExpressions = rbOr.Checked;
+				CurrentFilter.MatchAny = rbMatchAny.Checked;
 				m_dirty = true;
 			}
 		}
@@ -909,16 +916,17 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			var filterList = new List<Filter>();
+			FilterHelper.Filters.Clear();
+
 			foreach (ListViewItem item in lvFilters.Items)
 			{
 				Filter filter = item.Tag as Filter;
 				if (filter != null)
-					filterList.Add(filter);
+					FilterHelper.Filters.Add(filter);
 			}
 
 			// TODO: Validate expressions with search queries.
-
+			
 			FilterHelper.SaveFilters();
 			m_dirty = false;
 			m_grid.IsDirty = false;
@@ -979,27 +987,77 @@ namespace SIL.Pa.UI.Dialogs
 			get { return (lvFilters.FocusedItem == null ? null : lvFilters.FocusedItem.Tag as Filter); }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private FilterExpression CurrentExpression
+		{
+			get { return (m_grid.CurrentRow != null ? m_grid.CurrentRow.Tag as FilterExpression : null); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void m_grid_Enter(object sender, EventArgs e)
 		{
-
+			UpdateView();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void m_grid_Leave(object sender, EventArgs e)
 		{
-			//btnRemoveExp.Enabled = false;
+			UpdateView();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			btnRemoveExp.Enabled = (e.RowIndex != m_grid.NewRowIndex);
+			UpdateView();
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void UpdateView()
+		{
+			var filter = CurrentFilter;
+			chkIncludeInList.Enabled = (filter != null);
+			rbMatchAny.Enabled = (filter != null);
+			rbMatchAll.Enabled = (filter != null);
+			btnDeleteFilter.Enabled = (filter != null);
+			btnCopy.Enabled = (filter != null);
+			btnApplyNow.Enabled = (filter != null);
+			rbMatchAll.Checked = (filter != null && !filter.MatchAny);
+			rbMatchAny.Checked = (filter != null && filter.MatchAny);
+			btnRemoveExp.Enabled = (CurrentExpression != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void btnRemoveExp_Click(object sender, EventArgs e)
 		{
 			if (m_grid.CurrentRow == null || m_grid.CurrentRow.Index < 0 ||
 				m_grid.CurrentRow.Index == m_grid.NewRowIndex)
 			{
 				System.Media.SystemSounds.Beep.Play();
+				return;
 			}
 
 			int i = m_grid.CurrentRow.Index;

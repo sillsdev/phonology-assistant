@@ -64,6 +64,7 @@ namespace SIL.Pa.Filters
 		{
 			ShowInToolbarList = true;
 			Expressions = new List<FilterExpression>();
+			MatchAny = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ namespace SIL.Pa.Filters
 		{
 			Filter clone = new Filter();
 			clone.Name = Name;
-			clone.OrExpressions = OrExpressions;
+			clone.MatchAny = MatchAny;
 			clone.Expressions = Expressions.ToList();
 			return clone;
 		}
@@ -101,8 +102,8 @@ namespace SIL.Pa.Filters
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("orExpression")]
-		public bool OrExpressions { get; set; }
+		[XmlAttribute("matchAny")]
+		public bool MatchAny { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -135,12 +136,12 @@ namespace SIL.Pa.Filters
 
 				// If the entry matches and we're logically OR'ing the expressions,
 				// then we're done here. The entry matches the filter.
-				if (match && OrExpressions)
+				if (match && MatchAny)
 					return true;
 
 				// If the entry didn't match and the expressions are logically AND'd,
 				// then we're done here. The entry doesn't match the filter.
-				if (!match && !OrExpressions)
+				if (!match && !MatchAny)
 					return false;
 			}
 

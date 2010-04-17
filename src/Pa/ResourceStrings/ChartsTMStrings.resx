@@ -299,4 +299,10 @@
   <data name="kstidShowHistogramToolTip" xml:space="preserve">
     <value>Histogram</value>
   </data>
+  <data name="kstidShowHtmlChartText" xml:space="preserve">
+    <value>Show HTML Chart</value>
+  </data>
+  <data name="kstidShowHtmlChartToolTip" xml:space="preserve">
+    <value>Show HTML Chart</value>
+  </data>
 </root>

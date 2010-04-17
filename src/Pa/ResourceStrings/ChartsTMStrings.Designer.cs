@@ -554,5 +554,23 @@ namespace SIL.Pa.ResourceStrings {
                 return ResourceManager.GetString("kstidShowHistogramToolTip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show HTML Chart.
+        /// </summary>
+        public static string kstidShowHtmlChartText {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show HTML Chart.
+        /// </summary>
+        public static string kstidShowHtmlChartToolTip {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartToolTip", resourceCulture);
+            }
+        }
     }
 }

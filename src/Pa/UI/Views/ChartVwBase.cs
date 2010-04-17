@@ -63,6 +63,7 @@ namespace SIL.Pa.UI.Views
 			m_htmlVw = new WebBrowser();
 			m_htmlVw.Dock = DockStyle.Fill;
 			m_htmlVw.Visible = false;
+			m_htmlVw.AllowWebBrowserDrop = false;
 			m_pnlGrid.Controls.Add(m_htmlVw);
 			
 			m_chrGrid.Visible = false;
@@ -223,36 +224,17 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessDialogKey(Keys keyData)
 		{
-			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control)
+			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control &&
+				(keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right)
 			{
-				if ((keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right)
-				{
-					m_pnlGrid.Visible = !m_pnlGrid.Visible;
-					m_chrGrid.Visible = !m_chrGrid.Visible;
+				m_pnlGrid.Visible = !m_pnlGrid.Visible;
+				m_chrGrid.Visible = !m_chrGrid.Visible;
 
-					if (m_chrGrid.Visible)
-						m_chrGrid.Focus();
-					else
-						m_chartGrid.Focus();
-
-					return true;
-				}
-
-				if ((keyData & Keys.W) == Keys.W)
-				{
-					m_chrGrid.Visible = false;
-					m_pnlGrid.Visible = true;
-
-					m_htmlVw.Visible = !m_htmlVw.Visible;
-					m_chartGrid.Visible = !m_htmlVw.Visible;
-
-					if (m_htmlVw.Visible)
-						m_htmlVw.Focus();
-					else
-						m_chartGrid.Focus();
-					
-					return true;
-				}
+				if (m_chrGrid.Visible)
+					m_chrGrid.Focus();
+				else
+					m_chartGrid.Focus();
+				return true;
 			}
 
 			return base.ProcessDialogKey(keyData);
@@ -286,6 +268,25 @@ namespace SIL.Pa.UI.Views
 		protected virtual string LayoutFile
 		{
 			get { throw new NotImplementedException(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void ShowHtmlChart(bool show)
+		{
+			m_chrGrid.Visible = false;
+			m_pnlGrid.Visible = true;
+
+			m_htmlVw.Visible = show;
+			m_chartGrid.Visible = !show;
+
+			if (m_htmlVw.Visible)
+				m_htmlVw.Focus();
+			else
+				m_chartGrid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -631,11 +632,7 @@ namespace SIL.Pa.UI.Views
 			App.UninitializeProgressBar();
 
 			if (ShowHtmlChartWhenViewLoaded)
-			{
-				m_chartGrid.Visible = false;
-				m_htmlVw.Visible = true;
-				m_htmlVw.Focus();
-			}
+				ShowHtmlChart(true);
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -1045,6 +1042,43 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			HistogramOn = !HistogramOn;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnShowHtmlChart(object args)
+		{
+			if (!m_activeView)
+				return false;
+
+			ShowHtmlChart(!m_htmlVw.Visible);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateShowHtmlChart(object args)
+		{
+			TMItemProperties itemProps = args as TMItemProperties;
+			if (!m_activeView || itemProps == null)
+				return false;
+
+			bool shouldBechecked = m_htmlVw.Visible;
+
+			if (itemProps.Checked != shouldBechecked)
+			{
+				itemProps.Visible = true;
+				itemProps.Checked = shouldBechecked;
+				itemProps.Update = true;
+			}
+
 			return true;
 		}
 

@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			if (!File.Exists(prjFileName))
 			{
-				msg = LocalizationManager.LocalizeString("ProjectFileNonExistentMsg",
+				msg = LocalizationManager.LocalizeString("ProjectFileMissingMsg",
 					"Project file '{0}' does not exist.", "Message displayed when an " +
 					"attempt is made to open a non existant project file. The parameter " +
 					"is the project file name.", App.kLocalizationGroupInfoMsg,

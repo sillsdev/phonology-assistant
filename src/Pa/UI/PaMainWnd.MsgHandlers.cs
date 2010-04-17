@@ -642,11 +642,13 @@ namespace SIL.Pa.UI
 			const string cmdId = "CmdExecuteFilter";
 			tbpi.Adapter.AddCommandItem(cmdId, "EnableFilter");
 
+			bool firstItem = true;
 			foreach (var filter in FilterHelper.Filters)
 			{
 				if (filter.ShowInToolbarList)
 				{
 					var props = new TMItemProperties();
+					props.BeginGroup = firstItem;
 					props.Text = filter.Name;
 					props.CommandId = cmdId;
 					props.Name = "FILTER:" + filter.Name;
@@ -655,6 +657,7 @@ namespace SIL.Pa.UI
 					props.Visible = true;
 					props.Update = true;
 					tbpi.Adapter.AddMenuItem(props, "mnuFiltersMain", "mnuFilterPlaceholder");
+					firstItem = false;
 				}
 			}
 
@@ -728,7 +731,6 @@ namespace SIL.Pa.UI
 		protected bool OnNoFilter(object args)
 		{
 			FilterHelper.TurnOffCurrentFilter();
-
 			return true;
 		}
 
@@ -740,10 +742,11 @@ namespace SIL.Pa.UI
 		protected bool OnUpdateNoFilter(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps != null)
-				itemProps.Enabled = (FilterHelper.CurrentFilter != null);
+			if (itemProps == null)
+				return false;
 
-			itemProps.Visible = (FilterHelper.Filters.Count > 0);
+			itemProps.Enabled = (FilterHelper.CurrentFilter != null);
+			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
 		}

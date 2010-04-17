@@ -31,23 +31,25 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
-			this.pnlFilters = new SilPanel();
-			this.hlblFilters = new HeaderLabel();
+			this.pnlFilters = new SilUtils.Controls.SilPanel();
+			this.hlblFilters = new SilUtils.Controls.HeaderLabel();
 			this.pnlButtons2 = new System.Windows.Forms.Panel();
 			this.btnCopy = new System.Windows.Forms.Button();
-			this.btnRemove = new System.Windows.Forms.Button();
+			this.btnDeleteFilter = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
+			this.pnlExpressions = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
+			this.hlblExpressions = new SilUtils.Controls.HeaderLabel();
 			this.pnlFilterOptions = new System.Windows.Forms.Panel();
-			this.chkShowHide = new System.Windows.Forms.CheckBox();
-			this.lblAndOr = new System.Windows.Forms.Label();
-			this.rbOr = new System.Windows.Forms.RadioButton();
-			this.rbAnd = new System.Windows.Forms.RadioButton();
+			this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this.rbMatchAll = new System.Windows.Forms.RadioButton();
+			this.chkIncludeInList = new System.Windows.Forms.CheckBox();
+			this.rbMatchAny = new System.Windows.Forms.RadioButton();
 			this.btnRemoveExp = new System.Windows.Forms.Button();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnApplyNow = new System.Windows.Forms.Button();
@@ -57,8 +59,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitFilters.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
 			this.pnlButtons2.SuspendLayout();
+			this.pnlExpressions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.pnlFilterOptions.SuspendLayout();
+			this.tableLayout.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -115,13 +119,14 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// splitFilters.Panel2
 			// 
-			this.splitFilters.Panel2.Controls.Add(this.m_grid);
+			this.splitFilters.Panel2.Controls.Add(this.pnlExpressions);
 			this.splitFilters.Panel2.Controls.Add(this.pnlFilterOptions);
 			this.splitFilters.TabStop = false;
 			this.splitFilters.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitFilter_SplitterMoved);
 			// 
 			// pnlFilters
 			// 
+			this.pnlFilters.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlFilters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlFilters.ClipTextForChildControls = true;
 			this.pnlFilters.ControlReceivingFocusOnMnemonic = null;
@@ -145,7 +150,7 @@ namespace SIL.Pa.UI.Dialogs
 			// pnlButtons2
 			// 
 			this.pnlButtons2.Controls.Add(this.btnCopy);
-			this.pnlButtons2.Controls.Add(this.btnRemove);
+			this.pnlButtons2.Controls.Add(this.btnDeleteFilter);
 			this.pnlButtons2.Controls.Add(this.btnAdd);
 			resources.ApplyResources(this.pnlButtons2, "pnlButtons2");
 			this.pnlButtons2.Name = "pnlButtons2";
@@ -157,12 +162,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCopy.UseVisualStyleBackColor = true;
 			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
 			// 
-			// btnRemove
+			// btnDeleteFilter
 			// 
-			resources.ApplyResources(this.btnRemove, "btnRemove");
-			this.btnRemove.Name = "btnRemove";
-			this.btnRemove.UseVisualStyleBackColor = true;
-			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+			resources.ApplyResources(this.btnDeleteFilter, "btnDeleteFilter");
+			this.btnDeleteFilter.Name = "btnDeleteFilter";
+			this.btnDeleteFilter.UseVisualStyleBackColor = true;
+			this.btnDeleteFilter.Click += new System.EventHandler(this.btnRemove_Click);
 			// 
 			// btnAdd
 			// 
@@ -170,6 +175,20 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.UseVisualStyleBackColor = true;
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+			// 
+			// pnlExpressions
+			// 
+			this.pnlExpressions.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlExpressions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlExpressions.ClipTextForChildControls = true;
+			this.pnlExpressions.ControlReceivingFocusOnMnemonic = null;
+			this.pnlExpressions.Controls.Add(this.m_grid);
+			this.pnlExpressions.Controls.Add(this.hlblExpressions);
+			resources.ApplyResources(this.pnlExpressions, "pnlExpressions");
+			this.pnlExpressions.DoubleBuffered = true;
+			this.pnlExpressions.MnemonicGeneratesClick = false;
+			this.pnlExpressions.Name = "pnlExpressions";
+			this.pnlExpressions.PaintExplorerBarBackground = false;
 			// 
 			// m_grid
 			// 
@@ -180,22 +199,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.AllowUserToResizeRows = false;
 			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			resources.ApplyResources(this.m_grid, "m_grid");
 			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_grid.IsDirty = false;
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
+			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
 			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
@@ -208,45 +228,53 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.m_grid_DefaultValuesNeeded);
 			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
 			// 
+			// hlblExpressions
+			// 
+			this.hlblExpressions.ClipTextForChildControls = false;
+			this.hlblExpressions.ControlReceivingFocusOnMnemonic = this.lvFilters;
+			resources.ApplyResources(this.hlblExpressions, "hlblExpressions");
+			this.hlblExpressions.MnemonicGeneratesClick = true;
+			this.hlblExpressions.Name = "hlblExpressions";
+			this.hlblExpressions.ShowWindowBackgroudOnTopAndRightEdge = false;
+			// 
 			// pnlFilterOptions
 			// 
-			this.pnlFilterOptions.Controls.Add(this.chkShowHide);
-			this.pnlFilterOptions.Controls.Add(this.lblAndOr);
-			this.pnlFilterOptions.Controls.Add(this.rbOr);
-			this.pnlFilterOptions.Controls.Add(this.rbAnd);
-			this.pnlFilterOptions.Controls.Add(this.btnRemoveExp);
+			this.pnlFilterOptions.Controls.Add(this.tableLayout);
 			resources.ApplyResources(this.pnlFilterOptions, "pnlFilterOptions");
 			this.pnlFilterOptions.Name = "pnlFilterOptions";
 			this.pnlFilterOptions.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlFilterOptions_Paint);
 			// 
-			// chkShowHide
+			// tableLayout
 			// 
-			this.chkShowHide.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.chkShowHide, "chkShowHide");
-			this.chkShowHide.Name = "chkShowHide";
-			this.chkShowHide.UseVisualStyleBackColor = false;
+			resources.ApplyResources(this.tableLayout, "tableLayout");
+			this.tableLayout.Controls.Add(this.rbMatchAll, 0, 1);
+			this.tableLayout.Controls.Add(this.chkIncludeInList, 1, 0);
+			this.tableLayout.Controls.Add(this.rbMatchAny, 0, 0);
+			this.tableLayout.Controls.Add(this.btnRemoveExp, 1, 1);
+			this.tableLayout.Name = "tableLayout";
 			// 
-			// lblAndOr
+			// rbMatchAll
 			// 
-			resources.ApplyResources(this.lblAndOr, "lblAndOr");
-			this.lblAndOr.BackColor = System.Drawing.Color.Transparent;
-			this.lblAndOr.Name = "lblAndOr";
+			resources.ApplyResources(this.rbMatchAll, "rbMatchAll");
+			this.rbMatchAll.BackColor = System.Drawing.Color.Transparent;
+			this.rbMatchAll.Name = "rbMatchAll";
+			this.rbMatchAll.TabStop = true;
+			this.rbMatchAll.UseVisualStyleBackColor = false;
 			// 
-			// rbOr
+			// chkIncludeInList
 			// 
-			resources.ApplyResources(this.rbOr, "rbOr");
-			this.rbOr.BackColor = System.Drawing.Color.Transparent;
-			this.rbOr.Name = "rbOr";
-			this.rbOr.TabStop = true;
-			this.rbOr.UseVisualStyleBackColor = false;
+			resources.ApplyResources(this.chkIncludeInList, "chkIncludeInList");
+			this.chkIncludeInList.BackColor = System.Drawing.Color.Transparent;
+			this.chkIncludeInList.Name = "chkIncludeInList";
+			this.chkIncludeInList.UseVisualStyleBackColor = false;
 			// 
-			// rbAnd
+			// rbMatchAny
 			// 
-			resources.ApplyResources(this.rbAnd, "rbAnd");
-			this.rbAnd.BackColor = System.Drawing.Color.Transparent;
-			this.rbAnd.Name = "rbAnd";
-			this.rbAnd.TabStop = true;
-			this.rbAnd.UseVisualStyleBackColor = false;
+			resources.ApplyResources(this.rbMatchAny, "rbMatchAny");
+			this.rbMatchAny.BackColor = System.Drawing.Color.Transparent;
+			this.rbMatchAny.Name = "rbMatchAny";
+			this.rbMatchAny.TabStop = true;
+			this.rbMatchAny.UseVisualStyleBackColor = false;
 			// 
 			// btnRemoveExp
 			// 
@@ -276,9 +304,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitFilters.ResumeLayout(false);
 			this.pnlFilters.ResumeLayout(false);
 			this.pnlButtons2.ResumeLayout(false);
+			this.pnlExpressions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.pnlFilterOptions.ResumeLayout(false);
 			this.pnlFilterOptions.PerformLayout();
+			this.tableLayout.ResumeLayout(false);
+			this.tableLayout.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -289,19 +320,21 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.SplitContainer splitFilters;
 		private System.Windows.Forms.Panel pnlButtons2;
 		private System.Windows.Forms.Button btnCopy;
-		private System.Windows.Forms.Button btnRemove;
+		private System.Windows.Forms.Button btnDeleteFilter;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.ColumnHeader hdrFilter;
 		private SilUtils.SilGrid m_grid;
 		private SilUtils.Controls.SilPanel pnlFilters;
 		private HeaderLabel hlblFilters;
 		private System.Windows.Forms.Panel pnlFilterOptions;
-		private System.Windows.Forms.Label lblAndOr;
-		private System.Windows.Forms.RadioButton rbOr;
-		private System.Windows.Forms.RadioButton rbAnd;
-		private System.Windows.Forms.CheckBox chkShowHide;
+		private System.Windows.Forms.RadioButton rbMatchAny;
+		private System.Windows.Forms.RadioButton rbMatchAll;
+		private System.Windows.Forms.CheckBox chkIncludeInList;
 		private System.Windows.Forms.ToolTip m_tooltip;
 		private System.Windows.Forms.Button btnApplyNow;
 		private System.Windows.Forms.Button btnRemoveExp;
+		private SilPanel pnlExpressions;
+		private HeaderLabel hlblExpressions;
+		private System.Windows.Forms.TableLayoutPanel tableLayout;
 	}
 }

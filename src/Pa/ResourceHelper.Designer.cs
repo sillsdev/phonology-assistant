@@ -110,7 +110,8 @@ namespace SIL.Pa.Resources
 			this.TMImages.Images.SetKeyName(64, "");
 			this.TMImages.Images.SetKeyName(65, "");
 			this.TMImages.Images.SetKeyName(66, "");
-			this.TMImages.Images.SetKeyName(67, "Filter2.png");
+			this.TMImages.Images.SetKeyName(67, "");
+			this.TMImages.Images.SetKeyName(68, "");
 			// 
 			// ResourceHelper
 			// 

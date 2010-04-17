@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -86,6 +87,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		// Stores all the commands (and related information). The keys for this collection
 		// are the command id strings from the XML definition file.
 		private Dictionary<string, CommandInfo> m_commands = new Dictionary<string, CommandInfo>();
+
+		// Stores all the commands (and related information). The keys for this collection
+		// are the command id strings from the XML definition file.
+		private Dictionary<ToolStripItem, ToolStripSeparator> m_separators = new Dictionary<ToolStripItem, ToolStripSeparator>();
 
 		// This is true while we are reading the XML block of context menus.
 		protected bool m_readingContextMenuDef;
@@ -1021,8 +1026,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					m_menuBar.AccessibleName = m_menuBar.Text;
 					m_menuBar.ShowItemToolTips = true;
 				}
-
-				ReadMenuItems(node, m_menuBar);
 			}
 		}
 
@@ -1140,7 +1143,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					if (parentItem is ContextMenuStrip)
 					{
 						if (beginGroup)
-							((ContextMenuStrip)parentItem).Items.Add(new ToolStripSeparator());
+						{
+							var seperator = new ToolStripSeparator();
+							m_separators[item] = seperator;
+							((ContextMenuStrip)parentItem).Items.Add(seperator);
+						}
 
 						((ContextMenuStrip)parentItem).Items.Add(item);
 					}
@@ -1149,7 +1156,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					else if (parentItem is ToolStripDropDownItem)
 					{
 						if (beginGroup)
-							((ToolStripDropDownItem)parentItem).DropDownItems.Add(new ToolStripSeparator());
+						{
+							var seperator = new ToolStripSeparator();
+							m_separators[item] = seperator;
+							((ToolStripDropDownItem)parentItem).DropDownItems.Add(seperator);
+						}
 
 						((ToolStripDropDownItem)parentItem).DropDownItems.Add(item);
 					}
@@ -1210,7 +1221,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				// get the reference item's index in the parent's subitem collection.
 				var parentItem = owner as ToolStripDropDownItem;
 				int i = parentItem.DropDownItems.IndexOf(refItem);
-				
+
 				// If the reference item should no longer begin a group
 				// then get rid of the separator before it.
 				if (cancelBeginGroupOnFollowing && i > 0 && parentItem.DropDownItems[i - 1] is ToolStripSeparator)
@@ -1220,11 +1231,15 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				}
 
 				parentItem.DropDownItems.Insert(i, item);
-				
+
 				// If the inserted item should begin a group then add a separator
 				// if there isn't already one before it.
 				if (beginGroup && i > 0 && !(parentItem.DropDownItems[i - 1] is ToolStripSeparator))
-					parentItem.DropDownItems.Insert(i, item);
+				{
+					var separator = new ToolStripSeparator();
+					m_separators[item] = separator;
+					parentItem.DropDownItems.Insert(i, separator);
+				}
 			}
 			else
 			{
@@ -1234,12 +1249,30 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 				int i = m_menuBar.Items.IndexOf(refItem);
 				if (i >= 0)
+				{
 					m_menuBar.Items.Insert(i, item);
+
+					if (beginGroup)
+					{
+						var separator = new ToolStripSeparator();
+						m_separators[item] = separator;
+						m_menuBar.Items.Insert(i, separator);
+					}
+				}
 				else if (refItem.Owner != null)
 				{
 					i = refItem.Owner.Items.IndexOf(refItem);
 					if (i >= 0)
+					{
 						refItem.Owner.Items.Insert(i, item);
+
+						if (beginGroup)
+						{
+							var separator = new ToolStripSeparator();
+							m_separators[item] = separator;
+							refItem.Owner.Items.Insert(i, separator);
+						}
+					}
 				}
 			}
 		}
@@ -1264,7 +1297,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (tsddiParent != null)
 			{
 				if (beginGroup)
-					tsddiParent.DropDownItems.Add(new ToolStripSeparator());
+				{
+					var seperator = new ToolStripSeparator();
+					m_separators[item] = seperator;
+					tsddiParent.DropDownItems.Add(seperator);
+				}
 
 				tsddiParent.DropDownItems.Add(item);
 			}
@@ -1333,7 +1370,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (parentItem is ToolStrip)
 				{
 					if (beginGroup)
-						((ToolStrip)parentItem).Items.Add(new ToolStripSeparator());
+					{
+						var separator = new ToolStripSeparator();
+						m_separators[item] = separator;
+						((ToolStrip)parentItem).Items.Add(separator);
+					}
 
 					((ToolStrip)parentItem).Items.Add(item);
 				}
@@ -1345,7 +1386,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					ToolStripDropDownItem pitem = (ToolStripDropDownItem)parentItem;
 
 					if (beginGroup)
-						pitem.DropDownItems.Add(new ToolStripSeparator());
+					{
+						var separator = new ToolStripSeparator();
+						m_separators[item] = separator;
+						pitem.DropDownItems.Add(separator);
+					}
 
 					// If the parent item's drop-down type is a menu, then make sure the text shows.
 					if (pitem.DropDown is ToolStripDropDownMenu)
@@ -2629,21 +2674,23 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			ToolStripDropDownItem item = m_items[parentItemName] as ToolStripDropDownItem;
 
-			if (item != null)
+			// Remove all separators associated with the sub items we're going to remove.
+			var itemsWithSeparators = m_separators.Keys.Cast<ToolStripItem>().Intersect(item.DropDownItems.Cast<ToolStripItem>());
+			foreach (var iws in itemsWithSeparators)
+				m_separators.Remove(iws);
+
+			for (int i = 0; i < item.DropDownItems.Count; i++)
 			{
-				for (int i = 0; i < item.DropDownItems.Count; i++)
+				item.DropDownItems[i].Click -= HandleItemClicks;
+
+				if (item.DropDownItems[i] is ToolStripDropDownItem)
 				{
-					item.DropDownItems[i].Click -= HandleItemClicks;
-
-					if (item.DropDownItems[i] is ToolStripDropDownItem)
-					{
-						((ToolStripDropDownItem)item.DropDownItems[i]).DropDownOpened -= HandleMenuPopups;
-						((ToolStripDropDownItem)item.DropDownItems[i]).DropDownClosed -= HandleDropDownClosed;
-					}
+					((ToolStripDropDownItem)item.DropDownItems[i]).DropDownOpened -= HandleMenuPopups;
+					((ToolStripDropDownItem)item.DropDownItems[i]).DropDownClosed -= HandleDropDownClosed;
 				}
-
-				item.DropDownItems.Clear();
 			}
+
+			item.DropDownItems.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2657,11 +2704,27 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (!m_items.TryGetValue(itemName, out item))
 				return;
 
+			ToolStripSeparator separator;
+			var hasSeparator = m_separators.TryGetValue(item, out separator);
+
 			var parentItem = item.OwnerItem as ToolStripDropDownItem;
 			if (parentItem != null)
+			{
+				if (hasSeparator)
+					parentItem.DropDownItems.Remove(separator);
+
 				parentItem.DropDownItems.RemoveByKey(itemName);
+			}
 			else if (item.Owner != null)
+			{
+				if (separator != null)
+					item.Owner.Items.Remove(separator);
+				
 				item.Owner.Items.RemoveByKey(itemName);
+			}
+
+			if (hasSeparator)
+				m_separators.Remove(item);
 
 			item.Dispose();
 

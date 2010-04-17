@@ -277,7 +277,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<item name="mnuOptionsMain" commandid="CmdOptions" displaytype="0" rightaligned="true" begingroup="true"/>
 		<item name="mnuFiltersMain" commandid="CmdFiltersParent" type="2" displaytype="0" split="false" rightaligned="true">
 			<item name="mnuNoFilter" commandid="CmdNoFilter" />
-			<item name="mnuFilterPlaceholder" commandid="CmdFiltersPlaceholder" begingroup="true"/>
+			<item name="mnuFilterPlaceholder" commandid="CmdFiltersPlaceholder"/>
 			<item name="mnuFilters" commandid="CmdFilters" begingroup="true"/>
 		</item>
 		<!--item name="mnuAmbiguousItems" commandid="CmdAmbiguousItems" displaytype="0" rightaligned="true"/-->
