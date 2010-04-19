@@ -48,6 +48,7 @@ namespace SIL.Pa.Processing
 		protected BackgroundWorker m_worker;
 		protected XmlWriter m_writer;
 		protected DataGridView m_grid;
+		protected bool m_showExportProgress = true;
 		protected int m_leftColSpanForGroupedList;
 		protected int m_rightColSpanForGroupedList;
 		protected string m_outputFileName;
@@ -173,11 +174,15 @@ namespace SIL.Pa.Processing
 				if (pipeline == null)
 					continue;
 
-				App.InitializeProgressBar(string.Format(msg, ++processingStep),
-					pipeline.ProcessingSteps.Count);
+				if (m_showExportProgress)
+				{
+					App.InitializeProgressBar(string.Format(msg, ++processingStep),
+						pipeline.ProcessingSteps.Count);
 				
+					pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
+				}
+
 				// Kick off the processing and then save the results to a file.
-				pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
 				outputStream = pipeline.Transform(inputStream);
 				inputStream = outputStream;
 				pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;

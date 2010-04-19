@@ -176,8 +176,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadChart()
 		{
-			m_chartGrid.Rows.Clear();
-			m_chartGrid.Columns.Clear();
+			m_chartGrid.ClearAll();
 
 			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
 
@@ -213,8 +212,6 @@ namespace SIL.Pa.UI.Views
 		{
 			var outputFile = CreateHtmlViewFile();
 			m_htmlVw.Url = new Uri(File.Exists(outputFile) ? outputFile : "about:blank");
-			m_htmlVw.Dock = DockStyle.Fill;
-			m_pnlGrid.Controls.Add(m_htmlVw);
 		}
 		
 		/// ------------------------------------------------------------------------------------

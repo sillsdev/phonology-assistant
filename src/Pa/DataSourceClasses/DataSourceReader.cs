@@ -165,7 +165,7 @@ namespace SIL.Pa.DataSource
 		/// Read each data source file into the record cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public WordCache Read()
+		public RecordCache Read()
 		{
 			if (App.RecordCache != null)
 				App.RecordCache.Dispose();
@@ -257,14 +257,7 @@ namespace SIL.Pa.DataSource
 				}
 			}
 
-			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, m_recCache.Count);
-			m_recCache.BuildWordCache(App.ProgressBar);
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
-			App.IncProgressBar();
-			TempRecordCache.Save();
-			App.UninitializeProgressBar();
-
-			return (m_recCache.WordCache.Count == 0 ? null : m_recCache.WordCache);
+			return m_recCache;
 		}
 
 		#region PaXML/FW data source reading

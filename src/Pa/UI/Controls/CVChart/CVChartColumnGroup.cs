@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using SilUtils;
@@ -26,7 +27,7 @@ namespace SIL.Pa.UI.Controls
 	/// heading. Part of that involves drawing the group's heading text.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class CVChartColumnGroup
+	public class CVChartColumnGroup : IDisposable
 	{
 		private readonly CVChartGrid m_grid;
 		private readonly string m_headerText;
@@ -73,6 +74,17 @@ namespace SIL.Pa.UI.Controls
 			RightColumn = grid.Columns[i] as DataGridViewTextBoxColumn;
 
 			grid.CellPainting += HandleCellPainting;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			if (m_grid != null)
+				m_grid.CellPainting -= HandleCellPainting;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,12 +170,17 @@ namespace SIL.Pa.UI.Controls
 			{
 				var rc = GroupRectangle;
 
-				using (var br = new SolidBrush(CurrentGroupColor))
+				using (var br = new SolidBrush(m_grid.BackgroundColor))
 					e.Graphics.FillRectangle(br, rc);
 
 				DrawDoubleLine(e, rc);
 
-				rc.Height -= 4;
+				rc.Height -= 3;
+				
+				using (var br = new SolidBrush(CurrentGroupColor))
+					e.Graphics.FillRectangle(br, rc);
+
+				rc.Height--;
 
 				const TextFormatFlags flags = TextFormatFlags.Bottom |
 					TextFormatFlags.HorizontalCenter | TextFormatFlags.HidePrefix |

@@ -90,7 +90,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		// Stores all the commands (and related information). The keys for this collection
 		// are the command id strings from the XML definition file.
-		private Dictionary<ToolStripItem, ToolStripSeparator> m_separators = new Dictionary<ToolStripItem, ToolStripSeparator>();
+		private readonly Dictionary<ToolStripItem, ToolStripSeparator> m_separators =
+			new Dictionary<ToolStripItem, ToolStripSeparator>();
 
 		// This is true while we are reading the XML block of context menus.
 		protected bool m_readingContextMenuDef;
@@ -937,58 +938,58 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="shortcut"></param>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		private static Keys ParseShortcutKeyString(string shortcut)
-		{
-			Keys sckeys = Keys.None;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// <param name="shortcut"></param>
+		///// <returns></returns>
+		///// ------------------------------------------------------------------------------------
+		//private static Keys ParseShortcutKeyString(string shortcut)
+		//{
+		//    Keys sckeys = Keys.None;
 
-			if (shortcut == null)
-				return sckeys;
+		//    if (shortcut == null)
+		//        return sckeys;
 
-			try
-			{
-				shortcut = shortcut.ToLower();
-				int i;
+		//    try
+		//    {
+		//        shortcut = shortcut.ToLower();
+		//        int i;
 
-				if ((i = shortcut.IndexOf("shift")) > -1)
-				{
-					sckeys = (sckeys == Keys.None ? Keys.Shift : sckeys | Keys.Shift);
-					shortcut = shortcut.Remove(i, 5);
-				}
-				if ((i = shortcut.IndexOf("ctrl")) > -1)
-				{
-					sckeys = (sckeys == Keys.None ? Keys.Control : sckeys | Keys.Control);
-					shortcut = shortcut.Remove(i, 4);
-				}
-				if ((i = shortcut.IndexOf("alt")) > -1)
-				{
-					sckeys = (sckeys == Keys.None ? Keys.Alt : sckeys | Keys.Alt);
-					shortcut = shortcut.Remove(i, 3);
-				}
+		//        if ((i = shortcut.IndexOf("shift")) > -1)
+		//        {
+		//            sckeys = (sckeys == Keys.None ? Keys.Shift : sckeys | Keys.Shift);
+		//            shortcut = shortcut.Remove(i, 5);
+		//        }
+		//        if ((i = shortcut.IndexOf("ctrl")) > -1)
+		//        {
+		//            sckeys = (sckeys == Keys.None ? Keys.Control : sckeys | Keys.Control);
+		//            shortcut = shortcut.Remove(i, 4);
+		//        }
+		//        if ((i = shortcut.IndexOf("alt")) > -1)
+		//        {
+		//            sckeys = (sckeys == Keys.None ? Keys.Alt : sckeys | Keys.Alt);
+		//            shortcut = shortcut.Remove(i, 3);
+		//        }
 
-				shortcut = shortcut.Replace("+", string.Empty);
+		//        shortcut = shortcut.Replace("+", string.Empty);
 
-				// If the remaining portion of the short cut is a number between 0 and 9, then a
-				// 'D' must be placed in front of it since that's how .Net represents number keys.
-				if (shortcut.Length == 1 && shortcut[0] >= '0' && shortcut[0] <= '9')
-					shortcut = "D" + shortcut;
+		//        // If the remaining portion of the short cut is a number between 0 and 9, then a
+		//        // 'D' must be placed in front of it since that's how .Net represents number keys.
+		//        if (shortcut.Length == 1 && shortcut[0] >= '0' && shortcut[0] <= '9')
+		//            shortcut = "D" + shortcut;
 
-				if (sckeys == Keys.None)
-					sckeys = (Keys)Enum.Parse(typeof(Keys), shortcut, true);
-				else
-					sckeys |= (Keys)Enum.Parse(typeof(Keys), shortcut, true);
+		//        if (sckeys == Keys.None)
+		//            sckeys = (Keys)Enum.Parse(typeof(Keys), shortcut, true);
+		//        else
+		//            sckeys |= (Keys)Enum.Parse(typeof(Keys), shortcut, true);
 
-			}
-			catch {}
+		//    }
+		//    catch {}
 
-			return sckeys;
-		}
+		//    return sckeys;
+		//}
 
 		#endregion
 
@@ -1026,6 +1027,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					m_menuBar.AccessibleName = m_menuBar.Text;
 					m_menuBar.ShowItemToolTips = true;
 				}
+
+				ReadMenuItems(node, m_menuBar);
 			}
 		}
 
@@ -1211,9 +1214,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (refItem == null)
 				return;
 
-			object owner = refItem.OwnerItem;
-			if (owner == null)
-				owner = refItem.Owner;
+			object owner = refItem.OwnerItem ?? (object)refItem.Owner;
 
 			if (owner is ToolStripDropDownItem)
 			{
@@ -1499,7 +1500,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			// Every bar must have a unique name so if we received a null or empty barName
 			// then name it with a new guid.
-			if (barName == null || barName == string.Empty)
+			if (string.IsNullOrEmpty(barName))
 				barName = Guid.NewGuid().ToString();
 
 			ToolStrip bar = new ToolStrip();
@@ -2040,7 +2041,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Handles a control host about to be popped-up.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleControlHostPopup(ToolStripControlHost host)
+		private void HandleControlHostPopup(ToolStripItem host)
 		{
 			HandleControlHostPopup(host, null);
 		}
@@ -2050,7 +2051,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Handles a control host about to be popped-up.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleControlHostPopup(ToolStripControlHost host, string message)
+		private void HandleControlHostPopup(ToolStripItem host, string message)
 		{
 			if (string.IsNullOrEmpty(message))
 				message = GetItemsCommandMessage(host);
@@ -2062,7 +2063,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				{
 					// Save the item properties for reference in the VisibleChange event.
 					host.Owner.Tag = itemProps;
-					host.Owner.VisibleChanged += new EventHandler(ControlHostOwnerVisibleChanged);
+					host.Owner.VisibleChanged += ControlHostOwnerVisibleChanged;
 				}
 			}
 		}
@@ -2855,7 +2856,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <param name="bar">Bar to update.</param>
 		/// <param name="barProps">New properties of bar.</param>
 		/// ------------------------------------------------------------------------------------
-		private static void SetBarProperties(ToolStrip bar, TMBarProperties barProps)
+		private static void SetBarProperties(Control bar, TMBarProperties barProps)
 		{
 			if (bar == null || barProps == null || !barProps.Update)
 				return;

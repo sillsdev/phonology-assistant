@@ -181,10 +181,7 @@ namespace SIL.Pa.Filters
 
 			CurrentFilter = filter;
 
-			App.InitializeProgressBar(string.Empty, App.RecordCache.Count);
-			App.RecordCache.BuildWordCache(App.ProgressBar);
-			App.UninitializeProgressBar();
-
+			App.RecordCache.BuildFilteredWordCache();
 			App.MsgMediator.SendMessage("DataSourcesModified", App.Project.FileName);
 			App.MsgMediator.SendMessage("FilterChanged", filter);
 		}
@@ -208,7 +205,8 @@ namespace SIL.Pa.Filters
 				App.SettingsHandler.GetBoolSettingsValue("searchengine",
 				"convertpatternswithexperimentaltrans", false);
 
-			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
+			SearchEngine engine = new SearchEngine(modifiedQuery,
+				App.PhoneCache ?? SearchEngine.PhoneCache);
 
 			string[] errors = modifiedQuery.ErrorMessages.ToArray();
 			string msg = ReflectionHelper.GetStrResult(typeof(App),

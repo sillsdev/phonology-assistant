@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace SIL.Pa.UI.Controls
 	/// heading. Part of that involves drawing the group's heading text.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class CVChartRowGroup
+	public class CVChartRowGroup : IDisposable
 	{
 		private readonly CVChartGrid m_grid;
 		private readonly int m_firstRowIndex;
@@ -65,7 +66,6 @@ namespace SIL.Pa.UI.Controls
 					select x).ToList();
 
 			m_grid.CellPainting += HandleCellPainting;
-			m_grid.HandleDestroyed += HandleGridHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,10 +73,10 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void HandleGridHandleDestroyed(object sender, System.EventArgs e)
+		public void Dispose()
 		{
-			m_grid.CellPainting -= HandleCellPainting;
-			m_grid.HandleDestroyed -= HandleGridHandleDestroyed;
+			if (m_grid != null)
+				m_grid.CellPainting -= HandleCellPainting;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,12 +144,17 @@ namespace SIL.Pa.UI.Controls
 
 			var rc = GroupRectangle;
 
+			using (var br = new SolidBrush(m_grid.BackgroundColor))
+				e.Graphics.FillRectangle(br, rc);
+			
+			DrawDoubleLine(e, rc);
+
+			rc.Width -= 3;
+
 			using (var br = new SolidBrush(CurrentGroupColor))
 				e.Graphics.FillRectangle(br, rc);
 
-			DrawDoubleLine(e, rc);
-
-			rc.Width -= 4;
+			rc.Width--;
 
 			const TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.Left | TextFormatFlags.HidePrefix |

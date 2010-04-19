@@ -82,14 +82,14 @@ namespace SIL.Pa.Processing
 				if (m_chartType == CVChartType.Consonant)
 				{
 					return LocalizationManager.LocalizeString("ProcessingConsonantChartMsg",
-						"Processing Consonant Chart...",
-						"Status bar message displayed when building a consonant chart.",
+						"Separating Consonants...",
+						"Status bar message displayed when building list of consonants from phone list.",
 						App.kLocalizationGroupInfoMsg);
 				}
 
 				return LocalizationManager.LocalizeString("ProcessingVowelChartMsg",
-					"Processing Vowel Chart...",
-					"Status bar message displayed when building a vowel chart.",
+					"Separating Vowel...",
+					"Status bar message displayed when building list of vowels from phone list.",
 					App.kLocalizationGroupInfoMsg);
 			}
 		}

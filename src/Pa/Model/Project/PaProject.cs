@@ -284,6 +284,7 @@ namespace SIL.Pa
 				project.LoadDataSources();
 				if (appWindow != null)
 				{
+					appWindow.Activated -= project.appWindow_Activated;
 					appWindow.Activated += project.appWindow_Activated;
 					project.m_appWindow = appWindow;
 				}
@@ -573,7 +574,15 @@ namespace SIL.Pa
 			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
 			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			DataSourceReader reader = new DataSourceReader(this);
-			reader.Read();
+			var recCache = reader.Read();
+
+			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, recCache.Count);
+			recCache.BuildWordCache(this, App.ProgressBar);
+			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
+			App.IncProgressBar();
+			TempRecordCache.Save();
+			App.UninitializeProgressBar();
+
 			EnsureSortOptionsValid();
 			App.MsgMediator.SendMessage("AfterLoadingDataSources", this);
 		}

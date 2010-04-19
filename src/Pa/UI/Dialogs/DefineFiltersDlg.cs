@@ -30,12 +30,13 @@ namespace SIL.Pa.UI.Dialogs
 
 		private readonly DropDownFiltersListBox m_filterDropDown;
 		private readonly ImageList m_images;
+		private readonly SearchOptionsDropDown m_queryOptionsDropDown;
 		private CustomDropDown m_queryOptionsDropDownHost;
-		private SearchOptionsDropDown m_queryOptionsDropDown;
 		private Dictionary<Filter.Operator, string> m_operatorToText;
 		private Dictionary<string, Filter.Operator> m_textToOperator;
 		private Dictionary<Filter.ExpressionType, string> m_expTypeToText;
 		private Dictionary<string, Filter.ExpressionType> m_textToExpType;
+		private bool m_applyFilterOnClose;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -267,6 +268,26 @@ namespace SIL.Pa.UI.Dialogs
 			catch { }
 
 			lvFilters.Focus();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			if (FilterHelper.CurrentFilter != null && m_applyFilterOnClose)
+			{
+				Hide();
+
+				if (FilterHelper.Filters.Contains(FilterHelper.CurrentFilter))
+					FilterHelper.ApplyFilter(FilterHelper.CurrentFilter, true);
+				else
+					FilterHelper.TurnOffCurrentFilter();
+			}
+			
+			base.OnFormClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -752,6 +773,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 
 				FilterHelper.ApplyFilter(CurrentFilter, true);
+				m_applyFilterOnClose = false;
 			}
 		}
 
@@ -930,6 +952,7 @@ namespace SIL.Pa.UI.Dialogs
 			FilterHelper.SaveFilters();
 			m_dirty = false;
 			m_grid.IsDirty = false;
+			m_applyFilterOnClose = true;
 			return true;
 		}
 

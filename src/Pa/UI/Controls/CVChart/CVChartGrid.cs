@@ -109,6 +109,26 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ClearAll()
+		{
+			Columns.Clear();
+			Rows.Clear();
+
+			foreach (var grp in ColumnGroups)
+				grp.Dispose();
+
+			foreach (var grp in RowGroups)
+				grp.Dispose();
+
+			ColumnGroups.Clear();
+			RowGroups.Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the current phone in the chart.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
