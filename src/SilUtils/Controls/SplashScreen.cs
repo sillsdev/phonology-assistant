@@ -17,12 +17,18 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace SilUtils
 {
+	public enum VersionType
+	{
+		Alpha,
+		Beta,
+		Production
+	}
+
 	#region ISplashScreen interface
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -136,8 +142,8 @@ namespace SilUtils
 		private Thread m_thread;
 		private SplashScreenForm m_splashScreen;
 		internal EventWaitHandle m_waitHandle;
-		private bool m_showBuildNum = false;
-		private bool m_isBetaVersion = false;
+		private bool m_showBuildNum;
+		private VersionType m_versionType;
 		#endregion
 
 		#region Constructor
@@ -155,10 +161,10 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SplashScreen(bool showBuildNum, bool isBetaVersion)
+		public SplashScreen(bool showBuildNum, VersionType versionType)
 		{
 			m_showBuildNum = showBuildNum;
-			m_isBetaVersion = isBetaVersion;
+			m_versionType = versionType;
 		}
 		
 		#endregion
@@ -172,7 +178,7 @@ namespace SilUtils
 		void ISplashScreen.Show(bool showBuildDate, bool isBetaVersion)
 		{
 			m_showBuildNum = showBuildDate;
-			m_isBetaVersion = isBetaVersion;
+			m_versionType = (isBetaVersion ? VersionType.Beta : VersionType.Production);
 			InternalShow();
 		}
 
@@ -418,7 +424,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		private void StartSplashScreen()
 		{
-			m_splashScreen = new SplashScreenForm(m_showBuildNum, m_isBetaVersion);
+			m_splashScreen = new SplashScreenForm(m_showBuildNum, m_versionType);
 			m_splashScreen.RealShow(m_waitHandle, m_useFading);
 			if (m_useFading)
 				m_splashScreen.ShowDialog();

@@ -133,8 +133,6 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_progressBarLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
-		//private static PaProject s_project;
-		//private static PhoneCache s_phoneCache;
 		private static PaFieldInfoList s_fieldInfo;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
@@ -522,33 +520,11 @@ namespace SIL.Pa
 		{
 			if (Settings.Default.ShowSplashScreen)
 			{
-				SplashScreen = new SplashScreen(false, false);
+				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();
 				SplashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
 			}
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// For versions of PA newer than 3.0.1, remove this property and let the splashscreen
-		///// set the version using it's default way. I added this override to the default way
-		///// because I had removed the "Beta" from the splash and about box too early and, as a
-		///// result, there are too many test users with versions of the program labeled 3.0
-		///// that are really beta or test versions. Therefore, I had to build my own version
-		///// 3.0.1 using the Application.ProductVersion property. I could have just set that
-		///// property to (in the properties for the Pa.exe project) but that would mess up
-		///// the third number representing the build number which I want to keep at * so the
-		///// build date is accurate (because that's what the third number is).
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static string ProdVersion
-		//{
-		//    get
-		//    {
-		//        Version ver = new Version(Application.ProductVersion);
-		//        return string.Format("{0}.1", ver.ToString(2));
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -728,177 +704,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static WordCache WordCache { get; set; }
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Builds a cache of all phones found in the unfiltered data corpus.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static void BuildUnFilteredPhoneCache(WordCache wordCache)
-		//{
-		//    UnfilteredPhoneCache = GetPhonesFromWordCache(wordCache);
-		//    SearchEngine.PhoneCache = UnfilteredPhoneCache;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Builds the cache of phones from the data corpus.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static void BuildPhoneCache()
-		//{
-		//    s_phoneCache = GetPhonesFromWordCache(WordCache);
-		//    ProjectInventoryBuilder.Process(Project, s_phoneCache);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static PhoneCache GetPhonesFromWordCache(WordCache wordCache)
-		//{
-		//    string conSymbol = Settings.Default.ConsonantSymbol;
-		//    string vowSymbol = Settings.Default.VowelSymbol;
-
-		//    var phoneCache = new PhoneCache(conSymbol, vowSymbol);
-
-		//    foreach (WordCacheEntry entry in wordCache)
-		//    {
-		//        string[] phones = entry.Phones;
-
-		//        if (phones == null)
-		//            continue;
-
-		//        for (int i = 0; i < phones.Length; i++)
-		//        {
-		//            // Don't bother adding break characters.
-		//            if (BreakChars.Contains(phones[i]))
-		//                continue;
-
-		//            if (!phoneCache.ContainsKey(phones[i]))
-		//                phoneCache.AddPhone(phones[i]);
-
-		//            // Determine if the current phone is the primary
-		//            // phone in an uncertain group.
-		//            bool isPrimaryUncertainPhone = (entry.ContiansUncertainties &&
-		//                entry.UncertainPhones.ContainsKey(i));
-
-		//            // When the phone is the primary phone in an uncertain group, we
-		//            // don't add it to the total count but to the counter that keeps
-		//            // track of the primary	uncertain phones. Then we also add to the
-		//            // cache the non primary uncertain phones.
-		//            if (!isPrimaryUncertainPhone)
-		//                phoneCache[phones[i]].TotalCount++;
-		//            else
-		//            {
-		//                phoneCache[phones[i]].CountAsPrimaryUncertainty++;
-
-		//                // Go through the uncertain phones and add them to the cache.
-		//                if (entry.ContiansUncertainties)
-		//                {
-		//                    AddUncertainPhonesToCache(entry.UncertainPhones[i], phoneCache);
-		//                    UpdateSiblingUncertaintys(entry.UncertainPhones, phoneCache);
-		//                }
-		//            }
-		//        }
-		//    }
-
-		//    if (PhoneCache.FeatureOverrides != null)
-		//        PhoneCache.FeatureOverrides.MergeWithPhoneCache(phoneCache);
-
-		//    if (IPASymbolCache.UndefinedCharacters != null &&
-		//        IPASymbolCache.UndefinedCharacters.Count > 0)
-		//    {
-		//        AddUndefinedCharsToCaches(phoneCache);
-		//    }
-
-		//    return phoneCache;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Adds the specified list of uncertain phones to the phone cache. It is assumed the
-		///// first (i.e. primary) phone in the list has already been added to the cache and,
-		///// therefore, it will not be added nor its count incremented.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static void AddUncertainPhonesToCache(string[] uncertainPhoneGroup,
-		//    PhoneCache phoneCache)
-		//{
-		//    // Go through the uncertain phone groups, skipping the
-		//    // primary one in each group since that was already added
-		//    // to the cache above.
-		//    for (int i = 1; i < uncertainPhoneGroup.Length; i++)
-		//    {
-		//        string phone = uncertainPhoneGroup[i];
-
-		//        // Don't bother adding break characters.
-		//        if (!BreakChars.Contains(phone))
-		//        {
-		//            if (!phoneCache.ContainsKey(phone))
-		//                phoneCache.AddPhone(phone);
-
-		//            phoneCache[phone].CountAsNonPrimaryUncertainty++;
-		//        }
-		//    }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Updates a uncertain phone sibling lists for each phone in each uncertain group for
-		///// the specified uncertain groups.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static void UpdateSiblingUncertaintys(
-		//    IDictionary<int, string[]> uncertainPhones, IDictionary<string, IPhoneInfo> phoneCache)
-		//{
-		//    // Go through the uncertain phone groups
-		//    foreach (string[] uPhones in uncertainPhones.Values)
-		//    {
-		//        // Go through the uncertain phones in this group.
-		//        for (int i = 0; i < uPhones.Length; i++)
-		//        {
-		//            IPhoneInfo phoneUpdating;
-
-		//            // TODO: Log an error that the phone isn't found in the the cache
-		//            // Get the cache entry for the phone whose sibling list will be updated.
-		//            if (!phoneCache.TryGetValue(uPhones[i], out phoneUpdating))
-		//                continue;
-
-		//            // Go through the sibling phones, adding them to
-		//            // the updated phones sibling list.
-		//            for (int j = 0; j < uPhones.Length; j++)
-		//            {
-		//                // Add the phone pointed to by j if it's not the phone whose
-		//                // cache entry we're updating and if it's not a phone already
-		//                // in the sibling list of the cache entry we're updating.
-		//                if (j != i && !phoneUpdating.SiblingUncertainties.Contains(uPhones[j]))
-		//                {
-		//                    phoneUpdating.SiblingUncertainties.Add(
-		//                        IPASymbolCache.UncertainGroupAbsentPhoneChars.Contains(uPhones[j]) ?
-		//                        IPASymbolCache.UncertainGroupAbsentPhoneChar : uPhones[j]);
-		//                }
-		//            }
-		//        }
-		//    }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Goes through all the undefined phonetic characters found in data sources and adds
-		///// temporary (i.e. as long as this session of PA is running) records for them in the
-		///// IPA character cache and the phone cache.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static void AddUndefinedCharsToCaches(PhoneCache phoneCache)
-		//{
-		//    foreach (UndefinedPhoneticCharactersInfo upci in IPASymbolCache.UndefinedCharacters)
-		//    {
-		//        IPASymbolCache.AddUndefinedCharacter(upci.Character);
-		//        phoneCache.AddUndefinedPhone(upci.Character.ToString());
-		//    }
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the cache of phones in the current project, without respect to current filter.
@@ -912,23 +717,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PhoneCache PhoneCache { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the cache of phones in the current project.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static PhoneCache PhoneCache
-		//{
-		//    get
-		//    {
-		//        if (s_phoneCache == null)
-		//            BuildPhoneCache();
-
-		//        return s_phoneCache;
-		//    }
-		//}
-
+		
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -1037,16 +826,6 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PaProject Project { get; set; }
-		//{
-		//    get { return s_project; }
-		//    set
-		//    {
-		//        if (value != s_project && value != null)
-		//            ProjectInventoryBuilder.Process(value, s_phoneCache);
-
-		//        s_project = value;
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

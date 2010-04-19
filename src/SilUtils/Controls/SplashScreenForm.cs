@@ -37,7 +37,7 @@ namespace SilUtils
 	{
 		#region Data members
 		private delegate void UpdateOpacityDelegate();
-		private delegate void MakeFullyOpaqueDelegate();
+		
 		// NOTE: we use a Forms.Timer here (compared to Threading.Timer in FW)
 		// because we can't set the stack size of a thread in the thread pool which the 
 		// Threading.Timer uses and so we'd get a stack overflow.
@@ -51,8 +51,8 @@ namespace SilUtils
 		private Label lblProductName;
 		private bool m_useFading = true;
 		private Label lblBuildNumber;
-		private readonly bool m_showBuildNum = false;
-		private readonly bool m_isBetaVersion = false;
+		private readonly bool m_showBuildNum;
+		private readonly VersionType m_versionType;
 		private readonly string m_versionFmt;
 		private readonly string m_buildFmt;
 		#endregion
@@ -80,10 +80,10 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SplashScreenForm(bool showBuildNum, bool isBetaVersion) : this()
+		public SplashScreenForm(bool showBuildNum, VersionType versionType) : this()
 		{
 			m_showBuildNum = showBuildNum;
-			m_isBetaVersion = isBetaVersion;
+			m_versionType = versionType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -304,12 +304,16 @@ namespace SilUtils
 				version = ver.ToString(2);
 			}
 
+			var verType = string.Empty;
+			if (m_versionType == VersionType.Alpha)
+				verType = "Alpha";
+			else if (m_versionType == VersionType.Beta)
+				verType = "Beta";
+
 #if DEBUG
-			lblVersion.Text = string.Format(m_versionFmt, version, "(Debug version)",
-				(m_isBetaVersion ? "Beta" : string.Empty));
+			lblVersion.Text = string.Format(m_versionFmt, version, "(Debug version)", verType);
 #else
-			lblVersion.Text = string.Format(m_versionFmt, version, string.Empty,
-				(m_isBetaVersion ? "Beta" : string.Empty));
+			lblVersion.Text = string.Format(m_versionFmt, version, string.Empty, verType);
 #endif
 		}
 
