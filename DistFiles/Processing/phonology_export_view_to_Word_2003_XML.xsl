@@ -569,7 +569,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </xsl:if>
         <!-- Table style determines vertical alignment for table cells. -->
         <!-- Table style determines borders, except for groups. -->
-        <xsl:if test="../@class = 'heading'">
+        <xsl:if test="../@class = 'heading' or (../@class = 'subheading' and self::xhtml:th)">
           <w:tcBorders>
             <w:top w:val="single" w:sz="{$tc-tcPr-tcBorders-sz-thin}" w:space="0" w:color="auto" />
             <w:left w:val="nil" />
@@ -588,7 +588,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
               <xsl:when test="@class = 'Phonetic item'">
                 <xsl:value-of select="'TablePhoneticItem'" />
               </xsl:when>
-              <xsl:when test="@class = 'count' and ../@class = 'heading'">
+              <xsl:when test="@class = 'count' or @class = 'Phonetic pair'">
                 <xsl:value-of select="'TableGroupExpanded'" />
               </xsl:when>
               <!-- Heading cells in distribution charts are aligned at the left for counterclockwise text direction. -->
@@ -642,8 +642,17 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
               <w:rStyle w:val="{$rStyle-val}" />
             </w:rPr>
           </xsl:if>
-          <xsl:apply-templates />
-        </w:r>
+					<xsl:choose>
+						<xsl:when test="@class = 'Phonetic pair'">
+							<w:t>
+								<xsl:value-of select="concat(xhtml:ul/xhtml:li[1]/xhtml:span, '&#xA0;', xhtml:ul/xhtml:li[2]/xhtml:span)" />
+							</w:t>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates />
+						</xsl:otherwise>
+					</xsl:choose>
+				</w:r>
       </w:p>
     </w:tc>
   </xsl:template>

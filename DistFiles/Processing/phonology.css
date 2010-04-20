@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-04-14 */
+﻿/* phonology.css 2010-04-19 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For rounded border properties. */
@@ -184,7 +184,6 @@ table.feature td
 text-align: center;
 }
 
-table.features .name,
 th, td
 {
 padding-top: 0.1875em;
@@ -192,27 +191,6 @@ padding-right: 0.5em;
 padding-bottom: 0.1875em;
 padding-left: 0.5em;
 vertical-align: baseline;
-}
-
-table.features td.plus,
-table.features td.minus,
-table.features td.unused
-{
-width: 1.3333em;
-padding-right: 0;
-padding-left: 0;
-text-align: center;
-}
-
-table.features td.univalent
-{
-width: auto;
-padding-top: 0;
-padding-right: 0;
-padding-bottom: 0;
-padding-left: 2.6667em; /* Because colspan="3", sum of .plus and .minus cell widths. */
-border-left-style: solid;
-border-left-width: 4px; /* Because colspan="3", sum of .plus and .minus border widths. */
 }
 
 ul.environments.interactive + table.CV thead th,
@@ -246,7 +224,7 @@ thead th,
 table.list ul.differences li,
 table.chart tbody th,
 table.features th,
-table.features .name
+table.features td.name
 {
 white-space: nowrap;
 }
@@ -285,18 +263,6 @@ padding-right: 0;
 table.list .following /* Environment following matched items in search result lists. */
 {
 padding-left: 0;
-}
-
-/* List of multiple phones in a cell in consonant or vowel charts ----------- */
-
-table.CV td.Phonetic > ul
-{
-list-style: none;
-}
-
-table.CV td.Phonetic > ul li
-{
-display: inline;
 }
 
 /* Lists of uncertainties or changes in phonetic transcriptions ------------- */
@@ -483,10 +449,9 @@ border-top-style: solid;
 border-bottom-style: dotted;
 }
 
-table[class].articulatory td,
-table[class].features .plus,
-table[class].features .minus,
-table[class].features .name,
+table[class].features td.plus,
+table[class].features td.minus,
+table[class].features td.name,
 table[class].list th.sortOptions li,
 table.list th.sortOptions ul
 {
@@ -553,7 +518,7 @@ display: none;
 
 /* Interactive features in consonant or vowel charts  ----------------------- */
 
-table.CV td.Phonetic div.features
+table.CV td.Phonetic ul.features
 {
 display: none;
 }
@@ -617,19 +582,20 @@ border-top: 1px solid #999999;
 
 /* Collapse or expand tables of features ------------------------------------ */
 
-table.features ins,
-table.features del
+/*
+table.features abbr
 {
 text-decoration: none;
 }
+*/
 
-table.features del,
-table.features.collapsed ins
+table.features abbr,
+table.features.collapsed span
 {
 display: none;
 }
 
-table.features.collapsed del
+table.features.collapsed abbr
 {
 display: inline;
 }
@@ -641,15 +607,16 @@ display: none;
 
 /* Interactive columns in distribution charts ------------------------------- */
 
-table.distribution ins,
-table.distribution del
+/*
+table.distribution abbr
 {
 text-decoration: none;
 }
+*/
 
-table.distribution del,
-table.distribution th.reduced ins,
-table.distribution.reduced th ins,
+table.distribution abbr,
+table.distribution th.reduced > span,
+table.distribution.reduced th > span,
 table.distribution tbody.collapsed tr.individual,
 table.distribution thead tr.individual th.collapsed,
 table.distribution tbody tr td.collapsed,
@@ -660,8 +627,8 @@ table.distribution.collapsed tr td.individual
 display: none;
 }
 
-table.distribution th.reduced del,
-table.distribution.reduced th del
+table.distribution th.reduced > abbr,
+table.distribution.reduced th > abbr
 {
 display: inline;
 }
@@ -753,6 +720,12 @@ a:hover
 color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
 }
 
+table.CV.interactive td.Phonetic.selected span,
+table.features.interactive td.selected
+{
+color: #f8fff8; /* background hover */
+}
+
 /* Background color --------------------------------------------------------- */
 
 body
@@ -771,10 +744,10 @@ table.list.interactive tr.heading th.pair[title=chart],
 table.list .item,
 table.CV.interactive td.Phonetic.matched,
 table.articulatory.interactive td.matched,
-table.features.interactive div.matched,
-table.features.interactive td.minus.matched,
 table.features.interactive td.plus.matched,
-table.phone td.different,
+table.features.interactive td.minus.matched,
+table.features.interactive tr.univalent td.name.matched,
+table.feature td.different,
 table.distribution.nonZero td,
 table.distribution .zero
 {
@@ -820,7 +793,7 @@ table.features.interactive th,
 table.articulatory.interactive td,
 table.features.interactive td.minus,
 table.features.interactive td.plus,
-table.features.interactive div,
+table.features.interactive tr.univalent td.name,
 table.distribution.interactive th[class] /* Internet Explorer 7 and later. */
 {
 background-color: #cfe6cf; /* interactive */
@@ -859,24 +832,23 @@ table.list.interactive th.sortOptions ul:hover li.mannerOfArticulation:hover,
 table.CV.interactive td.Phonetic:hover,
 table.features.interactive th:hover,
 table.articulatory.interactive td.active,
-table.features.interactive div.active,
-table.features.interactive td.minus.active,
 table.features.interactive td.plus.active,
+table.features.interactive td.minus.active,
+table.features.interactive tr.univalent td.name.active,
 table.articulatory.interactive td:hover,
-table.features.interactive div:hover,
 table.features.interactive td.minus:hover,
 table.features.interactive td.plus:hover,
+table.features.interactive tr.univalent td.name:hover,
 table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and later. */
 {
 background-color: #a3cca3; /* active */
 }
 
-table.CV td.Phonetic > ul li:hover span,
 table.CV.interactive td.Phonetic.selected,
 table.articulatory.interactive td.selected,
-table.features.interactive div.selected,
+table.features.interactive td.plus.selected,
 table.features.interactive td.minus.selected,
-table.features.interactive td.plus.selected
+table.features.interactive tr.univalent td.name.selected
 {
 background-color: #7db27d; /* selected */
 }
@@ -891,13 +863,13 @@ background-color: #f8fff8; /* background hover */
 table.CV.inactive td.Phonetic,
 table.features.inactive th,
 table.articulatory.inactive td,
-table.features.inactive div,
-table.features.inactive td.minus,
 table.features.inactive td.plus,
+table.features.inactive td.minus,
+table.features.inactive tr.univalent td.name,
 table.articulatory.interactive td.inactive,
-table.features.interactive div.inactive,
+table.features.interactive td.plus.inactive,
 table.features.interactive td.minus.inactive,
-table.features.interactive td.plus.inactive
+table.features.interactive tr.univalent td.name.inactive
 {
 background-color: transparent; /* inactive */
 }
@@ -911,7 +883,7 @@ table.list th.sortOptions li:hover,
 table.articulatory.interactive td:hover,
 table.features.interactive .plus:hover,
 table.features.interactive .minus:hover,
-table.features.interactive div:hover,
+table.features.interactive .univalent:hover,
 table.distribution tbody tr:hover *,
 th, td
 {
@@ -922,7 +894,6 @@ table.list tbody tr th,
 table.list tbody tr td,
 table.list th.sortOptions li,
 table.features td,
-table.features div,
 table.distribution tbody tr *
 {
 border-color: transparent; /* not active */

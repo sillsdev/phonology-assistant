@@ -895,6 +895,7 @@ namespace SIL.Pa.UI.Controls
 				Items.Add(item);
 			}
 
+			CurrentMask = App.AFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 
@@ -921,6 +922,7 @@ namespace SIL.Pa.UI.Controls
 				Items.Add(item);
 			}
 
+			CurrentMask = App.BFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 

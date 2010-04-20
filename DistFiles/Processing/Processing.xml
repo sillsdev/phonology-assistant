@@ -223,37 +223,32 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_1a.xsl" />
+					<document href="phonology_export_view_CV_chart_1.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_1b.xsl" />
+					<document href="phonology_export_view_CV_chart_2a_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_1c.xsl" />
+					<document href="phonology_export_view_CV_chart_2b_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_2a.xsl" />
+					<document href="phonology_export_view_CV_chart_2c_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_2b.xsl" />
+					<document href="phonology_export_view_CV_chart_3a_feature_chart.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_3a_features.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_3b_features.xsl" />
+					<document href="phonology_export_view_CV_chart_3b_feature_chart.xsl" />
 				</input>
 			</xslt>
 		</pipeline>

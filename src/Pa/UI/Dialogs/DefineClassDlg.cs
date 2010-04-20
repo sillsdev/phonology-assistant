@@ -165,8 +165,8 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			txtClassName.Text = m_classInfo.Text;
-			m_lvArticulatoryFeatures.CurrentMask = m_classInfo.Mask;
-			m_lvBinaryFeatures.CurrentMask = m_classInfo.Mask;
+			m_lvArticulatoryFeatures.CurrentMask = (m_classInfo.Mask ?? App.AFeatureCache.GetEmptyMask());
+			m_lvBinaryFeatures.CurrentMask = (m_classInfo.Mask ?? App.BFeatureCache.GetEmptyMask());
 
 			SetupControlsForType();
 			UpdateCharacterViewers();

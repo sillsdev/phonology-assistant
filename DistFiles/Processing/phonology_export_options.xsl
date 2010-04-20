@@ -2,7 +2,7 @@
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-	<!-- phonology_export_options.xsl 2010-04-16 -->
+	<!-- phonology_export_options.xsl 2010-04-20 -->
 	<!-- Insert options for other XSL Transformations in the pipeline. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -65,7 +65,7 @@ exclude-result-prefixes="xhtml"
 					<li class="binaryFeatureTable">true</li>
 					<li class="hierarchicalFeatureTable">true</li>
 					<li class="featureChartByPlaceOfArticulation">true</li>
-					<li class="featureChartByMannerOfArticulation">false</li>
+					<li class="featureChartByMannerOfArticulation">true</li>
 					<li class="generalizeEnvironments">true</li>
 					<li class="generalizeItems">true</li>
 					<li class="transposeColumnsAndRows">false</li>

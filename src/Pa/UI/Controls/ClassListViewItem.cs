@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 		public static string kClassBracketing = App.kOpenClassBracket + "{0}" +
 			App.kCloseClassBracket;
 
-		public SearchClassType ClassType = SearchClassType.Phones;
+		private SearchClassType m_classType = SearchClassType.Phones;
 		public bool AllowEdit = true;
 		public bool ANDFeatures = true;
 		public bool IsDirty;
@@ -40,6 +40,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public ClassListViewItem() : base(Properties.Resources.kstidNewClassName)
 		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Constructor for a ClassListViewItem when assigning the classes name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ClassListViewItem(SearchClassType classType) : this()
+		{
+			ClassType = classType;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,6 +136,29 @@ namespace SIL.Pa.UI.Controls
 			{
 				return (ClassType == SearchClassType.Phones ?
 					FontHelper.PhoneticFont : FontHelper.UIFont);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public SearchClassType ClassType
+		{
+			get { return m_classType; }
+			set
+			{
+				m_classType = value;
+				if (m_mask == null)
+				{
+					if (value == SearchClassType.Articulatory)
+						m_mask = App.AFeatureCache.GetEmptyMask();
+					else if (value == SearchClassType.Binary)
+						m_mask = App.BFeatureCache.GetEmptyMask();
+				}
 			}
 		}
 

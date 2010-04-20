@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-12 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-20 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -37,7 +37,11 @@ exclude-result-prefixes="xhtml"
 	<!-- TO DO: title, heading, p elements also? -->
 
 	<xsl:param name="langDefault" select="'en'" />
+	<!-- Internet Explorer: Internet security zone instead of Local Machine. -->
 	<xsl:param name="markOfTheWeb" select="'about:internet'" />
+	<!-- Internet Explorer: Specify version 8 for HTML view of CV chart in Phonology Assistant. -->
+	<!-- Might also help with exported files on an intranet, including a file server. -->
+	<xsl:param name="X-UA-Compatible" select="'IE=8'" />
 	<xsl:param name="genericStylesheetFile" select="'phonology.css'" />
 	<xsl:param name="genericStylesheetPrintFile" select="'phonology_print.css'" />
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
@@ -66,6 +70,9 @@ exclude-result-prefixes="xhtml"
 			</xsl:if>
 			<head>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+				<xsl:if test="string-length($X-UA-Compatible) != 0">
+					<meta http-equiv="X-UA-Compatible" content="{$X-UA-Compatible}" />
+				</xsl:if>
 				<title>
           <xsl:value-of select="xhtml:head/xhtml:title" />
         </title>
@@ -157,12 +164,12 @@ exclude-result-prefixes="xhtml"
           <xsl:value-of select="$class" />
         </xsl:attribute>
       </xsl:if>
-      <xsl:apply-templates select="@*|node()" />
+      <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
   <!-- For interactive :hover formatting, remove Phonetic class from empty data cells in CV charts. -->
-  <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(*)][@class = 'Phonetic']/@class" />
+  <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(node())][@class = 'Phonetic']/@class" />
 
   <!-- For borders in Internet Explorer 7 and earlier, insert a non-breaking space in most empty table cells. -->
 	<!-- This replacement requires a special case to sort non-Phonetic columns in the phonology.js file. -->

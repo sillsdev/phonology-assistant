@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3b_features.xsl 2010-04-03 -->
+	<!-- phonology_export_view_CV_chart_3b_feature_chart.xsl 2010-04-20 -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 

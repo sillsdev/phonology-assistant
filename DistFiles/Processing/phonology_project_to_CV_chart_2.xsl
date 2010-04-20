@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_2.xsl 2010-04-09 -->
+  <!-- phonology_project_to_CV_chart_2.xsl 2010-04-20 -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
@@ -19,17 +19,18 @@
 		<!-- The attributes are not essential for the PhoneChart element. -->
 		<PhoneChart>
 			<ColHeadings>
-				<xsl:apply-templates select="colgroupFeatures/feature" />
+				<xsl:apply-templates select="$colgroupFeatures/feature" />
 			</ColHeadings>
 			<RowHeadings>
-				<xsl:apply-templates select="rowgroupFeatures/feature" />
+				<xsl:apply-templates select="$rowgroupFeatures/feature" />
 			</RowHeadings>
 			<Phones>
-				<xsl:apply-templates select="units/unit" />
+				<xsl:apply-templates select="$units/unit" />
 			</Phones>
 		</PhoneChart>
 	</xsl:template>
 
+	<!-- Column groups always contain two columns. -->
 	<xsl:template match="colgroupFeatures/feature">
 		<xsl:variable name="featureName">
 			<xsl:choose>
@@ -73,20 +74,30 @@
 		<xsl:variable name="rowgroupFeature" select="keys/chartKey[@class = 'rowgroup']" />
 		<xsl:variable name="group" select="$rowgroupFeatures/feature[name = $rowgroupFeature]/@group" />
 		<xsl:variable name="rowForNonUniqueUnit" select="$rowgroupFeatures/feature[name = $rowgroupFeature]/row[@literal = $literal]" />
-		<xsl:variable name="rowKey" select="keys/chartKey[@class = 'row']" />
+		<xsl:variable name="rowOrder" select="keys/chartKeys[@class = 'row']/@order" />
 		<xsl:variable name="row">
 			<xsl:choose>
 				<xsl:when test="$rowForNonUniqueUnit">
 					<xsl:value-of select="count($rowForNonUniqueUnit/preceding::row)" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="count($rowgroupFeatures/feature[name = $rowgroupFeature]/row[. = $rowKey][not(@literal)]/preceding::row)" />
+					<xsl:value-of select="count($rowgroupFeatures/feature[name = $rowgroupFeature]/row[. = $rowOrder][not(@literal)]/preceding::row)" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="colgroupFeature" select="keys/chartKey[@class = 'colgroup']" />
 		<xsl:variable name="colgroup" select="number($colgroupFeatures/feature[. = $colgroupFeature]/@column)" />
-		<xsl:variable name="col" select="keys/chartKey[@class = 'col']" />
+		<xsl:variable name="colFeature" select="keys/chartKey[@class = 'col']" />
+		<xsl:variable name="col">
+			<xsl:choose>
+				<xsl:when test="$colFeature = 'Voiceless' or $colFeature = 'Unrounded'">
+					<xsl:value-of select="0" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<!-- The Visible attributes is not essential. -->
 		<!-- An empty SiblingUncertainties child element is not essential. -->
 		<!--

@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-04-14
+﻿// phonology.js 2010-04-20
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // Requires jQuery 1.3 or later.
 
@@ -179,126 +179,81 @@ $(document).ready(function () {
 		return $.trim($(item).text());
 	}
 
-	// Convert articulatory feature in the table to string.
-	function textFromArticulatoryFeature(element) {
-		return $(element).text();
-	}
-
-	// Convert binary feature in the table to string consisting of value and name.
-	function textFromBinaryFeature(element) {
-		var $feature = $(element);
-		var text = $feature.text();
-		if ($feature.hasClass('plus') || $feature.hasClass('minus')) {
-			text += $feature.parent().find('td.name').text();
-		}
-		else {
-			text = '+' + text; // Univalent feature.
-		}
-		return text;
-	}
-
-	// Convert hierarchical feature in the table to string.
-	function textFromHierarchicalFeature(element) {
-		var $feature = $(element);
-		var text = $feature.text();
-		if ($feature.hasClass('plus') || $feature.hasClass('minus')) {
-			text += $feature.parent().find('td.name').text();
+	// Convert feature in the table to string.
+	function featureFromCell(td) {
+		var $td = $(td);
+		var text = $td.text();
+		if ($td.hasClass('plus')) {
+			text = '+' + $td.parent().find('td.name').text();
+		} else if ($td.hasClass('minus')) {
+			text = '-' + $td.parent().find('td.name').text();
 		}
 		return text;
 	}
 
 	// Processing functions ----------------------------------------------------
+	
+	function featuresToMatchCV(classOfFeatures, $container, $tdActive) {
+		var $features = $container.find('table.' + classOfFeatures + ' td.selected');
+		if ($tdActive && $tdActive.closest('table.features').hasClass(classOfFeatures)) {
+			$features = $features.add($tdActive);
+		}
+		return $.map($features, featureFromCell);
+	}
+	
+	function matchUnitForClassFeaturesCV(classOfFeatures, features, $tdPhonetic) {
+		var featuresOfUnit = $.map($tdPhonetic.find('ul.' + classOfFeatures + ' li'), textFromListItem);
+		var i;
+		for (i = 0; i !== features.length; i++) {
+			if ($.inArray(features[i], featuresOfUnit) < 0) {
+				// The phone does not match a feature.
+				return false;
+			}
+		}
+		return true;
+	}
 
 	// When the mouse pointer moves over or out of a feature,
 	// or if you select or clear a feature, match phones in the chart.
+	function matchUnitsForFeaturesCV($container, $tdActive) {
+		var featuresArticulatory = featuresToMatchCV('articulatory', $container, $tdActive);
+		var featuresBinary = featuresToMatchCV('binary', $container, $tdActive);
+		var featuresHierarchical = featuresToMatchCV('hierarchical', $container, $tdActive);
+		var $tableCV = $container.find('table.CV');
 
-	function matchPhonesCV($container, $matchArticulatory, $matchBinary, $matchHierarchical) {
-		var $table = $container.find('table.CV');
-
-		// Arrays of features that phones must match.
-		var matchArticulatory = $.map($matchArticulatory, textFromArticulatoryFeature);
-		var matchBinary = $.map($matchBinary, textFromBinaryFeature);
-		var matchHierarchical = $.map($matchHierarchical, textFromHierarchicalFeature);
-
-		// If moving the mouse out of a feature and no other features selected.
-		if (matchArticulatory.length === 0 && matchBinary.length === 0 && matchHierarchical.length === 0) {
-			$table.find('.matched').removeClass('matched');
-			return;
+		if (featuresArticulatory.length === 0 && featuresBinary.length === 0 && featuresHierarchical.length === 0) {
+			// If moving the mouse out of a feature and no other features selected.
+			$tableCV.find('.matched').removeClass('matched');
+		} else {
+			// In non-empty cells of the chart, match units that have the features.
+			$tableCV.find('td.Phonetic').each(function () {
+				var $tdPhonetic = $(this);
+				var matched = matchUnitForClassFeaturesCV('articulatory', featuresArticulatory, $tdPhonetic);
+				if (matched) {
+					matched = matchUnitForClassFeaturesCV('binary', featuresBinary, $tdPhonetic);
+				}
+				if (matched) {
+					matched = matchUnitForClassFeaturesCV('hierarchical', featuresHierarchical, $tdPhonetic);
+				}
+				if (matched) {
+					$tdPhonetic.addClass('matched');
+				} else {
+					$tdPhonetic.removeClass('matched');
+				}
+			});
 		}
-		
-		// In non-empty cells of the chart, match phones that have the features.
-		// TO DO: List of multiple phones in a cell.
-		$table.find('td.Phonetic').each(function () {
-			var $phone = $(this);
-			var i;
-		
-			// Arrays of features for the phone.
-			var $divFeatures = $phone.find('div.features');
-			var phoneArticulatory = $.map($divFeatures.find('ul.articulatory li'), textFromListItem);
-			var phoneBinary = $.map($divFeatures.find('ul.binary li'), textFromListItem);
-			var phoneHierarchical = $.map($divFeatures.find('ul.hierarchical li'), textFromListItem);
-			
-			for (i = 0; i !== matchArticulatory.length; i++) {
-				if ($.inArray(matchArticulatory[i], phoneArticulatory) < 0) {
-					// The phone does not match an articulatory feature.
-					$phone.removeClass('matched');
-					return true;
-				}
-			}
-
-			for (i = 0; i !== matchBinary.length; i++) {
-				if ($.inArray(matchBinary[i], phoneBinary) < 0) {
-					// The phone does not match a binary feature.
-					$phone.removeClass('matched');
-					return true;
-				}
-			}
-
-			for (i = 0; i !== matchHierarchical.length; i++) {
-				if ($.inArray(matchHierarchical[i], phoneHierarchical) < 0) {
-					// The phone does not match a hierarchical feature.
-					$phone.removeClass('matched');
-					return true;
-				}
-			}
-
-			// The phone matches all the features.
-			$phone.addClass('matched');
-		});
 	}
 
-	function matchPhonesForActiveAndSelectedFeaturesCV($feature) {
-		var $table = $feature.closest('table.features');
-		var $container = $table.parent();
-		var $matchArticulatory = $container.find('table.articulatory td.selected');
-		var $matchBinary = $container.find('table.binary td.selected');
-		var $matchHierarchical = $container.find('table.hierarchical .selected');
-
-		// Append the active feature to the array.
-		if ($table.hasClass('articulatory')) {
-			$matchArticulatory = $matchArticulatory.add($feature);
-		}
-		else if ($table.hasClass('binary')) {
-			$matchBinary = $matchBinary.add($feature);
-		}
-		else {
-			$matchHierarchical = $matchHierarchical.add($feature);
-		}
-
-		matchPhonesCV($container, $matchArticulatory, $matchBinary, $matchHierarchical);
+	function matchUnitsForSelectedFeaturesCV($td) {
+		matchUnitsForFeaturesCV($td.closest('table.features').parent());
 	}
 
-	function matchPhonesForSelectedFeaturesCV($feature) {
-		var $container = $feature.closest('table.features').parent();
-		var $matchArticulatory = $container.find('table.articulatory td.selected');
-		var $matchBinary = $container.find('table.binary td.selected');
-		var $matchHierarchical = $container.find('table.hierarchical .selected');
-
-		matchPhonesCV($container, $matchArticulatory, $matchBinary, $matchHierarchical);
+	function matchUnitsForSelectedAndActiveFeaturesCV($td) {
+		matchUnitsForFeaturesCV($td.closest('table.features').parent(), $td);
 	}
 
-	function matchFeature1CV($td, activeIndex) {
-		if (activeIndex >= 0) {
+	function matchFeatureForActiveUnitCV($td, indexActive) {
+		if (indexActive >= 0) {
 			$td.addClass('matched');
 		}
 		else {
@@ -306,92 +261,14 @@ $(document).ready(function () {
 		}
 	}
 
-	// When the mouse pointer moves over a cell in the chart, match features in the tables.
-	function matchFeatures1CV($activeCell) {
-		// Arrays of features for the cell.
-		var activeArticulatoryFeatures = $.map($activeCell.find('ul.articulatory li'), textFromListItem);
-		var activeBinaryFeatures = $.map($activeCell.find('ul.binary li'), textFromListItem);
-		var activeHierarchicalFeatures = $.map($activeCell.find('ul.hierarchical li'), textFromListItem);
-		
-		var $container = $activeCell.closest('table').parent();
-		var $td;
-		var feature;
-		var activeIndex;
-
-		// For every articulatory feature in the table, match it with the cell.
-		$container.find('table.articulatory td').each(function () {
-			$td = $(this);
-			feature = $td.text();
-			activeIndex = $.inArray(feature, activeArticulatoryFeatures);
-			matchFeature1CV($td, activeIndex);
-		});
-
-		// For every binary feature in the table, match it with the cell.
-		$container.find('table.binary tbody tr').each(function () {
-			var $tr = $(this);
-			var $name = $tr.find('.name');
-			var featureName = $name.text();
-			
-			$td = $tr.find('td.univalent');
-			if ($td.length === 1) {
-				feature = '+' + featureName;
-				activeIndex = $.inArray(feature, activeBinaryFeatures);
-				matchFeature1CV($name, activeIndex);
-			}
-
-			$td = $tr.find('td.minus');
-			if ($td.length === 1) {
-				feature = '-' + featureName;
-				activeIndex = $.inArray(feature, activeBinaryFeatures);
-				matchFeature1CV($td, activeIndex);
-			}
-
-			$td = $tr.find('td.plus');
-			if ($td.length === 1) {
-				feature = '+' + featureName;
-				activeIndex = $.inArray(feature, activeBinaryFeatures);
-				matchFeature1CV($td, activeIndex);
-			}
-		});
-
-		// For every hierarchical feature in the table, match it with the cell.
-		$container.find('table.hierarchical tbody tr').each(function () {
-			var $tr = $(this);
-			$td = $tr.children('td.name');
-			if ($td.length === 1) {
-				var featureName = $td.text();
-
-				$td = $tr.children('td.minus');
-				if ($td.length === 1) {
-					feature = '-' + featureName;
-					activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-					matchFeature1CV($td, activeIndex);
-				}
-
-				$td = $tr.children('td.plus');
-				if ($td.length === 1) {
-					feature = '+' + featureName;
-					activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-					matchFeature1CV($td, activeIndex);
-				}
-			}
-			else {
-				var $div = $tr.children('td.univalent').children('div');
-				feature = $div.text();
-				activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-				matchFeature1CV($div, activeIndex);
-			}
-		});
-	}
-
-	function matchFeature2CV($td, activeIndex, selectedIndex) {
-		if (activeIndex >= 0 && selectedIndex >= 0) {
+	function matchFeatureForActiveAndSelectedUnitsCV($td, indexActive, indexSelected) {
+		if (indexActive >= 0 && indexSelected >= 0) {
 			$td.addClass('matched');
 		}
-		else if (activeIndex >= 0) {
+		else if (indexActive >= 0) {
 			$td.addClass('active');
 		}
-		else if (selectedIndex >= 0) {
+		else if (indexSelected >= 0) {
 			$td.addClass('selected');
 		}
 		else {
@@ -399,93 +276,57 @@ $(document).ready(function () {
 		}
 	}
 
-	// When the mouse pointer moves over a cell in the chart,
-	// if another cell is selected, match common and differing features in the tables.
-	function matchFeatures2CV($activeCell, $selectedCell) {
-		// Arrays of features for the cells.
-		var activeArticulatoryFeatures = $.map($activeCell.find('ul.articulatory li'), textFromListItem);
-		var activeBinaryFeatures = $.map($activeCell.find('ul.binary li'), textFromListItem);
-		var activeHierarchicalFeatures = $.map($activeCell.find('ul.hierarchical li'), textFromListItem);
-		var selectedArticulatoryFeatures = $.map($selectedCell.find('ul.articulatory li'), textFromListItem);
-		var selectedBinaryFeatures = $.map($selectedCell.find('ul.binary li'), textFromListItem);
-		var selectedHierarchicalFeatures = $.map($selectedCell.find('ul.hierarchical li'), textFromListItem);
-		
-		var $container = $activeCell.closest('table').parent();
-		var $td;
-		var feature;
-		var activeIndex;
-		var selectedIndex;
+	function matchFeatureCV($td, feature, featuresActive, featuresSelected) {
+		var indexActive = $.inArray(feature, featuresActive);
+		if (featuresSelected) {
+			matchFeatureForActiveAndSelectedUnitsCV($td, indexActive, $.inArray(feature, featuresSelected));
+		} else {
+			matchFeatureForActiveUnitCV($td, indexActive);
+		}
+	}
 
-		// For every articulatory feature in the table, match it with the cells.
-		$container.find('table.articulatory td').each(function () {
-			$td = $(this);
-			feature = $td.text();
-			activeIndex = $.inArray(feature, activeArticulatoryFeatures);
-			selectedIndex = $.inArray(feature, selectedArticulatoryFeatures);
-			matchFeature2CV($td, activeIndex, selectedIndex);
-		});
-
-		// For every binary feature in the table, match it with the cells.
-		$container.find('table.binary tbody tr').each(function () {
+	function matchClassFeaturesCV(classOfFeatures, $container, $tdActive, $tdSelected) {
+		var selector = 'ul.' + classOfFeatures + ' li';
+		var featuresActive = $.map($tdActive.find(selector), textFromListItem);
+		var featuresSelected;
+		if ($tdSelected && $tdSelected.length === 1)  {
+			featuresSelected = $.map($tdSelected.find(selector), textFromListItem);
+		}
+		$container.find('table.' + classOfFeatures + ' tbody tr').each(function () {
 			var $tr = $(this);
-			var featureName = $tr.find('td.name').text();
-
-			$td = $tr.find('td.minus');
-			if ($td.length === 1) {
-				feature = '-' + featureName;
-				activeIndex = $.inArray(feature, activeBinaryFeatures);
-				selectedIndex = $.inArray(feature, selectedBinaryFeatures);
-				matchFeature2CV($td, activeIndex, selectedIndex);
-			}
-
-			$td = $tr.find('td.plus');
-			if ($td.length === 1) {
-				feature = '+' + featureName;
-				activeIndex = $.inArray(feature, activeBinaryFeatures);
-				selectedIndex = $.inArray(feature, selectedBinaryFeatures);
-				matchFeature2CV($td, activeIndex, selectedIndex);
-			}
-		});
-
-		// For every hierarchical feature in the table, match it with the cells.
-		$container.find('table.hierarchical tbody tr').each(function () {
-			var $tr = $(this);
-			$td = $tr.children('td.name');
-			if ($td.length === 1) {
-				var featureName = $td.text();
-
-				$td = $tr.children('td.minus');
+			var $td = $tr.find('td.name');
+			var featureName = $td.text();
+			if ($tr.hasClass('bivalent')) {
+				$td = $tr.find('td.plus');
 				if ($td.length === 1) {
-					feature = '-' + featureName;
-					activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-					selectedIndex = $.inArray(feature, selectedHierarchicalFeatures);
-					matchFeature2CV($td, activeIndex, selectedIndex);
+					matchFeatureCV($td, '+' + featureName, featuresActive, featuresSelected);
 				}
 
-				$td = $tr.children('td.plus');
+				$td = $tr.find('td.minus');
 				if ($td.length === 1) {
-					feature = '+' + featureName;
-					activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-					selectedIndex = $.inArray(feature, selectedHierarchicalFeatures);
-					matchFeature2CV($td, activeIndex, selectedIndex);
+					matchFeatureCV($td, '-' + featureName, featuresActive, featuresSelected);
 				}
-			}
-			else {
-				var $div = $tr.children('td.univalent').children('div');
-				feature = $div.text();
-				activeIndex = $.inArray(feature, activeHierarchicalFeatures);
-				selectedIndex = $.inArray(feature, selectedHierarchicalFeatures);
-				matchFeature2CV($div, activeIndex, selectedIndex);
+			} else {
+				matchFeatureCV($td, featureName, featuresActive, featuresSelected);
 			}
 		});
+	}
+
+	// When the mouse pointer moves over a cell in the chart, match features in the tables.
+	function matchFeaturesCV($tdActive, $tdSelected) {
+		var $container = $tdActive.closest('table').parent();
+		matchClassFeaturesCV('articulatory', $container, $tdActive, $tdSelected);
+		matchClassFeaturesCV('binary', $container, $tdActive, $tdSelected);
+		matchClassFeaturesCV('hierarchical', $container, $tdActive, $tdSelected);
 	}
 
 	// When the mouse pointer moves away from a cell in the chart,
 	// all features in the tables become unmarked.
 	function unmatchFeaturesCV($container) {
-		$container.find('table.features .matched').removeClass('matched')
-			.end().find('table.features .active').removeClass('active')
-			.end().find('table.features .selected').removeClass('selected');
+		var $tablesOfFeatures = $container.find('table.features');
+		$tablesOfFeatures.find('.matched').removeClass('matched')
+			.end().find('.active').removeClass('active')
+			.end().find('.selected').removeClass('selected');
 	}
 
 	// Event functions for tables ----------------------------------------------
@@ -522,99 +363,6 @@ $(document).ready(function () {
 
 	// Event functions for table cells -----------------------------------------
 
-	function mouseoverFeatureCV() {
-		var $feature = $(this);
-		if (!($feature.hasClass('selected'))) {
-			matchPhonesForActiveAndSelectedFeaturesCV($feature);
-		}
-	}
-
-	function mouseoutFeatureCV() {
-		var $feature = $(this);
-		$feature.removeClass('inactive');
-		if (!($feature.hasClass('selected'))) {
-			matchPhonesForSelectedFeaturesCV($feature);
-		}
-	}
-
-	function mouseoverBinaryFeatureCV() {
-		var $feature = $(this);
-		if (!($feature.hasClass('inactive')) && !($feature.hasClass('selected'))) {
-			matchPhonesForActiveAndSelectedFeaturesCV($feature);
-		}
-	}
-
-	function mouseoutBinaryFeatureCV() {
-		var $feature = $(this);
-		if (!($feature.hasClass('selected'))) {
-			if ($feature.parent().find('td.selected').length === 0) {
-				$feature.removeClass('inactive');
-			}
-			matchPhonesForSelectedFeaturesCV($feature);
-		}
-	}
-
-	function clickFeatureCV($feature) {
-		// If you click to clear a selected feature, make it inactive
-		// until you move the mouse out or click to select it again.
-		if ($feature.hasClass('selected')) {
-			$feature.addClass('inactive');
-		}
-		else if ($feature.hasClass('inactive')) {
-			$feature.removeClass('inactive');
-		}
-			
-		$feature.toggleClass('selected');
-		matchPhonesForSelectedFeaturesCV($feature);
-	}
-
-	function clickBinaryFeatureCV($feature) {
-		var oppositeValue = $feature.hasClass('minus') ? 'plus' : 'minus';
-		var $oppositeValue = $feature.parent().find('td.' + oppositeValue);
-		if ($feature.hasClass('selected')) {
-			// If this value is selected, clear it.
-			$feature.removeClass('selected');
-			$feature.addClass('inactive');
-			// The opposite value becomes active again.
-			$oppositeValue.removeClass('inactive');
-		}
-		else {
-			// Select this value.
-			$feature.addClass('selected');
-			$feature.removeClass('inactive');
-			// The opposite value becomes inactive and is cleared if it was selected.
-			$oppositeValue.addClass('inactive').removeClass('selected');
-		}
-		matchPhonesForSelectedFeaturesCV($feature);
-	}
-
-	function clickFeaturesCV(event) {
-		var $target = $(event.target);
-		var $table = $(this);
-		if ($target.is('div')) {
-			clickFeatureCV($target);
-		}
-		else if ($target.closest('th').length === 1) {
-			$table.toggleClass('collapsed');
-		}
-		else {
-			var $td = $target.closest('td');
-			if ($td.length === 1) {
-				if ($table.hasClass('articulatory')) {
-					clickFeatureCV($td);
-				}
-				else if ($table.hasClass('hierarchical')) {
-					if ($td.hasClass('plus') || $td.hasClass('minus')) {
-						clickFeatureCV($td);
-					}
-				}
-				else if ($td.hasClass('plus') || $td.hasClass('minus')) {
-					clickBinaryFeatureCV($td);
-				}
-			}
-		}
-	}
-
 	function clickChartCV(event) {
 		var $activeCell = $(event.target).closest('td');
 		if ($activeCell.length === 0) {
@@ -632,7 +380,7 @@ $(document).ready(function () {
 				$selectedCell.removeClass('selected');
 				unmatchFeaturesCV($table.parent());
 				if (phoneticCell) {
-					matchFeatures1CV($activeCell);
+					matchFeaturesCV($activeCell);
 				}
 			}
 			if (phoneticCell) {
@@ -641,70 +389,150 @@ $(document).ready(function () {
 		}
 	}
 
-	function mouseoverPhoneCV() {
+	function mouseoverUnitCV() {
 		var $activeCell = $(this);
 		var $table = $activeCell.closest('table');
 		var $selectedCell = $table.find('td.selected');
 		if ($selectedCell.length === 1 && $selectedCell.get(0) !== $activeCell.get(0)) {
-			matchFeatures2CV($activeCell, $selectedCell);
+			matchFeaturesCV($activeCell, $selectedCell);
 		}
 		else {
-			matchFeatures1CV($activeCell);
+			matchFeaturesCV($activeCell);
 		}
 	}
 
-	function mouseoutPhoneCV() {
+	function mouseoutUnitCV() {
 		unmatchFeaturesCV($(this).closest('table').parent());
+	}
+
+	function mouseoverFeatureCV() {
+		var $td = $(this);
+		if (!($td.hasClass('selected'))) {
+			matchUnitsForSelectedAndActiveFeaturesCV($td);
+		}
+	}
+
+	function mouseoutFeatureCV() {
+		var $td = $(this);
+		$td.removeClass('inactive');
+		if (!($td.hasClass('selected'))) {
+			matchUnitsForSelectedFeaturesCV($td);
+		}
+	}
+
+	function mouseoverBinaryFeatureValueCV() {
+		var $td = $(this);
+		if (!($td.hasClass('inactive')) && !($td.hasClass('selected'))) {
+			matchUnitsForSelectedAndActiveFeaturesCV($td);
+		}
+	}
+
+	function mouseoutBinaryFeatureValueCV() {
+		var $td = $(this);
+		if (!($td.hasClass('selected'))) {
+			if ($td.parent().find('td.selected').length === 0) {
+				$td.removeClass('inactive');
+			}
+			matchUnitsForSelectedFeaturesCV($td);
+		}
+	}
+
+	function clickFeatureCV($td) {
+		// If you click to clear a selected feature, make it inactive
+		// until you move the mouse out or click to select it again.
+		if ($td.hasClass('selected')) {
+			$td.addClass('inactive');
+		}
+		else if ($td.hasClass('inactive')) {
+			$td.removeClass('inactive');
+		}
+			
+		$td.toggleClass('selected');
+		matchUnitsForSelectedFeaturesCV($td);
+	}
+
+	function clickBinaryFeatureValueCV($td) {
+		var oppositeValue = $td.hasClass('minus') ? 'plus' : 'minus';
+		var $oppositeValue = $td.parent().find('td.' + oppositeValue);
+		if ($td.hasClass('selected')) {
+			// If this value is selected, clear it.
+			$td.removeClass('selected');
+			$td.addClass('inactive');
+			// The opposite value becomes active again.
+			$oppositeValue.removeClass('inactive');
+		}
+		else {
+			// Select this value.
+			$td.addClass('selected');
+			$td.removeClass('inactive');
+			// The opposite value becomes inactive and is cleared if it was selected.
+			$oppositeValue.addClass('inactive').removeClass('selected');
+		}
+		matchUnitsForSelectedFeaturesCV($td);
+	}
+
+	function clickFeaturesCV(event) {
+		var $table = $(this);
+		var $target = $(event.target);
+		if ($target.is('td')) {
+			if ($target.hasClass('name') && !($target.parent().hasClass('bivalent'))) {
+				clickFeatureCV($target);
+			}
+			else if ($target.hasClass('plus') || $target.hasClass('minus')) {
+				if ($table.hasClass('binary')) {
+					clickBinaryFeatureValueCV($target);
+				} else {
+					clickFeatureCV($target);
+				}
+			}
+		} else if ($target.closest('th').length === 1) {
+			$table.toggleClass('collapsed');
+		}
+	}
+	
+	function headingOfFeatures() {
+		var $th = $(this);
+		// Assume that the text is wrapped in a span, preceded by an optional br.
+		var text = $th.find('span').text();
+		// Title attribute is the original text.
+		// Abbreviation consists of the first character,
+		// followed by U+25BE black down-pointing small triangle.
+		$th.append('<abbr title="' + text + '">' + text.charAt(0) + '▾</abbr>');
 	}
 
 	// Execute when the DOM is fully loaded ------------------------------------
 	
 	function readyCV() {
-		// The following do not require iteration using an .each() function.
-		$('table.articulatory').not('.phone').addClass('interactive')
-				.click(clickFeaturesCV)
-				.hover(mouseoverFeaturesCV, mouseoutFeaturesCV)
-			.find('td')
-				.hover(mouseoverFeatureCV, mouseoutFeatureCV)
-			// To collapse or expand the table, click the heading cell.
-			.end().find('th')
-				.append('<del>A</del>')
-				.contents().filter(function()
-				{
-					return this.nodeType === 3; // Text node.
-				})
-					.wrap('<ins></ins>'); // Wrap heading text in ins.
-		$('table.binary').not('.phone').addClass('interactive')
-				.click(clickFeaturesCV)
-				.hover(mouseoverFeaturesCV, mouseoutFeaturesCV)
-			.find('td.minus, td.plus, div')
-				.hover(mouseoverBinaryFeatureCV, mouseoutBinaryFeatureCV)
-			// To collapse or expand the table, click the heading cell.
-			.end().find('th')
-				.append('<del>±b</del>') // Insert U+00B1 plus-minus sign in del.
-				.contents().filter(function()
-				{
-					return this.nodeType === 3; // Text node.
-				})
-					.wrap('<ins></ins>'); // Wrap heading text in ins.
-		$('table.hierarchical').addClass('interactive')
-				.click(clickFeaturesCV)
-				.hover(mouseoverFeaturesCV, mouseoutFeaturesCV)
-			.find('td.minus, td.plus, div')
-				.hover(mouseoverFeatureCV, mouseoutFeatureCV)
-			.end().find('th')
-				.append('<del>±h</del>') // Insert U+00B1 plus-minus sign in del.
-				.contents().filter(function()
-				{
-					return this.nodeType === 3; // Text node.
-				})
-					.wrap('<ins></ins>'); // Wrap heading text in ins.
-		$('table.CV').addClass('interactive')
-					.hover(mouseoverChartCV, mouseoutChartCV)
-					.click(clickChartCV)
-				// Only non-empty cells of the chart:
-				.find('td.Phonetic')
-					.hover(mouseoverPhoneCV, mouseoutPhoneCV);
+		$('table.CV').each(function () {
+			var $tableCV = $(this);
+			var $tablesOfFeatures = $tableCV.parent().find('table.features');
+			if ($tablesOfFeatures.length !== 0) {
+				$tableCV.addClass('interactive')
+						.hover(mouseoverChartCV, mouseoutChartCV)
+						.click(clickChartCV)
+					// Only non-empty cells of the chart:
+					.find('td.Phonetic')
+						.hover(mouseoverUnitCV, mouseoutUnitCV);
+				$tablesOfFeatures.each(function () {
+					var $table = $(this);
+					$table.addClass('interactive')
+							.click(clickFeaturesCV)
+							.hover(mouseoverFeaturesCV, mouseoutFeaturesCV)
+						.find('th').each(headingOfFeatures);
+					if ($table.hasClass('articulatory')) {
+						$table.find('td').hover(mouseoverFeatureCV, mouseoutFeatureCV);
+					} else if ($table.hasClass('binary')) {
+						$table.find('td.plus, td.minus')
+							.hover(mouseoverBinaryFeatureValueCV, mouseoutBinaryFeatureValueCV)
+						.end().find('tr.univalent td.name')
+							.hover(mouseoverFeatureCV, mouseoutFeatureCV);
+					} else if ($table.hasClass('hierarchical')) {
+						$table.find('td.plus, td.minus, tr.univalent td.name')
+							.hover(mouseoverFeatureCV, mouseoutFeatureCV);
+					}
+				});
+			}
+		});
 	}
 
 	// ===========================================================================
@@ -718,7 +546,6 @@ $(document).ready(function () {
 		var environment = textFromListItem($environment);
 		var $chart = $listOfEnvironments.parent().find('table.CV');
 		$chart.find('.notInEnvironment').removeClass('notInEnvironment');
-		// TO DO: Cells which contain a list of multiple phones.
 		$chart.find('td.Phonetic').each(function () {
 			var $phone = $(this);
 			var $phoneEnvironments = $phone.find('ul.environments li');
@@ -904,8 +731,7 @@ $(document).ready(function () {
 
 	function clickChartDistribution(event) {
 		var $target = $(event.target);
-		// TO DO: $target.is('span') && $target.hasClass('zero')
-		if ($target.closest('span').length !== 0) {
+		if ($target.is('span') && $target.hasClass('zero')) {
 			$(this).toggleClass('nonZero');
 		}
 		else {	
@@ -938,8 +764,8 @@ $(document).ready(function () {
 			}
 			// To reduce or restore a heading, click the cell.
 			$table.find('th.Phonetic')
-				.wrapInner('<ins></ins>') // Wrap heading text in ins,
-				.append('<del>…</del>'); // Insert U+2026 horizontal ellipsis in del.
+				.wrapInner('<span></span>') // Wrap heading text in span,
+				.append('<abbr>…</abbr>'); // Insert U+2026 horizontal ellipsis in abbr.
 			// To collapse or expand a general row or column,
 			// click the individual cell corresponding to the row or column group heading.
 			if ($table.find('tr.general').length !== 0) {

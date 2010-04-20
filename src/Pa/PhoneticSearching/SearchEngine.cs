@@ -4,6 +4,11 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class SearchEngine
 	{
 		public enum WordBoundaryCondition
@@ -48,6 +53,18 @@ namespace SIL.Pa.PhoneticSearching
 		int m_matchIndex;
 
 		private readonly List<string> m_errors = new List<string>();
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static SearchEngine()
+		{
+			IgnoredPhones = new List<string>();
+			IgnoredChars = new List<char>();
+			IgnoreDiacritics = true;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -139,13 +156,6 @@ namespace SIL.Pa.PhoneticSearching
 			m_srchItemStr = patterns[0];
 			m_envBeforeStr = patterns[1];
 			m_envAfterStr = patterns[2];
-		}
-
-		static SearchEngine()
-		{
-			IgnoredPhones = new List<string>();
-			IgnoredChars = new List<char>();
-			IgnoreDiacritics = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -548,11 +558,11 @@ namespace SIL.Pa.PhoneticSearching
 			foreach (Feature feature in App.BFeatureCache.Values)
 			{
 				// Remove those whose short name was specified.
-				string ptrnFeature = string.Format("[+{0}]", feature.Name.ToLower());
+				string ptrnFeature = string.Format("[{0}]", feature.Name.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
 
 				// Remove those whose full name was specified.
-				ptrnFeature = string.Format("[+{0}]", feature.FullName.ToLower());
+				ptrnFeature = string.Format("[{0}]", feature.FullName.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
 			}
 

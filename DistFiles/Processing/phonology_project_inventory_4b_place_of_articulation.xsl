@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_4b_place_of_articulation.xsl 2010-04-09 -->
+  <!-- phonology_project_inventory_4b_place_of_articulation.xsl 2010-04-20 -->
   <!-- Determine sort order by place of articulation. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -24,10 +24,10 @@
     <xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<xsl:for-each select="unit">
-				<xsl:sort select="keys/chartKey[@class = $chartClass1]" />
-				<xsl:sort select="keys/chartKey[@class = $chartClass2]" />
-				<xsl:sort select="keys/chartKey[@class = 'col']" />
-				<xsl:sort select="keys/chartKey[@class = 'row']" />
+				<xsl:sort select="keys/chartKey[@class = $chartClass1]/@order" />
+				<xsl:sort select="keys/chartKey[@class = $chartClass2]/@order" />
+				<xsl:sort select="keys/chartKey[@class = 'col']/@order" />
+				<xsl:sort select="keys/chartKeys[@class = 'row']/@order" />
 				<xsl:copy>
 					<xsl:apply-templates select="@* | node()">
 						<xsl:with-param name="sortKey" select="format-number(position(), $sortKeyFormat)" />

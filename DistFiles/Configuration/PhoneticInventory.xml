@@ -1092,7 +1092,7 @@
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>constr</name>
-			<fullname>constricted glottis (pressure)</fullname>
+			<fullname>constricted glottis</fullname>
 			<featureRule>
 				<if>
 					<anyOf>
@@ -1400,15 +1400,17 @@
 			<name>distr</name>
 			<fullname>distributed</fullname>
 			<featureRule>
-				<anyOf>
-					<articulatoryFeature>Linguolabial</articulatoryFeature>
-					<articulatoryFeature>Dental</articulatoryFeature>
-					<articulatoryFeature>Postalveolar</articulatoryFeature>
-					<articulatoryFeature>Laminal</articulatoryFeature>
-				</anyOf>
-				<not>
-					<articulatoryFeature>Apical</articulatoryFeature>
-				</not>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Linguolabial</articulatoryFeature>
+						<articulatoryFeature>Dental</articulatoryFeature>
+						<articulatoryFeature>Postalveolar</articulatoryFeature>
+						<articulatoryFeature>Laminal</articulatoryFeature>
+					</anyOf>
+					<not>
+						<articulatoryFeature>Apical</articulatoryFeature>
+					</not>
+				</if>
 				<then>
 					<featureValue>+</featureValue>
 				</then>

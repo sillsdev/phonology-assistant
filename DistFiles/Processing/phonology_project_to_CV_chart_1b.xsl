@@ -1,7 +1,7 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_1b.xsl 2010-04-09 -->
-	<!-- Insert column and group attributes. -->
+  <!-- phonology_project_to_CV_chart_1b.xsl 2010-04-20 -->
+	<!-- Compute column and group attributes. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
@@ -14,6 +14,7 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<!-- Compute the column attribute. -->
 	<xsl:template match="colgroupFeatures">
 		<xsl:copy>
 			<xsl:for-each select="feature">
@@ -28,6 +29,7 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<!-- Compute the group attribute and add row elements. -->
 	<xsl:template match="rowgroupFeatures">
 		<xsl:copy>
 			<xsl:for-each select="feature">
@@ -41,20 +43,20 @@
 						<xsl:value-of select="$featureName" />
 					</name>
 					<xsl:for-each select="$units/unit[keys/chartKey[@class = 'rowgroup'] = $featureName]">
-						<xsl:sort select="keys/chartKey[@class = 'row']" />
-						<xsl:variable name="rowKey" select="keys/chartKey[@class = 'row']" />
-						<xsl:variable name="allKey" select="keys/chartKey[@class = 'all']" />
-						<xsl:variable name="countPrecedingUnitsWithSameFeatures" select="count(preceding-sibling::unit[keys/chartKey[@class = 'all'] = $allKey])" />
+						<xsl:sort select="keys/chartKeys[@class = 'row']/@order" />
+						<xsl:variable name="rowOrder" select="keys/chartKeys[@class = 'row']/@order" />
+						<xsl:variable name="allOrder" select="keys/chartKeys[@class = 'all']/@order" />
+						<xsl:variable name="countPrecedingUnitsWithSameFeatures" select="count(preceding-sibling::unit[keys/chartKeys[@class = 'all']/@order = $allOrder])" />
 						<xsl:choose>
 							<!-- If a unit has the same features as a preceding unit, put it in a separate row. -->
 							<xsl:when test="$countPrecedingUnitsWithSameFeatures != 0">
 								<row literal="{@literal}">
-									<xsl:value-of select="$rowKey" />
+									<xsl:value-of select="$rowOrder" />
 								</row>
 							</xsl:when>
-							<xsl:when test="not(preceding-sibling::unit[keys/chartKey[@class = 'rowgroup'] = $featureName][keys/chartKey[@class = 'row'] = $rowKey])">
+							<xsl:when test="not(preceding-sibling::unit[keys/chartKey[@class = 'rowgroup'] = $featureName][keys/chartKeys[@class = 'row']/@order = $rowOrder])">
 								<row>
-									<xsl:value-of select="$rowKey" />
+									<xsl:value-of select="$rowOrder" />
 								</row>
 							</xsl:when>
 						</xsl:choose>

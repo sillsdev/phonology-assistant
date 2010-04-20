@@ -3,16 +3,33 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3a_features.xsl 2010-04-05 -->
+	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2010-04-20 -->
   <!-- From consonant or vowel chart, make charts of binary features, or hierarchical features, or both. -->
 	<!-- For development, highlight differences between project phones and program symbols. -->
-
-	<!-- TO DO: Select phonetic/phonological units. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
+	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+
+	<xsl:variable name="typeOfUnits">
+		<xsl:choose>
+			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
+				<xsl:value-of select="$details/xhtml:li[@class = 'typeOfUnits']" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'phonetic'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
+	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
+	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
+	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
+	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
 
 	<!-- The program phonetic character inventory file contains the features, symbols, and so on. -->
 	<xsl:variable name="programConfigurationFolder" select="$settings/xhtml:li[@class = 'programConfigurationFolder']" />
@@ -23,13 +40,6 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="hierarchicalFeatures" select="document($programPhoneticInventoryXML)/inventory/hierarchicalFeatures" />
 	<xsl:variable name="symbols" select="document($programPhoneticInventoryXML)/inventory/symbols" />
 
-	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
-	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
-	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
-	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
-	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = 'phonetic']" />
-
-	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 	<xsl:variable name="interactiveWebPage">
 		<xsl:if test="$format = 'XHTML'">
@@ -53,7 +63,6 @@ exclude-result-prefixes="xhtml"
 		</xsl:if>
 	</xsl:variable>
 
-	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="differences">
 		<xsl:choose>
 			<!-- IPA -->
