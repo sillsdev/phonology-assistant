@@ -1,15 +1,22 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class OKCancelDlgBase : Form
 	{
 		protected bool m_cancelButtonPressed;
 		protected bool m_dirty;
 		private bool m_changesWereMade;
+		protected Rectangle m_startupBounds;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -19,6 +26,29 @@ namespace SIL.Pa.UI.Dialogs
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			try
+			{
+				m_startupBounds = (Rectangle)Settings.Default[Name + "Bounds"];
+			}
+			catch
+			{
+				StartPosition = FormStartPosition.CenterScreen;
+				m_startupBounds = Rectangle.Empty;
+			}
+
+			base.OnLoad(e);
+
+			if (m_startupBounds.Height > 0)
+				Bounds = m_startupBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -246,6 +276,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SaveSettings()
 		{
+			try
+			{
+				Settings.Default[Name + "Bounds"] = Bounds;
+				Settings.Default.Save();
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------

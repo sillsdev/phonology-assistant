@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -363,25 +364,21 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadSettings(string parentFormName)
 		{
-			foreach (ColumnHeader hdr in Columns)
+			foreach (ColumnHeader col in Columns)
 			{
-				hdr.Width = App.SettingsHandler.GetIntSettingsValue(
-					parentFormName, "col" + hdr.Index, hdr.Width);
+				var width = (int)Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index];
+				if (width > 0)
+					col.Width = width;
 			}
 
-			m_sortColumn = App.SettingsHandler.GetIntSettingsValue(
-				parentFormName, "sortedcolumn", -1);
+			m_sortColumn = (int)Settings.Default[parentFormName + "ClassListViewSortedColumn"];
+			m_sortOrder = (SortOrder)Settings.Default[parentFormName + "ClassListViewSortOrder"];
+			SortList(-1);
 
-			try
+			if (Items.Count > 0)
 			{
-				string sortOrder = App.SettingsHandler.GetStringSettingsValue(
-					parentFormName, "sortorder", "None");
-
-				m_sortOrder = (SortOrder)Enum.Parse(typeof(SortOrder), sortOrder, true);
-			}
-			catch
-			{
-				m_sortOrder = SortOrder.None;
+				Items[0].Selected = true;
+				Items[0].Focused = true;
 			}
 		}
 
@@ -392,11 +389,28 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings(string parentFormName)
 		{
-			foreach (ColumnHeader hdr in Columns)
-				App.SettingsHandler.SaveSettingsValue(parentFormName, "col" + hdr.Index, hdr.Width);
+			foreach (ColumnHeader col in Columns)
+			{
+				try
+				{
+					Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index] = col.Width;
+				}
+				catch { }
+			}
 
-			App.SettingsHandler.SaveSettingsValue(parentFormName, "sortedcolumn", m_sortColumn);
-			App.SettingsHandler.SaveSettingsValue(parentFormName, "sortorder", m_sortOrder);
+			try
+			{
+				Settings.Default[parentFormName + "ClassListViewSortedColumn"] = m_sortColumn;
+			}
+			catch { }
+
+			try
+			{
+				Settings.Default[parentFormName + "ClassListViewSortOrder"] = m_sortOrder;
+			}
+			catch { }
+			
+			Settings.Default.Save();
 		}
 
 		#endregion
@@ -648,7 +662,6 @@ namespace SIL.Pa.UI.Controls
 		/// <summary>
 		/// Need to draw IPA character class members with the phonetic font.
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDrawItem(DrawListViewItemEventArgs e)
 		{
@@ -656,7 +669,7 @@ namespace SIL.Pa.UI.Controls
 			base.OnDrawItem(e);
 			
 			// If we've returned from calling the base with the draw default flag set to false
-			// false, we assume some derived class or delegate has already done the drawing.
+			// we assume some derived class or delegate has already done the drawing.
 			if (!e.DrawDefault)
 				return;
 
@@ -696,7 +709,17 @@ namespace SIL.Pa.UI.Controls
 
 			e.DrawDefault = false;
 			e.DrawBackground();
-			e.DrawText();
+
+			// For some reason, the default formatting doesn't yield the same result you
+			// get when letting the base class draw the text. This formatting is as close
+			// as I could get to that. Maybe it's a Windows 7 thing.
+			var flags = TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis |
+				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding;
+			
+			if (RightToLeft == RightToLeft.Yes)
+				flags |= TextFormatFlags.RightToLeft;
+
+			e.DrawText(flags);
 
 			// Draw the arrow glyph, indicating the sort direction. The
 			// arrow will be drawn from its wider end to the point.
@@ -741,20 +764,32 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnColumnClick(ColumnClickEventArgs e)
 		{
 			base.OnColumnClick(e);
+			SortList(e.Column);
+		}
 
-			if (e.Column != 1)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SortList(int col)
+		{
+			if (col == 1)
+				return;
+
+			if (col != -1)
 			{
-				m_sortColumn = e.Column;
+				m_sortColumn = col;
 				m_sortOrder = (m_sortOrder == SortOrder.Ascending ?
 					SortOrder.Descending : SortOrder.Ascending);
-
-				ListViewItem item = (SelectedItems.Count > 0 ? SelectedItems[0] : null);
-				ListViewItemSorter = new ClassListComparer(m_sortOrder, m_sortColumn);
-				ListViewItemSorter = null;
-				Invalidate(new Rectangle(0, 0, Width, ColumnHeaderHeight), true);
-				if (item != null)
-					item.Focused = true;
 			}
+
+			ListViewItem item = (SelectedItems.Count > 0 ? SelectedItems[0] : null);
+			ListViewItemSorter = new ClassListComparer(m_sortOrder, m_sortColumn);
+			ListViewItemSorter = null;
+			Invalidate(new Rectangle(0, 0, Width, ColumnHeaderHeight), true);
+			if (item != null)
+				item.Focused = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

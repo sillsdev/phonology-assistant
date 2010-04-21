@@ -149,5 +149,35 @@
     <Setting Name="HtmlConsonantChartVisible" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DefineClassDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="ClassesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="DefineClassDlgSplit1Loc" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="DefineClassDlgSplit2Loc" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="DefineClassDlgSplit3Loc" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ClassesDlgClassListViewSortOrder" Provider="SIL.Pa.PaSettingsProvider" Type="System.Windows.Forms.SortOrder" Scope="User">
+      <Value Profile="(Default)">None</Value>
+    </Setting>
+    <Setting Name="ClassesDlgClassListViewSortedColumn" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="ClassesDlgClassListViewColWidth0" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="ClassesDlgClassListViewColWidth1" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="ClassesDlgClassListViewColWidth2" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

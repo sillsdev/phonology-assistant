@@ -89,9 +89,15 @@ namespace SIL.Pa.UI.Controls
 			ClassType = item.ClassType;
 			ANDFeatures = item.ANDFeatures;
 			AllowEdit = item.AllowEdit;
-			Mask = item.Mask.Clone();
 			Pattern = item.Pattern;
 			Tag = item.Tag;
+
+			if (item.Mask != null)
+				Mask = item.Mask.Clone();
+			else if (item.ClassType == SearchClassType.Articulatory)
+				Mask = App.AFeatureCache.GetEmptyMask();
+			else if (item.ClassType == SearchClassType.Binary)
+				Mask = App.BFeatureCache.GetEmptyMask();
 
 			for (int i = 0; i < item.SubItems.Count; i++)
 			{

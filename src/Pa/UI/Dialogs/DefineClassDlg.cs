@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -40,16 +41,13 @@ namespace SIL.Pa.UI.Dialogs
 			Utils.WaitCursors(true);
 			InitializeComponent();
 
+			lblClassType.Font = FontHelper.UIFont;
+			lblClassTypeValue.Font = FontHelper.UIFont;
 			lblClassName.Font = FontHelper.UIFont;
 			txtClassName.Font = FontHelper.UIFont;
 			lblMembers.Font = FontHelper.UIFont;
-			rdoAnd.Font = FontHelper.UIFont;
-			rdoOr.Font = FontHelper.UIFont;
-			lblClassType.Font = FontHelper.UIFont;
-			lblClassTypeValue.Font = FontHelper.UIFont;
-
-			lblMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2;
-			txtMembers.Left = lblMembers.Right + 6;
+			rbMatchAll.Font = FontHelper.UIFont;
+			rbMatchAny.Font = FontHelper.UIFont;
 
 			//lvClasses.Dock = DockStyle.Fill;
 			//lvClasses.LoadSettings(Name);
@@ -68,7 +66,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			SetupPhoneViewers();
 
-			rdoOr.Left = rdoAnd.Left;
+			LocalizeItemDlg.StringsLocalized += SetClassTypeTexts;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,12 +109,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void Setup()
+		private void SetClassTypeTexts()
 		{
+			string classTypeText = string.Empty;
+	
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					Text = LocalizationManager.LocalizeString("PhoneClassDialogCaption",
+					classTypeText = LocalizationManager.LocalizeString("PhoneClassDialogCaption",
 						"Phones", "Title for the dialog box in which a class is " +
 						"defined that is based on phones.",
 						App.kLocalizationGroupDialogs + ".DefineClasses",
@@ -125,11 +125,11 @@ namespace SIL.Pa.UI.Dialogs
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
 						"Phones", "Phone class type label.", App.kLocalizationGroupMisc,
 						LocalizationCategory.Label, LocalizationPriority.High);
-					
+
 					break;
 
 				case SearchClassType.Articulatory:
-					Text = LocalizationManager.LocalizeString("ArticulatoryFeatureClassDialogCaption",
+					classTypeText = LocalizationManager.LocalizeString("ArticulatoryFeatureClassDialogCaption",
 						"Articulatory Features", "Title for the dialog box in which a class is " +
 						"defined that is based on articulatory features.",
 						App.kLocalizationGroupDialogs + ".DefineClasses",
@@ -141,9 +141,9 @@ namespace SIL.Pa.UI.Dialogs
 						LocalizationCategory.Label, LocalizationPriority.High);
 
 					break;
-				
+
 				case SearchClassType.Binary:
-					Text = LocalizationManager.LocalizeString("BinaryFeatureClassDialogCaption",
+					classTypeText = LocalizationManager.LocalizeString("BinaryFeatureClassDialogCaption",
 						"Binary Features", "Title for the dialog box in which a class is " +
 						"defined that is based on binary features.",
 						App.kLocalizationGroupDialogs + ".DefineClasses",
@@ -153,26 +153,38 @@ namespace SIL.Pa.UI.Dialogs
 						"Binary features", "Binary features class type label.",
 						App.kLocalizationGroupMisc, LocalizationCategory.Label,
 						LocalizationPriority.High);
-		
+
 					break;
-				
+
 				case SearchClassType.OtherClass:
 					break;
+
 				default:
-					Text = string.Format(Text, string.Empty);
 					lblClassTypeValue.Text = string.Empty;
 					break;
 			}
 
-			txtClassName.Text = m_classInfo.Text;
-			m_lvArticulatoryFeatures.CurrentMask = (m_classInfo.Mask ?? App.AFeatureCache.GetEmptyMask());
-			m_lvBinaryFeatures.CurrentMask = (m_classInfo.Mask ?? App.BFeatureCache.GetEmptyMask());
+			Text = string.Format(Text, classTypeText);
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void Setup()
+		{
+			SetClassTypeTexts();
+
+			if (m_classInfo.ClassType == SearchClassType.Articulatory)
+				m_lvArticulatoryFeatures.CurrentMask = (m_classInfo.Mask ?? App.AFeatureCache.GetEmptyMask());
+			else if (m_classInfo.ClassType == SearchClassType.Binary)
+				m_lvBinaryFeatures.CurrentMask = (m_classInfo.Mask ?? App.BFeatureCache.GetEmptyMask());
+
+			txtClassName.Text = m_classInfo.Text;
 			SetupControlsForType();
 			UpdateCharacterViewers();
-
 			m_classInfo.IsDirty = false;
-			App.SettingsHandler.LoadFormProperties(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -182,8 +194,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupControlsForType()
 		{
-			rdoAnd.Checked = m_classInfo.ANDFeatures;
-			rdoOr.Checked = !rdoAnd.Checked;
+			rbMatchAll.Checked = m_classInfo.ANDFeatures;
+			rbMatchAny.Checked = !rbMatchAll.Checked;
 			
 			splitOuter.SuspendLayout();
 
@@ -198,7 +210,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// The scope button is irrelevant for IPA character classes.
 			// So hide it when that's the case.
-			rdoAnd.Visible = rdoOr.Visible = (m_classInfo.ClassType != SearchClassType.Phones);
+			rbMatchAll.Visible = rbMatchAny.Visible = (m_classInfo.ClassType != SearchClassType.Phones);
 
 			UpdateCharacterViewers();
 
@@ -206,7 +218,7 @@ namespace SIL.Pa.UI.Dialogs
 			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.Phones ?
 				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
 
-			txtMembers.Top = (pnlMembers.Height - txtMembers.Height) / 2 - 1;
+			txtMembers.Top = (pnlMemberOptions.Height - txtMembers.Height) / 2 - 1;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.Phones);
 			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
@@ -299,17 +311,14 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				int splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split3", 0);
-				if (splitDistance > 0)
-					splitOuter.SplitterDistance = splitDistance;
+				if (Settings.Default.DefineClassDlgSplit3Loc > 0)
+					splitOuter.SplitterDistance = Settings.Default.DefineClassDlgSplit3Loc;
 
-				splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split2", 0);
-				if (splitDistance > 0)
-					splitPhoneViewers.SplitterDistance = splitDistance;
+				if (Settings.Default.DefineClassDlgSplit2Loc > 0)
+					splitPhoneViewers.SplitterDistance = Settings.Default.DefineClassDlgSplit2Loc;
 
-				splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "split1", 0);
-				if (splitDistance > 0)
-					splitCV.SplitterDistance = splitDistance;
+				if (Settings.Default.DefineClassDlgSplit1Loc > 0)
+					splitCV.SplitterDistance = Settings.Default.DefineClassDlgSplit1Loc;
 			}
 			catch { }
 
@@ -338,6 +347,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get { return txtClassName; }
 		}
+
 		#endregion
 
 		#region Overridden methods
@@ -390,14 +400,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			base.SaveSettings();
-			App.SettingsHandler.SaveFormProperties(this);
 			charExplorer.SaveSettings(Name);
 			lvClasses.SaveSettings(Name);
 
-			App.SettingsHandler.SaveSettingsValue(Name, "split1", splitCV.SplitterDistance);
-			App.SettingsHandler.SaveSettingsValue(Name, "split2", splitPhoneViewers.SplitterDistance);
-			App.SettingsHandler.SaveSettingsValue(Name, "split3", splitOuter.SplitterDistance);
+			Settings.Default.DefineClassDlgSplit1Loc = splitCV.SplitterDistance;
+			Settings.Default.DefineClassDlgSplit2Loc = splitPhoneViewers.SplitterDistance;
+			Settings.Default.DefineClassDlgSplit3Loc = splitOuter.SplitterDistance;
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -607,7 +616,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleScopeClick(object sender, EventArgs e)
 		{
-			m_classInfo.ANDFeatures = rdoAnd.Checked;
+			m_classInfo.ANDFeatures = rbMatchAll.Checked;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
 			UpdateCharacterViewers();

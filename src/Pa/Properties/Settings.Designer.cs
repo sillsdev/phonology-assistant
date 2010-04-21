@@ -559,5 +559,132 @@ namespace SIL.Pa.Properties {
                 this["HtmlConsonantChartVisible"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle DefineClassDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["DefineClassDlgBounds"]));
+            }
+            set {
+                this["DefineClassDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle ClassesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["ClassesDlgBounds"]));
+            }
+            set {
+                this["ClassesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineClassDlgSplit1Loc {
+            get {
+                return ((int)(this["DefineClassDlgSplit1Loc"]));
+            }
+            set {
+                this["DefineClassDlgSplit1Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineClassDlgSplit2Loc {
+            get {
+                return ((int)(this["DefineClassDlgSplit2Loc"]));
+            }
+            set {
+                this["DefineClassDlgSplit2Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineClassDlgSplit3Loc {
+            get {
+                return ((int)(this["DefineClassDlgSplit3Loc"]));
+            }
+            set {
+                this["DefineClassDlgSplit3Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public global::System.Windows.Forms.SortOrder ClassesDlgClassListViewSortOrder {
+            get {
+                return ((global::System.Windows.Forms.SortOrder)(this["ClassesDlgClassListViewSortOrder"]));
+            }
+            set {
+                this["ClassesDlgClassListViewSortOrder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int ClassesDlgClassListViewSortedColumn {
+            get {
+                return ((int)(this["ClassesDlgClassListViewSortedColumn"]));
+            }
+            set {
+                this["ClassesDlgClassListViewSortedColumn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int ClassesDlgClassListViewColWidth0 {
+            get {
+                return ((int)(this["ClassesDlgClassListViewColWidth0"]));
+            }
+            set {
+                this["ClassesDlgClassListViewColWidth0"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int ClassesDlgClassListViewColWidth1 {
+            get {
+                return ((int)(this["ClassesDlgClassListViewColWidth1"]));
+            }
+            set {
+                this["ClassesDlgClassListViewColWidth1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int ClassesDlgClassListViewColWidth2 {
+            get {
+                return ((int)(this["ClassesDlgClassListViewColWidth2"]));
+            }
+            set {
+                this["ClassesDlgClassListViewColWidth2"] = value;
+            }
+        }
     }
 }

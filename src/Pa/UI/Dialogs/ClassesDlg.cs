@@ -22,11 +22,20 @@ namespace SIL.Pa.UI.Dialogs
 		public ClassesDlg()
 		{
 			InitializeComponent();
-			App.SettingsHandler.LoadFormProperties(this);
 			lvClasses.Load();
-			lvClasses.LoadSettings(Name);
 			lvClasses_SelectedIndexChanged(null, null);
 			lvClasses.Font = FontHelper.UIFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+			lvClasses.LoadSettings(Name);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -37,7 +46,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void SaveSettings()
 		{
 			base.SaveSettings();
-			App.SettingsHandler.SaveFormProperties(this);
 			lvClasses.SaveSettings(Name);
 		}
 

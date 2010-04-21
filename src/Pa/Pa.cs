@@ -145,13 +145,15 @@ namespace SIL.Pa
 		/// --------------------------------------------------------------------------------
 		static App()
 		{
+			if (DesignMode)
+				return;
+
 			InitializePaRegKey();
 			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
 			SettingsHandler = new PaSettingsHandler(SettingsFile);
 			MsgMediator = new Mediator();
 
-			if (!DesignMode)
-				ProcessHelper.CopyFilesForPrettyHTMLExports();
+			ProcessHelper.CopyFilesForPrettyHTMLExports();
 
 			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
 
@@ -183,8 +185,7 @@ namespace SIL.Pa
 			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
 
 			// Load the cache of IPA symbols, articulatory and binary features.
-			if (!DesignMode)
-				InventoryHelper.Load();
+			InventoryHelper.Load();
 		}
 
 		#region Misc. localized global strings
