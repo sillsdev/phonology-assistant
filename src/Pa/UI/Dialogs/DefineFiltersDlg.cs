@@ -81,8 +81,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_images.ImageSize = new Size(16, 16);
 			lvFilters.SmallImageList = m_images;
 
-			string tip = Utils.ConvertLiteralNewLines(Properties.Resources.kstidShowFilterToolTipText);
-			m_tooltip.SetToolTip(chkIncludeInList, tip);
 			m_filterDropDown = new DropDownFiltersListBox();
 			BuildGrid();
 			LoadFilters();
@@ -1058,6 +1056,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void UpdateView()
 		{
 			var filter = CurrentFilter;
+			m_grid.Enabled = (filter != null);
 			chkIncludeInList.Enabled = (filter != null);
 			rbMatchAny.Enabled = (filter != null);
 			rbMatchAll.Enabled = (filter != null);

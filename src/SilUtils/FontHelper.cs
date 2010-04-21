@@ -277,16 +277,14 @@ namespace SilUtils
 				{
 					string msg = e.Message.ToLower();
 					if (!msg.Contains("does not support style"))
-						return (Font)SystemInformation.MenuFont.Clone();
-					else
-					{
-						if (msg.Contains("bold"))
-							style &= ~FontStyle.Bold;
-						else if (msg.Contains("italic"))
-							style &= ~FontStyle.Italic;
-						else if (msg.Contains("regular"))
-							style = FontStyle.Bold;
-					}
+						return (Font)SystemFonts.IconTitleFont.Clone();
+					
+					if (msg.Contains("bold"))
+						style &= ~FontStyle.Bold;
+					else if (msg.Contains("italic"))
+						style &= ~FontStyle.Italic;
+					else if (msg.Contains("regular"))
+						style = FontStyle.Bold;
 				}
 			}
 

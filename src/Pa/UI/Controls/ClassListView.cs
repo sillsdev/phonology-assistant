@@ -133,20 +133,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_item == null)
 				return;
 
-			if (m_item.ClassType == SearchClassType.Phones)
-				ToolTipTitle = Properties.Resources.kstidClassListPhoneMembersToolTipHdg;
-			else
-			{
-				if (m_tipText.IndexOf(Environment.NewLine) < 0)
-					ToolTipTitle = Properties.Resources.kstidClassListSingleMemberToolTipHdg;
-				else
-				{
-					ToolTipTitle = (m_item.ANDFeatures ?
-						Properties.Resources.kstidClassListMembersToolTipAndHdg :
-						Properties.Resources.kstidClassListMembersToolTipOrHdg);
-				}
-			}
-
+			ToolTipTitle = GetToolTipTitle();
 			Size sz = TextRenderer.MeasureText(m_tipText, m_item.ClassMembersFont);
 			Size szHdg = TextRenderer.MeasureText(ToolTipTitle, m_titleFont);
 			
@@ -156,6 +143,39 @@ namespace SIL.Pa.UI.Controls
 				sz.Height + szHdg.Height + 13);
 			
 			m_contentLocation = new Point(4, szHdg.Height + 9);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string GetToolTipTitle()
+		{
+			if (m_item.ClassType == SearchClassType.Phones)
+			{
+				return LocalizationManager.LocalizeString("ClassListPhoneMembersToolTipHdg", "Members:",
+					"Heading for the tooltip used to display the members of a class of phones in a class list view.",
+					App.kLocalizationGroupUICtrls);
+			}
+
+			if (m_tipText.IndexOf(Environment.NewLine) < 0)
+			{
+				return LocalizationManager.LocalizeString("ClassListSingleMemberToolTipHdg", "Member:",
+					"Heading for the tooltip used to display the member of a class containing a single feature.",
+					App.kLocalizationGroupUICtrls);
+			}
+
+			if (m_item.ANDFeatures)
+			{
+				return LocalizationManager.LocalizeString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
+					"Heading for the tooltip used to display the members of a class of features in a class list view.",
+					App.kLocalizationGroupUICtrls);
+			}
+
+			return LocalizationManager.LocalizeString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
+				"Heading for the tooltip used to display the members of a class of features in a class list view.",
+				App.kLocalizationGroupUICtrls);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -594,8 +614,13 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (showMsg)
 					{
-						Utils.MsgBox(string.Format(Properties.Resources.kstidDefineClassDupClassName,
-							className), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						var msg = LocalizationManager.LocalizeString("DefineClassDupClassName",
+							"Class '{0}' already exists. Choose a different name.",
+							"Error msg for creating class with duplicate name.",
+							App.kLocalizationGroupUICtrls);
+
+						Utils.MsgBox(string.Format(msg, className), MessageBoxButtons.OK,
+							MessageBoxIcon.Exclamation);
 					}
 					
 					return true;

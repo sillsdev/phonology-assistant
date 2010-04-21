@@ -116,10 +116,10 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					classTypeText = LocalizationManager.LocalizeString("PhoneClassDialogCaption",
-						"Phones", "Title for the dialog box in which a class is " +
-						"defined that is based on phones.",
-						App.kLocalizationGroupDialogs + ".DefineClasses",
+					classTypeText = LocalizationManager.LocalizeString(
+						"PhoneClassDialogCaptionPrefix", "Phones", 
+						"Part of the title for the dialog box when defining a phone class.",
+						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
@@ -129,10 +129,10 @@ namespace SIL.Pa.UI.Dialogs
 					break;
 
 				case SearchClassType.Articulatory:
-					classTypeText = LocalizationManager.LocalizeString("ArticulatoryFeatureClassDialogCaption",
-						"Articulatory Features", "Title for the dialog box in which a class is " +
-						"defined that is based on articulatory features.",
-						App.kLocalizationGroupDialogs + ".DefineClasses",
+					classTypeText = LocalizationManager.LocalizeString(
+						"ArticulatoryFeatureClassDialogCaptionPrefix", "Articulatory Features",
+						"Part of the title for the dialog box when defining a articulatory features class.",
+						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString(
@@ -143,10 +143,10 @@ namespace SIL.Pa.UI.Dialogs
 					break;
 
 				case SearchClassType.Binary:
-					classTypeText = LocalizationManager.LocalizeString("BinaryFeatureClassDialogCaption",
-						"Binary Features", "Title for the dialog box in which a class is " +
-						"defined that is based on binary features.",
-						App.kLocalizationGroupDialogs + ".DefineClasses",
+					classTypeText = LocalizationManager.LocalizeString(
+						"BinaryFeatureClassDialogCaptionPrefix", "Binary Features",
+						"Part of the title for the dialog box when defining a binary features class.",
+						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
 					lblClassTypeValue.Text = LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",

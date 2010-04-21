@@ -31,17 +31,17 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
 			this.pnlFilters = new SilUtils.Controls.SilPanel();
 			this.hlblFilters = new SilUtils.Controls.HeaderLabel();
-			this.pnlButtons2 = new System.Windows.Forms.Panel();
+			this.flwLayoutFilterButtons = new System.Windows.Forms.FlowLayoutPanel();
+			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnDeleteFilter = new System.Windows.Forms.Button();
-			this.btnAdd = new System.Windows.Forms.Button();
 			this.pnlExpressions = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.hlblExpressions = new SilUtils.Controls.HeaderLabel();
@@ -51,18 +51,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkIncludeInList = new System.Windows.Forms.CheckBox();
 			this.rbMatchAny = new System.Windows.Forms.RadioButton();
 			this.btnRemoveExp = new System.Windows.Forms.Button();
-			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnApplyNow = new System.Windows.Forms.Button();
+			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitFilters.Panel1.SuspendLayout();
 			this.splitFilters.Panel2.SuspendLayout();
 			this.splitFilters.SuspendLayout();
 			this.pnlFilters.SuspendLayout();
-			this.pnlButtons2.SuspendLayout();
+			this.flwLayoutFilterButtons.SuspendLayout();
 			this.pnlExpressions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			this.pnlFilterOptions.SuspendLayout();
 			this.tableLayout.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
@@ -76,14 +77,23 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnCancel
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.locExtender.SetLocalizationComment(this.btnCancel, null);
+			this.locExtender.SetLocalizingId(this.btnCancel, "DefineFiltersDlg.btnCancel");
 			resources.ApplyResources(this.btnCancel, "btnCancel");
 			// 
 			// btnOK
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.locExtender.SetLocalizationComment(this.btnOK, null);
+			this.locExtender.SetLocalizingId(this.btnOK, "DefineFiltersDlg.btnOK");
 			resources.ApplyResources(this.btnOK, "btnOK");
 			// 
 			// btnHelp
 			// 
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizingId(this.btnHelp, "DefineFiltersDlg.btnHelp");
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lvFilters
@@ -105,6 +115,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// hdrFilter
 			// 
+			this.locExtender.SetLocalizableToolTip(this.hdrFilter, null);
+			this.locExtender.SetLocalizationComment(this.hdrFilter, null);
+			this.locExtender.SetLocalizingId(this.hdrFilter, "DefineFiltersDlg.lvFiltersColhdrFilter");
 			resources.ApplyResources(this.hdrFilter, "hdrFilter");
 			// 
 			// splitFilters
@@ -115,7 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 			// splitFilters.Panel1
 			// 
 			this.splitFilters.Panel1.Controls.Add(this.pnlFilters);
-			this.splitFilters.Panel1.Controls.Add(this.pnlButtons2);
+			this.splitFilters.Panel1.Controls.Add(this.flwLayoutFilterButtons);
 			// 
 			// splitFilters.Panel2
 			// 
@@ -134,6 +147,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.Controls.Add(this.hlblFilters);
 			resources.ApplyResources(this.pnlFilters, "pnlFilters");
 			this.pnlFilters.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlFilters, null);
+			this.locExtender.SetLocalizationComment(this.pnlFilters, null);
+			this.locExtender.SetLocalizingId(this.pnlFilters, "DefineFiltersDlg.pnlFilters");
 			this.pnlFilters.MnemonicGeneratesClick = false;
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.PaintExplorerBarBackground = false;
@@ -143,21 +159,39 @@ namespace SIL.Pa.UI.Dialogs
 			this.hlblFilters.ClipTextForChildControls = false;
 			this.hlblFilters.ControlReceivingFocusOnMnemonic = this.lvFilters;
 			resources.ApplyResources(this.hlblFilters, "hlblFilters");
+			this.locExtender.SetLocalizableToolTip(this.hlblFilters, null);
+			this.locExtender.SetLocalizationComment(this.hlblFilters, null);
+			this.locExtender.SetLocalizingId(this.hlblFilters, "DefineFiltersDlg.hlblFilters");
 			this.hlblFilters.MnemonicGeneratesClick = true;
 			this.hlblFilters.Name = "hlblFilters";
 			this.hlblFilters.ShowWindowBackgroudOnTopAndRightEdge = false;
 			// 
-			// pnlButtons2
+			// flwLayoutFilterButtons
 			// 
-			this.pnlButtons2.Controls.Add(this.btnCopy);
-			this.pnlButtons2.Controls.Add(this.btnDeleteFilter);
-			this.pnlButtons2.Controls.Add(this.btnAdd);
-			resources.ApplyResources(this.pnlButtons2, "pnlButtons2");
-			this.pnlButtons2.Name = "pnlButtons2";
+			resources.ApplyResources(this.flwLayoutFilterButtons, "flwLayoutFilterButtons");
+			this.flwLayoutFilterButtons.Controls.Add(this.btnAdd);
+			this.flwLayoutFilterButtons.Controls.Add(this.btnCopy);
+			this.flwLayoutFilterButtons.Controls.Add(this.btnDeleteFilter);
+			this.flwLayoutFilterButtons.Name = "flwLayoutFilterButtons";
+			// 
+			// btnAdd
+			// 
+			resources.ApplyResources(this.btnAdd, "btnAdd");
+			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
+			this.locExtender.SetLocalizationComment(this.btnAdd, null);
+			this.locExtender.SetLocalizingId(this.btnAdd, "DefineFiltersDlg.btnAdd");
+			this.btnAdd.MinimumSize = new System.Drawing.Size(70, 26);
+			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.UseVisualStyleBackColor = true;
+			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnCopy
 			// 
 			resources.ApplyResources(this.btnCopy, "btnCopy");
+			this.locExtender.SetLocalizableToolTip(this.btnCopy, null);
+			this.locExtender.SetLocalizationComment(this.btnCopy, null);
+			this.locExtender.SetLocalizingId(this.btnCopy, "DefineFiltersDlg.btnCopy");
+			this.btnCopy.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.UseVisualStyleBackColor = true;
 			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
@@ -165,16 +199,13 @@ namespace SIL.Pa.UI.Dialogs
 			// btnDeleteFilter
 			// 
 			resources.ApplyResources(this.btnDeleteFilter, "btnDeleteFilter");
+			this.locExtender.SetLocalizableToolTip(this.btnDeleteFilter, null);
+			this.locExtender.SetLocalizationComment(this.btnDeleteFilter, null);
+			this.locExtender.SetLocalizingId(this.btnDeleteFilter, "DefineFiltersDlg.btnDeleteFilter");
+			this.btnDeleteFilter.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnDeleteFilter.Name = "btnDeleteFilter";
 			this.btnDeleteFilter.UseVisualStyleBackColor = true;
 			this.btnDeleteFilter.Click += new System.EventHandler(this.btnRemove_Click);
-			// 
-			// btnAdd
-			// 
-			resources.ApplyResources(this.btnAdd, "btnAdd");
-			this.btnAdd.Name = "btnAdd";
-			this.btnAdd.UseVisualStyleBackColor = true;
-			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// pnlExpressions
 			// 
@@ -186,6 +217,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.Controls.Add(this.hlblExpressions);
 			resources.ApplyResources(this.pnlExpressions, "pnlExpressions");
 			this.pnlExpressions.DoubleBuffered = true;
+			this.locExtender.SetLocalizableToolTip(this.pnlExpressions, null);
+			this.locExtender.SetLocalizationComment(this.pnlExpressions, null);
+			this.locExtender.SetLocalizingId(this.pnlExpressions, "DefineFiltersDlg.pnlExpressions");
 			this.pnlExpressions.MnemonicGeneratesClick = false;
 			this.pnlExpressions.Name = "pnlExpressions";
 			this.pnlExpressions.PaintExplorerBarBackground = false;
@@ -201,18 +235,21 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			resources.ApplyResources(this.m_grid, "m_grid");
 			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_grid.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
+			this.locExtender.SetLocalizationComment(this.m_grid, null);
+			this.locExtender.SetLocalizingId(this.m_grid, "DefineFiltersDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
 			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
@@ -233,6 +270,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.hlblExpressions.ClipTextForChildControls = false;
 			this.hlblExpressions.ControlReceivingFocusOnMnemonic = this.lvFilters;
 			resources.ApplyResources(this.hlblExpressions, "hlblExpressions");
+			this.locExtender.SetLocalizableToolTip(this.hlblExpressions, null);
+			this.locExtender.SetLocalizationComment(this.hlblExpressions, null);
+			this.locExtender.SetLocalizingId(this.hlblExpressions, "DefineFiltersDlg.hlblExpressions");
 			this.hlblExpressions.MnemonicGeneratesClick = true;
 			this.hlblExpressions.Name = "hlblExpressions";
 			this.hlblExpressions.ShowWindowBackgroudOnTopAndRightEdge = false;
@@ -247,6 +287,7 @@ namespace SIL.Pa.UI.Dialogs
 			// tableLayout
 			// 
 			resources.ApplyResources(this.tableLayout, "tableLayout");
+			this.tableLayout.BackColor = System.Drawing.Color.Transparent;
 			this.tableLayout.Controls.Add(this.rbMatchAll, 0, 1);
 			this.tableLayout.Controls.Add(this.chkIncludeInList, 1, 0);
 			this.tableLayout.Controls.Add(this.rbMatchAny, 0, 0);
@@ -257,6 +298,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.rbMatchAll, "rbMatchAll");
 			this.rbMatchAll.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbMatchAll, null);
+			this.locExtender.SetLocalizationComment(this.rbMatchAll, null);
+			this.locExtender.SetLocalizingId(this.rbMatchAll, "DefineFiltersDlg.rbMatchAll");
 			this.rbMatchAll.Name = "rbMatchAll";
 			this.rbMatchAll.TabStop = true;
 			this.rbMatchAll.UseVisualStyleBackColor = false;
@@ -265,6 +309,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.chkIncludeInList, "chkIncludeInList");
 			this.chkIncludeInList.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.chkIncludeInList, "\"Check to display this filter in the\\nfilter toolbar button’s drop-down list.\"");
+			this.locExtender.SetLocalizationComment(this.chkIncludeInList, null);
+			this.locExtender.SetLocalizingId(this.chkIncludeInList, "DefineFiltersDlg.chkIncludeInList");
 			this.chkIncludeInList.Name = "chkIncludeInList";
 			this.chkIncludeInList.UseVisualStyleBackColor = false;
 			// 
@@ -272,6 +319,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.rbMatchAny, "rbMatchAny");
 			this.rbMatchAny.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbMatchAny, null);
+			this.locExtender.SetLocalizationComment(this.rbMatchAny, null);
+			this.locExtender.SetLocalizingId(this.rbMatchAny, "DefineFiltersDlg.rbMatchAny");
 			this.rbMatchAny.Name = "rbMatchAny";
 			this.rbMatchAny.TabStop = true;
 			this.rbMatchAny.UseVisualStyleBackColor = false;
@@ -279,6 +329,10 @@ namespace SIL.Pa.UI.Dialogs
 			// btnRemoveExp
 			// 
 			resources.ApplyResources(this.btnRemoveExp, "btnRemoveExp");
+			this.locExtender.SetLocalizableToolTip(this.btnRemoveExp, null);
+			this.locExtender.SetLocalizationComment(this.btnRemoveExp, null);
+			this.locExtender.SetLocalizingId(this.btnRemoveExp, "DefineFiltersDlg.btnRemoveExp");
+			this.btnRemoveExp.MinimumSize = new System.Drawing.Size(175, 26);
 			this.btnRemoveExp.Name = "btnRemoveExp";
 			this.btnRemoveExp.UseVisualStyleBackColor = true;
 			this.btnRemoveExp.Click += new System.EventHandler(this.btnRemoveExp_Click);
@@ -286,30 +340,45 @@ namespace SIL.Pa.UI.Dialogs
 			// btnApplyNow
 			// 
 			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
+			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
+			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
+			this.locExtender.SetLocalizingId(this.btnApplyNow, "DefineFiltersDlg.btnApplyNow");
+			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
 			this.btnApplyNow.Name = "btnApplyNow";
 			this.btnApplyNow.UseVisualStyleBackColor = true;
 			this.btnApplyNow.Click += new System.EventHandler(this.btnApplyNow_Click);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
 			// DefineFiltersDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitFilters);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "DefineFiltersDlg.WindowTitle");
 			this.Name = "DefineFiltersDlg";
 			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.splitFilters, 0);
 			this.pnlButtons.ResumeLayout(false);
+			this.pnlButtons.PerformLayout();
 			this.splitFilters.Panel1.ResumeLayout(false);
+			this.splitFilters.Panel1.PerformLayout();
 			this.splitFilters.Panel2.ResumeLayout(false);
 			this.splitFilters.ResumeLayout(false);
 			this.pnlFilters.ResumeLayout(false);
-			this.pnlButtons2.ResumeLayout(false);
+			this.flwLayoutFilterButtons.ResumeLayout(false);
+			this.flwLayoutFilterButtons.PerformLayout();
 			this.pnlExpressions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			this.pnlFilterOptions.ResumeLayout(false);
 			this.pnlFilterOptions.PerformLayout();
 			this.tableLayout.ResumeLayout(false);
 			this.tableLayout.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -318,7 +387,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		private System.Windows.Forms.ListView lvFilters;
 		private System.Windows.Forms.SplitContainer splitFilters;
-		private System.Windows.Forms.Panel pnlButtons2;
 		private System.Windows.Forms.Button btnCopy;
 		private System.Windows.Forms.Button btnDeleteFilter;
 		private System.Windows.Forms.Button btnAdd;
@@ -330,11 +398,12 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.RadioButton rbMatchAny;
 		private System.Windows.Forms.RadioButton rbMatchAll;
 		private System.Windows.Forms.CheckBox chkIncludeInList;
-		private System.Windows.Forms.ToolTip m_tooltip;
 		private System.Windows.Forms.Button btnApplyNow;
 		private System.Windows.Forms.Button btnRemoveExp;
 		private SilPanel pnlExpressions;
 		private HeaderLabel hlblExpressions;
 		private System.Windows.Forms.TableLayoutPanel tableLayout;
+		private SIL.Localization.LocalizationExtender locExtender;
+		private System.Windows.Forms.FlowLayoutPanel flwLayoutFilterButtons;
 	}
 }

@@ -540,7 +540,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Tabs are in the control collection in reverse order from how they appear
 			// (i.e. Control[0] is the furthest right tab.
-			while (++i < m_pnlTabs.Controls.Count && !m_pnlTabs.Controls[i].Visible);
+			while (++i < m_pnlTabs.Controls.Count && !m_pnlTabs.Controls[i].Visible) { }
 
 			return (i == m_pnlTabs.Controls.Count ? null : m_pnlTabs.Controls[i] as ViewTab);
 		}
@@ -558,7 +558,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Tabs are in the control collection in reverse order from how they appear
 			// (i.e. Control[0] is the furthest right tab.
-			while (--i >= 0 && !m_pnlTabs.Controls[i].Visible);
+			while (--i >= 0 && !m_pnlTabs.Controls[i].Visible) { }
 
 			return (i < 0 ? null : m_pnlTabs.Controls[i] as ViewTab);
 		}

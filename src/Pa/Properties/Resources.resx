@@ -548,22 +548,6 @@
     <value>Copy of {0}</value>
     <comment>Prefix for names of copied items</comment>
   </data>
-  <data name="kstidClassListMembersToolTipAndHdg" xml:space="preserve">
-    <value>Members (AND'd):</value>
-    <comment>Heading for the tooltip used to display the members of a class of AND'd features in a class list view.</comment>
-  </data>
-  <data name="kstidClassListMembersToolTipOrHdg" xml:space="preserve">
-    <value>Members (OR'd):</value>
-    <comment>Heading for the tooltip used to display the members of a class of OR'd features in a class list view.</comment>
-  </data>
-  <data name="kstidClassListPhoneMembersToolTipHdg" xml:space="preserve">
-    <value>Members:</value>
-    <comment>Heading for the tooltip used to display the members of a class of phones in a class list view.</comment>
-  </data>
-  <data name="kstidClassListSingleMemberToolTipHdg" xml:space="preserve">
-    <value>Member:</value>
-    <comment>Heading for the tooltip used to display the member of a class containing a single feature.</comment>
-  </data>
   <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
     <value>Close Active Tab</value>
   </data>
@@ -624,10 +608,6 @@
   </data>
   <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
     <value>&amp;Vowels</value>
-  </data>
-  <data name="kstidDefineClassDupClassName" xml:space="preserve">
-    <value>Class '{0}' already exists. Choose a different name.</value>
-    <comment>Error msg for creating class with duplicate name</comment>
   </data>
   <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
     <value>You cannot have an empty Class Name</value>
@@ -851,10 +831,6 @@
   <data name="kstidMyNetworkPlaces" xml:space="preserve">
     <value>Network places in your area</value>
     <comment>Used in the dialog for choosing an FW database</comment>
-  </data>
-  <data name="kstidNewClassName" xml:space="preserve">
-    <value>New Class</value>
-    <comment>Default name given to new classes</comment>
   </data>
   <data name="kstidNewFilterName" xml:space="preserve">
     <value>New Filter {0}</value>

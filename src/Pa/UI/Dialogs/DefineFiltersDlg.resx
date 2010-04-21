@@ -117,45 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;btnApplyNow.Name" xml:space="preserve">
-    <value>btnApplyNow</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 326</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>687, 40</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
     <value>316, 7</value>
   </data>
@@ -179,6 +155,27 @@
   </data>
   <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 326</value>
+  </data>
+  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>687, 40</value>
+  </data>
+  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
     <value>435, 7</value>
@@ -225,6 +222,9 @@
   <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="hdrFilter.Text" xml:space="preserve">
+    <value>Available Filters</value>
+  </data>
   <data name="lvFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -235,7 +235,7 @@
     <value>0, 28</value>
   </data>
   <data name="lvFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 255</value>
+    <value>219, 252</value>
   </data>
   <data name="lvFilters.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -251,9 +251,6 @@
   </data>
   <data name="&gt;&gt;lvFilters.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="hdrFilter.Text" xml:space="preserve">
-    <value>Available Filters</value>
   </data>
   <data name="splitFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -271,7 +268,7 @@
     <value>0, 0</value>
   </data>
   <data name="hlblFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 28</value>
+    <value>219, 28</value>
   </data>
   <data name="hlblFilters.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -301,7 +298,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 285</value>
+    <value>221, 282</value>
   </data>
   <data name="pnlFilters.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -318,59 +315,26 @@
   <data name="&gt;&gt;pnlFilters.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="btnCopy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 5</value>
+  <data name="flwLayoutFilterButtons.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="btnCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 26</value>
-  </data>
-  <data name="btnCopy.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="btnCopy.Text" xml:space="preserve">
-    <value>&amp;Copy</value>
-  </data>
-  <data name="&gt;&gt;btnCopy.Name" xml:space="preserve">
-    <value>btnCopy</value>
-  </data>
-  <data name="&gt;&gt;btnCopy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCopy.Parent" xml:space="preserve">
-    <value>pnlButtons2</value>
-  </data>
-  <data name="&gt;&gt;btnCopy.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnDeleteFilter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 5</value>
-  </data>
-  <data name="btnDeleteFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 26</value>
-  </data>
-  <data name="btnDeleteFilter.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnDeleteFilter.Text" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="&gt;&gt;btnDeleteFilter.Name" xml:space="preserve">
-    <value>btnDeleteFilter</value>
-  </data>
-  <data name="&gt;&gt;btnDeleteFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnDeleteFilter.Parent" xml:space="preserve">
-    <value>pnlButtons2</value>
-  </data>
-  <data name="&gt;&gt;btnDeleteFilter.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="flwLayoutFilterButtons.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="btnAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
+  <data name="btnAdd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnAdd.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 5</value>
+    <value>0, 4</value>
+  </data>
+  <data name="btnAdd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 5, 4</value>
   </data>
   <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 26</value>
@@ -388,33 +352,102 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnAdd.Parent" xml:space="preserve">
-    <value>pnlButtons2</value>
+    <value>flwLayoutFilterButtons</value>
   </data>
   <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
-  <data name="pnlButtons2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
+  <data name="btnCopy.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="pnlButtons2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 285</value>
+  <data name="btnCopy.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
-  <data name="pnlButtons2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 31</value>
+  <data name="btnCopy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 4</value>
   </data>
-  <data name="pnlButtons2.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnCopy.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 5, 4</value>
+  </data>
+  <data name="btnCopy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 26</value>
+  </data>
+  <data name="btnCopy.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;pnlButtons2.Name" xml:space="preserve">
-    <value>pnlButtons2</value>
+  <data name="btnCopy.Text" xml:space="preserve">
+    <value>&amp;Copy</value>
   </data>
-  <data name="&gt;&gt;pnlButtons2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnCopy.Name" xml:space="preserve">
+    <value>btnCopy</value>
   </data>
-  <data name="&gt;&gt;pnlButtons2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnCopy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCopy.Parent" xml:space="preserve">
+    <value>flwLayoutFilterButtons</value>
+  </data>
+  <data name="&gt;&gt;btnCopy.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnDeleteFilter.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnDeleteFilter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="btnDeleteFilter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 4</value>
+  </data>
+  <data name="btnDeleteFilter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 4</value>
+  </data>
+  <data name="btnDeleteFilter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 26</value>
+  </data>
+  <data name="btnDeleteFilter.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnDeleteFilter.Text" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteFilter.Name" xml:space="preserve">
+    <value>btnDeleteFilter</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteFilter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteFilter.Parent" xml:space="preserve">
+    <value>flwLayoutFilterButtons</value>
+  </data>
+  <data name="&gt;&gt;btnDeleteFilter.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="flwLayoutFilterButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="flwLayoutFilterButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 282</value>
+  </data>
+  <data name="flwLayoutFilterButtons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 4, 0, 0</value>
+  </data>
+  <data name="flwLayoutFilterButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 34</value>
+  </data>
+  <data name="flwLayoutFilterButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;flwLayoutFilterButtons.Name" xml:space="preserve">
+    <value>flwLayoutFilterButtons</value>
+  </data>
+  <data name="&gt;&gt;flwLayoutFilterButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flwLayoutFilterButtons.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
   </data>
-  <data name="&gt;&gt;pnlButtons2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;flwLayoutFilterButtons.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="&gt;&gt;splitFilters.Panel1.Name" xml:space="preserve">
@@ -430,7 +463,7 @@
     <value>0</value>
   </data>
   <data name="splitFilters.Panel1MinSize" type="System.Int32, mscorlib">
-    <value>218</value>
+    <value>150</value>
   </data>
   <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -445,7 +478,7 @@
     <value>22</value>
   </data>
   <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 225</value>
+    <value>458, 221</value>
   </data>
   <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -472,7 +505,7 @@
     <value>0, 0</value>
   </data>
   <data name="hlblExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 28</value>
+    <value>458, 28</value>
   </data>
   <data name="hlblExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -502,7 +535,7 @@
     <value>0, 0</value>
   </data>
   <data name="pnlExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 255</value>
+    <value>460, 251</value>
   </data>
   <data name="pnlExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -535,7 +568,10 @@
     <value>Tahoma, 8.25pt</value>
   </data>
   <data name="rbMatchAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 29</value>
+    <value>8, 29</value>
+  </data>
+  <data name="rbMatchAll.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>8, 3, 3, 3</value>
   </data>
   <data name="rbMatchAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 17</value>
@@ -568,10 +604,10 @@
     <value>Tahoma, 8.25pt</value>
   </data>
   <data name="chkIncludeInList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 6</value>
+    <value>284, 6</value>
   </data>
   <data name="chkIncludeInList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 0, 3</value>
+    <value>3, 6, 8, 3</value>
   </data>
   <data name="chkIncludeInList.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 17</value>
@@ -581,6 +617,9 @@
   </data>
   <data name="chkIncludeInList.Text" xml:space="preserve">
     <value>&amp;Include in filter drop-down list</value>
+  </data>
+  <data name="chkIncludeInList.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;chkIncludeInList.Name" xml:space="preserve">
     <value>chkIncludeInList</value>
@@ -604,10 +643,10 @@
     <value>NoControl</value>
   </data>
   <data name="rbMatchAny.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 6</value>
+    <value>8, 6</value>
   </data>
   <data name="rbMatchAny.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 3, 3</value>
+    <value>8, 6, 3, 3</value>
   </data>
   <data name="rbMatchAny.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 17</value>
@@ -633,14 +672,20 @@
   <data name="btnRemoveExp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <data name="btnRemoveExp.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnRemoveExp.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
   <data name="btnRemoveExp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 29</value>
+    <value>277, 29</value>
   </data>
   <data name="btnRemoveExp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 0, 3</value>
+    <value>3, 3, 8, 3</value>
   </data>
   <data name="btnRemoveExp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 26</value>
+    <value>175, 26</value>
   </data>
   <data name="btnRemoveExp.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -670,7 +715,7 @@
     <value>2</value>
   </data>
   <data name="tableLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 61</value>
+    <value>460, 65</value>
   </data>
   <data name="tableLayout.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -694,10 +739,10 @@
     <value>Bottom</value>
   </data>
   <data name="pnlFilterOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 255</value>
+    <value>0, 251</value>
   </data>
   <data name="pnlFilterOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 61</value>
+    <value>460, 65</value>
   </data>
   <data name="pnlFilterOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -730,10 +775,10 @@
     <value>687, 316</value>
   </data>
   <data name="splitFilters.SplitterDistance" type="System.Int32, mscorlib">
-    <value>218</value>
+    <value>221</value>
   </data>
   <data name="splitFilters.SplitterWidth" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="splitFilters.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -750,9 +795,6 @@
   <data name="&gt;&gt;splitFilters.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -765,6 +807,9 @@
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>715, 230</value>
   </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Filters</value>
   </data>
@@ -774,16 +819,16 @@
   <data name="&gt;&gt;hdrFilter.Type" xml:space="preserve">
     <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;m_tooltip.Name" xml:space="preserve">
-    <value>m_tooltip</value>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
   </data>
-  <data name="&gt;&gt;m_tooltip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>DefineFiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3758.38440, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3763.26975, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

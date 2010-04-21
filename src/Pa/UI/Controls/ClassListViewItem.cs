@@ -38,7 +38,8 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() : base(Properties.Resources.kstidNewClassName)
+		public ClassListViewItem() 
+			: base(LocalizationManager.LocalizeString("DefaultNewClassName", "New Class"))
 		{
 		}
 

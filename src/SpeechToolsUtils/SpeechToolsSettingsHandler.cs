@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.IO;
 using System.Xml;
@@ -27,7 +28,46 @@ namespace SIL.SpeechTools.Utils
 			}
 			catch
 			{
-				CreateNewSettingsFile();
+				var alternateLocation = GetAlternateSettingsFilePath();
+				try
+				{
+					m_xmlDoc.Load(alternateLocation);
+					m_settingsFile = alternateLocation;
+				}
+				catch
+				{
+					CreateNewSettingsFile();
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string GetAlternateSettingsFilePath()
+		{
+			var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			path = Path.Combine(path, "SIL Software");
+			return Path.Combine(path, kSettingsFileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void CreateNewSettingsFile()
+		{
+			try
+			{
+				base.CreateNewSettingsFile();
+			}
+			catch
+			{
+				m_settingsFile = GetAlternateSettingsFilePath();
+				base.CreateNewSettingsFile();
 			}
 		}
 

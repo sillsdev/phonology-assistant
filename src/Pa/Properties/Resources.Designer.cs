@@ -528,42 +528,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members (AND&apos;d):.
-        /// </summary>
-        internal static string kstidClassListMembersToolTipAndHdg {
-            get {
-                return ResourceManager.GetString("kstidClassListMembersToolTipAndHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Members (OR&apos;d):.
-        /// </summary>
-        internal static string kstidClassListMembersToolTipOrHdg {
-            get {
-                return ResourceManager.GetString("kstidClassListMembersToolTipOrHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Members:.
-        /// </summary>
-        internal static string kstidClassListPhoneMembersToolTipHdg {
-            get {
-                return ResourceManager.GetString("kstidClassListPhoneMembersToolTipHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Member:.
-        /// </summary>
-        internal static string kstidClassListSingleMemberToolTipHdg {
-            get {
-                return ResourceManager.GetString("kstidClassListSingleMemberToolTipHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Close Active Tab.
         /// </summary>
         internal static string kstidCloseActiveTabButtonToolTip {
@@ -749,15 +713,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDefClassPhoneHdrVow {
             get {
                 return ResourceManager.GetString("kstidDefClassPhoneHdrVow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Class &apos;{0}&apos; already exists. Choose a different name..
-        /// </summary>
-        internal static string kstidDefineClassDupClassName {
-            get {
-                return ResourceManager.GetString("kstidDefineClassDupClassName", resourceCulture);
             }
         }
         
@@ -1616,15 +1571,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidMyNetworkPlaces {
             get {
                 return ResourceManager.GetString("kstidMyNetworkPlaces", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Class.
-        /// </summary>
-        internal static string kstidNewClassName {
-            get {
-                return ResourceManager.GetString("kstidNewClassName", resourceCulture);
             }
         }
         
