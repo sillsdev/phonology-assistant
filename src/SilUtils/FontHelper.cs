@@ -15,13 +15,13 @@ namespace SilUtils
 	public class SerializableFont
 	{
 		[XmlAttribute]
-		public string Name = null;
+		public string Name ;
 		[XmlAttribute]
 		public float Size = 10;
 		[XmlAttribute]
-		public bool Bold = false;
+		public bool Bold;
 		[XmlAttribute]
-		public bool Italic = false;
+		public bool Italic;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

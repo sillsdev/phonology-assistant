@@ -556,11 +556,11 @@ namespace SIL.Pa.Processing
 					"li", "class", "filter", FilterHelper.CurrentFilter.Name);
 			}
 
-			if (View != Title && !string.IsNullOrEmpty(Title))
-			{
-				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "title", Title);
-			}
+			//if (View != Title && !string.IsNullOrEmpty(Title))
+			//{
+			//    ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
+			//        "li", "class", "title", Title);
+			//}
 
 			if (!string.IsNullOrEmpty(Name))
 			{

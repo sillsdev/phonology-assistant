@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using SilUtils;
 
@@ -29,9 +28,10 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public static class FFNormalizer
 	{
-		private const string kstidNormalizationExceptionsFile = "NormalizationExceptions.xml";
-		private static List<NormalizationException> s_exceptionsList = null;
-		private static bool s_loadAttempted = false;
+		public const string kstidNormalizationExceptionsFile = "NormalizationExceptions.xml";
+		
+		private static List<NormalizationException> s_exceptionsList;
+		private static bool s_loadAttempted;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

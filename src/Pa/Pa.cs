@@ -428,6 +428,20 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeZip
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("FileTypes.ZipFileType",
+					"Zip Files (*.zip)|*.zip");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static string kstidQuerySearchingMsg
 		{
 			get

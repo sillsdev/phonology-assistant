@@ -35,6 +35,7 @@
 			this.prgBar = new System.Windows.Forms.ProgressBar();
 			this.lblProgress = new System.Windows.Forms.Label();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.btnClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// btnBkup
@@ -78,11 +79,19 @@
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
+			// btnClose
+			// 
+			resources.ApplyResources(this.btnClose, "btnClose");
+			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnClose.Name = "btnClose";
+			this.btnClose.UseVisualStyleBackColor = true;
+			// 
 			// BackupDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
+			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnBkup);
 			this.Controls.Add(this.lblProgress);
@@ -107,5 +116,6 @@
 		private System.Windows.Forms.ProgressBar prgBar;
 		private System.Windows.Forms.Label lblProgress;
 		private System.Windows.Forms.Button btnCancel;
+		private System.Windows.Forms.Button btnClose;
 	}
 }

@@ -162,7 +162,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
 			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "XYChartVw.PatternBuilderComponents");
-			this.ptrnBldrComponent.Name = "ptrnBldrComponent";
+			this.ptrnBldrComponent.Name = "ptrnBldrDistChartVw";
 			// 
 			// pnlSideBarCaption
 			// 

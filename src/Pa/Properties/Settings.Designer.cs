@@ -686,5 +686,31 @@ namespace SIL.Pa.Properties {
                 this["ClassesDlgClassListViewColWidth2"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle BackupDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["BackupDlgBounds"]));
+            }
+            set {
+                this["BackupDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle RestoreDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["RestoreDlgBounds"]));
+            }
+            set {
+                this["RestoreDlgBounds"] = value;
+            }
+        }
     }
 }

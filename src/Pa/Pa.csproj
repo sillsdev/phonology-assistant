@@ -313,10 +313,6 @@
     <Compile Include="UI\Controls\Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\HTMLCVChartWriter.cs" />
-    <Compile Include="UI\Controls\HTMLGridWriter.cs" />
-    <Compile Include="UI\Controls\HTMLWriterBase.cs" />
-    <Compile Include="UI\Controls\HTMLXYChartWriter.cs" />
     <Compile Include="UI\Controls\IPACharacterExplorer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -380,20 +376,20 @@
     <Compile Include="UI\Controls\SearchPatternTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultsViewManager.cs" />
-    <Compile Include="UI\Controls\SearchResultTabGroup.cs">
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultsViewManager.cs" />
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultTabPopup.cs">
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultTabPopup.Designer.cs">
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.designer.cs">
       <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultView.cs">
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultView.Designer.cs">
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.designer.cs">
       <DependentUpon>SearchResultView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SimpleExplorerBar.cs">
@@ -443,11 +439,35 @@
     <Compile Include="UI\Dialogs\AmbiguousSequencesDlg.Designer.cs">
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ClassesDlg.cs">
+    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ClassesDlg.Designer.cs">
+    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.designer.cs">
+      <DependentUpon>BackupDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.designer.cs">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.designer.cs">
+      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\ClassesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\ClassesDlg.designer.cs">
       <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.designer.cs">
+      <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\CustomFieldsDlg.cs">
       <SubType>Form</SubType>
@@ -455,17 +475,23 @@
     <Compile Include="UI\Dialogs\CustomFieldsDlg.Designer.cs">
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\DefineClassDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\DefineClassDlg.Designer.cs">
-      <DependentUpon>DefineClassDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\DefineFiltersDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\DefineFiltersDlg.Designer.cs">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.designer.cs">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.designer.cs">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FindDlg.cs">
       <SubType>Form</SubType>
@@ -473,55 +499,37 @@
     <Compile Include="UI\Dialogs\FindDlg.designer.cs">
       <DependentUpon>FindDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\FwDataSourcePropertiesDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\FwDataSourcePropertiesDlg.Designer.cs">
-      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Dialogs\FwProjectsDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\FwProjectsDlg.Designer.cs">
-      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Dialogs\LaunchHTMLDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\LaunchHTMLDlg.Designer.cs">
-      <DependentUpon>LaunchHTMLDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\OKCancelDlgBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\OKCancelDlgBase.Designer.cs">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.CvPatternsTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.CvPatternsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.Designer.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.designer.cs">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.FindPhonesTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.FindPhonesTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.FontsTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.FontsTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.RecViewTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.RecViewTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.SortingTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.SortingTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.UserInterfaceTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.UserInterfaceTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\OptionsDialog.WordListTab.cs">
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.WordListTab.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\ProjectSettingsDlg.cs">
@@ -705,12 +713,6 @@
     <EmbeddedResource Include="UI\Controls\SearchOptionsDropDown.resx">
       <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\SearchResultTabPopup.resx">
-      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\SearchResultView.resx">
-      <DependentUpon>SearchResultView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SortOptionsDropDown.resx">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
     </EmbeddedResource>
@@ -720,14 +722,8 @@
     <EmbeddedResource Include="UI\Dialogs\AmbiguousSequencesDlg.resx">
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\ClassesDlg.resx">
-      <DependentUpon>ClassesDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\CustomFieldsDlg.resx">
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\DefineClassDlg.resx">
-      <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\DefineFiltersDlg.resx">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
@@ -735,20 +731,8 @@
     <EmbeddedResource Include="UI\Dialogs\FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\FwDataSourcePropertiesDlg.resx">
-      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\FwProjectsDlg.resx">
-      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\LaunchHTMLDlg.resx">
-      <DependentUpon>LaunchHTMLDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\OKCancelDlgBase.resx">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\OptionsDialog.resx">
-      <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ProjectSettingsDlg.resx">
       <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
@@ -840,6 +824,36 @@
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
     <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
       <DependentUpon>CharGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabPopup.resx">
+      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultView.resx">
+      <DependentUpon>SearchResultView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\BackupRestore\BackupDlg.resx">
+      <DependentUpon>BackupDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreDlg.resx">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.resx">
+      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\ClassesDlg.resx">
+      <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlg.resx">
+      <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwProjectsDlg.resx">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\TranscriptionChangesDlg.resx">
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>

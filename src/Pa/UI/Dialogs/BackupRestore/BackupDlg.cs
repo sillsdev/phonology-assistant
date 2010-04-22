@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using SIL.Localization;
 using SIL.Pa.DataSource;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using ICSharpCode.SharpZipLib.Zip;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class BackupDlg : Form
 	{
-		private string m_fmtInfo;
-		private string m_fmtProgress;
-		private string m_backupFile;
-		private List<string> m_prjFiles;
-		private List<string> m_dsFiles = new List<string>();
+		//private string m_fmtInfo;
+		private readonly string m_fmtProgress;
+		private readonly string m_backupFile;
+		private readonly List<string> m_prjFiles;
+		private readonly List<string> m_dsFiles = new List<string>();
 		private BRProgressDlg m_progressDlg;
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +57,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			InitializeComponent();
 
-			m_fmtInfo = lblInfo.Text;
+			if (Settings.Default.BackupDlgBounds.Height <= 0)
+				StartPosition = FormStartPosition.CenterScreen;
+
+			btnClose.Location = btnCancel.Location;
+
+			//m_fmtInfo = lblInfo.Text;
 			m_fmtProgress = lblProgress.Text;
 
 			try
@@ -73,15 +86,24 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			if (Settings.Default.BackupDlgBounds.Height > 0)
+				Bounds = Settings.Default.BackupDlgBounds;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
+			Settings.Default.BackupDlgBounds = Bounds;
+			Settings.Default.Save();
 			base.OnFormClosing(e);
-
-			try
-			{
-				App.SettingsHandler.SaveFormProperties(this);
-			}
-			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,16 +137,21 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string GetBackupZipFile()
 		{
-			string fileName = string.Format(Properties.Resources.kstidBackupFilenameFmt,
-				App.Project.Name, DateTime.Now.ToShortDateString());
+			var fmt = LocalizationManager.LocalizeString(Name + ".BackupFilenameFmt",
+				"{0} Backup ({1}).zip", App.kLocalizationGroupDialogs);
+
+			var fileName = string.Format(fmt, App.Project.Name, DateTime.Now.ToShortDateString());
 
 			// Slashes are invalid in a file name.
 			fileName = fileName.Replace("/", "-");
 
+			var caption = LocalizationManager.LocalizeString(Name + ".BackupOFDCaption",
+				"Backup File to Create", App.kLocalizationGroupDialogs);
+			
 			int filterIndex = 0;
-			return App.SaveFileDialog("zip", Properties.Resources.kstidFileTypesForOFD,
-				ref filterIndex, Properties.Resources.kstidBackupOFDCaption, fileName,
-				App.Project.Folder);
+
+			return App.SaveFileDialog("zip", App.kstidFileTypeZip + "|" + App.kstidFileTypeAllFiles,
+				ref filterIndex, caption, fileName, App.Project.Folder);
 		}	
 
 		/// ------------------------------------------------------------------------------------
@@ -154,17 +181,16 @@ namespace SIL.Pa.UI.Dialogs
 			m_progressDlg.Hide();
 			//LoadRestoredProject();
 
-			
 			if (!chkIncludeDataSources.Checked)
 				m_dsFiles.Clear();
 
-			m_dsFiles.Add(Utils.GetLocalPath(App.IPACharCache.CacheFileName, true));
+			m_dsFiles.Add(Utils.GetLocalPath(InventoryHelper.kDefaultInventoryFileName, true));
 
-			string normalizationExceptionFile = ReflectionHelper.GetField(
-				typeof(FFNormalizer), "kstidNormalizationExceptionsFile") as string;
-
-			if (!string.IsNullOrEmpty(normalizationExceptionFile))
-				m_dsFiles.Add(Path.Combine(Application.StartupPath, normalizationExceptionFile));
+			var normalizationExceptionFile =
+				Utils.GetLocalPath(FFNormalizer.kstidNormalizationExceptionsFile, true);
+			
+			if (File.Exists(normalizationExceptionFile))
+				m_dsFiles.Add(normalizationExceptionFile);
 
 			lblInfo.Visible = false;
 			chkIncludeDataSources.Visible = false;
@@ -183,8 +209,9 @@ namespace SIL.Pa.UI.Dialogs
 			Application.DoEvents();
 			zip.Close();
 
-			btnCancel.Enabled = true;
-			btnCancel.Text = Properties.Resources.kstidCloseButtonText;
+			btnCancel.Visible = false;
+			btnClose.Visible = true;
+			
 			//prgBar.Visible = false;
 			//lblProgress.Visible = false;
 			//lblInfo.Text = Properties.Resources.kstidBackupCompleteMsg;
@@ -196,7 +223,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void BackupFileList(ZipFile zip, List<string> list)
+		private void BackupFileList(ZipFile zip, IEnumerable<string> list)
 		{
 			foreach (string filename in list)
 			{

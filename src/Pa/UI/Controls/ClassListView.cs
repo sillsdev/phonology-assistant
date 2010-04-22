@@ -386,13 +386,27 @@ namespace SIL.Pa.UI.Controls
 		{
 			foreach (ColumnHeader col in Columns)
 			{
-				var width = (int)Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index];
-				if (width > 0)
-					col.Width = width;
+				try
+				{
+					var width = (int)Settings.Default[parentFormName + "ClassListViewColWidth" + col.Index];
+					if (width > 0)
+						col.Width = width;
+				}
+				catch { }
 			}
 
-			m_sortColumn = (int)Settings.Default[parentFormName + "ClassListViewSortedColumn"];
-			m_sortOrder = (SortOrder)Settings.Default[parentFormName + "ClassListViewSortOrder"];
+			try
+			{
+				m_sortColumn = (int)Settings.Default[parentFormName + "ClassListViewSortedColumn"];
+			}
+			catch { }
+
+			try
+			{
+				m_sortOrder = (SortOrder)Settings.Default[parentFormName + "ClassListViewSortOrder"];
+			}
+			catch { }
+			
 			SortList(-1);
 
 			if (Items.Count > 0)
