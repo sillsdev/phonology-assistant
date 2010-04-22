@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-20 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-21 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -37,11 +37,12 @@ exclude-result-prefixes="xhtml"
 	<!-- TO DO: title, heading, p elements also? -->
 
 	<xsl:param name="langDefault" select="'en'" />
-	<!-- Internet Explorer: Internet security zone instead of Local Machine. -->
+	<!-- For Internet Explorer, specify Internet security zone instead of Local Machine. -->
 	<xsl:param name="markOfTheWeb" select="'about:internet'" />
-	<!-- Internet Explorer: Specify version 8 for HTML view of CV chart in Phonology Assistant. -->
+	<!-- For Internet Explorer, use the most recent installed version, instead of version 7. -->
+	<!-- Necessary for the HTML view of CV chart in Phonology Assistant. -->
 	<!-- Might also help with exported files on an intranet, including a file server. -->
-	<xsl:param name="X-UA-Compatible" select="'IE=8'" />
+	<xsl:param name="X-UA-Compatible" select="'IE=edge'" />
 	<xsl:param name="genericStylesheetFile" select="'phonology.css'" />
 	<xsl:param name="genericStylesheetPrintFile" select="'phonology_print.css'" />
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
@@ -97,10 +98,10 @@ exclude-result-prefixes="xhtml"
 				<!-- To reduce potential delay in loading content, script elements are at the end of the body. -->
 				<!-- Newline necessary to force start and end tags on separate lines. -->
 				<xsl:if test="$interactiveWebPage = 'true'">
-					<script type="text/javascript" src="{concat($genericRelativePath, $jqueryScriptFile)}">
+					<script src="{concat($genericRelativePath, $jqueryScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
-					<script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
+					<script src="{concat($genericRelativePath, $phonologyScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
 				</xsl:if>

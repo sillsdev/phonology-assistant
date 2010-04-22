@@ -1,6 +1,11 @@
-﻿// phonology.js 2010-04-20
+﻿// phonology.js 2010-04-21
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // Requires jQuery 1.3 or later.
+
+// JSLint:
+/*global $, document, parseInt */
+
+"use strict";
 
 // Execute when the DOM is fully loaded.
 
@@ -8,9 +13,10 @@ $(document).ready(function () {
 
 	// Data Corpus or Search view ==============================================
 
-	// Remove all non-alphanumeric characters from a field name to get its class.
+	// The class for a field name consists of alphanumerics or underscore.
+	// That is, \W is the opposite of \w, which means [0-9A-Z_a-z].
 	function fieldClassFromName(name) {
-		return name.replace(/[^A-Za-z0-1]/g, '');
+		return name.replace(/\W/g, '');
 	}
 
 	// To compare sort keys, undo changes to original field values for XHTML table cells.
@@ -33,44 +39,54 @@ $(document).ready(function () {
 		return sortKey;
 	}
 
-	// To sort rows by a column, click its heading cell (or click a phonetic sort option).
+	// To sort by a column, click its heading cell (or click a phonetic sort option).
 	function clickColumnHeadingList(event) {
-		var $target = $(event.target);
-		var $th = $target.closest('th');
-		var sortOptions = $th.hasClass('sortOptions');
-		var reverse = $th.hasClass('sortField');
+		var $table = $(this),
+			$target = $(event.target),
+			$th = $target.closest('th'),
+			sortOptions = $th.hasClass('sortOptions'),
+			reverse = $th.hasClass('sortField'),
+			mannerOfArticulationOption,
+			mannerOfArticulationHeading,
+			fieldName,
+			descending,
+			sortKeySelector,
+			$parents,
+			childrenSelector,
+			detailsAboutSortField;
+
 		if ($target.is('li')) {
-			var liManner = $target.hasClass('mannerOfArticulation');
-			var thManner = $th.hasClass('mannerOfArticulation');
-			if (liManner && !thManner) {
+			mannerOfArticulationOption = $target.hasClass('mannerOfArticulation');
+			mannerOfArticulationHeading = $th.hasClass('mannerOfArticulation');
+			if (mannerOfArticulationOption && !mannerOfArticulationHeading) {
 				$th.addClass('mannerOfArticulation');
 				reverse = false;
-			} else if (!liManner && thManner) {
+			} else if (!mannerOfArticulationOption && mannerOfArticulationHeading) {
 				$th.removeClass('mannerOfArticulation');
 				reverse = false;
 			}
 		}
-		if (reverse) {
-			$th.toggleClass('descending');
-		}
-		var mannerOfArticulation = $th.hasClass('mannerOfArticulation');
 		$th.find('ul').remove();
 		
-		var $table = $th.closest('table');
-		$table.find('thead th.sortField').removeClass('sortField');
-		var fieldName = $th.text();
-		var fieldClass = fieldClassFromName(fieldName);
-		var sortKeySelector = '.' + fieldClass;
-		if (sortOptions) {
-			sortKeySelector += (' ul.sortOrder li.' +
-				(mannerOfArticulation ? 'mannerOfArticulation' : 'placeOfArticulation'));
+		mannerOfArticulationHeading = $th.hasClass('mannerOfArticulation');	
+		fieldName = $th.text();
+		descending = $th.hasClass('descending');
+
+		if (reverse) {
+			$th.toggleClass('descending');
+		} else {
+			$table.find('thead th.sortField').removeClass('sortField');
+			sortKeySelector = '.' + fieldClassFromName(fieldName);
+			if (sortOptions) {
+				sortKeySelector += (' ul.sortOrder li.' +
+					(mannerOfArticulationHeading ? 'mannerOfArticulation' : 'placeOfArticulation'));
+			}
+			else if ($table.find('td' + sortKeySelector + ' ul.sortOrder li').length !== 0) {
+				sortKeySelector += ' ul.sortOrder li';
+			}
+			$th.addClass('sortField');
 		}
-		else if ($table.find('td' + sortKeySelector + ' ul.sortOrder li').length !== 0) {
-			sortKeySelector += ' ul.sortOrder li';
-		}
-		var descending = $th.hasClass('descending');
-		var $parents;
-		var childrenSelector;
+		
 		if ($table.find('tbody.group').length === 0) {
 			// For an ungrouped list in Data Corpus or Search view,
 			// sort all the rows in the table body element.
@@ -92,79 +108,87 @@ $(document).ready(function () {
 		}
 		
 		$parents.each(function () {
-			var $parent = $(this);
 			// TO DO: Find an idiom to reverse or sort, and then replace.
-			var children = $parent.find(childrenSelector).remove().get();
+			var $parent = $(this),
+				children = $parent.find(childrenSelector).remove().get();
+				
 			if (reverse) {
 				children.reverse();
 			} else {
-				children.sort(function(childA, childB) {
-					var sortKeyA = sortFieldValue($(childA).find(sortKeySelector).text());
-					var sortKeyB = sortFieldValue($(childB).find(sortKeySelector).text());
-					var result = sortKeyA.localeCompare(sortKeyB);
+				children.sort(function (childA, childB) {
+					var sortKeyA = sortFieldValue($(childA).find(sortKeySelector).text()),
+						sortKeyB = sortFieldValue($(childB).find(sortKeySelector).text()),
+						result = sortKeyA.localeCompare(sortKeyB);
+
 					return descending ? -result : result;
 				});
 			}
 			$parent.append(children);
 		});
 		
-		$th.addClass('sortField');
-		var detailsAboutSortField = fieldName;
+		detailsAboutSortField = fieldName;
 		if (sortOptions) {
-			detailsAboutSortField += (', ' + (mannerOfArticulation ? 'manner of articulation' : 'place of articulation'));
+			detailsAboutSortField += (', ' + (mannerOfArticulationHeading ? 'manner of articulation' : 'place of articulation'));
 		}
 		if (descending) {
 			detailsAboutSortField += ', descending';
 		}
 		$table.parent().find('table.details tr.primarySortField td').text(detailsAboutSortField);
 	}
+	
+	function clickList(event) {
+		var $th = $(event.target).closest('th');
+		if ($th.length === 1) {
+			if ($th.hasClass('group')) {
+
+				// To expand or collapse all groups, click the cell at the upper left.
+				$(this).toggleClass('collapsed'); // this refers to the table.
+
+			} else if ($th.hasClass('count') || $th.hasClass('pair')) {
+
+				// To expand or collapse a group, click the cell at the left of its heading row
+				// which contains the number of records or the minimal pair.
+				$th.closest('tbody').toggleClass('collapsed');
+
+			} else if ($th.hasClass('sortable')) {
+
+				// To sort by a column, click its heading cell (or click a phonetic sort option).
+				clickColumnHeadingList(event);
+
+			}
+		}
+	}
+
+	// When the mouse pointer moves over the heading cell, phonetic sort options appear.
+	function mouseoverSortOptionList() {
+		$(this).append('<ul><li class="placeOfArticulation">place of articulation</li><li class="mannerOfArticulation">manner of articulation</li></ul>');
+	}
+
+	// When the mouse pointer moves out of the heading cell, phonetic sort options disappear.
+	function mouseoutSortOptionList() {
+		$(this).find('ul').remove();
+	}
 
 	// Execute when the DOM is fully loaded.
 	function readyList() {
 		$('table.list').each(function () {
-			var $table = $(this);
-			$table.addClass('interactive').click(function (event) {
-				var $th = $(event.target).closest('th');
-				if ($th.length === 1) {
-					if ($th.hasClass('group')) {
-
-						// To expand or collapse all groups, click the cell at the upper left.
-						$(this).toggleClass('collapsed'); // this refers to the table.
-
-					} else if ($th.hasClass('count') || $th.hasClass('pair')) {
-
-						// To expand or collapse a group, click the cell at the left of its heading row
-						// which contains the number of records or the minimal pair.
-						$th.closest('tbody').toggleClass('collapsed');
-
-					} else if ($th.hasClass('sortable')) {
-
-						// To sort by a column, click its heading cell (or click a phonetic sort option).
-						clickColumnHeadingList(event);
-
-					}
-				}
-			});
-			var hasGroups = $table.find('thead th.group').length !== 0;
-			var hasPairs = hasGroups && $table.find('tbody.group th.pair').length !== 0;
-			$table.find('thead th.sortOptions').hover(function () {
-				/* When the mouse pointer moves over the heading cell, phonetic sort options appear. */
-				$(this).append('<ul><li class="placeOfArticulation">place of articulation</li><li class="mannerOfArticulation">manner of articulation</li></ul>');
-			},
-			function () {
-				/* When the mouse pointer moves out of the heading cell, phonetic sort options disappear. */
-				$(this).find('ul').remove();
-			});
-			var $sortableColumnHeadings;
+			var $table = $(this),
+				hasGroups = $table.find('thead th.group').length !== 0,
+				hasPairs = hasGroups && $table.find('tbody.group th.pair').length !== 0,
+				sortableColumnHeadingSelector;
+			
+			$table.addClass('interactive').click(clickList);
+			$table.find('thead th.sortOptions').hover(mouseoverSortOptionList, mouseoutSortOptionList);
+			
+			// TO DO: Review the logic for sortability.
 			if (!hasPairs) {
+				sortableColumnHeadingSelector = 'thead th';
 				if (hasGroups) {
-					$sortableColumnHeadings = $table.find('thead th.sortField');
+					sortableColumnHeadingSelector += '.sortField';
 				}
-				else {
-					$sortableColumnHeadings = $table.find('thead th');
-				}
-				$sortableColumnHeadings.addClass('sortable');
+				$table.find(sortableColumnHeadingSelector).addClass('sortable');
 			}
+			
 			$table.find('td > ul.transcription').parent().wrapInner('<div class="transcription"></div>');
 		});
 	}
@@ -173,16 +197,17 @@ $(document).ready(function () {
 
 	// Utility functions -------------------------------------------------------
 
-	// Convert list item to string.
-	function textFromListItem(item) {
+	// Convert list item (DOM) to string.
+	function textFromListItem(li) {
 		// Internet Explorer 7 returns a trailing space in text of li elements.
-		return $.trim($(item).text());
+		return $.trim($(li).text());
 	}
 
-	// Convert feature in the table to string.
+	// Convert feature in a table cell (DOM) to string.
 	function featureFromCell(td) {
-		var $td = $(td);
-		var text = $td.text();
+		var $td = $(td),
+			text = $td.text();
+
 		if ($td.hasClass('plus')) {
 			text = '+' + $td.parent().find('td.name').text();
 		} else if ($td.hasClass('minus')) {
@@ -195,6 +220,7 @@ $(document).ready(function () {
 	
 	function featuresToMatchCV(classOfFeatures, $container, $tdActive) {
 		var $features = $container.find('table.' + classOfFeatures + ' td.selected');
+
 		if ($tdActive && $tdActive.closest('table.features').hasClass(classOfFeatures)) {
 			$features = $features.add($tdActive);
 		}
@@ -202,9 +228,10 @@ $(document).ready(function () {
 	}
 	
 	function matchUnitForClassFeaturesCV(classOfFeatures, features, $tdPhonetic) {
-		var featuresOfUnit = $.map($tdPhonetic.find('ul.' + classOfFeatures + ' li'), textFromListItem);
-		var i;
-		for (i = 0; i !== features.length; i++) {
+		var featuresOfUnit = $.map($tdPhonetic.find('ul.' + classOfFeatures + ' li'), textFromListItem),
+			i;
+			
+		for (i = 0; i < features.length; i += 1) {
 			if ($.inArray(features[i], featuresOfUnit) < 0) {
 				// The phone does not match a feature.
 				return false;
@@ -216,10 +243,12 @@ $(document).ready(function () {
 	// When the mouse pointer moves over or out of a feature,
 	// or if you select or clear a feature, match phones in the chart.
 	function matchUnitsForFeaturesCV($container, $tdActive) {
-		var featuresArticulatory = featuresToMatchCV('articulatory', $container, $tdActive);
-		var featuresBinary = featuresToMatchCV('binary', $container, $tdActive);
-		var featuresHierarchical = featuresToMatchCV('hierarchical', $container, $tdActive);
-		var $tableCV = $container.find('table.CV');
+		var featuresArticulatory = featuresToMatchCV('articulatory', $container, $tdActive),
+			featuresBinary = featuresToMatchCV('binary', $container, $tdActive),
+			featuresHierarchical = featuresToMatchCV('hierarchical', $container, $tdActive),
+			$tableCV = $container.find('table.CV'),
+			$tdPhonetic,
+			matched;
 
 		if (featuresArticulatory.length === 0 && featuresBinary.length === 0 && featuresHierarchical.length === 0) {
 			// If moving the mouse out of a feature and no other features selected.
@@ -227,8 +256,8 @@ $(document).ready(function () {
 		} else {
 			// In non-empty cells of the chart, match units that have the features.
 			$tableCV.find('td.Phonetic').each(function () {
-				var $tdPhonetic = $(this);
-				var matched = matchUnitForClassFeaturesCV('articulatory', featuresArticulatory, $tdPhonetic);
+				$tdPhonetic = $(this);
+				matched = matchUnitForClassFeaturesCV('articulatory', featuresArticulatory, $tdPhonetic);
 				if (matched) {
 					matched = matchUnitForClassFeaturesCV('binary', featuresBinary, $tdPhonetic);
 				}
@@ -286,16 +315,18 @@ $(document).ready(function () {
 	}
 
 	function matchClassFeaturesCV(classOfFeatures, $container, $tdActive, $tdSelected) {
-		var selector = 'ul.' + classOfFeatures + ' li';
-		var featuresActive = $.map($tdActive.find(selector), textFromListItem);
-		var featuresSelected;
+		var selector = 'ul.' + classOfFeatures + ' li',
+			featuresActive = $.map($tdActive.find(selector), textFromListItem),
+			featuresSelected;
+			
 		if ($tdSelected && $tdSelected.length === 1)  {
 			featuresSelected = $.map($tdSelected.find(selector), textFromListItem);
 		}
 		$container.find('table.' + classOfFeatures + ' tbody tr').each(function () {
-			var $tr = $(this);
-			var $td = $tr.find('td.name');
-			var featureName = $td.text();
+			var $tr = $(this),
+				$td = $tr.find('td.name'),
+				featureName = $td.text();
+			
 			if ($tr.hasClass('bivalent')) {
 				$td = $tr.find('td.plus');
 				if ($td.length === 1) {
@@ -344,13 +375,14 @@ $(document).ready(function () {
 	}
 
 	function mouseoverChartCV() {
+		var $this = $(this),
+			$container = $this.parent();
+
 		// Chart becomes active and phones become unmatched.
-		var $this = $(this);
 		$this.removeClass('inactive');
 		$this.find('td.matched').removeClass('matched');
 
 		// Feature tables become inactive and selected features become cleared.
-		var $container = $this.parent();
 		$container.find('table.features').addClass('inactive')
 			.find('td.selected').removeClass('selected');
 		$container.find('table.binary')
@@ -364,35 +396,38 @@ $(document).ready(function () {
 	// Event functions for table cells -----------------------------------------
 
 	function clickChartCV(event) {
-		var $activeCell = $(event.target).closest('td');
-		if ($activeCell.length === 0) {
-			return;
-		}
+		var $activeCell = $(event.target).closest('td'),
+			$table,
+			phoneticCell,
+			$selectedCell;
 
-		var $table = $activeCell.closest('table');
-		if ($activeCell.hasClass('selected')) {
-			$activeCell.removeClass('selected');
-		}
-		else {
-			var phoneticCell = $activeCell.hasClass('Phonetic');
-			var $selectedCell = $table.find('td.selected');
-			if ($selectedCell.length !== 0) {
-				$selectedCell.removeClass('selected');
-				unmatchFeaturesCV($table.parent());
-				if (phoneticCell) {
-					matchFeaturesCV($activeCell);
-				}
+		if ($activeCell.length !== 0) {
+			$table = $activeCell.closest('table');
+			if ($activeCell.hasClass('selected')) {
+				$activeCell.removeClass('selected');
 			}
-			if (phoneticCell) {
-				$activeCell.addClass('selected');
+			else {
+				phoneticCell = $activeCell.hasClass('Phonetic');
+				$selectedCell = $table.find('td.selected');
+				if ($selectedCell.length !== 0) {
+					$selectedCell.removeClass('selected');
+					unmatchFeaturesCV($table.parent());
+					if (phoneticCell) {
+						matchFeaturesCV($activeCell);
+					}
+				}
+				if (phoneticCell) {
+					$activeCell.addClass('selected');
+				}
 			}
 		}
 	}
 
 	function mouseoverUnitCV() {
-		var $activeCell = $(this);
-		var $table = $activeCell.closest('table');
-		var $selectedCell = $table.find('td.selected');
+		var $activeCell = $(this),
+			$table = $activeCell.closest('table'),
+			$selectedCell = $table.find('td.selected');
+		
 		if ($selectedCell.length === 1 && $selectedCell.get(0) !== $activeCell.get(0)) {
 			matchFeaturesCV($activeCell, $selectedCell);
 		}
@@ -452,8 +487,9 @@ $(document).ready(function () {
 	}
 
 	function clickBinaryFeatureValueCV($td) {
-		var oppositeValue = $td.hasClass('minus') ? 'plus' : 'minus';
-		var $oppositeValue = $td.parent().find('td.' + oppositeValue);
+		var oppositeValue = $td.hasClass('minus') ? 'plus' : 'minus',
+			$oppositeValue = $td.parent().find('td.' + oppositeValue);
+
 		if ($td.hasClass('selected')) {
 			// If this value is selected, clear it.
 			$td.removeClass('selected');
@@ -472,8 +508,9 @@ $(document).ready(function () {
 	}
 
 	function clickFeaturesCV(event) {
-		var $table = $(this);
-		var $target = $(event.target);
+		var $table = $(this),
+			$target = $(event.target);
+
 		if ($target.is('td')) {
 			if ($target.hasClass('name') && !($target.parent().hasClass('bivalent'))) {
 				clickFeatureCV($target);
@@ -491,9 +528,9 @@ $(document).ready(function () {
 	}
 	
 	function headingOfFeatures() {
-		var $th = $(this);
-		// Assume that the text is wrapped in a span, preceded by an optional br.
-		var text = $th.find('span').text();
+		var $th = $(this),
+			text = $th.find('span').text(); // Assume that the text is wrapped in a span.
+
 		// Title attribute is the original text.
 		// Abbreviation consists of the first character,
 		// followed by U+25BE black down-pointing small triangle.
@@ -504,8 +541,9 @@ $(document).ready(function () {
 	
 	function readyCV() {
 		$('table.CV').each(function () {
-			var $tableCV = $(this);
-			var $tablesOfFeatures = $tableCV.parent().find('table.features');
+			var $tableCV = $(this),
+				$tablesOfFeatures = $tableCV.parent().find('table.features');
+
 			if ($tablesOfFeatures.length !== 0) {
 				$tableCV.addClass('interactive')
 						.hover(mouseoverChartCV, mouseoutChartCV)
@@ -540,16 +578,18 @@ $(document).ready(function () {
 	// List of environments preceding a consonant or vowel distribution chart.
 
 	function matchPhonesForSelectedEnvironmentsCV($environment) {
-		var $listOfEnvironments = $environment.parent();
+		var $listOfEnvironments = $environment.parent(),
+			$chart = $listOfEnvironments.parent().find('table.CV'),
+			environment = textFromListItem($environment);
+
 		$listOfEnvironments.find('li').removeClass('selected');
 		$environment.addClass('selected');
-		var environment = textFromListItem($environment);
-		var $chart = $listOfEnvironments.parent().find('table.CV');
 		$chart.find('.notInEnvironment').removeClass('notInEnvironment');
 		$chart.find('td.Phonetic').each(function () {
-			var $phone = $(this);
-			var $phoneEnvironments = $phone.find('ul.environments li');
-			var phoneEnvironments = $.map($phoneEnvironments, textFromListItem);
+			var $phone = $(this),
+				$phoneEnvironments = $phone.find('ul.environments li'),
+				phoneEnvironments = $.map($phoneEnvironments, textFromListItem);
+
 			if ($.inArray(environment, phoneEnvironments) < 0) {
 				$phone.addClass('notInEnvironment');
 			}
@@ -580,28 +620,32 @@ $(document).ready(function () {
 	// To expand a row group, click U+25BE black down-pointing small triangle.
 
 	function readyGeneralizedDistribution($table) {
+		var $colgroups = $table.find('colgroup'),
+			$thCols = $table.find('thead tr.individual th'),
+			dataCellsByRow = [],
+			iCol = 0;
+
 		$table.addClass('generalized');
 		
 		// Upper-left cell.
 		$table.find('thead tr:first th:first-child').addClass('upperLeft');
 
 		// General column groups, if any.
-		var $colgroups = $table.find('colgroup');
-		var $thCols = $table.find('thead tr.individual th');
-		var dataCellsByRow = [];
 		$table.find('tbody tr').each(function (i) {
 			dataCellsByRow[i] = $(this).find('td');
 		});
-		var iCol = 0;
 		$table.find('thead tr.general th.Phonetic').each(function (i) {
-			var j, k;
-			i++;
-			var colgroupClass = 'colgroup' + i;
-			var $thColgroup = $(this);
+			var $thColgroup = $(this),
+				colgroupClass,
+				colspan,
+				j, k;
+
+			i += 1;
+			colgroupClass = 'colgroup' + i;
 			$thColgroup.addClass(colgroupClass);
 			$colgroups.eq(i).addClass(colgroupClass);
 
-			var colspan = $thColgroup.attr('colspan');		
+			colspan = $thColgroup.attr('colspan');		
 			colspan = (colspan.length === 0 ? 1 : parseInt(colspan, 10));
 
 			// Column headings for the group in the individual heading row.
@@ -610,17 +654,14 @@ $(document).ready(function () {
 				$thCols.eq(iCol).addClass(colgroupClass).html('◂'); // left-pointing
 			}
 			// Individual heading cells.
-			for (k = 1; k !== colspan; k++) {
+			for (k = 1; k < colspan; k += 1) {
 				$thCols.eq(iCol + k).addClass(colgroupClass).addClass('individual');
 			}
 
 			// Data cells for the group.
-			for (j = 0; j !== dataCellsByRow.length; j++) {
-				var $td = dataCellsByRow[j];
-				for (k = 0; k !== colspan; k++) {
-					$td.eq(iCol + k).addClass(colgroupClass);
-					//if (k !== 0)
-					//	$td.eq(iCol + k).addClass('individual');
+			for (j = 0; j < dataCellsByRow.length; j += 1) {
+				for (k = 0; k < colspan; k += 1) {
+					dataCellsByRow[j].eq(iCol + k).addClass(colgroupClass);
 				}
 			}
 
@@ -638,16 +679,17 @@ $(document).ready(function () {
 	}
 
 	function colgroupChildren($colgroup, n) {
-		var $cols = $colgroup.find('col');
-		var nInitial = $cols.length;
-		var i;
+		var $cols = $colgroup.find('col'),
+			nInitial = $cols.length,
+			i;
+
 		if (n < nInitial) {
-			for (i = n; i !== nInitial; i++) {
+			for (i = n; i < nInitial; i += 1) {
 				$cols.eq(i).remove();
 			}
 		}
 		else if (n > nInitial) {
-			for (i = nInitial; i !== n; i++) {
+			for (i = nInitial; i < n; i += 1) {
 				$colgroup.append('<col></col>');
 			}
 		}
@@ -656,24 +698,32 @@ $(document).ready(function () {
 	// To temporarily collapse or expand all general rows and columns,
 	// click the upper left of the table.
 	function clickUpperLeftDistribution($thUpperLeft) {
-		var $table = $thUpperLeft.closest('table');
+		var $table = $thUpperLeft.closest('table'),
+			colspan,
+			rowspan,
+			$colgroups;
+
 		if ($table.hasClass('generalized')) {
 			$table.toggleClass('collapsed');
 
 			// Make the first column group consistent with heading rows and columns.
-			var colspan = ($table.hasClass('collapsed') ? 1 : $table.find('tbody:first tr:first th').length);
-			var rowspan = ($table.hasClass('collapsed') ? 1 : $table.find('thead tr').length);
-			var $colgroups = $table.find('colgroup');
+			colspan = ($table.hasClass('collapsed') ? 1 : $table.find('tbody:first tr:first th').length);
+			rowspan = ($table.hasClass('collapsed') ? 1 : $table.find('thead tr').length);
+			$colgroups = $table.find('colgroup');
 			colgroupChildren($colgroups.eq(0), colspan);
 			$thUpperLeft.attr('colspan', colspan);
 			$thUpperLeft.attr('rowspan', rowspan);
 			
 			// Make general column headings, if any, consistent with visible cells.
 			$table.find('thead tr.general th.Phonetic').each(function (i) {
-				i++;
-				var $colgroup = $colgroups.eq(i);
-				var colgroupClass = $colgroup.attr('class');
-				var colspan = 1;
+				var $colgroup,
+					colgroupClass,
+					colspan;
+
+				i += 1;
+				$colgroup = $colgroups.eq(i);
+				colgroupClass = $colgroup.attr('class');
+				colspan = 1;
 				if (!($table.hasClass('collapsed'))) {
 					colspan += $table.find('thead tr.individual th.individual.' + colgroupClass).not('.collapsed').length;
 				}
@@ -683,9 +733,10 @@ $(document).ready(function () {
 			
 			// Make general row headings, if any, consistent with visible rows.
 			$table.find('tbody tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this);
-				var $tbody = $thPhonetic.closest('tbody');
-				var rowspan = ($table.hasClass('collapsed') || $tbody.hasClass('collapsed') ? 1 : $tbody.find('tr').length);
+				var $thPhonetic = $(this),
+					$tbody = $thPhonetic.closest('tbody'),
+					rowspan = ($table.hasClass('collapsed') || $tbody.hasClass('collapsed') ? 1 : $tbody.find('tr').length);
+
 				$thPhonetic.attr('rowspan', rowspan);
 			});
 		}
@@ -696,17 +747,22 @@ $(document).ready(function () {
 	}
 
 	function clickColumnHeadingDistribution($th) {
+		var colgroupClass,
+			$table,
+			colspan,
+			$colgroup;
+
 		if ($th.hasClass('Phonetic')) {
 			$th.toggleClass('reduced');
 		}
 		else if ($th.attr('class').length !== 0) {
 			// Toggle the class, and then change the colgroup, colspan, and heading.
-			var colgroupClass = $th.attr('class');
-			var $table = $th.closest('table');
+			colgroupClass = $th.attr('class');
+			$table = $th.closest('table');
 			$table.find('.individual.' + colgroupClass).toggleClass('collapsed');
-			var colspan = $table.find('thead tr.individual th.' + colgroupClass).not('.collapsed').length;
+			colspan = $table.find('thead tr.individual th.' + colgroupClass).not('.collapsed').length;
 
-			var $colgroup = $table.find('colgroup.' + colgroupClass);
+			$colgroup = $table.find('colgroup.' + colgroupClass);
 			colgroupChildren($colgroup, colspan);
 
 			$table.find('thead tr.general th.' + colgroupClass).attr('colspan', colspan);
@@ -716,26 +772,31 @@ $(document).ready(function () {
 	}
 
 	function clickRowHeadingDistribution($th) {
+		var $tbody,
+			rowspan;
+	
 		if ($th.hasClass('Phonetic')) {
 			$th.toggleClass('reduced');
 		}
 		else if ($th.attr('class').length !== 0) {
 			// Toggle the class, and then change the rowspan and heading.
-			var $tbody = $th.closest('tbody');
+			$tbody = $th.closest('tbody');
 			$tbody.toggleClass('collapsed');
-			var rowspan = ($tbody.hasClass('collapsed') ? 1 : $tbody.find('tr').length);
+			rowspan = ($tbody.hasClass('collapsed') ? 1 : $tbody.find('tr').length);
 			$th.closest('tr').find('th.Phonetic').attr('rowspan', rowspan);
 			$th.html($th.html() === '▴' ? '▾' : '▴'); // down-pointing : up-pointing
 		}
 	}
 
 	function clickChartDistribution(event) {
-		var $target = $(event.target);
+		var $target = $(event.target),
+			$th;
+
 		if ($target.is('span') && $target.hasClass('zero')) {
 			$(this).toggleClass('nonZero');
 		}
 		else {	
-			var $th = $target.closest('th');
+			$th = $target.closest('th');
 			if ($th.length !== 0) {
 				if ($th.hasClass('upperLeft')) {
 					clickUpperLeftDistribution($th);

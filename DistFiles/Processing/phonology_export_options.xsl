@@ -66,8 +66,6 @@ exclude-result-prefixes="xhtml"
 					<li class="hierarchicalFeatureTable">true</li>
 					<li class="featureChartByPlaceOfArticulation">true</li>
 					<li class="featureChartByMannerOfArticulation">true</li>
-					<li class="generalizeEnvironments">true</li>
-					<li class="generalizeItems">true</li>
 					<li class="transposeColumnsAndRows">false</li>
 					<!--
 					<li class="withCVchart">true</li>

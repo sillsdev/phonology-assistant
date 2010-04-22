@@ -270,6 +270,43 @@
 					<document href="phonology_export_view_distribution_chart_generalize_2.xsl" />
 				</input>
 			</xslt>
+			<!-- Begin processing for CV chart that follows some distribution charts. -->
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_1.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_2a_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_2b_features.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_2c_features.xsl" />
+				</input>
+			</xslt>
+			<!-- End processing for CV chart that follows some distribution charts. -->
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_distribution_chart_transpose.xsl" />

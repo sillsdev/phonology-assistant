@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-04-19 */
+﻿/* phonology.css 2010-04-21 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For rounded border properties. */
@@ -194,8 +194,9 @@ vertical-align: baseline;
 }
 
 ul.environments.interactive + table.CV thead th,
-ul.environments.interactive + table.CV + table.articulatory thead th,
-ul.environments.interactive + table.CV + table.articulatory + table.binary thead th,
+ul.environments.interactive + table.CV + table.features thead th,
+ul.environments.interactive + table.CV + table.features + table.features thead th,
+ul.environments.interactive + table.CV + table.features + table.features + table.features thead th,
 table.list tr.heading th
 {
 padding-top: 0.375em;
@@ -458,11 +459,6 @@ table.list th.sortOptions ul
 border-style: solid;
 }
 
-table.features th
-{
-/* For rounded border properties, see the phonology_CSS3.css file. */
-}
-
 table.chart
 {
 border-collapse: collapse; /* For thead, tbody, and colgroup borders. */
@@ -569,8 +565,9 @@ border-color: #dddddd; /* lighter border */
 }
 
 ul.environments.interactive + table.CV,
-ul.environments.interactive + table.CV + table.articulatory,
-ul.environments.interactive + table.CV + table.articulatory + table.binary
+ul.environments.interactive + table.CV + table.features,
+ul.environments.interactive + table.CV + table.features + table.features,
+ul.environments.interactive + table.CV + table.features + table.features + table.features
 {
 margin-top: 0;
 }
@@ -664,27 +661,27 @@ border-left-width: 1px;
 
 /* Color ==================================================================== */
 
-/*     Hex    R   G   B    H    S    V   Description            Meaning           */
-/* #000000    0   0   0    0°   0%   0%  black                  text normal       */
-/* #404040   64  64  64    0°   0%  25%  gray                   text bold         */
-/* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed    */
-/* #ffffff  255 255 255    0°   0% 100%  white                  background print  */
-/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background        */
-/* #f8fff8  248 255 248  120°   3% 100%  desaturated green      background hover  */
+/*     Hex    R   G   B    H    S    V   Description            Meaning              */
+/* #000000    0   0   0    0°   0%   0%  black                  text normal          */
+/* #404040   64  64  64    0°   0%  25%  gray                   text bold            */
+/* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed       */
+/* #ffffff  255 255 255    0°   0% 100%  white                  background print     */
+/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background           */
 
-/* #ffff00  255 255   0   60° 100% 100%  yellow                 important         */
-/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant       */
-/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  significant hover */
-/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error             */
+/* #ffff00  255 255   0   60° 100% 100%  yellow                 important            */
+/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant          */
+/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  significant hover    */
+/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error                */
 
-/*                                                              border            */
-/* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border    */
+/*                                                              border               */
+/* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border       */
 
-/* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive       */
-/* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive alt   */
-/* #a3cca3  163 204 163  120°  20%  80%  light green            active            */
-/* #7db27d  125 178 125  120°  30%  70%  green                  selected          */
-/*                                       transparent            inactive          */
+/* #f8fff8  248 255 248  120°   3% 100%  desaturated green      interactive contrast */
+/* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive          */
+/* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive alt      */
+/* #a3cca3  163 204 163  120°  20%  80%  light green            active               */
+/* #7db27d  125 178 125  120°  30%  70%  green                  selected             */
+/*                                       transparent            inactive             */
 
 /* Color -------------------------------------------------------------------- */
 
@@ -723,7 +720,7 @@ color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
 table.CV.interactive td.Phonetic.selected span,
 table.features.interactive td.selected
 {
-color: #f8fff8; /* background hover */
+color: #f8fff8; /* interactive contrast */
 }
 
 /* Background color --------------------------------------------------------- */
@@ -857,7 +854,7 @@ table.list.interactive th.pair > ul li:hover span,
 table.list.interactive th.pair > ul li:hover ul.differences,
 table.list.interactive ul.transcription:hover
 {
-background-color: #f8fff8; /* background hover */
+background-color: #f8fff8; /* interactive contrast */
 }
 
 table.CV.inactive td.Phonetic,

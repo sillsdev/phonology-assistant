@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a_features.xsl 2010-04-20 -->
+  <!-- phonology_export_view_CV_chart_2a_features.xsl 2010-04-21 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
   <!-- For each Phonetic data cell: -->
   <!-- * Wrap the literal unit in a span. -->
@@ -162,11 +162,27 @@ exclude-result-prefixes="xhtml"
 			<xsl:apply-templates select="@*" />
 			<xsl:choose>
 				<xsl:when test="$features = 'true'">
-					<xsl:variable name="literal" select="." />
+					<xsl:variable name="literal">
+						<xsl:choose>
+							<xsl:when test="xhtml:span">
+								<xsl:value-of select="xhtml:span" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="." />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
 					<xsl:variable name="unit" select="$units/unit[@literal = $literal]" />
-					<span xmlns="http://www.w3.org/1999/xhtml">
-						<xsl:value-of select="$literal" />
-					</span>
+					<xsl:choose>
+						<xsl:when test="xhtml:span">
+							<xsl:apply-templates />
+						</xsl:when>
+						<xsl:otherwise>
+							<span xmlns="http://www.w3.org/1999/xhtml">
+								<xsl:value-of select="$literal" />
+							</span>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:if test="$unit">
 						<xsl:if test="$articulatoryFeatureTable = 'true'">
 							<xsl:apply-templates select="$unit/articulatoryFeatures" mode="list" />

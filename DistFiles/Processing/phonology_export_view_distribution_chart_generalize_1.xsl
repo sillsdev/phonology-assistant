@@ -3,7 +3,12 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-16 -->
+  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-21 -->
+	<!-- Assuming that the researcher has manually generalized a distribution chart, -->
+	<!-- separate general and individual elements if either or both of the following are true: -->
+	<!-- * items: the chart name contains [gi], [giC], or [giV]. -->
+	<!--          C or V means insert a consonant or vowel chart with environment tabs. -->
+	<!-- * environments: the chart name contains [ge]. -->
 
 	<!-- Important: If format is not XHTML, copy the table with no changes. -->
 
@@ -11,10 +16,34 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
-	<xsl:variable name="generalizeEnvironments" select="$options/xhtml:li[@class = 'generalizeEnvironments']" />
-	<xsl:variable name="generalizeItems" select="$options/xhtml:li[@class = 'generalizeItems']" />
-	<!-- TO DO: If these become properties of the individual chart, where would they go in the metadata? -->
+
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+	<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
+	
+	<xsl:variable name="generalizeEnvironments">
+		<xsl:choose>
+			<xsl:when test="$view = 'Distribution Chart' and contains($title, '[ge]')">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'false'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="generalizeItems">
+		<xsl:choose>
+			<xsl:when test="$view = 'Distribution Chart' and contains($title, '[gi]') or contains($title, '[giC]') or contains($title, '[giV]')">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'false'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<!-- TO DO: In the metadata, these will become properties of the individual chart. -->
 
 	<xsl:variable name="generalEnvironments">
     <xsl:choose>
@@ -354,5 +383,39 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
     <th xmlns="http://www.w3.org/1999/xhtml" />
   </xsl:template>
-  
+
+	<!-- Remove any generalized options (without CV chart) from the title. -->
+	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
+		<xsl:variable name="gi">
+			<xsl:choose>
+				<xsl:when test="contains(., ' [gi]')">
+					<xsl:value-of select="substring-before(., ' [gi]')" />
+				</xsl:when>
+				<xsl:when test="contains(., '[gi]')">
+					<xsl:value-of select="substring-before(., '[gi]')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="." />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="title">
+			<xsl:choose>
+				<xsl:when test="contains($gi, ' [ge]')">
+					<xsl:value-of select="substring-before($gi, ' [ge]')" />
+				</xsl:when>
+				<xsl:when test="contains($gi, '[ge]')">
+					<xsl:value-of select="substring-before($gi, '[ge]')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$gi" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:value-of select="$title" />
+		</xsl:copy>
+	</xsl:template>
+
 </xsl:stylesheet>

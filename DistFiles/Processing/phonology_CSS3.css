@@ -1,4 +1,4 @@
-﻿/* phonology_CSS3.css 2010-03-31 */
+﻿/* phonology_CSS3.css 2010-04-21 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Properties from CSS level 3 and corresponding proprietary extensions. */
 
@@ -11,16 +11,6 @@
 
 /* -webkit- extension: Safari 3 or later; Chrome 3 or earlier. */
 /* -moz- extension: Firefox 1 or later. */
-
-table.features th
-{
-border-top-left-radius: 0.5em;
-border-top-right-radius: 0.5em;
--webkit-border-top-left-radius: 0.5em;
--webkit-border-top-right-radius: 0.5em;
--moz-border-radius-topleft: 0.5em;
--moz-border-radius-topright: 0.5em;
-}
 
 ul.environments.interactive li
 {
