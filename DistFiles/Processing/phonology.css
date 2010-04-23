@@ -1,7 +1,7 @@
-﻿/* phonology.css 2010-04-21 */
+﻿/* phonology.css 2010-04-22 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
-@import url('phonology_CSS3.css'); /* For rounded border properties. */
+@import url('phonology_CSS3.css'); /* For border-radius and rgba. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
 
@@ -26,6 +26,7 @@ border-spacing: 0; /* Internet Explorer 8 or later. */
 
 /* Typography =============================================================== */
 
+table.list th.pair > ul li ul.differences li,
 body
 {
 font-family: Verdana, Helvetica, sans-serif;
@@ -53,28 +54,27 @@ padding-top: 0;
 
 h1 /* Heading 1 */
 {
-font-size: 200%; /* ??px */
-margin-bottom: 0.4em; /* 7px = 0.4 * 150% * 12px */
+font-size: 200%; /* 32px */
+margin-bottom: 0.25em; /* 8px = 0.25 * 200% * 16px */
 }
 
 h2 /* Heading 2 */
 {
-font-size: 150%; /* 18px */
-margin-top: 0.4em; /* 7px = 0.4 * 150% * 12px */
-margin-bottom: 0.4em; /* 7px = 0.4 * 150% * 12px */
+font-size: 150%; /* 24px */
+margin-bottom: 0.3333em; /* 8px = 0.3333 * 150% * 16px */
 }
 
 h3 /* Heading 3 */
 {
-font-size: 115%; /* 14px */
-margin-bottom: 0.52em; /* 7px = 0.52 * 115% * 12px */
+font-size: 115%; /* 18px */
+margin-bottom: 0.4347em; /* 8px = 0.4347 * 115% * 16px */
 padding-left: 0.4347em; /* Equivalent to table cells. */
 }
 
 div.report > h4 /* Heading 4 */
 {
-margin-top: 1em;
-margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
+font-size: 100%;
+margin-bottom: 0.5em; /* 8px = 0.5 * 100% * 16px */
 }
 
 div.report:first-child > h4
@@ -99,8 +99,8 @@ padding-bottom: 0.1875em; /* Equivalent to 0.25em at font-size: 75% */
 
 p.BodyText
 {
-line-height: 1.34; /* 16px */
-margin-bottom: 0.6em; /* 7px */
+line-height: 1.25; /* 20px */
+margin-bottom: 0.5em; /* 8px */
 }
 
 /* Tables ------------------------------------------------------------------- */
@@ -111,7 +111,6 @@ table.features
 font-size: 75%;
 }
 
-table.list tbody tr td.occurrences.item, /* More-similar minimal pairs. */
 th.sortOptions ul,
 th
 {
@@ -128,6 +127,7 @@ font-weight: bold;
 table.list tbody tr td.occurrences.item, /* More-similar minimal pairs. */
 table.list thead th,
 table.list .count,
+table.list th.pair > ul li ul.differences li,
 table.list .small,
 table.CV th,
 table.feature th:first-child,
@@ -135,12 +135,6 @@ table.feature td,
 table.distribution td
 {
 font-size: 75%;
-}
-
-table.hierarchical table td
-{
-font-size: 100%;
-font-size: inherit; /* Does not work in Internet Explorer 7. */
 }
 
 /* Layout =================================================================== */
@@ -154,11 +148,6 @@ table.features
 {
 margin-top: 1.3333em; /* 1em / font-size */
 margin-left: 1.3333em; /* 1em / font-size */
-}
-
-table.hierarchical table
-{
-margin-top: 0;
 }
 
 table.details
@@ -331,7 +320,19 @@ position: relative;
 left: -0.5em; /* Negative padding-right of td. */
 border-left-style: solid;
 border-left-width: 0.5em; /* More than width of closed state. */
-min-height: 1em; /* Plus padding-top and padding-bottom equals height of closed rectangle. */
+}
+
+table.list ul.transcription li.change del,
+table.list ul.transcription li.change ins
+{
+text-decoration: none;
+}
+
+/* Because Internet Explorer 7 does not support the :before pseudo-element, */
+/* phonology.js inserts the content to separate del and ins elements. */
+table.list.interactive ul.transcription li.change del + ins:before
+{
+/* content: " ▸ "; /* U+25B8 black right-pointing small triangle. */
 }
 
 /* Minimal pairs and their feature differences ------------------------------ */
@@ -350,7 +351,6 @@ display: inline;
 table.list th.pair > ul li span
 {
 position: relative;
-z-index: 1;
 border-left-style: solid;
 border-width: 1px;
 padding-left: 0.25em;
@@ -359,7 +359,7 @@ padding-right: 0.25em;
 
 table.list th.pair > ul li:hover span
 {
-z-index: 3; /* Overlap ul.differences border-top. */
+z-index: 2; /* Overlap ul.differences border-top. */
 }
 
 table.list.collapsed tbody th.pair > ul li ul.differences,
@@ -373,7 +373,7 @@ table.list th.pair > ul li:hover ul.differences
 {
 display: block;
 position: absolute;
-z-index: 2; /* Overlap following th.pair > ul li span. */
+z-index: 1; /* Overlap following th.pair > ul li span. */
 left: 0;
 top: 1.5em;
 padding-top: 0.25em;
@@ -386,14 +386,11 @@ border-width: 1px;
 
 table.list th.pair > ul li ul.differences li
 {
-font-family: Verdana, Helvetica, sans-serif;
-font-size: 75%;
 line-height: 1.1666;
 }
 
 /* Borders ------------------------------------------------------------------ */
 
-table.features div,
 th.sortOptions ul,
 th.sortOptions li,
 colgroup, thead, tbody, /* Row and column groups in consonant or vowel charts. */
@@ -409,7 +406,6 @@ border-bottom-style: solid;
 }
 
 table.distribution thead tr.general th,
-/*  */
 table.chart thead tr:first-child th:first-child /* Internet Explorer 7 or later. */
 {
 border-bottom-style: none;
@@ -421,8 +417,6 @@ table.distribution.collapsed tbody tr.general th.Phonetic
 border-right-style: solid;
 }
 
-/*
-*/
 table.feature tbody tr th.Phonetic,
 table.distribution tbody tr.general th.Phonetic
 {
@@ -541,13 +535,7 @@ padding: 0.125em 0.5em 0.25em 0.5em;
 border-style: solid;
 border-bottom-style: none;
 border-width: 1px;
-border-color: #dddddd; /* lighter border */
 /* For rounded border properties, see the phonology_CSS3.css file. */
-}
-
-ul.environments.interactive li.Phonetic.selected
-{
-background-color: #fffffc; /* background, see phonology_print.css */
 }
 
 table.list,
@@ -561,7 +549,6 @@ ul.environments.interactive + table.CV
 border-top-style: solid;
 border-left-style: solid;
 border-width: 1px;
-border-color: #dddddd; /* lighter border */
 }
 
 ul.environments.interactive + table.CV,
@@ -574,17 +561,10 @@ margin-top: 0;
 
 table.features tbody + tbody tr:first-child td
 {
-border-top: 1px solid #999999;
+border-top-style: solid;
 }
 
 /* Collapse or expand tables of features ------------------------------------ */
-
-/*
-table.features abbr
-{
-text-decoration: none;
-}
-*/
 
 table.features abbr,
 table.features.collapsed span
@@ -603,13 +583,6 @@ display: none;
 }
 
 /* Interactive columns in distribution charts ------------------------------- */
-
-/*
-table.distribution abbr
-{
-text-decoration: none;
-}
-*/
 
 table.distribution abbr,
 table.distribution th.reduced > span,
@@ -661,27 +634,27 @@ border-left-width: 1px;
 
 /* Color ==================================================================== */
 
-/*     Hex    R   G   B    H    S    V   Description            Meaning              */
-/* #000000    0   0   0    0°   0%   0%  black                  text normal          */
-/* #404040   64  64  64    0°   0%  25%  gray                   text bold            */
-/* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed       */
-/* #ffffff  255 255 255    0°   0% 100%  white                  background print     */
-/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background           */
+/*     Hex    R   G   B    H    S    V   Description            Meaning       */
+/* #000000    0   0   0    0°   0%   0%  black                  text normal   */
+/* #404040   64  64  64    0°   0%  25%  gray                   text bold     */
+/* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed */
+/* #ffffff  255 255 255    0°   0% 100%  white                  background print */
+/* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background    */
 
-/* #ffff00  255 255   0   60° 100% 100%  yellow                 important            */
-/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant          */
-/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  significant hover    */
-/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error                */
+/* #ffff00  255 255   0   60° 100% 100%  yellow                 important     */
+/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant   */
+/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  distinguished */
+/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error         */
 
-/*                                                              border               */
-/* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border       */
+/*                                                              border        */
+/* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border */
 
 /* #f8fff8  248 255 248  120°   3% 100%  desaturated green      interactive contrast */
-/* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive          */
-/* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive alt      */
-/* #a3cca3  163 204 163  120°  20%  80%  light green            active               */
-/* #7db27d  125 178 125  120°  30%  70%  green                  selected             */
-/*                                       transparent            inactive             */
+/* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive   */
+/* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive adjacent */
+/* #a3cca3  163 204 163  120°  20%  80%  light green            active        */
+/* #7db27d  125 178 125  120°  30%  70%  green                  selected      */
+/*                                       transparent            inactive      */
 
 /* Color -------------------------------------------------------------------- */
 
@@ -753,7 +726,7 @@ background-color: #ffffab; /* significant */
 
 table.list ul.transcription strong
 {
-background-color: #ffffd6; /* significant hover */
+background-color: #ffffd6; /* distinguished */
 }
 
 table.CV .notInEnvironment span
@@ -806,7 +779,7 @@ background-color: #cfe6cf; /* interactive */
 
 table.distribution.interactive tr.individual th.Phonetic /* Internet Explorer 7 and later. */
 {
-background-color: #b8d9b8; /* interactive alt */
+background-color: #b8d9b8; /* interactive adjacent */
 }
 
 /* Pseudo-class :hover in tables: Internet Explorer 7 or later. */
@@ -850,6 +823,7 @@ table.features.interactive tr.univalent td.name.selected
 background-color: #7db27d; /* selected */
 }
 
+ul.environments.interactive li.Phonetic.selected,
 table.list.interactive th.pair > ul li:hover span,
 table.list.interactive th.pair > ul li:hover ul.differences,
 table.list.interactive ul.transcription:hover
@@ -896,6 +870,7 @@ table.distribution tbody tr *
 border-color: transparent; /* not active */
 }
 
+table.features tbody + tbody tr:first-child td,
 table.list tbody tr th
 {
 border-top-color: #999999; /* border */
@@ -906,6 +881,8 @@ table.distribution tbody tr th
 border-right-color: #999999; /* border */
 }
 
+ul.environments.interactive + table.CV,
+ul.environments.interactive li,
 table.distribution.interactive thead tr:first-child th:first-child div span,
 colgroup, thead, tbody /* Row and column groups in consonant or vowel charts. */
 {

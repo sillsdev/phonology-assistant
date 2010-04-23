@@ -268,7 +268,7 @@ namespace SIL.Pa.Processing
 						"articulatoryFeatures", "changed", "true");
 
 					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
-						m_writer.WriteElementString("features", feature);
+						m_writer.WriteElementString("feature", feature);
 
 					m_writer.WriteEndElement();
 				}

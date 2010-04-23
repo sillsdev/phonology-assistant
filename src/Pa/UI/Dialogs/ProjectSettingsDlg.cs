@@ -610,7 +610,8 @@ namespace SIL.Pa.UI.Dialogs
 			fileTypes.Append(App.kstidFileTypeAllFiles);
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
-				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption, true);
+				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption,
+				true, m_project.Folder ?? App.DefaultProjectFolder);
 
 			if (filenames.Length == 0)
 				return;

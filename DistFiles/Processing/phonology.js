@@ -1,22 +1,25 @@
-﻿// phonology.js 2010-04-21
+﻿// phonology.js 2010-04-23
 // Interactive behavior for XHTML files exported from Phonology Assistant.
-// Requires jQuery 1.3 or later.
+// Requires jQuery 1.3 or later: http://jquery.com/
 
-// JSLint:
-/*global $, document, parseInt */
+// For information about JSLint, see http://jslint.com
+// Click The Good Parts, and then clear the Disallow insecure . and {^...] in /RegExp/ check box.
+/*jslint white: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, strict: true, newcap: true, immed: true */
+/*global jQuery, parseInt */
 
 "use strict";
 
 // Execute when the DOM is fully loaded.
 
-$(document).ready(function () {
+jQuery(function ($) {
 
 	// Data Corpus or Search view ==============================================
 
-	// The class for a field name consists of alphanumerics or underscore.
-	// That is, \W is the opposite of \w, which means [0-9A-Z_a-z].
+	// The class for a field name consists of alphanumerics only.
+	// In JSLine, clear the Disallow insecure . and {^...] in /RegExp/ check box.
+	// It is not insecure to remove white space or control characters.
 	function fieldClassFromName(name) {
-		return name.replace(/\W/g, '');
+		return name.replace(/[^0-9A-Za-z]/g, '');
 	}
 
 	// To compare sort keys, undo changes to original field values for XHTML table cells.
@@ -41,20 +44,22 @@ $(document).ready(function () {
 
 	// To sort by a column, click its heading cell (or click a phonetic sort option).
 	function clickColumnHeadingList(event) {
-		var $table = $(this),
-			$target = $(event.target),
+		var $target = $(event.target),
 			$th = $target.closest('th'),
-			sortOptions = $th.hasClass('sortOptions'),
+			$table = $th.closest('table'),
+			fieldName,
 			reverse = $th.hasClass('sortField'),
+			sortOptions = $th.hasClass('sortOptions'),
 			mannerOfArticulationOption,
 			mannerOfArticulationHeading,
-			fieldName,
 			descending,
 			sortKeySelector,
 			$parents,
 			childrenSelector,
+			$detailsAboutSortField,
 			detailsAboutSortField;
 
+		// Click a phonetic sort option.
 		if ($target.is('li')) {
 			mannerOfArticulationOption = $target.hasClass('mannerOfArticulation');
 			mannerOfArticulationHeading = $th.hasClass('mannerOfArticulation');
@@ -67,14 +72,14 @@ $(document).ready(function () {
 			}
 		}
 		$th.find('ul').remove();
-		
-		mannerOfArticulationHeading = $th.hasClass('mannerOfArticulation');	
-		fieldName = $th.text();
-		descending = $th.hasClass('descending');
+		fieldName = $th.text(); // assign after removing phonetic sort options!
+		mannerOfArticulationHeading = $th.hasClass('mannerOfArticulation');
 
 		if (reverse) {
+			// Click the active sort heading (and not change the phonetic sort option).
 			$th.toggleClass('descending');
 		} else {
+			// Click a different sortable heading or change the phonetic sort option.
 			$table.find('thead th.sortField').removeClass('sortField');
 			sortKeySelector = '.' + fieldClassFromName(fieldName);
 			if (sortOptions) {
@@ -86,7 +91,9 @@ $(document).ready(function () {
 			}
 			$th.addClass('sortField');
 		}
+		descending = $th.hasClass('descending');
 		
+		// Select groups or rows to sort (or reverse). TO DO: Review the logic.
 		if ($table.find('tbody.group').length === 0) {
 			// For an ungrouped list in Data Corpus or Search view,
 			// sort all the rows in the table body element.
@@ -107,10 +114,10 @@ $(document).ready(function () {
 			sortKeySelector = 'tr.heading ' + sortKeySelector;
 		}
 		
+		// Sort (or reverse) the appropriate rows.
 		$parents.each(function () {
-			// TO DO: Find an idiom to reverse or sort, and then replace.
 			var $parent = $(this),
-				children = $parent.find(childrenSelector).remove().get();
+				children = $parent.find(childrenSelector).get(); // array of DOM objects
 				
 			if (reverse) {
 				children.reverse();
@@ -125,15 +132,19 @@ $(document).ready(function () {
 			}
 			$parent.append(children);
 		});
-		
-		detailsAboutSortField = fieldName;
-		if (sortOptions) {
-			detailsAboutSortField += (', ' + (mannerOfArticulationHeading ? 'manner of articulation' : 'place of articulation'));
+
+		// Update the table of details.		
+		$detailsAboutSortField = $table.parent().find('table.details tr.primarySortField td');
+		if ($detailsAboutSortField.length) {
+			detailsAboutSortField = fieldName;
+			if (sortOptions) {
+				detailsAboutSortField += (', ' + (mannerOfArticulationHeading ? 'manner of articulation' : 'place of articulation'));
+			}
+			if (descending) {
+				detailsAboutSortField += ', descending';
+			}
+			$detailsAboutSortField.text(detailsAboutSortField);
 		}
-		if (descending) {
-			detailsAboutSortField += ', descending';
-		}
-		$table.parent().find('table.details tr.primarySortField td').text(detailsAboutSortField);
 	}
 	
 	function clickList(event) {
@@ -189,7 +200,15 @@ $(document).ready(function () {
 				$table.find(sortableColumnHeadingSelector).addClass('sortable');
 			}
 			
-			$table.find('td > ul.transcription').parent().wrapInner('<div class="transcription"></div>');
+			$table.find('td > ul.transcription').each(function () {
+				var $ul = $(this);
+				// Wrap all children of its parent in a div.
+				$ul.parent().wrapInner('<div class="transcription"></div>');
+				// Equivalent to the :before pseudo-element in CSS,
+				// which Internet Explorer 7 does not support.
+				// U+25B8 black right-pointing small triangle.
+				$ul.find('li.change del + ins').before(' ▸ ');
+			});
 		});
 	}
 
@@ -615,7 +634,7 @@ $(document).ready(function () {
 
 	// Insert the following symbols in empty cells corresponding to group headings.
 	// To collapse a column group, click U+25C2 black left-pointing small triangle.
-	// To expand a column group, click U+25B8 black right-pointing small triange.
+	// To expand a column group, click U+25B8 black right-pointing small triangle.
 	// To collapse a row group, click U+25B4 black up-pointing small triangle.
 	// To expand a row group, click U+25BE black down-pointing small triangle.
 

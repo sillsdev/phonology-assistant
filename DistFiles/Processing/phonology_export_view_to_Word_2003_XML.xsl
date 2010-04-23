@@ -656,6 +656,8 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
       </w:p>
     </w:tc>
   </xsl:template>
+
+	<xsl:template match="xhtml:td/xhtml:ul[@class = 'transcription']" />
   
   <xsl:template name="basicStyles">
     <w:versionOfBuiltInStylenames w:val="4" />

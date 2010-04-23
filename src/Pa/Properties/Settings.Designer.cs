@@ -712,5 +712,31 @@ namespace SIL.Pa.Properties {
                 this["RestoreDlgBounds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int XYChartVwClassListViewColWidth0 {
+            get {
+                return ((int)(this["XYChartVwClassListViewColWidth0"]));
+            }
+            set {
+                this["XYChartVwClassListViewColWidth0"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SearchVwClassListViewColWidth0 {
+            get {
+                return ((int)(this["SearchVwClassListViewColWidth0"]));
+            }
+            set {
+                this["SearchVwClassListViewColWidth0"] = value;
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1.xsl 2010-04-20 -->
+  <!-- phonology_export_view_CV_chart_1.xsl 2010-04-22 -->
 	<!-- Export to XHTML: title attribute of phonetic cell contains description of unit. -->
   <!-- In several column heading cells, optionally insert hyphens and line breaks. -->
 	<!-- In two-word row heading cell, change articulatory feature to sentence case. -->
@@ -185,44 +185,6 @@ exclude-result-prefixes="xhtml"
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[. = 'Front']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:choose>
-				<xsl:when test="$hyphenateColumnHeadings = 'true' and not(following-sibling::xhtml:th[. = 'Near-front']) and //xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'articulatory features']/xhtml:li = 'Near-front'">
-					<xsl:attribute name="title">
-						<xsl:value-of select="'{[Front],[Near-front]}'" />
-					</xsl:attribute>
-					<xsl:value-of select="'Front&#xA0;or'" />
-					<br xmlns="http://www.w3.org/1999/xhtml" />
-					<xsl:value-of select="'Near-front'" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[. = 'Back']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:choose>
-				<xsl:when test="$hyphenateColumnHeadings = 'true' and not(preceding-sibling::xhtml:th[. = 'Near-back']) and //xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'articulatory features']/xhtml:li = 'Near-back'">
-					<xsl:attribute name="title">
-						<xsl:value-of select="'{[Back],[Near-back]}'" />
-					</xsl:attribute>
-					<xsl:value-of select="'Back&#xA0;or'" />
-					<br xmlns="http://www.w3.org/1999/xhtml" />
-					<xsl:value-of select="'Near-back'" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:copy>
-	</xsl:template>
-
 	<!-- Some articulatory features are hyphenated: Alveolo-palatal, Near-front, Near-back. -->
 	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[contains(., '-')]">
 		<xsl:variable name="before" select="substring-before(., ' ')" />
@@ -242,6 +204,30 @@ exclude-result-prefixes="xhtml"
 					<xsl:apply-templates />
 				</xsl:otherwise>
 			</xsl:choose>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[. = 'Front or Near-front']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:attribute name="title">
+				<xsl:value-of select="'{[Front],[Near-front]}'" />
+			</xsl:attribute>
+			<xsl:value-of select="'Front&#xA0;or'" />
+			<br xmlns="http://www.w3.org/1999/xhtml" />
+			<xsl:value-of select="'Near-front'" />
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[. = 'Back or Near-back']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:attribute name="title">
+				<xsl:value-of select="'{[Back],[Near-back]}'" />
+			</xsl:attribute>
+			<xsl:value-of select="'Back&#xA0;or'" />
+			<br xmlns="http://www.w3.org/1999/xhtml" />
+			<xsl:value-of select="'Near-back'" />
 		</xsl:copy>
 	</xsl:template>
 

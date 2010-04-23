@@ -405,7 +405,10 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_sortOrder = (SortOrder)Settings.Default[parentFormName + "ClassListViewSortOrder"];
 			}
-			catch { }
+			catch
+			{
+				m_sortOrder = SortOrder.None;
+			}
 			
 			SortList(-1);
 
@@ -859,12 +862,15 @@ namespace SIL.Pa.UI.Controls
 			/// --------------------------------------------------------------------------------
 			public int Compare(object ox, object oy)
 			{
+				if (m_sortOrder == SortOrder.None)
+					return 0;
+
 				ListViewItem x = ox as ListViewItem;
 				ListViewItem y = oy as ListViewItem;
 
 				int result = 0;
 
-				if (m_sortColumn != 0)
+				if (m_sortColumn == 2)
 					result = x.SubItems[2].Text.CompareTo(y.SubItems[2].Text);
 				
 				if (result == 0)
