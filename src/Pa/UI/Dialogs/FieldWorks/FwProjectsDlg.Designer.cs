@@ -39,45 +39,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtMsg = new System.Windows.Forms.TextBox();
 			this.lblProjects = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.Controls.Add(this.btnProperties);
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnProperties, 0);
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lblMsg
 			// 
@@ -95,10 +61,11 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnProperties
 			// 
+			resources.ApplyResources(this.btnProperties, "btnProperties");
 			this.locExtender.SetLocalizableToolTip(this.btnProperties, null);
 			this.locExtender.SetLocalizationComment(this.btnProperties, "Text on button on FieldWorks Projects dialog box.");
 			this.locExtender.SetLocalizingId(this.btnProperties, "FwProjectsDlg.btnProperties");
-			resources.ApplyResources(this.btnProperties, "btnProperties");
+			this.btnProperties.MinimumSize = new System.Drawing.Size(86, 26);
 			this.btnProperties.Name = "btnProperties";
 			this.btnProperties.UseVisualStyleBackColor = true;
 			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
@@ -121,6 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.btnProperties);
 			this.splitContainer1.Panel1.Controls.Add(this.tvNetwork);
 			this.splitContainer1.Panel1.Controls.Add(this.lblNetwork);
 			// 
@@ -175,9 +143,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Name = "FwProjectsDlg";
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
 			this.Controls.SetChildIndex(this.lblMsg, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
 			this.splitContainer1.ResumeLayout(false);

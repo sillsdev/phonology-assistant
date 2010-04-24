@@ -50,7 +50,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblClassTypeValue = new System.Windows.Forms.Label();
 			this.tblLayoutTop = new System.Windows.Forms.TableLayoutPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.pnlMemberPickingContainer.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -62,31 +61,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayoutTop.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "DefineClassDlg.btnCancel");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "DefineClassDlg.btnOK");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "DefineClassDlg.btnHelp");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// pnlMemberPickingContainer
 			// 
@@ -365,11 +339,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DefineClassDlg.WindowTitle");
 			this.Name = "DefineClassDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlMemberOptions, 0);
 			this.Controls.SetChildIndex(this.tblLayoutTop, 0);
 			this.Controls.SetChildIndex(this.pnlMemberPickingContainer, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.pnlMemberPickingContainer.ResumeLayout(false);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);

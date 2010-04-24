@@ -117,54 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pnlToolboxSortField.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lblToolboxSortField.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lblToolboxSortField.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9pt</value>
-  </data>
-  <data name="lblToolboxSortField.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="cboToolboxSortField.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>116, 17</value>
   </metadata>
-  <data name="lblToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 13</value>
-  </data>
-  <data name="lblToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 15</value>
-  </data>
-  <data name="lblToolboxSortField.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblToolboxSortField.Text" xml:space="preserve">
-    <value>First &amp;Toolbox Sort Field:</value>
-  </data>
-  <data name="&gt;&gt;lblToolboxSortField.Name" xml:space="preserve">
-    <value>lblToolboxSortField</value>
-  </data>
-  <data name="&gt;&gt;lblToolboxSortField.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblToolboxSortField.Parent" xml:space="preserve">
-    <value>pnlToolboxSortField</value>
-  </data>
-  <data name="&gt;&gt;lblToolboxSortField.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cboToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
-    <value>163, 10</value>
+    <value>53, 94</value>
   </data>
   <data name="cboToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 21</value>
+    <value>152, 23</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cboToolboxSortField.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -175,109 +145,19 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cboToolboxSortField.Parent" xml:space="preserve">
-    <value>pnlToolboxSortField</value>
+    <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;cboToolboxSortField.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="pnlToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
-    <value>436, 40</value>
-  </data>
-  <data name="pnlToolboxSortField.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pnlToolboxSortField.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pnlToolboxSortField.Name" xml:space="preserve">
-    <value>pnlToolboxSortField</value>
-  </data>
-  <data name="&gt;&gt;pnlToolboxSortField.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlToolboxSortField.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlToolboxSortField.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 473</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 40</value>
-  </data>
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>100</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>614, 7</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
-    <value>btnHelp</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>442, 7</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>528, 7</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
-    <value>btnCancel</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="txtEditor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+    <value>Left, Right</value>
   </data>
   <data name="txtEditor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 10</value>
+    <value>83, 335</value>
+  </data>
+  <data name="txtEditor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 6, 3</value>
   </data>
   <data name="txtEditor.Size" type="System.Drawing.Size, System.Drawing">
     <value>83, 21</value>
@@ -292,7 +172,7 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtEditor.Parent" xml:space="preserve">
-    <value>pnlEditor</value>
+    <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;txtEditor.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -303,35 +183,8 @@
   <data name="scImport.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="pnlEditor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="btnBrowse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnBrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 7</value>
-  </data>
-  <data name="btnBrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 26</value>
-  </data>
-  <data name="btnBrowse.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnBrowse.Text" xml:space="preserve">
-    <value>&amp;Browse...</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
-    <value>btnBrowse</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.Parent" xml:space="preserve">
-    <value>pnlEditor</value>
-  </data>
-  <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="lblEditor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
   </data>
   <data name="lblEditor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -343,7 +196,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblEditor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 13</value>
+    <value>31, 335</value>
   </data>
   <data name="lblEditor.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 15</value>
@@ -361,34 +214,76 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblEditor.Parent" xml:space="preserve">
-    <value>pnlEditor</value>
-  </data>
-  <data name="&gt;&gt;lblEditor.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pnlEditor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 285</value>
-  </data>
-  <data name="pnlEditor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 40</value>
-  </data>
-  <data name="pnlEditor.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pnlEditor.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pnlEditor.Name" xml:space="preserve">
-    <value>pnlEditor</value>
-  </data>
-  <data name="&gt;&gt;pnlEditor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlEditor.Parent" xml:space="preserve">
     <value>pnlMappings</value>
   </data>
-  <data name="&gt;&gt;pnlEditor.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lblEditor.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="btnBrowse.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnBrowse.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnBrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>183, 332</value>
+  </data>
+  <data name="btnBrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 26</value>
+  </data>
+  <data name="btnBrowse.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnBrowse.Text" xml:space="preserve">
+    <value>&amp;Browse...</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Name" xml:space="preserve">
+    <value>btnBrowse</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.Parent" xml:space="preserve">
+    <value>pnlMappings</value>
+  </data>
+  <data name="&gt;&gt;btnBrowse.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblToolboxSortField.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="lblToolboxSortField.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblToolboxSortField.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9pt</value>
+  </data>
+  <data name="lblToolboxSortField.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
+    <value>31, 70</value>
+  </data>
+  <data name="lblToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 15</value>
+  </data>
+  <data name="lblToolboxSortField.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblToolboxSortField.Text" xml:space="preserve">
+    <value>First &amp;Toolbox Sort Field:</value>
+  </data>
+  <data name="&gt;&gt;lblToolboxSortField.Name" xml:space="preserve">
+    <value>lblToolboxSortField</value>
+  </data>
+  <data name="&gt;&gt;lblToolboxSortField.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblToolboxSortField.Parent" xml:space="preserve">
+    <value>pnlMappings</value>
+  </data>
+  <data name="&gt;&gt;lblToolboxSortField.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="pnlMappingsHdg.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -418,7 +313,7 @@
     <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="pnlMappings.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -779,9 +674,6 @@
   </data>
   <data name="rtfSampleInput.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="rtfSampleInput.Text" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;rtfSampleInput.Name" xml:space="preserve">
     <value>rtfSampleInput</value>
@@ -1173,6 +1065,9 @@
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>675, 540</value>
   </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Standard Format Data Source Properties</value>
   </data>
@@ -1228,6 +1123,6 @@
     <value>SFDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, PaUI, Version=1.1.3639.28504, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3766.1390, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

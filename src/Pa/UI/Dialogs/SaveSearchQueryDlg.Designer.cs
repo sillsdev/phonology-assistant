@@ -37,13 +37,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblCategories = new System.Windows.Forms.Label();
 			this.lblPatternLabel = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
@@ -156,10 +151,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.SetChildIndex(this.txtName, 0);
 			this.Controls.SetChildIndex(this.cboCategories, 0);
 			this.Controls.SetChildIndex(this.lblName, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lblPatternLabel, 0);
 			this.Controls.SetChildIndex(this.lblPattern, 0);
-			this.pnlButtons.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

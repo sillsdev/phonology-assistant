@@ -62,7 +62,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlDataSourcesMngmnt = new System.Windows.Forms.Panel();
 			this.pnlLanguageCode = new System.Windows.Forms.Panel();
-			this.pnlButtons.SuspendLayout();
 			this.cmnuAdd.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
@@ -71,10 +70,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlDataSourcesMngmnt.SuspendLayout();
 			this.pnlLanguageCode.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
@@ -432,8 +427,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
 			this.Name = "ProjectSettingsDlg";
 			this.Controls.SetChildIndex(this.tblLayout, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.cmnuAdd.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();

@@ -68,7 +68,7 @@ namespace SIL.Pa.UI.Dialogs
 			// This is annoying to have to do this, but setting the tab order in the
 			// designer doesn't seem to work. Therefore, I am forcing the inherited
 			// stuff to be last in the tab order.
-			pnlButtons.TabIndex = 100;
+			tblLayoutButtons.TabIndex = 100;
 			btnOK.TabIndex = 101;
 			btnCancel.TabIndex = 102;
 			btnHelp.TabIndex = 103;

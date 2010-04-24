@@ -117,23 +117,74 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
+    <value>pnlButtons</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="hdrFilter.Text" xml:space="preserve">
+    <value>Available Filters</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lvFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lvFilters.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="lvFilters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 28</value>
+  </data>
+  <data name="lvFilters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 252</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lvFilters.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lvFilters.Name" xml:space="preserve">
+    <value>lvFilters</value>
+  </data>
+  <data name="&gt;&gt;lvFilters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lvFilters.Parent" xml:space="preserve">
+    <value>pnlFilters</value>
+  </data>
+  <data name="&gt;&gt;lvFilters.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitFilters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
   <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 7</value>
+    <value>49, 173</value>
+  </data>
+  <data name="btnApplyNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 5, 5</value>
   </data>
   <data name="btnApplyNow.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 26</value>
@@ -151,112 +202,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 326</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>687, 40</value>
-  </data>
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>435, 7</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>521, 7</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
-    <value>btnCancel</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>607, 7</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
-    <value>btnHelp</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="hdrFilter.Text" xml:space="preserve">
-    <value>Available Filters</value>
-  </data>
-  <data name="lvFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="lvFilters.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="lvFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
-  </data>
-  <data name="lvFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 252</value>
-  </data>
-  <data name="lvFilters.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Name" xml:space="preserve">
-    <value>lvFilters</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
   </data>
-  <data name="&gt;&gt;lvFilters.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="splitFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="splitFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 10</value>
   </data>
   <data name="hlblFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -286,7 +235,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;hlblFilters.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="pnlFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -829,6 +778,6 @@
     <value>DefineFiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3763.26975, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3765.38871, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

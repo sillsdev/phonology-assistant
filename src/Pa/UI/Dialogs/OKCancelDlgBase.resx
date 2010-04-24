@@ -121,6 +121,10 @@
   <data name="btnHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnHelp.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="btnHelp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -129,7 +133,7 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>320, 7</value>
+    <value>300, 7</value>
   </data>
   <data name="btnHelp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 7, 0, 7</value>
@@ -137,7 +141,6 @@
   <data name="btnHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnHelp.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
@@ -154,16 +157,19 @@
     <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="btnCancel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>235, 7</value>
+    <value>215, 7</value>
   </data>
   <data name="btnCancel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 7, 0, 7</value>
@@ -187,16 +193,19 @@
     <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
+  </data>
+  <data name="btnOK.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 7</value>
+    <value>130, 7</value>
   </data>
   <data name="btnOK.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 7, 0, 7</value>
@@ -220,37 +229,13 @@
     <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tblLayoutButtons.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+    <value>0</value>
   </data>
   <data name="tblLayoutButtons.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
   <data name="tblLayoutButtons.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 20</value>
-  </data>
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>103</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>tblLayoutButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="tblLayoutButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -262,7 +247,7 @@
     <value>1</value>
   </data>
   <data name="tblLayoutButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 40</value>
+    <value>380, 40</value>
   </data>
   <data name="tblLayoutButtons.TabIndex" type="System.Int32, mscorlib">
     <value>102</value>
@@ -280,7 +265,7 @@
     <value>0</value>
   </data>
   <data name="tblLayoutButtons.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlButtons" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnOK" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnHelp" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnOK" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnHelp" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -289,7 +274,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>420, 271</value>
+    <value>400, 271</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 10, 10, 0</value>

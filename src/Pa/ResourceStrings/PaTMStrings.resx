@@ -919,7 +919,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidFeaturesText" xml:space="preserve">
-    <value>&amp;Features...</value>
+    <value>F&amp;eatures...</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidFiltersParentToolTip" xml:space="preserve">

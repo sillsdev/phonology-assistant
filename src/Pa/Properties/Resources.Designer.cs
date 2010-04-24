@@ -1620,15 +1620,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No projects found on &apos;{0}&apos;..
-        /// </summary>
-        internal static string kstidNoFwProjectsFoundMsg {
-            get {
-                return ResourceManager.GetString("kstidNoFwProjectsFoundMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No minimal pairs to display.\nChange the minimal pairs options and try again..
         /// </summary>
         internal static string kstidNoMinimalPairsMsg {
@@ -2138,15 +2129,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidSearchingForCIEResultsMsg {
             get {
                 return ResourceManager.GetString("kstidSearchingForCIEResultsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Searching....
-        /// </summary>
-        internal static string kstidSearchingForFwDatabasesMsg {
-            get {
-                return ResourceManager.GetString("kstidSearchingForFwDatabasesMsg", resourceCulture);
             }
         }
         

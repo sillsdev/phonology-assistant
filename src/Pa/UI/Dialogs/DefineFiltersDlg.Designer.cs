@@ -31,12 +31,13 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
 			this.pnlFilters = new SilUtils.Controls.SilPanel();
+			this.btnApplyNow = new System.Windows.Forms.Button();
 			this.hlblFilters = new SilUtils.Controls.HeaderLabel();
 			this.flwLayoutFilterButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnAdd = new System.Windows.Forms.Button();
@@ -51,9 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkIncludeInList = new System.Windows.Forms.CheckBox();
 			this.rbMatchAny = new System.Windows.Forms.RadioButton();
 			this.btnRemoveExp = new System.Windows.Forms.Button();
-			this.btnApplyNow = new System.Windows.Forms.Button();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.splitFilters.Panel1.SuspendLayout();
 			this.splitFilters.Panel2.SuspendLayout();
 			this.splitFilters.SuspendLayout();
@@ -65,36 +64,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.Controls.Add(this.btnApplyNow);
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.SetChildIndex(this.btnApplyNow, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "DefineFiltersDlg.btnCancel");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "DefineFiltersDlg.btnOK");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "DefineFiltersDlg.btnHelp");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lvFilters
 			// 
@@ -143,6 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlFilters.ClipTextForChildControls = true;
 			this.pnlFilters.ControlReceivingFocusOnMnemonic = null;
+			this.pnlFilters.Controls.Add(this.btnApplyNow);
 			this.pnlFilters.Controls.Add(this.lvFilters);
 			this.pnlFilters.Controls.Add(this.hlblFilters);
 			resources.ApplyResources(this.pnlFilters, "pnlFilters");
@@ -153,6 +123,17 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.MnemonicGeneratesClick = false;
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.PaintExplorerBarBackground = false;
+			// 
+			// btnApplyNow
+			// 
+			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
+			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
+			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
+			this.locExtender.SetLocalizingId(this.btnApplyNow, "DefineFiltersDlg.btnApplyNow");
+			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
+			this.btnApplyNow.Name = "btnApplyNow";
+			this.btnApplyNow.UseVisualStyleBackColor = true;
+			this.btnApplyNow.Click += new System.EventHandler(this.btnApplyNow_Click);
 			// 
 			// hlblFilters
 			// 
@@ -337,17 +318,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnRemoveExp.UseVisualStyleBackColor = true;
 			this.btnRemoveExp.Click += new System.EventHandler(this.btnRemoveExp_Click);
 			// 
-			// btnApplyNow
-			// 
-			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
-			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
-			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
-			this.locExtender.SetLocalizingId(this.btnApplyNow, "DefineFiltersDlg.btnApplyNow");
-			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
-			this.btnApplyNow.Name = "btnApplyNow";
-			this.btnApplyNow.UseVisualStyleBackColor = true;
-			this.btnApplyNow.Click += new System.EventHandler(this.btnApplyNow_Click);
-			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
@@ -361,15 +331,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DefineFiltersDlg.WindowTitle");
 			this.Name = "DefineFiltersDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.splitFilters, 0);
-			this.pnlButtons.ResumeLayout(false);
-			this.pnlButtons.PerformLayout();
 			this.splitFilters.Panel1.ResumeLayout(false);
 			this.splitFilters.Panel1.PerformLayout();
 			this.splitFilters.Panel2.ResumeLayout(false);
 			this.splitFilters.ResumeLayout(false);
 			this.pnlFilters.ResumeLayout(false);
+			this.pnlFilters.PerformLayout();
 			this.flwLayoutFilterButtons.ResumeLayout(false);
 			this.flwLayoutFilterButtons.PerformLayout();
 			this.pnlExpressions.ResumeLayout(false);
@@ -380,6 +348,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 

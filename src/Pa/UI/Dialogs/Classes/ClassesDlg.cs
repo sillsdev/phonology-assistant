@@ -22,6 +22,27 @@ namespace SIL.Pa.UI.Dialogs
 		public ClassesDlg()
 		{
 			InitializeComponent();
+
+			if (DesignMode)
+				return;
+
+			btnAdd.Margin = new Padding(0, btnOK.Margin.Top, btnOK.Margin.Left, btnOK.Margin.Bottom);
+			btnModify.Margin = btnAdd.Margin;
+			btnCopy.Margin = btnAdd.Margin;
+			btnDelete.Margin = btnAdd.Margin;
+
+			tblLayoutButtons.ColumnCount += 4;
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+
+			tblLayoutButtons.Controls.Add(btnAdd, 0, 0);
+			tblLayoutButtons.Controls.Add(btnModify, 1, 0);
+			tblLayoutButtons.Controls.Add(btnCopy, 2, 0);
+			tblLayoutButtons.Controls.Add(btnDelete, 3, 0);
+			ReAddButtons(5);
+
 			lvClasses.Load();
 			lvClasses_SelectedIndexChanged(null, null);
 			lvClasses.Font = FontHelper.UIFont;

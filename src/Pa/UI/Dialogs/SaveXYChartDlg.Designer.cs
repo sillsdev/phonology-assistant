@@ -34,14 +34,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName = new System.Windows.Forms.Label();
 			this.tlpName = new System.Windows.Forms.TableLayoutPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.tlpName.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
@@ -112,8 +107,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this, "SaveXYChartDlg.WindowTitle");
 			this.Name = "SaveXYChartDlg";
 			this.Controls.SetChildIndex(this.tlpName, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.tlpName.ResumeLayout(false);
 			this.tlpName.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

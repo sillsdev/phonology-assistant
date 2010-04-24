@@ -35,7 +35,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK = new System.Windows.Forms.Button();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
 			this.tblLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.pnlButtons = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.tblLayoutButtons.SuspendLayout();
 			this.SuspendLayout();
@@ -81,17 +80,10 @@ namespace SIL.Pa.UI.Dialogs
 			// tblLayoutButtons
 			// 
 			resources.ApplyResources(this.tblLayoutButtons, "tblLayoutButtons");
-			this.tblLayoutButtons.Controls.Add(this.pnlButtons, 0, 0);
 			this.tblLayoutButtons.Controls.Add(this.btnOK, 1, 0);
 			this.tblLayoutButtons.Controls.Add(this.btnCancel, 2, 0);
 			this.tblLayoutButtons.Controls.Add(this.btnHelp, 3, 0);
 			this.tblLayoutButtons.Name = "tblLayoutButtons";
-			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.BackColor = System.Drawing.Color.Red;
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Name = "pnlButtons";
 			// 
 			// OKCancelDlgBase
 			// 
@@ -112,8 +104,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.tblLayoutButtons.ResumeLayout(false);
+			this.tblLayoutButtons.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -124,7 +116,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected System.Windows.Forms.Button btnHelp;
 		private SIL.Localization.LocalizationExtender locExtender;
 		protected System.Windows.Forms.TableLayoutPanel tblLayoutButtons;
-		protected System.Windows.Forms.Panel pnlButtons;
 
 
 

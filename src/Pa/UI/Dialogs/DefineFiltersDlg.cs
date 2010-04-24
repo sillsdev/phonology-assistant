@@ -47,6 +47,13 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
+			if (DesignMode)
+				return;
+
+			btnApplyNow.Parent.Controls.Remove(btnApplyNow);
+			btnApplyNow.Margin = new Padding(0, btnOK.Margin.Top, 20, btnOK.Margin.Bottom);
+			tblLayoutButtons.Controls.Add(btnApplyNow, 0, 0);
+
 			m_queryOptionsDropDown = new SearchOptionsDropDown();
 			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
 

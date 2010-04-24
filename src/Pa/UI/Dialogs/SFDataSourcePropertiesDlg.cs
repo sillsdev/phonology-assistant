@@ -73,6 +73,10 @@ namespace SIL.Pa.UI.Dialogs
 			rbParseOneToOne.Font = FontHelper.UIFont;
 			rbNoParse.Font = FontHelper.UIFont;
 			gridSampleOutput.Font = FontHelper.UIFont;
+			lblEditor.Font = FontHelper.UIFont;
+			txtEditor.Font = FontHelper.UIFont;
+			cboToolboxSortField.Font = FontHelper.UIFont;
+			lblToolboxSortField.Font = FontHelper.UIFont;
 
 			pnlParseHdg.BorderStyle = BorderStyle.None;
 			pnlMappingsHdg.BorderStyle = BorderStyle.None;
@@ -87,20 +91,9 @@ namespace SIL.Pa.UI.Dialogs
 			cboFirstInterlinear.Items.Add(Properties.Resources.kstidSFMNoFirstInterlinearFieldItem);
 			cboFirstInterlinear.SelectedIndex = 0;
 
-			pnlEditor.Parent.Controls.Remove(pnlEditor);
-			pnlButtons.Controls.Add(pnlEditor);
-			pnlEditor.Width = pnlToolboxSortField.Width;
-
-			if (m_datasource != null && m_datasource.DataSourceType == DataSourceType.Toolbox)
-				pnlToolboxSortField.Visible = true;
-			else
-			{
-				pnlEditor.Location = new Point(0, 0);
-				pnlEditor.Visible = true;
-			}
-
-			InitializeEditorSpecificationControls();
 			InitializeToolboxSortFieldControls();
+			InitializeBottomPanel();
+			
 			LoadMappings();
 			PrepareMarkerList();
 			BuildMappingGrid();
@@ -139,18 +132,30 @@ namespace SIL.Pa.UI.Dialogs
 			//m_tooltip.SetToolTip(rbParseOneToOne, tooltip);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InitializeEditorSpecificationControls()
+		private void InitializeBottomPanel()
 		{
-			lblEditor.Font = FontHelper.UIFont;
-			txtEditor.Font = FontHelper.UIFont;
-			lblEditor.Top = (pnlEditor.Height - lblEditor.Height) / 2;
-			txtEditor.Top = (pnlEditor.Height - txtEditor.Height) / 2;
-			txtEditor.Text = m_datasource.Editor;
+			tblLayoutButtons.ColumnCount += 2;
+			
+			if (m_datasource != null && m_datasource.DataSourceType == DataSourceType.Toolbox)
+			{
+				tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+				tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+				tblLayoutButtons.Controls.Add(lblToolboxSortField, 0, 0);
+				tblLayoutButtons.Controls.Add(cboToolboxSortField, 1, 0);
+			}
+			else
+			{
+				btnBrowse.Margin = new Padding(0, btnOK.Margin.Top, 15, btnOK.Margin.Bottom);
+
+				txtEditor.Top = (tblLayoutButtons.Height - txtEditor.Height) / 2;
+				tblLayoutButtons.ColumnStyles.Insert(1, new ColumnStyle());
+				tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+				tblLayoutButtons.Controls.Add(lblEditor, 0, 0);
+				tblLayoutButtons.Controls.Add(txtEditor, 1, 0);
+				tblLayoutButtons.Controls.Add(btnBrowse, 2, 0);
+			}
+
+			ReAddButtons(3);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,11 +167,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			cboToolboxSortField.Items.AddRange(m_fieldInfo.ToArray());
 			cboToolboxSortField.Items.Insert(0, Properties.Resources.kstidNoToolboxSortField);
-			cboToolboxSortField.Font = FontHelper.UIFont;
-			lblToolboxSortField.Font = FontHelper.UIFont;
-			lblToolboxSortField.Top = (pnlToolboxSortField.Height - lblToolboxSortField.Height) / 2;
-			cboToolboxSortField.Top = (pnlToolboxSortField.Height - cboToolboxSortField.Height) / 2;
-			cboToolboxSortField.Left = lblToolboxSortField.Right + 10;
 
 			string sortField = m_datasource.ToolboxSortField;
 

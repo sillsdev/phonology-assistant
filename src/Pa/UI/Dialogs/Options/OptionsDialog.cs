@@ -26,7 +26,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			Utils.WaitCursors(true);
 			InitializeComponent();
-			
+
+			if (DesignMode)
+				return;
+
 			// Remove this until we implement it.
 			tabOptions.TabPages.Remove(tpgColors);
 
@@ -54,7 +57,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
-			lblSaveInfo.Top = (pnlButtons.Height - lblSaveInfo.Height) / 2;
+			lblSaveInfo.Top = (tblLayoutButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
 			App.IncProgressBar();

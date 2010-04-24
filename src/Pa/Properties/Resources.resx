@@ -844,9 +844,6 @@
     <value>New Category</value>
     <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
   </data>
-  <data name="kstidNoFwProjectsFoundMsg" xml:space="preserve">
-    <value>No projects found on '{0}'.</value>
-  </data>
   <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
     <value>No minimal pairs to display.\nChange the minimal pairs options and try again.</value>
     <comment>Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show.</comment>
@@ -1001,10 +998,6 @@
   </data>
   <data name="kstidSearchingForCIEResultsMsg" xml:space="preserve">
     <value>Finding Minimal Pairs...</value>
-  </data>
-  <data name="kstidSearchingForFwDatabasesMsg" xml:space="preserve">
-    <value>Searching...</value>
-    <comment>Message displayed in the dialog for choosing an FW data source when the computer is searching the specified computer for FW databases.</comment>
   </data>
   <data name="kstidSearchPatternTooltip" xml:space="preserve">
     <value>Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]</value>

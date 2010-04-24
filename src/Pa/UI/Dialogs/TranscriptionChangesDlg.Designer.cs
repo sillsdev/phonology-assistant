@@ -34,37 +34,8 @@ namespace SIL.Pa.UI.Dialogs
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranscriptionChangesDlg));
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in Base Class");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnOK, "Localized in Base Class");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in Base Class");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// pnlGrid
 			// 
@@ -95,11 +66,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "TranscriptionChangesDlg.WindowTitle");
 			this.Name = "TranscriptionChangesDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			this.pnlButtons.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -107,7 +77,5 @@ namespace SIL.Pa.UI.Dialogs
 
 		private SilPanel pnlGrid;
 		private SIL.Localization.LocalizationExtender locExtender;
-
-
 	}
 }

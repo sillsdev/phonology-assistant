@@ -191,46 +191,46 @@
     <Setting Name="SearchVwClassListViewColWidth0" Provider="SIL.Pa.PaSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="AmbiguousSequencesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="AmbiguousSequencesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="CustomFieldsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="CustomFieldsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="FeaturesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="FeaturesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="TranscriptionChangesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="TranscriptionChangesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="ProjectSettingsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="ProjectSettingsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="SaveSearchQuerDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="SaveSearchQuerDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="SaveDistChartDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="SaveDistChartDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="SFDataSourcePropertiesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="SFDataSourcePropertiesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="FindDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="FindDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="UndefinedCharactersInClassDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="UndefinedCharactersInClassDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="UndefinedPhoneticCharactersDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="UndefinedPhoneticCharactersDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="OptionsDialogBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="OptionsDialogBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="FwDataSourcePropertiesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="FwDataSourcePropertiesDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
-    <Setting Name="FwProjectsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+    <Setting Name="FwProjectsDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, -1</Value>
     </Setting>
     <Setting Name="FeaturesDlgSplitLoc" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
@@ -244,6 +244,12 @@
     </Setting>
     <Setting Name="TranscriptionChangesDlgGridExtraRowHeight" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="DefineFiltersDlgBounds" Provider="SIL.Pa.PaSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, -1</Value>
+    </Setting>
+    <Setting Name="FwProjectsDlgSplitLoc" Provider="SIL.Pa.PaSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

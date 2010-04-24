@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SIL.Localization;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -24,6 +26,12 @@ namespace SIL.Pa.UI.Dialogs
 		public FwProjectsDlg()
 		{
 			InitializeComponent();
+
+			if (DesignMode)
+				return;
+
+			btnProperties.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
+			tblLayoutButtons.Controls.Add(btnProperties, 0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,21 +76,23 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			var loc = Settings.Default.FwProjectsDlgSplitLoc;
+			if (loc > 0 && loc >= splitContainer1.Panel1MinSize)
+				splitContainer1.SplitterDistance = loc;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-
-			float splitRatio =
-				App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
-
-			// If the split ratio is zero, assume any form settings found were for the
-			// dialog as it was before my significant design changes made on 03-Oct-07.
-			if (splitRatio > 0)
-			{
-				App.SettingsHandler.LoadFormProperties(this);
-				splitContainer1.SplitterDistance = (int)(splitContainer1.Width * splitRatio);
-			}
-
 			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
@@ -91,12 +101,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
+		protected override void SaveSettings()
 		{
-			App.SettingsHandler.SaveFormProperties(this);
-			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Width;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			base.OnFormClosing(e);
+			Settings.Default.FwProjectsDlgSplitLoc = splitContainer1.SplitterDistance;
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +164,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = Properties.Resources.kstidSearchingForFwDatabasesMsg;
+				txtMsg.Text = LocalizationManager.LocalizeString(
+					Name + ".SearchingForFwDatabasesMsg", "Searching...",
+					locExtender.LocalizationGroup);
+				
 				txtMsg.Visible = true;
 				Application.DoEvents();
 
@@ -174,8 +185,11 @@ namespace SIL.Pa.UI.Dialogs
 				}
 				else
 				{
-					txtMsg.Text = string.Format(
-						Properties.Resources.kstidNoFwProjectsFoundMsg,	node.MachineName);
+					var fmt = LocalizationManager.LocalizeString(
+						Name + ".NoFwProjectsFoundMsg", "No projects found on '{0}'.",
+						locExtender.LocalizationGroup);
+		
+					txtMsg.Text = string.Format(fmt, node.MachineName);
 				}
 			}
 

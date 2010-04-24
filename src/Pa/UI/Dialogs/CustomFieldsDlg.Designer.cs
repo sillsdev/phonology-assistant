@@ -32,13 +32,8 @@ namespace SIL.Pa.UI.Dialogs
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomFieldsDlg));
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
@@ -85,9 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "CustomFieldsDlg.WindowTitle");
 			this.Name = "CustomFieldsDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.lblInfo, 0);
-			this.pnlButtons.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 

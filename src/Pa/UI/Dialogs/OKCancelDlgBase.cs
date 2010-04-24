@@ -162,6 +162,18 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected void ReAddButtons(int startIndexInTablePanel)
+		{
+			tblLayoutButtons.Controls.Add(btnOK, startIndexInTablePanel, 0);
+			tblLayoutButtons.Controls.Add(btnCancel, startIndexInTablePanel + 1, 0);
+			tblLayoutButtons.Controls.Add(btnHelp, startIndexInTablePanel + 2, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Set a flag indicating whether or not the cancel button was pressed. That's because
 		/// in the form's closing event, we don't know if a DialogResult of Cancel is due to
 		/// the user clicking on the cancel button or closing the form in some other way
@@ -279,9 +291,10 @@ namespace SIL.Pa.UI.Dialogs
 			try
 			{
 				Settings.Default[Name + "Bounds"] = Bounds;
-				Settings.Default.Save();
 			}
 			catch { }
+
+			Settings.Default.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------

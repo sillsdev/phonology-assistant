@@ -40,17 +40,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
 			this.m_grid = new SilUtils.SilGrid();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.grpPhoneticDataStoreType.SuspendLayout();
 			this.grpWritingSystems.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
@@ -198,10 +193,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
 			this.Controls.SetChildIndex(this.lblProjectValue, 0);
 			this.Controls.SetChildIndex(this.lblProject, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.panel1, 0);
 			this.Controls.SetChildIndex(this.grpWritingSystems, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.grpPhoneticDataStoreType.ResumeLayout(false);
 			this.grpPhoneticDataStoreType.PerformLayout();

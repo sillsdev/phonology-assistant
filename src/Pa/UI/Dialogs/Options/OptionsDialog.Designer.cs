@@ -36,10 +36,10 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabOptions = new System.Windows.Forms.TabControl();
 			this.tpgWordLists = new System.Windows.Forms.TabPage();
 			this.grpColSettings = new System.Windows.Forms.GroupBox();
@@ -114,7 +114,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.picSaveInfo = new System.Windows.Forms.PictureBox();
 			this.lblSaveInfo = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.tabOptions.SuspendLayout();
 			this.tpgWordLists.SuspendLayout();
 			this.grpColSettings.SuspendLayout();
@@ -143,41 +142,6 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.Controls.Add(this.picSaveInfo);
-			this.pnlButtons.Controls.Add(this.lblSaveInfo);
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.lblSaveInfo, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.picSaveInfo, 0);
-			// 
-			// btnCancel
-			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
-			// 
-			// btnHelp
-			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
 			// 
 			// tabOptions
 			// 
@@ -232,25 +196,26 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridWrdList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.fldSelGridWrdList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.fldSelGridWrdList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle7.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.fldSelGridWrdList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.fldSelGridWrdList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.fldSelGridWrdList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridWrdList.ColumnHeadersVisible = false;
+			resources.ApplyResources(this.fldSelGridWrdList, "fldSelGridWrdList");
 			this.fldSelGridWrdList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridWrdList.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "OptionsDlg.fldSelGridWrdList");
-			resources.ApplyResources(this.fldSelGridWrdList, "fldSelGridWrdList");
 			this.fldSelGridWrdList.MultiSelect = false;
 			this.fldSelGridWrdList.Name = "fldSelGridWrdList";
+			this.fldSelGridWrdList.PaintHeaderAcrossFullGridWidth = true;
 			this.fldSelGridWrdList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridWrdList.RowHeadersVisible = false;
 			this.fldSelGridWrdList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -460,25 +425,26 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridRecView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.fldSelGridRecView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.fldSelGridRecView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle8.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.fldSelGridRecView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.fldSelGridRecView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.fldSelGridRecView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridRecView.ColumnHeadersVisible = false;
+			resources.ApplyResources(this.fldSelGridRecView, "fldSelGridRecView");
 			this.fldSelGridRecView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridRecView.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "OptionsDlg.fldSelGridRecView");
-			resources.ApplyResources(this.fldSelGridRecView, "fldSelGridRecView");
 			this.fldSelGridRecView.MultiSelect = false;
 			this.fldSelGridRecView.Name = "fldSelGridRecView";
+			this.fldSelGridRecView.PaintHeaderAcrossFullGridWidth = true;
 			this.fldSelGridRecView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridRecView.RowHeadersVisible = false;
 			this.fldSelGridRecView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -862,24 +828,25 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_sortingGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.m_sortingGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.m_sortingGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle9.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.m_sortingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			resources.ApplyResources(this.m_sortingGrid, "m_sortingGrid");
 			this.m_sortingGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_sortingGrid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationComment(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_sortingGrid, "OptionsDlg.m_sortingGrid");
-			resources.ApplyResources(this.m_sortingGrid, "m_sortingGrid");
 			this.m_sortingGrid.MultiSelect = false;
 			this.m_sortingGrid.Name = "m_sortingGrid";
+			this.m_sortingGrid.PaintHeaderAcrossFullGridWidth = true;
 			this.m_sortingGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_sortingGrid.RowHeadersVisible = false;
 			this.m_sortingGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -1065,8 +1032,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this, "OptionsDlg.WindowTitle");
 			this.Name = "OptionsDlg";
 			this.Controls.SetChildIndex(this.tabOptions, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.tabOptions.ResumeLayout(false);
 			this.tpgWordLists.ResumeLayout(false);
 			this.grpColSettings.ResumeLayout(false);
@@ -1101,6 +1066,7 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 		#endregion

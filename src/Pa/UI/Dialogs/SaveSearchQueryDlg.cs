@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			txtName.Top = lblPattern.Bottom + 10;
 			cboCategories.Top = txtName.Bottom + 10;
-			Height = SystemInformation.CaptionHeight + pnlButtons.Height + cboCategories.Bottom + 18;
+			Height = SystemInformation.CaptionHeight + tblLayoutButtons.Height + cboCategories.Bottom + 18;
 
 			// Center the pattern with its label.
 			lblPatternLabel.Top = lblPattern.Top + (lblPattern.Height - lblPatternLabel.Height) / 2;
@@ -155,8 +155,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnPaint(e);
 
-			Point pt1 = new Point(pnlButtons.Left, pnlButtons.Top - 2);
-			Point pt2 = new Point(pnlButtons.Right - 1, pnlButtons.Top - 2);
+			Point pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
+			Point pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
 
 			using (Pen pen = new Pen(SystemColors.ControlDark))
 			{

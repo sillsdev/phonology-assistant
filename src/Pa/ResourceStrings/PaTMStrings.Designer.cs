@@ -889,7 +889,7 @@ namespace SIL.Pa.ResourceStrings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Features....
+        ///   Looks up a localized string similar to F&amp;eatures....
         /// </summary>
         public static string kstidFeaturesText {
             get {

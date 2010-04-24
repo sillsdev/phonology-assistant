@@ -36,16 +36,16 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFDataSourcePropertiesDlg));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.scImport = new System.Windows.Forms.SplitContainer();
 			this.pnlMappings = new SilUtils.Controls.SilPanel();
-			this.pnlEditor = new System.Windows.Forms.Panel();
-			this.btnBrowse = new System.Windows.Forms.Button();
 			this.lblEditor = new System.Windows.Forms.Label();
+			this.btnBrowse = new System.Windows.Forms.Button();
+			this.lblToolboxSortField = new System.Windows.Forms.Label();
 			this.pnlMappingsHdg = new SilUtils.Controls.SilGradientPanel();
 			this.pnlSrcFile = new SilUtils.Controls.SilPanel();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
@@ -72,15 +72,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.pnlToolboxSortField = new System.Windows.Forms.Panel();
-			this.lblToolboxSortField = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
-			this.pnlButtons.SuspendLayout();
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
 			this.scImport.SuspendLayout();
 			this.pnlMappings.SuspendLayout();
-			this.pnlEditor.SuspendLayout();
 			this.pnlSrcFile.SuspendLayout();
 			this.pnlSrcFileHdg.SuspendLayout();
 			this.pnlParseType.SuspendLayout();
@@ -89,42 +85,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
-			this.pnlToolboxSortField.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.Controls.Add(this.pnlToolboxSortField);
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.SetChildIndex(this.pnlToolboxSortField, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in base class");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnOK, "Localized in base class");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in base class");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// m_tooltip
 			// 
@@ -135,13 +97,13 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// cboToolboxSortField
 			// 
+			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
 			this.cboToolboxSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboToolboxSortField.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "This is used for jumping to the appropriate Toolbox record.");
 			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
 			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, SIL.Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
-			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
 			this.cboToolboxSortField.Sorted = true;
 			// 
@@ -174,7 +136,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlMappings.ClipTextForChildControls = true;
 			this.pnlMappings.ControlReceivingFocusOnMnemonic = null;
-			this.pnlMappings.Controls.Add(this.pnlEditor);
+			this.pnlMappings.Controls.Add(this.lblEditor);
+			this.pnlMappings.Controls.Add(this.txtEditor);
+			this.pnlMappings.Controls.Add(this.btnBrowse);
+			this.pnlMappings.Controls.Add(this.cboToolboxSortField);
+			this.pnlMappings.Controls.Add(this.lblToolboxSortField);
 			this.pnlMappings.Controls.Add(this.pnlMappingsHdg);
 			resources.ApplyResources(this.pnlMappings, "pnlMappings");
 			this.pnlMappings.DoubleBuffered = false;
@@ -186,13 +152,14 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.Name = "pnlMappings";
 			this.pnlMappings.PaintExplorerBarBackground = false;
 			// 
-			// pnlEditor
+			// lblEditor
 			// 
-			resources.ApplyResources(this.pnlEditor, "pnlEditor");
-			this.pnlEditor.Controls.Add(this.btnBrowse);
-			this.pnlEditor.Controls.Add(this.txtEditor);
-			this.pnlEditor.Controls.Add(this.lblEditor);
-			this.pnlEditor.Name = "pnlEditor";
+			resources.ApplyResources(this.lblEditor, "lblEditor");
+			this.lblEditor.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblEditor, null);
+			this.locExtender.SetLocalizationComment(this.lblEditor, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblEditor, "SFDataSourcePropertiesDlg.lblEditor");
+			this.lblEditor.Name = "lblEditor";
 			// 
 			// btnBrowse
 			// 
@@ -202,18 +169,19 @@ namespace SIL.Pa.UI.Dialogs
 					"s dialog box.");
 			this.locExtender.SetLocalizationPriority(this.btnBrowse, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
+			this.btnBrowse.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.UseVisualStyleBackColor = true;
 			this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
 			// 
-			// lblEditor
+			// lblToolboxSortField
 			// 
-			resources.ApplyResources(this.lblEditor, "lblEditor");
-			this.lblEditor.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.lblEditor, null);
-			this.locExtender.SetLocalizationComment(this.lblEditor, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblEditor, "SFDataSourcePropertiesDlg.lblEditor");
-			this.lblEditor.Name = "lblEditor";
+			resources.ApplyResources(this.lblToolboxSortField, "lblToolboxSortField");
+			this.lblToolboxSortField.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblToolboxSortField, null);
+			this.locExtender.SetLocalizationComment(this.lblToolboxSortField, "Label in standard format data source properties dialog box.");
+			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "SFDataSourcePropertiesDlg.lblToolboxSortField");
+			this.lblToolboxSortField.Name = "lblToolboxSortField";
 			// 
 			// pnlMappingsHdg
 			// 
@@ -285,7 +253,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblFilename, "lblFilename");
 			this.lblFilename.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFilename, null);
-			this.locExtender.SetLocalizationComment(this.lblFilename, "");
+			this.locExtender.SetLocalizationComment(this.lblFilename, global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip);
 			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblFilename, "SFDataSourcePropertiesDlg.lblFilename");
 			this.lblFilename.Name = "lblFilename";
@@ -359,7 +327,7 @@ namespace SIL.Pa.UI.Dialogs
             this.POS});
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
@@ -438,6 +406,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.rtfSampleInput, "rtfSampleInput");
 			this.rtfSampleInput.Name = "rtfSampleInput";
 			this.rtfSampleInput.TabStop = false;
+			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip;
 			// 
 			// rbParseOneToOne
 			// 
@@ -557,22 +526,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.dataGridViewTextBoxColumn3.ReadOnly = true;
 			this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
-			// pnlToolboxSortField
-			// 
-			resources.ApplyResources(this.pnlToolboxSortField, "pnlToolboxSortField");
-			this.pnlToolboxSortField.Controls.Add(this.lblToolboxSortField);
-			this.pnlToolboxSortField.Controls.Add(this.cboToolboxSortField);
-			this.pnlToolboxSortField.Name = "pnlToolboxSortField";
-			// 
-			// lblToolboxSortField
-			// 
-			resources.ApplyResources(this.lblToolboxSortField, "lblToolboxSortField");
-			this.lblToolboxSortField.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.lblToolboxSortField, null);
-			this.locExtender.SetLocalizationComment(this.lblToolboxSortField, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "SFDataSourcePropertiesDlg.lblToolboxSortField");
-			this.lblToolboxSortField.Name = "lblToolboxSortField";
-			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
@@ -585,15 +538,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "SFDataSourcePropertiesDlg.WindowTitle");
 			this.Name = "SFDataSourcePropertiesDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.splitOuter, 0);
-			this.pnlButtons.ResumeLayout(false);
 			this.scImport.Panel1.ResumeLayout(false);
 			this.scImport.Panel2.ResumeLayout(false);
 			this.scImport.ResumeLayout(false);
 			this.pnlMappings.ResumeLayout(false);
-			this.pnlEditor.ResumeLayout(false);
-			this.pnlEditor.PerformLayout();
+			this.pnlMappings.PerformLayout();
 			this.pnlSrcFile.ResumeLayout(false);
 			this.pnlSrcFile.PerformLayout();
 			this.pnlSrcFileHdg.ResumeLayout(false);
@@ -604,8 +554,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
-			this.pnlToolboxSortField.ResumeLayout(false);
-			this.pnlToolboxSortField.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -633,10 +581,8 @@ namespace SIL.Pa.UI.Dialogs
 		private DataGridViewTextBoxColumn Phonetic;
 		private DataGridViewTextBoxColumn Gloss;
 		private DataGridViewTextBoxColumn POS;
-		private Panel pnlToolboxSortField;
 		private Label lblToolboxSortField;
 		private ComboBox cboToolboxSortField;
-		private Panel pnlEditor;
 		private Label lblEditor;
 		private TextBox txtEditor;
 		private Button btnBrowse;

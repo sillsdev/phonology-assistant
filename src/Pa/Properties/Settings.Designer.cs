@@ -742,6 +742,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle AmbiguousSequencesDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["AmbiguousSequencesDlgBounds"]));
@@ -754,6 +755,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle CustomFieldsDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["CustomFieldsDlgBounds"]));
@@ -766,6 +768,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FeaturesDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["FeaturesDlgBounds"]));
@@ -778,6 +781,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle TranscriptionChangesDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["TranscriptionChangesDlgBounds"]));
@@ -790,6 +794,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle ProjectSettingsDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["ProjectSettingsDlgBounds"]));
@@ -802,6 +807,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SaveSearchQuerDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["SaveSearchQuerDlgBounds"]));
@@ -814,6 +820,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SaveDistChartDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["SaveDistChartDlgBounds"]));
@@ -826,6 +833,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SFDataSourcePropertiesDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["SFDataSourcePropertiesDlgBounds"]));
@@ -838,6 +846,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FindDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["FindDlgBounds"]));
@@ -850,6 +859,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle UndefinedCharactersInClassDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["UndefinedCharactersInClassDlgBounds"]));
@@ -862,6 +872,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle UndefinedPhoneticCharactersDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["UndefinedPhoneticCharactersDlgBounds"]));
@@ -874,6 +885,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle OptionsDialogBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["OptionsDialogBounds"]));
@@ -886,6 +898,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FwDataSourcePropertiesDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["FwDataSourcePropertiesDlgBounds"]));
@@ -898,6 +911,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FwProjectsDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["FwProjectsDlgBounds"]));
@@ -943,6 +957,31 @@ namespace SIL.Pa.Properties {
         public int TranscriptionChangesDlgGridExtraRowHeight {
             get {
                 return ((int)(this["TranscriptionChangesDlgGridExtraRowHeight"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle DefineFiltersDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["DefineFiltersDlgBounds"]));
+            }
+            set {
+                this["DefineFiltersDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int FwProjectsDlgSplitLoc {
+            get {
+                return ((int)(this["FwProjectsDlgSplitLoc"]));
+            }
+            set {
+                this["FwProjectsDlgSplitLoc"] = value;
             }
         }
     }

@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Set the height of the dialog box.
 			int dy = Height - ClientSize.Height;
-			Height = tlpName.Bottom + 8 + pnlButtons.Height + dy;
+			Height = tlpName.Bottom + 8 + tblLayoutButtons.Height + dy;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,8 +146,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnPaint(e);
 
-			Point pt1 = new Point(pnlButtons.Left, pnlButtons.Top - 2);
-			Point pt2 = new Point(pnlButtons.Right - 1, pnlButtons.Top - 2);
+			Point pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
+			Point pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
 
 			using (Pen pen = new Pen(SystemColors.ControlDark))
 			{
