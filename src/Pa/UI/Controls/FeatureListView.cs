@@ -586,7 +586,7 @@ namespace SIL.Pa.UI.Controls
 					FeatureItemInfo info = item.Tag as FeatureItemInfo;
 					if (info != null)
 					{
-						if (m_featureType == App.FeatureType.Articulatory && item.Checked)
+						if (m_featureType == App.FeatureType.Articulatory && info.Checked)
 							features.Add(string.Format(fmt, info.Name.ToLower()));
 						else if (info.TriStateValue != BinaryFeatureValue.None)
 						{
@@ -598,6 +598,40 @@ namespace SIL.Pa.UI.Controls
 				}
 
 				return (features.Count == 0 ? null : features.ToArray());
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a single string containing a comma delimited list of the currently
+		/// checked features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Browsable(false)]
+		public string FormattedFeaturesString
+		{
+			get
+			{
+				var bldr = new StringBuilder();
+	
+				foreach (ListViewItem item in Items)
+				{
+					FeatureItemInfo info = item.Tag as FeatureItemInfo;
+					if (info != null)
+					{
+						if (m_featureType == App.FeatureType.Articulatory && !info.Checked)
+							continue;
+
+						if (info.TriStateValue != BinaryFeatureValue.None)
+							bldr.Append(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
+
+						bldr.Append(info.Name);
+						bldr.Append(", ");
+					}
+				}
+
+				return bldr.ToString().TrimEnd(',', ' ');
 			}
 		}
 

@@ -773,6 +773,30 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected bool OnFeatures(object args)
+		{
+			using (var dlg = new FeaturesDlg())
+				dlg.ShowDialog(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateFeatures(object args)
+		{
+			App.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnAmbiguousSequences(object args)
 		{
 			using (var dlg = new AmbiguousSequencesDlg())
@@ -981,32 +1005,6 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Display the phone inventory view.
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnViewPhoneInventory(object args)
-		{
-			vwTabGroup.ActivateView(typeof(PhoneInventoryVw));
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the phone inventory view menu.
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateViewPhoneInventory(object args)
-		{
-			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(PhoneInventoryVw));
-			return true;
-		}
-
 		#endregion
 
 		#region CurrentViewsGrid stuff
@@ -1038,26 +1036,6 @@ namespace SIL.Pa.UI
 		//}
 
 		#endregion
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// <param name="args"></param>
-		///// <returns>true if the message was handled</returns>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnFiltersDialog(object args)
-		//{
-		//    using (FiltersDialog filtersDlg = new FiltersDialog())
-		//    {
-		//        // TODO: Send a message indicating the filters were changed.
-		//        if (filtersDlg.ShowDialog(this) == DialogResult.OK)
-		//        {
-		//        }
-		//    }
-
-		//    return true;
-		//}
 
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------

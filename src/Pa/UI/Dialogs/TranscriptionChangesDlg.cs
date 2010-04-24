@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -12,7 +13,7 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class TranscriptionChangesDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private readonly TranscriptionChangesControl m_TransChangeCtrl;
+		private readonly TranscriptionChangesControl m_transChangeCtrl;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -27,13 +28,15 @@ namespace SIL.Pa.UI.Dialogs
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
 
-			m_TransChangeCtrl = new TranscriptionChangesControl();
-			m_TransChangeCtrl.BorderStyle = BorderStyle.None;
-			m_TransChangeCtrl.Dock = DockStyle.Fill;
-			m_TransChangeCtrl.TabIndex = 0;
-			m_TransChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
-			pnlGrid.Controls.Add(m_TransChangeCtrl);
-			AdjustGridRows();
+			m_transChangeCtrl = new TranscriptionChangesControl();
+			m_transChangeCtrl.BorderStyle = BorderStyle.None;
+			m_transChangeCtrl.Dock = DockStyle.Fill;
+			m_transChangeCtrl.TabIndex = 0;
+			m_transChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
+			pnlGrid.Controls.Add(m_transChangeCtrl);
+			
+			FeaturesDlg.AdjustGridRows(m_transChangeCtrl.Grid,
+				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 			
 			App.AddMediatorColleague(this);
 		}
@@ -46,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			m_TransChangeCtrl.RefreshHeader();
+			m_transChangeCtrl.RefreshHeader();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,32 +63,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.OnFormClosed(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adjusts the rows in the specified grid by letting the grid calculate the row
-		/// heights automatically, then adds an extra amount, found in the settings file,
-		/// to each row.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void AdjustGridRows()
-		{
-			try
-			{
-				// Sometimes (or maybe always) this throws an exception when
-				// the first row is the only row and is the NewRowIndex row.
-				m_TransChangeCtrl.Grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-			}
-			catch { }
-
-			m_TransChangeCtrl.Grid.AutoResizeRows();
-
-			int extraRowHeight =
-				App.SettingsHandler.GetIntSettingsValue(Name, "exptransgridextrarowheight", 2);
-
-			foreach (DataGridViewRow row in m_TransChangeCtrl.Grid.Rows)
-				row.Height += extraRowHeight;
-		}
-
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -94,7 +71,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return m_TransChangeCtrl.Grid.IsDirty; }
+			get { return m_transChangeCtrl.Grid.IsDirty; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,9 +90,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (m_TransChangeCtrl.Grid.IsDirty)
+			if (m_transChangeCtrl.Grid.IsDirty)
 			{
-				m_TransChangeCtrl.SaveChanges();
+				m_transChangeCtrl.SaveChanges();
 				App.Project.ReloadDataSources();
 			}
 
@@ -132,7 +109,8 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleExperimentalTransCtrlRowsAdded(object sender,
 			DataGridViewRowsAddedEventArgs e)
 		{
-			AdjustGridRows();
+			FeaturesDlg.AdjustGridRows(m_transChangeCtrl.Grid,
+				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 		}
 
 		#region IxCoreColleague Members

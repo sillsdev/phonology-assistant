@@ -488,6 +488,12 @@
     <Compile Include="UI\Dialogs\DefineFiltersDlg.Designer.cs">
       <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\FeaturesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\FeaturesDlg.Designer.cs">
+      <DependentUpon>FeaturesDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -610,12 +616,6 @@
     </Compile>
     <Compile Include="UI\Views\DataCorpusVw.Designer.cs">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Views\PhoneInventoryVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Views\PhoneInventoryVw.Designer.cs">
-      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Views\SearchVw.cs">
       <SubType>UserControl</SubType>
@@ -770,9 +770,6 @@
     <EmbeddedResource Include="UI\Views\DataCorpusVw.resx">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\PhoneInventoryVw.resx">
-      <DependentUpon>PhoneInventoryVw.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\SearchVw.resx">
       <DependentUpon>SearchVw.cs</DependentUpon>
     </EmbeddedResource>
@@ -848,6 +845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlg.resx">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FeaturesDlg.resx">
+      <DependentUpon>FeaturesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>

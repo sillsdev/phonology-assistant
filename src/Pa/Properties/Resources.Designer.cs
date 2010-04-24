@@ -1845,15 +1845,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unicode Values:\n{0}.
-        /// </summary>
-        internal static string kstidPhoneInventoryPhoneInfo {
-            get {
-                return ResourceManager.GetString("kstidPhoneInventoryPhoneInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Phone Inventory View Help.
         /// </summary>
         internal static string kstidPhoneInventoryViewHelpToolTip {

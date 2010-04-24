@@ -902,10 +902,6 @@
     <value>Export to {0} XML</value>
     <comment>Caption for save file dialog for PA XML export</comment>
   </data>
-  <data name="kstidPhoneInventoryPhoneInfo" xml:space="preserve">
-    <value>Unicode Values:\n{0}</value>
-    <comment>Used for the tooltip information when moving the mouse over phones in the phone inventory list.</comment>
-  </data>
   <data name="kstidPhoneInventoryViewHelpToolTip" xml:space="preserve">
     <value>Phone Inventory View Help</value>
   </data>

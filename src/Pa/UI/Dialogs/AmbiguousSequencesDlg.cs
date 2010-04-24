@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -52,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 				row.Cells["cvpattern"].Style.Font = FontHelper.PhoneticFont;
 			}
 
-			AdjustGridRows();
+			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			InitStrings();
 			App.AddMediatorColleague(this);
 		}
@@ -242,35 +243,9 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			App.SettingsHandler.LoadGridProperties(m_grid);
-			AdjustGridRows();
+			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			m_grid.IsDirty = false;
 			chkShowGenerated.Visible = ambigSeqList.Any(x => x.IsGenerated);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adjusts the rows in the specified grid by letting the grid calculate the row
-		/// heights automatically, then adds an extra amount, found in the settings file,
-		/// to each row.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void AdjustGridRows()
-		{
-			try
-			{
-				// Sometimes (or maybe always) this throws an exception when
-				// the first row is the only row and is the NewRowIndex row.
-				m_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-			}
-			catch { }
-
-			m_grid.AutoResizeRows();
-
-			int extraRowHeight =
-				App.SettingsHandler.GetIntSettingsValue(Name, "ambiggridextrarowheight", 3);
-
-			foreach (DataGridViewRow row in m_grid.Rows)
-				row.Height += extraRowHeight;
 		}
 
 		#region Overridden methods of base class
@@ -397,7 +372,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			AdjustGridRows();
+			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 		}
 
 		/// ------------------------------------------------------------------------------------

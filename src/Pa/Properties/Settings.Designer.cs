@@ -738,5 +738,212 @@ namespace SIL.Pa.Properties {
                 this["SearchVwClassListViewColWidth0"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle AmbiguousSequencesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["AmbiguousSequencesDlgBounds"]));
+            }
+            set {
+                this["AmbiguousSequencesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle CustomFieldsDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["CustomFieldsDlgBounds"]));
+            }
+            set {
+                this["CustomFieldsDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle FeaturesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["FeaturesDlgBounds"]));
+            }
+            set {
+                this["FeaturesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle TranscriptionChangesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["TranscriptionChangesDlgBounds"]));
+            }
+            set {
+                this["TranscriptionChangesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle ProjectSettingsDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["ProjectSettingsDlgBounds"]));
+            }
+            set {
+                this["ProjectSettingsDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle SaveSearchQuerDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["SaveSearchQuerDlgBounds"]));
+            }
+            set {
+                this["SaveSearchQuerDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle SaveDistChartDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["SaveDistChartDlgBounds"]));
+            }
+            set {
+                this["SaveDistChartDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle SFDataSourcePropertiesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["SFDataSourcePropertiesDlgBounds"]));
+            }
+            set {
+                this["SFDataSourcePropertiesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle FindDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["FindDlgBounds"]));
+            }
+            set {
+                this["FindDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle UndefinedCharactersInClassDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["UndefinedCharactersInClassDlgBounds"]));
+            }
+            set {
+                this["UndefinedCharactersInClassDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle UndefinedPhoneticCharactersDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["UndefinedPhoneticCharactersDlgBounds"]));
+            }
+            set {
+                this["UndefinedPhoneticCharactersDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle OptionsDialogBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["OptionsDialogBounds"]));
+            }
+            set {
+                this["OptionsDialogBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle FwDataSourcePropertiesDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["FwDataSourcePropertiesDlgBounds"]));
+            }
+            set {
+                this["FwDataSourcePropertiesDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle FwProjectsDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["FwProjectsDlgBounds"]));
+            }
+            set {
+                this["FwProjectsDlgBounds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int FeaturesDlgSplitLoc {
+            get {
+                return ((int)(this["FeaturesDlgSplitLoc"]));
+            }
+            set {
+                this["FeaturesDlgSplitLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int FeaturesDlgGridExtraRowHeight {
+            get {
+                return ((int)(this["FeaturesDlgGridExtraRowHeight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int AmbiguousSequencesDlgGridExtraRowHeight {
+            get {
+                return ((int)(this["AmbiguousSequencesDlgGridExtraRowHeight"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int TranscriptionChangesDlgGridExtraRowHeight {
+            get {
+                return ((int)(this["TranscriptionChangesDlgGridExtraRowHeight"]));
+            }
+        }
     }
 }

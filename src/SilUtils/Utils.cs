@@ -18,6 +18,14 @@ namespace SilUtils
 		internal static ISplashScreen s_splashScreen;
 		private static bool s_msgBoxJustShown;
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not calls to MsgBox will actaully show
+		/// a message box.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SuppressMsgBoxInteractions { get; set; }
+
 		#region Windows 32 stuff
 		/// <summary></summary>
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -211,6 +219,16 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Displays a speech tools message box with just an OK button and an information icon.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DialogResult MsgBox(string msg, MessageBoxIcon icon)
+		{
+			return MsgBox(msg, MessageBoxButtons.OK, icon);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Displays a speech tools message box with an icon that is determined by the buttons.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -235,6 +253,9 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static DialogResult MsgBox(string msg, MessageBoxButtons buttons, MessageBoxIcon icon)
 		{
+			if (SuppressMsgBoxInteractions)
+				return DialogResult.None;
+
 			// If there a splash screen showing, then close it. Otherwise,
 			// the message box will popup behind the splash screen.
 			if (s_splashScreen != null)

@@ -392,7 +392,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.ColumnHeader hdrFilter;
 		private SilUtils.SilGrid m_grid;
-		private SilUtils.Controls.SilPanel pnlFilters;
+		private SilPanel pnlFilters;
 		private HeaderLabel hlblFilters;
 		private System.Windows.Forms.Panel pnlFilterOptions;
 		private System.Windows.Forms.RadioButton rbMatchAny;
@@ -403,7 +403,7 @@ namespace SIL.Pa.UI.Dialogs
 		private SilPanel pnlExpressions;
 		private HeaderLabel hlblExpressions;
 		private System.Windows.Forms.TableLayoutPanel tableLayout;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.LocalizationExtender locExtender;
 		private System.Windows.Forms.FlowLayoutPanel flwLayoutFilterButtons;
 	}
 }

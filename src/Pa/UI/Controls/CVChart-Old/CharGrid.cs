@@ -1658,9 +1658,6 @@ namespace SIL.Pa.UI.Controls
 		private bool m_isPlacedOnChart;
 		private int m_defaultCol = -1;
 		private int m_defaultGroup = -1;
-		private int m_row = -1;
-		private int m_col = -1;
-		private int m_group = -1;
 		private int m_totalCount;
 		private int m_countAsPrimaryUncertainty;
 		private int m_countAsNonPrimaryUncertainty;
@@ -1735,11 +1732,23 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
+		[XmlAttribute("Row")]
+		public string InternalRow { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public int Row
 		{
-			get { return m_row; }
-			set { m_row = value; }
+			get
+			{
+				int row;
+				return (int.TryParse(InternalRow, out row) ? row : -1);
+			}
+			set { InternalRow = value.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1747,11 +1756,23 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
+		[XmlAttribute("Column")]
+		public string InternalColumn{ get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public int Column
 		{
-			get { return m_col; }
-			set { m_col = value; }
+			get
+			{
+				int col;
+				return (int.TryParse(InternalColumn, out col) ? col : -1);
+			}
+			set { InternalColumn = value.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1759,11 +1780,23 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
+		[XmlAttribute("Group")]
+		public string InternalGroup { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public int Group
 		{
-			get { return m_group; }
-			set { m_group = value; }
+			get
+			{
+				int grp;
+				return (int.TryParse(InternalGroup, out grp) ? grp : -1);
+			}
+			set { InternalGroup = value.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

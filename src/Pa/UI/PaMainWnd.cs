@@ -297,13 +297,6 @@ namespace SIL.Pa.UI
 			helptooltip = Properties.Resources.kstidXYChartsViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(XYChartVw));
-
-			itemProps = m_tmAdapter.GetItemProperties("mnuPhoneInventory");
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = Properties.Resources.kstidPhoneInventoryViewToolTip;
-			helptooltip = Properties.Resources.kstidPhoneInventoryViewHelpToolTip;
-			img = (itemProps == null ? null : itemProps.Image);
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidPhoneInventoryView", img, typeof(PhoneInventoryVw));
 			
 			vwTabGroup.Visible = true;
 		}

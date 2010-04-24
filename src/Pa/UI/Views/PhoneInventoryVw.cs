@@ -705,36 +705,6 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void gridPhones_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			try
-			{
-				if (e.ColumnIndex != 0)
-					return;
-
-				PhoneInfo phoneInfo = Phones[e.RowIndex] as PhoneInfo;
-				if (phoneInfo == null || phoneInfo.Phone.Trim().Length == 0)
-					return;
-
-				Form frm = gridPhones.FindForm();
-				if (frm == null)
-					return;
-
-				StringBuilder bldr = new StringBuilder();
-				foreach (char c in phoneInfo.Phone)
-					bldr.AppendFormat("U+{0:X4}, ", (int)c);
-
-				string tip = bldr.ToString();
-				tip = string.Format(Properties.Resources.kstidPhoneInventoryPhoneInfo,
-					tip.Substring(0, tip.Length - 2));
-
-				tip = Utils.ConvertLiteralNewLines(tip);
-
-				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				Point pt = gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));
-				pt = frm.PointToClient(pt);
-				m_phoneToolTip.Tag = rc;
-				m_phoneToolTip.Show(tip, gridPhones.FindForm(), pt, 5000);
-			}
-			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
