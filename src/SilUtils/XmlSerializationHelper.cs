@@ -197,11 +197,35 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SerializeToFile<T>(string filename, T data, out Exception e)
+		{
+			return SerializeToFile(filename, data, null, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Serializes an object to a the specified file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data, string rootElementName)
 		{
+			Exception e;
+			return SerializeToFile(filename, data, null, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Serializes an object to a the specified file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool SerializeToFile<T>(string filename, T data, string rootElementName,
+			out Exception e)
+		{
+			e = null;
+
 			try
 			{
 				using (TextWriter writer = new StreamWriter(filename))
@@ -225,9 +249,10 @@ namespace SilUtils
 					return true;
 				}
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
 				Debug.Fail(e.Message);
+				e = ex;
 			}
 
 			return false;
