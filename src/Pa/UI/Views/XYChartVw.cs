@@ -614,7 +614,7 @@ namespace SIL.Pa.UI.Views
 			int col = e.ColumnIndex;
 			int row = e.RowIndex;
 
-			if (m_xyGrid.IsEmpty || col <= 0 || row <= 0 || m_xyGrid[col, row].Value is XYChartException)
+			if (m_xyGrid.IsEmpty || col <= 0 || row <= 0 || m_xyGrid[col, row].Value is SearchQueryException)
 				return;
 
 			if (m_xyGrid.IsCurrentCellValidForSearch)
@@ -1450,8 +1450,8 @@ namespace SIL.Pa.UI.Views
 			var fmt = LocalizationManager.LocalizeString(
 				"DefaultDistributionChartHtmlExportFileAffix", "{0}-{1}DistributionChart.html");
 
-			var defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName,
-				m_xyGrid.ChartName).Replace(" ", string.Empty);
+			var prefix = (App.Project.LanguageName ?? (App.Project.LanguageCode ?? App.Project.Name));
+			var defaultHTMLFileName = string.Format(fmt, prefix, m_xyGrid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
 

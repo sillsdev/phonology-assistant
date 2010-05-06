@@ -262,12 +262,7 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_distribution_chart_generalize_1.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_distribution_chart_generalize_2.xsl" />
+					<document href="phonology_export_view_distribution_chart_generalize.xsl" />
 				</input>
 			</xslt>
 			<!-- Begin processing for CV chart that follows some distribution charts. -->

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-21 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-04-29 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -29,6 +29,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="tableOfDetails" select="$options/xhtml:li[@class = 'tableOfDetails']" />
 	<xsl:variable name="hyperlinkToEthnologue" select="$options/xhtml:li[@class = 'hyperlinkToEthnologue']" />
 	<xsl:variable name="dateAndTime" select="$options/xhtml:li[@class = 'dateAndTime']" />
+	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
 	<xsl:variable name="genericRelativePath" select="$options/xhtml:li[@class = 'genericRelativePath']" />
 	<xsl:variable name="specificRelativePath" select="$options/xhtml:li[@class = 'specificRelativePath']" />
   <xsl:variable name="specificStylesheetFile" select="$options/xhtml:li[@class = 'specificStylesheetFile']" />
@@ -98,10 +99,10 @@ exclude-result-prefixes="xhtml"
 				<!-- To reduce potential delay in loading content, script elements are at the end of the body. -->
 				<!-- Newline necessary to force start and end tags on separate lines. -->
 				<xsl:if test="$interactiveWebPage = 'true'">
-					<script src="{concat($genericRelativePath, $jqueryScriptFile)}">
+					<script type="text/javascript" src="{concat($genericRelativePath, $jqueryScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
-					<script src="{concat($genericRelativePath, $phonologyScriptFile)}">
+					<script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
 				</xsl:if>
@@ -133,18 +134,13 @@ exclude-result-prefixes="xhtml"
           <xsl:value-of select="'sortField'" />
         </xsl:if>
         <xsl:if test="$interactiveWebPage = 'true'">
-          <xsl:if test="$fieldName = 'Phonetic'">
-            <!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, . -->
-            <!-- That is, omit the options in a list of minimal pairs or a list with generic groups for which Phonetic is not the primary sort field. -->
-            <xsl:if test="$primarySortFieldName = 'Phonetic' or ancestor::xhtml:table[@class = 'list'][not(xhtml:tbody[@class = 'group'])]">
-							<xsl:if test="not($minimalPairs)">
-								<xsl:value-of select="' sortOptions'" />
-								<xsl:if test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
-									<xsl:value-of select="' mannerOfArticulation'" />
-								</xsl:if>
-							</xsl:if>
-            </xsl:if>
-          </xsl:if>
+					<!-- Phonetic sort options for Phonetic, except when there is one minimal pair per group. -->
+					<xsl:if test="$fieldName = 'Phonetic' and not($minimalPairs and $oneMinimalPairPerGroup = 'true')">
+						<xsl:value-of select="' sortOptions'" />
+						<xsl:if test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
+							<xsl:value-of select="' mannerOfArticulation'" />
+						</xsl:if>
+					</xsl:if>
           <xsl:if test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
             <xsl:value-of select="' descending'" />
           </xsl:if>
@@ -165,14 +161,47 @@ exclude-result-prefixes="xhtml"
           <xsl:value-of select="$class" />
         </xsl:attribute>
       </xsl:if>
-      <xsl:apply-templates select="@* | node()" />
+      <xsl:apply-templates select="@*" />
+			<xsl:choose>
+				<xsl:when test="$fieldName = $primarySortFieldName">
+					<span xmlns="http://www.w3.org/1999/xhtml">
+						<xsl:value-of select="." />
+					</span>
+					<xsl:value-of select="'&#xA;'" />
+					<ins xmlns="http://www.w3.org/1999/xhtml">
+						<xsl:choose>
+							<xsl:when test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
+								<!-- black down-pointing small triangle -->
+								<xsl:value-of select="'&#x25BE;'" />
+							</xsl:when>
+							<xsl:otherwise>
+								<!-- black up-pointing small triangle -->
+								<xsl:value-of select="'&#x25B4;'" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</ins>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="." />
+				</xsl:otherwise>
+			</xsl:choose>
     </xsl:copy>
   </xsl:template>
 
   <!-- For interactive :hover formatting, remove Phonetic class from empty data cells in CV charts. -->
   <xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[not(node())][@class = 'Phonetic']/@class" />
 
-  <!-- For borders in Internet Explorer 7 and earlier, insert a non-breaking space in most empty table cells. -->
+	<!-- Temporarily provide class="zero" until the Phonology Assistant program can. -->
+	<xsl:template match="xhtml:table[@class = 'distribution chart']//xhtml:td[. = '0'][not(@class)]">
+		<xsl:copy>
+			<xsl:attribute name="class">
+				<xsl:value-of select="'zero'" />
+			</xsl:attribute>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- For borders in Internet Explorer 7 and earlier, insert a non-breaking space in most empty table cells. -->
 	<!-- This replacement requires a special case to sort non-Phonetic columns in the phonology.js file. -->
 	<xsl:template match="xhtml:table//xhtml:tr/xhtml:*[not(node())]">
     <xsl:copy>
@@ -370,14 +399,17 @@ exclude-result-prefixes="xhtml"
 						</tr>
 					</xsl:if>
 					<xsl:if test="$sorting">
-						<tr class="primarySortField" xmlns="http://www.w3.org/1999/xhtml">
+						<tr class="sortField" xmlns="http://www.w3.org/1999/xhtml">
 							<th scope="row">
-								<xsl:value-of select="'Primary sort field:'" />
+								<xsl:value-of select="'Sort field:'" />
 							</th>
 							<td>
 								<xsl:value-of select="$primarySortFieldName" />
 								<xsl:if test="$primarySortFieldName = 'Phonetic' and $phoneticSortOptionName">
-									<xsl:value-of select="concat(', ', $phoneticSortOptionName)" />
+									<xsl:value-of select="', '" />
+									<span class="{$phoneticSortOption}">
+										<xsl:value-of select="$phoneticSortOptionName" />
+									</span>
 								</xsl:if>
 								<xsl:if test="$primarySortFieldDirection = 'descending'">
 									<xsl:value-of select="concat(', ', $primarySortFieldDirection)" />
@@ -431,7 +463,7 @@ exclude-result-prefixes="xhtml"
 							<td>
 								<xsl:choose>
 									<xsl:when test="$hyperlinkToEthnologue and string-length($languageCode) = 3 and string-length(translate($languageCode, 'abcdefghijklmnopqrstuvwxyz', '')) = 0">
-										<a href="{concat('http://www.ethnologue.com/show_language.asp?code=', $languageCode)}" title="http://www.ethnologue.com">
+										<a href="{concat('http://www.ethnologue.com/show_language.asp?code=', $languageCode)}" title="www.ethnologue.com">
 											<xsl:value-of select="$languageCode" />
 										</a>
 									</xsl:when>

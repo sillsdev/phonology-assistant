@@ -32,32 +32,10 @@ namespace SIL.Pa.UI.Dialogs
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomFieldsDlg));
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.tblLayout.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizationPriority(this.btnCancel, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnCancel, "Localized in Base Class");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizationPriority(this.btnOK, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnOK, "Localized in Base Class");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizationPriority(this.btnHelp, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnHelp, "Localized in Base Class");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
 			// 
 			// lblInfo
 			// 
@@ -71,17 +49,25 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			// 
+			// tblLayout
+			// 
+			resources.ApplyResources(this.tblLayout, "tblLayout");
+			this.tblLayout.Controls.Add(this.lblInfo, 0, 0);
+			this.tblLayout.Name = "tblLayout";
+			// 
 			// CustomFieldsDlg
 			// 
 			resources.ApplyResources(this, "$this");
-			this.Controls.Add(this.lblInfo);
+			this.Controls.Add(this.tblLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "CustomFieldsDlg.WindowTitle");
 			this.Name = "CustomFieldsDlg";
-			this.Controls.SetChildIndex(this.lblInfo, 0);
+			this.Controls.SetChildIndex(this.tblLayout, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.tblLayout.ResumeLayout(false);
+			this.tblLayout.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -90,5 +76,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		private System.Windows.Forms.Label lblInfo;
 		private SIL.Localization.LocalizationExtender locExtender;
+		private System.Windows.Forms.TableLayoutPanel tblLayout;
 	}
 }

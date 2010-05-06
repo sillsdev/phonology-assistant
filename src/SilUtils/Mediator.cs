@@ -827,9 +827,7 @@ namespace SilUtils
 			bool result;
 			try
 			{
-				/// Have seen a stack situation that the Mediator has been disposed of after returning from this call...
-				///
-
+				// Have seen a stack situation that the Mediator has been disposed of after returning from this call...
 				result = SendMessage(messageName, parameter, true);
 			}
 			catch (DisposedInAnotherFrameException)
@@ -1472,12 +1470,12 @@ namespace SilUtils
 				    return null;
 				}
 #endif
-				/// *****************************************************************************
-				/// Have seen a stack situation that the Mediator has been disposed of after 
-				/// returning from this call - IOW's the following call allows re-entrance.  
-				/// That's why the exception follows to handle a known case when processing the
-				/// ExitApplication msg.
-				/// *****************************************************************************
+				// *****************************************************************************
+				// Have seen a stack situation that the Mediator has been disposed of after 
+				// returning from this call - IOW's the following call allows re-entrance.  
+				// That's why the exception follows to handle a known case when processing the
+				// ExitApplication msg.
+				// *****************************************************************************
 				object returnValue = mi.Invoke(target, parameterList);
 				if (m_isDisposed)
 					throw new DisposedInAnotherFrameException();

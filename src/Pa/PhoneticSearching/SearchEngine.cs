@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
+using SIL.Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
@@ -231,6 +233,40 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Combines the list of error messages into a single message.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetCombinedErrorMessages()
+		{
+			return GetCombinedErrorMessages(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Combines the list of error messages into a single message.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetCombinedErrorMessages(bool separateErrorsWithLineBreaks)
+		{
+			if (m_errors == null || m_errors.Count == 0)
+				return null;
+
+			StringBuilder errors = new StringBuilder();
+			foreach (var err in m_errors)
+			{
+				errors.Append(err);
+				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
+			}
+
+			var fmt = LocalizationManager.LocalizeString("PatternParsingErrorMsg",
+				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
+				"Search Query Messages");
+
+			return string.Format(fmt, errors.ToString().Trim());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -254,8 +290,10 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				string msg = Properties.Resources.kstidParsedToNothingError;
-				m_errors.Add(string.Format(msg, envType));
+				var fmt = LocalizationManager.LocalizeString("ParsedToNothingErrorMsg",
+					"Error parsing the {0}.", "Search Query Messages");
+
+				m_errors.Add(string.Format(fmt, envType));
 				return;
 			}
 
@@ -419,21 +457,57 @@ namespace SIL.Pa.PhoneticSearching
 		/// environments).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] PhonesInPattern
+		public string[] GetPhonesInPattern()
 		{
-			get
-			{
-				StringBuilder bldrPhones = new StringBuilder();
-				bldrPhones.Append(GetPhonesFromMember(m_srchItem));
-				bldrPhones.Append(GetPhonesFromMember(m_envBefore));
-				bldrPhones.Append(GetPhonesFromMember(m_envAfter));
-				
-				return (bldrPhones.Length == 0 ? null :
-					App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
-					ConvertPatternWithTranscriptionChanges));
-			}
+			var bldrPhones = new StringBuilder();
+			bldrPhones.Append(GetPhonesFromMember(m_srchItem));
+			bldrPhones.Append(GetPhonesFromMember(m_envBefore));
+			bldrPhones.Append(GetPhonesFromMember(m_envAfter));
+
+			return (bldrPhones.Length == 0 ? null :
+				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				ConvertPatternWithTranscriptionChanges));
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] GetPhonesInSearchItem()
+		{
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_srchItem));
+			return (bldrPhones.Length == 0 ? null :
+				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				ConvertPatternWithTranscriptionChanges));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] GetPhonesInPrecedingEnv()
+		{
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envBefore));
+			return (bldrPhones.Length == 0 ? null :
+				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				ConvertPatternWithTranscriptionChanges));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string[] GetPhonesInFollowingEnv()
+		{
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envAfter));
+			return (bldrPhones.Length == 0 ? null :
+				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				ConvertPatternWithTranscriptionChanges));
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets an array of undefined phonetic characters found in all the IPA character and
@@ -441,16 +515,43 @@ namespace SIL.Pa.PhoneticSearching
 		/// and after environments). 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public char[] InvalidCharactersInPattern
+		public char[] GetInvalidSymbolsInPattern()
 		{
-			get
-			{
-				List<char> undefinedChars = new List<char>();
-				undefinedChars.AddRange(GetInvalidCharsFromMember(m_srchItem));
-				undefinedChars.AddRange(GetInvalidCharsFromMember(m_envBefore));
-				undefinedChars.AddRange(GetInvalidCharsFromMember(m_envAfter));
-				return (undefinedChars.Count == 0 ? null : undefinedChars.ToArray());
-			}
+			var undefinedChars = new List<char>();
+			undefinedChars.AddRange(GetInvalidSymbolsInSearchItem());
+			undefinedChars.AddRange(GetInvalidSymbolsInPrecedingEnv());
+			undefinedChars.AddRange(GetInvalidSymbolsInFollowingEnv());
+			return (undefinedChars.Count == 0 ? null : undefinedChars.ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<char> GetInvalidSymbolsInSearchItem()
+		{
+			return GetInvalidCharsFromMember(m_srchItem);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<char> GetInvalidSymbolsInPrecedingEnv()
+		{
+			return GetInvalidCharsFromMember(m_envBefore);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<char> GetInvalidSymbolsInFollowingEnv()
+		{
+			return GetInvalidCharsFromMember(m_envAfter);
 		}
 
 		/// ------------------------------------------------------------------------------------

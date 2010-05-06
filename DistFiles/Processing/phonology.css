@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-04-22 */
+﻿/* phonology.css 2010-04-29 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For border-radius and rgba. */
@@ -118,13 +118,11 @@ font-weight: normal;
 }
 
 table.list thead tr th.sortField,
-table.list tbody tr .item, /* Matched items in search result lists. */
-table.distribution tr.individual td.individual
+table.list tbody tr .item /* Matched items in search result lists. */
 {
 font-weight: bold;
 }
 
-table.list tbody tr td.occurrences.item, /* More-similar minimal pairs. */
 table.list thead th,
 table.list .count,
 table.list th.pair > ul li ul.differences li,
@@ -229,6 +227,7 @@ text-align: left;
 }
 
 table.list .count,
+table.CV thead tr:first-child th:first-child,
 table.CV tbody th,
 table.feature tbody th:first-child,
 table.distribution th,
@@ -483,14 +482,23 @@ display: none;
 
 /* Interactive sorting in lists --------------------------------------------- */
 
+table.list ins
+{
+display: none;
+text-decoration: none;
+}
+
+table.list.interactive th.sortField ins
+{
+display: inline;
+}
+
 table.list th.sortOptions ul,
 table.list ul.sortOrder
 {
 display: none;
 }
 
-/* TO DO: Assume cells do not have the sortOptions class */
-/* if generic groups have a non-phonetic primary sort field. */
 table.interactive th.sortOptions:hover ul
 {
 display: block;
@@ -567,7 +575,8 @@ border-top-style: solid;
 /* Collapse or expand tables of features ------------------------------------ */
 
 table.features abbr,
-table.features.collapsed span
+table.features.collapsed span,
+table.features.collapsed tbody
 {
 display: none;
 }
@@ -577,13 +586,10 @@ table.features.collapsed abbr
 display: inline;
 }
 
-table.features.collapsed tbody
-{
-display: none;
-}
-
 /* Interactive columns in distribution charts ------------------------------- */
 
+table.distribution colgroup.collapsed col.individual,
+table.distribution.collapsed colgroup col.individual,
 table.distribution abbr,
 table.distribution th.reduced > span,
 table.distribution.reduced th > span,
@@ -603,28 +609,21 @@ table.distribution.reduced th > abbr
 display: inline;
 }
 
-table.distribution.interactive thead tr:first-child th:first-child
+table.chart thead tr:first-child th:first-child
 {
 vertical-align: bottom;
 }
 
-table.distribution.interactive thead tr:first-child th:first-child div
+table.chart thead tr:first-child th:first-child div
 {
 position: relative;
 }
 
-table.distribution.interactive thead tr:first-child th:first-child div span
+table.chart thead tr:first-child th:first-child div span
 {
 display: block;
 position: absolute;
-right: -0.6667em; /* corresponds to 0.5em at 100% */
-bottom: -0.25em;
 z-index: 1;
-font-size: 75%;
-padding-top: 0.25em; /* corresponds to 0.1875em at 100% */
-padding-bottom: 0.25em;
-padding-left: 0.3333em; /* corresponds to 0.25em at 100% */
-padding-right: 0.3333em;
 border-top-style: solid;
 border-top-width: 1px;
 border-left-style: solid;
@@ -632,21 +631,46 @@ border-left-width: 1px;
 /* For rounded border properties, see the phonology_CSS3.css file. */
 }
 
+table.CV thead tr:first-child th:first-child div span
+{
+/* th already has font-size: 75% */
+right: -0.5em;
+bottom: -0.1875em;
+padding-top: 0.1875em;
+padding-bottom: 0.1875em;
+padding-left: 0.25em;
+padding-right: 0.25em;
+}
+
+table.distribution thead tr:first-child th:first-child div span
+{
+font-size: 75%;
+right: -0.6667em; /* corresponds to 0.5em at 100% */
+bottom: -0.25em;
+padding-top: 0.25em; /* corresponds to 0.1875em at 100% */
+padding-bottom: 0.25em;
+padding-left: 0.3333em; /* corresponds to 0.25em at 100% */
+padding-right: 0.3333em;
+}
+
 /* Color ==================================================================== */
 
 /*     Hex    R   G   B    H    S    V   Description            Meaning       */
 /* #000000    0   0   0    0°   0%   0%  black                  text normal   */
-/* #404040   64  64  64    0°   0%  25%  gray                   text bold     */
+/* #404040   64  64  64    0°   0%  25%  gray                   text strong   */
 /* #999999  153 153 153    0°   0%  60%  gray-40%               text collapsed */
 /* #ffffff  255 255 255    0°   0% 100%  white                  background print */
 /* #fffffc  255 255 252   60°   1% 100%  desaturated ivory      background    */
 
-/* #ffff00  255 255   0   60° 100% 100%  yellow                 important     */
-/* #ffffab  255 255 171   60°  33% 100%  desaturated yellow     significant   */
-/* #ffffd6  255 255 214   60°  16% 100%  less-saturated yellow  distinguished */
-/* #ffabab  255 171 171    0°  33% 100%  desaturated red        error         */
+/* #2929cc   41  41 204  240°  80%  80%  blue                   hyperlink hover */
 
-/*                                                              border        */
+/* #ffff00  255 255   0   60° 100% 100%  yellow                 important     */
+/* #ffffb2  255 255 178   60°  30% 100%  desaturated yellow     significant   */
+/* #ffffd9  255 255 217   60°  15% 100%  less-saturated yellow  distinguished */
+/* #ffe6b2  255 230 178   40°  30% 100%  desaturated orange     caution       */
+/* #ffb2b2  255 178 178    0°  30% 100%  desaturated red        error         */
+
+/* #999999  153 153 153    0°   0%  60%  gray-40%               border        */
 /* #dddddd  221 221 221    0°   0%  87%  light gray             lighter border */
 
 /* #f8fff8  248 255 248  120°   3% 100%  desaturated green      interactive contrast */
@@ -672,26 +696,22 @@ table.list tbody.collapsed *
 color: #999999; /* text collapsed */
 }
 
-table.CV .notInEnvironment span
-{
-color: #99995c; /* rgb(153, 153, 92) hsv(60, 40, 60) not in environment */
-}
-
 table.list ul.transcription strong,
-table.distribution tr.individual td.individual
+table.distribution th.caution strong
 {
-color: #404040; /* text bold */
+color: #404040; /* text strong adjusts value to balance bold font weight. */
 }
 
 a:active,
 a:focus,
 a:hover
 {
-color: #2929cc; /* hyperlink hover hsv(240,80,80) rgb(41,41,204) */
+color: #2929cc; /* hyperlink hover */
 }
 
-table.CV.interactive td.Phonetic.selected span,
-table.features.interactive td.selected
+ul.environments.interactive li.Phonetic.selected,
+table.CV td.Phonetic.selected span,
+table.features td.selected
 {
 color: #f8fff8; /* interactive contrast */
 }
@@ -708,41 +728,47 @@ table.details tbody tr.filter strong
 background-color: #ffff00; /* important */
 }
 
-/*
-table.list.interactive tr.heading th.pair[title=chart],
-*/
 table.list .item,
-table.CV.interactive td.Phonetic.matched,
-table.articulatory.interactive td.matched,
-table.features.interactive td.plus.matched,
-table.features.interactive td.minus.matched,
-table.features.interactive tr.univalent td.name.matched,
-table.feature td.different,
+table.CV td.Phonetic.matched,
+table.articulatory td.matched,
+table.features td.plus.matched,
+table.features td.minus.matched,
+table.features tr.univalent td.name.matched,
+table.feature td.different, /* for development only */
+table.CV.nonZero td.Phonetic,
 table.distribution.nonZero td,
-table.distribution .zero
+table.chart .zero
 {
-background-color: #ffffab; /* significant */
+background-color: #ffffb2; /* significant */
 }
 
 table.list ul.transcription strong
 {
-background-color: #ffffd6; /* distinguished */
+background-color: #ffffd9; /* distinguished */
 }
 
-table.CV .notInEnvironment span
-{
-/* For background color property, see the phonology_CSS3.css file. */
-}
-
-table.distribution td,
-table.distribution.nonZero .zero
+table.chart td,
+table.CV.nonZero td.Phonetic.zero,
+table.chart.nonZero .zero
 {
 background-color: #fffffc; /* background, see phonology_print.css */
 }
 
-table.distribution .error
+/* Instead of .zero, each cell in a row or column, or both, has .caution */
+/* if the search item or environment, or both, contain any literal units */
+/* that do not occur in the (filtered) data sources of the project. */
+/* Much less likely to occur in generalized distribution charts, */
+/* because they automatically display individuals that do occur. */
+table.distribution th.caution strong,
+table.distribution td.caution
 {
-background-color: #ffabab; /* error */
+background-color: #ffe6b2; /* caution */
+}
+
+table.distribution th.error strong,
+table.distribution td.error /* Obsolete: these cells will be empty without a class. */
+{
+background-color: #ffb2b2; /* error */
 }
 
 ul.environments.interactive li.Phonetic,
@@ -755,9 +781,7 @@ table.list.interactive th.count,
 table.list.interactive tr.heading th.pair,
 table.list.interactive thead th.sortable,
 table.list.interactive th.sortOptions ul,
-table.list.interactive th.mannerOfArticulation ul li.placeOfArticulation,
-table.list.interactive th.sortOptions ul:hover li.placeOfArticulation,
-table.list.interactive th.sortOptions ul:hover li.mannerOfArticulation,
+table.list.interactive th.sortOptions ul:hover li.initial,
 table.CV.interactive td.Phonetic,
 table.features.interactive th,
 table.articulatory.interactive td,
@@ -795,16 +819,14 @@ table.list.interactive th.group:hover,
 table.list.interactive th.count:hover,
 table.list.interactive tr.heading th.pair:hover,
 table.list.interactive thead th.sortable:hover,
-table.list.interactive th.sortOptions li.placeOfArticulation,
-table.list.interactive th.mannerOfArticulation li.mannerOfArticulation,
-table.list.interactive th.sortOptions ul:hover li.placeOfArticulation:hover,
-table.list.interactive th.sortOptions ul:hover li.mannerOfArticulation:hover,
+table.list.interactive th.sortOptions ul li.initial,
+table.list.interactive th.sortOptions ul:hover li:hover,
 table.CV.interactive td.Phonetic:hover,
 table.features.interactive th:hover,
-table.articulatory.interactive td.active,
-table.features.interactive td.plus.active,
-table.features.interactive td.minus.active,
-table.features.interactive tr.univalent td.name.active,
+table.articulatory td.active,
+table.features td.plus.active,
+table.features td.minus.active,
+table.features tr.univalent td.name.active,
 table.articulatory.interactive td:hover,
 table.features.interactive td.minus:hover,
 table.features.interactive td.plus:hover,
@@ -814,16 +836,16 @@ table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and lat
 background-color: #a3cca3; /* active */
 }
 
+ul.environments.interactive li.Phonetic.selected,
 table.CV.interactive td.Phonetic.selected,
-table.articulatory.interactive td.selected,
-table.features.interactive td.plus.selected,
-table.features.interactive td.minus.selected,
-table.features.interactive tr.univalent td.name.selected
+table.articulatory td.selected,
+table.features td.plus.selected,
+table.features td.minus.selected,
+table.features tr.univalent td.name.selected
 {
 background-color: #7db27d; /* selected */
 }
 
-ul.environments.interactive li.Phonetic.selected,
 table.list.interactive th.pair > ul li:hover span,
 table.list.interactive th.pair > ul li:hover ul.differences,
 table.list.interactive ul.transcription:hover
@@ -883,15 +905,10 @@ border-right-color: #999999; /* border */
 
 ul.environments.interactive + table.CV,
 ul.environments.interactive li,
-table.distribution.interactive thead tr:first-child th:first-child div span,
+table.chart thead tr:first-child th:first-child div span,
 colgroup, thead, tbody /* Row and column groups in consonant or vowel charts. */
 {
 border-color: #dddddd; /* lighter border */
-}
-
-table.list.interactive ul.transcription li:first-child
-{
-border-color: #a3cca3; /* active */
 }
 
 table.list.interactive th.pair > ul li span
@@ -901,7 +918,8 @@ border-color: #cfe6cf; /* interactive */
 
 table.list.interactive th.pair:hover > ul li span,
 table.list.interactive th.pair > ul li:hover ul.differences,
-table.list.interactive ul.transcription:hover
+table.list.interactive ul.transcription:hover,
+table.list.interactive ul.transcription li:first-child
 {
 border-color: #a3cca3; /* active */
 }

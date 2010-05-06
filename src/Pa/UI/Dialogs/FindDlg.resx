@@ -133,7 +133,10 @@
     <value>17, 17</value>
   </metadata>
   <data name="lblFindWhat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 7</value>
+    <value>3, 7</value>
+  </data>
+  <data name="lblFindWhat.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 7, 3, 0</value>
   </data>
   <data name="lblFindWhat.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 15</value>
@@ -151,7 +154,7 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblFindWhat.Parent" xml:space="preserve">
-    <value>pnlFindWhat</value>
+    <value>tblLayoutFindWhat</value>
   </data>
   <data name="&gt;&gt;lblFindWhat.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -163,7 +166,10 @@
     <value>NoControl</value>
   </data>
   <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>254, 7</value>
+    <value>229, 7</value>
+  </data>
+  <data name="btnCancel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 7, 0, 7</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
@@ -181,28 +187,34 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
+    <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
-  <data name="chkMatchCase.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkMatchCase.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="chkMatchCase.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkMatchCase.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkMatchCase.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 22</value>
+    <value>10, 25</value>
   </data>
   <data name="chkMatchCase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkMatchCase.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="chkMatchCase.Text" xml:space="preserve">
     <value>Matc&amp;h Case</value>
+  </data>
+  <data name="chkMatchCase.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkMatchCase.Name" xml:space="preserve">
     <value>chkMatchCase</value>
@@ -214,7 +226,7 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkMatchCase.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="btnFind.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -223,7 +235,10 @@
     <value>NoControl</value>
   </data>
   <data name="btnFind.Location" type="System.Drawing.Point, System.Drawing">
-    <value>168, 7</value>
+    <value>144, 7</value>
+  </data>
+  <data name="btnFind.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 7, 0, 7</value>
   </data>
   <data name="btnFind.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
@@ -241,22 +256,25 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnFind.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
+    <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnFind.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="cboFindWhat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
   <data name="cboFindWhat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 28</value>
+    <value>0, 27</value>
+  </data>
+  <data name="cboFindWhat.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 3</value>
   </data>
   <data name="cboFindWhat.MaxDropDownItems" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="cboFindWhat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 21</value>
+    <value>394, 21</value>
   </data>
   <data name="cboFindWhat.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -268,28 +286,34 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;cboFindWhat.Parent" xml:space="preserve">
-    <value>pnlFindWhat</value>
+    <value>tblLayoutFindWhat</value>
   </data>
   <data name="&gt;&gt;cboFindWhat.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="chkMatchEntireWord.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkMatchEntireWord.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="chkMatchEntireWord.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkMatchEntireWord.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkMatchEntireWord.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 75</value>
+    <value>10, 83</value>
   </data>
   <data name="chkMatchEntireWord.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkMatchEntireWord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="chkMatchEntireWord.Text" xml:space="preserve">
     <value>Find whole words onl&amp;y</value>
+  </data>
+  <data name="chkMatchEntireWord.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkMatchEntireWord.Name" xml:space="preserve">
     <value>chkMatchEntireWord</value>
@@ -301,19 +325,22 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkMatchEntireWord.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
-  <data name="chkRegEx.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkRegEx.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="chkRegEx.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkRegEx.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkRegEx.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 153</value>
+    <value>10, 170</value>
   </data>
   <data name="chkRegEx.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkRegEx.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -322,7 +349,7 @@
     <value>&amp;Use Regular Expressions</value>
   </data>
   <data name="chkRegEx.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkRegEx.Name" xml:space="preserve">
     <value>chkRegEx</value>
@@ -334,25 +361,31 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkRegEx.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>2</value>
   </data>
-  <data name="chkStartsWith.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkStartsWith.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="chkStartsWith.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkStartsWith.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkStartsWith.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 49</value>
+    <value>10, 54</value>
   </data>
   <data name="chkStartsWith.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkStartsWith.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="chkStartsWith.Text" xml:space="preserve">
     <value>&amp;Starts With</value>
+  </data>
+  <data name="chkStartsWith.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkStartsWith.Name" xml:space="preserve">
     <value>chkStartsWith</value>
@@ -364,22 +397,22 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkStartsWith.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
-  <data name="gbOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
+  <data name="chkSrchCollapsedGrps.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
-  <data name="chkSrchCollapsedGrps.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkSrchCollapsedGrps.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkSrchCollapsedGrps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkSrchCollapsedGrps.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 127</value>
+    <value>10, 141</value>
   </data>
   <data name="chkSrchCollapsedGrps.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkSrchCollapsedGrps.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -388,7 +421,7 @@
     <value>Search &amp;Collapsed Groups</value>
   </data>
   <data name="chkSrchCollapsedGrps.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkSrchCollapsedGrps.Name" xml:space="preserve">
     <value>chkSrchCollapsedGrps</value>
@@ -400,19 +433,22 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkSrchCollapsedGrps.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
-  <data name="chkReverseSearch.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="chkReverseSearch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="chkReverseSearch.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopLeft</value>
   </data>
   <data name="chkReverseSearch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chkReverseSearch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 101</value>
+    <value>10, 112</value>
   </data>
   <data name="chkReverseSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 19</value>
+    <value>208, 24</value>
   </data>
   <data name="chkReverseSearch.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -421,7 +457,7 @@
     <value>&amp;Reverse Search</value>
   </data>
   <data name="chkReverseSearch.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+    <value>TopLeft</value>
   </data>
   <data name="&gt;&gt;chkReverseSearch.Name" xml:space="preserve">
     <value>chkReverseSearch</value>
@@ -433,19 +469,25 @@
     <value>gbOptions</value>
   </data>
   <data name="&gt;&gt;chkReverseSearch.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
+  </data>
+  <data name="gbOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
   <data name="gbOptions.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9pt</value>
   </data>
   <data name="gbOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>192, 1</value>
+    <value>0, 5</value>
+  </data>
+  <data name="gbOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 0</value>
   </data>
   <data name="gbOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="gbOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 177</value>
+    <value>226, 206</value>
   </data>
   <data name="gbOptions.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -460,10 +502,10 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;gbOptions.Parent" xml:space="preserve">
-    <value>pnlColumnOptions</value>
+    <value>splitColsAndOptions.Panel2</value>
   </data>
   <data name="&gt;&gt;gbOptions.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="lblSearchColumns.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -475,7 +517,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblSearchColumns.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 1</value>
+    <value>3, 5</value>
+  </data>
+  <data name="lblSearchColumns.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 0</value>
   </data>
   <data name="lblSearchColumns.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 15</value>
@@ -493,10 +538,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblSearchColumns.Parent" xml:space="preserve">
-    <value>pnlColumnOptions</value>
+    <value>tblLayoutColumns</value>
   </data>
   <data name="&gt;&gt;lblSearchColumns.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="btnHelp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -505,7 +550,10 @@
     <value>NoControl</value>
   </data>
   <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 7</value>
+    <value>314, 7</value>
+  </data>
+  <data name="btnHelp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 7, 0, 7</value>
   </data>
   <data name="btnHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
@@ -523,76 +571,67 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
+    <value>tblLayoutButtons</value>
   </data>
   <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="pnlButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 232</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 40</value>
-  </data>
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="pnlFindWhat.AutoSize" type="System.Boolean, mscorlib">
+  <data name="tblLayoutFindWhat.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="pnlFindWhat.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+  <data name="tblLayoutFindWhat.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
-  <data name="pnlFindWhat.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pnlFindWhat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="pnlFindWhat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 52</value>
-  </data>
-  <data name="pnlFindWhat.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pnlFindWhat.Name" xml:space="preserve">
-    <value>pnlFindWhat</value>
-  </data>
-  <data name="&gt;&gt;pnlFindWhat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlFindWhat.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlFindWhat.ZOrder" xml:space="preserve">
+  <data name="tblLayoutFindWhat.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="fldSelGridSrchCols.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
+  <data name="tblLayoutFindWhat.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="tblLayoutFindWhat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="tblLayoutFindWhat.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tblLayoutFindWhat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 51</value>
+  </data>
+  <data name="tblLayoutFindWhat.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutFindWhat.Name" xml:space="preserve">
+    <value>tblLayoutFindWhat</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutFindWhat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutFindWhat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutFindWhat.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tblLayoutFindWhat.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="cboFindWhat" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblFindWhat" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="fldSelGridSrchCols.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="fldSelGridSrchCols.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
   </data>
   <data name="fldSelGridSrchCols.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 22</value>
+    <value>0, 25</value>
+  </data>
+  <data name="fldSelGridSrchCols.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
   </data>
   <data name="fldSelGridSrchCols.RowHeadersWidth" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
   <data name="fldSelGridSrchCols.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 156</value>
+    <value>163, 186</value>
   </data>
   <data name="fldSelGridSrchCols.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -601,46 +640,163 @@
     <value>fldSelGridSrchCols</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, PaUI, Version=1.1.3635.42408, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.1.3771.17617, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.Parent" xml:space="preserve">
-    <value>pnlColumnOptions</value>
+    <value>tblLayoutColumns</value>
   </data>
   <data name="&gt;&gt;fldSelGridSrchCols.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlColumnOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="pnlColumnOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 52</value>
-  </data>
-  <data name="pnlColumnOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 180</value>
-  </data>
-  <data name="pnlColumnOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;pnlColumnOptions.Name" xml:space="preserve">
-    <value>pnlColumnOptions</value>
+  <data name="tblLayoutButtons.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;pnlColumnOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tblLayoutButtons.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="&gt;&gt;pnlColumnOptions.Parent" xml:space="preserve">
+  <data name="tblLayoutButtons.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="tblLayoutButtons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 272</value>
+  </data>
+  <data name="tblLayoutButtons.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tblLayoutButtons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 40</value>
+  </data>
+  <data name="tblLayoutButtons.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutButtons.Name" xml:space="preserve">
+    <value>tblLayoutButtons</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutButtons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutButtons.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;pnlColumnOptions.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tblLayoutButtons.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tblLayoutButtons.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="btnHelp" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="btnCancel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnFind" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="splitColsAndOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitColsAndOptions.IsSplitterFixed" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="splitColsAndOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 61</value>
+  </data>
+  <data name="tblLayoutColumns.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tblLayoutColumns.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tblLayoutColumns.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tblLayoutColumns.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tblLayoutColumns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>163, 211</value>
+  </data>
+  <data name="tblLayoutColumns.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutColumns.Name" xml:space="preserve">
+    <value>tblLayoutColumns</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutColumns.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutColumns.Parent" xml:space="preserve">
+    <value>splitColsAndOptions.Panel1</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutColumns.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tblLayoutColumns.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblSearchColumns" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="fldSelGridSrchCols" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel1.Name" xml:space="preserve">
+    <value>splitColsAndOptions.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel1.Parent" xml:space="preserve">
+    <value>splitColsAndOptions</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="splitColsAndOptions.Panel2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 5, 0, 0</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel2.Name" xml:space="preserve">
+    <value>splitColsAndOptions.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel2.Parent" xml:space="preserve">
+    <value>splitColsAndOptions</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitColsAndOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 211</value>
+  </data>
+  <data name="splitColsAndOptions.SplitterDistance" type="System.Int32, mscorlib">
+    <value>163</value>
+  </data>
+  <data name="splitColsAndOptions.SplitterWidth" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="splitColsAndOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Name" xml:space="preserve">
+    <value>splitColsAndOptions</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;splitColsAndOptions.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>62</value>
+  </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
+    <value>6, 13</value>
+  </data>
+  <data name="$this.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>431, 272</value>
+    <value>414, 312</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>375, 250</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 0</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>
@@ -652,7 +808,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationUtils, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FindDlg</value>

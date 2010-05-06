@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize_1.xsl 2010-04-21 -->
+  <!-- phonology_export_view_distribution_chart_generalize.xsl 2010-04-29 -->
 	<!-- Assuming that the researcher has manually generalized a distribution chart, -->
 	<!-- separate general and individual elements if either or both of the following are true: -->
 	<!-- * items: the chart name contains [gi], [giC], or [giV]. -->

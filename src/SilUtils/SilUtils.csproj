@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1591, 1573</NoWarn>
+    <DocumentationFile>..\..\Output\Debug\SilUtils.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +31,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+    <DocumentationFile>..\..\Output\Release\SilUtils.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -47,6 +50,9 @@
     <Compile Include="ColorHelper.cs" />
     <Compile Include="Controls\AboutDlg.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AutoHeightCheckBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\AutoHeightLabel.cs">
       <SubType>Component</SubType>

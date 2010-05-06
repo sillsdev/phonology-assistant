@@ -5,17 +5,24 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
+using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.UI.Controls
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class XYChartCellInfoPopup : SilPopup
 	{
 		private enum MsgType
 		{
 			NonExistentPhones,
-			BadCharacters,
+			InvalidCharacters,
 			Exception,
 			Other
 		}
@@ -27,10 +34,15 @@ namespace SIL.Pa.UI.Controls
 		private DataGridViewCell m_associatedCell;
 		private readonly DataGridView m_associatedGrid;
 		private readonly Font m_eticBold;
-		private readonly Font m_eticMsg;
-		private readonly Label m_lblMsg;
-		private readonly Label m_lblPattern;
-		private readonly Label m_lblInfo;
+		//private readonly Font m_eticMsg;
+		//private readonly Label m_lblMsg;
+		//private readonly Label m_lblPattern;
+		//private readonly Label m_lblInfo;
+		
+		private TableLayoutPanel m_tblLayout;
+		private Label m_lblPattern;
+		private Label m_lblInfo;
+		private Label m_lblMsg;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,22 +51,24 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public XYChartCellInfoPopup(DataGridView associatedGrid)
 		{
+			InitializeComponent();
+			BackColor = Color.Transparent;
 			m_associatedGrid = associatedGrid;
 
-			m_lblPattern = new Label();
-			m_lblPattern.BackColor = Color.Transparent;
-			m_lblPattern.ForeColor = Color.Black;
-			Controls.Add(m_lblPattern);
+			//m_lblPattern = new Label();
+			//m_lblPattern.BackColor = Color.Transparent;
+			//m_lblPattern.ForeColor = Color.Black;
+			//Controls.Add(m_lblPattern);
 
-			m_lblMsg = new Label();
-			m_lblMsg.BackColor = Color.Transparent;
-			m_lblMsg.ForeColor = Color.Black;
-			Controls.Add(m_lblMsg);
+			//m_lblMsg = new Label();
+			//m_lblMsg.BackColor = Color.Transparent;
+			//m_lblMsg.ForeColor = Color.Black;
+			//Controls.Add(m_lblMsg);
 		
-			m_lblInfo = new Label();
-			m_lblInfo.BackColor = Color.Transparent;
-			m_lblInfo.ForeColor = Color.Black;
-			Controls.Add(m_lblInfo);
+			//m_lblInfo = new Label();
+			//m_lblInfo.BackColor = Color.Transparent;
+			//m_lblInfo.ForeColor = Color.Black;
+			//Controls.Add(m_lblInfo);
 
 			m_popupTimer = new Timer();
 			m_popupTimer.Interval = 700;
@@ -62,23 +76,40 @@ namespace SIL.Pa.UI.Controls
 			m_popupTimer.Stop();
 
 			m_eticBold = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
-			m_eticMsg = FontHelper.MakeEticRegFontDerivative(10);
-
-			Disposed += XYChartCellInfoPopup_Disposed;
+			//m_eticMsg = FontHelper.MakeEticRegFontDerivative(10);
 		}
 
-		///  ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void XYChartCellInfoPopup_Disposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			m_eticBold.Dispose();
-			m_eticMsg.Dispose();
-			Disposed -= XYChartCellInfoPopup_Disposed;
-		}
+			if (disposing)
+			{
+				m_eticBold.Dispose();
+				
+				//if (m_lblPattern != null && !m_lblPattern.IsDisposed)
+				//    m_lblPattern.Dispose();
 
+				//if (m_lblMsg != null && !m_lblMsg.IsDisposed)
+				//    m_lblMsg.Dispose();
+
+				//if (m_lblInfo != null && !m_lblInfo.IsDisposed)
+				//    m_lblInfo.Dispose();
+
+				if (m_popupTimer != null)
+				{
+					m_popupTimer.Tick -= m_popupTimer_Tick;
+					m_popupTimer.Dispose();
+					m_popupTimer = null;
+				}
+			}
+
+			base.Dispose(disposing);
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -104,16 +135,21 @@ namespace SIL.Pa.UI.Controls
 		{
 			Debug.Assert(associatedCell != null);
 
-			Padding = new Padding(10);
-			BorderStyle = BorderStyle.FixedSingle;
-
 			m_associatedCell = associatedCell;
+			m_lblPattern.Font = m_eticBold;
 			m_lblPattern.Text = pattern;
+			
+			int minWidth = m_lblPattern.PreferredWidth + m_lblPattern.Margin.Left +
+				m_lblPattern.Margin.Right;
+
+			m_tblLayout.MinimumSize = new Size(minWidth, 0);
+			MaximumSize = new Size(Math.Max(minWidth, 300), 0);
+
 			MsgType msgType = MsgType.Other;
 
 			if (informationMsg != null)
 			{
-				if (m_associatedCell.Value is XYChartException)
+				if (m_associatedCell.Value is SearchQueryException)
 					msgType = MsgType.Exception;
 				
 				InitializeLabels(msgType);
@@ -132,7 +168,7 @@ namespace SIL.Pa.UI.Controls
 					invalidItems = new List<string>(associatedCell.Tag as string[]);
 				else if (associatedCell.Tag is char[])
 				{
-					msgType = MsgType.BadCharacters;
+					msgType = MsgType.InvalidCharacters;
 					invalidItems = new List<string>();
 					foreach (char c in (associatedCell.Tag as char[]))
 						invalidItems.Add(c.ToString());
@@ -145,18 +181,21 @@ namespace SIL.Pa.UI.Controls
 				{
 					for (int i = 0; i < invalidItems.Count; i++)
 					{
-						if (msgType != MsgType.BadCharacters)
+						if (msgType != MsgType.InvalidCharacters)
 							bldr.Append(invalidItems[i]);
 						else
 						{
-							bldr.AppendFormat(
-								Properties.Resources.kstidXYChartPopupInvalidCharFmt,
-								invalidItems[i], ((int)invalidItems[i][0]).ToString("X4"));
+							var fmt = LocalizationManager.LocalizeString(
+								"ChartPopupUndefinedSymbolFormatMsg", "{0} (U+{1})",
+								"Views.Distribution Charts");
+
+							bldr.AppendFormat(fmt, invalidItems[i],
+								((int)invalidItems[i][0]).ToString("X4"));
 						}
 
 						if (i < invalidItems.Count - 1)
 						{
-							bldr.Append(msgType == MsgType.BadCharacters ?
+							bldr.Append(msgType == MsgType.InvalidCharacters ?
 								Environment.NewLine : ", ");
 						}
 					}
@@ -165,11 +204,15 @@ namespace SIL.Pa.UI.Controls
 				m_lblInfo.Text = bldr.ToString();
 			}
 
-			m_lblPattern.Size = m_lblPattern.PreferredSize;
-			m_lblInfo.Size = (msgType != MsgType.Exception ?
-				m_lblInfo.PreferredSize : CalculateExceptionInfoLabelSize());
+			Size = new Size(
+				m_tblLayout.PreferredSize.Width + Padding.Left + Padding.Right + 2,
+				m_tblLayout.PreferredSize.Height + Padding.Top + Padding.Bottom + 2);
 
-			LocateLabels();
+			//m_lblPattern.Size = m_lblPattern.PreferredSize;
+			//m_lblInfo.Size = (msgType != MsgType.Exception ?
+			//	m_lblInfo.PreferredSize : CalculateExceptionInfoLabelSize());
+
+			//LocateLabels();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -179,53 +222,52 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void InitializeLabels(MsgType msgType)
 		{
-			m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
-			m_lblPattern.Font = m_eticBold;
+			//m_lblPattern.Location = new Point(Padding.Left, Padding.Top);
+			//m_lblPattern.Font = m_eticBold;
 
 			string msg;
 
 			if (msgType == MsgType.Other || msgType == MsgType.Exception)
 			{
-				msg = Properties.Resources.kstidXYChartPopupInfoSyntaxErrorsMsg;
+				msg = XYGrid.PopupSyntaxErrorsMsg;
 				m_lblInfo.Font = FontHelper.UIFont;
+			}
+			else if (msgType == MsgType.InvalidCharacters)
+			{
+				msg = XYGrid.PopupUndefinedSymbolsMsg;
+				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 			else
 			{
-				msg = (msgType == MsgType.BadCharacters ?
-					Properties.Resources.kstidXYChartPopupInfoBadCharsMsg :
-					Properties.Resources.kstidXYChartPopupInfoInvalidPhonesMsg);
-
+				msg = XYGrid.PopupInvalidPhonesMsg;
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 
 			m_lblMsg.Text = Utils.ConvertLiteralNewLines(msg);
-			if (msgType == MsgType.Exception)
-				m_lblMsg.Text = m_lblMsg.Text.Replace("\n", " ");
-
-			m_lblMsg.Location = new Point(Padding.Left, m_lblPattern.Bottom + 10);
+			//m_lblMsg.Location = new Point(Padding.Left, m_lblPattern.Bottom + 10);
 			m_lblMsg.Font = FontHelper.UIFont;
-			m_lblMsg.Size = m_lblMsg.PreferredSize;
+			//m_lblMsg.Size = m_lblMsg.PreferredSize;
 
-			m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
-				(msgType == MsgType.Other ? 13 : 10));
+			//m_lblInfo.Location = new Point(Padding.Left, m_lblMsg.Bottom +
+			//	(msgType == MsgType.Other ? 13 : 10));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Size CalculateExceptionInfoLabelSize()
-		{
-			int maxWidth = (int)(m_lblMsg.Width * 1.1);
-			Size sz = new Size(maxWidth, int.MaxValue);
-			const TextFormatFlags kFlags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private Size CalculateExceptionInfoLabelSize()
+		//{
+		//    int maxWidth = (int)(m_lblMsg.Width * 1.1);
+		//    Size sz = new Size(maxWidth, int.MaxValue);
+		//    const TextFormatFlags kFlags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
 
-			m_lblInfo.TextAlign = ContentAlignment.MiddleLeft;
-			sz = TextRenderer.MeasureText(m_lblInfo.Text, m_lblInfo.Font, sz, kFlags);
-			sz.Height += 8;
-			return sz;
-		}
+		//    m_lblInfo.TextAlign = ContentAlignment.MiddleLeft;
+		//    sz = TextRenderer.MeasureText(m_lblInfo.Text, m_lblInfo.Font, sz, kFlags);
+		//    sz.Height += 8;
+		//    return sz;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -234,51 +276,23 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LocateLabels()
 		{
-			int maxWidth = m_lblPattern.Width;
-			maxWidth = Math.Max(maxWidth, m_lblMsg.Width);
-			maxWidth = Math.Max(maxWidth, m_lblInfo.Width);
-			Width = maxWidth + Padding.Left + Padding.Right + 2;
-			Height = Padding.Top + m_lblInfo.Bottom + Padding.Bottom - 6;
+			//int maxWidth = m_lblPattern.Width;
+			//maxWidth = Math.Max(maxWidth, m_lblMsg.Width);
+			//maxWidth = Math.Max(maxWidth, m_lblInfo.Width);
+			//Width = maxWidth + Padding.Left + Padding.Right + 2;
+			//Height = Padding.Top + m_lblInfo.Bottom + Padding.Bottom - 6;
 
-			// Center the labels.
-			if (m_lblPattern.Width != maxWidth)
-				m_lblPattern.Left = (Width - m_lblPattern.Width) / 2;
+			//// Center the labels.
+			//if (m_lblPattern.Width != maxWidth)
+			//    m_lblPattern.Left = (Width - m_lblPattern.Width) / 2;
 
-			if (m_lblMsg.Width != maxWidth)
-				m_lblMsg.Left = (Width - m_lblMsg.Width) / 2;
+			//if (m_lblMsg.Width != maxWidth)
+			//    m_lblMsg.Left = (Width - m_lblMsg.Width) / 2;
 
-			if (m_lblInfo.Width != maxWidth)
-				m_lblInfo.Left = (Width - m_lblInfo.Width) / 2;
+			//if (m_lblInfo.Width != maxWidth)
+			//    m_lblInfo.Left = (Width - m_lblInfo.Width) / 2;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (m_lblPattern != null && !m_lblPattern.IsDisposed)
-					m_lblPattern.Dispose();
-
-				if (m_lblMsg != null && !m_lblMsg.IsDisposed)
-					m_lblMsg.Dispose();
-
-				if (m_lblInfo != null && !m_lblInfo.IsDisposed)
-					m_lblInfo.Dispose();
-
-				if (m_popupTimer != null)
-				{
-					m_popupTimer.Tick -= m_popupTimer_Tick;
-					m_popupTimer.Dispose();
-					m_popupTimer = null;
-				}
-			}
-
-			base.Dispose(disposing);
-		}
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -292,7 +306,7 @@ namespace SIL.Pa.UI.Controls
 			PaintBodyBackground(e.Graphics);
 
 			// Draw the color shading behind the search pattern.
-			rc.Height = m_lblPattern.Height + Padding.Top + (Padding.Top - 4);
+			rc.Height = m_lblPattern.Height + Padding.Top + m_lblPattern.Top + m_lblPattern.Margin.Bottom;
 			PaintHeadingBackground(e.Graphics, rc);
 
 			if (m_drawArrow)
@@ -443,6 +457,86 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			m_popupTimer.Stop();
+		}
+
+		private void InitializeComponent()
+		{
+			this.m_tblLayout = new System.Windows.Forms.TableLayoutPanel();
+			this.m_lblInfo = new System.Windows.Forms.Label();
+			this.m_lblPattern = new System.Windows.Forms.Label();
+			this.m_lblMsg = new System.Windows.Forms.Label();
+			this.m_tblLayout.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// m_tblLayout
+			// 
+			this.m_tblLayout.AutoSize = true;
+			this.m_tblLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.m_tblLayout.BackColor = System.Drawing.Color.Transparent;
+			this.m_tblLayout.ColumnCount = 1;
+			this.m_tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.m_tblLayout.Controls.Add(this.m_lblInfo, 0, 2);
+			this.m_tblLayout.Controls.Add(this.m_lblPattern, 0, 0);
+			this.m_tblLayout.Controls.Add(this.m_lblMsg, 0, 1);
+			this.m_tblLayout.Dock = System.Windows.Forms.DockStyle.Top;
+			this.m_tblLayout.Location = new System.Drawing.Point(8, 0);
+			this.m_tblLayout.Name = "m_tblLayout";
+			this.m_tblLayout.RowCount = 3;
+			this.m_tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.m_tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.m_tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.m_tblLayout.Size = new System.Drawing.Size(221, 77);
+			this.m_tblLayout.TabIndex = 0;
+			// 
+			// m_lblInfo
+			// 
+			this.m_lblInfo.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.m_lblInfo.AutoSize = true;
+			this.m_lblInfo.Location = new System.Drawing.Point(103, 56);
+			this.m_lblInfo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 8);
+			this.m_lblInfo.Name = "m_lblInfo";
+			this.m_lblInfo.Size = new System.Drawing.Size(14, 13);
+			this.m_lblInfo.TabIndex = 1;
+			this.m_lblInfo.Text = "#";
+			// 
+			// m_lblPattern
+			// 
+			this.m_lblPattern.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.m_lblPattern.AutoSize = true;
+			this.m_lblPattern.Location = new System.Drawing.Point(103, 7);
+			this.m_lblPattern.Margin = new System.Windows.Forms.Padding(3, 7, 3, 8);
+			this.m_lblPattern.Name = "m_lblPattern";
+			this.m_lblPattern.Size = new System.Drawing.Size(14, 13);
+			this.m_lblPattern.TabIndex = 0;
+			this.m_lblPattern.Text = "#";
+			// 
+			// m_lblMsg
+			// 
+			this.m_lblMsg.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+			this.m_lblMsg.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.m_lblMsg.AutoSize = true;
+			this.m_lblMsg.Location = new System.Drawing.Point(103, 33);
+			this.m_lblMsg.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.m_lblMsg.Name = "m_lblMsg";
+			this.m_lblMsg.Size = new System.Drawing.Size(14, 13);
+			this.m_lblMsg.TabIndex = 1;
+			this.m_lblMsg.Text = "#";
+			// 
+			// XYChartCellInfoPopup
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.Controls.Add(this.m_tblLayout);
+			this.MinimumSize = new System.Drawing.Size(100, 0);
+			this.Name = "XYChartCellInfoPopup";
+			this.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+			this.Size = new System.Drawing.Size(237, 158);
+			this.m_tblLayout.ResumeLayout(false);
+			this.m_tblLayout.PerformLayout();
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
 		}
 	}
 }

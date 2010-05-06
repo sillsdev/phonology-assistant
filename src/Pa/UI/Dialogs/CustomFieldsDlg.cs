@@ -162,8 +162,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Visible = false;
 			m_grid.Columns.Add(col);
 
-			Controls.Add(m_grid);
-			m_grid.BringToFront();
+			tblLayout.Controls.Add(m_grid, 0, 1);
 			
 			// Do this for the sake of the first time the dialog is shown after pa.xml is
 			// created. For all subsequent times, the following call to LoadGridProperties
@@ -171,7 +170,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.AutoResizeColumns();
 
-			App.SettingsHandler.LoadFormProperties(this);
 			App.SettingsHandler.LoadGridProperties(m_grid);
 		}
 
@@ -406,8 +404,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			App.SettingsHandler.SaveFormProperties(this);
 			App.SettingsHandler.SaveGridProperties(m_grid);
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------

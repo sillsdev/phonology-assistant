@@ -47,27 +47,6 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// btnCancel
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
-			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "FwDataSourcePropertiesDlg.btnCancel");
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
-			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "FwDataSourcePropertiesDlg.btnOK");
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "FwDataSourcePropertiesDlg.btnHelp");
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			// 
 			// lblProjectValue
 			// 
 			this.lblProjectValue.AutoEllipsis = true;
@@ -167,11 +146,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.m_grid, "FwDataSourcePropertiesDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
+			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
 			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_grid.RowHeadersVisible = false;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
-			this.m_grid.WaterMark = "";
+			this.m_grid.WaterMark = global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip;
 			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEnter);
 			// 
 			// locExtender

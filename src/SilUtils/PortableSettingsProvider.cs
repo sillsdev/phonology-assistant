@@ -45,6 +45,27 @@ namespace SilUtils
 
 		protected XmlDocument m_settingsXml;
 
+		// This allows tests to specify a temp. location which can be deleted on test cleanup.
+		public static string SettingsFileFolder { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PortableSettingsProvider()
+		{
+			if (SettingsFileFolder == null)
+			{
+				var appFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+				appFolder = Path.Combine(appFolder, ApplicationName);
+				if (!Directory.Exists(appFolder))
+					Directory.CreateDirectory(appFolder);
+
+				SettingsFileFolder = appFolder;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes the specified name.
@@ -87,18 +108,13 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the path to the application's settings file. This path does not
-		/// include the file name.
+		/// Gets the path to the application's settings file. This path does not include the
+		/// file name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual string SettingsFilePath
 		{
-			get
-			{
-				return Path.Combine(
-					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-					ApplicationName);
-			}
+			get { return SettingsFileFolder; }
 		}
 
 		/// ------------------------------------------------------------------------------------

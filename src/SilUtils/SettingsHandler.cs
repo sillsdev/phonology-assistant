@@ -18,7 +18,7 @@ namespace SilUtils
 		private const string kGridsNode = kRootNodeName + "/grids";
 		private const string kWindowStatesNode = kRootNodeName + "/windowstates";
 
-		private readonly float m_currSystemDpi = 0;
+		private readonly float m_currSystemDpi;
 		protected string m_settingsFile;
 		protected XmlDocument m_xmlDoc;
 
@@ -697,8 +697,8 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		protected XmlNode VerifyNodeExists(string xpath)
 		{
-			xpath = xpath.TrimStart(new char[] {'/'});
-			xpath = xpath.TrimEnd(new char[] {'/'});
+			xpath = xpath.TrimStart('/');
+			xpath = xpath.TrimEnd('/');
 
 			XmlNode node = m_xmlDoc.SelectSingleNode(xpath);
 			

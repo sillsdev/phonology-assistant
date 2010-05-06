@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -21,21 +22,12 @@ namespace SIL.Pa.PhoneticSearching
 		public static string s_defaultIgnoredToneChars;
 		public static string s_defaultIgnoredLengthChars;
 
-		private string m_name;
-		private int m_id;
-		private string m_pattern;
-		private bool m_showAllOccurrences = true;
-		private bool m_includeAllUncertainPossibilities;
-		private bool m_ignoreDiacritics;
 		private string m_ignoredStressChars = DefaultIgnoredStressChars;
 		private string m_ignoredToneChars = DefaultIgnoredToneChars;
 		private string m_ignoredLengthChars = DefaultIgnoredLengthChars;
-		private bool m_patternOnly;
-		private string m_category;
 		private List<string> m_ignoredStressList;
 		private List<string> m_ignoredToneList;
 		private List<string> m_ignoredLengthList;
-		private bool m_isPatternRegExp;
 
 		private List<string> m_errors = new List<string>();
 
@@ -46,6 +38,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery()
 		{
+			ShowAllOccurrences = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,8 +48,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery(string pattern)
 		{
+			ShowAllOccurrences = true;
 			Reset();
-			m_pattern = pattern;
+			Pattern = pattern;
 		}
 
 		#region Public methods
@@ -67,10 +61,10 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void Reset()
 		{
-			m_pattern = null;
-			m_category = null;
-			m_showAllOccurrences = true;
-			m_ignoreDiacritics = true;
+			Pattern = null;
+			Category = null;
+			ShowAllOccurrences = true;
+			IgnoreDiacritics = true;
 			m_ignoredStressChars = DefaultIgnoredStressChars;
 			m_ignoredToneChars = DefaultIgnoredToneChars;
 			m_ignoredLengthChars = DefaultIgnoredLengthChars;
@@ -112,8 +106,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			Debug.Assert(query != this);
 
-			if (m_name != query.m_name || m_pattern != query.m_pattern ||
-				m_category != query.m_category || m_patternOnly != query.m_patternOnly)
+			if (Name != query.Name || Pattern != query.Pattern ||
+				Category != query.Category || PatternOnly != query.PatternOnly)
 			{
 				return false;
 			}
@@ -131,9 +125,9 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			Debug.Assert(query != this);
 
-			if (m_showAllOccurrences != query.m_showAllOccurrences ||
-				m_ignoreDiacritics != query.m_ignoreDiacritics ||
-				m_includeAllUncertainPossibilities != query.m_includeAllUncertainPossibilities)
+			if (ShowAllOccurrences != query.ShowAllOccurrences ||
+				IgnoreDiacritics != query.IgnoreDiacritics ||
+				IncludeAllUncertainPossibilities != query.IncludeAllUncertainPossibilities)
 			{
 				return false;
 			}
@@ -150,18 +144,18 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			if (!string.IsNullOrEmpty(m_name))
-				return m_name;
+			if (!string.IsNullOrEmpty(Name))
+				return Name;
 
-			if (m_isPatternRegExp)
+			if (IsPatternRegExpression)
 			{
-				string[] patternParts = m_pattern.Split(App.kOrc);
+				string[] patternParts = Pattern.Split(App.kOrc);
 
 				if (patternParts.Length == 3)
 					return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
 			}
 
-			return m_pattern;
+			return Pattern;
 		}
 
 		#endregion
@@ -186,11 +180,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool PatternOnly
-		{
-			get { return m_patternOnly; }
-			set { m_patternOnly = value; }
-		}
+		public bool PatternOnly { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -210,11 +200,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -222,22 +208,14 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Pattern
-		{
-			get { return m_pattern; }
-			set { m_pattern = value; }
-		}
+		public string Pattern { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the pattern is a regular expression.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsPatternRegExpression
-		{
-			get { return m_isPatternRegExp; }
-			set { m_isPatternRegExp = value; }
-		}
+		public bool IsPatternRegExpression { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -248,7 +226,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				var pieces = SearchEngine.GetPatternPieces(Pattern);
 				return (pieces.Length == 3 ? pieces[1] : string.Empty);
 			}
 		}
@@ -262,7 +240,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				var pieces = SearchEngine.GetPatternPieces(Pattern);
 				return (pieces.Length == 3 ? pieces[0] : string.Empty);
 			}
 		}
@@ -276,7 +254,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(m_pattern);
+				var pieces = SearchEngine.GetPatternPieces(Pattern);
 				return (pieces.Length == 3 ? pieces[2] : string.Empty);
 			}
 		}
@@ -287,11 +265,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int Id
-		{
-			get { return m_id; }
-			set { m_id = value; }
-		}
+		public int Id { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -299,44 +273,28 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string Category
-		{
-			get { return m_category; }
-			set { m_category = value; }
-		}
+		public string Category { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ShowAllOccurrences
-		{
-			get { return m_showAllOccurrences; }
-			set { m_showAllOccurrences = value; }
-		}
+		public bool ShowAllOccurrences { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IncludeAllUncertainPossibilities
-		{
-			get { return m_includeAllUncertainPossibilities; }
-			set { m_includeAllUncertainPossibilities = value; }
-		}
+		public bool IncludeAllUncertainPossibilities { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IgnoreDiacritics
-		{
-			get	{return m_ignoreDiacritics;	}
-			set { m_ignoreDiacritics = value; }
-		}
+		public bool IgnoreDiacritics { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -546,6 +504,76 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchEngine GetSearchEngine(out SearchQueryException e)
+		{
+			e = null;
+			ErrorMessages.Clear();
+			SearchQuery modifiedQuery;
+
+			if (!App.ConvertClassesToPatterns(this, out modifiedQuery, false))
+			{
+				e = new SearchQueryException(this);
+				return null;
+			}
+
+			SearchEngine.ConvertPatternWithTranscriptionChanges =
+				Settings.Default.ConvertPatternsWithTranscriptionChanges;
+
+			return new SearchEngine(modifiedQuery, App.PhoneCache);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks each character in the query to see if they are in the phonetic character
+		/// inventory. If there are some that are invalid, then a list of them is returned.
+		///  If the pattern failed to parse, then a SearchQueryException is returned. 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public object GetSymbolsNotInInventory()
+		{
+			SearchQueryException e;
+			var engine = GetSearchEngine(out e);
+
+			if (e != null)
+				return e;
+
+			return engine.GetInvalidSymbolsInPattern();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Checks each phone in the query to see if it's in the project's phone cache. A list
+		/// is made of all phones in the query that are not in the cache. If the pattern
+		/// failed to parse, then a SearchQueryException is returned. 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public object GetPhonesNotInCache()
+		{
+			SearchQueryException e;
+			var engine = GetSearchEngine(out e);
+
+			if (e != null)
+				return e;
+
+			var phonesInQuery = engine.GetPhonesInPattern();
+			if (phonesInQuery == null)
+				return null;
+
+			var phonesNotInData = new List<string>();
+			foreach (string phone in phonesInQuery)
+			{
+				if (!App.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
+					phonesNotInData.Add(phone);
+			}
+
+			return (phonesNotInData.Count == 0 ? null : phonesNotInData.ToArray());
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

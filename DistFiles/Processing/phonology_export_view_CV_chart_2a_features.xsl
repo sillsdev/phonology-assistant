@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a_features.xsl 2010-04-21 -->
+  <!-- phonology_export_view_CV_chart_2a_features.xsl 2010-04-23 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
   <!-- For each Phonetic data cell: -->
   <!-- * Wrap the literal unit in a span. -->
@@ -17,6 +17,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
 	<xsl:variable name="typeOfUnits">
 		<xsl:choose>
 			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
@@ -44,7 +45,7 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 	<xsl:variable name="interactiveWebPage">
-		<xsl:if test="$format = 'XHTML'">
+		<xsl:if test="$format = 'XHTML' and $view != 'Distribution Chart'">
 			<xsl:value-of select="$options/xhtml:li[@class = 'interactiveWebPage']" />
 		</xsl:if>
 	</xsl:variable>

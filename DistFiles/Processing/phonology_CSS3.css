@@ -1,4 +1,4 @@
-﻿/* phonology_CSS3.css 2010-04-21 */
+﻿/* phonology_CSS3.css 2010-04-23 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Properties from CSS level 3 and corresponding proprietary extensions. */
 
@@ -22,24 +22,9 @@ border-top-right-radius: 0.5em;
 -moz-border-radius-topright: 0.5em;
 }
 
-table.distribution.interactive thead tr:first-child th:first-child div span
+table.chart thead tr:first-child th:first-child div span
 {
 border-top-left-radius: 0.25em;
 -webkit-border-top-left-radius: 0.25em;
 -moz-border-radius-topleft: 0.5em;
-}
-
-/* Background color --------------------------------------------------------- */
-
-/* Standard CSS3: */
-/* Chrome 1 or later. */
-/* Firefox 3 or later. */
-/* Not in Internet Explorer 8 or earlier. */
-/* Opera 10 or later */
-/* Safari 3 or later. */
-
-table.list.pairs .pair.complementary > ul > li,
-table.CV .notInEnvironment span
-{
-background-color: rgba(255, 255, 0, 0.2); /* Not in Internet Explorer 8 or earlier. */
 }

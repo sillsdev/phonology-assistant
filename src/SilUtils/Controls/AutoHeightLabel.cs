@@ -24,7 +24,7 @@ namespace SilUtils.Controls
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// This class extends the label control to provide 2 extra features. 1) Allows left and
-	/// right margeins to be set so when the label is docked, text can still be indented.
+	/// right margins to be set so when the label is docked, text can still be indented.
 	/// 2) Automatically adjusts the height of the label to accomodate all the text in the
 	/// control. Then it can be added to a stacked group of controls in a flow layout panel
 	/// and the controls below the label will automatically get pushed down as the label grows.

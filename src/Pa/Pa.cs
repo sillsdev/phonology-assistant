@@ -147,12 +147,14 @@ namespace SIL.Pa
 		{
 			if (DesignMode)
 				return;
-
+			
 			InitializePaRegKey();
 			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
 			SettingsHandler = new PaSettingsHandler(SettingsFile);
 			MsgMediator = new Mediator();
 
+			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
+			
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 
 			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
@@ -1835,7 +1837,7 @@ namespace SIL.Pa
 
 			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
 
-			string msg = CombineErrorMessages(modifiedQuery.ErrorMessages.ToArray());
+			string msg = engine.GetCombinedErrorMessages();
 			if (!string.IsNullOrEmpty(msg))
 			{
 				if (showErrMsg)
@@ -2016,40 +2018,19 @@ namespace SIL.Pa
 			string msg = null;
 
 			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-				msg = Properties.Resources.kstidSrchPatternWordBoundaryError;
+				msg = SearchQueryException.WordBoundaryError;
 			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-				msg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
+				msg = SearchQueryException.ZeroOrMoreError;
 			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-				msg = Properties.Resources.kstidSrchPatternOneOrMoreError;
+				msg = SearchQueryException.OneOrMoreError;
 
-			if (engine.ErrorMessages != null && engine.ErrorMessages.Length > 0)
-				msg = CombineErrorMessages(engine.ErrorMessages);
+			if (msg == null)
+				msg = engine.GetCombinedErrorMessages();
 
 			if (msg != null && showErrMsg)
 				Utils.MsgBox(msg);
 
 			return (msg == null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Combines the list of error messages into a single message.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string CombineErrorMessages(string[] errorMessages)
-		{
-			if (errorMessages == null || errorMessages.Length == 0)
-				return null;
-
-			StringBuilder errors = new StringBuilder();
-			for (int i = 0; i < errorMessages.Length; i++)
-			{
-				errors.Append(errorMessages[i]);
-				if (i < errorMessages.Length - 1)
-					errors.Append('\n');
-			}
-
-			return string.Format(Properties.Resources.kstidPatternParsingErrorMsg, errors);
 		}
 
 		/// ------------------------------------------------------------------------------------

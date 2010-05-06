@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-14 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-29 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
 
 	<!-- Important: If table is neither Data Corpus nor Search view, copy it with no changes. -->
@@ -39,16 +39,11 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:variable>
 
-	<!-- Phonetic sort options apply to whenever Phonetic is the primary sort field; but even if not, in ungrouped lists, lists grouped by minimal pairs. -->
-  <!-- That is, omit the options only in a list with generic groups for which Phonetic is not the primary sort field. -->
+	<!-- For all interactive Web pages, include sort order list in the Phonetic field. -->
+	<!-- However, step 2d removes the lists when there is one minimal pair per group. -->
 	<xsl:variable name="phoneticSortOrder">
-		<xsl:if test="$minimalPairs or $interactiveWebPage = 'true'">
-			<xsl:if test="//xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
-				<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
-				<xsl:if test="$primarySortFieldName = 'Phonetic' or //xhtml:table[@class = 'list'][not(xhtml:tbody[contains(@class, 'group')])] or //xhtml:table[@class = 'list']/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
-					<xsl:value-of select="'true'" />
-				</xsl:if>
-			</xsl:if>
+		<xsl:if test="$interactiveWebPage = 'true' and //xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
+			<xsl:value-of select="'true'" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />

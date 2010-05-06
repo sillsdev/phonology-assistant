@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,27 +6,28 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
 {
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public partial class FindDlg : Form
 	{
 		private const int kMaxSavedFindPatterns = 20;
 
-		#region Member Variables
 		private bool m_cancel;
-		private int m_dyHeightClientHeight;
-		private int m_optionsPanelHeight;
 		private bool m_prevMatchCaseValue;
 		private readonly PaWordListGrid m_grid;
-		private static readonly ArrayList m_findWhatItems = new ArrayList();
+		private static readonly List<string> s_findWhatItems = new List<string>();
 		private static readonly List<string> s_colsToFindIn = new List<string>();
 		private readonly List<char> m_reservedRegexChars =
 			new List<char>(new[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
-
-		# endregion
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------
@@ -41,18 +41,22 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid = grid;
 
 			InitializeComponent();
+
+			if (Settings.Default.FindDlgBounds.Height <= 0)
+				StartPosition = FormStartPosition.CenterScreen;
+			
 			SetUiFonts();
 
 			// Select previous selected columns
 			fldSelGridSrchCols.Load(false, true, s_colsToFindIn);
 
 			// Load the cbFindWhat comboBox with past searches
-			foreach (string searchPattern in m_findWhatItems)
+			foreach (string searchPattern in s_findWhatItems)
 				cboFindWhat.Items.Add(searchPattern);
 
 			LoadSettings();
 			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
-			chkSrchCollapsedGrps.Enabled = grid.IsGroupedByField || grid.Cache.IsCIEList;
+			chkSrchCollapsedGrps.Enabled = (grid.IsGroupedByField || grid.Cache.IsCIEList);
 
 			// Will prevent opening more than one FindDlg instance.
 			FindInfo.FindDlgIsOpen = true;
@@ -78,28 +82,31 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load saved settings.
+		/// Load saved settings
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			// Load saved window settings
-			cboFindWhat.Text = App.SettingsHandler.GetStringSettingsValue(Name, "findwhat", string.Empty);
-			chkMatchCase.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "matchcase", false);
-			chkMatchEntireWord.Checked =
-				App.SettingsHandler.GetBoolSettingsValue(Name, "matchentireword", false);
-			
-			chkStartsWith.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "startswith", false);
-			chkRegEx.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "regex", false);
-			chkReverseSearch.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "reverse", false);
-			chkSrchCollapsedGrps.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "srchcollapsedgrps", true);
+			cboFindWhat.Text = (Settings.Default.FindDlgFindWhat ?? string.Empty);
+			chkMatchCase.Checked = Settings.Default.FindDlgMatchCase;
+			chkMatchEntireWord.Checked = Settings.Default.FindDlgMatchEntireWord;
+			chkStartsWith.Checked = Settings.Default.FindDlgStartsWith;
+			chkRegEx.Checked = Settings.Default.FindDlgRegEx;
+			chkReverseSearch.Checked = Settings.Default.FindDlgReverse;
+			chkSrchCollapsedGrps.Checked = Settings.Default.FindDlgSearchCollapsedGroups;
+		}
 
-			// Save the height of the form minus the caption bar.
-			m_optionsPanelHeight = pnlColumnOptions.Height;
-			m_dyHeightClientHeight = Height - ClientSize.Height;
-			int saveOriginalHeight = Height;
-			App.SettingsHandler.LoadFormProperties(this);
-			Height = saveOriginalHeight;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
+
+			if (Settings.Default.FindDlgBounds.Height > 0)
+				Bounds = Settings.Default.FindDlgBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,7 +116,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			App.SettingsHandler.SaveFormProperties(this);
+			Settings.Default.FindDlgBounds = Bounds;
 
 			// Save the FieldNames of the search columns for initial selection when
 			// the FindDlg is reopened
@@ -122,6 +129,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!m_cancel)
 				SaveSettings();
 
+			Settings.Default.Save();
 			FindInfo.FindDlgIsOpen = false;
 			base.OnClosing(e);
 		}
@@ -133,13 +141,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
-			App.SettingsHandler.SaveSettingsValue(Name, "findwhat", cboFindWhat.Text);
-			App.SettingsHandler.SaveSettingsValue(Name, "matchcase", chkMatchCase.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "matchentireword", chkMatchEntireWord.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "startswith", chkStartsWith.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "regex", chkRegEx.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "reverse", chkReverseSearch.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "srchcollapsedgrps", chkSrchCollapsedGrps.Checked);
+			if (cboFindWhat.Text.Trim() != string.Empty)
+				Settings.Default.FindDlgFindWhat = cboFindWhat.Text.Trim();
+
+			Settings.Default.FindDlgMatchCase = chkMatchCase.Checked;
+			Settings.Default.FindDlgMatchEntireWord = chkMatchEntireWord.Checked;
+			Settings.Default.FindDlgStartsWith = chkStartsWith.Checked;
+			Settings.Default.FindDlgRegEx = chkRegEx.Checked;
+			Settings.Default.FindDlgReverse = chkReverseSearch.Checked;
+			Settings.Default.FindDlgSearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 		}
 
 		#endregion
@@ -200,10 +210,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnFind_Click(object sender, EventArgs e)
 		{
-			if (!m_findWhatItems.Contains(cboFindWhat.Text))
-				m_findWhatItems.Add(cboFindWhat.Text);
-			if (m_findWhatItems.Count > kMaxSavedFindPatterns)
-				m_findWhatItems.RemoveAt(0);
+			if (!s_findWhatItems.Contains(cboFindWhat.Text))
+				s_findWhatItems.Add(cboFindWhat.Text);
+			if (s_findWhatItems.Count > kMaxSavedFindPatterns)
+				s_findWhatItems.RemoveAt(0);
 
 			FindInfo.Grid = m_grid;
 			FindInfo.FindPattern = formatFindPattern(cboFindWhat.Text);
@@ -224,6 +234,7 @@ namespace SIL.Pa.UI.Dialogs
 			FindInfo.FindFirst(chkReverseSearch.Checked);
 			Close();
 		}
+
 		#endregion
 
 		#region Event Handlers
@@ -331,9 +342,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			cboFindWhat.Font = FontHelper.PhoneticFont;
-			Height = pnlFindWhat.Height + m_optionsPanelHeight +
-				pnlButtons.Height + m_dyHeightClientHeight;
-
 			cboFindWhat.AutoCompleteSource = AutoCompleteSource.ListItems;
 			base.OnShown(e);
 		}

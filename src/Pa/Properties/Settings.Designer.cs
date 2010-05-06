@@ -33,7 +33,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string LastProjectLoaded {
             get {
@@ -45,7 +45,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string UserInterfaceLanguage {
             get {
@@ -93,7 +93,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowSplashScreen {
@@ -169,7 +169,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public string LastViewShowing {
             get {
@@ -199,7 +199,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int OFD_LastFileTypeChosen_DataSource {
@@ -212,7 +212,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int OFD_LastFileTypeChosen_DataSourceXslt {
@@ -225,7 +225,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenHtmlDistChartAfterExport {
@@ -238,7 +238,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenHtmlDataCorpusAfterExport {
@@ -260,7 +260,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenHtmlSearchResultAfterExport {
@@ -318,7 +318,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int ConsonantChartColHdrHeight {
             get {
@@ -330,7 +330,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int ConsonantChartRowHdrWidth {
             get {
@@ -342,7 +342,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int VowelChartColHdrHeight {
             get {
@@ -354,7 +354,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int VowelChartRowHdrWidth {
             get {
@@ -375,7 +375,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenHtmlCVChartAfterExport {
@@ -405,7 +405,7 @@ namespace SIL.Pa.Properties {
         /// Full path is legal here. When empty, the default application is used.
         /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("Full path is legal here. When empty, the default application is used.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -419,7 +419,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenWordXmlDataCorpusAfterExport {
@@ -458,7 +458,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenWordXmlSearchResultAfterExport {
@@ -471,7 +471,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenWordXmlCVChartAfterExport {
@@ -484,7 +484,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool OpenWordXmlDistChartAfterExport {
@@ -537,7 +537,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool HtmlVowelChartVisible {
             get {
@@ -549,7 +549,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public bool HtmlConsonantChartVisible {
             get {
@@ -561,7 +561,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle DefineClassDlgBounds {
@@ -574,7 +574,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle ClassesDlgBounds {
@@ -587,7 +587,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int DefineClassDlgSplit1Loc {
             get {
@@ -599,7 +599,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int DefineClassDlgSplit2Loc {
             get {
@@ -611,7 +611,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int DefineClassDlgSplit3Loc {
             get {
@@ -623,7 +623,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("None")]
         public global::System.Windows.Forms.SortOrder ClassesDlgClassListViewSortOrder {
@@ -636,7 +636,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int ClassesDlgClassListViewSortedColumn {
@@ -649,7 +649,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int ClassesDlgClassListViewColWidth0 {
@@ -662,7 +662,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int ClassesDlgClassListViewColWidth1 {
@@ -675,7 +675,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int ClassesDlgClassListViewColWidth2 {
@@ -688,7 +688,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle BackupDlgBounds {
@@ -701,7 +701,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle RestoreDlgBounds {
@@ -714,7 +714,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int XYChartVwClassListViewColWidth0 {
@@ -727,7 +727,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SearchVwClassListViewColWidth0 {
@@ -740,7 +740,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle AmbiguousSequencesDlgBounds {
@@ -753,7 +753,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle CustomFieldsDlgBounds {
@@ -766,7 +766,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FeaturesDlgBounds {
@@ -779,7 +779,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle TranscriptionChangesDlgBounds {
@@ -792,7 +792,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle ProjectSettingsDlgBounds {
@@ -805,7 +805,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SaveSearchQuerDlgBounds {
@@ -818,7 +818,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SaveDistChartDlgBounds {
@@ -831,7 +831,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle SFDataSourcePropertiesDlgBounds {
@@ -844,7 +844,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FindDlgBounds {
@@ -857,7 +857,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle UndefinedCharactersInClassDlgBounds {
@@ -870,7 +870,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle UndefinedPhoneticCharactersDlgBounds {
@@ -883,7 +883,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle OptionsDialogBounds {
@@ -896,7 +896,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FwDataSourcePropertiesDlgBounds {
@@ -909,7 +909,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle FwProjectsDlgBounds {
@@ -922,7 +922,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int FeaturesDlgSplitLoc {
             get {
@@ -961,7 +961,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
         public global::System.Drawing.Rectangle DefineFiltersDlgBounds {
@@ -974,7 +974,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SIL.Pa.PaSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public int FwProjectsDlgSplitLoc {
             get {
@@ -982,6 +982,91 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["FwProjectsDlgSplitLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string FindDlgFindWhat {
+            get {
+                return ((string)(this["FindDlgFindWhat"]));
+            }
+            set {
+                this["FindDlgFindWhat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool FindDlgMatchCase {
+            get {
+                return ((bool)(this["FindDlgMatchCase"]));
+            }
+            set {
+                this["FindDlgMatchCase"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool FindDlgMatchEntireWord {
+            get {
+                return ((bool)(this["FindDlgMatchEntireWord"]));
+            }
+            set {
+                this["FindDlgMatchEntireWord"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool FindDlgStartsWith {
+            get {
+                return ((bool)(this["FindDlgStartsWith"]));
+            }
+            set {
+                this["FindDlgStartsWith"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool FindDlgRegEx {
+            get {
+                return ((bool)(this["FindDlgRegEx"]));
+            }
+            set {
+                this["FindDlgRegEx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool FindDlgReverse {
+            get {
+                return ((bool)(this["FindDlgReverse"]));
+            }
+            set {
+                this["FindDlgReverse"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FindDlgSearchCollapsedGroups {
+            get {
+                return ((bool)(this["FindDlgSearchCollapsedGroups"]));
+            }
+            set {
+                this["FindDlgSearchCollapsedGroups"] = value;
             }
         }
     }

@@ -5,7 +5,9 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SilUtils;
 
@@ -828,7 +830,7 @@ namespace SIL.Pa.UI.Controls
 
 			SearchQuery query = GetCellsFullSearchQuery(row, col);
 			string pattern = (query == null ? "?" : query.Pattern);
-			XYChartException exception = this[col, row].Value as XYChartException;
+			SearchQueryException exception = this[col, row].Value as SearchQueryException;
 
 			if (exception != null)
 			{
@@ -1161,7 +1163,7 @@ namespace SIL.Pa.UI.Controls
 
 			e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
 
-			if (!(e.Value is XYChartException))
+			if (!(e.Value is SearchQueryException))
 				e.PaintContent(e.CellBounds);
 			else
 			{
@@ -1338,6 +1340,51 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string PopupSyntaxErrorsMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
+					"This search pattern contains the following error(s):",
+					"Views.Distribution Charts");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string PopupUndefinedSymbolsMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
+					"This search pattern contains the following undefined phonetic symbol(s).",
+					"Views.Distribution Charts");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string PopupInvalidPhonesMsg
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
+					"This search pattern contains the following phone(s) not found in the data.",
+					"Views.Distribution Charts");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Goes through the environment cells and cleans them up a bit if the user didn't
 		/// enter them completely. Fixes PA-712
 		/// </summary>
@@ -1388,7 +1435,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
-			SearchQuery qryEnvironment)
+		    SearchQuery qryEnvironment)
 		{
 			SearchQuery query = null;
 
@@ -1403,81 +1450,18 @@ namespace SIL.Pa.UI.Controls
 					App.Search(query, false, true, false, 0, out count);
 
 					if (count < 0)
-						cell.Value = new XYChartException(query);
+						cell.Value = new SearchQueryException(query);
 					else
 					{
 						cell.Value = count;
-						VerifyPatternPhonesAreInCache(cell, query);
-
-						if (cell.Tag == null)
-							VerifyCharactersAreInInventory(cell, query);
+						cell.Tag = (query.GetPhonesNotInCache() ?? query.GetSymbolsNotInInventory());
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				cell.Value = new XYChartException(e, query);
+				cell.Value = new SearchQueryException(e, query);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks each phone in the query to see if it's in the project's phone cache. A list
-		/// is made of all phones in the query that aren not in the cache. The list is used
-		/// for a cell popup with that information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void VerifyPatternPhonesAreInCache(DataGridViewCell cell, SearchQuery query)
-		{
-			query.ErrorMessages.Clear();
-			SearchQuery modifiedQuery;
-			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false))
-			{
-				cell.Value = new XYChartException(query);
-				return;
-			}
-
-			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				Settings.Default.ConvertPatternsWithTranscriptionChanges;
-			
-			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
-			string[] phonesInQuery = engine.PhonesInPattern;
-			List<string> phonesNotInData = new List<string>();
-
-			if (phonesInQuery != null)
-			{
-				foreach (string phone in phonesInQuery)
-				{
-					if (!App.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
-						phonesNotInData.Add(phone);
-				}
-			}
-
-			cell.Tag = (phonesNotInData.Count == 0 ? null : phonesNotInData.ToArray());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks each character in the query to see if they are in the phonetic character
-		/// inventory. If there are some that are invalid, then a list of them is made and is
-		/// used for a cell popup with that information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void VerifyCharactersAreInInventory(DataGridViewCell cell, SearchQuery query)
-		{
-			query.ErrorMessages.Clear();
-			SearchQuery modifiedQuery;
-			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false))
-			{
-				cell.Value = new XYChartException(query);
-				return;
-			}
-
-			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				Settings.Default.ConvertPatternsWithTranscriptionChanges;
-
-			SearchEngine engine = new SearchEngine(modifiedQuery, App.PhoneCache);
-			cell.Tag = engine.InvalidCharactersInPattern;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1960,91 +1944,4 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 	}
-
-	#region XYChartException class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// An exception class for cells in an XY chart that caused an error when their search
-	/// was performed.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class XYChartException : Exception
-	{
-		private readonly Exception m_thrownException;
-		private readonly string m_queryErrorMsg;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an XYChartException object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public XYChartException(SearchQuery query)
-		{
-			if (query.ErrorMessages.Count > 0)
-			{
-				string msgFmt = Properties.Resources.kstidXYChartPopupInfoErrListFormat;
-				StringBuilder errors = new StringBuilder();
-				for (int i = 0; i < query.ErrorMessages.Count; i++)
-					errors.AppendFormat(msgFmt, i + 1, query.ErrorMessages[i]);
-
-				m_queryErrorMsg = errors.ToString();
-			}
-			else
-			{
-				SearchQuery modifiedQuery;
-				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
-					return;
-
-				SearchEngine.ConvertPatternWithTranscriptionChanges =
-					Settings.Default.ConvertPatternsWithTranscriptionChanges;
-
-				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
-
-				if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-					m_queryErrorMsg = Properties.Resources.kstidSrchPatternWordBoundaryError;
-				else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-					m_queryErrorMsg = Properties.Resources.kstidSrchPatternZeroOrMoreError;
-				else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-					m_queryErrorMsg = Properties.Resources.kstidSrchPatternOneOrMoreError;
-			}
-			
-			if (string.IsNullOrEmpty(m_queryErrorMsg))
-				m_queryErrorMsg = "Unknown Error.";
-
-			m_queryErrorMsg = Utils.ConvertLiteralNewLines(m_queryErrorMsg);
-			m_queryErrorMsg = m_queryErrorMsg.TrimEnd("\n\r".ToCharArray());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an XYChartException object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public XYChartException(Exception thrownException, SearchQuery query) : this(query)
-		{
-			m_thrownException = thrownException;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the error thrown by .Net when the search was performed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Exception ThrownException
-		{
-			get { return m_thrownException; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the error generated by the search engine.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string QueryErrorMessage
-		{
-			get { return m_queryErrorMsg; }
-		}
-	}
-
-	#endregion
 }

@@ -1764,15 +1764,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error parsing the {0}..
-        /// </summary>
-        internal static string kstidParsedToNothingError {
-            get {
-                return ResourceManager.GetString("kstidParsedToNothingError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to hi/this what#ni/this what#nini/this what.
         /// </summary>
         internal static string kstidParsePhoneticSampleOutput {
@@ -1805,15 +1796,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidPatternEmptyErr {
             get {
                 return ResourceManager.GetString("kstidPatternEmptyErr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The following error(s) occurred when parsing the search pattern:\n\n{0}.
-        /// </summary>
-        internal static string kstidPatternParsingErrorMsg {
-            get {
-                return ResourceManager.GetString("kstidPatternParsingErrorMsg", resourceCulture);
             }
         }
         
@@ -2358,60 +2340,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The one-or-more symbol (+) was found in an invalid location within\nthe search pattern. The one-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again..
-        /// </summary>
-        internal static string kstidSrchPatternOneOrMoreError {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternOneOrMoreError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Misplaced one-or-more symbol (+). The one-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment..
-        /// </summary>
-        internal static string kstidSrchPatternOneOrMoreError1 {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternOneOrMoreError1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The space/word boundary symbol (#) may not be the first or last\nitem in the search item portion (what precedes the slash) of the\nsearch pattern. Please correct this and try your search again..
-        /// </summary>
-        internal static string kstidSrchPatternWordBoundaryError {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternWordBoundaryError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Misplaced space or word boundary symbol (#). A space or word boundary symbol may not be at the beginning or end of the search item..
-        /// </summary>
-        internal static string kstidSrchPatternWordBoundaryError1 {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternWordBoundaryError1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The zero-or-more symbol (*) was found in an invalid location within\nthe search pattern. The zero-or-more symbol may only be the first\nitem in the preceding environment and/or the last item in the environment\nafter. Please correct this and try your search again..
-        /// </summary>
-        internal static string kstidSrchPatternZeroOrMoreError {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternZeroOrMoreError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Misplaced zero-or-more symbol (*). The zero-or-more symbol may only be at the beginning of the preceding environment and/or at the end of the following environment..
-        /// </summary>
-        internal static string kstidSrchPatternZeroOrMoreError1 {
-            get {
-                return ResourceManager.GetString("kstidSrchPatternZeroOrMoreError1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Starting SQL Server....
         /// </summary>
         internal static string kstidStartingSQLServerMsg {
@@ -2696,51 +2624,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidXYChartLayoutEmptyName {
             get {
                 return ResourceManager.GetString("kstidXYChartLayoutEmptyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This search pattern contains the following\nundefined phonetic character(s)..
-        /// </summary>
-        internal static string kstidXYChartPopupInfoBadCharsMsg {
-            get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoBadCharsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}) {1}\n\n.
-        /// </summary>
-        internal static string kstidXYChartPopupInfoErrListFormat {
-            get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoErrListFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This search pattern contains the\nfollowing phone(s) not found in\ndata sources in the open project..
-        /// </summary>
-        internal static string kstidXYChartPopupInfoInvalidPhonesMsg {
-            get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoInvalidPhonesMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This search pattern contains\nthe following error(s):.
-        /// </summary>
-        internal static string kstidXYChartPopupInfoSyntaxErrorsMsg {
-            get {
-                return ResourceManager.GetString("kstidXYChartPopupInfoSyntaxErrorsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} (U+{1}).
-        /// </summary>
-        internal static string kstidXYChartPopupInvalidCharFmt {
-            get {
-                return ResourceManager.GetString("kstidXYChartPopupInvalidCharFmt", resourceCulture);
             }
         }
         

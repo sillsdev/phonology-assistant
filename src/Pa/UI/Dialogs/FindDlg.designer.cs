@@ -1,3 +1,6 @@
+using System.Windows.Forms;
+using SilUtils.Controls;
+
 namespace SIL.Pa.UI.Dialogs
 {
 	partial class FindDlg
@@ -44,18 +47,22 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkSrchCollapsedGrps = new System.Windows.Forms.CheckBox();
 			this.chkReverseSearch = new System.Windows.Forms.CheckBox();
 			this.lblSearchColumns = new System.Windows.Forms.Label();
-			this.pnlButtons = new System.Windows.Forms.Panel();
 			this.btnHelp = new System.Windows.Forms.Button();
-			this.pnlFindWhat = new System.Windows.Forms.Panel();
-			this.pnlColumnOptions = new System.Windows.Forms.Panel();
+			this.tblLayoutFindWhat = new System.Windows.Forms.TableLayoutPanel();
 			this.fldSelGridSrchCols = new SIL.Pa.UI.Controls.FieldSelectorGrid();
+			this.tblLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.splitColsAndOptions = new System.Windows.Forms.SplitContainer();
+			this.tblLayoutColumns = new System.Windows.Forms.TableLayoutPanel();
 			this.gbOptions.SuspendLayout();
-			this.pnlButtons.SuspendLayout();
-			this.pnlFindWhat.SuspendLayout();
-			this.pnlColumnOptions.SuspendLayout();
+			this.tblLayoutFindWhat.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridSrchCols)).BeginInit();
+			this.tblLayoutButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this.splitColsAndOptions.Panel1.SuspendLayout();
+			this.splitColsAndOptions.Panel2.SuspendLayout();
+			this.splitColsAndOptions.SuspendLayout();
+			this.tblLayoutColumns.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblFindWhat
@@ -73,6 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Text on button on find dialog box.");
 			this.locExtender.SetLocalizingId(this.btnCancel, "FindDlg.btnCancel");
+			this.btnCancel.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -80,6 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkMatchCase
 			// 
 			resources.ApplyResources(this.chkMatchCase, "chkMatchCase");
+			this.chkMatchCase.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkMatchCase, null);
 			this.locExtender.SetLocalizationComment(this.chkMatchCase, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkMatchCase, "FindDlg.chkMatchCase");
@@ -95,6 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.btnFind, "Text on button on find dialog box.");
 			this.locExtender.SetLocalizationPriority(this.btnFind, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnFind, "FindDlg.btnFind");
+			this.btnFind.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnFind.Name = "btnFind";
 			this.btnFind.UseVisualStyleBackColor = true;
 			this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
@@ -111,6 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkMatchEntireWord
 			// 
 			resources.ApplyResources(this.chkMatchEntireWord, "chkMatchEntireWord");
+			this.chkMatchEntireWord.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkMatchEntireWord, null);
 			this.locExtender.SetLocalizationComment(this.chkMatchEntireWord, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkMatchEntireWord, "FindDlg.chkMatchEntireWord");
@@ -121,6 +132,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkRegEx
 			// 
 			resources.ApplyResources(this.chkRegEx, "chkRegEx");
+			this.chkRegEx.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkRegEx, null);
 			this.locExtender.SetLocalizationComment(this.chkRegEx, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkRegEx, "FindDlg.chkRegEx");
@@ -131,6 +143,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkStartsWith
 			// 
 			resources.ApplyResources(this.chkStartsWith, "chkStartsWith");
+			this.chkStartsWith.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkStartsWith, null);
 			this.locExtender.SetLocalizationComment(this.chkStartsWith, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkStartsWith, "FindDlg.chkStartsWith");
@@ -140,13 +153,13 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// gbOptions
 			// 
-			resources.ApplyResources(this.gbOptions, "gbOptions");
-			this.gbOptions.Controls.Add(this.chkSrchCollapsedGrps);
-			this.gbOptions.Controls.Add(this.chkReverseSearch);
 			this.gbOptions.Controls.Add(this.chkMatchCase);
 			this.gbOptions.Controls.Add(this.chkStartsWith);
-			this.gbOptions.Controls.Add(this.chkMatchEntireWord);
 			this.gbOptions.Controls.Add(this.chkRegEx);
+			this.gbOptions.Controls.Add(this.chkMatchEntireWord);
+			this.gbOptions.Controls.Add(this.chkSrchCollapsedGrps);
+			this.gbOptions.Controls.Add(this.chkReverseSearch);
+			resources.ApplyResources(this.gbOptions, "gbOptions");
 			this.locExtender.SetLocalizableToolTip(this.gbOptions, null);
 			this.locExtender.SetLocalizationComment(this.gbOptions, "Text in frame around check boxes in find dialog box.");
 			this.locExtender.SetLocalizingId(this.gbOptions, "FindDlg.gbOptions");
@@ -156,6 +169,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkSrchCollapsedGrps
 			// 
 			resources.ApplyResources(this.chkSrchCollapsedGrps, "chkSrchCollapsedGrps");
+			this.chkSrchCollapsedGrps.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkSrchCollapsedGrps, null);
 			this.locExtender.SetLocalizationComment(this.chkSrchCollapsedGrps, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkSrchCollapsedGrps, "FindDlg.chkSrchCollapsedGrps");
@@ -165,6 +179,7 @@ namespace SIL.Pa.UI.Dialogs
 			// chkReverseSearch
 			// 
 			resources.ApplyResources(this.chkReverseSearch, "chkReverseSearch");
+			this.chkReverseSearch.AutoEllipsis = true;
 			this.locExtender.SetLocalizableToolTip(this.chkReverseSearch, null);
 			this.locExtender.SetLocalizationComment(this.chkReverseSearch, "Check box option on find dialog box.");
 			this.locExtender.SetLocalizingId(this.chkReverseSearch, "FindDlg.chkReverseSearch");
@@ -180,38 +195,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.lblSearchColumns, "FindDlg.lblSearchColumns");
 			this.lblSearchColumns.Name = "lblSearchColumns";
 			// 
-			// pnlButtons
-			// 
-			this.pnlButtons.Controls.Add(this.btnHelp);
-			this.pnlButtons.Controls.Add(this.btnFind);
-			this.pnlButtons.Controls.Add(this.btnCancel);
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Name = "pnlButtons";
-			// 
 			// btnHelp
 			// 
 			resources.ApplyResources(this.btnHelp, "btnHelp");
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Text on button on find dialog box.");
 			this.locExtender.SetLocalizingId(this.btnHelp, "FindDlg.btnHelp");
+			this.btnHelp.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.UseVisualStyleBackColor = true;
 			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
-			// pnlFindWhat
+			// tblLayoutFindWhat
 			// 
-			resources.ApplyResources(this.pnlFindWhat, "pnlFindWhat");
-			this.pnlFindWhat.Controls.Add(this.cboFindWhat);
-			this.pnlFindWhat.Controls.Add(this.lblFindWhat);
-			this.pnlFindWhat.Name = "pnlFindWhat";
-			// 
-			// pnlColumnOptions
-			// 
-			this.pnlColumnOptions.Controls.Add(this.fldSelGridSrchCols);
-			this.pnlColumnOptions.Controls.Add(this.gbOptions);
-			this.pnlColumnOptions.Controls.Add(this.lblSearchColumns);
-			resources.ApplyResources(this.pnlColumnOptions, "pnlColumnOptions");
-			this.pnlColumnOptions.Name = "pnlColumnOptions";
+			resources.ApplyResources(this.tblLayoutFindWhat, "tblLayoutFindWhat");
+			this.tblLayoutFindWhat.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutFindWhat.Controls.Add(this.cboFindWhat, 0, 1);
+			this.tblLayoutFindWhat.Controls.Add(this.lblFindWhat, 0, 0);
+			this.tblLayoutFindWhat.Name = "tblLayoutFindWhat";
 			// 
 			// fldSelGridSrchCols
 			// 
@@ -219,7 +220,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.AllowUserToDeleteRows = false;
 			this.fldSelGridSrchCols.AllowUserToResizeColumns = false;
 			this.fldSelGridSrchCols.AllowUserToResizeRows = false;
-			resources.ApplyResources(this.fldSelGridSrchCols, "fldSelGridSrchCols");
 			this.fldSelGridSrchCols.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.fldSelGridSrchCols.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.fldSelGridSrchCols.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -243,6 +243,7 @@ namespace SIL.Pa.UI.Dialogs
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.fldSelGridSrchCols.DefaultCellStyle = dataGridViewCellStyle2;
+			resources.ApplyResources(this.fldSelGridSrchCols, "fldSelGridSrchCols");
 			this.fldSelGridSrchCols.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridSrchCols.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridSrchCols, null);
@@ -250,6 +251,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.fldSelGridSrchCols, "FindDlg.fldSelGridSrchCols");
 			this.fldSelGridSrchCols.MultiSelect = false;
 			this.fldSelGridSrchCols.Name = "fldSelGridSrchCols";
+			this.fldSelGridSrchCols.PaintHeaderAcrossFullGridWidth = true;
 			this.fldSelGridSrchCols.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridSrchCols.RowHeadersVisible = false;
 			this.fldSelGridSrchCols.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -257,20 +259,50 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.WaterMark = "!";
 			this.fldSelGridSrchCols.AfterUserChangedValue += new SIL.Pa.UI.Controls.FieldSelectorGrid.AfterUserChangedValueHandler(this.fldSelGridSrchCols_AfterUserChangedValue);
 			// 
+			// tblLayoutButtons
+			// 
+			resources.ApplyResources(this.tblLayoutButtons, "tblLayoutButtons");
+			this.tblLayoutButtons.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutButtons.Controls.Add(this.btnHelp, 3, 0);
+			this.tblLayoutButtons.Controls.Add(this.btnCancel, 2, 0);
+			this.tblLayoutButtons.Controls.Add(this.btnFind, 1, 0);
+			this.tblLayoutButtons.Name = "tblLayoutButtons";
+			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			// 
+			// splitColsAndOptions
+			// 
+			resources.ApplyResources(this.splitColsAndOptions, "splitColsAndOptions");
+			this.splitColsAndOptions.Name = "splitColsAndOptions";
+			// 
+			// splitColsAndOptions.Panel1
+			// 
+			this.splitColsAndOptions.Panel1.Controls.Add(this.tblLayoutColumns);
+			// 
+			// splitColsAndOptions.Panel2
+			// 
+			this.splitColsAndOptions.Panel2.Controls.Add(this.gbOptions);
+			resources.ApplyResources(this.splitColsAndOptions.Panel2, "splitColsAndOptions.Panel2");
+			this.splitColsAndOptions.TabStop = false;
+			// 
+			// tblLayoutColumns
+			// 
+			resources.ApplyResources(this.tblLayoutColumns, "tblLayoutColumns");
+			this.tblLayoutColumns.Controls.Add(this.lblSearchColumns, 0, 0);
+			this.tblLayoutColumns.Controls.Add(this.fldSelGridSrchCols, 0, 1);
+			this.tblLayoutColumns.Name = "tblLayoutColumns";
 			// 
 			// FindDlg
 			// 
 			this.AcceptButton = this.btnFind;
 			resources.ApplyResources(this, "$this");
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.Controls.Add(this.pnlColumnOptions);
-			this.Controls.Add(this.pnlFindWhat);
-			this.Controls.Add(this.pnlButtons);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Controls.Add(this.splitColsAndOptions);
+			this.Controls.Add(this.tblLayoutFindWhat);
+			this.Controls.Add(this.tblLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "FindDlg.WindowTitle");
@@ -279,17 +311,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.Name = "FindDlg";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.TopMost = true;
 			this.gbOptions.ResumeLayout(false);
-			this.gbOptions.PerformLayout();
-			this.pnlButtons.ResumeLayout(false);
-			this.pnlFindWhat.ResumeLayout(false);
-			this.pnlFindWhat.PerformLayout();
-			this.pnlColumnOptions.ResumeLayout(false);
-			this.pnlColumnOptions.PerformLayout();
+			this.tblLayoutFindWhat.ResumeLayout(false);
+			this.tblLayoutFindWhat.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridSrchCols)).EndInit();
+			this.tblLayoutButtons.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this.splitColsAndOptions.Panel1.ResumeLayout(false);
+			this.splitColsAndOptions.Panel2.ResumeLayout(false);
+			this.splitColsAndOptions.ResumeLayout(false);
+			this.tblLayoutColumns.ResumeLayout(false);
+			this.tblLayoutColumns.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -299,21 +333,22 @@ namespace SIL.Pa.UI.Dialogs
 
 		private System.Windows.Forms.Label lblFindWhat;
 		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.CheckBox chkMatchCase;
+		private CheckBox chkMatchCase;
+		private CheckBox chkSrchCollapsedGrps;
+		private CheckBox chkMatchEntireWord;
+		private CheckBox chkRegEx;
+		private CheckBox chkStartsWith;
+		private CheckBox chkReverseSearch;
 		private System.Windows.Forms.Button btnFind;
 		private System.Windows.Forms.ComboBox cboFindWhat;
-		private System.Windows.Forms.CheckBox chkMatchEntireWord;
-		private System.Windows.Forms.CheckBox chkRegEx;
-		private System.Windows.Forms.CheckBox chkStartsWith;
 		private System.Windows.Forms.GroupBox gbOptions;
 		private System.Windows.Forms.Label lblSearchColumns;
-		private System.Windows.Forms.CheckBox chkReverseSearch;
-		private System.Windows.Forms.Panel pnlButtons;
-		private System.Windows.Forms.Panel pnlFindWhat;
-		private System.Windows.Forms.Panel pnlColumnOptions;
 		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridSrchCols;
 		private System.Windows.Forms.Button btnHelp;
-		private System.Windows.Forms.CheckBox chkSrchCollapsedGrps;
+		private System.Windows.Forms.TableLayoutPanel tblLayoutFindWhat;
+		private System.Windows.Forms.TableLayoutPanel tblLayoutButtons;
 		private SIL.Localization.LocalizationExtender locExtender;
+		private SplitContainer splitColsAndOptions;
+		private TableLayoutPanel tblLayoutColumns;
 	}
 }

@@ -148,7 +148,6 @@
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
-    <Compile Include="Miscellaneous\PaSettingsProvider.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
     <Compile Include="Miscellaneous\ZipUtils.cs" />
     <Compile Include="Model\Features\AFeatureCache.cs" />
@@ -189,6 +188,7 @@
     <Compile Include="PhoneticSearching\SearchClassList.cs" />
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
+    <Compile Include="PhoneticSearching\SearchQueryException.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
     <Compile Include="Processing\CVChartExporter.cs" />
     <Compile Include="Processing\CVChartBuilder.cs" />
@@ -830,6 +830,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultView.resx">
       <DependentUpon>SearchResultView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\XYChartCellInfoPopup.resx">
+      <DependentUpon>XYChartCellInfoPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\BackupDlg.resx">
       <DependentUpon>BackupDlg.cs</DependentUpon>

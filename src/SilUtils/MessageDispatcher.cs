@@ -115,7 +115,7 @@ namespace SilUtils
 		/// <param name="sender">The calling object instance.</param>
 		/// <param name="args">The message arguments.</param>
 		/// <param name="skipSender">if set to <c>true</c> messages will not be sent to
-		/// the sender if the sender is also in the receiver list.
+		/// the sender if the sender is also in the receiver list.</param>
 		/// ------------------------------------------------------------------------------------
 		public void SendMessage(string msg, object sender, object args, bool skipSender)
 		{

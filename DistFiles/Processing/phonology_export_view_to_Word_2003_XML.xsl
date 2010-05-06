@@ -11,7 +11,7 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-16 -->
+  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-27 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
@@ -29,11 +29,13 @@ exclude-result-prefixes="xhtml"
   <xsl:param name="tc-tcPr-tcBorders-sz-thick" select="12" />
   <xsl:param name="tc-tcPr-tcBorders-color-lighter" select="999999" />
 
-  <!-- desaturated yellow rgb(255,255,171) hsv(60,33%,100%) -->
-  <xsl:param name="Search-item-background-color" select="'ffffab'" />
-  <xsl:param name="distribution-chart-zero-background-color" select="'ffffab'" />
-  <!-- desaturated red rgb(255,171,171) hsv(0,33%,100%) -->
-  <xsl:param name="distribution-chart-error-background-color" select="'ffabab'" />
+  <!-- desaturated yellow rgb(255,255,178) hsv(60,30%,100%) -->
+  <xsl:param name="Search-item-background-color" select="'ffffb2'" />
+  <xsl:param name="distribution-chart-zero-background-color" select="'ffffb2'" />
+	<!-- desaturated orange rgb(255,230,178) hsv(40,30%,100%) -->
+	<xsl:param name="distribution-chart-caution-background-color" select="'ffe6b2'" />
+	<!-- desaturated red rgb(255,178,178) hsv(0,30%,100%) -->
+  <xsl:param name="distribution-chart-error-background-color" select="'ffb2b2'" />
 
   <!-- <xsl:param name="docPr_view" select="'normal'" /> -->
   <!-- Normal -->
@@ -530,10 +532,13 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
           <w:vmerge w:val="restart" />
         </xsl:if>
         <xsl:choose>
-          <xsl:when test="@class = 'error'">
+					<xsl:when test="@class = 'caution'">
+						<w:shd w:val="clear" w:color="auto" w:fill="{$distribution-chart-caution-background-color}" />
+					</xsl:when>
+					<xsl:when test="@class = 'error'">
             <w:shd w:val="clear" w:color="auto" w:fill="{$distribution-chart-error-background-color}" />
           </xsl:when>
-          <xsl:when test="@class = 'Phonetic item'">
+					<xsl:when test="@class = 'Phonetic item'">
             <w:shd w:val="clear" w:color="auto" w:fill="{$Search-item-background-color}" />
           </xsl:when>
           <xsl:when test="self::xhtml:td and text() = '0' and ancestor::xhtml:table[@class = 'distribution chart']">
@@ -646,6 +651,12 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
 						<xsl:when test="@class = 'Phonetic pair'">
 							<w:t>
 								<xsl:value-of select="concat(xhtml:ul/xhtml:li[1]/xhtml:span, '&#xA0;', xhtml:ul/xhtml:li[2]/xhtml:span)" />
+							</w:t>
+						</xsl:when>
+						<xsl:when test="xhtml:strong">
+							<xsl:variable name="text" select="//text()" />
+							<w:t>
+								<xsl:value-of select="$text" />
 							</w:t>
 						</xsl:when>
 						<xsl:otherwise>

@@ -407,7 +407,7 @@ namespace SilUtils
 		/// <typeparam name="T">The object type</typeparam>
 		/// <param name="filename">The filename from which to load</param>
 		/// <param name="rootElementName">Name to expect for the root element. This is
-		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// good when T is a generic list of some type (e.g. List of strings).</param>
 		/// <param name="fKeepWhitespaceInElements">if set to <c>true</c>, the reader
 		/// will preserve and return elements that contain only whitespace, otherwise
 		/// these elements will be ignored during a deserialization.</param>
@@ -439,7 +439,7 @@ namespace SilUtils
 		/// <typeparam name="T">The object type</typeparam>
 		/// <param name="filename">The filename from which to load</param>
 		/// <param name="rootElementName">Name to expect for the root element. This is
-		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// good when T is a generic list of some type (e.g. List of string).</param>
 		/// <param name="e">The exception generated during the deserialization.</param>
 		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
@@ -473,7 +473,7 @@ namespace SilUtils
 		/// <typeparam name="T">The object type</typeparam>
 		/// <param name="filename">The filename from which to load</param>
 		/// <param name="rootElementName">Name to expect for the root element. This is
-		/// good when T is a generic list of some type (e.g. List<string>).</param>
+		/// good when T is a generic list of some type (e.g. List of strings).</param>
 		/// <param name="fKeepWhitespaceInElements">if set to <c>true</c>, the reader
 		/// will preserve and return elements that contain only whitespace, otherwise
 		/// these elements will be ignored during a deserialization.</param>
