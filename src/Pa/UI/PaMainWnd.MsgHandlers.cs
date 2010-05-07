@@ -85,8 +85,7 @@ namespace SIL.Pa.UI
 			PaProject project = args as PaProject;
 			if (project != null)
 			{
-				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
-					project.Name, Application.ProductName);
+				SetWindowText(project);
 				Invalidate();
 			}
 

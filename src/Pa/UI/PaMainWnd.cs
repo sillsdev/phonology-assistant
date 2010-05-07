@@ -21,6 +21,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Filters;
@@ -85,6 +86,37 @@ namespace SIL.Pa.UI
 			// Unpack training projects if it's never been done before.
 			TrainingProjectsHelper tph = new TrainingProjectsHelper();
 			tph.Setup();
+
+			LocalizeItemDlg.StringsLocalized += SetWindowText;
+			SetWindowText();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetWindowText()
+		{
+			SetWindowText(App.Project);			
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetWindowText(PaProject project)
+		{
+			if (project == null || string.IsNullOrEmpty(project.Name))
+				Text = LocalizationManager.GetString(this);
+			else
+			{
+				var fmt = LocalizationManager.LocalizeString(Name + ".WindowTitleWithProject",
+					"{0} - Phonology Assistant", locExtender.LocalizationGroup);
+				
+				Text = string.Format(fmt, project.Name);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,9 +248,8 @@ namespace SIL.Pa.UI
 				App.Project = project;
 				Settings.Default.LastProjectLoaded = projectFileName;
 
-				Text = string.Format(Properties.Resources.kstidMainWindowCaption,
-					project.Name, Application.ProductName);
-
+				SetWindowText();
+	
 				// When there are already tabs it means there was a project loaded before
 				// the one just loaded. Therefore, save the current view so it may be
 				// restored after the tabs are loaded for the new project.
@@ -248,10 +279,10 @@ namespace SIL.Pa.UI
 			Utils.WaitCursors(false);
 		}
 
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Loads the view tabs.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		/// ------------------------------------------------------------------------------------
 		private void LoadViewTabs()
 		{
@@ -263,39 +294,49 @@ namespace SIL.Pa.UI
 				return;
 			}
 
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
-			string text = (itemProps == null ? "Error!" : itemProps.Text);
-			string tooltip = Properties.Resources.kstidDataCorpusViewToolTip;
-			string helptooltip = Properties.Resources.kstidDataCorpusViewHelpToolTip;
-			Image img = (itemProps == null ? null : itemProps.Image);
+			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
+			var img = (itemProps == null ? null : itemProps.Image);
+			var text = (itemProps == null ? "Error!" : itemProps.Text);
+			var tooltip = LocalizationManager.LocalizeString(Name + ".DataCorpusViewTabToolTip",
+				"Data Corpus View (Ctrl+Alt+D)", locExtender.LocalizationGroup);
+			var helptooltip = LocalizationManager.LocalizeString(Name + ".DataCorpusViewHelpButtonToolTip",
+				"Data Corpus View Help", locExtender.LocalizationGroup);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = Properties.Resources.kstidSearchViewToolTip;
-			helptooltip = Properties.Resources.kstidSearchViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
+			text = (itemProps == null ? "Error!" : itemProps.Text);
+			tooltip = LocalizationManager.LocalizeString(Name + ".SearchViewTabToolTip",
+				"Search View (Ctrl+Alt+S)", locExtender.LocalizationGroup);
+			helptooltip = LocalizationManager.LocalizeString(Name + ".SearchViewHelpButtonToolTip",
+				"Search View Help", locExtender.LocalizationGroup);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = Properties.Resources.kstidConsonantChartViewToolTip;
-			helptooltip = Properties.Resources.kstidConsonantChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
+			text = (itemProps == null ? "Error!" : itemProps.Text);
+			tooltip = LocalizationManager.LocalizeString(Name + ".ConsonantChartViewTabToolTip",
+				"Consonant Chart View (Ctrl+Alt+C)", locExtender.LocalizationGroup);
+			helptooltip = LocalizationManager.LocalizeString(Name + ".ConsonantChartViewHelpButtonToolTip",
+				"Consonant Chart View Help", locExtender.LocalizationGroup);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = Properties.Resources.kstidVowelChartViewToolTip;
-			helptooltip = Properties.Resources.kstidVowelChartViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
+			text = (itemProps == null ? "Error!" : itemProps.Text);
+			tooltip = LocalizationManager.LocalizeString(Name + ".VowelChartViewTabToolTip",
+				"Vowel Chart View (Ctrl+Alt+V)", locExtender.LocalizationGroup);
+			helptooltip = LocalizationManager.LocalizeString(Name + ".VowelChartViewHelpButtonToolTip",
+				"Vowel Chart View Help", locExtender.LocalizationGroup);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = Properties.Resources.kstidXYChartsViewToolTip;
-			helptooltip = Properties.Resources.kstidXYChartsViewHelpToolTip;
 			img = (itemProps == null ? null : itemProps.Image);
+			text = (itemProps == null ? "Error!" : itemProps.Text);
+			tooltip = LocalizationManager.LocalizeString(Name + ".DistributionChartViewTabToolTip",
+				"XY Charts View (Ctrl+Alt+X)", locExtender.LocalizationGroup);
+			helptooltip = LocalizationManager.LocalizeString(Name + ".DistributionChartViewHelpButtonToolTip",
+				"XY Charts View Help", locExtender.LocalizationGroup);
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(XYChartVw));
 			
 			vwTabGroup.Visible = true;

@@ -542,12 +542,6 @@
   <data name="kstidConfirmSavedChartRemoval" xml:space="preserve">
     <value>Are you sure you want to remove the saved chart?</value>
   </data>
-  <data name="kstidConsonantChartViewHelpToolTip" xml:space="preserve">
-    <value>Consonant Chart View Help</value>
-  </data>
-  <data name="kstidConsonantChartViewToolTip" xml:space="preserve">
-    <value>Consonant Chart View (Ctrl+Alt+C)</value>
-  </data>
   <data name="kstidCopiedFilterNamePrefix" xml:space="preserve">
     <value>Copy of {0}</value>
     <comment>The parameter is the name of the filter to copy in the define filterrs dialog.</comment>
@@ -555,12 +549,6 @@
   <data name="kstidCountHdg" xml:space="preserve">
     <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
-  </data>
-  <data name="kstidDataCorpusViewHelpToolTip" xml:space="preserve">
-    <value>Data Corpus View Help</value>
-  </data>
-  <data name="kstidDataCorpusViewToolTip" xml:space="preserve">
-    <value>Data Corpus View (Ctrl+Alt+D)</value>
   </data>
   <data name="kstidDataSourceDeleteConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete the selected data source(s)?</value>
@@ -799,10 +787,6 @@
     <value>{0} has no projects.</value>
     <comment>Message displayexd in the dialog for choosing an FW data source when the specified computer does not contain any FW projects.</comment>
   </data>
-  <data name="kstidMainWindowCaption" xml:space="preserve">
-    <value>{0} - {1}</value>
-    <comment>Parameter 0 is project name; parameter 1 is application name (i.e. Phonology Assistant)</comment>
-  </data>
   <data name="kstidMappingsButtonToolTip" xml:space="preserve">
     <value>Specify field mappings</value>
     <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
@@ -996,12 +980,6 @@
     <value>Search Results ({0} Records)</value>
     <comment>word list window caption for search results. Parameter 0 is for the number of records in the list</comment>
   </data>
-  <data name="kstidSearchViewHelpToolTip" xml:space="preserve">
-    <value>Search View Help</value>
-  </data>
-  <data name="kstidSearchViewToolTip" xml:space="preserve">
-    <value>Search View (Ctrl+Alt+S)</value>
-  </data>
   <data name="kstidSetRTFEditorOFDlgFilter" xml:space="preserve">
     <value>All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*</value>
   </data>
@@ -1094,12 +1072,6 @@
     <value>Unicode\nNumber</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
-  <data name="kstidVowelChartViewHelpToolTip" xml:space="preserve">
-    <value>Vowel Chart View Help</value>
-  </data>
-  <data name="kstidVowelChartViewToolTip" xml:space="preserve">
-    <value>Vowel Chart View (Ctrl+Alt+V)</value>
-  </data>
   <data name="kstidWordHdg" xml:space="preserve">
     <value>Transcription</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
@@ -1147,11 +1119,5 @@
   </data>
   <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
     <value>(none)</value>
-  </data>
-  <data name="kstidXYChartsViewHelpToolTip" xml:space="preserve">
-    <value>XY Charts View Help</value>
-  </data>
-  <data name="kstidXYChartsViewToolTip" xml:space="preserve">
-    <value>XY Charts View (Ctrl+Alt+X)</value>
   </data>
 </root>

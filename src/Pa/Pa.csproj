@@ -436,6 +436,9 @@
     <Compile Include="UI\Controls\XYChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\Controls\XYChartCellInfoPopup.Designer.cs">
+      <DependentUpon>XYChartCellInfoPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\XYChartLayout.cs" />
     <Compile Include="UI\Controls\XYGrid.cs">
       <SubType>Component</SubType>

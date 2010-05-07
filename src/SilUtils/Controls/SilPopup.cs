@@ -18,6 +18,7 @@ namespace SilUtils.Controls
 		public static Color kBodyLightColor = Color.White;
 		public static Color kHeadDarkColor = Color.FromArgb(170, Color.BurlyWood);
 		public static Color kHeadLightColor = Color.Wheat;
+		public static Color kHeadSeparatingLineColor = Color.Tan;
 
 		public event EventHandler MouseEntered;
 		public event EventHandler MouseLeft;
@@ -292,7 +293,7 @@ namespace SilUtils.Controls
 		{
 			using (SolidBrush brWhite = new SolidBrush(kBodyLightColor))
 			using (LinearGradientBrush br = new LinearGradientBrush(ClientRectangle,
-				kBodyDarkColor,	kBodyLightColor, 0f))
+				kBodyLightColor, kBodyDarkColor, 45f))
 			{
 				g.FillRectangle(brWhite, ClientRectangle);
 				g.FillRectangle(br, ClientRectangle);
@@ -307,10 +308,13 @@ namespace SilUtils.Controls
 		public void PaintHeadingBackground(Graphics g, Rectangle rcHead)
 		{
 			using (LinearGradientBrush br = new LinearGradientBrush(rcHead,
-				kHeadDarkColor,	kHeadLightColor, 0.0))
+				kHeadDarkColor, kHeadLightColor, 0.0))
 			{
 				g.FillRectangle(br, rcHead);
 			}
+
+			using (var pen = new Pen(kHeadSeparatingLineColor))
+				g.DrawLine(pen, rcHead.Left, rcHead.Bottom - 1, rcHead.Right, rcHead.Bottom - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------

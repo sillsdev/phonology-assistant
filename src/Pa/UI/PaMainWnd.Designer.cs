@@ -132,7 +132,7 @@ namespace SIL.Pa.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Main Windows";
+			this.locExtender.LocalizationGroup = "Views";
 			// 
 			// vwTabGroup
 			// 
@@ -154,7 +154,6 @@ namespace SIL.Pa.UI
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "PaMainWnd.WindowTitle");
 			this.Name = "PaMainWnd";
 			this.statusStrip.ResumeLayout(false);

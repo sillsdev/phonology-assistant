@@ -555,24 +555,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consonant Chart View Help.
-        /// </summary>
-        internal static string kstidConsonantChartViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidConsonantChartViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Consonant Chart View (Ctrl+Alt+C).
-        /// </summary>
-        internal static string kstidConsonantChartViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidConsonantChartViewToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Copy of {0}.
         /// </summary>
         internal static string kstidCopiedFilterNamePrefix {
@@ -587,24 +569,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidCountHdg {
             get {
                 return ResourceManager.GetString("kstidCountHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Data Corpus View Help.
-        /// </summary>
-        internal static string kstidDataCorpusViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidDataCorpusViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Data Corpus View (Ctrl+Alt+D).
-        /// </summary>
-        internal static string kstidDataCorpusViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidDataCorpusViewToolTip", resourceCulture);
             }
         }
         
@@ -1467,15 +1431,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - {1}.
-        /// </summary>
-        internal static string kstidMainWindowCaption {
-            get {
-                return ResourceManager.GetString("kstidMainWindowCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Specify field mappings.
         /// </summary>
         internal static string kstidMappingsButtonToolTip {
@@ -2151,24 +2106,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search View Help.
-        /// </summary>
-        internal static string kstidSearchViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidSearchViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search View (Ctrl+Alt+S).
-        /// </summary>
-        internal static string kstidSearchViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidSearchViewToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*.
         /// </summary>
         internal static string kstidSetRTFEditorOFDlgFilter {
@@ -2484,24 +2421,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vowel Chart View Help.
-        /// </summary>
-        internal static string kstidVowelChartViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidVowelChartViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vowel Chart View (Ctrl+Alt+V).
-        /// </summary>
-        internal static string kstidVowelChartViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidVowelChartViewToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Transcription.
         /// </summary>
         internal static string kstidWordHdg {
@@ -2624,24 +2543,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidXYChartLayoutEmptyName {
             get {
                 return ResourceManager.GetString("kstidXYChartLayoutEmptyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XY Charts View Help.
-        /// </summary>
-        internal static string kstidXYChartsViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidXYChartsViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to XY Charts View (Ctrl+Alt+X).
-        /// </summary>
-        internal static string kstidXYChartsViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidXYChartsViewToolTip", resourceCulture);
             }
         }
         
