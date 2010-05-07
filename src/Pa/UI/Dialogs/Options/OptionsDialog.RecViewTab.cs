@@ -41,7 +41,6 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			fldSelGridRecView.Save(false);
-			App.Project.Save();
 			App.MsgMediator.SendMessage("RecordViewOptionsChanged", null);
 		}
 

@@ -888,29 +888,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error processing data source file &apos;{0}&apos;..
-        /// </summary>
-        internal static string kstidErrorProcessingDataSourceFile {
-            get {
-                return ResourceManager.GetString("kstidErrorProcessingDataSourceFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Project File &apos;{0}&apos; has an Invalid Format.
         /// </summary>
         internal static string kstidErrorProjectInvalidFormat {
             get {
                 return ResourceManager.GetString("kstidErrorProjectInvalidFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The following error occurred reading data source file &apos;{0}&apos;.{1}.
-        /// </summary>
-        internal static string kstidErrorReadingDataSourceFile {
-            get {
-                return ResourceManager.GetString("kstidErrorReadingDataSourceFile", resourceCulture);
             }
         }
         
@@ -1323,69 +1305,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consonants.
-        /// </summary>
-        internal static string kstidIPAChooserGroupConsonants {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupConsonants", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Diacritics.
-        /// </summary>
-        internal static string kstidIPAChooserGroupDiacritics {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupDiacritics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Non Pulmonics.
-        /// </summary>
-        internal static string kstidIPAChooserGroupNonPulmonics {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupNonPulmonics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Other Symbols.
-        /// </summary>
-        internal static string kstidIPAChooserGroupOtherSymbols {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupOtherSymbols", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stress and Length\n(Suprasegmentals).
-        /// </summary>
-        internal static string kstidIPAChooserGroupSuprasegmentals {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupSuprasegmentals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tone and Accents.
-        /// </summary>
-        internal static string kstidIPAChooserGroupTone {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupTone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vowels.
-        /// </summary>
-        internal static string kstidIPAChooserGroupVowels {
-            get {
-                return ResourceManager.GetString("kstidIPAChooserGroupVowels", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Irregular diacritic placeholder syntax in {0}..
         /// </summary>
         internal static string kstidIrregularDiacriticPlaceholderErr {
@@ -1409,15 +1328,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidLoadingRecordCacheError {
             get {
                 return ResourceManager.GetString("kstidLoadingRecordCacheError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Would you like to load the &apos;{0}&apos; project?.
-        /// </summary>
-        internal static string kstidLoadNewProjectQuestion {
-            get {
-                return ResourceManager.GetString("kstidLoadNewProjectQuestion", resourceCulture);
             }
         }
         
@@ -1485,29 +1395,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose New Data Source Location.
-        /// </summary>
-        internal static string kstidMissingDataSourceOFDMsg {
-            get {
-                return ResourceManager.GetString("kstidMissingDataSourceOFDMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You must first specify an RTF editor..
         /// </summary>
         internal static string kstidMissingRTFEditorMsg {
             get {
                 return ResourceManager.GetString("kstidMissingRTFEditorMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The training file &apos;{0}&apos; is missing..
-        /// </summary>
-        internal static string kstidMissingTrainingFileMsg {
-            get {
-                return ResourceManager.GetString("kstidMissingTrainingFileMsg", resourceCulture);
             }
         }
         
@@ -1701,15 +1593,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open {0} Project File.
-        /// </summary>
-        internal static string kstidPAFilesCaptionOFD {
-            get {
-                return ResourceManager.GetString("kstidPAFilesCaptionOFD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Save {0} Project File.
         /// </summary>
         internal static string kstidPAFilesCaptionSFD {
@@ -1764,15 +1647,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to {0} XML.
-        /// </summary>
-        internal static string kstidPAXMLExportCaptionSFD {
-            get {
-                return ResourceManager.GetString("kstidPAXMLExportCaptionSFD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Phone Inventory View Help.
         /// </summary>
         internal static string kstidPhoneInventoryViewHelpToolTip {
@@ -1823,24 +1697,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidReadingCacheFiles {
             get {
                 return ResourceManager.GetString("kstidReadingCacheFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reading {0}.
-        /// </summary>
-        internal static string kstidReadingDataSourceProgressLabel {
-            get {
-                return ResourceManager.GetString("kstidReadingDataSourceProgressLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The project file &apos;{0}&apos; is missing..
-        /// </summary>
-        internal static string kstidRecentlyUsedProjectMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidRecentlyUsedProjectMissingMsg", resourceCulture);
             }
         }
         

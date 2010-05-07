@@ -238,7 +238,6 @@ namespace SIL.Pa.UI.Dialogs
 						fieldInfo.Font = (Font)row.Tag;
 				}
 
-				App.Project.Save();
 				App.Project.InitializeFontHelperFonts();
 
 				// Since the fonts changed, delete the project's style sheet file. This will

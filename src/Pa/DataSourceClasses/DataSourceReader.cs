@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.ResourceStrings;
 using SIL.SpeechTools.Utils;
@@ -148,9 +149,11 @@ namespace SIL.Pa.DataSource
 			dlg.FileName = Path.GetFileName(dataSourceFile);
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
-			dlg.Title =	Properties.Resources.kstidMissingDataSourceOFDMsg;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-
+			dlg.Title = LocalizationManager.LocalizeString(
+				"SpecifyNewLocationForDatasourceOpenFileDlgCaption",
+				"Choose New Data Source Location", App.kLocalizationGroupDialogs);
+			
 			while (dlg.ShowDialog() == DialogResult.Cancel)
 			{
 				if (MissingDataSourceMsgBox.ShowDialog(dataSourceFile) == DialogResult.Cancel)
@@ -187,8 +190,10 @@ namespace SIL.Pa.DataSource
 
 				m_currDataSource = source;
 
-				App.UpdateProgressBarLabel(string.Format(
-					Properties.Resources.kstidReadingDataSourceProgressLabel,
+				var fmt = LocalizationManager.LocalizeString("ReadingDatasourceProgressBarMsg",
+					"Reading {0}", App.kLocalizationGroupInfoMsg);
+
+				App.UpdateProgressBarLabel(string.Format(fmt,
 					(source.FwSourceDirectFromDB && source.FwDataSourceInfo != null ?
 					source.FwDataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
 
@@ -234,21 +239,23 @@ namespace SIL.Pa.DataSource
 						App.MsgMediator.SendMessage("AfterReadingDataSource", source);
 					else
 					{
-						string msg =
-							string.Format(Properties.Resources.kstidErrorProcessingDataSourceFile,
-							Utils.PrepFilePathForMsgBox(source.DataSourceFile));
+						fmt = LocalizationManager.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
+							"Error processing data source file '{0}'.", App.kLocalizationGroupInfoMsg);
 
-						Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(source.DataSourceFile));
+						Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 						App.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
 					}
 				}
 				catch (Exception e)
 				{
-					string msg = string.Format(
-						Properties.Resources.kstidErrorReadingDataSourceFile,
-						Utils.PrepFilePathForMsgBox(source.DataSourceFile), e.Message);
-
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+						fmt = LocalizationManager.LocalizeString("DatasourceFileReadingErrorMsg",
+							"The following error occurred reading data source file '{0}'.{1}",
+							"First parameter is data source file name; second parameter is error message.",
+							App.kLocalizationGroupInfoMsg);
+		
+					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(source.DataSourceFile), e.Message);
+					Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				}
 				finally
 				{

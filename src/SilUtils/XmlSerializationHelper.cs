@@ -213,7 +213,7 @@ namespace SilUtils
 		public static bool SerializeToFile<T>(string filename, T data, string rootElementName)
 		{
 			Exception e;
-			return SerializeToFile(filename, data, null, out e);
+			return SerializeToFile(filename, data, rootElementName, out e);
 		}
 
 		/// ------------------------------------------------------------------------------------

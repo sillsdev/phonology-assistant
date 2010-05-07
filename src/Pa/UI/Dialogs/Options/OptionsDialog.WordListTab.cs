@@ -104,7 +104,6 @@ namespace SIL.Pa.UI.Dialogs
 				App.Project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.None;
 
 			fldSelGridWrdList.Save(true);
-			App.Project.Save();
 			App.MsgMediator.SendMessage("WordListOptionsChanged", null);
 		}
 

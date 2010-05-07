@@ -124,6 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 			SaveCvPatternsTabSettings();
 			SaveUserInterfaceTabSettings();
 
+			App.Project.Save();
 			Settings.Default.Save();
 			return true;
 		}

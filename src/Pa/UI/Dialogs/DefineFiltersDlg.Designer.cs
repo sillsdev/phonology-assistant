@@ -239,11 +239,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.ShowWaterMarkWhenDirty = false;
 			this.m_grid.WaterMark = "!";
 			this.m_grid.Enter += new System.EventHandler(this.m_grid_Enter);
-			this.m_grid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_RowEnter);
 			this.m_grid.ColumnHeadersHeightChanged += new System.EventHandler(this.m_grid_ColumnHeadersHeightChanged);
 			this.m_grid.Leave += new System.EventHandler(this.m_grid_Leave);
 			this.m_grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.m_grid_CellFormatting);
 			this.m_grid.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.m_grid_DefaultValuesNeeded);
+			this.m_grid.CurrentRowChanged += new System.EventHandler(this.m_grid_CurrentRowChanged);
 			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
 			// 
 			// hlblExpressions
@@ -348,7 +348,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 

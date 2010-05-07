@@ -163,15 +163,8 @@
   <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
     <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
   </data>
-  <data name="kstidErrorProcessingDataSourceFile" xml:space="preserve">
-    <value>Error processing data source file '{0}'.</value>
-  </data>
   <data name="kstidErrorProjectInvalidFormat" xml:space="preserve">
     <value>Project File '{0}' has an Invalid Format</value>
-  </data>
-  <data name="kstidErrorReadingDataSourceFile" xml:space="preserve">
-    <value>The following error occurred reading data source file '{0}'.{1}</value>
-    <comment>Parameter 0 is file name; parameter 1 is error message.</comment>
   </data>
   <data name="kstidErrorRetrievingAnalWsMsg" xml:space="preserve">
     <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
@@ -225,10 +218,6 @@
     <value>The class '{0}' is not in this project. It may have been deleted.</value>
     <comment>Message displayed when a search pattern contains a class that doesn't exist in the project.</comment>
   </data>
-  <data name="kstidMissingDataSourceOFDMsg" xml:space="preserve">
-    <value>Choose New Data Source Location</value>
-    <comment>Message displayed in the open file dialog when the user is pointing PA to the new location of a data source file.</comment>
-  </data>
   <data name="kstidMissingWsMsg" xml:space="preserve">
     <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.</value>
   </data>
@@ -248,10 +237,6 @@
   <data name="kstidReadingCacheFiles" xml:space="preserve">
     <value>Reading Cache Files</value>
     <comment>Progress bar text when reading cache files when loading a project</comment>
-  </data>
-  <data name="kstidReadingDataSourceProgressLabel" xml:space="preserve">
-    <value>Reading {0}</value>
-    <comment>Progress bar text when reading data source files.</comment>
   </data>
   <data name="kstidRecordMarkerFieldDisplayText" xml:space="preserve">
     <value>Record Marker</value>
@@ -754,34 +739,9 @@
   <data name="kstidInvalidToolboxSortFieldSpecified" xml:space="preserve">
     <value>The first Toolbox sort field specified was\nnot mapped. It must have a mapping.</value>
   </data>
-  <data name="kstidIPAChooserGroupConsonants" xml:space="preserve">
-    <value>Consonants</value>
-  </data>
-  <data name="kstidIPAChooserGroupDiacritics" xml:space="preserve">
-    <value>Diacritics</value>
-  </data>
-  <data name="kstidIPAChooserGroupNonPulmonics" xml:space="preserve">
-    <value>Non Pulmonics</value>
-  </data>
-  <data name="kstidIPAChooserGroupOtherSymbols" xml:space="preserve">
-    <value>Other Symbols</value>
-  </data>
-  <data name="kstidIPAChooserGroupSuprasegmentals" xml:space="preserve">
-    <value>Stress and Length\n(Suprasegmentals)</value>
-  </data>
-  <data name="kstidIPAChooserGroupTone" xml:space="preserve">
-    <value>Tone and Accents</value>
-  </data>
-  <data name="kstidIPAChooserGroupVowels" xml:space="preserve">
-    <value>Vowels</value>
-  </data>
   <data name="kstidLoadingOptionsProgressBarText" xml:space="preserve">
     <value>Loading Options...</value>
     <comment>Progress bar text when options dialog is being loaded.</comment>
-  </data>
-  <data name="kstidLoadNewProjectQuestion" xml:space="preserve">
-    <value>Would you like to load the '{0}' project?</value>
-    <comment>Question asked of user after they create a new PA project.</comment>
   </data>
   <data name="kstidMachineHasNoProjectsMsg" xml:space="preserve">
     <value>{0} has no projects.</value>
@@ -793,9 +753,6 @@
   </data>
   <data name="kstidMissingRTFEditorMsg" xml:space="preserve">
     <value>You must first specify an RTF editor.</value>
-  </data>
-  <data name="kstidMissingTrainingFileMsg" xml:space="preserve">
-    <value>The training file '{0}' is missing.</value>
   </data>
   <data name="kstidMyNetworkPlaces" xml:space="preserve">
     <value>Network places in your area</value>
@@ -853,9 +810,6 @@
     <value>hi/this#ni/what#nini/</value>
     <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
   </data>
-  <data name="kstidPAFilesCaptionOFD" xml:space="preserve">
-    <value>Open {0} Project File</value>
-  </data>
   <data name="kstidPAFilesCaptionSFD" xml:space="preserve">
     <value>Save {0} Project File</value>
     <comment>Caption for the save PA project dialog. The parameter is for the application name.</comment>
@@ -863,10 +817,6 @@
   <data name="kstidParsePhoneticSampleOutput" xml:space="preserve">
     <value>hi/this what#ni/this what#nini/this what</value>
     <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
-  </data>
-  <data name="kstidPAXMLExportCaptionSFD" xml:space="preserve">
-    <value>Export to {0} XML</value>
-    <comment>Caption for save file dialog for PA XML export</comment>
   </data>
   <data name="kstidPhoneInventoryViewHelpToolTip" xml:space="preserve">
     <value>Phone Inventory View Help</value>
@@ -884,10 +834,6 @@
   <data name="kstidProjectSettingsDlgCaption" xml:space="preserve">
     <value>Project Settings</value>
     <comment>Caption for project settings dialog when project is not new.</comment>
-  </data>
-  <data name="kstidRecentlyUsedProjectMissingMsg" xml:space="preserve">
-    <value>The project file '{0}' is missing.</value>
-    <comment>Message displayed when a recently used project file is chosen (i.e. .pap file) and it no longer exists.</comment>
   </data>
   <data name="kstidReferenceHdg" xml:space="preserve">
     <value>Reference</value>

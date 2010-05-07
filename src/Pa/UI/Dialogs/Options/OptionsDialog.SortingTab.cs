@@ -126,7 +126,6 @@ namespace SIL.Pa.UI.Dialogs
 			if (item != null)
 				App.Project.XYChartVwSortOptions = item.SortOptions;
 
-			App.Project.Save();
 			App.MsgMediator.SendMessage("SortingOptionsChanged", null);
 		}
 

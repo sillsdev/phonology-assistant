@@ -230,6 +230,18 @@ namespace SIL.Pa.UI.Controls
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterTurnedOff(object args)
+		{
+			sblblFilter.Visible = false;
+			sblblFilter.Text = string.Empty;
+			return false;
+		}
+
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

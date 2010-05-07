@@ -146,7 +146,22 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public static void TurnOffCurrentFilter()
 		{
-			ApplyFilter(null);
+			TurnOffCurrentFilter(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void TurnOffCurrentFilter(bool apply)
+		{
+			if (apply)
+				ApplyFilter(null);
+			else
+				CurrentFilter = null;
+
+			App.MsgMediator.SendMessage("FilterTurnedOff", apply);
 		}
 
 		/// ------------------------------------------------------------------------------------

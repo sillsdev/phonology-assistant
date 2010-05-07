@@ -180,7 +180,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			try
 			{
-				App.Project.Save();
 				App.MsgMediator.SendMessage("CVPatternsChanged", null);
 			}
 			catch { }

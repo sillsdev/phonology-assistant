@@ -24,6 +24,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
@@ -61,9 +62,10 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				string msg = Properties.Resources.kstidRecentlyUsedProjectMissingMsg;
-				Utils.MsgBox(string.Format(msg, filename), MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation);
+				var fmt = LocalizationManager.LocalizeString("RecentlyOpenedProjectMissingMsg",
+					"The project file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
+				
+				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
 			}
 			else if (App.Project == null || App.Project.FileName != filename)
 			{
@@ -162,10 +164,11 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				string msg = string.Format(Properties.Resources.kstidMissingTrainingFileMsg,
-					Utils.PrepFilePathForMsgBox(path));
+				var fmt = LocalizationManager.LocalizeString("TrainingFileMissingMsg",
+					"The training file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
 
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
+				Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -190,8 +193,6 @@ namespace SIL.Pa.UI
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNewProject(object args)
 		{
@@ -199,9 +200,12 @@ namespace SIL.Pa.UI
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				if (Utils.MsgBox(
-					string.Format(Properties.Resources.kstidLoadNewProjectQuestion,
-					dlg.Project.Name), MessageBoxButtons.YesNo) == DialogResult.Yes)
+				var fmt = LocalizationManager.LocalizeString("LoadNewlyCreatedProjectQuestion",
+					"Would you like to load the '{0}' project?", App.kLocalizationGroupInfoMsg);
+
+				var msg = string.Format(fmt, dlg.Project.Name);
+
+				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
 					UndefinedPhoneticCharactersDlg.Show(dlg.Project.Name, true);
@@ -215,8 +219,6 @@ namespace SIL.Pa.UI
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnOpenProject(object args)
 		{
@@ -225,20 +227,18 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			string dlgTitle =
-				string.Format(Properties.Resources.kstidPAFilesCaptionOFD, Application.ProductName);
+			var fmt = LocalizationManager.LocalizeString("ProjectOpenFileDlgCaption",
+				"Open {0} Project File", App.kLocalizationGroupDialogs);
 			
-			string initialDir = App.SettingsHandler.GetStringSettingsValue(Name, "lastprojdir",
-				App.DefaultProjectFolder);
+			string initialDir =
+				(Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
-				dlgTitle, false, initialDir);
+				string.Format(fmt, Application.ProductName), false, initialDir);
 
 			if (filenames.Length > 0 && File.Exists(filenames[0]))
 			{
-				App.SettingsHandler.SaveSettingsValue(Name, "lastprojdir",
-					Path.GetDirectoryName(filenames[0]));
-				
+				Settings.Default.LastFolderForOpenProjectDlg = Path.GetDirectoryName(filenames[0]);
 				LoadProject(filenames[0]);
 			}
 
@@ -340,7 +340,11 @@ namespace SIL.Pa.UI
 			dlg.RestoreDirectory = false;
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
-			dlg.Title = string.Format(Properties.Resources.kstidPAXMLExportCaptionSFD, Application.ProductName);
+
+			var fmt = LocalizationManager.LocalizeString("PaXMLExportSaveFileDlgCaption",
+				"Export to {0} XML", App.kLocalizationGroupDialogs);
+
+			dlg.Title = string.Format(fmt, Application.ProductName);
 			dlg.FileName = App.Project.Name + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
@@ -763,7 +767,18 @@ namespace SIL.Pa.UI
 			if (filter != null)
 				sblblFilter.Text = filter.Name;
 
-			App.Project.Save();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnFilterTurnedOff(object args)
+		{
+			sblblFilter.Visible = false;
+			sblblFilter.Text = string.Empty;
 			return false;
 		}
 

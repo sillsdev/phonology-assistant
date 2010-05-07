@@ -77,7 +77,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			App.Project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
-			App.Project.Save();
 			App.MsgMediator.SendMessage("FindPhonesSettingsChanged", null);
 		}
 	}

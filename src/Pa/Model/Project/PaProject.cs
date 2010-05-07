@@ -280,7 +280,9 @@ namespace SIL.Pa
 
 				if (project.m_loadedFilter != null)
 					FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
-				
+				else
+					FilterHelper.TurnOffCurrentFilter(false);
+
 				project.LoadDataSources();
 				if (appWindow != null)
 				{

@@ -15,6 +15,9 @@ namespace SilUtils
 	/// ----------------------------------------------------------------------------------------
 	public class SilGrid : DataGridView
 	{
+		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
+		public event EventHandler CurrentRowChanged;
+
 		public delegate void GetWaterMarkRectHandler(object sender,
 			Rectangle adjustedClientRect, ref Rectangle rcProposed);
 		
@@ -26,6 +29,7 @@ namespace SilUtils
 		private bool m_paintWaterMark;
 		private bool m_showWaterMarkWhenDirty;
 		private string m_waterMark = "!";
+		private int m_prevRowIndex = -1;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -405,7 +409,6 @@ namespace SilUtils
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
 		{
@@ -598,6 +601,22 @@ namespace SilUtils
 				// Clean up the bottom edge.
 				ControlPaint.DrawBorder3D(e.Graphics, rc, Border3DStyle.Etched,
 					Border3DSide.Top);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCurrentCellChanged(EventArgs e)
+		{
+			base.OnCurrentCellChanged(e);
+
+			if (m_prevRowIndex != CurrentCellAddress.Y && CurrentRowChanged != null)
+			{
+				m_prevRowIndex = CurrentCellAddress.Y;
+				CurrentRowChanged(this, EventArgs.Empty);
 			}
 		}
 

@@ -232,11 +232,14 @@ namespace SIL.Pa.UI
 				return;
 
 			if (App.Project != null)
+			{
 				App.Project.EnsureSortOptionsSaved();
+				App.Project.Save();
+			}
 
 			App.ProjectLoadInProcess = true;
 			Utils.WaitCursors(true);
-			PaProject project = PaProject.Load(projectFileName, this);
+			var project = PaProject.Load(projectFileName, this);
 
 			if (project != null)
 			{
@@ -269,7 +272,8 @@ namespace SIL.Pa.UI
 				vwTabGroup.ActivateView(type ?? typeof(DataCorpusVw));
 
 				App.AddProjectToRecentlyUsedProjectsList(projectFileName);
-				
+
+				OnFilterChanged(FilterHelper.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
 			}

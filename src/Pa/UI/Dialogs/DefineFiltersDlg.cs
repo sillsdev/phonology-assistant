@@ -1050,7 +1050,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void m_grid_CurrentRowChanged(object sender, EventArgs e)
 		{
 			UpdateView();
 		}

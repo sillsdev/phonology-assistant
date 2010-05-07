@@ -1069,5 +1069,17 @@ namespace SIL.Pa.Properties {
                 this["FindDlgSearchCollapsedGroups"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LastFolderForOpenProjectDlg {
+            get {
+                return ((string)(this["LastFolderForOpenProjectDlg"]));
+            }
+            set {
+                this["LastFolderForOpenProjectDlg"] = value;
+            }
+        }
     }
 }
