@@ -3,8 +3,16 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2010-04-29 -->
-  <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2010-05-13 -->
+  <!-- Insert keys to sort by the Phonetic column. -->
+	
+	<!-- Differences between views in the Phonology Assistant program -->
+	<!-- and interactive tables in XHTML files exported from Phonology Assistant: -->
+	<!-- * If the list is grouped, a view regroups according to the column, -->
+	<!--   but a table resorts within the same groups. -->
+	<!-- * If the list has minimal groups, both resort within the same groups, -->
+	<!--   but if one minimal pair per group, a table has no sortable columns. -->
+	<!-- For more information, see the phonology.js file. -->
 
 	<!-- Important: If table is neither Data Corpus nor Search view, copy it with no changes. -->
 
@@ -25,9 +33,9 @@ exclude-result-prefixes="xhtml"
 			<xsl:value-of select="$options/xhtml:li[@class = 'interactiveWebPage']" />
 		</xsl:if>
 	</xsl:variable>
+	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
 	<xsl:variable name="typeOfUnits">
 		<xsl:choose>
 			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
@@ -40,11 +48,16 @@ exclude-result-prefixes="xhtml"
 	</xsl:variable>
 
 	<!-- For all interactive Web pages, include sort order list in the Phonetic field. -->
-	<!-- However, step 2d removes the lists when there is one minimal pair per group. -->
 	<xsl:variable name="phoneticSortOrder">
-		<xsl:if test="$interactiveWebPage = 'true' and //xhtml:table[@class = 'list']//xhtml:td[starts-with(@class, 'Phonetic')]">
-			<xsl:value-of select="'true'" />
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$interactiveWebPage = 'true' and //xhtml:table[contains(@class, 'list')]//xhtml:td[starts-with(@class, 'Phonetic')]">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+			<!-- If one minimal pair per group, sort regardless of format option. -->
+			<xsl:when test="//xhtml:table[contains(@class, 'list')]//xhtml:th[@class = 'Phonetic pair']">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
 
@@ -116,7 +129,9 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- Phonetic pair heading cells contain a list of two units. -->
-  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic pair']/xhtml:ul">
+	<!-- Although researchers cannot resort the result, the pipeline sorts -->
+	<!-- groups that were split in step 1b, and then merges them in step 3a. -->
+	<xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic pair']/xhtml:ul">
 		<xsl:variable name="unit1" select="xhtml:li[1]/xhtml:span" />
 		<xsl:variable name="unit2" select="xhtml:li[2]/xhtml:span" />
 		<xsl:variable name="sortKey1">
@@ -146,7 +161,7 @@ exclude-result-prefixes="xhtml"
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:copy>
-		<!-- Insert the primary sort order list for the group. -->
+		<!-- Insert a sort order list for the group. Step 2d will remove it. -->
 		<xsl:call-template name="sortOrder">
 			<xsl:with-param name="text">
 				<xsl:choose>
@@ -162,7 +177,7 @@ exclude-result-prefixes="xhtml"
 		</xsl:call-template>
   </xsl:template>
 
-	<!-- Phonetic cells in heading rows, but not Phonetic pair. -->
+	<!-- Phonetic in heading rows unless one minimal pair per group. -->
 	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic') and @class != 'Phonetic pair']">
 		<xsl:variable name="class" select="@class" />
 		<xsl:copy>
@@ -172,7 +187,24 @@ exclude-result-prefixes="xhtml"
 				<xsl:value-of select="text()" />
 			</span>
 			<xsl:call-template name="sortOrder">
-				<xsl:with-param name="text" select="text()" />
+				<xsl:with-param name="text">
+					<xsl:choose>
+						<!-- Group by Phonetic in Data Corpus view. -->
+						<xsl:when test="$class = 'Phonetic'">
+							<xsl:value-of select="text()" />
+						</xsl:when>
+						<!-- One minimal pair per group in Search view. -->
+						<xsl:when test="../xhtml:th[@class = 'Phonetic pair']">
+							<xsl:if test="$class = 'Phonetic preceding' or $class = 'Phonetic following'">
+								<xsl:value-of select="text()" />
+							</xsl:if>
+						</xsl:when>
+						<!-- Group by Phonetic in Search view: the search item is part of the preceding field. -->
+						<xsl:when test="$class = 'Phonetic item' and ../xhtml:th[@class = 'Phonetic preceding']">
+							<xsl:value-of select="substring-before(../xhtml:th[@class = 'Phonetic preceding'], '/')" />
+						</xsl:when>
+					</xsl:choose>
+				</xsl:with-param>
 				<xsl:with-param name="direction">
 					<xsl:choose>
 						<xsl:when test="$class = 'Phonetic'">

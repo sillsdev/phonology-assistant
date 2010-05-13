@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize.xsl 2010-04-29 -->
+  <!-- phonology_export_view_distribution_chart_generalize.xsl 2010-05-07 -->
 	<!-- Assuming that the researcher has manually generalized a distribution chart, -->
 	<!-- separate general and individual elements if either or both of the following are true: -->
 	<!-- * items: the chart name contains [gi], [giC], or [giV]. -->
@@ -89,11 +89,11 @@ exclude-result-prefixes="xhtml"
 					<xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[1]" mode="colgroup" />
 					<xsl:choose>
 						<xsl:when test="$generalEnvironments = 'true'">
-							<xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic'][1]" mode="colgroup" />
+							<xsl:apply-templates select="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')][1]" mode="colgroup" />
 						</xsl:when>
 						<xsl:otherwise>
 							<colgroup xmlns="http://www.w3.org/1999/xhtml">
-								<xsl:for-each select="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']">
+								<xsl:for-each select="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]">
 									<col />
 								</xsl:for-each>
 							</colgroup>
@@ -119,7 +119,7 @@ exclude-result-prefixes="xhtml"
     </colgroup>
   </xsl:template>
 
-  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="colgroup">
+  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="colgroup">
     <xsl:choose>
       <xsl:when test="$generalEnvironments = 'true' and contains(., '[')">
         <colgroup xmlns="http://www.w3.org/1999/xhtml">
@@ -167,7 +167,7 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="generalize">
+  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="generalize">
     <xsl:copy>
       <xsl:apply-templates select="@class" mode="generalize" />
       <xsl:attribute name="scope">
@@ -205,7 +205,7 @@ exclude-result-prefixes="xhtml"
     <xsl:apply-templates select="following-sibling::xhtml:th[1]" mode="general" />
   </xsl:template>
 
-  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="general">
+  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="general">
     <xsl:copy>
       <xsl:apply-templates select="@class" mode="generalize" />
       <xsl:attribute name="scope">
@@ -257,7 +257,7 @@ exclude-result-prefixes="xhtml"
       <xsl:attribute name="class">
         <xsl:value-of select="'individual'" />
       </xsl:attribute>
-      <xsl:apply-templates select="xhtml:th[@class = 'Phonetic'][1]" mode="individual-colgroup" />
+      <xsl:apply-templates select="xhtml:th[contains(@class, 'Phonetic')][1]" mode="individual-colgroup" />
     </xsl:copy>
   </xsl:template>
 

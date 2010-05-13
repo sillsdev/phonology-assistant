@@ -1,0 +1,31 @@
+﻿/* phonology_IE6.css 2010-05-06 */
+/* Generic formatting for XHTML files exported from Phonology Assistant. */
+/* Here are the exceptions for Internet Explorer 6 and earlier. */
+
+div.collapsed
+{
+display: none;
+}
+
+ul.environments /* list of tabs between distribution and CV chart */
+{
+display: none;
+}
+
+/* Borders ------------------------------------------------------------------ */
+
+/* Omit the borders because no support for :hover */
+/* Without the borders, must increase padding slightly. */
+
+table.list tbody th,
+table.list tbody td
+{
+border-style: none;
+padding-top: 0.25em;
+padding-bottom: 0.25em;
+}
+
+table.list tr.heading th
+{
+border-top-color: #999999; /* border */
+}

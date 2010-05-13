@@ -1,4 +1,4 @@
-﻿/* phonology_CSS3.css 2010-04-23 */
+﻿/* phonology_CSS3.css 2010-05-05 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Properties from CSS level 3 and corresponding proprietary extensions. */
 
@@ -22,7 +22,7 @@ border-top-right-radius: 0.5em;
 -moz-border-radius-topright: 0.5em;
 }
 
-table.chart thead tr:first-child th:first-child div span
+table.chart thead tr:first-child th:first-child div.zero
 {
 border-top-left-radius: 0.25em;
 -webkit-border-top-left-radius: 0.25em;

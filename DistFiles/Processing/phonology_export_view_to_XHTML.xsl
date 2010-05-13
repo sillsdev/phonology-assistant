@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-04-29 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-05-13 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -26,6 +26,8 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="interactiveWebPage" select="$options/xhtml:li[@class = 'interactiveWebPage']" />
+	<xsl:variable name="genericStylesheetForIE7" select="$options/xhtml:li[@class = 'genericStylesheetForIE7']" />
+	<xsl:variable name="genericStylesheetForIE6" select="$options/xhtml:li[@class = 'genericStylesheetForIE6']" />
 	<xsl:variable name="tableOfDetails" select="$options/xhtml:li[@class = 'tableOfDetails']" />
 	<xsl:variable name="hyperlinkToEthnologue" select="$options/xhtml:li[@class = 'hyperlinkToEthnologue']" />
 	<xsl:variable name="dateAndTime" select="$options/xhtml:li[@class = 'dateAndTime']" />
@@ -45,7 +47,9 @@ exclude-result-prefixes="xhtml"
 	<!-- Might also help with exported files on an intranet, including a file server. -->
 	<xsl:param name="X-UA-Compatible" select="'IE=edge'" />
 	<xsl:param name="genericStylesheetFile" select="'phonology.css'" />
-	<xsl:param name="genericStylesheetPrintFile" select="'phonology_print.css'" />
+	<xsl:param name="genericStylesheetFilePrint" select="'phonology_print.css'" />
+	<xsl:param name="genericStylesheetFileIE7" select="'phonology_IE7.css'" />
+	<xsl:param name="genericStylesheetFileIE6" select="'phonology_IE6.css'" />
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
   <xsl:param name="phonologyScriptFile" select="'phonology.js'" />
 
@@ -82,7 +86,26 @@ exclude-result-prefixes="xhtml"
 					<meta name="author" content="{$researcher}" />
 				</xsl:if>
 				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFile)}" media="all" />
-				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetPrintFile)}" media="print" />
+				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFilePrint)}" media="print" />
+				<xsl:if test="$genericStylesheetForIE7 = 'true'">
+					<!-- Here is an example of a conditional comment containing a style sheet: -->
+					<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="../phonology_IE7.css" /><![endif]-->
+					<xsl:comment>
+						<xsl:value-of select="'[if lte IE 7]&gt;'" />
+						<xsl:value-of select="concat('&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;', $genericRelativePath, $genericStylesheetFileIE7, '&quot; /&gt;')" />
+						<xsl:value-of select="'&lt;![endif]'" />
+					</xsl:comment>
+					<xsl:if test="$genericStylesheetForIE6 = 'true'">
+						<!-- The IE6.css file assumes that the IE7.css file precedes it. -->
+						<!-- That is, you can support IE7 but not IE6; but to support IE6, you must support IE7. -->
+						<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="../phonology_IE6.css" /><![endif]-->
+						<xsl:comment>
+							<xsl:value-of select="'[if lte IE 6]&gt;'" />
+							<xsl:value-of select="concat('&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;', $genericRelativePath, $genericStylesheetFileIE6, '&quot; /&gt;')" />
+							<xsl:value-of select="'&lt;![endif]'" />
+						</xsl:comment>
+					</xsl:if>
+				</xsl:if>
 				<xsl:choose>
           <xsl:when test="string-length($specificStylesheetFile) != 0">
             <link rel="stylesheet" type="text/css" href="{concat($specificRelativePath, $specificStylesheetFile)}" />
@@ -97,6 +120,10 @@ exclude-result-prefixes="xhtml"
 			<body>
 				<xsl:apply-templates select="xhtml:body/*" />
 				<!-- To reduce potential delay in loading content, script elements are at the end of the body. -->
+				<!-- The comments hide the script from Internet Explorer 6 and earlier. -->
+				<xsl:comment>
+					<xsl:value-of select="'[if gte IE 7]&gt;&lt;!'" />
+				</xsl:comment>
 				<!-- Newline necessary to force start and end tags on separate lines. -->
 				<xsl:if test="$interactiveWebPage = 'true'">
 					<script type="text/javascript" src="{concat($genericRelativePath, $jqueryScriptFile)}">
@@ -105,6 +132,9 @@ exclude-result-prefixes="xhtml"
 					<script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
 						<xsl:value-of select="'&#xA;'" />
 					</script>
+					<xsl:comment>
+						<xsl:value-of select="'&lt;![endif]'" />
+					</xsl:comment>
 				</xsl:if>
 			</body>
     </html>
@@ -128,34 +158,21 @@ exclude-result-prefixes="xhtml"
   <xsl:template match="xhtml:table[@class = 'list']/xhtml:thead//xhtml:th">
     <xsl:variable name="fieldName" select="." />
     <xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
-    <xsl:copy>
-      <xsl:variable name="classThatIsTheSumOfTheParts">
-        <xsl:if test="$fieldName = $primarySortFieldName">
-          <xsl:value-of select="'sortField'" />
-        </xsl:if>
-        <xsl:if test="$interactiveWebPage = 'true'">
-					<!-- Phonetic sort options for Phonetic, except when there is one minimal pair per group. -->
-					<xsl:if test="$fieldName = 'Phonetic' and not($minimalPairs and $oneMinimalPairPerGroup = 'true')">
-						<xsl:value-of select="' sortOptions'" />
-						<xsl:if test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
-							<xsl:value-of select="' mannerOfArticulation'" />
-						</xsl:if>
+		<xsl:variable name="class">
+			<xsl:if test="$fieldName = $primarySortFieldName">
+				<xsl:value-of select="'sortField'" />
+			</xsl:if>
+			<xsl:if test="$interactiveWebPage = 'true'">
+				<!-- Phonetic sort options for Phonetic, except when there is one minimal pair per group. -->
+				<xsl:if test="$fieldName = 'Phonetic' and not($minimalPairs and $oneMinimalPairPerGroup = 'true')">
+					<xsl:if test="$fieldName = $primarySortFieldName">
+						<xsl:value-of select="' '" />
 					</xsl:if>
-          <xsl:if test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
-            <xsl:value-of select="' descending'" />
-          </xsl:if>
-        </xsl:if>
-      </xsl:variable>
-      <xsl:variable name="class">
-        <xsl:choose>
-          <xsl:when test="starts-with($classThatIsTheSumOfTheParts, ' ')">
-            <xsl:value-of select="substring($classThatIsTheSumOfTheParts, 2)" />
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="$classThatIsTheSumOfTheParts" />
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:variable>
+					<xsl:value-of select="'sortOptions'" />
+				</xsl:if>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:copy>
       <xsl:if test="string-length($class) != 0">
         <xsl:attribute name="class">
           <xsl:value-of select="$class" />
@@ -169,14 +186,49 @@ exclude-result-prefixes="xhtml"
 					</span>
 					<xsl:value-of select="'&#xA;'" />
 					<ins xmlns="http://www.w3.org/1999/xhtml">
+						<xsl:variable name="fieldOrder" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName]" />
 						<xsl:choose>
-							<xsl:when test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = $fieldName] = 'descending'">
-								<!-- black down-pointing small triangle -->
-								<xsl:value-of select="'&#x25BE;'" />
+							<xsl:when test="$fieldName = 'Phonetic'">
+								<!-- Phonetic or (someday) Phonemic. -->
+								<xsl:choose>
+									<xsl:when test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
+										<xsl:choose>
+											<xsl:when test="$fieldOrder = 'descending'">
+												<!-- black down-pointing triangle -->
+												<xsl:value-of select="'&#x25BC;'" />
+											</xsl:when>
+											<xsl:otherwise>
+												<!-- black up-pointing triangle -->
+												<xsl:value-of select="'&#x25B2;'" />
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:when>
+									<xsl:otherwise>
+										<!-- placeOfArticulation -->
+										<xsl:choose>
+											<xsl:when test="$fieldOrder = 'descending'">
+												<!-- black right-pointing triangle -->
+												<xsl:value-of select="'&#x25B6;'" />
+											</xsl:when>
+											<xsl:otherwise>
+												<!-- black left-pointing triangle -->
+												<xsl:value-of select="'&#x25C0;'" />
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:otherwise>
+								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
-								<!-- black up-pointing small triangle -->
-								<xsl:value-of select="'&#x25B4;'" />
+								<xsl:choose>
+									<xsl:when test="$fieldOrder = 'descending'">
+										<!-- black down-pointing small triangle -->
+										<xsl:value-of select="'&#x25BE;'" />
+									</xsl:when>
+									<xsl:otherwise>
+										<!-- black up-pointing small triangle -->
+										<xsl:value-of select="'&#x25B4;'" />
+									</xsl:otherwise>
+								</xsl:choose>
 							</xsl:otherwise>
 						</xsl:choose>
 					</ins>
@@ -203,7 +255,7 @@ exclude-result-prefixes="xhtml"
 
 	<!-- For borders in Internet Explorer 7 and earlier, insert a non-breaking space in most empty table cells. -->
 	<!-- This replacement requires a special case to sort non-Phonetic columns in the phonology.js file. -->
-	<xsl:template match="xhtml:table//xhtml:tr/xhtml:*[not(node())]">
+	<xsl:template match="xhtml:tr/xhtml:*[not(node())]">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
       <xsl:if test="$nonBreakingSpaceInEmptyTableCell = 'true'">
@@ -212,8 +264,8 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
   
-  <!-- Exceptions: In charts or grouped lists, the upper-left cell can be empty. -->
-  <xsl:template match="xhtml:table[contains(@class, 'chart') or (@class = 'list' and xhtml:tbody[@class = 'group'])]/xhtml:thead/xhtml:tr[1]/xhtml:th[1]">
+  <!-- Exceptions: In charts, the upper-left cell can be empty. -->
+  <xsl:template match="xhtml:table[contains(@class, 'chart')]/xhtml:thead/xhtml:tr[1]/xhtml:th[1]">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
@@ -406,10 +458,7 @@ exclude-result-prefixes="xhtml"
 							<td>
 								<xsl:value-of select="$primarySortFieldName" />
 								<xsl:if test="$primarySortFieldName = 'Phonetic' and $phoneticSortOptionName">
-									<xsl:value-of select="', '" />
-									<span class="{$phoneticSortOption}">
-										<xsl:value-of select="$phoneticSortOptionName" />
-									</span>
+									<xsl:value-of select="concat(', ', $phoneticSortOptionName)" />
 								</xsl:if>
 								<xsl:if test="$primarySortFieldDirection = 'descending'">
 									<xsl:value-of select="concat(', ', $primarySortFieldDirection)" />

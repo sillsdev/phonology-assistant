@@ -2,7 +2,7 @@
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-	<!-- phonology_export_options.xsl 2010-04-20 -->
+	<!-- phonology_export_options.xsl 2010-05-07 -->
 	<!-- Insert options for other XSL Transformations in the pipeline. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -49,6 +49,8 @@ exclude-result-prefixes="xhtml"
 				<!-- In Phonology Assistant, initialize the options to default values. -->
 				<xsl:otherwise>
 					<li class="interactiveWebPage">true</li>
+					<li class="genericStylesheetForIE7">true</li>
+					<li class="genericStylesheetForIE6">true</li>
 					<li class="tableOfDetails">true</li>
 					<li class="hyperlinkToEthnologue">true</li>
 					<li class="dateAndTime">true</li>

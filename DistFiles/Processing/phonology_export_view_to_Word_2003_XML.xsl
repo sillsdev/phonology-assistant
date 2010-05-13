@@ -11,7 +11,7 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-04-27 -->
+  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-05-13 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
@@ -27,9 +27,10 @@ exclude-result-prefixes="xhtml"
   <xsl:param name="tc-tcPr-vAlign" select="'center'" />
   <xsl:param name="tc-tcPr-tcBorders-sz-thin" select="4" />
   <xsl:param name="tc-tcPr-tcBorders-sz-thick" select="12" />
-  <xsl:param name="tc-tcPr-tcBorders-color-lighter" select="999999" />
+  <xsl:param name="tc-tcPr-tcBorders-color" select="999999" />
+	<xsl:param name="tc-tcPr-tcBorders-color-lighter" select="DDDDDD" />
 
-  <!-- desaturated yellow rgb(255,255,178) hsv(60,30%,100%) -->
+	<!-- desaturated yellow rgb(255,255,178) hsv(60,30%,100%) -->
   <xsl:param name="Search-item-background-color" select="'ffffb2'" />
   <xsl:param name="distribution-chart-zero-background-color" select="'ffffb2'" />
 	<!-- desaturated orange rgb(255,230,178) hsv(40,30%,100%) -->
@@ -576,8 +577,8 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         <!-- Table style determines borders, except for groups. -->
         <xsl:if test="../@class = 'heading' or (../@class = 'subheading' and self::xhtml:th)">
           <w:tcBorders>
-            <w:top w:val="single" w:sz="{$tc-tcPr-tcBorders-sz-thin}" w:space="0" w:color="auto" />
-            <w:left w:val="nil" />
+						<w:top w:val="single" w:sz="{$tc-tcPr-tcBorders-sz-thin}" w:space="0" w:color="auto" />
+						<w:left w:val="nil" />
             <w:bottom w:val="nil" />
             <w:right w:val="nil" />
           </w:tcBorders>
@@ -593,7 +594,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
               <xsl:when test="@class = 'Phonetic item'">
                 <xsl:value-of select="'TablePhoneticItem'" />
               </xsl:when>
-              <xsl:when test="@class = 'count' or @class = 'Phonetic pair'">
+              <xsl:when test="@class = 'count'">
                 <xsl:value-of select="'TableGroupExpanded'" />
               </xsl:when>
               <!-- Heading cells in distribution charts are aligned at the left for counterclockwise text direction. -->

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-04-14 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-05-13 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
 
 	<!-- Important: If table is not Search view, copy it with no changes. -->
@@ -44,7 +44,27 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:template>
 
-  <xsl:template match="xhtml:tbody[contains(@class, 'group')]">
+	<!-- In the first colgroup element, insert another col corresponding to the Phonetic pair column. -->
+	<xsl:template match="xhtml:table/xhtml:colgroup[1]">
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" />
+			<col xmlns="http://www.w3.org/1999/xhtml" />
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- In group heading cell at the upper left, insert colspan attribute -->
+	<!-- corresponding to the Phonetic pair and count columns. -->
+	<xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[@class = 'group']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:attribute name="colspan">
+				<xsl:value-of select="2" />
+			</xsl:attribute>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:tbody[contains(@class, 'group')]">
     <xsl:apply-templates select="xhtml:tr[@class = 'data'][1]" mode="enumerate1" />
   </xsl:template>
 
@@ -85,8 +105,9 @@ exclude-result-prefixes="xhtml"
     <xsl:param name="PhoneticItem2" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
-			<!-- In the group heading, replace count (that is, number of records) with the pair of units. -->
+			<!-- In the group heading, insert the pair of units following the count (that is, number of records). -->
 			<tr class="heading" xmlns="http://www.w3.org/1999/xhtml">
+				<xsl:apply-templates select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'count']" />
 				<th class="Phonetic pair">
 					<ul>
 						<li>
@@ -107,5 +128,17 @@ exclude-result-prefixes="xhtml"
       <xsl:apply-templates select="xhtml:tr[@class = 'data'][xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2]" />
     </xsl:copy>
   </xsl:template>
+
+	<!-- In the data cell at the left, insert colspan attribute -->
+	<!-- corresponding to the Phonetic pair and count columns. -->
+	<xsl:template match="xhtml:tbody/xhtml:tr[@class = 'data']/xhtml:td[1]">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:attribute name="colspan">
+				<xsl:value-of select="2" />
+			</xsl:attribute>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
 
 </xsl:stylesheet>

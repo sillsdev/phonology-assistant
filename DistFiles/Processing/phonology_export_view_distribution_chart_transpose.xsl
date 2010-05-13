@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-04-14 -->
+  <!-- phonology_export_view_distribution_chart_transpose.xsl 2010-05-07 -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -80,10 +80,10 @@ exclude-result-prefixes="xhtml"
                           <xsl:value-of select="count(xhtml:tbody[1]/xhtml:tr[1]/xhtml:th)" />
                         </xsl:attribute>
                       </th>
-                      <xsl:apply-templates select="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="transposeGeneral" />
+                      <xsl:apply-templates select="xhtml:tbody/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="transposeGeneral" />
                     </tr>
                     <tr class="individual">
-                      <xsl:apply-templates select="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="transposeIndividual" />
+                      <xsl:apply-templates select="xhtml:tbody/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="transposeIndividual" />
                     </tr>
                   </xsl:when>
                   <xsl:otherwise>
@@ -111,7 +111,7 @@ exclude-result-prefixes="xhtml"
           </thead>
           <xsl:choose>
             <xsl:when test="$generalItemsTransposed">
-              <xsl:for-each select="xhtml:thead/xhtml:tr[@class = 'general']/xhtml:th[@class = 'Phonetic']">
+              <xsl:for-each select="xhtml:thead/xhtml:tr[@class = 'general']/xhtml:th[contains(@class, 'Phonetic')]">
                 <xsl:variable name="position" select="position()" />
                 <xsl:variable name="positionInData">
                   <xsl:apply-templates select="../../xhtml:tr[@class = 'individual']/xhtml:th[not(@class)][$position]" mode="positionInData" />
@@ -129,7 +129,7 @@ exclude-result-prefixes="xhtml"
             <xsl:otherwise>
               <tbody xmlns="http://www.w3.org/1999/xhtml">
                 <xsl:variable name="tbody" select="xhtml:tbody" />
-                <xsl:for-each select="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']">
+                <xsl:for-each select="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]">
                   <tr>
                     <xsl:apply-templates select="." mode="transpose" />
                     <xsl:variable name="position" select="position()" />
@@ -208,10 +208,10 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[not(@class)]" mode="transposeIndividual">
-    <xsl:apply-templates select="following-sibling::xhtml:th[1][@class = 'Phonetic'][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]" mode="transposeIndividual" />
+    <xsl:apply-templates select="following-sibling::xhtml:th[1][contains(@class, 'Phonetic')][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]" mode="transposeIndividual" />
   </xsl:template>
 
-  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[@class = 'Phonetic']" mode="transposeIndividual">
+  <xsl:template match="xhtml:thead/xhtml:tr/xhtml:th[contains(@class, 'Phonetic')]" mode="transposeIndividual">
     <xsl:variable name="positionInData">
       <xsl:apply-templates select="." mode="positionInData" />
     </xsl:variable>
@@ -225,7 +225,7 @@ exclude-result-prefixes="xhtml"
       </xsl:copy>
       <xsl:apply-templates select="../../../xhtml:tbody/xhtml:tr/xhtml:td[number($positionInData)]" />
     </tr>
-    <xsl:apply-templates select="following-sibling::xhtml:th[1][@class = 'Phonetic'][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]" mode="transposeIndividual" />
+    <xsl:apply-templates select="following-sibling::xhtml:th[1][contains(@class, 'Phonetic')][not(contains(., '['))][string-length(translate(., '*+#_', '')) != 0]" mode="transposeIndividual" />
   </xsl:template>
 
   <xsl:template match="xhtml:th" mode="positionInData">

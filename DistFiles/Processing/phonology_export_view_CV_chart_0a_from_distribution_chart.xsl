@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_0a_from_distribution_chart.xsl 2010-04-21 -->
+  <!-- phonology_export_view_CV_chart_0a_from_distribution_chart.xsl 2010-05-07 -->
   <!-- Following a distribution chart with generalized items, -->
 	<!-- insert a consonant or vowel chart with environment tabs. -->
 
@@ -78,7 +78,7 @@ exclude-result-prefixes="xhtml"
 				<!-- Tabs of the CV chart correspond to non-individual environments of the distribution chart. -->
 				<xsl:variable name="headingRow" select="xhtml:thead/xhtml:tr[not(@class = 'individual')]" />
 				<ul class="environments" xmlns="http://www.w3.org/1999/xhtml">
-					<xsl:for-each select="$headingRow/xhtml:th[@class = 'Phonetic']">
+					<xsl:for-each select="$headingRow/xhtml:th[contains(@class, 'Phonetic')]">
 						<li class="Phonetic">
 							<xsl:value-of select="." />
 						</li>
@@ -87,7 +87,7 @@ exclude-result-prefixes="xhtml"
 				<!-- List of individual items from the distribution chart which are units in the project inventory. -->
 				<ul class="CV chart" xmlns="http://www.w3.org/1999/xhtml">
 					<xsl:for-each select="xhtml:tbody/xhtml:tr[@class = 'individual']">
-						<xsl:variable name="text" select="xhtml:th[@class = 'Phonetic']" />
+						<xsl:variable name="text" select="xhtml:th[contains(@class, 'Phonetic')]" />
 						<xsl:apply-templates select="$units/unit[@literal = $text]">
 							<xsl:with-param name="headingRow" select="$headingRow" />
 							<xsl:with-param name="individualRow" select="." />
@@ -124,7 +124,7 @@ exclude-result-prefixes="xhtml"
         <xsl:value-of select="@literal" />
       </span>
 			<ul class="environments">
-				<xsl:for-each select="$headingRow/xhtml:th[@class = 'Phonetic']">
+				<xsl:for-each select="$headingRow/xhtml:th[contains(@class, 'Phonetic')]">
 					<xsl:variable name="position" select="position()" />
 					<xsl:variable name="data">
 						<xsl:choose>

@@ -1,9 +1,12 @@
-﻿/* phonology.css 2010-04-29 */
+﻿/* phonology.css 2010-05-07 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For border-radius and rgba. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
+
+/* For information about resetting default values of Web browsers, */
+/* see http://meyerweb.com/eric/tools/css/reset/ */
 
 *
 {
@@ -24,14 +27,16 @@ border-spacing: 0; /* Internet Explorer 8 or later. */
 /* For Internet Explorer 7 or earlier, table element has cellspacing attribute. */
 }
 
+/* For information about organizing style sheets by typography, layout, and color, */
+/* see http://www.alistapart.com/articles/progressiveenhancementwithcss */
+
 /* Typography =============================================================== */
 
-table.list th.pair > ul li ul.differences li,
+table.list th.pair ul.differences li,
 body
 {
 font-family: Verdana, Helvetica, sans-serif;
 font-size: 100%;
-padding: 1em;
 }
 
 /* Reports ------------------------------------------------------------------ */
@@ -71,7 +76,7 @@ margin-bottom: 0.4347em; /* 8px = 0.4347 * 115% * 16px */
 padding-left: 0.4347em; /* Equivalent to table cells. */
 }
 
-div.report > h4 /* Heading 4 */
+div.report h4 /* Heading 4 */
 {
 font-size: 100%;
 margin-bottom: 0.5em; /* 8px = 0.5 * 100% * 16px */
@@ -82,8 +87,8 @@ div.report:first-child > h4
 margin-top: 0;
 }
 
-div.report > table.list,
-div.report > table.chart
+div.report table.list,
+div.report table.chart
 {
 margin-bottom: 0.6em; /* 7px = 0.6 * 100% * 12px */
 }
@@ -125,7 +130,7 @@ font-weight: bold;
 
 table.list thead th,
 table.list .count,
-table.list th.pair > ul li ul.differences li,
+table.list th.pair ul.differences li,
 table.list .small,
 table.CV th,
 table.feature th:first-child,
@@ -136,6 +141,11 @@ font-size: 75%;
 }
 
 /* Layout =================================================================== */
+
+body
+{
+padding: 1em;
+}
 
 table
 {
@@ -180,10 +190,11 @@ padding-left: 0.5em;
 vertical-align: baseline;
 }
 
-ul.environments.interactive + table.CV thead th,
-ul.environments.interactive + table.CV + table.features thead th,
-ul.environments.interactive + table.CV + table.features + table.features thead th,
-ul.environments.interactive + table.CV + table.features + table.features + table.features thead th,
+ul.environments + table.CV thead th
+{
+padding-top: 0.5em;
+}
+
 table.list tr.heading th
 {
 padding-top: 0.375em;
@@ -191,7 +202,7 @@ padding-top: 0.375em;
 
 table.list th.sortOptions ul
 {
-margin-top: 0.1875em; /* Same as th padding-top. TO DO: Necessary? */
+margin-top: 0.1875em; /* Same as th padding-top. */
 margin-left: -0.5em; /* Negative of th padding-left. */
 }
 
@@ -341,57 +352,53 @@ table.list th.pair ul
 list-style: none;
 }
 
-table.list th.pair > ul li
+table.list th.pair li
 {
-position: relative;
 display: inline;
 }
 
-table.list th.pair > ul li span
+table.list th.pair span
 {
-position: relative;
-border-left-style: solid;
-border-width: 1px;
 padding-left: 0.25em;
 padding-right: 0.25em;
 }
 
-table.list th.pair > ul li:hover span
-{
-z-index: 2; /* Overlap ul.differences border-top. */
-}
-
-table.list.collapsed tbody th.pair > ul li ul.differences,
-table.list tbody.collapsed th.pair > ul li ul.differences,
-table.list th.pair > ul li ul.differences
+table.list th.pair ul.differences
 {
 display: none;
 }
 
-table.list th.pair > ul li:hover ul.differences
+table.list.interactive th.pair > ul > li:hover
+{
+position: relative;
+}
+
+table.list.interactive th.pair > ul > li:hover ul.differences
 {
 display: block;
 position: absolute;
-z-index: 1; /* Overlap following th.pair > ul li span. */
-left: 0;
-top: 1.5em;
+left: -1px; /* Negative width of border-left. */
+top: 1px; /* Same as width of :hover border-bottom. */
+margin-top: 1.5em;
 padding-top: 0.25em;
 padding-bottom: 0.25em;
 padding-left: 0.25em; /* Same as span. */
 padding-right: 0.25em;
-border-style: solid;
+border-right-style: solid;
+border-left-style: solid;
+border-bottom-style: solid;
 border-width: 1px;
 }
 
-table.list th.pair > ul li ul.differences li
+table.list.interactive th.pair ul.differences li
 {
+display: block;
 line-height: 1.1666;
 }
 
 /* Borders ------------------------------------------------------------------ */
 
 th.sortOptions ul,
-th.sortOptions li,
 colgroup, thead, tbody, /* Row and column groups in consonant or vowel charts. */
 th, td
 {
@@ -430,24 +437,26 @@ border-top-style: solid;
 /* Class selector hides some border rules from Internet Explorer 6 and earlier, */
 /* because it ignores border-color: transparent. */
 
-table[class].list tbody td,
-table[class].distribution tbody tr *
+table.list tbody th,
+table.list tbody td
+{
+border-top-style: solid;
+border-bottom-style: solid;
+}
+
+table.list tbody tr:hover th
+{
+border-bottom-style: dotted;
+}
+
+table.list tbody tr:hover td
 {
 border-top-style: dotted;
 border-bottom-style: dotted;
 }
 
-table[class].list tbody th
-{
-border-top-style: solid;
-border-bottom-style: dotted;
-}
-
-table[class].features td.plus,
-table[class].features td.minus,
-table[class].features td.name,
-table[class].list th.sortOptions li,
-table.list th.sortOptions ul
+table.list th.sortOptions ul,
+table.features td
 {
 border-style: solid;
 }
@@ -490,7 +499,7 @@ text-decoration: none;
 
 table.list.interactive th.sortField ins
 {
-display: inline;
+display: inline; /* Direction: up-pointing or down-pointing triangle. */
 }
 
 table.list th.sortOptions ul,
@@ -499,7 +508,7 @@ table.list ul.sortOrder
 display: none;
 }
 
-table.interactive th.sortOptions:hover ul
+table.interactive th.sortOptions.active ul
 {
 display: block;
 position: absolute;
@@ -508,7 +517,6 @@ list-style: none;
 
 /* Interactive groups in lists ---------------------------------------------- */
 
-.collapsed tr.subheading,
 .collapsed tr.data
 {
 display: none;
@@ -523,19 +531,22 @@ display: none;
 
 /* Interactive environments in consonant or vowel charts -------------------- */
 
-ul.environments
+table.CV ul.environments /* lists in data cells of CV chart. */
 {
 display: none;
 }
 
-ul.environments.interactive
+ul.environments /* list of tabs between distribution and CV chart */
 {
-display: block;
 margin-top: 2em;
 list-style: none;
+/* Float the list to "shrink wrap" it to the size of its floated items. */
+/* Also known as "set a float to fix a float" or "float-to-fix".
+/* Otherwise, older browsers display a gap between it and the following chart. */
+float: left;
 }
 
-ul.environments.interactive li
+ul.environments li /* tab corresponds to a colgroup in distribution chart */
 {
 display: inline;
 float: left; /* Eliminate gaps between tabs. */
@@ -549,22 +560,15 @@ border-width: 1px;
 table.list,
 table.chart
 {
-clear: left;
+clear: left; /* it might follow ul.environments or table.features */
 }
 
-ul.environments.interactive + table.CV
+ul.environments + table.CV
 {
+margin-top: 0;
 border-top-style: solid;
 border-left-style: solid;
 border-width: 1px;
-}
-
-ul.environments.interactive + table.CV,
-ul.environments.interactive + table.CV + table.features,
-ul.environments.interactive + table.CV + table.features + table.features,
-ul.environments.interactive + table.CV + table.features + table.features + table.features
-{
-margin-top: 0;
 }
 
 table.features tbody + tbody tr:first-child td
@@ -614,43 +618,41 @@ table.chart thead tr:first-child th:first-child
 vertical-align: bottom;
 }
 
-table.chart thead tr:first-child th:first-child div
+table.chart thead tr:first-child th:first-child > div
 {
 position: relative;
 }
 
-table.chart thead tr:first-child th:first-child div span
+table.chart thead tr:first-child th:first-child div.zero
 {
-display: block;
 position: absolute;
 z-index: 1;
 border-top-style: solid;
-border-top-width: 1px;
 border-left-style: solid;
-border-left-width: 1px;
+border-width: 1px;
 /* For rounded border properties, see the phonology_CSS3.css file. */
 }
 
-table.CV thead tr:first-child th:first-child div span
+table.CV thead tr:first-child th:first-child div.zero
 {
 /* th already has font-size: 75% */
 right: -0.5em;
 bottom: -0.1875em;
-padding-top: 0.1875em;
-padding-bottom: 0.1875em;
-padding-left: 0.25em;
-padding-right: 0.25em;
+padding-top: 0.1875em; /* Same as ordinary th, but less than this th. */
+padding-bottom: 0.1875em; /* Same as th. */
+padding-left: 0.5em; /* Same as th. */
+padding-right: 0.5em;
 }
 
-table.distribution thead tr:first-child th:first-child div span
+table.distribution thead tr:first-child th:first-child div.zero
 {
 font-size: 75%;
 right: -0.6667em; /* corresponds to 0.5em at 100% */
 bottom: -0.25em;
 padding-top: 0.25em; /* corresponds to 0.1875em at 100% */
 padding-bottom: 0.25em;
-padding-left: 0.3333em; /* corresponds to 0.25em at 100% */
-padding-right: 0.3333em;
+padding-left: 0.6667em; /* corresponds to 0.5em at 100% */
+padding-right: 0.6667em;
 }
 
 /* Color ==================================================================== */
@@ -771,24 +773,25 @@ table.distribution td.error /* Obsolete: these cells will be empty without a cla
 background-color: #ffb2b2; /* error */
 }
 
-ul.environments.interactive li.Phonetic,
 h1.interactive,
 h2.interactive,
 h3.interactive,
 h4.interactive,
 table.list.interactive th.group,
 table.list.interactive th.count,
-table.list.interactive tr.heading th.pair,
-table.list.interactive thead th.sortable,
+table.list.interactive th.pair,
+table.list.interactive th.sortable,
 table.list.interactive th.sortOptions ul,
 table.list.interactive th.sortOptions ul:hover li.initial,
+ul.environments.interactive li.Phonetic,
 table.CV.interactive td.Phonetic,
 table.features.interactive th,
 table.articulatory.interactive td,
 table.features.interactive td.minus,
 table.features.interactive td.plus,
 table.features.interactive tr.univalent td.name,
-table.distribution.interactive th[class] /* Internet Explorer 7 and later. */
+table.distribution.interactive th.interactive,
+table.distribution.interactive th.Phonetic
 {
 background-color: #cfe6cf; /* interactive */
 }
@@ -801,26 +804,24 @@ table[class].list.interactive ul.transcription
 background-color: #cfe6cf; /* interactive */
 }
 
-table.distribution.interactive tr.individual th.Phonetic /* Internet Explorer 7 and later. */
+table.distribution.interactive tr.individual th.Phonetic
 {
 background-color: #b8d9b8; /* interactive adjacent */
 }
 
 /* Pseudo-class :hover in tables: Internet Explorer 7 or later. */
 
-ul.environments.interactive li.Phonetic:hover,
 h1.interactive:hover,
 h2.interactive:hover,
 h3.interactive:hover,
 h4.interactive:hover,
-table.list.collapsed tbody th.pair > ul li:hover span,
-table.list tbody.collapsed th.pair > ul li:hover span,
 table.list.interactive th.group:hover,
 table.list.interactive th.count:hover,
-table.list.interactive tr.heading th.pair:hover,
-table.list.interactive thead th.sortable:hover,
+table.list.interactive th.pair:hover,
+table.list.interactive th.sortable:hover,
 table.list.interactive th.sortOptions ul li.initial,
 table.list.interactive th.sortOptions ul:hover li:hover,
+ul.environments.interactive li.Phonetic:hover,
 table.CV.interactive td.Phonetic:hover,
 table.features.interactive th:hover,
 table.articulatory td.active,
@@ -831,7 +832,9 @@ table.articulatory.interactive td:hover,
 table.features.interactive td.minus:hover,
 table.features.interactive td.plus:hover,
 table.features.interactive tr.univalent td.name:hover,
-table.distribution.interactive tr th[class]:hover /* Internet Explorer 7 and later. */
+table.distribution.interactive th.interactive:hover,
+table.distribution.interactive th.Phonetic:hover,
+table.distribution.interactive tr.individual th.Phonetic:hover
 {
 background-color: #a3cca3; /* active */
 }
@@ -872,28 +875,24 @@ background-color: transparent; /* inactive */
 table.list tbody tr:hover th,
 table.list tbody tr:hover td,
 table.list th.sortOptions ul,
-table.list th.sortOptions li:hover,
 table.articulatory.interactive td:hover,
-table.features.interactive .plus:hover,
-table.features.interactive .minus:hover,
-table.features.interactive .univalent:hover,
-table.distribution tbody tr:hover *,
-th, td
+table.features.interactive td.plus:hover,
+table.features.interactive td.minus:hover,
+table.features.interactive tr.univalent td.name:hover,
+th, td /* default color, but not all cells actually have borders. */
 {
 border-color: #999999; /* border */
 }
 
-table.list tbody tr th,
-table.list tbody tr td,
-table.list th.sortOptions li,
-table.features td,
-table.distribution tbody tr *
+table.list tbody th,
+table.list tbody td,
+table.features td
 {
 border-color: transparent; /* not active */
 }
 
 table.features tbody + tbody tr:first-child td,
-table.list tbody tr th
+table.list tr.heading th
 {
 border-top-color: #999999; /* border */
 }
@@ -903,21 +902,20 @@ table.distribution tbody tr th
 border-right-color: #999999; /* border */
 }
 
-ul.environments.interactive + table.CV,
-ul.environments.interactive li,
-table.chart thead tr:first-child th:first-child div span,
-colgroup, thead, tbody /* Row and column groups in consonant or vowel charts. */
+ul.environments li,
+ul.environments + table.CV,
+table.chart thead tr:first-child th:first-child div.zero,
+colgroup, thead, tbody /* Row and column groups in CV or distribution charts. */
 {
 border-color: #dddddd; /* lighter border */
 }
 
-table.list.interactive th.pair > ul li span
+table.list tr.subheading th
 {
-border-color: #cfe6cf; /* interactive */
+border-top-color: #dddddd; /* lighter border */
 }
 
-table.list.interactive th.pair:hover > ul li span,
-table.list.interactive th.pair > ul li:hover ul.differences,
+table.list.interactive th.pair ul.differences,
 table.list.interactive ul.transcription:hover,
 table.list.interactive ul.transcription li:first-child
 {

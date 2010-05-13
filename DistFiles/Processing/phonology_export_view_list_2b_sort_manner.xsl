@@ -3,9 +3,8 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2b_sort_manner.xsl 2010-04-14 -->
-  <!-- Make it possible to sort an interactive list by the Phonetic column and also by minimal pair groups. -->
-  <!-- Sort records by manner of articulation. -->
+  <!-- phonology_export_view_list_2b_sort_manner.xsl 2010-05-13 -->
+  <!-- Make it possible to sort an interactive list by the Phonetic column: manner of articulation. -->
 
 	<!-- Important: If table is neither Data Corpus nor Search view, copy it with no changes. -->
 
@@ -41,16 +40,20 @@ exclude-result-prefixes="xhtml"
 	<xsl:template match="xhtml:table">
 		<xsl:choose>
 			<xsl:when test="contains(@class, 'list') and $phoneticSortOrder = 'true'">
-				<xsl:copy>
-					<xsl:apply-templates select="@*" />
-					<xsl:choose>
-						<!-- When this step corresponds to the phonetic sort option and the list is grouped by the Phonetic field. -->
-						<xsl:when test="$phoneticSortOption = $phoneticSortClass and xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic')]">
+				<xsl:choose>
+					<!-- If one minimal pair per group, do not sort groups by the non-active sort option. -->
+					<xsl:when test="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'] and $phoneticSortOption != $phoneticSortClass">
+						<!-- To ignore all of the following rules, copy instead of apply templates. -->
+						<xsl:copy-of select="." />
+					</xsl:when>
+					<xsl:when test="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic')]">
+						<xsl:copy>
+							<xsl:apply-templates select="@*" />
 							<xsl:apply-templates select="xhtml:colgroup" />
 							<xsl:apply-templates select="xhtml:thead" />
 							<xsl:variable name="sortOrderFormat" select="translate(count(xhtml:tbody), '0123456789', '0000000000')" />
 							<xsl:choose>
-								<xsl:when test="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class=  'Phonetic']">
+								<xsl:when test="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic']">
 									<xsl:for-each select="xhtml:tbody">
 										<xsl:sort select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic']//xhtml:li[@class = $phoneticSortClass]" />
 										<xsl:call-template name="tbody">
@@ -75,12 +78,14 @@ exclude-result-prefixes="xhtml"
 									</xsl:for-each>
 								</xsl:otherwise>
 							</xsl:choose>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates />
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:copy>
+						</xsl:copy>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy>
+							<xsl:apply-templates select="@* | node()"/>
+						</xsl:copy>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- To ignore all of the following rules, copy instead of apply templates. -->
@@ -144,15 +149,15 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
   <!-- Replace the sort key with the sort order. -->
-  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic item']/xhtml:ul[@class = 'sortOrder']/xhtml:li">
+  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[@class = 'Phonetic' or @class = 'Phonetic item']/xhtml:ul[@class = 'sortOrder']/xhtml:li">
     <xsl:param name="position" />
     <xsl:param name="sortOrderFormat" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
       <xsl:choose>
         <xsl:when test="@class = $phoneticSortClass">
-          <xsl:value-of select="format-number($position, $sortOrderFormat)" />
-        </xsl:when>
+					<xsl:value-of select="format-number($position, $sortOrderFormat)" />
+				</xsl:when>
         <xsl:otherwise>
           <xsl:apply-templates />
         </xsl:otherwise>

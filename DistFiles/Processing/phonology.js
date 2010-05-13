@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-04-29
+﻿// phonology.js 2010-05-07
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // http://www.sil.org/computing/pa/index.htm
 
@@ -11,20 +11,44 @@
 "use strict";
 
 
+// Unicode values of characters mentioned in the JavaScript code:
+// U+002D hyphen-minus
+// U+00A0 no-break space
+// U+2013 en dash
+// U+2026 horizontal ellipsis
+// U+25B2 black up-pointing triangle
+// U+25B4 black up-pointing small triangle
+// U+25B6 black right-pointing triangle
+// U+25B8 black right-pointing small triangle
+// U+25BC black down-pointing triangle
+// U+25BE black down-pointing small triangle
+// U+25C0 black left-pointing triangle
+// U+25C2 black left-pointing small triangle
+
+
 // Execute when the DOM is fully loaded.
 // The following is related to $(document).ready(...) but even better because:
 // * It avoids an explicit global reference to document.
 // * It ensures that $(...) is a shortcut for jQuery(...) within the function.
 
 jQuery(function ($) {
-
-
-	// Phonology report ========================================================
 	
+	// Initialization associates an object with some DOM elements to avoid:
+	// * repeating data conversions in event processing functions
+	//   (for example, features in CV charts and related feature tables)
+	// * storing state information in class attributes,
+	//   unless it directly affects the visual appearance (for example, the sort field)
+	//
+	// $(X).data('phonology', {Y: Z, ...}); // Store key Y and value Z with element X.
+	// $(X).data('phonology').Y; // Return value Z for key Y from element X.
+	
+	
+	// Phonology report ========================================================
+	//	
 	// Each division consists of a heading (which is the first child),
 	// one or more tables, optional paragraphs, and optional child divisions.
 
-	// To expand/collapse a division, click its heading.
+	// To collapse/expand a division, click its heading.
 	function clickHeadingReport() {
 		$(this).parent().toggleClass('collapsed');
 	}
@@ -36,36 +60,87 @@ jQuery(function ($) {
 
 
 	// Data Corpus or Search view ==============================================
+	//
+	// Sort by columns.
+	// Collapse/expand groups.
 
-	// To compare sort keys, undo changes to original field values for XHTML table cells.
-	function sortableValue(sortKey) {
-		if (sortKey.length === 1) {
-			// A single non-breaking space replaced an empty field.
-			if (sortKey.charCodeAt(0) === 160) {
-				sortKey = '';
+	// Return a character for the ins element in the heading of the active sort field.
+	function indicatorFromSortingData(data) {
+		var sortOption = data.sortOption,
+			descending = data.descending,
+			indicator;
+		
+		if (sortOption) {
+			// Phonetic or (someday) Phonemic field.
+			if (sortOption === 'mannerOfArticulation') {
+				indicator = (descending ? '▼' : '▲'); // black down-pointing or up-pointing
+			} else if (sortOption === 'placeOfArticulation') {
+				indicator = (descending ? '▶' : '◀'); // black right-pointing or left-pointing
 			}
 		}
-		else if (sortKey.length) {
-			// A non-breaking space at the beginning or end replaced a space.
+		else {
+			// Any other field.
+			indicator = (descending ? '▾' : '▴'); // black down-pointing or up-pointing small
+		}
+		return indicator;
+	}
+	
+	// Initialize sorting data for the active column heading
+	// from a character in the ins element exported by Phonology Assistant.
+	function initializeDataFromSortingIndicator(data, indicator) {
+		// Down-pointing or right-pointing means descending.
+		data.descending = (indicator === '▾' || indicator === '▼' || indicator === '▶');
+		if (indicator === '▼' || indicator === '▲') {
+			// White down-pointing or up-pointing means manner of articulation.
+			data.sortOption = 'mannerOfArticulation'; 
+		} else if (indicator === '▶' || indicator === '◀') {
+			// White right-pointing or left-pointing means place of articulation.
+			data.sortOption = 'placeOfArticulation';
+		}
+	}
+	
+	// To compare field values, change some occurrences of no-break space
+	// (which has decimal value 160).
+	function sortableValue(sortKey) {
+		var length = sortKey.length;
+		if (length) {
 			if (sortKey.charCodeAt(0) === 160) {
-				sortKey = ' ' + sortKey.slice(1);
+				if (length === 1) {
+					// A single no-break space replaced an empty field.
+					sortKey = '';
+				} else {
+					// A no-break space at the beginning replaced a space.
+					sortKey = ' ' + sortKey.slice(1); // length is unchanged
+				}
 			}
-			if (sortKey.charCodeAt(sortKey.length - 1) === 160) {
+			if (length > 1 && sortKey.charCodeAt(length - 1) === 160) {
+				// A no-break space at end replaced a space.
 				sortKey = sortKey.slice(0, -1) + ' ';
 			}
 		}
 		return sortKey;
 	}
 
-	// Within one or more parent elements, sort children according to the selectors.
-	function sortChildren($parents, childrenSelector, sortKeySelector, descending) {
+	// Within one or more parent elements, sort children according to arguments.
+	function sortChildren($parents, childrenSelector,
+			sortFieldSelector, sortOrderSelector, descending) {
 		$parents.each(function () {
 			var $parent = $(this),
 				children = $parent.find(childrenSelector).get(); // Array of DOM objects.
 				
 			children.sort(function (childA, childB) {
-				var sortKeyA = sortableValue($(childA).find(sortKeySelector).text()),
-					sortKeyB = sortableValue($(childB).find(sortKeySelector).text());
+				var $cellA = $(childA).find(sortFieldSelector),
+					$cellB = $(childB).find(sortFieldSelector),
+					sortKeyA,
+					sortKeyB;
+				
+				if (sortOrderSelector) {
+					sortKeyA = $cellA.find(sortOrderSelector).text();
+					sortKeyB = $cellB.find(sortOrderSelector).text();
+				} else {
+					sortKeyA = sortableValue($cellA.text());
+					sortKeyB = sortableValue($cellB.text());
+				}
 
 				return descending ?
 					sortKeyB.localeCompare(sortKeyA) :
@@ -76,48 +151,44 @@ jQuery(function ($) {
 	}
 
 	// Sort according to data from a column heading.
+	// Differences between views in the Phonology Assistant program
+	// and interactive tables in XHTML files exported from Phonology Assistant:
+	// * If the list is grouped, a view regroups according to the column,
+	//   but a table resorts within the same groups.
+	// * If the list has minimal groups, both resort within the same groups,
+	//   but if one minimal pair per group, a table has no sortable columns.
 	function sortList($table, data) {
-		var $parents,
-			childrenSelector,
-			sortKeySelector = '.' + data.classOfField;
+		var descending = data.descending,
+			sortFieldSelector = '.' + data.classOfField,
+			sortOrderSelector;
 
+		if (data.searchField) {
+			sortFieldSelector += '.item';
+		}
 		if (data.sortOption) {
 			// Phonetic or (someday) Phonemic field.
-			sortKeySelector += (' ul.sortOrder li.' + data.sortOption);
+			sortOrderSelector = 'ul.sortOrder li.' + data.sortOption;
 		}
 		if (data.groupField) {
-			// The field by which the list is grouped.
-			if (data.searchField) {
-				// For Phonetic or (someday) Phonemic in Search view,
-				// must sort rows because they might not contain identical values.
-				sortChildren($table.find('tbody'), 'tr:not(.heading',
-					sortKeySelector, data.descending);
-			}
-			// Sort groups by the heading row.
-			$parents = $table;
-			childrenSelector = 'tbody';
-			sortKeySelector = 'tr.heading ' + sortKeySelector;
-		} else {
-			// Sort data (that is, non-heading) rows.
-			// Differences in behavior:
-			// * If the list is grouped, the Phonology Assistant program regroups,
-			//   but an interactive Web page resorts within the same groups instead.
-			// * If the list has minimal groups, the program or a Web page resorts,
-			//   but if one minimal pair per group, a Web page has no sortable columns.
-			$parents = $table.find('tbody');
-			childrenSelector = 'tr:not(.heading)';
+			// Sort groups by the sort field in the heading row.
+			sortChildren($table, 'tbody',
+				'tr.heading ' + sortFieldSelector, sortOrderSelector, descending);
 		}
-		sortChildren($parents, childrenSelector, sortKeySelector, data.descending);
+		if (data.searchField || !data.groupField) {
+			// For Phonetic or (someday) Phonemic in Search view, sort rows
+			// even if grouped, because they might not contain identical values.
+			sortChildren($table.find('tbody'), 'tr:not(.heading)',
+				sortFieldSelector, sortOrderSelector, descending);
+		}
 	}
 
-	// To sort by a column, click its heading cell (or click a phonetic sort option).
+	// To sort by a column, click its heading cell or a sort option.
 	function clickColumnHeadingList($target) {
 		var $th = $target.closest('th'),
 			data = $th.data('phonology'),
 			$table = $th.closest('table'),
 			reverse = $th.hasClass('sortField'), // Click the active column heading.
 			sortOptionSelected,
-			$ins,
 			$details,
 			details;
 
@@ -130,31 +201,16 @@ jQuery(function ($) {
 		// The following condition is independent of the previous condition,
 		// because you might click the heading instead of the list.
 		if ($th.hasClass('sortOptions')) {
-			$th.find('ul').remove();
-		}
-		
-		if (data.descending === undefined) {
-			// The first time you sort by any column other than the primary sort field,
-			// assume that the direction is ascending and insert the visual indicator.
-			data.descending = false;
-			if (!($th.find('span').length)) {
-				$th.wrapInner('<span></span>');
-			}
-			$th.append(' <ins>▴</ins>'); // up-pointing
+			$th.removeClass('active').find('li.initial').removeClass('initial');
 		}
 		
 		if (reverse) {
 			data.descending = !data.descending;
-			$ins = $th.find('ins');
-			if (data.descending) {
-				$ins.text('▾'); // down-pointing
-			} else {
-				$ins.text('▴'); // up-pointing
-			}
 		} else {
 			$table.find('thead th.sortField').removeClass('sortField');
 			$th.addClass('sortField');
 		}
+		$th.find('ins').text(indicatorFromSortingData(data));
 		
 		sortList($table, data);
 
@@ -162,9 +218,6 @@ jQuery(function ($) {
 		$details = $table.parent().find('table.details tr.sortField td');
 		if ($details.length) {
 			details = $th.find('span').text(); // Name of sort field.
-			// In XHTML files exported from Phonology Assistant,
-			// the sort option is wrapped in a span with a class,
-			// but it is unnecessary after initialization (see below).
 			if (data.sortOption === 'placeOfArticulation') {
 				details += ', place of articulation';
 			} else if (data.sortOption === 'mannerOfArticulation') {
@@ -184,50 +237,43 @@ jQuery(function ($) {
 
 		if ($th.length) {
 			if ($th.hasClass('group')) {
-				// To expand/collapse all groups, click at the upper left.
+				// To collapse/expand all groups, click at the upper left.
 				$(this).toggleClass('collapsed'); // this refers to the table.
 			} else if ($th.hasClass('count') || $th.hasClass('pair')) {
-				// To expand/collapse a group,
-				// click the cell at the left of its heading row.
+				// To collapse/expand a group, click at the left of its heading row.
 				$th.closest('tbody').toggleClass('collapsed');
 			} else if ($th.hasClass('sortable')) {
-				// To sort by a column,
-				// click its heading cell (or click a phonetic sort option).
+				// To sort by a column, click its heading cell or a phonetic option.
 				clickColumnHeadingList($target);
 			}
 		}
 	}
 
-	// When the mouse pointer moves over a Phonetic or (someday) Phonemic
-	// heading cell, phonetic sort options appear.
+	// When the mouse pointer moves over a Phonetic or (someday) Phonemic heading cell,
+	// it displays a drop-down menu of sort options.
 	function mouseoverSortOptionList() {
 		var $th = $(this),
-			sortOption = $th.data('phonology').sortOption,
-			$ul = $('<ul></ul>'),
-			$li;
-			
-		$li = $('<li>place of articulation</li>')
-			.data('phonology', {sortOption: 'placeOfArticulation'});
-		if (sortOption === 'placeOfArticulation') {
-			$li.addClass('initial');
-		}
-		$ul.append($li);
-		$li = $('<li>manner of articulation</li>')
-			.data('phonology', {sortOption: 'mannerOfArticulation'});
-		if (sortOption === 'mannerOfArticulation') {
-			$li.addClass('initial');
-		}
-		$ul.append($li);
-		$th.append($ul);
+			sortOption = $th.data('phonology').sortOption;
+
+		$th.addClass('active').find('li').each(function () {
+			var $li = $(this);
+			if ($li.data('phonology').sortOption === sortOption) {
+				$li.addClass('initial');
+			}
+		});
 	}
 
-	// When the mouse pointer moves out of the heading cell,
-	// phonetic sort options disappear.
+	// When the mouse pointer moves out of the heading cell, sort options disappear.
 	function mouseoutSortOptionList() {
-		$(this).find('ul').remove();
+		$(this).removeClass('active').find('li.initial').removeClass('initial');
 	}
 
 	// Initialization ----------------------------------------------------------
+
+	// Return an item for a drop-down menu of sort options.
+	function sortOptionItem(sortOptionText, sortOption) {
+		return $('<li>' + sortOptionText + '</li>').data('phonology', {sortOption: sortOption});
+	}
 
 	// Initialize sorting data for column headings of lists.
 	function initializeDataForHeadingList() {
@@ -235,10 +281,10 @@ jQuery(function ($) {
 			$span = $th.find('span'),
 			nameOfField = $span.length ? $span.text() : $th.text(),
 			$ins = $th.find('ins'),
-			ins,
-			$sortOption,
+			hasSortOptions = $th.hasClass('sortOptions'),
 			data = {};
 
+		// The following key is not class, because that is a JavaScript reserved word.
 		// The HTML/CSS class for a field consists of alphanumeric characters only.
 		// \W is the opposite of \w, which is equivalent to [0-9A-Z_a-z].
 		// Therefore, [\W_] is equivalent to [^0-9A-Za-z],
@@ -246,49 +292,50 @@ jQuery(function ($) {
 		data.classOfField = nameOfField.replace(/[\W_]/g, '');
 		
 		if ($ins.length) {
-			// In XHTML files exported from Phonology Assistant,
-			// an ins element indicates the direction for the primary sort field.
-			ins = $ins.text();
-			if (ins === '▾') { // down-pointing
-				data.descending = true;
-			} else if (ins === '▴') { // up-pointing
-				data.descending = false;
+			initializeDataFromSortingIndicator(data, $ins.text());
+		} else {
+			// The first time you sort by any column other than the primary sort field,
+			// assume that the direction is ascending and insert the visual indicator.
+			data.descending = false;
+			if (hasSortOptions) {
+				data.sortOption = 'placeOfArticulation'; // Assume as the default.
 			}
+			if (!($span.length)) {
+				$th.wrapInner('<span></span>');
+			}
+			$th.append(' <ins></ins>').find('ins').text(indicatorFromSortingData(data));
 		}
-		if ($th.hasClass('sortOptions')) {
-			// In XHTML files exported from Phonology Assistant,
-			// the sort option is wrapped in a span with a class,
-			$sortOption = $th.closest('table').parent()
-				.find('table.details tr.sortField td span[class]');
-			if ($sortOption.hasClass('placeOfArticulation')) {
-				data.sortOption = 'placeOfArticulation';
-			} else if ($sortOption.hasClass('mannerOfArticulation')) {
-				data.sortOption = 'mannerOfArticulation';
-			} else {
-				data.sortOption = null;
-			}
+		if (hasSortOptions) {
+			// To make Internet Explorer 7 display the drop-down menu on the next line,
+			// wrap the contents in an explicit block element.
+			// Must have inserted <span>...</span><ins>...</ins> before this!
+			$th.wrapInner('<div></div>');
+			$('<ul></ul>')
+				.append(sortOptionItem('place of articulation', 'placeOfArticulation'))
+				.append(sortOptionItem('manner of articulation', 'mannerOfArticulation'))
+				.appendTo($th);
 		}
 		if ($th.hasClass('sortField') && $th.parent().has('th.group').length) {
 			// The field by which the list is grouped.
 			data.groupField = true;
 		}
-		if ($th.attr('class') === '3') {
-			// Phonetic or (someday) Phonemic in Search view,
+		if ($th.attr('colspan') === 3) {
+			// Phonetic or (someday) Phonemic in Search view.
 			data.searchField = true;
 		}
 		$th.data('phonology', data);
 	}
 
 	$('table.list').each(function () {
-		var $table = $(this);
+		var $table = $(this).addClass('interactive').click(clickList);
 		
-		$table.addClass('interactive').click(clickList)
-			.find('thead th.sortOptions')
-				.hover(mouseoverSortOptionList, mouseoutSortOptionList);
+		$table.find('thead th.sortOptions')
+			.hover(mouseoverSortOptionList, mouseoutSortOptionList);
 		
 		if (!($table.has('tbody.group th.pair').length)) {
-			// Except when there is one minimal pair per group,
-			// you can sort any column which contains data.
+			// You can sort any column which contains data,
+			// except when there is one minimal pair per group
+			// because it might contain both subheading and data rows.
 			$table.find('thead th:not(.group)').addClass('sortable')
 				.each(initializeDataForHeadingList);
 		}
@@ -296,8 +343,7 @@ jQuery(function ($) {
 		$table.find('td > ul.transcription')
 			// Equivalent to the :before pseudo-element in CSS,
 			// which Internet Explorer 7 does not support.
-			// U+25B8 black right-pointing small triangle.
-			.find('li.change del + ins').before(' ▸ ')
+			.find('li.change del + ins').before(' ▸ ') // right-pointing triangle
 			// The phonology.css file assumes all siblings are in a div.
 			// because the data cell itself cannot have relative position.
 			.end().parent().wrapInner('<div class="transcription"></div>');
@@ -305,10 +351,11 @@ jQuery(function ($) {
 
 
 	// Consonant Chart or Vowel Chart view =====================================
+	//
+	// Display units which have sets of features.
+	// Display features for units or pairs of units.
 
-	// Utility functions -------------------------------------------------------
-
-	// Convert list item (DOM) to string.
+	// Return the text of feature or environment in a list item (DOM).
 	function textFromListItem(li) {
 		// Internet Explorer 7 returns a trailing space in text of li elements.
 		return $.trim($(li).text());
@@ -316,10 +363,9 @@ jQuery(function ($) {
 
 	// Processing functions ----------------------------------------------------
 	
-	// Return whether a particular unit matches a set set of features.
-	function matchUnitCV($tdPhonetic, allFeaturesToMatch) {
-		var allFeaturesOfUnit = $tdPhonetic.data('phonology').features,
-			classOfFeatures,
+	// Return whether a particular unit matches a set of features.
+	function matchUnitCV(allFeaturesOfUnit, allFeaturesToMatch) {
+		var classOfFeatures,
 			classFeaturesToMatch,
 			classFeaturesOfUnit,
 			i;
@@ -347,7 +393,7 @@ jQuery(function ($) {
 	}
 
 	// Match all units in one or more CV charts according to selected features
-	// and the optional active feature in a set of related feature tables.
+	// and the optional active feature in the related feature tables.
 	function matchUnitsForFeaturesCV($container, $tdActive) {
 		var $tableCV = $container.find('table.CV'),
 			$tdFeaturesToMatch = $container.find('table.features td.selected'),
@@ -373,7 +419,8 @@ jQuery(function ($) {
 			});
 			$tableCV.find('td.Phonetic').each(function () {
 				var $tdPhonetic = $(this);
-				if (matchUnitCV($tdPhonetic, allFeaturesToMatch)) {
+				if (matchUnitCV($tdPhonetic.data('phonology').features,
+						allFeaturesToMatch)) {
 					$tdPhonetic.addClass('matched');
 				} else {
 					$tdPhonetic.removeClass('matched');
@@ -393,8 +440,8 @@ jQuery(function ($) {
 		matchUnitsForFeaturesCV($td.closest('table.features').parent(), $td);
 	}
 
-	// Match a particular feature according to the active (unit) data cell
-	// and the optional selected (unit) data cell in a consonant or vowel chart.
+	// Match a particular feature according to the active unit
+	// and the optional selected unit in a consonant or vowel chart.
 	function matchFeatureCV($td, featuresActive, featuresSelected) {
 		var feature = $td.data('phonology').feature,
 			indexActive = $.inArray(feature, featuresActive),
@@ -416,18 +463,24 @@ jQuery(function ($) {
 		}
 	}
 
-	// Match all feature tables according to the active (unit) data cell
-	// and the optional selected (unit) data cell in a consonant or vowel chart.
+	// Match the related feature tables according to the active unit
+	// and the optional selected unit in a consonant or vowel chart.
 	function matchFeaturesCV($tdActive, $tdSelected) {
+		var allFeaturesActive = $tdActive.data('phonology').features,
+			allFeaturesSelected;
+		
+		if ($tdSelected && $tdSelected.length && $tdSelected.get(0) !== $tdActive.get(0)) {
+			allFeaturesSelected = $tdSelected.data('phonology').features;
+		}
+		
 		$tdActive.closest('table').parent().find('table.features').each(function () {
 			var $table = $(this),
 				classOfFeatures = $table.data('phonology').classOfFeatures,
-				featuresActive = $tdActive.data('phonology').features[classOfFeatures],
-				featuresSelected;
+				classFeaturesActive = allFeaturesActive[classOfFeatures],
+				classFeaturesSelected;
 			
-			if ($tdSelected && $tdSelected.length && 
-					$tdSelected.get(0) !== $tdActive.get(0)) {
-				featuresSelected = $tdSelected.data('phonology').features[classOfFeatures];
+			if (allFeaturesSelected) {
+				classFeaturesSelected = allFeaturesSelected[classOfFeatures];
 			}
 
 			$table.find('tbody tr').each(function () {
@@ -437,14 +490,14 @@ jQuery(function ($) {
 				if ($tr.hasClass('bivalent')) {
 					$td = $tr.find('td.plus');
 					if ($td.length) {
-						matchFeatureCV($td, featuresActive, featuresSelected);
+						matchFeatureCV($td, classFeaturesActive, classFeaturesSelected);
 					}
 					$td = $tr.find('td.minus');
 					if ($td.length) {
-						matchFeatureCV($td, featuresActive, featuresSelected);
+						matchFeatureCV($td, classFeaturesActive, classFeaturesSelected);
 					}
 				} else {
-					matchFeatureCV($tr.find('td.name'), featuresActive, featuresSelected);
+					matchFeatureCV($tr.find('td.name'), classFeaturesActive, classFeaturesSelected);
 				}
 			});
 		});
@@ -551,11 +604,11 @@ jQuery(function ($) {
 
 	// Move the mouse pointer into a consonant or vowel chart.
 	function mouseoverChartCV() {
-		var $this = $(this),
-			$container = $this.parent();
+		var $table = $(this),
+			$container = $table.parent();
 
 		// Chart becomes active and units become unmatched.
-		$this.addClass('interactive')
+		$table.addClass('interactive')
 			.find('td.matched').removeClass('matched');
 
 		// Feature tables become inactive and selected features become cleared.
@@ -576,7 +629,7 @@ jQuery(function ($) {
 			tdPhonetic,
 			$tdSelected;
 
-		// If you click in a data cell.
+		// If you click a data cell.
 		if ($tdActive.length) {
 			if ($tdActive.hasClass('selected')) {
 				$tdActive.removeClass('selected');
@@ -589,7 +642,6 @@ jQuery(function ($) {
 					unmatchFeaturesCV($tdActive);
 					if (tdPhonetic) {
 						matchFeaturesCV($tdActive);
-					} else {
 					}
 				}
 				if (tdPhonetic) {
@@ -611,16 +663,19 @@ jQuery(function ($) {
 		$tableCV.find('td.zero').removeClass('zero');
 		$tableCV.find('td.Phonetic').each(function () {
 			var $tdPhonetic = $(this),
-				unitEnvironments = $tdPhonetic.data('phonology').environments;
+				environmentsOfUnit = $tdPhonetic.data('phonology').environments;
 
-			if ($.inArray(environment, unitEnvironments) < 0) {
+			if ($.inArray(environment, environmentsOfUnit) < 0) {
 				$tdPhonetic.addClass('zero');
 			}
 		});
 	}
 
 	function clickEnvironments(event) {
-		matchUnitsForSelectedEnvironmentCV($(event.target).closest('li'));
+		var $li = $(event.target).closest('li');
+		if (!($li.hasClass('selected'))) {
+			matchUnitsForSelectedEnvironmentCV($li);
+		}
 	}
 
 	// Initialization ----------------------------------------------------------
@@ -664,11 +719,13 @@ jQuery(function ($) {
 				.click(clickChartCV);
 			$tdPhonetics.hover(mouseoverUnitCV, mouseoutUnitCV);
 		}
+		
 		$tdPhonetics.each(initializeDataForUnitCV);
+		
 		if ($ulEnvironments.length) {
 			$ulEnvironments.addClass('interactive').click(clickEnvironments)
 				.find('li').each(initializeDataForEnvironmentCV)
-				.end().find('li:first-child').addClass('selected')
+				.end().find('li:first-child')
 					.each(function () {
 						matchUnitsForSelectedEnvironmentCV($(this));
 					});
@@ -683,7 +740,7 @@ jQuery(function ($) {
 
 		// Title attribute consists of the original text.
 		// Abbreviation consists of the first character,
-		// followed by U+25BE black down-pointing small triangle.
+		// followed by down-pointing triangle.
 		if ($span.length) {
 			text = $span.text();
 			if (text) {
@@ -699,7 +756,7 @@ jQuery(function ($) {
 			feature;
 
 		// Do not assume that value is the text in the cell.
-		// Instead of U+002D hyphen-minus, the text might be U+2013 en dash.
+		// Instead of hyphen-minus, the text might be en dash.
 		if ($td.hasClass('plus')) {
 			value = '+';
 		} else if ($td.hasClass('minus')) {
@@ -730,98 +787,15 @@ jQuery(function ($) {
 
 
 	// Distribution Chart view =================================================
-
-	// Insert the following symbols in empty cells corresponding to group headings.
-	// To collapse a column group, click U+25C2 black left-pointing small triangle.
-	// To expand a column group, click U+25B8 black right-pointing small triangle.
-	// To collapse a row group, click U+25B4 black up-pointing small triangle.
-	// To expand a row group, click U+25BE black down-pointing small triangle.
-
-	function initializeGeneralizedDistribution($table) {
-		var $colgroups = $table.find('colgroup'),
-			chartHasGeneralColumns = ($table.has('thead tr.general').length !== 0),
-			$thCols = $table.find('thead tr.individual th'),
-			$thCollapsibles,
-			start = 0;
-
-		$table.addClass('generalized');
-
-		// Add data to colgroup elements and class attributes to col elements.
-		$colgroups.each(function (colgroup) {
-			var $colgroup = $(this),
-				$cols = $colgroup.find('col'),
-				colspan = $cols.length;
-
-			$colgroup.data('phonology', {colspan: colspan});
-			if (colgroup === 0) { // Row headings at the left of the data.
-				if (colspan === 2) { // If there are general rows:
-					$cols.eq(0).addClass('general');
-					$cols.eq(1).addClass('individual');
-				}
-			} else if (chartHasGeneralColumns) {
-				$cols.eq(0).addClass('general'); // First column.
-				$cols.slice(1).addClass('individual'); // Any other columns.
-			}
-		});
-		
-		// Add class attribute and data to upper-left cell.
-		$table.find('thead tr:first-child th:first-child')
-			.addClass('interactive') // Used by CSS, not JavaScript.
-			.data('phonology', {
-				colspan: $table.find('tbody:first tr:first-child th').length,
-				rowspan: $table.find('thead tr').length
-			});
-
-		// Add class attribute and data to general column group headings, if any.
-		$table.find('thead tr.general th.Phonetic').each(function (i) {
-			var $thColgroup = $(this),
-				colgroup = i + 1, // Adjust index to account for the upper-left cell.
-				colspan = $colgroups.eq(colgroup).find('col').length,
-				end = start + colspan;
-
-			$thColgroup.data('phonology', {colgroup: colgroup, colspan: colspan});
-
-			// Column headings for the group in the individual heading row.
-			// Empty heading cell corresponding to the column group.
-			if (colspan > 1) { // If there are any individual columns:
-				$thCols.eq(start)
-					.addClass('interactive')  // Used by CSS, not JavaScript.
-					.data('phonology', {colgroup: colgroup, start: start, end: end})
-					.html('◂'); // left-pointing
-			}
-
-			// Add class to individual heading cells.
-			$thCols.slice(start + 1, end).addClass('individual');
-
-			start += colspan;
-		});
-
-		if (chartHasGeneralColumns) {
-			// Add class to individual data cells.		
-			$thCollapsibles = $table.find('thead tr.individual th.interactive');
-			$table.find('tbody tr').each(function () {
-				var $tds = $(this).find('td');
-				$thCollapsibles.each(function () {
-					var data = $(this).data('phonology');
-					$tds.slice(data.start + 1, data.end).addClass('individual');
-				});
-			});
-		}
-
-		// General row groups, if any.
-		// Empty heading cells corresponding to row groups.
-		$table.find('tbody tr.general').each(function () {
-			var $tr = $(this),
-				rowspan = $tr.parent().find('tr').length,
-				$th = $tr.find('th:not(.Phonetic)');
-
-			$th.addClass('individual'); // TO DO: CSS
-			if (rowspan !== 1) {
-				$tr.find('th.Phonetic').data('phonology', {rowspan: rowspan});
-				$th.addClass('interactive').html('▴'); // up-pointing
-			}
-		});
-	}
+	//
+	// In a generalized chart, collapse/expand individual rows or columns.
+	// * To collapse a column group, click left-pointing triangle.
+	// * To expand a column group, click right-pointing triangle.
+	// * To collapse a row group, click up-pointing triangle.
+	// * To expand a row group, click down-pointing triangle.
+	// In any distribution chart, reduce/restore phonetic heading cells.
+	// * To reduce a search element, click it. An ellipsis appears.
+	// * To restore a search element, click it. The text appears again.
 
 	// Temporarily collapse/expand all individual rows and columns in generalized charts;
 	// otherwise reduce/restore all phonetic headings.
@@ -870,18 +844,14 @@ jQuery(function ($) {
 			
 			// 2c. Adjust rowspan of general row headings, if any.
 			$table.find('tbody tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this),
-					$tbody;
+				var $thPhonetic = $(this);
 
 				if (collapsed) {
 					rowspan = 1;
+				} else if ($thPhonetic.closest('tbody').hasClass('collapsed')) {
+					rowspan = 1;
 				} else {
-					$tbody = $thPhonetic.closest('tbody');
-					if ($tbody.hasClass('collapsed')) {
-						rowspan = 1;
-					} else {
-						rowspan = $thPhonetic.data('phonology').rowspan;
-					}
+					rowspan = $thPhonetic.data('phonology').rowspan;
 				}
 				$thPhonetic.attr('rowspan', rowspan);
 			});
@@ -923,7 +893,7 @@ jQuery(function ($) {
 				heading = '◂'; // left-pointing
 			}
 			$thColgroup.attr('colspan', colspan);
-			$thCollapsible.html(heading);
+			$thCollapsible.text(heading);
 
 			// 3. Toggle collapsed class for cells in individual columns.
 			start = data.start + 1; // The first column is general.
@@ -948,8 +918,7 @@ jQuery(function ($) {
 			$tr = $thCollapsible.parent();
 
 			// 1. Toggle collapsed class of tbody.
-			$tbody = $tr.parent();
-			$tbody.toggleClass('collapsed');
+			$tbody = $tr.parent().toggleClass('collapsed');
 
 			// 2. Adjust rowspan and heading.
 			$thPhonetic = $tr.find('th.Phonetic');
@@ -961,7 +930,7 @@ jQuery(function ($) {
 				heading = '▴'; // up-pointing
 			}
 			$thPhonetic.attr('rowspan', rowspan);
-			$thCollapsible.html(heading);
+			$thCollapsible.text(heading);
 		}
 	}
 
@@ -969,9 +938,11 @@ jQuery(function ($) {
 		var $target = $(event.target),
 			$th;
 
-		if ($target.is('span.zero')) {
+		if ($target.is('div.zero')) {
+			// To reverse the background color of zero/non-zero cells,
+			// click at the lower-right of the upper-left cell.
 			$(this).toggleClass('nonZero')
-				.parent().find("ul.environments + table.CV").toggleClass('nonZero');
+				.parent().find('ul.environments + table.CV').toggleClass('nonZero');
 		}
 		else {	
 			$th = $target.closest('th');
@@ -992,8 +963,10 @@ jQuery(function ($) {
 		}
 	}
 
-	// TO DO: Modularize the dependency between distribution chart
-	// and related consonant or vowel chart with tabbed environments.	
+	// To reverse the background color of zero/non-zero cells,
+	// click at the lower-right of the upper-left cell.
+	// Because the related consonant or vowel chart with tabbed environments
+	// is not interactive, this is separate from the clickChartCV event function.
 	function clickZeroCV()
 	{
 		$(this).closest('table').toggleClass('nonZero')
@@ -1001,29 +974,131 @@ jQuery(function ($) {
 	}
 
 	// Initialization ----------------------------------------------------------
+
+	// Add data, class attributes, text to elements.
+	function initializeGeneralizedDistribution($table) {
+		var $colgroups = $table.find('colgroup'),
+			chartHasGeneralColumns = ($table.has('thead tr.general').length !== 0),
+			$thCols = $table.find('thead tr.individual th'),
+			$thCollapsibles,
+			start = 0;
+
+		$table.addClass('generalized');
+
+		// Add data to colgroup elements and class attributes to col elements.
+		$colgroups.each(function (colgroup) {
+			var $colgroup = $(this),
+				$cols = $colgroup.find('col'),
+				colspan = $cols.length;
+
+			$colgroup.data('phonology', {colspan: colspan});
+			if (colgroup === 0) { // Row headings at the left of the data.
+				if (colspan === 2) { // If there are general rows:
+					$cols.eq(0).addClass('general');
+					$cols.eq(1).addClass('individual');
+				}
+			} else if (chartHasGeneralColumns) {
+				$cols.eq(0).addClass('general'); // First column.
+				$cols.slice(1).addClass('individual'); // Any other columns.
+			}
+		});
+		
+		// Add class attribute and data to upper-left cell.
+		$table.find('thead tr:first-child th:first-child')
+			.data('phonology', {
+				colspan: $table.find('tbody:first tr:first-child th').length,
+				rowspan: $table.find('thead tr').length
+			});
+
+		// Add class attribute and data to general column group headings, if any.
+		$table.find('thead tr.general th.Phonetic').each(function (i) {
+			var $thColgroup = $(this),
+				colgroup = i + 1, // Adjust index to account for the upper-left cell.
+				colspan = $colgroups.eq(colgroup).find('col').length,
+				end = start + colspan;
+
+			$thColgroup.data('phonology', {colgroup: colgroup, colspan: colspan});
+
+			// Column headings for the group in the individual heading row.
+			// Empty heading cell corresponding to the column group.
+			if (colspan > 1) { // If there are any individual columns:
+				$thCols.eq(start)
+					.addClass('interactive')  // Used by CSS, not JavaScript.
+					.data('phonology', {colgroup: colgroup, start: start, end: end})
+					.text('◂'); // left-pointing
+			}
+
+			// Add class to individual heading cells.
+			$thCols.slice(start + 1, end).addClass('individual');
+
+			start += colspan;
+		});
+
+		if (chartHasGeneralColumns) {
+			// Add class to individual data cells.		
+			$thCollapsibles = $table.find('thead tr.individual th.interactive');
+			$table.find('tbody tr').each(function () {
+				var $tds = $(this).find('td');
+				$thCollapsibles.each(function () {
+					var data = $(this).data('phonology');
+					$tds.slice(data.start + 1, data.end).addClass('individual');
+				});
+			});
+		}
+
+		// General row groups, if any.
+		// Empty heading cells corresponding to row groups.
+		$table.find('tbody tr.general').each(function () {
+			var $tr = $(this),
+				rowspan = $tr.parent().find('tr').length,
+				$th = $tr.find('th:not(.Phonetic)');
+
+			$th.addClass('individual');
+			if (rowspan !== 1) {
+				$th.addClass('interactive') // Used by CSS, not JavaScript.
+					.text('▴'); // up-pointing
+			}
+			$tr.find('th.Phonetic').data('phonology', {rowspan: rowspan});
+		});
+	}
 	
 	$('table.distribution').each(function () {
-		var $table = $(this);
-		$table.addClass('interactive');
+		var $table = $(this).addClass('interactive').click(clickChartDistribution),
+			$thUpperLeft = $table.find('thead tr:first-child th:first-child'),
+			browser;
+
+		// Click at the upper-left to collapse/expand, otherwise to reduce/restore.
+		$thUpperLeft.addClass('interactive'); // Used by CSS, not JavaScript.
+
 		// To reverse the background color of zero/non-zero cells,
 		// click at the lower-right of the upper-left cell.
-		if ($table.find('td.zero').length) {
-			$table.find('thead tr:first-child th:first-child')
-				.append('<div><span class="zero">0</span></div>');
+		if ($table.has('td.zero').length) {
+			// In Internet Explorer 7, if the outer div lacks static content,
+			// it has relative position for the absolute position of the inner div.
+			// Therefore, include a no-break space, which the inner div covers
+			// because the cell is aligned right.
+			$thUpperLeft.append('<div>&#xA0;<div class="zero">0</div></div>');
 			$table.parent().find("ul.environments + table.CV thead tr:first-child th:first-child")
-				.append('<div><span class="zero">0</span></div>')
-				.find('span.zero').click(clickZeroCV);
+				.append('<div>&#xA0;<div class="zero">0</div></div>')
+				.find('.zero').click(clickZeroCV);
 		}
+
 		// To reduce or restore a heading, click the cell.
 		$table.find('th.Phonetic')
 			.wrapInner('<span></span>') // Wrap heading text in span,
 			.append('<abbr>…</abbr>'); // Insert U+2026 horizontal ellipsis in abbr.
+
 		// To collapse or expand a general row or column,
 		// click the individual cell corresponding to the row or column group heading.
-		if ($table.find('tr.general').length) {
-			initializeGeneralizedDistribution($table);
+		if ($table.has('tr.general').length) {
+			// Display of interactive colgroups is unreliable in Internet Explorer 7.
+			// For lack of a "proper feature detection" method for this problem,
+			// here is the deprecated "browser sniffing" method.
+			browser = $.browser;
+			if (!browser || !browser.msie || browser.version !== '7.0') {
+				initializeGeneralizedDistribution($table);
+			}
 		}
-		$table.click(clickChartDistribution);
 	});
 
 	

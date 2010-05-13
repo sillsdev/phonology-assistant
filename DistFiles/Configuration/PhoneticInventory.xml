@@ -902,7 +902,7 @@
 		</feature>
 		<feature class="place">
 			<name>ATR</name>
-			<fullname>ATR</fullname>
+			<fullname>Advanced Tongue Root</fullname>
 			<featureRule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
@@ -923,7 +923,7 @@
 		</feature>
 		<feature class="place">
 			<name>RTR</name>
-			<fullname>RTR</fullname>
+			<fullname>Retracted Tongue Root</fullname>
 			<featureRule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
@@ -1497,6 +1497,68 @@
 						<articulatoryFeature>Near-back</articulatoryFeature>
 						<articulatoryFeature>Back</articulatoryFeature>
 					</anyOf>
+				</if>
+				<then>
+					<featureValue>+</featureValue>
+				</then>
+				<else>
+					<featureValue>-</featureValue>
+				</else>
+			</featureRule>
+		</feature>
+		<feature class="nonTerminal" parent="supralaryngeal">
+			<name>tongue root</name>
+			<featureRule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<anyOf>
+						<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+						<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
+					</anyOf>
+				</when>
+				<if>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</if>
+				<then>
+					<featureClass />
+				</then>
+			</featureRule>
+		</feature>
+		<feature class="terminal" parent="tongue root">
+			<name>ATR</name>
+			<fullname>Advanced Tongue Root</fullname>
+			<featureRule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+				</when>
+				<if>
+					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+				</if>
+				<then>
+					<featureValue>+</featureValue>
+				</then>
+				<else>
+					<featureValue>-</featureValue>
+				</else>
+			</featureRule>
+		</feature>
+		<feature class="terminal" parent="tongue root">
+			<name>RTR</name>
+			<fullname>Retracted Tongue Root</fullname>
+			<featureRule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
+				</when>
+				<if>
+					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
 				</if>
 				<then>
 					<featureValue>+</featureValue>
@@ -7352,6 +7414,14 @@
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<articulatoryFeatureRule>
+				<change title="Specify Bilabial place of articulation for symbols in the Labiodental column (specifically, labiodental flap).">
+					<find>
+						<feature>Labiodental</feature>
+					</find>
+					<replace>
+						<feature>Bilabial</feature>
+					</replace>
+				</change>
 				<change title="Specify Dental place of articulation for symbols in the Alveolar column.">
 					<find>
 						<feature>Alveolar</feature>
@@ -8590,8 +8660,9 @@
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
-		<symbol decimal="8593" hexadecimal="2191" literal="↑" IPANumber="518">
+		<symbol decimal="8593" hexadecimal="2191" literal="↑">
 			<name>Up arrow</name>
+			<usage replaceWith="ꜛ">Non-IPA equivalent to 518</usage>
 			<description>Upstep</description>
 			<type>Suprasegmentals</type>
 			<subtype>ToneAndAccents</subtype>
@@ -8608,8 +8679,9 @@
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
-		<symbol decimal="8595" hexadecimal="2193" literal="↓" IPANumber="517">
+		<symbol decimal="8595" hexadecimal="2193" literal="↓">
 			<name>Down arrow</name>
+			<usage replaceWith="ꜜ">Non-IPA equivalent to 517</usage>
 			<description>Downstep</description>
 			<type>Suprasegmentals</type>
 			<subtype>ToneAndAccents</subtype>
@@ -8659,6 +8731,63 @@
 			<displayOrder>29</displayOrder>
 			<mannerOfArticulation>1170</mannerOfArticulation>
 			<placeOfArticulation>1170</placeOfArticulation>
+			<chartColumn>0</chartColumn>
+			<chartGroup>0</chartGroup>
+		</symbol>
+		<symbol decimal="11377" hexadecimal="2C71" literal="ⱱ" IPANumber="184">
+			<name>Right-hook V</name>
+			<description>Voiced labiodental flap</description>
+			<type>Consonant</type>
+			<subtype>Pulmonic</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Consonant</feature>
+				<feature>Voiced</feature>
+				<feature>Labiodental</feature>
+				<feature>Tap/Flap</feature>
+			</articulatoryFeatures>
+			<ignoreType>NotApplicable</ignoreType>
+			<displayOrder>0</displayOrder>
+			<mannerOfArticulation>160</mannerOfArticulation>
+			<placeOfArticulation>150</placeOfArticulation>
+			<chartColumn>7</chartColumn>
+			<chartGroup>3</chartGroup>
+		</symbol>
+		<symbol decimal="42779" hexadecimal="A71B" literal="ꜛ" IPANumber="518">
+			<name>Modifier letter raised up arrow</name>
+			<description>Upstep</description>
+			<type>Suprasegmentals</type>
+			<subtype>ToneAndAccents</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Upstep</feature>
+			</articulatoryFeatures>
+			<ignoreType>Tone</ignoreType>
+			<displayOrder>17</displayOrder>
+			<mannerOfArticulation>1160</mannerOfArticulation>
+			<placeOfArticulation>1160</placeOfArticulation>
+			<chartColumn>0</chartColumn>
+			<chartGroup>0</chartGroup>
+		</symbol>
+		<symbol decimal="42780" hexadecimal="A71C" literal="ꜜ" IPANumber="517">
+			<name>Modifier letter raised down arrow</name>
+			<description>Downstep</description>
+			<type>Suprasegmentals</type>
+			<subtype>ToneAndAccents</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Downstep</feature>
+			</articulatoryFeatures>
+			<ignoreType>Tone</ignoreType>
+			<displayOrder>16</displayOrder>
+			<mannerOfArticulation>1155</mannerOfArticulation>
+			<placeOfArticulation>1155</placeOfArticulation>
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
