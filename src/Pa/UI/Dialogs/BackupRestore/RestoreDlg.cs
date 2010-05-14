@@ -64,20 +64,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
-			if (Settings.Default.RestoreDlgBounds.Height <= 0)
-				StartPosition = FormStartPosition.CenterScreen;
-
 			m_restoreRoot = Path.GetPathRoot(Application.StartupPath);
 			m_fmtProjMsg = lblProject.Text;
 			lblProject.Text = string.Format(m_fmtProjMsg, string.Empty);
 			grid.Name = Name + "Grid";
-
-			try
-			{
-				App.SettingsHandler.LoadFormProperties(this);
-				App.SettingsHandler.LoadGridProperties(grid);
-			}
-			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,10 +87,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			Settings.Default.RestoreDlg = App.InitializeForm(this, Settings.Default.RestoreDlg);
+			
+			if (Settings.Default.RestoreDlgGrid != null)
+				Settings.Default.RestoreDlgGrid.InitializeGrid(grid);
+			
 			base.OnLoad(e);
-
-			if (Settings.Default.RestoreDlgBounds.Height > 0)
-				Bounds = Settings.Default.RestoreDlgBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,16 +102,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			Settings.Default.RestoreDlgBounds = Bounds;
-			Settings.Default.Save();
+			Settings.Default.RestoreDlgGrid = GridSettings.Create(grid);
 
 			base.OnClosing(e);
-
-			try
-			{
-				App.SettingsHandler.SaveGridProperties(grid);
-			}
-			catch { }
 
 			// Clean up the files in the temp. folder.
 			if (m_tmpFolder != null && Directory.Exists(m_tmpFolder))

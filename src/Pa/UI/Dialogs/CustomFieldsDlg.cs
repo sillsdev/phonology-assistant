@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -117,7 +118,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Create the data type column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol,
 				new[] { m_textFieldType, m_numbericDataType, m_dateTimeDataType });
-			
+
 			col.Width = 80;
 			m_grid.Columns.Add(col);
 			LocalizationManager.LocalizeObject(m_grid.Columns[kTypeCol],
@@ -163,14 +164,14 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 
 			tblLayout.Controls.Add(m_grid, 0, 1);
-			
-			// Do this for the sake of the first time the dialog is shown after pa.xml is
-			// created. For all subsequent times, the following call to LoadGridProperties
-			// will overwrite whatever size adjustments are made in these two calls.
-			m_grid.AutoResizeColumnHeadersHeight();
-			m_grid.AutoResizeColumns();
 
-			App.SettingsHandler.LoadGridProperties(m_grid);
+			if (Settings.Default.CustomFieldsDlgGrid != null)
+				Settings.Default.CustomFieldsDlgGrid.InitializeGrid(m_grid);
+			else
+			{
+				m_grid.AutoResizeColumnHeadersHeight();
+				m_grid.AutoResizeColumns();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -404,7 +405,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			App.SettingsHandler.SaveGridProperties(m_grid);
+			Settings.Default.CustomFieldsDlgGrid = GridSettings.Create(m_grid);
 			base.SaveSettings();
 		}
 

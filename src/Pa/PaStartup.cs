@@ -21,32 +21,10 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[STAThread]
-		static void Main(string[] commandLineArgs) 
+		static void Main() 
 		{
 			try
 			{
-				List<string> args = new List<string>(commandLineArgs);
-
-				for (int i = 0; i < args.Count; i++)
-				{
-					if (args[i].ToLower().StartsWith("/uilang:"))
-					{
-						string lang = args[i].Substring(8);
-						try
-						{
-							CultureInfo ci = CultureInfo.GetCultureInfo(lang);
-							Thread.CurrentThread.CurrentUICulture = ci;
-						}
-						catch (Exception e)
-						{
-							Utils.MsgBox(e.Message + "\n\nUsing default culture.");
-						}
-
-						args.RemoveAt(i);
-						break;
-					}
-				}
-
 				Application.EnableVisualStyles();
 				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new PaMainWnd(true));

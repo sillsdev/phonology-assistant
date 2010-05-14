@@ -16,7 +16,6 @@ namespace SIL.Pa.UI.Dialogs
 		protected bool m_cancelButtonPressed;
 		protected bool m_dirty;
 		private bool m_changesWereMade;
-		protected Rectangle m_startupBounds;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -37,18 +36,14 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			try
 			{
-				m_startupBounds = (Rectangle)Settings.Default[Name + "Bounds"];
+				Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
 			}
 			catch
 			{
 				StartPosition = FormStartPosition.CenterScreen;
-				m_startupBounds = Rectangle.Empty;
 			}
 
 			base.OnLoad(e);
-
-			if (m_startupBounds.Height > 0)
-				Bounds = m_startupBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,11 +283,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SaveSettings()
 		{
-			try
-			{
-				Settings.Default[Name + "Bounds"] = Bounds;
-			}
-			catch { }
+			//try
+			//{
+			//    Settings.Default[Name + "Bounds"] = Bounds;
+			//}
+			//catch { }
 
 			Settings.Default.Save();
 		}

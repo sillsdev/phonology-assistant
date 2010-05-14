@@ -199,7 +199,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.1.3779.17989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.1.3786.19575, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -797,6 +797,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvv//BL7//yWZx8eTQUtL8nGFhdgAA5xBAAOcQQAD
         nEEAA5xBAAOcQQADnEEAA5xBAAOcQQADnEEAA5xBAAGcQQAAnEEAAJxBAACcQf/AnEH/4JxB
 </value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>Manual</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Phonology Assistant</value>

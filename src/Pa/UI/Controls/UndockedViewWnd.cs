@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -37,12 +38,20 @@ namespace SIL.Pa.UI.Controls
 			if (view != null)
 				Name = view.GetType().Name;
 
+			try
+			{
+				Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
+			}
+			catch
+			{
+				StartPosition = FormStartPosition.CenterScreen;
+			}
+
 			m_mainMenuAdapter = App.LoadDefaultMenu(this);
 			m_mainMenuAdapter.AllowUpdates = false;
 			Controls.Add(view);
 			view.BringToFront();
 			m_view = view;
-			App.SettingsHandler.LoadFormProperties(this);
 			Opacity = 0;
 
 			sbProgress.Visible = false;
@@ -118,15 +127,14 @@ namespace SIL.Pa.UI.Controls
 
 			if (m_mainMenuAdapter != null)
 				m_mainMenuAdapter.AllowUpdates = true;
-		
-			Utils.UpdateWindow(Handle);
 
-			bool reloadProjectsOnActivate =
-				App.SettingsHandler.GetBoolSettingsValue(App.kAppSettingsName,
-				"reloadprojectsonactivate", true);
+			Invalidate();  // Used to be: Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
 
-			if (App.Project != null && m_checkForModifiedDataSources && reloadProjectsOnActivate)
+			if (App.Project != null && m_checkForModifiedDataSources &&
+				Settings.Default.ReloadProjectsOnActivate)
+			{
 				App.Project.CheckForModifiedDataSources();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +158,6 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			App.MsgMediator.RemoveColleague(this);
-			App.SettingsHandler.SaveFormProperties(this);
 			Visible = false;
 			App.UnloadDefaultMenu(m_mainMenuAdapter);
 			m_mainMenuAdapter.Dispose();

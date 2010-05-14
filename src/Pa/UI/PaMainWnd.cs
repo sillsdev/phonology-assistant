@@ -49,6 +49,7 @@ namespace SIL.Pa.UI
 		public PaMainWnd()
 		{
 			InitializeComponent();
+			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,7 +76,12 @@ namespace SIL.Pa.UI
 
 			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
-			SetUIFont();
+
+			// If the user knows enough to add an entry to the settings file to
+			// override the default UI font, then read it and use it.
+			if (Settings.Default.UIFont != null)
+				FontHelper.UIFont = Settings.Default.UIFont;
+
 			Show();
 
 			if (App.SplashScreen != null && App.SplashScreen.StillAlive)
@@ -151,40 +157,6 @@ namespace SIL.Pa.UI
 			}
 
 			App.MsgMediator.SendMessage("MainViewOpened", this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// If the user knows enough to add an entry to the settings file to override the
-		/// default UI font, then read it and use it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void SetUIFont()
-		{
-			const string kFontEntry = "UIFont";
-
-			string name = App.SettingsHandler.GetStringSettingsValue(kFontEntry, "name", null);
-			if (name == null)
-				return;
-
-			float size = App.SettingsHandler.GetFloatSettingsValue(kFontEntry, "size",
-				SystemInformation.MenuFont.SizeInPoints);
-
-			FontStyle style = FontStyle.Regular;
-
-			if (App.SettingsHandler.GetBoolSettingsValue(
-				kFontEntry, "bold", SystemInformation.MenuFont.Bold))
-			{
-				style |= FontStyle.Bold;
-			}
-
-			if (App.SettingsHandler.GetBoolSettingsValue(kFontEntry, "italic",
-				SystemInformation.MenuFont.Italic))
-			{
-				style |= FontStyle.Italic;
-			}
-
-			FontHelper.UIFont = FontHelper.MakeFont(name, size, style);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,10 +366,10 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
+		protected override void OnClosed(EventArgs e)
 		{
-			base.OnLoad(e);
-			App.SettingsHandler.LoadFormProperties(this);
+			Settings.Default.Save();
+			base.OnClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -407,7 +379,6 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			Settings.Default.Save();
 
 			// Closing isn't allowed in the middle of loading a project.
 			if (App.ProjectLoadInProcess)
@@ -425,8 +396,6 @@ namespace SIL.Pa.UI
 			if (App.Project != null)
 				App.Project.EnsureSortOptionsSaved();
 
-			App.SettingsHandler.SaveFormProperties(this);
-
 			if (vwTabGroup.CurrentTab != null)
 				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
@@ -437,8 +406,6 @@ namespace SIL.Pa.UI
 			vwTabGroup.CloseAllViews();
 			IsShuttingDown = false;
 			base.OnClosing(e);
-
-			Settings.Default.Save();
 
 			// This shouldn't be necessary but is in order to fix PA-431, which is
 			// a little disconcerting. I have no clue how PA could get into a state

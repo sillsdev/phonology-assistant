@@ -7,6 +7,7 @@ using System.Windows.Forms.VisualStyles;
 using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -214,7 +215,9 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Columns.Add(new RadioButtonColumn("col" + m_grid.Columns.Count));
 			m_grid.EndEdit();
 
-			App.SettingsHandler.LoadGridProperties(m_grid);
+			if (Settings.Default.TranscriptionChangesGrid != null)
+				Settings.Default.TranscriptionChangesGrid.InitializeGrid(m_grid);
+
 			m_grid.Invalidate();
 
 			// Make sure the grid is not considered to be dirty after loading it.
@@ -514,7 +517,7 @@ namespace SIL.Pa.UI.Controls
 			foreach (DataGridViewColumn col in m_grid.Columns)
 				col.Name = "col" + col.DisplayIndex;
 
-			App.SettingsHandler.SaveGridProperties(m_grid);
+			Settings.Default.TranscriptionChangesGrid = GridSettings.Create(m_grid);
 
 			if (e.Column.Index == 0)
 				RefreshHeader();

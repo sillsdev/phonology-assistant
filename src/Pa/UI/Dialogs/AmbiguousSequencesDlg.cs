@@ -30,7 +30,6 @@ namespace SIL.Pa.UI.Dialogs
 		public AmbiguousSequencesDlg()
 		{
 			InitializeComponent();
-			App.SettingsHandler.LoadFormProperties(this);
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
@@ -242,7 +241,9 @@ namespace SIL.Pa.UI.Dialogs
 				m_grid.CurrentCell = m_grid[0, prevRow];
 			}
 
-			App.SettingsHandler.LoadGridProperties(m_grid);
+			if (Settings.Default.AmbiguousSequencesDlgGrid != null)
+				Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(m_grid);
+
 			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			m_grid.IsDirty = false;
 			chkShowGenerated.Visible = ambigSeqList.Any(x => x.IsGenerated);
@@ -266,11 +267,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			//foreach (DataGridViewColumn col in m_grid.Columns)
-			//    col.Name = "col" + col.DisplayIndex;
-
-			App.SettingsHandler.SaveGridProperties(m_grid);
-			App.SettingsHandler.SaveFormProperties(this);
+			Settings.Default.AmbiguousSequencesDlgGrid = GridSettings.Create(m_grid);
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------

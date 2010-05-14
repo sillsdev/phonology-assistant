@@ -99,7 +99,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayoutPanel1.Controls.Add(this.lblInfo, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.txtChars, 0, 1);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
 			// 
 			// locExtender
 			// 

@@ -5,6 +5,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -47,8 +48,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_fontGrid.BringToFront();
 			((DataGridViewComboBoxColumn)m_fontGrid.Columns["font"]).DropDownWidth = 250;
 
-			string gridLinesValue;
-			if (!App.SettingsHandler.LoadGridProperties(m_fontGrid, out gridLinesValue))
+			if (Settings.Default.OptionsDialogFontGrid != null)
+				Settings.Default.OptionsDialogFontGrid.InitializeGrid(m_fontGrid);
+			else
 			{
 				m_fontGrid.AutoResizeColumns();
 				m_fontGrid.AutoResizeColumnHeadersHeight();
@@ -224,7 +226,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsFontsTabDirty)
 				return;
 
-			App.SettingsHandler.SaveGridProperties(m_fontGrid, null);
+			Settings.Default.OptionsDialogFontGrid = GridSettings.Create(m_fontGrid);
 
 			if (!m_fontChanged)
 				return;

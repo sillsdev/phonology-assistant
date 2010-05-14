@@ -563,26 +563,24 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle DefineClassDlgBounds {
+        public global::SilUtils.FormSettings DefineClassDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["DefineClassDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["DefineClassDlg"]));
             }
             set {
-                this["DefineClassDlgBounds"] = value;
+                this["DefineClassDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle ClassesDlgBounds {
+        public global::SilUtils.FormSettings ClassesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["ClassesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["ClassesDlg"]));
             }
             set {
-                this["ClassesDlgBounds"] = value;
+                this["ClassesDlg"] = value;
             }
         }
         
@@ -690,26 +688,24 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle BackupDlgBounds {
+        public global::SilUtils.FormSettings BackupDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["BackupDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["BackupDlg"]));
             }
             set {
-                this["BackupDlgBounds"] = value;
+                this["BackupDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle RestoreDlgBounds {
+        public global::SilUtils.FormSettings RestoreDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["RestoreDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["RestoreDlg"]));
             }
             set {
-                this["RestoreDlgBounds"] = value;
+                this["RestoreDlg"] = value;
             }
         }
         
@@ -742,182 +738,156 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle AmbiguousSequencesDlgBounds {
+        public global::SilUtils.FormSettings AmbiguousSequencesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["AmbiguousSequencesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["AmbiguousSequencesDlg"]));
             }
             set {
-                this["AmbiguousSequencesDlgBounds"] = value;
+                this["AmbiguousSequencesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle CustomFieldsDlgBounds {
+        public global::SilUtils.FormSettings CustomFieldsDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["CustomFieldsDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["CustomFieldsDlg"]));
             }
             set {
-                this["CustomFieldsDlgBounds"] = value;
+                this["CustomFieldsDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle FeaturesDlgBounds {
+        public global::SilUtils.FormSettings FeaturesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["FeaturesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["FeaturesDlg"]));
             }
             set {
-                this["FeaturesDlgBounds"] = value;
+                this["FeaturesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle TranscriptionChangesDlgBounds {
+        public global::SilUtils.FormSettings TranscriptionChangesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["TranscriptionChangesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["TranscriptionChangesDlg"]));
             }
             set {
-                this["TranscriptionChangesDlgBounds"] = value;
+                this["TranscriptionChangesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle ProjectSettingsDlgBounds {
+        public global::SilUtils.FormSettings ProjectSettingsDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["ProjectSettingsDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["ProjectSettingsDlg"]));
             }
             set {
-                this["ProjectSettingsDlgBounds"] = value;
+                this["ProjectSettingsDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle SaveSearchQuerDlgBounds {
+        public global::SilUtils.FormSettings SaveSearchQuerDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["SaveSearchQuerDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["SaveSearchQuerDlg"]));
             }
             set {
-                this["SaveSearchQuerDlgBounds"] = value;
+                this["SaveSearchQuerDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle SaveDistChartDlgBounds {
+        public global::SilUtils.FormSettings SaveDistChartDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["SaveDistChartDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["SaveDistChartDlg"]));
             }
             set {
-                this["SaveDistChartDlgBounds"] = value;
+                this["SaveDistChartDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle SFDataSourcePropertiesDlgBounds {
+        public global::SilUtils.FormSettings SFDataSourcePropertiesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["SFDataSourcePropertiesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["SFDataSourcePropertiesDlg"]));
             }
             set {
-                this["SFDataSourcePropertiesDlgBounds"] = value;
+                this["SFDataSourcePropertiesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle FindDlgBounds {
+        public global::SilUtils.FormSettings FindDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["FindDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["FindDlg"]));
             }
             set {
-                this["FindDlgBounds"] = value;
+                this["FindDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle UndefinedCharactersInClassDlgBounds {
+        public global::SilUtils.FormSettings UndefinedPhoneticCharactersDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["UndefinedCharactersInClassDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["UndefinedPhoneticCharactersDlg"]));
             }
             set {
-                this["UndefinedCharactersInClassDlgBounds"] = value;
+                this["UndefinedPhoneticCharactersDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle UndefinedPhoneticCharactersDlgBounds {
+        public global::SilUtils.FormSettings OptionsDialog {
             get {
-                return ((global::System.Drawing.Rectangle)(this["UndefinedPhoneticCharactersDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["OptionsDialog"]));
             }
             set {
-                this["UndefinedPhoneticCharactersDlgBounds"] = value;
+                this["OptionsDialog"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle OptionsDialogBounds {
+        public global::SilUtils.FormSettings FwDataSourcePropertiesDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["OptionsDialogBounds"]));
+                return ((global::SilUtils.FormSettings)(this["FwDataSourcePropertiesDlg"]));
             }
             set {
-                this["OptionsDialogBounds"] = value;
+                this["FwDataSourcePropertiesDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle FwDataSourcePropertiesDlgBounds {
+        public global::SilUtils.FormSettings FwProjectsDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["FwDataSourcePropertiesDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["FwProjectsDlg"]));
             }
             set {
-                this["FwDataSourcePropertiesDlgBounds"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle FwProjectsDlgBounds {
-            get {
-                return ((global::System.Drawing.Rectangle)(this["FwProjectsDlgBounds"]));
-            }
-            set {
-                this["FwProjectsDlgBounds"] = value;
+                this["FwProjectsDlg"] = value;
             }
         }
         
@@ -963,13 +933,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle DefineFiltersDlgBounds {
+        public global::SilUtils.FormSettings FiltersDlg {
             get {
-                return ((global::System.Drawing.Rectangle)(this["DefineFiltersDlgBounds"]));
+                return ((global::SilUtils.FormSettings)(this["FiltersDlg"]));
             }
             set {
-                this["DefineFiltersDlgBounds"] = value;
+                this["FiltersDlg"] = value;
             }
         }
         
@@ -1133,13 +1102,233 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
-        public global::System.Drawing.Rectangle FiltersDlgBounds {
+        public global::SilUtils.GridSettings AmbiguousSequencesDlgGrid {
             get {
-                return ((global::System.Drawing.Rectangle)(this["FiltersDlgBounds"]));
+                return ((global::SilUtils.GridSettings)(this["AmbiguousSequencesDlgGrid"]));
             }
             set {
-                this["FiltersDlgBounds"] = value;
+                this["AmbiguousSequencesDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings RestoreDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["RestoreDlgGrid"]));
+            }
+            set {
+                this["RestoreDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings CustomFieldsDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["CustomFieldsDlgGrid"]));
+            }
+            set {
+                this["CustomFieldsDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings FwDataSourcePropertiesDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["FwDataSourcePropertiesDlgGrid"]));
+            }
+            set {
+                this["FwDataSourcePropertiesDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings ProjectSettingsDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["ProjectSettingsDlgGrid"]));
+            }
+            set {
+                this["ProjectSettingsDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings UndefinedPhoneticCharactersDlgCharsGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["UndefinedPhoneticCharactersDlgCharsGrid"]));
+            }
+            set {
+                this["UndefinedPhoneticCharactersDlgCharsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings UndefinedPhoneticCharactersDlgWhereGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["UndefinedPhoneticCharactersDlgWhereGrid"]));
+            }
+            set {
+                this["UndefinedPhoneticCharactersDlgWhereGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings TranscriptionChangesGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["TranscriptionChangesGrid"]));
+            }
+            set {
+                this["TranscriptionChangesGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int UndefinedPhoneticCharactersDlgSplitLoc {
+            get {
+                return ((int)(this["UndefinedPhoneticCharactersDlgSplitLoc"]));
+            }
+            set {
+                this["UndefinedPhoneticCharactersDlgSplitLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings OptionsDialogFontGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["OptionsDialogFontGrid"]));
+            }
+            set {
+                this["OptionsDialogFontGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings SFDataSourcePropertiesDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["SFDataSourcePropertiesDlgGrid"]));
+            }
+            set {
+                this["SFDataSourcePropertiesDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int SFDataSourcePropertiesDlgSplitLoc {
+            get {
+                return ((int)(this["SFDataSourcePropertiesDlgSplitLoc"]));
+            }
+            set {
+                this["SFDataSourcePropertiesDlgSplitLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Font UIFont {
+            get {
+                return ((global::System.Drawing.Font)(this["UIFont"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings MainWindow {
+            get {
+                return ((global::SilUtils.FormSettings)(this["MainWindow"]));
+            }
+            set {
+                this["MainWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings DataCorpusVw {
+            get {
+                return ((global::SilUtils.FormSettings)(this["DataCorpusVw"]));
+            }
+            set {
+                this["DataCorpusVw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings SearchVw {
+            get {
+                return ((global::SilUtils.FormSettings)(this["SearchVw"]));
+            }
+            set {
+                this["SearchVw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings VowelChartVw {
+            get {
+                return ((global::SilUtils.FormSettings)(this["VowelChartVw"]));
+            }
+            set {
+                this["VowelChartVw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings ConsonantChartVw {
+            get {
+                return ((global::SilUtils.FormSettings)(this["ConsonantChartVw"]));
+            }
+            set {
+                this["ConsonantChartVw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings XYChartVw {
+            get {
+                return ((global::SilUtils.FormSettings)(this["XYChartVw"]));
+            }
+            set {
+                this["XYChartVw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ReloadProjectsOnActivate {
+            get {
+                return ((bool)(this["ReloadProjectsOnActivate"]));
             }
         }
     }

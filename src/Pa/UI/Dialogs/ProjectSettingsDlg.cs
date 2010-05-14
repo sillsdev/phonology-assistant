@@ -73,8 +73,6 @@ namespace SIL.Pa.UI.Dialogs
 			pnlGridHdg.BorderStyle = BorderStyle.None;
 			pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
-			App.SettingsHandler.LoadFormProperties(this);
-
 			if (project == null)
 				m_project = new PaProject(true);
 			else
@@ -194,7 +192,8 @@ namespace SIL.Pa.UI.Dialogs
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
 				LocalizationPriority.High);
 
-		    App.SettingsHandler.LoadGridProperties(m_grid);
+			if (Settings.Default.ProjectSettingsDlgGrid != null)
+				Settings.Default.ProjectSettingsDlgGrid.InitializeGrid(m_grid);
 
 			// When xslt transforms are supported when reading data, then this should become visible.
 			m_grid.Columns["xslt"].Visible = false;
@@ -370,9 +369,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
+			Settings.Default.ProjectSettingsDlgGrid = GridSettings.Create(m_grid);
 			base.SaveSettings();
-			App.SettingsHandler.SaveFormProperties(this);
-			App.SettingsHandler.SaveGridProperties(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -41,10 +41,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid = grid;
 
 			InitializeComponent();
-
-			if (Settings.Default.FindDlgBounds.Height <= 0)
-				StartPosition = FormStartPosition.CenterScreen;
 			
+			Settings.Default.FindDlg = App.InitializeForm(this, Settings.Default.FindDlg);
 			SetUiFonts();
 
 			// Select previous selected columns
@@ -98,26 +96,11 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-
-			if (Settings.Default.FindDlgBounds.Height > 0)
-				Bounds = Settings.Default.FindDlgBounds;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// FindDlg Closing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			Settings.Default.FindDlgBounds = Bounds;
-
 			// Save the FieldNames of the search columns for initial selection when
 			// the FindDlg is reopened
 			s_colsToFindIn.Clear();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -48,8 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (App.IPASymbolCache.UndefinedCharacters != null &&
 				App.IPASymbolCache.UndefinedCharacters.Count > 0)
 			{
-				using (UndefinedPhoneticCharactersDlg dlg =	new UndefinedPhoneticCharactersDlg(
-					projectName, App.IPASymbolCache.UndefinedCharacters))
+				using (var dlg = new UndefinedPhoneticCharactersDlg(projectName, App.IPASymbolCache.UndefinedCharacters))
 				{
 					if (App.MainForm != null)
 						App.MainForm.AddOwnedForm(dlg);
@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (list != null && list.Count > 0)
 			{
-				using (UndefinedPhoneticCharactersDlg dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
+				using (var dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
 				{
 					if (App.MainForm != null)
 						App.MainForm.AddOwnedForm(dlg);
@@ -292,6 +292,74 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		protected override void OnLoad(EventArgs e)
+		{
+			Settings.Default.UndefinedPhoneticCharactersDlg =
+				App.InitializeForm(this, Settings.Default.UndefinedPhoneticCharactersDlg);
+			
+			base.OnLoad(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnShown(EventArgs e)
+		{
+			base.OnShown(e);
+
+			if (Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc > 0)
+				splitContainer1.SplitterDistance = Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc;
+
+			if (Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid != null)
+				Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid.InitializeGrid(m_gridChars);
+
+			if (Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid != null)
+				Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid.InitializeGrid(m_gridWhere);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosing(FormClosingEventArgs e)
+		{
+			Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid = GridSettings.Create(m_gridChars);
+			Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid = GridSettings.Create(m_gridWhere);
+			Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc = splitContainer1.SplitterDistance;	
+
+			if (App.Project != null)
+			{
+				if (App.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
+					App.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
+				{
+					App.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
+					App.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
+					App.Project.Save();
+				}
+			}
+
+			base.OnFormClosing(e);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowHeightInfoNeeded(object sender, DataGridViewRowHeightInfoNeededEventArgs e)
 		{
 			e.Height = m_defaultRowHeight;
@@ -353,62 +421,6 @@ namespace SIL.Pa.UI.Dialogs
 				case 1: e.Value = m_currUdpcil[row].Reference; break;
 				case 2: e.Value = m_currUdpcil[row].SourceName; break;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
-
-			Utils.CenterFormInScreen(this);
-			float splitRatio =
-				App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0f);
-
-			// If the split ratio is zero, assume any form and grid settings found were
-			// for the dialog as it was before my significant design changes made on
-			// 11-Sep-07. As such, keep the default layout since the old saved settings
-			// will probably make the dialog too small.
-			if (splitRatio > 0)
-			{
-				App.SettingsHandler.LoadFormProperties(this);
-				App.SettingsHandler.LoadGridProperties(m_gridChars);
-				App.SettingsHandler.LoadGridProperties(m_gridWhere);
-				splitContainer1.SplitterDistance = (int)(splitContainer1.Width * splitRatio);
-			}
-
-			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			App.SettingsHandler.SaveFormProperties(this);
-			App.SettingsHandler.SaveGridProperties(m_gridChars);
-			App.SettingsHandler.SaveGridProperties(m_gridWhere);
-
-			float splitRatio = splitContainer1.SplitterDistance / (float)splitContainer1.Width;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-
-			if (App.Project != null)
-			{
-				if (App.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
-					App.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
-				{
-					App.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
-					App.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
-					App.Project.Save();
-				}
-			}
-			
-			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

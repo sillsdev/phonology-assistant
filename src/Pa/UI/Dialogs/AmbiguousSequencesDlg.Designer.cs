@@ -131,7 +131,6 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 

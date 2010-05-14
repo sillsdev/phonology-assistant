@@ -57,9 +57,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			InitializeComponent();
 
-			if (Settings.Default.BackupDlgBounds.Height <= 0)
-				StartPosition = FormStartPosition.CenterScreen;
-
 			btnClose.Location = btnCancel.Location;
 
 			//m_fmtInfo = lblInfo.Text;
@@ -75,8 +72,6 @@ namespace SIL.Pa.UI.Dialogs
 				lblInfo.Text = string.Format(lblInfo.Text, App.Project.Name, m_backupFile);
 				chkIncludeDataSources.Checked = (m_dsFiles.Count > 0);
 				chkIncludeDataSources.Enabled = (m_dsFiles.Count > 0);
-
-				App.SettingsHandler.LoadFormProperties(this);
 			}
 			catch { }
 		}
@@ -88,22 +83,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
+			Settings.Default.BackupDlg = App.InitializeForm(this, Settings.Default.BackupDlg);
 			base.OnLoad(e);
-
-			if (Settings.Default.BackupDlgBounds.Height > 0)
-				Bounds = Settings.Default.BackupDlgBounds;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			Settings.Default.BackupDlgBounds = Bounds;
-			Settings.Default.Save();
-			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

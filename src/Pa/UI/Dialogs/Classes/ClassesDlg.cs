@@ -66,8 +66,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// --------------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			base.SaveSettings();
 			lvClasses.SaveSettings(Name);
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------

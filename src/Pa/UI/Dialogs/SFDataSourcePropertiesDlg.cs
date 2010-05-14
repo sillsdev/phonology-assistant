@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -99,24 +100,6 @@ namespace SIL.Pa.UI.Dialogs
 			BuildMappingGrid();
 			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
-			App.SettingsHandler.LoadFormProperties(this);
-
-			// Make sure the stuff in the left (fixed) panel can all be seen.
-			if (cboFirstInterlinear.Right > splitOuter.SplitterDistance - 11)
-				splitOuter.SplitterDistance = (cboFirstInterlinear.Right + 11);
-
-			try
-			{
-				// By default, give the mappings grid 65% of the width of its containing
-				// split container control. That means the file contents gets 35%.
-				scImport.SplitterDistance = (int)(scImport.Width * .65);
-
-				int splitterDistance = App.SettingsHandler.GetIntSettingsValue(Name, "splitter", -1);
-				if (splitterDistance > -1)
-					scImport.SplitterDistance = splitterDistance;
-			}
-			catch { }
-
 			rbNoParse.Tag = Properties.Resources.kstidNoParseSampleOutput;
 			rbParseOneToOne.Tag = Properties.Resources.kstidOneToOneSampleOutput;
 			rbParseOnlyPhonetic.Tag = Properties.Resources.kstidParsePhoneticSampleOutput;
@@ -132,6 +115,11 @@ namespace SIL.Pa.UI.Dialogs
 			//m_tooltip.SetToolTip(rbParseOneToOne, tooltip);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private void InitializeBottomPanel()
 		{
 			tblLayoutButtons.ColumnCount += 2;
@@ -329,6 +317,19 @@ namespace SIL.Pa.UI.Dialogs
 
 			base.OnShown(e);
 
+			// Make sure the stuff in the left (fixed) panel can all be seen.
+			if (cboFirstInterlinear.Right > splitOuter.SplitterDistance - 11)
+				splitOuter.SplitterDistance = (cboFirstInterlinear.Right + 11);
+
+			if (Settings.Default.SFDataSourcePropertiesDlgSplitLoc > 0)
+				scImport.SplitterDistance = Settings.Default.SFDataSourcePropertiesDlgSplitLoc;
+			else
+			{
+				// By default, give the mappings grid 65% of the width of its containing
+				// split container control. That means the file contents gets 35%.
+				scImport.SplitterDistance = (int)(scImport.Width * .65);
+			}
+
 			// Sets the proper parsing type. This is best
 			// done later rather than in the constructor.
 			switch (m_datasource.ParseType)
@@ -412,10 +413,9 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			catch { }
 
-			// If there weren't values previously saved for this grid, then set some of the
-			// grid's properties to their initial values.
-			string gridLinesValue;
-			if (!App.SettingsHandler.LoadGridProperties(m_grid, out gridLinesValue))
+			if (Settings.Default.SFDataSourcePropertiesDlgGrid != null)
+				Settings.Default.SFDataSourcePropertiesDlgGrid.InitializeGrid(m_grid);
+			else
 			{
 				m_grid.AutoResizeColumnHeadersHeight();
 				m_grid.AutoResizeColumns();
@@ -433,10 +433,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
+			Settings.Default.SFDataSourcePropertiesDlgGrid = GridSettings.Create(m_grid);
+			Settings.Default.SFDataSourcePropertiesDlgSplitLoc = scImport.SplitterDistance;
 			base.SaveSettings();
-			App.SettingsHandler.SaveFormProperties(this);
-			App.SettingsHandler.SaveGridProperties(m_grid, null);
-			App.SettingsHandler.SaveSettingsValue(Name, "splitter", scImport.SplitterDistance);
 		}
 
 		/// ------------------------------------------------------------------------------------

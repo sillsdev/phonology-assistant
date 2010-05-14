@@ -69,8 +69,6 @@ namespace SIL.Pa.UI.Dialogs
 			chkIncludeInList.Font = FontHelper.UIFont;
 			hlblExpressions.Font = FontHelper.UIFont;
 
-			App.SettingsHandler.LoadFormProperties(this);
-
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
 			btnOK.Left = btnCancel.Left;

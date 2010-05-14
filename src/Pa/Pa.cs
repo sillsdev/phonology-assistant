@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -158,13 +159,8 @@ namespace SIL.Pa
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 
 			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
-
-			string langId = Settings.Default.UserInterfaceLanguage;
-
-			LocalizationManager.UILangId = (string.IsNullOrEmpty(langId) ?
-				LocalizationManager.kDefaultLang : langId);
-
 			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
+			SetUILanguage();
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
@@ -188,6 +184,30 @@ namespace SIL.Pa
 
 			// Load the cache of IPA symbols, articulatory and binary features.
 			InventoryHelper.Load();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void SetUILanguage()
+		{
+			string langId = Settings.Default.UserInterfaceLanguage;
+
+			// Specifying the UI language on the command-line trumps the one in
+			// the settings file (i.e. the one set in the options dialog box).
+			foreach (var arg in Environment.GetCommandLineArgs())
+			{
+				if (arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:"))
+				{
+					langId = arg.Substring(8);
+					break;
+				}
+			}
+
+			LocalizationManager.UILangId = (string.IsNullOrEmpty(langId) ?
+				LocalizationManager.kDefaultLang : langId);
 		}
 
 		#region Misc. localized global strings
@@ -1275,6 +1295,21 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static FormSettings InitializeForm(Form frm, FormSettings settings)
+		{
+			if (settings != null)
+				settings.InitializeForm(frm);
+			else
+				settings = FormSettings.Create(frm);
+
+			return settings;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default phonology assistant menu in the specified container control.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
@@ -62,7 +63,6 @@ namespace SIL.Pa.UI.Dialogs
 			rbPronunField.Checked =
 				(m_fwSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField);
 
-			App.SettingsHandler.LoadFormProperties(this);
 			m_dirty = false;
 
 			// This is annoying to have to do this, but setting the tab order in the
@@ -121,7 +121,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 
 			m_grid.AutoResizeColumnHeadersHeight();
-			App.SettingsHandler.LoadGridProperties(m_grid);
+
+			if (Settings.Default.FwDataSourcePropertiesDlgGrid != null)
+				Settings.Default.FwDataSourcePropertiesDlgGrid.InitializeGrid(m_grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -334,9 +336,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
+			Settings.Default.FwDataSourcePropertiesDlgGrid = GridSettings.Create(m_grid);
 			base.SaveSettings();
-			App.SettingsHandler.SaveFormProperties(this);
-			App.SettingsHandler.SaveGridProperties(m_grid);
 		}
 		
 		/// ------------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			while (true)
 			{
-				TextFormatFlags flags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
+				const TextFormatFlags flags = TextFormatFlags.Default | TextFormatFlags.WordBreak;
 				int height = TextRenderer.MeasureText(lblInfo.Text, lblInfo.Font,
 					lblInfo.ClientSize, flags).Height;
 
@@ -74,11 +74,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
 			App.ShowHelpTopic(this);
-		}
-
-		private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-		{
-
 		}
 	}
 }
