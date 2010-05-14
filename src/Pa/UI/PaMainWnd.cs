@@ -84,7 +84,7 @@ namespace SIL.Pa.UI
 			Application.DoEvents();
 
 			// Unpack training projects if it's never been done before.
-			TrainingProjectsHelper tph = new TrainingProjectsHelper();
+			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
 			LocalizeItemDlg.StringsLocalized += SetWindowText;
@@ -283,10 +283,10 @@ namespace SIL.Pa.UI
 			Utils.WaitCursors(false);
 		}
 
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the view tabs.
 		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		/// ------------------------------------------------------------------------------------
 		private void LoadViewTabs()
 		{

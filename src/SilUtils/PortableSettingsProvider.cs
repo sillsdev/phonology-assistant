@@ -24,10 +24,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace SilUtils
 {
@@ -160,20 +162,12 @@ namespace SilUtils
 			try
 			{
 				XmlNode node = m_settingsXml.SelectSingleNode(Root + "/" + setting.Name);
-				
-				// StringCollections will have an indicating attribute and they
-				// receive special handling.
-				if (node.Attributes.GetNamedItem(StrCollectionAttrib) != null &&
-					node.Attributes[StrCollectionAttrib].Value == "true")
-				{
-					var sc = new StringCollection();
-					foreach (XmlNode childNode in node.ChildNodes)
-						sc.Add(childNode.InnerText);
 
-					value.PropertyValue = sc;
+				if (!GetStringCollection(value, node))
+				{
+					if (!GetGridSettings(value, node))
+						value.SerializedValue = node.InnerText;
 				}
-				else
-					value.SerializedValue = node.InnerText;
 			}
 			catch
 			{
@@ -182,6 +176,48 @@ namespace SilUtils
 			}
 
 			return value;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool GetStringCollection(SettingsPropertyValue value, XmlNode node)
+		{
+			// StringCollections will have an indicating attribute and they
+			// receive special handling.
+			if (node.Attributes.GetNamedItem(StrCollectionAttrib) != null &&
+				node.Attributes[StrCollectionAttrib].Value == "true")
+			{
+				var sc = new StringCollection();
+				foreach (XmlNode childNode in node.ChildNodes)
+					sc.Add(childNode.InnerText);
+
+				value.PropertyValue = sc;
+				return true;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool GetGridSettings(SettingsPropertyValue value, XmlNode node)
+		{
+			if (node.Attributes.GetNamedItem("type") != null &&
+				node.Attributes["type"].Value == typeof(GridSettings).FullName)
+			{
+				value.PropertyValue =
+					XmlSerializationHelper.DeserializeFromString<GridSettings>(node.InnerXml) ?? new GridSettings();
+
+				return true;
+			}
+
+			return false;
 		}
 
 		#endregion
@@ -225,7 +261,10 @@ namespace SilUtils
 			
 			try
 			{
-				m_settingsXml.Save(Path.Combine(SettingsFilePath, SettingsFilename));
+				// Loading the XML into a new document will make all the indentation correct.
+				var tmpXmlDoc = new XmlDocument();
+				tmpXmlDoc.LoadXml(m_settingsXml.OuterXml);
+				tmpXmlDoc.Save(Path.Combine(SettingsFilePath, SettingsFilename));
 			}
 			catch { }
 		}
@@ -233,22 +272,29 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Sets the value of a node to that found in the specified property. This method
-		/// specially handles properties that are string collections.
+		/// specially handles various types of properties (e.g. string collections).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetPropNodeValue(XmlNode propNode, SettingsPropertyValue propVal)
 		{
-			if (propVal.Property.PropertyType != typeof(StringCollection))
-			{
+			if (propVal.Property.PropertyType == typeof(StringCollection))
+				SetStringCollection(propVal, propNode);
+			else if (propVal.Property.PropertyType == typeof(GridSettings))
+				SetGridSettings(propVal, propNode);
+			else
 				propNode.InnerText = propVal.SerializedValue.ToString();
-				return;
-			}
+		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetStringCollection(SettingsPropertyValue propVal, XmlNode propNode)
+		{
 			if (propVal.PropertyValue == null)
 				return;
 
-			// At this point, we know we're dealing with a string collection, therefore,
-			// create child nodes for each item in the collection.
 			propNode.RemoveAll();
 			var attrib = m_settingsXml.CreateAttribute(StrCollectionAttrib);
 			attrib.Value = "true";
@@ -260,6 +306,26 @@ namespace SilUtils
 				node.AppendChild(m_settingsXml.CreateTextNode(str));
 				propNode.AppendChild(node);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetGridSettings(SettingsPropertyValue propVal, XmlNode propNode)
+		{
+			var gridSettings = propVal.PropertyValue as GridSettings;
+			if (gridSettings == null)
+				return;
+
+			propNode.RemoveAll();
+			var attrib = m_settingsXml.CreateAttribute("type");
+			attrib.Value = typeof(GridSettings).FullName;
+			propNode.Attributes.Append(attrib);
+
+			propNode.InnerXml =
+				(XmlSerializationHelper.SerializeToString(gridSettings, true) ?? string.Empty);
 		}
 
 		#endregion
@@ -302,6 +368,116 @@ namespace SilUtils
 			}
 
 			return array.ToArray();
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	[XmlType("gridSettings")]
+	public class GridSettings
+	{
+		[XmlElement("columnHeaderHeight")]
+		public int ColumnHeaderHeight { get; set; }
+		[XmlElement("dpi")]
+		public float DPI { get; set; }
+		[XmlArray("columns"), XmlArrayItem("col")]
+		public GridColumnSettings[] Columns { get; set; }
+
+		private readonly float m_currDpi;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal GridSettings()
+		{
+			ColumnHeaderHeight = -1;
+			Columns = new GridColumnSettings[] { };
+			using (Form frm = new Form())
+			using (Graphics g = frm.CreateGraphics())
+				m_currDpi = DPI = g.DpiX;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static GridSettings Create(DataGridView grid)
+		{
+			var gridSettings = new GridSettings();
+
+			gridSettings.ColumnHeaderHeight = grid.ColumnHeadersHeight;
+
+			var colSettings = new List<GridColumnSettings>();
+
+			foreach (DataGridViewColumn col in grid.Columns)
+			{
+				colSettings.Add(new GridColumnSettings { Id = col.Name, Width = col.Width,
+					Visible = col.Visible, DisplayIndex = col.DisplayIndex });
+			}
+
+			gridSettings.Columns = colSettings.ToArray();
+			return gridSettings;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void InitializeGrid(DataGridView grid)
+		{
+			foreach (var col in Columns)
+			{
+				grid.Columns[col.Id].Visible = col.Visible;
+
+				if (col.Width >= 0)
+                    grid.Columns[col.Id].Width = col.Width;
+				
+				if (col.DisplayIndex >= 0)
+					grid.Columns[col.Id].DisplayIndex = col.DisplayIndex;
+			}
+
+			// If the column header height or the former dpi settings are different,
+			// then auto. calculate the height of the column headings.
+			if (ColumnHeaderHeight <= 0 || DPI != m_currDpi)
+				grid.AutoResizeColumnHeadersHeight();
+			else
+				grid.ColumnHeadersHeight = ColumnHeaderHeight;
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// 
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
+	public class GridColumnSettings
+	{
+		[XmlAttribute("id")]
+		public string Id { get; set; }
+		[XmlAttribute("visible")]
+		public bool Visible { get; set; }
+		[XmlAttribute("width")]
+		public int Width { get; set; }
+		[XmlAttribute("displayIndex")]
+		public int DisplayIndex { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		internal GridColumnSettings()
+		{
+			Visible = true;
+			Width = -1;
+			DisplayIndex = -1;
 		}
 	}
 }

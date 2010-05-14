@@ -2,7 +2,7 @@
 
 namespace SIL.Pa.UI.Dialogs
 {
-	partial class DefineFiltersDlg
+	partial class FiltersDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefineFiltersDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FiltersDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
@@ -86,7 +86,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.hdrFilter, null);
 			this.locExtender.SetLocalizationComment(this.hdrFilter, null);
-			this.locExtender.SetLocalizingId(this.hdrFilter, "DefineFiltersDlg.lvFiltersColhdrFilter");
+			this.locExtender.SetLocalizingId(this.hdrFilter, "FiltersDlg.lvFiltersColhdrFilter");
 			resources.ApplyResources(this.hdrFilter, "hdrFilter");
 			// 
 			// splitFilters
@@ -119,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlFilters, null);
 			this.locExtender.SetLocalizationComment(this.pnlFilters, null);
-			this.locExtender.SetLocalizingId(this.pnlFilters, "DefineFiltersDlg.pnlFilters");
+			this.locExtender.SetLocalizingId(this.pnlFilters, "FiltersDlg.pnlFilters");
 			this.pnlFilters.MnemonicGeneratesClick = false;
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.PaintExplorerBarBackground = false;
@@ -129,7 +129,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
 			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
 			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
-			this.locExtender.SetLocalizingId(this.btnApplyNow, "DefineFiltersDlg.btnApplyNow");
+			this.locExtender.SetLocalizingId(this.btnApplyNow, "FiltersDlg.btnApplyNow");
 			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
 			this.btnApplyNow.Name = "btnApplyNow";
 			this.btnApplyNow.UseVisualStyleBackColor = true;
@@ -142,7 +142,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.hlblFilters, "hlblFilters");
 			this.locExtender.SetLocalizableToolTip(this.hlblFilters, null);
 			this.locExtender.SetLocalizationComment(this.hlblFilters, null);
-			this.locExtender.SetLocalizingId(this.hlblFilters, "DefineFiltersDlg.hlblFilters");
+			this.locExtender.SetLocalizingId(this.hlblFilters, "FiltersDlg.hlblFilters");
 			this.hlblFilters.MnemonicGeneratesClick = true;
 			this.hlblFilters.Name = "hlblFilters";
 			this.hlblFilters.ShowWindowBackgroudOnTopAndRightEdge = false;
@@ -160,7 +160,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnAdd, "btnAdd");
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, null);
-			this.locExtender.SetLocalizingId(this.btnAdd, "DefineFiltersDlg.btnAdd");
+			this.locExtender.SetLocalizingId(this.btnAdd, "FiltersDlg.btnAdd");
 			this.btnAdd.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.UseVisualStyleBackColor = true;
@@ -171,7 +171,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnCopy, "btnCopy");
 			this.locExtender.SetLocalizableToolTip(this.btnCopy, null);
 			this.locExtender.SetLocalizationComment(this.btnCopy, null);
-			this.locExtender.SetLocalizingId(this.btnCopy, "DefineFiltersDlg.btnCopy");
+			this.locExtender.SetLocalizingId(this.btnCopy, "FiltersDlg.btnCopy");
 			this.btnCopy.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.UseVisualStyleBackColor = true;
@@ -182,7 +182,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnDeleteFilter, "btnDeleteFilter");
 			this.locExtender.SetLocalizableToolTip(this.btnDeleteFilter, null);
 			this.locExtender.SetLocalizationComment(this.btnDeleteFilter, null);
-			this.locExtender.SetLocalizingId(this.btnDeleteFilter, "DefineFiltersDlg.btnDeleteFilter");
+			this.locExtender.SetLocalizingId(this.btnDeleteFilter, "FiltersDlg.btnDeleteFilter");
 			this.btnDeleteFilter.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnDeleteFilter.Name = "btnDeleteFilter";
 			this.btnDeleteFilter.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlExpressions, null);
 			this.locExtender.SetLocalizationComment(this.pnlExpressions, null);
-			this.locExtender.SetLocalizingId(this.pnlExpressions, "DefineFiltersDlg.pnlExpressions");
+			this.locExtender.SetLocalizingId(this.pnlExpressions, "FiltersDlg.pnlExpressions");
 			this.pnlExpressions.MnemonicGeneratesClick = false;
 			this.pnlExpressions.Name = "pnlExpressions";
 			this.pnlExpressions.PaintExplorerBarBackground = false;
@@ -230,7 +230,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizingId(this.m_grid, "DefineFiltersDlg.m_grid");
+			this.locExtender.SetLocalizingId(this.m_grid, "FiltersDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
 			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.hlblExpressions, "hlblExpressions");
 			this.locExtender.SetLocalizableToolTip(this.hlblExpressions, null);
 			this.locExtender.SetLocalizationComment(this.hlblExpressions, null);
-			this.locExtender.SetLocalizingId(this.hlblExpressions, "DefineFiltersDlg.hlblExpressions");
+			this.locExtender.SetLocalizingId(this.hlblExpressions, "FiltersDlg.hlblExpressions");
 			this.hlblExpressions.MnemonicGeneratesClick = true;
 			this.hlblExpressions.Name = "hlblExpressions";
 			this.hlblExpressions.ShowWindowBackgroudOnTopAndRightEdge = false;
@@ -281,7 +281,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbMatchAll.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.rbMatchAll, null);
 			this.locExtender.SetLocalizationComment(this.rbMatchAll, null);
-			this.locExtender.SetLocalizingId(this.rbMatchAll, "DefineFiltersDlg.rbMatchAll");
+			this.locExtender.SetLocalizingId(this.rbMatchAll, "FiltersDlg.rbMatchAll");
 			this.rbMatchAll.Name = "rbMatchAll";
 			this.rbMatchAll.TabStop = true;
 			this.rbMatchAll.UseVisualStyleBackColor = false;
@@ -292,7 +292,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkIncludeInList.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.chkIncludeInList, "\"Check to display this filter in the\\nfilter toolbar button’s drop-down list.\"");
 			this.locExtender.SetLocalizationComment(this.chkIncludeInList, null);
-			this.locExtender.SetLocalizingId(this.chkIncludeInList, "DefineFiltersDlg.chkIncludeInList");
+			this.locExtender.SetLocalizingId(this.chkIncludeInList, "FiltersDlg.chkIncludeInList");
 			this.chkIncludeInList.Name = "chkIncludeInList";
 			this.chkIncludeInList.UseVisualStyleBackColor = false;
 			// 
@@ -302,7 +302,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbMatchAny.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.rbMatchAny, null);
 			this.locExtender.SetLocalizationComment(this.rbMatchAny, null);
-			this.locExtender.SetLocalizingId(this.rbMatchAny, "DefineFiltersDlg.rbMatchAny");
+			this.locExtender.SetLocalizingId(this.rbMatchAny, "FiltersDlg.rbMatchAny");
 			this.rbMatchAny.Name = "rbMatchAny";
 			this.rbMatchAny.TabStop = true;
 			this.rbMatchAny.UseVisualStyleBackColor = false;
@@ -312,7 +312,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.btnRemoveExp, "btnRemoveExp");
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveExp, null);
 			this.locExtender.SetLocalizationComment(this.btnRemoveExp, null);
-			this.locExtender.SetLocalizingId(this.btnRemoveExp, "DefineFiltersDlg.btnRemoveExp");
+			this.locExtender.SetLocalizingId(this.btnRemoveExp, "FiltersDlg.btnRemoveExp");
 			this.btnRemoveExp.MinimumSize = new System.Drawing.Size(175, 26);
 			this.btnRemoveExp.Name = "btnRemoveExp";
 			this.btnRemoveExp.UseVisualStyleBackColor = true;
@@ -329,8 +329,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitFilters);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DefineFiltersDlg.WindowTitle");
-			this.Name = "DefineFiltersDlg";
+			this.locExtender.SetLocalizingId(this, "FiltersDlg.WindowTitle");
+			this.Name = "FiltersDlg";
 			this.Controls.SetChildIndex(this.splitFilters, 0);
 			this.splitFilters.Panel1.ResumeLayout(false);
 			this.splitFilters.Panel1.PerformLayout();

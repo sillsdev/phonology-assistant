@@ -710,7 +710,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilters(object args)
 		{
-			using (var dlg = new DefineFiltersDlg())
+			using (var dlg = new FiltersDlg())
 				dlg.ShowDialog(this);
 			
 			return true;

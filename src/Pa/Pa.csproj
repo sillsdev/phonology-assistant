@@ -147,6 +147,7 @@
     <Compile Include="Filters\Filters.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
+    <Compile Include="Miscellaneous\MruProjects.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
     <Compile Include="Miscellaneous\ZipUtils.cs" />
@@ -485,12 +486,6 @@
     <Compile Include="UI\Dialogs\CustomFieldsDlg.Designer.cs">
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\DefineFiltersDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\DefineFiltersDlg.Designer.cs">
-      <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\FeaturesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -508,6 +503,12 @@
     </Compile>
     <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.designer.cs">
       <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FiltersDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\FiltersDlg.designer.cs">
+      <DependentUpon>FiltersDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FindDlg.cs">
       <SubType>Form</SubType>
@@ -731,9 +732,6 @@
     <EmbeddedResource Include="UI\Dialogs\CustomFieldsDlg.resx">
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\DefineFiltersDlg.resx">
-      <DependentUpon>DefineFiltersDlg.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -862,6 +860,10 @@
       <DependentUpon>FwProjectsDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FiltersDlg.resx">
+      <DependentUpon>FiltersDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Options\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -934,12 +936,13 @@ copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Proces
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\GoogleTranslateAPI.dll" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"
+
+rem copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
+rem copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
 
 rem md "$(ProjectDir)$(OutDir)\Localizations"
 rem copy "$(TargetDir)..\..\DistFiles\Pa.??.tmx" "$(ProjectDir)$(OutDir)\Localizations"

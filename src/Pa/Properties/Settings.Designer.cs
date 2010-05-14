@@ -1081,5 +1081,66 @@ namespace SIL.Pa.Properties {
                 this["LastFolderForOpenProjectDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings FeaturesDlgPhoneGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["FeaturesDlgPhoneGrid"]));
+            }
+            set {
+                this["FeaturesDlgPhoneGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection MRUList {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["MRUList"]));
+            }
+            set {
+                this["MRUList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.GridSettings FiltersDlgGrid {
+            get {
+                return ((global::SilUtils.GridSettings)(this["FiltersDlgGrid"]));
+            }
+            set {
+                this["FiltersDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int FiltersDlgSplitLoc {
+            get {
+                return ((int)(this["FiltersDlgSplitLoc"]));
+            }
+            set {
+                this["FiltersDlgSplitLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, -1")]
+        public global::System.Drawing.Rectangle FiltersDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["FiltersDlgBounds"]));
+            }
+            set {
+                this["FiltersDlgBounds"] = value;
+            }
+        }
     }
 }

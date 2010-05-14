@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pa", "src\Pa\Pa.csproj", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtilsTests", "src\SilUtils\SilUtilsTests\SilUtilsTests.csproj", "{78AB2DD4-7799-4E70-B7A8-5229982AAB43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaTests", "src\PaTests\PaTests.csproj", "{B73CA343-F420-404F-A124-42AFF4BF38C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{78AB2DD4-7799-4E70-B7A8-5229982AAB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78AB2DD4-7799-4E70-B7A8-5229982AAB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78AB2DD4-7799-4E70-B7A8-5229982AAB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B73CA343-F420-404F-A124-42AFF4BF38C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73CA343-F420-404F-A124-42AFF4BF38C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73CA343-F420-404F-A124-42AFF4BF38C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73CA343-F420-404F-A124-42AFF4BF38C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

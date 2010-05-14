@@ -1292,7 +1292,8 @@ namespace SIL.Pa
 				defs[0] = Path.Combine(ConfigFolder, "PaTMDefinition.xml");
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
-				adapter.RecentFilesList = RecentlyUsedProjectList;
+				adapter.RecentFilesList = (MruProjects.Paths ?? new string[] { });
+//				adapter.RecentFilesList = RecentlyUsedProjectList;
 				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
 			}
 
@@ -1370,53 +1371,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void AddProjectToRecentlyUsedProjectsList(string filename, bool addToEnd)
 		{
-			int maxruf = SettingsHandler.GetIntSettingsValue("recentlyusedfiles", "maxallowed", 10);
-
-			List<string> rufList = new List<string>(RecentlyUsedProjectList);
-
-			// First, remove the filename from the list if it's in there.
-			if (rufList.Contains(filename))
-				rufList.Remove(filename);
-
-			if (addToEnd)
-				rufList.Add(filename);
-			else
-				rufList.Insert(0, filename);
-
-			for (int i = 1; i < maxruf && i <= rufList.Count; i++)
-			{
-				string entry = string.Format("ruf{0}", i);
-				SettingsHandler.SaveSettingsValue(entry, "file", rufList[i - 1]);
-			}
+			MruProjects.AddNewPath(filename, addToEnd);
+			MruProjects.Save();
 
 			if (s_defaultMenuAdapters != null)
 			{
 				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
-					adapter.RecentFilesList = rufList.ToArray();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of recently used projects from the PA settings file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string[] RecentlyUsedProjectList
-		{
-			get
-			{
-				int maxruf = SettingsHandler.GetIntSettingsValue("recentlyusedfiles", "maxallowed", 10);
-				List<string> rufList = new List<string>(maxruf);
-
-				for (int i = 1; i < maxruf; i++)
-				{
-					string entry = string.Format("ruf{0}", i);
-					string filename = SettingsHandler.GetStringSettingsValue(entry, "file", null);
-					if (File.Exists(filename))
-						rufList.Add(filename);
-				}
-
-				return rufList.ToArray();
+					adapter.RecentFilesList = (MruProjects.Paths ?? new string[] {});
 			}
 		}
 

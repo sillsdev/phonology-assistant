@@ -763,7 +763,7 @@
     <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>DefineFiltersDlg</value>
+    <value>FiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3779.19212, Culture=neutral, PublicKeyToken=null</value>

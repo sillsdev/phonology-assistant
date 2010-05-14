@@ -7,6 +7,7 @@ using SIL.Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -15,13 +16,13 @@ using System.Drawing.Drawing2D;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	#region DefineFiltersDlg class
+	#region FiltersDlg class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DefineFiltersDlg : OKCancelDlgBase
+	public partial class FiltersDlg : OKCancelDlgBase
 	{
 		private const string kFieldCol = "Field";
 		private const string kOpCol = "Operator";
@@ -43,7 +44,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DefineFiltersDlg()
+		public FiltersDlg()
 		{
 			InitializeComponent();
 
@@ -266,9 +267,8 @@ namespace SIL.Pa.UI.Dialogs
 				// .Net framework that I haven't been able to make sense of. Anyway, if an
 				// exception is thrown, no big deal, the splitter distances will just be set
 				// to their default values.
-				int splitDistance = App.SettingsHandler.GetIntSettingsValue(Name, "splitter", 0);
-				if (splitDistance > 0)
-					splitFilters.SplitterDistance = splitDistance;
+				if (Settings.Default.FiltersDlgSplitLoc > 0)
+					splitFilters.SplitterDistance = Settings.Default.FiltersDlgSplitLoc;
 			}
 			catch { }
 
@@ -385,7 +385,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AutoResizeColumn(3, DataGridViewAutoSizeColumnMode.ColumnHeader);
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.ColumnHeadersHeight += 4;
-			App.SettingsHandler.LoadGridProperties(m_grid);
+
+			Settings.Default.FiltersDlgGrid.InitializeGrid(m_grid);
 			m_grid.IsDirty = false;
 		}
 
@@ -896,9 +897,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			App.SettingsHandler.SaveFormProperties(this);
-			App.SettingsHandler.SaveGridProperties(m_grid);
-			App.SettingsHandler.SaveSettingsValue(Name, "splitter", splitFilters.SplitterDistance);
+			Settings.Default.FiltersDlgGrid = GridSettings.Create(m_grid);
+			Settings.Default.FiltersDlgSplitLoc = splitFilters.SplitterDistance;
+			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
