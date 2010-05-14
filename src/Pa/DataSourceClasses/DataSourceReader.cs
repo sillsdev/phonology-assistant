@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Localization;
 using SIL.Pa.Model;
-using SIL.Pa.ResourceStrings;
+using SIL.Pa.ResourceStuff;
 using SIL.SpeechTools.Utils;
 using SilUtils;
 

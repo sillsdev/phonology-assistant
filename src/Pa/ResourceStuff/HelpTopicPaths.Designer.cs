@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SIL.Pa.ResourceStrings {
+namespace SIL.Pa.ResourceStuff {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SIL.Pa.ResourceStrings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.ResourceStrings.HelpTopicPaths", typeof(HelpTopicPaths).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SIL.Pa.ResourceStuff.HelpTopicPaths", typeof(HelpTopicPaths).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

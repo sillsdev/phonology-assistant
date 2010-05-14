@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -30,7 +29,7 @@ using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
-using SIL.Pa.ResourceStrings;
+using SIL.Pa.ResourceStuff;
 using SilUtils;
 using SilUtils.Controls;
 

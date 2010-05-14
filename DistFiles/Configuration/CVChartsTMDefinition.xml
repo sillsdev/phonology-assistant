@@ -87,7 +87,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 	<resources>
 		<!-- localizedstrings are for strings for toolbars, toolbar and menu items, tooltips,
 			and categories -->
-		<localizedstrings assemblyPath="Pa.exe" class="SIL.Pa.ResourceStrings.ChartsTMStrings"/>
+		<localizedstrings assemblyPath="Pa.exe" class="SIL.Pa.ResourceStuff.ChartsTMStrings"/>
 
 		<imageList assemblyPath="Pa.exe"
 			class="SIL.Pa.Resources.ResourceHelper"

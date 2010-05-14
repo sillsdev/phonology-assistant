@@ -215,26 +215,26 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ResourceHelper.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ResourceHelper.designer.cs">
-      <DependentUpon>ResourceHelper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ResourceStrings\ChartsTMStrings.Designer.cs">
+    <Compile Include="ResourceStuff\ChartsTMStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ChartsTMStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceStrings\HelpTopicPaths.Designer.cs">
+    <Compile Include="ResourceStuff\HelpTopicPaths.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HelpTopicPaths.resx</DependentUpon>
     </Compile>
-    <Compile Include="ResourceStrings\PaTMStrings.Designer.cs">
+    <Compile Include="ResourceStuff\PaTMStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PaTMStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceStuff\ResourceHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResourceStuff\ResourceHelper.Designer.cs">
+      <DependentUpon>ResourceHelper.cs</DependentUpon>
     </Compile>
     <Compile Include="UIAdapter\CustomDropDown.cs">
       <SubType>Component</SubType>
@@ -669,21 +669,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ResourceHelper.resx">
-      <DependentUpon>ResourceHelper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResourceStrings\ChartsTMStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ChartsTMStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResourceStrings\HelpTopicPaths.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>HelpTopicPaths.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ResourceStrings\PaTMStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PaTMStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CharPickerRows.resx">
       <DependentUpon>CharPickerRows.cs</DependentUpon>
     </EmbeddedResource>
@@ -823,6 +808,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
+    <EmbeddedResource Include="ResourceStuff\ChartsTMStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ChartsTMStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStuff\HelpTopicPaths.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>HelpTopicPaths.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStuff\PaTMStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaTMStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourceStuff\ResourceHelper.resx">
+      <DependentUpon>ResourceHelper.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
       <DependentUpon>CharGrid.cs</DependentUpon>
     </EmbeddedResource>
@@ -872,7 +872,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateProjectFile.xslt" />
     <Content Include="pa.ico" />
-    <None Include="Resources\PaTMDefinition.xml" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

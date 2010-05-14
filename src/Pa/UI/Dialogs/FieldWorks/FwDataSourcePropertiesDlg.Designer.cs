@@ -151,7 +151,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.RowHeadersVisible = false;
 			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_grid.ShowWaterMarkWhenDirty = false;
-			this.m_grid.WaterMark = global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip;
+			this.m_grid.WaterMark = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellEnter);
 			// 
 			// locExtender

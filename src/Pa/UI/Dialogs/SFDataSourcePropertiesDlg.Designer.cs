@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblFilename, "lblFilename");
 			this.lblFilename.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFilename, null);
-			this.locExtender.SetLocalizationComment(this.lblFilename, global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip);
+			this.locExtender.SetLocalizationComment(this.lblFilename, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip);
 			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblFilename, "SFDataSourcePropertiesDlg.lblFilename");
 			this.lblFilename.Name = "lblFilename";
@@ -406,7 +406,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.rtfSampleInput, "rtfSampleInput");
 			this.rtfSampleInput.Name = "rtfSampleInput";
 			this.rtfSampleInput.TabStop = false;
-			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStrings.PaTMStrings.kstidExportAsToolTip;
+			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			// 
 			// rbParseOneToOne
 			// 
