@@ -385,6 +385,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultsViewManager.cs" />
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTabGroup.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -399,6 +402,9 @@
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultView.designer.cs">
       <DependentUpon>SearchResultView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\TabDropIndicator.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Controls\SimpleExplorerBar.cs">
       <SubType>Component</SubType>
@@ -429,6 +435,9 @@
     </Compile>
     <Compile Include="UI\Controls\UndockedViewWnd.Designer.cs">
       <DependentUpon>UndockedViewWnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\ViewTab.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ViewTabGroup.cs">
       <SubType>Component</SubType>

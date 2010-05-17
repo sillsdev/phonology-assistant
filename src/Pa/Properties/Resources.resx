@@ -507,9 +507,6 @@
     <value>{0}</value>
     <comment>Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).</comment>
   </data>
-  <data name="kstidCIEOptionsButtonToolTip" xml:space="preserve">
-    <value>Minimal Pairs Options (Ctrl+Alt+M)</value>
-  </data>
   <data name="kstidClassCopyNameFormat" xml:space="preserve">
     <value>{0} ({1:D2})</value>
     <comment>Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.</comment>
@@ -517,9 +514,6 @@
   <data name="kstidClassCopyOfPrefix" xml:space="preserve">
     <value>Copy of {0}</value>
     <comment>Prefix for names of copied items</comment>
-  </data>
-  <data name="kstidCloseActiveTabButtonToolTip" xml:space="preserve">
-    <value>Close Active Tab</value>
   </data>
   <data name="kstidCollapsingGroups" xml:space="preserve">
     <value>Collapsing groups...</value>
@@ -605,15 +599,9 @@
     <value>Double-click, press enter on, or drag{0}to insert a class or IPA characters{1}to the current search pattern</value>
     <comment>Tooltip text for empty search patterns in Find Phone window. The parameters are where there will be line breaks. If the localized version does not require line breaks, omit the parameters in the localization</comment>
   </data>
-  <data name="kstidEmptySrchResultTabText" xml:space="preserve">
-    <value>(empty tab)</value>
-  </data>
   <data name="kstidEmtpyRawRecView" xml:space="preserve">
     <value>(no data)</value>
     <comment>What's displayed in the record view when there is no data.</comment>
-  </data>
-  <data name="kstidEmtpyTabInfoText" xml:space="preserve">
-    <value>Define a search pattern above and click Show Results.</value>
   </data>
   <data name="kstidErrorLoadingCharPickerRowsMsg" xml:space="preserve">
     <value>{0} list failed to load.</value>
@@ -904,12 +892,6 @@
   </data>
   <data name="kstidSavedChartNameAlreadyExistsOverwriteMsg" xml:space="preserve">
     <value>There is already a saved chart with the name "{0}".\nDo you want it overwritten?</value>
-  </data>
-  <data name="kstidScrollTabsLeftToolTip" xml:space="preserve">
-    <value>Scroll Left</value>
-  </data>
-  <data name="kstidScrollTabsRightToolTip" xml:space="preserve">
-    <value>Scroll Right</value>
   </data>
   <data name="kstidSearchingForCIEResultsMsg" xml:space="preserve">
     <value>Finding Minimal Pairs...</value>

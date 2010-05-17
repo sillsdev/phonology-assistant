@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-05-13 -->
+  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-05-17 -->
   <!-- If there are minimal pairs, count the number of records and groups. -->
 
 	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
@@ -49,14 +49,9 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-	<!-- If a list of differences contains at least one feature, copy it. -->
-  <xsl:template match="xhtml:ul[@class = 'differences']">
-    <xsl:if test="xhtml:li">
-      <xsl:copy>
-        <xsl:apply-templates select="@* | node()" />
-      </xsl:copy>
-    </xsl:if>
-  </xsl:template>
+	<!-- If there are no more-similar or less-similar pairs, remove the division. -->
+	<!-- TO DO: Better than testing the text of the heading, include pairs or similarPairs in the class attribute of the div? -->
+	<xsl:template match="xhtml:div[contains(@class, 'report')][xhtml:h4[. = 'More-similar pairs' or . = 'Less-similar pairs']][xhtml:table[contains(@class, 'list')][not(xhtml:tbody)]]" />
 
 	<!-- Update the count of records in groups of minimal pairs. -->
   <xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading'][xhtml:th[@class = 'Phonetic pair']]/xhtml:th[@class = 'count']">
@@ -73,5 +68,14 @@ exclude-result-prefixes="xhtml"
 			</xsl:choose>
     </xsl:copy>
   </xsl:template>
+
+	<!-- In a minimal pair, if a list of differences contains at least one feature, copy it. -->
+	<xsl:template match="xhtml:ul[@class = 'differences']">
+		<xsl:if test="xhtml:li">
+			<xsl:copy>
+				<xsl:apply-templates select="@* | node()" />
+			</xsl:copy>
+		</xsl:if>
+	</xsl:template>
 
 </xsl:stylesheet>

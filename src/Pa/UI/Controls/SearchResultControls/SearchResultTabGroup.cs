@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
+using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
 using SilUtils;
 using SilUtils.Controls;
@@ -20,15 +19,11 @@ namespace SIL.Pa.UI.Controls
 	public class SearchResultTabGroup : Panel, IxCoreColleague
 	{
 		private bool m_closingTabInProcess;
-		private bool m_isCurrentTabGroup;
-		private List<SearchResultTab> m_tabs;
-		private SearchResultTab m_currTab;
 		internal Panel m_pnlHdrBand;
 		private Panel m_pnlScroll;
 		private XButton m_btnLeft;
 		private XButton m_btnRight;
 		internal ToolTip m_tooltip;
-		private SearchResultTab m_contextMenuTab;
 		private SearchResultTabGroup m_contextMenuTabGroup;
 		private readonly XButton m_btnClose;
 		private readonly Panel m_pnlTabs;
@@ -94,7 +89,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_dropIndicator = new TabDropIndicator(this, m_pnlTabs.Height);
 
-			m_tabs = new List<SearchResultTab>();
+			Tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
 			App.AddMediatorColleague(this);
 
@@ -232,9 +227,15 @@ namespace SIL.Pa.UI.Controls
 		private void SetToolTips()
 		{
 			m_tooltip = new ToolTip();
-			m_tooltip.SetToolTip(m_btnClose, Properties.Resources.kstidCloseActiveTabButtonToolTip);
-			m_tooltip.SetToolTip(m_btnLeft, Properties.Resources.kstidScrollTabsLeftToolTip);
-			m_tooltip.SetToolTip(m_btnRight, Properties.Resources.kstidScrollTabsRightToolTip);
+
+			m_tooltip.SetToolTip(m_btnClose, LocalizationManager.LocalizeString(
+				"SearchResultTabs.CloseToolTipText", "Close Active Tab", App.kLocalizationGroupMisc));
+			
+			m_tooltip.SetToolTip(m_btnLeft, LocalizationManager.LocalizeString(
+				"SearchResultTabs.ScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
+
+			m_tooltip.SetToolTip(m_btnRight, LocalizationManager.LocalizeString(
+				"SearchResultTabs.ScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
 		}
 
 		#region Message mediator message handler and update handler methods
@@ -249,9 +250,9 @@ namespace SIL.Pa.UI.Controls
 			SetContextMenus();
 
 			// Restore the context menu for each tab.
-			if (m_tabs != null)
+			if (Tabs != null)
 			{
-				foreach (SearchResultTab tab in m_tabs)
+				foreach (SearchResultTab tab in Tabs)
 					tab.SetContextMenus();
 			}
 
@@ -302,9 +303,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			if (m_tabs != null)
+			if (Tabs != null)
 			{
-				foreach (SearchResultTab tab in m_tabs)
+				foreach (SearchResultTab tab in Tabs)
 				{
 					tab.Font = FontHelper.PhoneticFont;
 					tab.AdjustWidth();
@@ -361,12 +362,16 @@ namespace SIL.Pa.UI.Controls
 			Rectangle rc = ClientRectangle;
 			rc.Y = m_pnlHdrBand.Bottom;
 			rc.Height -= m_pnlHdrBand.Height;
-			Color clr = (m_isCurrentTabGroup ? SystemColors.ControlText : SystemColors.GrayText);
+			Color clr = (IsCurrent ? SystemColors.ControlText : SystemColors.GrayText);
 
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
-				TextRenderer.DrawText(e.Graphics,
-					Properties.Resources.kstidEmtpyTabInfoText, fnt, rc, clr, kFlags);
+				var text = LocalizationManager.LocalizeString(
+					"SearchResultTabs.EmptyTabInfoText",
+					"Define a search pattern above and click Show Results.",
+					App.kLocalizationGroupMisc);
+				
+				TextRenderer.DrawText(e.Graphics, text, fnt, rc, clr, kFlags);
 			}
 
 			App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
@@ -390,8 +395,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleClick(object sender, EventArgs e)
 		{
-			if (m_currTab != null)
-				tab_Click(m_currTab, EventArgs.Empty);
+			if (CurrentTab != null)
+				tab_Click(CurrentTab, EventArgs.Empty);
 		}
 
 		#endregion
@@ -404,8 +409,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public SearchResultTab AddTab()
 		{
-			SearchResultTab tab = new SearchResultTab(this);
-			tab.Text = Properties.Resources.kstidEmptySrchResultTabText;
+			var tab = new SearchResultTab(this);
 			AddTab(tab);
 			return tab;
 		}
@@ -439,7 +443,7 @@ namespace SIL.Pa.UI.Controls
 			InitializeTab(tab, tab.ResultView, false);
 			m_pnlTabs.Controls.Add(tab);
 			tab.BringToFront();
-			m_tabs.Add(tab);
+			Tabs.Add(tab);
 			AdjustTabContainerWidth();
 			UseWaitCursor = false;
 			Cursor = Cursors.Default;
@@ -492,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 		internal void AdjustTabContainerWidth()
 		{
 			int totalWidth = 0;
-			foreach (SearchResultTab tab in m_tabs)
+			foreach (SearchResultTab tab in Tabs)
 				totalWidth += tab.Width;
 
 			m_pnlTabs.SuspendLayout();
@@ -571,7 +575,7 @@ namespace SIL.Pa.UI.Controls
 					Controls.Remove(tab.ResultView);
 
 				m_pnlTabs.Controls.Remove(tab);
-				m_tabs.Remove(tab);
+				Tabs.Remove(tab);
 
 				if (disposeOfTab)
 					tab.Dispose();
@@ -581,7 +585,7 @@ namespace SIL.Pa.UI.Controls
 
 			// If the last tab was removed from the group, then close the tab group by
 			// removing ourselves from our parent's control collection.
-			if (m_tabs.Count == 0 && Parent != null)
+			if (Tabs.Count == 0 && Parent != null)
 			{
 				Controls.Clear();
 				Parent.Controls.Remove(this);
@@ -608,9 +612,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			newSelectedTab.Selected = true;
-			m_currTab = newSelectedTab;
+			CurrentTab = newSelectedTab;
 
-			foreach (SearchResultTab tab in m_tabs)
+			foreach (SearchResultTab tab in Tabs)
 			{
 				if (tab != newSelectedTab)
 					tab.Selected = false;
@@ -618,13 +622,13 @@ namespace SIL.Pa.UI.Controls
 
 			if (makeTabCurrent)
 			{
-				EnsureTabVisible(m_currTab);
+				EnsureTabVisible(CurrentTab);
 
 				// Make sure the tab's grid has focus.
-				if (m_currTab.ResultView != null && m_currTab.ResultView.Grid != null)
-					m_currTab.ResultView.Grid.Focus();
+				if (CurrentTab.ResultView != null && CurrentTab.ResultView.Grid != null)
+					CurrentTab.ResultView.Grid.Focus();
 
-				m_rsltVwMngr.CurrentSearchResultTabChanged(m_currTab);
+				m_rsltVwMngr.CurrentSearchResultTabChanged(CurrentTab);
 
 				// Sometimes selecting an empty tab causes a chain reaction caused by hiding
 				// the former selected tab's grid. Doing that forces the .Net framework to
@@ -633,15 +637,15 @@ namespace SIL.Pa.UI.Controls
 				// grid's tab to become selected, thus negating the fact that we just got
 				// through setting this tab group as current. Therefore, force the issue
 				// again.
-				if (!m_isCurrentTabGroup)
+				if (!IsCurrent)
 				{
 					m_rsltVwMngr.SearchResultTabGroupChanged(this);
 					App.MsgMediator.SendMessage("SearchResultTabGroupChanged", this);
-					m_rsltVwMngr.CurrentSearchResultTabChanged(m_currTab);
+					m_rsltVwMngr.CurrentSearchResultTabChanged(CurrentTab);
 				}
 
-				if (m_currTab.ResultView != null && m_currTab.ResultView.Grid != null)
-					m_currTab.ResultView.Grid.IsCurrentPlaybackGrid = true;
+				if (CurrentTab.ResultView != null && CurrentTab.ResultView.Grid != null)
+					CurrentTab.ResultView.Grid.IsCurrentPlaybackGrid = true;
 			}
 		}
 
@@ -698,7 +702,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.Button == MouseButtons.Right)
 			{
 				if (sender is SearchResultView)
-					tab_Click(m_currTab, null);
+					tab_Click(CurrentTab, null);
 				else
 					tab_Click(sender, null);
 			}
@@ -712,10 +716,10 @@ namespace SIL.Pa.UI.Controls
 		void m_btnClose_Click(object sender, EventArgs e)
 		{
 			// m_closingTabInProcess prevents reentrancy
-			if (m_currTab != null && !m_closingTabInProcess)
+			if (CurrentTab != null && !m_closingTabInProcess)
 			{
 				m_closingTabInProcess = true;
-				RemoveTab(m_currTab, true);
+				RemoveTab(CurrentTab, true);
 				m_closingTabInProcess = false;
 			}
 		}
@@ -728,12 +732,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnMoveToNewSideBySideTabGroup(object args)
 		{
-			if (m_contextMenuTab != null)
+			if (ContextMenuTab != null)
 			{
 				App.MsgMediator.SendMessage("ReflectMoveToNewSideBySideTabGroup",
-					m_contextMenuTab);
+					ContextMenuTab);
 
-				m_contextMenuTab = null;
+				ContextMenuTab = null;
 				return true;
 			}
 
@@ -748,12 +752,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnMoveToNewStackedTabGroup(object args)
 		{
-			if (m_contextMenuTab != null)
+			if (ContextMenuTab != null)
 			{
 				App.MsgMediator.SendMessage("ReflectMoveToNewStackedTabGroup",
-					m_contextMenuTab);
+					ContextMenuTab);
 
-				m_contextMenuTab = null;
+				ContextMenuTab = null;
 				return true;
 			}
 
@@ -767,10 +771,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseTab(object args)
 		{
-			if (m_contextMenuTab != null)
+			if (ContextMenuTab != null)
 			{
 				m_btnClose_Click(null, null);
-				m_contextMenuTab = null;
+				ContextMenuTab = null;
 				return true;
 			}
 
@@ -784,10 +788,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseTabGroup(object args)
 		{
-			if (m_contextMenuTab != null || m_contextMenuTabGroup == this)
+			if (ContextMenuTab != null || m_contextMenuTabGroup == this)
 			{
 				Close();
-				m_contextMenuTab = null;
+				ContextMenuTab = null;
 				m_contextMenuTabGroup = null;
 				return true;
 			}
@@ -802,9 +806,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Close()
 		{
-			while (m_tabs.Count > 0)
+			while (Tabs.Count > 0)
 			{
-				m_contextMenuTab = m_tabs[0];
+				ContextMenuTab = Tabs[0];
 				m_btnClose_Click(null, null);
 			}
 
@@ -820,7 +824,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// If we're not the tab group that owns the tab that was
 			// clicked on, then we don't want to handle the message.
-			if (!m_tabs.Contains(m_contextMenuTab))
+			if (!Tabs.Contains(ContextMenuTab))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -828,7 +832,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (m_tabs.Count > 1);
+			itemProps.Enabled = (Tabs.Count > 1);
 			itemProps.Update = true;
 			return true;
 		}
@@ -842,7 +846,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// If we're not the tab group that owns the tab that was
 			// clicked on, then we don't want to handle the message.
-			if (!m_tabs.Contains(m_contextMenuTab))
+			if (!Tabs.Contains(ContextMenuTab))
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -850,7 +854,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (m_tabs.Count > 1);
+			itemProps.Enabled = (Tabs.Count > 1);
 			itemProps.Update = true;
 			return true;
 		}
@@ -867,9 +871,9 @@ namespace SIL.Pa.UI.Controls
 			SearchResultTabGroup group = args as SearchResultTabGroup;
 			if (group != null && group.m_rsltVwMngr == m_rsltVwMngr)
 			{
-				m_isCurrentTabGroup = (group == this);
+				IsCurrent = (group == this);
 
-				foreach (SearchResultTab tab in m_tabs)
+				foreach (SearchResultTab tab in Tabs)
 				{
 					tab.Invalidate();
 					if (tab.ResultView != null && tab.ResultView.Grid != null)
@@ -880,7 +884,7 @@ namespace SIL.Pa.UI.Controls
 				// when there is more than one tab group and the current tab in any one
 				// of those groups is empty. (The text is drawn disabled looking when
 				// the tab's owning tab group isn't current).
-				if (m_currTab != null && m_currTab.ResultView == null)
+				if (CurrentTab != null && CurrentTab.ResultView == null)
 					Invalidate();
 			}
 
@@ -945,7 +949,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Find the furthest right tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (SearchResultTab tab in m_tabs)
+			foreach (SearchResultTab tab in Tabs)
 			{
 				if (left < 0 && left + tab.Width >= 0)
 				{
@@ -969,7 +973,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Find the furthest left tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (SearchResultTab tab in m_tabs)
+			foreach (SearchResultTab tab in Tabs)
 			{
 				if (left <= m_pnlScroll.Left && left + tab.Width > m_pnlScroll.Left)
 				{
@@ -1153,7 +1157,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			else if (query != null && !query.PatternOnly)
 			{
-				SelectTab(m_currTab, true);
+				SelectTab(CurrentTab, true);
 				App.MsgMediator.SendMessage("PatternDroppedOnTabGroup", query);
 			}
 		}
@@ -1161,27 +1165,21 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Properties
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Used by the group's tabs to inform their owning group on what tab a context menu
 		/// was opened.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal SearchResultTab ContextMenuTab
-		{
-			set { m_contextMenuTab = value; }
-		}
+		internal SearchResultTab ContextMenuTab { private get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the current tab in the group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchResultTab CurrentTab
-		{
-			get { return m_currTab; }
-			set { m_currTab = value; }
-		}
+		public SearchResultTab CurrentTab { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1189,10 +1187,7 @@ namespace SIL.Pa.UI.Controls
 		/// the focused child grid or record view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsCurrent
-		{
-			get { return m_isCurrentTabGroup; }
-		}
+		public bool IsCurrent { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1219,11 +1214,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<SearchResultTab> Tabs
-		{
-			get { return m_tabs; }
-			set { m_tabs = value; }
-		}
+		public List<SearchResultTab> Tabs { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1239,7 +1230,7 @@ namespace SIL.Pa.UI.Controls
 				Cursor = (value ? Cursors.WaitCursor : Cursors.Default);
 
 				// Cascade the setting to each of the tab group's tabs. 
-				foreach (SearchResultTab tab in m_tabs)
+				foreach (SearchResultTab tab in Tabs)
 				{
 					tab.UseWaitCursor = value;
 					if (tab.ResultView != null && tab.ResultView.Grid != null)
@@ -1261,22 +1252,22 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		internal void ShowCIEOptions(Control ctrl)
 		{
-			if (m_currTab == null || m_currTab.ResultView == null || m_currTab.ResultView.Grid == null)
+			if (CurrentTab == null || CurrentTab.ResultView == null || CurrentTab.ResultView.Grid == null)
 				return;
 
-			if (m_currTab.CieOptionsDropDown == null)
-				m_currTab.CieOptionsDropDown = new CIEOptionsDropDown();
+			if (CurrentTab.CieOptionsDropDown == null)
+				CurrentTab.CieOptionsDropDown = new CIEOptionsDropDown();
 
-			if (m_currTab.CieOptionsDropDownContainer == null)
+			if (CurrentTab.CieOptionsDropDownContainer == null)
 			{
-				m_currTab.CieOptionsDropDownContainer = new CustomDropDown();
-				m_currTab.CieOptionsDropDownContainer.AddControl(m_currTab.CieOptionsDropDown);
+				CurrentTab.CieOptionsDropDownContainer = new CustomDropDown();
+				CurrentTab.CieOptionsDropDownContainer.AddControl(CurrentTab.CieOptionsDropDown);
 			}
 
-			m_currTab.CieOptionsDropDown.CIEOptions = m_currTab.ResultView.Grid.CIEOptions;
-			m_currTab.CieOptionsDropDownContainer.Closed += m_cieOptionsDropDownContainer_Closed;
+			CurrentTab.CieOptionsDropDown.CIEOptions = CurrentTab.ResultView.Grid.CIEOptions;
+			CurrentTab.CieOptionsDropDownContainer.Closed += m_cieOptionsDropDownContainer_Closed;
 			Point pt = ctrl.PointToScreen(new Point(0, ctrl.Height));
-			m_currTab.CieOptionsDropDownContainer.Show(pt);
+			CurrentTab.CieOptionsDropDownContainer.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1289,16 +1280,16 @@ namespace SIL.Pa.UI.Controls
 			// Make sure the drop-down completely goes away before proceeding.
 			Application.DoEvents();
 
-			if (m_currTab.CieOptionsDropDown.OptionsChanged)
+			if (CurrentTab.CieOptionsDropDown.OptionsChanged)
 			{
 				// Save the options as the new defaults for the project.
-				App.Project.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
+				App.Project.CIEOptions = CurrentTab.CieOptionsDropDown.CIEOptions;
 				App.Project.Save();
-				m_currTab.ResultView.Grid.CIEOptions = m_currTab.CieOptionsDropDown.CIEOptions;
-				m_currTab.CIEViewRefresh();
+				CurrentTab.ResultView.Grid.CIEOptions = CurrentTab.CieOptionsDropDown.CIEOptions;
+				CurrentTab.CIEViewRefresh();
 			}
 
-			m_currTab.CieOptionsDropDownContainer.Closed -= m_cieOptionsDropDownContainer_Closed;
+			CurrentTab.CieOptionsDropDownContainer.Closed -= m_cieOptionsDropDownContainer_Closed;
 		}
 
 		#endregion
@@ -1317,1152 +1308,4 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 	}
-
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class SearchResultTab : Panel, IxCoreColleague
-	{
-		// The combined left and right margins of the image. 
-		private const int kleftImgMargin = 6;
-
-		private readonly XButton m_btnCIEOptions;
-		private Point m_mouseDownLocation = Point.Empty;
-		private bool m_mouseOver;
-		private bool m_selected;
-		private SearchResultTabGroup m_owningTabGroup;
-		private SearchResultView m_resultView;
-		private SearchQuery m_query;
-		private bool m_tabTextClipped ;
-		private Image m_image;
-		private ToolTip m_CIEButtonToolTip;
-		private CustomDropDown m_cieOptionsDropDownContainer;
-		private CIEOptionsDropDown m_cieOptionsDropDown;
-		private Color m_activeTabInactiveGroupBack1;
-		private Color m_activeTabInactiveGroupBack2;
-		private Color m_activeTabInactiveGroupFore;
-		private Color m_activeTabFore;
-		private Color m_activeTabBack;
-		private Color m_inactiveTabFore;
-		private Color m_inactiveTabBack;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultTab(SearchResultTabGroup owningTabControl)
-		{
-			base.DoubleBuffered = true;
-			base.AutoSize = false;
-			base.AllowDrop = true;
-			base.Font = FontHelper.PhoneticFont;
-			m_owningTabGroup = owningTabControl;
-			m_query = new SearchQuery();
-			App.AddMediatorColleague(this);
-			SetContextMenus();
-
-			// Prepare the tab's minimal pair options button.
-			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
-			m_btnCIEOptions = new XButton();
-			m_btnCIEOptions.Image = img;
-			m_btnCIEOptions.Size = new Size(img.Width + 4, img.Height + 4);
-			m_btnCIEOptions.BackColor = Color.Transparent;
-			m_btnCIEOptions.Visible = false;
-			m_btnCIEOptions.Left = kleftImgMargin;
-			m_btnCIEOptions.Click += m_btnCIEOptions_Click;
-			m_btnCIEOptions.MouseEnter += m_btnCIEOptions_MouseEnter;
-			m_btnCIEOptions.MouseLeave += m_btnCIEOptions_MouseLeave;
-			Controls.Add(m_btnCIEOptions);
-			GetTabColors();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void SetContextMenus()
-		{
-			if (base.ContextMenuStrip != null)
-				base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
-
-			if (m_owningTabGroup != null && m_owningTabGroup.TMAdapter != null)
-			{
-				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
-
-				if (base.ContextMenuStrip != null)
-					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
-
-				if (m_resultView != null && m_resultView.Grid != null)
-				{
-					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
-						m_resultView.Grid, "cmnuSearchResultTab");
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void GetTabColors()
-		{
-			m_activeTabInactiveGroupBack1 = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroup1", Color.White);
-
-			m_activeTabInactiveGroupBack2 = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroup1", 0xFFD7D1C4);
-
-			m_activeTabInactiveGroupFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroupfore", Color.Black);
-
-			m_activeTabBack = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activetabback", Color.White);
-
-			m_activeTabFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activetabfore", Color.Black);
-
-			m_inactiveTabBack = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "inactivetabback", SystemColors.Control);
-
-			m_inactiveTabFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "inactivetabfore", SystemColors.ControlText);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a little.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				UnsubscribeToGridEvents();
-
-				if (ContextMenuStrip != null && !ContextMenuStrip.IsDisposed)
-					ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
-
-				App.RemoveMediatorColleague(this);
-				
-				if (!m_btnCIEOptions.IsDisposed)
-					m_btnCIEOptions.Dispose();
-
-				if (m_image != null)
-				{
-					m_image.Dispose();
-					m_image = null;
-				}
-
-				if (m_resultView != null)
-				{
-					m_resultView.Dispose();
-					m_resultView = null;
-				}
-
-				if (m_query != null)
-					m_query = null;
-			}
-
-			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal XButton CIEOptionsButton
-		{
-			get { return m_btnCIEOptions; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
-		{
-			ContextMenuStrip cms = sender as ContextMenuStrip;
-
-			if (cms == null)
-				return;
-
-			if (cms.SourceControl == this && Selected && m_owningTabGroup.IsCurrent ||
-				cms.SourceControl == m_resultView || cms.SourceControl == Grid)
-			{
-				m_owningTabGroup.ContextMenuTab = this;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the tab's result view with a new result cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void RefreshResultView(WordListCache resultCache)
-		{
-			Text = (resultCache == null ||
-				resultCache.SearchQuery == null ? string.Empty :
-				resultCache.SearchQuery.ToString());
-
-			if (resultCache != null)
-			{
-				UnsubscribeToGridEvents();
-				m_resultView.Initialize(resultCache);
-				UpdateRecordView();
-				SubscribeToGridEvents();
-				m_query = resultCache.SearchQuery;
-			}
-
-			if (m_btnCIEOptions.Visible)
-			{
-				FindInfo.CanFindAgain = false;
-				m_btnCIEOptions.Visible = (m_resultView != null &&
-					m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
-					m_resultView.Grid.Cache.IsCIEList);
-			}
-
-			AdjustWidth();
-		}
-
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get & Set the CieOptionsDropDownContainer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CustomDropDown CieOptionsDropDownContainer
-		{
-			get { return m_cieOptionsDropDownContainer; }
-			set { m_cieOptionsDropDownContainer = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get & Set the CieOptionsDropDown.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEOptionsDropDown CieOptionsDropDown
-		{
-			get { return m_cieOptionsDropDown; }
-			set { m_cieOptionsDropDown = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Image Image
-		{
-			get { return m_image; }
-			set
-			{
-				if (m_image != value)
-				{
-					m_image = value;
-					Invalidate();
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the tab contains any results.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsEmpty
-		{
-			get { return m_resultView == null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Selected
-		{
-			get { return m_selected; }
-			set
-			{
-				if (m_selected != value)
-				{
-					m_selected = value;
-					Invalidate();
-					Utils.UpdateWindow(Handle);
-
-					if (m_resultView != null)
-					{
-						if (m_resultView.Grid != null)
-							m_resultView.Grid.IsCurrentPlaybackGrid = value;
-
-						m_resultView.Visible = value;
-						if (value)
-						{
-							m_resultView.BringToFront();
-							if (m_resultView.Grid != null)
-							{
-								m_resultView.Grid.Focus();
-								FindInfo.Grid = m_resultView.Grid;
-							}
-						}
-					}
-				}
-				else if (m_owningTabGroup.IsCurrent && m_resultView != null &&
-					m_resultView.Grid != null && !m_resultView.Grid.Focused)
-				{
-					m_resultView.Grid.Focus();
-				}
-				
-				UpdateRecordView();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the tab's result view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultView ResultView
-		{
-			get { return m_resultView; }
-			set
-			{
-				if (m_resultView == value)
-					return;
-
-				if (value == null)
-					Clear();
-
-				m_resultView = value;
-				if (m_resultView != null)
-				{
-					m_query = m_resultView.SearchQuery;
-					m_resultView.Dock = DockStyle.Fill;
-					SubscribeToGridEvents();
-					UpdateRecordView();
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the tab's grid control from it's result view control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid Grid
-		{
-			get	{return (m_resultView == null ? null : m_resultView.Grid);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the tab's search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchQuery SearchQuery
-		{
-			get { return m_query; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the tab's owning group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultTabGroup OwningTabGroup
-		{
-			get { return m_owningTabGroup; }
-			set { m_owningTabGroup = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the text in a tab was clipped (i.e. was
-		/// too long so it is displayed with ellipses).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool TabTextClipped
-		{
-			get { return m_tabTextClipped; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override Color ForeColor
-		{
-			get
-			{
-				if (!m_selected)
-					return m_inactiveTabFore;
-
-				return (m_owningTabGroup.IsCurrent ?
-					m_activeTabFore : m_activeTabInactiveGroupFore);
-			}
-			set { }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override Color BackColor
-		{
-			get
-			{
-				if (!m_selected)
-					return m_inactiveTabBack;
-
-				return (m_owningTabGroup.IsCurrent ? m_activeTabBack : SystemColors.Control);
-			}
-			set
-			{
-			}
-		}
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adjust the tab's width based on it's text and font.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void AdjustWidth()
-		{
-			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
-
-			int width;
-
-			// Get the text's width.
-			using (Graphics g = CreateGraphics())
-				width = TextRenderer.MeasureText(g, Text, Font, Size.Empty, kFlags).Width;
-
-			// Add a little for good measure.
-			width += 6;
-
-			if (m_image != null)
-				width += (kleftImgMargin + m_image.Width);
-
-			if (m_btnCIEOptions.Visible)
-				width += (kleftImgMargin + m_btnCIEOptions.Width);
-
-			// Don't allow the width of a tab to be any
-			// wider than 3/4 of it's owning group's width.
-			Width = Math.Min(width, (int)(m_owningTabGroup.Width * 0.75));
-
-			m_tabTextClipped = (Width < width);
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clears the search results on the tab and sets the tab to an empty tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Clear()
-		{
-			RemoveResultView();
-
-			if (m_owningTabGroup.RecordView != null)
-				m_owningTabGroup.RecordView.Clear();
-
-			m_query = new SearchQuery();
-			m_btnCIEOptions.Visible = false;
-			Text = Properties.Resources.kstidEmptySrchResultTabText;
-			AdjustWidth();
-			m_owningTabGroup.AdjustTabContainerWidth();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Removes the tab's result view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void RemoveResultView()
-		{
-			if (m_resultView != null)
-			{
-				UnsubscribeToGridEvents();
-				if (m_owningTabGroup != null && m_owningTabGroup.Controls.Contains(m_resultView))
-					m_owningTabGroup.Controls.Remove(m_resultView);
-
-				m_resultView.Dispose();
-				m_resultView = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the search results as a result of the project's underlying data sources
-		/// changing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
-		{
-			if (m_resultView != null)
-			{
-				UnsubscribeToGridEvents();
-
-				// Update the fonts in case a custom field's name
-				// has changed (since each field has it's own font).
-				if (m_owningTabGroup != null && m_owningTabGroup.RecordView != null)
-					m_owningTabGroup.RecordView.UpdateFonts();
-
-				m_resultView.RefreshResults();
-				SubscribeToGridEvents();
-				UpdateRecordView();
-			}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SubscribeToGridEvents()
-		{
-			if (m_resultView == null)
-				return;
-
-			if (m_owningTabGroup.TMAdapter != null)
-			{
-				m_owningTabGroup.TMAdapter.SetContextMenuForControl(
-					m_resultView, "cmnuSearchResultTab");
-			}
-
-			if (m_resultView.Grid != null)
-			{
-				if (m_owningTabGroup.TMAdapter != null)
-				{
-					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
-						m_resultView.Grid, "cmnuSearchResultTab");
-				}
-
-				m_resultView.Grid.AllowDrop = true;
-				m_resultView.Grid.DragOver += HandleResultViewDragOver;
-				m_resultView.Grid.DragDrop += HandleResultViewDragDrop;
-				m_resultView.Grid.DragLeave +=HandleResultViewDragLeave;
-				m_resultView.Grid.RowEnter += HandleResultViewRowEnter;
-				m_resultView.Grid.Enter += HandleResultViewEnter;
-				m_resultView.Grid.AllowDrop = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void UnsubscribeToGridEvents()
-		{
-			if (m_resultView != null && m_resultView.Grid != null)
-			{
-				m_resultView.Grid.AllowDrop = false;
-				m_resultView.Grid.DragOver -= HandleResultViewDragOver;
-				m_resultView.Grid.DragDrop -= HandleResultViewDragDrop;
-				m_resultView.Grid.DragLeave -= HandleResultViewDragLeave;
-				m_resultView.Grid.RowEnter -= HandleResultViewRowEnter;
-				m_resultView.Grid.Enter -= HandleResultViewEnter;
-			}
-		}
-
-		#region Overridden methods and event handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the current tab is selected when its grid get's focus.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleResultViewEnter(object sender, EventArgs e)
-		{
-			if (!m_selected || !m_owningTabGroup.IsCurrent)
-				m_owningTabGroup.SelectTab(this, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the record pane with the data source's record for the current row.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleResultViewRowEnter(object sender, DataGridViewCellEventArgs e)
-		{
-			UpdateRecordView(e.RowIndex);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the record view after a sort has taken place since the grid's RowEnter
-		/// event doesn't seem to take care of it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnWordListGridSorted(object args)
-		{
-			UpdateRecordView();
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void UpdateRecordView()
-		{
-			UpdateRecordView(-1);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void UpdateRecordView(int rowIndex)
-		{
-			if (!m_selected || (m_owningTabGroup != null && !m_owningTabGroup.IsCurrent))
-				return;
-
-			if (m_owningTabGroup.RecordView == null || m_resultView == null ||
-				!m_owningTabGroup.IsCurrent || m_resultView.Grid == null)
-			{
-				m_owningTabGroup.RecordView.UpdateRecord(null);
-			}
-			else
-			{
-				RecordCacheEntry entry = (rowIndex < 0 ? m_resultView.Grid.GetRecord() :
-					m_resultView.Grid.GetRecord(rowIndex));
-
-				m_owningTabGroup.RecordView.UpdateRecord(entry);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method gets called when the CV patterns get changed in the options dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnCVPatternsChanged(object args)
-		{
-			return OnRecordViewOptionsChanged(args);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the record view when the user changed the order or visibility of fields.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnRecordViewOptionsChanged(object args)
-		{
-			if (m_selected && m_owningTabGroup.IsCurrent &&
-				m_owningTabGroup.RecordView != null &&
-				m_resultView != null && m_resultView.Grid != null)
-			{
-				m_owningTabGroup.RecordView.UpdateRecord(
-					m_resultView.Grid.GetRecord(), true);
-			}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Treat dragging on a result view grid just like dragging on the tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void HandleResultViewDragOver(object sender, DragEventArgs e)
-		{
-			m_owningTabGroup.InternalDragOver(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Treat dragging on a result view grid just like dragging on the tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void HandleResultViewDragLeave(object sender, EventArgs e)
-		{
-			m_owningTabGroup.InternalDragLeave(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Treat dropping on a result view grid just like dropping on the tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void HandleResultViewDragDrop(object sender, DragEventArgs e)
-		{
-			m_owningTabGroup.InternalDragDrop(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reflects drag over events to the tab's owning group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnDragOver(DragEventArgs e)
-		{
-			base.OnDragOver(e);
-			m_owningTabGroup.InternalDragOver(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reflects drag leave events to the tab's owning group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnDragLeave(EventArgs e)
-		{
-			base.OnDragLeave(e);
-			m_owningTabGroup.InternalDragLeave(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reflects drag drop events to the tab's owning group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnDragDrop(DragEventArgs e)
-		{
-			base.OnDragDrop(e);
-			m_owningTabGroup.InternalDragDrop(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseDown(MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-				m_mouseDownLocation = e.Location;
-			else
-			{
-				Form frm = FindForm();
-				if (!App.IsFormActive(frm))
-					frm.Focus();
-			}
-
-			base.OnMouseDown(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			m_mouseDownLocation = Point.Empty;
-			base.OnMouseUp(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-
-			// This will be empty when the mouse button is not down.
-			if (m_mouseDownLocation.IsEmpty)
-				return;
-
-			// Begin draging a tab when the mouse is held down
-			// and has moved 4 or more pixels in any direction.
-			int dx = Math.Abs(m_mouseDownLocation.X - e.X);
-			int dy = Math.Abs(m_mouseDownLocation.Y - e.Y);
-			if (dx >= 4 || dy >= 4)
-			{
-				m_mouseDownLocation = Point.Empty;
-				DoDragDrop(this, DragDropEffects.Move);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseEnter(EventArgs e)
-		{
-			m_mouseOver = true;
-			Invalidate();
-			base.OnMouseEnter(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			m_mouseOver = false;
-			Invalidate();
-			base.OnMouseLeave(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			base.OnSizeChanged(e);
-			m_btnCIEOptions.Top = (Height - m_btnCIEOptions.Height) / 2 + 1;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			Rectangle rc = ClientRectangle;
-			e.Graphics.FillRectangle(SystemBrushes.Control, rc);
-
-			int topMargin = (m_selected ? 0 : 2);
-
-			// Establish the points that outline the region for the tab outline (which
-			// also marks off it's interior).
-			Point[] pts = new[] {
-				new Point(0, rc.Bottom), new Point(0, rc.Top + topMargin + 3),
-				new Point(3, topMargin), new Point(rc.Right - 4, topMargin),
-				new Point(rc.Right - 1, rc.Top + topMargin + 3),
-				new Point(rc.Right - 1, rc.Bottom)};
-
-			// First, clear the decks with an all white background.
-			using (SolidBrush br = new SolidBrush(Color.White))
-				e.Graphics.FillPolygon(br, pts);
-
-			if (!m_selected || m_owningTabGroup.IsCurrent)
-			{
-				using (SolidBrush br = new SolidBrush(BackColor))
-					e.Graphics.FillPolygon(br, pts);
-			}
-			else
-			{
-				// The tab is the current tab but is not in the current
-				// tab group so paint with a gradient background.
-				//Color clr1 = Color.FromArgb(120, SystemColors.ControlDark);
-				//Color clr2 = Color.FromArgb(150, SystemColors.Control);
-				using (LinearGradientBrush br = new LinearGradientBrush(rc,
-					m_activeTabInactiveGroupBack1, m_activeTabInactiveGroupBack2, 70))
-				{
-					e.Graphics.FillPolygon(br, pts);
-				}
-			}
-
-			e.Graphics.DrawLines(SystemPens.ControlDark, pts);
-
-			if (!m_selected)
-			{
-				// The tab is not the selected tab, so draw a
-				// line across the bottom of the tab.
-				e.Graphics.DrawLine(SystemPens.ControlDark,
-					0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
-			}
-
-			if (!m_btnCIEOptions.Visible)
-				DrawImage(e.Graphics, ref rc);
-			else
-			{
-				rc.X += (kleftImgMargin + m_btnCIEOptions.Width);
-				rc.Width -= (kleftImgMargin + m_btnCIEOptions.Width);
-			}
-
-			if (!m_selected)
-			{
-				rc.Y += topMargin;
-				rc.Height -= topMargin;
-			}
-
-			DrawText(e.Graphics, ref rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws the tab's image.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void DrawImage(Graphics g, ref Rectangle rc)
-		{
-			if (m_image != null)
-			{
-				Rectangle rcImage = new Rectangle();
-				rcImage.Size = m_image.Size;
-				rcImage.X = rc.Left + kleftImgMargin;
-				rcImage.Y = rc.Top + (rc.Height - rcImage.Height) / 2;
-				g.DrawImage(m_image, rcImage);
-				rc.X += (kleftImgMargin + rcImage.Width);
-				rc.Width -= (kleftImgMargin + rcImage.Width);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws the tab's text
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void DrawText(Graphics g, ref Rectangle rc)
-		{
-			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
-				TextFormatFlags.NoPadding | TextFormatFlags.LeftAndRightPadding |
-				TextFormatFlags.PreserveGraphicsClipping;
-
-			if (m_image == null)
-				flags |= TextFormatFlags.HorizontalCenter;
-
-			rc.Height -= 3;
-			TextRenderer.DrawText(g, Text, Font, rc, ForeColor, flags);
-
-			if (m_mouseOver)
-			{
-				// Draw the lines that only show when the mouse is over the tab.
-				using (Pen pen = new Pen(Color.DarkOrange))
-				{
-					int topLine = (m_selected ? 1 : 3);
-					g.DrawLine(pen, 3, topLine, rc.Right - 4, topLine);
-					g.DrawLine(pen, 2, topLine + 1, rc.Right - 3, topLine + 1);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return Text;
-		}
-
-		#endregion
-
-		#region Minimal pair (i.e. CIE) options drop-down related methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ShowCIEOptions()
-		{
-			if (m_btnCIEOptions.Visible)
-				m_owningTabGroup.ShowCIEOptions(m_btnCIEOptions);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnCIEOptions_Click(object sender, EventArgs e)
-		{
-			if (!m_selected || !m_owningTabGroup.IsCurrent)
-				m_owningTabGroup.SelectTab(this, true);
-
-			ShowCIEOptions();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnCIEOptions_MouseLeave(object sender, EventArgs e)
-		{
-			m_CIEButtonToolTip.Hide(this);
-			m_CIEButtonToolTip.Dispose();
-			m_CIEButtonToolTip = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnCIEOptions_MouseEnter(object sender, EventArgs e)
-		{
-			m_CIEButtonToolTip = new ToolTip();
-			Point pt = PointToClient(MousePosition);
-			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
-			m_CIEButtonToolTip.Show(Properties.Resources.kstidCIEOptionsButtonToolTip, this, pt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ToggleCIEView()
-		{
-			if (m_resultView != null && m_resultView.Grid != null && m_resultView.Grid.Cache != null)
-			{
-				if (m_resultView.Grid.Cache.IsCIEList)
-					m_resultView.Grid.CIEViewOff();
-				else
-					m_resultView.Grid.CIEViewOn();
-
-				// Force users to restart Find when toggling the CIEView
-				FindInfo.CanFindAgain = false;
-
-				m_btnCIEOptions.Visible = m_resultView.Grid.Cache.IsCIEList;
-				AdjustWidth();
-				m_owningTabGroup.AdjustTabContainerWidth();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void CIEViewRefresh()
-		{
-			if (m_resultView.Grid == null || !m_resultView.Grid.CIEViewRefresh())
-			{
-				m_btnCIEOptions.Visible = false;
-				AdjustWidth();
-				m_owningTabGroup.AdjustTabContainerWidth();
-			}
-		}
-
-		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] { this };
-		}
-
-		#endregion
-	}
-
-
-	#region TabDropIndicator class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class TabDropIndicator : TranslucentOverlay
-	{
-		private const int kDefaultIndicatorWidth = 50;
-		private readonly SearchResultTabGroup m_tabGroup;
-		private readonly int m_height;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public TabDropIndicator(SearchResultTabGroup tabGroup, int height) : base(tabGroup)
-		{
-			m_tabGroup = tabGroup;
-			m_height = height;
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			Rectangle rc = ClientRectangle;
-
-			Point[] pts = new[] {new Point(rc.X, rc.Bottom),
-		        new Point(rc.X, rc.Y + 3), new Point(rc.X + 3, rc.Y),
-		        new Point(rc.Right - 4, rc.Y), new Point(rc.Right - 1, rc.Y + 3),
-		        new Point(rc.Right - 1, rc.Bottom)};
-
-			using (HatchBrush br = new HatchBrush(HatchStyle.Percent50, Color.Black, Color.Transparent))
-				e.Graphics.FillPolygon(br, pts);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// When draggingTab is true it means the indicator is used for a tab being dragged.
-		/// When draggingTab is false it means the indicator is used for a search pattern
-		/// being dragged (e.g. from the saved patterns list).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Locate(bool draggingTab)
-		{
-			Point pt = GetIndicatorLocation(draggingTab);
-
-			// If the point where we figured on placing the indicator
-			// is too far to the right, then bump it left so it just fits.
-			if (pt.X + Width > m_tabGroup.Width)
-				pt.X = m_tabGroup.Width - Width + 1;
-
-			Location = pt;
-			Show();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will determine where to place the indicator and how wide it should be.
-		/// In making that determination, consideration is made for what is being dragged and
-		/// whether or not the active tab in the target tab group is empty. When tabs are
-		/// being dragged, then the indicator will always show up at the end of all existing
-		/// tabs in the target tab group. If a pattern is being dragged and the active tab
-		/// in the target tab group is empty, the indicator will be placed over that tab.
-		/// Otherwise, the indicator will be shown at the end of all existing tabs in the
-		/// target tab group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Point GetIndicatorLocation(bool draggingTab)
-		{
-			Point pt;
-
-			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
-				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);
-			else
-			{
-				SearchResultTab tab = (!draggingTab && m_tabGroup.CurrentTab.IsEmpty ?
-					m_tabGroup.CurrentTab : m_tabGroup.Tabs[m_tabGroup.Tabs.Count - 1]);
-
-				if (!draggingTab && tab.IsEmpty && tab.Selected)
-				{
-					pt = tab.PointToScreen(new Point(0, 0));
-					Size = new Size(tab.Width, m_height);
-				}
-				else
-				{
-					pt = tab.PointToScreen(new Point(tab.Width, 0));
-					Size = new Size(kDefaultIndicatorWidth, m_height);
-				}
-			}
-
-			return m_tabGroup.PointToClient(pt);
-		}
-	}
-
-	#endregion
 }

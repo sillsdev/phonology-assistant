@@ -501,15 +501,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimal Pairs Options (Ctrl+Alt+M).
-        /// </summary>
-        internal static string kstidCIEOptionsButtonToolTip {
-            get {
-                return ResourceManager.GetString("kstidCIEOptionsButtonToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} ({1:D2}).
         /// </summary>
         internal static string kstidClassCopyNameFormat {
@@ -524,15 +515,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidClassCopyOfPrefix {
             get {
                 return ResourceManager.GetString("kstidClassCopyOfPrefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close Active Tab.
-        /// </summary>
-        internal static string kstidCloseActiveTabButtonToolTip {
-            get {
-                return ResourceManager.GetString("kstidCloseActiveTabButtonToolTip", resourceCulture);
             }
         }
         
@@ -789,29 +771,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (empty tab).
-        /// </summary>
-        internal static string kstidEmptySrchResultTabText {
-            get {
-                return ResourceManager.GetString("kstidEmptySrchResultTabText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to (no data).
         /// </summary>
         internal static string kstidEmtpyRawRecView {
             get {
                 return ResourceManager.GetString("kstidEmtpyRawRecView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Define a search pattern above and click Show Results..
-        /// </summary>
-        internal static string kstidEmtpyTabInfoText {
-            get {
-                return ResourceManager.GetString("kstidEmtpyTabInfoText", resourceCulture);
             }
         }
         
@@ -1895,24 +1859,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidSavingRecordCacheError {
             get {
                 return ResourceManager.GetString("kstidSavingRecordCacheError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Scroll Left.
-        /// </summary>
-        internal static string kstidScrollTabsLeftToolTip {
-            get {
-                return ResourceManager.GetString("kstidScrollTabsLeftToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Scroll Right.
-        /// </summary>
-        internal static string kstidScrollTabsRightToolTip {
-            get {
-                return ResourceManager.GetString("kstidScrollTabsRightToolTip", resourceCulture);
             }
         }
         

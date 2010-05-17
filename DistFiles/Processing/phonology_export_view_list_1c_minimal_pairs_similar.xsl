@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-05-14 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-05-17 -->
   <!-- If the project inventory contains lists of similar pairs, -->
   <!-- partition the list of minimal pairs into more-similar and less-similar. -->
 	<!-- Append empty groups for any similar pairs for which there are no minimal pairs. -->
@@ -55,7 +55,8 @@ exclude-result-prefixes="xhtml"
 				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
 					<h4>More-similar pairs</h4>
 					<xsl:copy>
-						<xsl:apply-templates select="@* | node()" mode="similarPhonePairs">
+						<xsl:apply-templates select="@* | xhtml:*[not(self::xhtml:tbody)]" />
+						<xsl:apply-templates select="xhtml:tbody" mode="similarPhonePairs">
 							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 							<xsl:with-param name="moreSimilar" select="'true'" />
 						</xsl:apply-templates>
@@ -97,7 +98,8 @@ exclude-result-prefixes="xhtml"
 				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
 					<h4>Less-similar pairs</h4>
 					<xsl:copy>
-						<xsl:apply-templates select="@* | node()" mode="similarPhonePairs">
+						<xsl:apply-templates select="@* | xhtml:*[not(self::xhtml:tbody)]" />
+						<xsl:apply-templates select="xhtml:tbody" mode="similarPhonePairs">
 							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
 							<xsl:with-param name="moreSimilar" select="'false'" />
 						</xsl:apply-templates>
