@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-04-14 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-05-14 -->
   <!-- If the project inventory contains lists of similar pairs, -->
   <!-- partition the list of minimal pairs into more-similar and less-similar. -->
 	<!-- Append empty groups for any similar pairs for which there are no minimal pairs. -->
@@ -29,125 +29,99 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="searchPattern" select="$details/xhtml:li[@class = 'searchPattern']" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
-  <xsl:template match="@* | node()">
-		<xsl:param name="similarPhonePairs" />
-		<xsl:param name="moreSimilar" />
-    <xsl:copy>
-			<xsl:apply-templates select="@* | node()">
-				<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-				<xsl:with-param name="moreSimilar" select="$moreSimilar" />
-			</xsl:apply-templates>
-    </xsl:copy>
-  </xsl:template>
+	<xsl:template match="@* | node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" />
+		</xsl:copy>
+	</xsl:template>
 
-	<xsl:template match="/xhtml:html">
+	<xsl:template match="xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
+		<xsl:variable name="searchItem" select="substring-before($searchPattern, '/')" />
+		<xsl:variable name="type">
+			<xsl:choose>
+				<xsl:when test="$searchItem = '[C]'">
+					<xsl:value-of select="'Consonant'" />
+				</xsl:when>
+				<xsl:when test="$searchItem = '[V]'">
+					<xsl:value-of select="'Vowel'" />
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="similarPhonePairs" select="document($projectPhoneticInventoryXML)/inventory/similarPhonePairs" />
 		<xsl:choose>
-			<xsl:when test="//xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
-				<xsl:variable name="searchItem" select="substring-before($searchPattern, '/')" />
-				<xsl:variable name="type">
-					<xsl:choose>
-						<xsl:when test="$searchItem = '[C]'">
-							<xsl:value-of select="'Consonant'" />
-						</xsl:when>
-						<xsl:when test="$searchItem = '[V]'">
-							<xsl:value-of select="'Vowel'" />
-						</xsl:when>
-					</xsl:choose>
-				</xsl:variable>
-				<xsl:variable name="similarPhonePairs" select="document($projectPhoneticInventoryXML)/inventory/similarPhonePairs[@type = $type]" />
-				<xsl:choose>
-					<xsl:when test="$similarPhonePairs">
-						<xsl:copy>
-							<xsl:apply-templates select="@* | node()">
-								<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-							</xsl:apply-templates>
-						</xsl:copy>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:copy-of select="." />
-					</xsl:otherwise>
-				</xsl:choose>
+			<xsl:when test="count($similarPhonePairs/pair[@type = $type]) != 0">
+				<xsl:variable name="table" select="." />
+				<xsl:variable name="colspan" select="count(xhtml:colgroup/xhtml:col) - 2" />
+				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
+					<h4>More-similar pairs</h4>
+					<xsl:copy>
+						<xsl:apply-templates select="@* | node()" mode="similarPhonePairs">
+							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
+							<xsl:with-param name="moreSimilar" select="'true'" />
+						</xsl:apply-templates>
+						<!-- For any similar pair of phones for which there are no minimal pairs, append an empty group. -->
+						<xsl:for-each select="$similarPhonePairs/pair[@type = $type]">
+							<xsl:variable name="literal1" select="phone[1]/@literal" />
+							<xsl:variable name="literal2" select="phone[2]/@literal" />
+							<xsl:choose>
+								<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal1 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal2]" />
+								<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal2 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal1]" />
+								<xsl:otherwise>
+									<tbody class="group">
+										<tr class="heading">
+											<th class="count">
+												<xsl:value-of select="0" />
+											</th>
+											<th class="Phonetic pair">
+												<ul>
+													<li>
+														<span>
+															<xsl:value-of select="$literal1" />
+														</span>
+													</li>
+													<li>
+														<span>
+															<xsl:value-of select="$literal2" />
+														</span>
+													</li>
+												</ul>
+											</th>
+											<th colspan="{$colspan}" />
+										</tr>
+									</tbody>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:for-each>
+					</xsl:copy>
+				</div>
+				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
+					<h4>Less-similar pairs</h4>
+					<xsl:copy>
+						<xsl:apply-templates select="@* | node()" mode="similarPhonePairs">
+							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
+							<xsl:with-param name="moreSimilar" select="'false'" />
+						</xsl:apply-templates>
+					</xsl:copy>
+				</div>
 			</xsl:when>
 			<xsl:otherwise>
+				<!-- To ignore all of the following rules, copy instead of apply templates. -->
 				<xsl:copy-of select="." />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
-  <xsl:template match="xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
-		<xsl:param name="similarPhonePairs" />
-		<xsl:variable name="table" select="." />
-		<xsl:variable name="colspan" select="count(xhtml:colgroup/xhtml:col) - 1" />
-		<div class="report" xmlns="http://www.w3.org/1999/xhtml">
-			<h4>More-similar pairs</h4>
-			<xsl:copy>
-				<xsl:apply-templates select="@* | node()">
-					<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-					<xsl:with-param name="moreSimilar" select="'true'" />
-				</xsl:apply-templates>
-				<!-- For any similar pair of phones for which there are no minimal pairs, append an empty group. -->
-				<xsl:for-each select="$similarPhonePairs/similarPhonePair[not(@features = 'false' and @chart = 'false')]">
-					<xsl:variable name="literal1" select="similarPhone[1]/@literal" />
-					<xsl:variable name="literal2" select="similarPhone[2]/@literal" />
-					<xsl:choose>
-						<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal1 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal2]" />
-						<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal2 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal1]" />
-						<xsl:otherwise>
-							<tbody class="group">
-								<tr class="heading">
-									<th class="Phonetic pair">
-										<xsl:call-template name="title">
-											<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-											<xsl:with-param name="literal1" select="$literal1" />
-											<xsl:with-param name="literal2" select="$literal2" />
-										</xsl:call-template>
-										<ul>
-											<li>
-												<span>
-													<xsl:value-of select="$literal1" />
-												</span>
-											</li>
-											<li>
-												<span>
-													<xsl:value-of select="$literal2" />
-												</span>
-											</li>
-										</ul>
-									</th>
-									<th colspan="{$colspan}" />
-								</tr>
-							</tbody>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:for-each>
-			</xsl:copy>
-		</div>
-		<div class="report" xmlns="http://www.w3.org/1999/xhtml">
-			<h4>Less-similar pairs</h4>
-			<xsl:copy>
-				<xsl:apply-templates select="@* | node()">
-					<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-					<xsl:with-param name="moreSimilar" select="'false'" />
-				</xsl:apply-templates>
-			</xsl:copy>
-		</div>
-	</xsl:template>
-
-	<xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody">
+	<xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody" mode="similarPhonePairs">
 		<xsl:param name="similarPhonePairs" />
 		<xsl:param name="moreSimilar" />
 		<xsl:variable name="pair" select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']" />
 		<xsl:variable name="literal1" select="$pair/xhtml:ul/xhtml:li[1]/xhtml:span" />
 		<xsl:variable name="literal2" select="$pair/xhtml:ul/xhtml:li[2]/xhtml:span" />
-		<xsl:variable name="similarPhonePair" select="$similarPhonePairs/similarPhonePair[not(@features = 'false' and @chart = 'false')][(similarPhone[1]/@literal = $literal1 and similarPhone[2]/@literal = $literal2) or (similarPhone[1]/@literal = $literal2 and similarPhone[2]/@literal = $literal1)]" />
+		<xsl:variable name="similarPhonePair" select="$similarPhonePairs/pair[(phone[1]/@literal = $literal1 and phone[2]/@literal = $literal2) or (phone[1]/@literal = $literal2 and phone[2]/@literal = $literal1)]" />
 		<xsl:choose>
 			<xsl:when test="$moreSimilar = 'true'">
 				<xsl:if test="$similarPhonePair">
-					<xsl:copy>
-						<xsl:apply-templates select="@* | node()">
-							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-						</xsl:apply-templates>
-					</xsl:copy>
+					<xsl:copy-of select="." />
 				</xsl:if>
 			</xsl:when>
 			<xsl:otherwise>
@@ -156,57 +130,6 @@ exclude-result-prefixes="xhtml"
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="xhtml:th[@class = 'Phonetic pair']">
-		<xsl:param name="similarPhonePairs" />
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:call-template name="title">
-				<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-				<xsl:with-param name="literal1" select="xhtml:ul/xhtml:li[1]/xhtml:span" />
-				<xsl:with-param name="literal2" select="xhtml:ul/xhtml:li[2]/xhtml:span" />
-			</xsl:call-template>
-			<xsl:apply-templates />
-		</xsl:copy>
-	</xsl:template>
-
-	<!-- For development only: indicate differences between feature rules/patterns and Pike's chart. -->
-	<xsl:template name="title">
-		<xsl:param name="similarPhonePairs" />
-		<xsl:param name="literal1" />
-		<xsl:param name="literal2" />
-		<xsl:variable name="XOR">
-			<xsl:choose>
-				<xsl:when test="$similarPhonePairs/similarPhonePair[similarPhone[1]/@literal = $literal1 and similarPhone[2]/@literal = $literal2]">
-					<xsl:variable name="similarPhonePair" select="$similarPhonePairs/similarPhonePair[similarPhone[1]/@literal = $literal1 and similarPhone[2]/@literal = $literal2]" />
-					<xsl:choose>
-						<xsl:when test="$similarPhonePair/@features = 'true' and $similarPhonePair/@chart = 'false'">
-							<xsl:value-of select="'features'" />
-						</xsl:when>
-						<xsl:when test="$similarPhonePair/@features = 'false' and $similarPhonePair/@chart = 'true'">
-							<xsl:value-of select="'chart'" />
-						</xsl:when>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:when test="$similarPhonePairs/similarPhonePair[similarPhone[1]/@literal = $literal2 and similarPhone[2]/@literal = $literal1]">
-					<xsl:variable name="similarPhonePair" select="$similarPhonePairs/similarPhonePair[similarPhone[1]/@literal = $literal2 and similarPhone[2]/@literal = $literal1]" />
-					<xsl:choose>
-						<xsl:when test="$similarPhonePair/@features = 'true' and $similarPhonePair/@chart = 'false'">
-							<xsl:value-of select="'features'" />
-						</xsl:when>
-						<xsl:when test="$similarPhonePair/@features = 'false' and $similarPhonePair/@chart = 'true'">
-							<xsl:value-of select="'chart'" />
-						</xsl:when>
-					</xsl:choose>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:if test="string-length($XOR) != 0">
-			<xsl:attribute name="title">
-				<xsl:value-of select="$XOR" />
-			</xsl:attribute>
-		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

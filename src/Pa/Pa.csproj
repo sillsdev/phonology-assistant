@@ -871,6 +871,7 @@
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateProjectFile.xslt" />
+    <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateFeatureOverridesFile.xslt" />
     <Content Include="pa.ico" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

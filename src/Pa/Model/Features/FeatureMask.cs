@@ -82,12 +82,23 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not all the bits are set in the mask.
+		/// Gets a value indicating whether or not all the there are bits in the mask
+		/// (i.e. is the mask size zero).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsEmpty
 		{
 			get { return (m_masks.Count() == 0); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not all the bits are set in the mask.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool AreAnyBitsSet
+		{
+			get { return (m_masks.Any(x => x > 0)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -157,7 +168,7 @@ namespace SIL.Pa.Model
 			if (m_maskCount != mask.m_maskCount)
 				throw new ArgumentException(kBitSizeMismatchMsg);
 
-			if (mask.IsEmpty)
+			if (mask.IsEmpty || !mask.AreAnyBitsSet)
 				return false;
 
 			for (int i = 0; i < m_maskCount; i++)

@@ -85,6 +85,10 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static void CopyFilesForPrettyHTMLExports()
 		{
+			// This should only be non existant when running tests.
+			if (!Directory.Exists(App.ProcessingFolder))
+				return;
+
 			foreach (var filename in Directory.GetFiles(App.ProcessingFolder, "*.css"))
 			{
 				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));

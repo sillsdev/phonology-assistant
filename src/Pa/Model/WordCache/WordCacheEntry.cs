@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.Model

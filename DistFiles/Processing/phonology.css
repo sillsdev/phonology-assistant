@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-05-07 */
+﻿/* phonology.css 2010-05-14 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 @import url('phonology_CSS3.css'); /* For border-radius and rgba. */
@@ -330,6 +330,7 @@ position: relative;
 left: -0.5em; /* Negative padding-right of td. */
 border-left-style: solid;
 border-left-width: 0.5em; /* More than width of closed state. */
+padding-right: 0;
 }
 
 table.list ul.transcription li.change del,
@@ -338,11 +339,11 @@ table.list ul.transcription li.change ins
 text-decoration: none;
 }
 
-/* Because Internet Explorer 7 does not support the :before pseudo-element, */
+/* For Internet Explorer 7, which does not support the :before pseudo-element, */
 /* phonology.js inserts the content to separate del and ins elements. */
 table.list.interactive ul.transcription li.change del + ins:before
 {
-/* content: " ▸ "; /* U+25B8 black right-pointing small triangle. */
+content: " ▸ "; /* U+25B8 black right-pointing small triangle. */
 }
 
 /* Minimal pairs and their feature differences ------------------------------ */
@@ -491,7 +492,7 @@ display: none;
 
 /* Interactive sorting in lists --------------------------------------------- */
 
-table.list ins
+table.list th ins
 {
 display: none;
 text-decoration: none;
@@ -779,7 +780,6 @@ h3.interactive,
 h4.interactive,
 table.list.interactive th.group,
 table.list.interactive th.count,
-table.list.interactive th.pair,
 table.list.interactive th.sortable,
 table.list.interactive th.sortOptions ul,
 table.list.interactive th.sortOptions ul:hover li.initial,
@@ -804,6 +804,7 @@ table[class].list.interactive ul.transcription
 background-color: #cfe6cf; /* interactive */
 }
 
+table.list.interactive th.pair,
 table.distribution.interactive tr.individual th.Phonetic
 {
 background-color: #b8d9b8; /* interactive adjacent */

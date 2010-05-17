@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-05-07
+﻿// phonology.js 2010-05-14
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // http://www.sil.org/computing/pa/index.htm
 
@@ -64,47 +64,49 @@ jQuery(function ($) {
 	// Sort by columns.
 	// Collapse/expand groups.
 
-	// Return a character for the ins element in the heading of the active sort field.
+	// Return a character for the ins element in the heading of the sort field.
 	function indicatorFromSortingData(data) {
 		var sortOption = data.sortOption,
 			descending = data.descending,
 			indicator;
 		
 		if (sortOption) {
-			// Phonetic or (someday) Phonemic field.
+			// Phonetic or (someday) Phonemic field has regular-size triangle.
 			if (sortOption === 'mannerOfArticulation') {
-				indicator = (descending ? '▼' : '▲'); // black down-pointing or up-pointing
+				// Down-pointing or up-pointing means manner of articulation.
+				indicator = (descending ? '▼' : '▲');
 			} else if (sortOption === 'placeOfArticulation') {
-				indicator = (descending ? '▶' : '◀'); // black right-pointing or left-pointing
+				// Right-pointing or left-pointing means place of articulation.
+				indicator = (descending ? '▶' : '◀');
 			}
 		}
 		else {
-			// Any other field.
-			indicator = (descending ? '▾' : '▴'); // black down-pointing or up-pointing small
+			// Any other field has black down-pointing or up-pointing small triangle.
+			indicator = (descending ? '▾' : '▴');
 		}
 		return indicator;
 	}
 	
-	// Initialize sorting data for the active column heading
+	// Initialize data for the column heading of the sort field
 	// from a character in the ins element exported by Phonology Assistant.
 	function initializeDataFromSortingIndicator(data, indicator) {
 		// Down-pointing or right-pointing means descending.
 		data.descending = (indicator === '▾' || indicator === '▼' || indicator === '▶');
+		// Regular-size triangle distinguishes sort options from generic fields.
 		if (indicator === '▼' || indicator === '▲') {
-			// White down-pointing or up-pointing means manner of articulation.
+			// Down-pointing or up-pointing means manner of articulation.
 			data.sortOption = 'mannerOfArticulation'; 
 		} else if (indicator === '▶' || indicator === '◀') {
-			// White right-pointing or left-pointing means place of articulation.
+			// Right-pointing or left-pointing means place of articulation.
 			data.sortOption = 'placeOfArticulation';
 		}
 	}
 	
-	// To compare field values, change some occurrences of no-break space
-	// (which has decimal value 160).
+	// To compare field values, change some occurrences of no-break space.
 	function sortableValue(sortKey) {
 		var length = sortKey.length;
 		if (length) {
-			if (sortKey.charCodeAt(0) === 160) {
+			if (sortKey.charCodeAt(0) === 160) { // xA0 = 160
 				if (length === 1) {
 					// A single no-break space replaced an empty field.
 					sortKey = '';
@@ -170,7 +172,7 @@ jQuery(function ($) {
 			sortOrderSelector = 'ul.sortOrder li.' + data.sortOption;
 		}
 		if (data.groupField) {
-			// Sort groups by the sort field in the heading row.
+			// The field in the heading row of groups.
 			sortChildren($table, 'tbody',
 				'tr.heading ' + sortFieldSelector, sortOrderSelector, descending);
 		}
@@ -195,7 +197,12 @@ jQuery(function ($) {
 		// Phonetic sort option.
 		if ($target.is('li')) {
 			sortOptionSelected = $target.data('phonology').sortOption;
-			reverse = (sortOptionSelected === data.sortOption);
+			if (reverse) {
+				// Only if this is the active sort field:
+				// * Reverse the direction if the sort option remains the same.
+				// * Keep the direction the same if the sort option changes.
+				reverse = (sortOptionSelected === data.sortOption);
+			}
 			data.sortOption = sortOptionSelected;
 		}
 		// The following condition is independent of the previous condition,
@@ -203,16 +210,22 @@ jQuery(function ($) {
 		if ($th.hasClass('sortOptions')) {
 			$th.removeClass('active').find('li.initial').removeClass('initial');
 		}
-		
+
+		// Important: Must resort in the opposite direction;
+		// cannot just call the reverse() member function,
+		// because it does not preserve stable order of records
+		// with identical values of the sort field.
 		if (reverse) {
 			data.descending = !data.descending;
-		} else {
+		}
+		
+		sortList($table, data);
+
+		if (!($th.hasClass('sortField'))) {
 			$table.find('thead th.sortField').removeClass('sortField');
 			$th.addClass('sortField');
 		}
 		$th.find('ins').text(indicatorFromSortingData(data));
-		
-		sortList($table, data);
 
 		// Update the table of details.		
 		$details = $table.parent().find('table.details tr.sortField td');
@@ -327,7 +340,10 @@ jQuery(function ($) {
 	}
 
 	$('table.list').each(function () {
-		var $table = $(this).addClass('interactive').click(clickList);
+		var $table = $(this).addClass('interactive').click(clickList),
+			$ulTranscriptions = $table.find('td > ul.transcription'),
+			$ins = $ulTranscriptions.find('li.change del + ins'),
+			browser;
 		
 		$table.find('thead th.sortOptions')
 			.hover(mouseoverSortOptionList, mouseoutSortOptionList);
@@ -340,13 +356,19 @@ jQuery(function ($) {
 				.each(initializeDataForHeadingList);
 		}
 		
-		$table.find('td > ul.transcription')
-			// Equivalent to the :before pseudo-element in CSS,
-			// which Internet Explorer 7 does not support.
-			.find('li.change del + ins').before(' ▸ ') // right-pointing triangle
-			// The phonology.css file assumes all siblings are in a div.
-			// because the data cell itself cannot have relative position.
-			.end().parent().wrapInner('<div class="transcription"></div>');
+		// The phonology.css file assumes all siblings are in a div.
+		// because the data cell itself cannot have relative position.
+		$ulTranscriptions.parent().wrapInner('<div class="transcription"></div>');
+		if ($ins.length) {
+			// For Internet Explorer 7, which does not support the :before pseudo-element,
+			// insert the content to separate del and ins elements.
+			// For lack of a "proper feature detection" method for this problem,
+			// here is the deprecated "browser sniffing" method.
+			browser = $.browser;
+			if (browser && browser.msie && browser.version === '7.0') {
+				$ins.before(' ▸ '); // right-pointing triangle
+			}
+		}
 	});
 
 

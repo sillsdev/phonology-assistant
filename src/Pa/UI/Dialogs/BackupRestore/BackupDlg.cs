@@ -4,11 +4,8 @@ using System.Windows.Forms;
 using System.IO;
 using SIL.Localization;
 using SIL.Pa.DataSource;
-using SIL.Pa.Model;
-using SIL.Pa.PhoneticSearching;
 using ICSharpCode.SharpZipLib.Zip;
 using SIL.Pa.Properties;
-using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -165,13 +162,14 @@ namespace SIL.Pa.UI.Dialogs
 			if (!chkIncludeDataSources.Checked)
 				m_dsFiles.Clear();
 
-			m_dsFiles.Add(Utils.GetLocalPath(InventoryHelper.kDefaultInventoryFileName, true));
+			// Fix the following lines, since we don't want to use GetLocalPath anymore.
+			//m_dsFiles.Add(Utils.GetLocalPath(InventoryHelper.kDefaultInventoryFileName, true));
 
-			var normalizationExceptionFile =
-				Utils.GetLocalPath(FFNormalizer.kstidNormalizationExceptionsFile, true);
+			//var normalizationExceptionFile =
+			//	Utils.GetLocalPath(FFNormalizer.kstidNormalizationExceptionsFile, true);
 			
-			if (File.Exists(normalizationExceptionFile))
-				m_dsFiles.Add(normalizationExceptionFile);
+			//if (File.Exists(normalizationExceptionFile))
+			//	m_dsFiles.Add(normalizationExceptionFile);
 
 			lblInfo.Visible = false;
 			chkIncludeDataSources.Visible = false;

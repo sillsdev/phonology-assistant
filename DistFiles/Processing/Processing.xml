@@ -100,6 +100,21 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
+					<document href="phonology_project_inventory_6a_similar_phone_pairs.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_6b_similar_phone_pairs.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_6c_similar_phone_pairs.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
 					<document href="phonology_project_inventory_7.xsl" />
 				</input>
 			</xslt>

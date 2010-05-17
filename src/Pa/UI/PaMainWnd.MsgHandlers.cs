@@ -159,7 +159,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private static void OpenTrainingDocument(string docName)
 		{
-			string path = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
+			string path = Path.Combine(App.AssemblyPath, App.kTrainingSubFolder);
 			path = Path.Combine(path, docName);
 
 			if (!File.Exists(path))

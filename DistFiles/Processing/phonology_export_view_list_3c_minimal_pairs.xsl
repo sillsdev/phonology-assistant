@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-05-03 -->
+  <!-- phonology_export_view_list_3c_minimal_pairs.xsl 2010-05-13 -->
   <!-- If there are minimal pairs, count the number of records and groups. -->
 
 	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
@@ -58,17 +58,17 @@ exclude-result-prefixes="xhtml"
     </xsl:if>
   </xsl:template>
 
-	<!-- Update the count of records in groups. -->
-  <xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'count']">
+	<!-- Update the count of records in groups of minimal pairs. -->
+  <xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading'][xhtml:th[@class = 'Phonetic pair']]/xhtml:th[@class = 'count']">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
 			<xsl:choose>
-				<!-- One minimal pair per group. -->
-				<xsl:when test="../xhtml:th[contains(@class, 'pair')]">
-					<xsl:value-of select="count(../../xhtml:tr[@class = 'heading' or @class = 'subheading'])" />
+				<!-- A more-similar pair that does not occur in the data. -->
+				<xsl:when test="count(../../xhtml:tr[@class = 'data']) = 0">
+					<xsl:value-of select="0" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="count(../../xhtml:tr[@class = 'data'])" />
+					<xsl:value-of select="count(../../xhtml:tr[@class = 'heading' or @class = 'subheading'])" />
 				</xsl:otherwise>
 			</xsl:choose>
     </xsl:copy>

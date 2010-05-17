@@ -1,15 +1,15 @@
 // ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.   
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
+#region // Copyright (c) 2010, SIL International. All Rights Reserved.   
+// <copyright from='2005' to='2010' company='SIL International'>
+//		Copyright (c) 2010, SIL International. All Rights Reserved.   
 //    
 //		Distributable under the terms of either the Common Public License or the
 //		GNU Lesser General Public License, as specified in the LICENSING.txt file.
 // </copyright> 
 #endregion
 // 
-// File: Pacs
-// Responsibility: DavidO
+// File: Pa.cs
+// Responsibility: David O
 // 
 // <remarks>
 // </remarks>
@@ -168,11 +168,13 @@ namespace SIL.Pa
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
 
-			if (Settings.Default.UncertainGroupAbsentPhoneChars != null)
-				IPASymbolCache.UncertainGroupAbsentPhoneChars = Settings.Default.UncertainGroupAbsentPhoneChars;
+			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
 
-			if (Settings.Default.UncertainGroupAbsentPhoneChar != null)
-				IPASymbolCache.UncertainGroupAbsentPhoneChar = Settings.Default.UncertainGroupAbsentPhoneChar;
+			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
 
 			ReadAddOns();
 
@@ -583,7 +585,7 @@ namespace SIL.Pa
 
 			try
 			{
-				var addOnPath = Path.Combine(Application.StartupPath, "AddOns");
+				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
 				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
 			}
 			catch
@@ -674,7 +676,7 @@ namespace SIL.Pa
 			{
 				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-					return Application.StartupPath;
+					return AssemblyPath;
 
 				projPath = projPath.TrimEnd('\\');
 				int i = projPath.LastIndexOf('\\');
@@ -838,12 +840,28 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// When running normally, this should be the same as Application.StartupPath. When
+		/// running tests, this will be the folder that contains the assembly in which this
+		/// class is found.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string AssemblyPath
+		{
+			get
+			{
+				// CodeBase prepends "file:/", which must be removed.
+				return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the path where the application's factory configuration files are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string ConfigFolder
 		{
-			get { return Path.Combine(Application.StartupPath, "Configuration"); }
+			get { return Path.Combine(AssemblyPath, "Configuration"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -853,7 +871,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static string ProcessingFolder
 		{
-			get { return Path.Combine(Application.StartupPath, "Processing"); }
+			get { return Path.Combine(AssemblyPath, "Processing"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2057,7 +2075,7 @@ namespace SIL.Pa
 			{
 				if (string.IsNullOrEmpty(s_helpFilePath))
 				{
-					s_helpFilePath = Application.StartupPath;
+					s_helpFilePath = AssemblyPath;
 					//s_helpFilePath = Path.Combine(s_helpFilePath, kHelpSubFolder);
 					s_helpFilePath = Path.Combine(s_helpFilePath, kHelpFileName);
 				}

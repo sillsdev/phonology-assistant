@@ -1,7 +1,6 @@
-﻿/* phonology_IE7.css 2010-05-06 */
+﻿/* phonology_IE7.css 2010-05-14 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 7. */
-/* Does not support Internet Explorer 6 and earlier. */
 
 /* Borders ------------------------------------------------------------------ */
 
@@ -23,7 +22,7 @@ border-bottom-style: solid;
 
 /* Omit the borders because border-color: transparent becomes */
 /* the background color of the page instead of the cell. */
-/* Without the borders, must increase padding slightly. */
+/* Without the borders, increase padding slightly. */
 table.features td
 {
 border-style: none;
@@ -32,6 +31,9 @@ padding-bottom: 0.25em;
 }
 
 /* Border color ------------------------------------------------------------- */
+
+/* Specify color explicitly because border-color: transparent becomes */
+/* the background color of the page instead of the cell. */
 
 table.list th.pair,
 table.list th.count

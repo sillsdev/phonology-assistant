@@ -541,7 +541,7 @@ namespace SIL.Pa.Model
 			int wordIndex = 0;
 			for (int w = 0; w < colWidths.Count; w++)
 			{
-				WordCacheEntry wordEntry = new WordCacheEntry(entry, wordIndex++, true);
+				var wordEntry = new WordCacheEntry(entry, wordIndex++, true);
 				
 				foreach (KeyValuePair<string, string> line in unparsedLines)
 				{
