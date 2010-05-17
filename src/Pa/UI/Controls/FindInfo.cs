@@ -18,9 +18,6 @@ namespace SIL.Pa.UI.Controls
 		private static int s_firstMatchedCol;
 		private static int s_matchedRow;
 		private static int s_matchedColumn;
-		private static string s_findPattern = string.Empty;
-		private static string s_findText = string.Empty;
-		private static FindDlgColItem[] s_colsToSearch = new FindDlgColItem[] { };
 		private static int s_startRow;
 		private static int s_iPreviousRow;
 		private static int s_iRow;
@@ -29,14 +26,20 @@ namespace SIL.Pa.UI.Controls
 		private static bool s_doneFinding;
 		private static bool s_performedFind;
 		private static bool s_firstLoop = true;
-		private static bool s_findDlgIsOpen;
 		private static bool s_searchedAllRowCols;
 		private static int s_numberOfFinds;
 		private static bool s_changedFindDirection;
-		private static bool s_showMessages = true;
 		private static bool s_searchCollapsedGroups;
 		private static bool s_findBackwards;
 		private static SilHierarchicalGridRow s_silHierarchicalGridRow;
+
+		static FindInfo()
+		{
+			FindText = string.Empty;
+			FindPattern = string.Empty;
+			ShowMessages = true;
+			ColumnsToSearch = new FindDlgColItem[] { };
+		}
 
 		#endregion
 
@@ -96,9 +99,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static int GetColumnSortPosition(int currCellDisplayIndex)
 		{
-			for (int i = 0; i < s_colsToSearch.Length; i++)
+			for (int i = 0; i < ColumnsToSearch.Length; i++)
 			{
-				if (s_colsToSearch[i].DisplayIndex == currCellDisplayIndex)
+				if (ColumnsToSearch[i].DisplayIndex == currCellDisplayIndex)
 					return i;
 			}
 			return 0;
@@ -127,11 +130,11 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (currCellDisplayIndex != 0)
 				{
-					for (int i = s_colsToSearch.Length - 1; i >= 0; i--)
+					for (int i = ColumnsToSearch.Length - 1; i >= 0; i--)
 					{
 						if (s_doneFinding && s_grid.CurrentCell.RowIndex == s_iPreviousRow)
 						{
-							if (s_colsToSearch[i].DisplayIndex < currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex < currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -139,12 +142,12 @@ namespace SIL.Pa.UI.Controls
 						}
 						else if (s_doneFinding && s_grid.CurrentCell.RowIndex != s_iPreviousRow)
 						{
-							SetCurrentColumn(s_colsToSearch.Length - 1);
+							SetCurrentColumn(ColumnsToSearch.Length - 1);
 							return;
 						}
-						else if (s_doneFinding && (currColumnSortPosition < s_colsToSearch.Length - 1))
+						else if (s_doneFinding && (currColumnSortPosition < ColumnsToSearch.Length - 1))
 						{
-							if (s_colsToSearch[i].DisplayIndex <= currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex <= currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -152,7 +155,7 @@ namespace SIL.Pa.UI.Controls
 						}
 						else
 						{
-							if (s_colsToSearch[i].DisplayIndex < currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex < currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -164,17 +167,17 @@ namespace SIL.Pa.UI.Controls
 					SetCurrentRow(s_grid.CurrentCell.RowIndex - 1);
 				else
 					SetCurrentRow(s_grid.Rows.Count - 1); // last row becomes the current row
-				SetCurrentColumn(s_colsToSearch.Length - 1);
+				SetCurrentColumn(ColumnsToSearch.Length - 1);
 			}
 			else // FORWARD FIND
 			{
-				if (currColumnSortPosition != s_colsToSearch.Length - 1)
+				if (currColumnSortPosition != ColumnsToSearch.Length - 1)
 				{
-					for (int i = 0; i < s_colsToSearch.Length; i++)
+					for (int i = 0; i < ColumnsToSearch.Length; i++)
 					{
 						if (s_doneFinding && s_grid.CurrentCell.RowIndex == s_iPreviousRow)
 						{
-							if (s_colsToSearch[i].DisplayIndex > currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex > currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -187,7 +190,7 @@ namespace SIL.Pa.UI.Controls
 						}
 						else if (s_doneFinding && currColumnSortPosition > 0)
 						{
-							if (s_colsToSearch[i].DisplayIndex >= currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex >= currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -195,7 +198,7 @@ namespace SIL.Pa.UI.Controls
 						}
 						else
 						{
-							if (s_colsToSearch[i].DisplayIndex > currCellDisplayIndex)
+							if (ColumnsToSearch[i].DisplayIndex > currCellDisplayIndex)
 							{
 								SetCurrentColumn(i);
 								return;
@@ -341,7 +344,7 @@ namespace SIL.Pa.UI.Controls
 					s_silHierarchicalGridRow = s_grid.Rows[s_iRow] as SilHierarchicalGridRow;
 
 				s_iPreviousRow = s_iRow;
-				for (s_iColumn = s_matchedColumn; s_iColumn < s_colsToSearch.Length; s_iColumn++)
+				for (s_iColumn = s_matchedColumn; s_iColumn < ColumnsToSearch.Length; s_iColumn++)
 				{
 					if (ProcessColumns())
 						return true;
@@ -396,7 +399,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Didn't find a match, so start searching again in the last column on the previous row
 				s_matchedRow = s_iRow - 1;
-				SetCurrentColumn(s_colsToSearch.Length - 1);
+				SetCurrentColumn(ColumnsToSearch.Length - 1);
 
 				// Restart the search from the bottom if there has been at least 1 match already
 				if (s_matchedRow < 0)
@@ -420,8 +423,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (s_iRow == s_startRow && !s_firstMatch)
 				{
-					if (s_showMessages)
-						Utils.MsgBox(Properties.Resources.kstidFindDataNotFound + s_findText);
+					if (ShowMessages)
+						Utils.MsgBox(Properties.Resources.kstidFindDataNotFound + FindText);
 					
 					return true;
 				}
@@ -439,17 +442,17 @@ namespace SIL.Pa.UI.Controls
 		private static bool ProcessColumns()
 		{
 			// Make sure the column to search is still in the grid and visible.
-			if (s_grid.Columns[s_colsToSearch[s_iColumn].FieldName] == null ||
-				!s_grid.Columns[s_colsToSearch[s_iColumn].FieldName].Visible)
+			if (s_grid.Columns[ColumnsToSearch[s_iColumn].FieldName] == null ||
+				!s_grid.Columns[ColumnsToSearch[s_iColumn].FieldName].Visible)
 			{
-				List<FindDlgColItem> tmpLst = new List<FindDlgColItem>(s_colsToSearch);
+				var tmpLst = new List<FindDlgColItem>(ColumnsToSearch);
 				tmpLst.RemoveAt(s_iColumn);
-				s_colsToSearch = tmpLst.ToArray();
+				ColumnsToSearch = tmpLst.ToArray();
 				return false;
 			}
 
 			if (SearchCellDataForMatch(
-				s_grid[s_colsToSearch[s_iColumn].ColIndex, s_grid.Rows[s_iRow].Index], s_findPattern))
+				s_grid[ColumnsToSearch[s_iColumn].ColIndex, s_grid.Rows[s_iRow].Index], FindPattern))
 			{
 				Match();
 				return true; // match
@@ -534,7 +537,7 @@ namespace SIL.Pa.UI.Controls
 
 				// If the cell is off the screen, move the cell's row to the screen's
 				// middle. s_showMessages will only be false if running tests.
-				if (!cell.Displayed && s_showMessages)
+				if (!cell.Displayed && ShowMessages)
 					s_grid.ScrollRowToMiddleOfGrid(cell.RowIndex);
 
 				if (cell.Visible)
@@ -542,7 +545,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch (Exception ex)
 			{
-				if (s_showMessages)
+				if (ShowMessages)
 					Utils.MsgBox(ex.Message);
 			}
 
@@ -573,7 +576,7 @@ namespace SIL.Pa.UI.Controls
 				if (s_numberOfFinds < 2)
 				{
 					// Display message that all records have been searched
-					if (s_showMessages)
+					if (ShowMessages)
 						Utils.MsgBox(Properties.Resources.kstidFindDoneSearching);
 					s_firstMatchedRow = cell.RowIndex;
 					s_firstMatchedCol = cell.ColumnIndex;
@@ -590,7 +593,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					s_doneFinding = true;
 					// Display message that all records have been searched
-					if (s_showMessages)
+					if (ShowMessages)
 						Utils.MsgBox(Properties.Resources.kstidFindDoneSearching);
 					
 					return true;
@@ -620,7 +623,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Already searched all the selected columns in this row
 					s_matchedRow = s_iRow - 1;
-					s_matchedColumn = s_colsToSearch.Length - 1;
+					s_matchedColumn = ColumnsToSearch.Length - 1;
 					s_searchedAllRowCols = true;
 				}
 				else
@@ -629,7 +632,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			else // FORWARD SEARCH
 			{
-				if (s_iColumn >= (s_colsToSearch.Length - 1))
+				if (s_iColumn >= (ColumnsToSearch.Length - 1))
 				{
 					// Already searched all the selected columns in this row
 					s_matchedRow = s_iRow + 1;
@@ -641,6 +644,7 @@ namespace SIL.Pa.UI.Controls
 					s_matchedColumn = s_iColumn + 1;
 			}
 		}
+
 		#endregion
 
 		#region Handling Events
@@ -689,11 +693,13 @@ namespace SIL.Pa.UI.Controls
 					}
 
 					s_grid = value;
+					
 					if (s_grid != null)
 					{
 						s_grid.HandleDestroyed += HandleGridDestroyed;
 						s_grid.CellClick += HandleCellClick;
 					}
+
 					ResetStartSearchCell(false);
 				}
 			}
@@ -716,53 +722,35 @@ namespace SIL.Pa.UI.Controls
 		/// search matches.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string FindText
-		{
-			set { s_findText = value; }
-		}
+		public static string FindText { private get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set the search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string FindPattern
-		{
-			set { s_findPattern = value; }
-		}
+		public static string FindPattern { private get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set the search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool FindDlgIsOpen
-		{
-			get { return s_findDlgIsOpen; }
-			set { s_findDlgIsOpen = value; }
-		}
+		public static bool FindDlgIsOpen { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Set the search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool ShowMessages
-		{
-			get { return s_showMessages; }
-			set { s_showMessages = value; }
-		}
+		public static bool ShowMessages { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get & set the columns to search.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FindDlgColItem[] ColumnsToSearch
-		{
-			get { return s_colsToSearch; }
-			set { s_colsToSearch = value; }
-		}
+		public static FindDlgColItem[] ColumnsToSearch { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

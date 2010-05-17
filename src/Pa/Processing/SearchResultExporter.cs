@@ -71,7 +71,7 @@ namespace SIL.Pa.Processing
 				return;
 			
 			var grid = m_grid as PaWordListGrid;
-			if (grid.GroupByColumn == grid.PhoneticColumn)
+			if (grid.GroupByColumn == grid.PhoneticColumn || grid.Cache.IsCIEList)
 				return;
 
 			int groupByColIndex = m_groupByColumn.DisplayIndex;
