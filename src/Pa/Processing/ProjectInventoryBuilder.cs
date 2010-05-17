@@ -29,6 +29,10 @@ namespace SIL.Pa.Processing
 		[XmlArray("units"), XmlArrayItem("unit")]
 		public List<TempPhoneInfo> Phones { get; set; }
 
+		// I'm not thrilled about this approach for causing processing to be skipped when
+		// tests are run, but it will work for now.
+		public static bool SkipProcessingForTests;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -36,8 +40,11 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static bool Process(PaProject project, PhoneCache phoneCache)
 		{
-			if (project == null || Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
+			if (project == null || SkipProcessingForTests ||
+				Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
+			{
 				return false;
+			}
 
 			App.MsgMediator.SendMessage("BeforeBuildProjectInventory",
 				new object[] { project, phoneCache });

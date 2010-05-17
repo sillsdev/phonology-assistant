@@ -181,7 +181,8 @@ namespace SIL.Pa.Model
 						return recEntryVal;
 
 					// Build the CV pattern since it didn't come from the data source.
-					return (m_phones == null ? null : App.PhoneCache.GetCVPattern(m_phones));
+					return (m_phones == null || App.PhoneCache == null ?
+						null : App.PhoneCache.GetCVPattern(m_phones));
 				}
 			}
 			
