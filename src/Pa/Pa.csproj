@@ -147,7 +147,6 @@
     <Compile Include="Filters\Filters.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
-    <Compile Include="Miscellaneous\MruProjects.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
     <Compile Include="Miscellaneous\ZipUtils.cs" />

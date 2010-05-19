@@ -154,7 +154,8 @@ namespace SIL.Pa
 			MsgMediator = new Mediator();
 
 			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-			
+			MruFiles.Initialize(Settings.Default.MRUList);
+
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 
 			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
@@ -1344,8 +1345,7 @@ namespace SIL.Pa
 				defs[0] = Path.Combine(ConfigFolder, "PaTMDefinition.xml");
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
-				adapter.RecentFilesList = (MruProjects.Paths ?? new string[] { });
-//				adapter.RecentFilesList = RecentlyUsedProjectList;
+				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
 				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
 			}
 
@@ -1423,13 +1423,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void AddProjectToRecentlyUsedProjectsList(string filename, bool addToEnd)
 		{
-			MruProjects.AddNewPath(filename, addToEnd);
-			MruProjects.Save();
+			MruFiles.AddNewPath(filename, addToEnd);
 
 			if (s_defaultMenuAdapters != null)
 			{
 				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
-					adapter.RecentFilesList = (MruProjects.Paths ?? new string[] {});
+					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
 			}
 		}
 

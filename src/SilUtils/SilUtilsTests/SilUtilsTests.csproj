@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="MruFilesTests.cs" />
     <Compile Include="MsgDispatcherTests.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -1,63 +1,43 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
+using System.Collections.Specialized;
 using System.IO;
-using SIL.Pa.Properties;
 
-namespace SIL.Pa
+namespace SilUtils
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates a class to manage the list of most recently used project paths.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public static class MruProjects
+	public static class MruFiles
 	{
-		public const int MaxMRUListSize = 9;
-
-		private static readonly List<string> s_paths = new List<string>(MaxMRUListSize);
+		private static StringCollection s_paths;
+		public static int MaxMRUListSize { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		static MruProjects()
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void Initialize(StringCollection paths)
 		{
-			if (Settings.Default.MRUList != null)
-				LoadList(Settings.Default.MRUList);
+			Initialize(paths, 9);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string[] Paths
-		{
-			get
-			{
-				RemoveStalePaths();
-				return s_paths.ToArray();
-			}
-			set { LoadList(value); }
-		}
-
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void LoadList(ICollection values)
-		{ 
-			s_paths.Clear();
-			if (values == null)
-				return;
+		public static void Initialize(StringCollection paths, int maxMruListSize)
+		{
+			MaxMRUListSize = maxMruListSize;
+			s_paths = (paths ?? new StringCollection());
+			RemoveStalePaths();
 
-			int i = 0;
-			foreach (object val in values)
-			{
-				string path = val as string;
-				if (path == null)
-					continue;
-
-				if (!File.Exists(path))
-					continue;
-
-				if (i++ == MaxMRUListSize)
-					break;
-
-				if (!s_paths.Contains(path))
-					s_paths.Add(path);
-			}
+			while (s_paths.Count > MaxMRUListSize)
+				s_paths.RemoveAt(s_paths.Count - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,6 +48,16 @@ namespace SIL.Pa
 		public static string Latest
 		{
 			get { return (s_paths.Count == 0 ? null : s_paths[0]); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the list of most recently used files as a string array.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string[] Paths
+		{
+			get { return s_paths.Cast<string>().ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -125,15 +115,6 @@ namespace SIL.Pa
 				s_paths.Insert(0, path);
 			
 			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static void Save()
-		{
-			var collection = new System.Collections.Specialized.StringCollection();
-			collection.AddRange(s_paths.ToArray());
-			Settings.Default.MRUList = (collection.Count == 0 ? null : collection);
-			Settings.Default.Save();
 		}
 	}
 }
