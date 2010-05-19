@@ -41,7 +41,7 @@ namespace SIL.Pa.Model
 		public static void MigrateToLatestVersion(string filename)
 		{
 			var errMsg = LocalizationManager.LocalizeString("AmbiguousSeqMigrationErrMsg",
-				"The following error occurred while attempting to update the your project’s ambiguous " +
+				"The following error occurred while attempting to update your project’s ambiguous " +
 				"sequences file:\n\n{0}\n\nIn order to continue working, your original ambiguous " +
 				"sequence file  will be renamed to the following file: '{1}'.",
 				"Message displayed when updating ambiguous sequences file to new version.",

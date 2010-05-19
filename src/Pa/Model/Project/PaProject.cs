@@ -127,7 +127,7 @@ namespace SIL.Pa
 		public static void MigrateToLatestVersion(string filename)
 		{
 			var errMsg = LocalizationManager.LocalizeString("ProjectFileMigrationErrMsg",
-				"The following error occurred while attempting to update the your project file:\n\n{0}",
+				"The following error occurred while attempting to update your project file:\n\n{0}",
 				"Message displayed when updating ambiguous sequences file to new version.",
 				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.MediumHigh);

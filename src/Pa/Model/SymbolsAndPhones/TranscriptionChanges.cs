@@ -29,7 +29,7 @@ namespace SIL.Pa.Model
 		{
 			var errMsg = LocalizationManager.LocalizeString(
 				"TranscriptionChangesMigrationErrMsg",
-				"The following error occurred while attempting to update the your project’s " +
+				"The following error occurred while attempting to update your project’s " +
 				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
 				"In order to continue working, your original file containing transcriptions " +
 				"will be renamed to the following file: '{1}'.",

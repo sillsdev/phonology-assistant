@@ -147,7 +147,7 @@ namespace SIL.Pa
 		{
 			if (DesignMode)
 				return;
-			
+
 			InitializePaRegKey();
 			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
 			SettingsHandler = new PaSettingsHandler(SettingsFile);
