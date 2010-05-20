@@ -154,7 +154,7 @@ namespace SIL.Pa
 			MsgMediator = new Mediator();
 
 			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-			MruFiles.Initialize(Settings.Default.MRUList);
+			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
 
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 

@@ -12,7 +12,7 @@ namespace SilUtils
 	/// ----------------------------------------------------------------------------------------
 	public static class MruFiles
 	{
-		private static StringCollection s_paths;
+		private static StringCollection s_paths = new StringCollection();
 		public static int MaxMRUListSize { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -20,9 +20,9 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Initialize(StringCollection paths)
+		public static StringCollection Initialize(StringCollection paths)
 		{
-			Initialize(paths, 9);
+			return Initialize(paths, 9);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Initialize(StringCollection paths, int maxMruListSize)
+		public static StringCollection Initialize(StringCollection paths, int maxMruListSize)
 		{
 			MaxMRUListSize = maxMruListSize;
 			s_paths = (paths ?? new StringCollection());
@@ -38,6 +38,8 @@ namespace SilUtils
 
 			while (s_paths.Count > MaxMRUListSize)
 				s_paths.RemoveAt(s_paths.Count - 1);
+
+			return s_paths;
 		}
 
 		/// ------------------------------------------------------------------------------------
