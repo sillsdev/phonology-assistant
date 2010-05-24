@@ -86,10 +86,6 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public void InitializeForm(Form frm)
 		{
-			frm.ResizeEnd += HandleFormResizeEnd;
-			frm.LocationChanged += HandleFormLocationChanged;
-			frm.HandleDestroyed += HandleFormHandleDestroyed;
-
 			if (Bounds.Height <= 0 || DPI != m_currDpi)
 			{
 				frm.StartPosition = FormStartPosition.CenterScreen;
@@ -103,6 +99,10 @@ namespace SilUtils
 				if (frm.WindowState != State)
 					frm.WindowState = State;
 			}
+
+			frm.ResizeEnd += HandleFormResizeEnd;
+			frm.LocationChanged += HandleFormLocationChanged;
+			frm.HandleDestroyed += HandleFormHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------
