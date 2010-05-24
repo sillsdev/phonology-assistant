@@ -44,6 +44,9 @@ namespace SIL.Pa.UI.Dialogs
 			SetupFeatureLists();
 			BuildPhoneGrid();
 			LoadPhoneGrid();
+
+			btnReset.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
+			tblLayoutButtons.Controls.Add(btnReset, 0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,12 +102,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_lvBFeatures.Load();
 			tpgBFeatures.Controls.Add(m_lvBFeatures);
 			m_lvBFeatures.BringToFront();
-		
-			//if (!PaintingHelper.CanPaintVisualStyle())
-			{
-				m_lvAFeatures.BorderStyle = BorderStyle.None;
-				m_lvBFeatures.BorderStyle = BorderStyle.None;
-			}
+
+			m_lvAFeatures.BorderStyle = BorderStyle.None;
+			m_lvBFeatures.BorderStyle = BorderStyle.None;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			col.HeaderText = LocalizationManager.LocalizeString(
-				Name + ".PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
+				"FeaturesDlg.PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
 			
 			gridPhones.Columns.Add(col);
 
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.HeaderText = LocalizationManager.LocalizeString(
-				Name + ".PhoneListCountHeadingText", "Count", App.kLocalizationGroupDialogs);
+				"FeaturesDlg.PhoneListCountHeadingText", "Count", App.kLocalizationGroupDialogs);
 
 			gridPhones.Columns.Add(col);
 
@@ -218,23 +218,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				foreach (var pi in m_phones)
-				{
-					PhoneInfo phoneInfo = pi as PhoneInfo;
-					if (phoneInfo == null)
-						continue;
-
-					IPhoneInfo origPhoneInfo = App.PhoneCache[phoneInfo.Phone];
-
-					if (origPhoneInfo == null ||
-						phoneInfo.AMask != origPhoneInfo.AMask ||
-						phoneInfo.BMask != origPhoneInfo.BMask)
-					{
-						return true;
-					}
-				}
-
-				return false;
+				return m_phones.Cast<PhoneInfo>().Any(x =>
+					x.AMask != x.DefaultAMask || x.BMask != x.DefaultBMask);
 			}
 		}
 
@@ -279,16 +264,8 @@ namespace SIL.Pa.UI.Dialogs
 				if (phoneInfo == null)
 					continue;
 
-				// Find the grid phone's entry in the application's phone cache. If the
-				// features in the grid phone are different from those in the phone
-				// cache entry, then add the phone from the grid to our temporary list
-				// of phone features to override.
-				IPhoneInfo origPhoneInfo = App.PhoneCache[phoneInfo.Phone];
-				if (origPhoneInfo == null)
-					continue;
-
-				phoneInfo.AFeaturesAreOverridden = (origPhoneInfo.AMask != phoneInfo.AMask);
-				phoneInfo.BFeaturesAreOverridden = (origPhoneInfo.BMask != phoneInfo.BMask);
+				phoneInfo.AFeaturesAreOverridden = (phoneInfo.DefaultAMask != phoneInfo.AMask);
+				phoneInfo.BFeaturesAreOverridden = (phoneInfo.DefaultBMask != phoneInfo.BMask);
 
 				if (phoneInfo.AFeaturesAreOverridden || phoneInfo.BFeaturesAreOverridden)
 					featureOverrideList[phoneInfo.Phone] = phoneInfo;
@@ -344,7 +321,7 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (char c in phoneInfo.Phone)
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
-				var fmt = LocalizationManager.LocalizeString(Name + ".PhonesGridInfoFormat",
+				var fmt = LocalizationManager.LocalizeString("FeaturesDlg.PhonesGridInfoFormat",
 					"Unicode Values:\n{0}", App.kLocalizationGroupDialogs);
 
 				string tip = bldr.ToString();
@@ -396,6 +373,30 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void btnReset_Click(object sender, EventArgs e)
+		{
+			int i = gridPhones.CurrentCellAddress.Y;
+			if (i < 0 || i >= m_phones.Count)
+				return;
+
+			if (tabFeatures.SelectedTab == tpgAFeatures)
+			{
+				((PhoneInfo)m_phones[i]).ResetAFeatures();
+				m_lvAFeatures.CurrentMask = m_phones[i].AMask;
+				lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
+			}
+			else if (tabFeatures.SelectedTab == tpgBFeatures)
+			{
+				((PhoneInfo)m_phones[i]).ResetBFeatures();
+				m_lvBFeatures.CurrentMask = m_phones[i].BMask;
+			}
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

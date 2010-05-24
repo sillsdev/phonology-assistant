@@ -859,7 +859,7 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDefineClasses(object args)
+		protected bool OnClasses(object args)
 		{
 			using (ClassesDlg dlg = new ClassesDlg())
 				dlg.ShowDialog(this);
@@ -872,7 +872,7 @@ namespace SIL.Pa.UI
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateDefineClasses(object args)
+		protected bool OnUpdateClasses(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;

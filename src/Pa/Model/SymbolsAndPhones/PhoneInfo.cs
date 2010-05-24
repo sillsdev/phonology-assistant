@@ -81,8 +81,8 @@ namespace SIL.Pa.Model
 		{
 			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
 	
-			m_aMask = App.AFeatureCache.GetEmptyMask();
-			m_bMask = App.BFeatureCache.GetEmptyMask();
+			m_aMask = DefaultAMask = App.AFeatureCache.GetEmptyMask();
+			m_bMask = DefaultBMask = App.BFeatureCache.GetEmptyMask();
 
 			// Go through each codepoint of the phone, building the feature masks along the way.
 			foreach (char c in phone)
@@ -102,6 +102,8 @@ namespace SIL.Pa.Model
 
 				m_aMask |= charInfo.AMask;
 				m_bMask |= charInfo.BMask;
+				DefaultAMask |= charInfo.AMask;
+				DefaultBMask |= charInfo.BMask;
 			}
 		}
 
@@ -154,6 +156,8 @@ namespace SIL.Pa.Model
 			clone.BFeaturesAreOverridden = BFeaturesAreOverridden;
 			clone.m_aMask = AMask.Clone();
 			clone.m_bMask = BMask.Clone();
+			clone.DefaultAMask = DefaultAMask;
+			clone.DefaultBMask = DefaultBMask;
 
 			return clone;
 		}
@@ -280,6 +284,62 @@ namespace SIL.Pa.Model
 			m_bMask = null;
 			BFeatures = list;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void OverrideAFeature(FeatureMask mask)
+		{
+			if (AMask != mask && !mask.IsEmpty && mask.IsAnyBitSet)
+			{
+				AMask = mask.Clone();
+				AFeaturesAreOverridden = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void OverrideBFeature(FeatureMask mask)
+		{
+			if (BMask != mask && !mask.IsEmpty && mask.IsAnyBitSet)
+			{
+				BMask = mask.Clone();
+				BFeaturesAreOverridden = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ResetAFeatures()
+		{
+			AMask = DefaultAMask;
+			AFeaturesAreOverridden = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ResetBFeatures()
+		{
+			BMask = DefaultBMask;
+			BFeaturesAreOverridden = false;
+		}
+
+		[XmlIgnore]
+		public FeatureMask DefaultAMask { get; private set; }
+
+		[XmlIgnore]
+		public FeatureMask DefaultBMask { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

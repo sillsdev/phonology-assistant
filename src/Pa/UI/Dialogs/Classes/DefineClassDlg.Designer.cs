@@ -115,7 +115,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.lvClasses, "lvClasses");
 			this.lvClasses.AccessibleRole = System.Windows.Forms.AccessibleRole.List;
-			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.DefineClassesDialog;
+			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.DefineClassDialog;
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             ((System.Windows.Forms.ListViewGroup)(resources.GetObject("lvClasses.Groups"))),

@@ -340,6 +340,24 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Classes....
+        /// </summary>
+        public static string kstidClassesText {
+            get {
+                return ResourceManager.GetString("kstidClassesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Classes.
+        /// </summary>
+        public static string kstidClassesToolTip {
+            get {
+                return ResourceManager.GetString("kstidClassesToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Clear.
         /// </summary>
         public static string kstidClearChartText {
@@ -615,24 +633,6 @@ namespace SIL.Pa.ResourceStuff {
         public static string kstidDefineBFToolTip {
             get {
                 return ResourceManager.GetString("kstidDefineBFToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Classes....
-        /// </summary>
-        public static string kstidDefineClassesText {
-            get {
-                return ResourceManager.GetString("kstidDefineClassesText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Define Classes.
-        /// </summary>
-        public static string kstidDefineClassesToolTip {
-            get {
-                return ResourceManager.GetString("kstidDefineClassesToolTip", resourceCulture);
             }
         }
         

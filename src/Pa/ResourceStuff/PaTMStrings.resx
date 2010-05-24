@@ -310,11 +310,11 @@
   <data name="kstidDefineBFToolTip" xml:space="preserve">
     <value>Define Binary Features</value>
   </data>
-  <data name="kstidDefineClassesText" xml:space="preserve">
+  <data name="kstidClassesText" xml:space="preserve">
     <value>&amp;Classes...</value>
   </data>
-  <data name="kstidDefineClassesToolTip" xml:space="preserve">
-    <value>Define Classes</value>
+  <data name="kstidClassesToolTip" xml:space="preserve">
+    <value>Classes</value>
   </data>
   <data name="kstidOptionsText" xml:space="preserve">
     <value>&amp;Options...</value>

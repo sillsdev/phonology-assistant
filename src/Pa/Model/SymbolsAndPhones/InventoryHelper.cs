@@ -62,7 +62,7 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the specified IPA symbol and features inventory file.
+		/// Loads the specified phonetic inventory file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void Load(string filePath)
@@ -73,7 +73,7 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Reloads the IPA symbol and features inventory file.
+		/// Reloads the phonetic inventory file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void ReLoad()
@@ -103,16 +103,13 @@ namespace SIL.Pa.Model
 		{
 			if (!File.Exists(s_filePath))
 			{
-				throw new FileNotFoundException("IPA symbol and feature inventory file '" +
+				throw new FileNotFoundException("Phonetic inventory file '" +
 					s_filePath + "' not found.");
 			}
 
 			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(s_filePath);
 			if (ih == null)
-			{
-				throw new Exception("Error reading IPA symbol and feature inventory file '" +
-					s_filePath + "'");
-			}
+				throw new Exception(string.Format("Error reading phonetic inventory file '{0}'", s_filePath));
 
 			return ih;
 		}
@@ -152,4 +149,3 @@ namespace SIL.Pa.Model
 		}
 	}
 }
-

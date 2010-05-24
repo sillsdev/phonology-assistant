@@ -160,17 +160,17 @@ namespace SIL.Pa.Tests
 		public void AreAnyBitsSet()
 		{
 			var fmask = new FeatureMask(100);
-			Assert.IsFalse(fmask.AreAnyBitsSet);
+			Assert.IsFalse(fmask.IsAnyBitSet);
 
 			fmask[45] = true;
 			fmask[75] = true;
 			Assert.IsTrue(fmask[45]);
 			Assert.IsTrue(fmask[75]);
-			Assert.IsTrue(fmask.AreAnyBitsSet);
+			Assert.IsTrue(fmask.IsAnyBitSet);
 
 			fmask[45] = false;
 			fmask[75] = false;
-			Assert.IsFalse(fmask.AreAnyBitsSet);
+			Assert.IsFalse(fmask.IsAnyBitSet);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,17 +183,17 @@ namespace SIL.Pa.Tests
 		{
 			var fmask = new FeatureMask(256);
 
-			Assert.IsFalse(fmask.AreAnyBitsSet);
+			Assert.IsFalse(fmask.IsAnyBitSet);
 
 			fmask[60] = true;
 			fmask[120] = true;
 			fmask[200] = true;
 			fmask[250] = true;
-			Assert.IsTrue(fmask.AreAnyBitsSet);
+			Assert.IsTrue(fmask.IsAnyBitSet);
 			Assert.IsFalse(fmask.IsEmpty);
 
 			fmask.Clear();
-			Assert.IsFalse(fmask.AreAnyBitsSet);
+			Assert.IsFalse(fmask.IsAnyBitSet);
 			Assert.IsFalse(fmask.IsEmpty);
 		}
 

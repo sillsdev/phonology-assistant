@@ -152,7 +152,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
-		<command id="CmdDefineClasses" message="DefineClasses"/>
+		<command id="CmdClasses" message="Classes"/>
 		<command id="CmdFiltersParent" message="FiltersParent" image="CmdFilters"/>
 		<command id="CmdNoFilter" message="NoFilter"/>
 		<command id="CmdFiltersPlaceholder" message="FiltersPlaceholder"/>
@@ -233,7 +233,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuConsonantChart" commandid="CmdConsonantChart"/>
 			<item name="mnuVowelChart" commandid="CmdVowelChart"/>
 			<item name="mnuXYChart" commandid="CmdXYChart"/>
-			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" begingroup="true"/>
+			<item name="mnuFiltersOnViewMenu" commandid="CmdFilters" begingroup="true"/>
+			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" />
 			<item name="mnuGroupBySortedField" commandid="CmdGroupBySortedField" begingroup="true"/>
 			<item name="mnuCollapseAllGroups" commandid="CmdCollapseAllGroups"/>
 			<item name="mnuExpandAllGroups" commandid="CmdExpandAllGroups"/>
@@ -244,12 +245,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<!--   TOOLS MENU  -->
 		<!-- *************** -->
 		<item name="mnuTools" commandid="CmdTools">
-			<item name="mnuFeatures" commandid="CmdFeatures" />
-			<item name="mnuDefClasses" commandid="CmdDefineClasses" />
-			<item name="mnuFiltersOnToolsMenu" commandid="CmdFilters" begingroup="true"/>
-			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences"/>
-			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
 			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
+			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
+			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences"/>
+			<item name="mnuFeatures" commandid="CmdFeatures" />
+			<item name="mnuClasses" commandid="CmdClasses" />
 			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
 		</item>
 

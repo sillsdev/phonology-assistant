@@ -384,7 +384,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AutoResizeColumnHeadersHeight();
 			m_grid.ColumnHeadersHeight += 4;
 
-			Settings.Default.FiltersDlgGrid.InitializeGrid(m_grid);
+			if (Settings.Default.FiltersDlgGrid != null)
+				Settings.Default.FiltersDlgGrid.InitializeGrid(m_grid);
+	
 			m_grid.IsDirty = false;
 		}
 
@@ -865,7 +867,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			expression.FieldName = fieldName;
 			expression.Operator = m_textToOperator[row.Cells[kOpCol].Value as string];
-			expression.Pattern = row.Cells[kValueCol].Value as string;
+			expression.Pattern = row.Cells[kValueCol].Value as string ?? string.Empty;
 			expression.ExpressionType = m_textToExpType[row.Cells[kTypeCol].Value as string];
 
 			if (expression.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn)
@@ -1192,6 +1194,9 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			PaFieldInfo fieldInfo = App.FieldInfo[field];
 			if (fieldInfo == null)
+				fieldInfo = App.FieldInfo.GetFieldFromDisplayText(field);
+			
+			if (fieldInfo == null)
 				return;
 
 			Items.Clear();
@@ -1202,7 +1207,7 @@ namespace SIL.Pa.UI.Dialogs
 			//SortedDictionary<string, bool> list = new SortedDictionary<string, bool>();
 			foreach (WordCacheEntry entry in App.WordCache)
 			{
-				string val = entry[field];
+				string val = entry[fieldInfo.FieldName];
 				if (!string.IsNullOrEmpty(val))
 					list.Add(val);
 			}
@@ -1210,11 +1215,12 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure to include values that are filtered out.
 			foreach (var entry in App.RecordCache.WordsNotInCurrentFilter)
 			{
-				string val = entry[field];
+				string val = entry[fieldInfo.FieldName];
 				if (!string.IsNullOrEmpty(val))
 					list.Add(val);
 			}
 
+			list = list.Distinct().ToList();
 			list.Sort();
 			Items.AddRange(list.ToArray());
 			SelectedItem = cell.Value as string;

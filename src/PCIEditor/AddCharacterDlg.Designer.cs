@@ -74,7 +74,7 @@ namespace SIL.Pa
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
 			this.hlblArticulatory = new HeaderLabel();
 			this.btnArticulatory = new XButton();
-			this.pnlButtons.SuspendLayout();
+			//this.pnlButtons.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.grpSortOrder.SuspendLayout();
@@ -89,17 +89,17 @@ namespace SIL.Pa
 			// 
 			// pnlButtons
 			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
+			//resources.ApplyResources(this.pnlButtons, "pnlButtons");
 			// 
 			// btnCancel
 			// 
 			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+//			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnOK
 			// 
 			resources.ApplyResources(this.btnOK, "btnOK");
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+//			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
 			// btnHelp
 			// 
@@ -432,14 +432,14 @@ namespace SIL.Pa
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddCharacterDlg";
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
+			//this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.groupBox1, 0);
 			this.Controls.SetChildIndex(this.groupBox2, 0);
 			this.Controls.SetChildIndex(this.grpSortOrder, 0);
 			this.Controls.SetChildIndex(this.groupBox4, 0);
 			this.Controls.SetChildIndex(this.groupBox5, 0);
 			this.Controls.SetChildIndex(this.grpFeatures, 0);
-			this.pnlButtons.ResumeLayout(false);
+			//this.pnlButtons.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

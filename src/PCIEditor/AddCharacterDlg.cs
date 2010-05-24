@@ -775,27 +775,27 @@ namespace SIL.Pa
 		#endregion
 		
 		#region Event Handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clicked the OK button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Clicked the OK button.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void btnOK_Click(object sender, EventArgs e)
+		//{
+		//    Close();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clicked the CANCEL button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			m_dirty = false;
-			m_charInfo = null;
-			Close();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Clicked the CANCEL button.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void btnCancel_Click(object sender, EventArgs e)
+		//{
+		//    m_dirty = false;
+		//    m_charInfo = null;
+		//    Close();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

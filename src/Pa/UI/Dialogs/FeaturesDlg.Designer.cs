@@ -23,6 +23,7 @@
 			this.pgpPhoneList = new SilUtils.Controls.SilGradientPanel();
 			this.tabFeatures = new System.Windows.Forms.TabControl();
 			this.tpgAFeatures = new System.Windows.Forms.TabPage();
+			this.btnReset = new System.Windows.Forms.Button();
 			this.tblLayoutAFeatures = new System.Windows.Forms.TableLayoutPanel();
 			this.lblAFeatures = new System.Windows.Forms.Label();
 			this.tpgBFeatures = new System.Windows.Forms.TabPage();
@@ -157,6 +158,7 @@
 			// 
 			// tpgAFeatures
 			// 
+			this.tpgAFeatures.Controls.Add(this.btnReset);
 			this.tpgAFeatures.Controls.Add(this.tblLayoutAFeatures);
 			this.locExtender.SetLocalizableToolTip(this.tpgAFeatures, null);
 			this.locExtender.SetLocalizationComment(this.tpgAFeatures, null);
@@ -168,6 +170,22 @@
 			this.tpgAFeatures.TabIndex = 0;
 			this.tpgAFeatures.Text = "Articulatory Features";
 			this.tpgAFeatures.UseVisualStyleBackColor = true;
+			// 
+			// btnReset
+			// 
+			this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.btnReset.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.btnReset, "Reset Features of Selected Phone");
+			this.locExtender.SetLocalizationComment(this.btnReset, null);
+			this.locExtender.SetLocalizingId(this.btnReset, "FeaturesDlg.btnReset");
+			this.btnReset.Location = new System.Drawing.Point(69, 280);
+			this.btnReset.MinimumSize = new System.Drawing.Size(80, 26);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(80, 26);
+			this.btnReset.TabIndex = 1;
+			this.btnReset.Text = "Reset";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// tblLayoutAFeatures
 			// 
@@ -256,5 +274,6 @@
 		private System.Windows.Forms.Label lblAFeatures;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutAFeatures;
 		private SIL.Localization.LocalizationExtender locExtender;
+		private System.Windows.Forms.Button btnReset;
 	}
 }

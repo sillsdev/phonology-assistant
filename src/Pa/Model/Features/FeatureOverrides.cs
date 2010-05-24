@@ -98,16 +98,10 @@ namespace SIL.Pa.Model
 					continue;
 
 				if (phoneOverride.AFeaturesAreOverridden)
-				{
-					phoneCacheEntry.AMask = phoneOverride.AMask.Clone();
-					phoneCacheEntry.AFeaturesAreOverridden = true;
-				}
+					phoneCacheEntry.OverrideAFeature(phoneOverride.AMask);
 
 				if (phoneOverride.BFeaturesAreOverridden)
-				{
-					phoneCacheEntry.BMask = phoneOverride.BMask.Clone();
-					phoneCacheEntry.BFeaturesAreOverridden = true;
-				}
+					phoneCacheEntry.OverrideBFeature(phoneOverride.BMask);
 			}
 		}
 	}

@@ -45,22 +45,24 @@ namespace SIL.Pa
 			this.btnModify = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.pnlGrid = new System.Windows.Forms.Panel();
-			this.pnlButtons.SuspendLayout();
 			this.mnuMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pnlButtons
 			// 
-			resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			this.pnlButtons.Controls.Add(this.btnDelete);
-			this.pnlButtons.Controls.Add(this.btnModify);
-			this.pnlButtons.Controls.Add(this.btnAdd);
-			this.pnlButtons.Controls.SetChildIndex(this.btnAdd, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnModify, 0);
-			this.pnlButtons.Controls.SetChildIndex(this.btnDelete, 0);
+			//resources.ApplyResources(this.pnlButtons, "pnlButtons");
+			//this.pnlButtons.Controls.Add(this.btnDelete);
+			//this.pnlButtons.Controls.Add(this.btnModify);
+			//this.pnlButtons.Controls.Add(this.btnAdd);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnAdd, 0);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnModify, 0);
+			//this.pnlButtons.Controls.SetChildIndex(this.btnDelete, 0);
+			this.Controls.Add(this.btnDelete);
+			this.Controls.Add(this.btnModify);
+			this.Controls.Add(this.btnAdd);
 			// 
 			// btnCancel
 			// 
@@ -195,9 +197,9 @@ namespace SIL.Pa
 			this.ShowIcon = true;
 			this.ShowInTaskbar = true;
 			this.Controls.SetChildIndex(this.mnuMain, 0);
-			this.Controls.SetChildIndex(this.pnlButtons, 0);
+			//this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			this.pnlButtons.ResumeLayout(false);
+			//this.pnlButtons.ResumeLayout(false);
 			this.mnuMain.ResumeLayout(false);
 			this.mnuMain.PerformLayout();
 			this.ResumeLayout(false);

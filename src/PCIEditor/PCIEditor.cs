@@ -87,7 +87,7 @@ namespace SIL.Pa
 			string exePath = App.ConfigFolder;
 
 			// This is the poor man's way of determining whether or not the user has
-			// write access to the folder in which the phonetic character inventory
+			// write access to the folder in which the phonetic inventory
 			// is stored. I'm sure there is a great class in .Net to use for such a
 			// thing, but I couldn't find it in the little bit of digging I did. Sigh!
 			string tmpFile = Path.Combine(exePath, "!~tmpaccesstest~!");
@@ -104,7 +104,7 @@ namespace SIL.Pa
 
 			File.Delete(tmpFile);
 			
-			// Make sure the phonetic character inventory file exists.
+			// Make sure the phonetic inventory file exists.
 			string inventoryPath = Path.Combine(exePath, InventoryHelper.kDefaultInventoryFileName);
 			if (!File.Exists(inventoryPath))
 			{
@@ -171,6 +171,20 @@ namespace SIL.Pa
 		public PCIEditor()
 		{
 			InitializeComponent();
+
+			btnAdd.Margin = new Padding(0, btnOK.Margin.Top, btnOK.Margin.Left, btnOK.Margin.Bottom);
+			btnModify.Margin = btnAdd.Margin;
+			btnDelete.Margin = btnAdd.Margin;
+
+			tblLayoutButtons.ColumnCount += 3;
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+			tblLayoutButtons.ColumnStyles.Insert(0, new ColumnStyle());
+
+			tblLayoutButtons.Controls.Add(btnAdd, 0, 0);
+			tblLayoutButtons.Controls.Add(btnModify, 1, 0);
+			tblLayoutButtons.Controls.Add(btnDelete, 2, 0);
+			ReAddButtons(4);
 
 			InventoryHelper.Load();
 

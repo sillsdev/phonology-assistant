@@ -217,7 +217,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			SearchViewWnd,
 			ClassesDialog,
-			DefineClassesDialog
+			DefineClassDialog
 		}
 
 		public static string kMemberSubitem = "Members";
