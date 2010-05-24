@@ -67,12 +67,10 @@ namespace SIL.Pa
 			// btnCancel
 			// 
 			resources.ApplyResources(this.btnCancel, "btnCancel");
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			// 
 			// btnOK
 			// 
 			resources.ApplyResources(this.btnOK, "btnOK");
-			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
 			// btnHelp
 			// 

@@ -25,7 +25,7 @@ namespace SIL.Pa
 		private const string kSubType = "SubType";
 		private const string kIgnoreType = "IgnoreType";
 		private const string kIsBase = "IsBase";
-		private const string kCanPrecedeBase = "CanPreceedBaseChar";
+		private const string kCanPrecedeBase = "CanPrecedeBaseChar";
 		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
 		private const string kMOA = "MOA";
 		private const string kPOA = "POA";
@@ -1142,26 +1142,26 @@ namespace SIL.Pa
 			Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clicked the OK button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Clicked the OK button.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void btnOK_Click(object sender, EventArgs e)
+		//{
+		//    Close();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clicked the CANCEL button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			m_dirty = false;
-			Close();
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Clicked the CANCEL button.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void btnCancel_Click(object sender, EventArgs e)
+		//{
+		//    m_dirty = false;
+		//    Close();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

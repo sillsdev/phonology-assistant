@@ -68,13 +68,12 @@ namespace SIL.Pa
 			this.grpFeatures = new System.Windows.Forms.GroupBox();
 			this.pnlBinary = new SilUtils.Controls.SilPanel();
 			this.txtBinary = new System.Windows.Forms.TextBox();
-			this.hlblBinary = new HeaderLabel();
-			this.btnBinary = new XButton();
+			this.hlblBinary = new SilUtils.Controls.HeaderLabel();
+			this.btnBinary = new SilUtils.Controls.XButton();
 			this.paPanel1 = new SilUtils.Controls.SilPanel();
 			this.txtArticulatory = new System.Windows.Forms.TextBox();
-			this.hlblArticulatory = new HeaderLabel();
-			this.btnArticulatory = new XButton();
-			//this.pnlButtons.SuspendLayout();
+			this.hlblArticulatory = new SilUtils.Controls.HeaderLabel();
+			this.btnArticulatory = new SilUtils.Controls.XButton();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.grpSortOrder.SuspendLayout();
@@ -87,30 +86,12 @@ namespace SIL.Pa
 			this.hlblArticulatory.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pnlButtons
-			// 
-			//resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			// 
-			// btnCancel
-			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-//			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-//			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-			// 
-			// btnHelp
-			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			// 
 			// txtHexValue
 			// 
 			resources.ApplyResources(this.txtHexValue, "txtHexValue");
 			this.txtHexValue.Name = "txtHexValue";
-			this.txtHexValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHexValue_KeyPress);
 			this.txtHexValue.TextChanged += new System.EventHandler(this.txtHexValue_TextChanged);
+			this.txtHexValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHexValue_KeyPress);
 			// 
 			// txtCharName
 			// 
@@ -341,7 +322,9 @@ namespace SIL.Pa
 			// pnlBinary
 			// 
 			resources.ApplyResources(this.pnlBinary, "pnlBinary");
+			this.pnlBinary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlBinary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlBinary.ClipTextForChildControls = true;
 			this.pnlBinary.ControlReceivingFocusOnMnemonic = null;
 			this.pnlBinary.Controls.Add(this.txtBinary);
 			this.pnlBinary.Controls.Add(this.hlblBinary);
@@ -358,6 +341,7 @@ namespace SIL.Pa
 			// 
 			// hlblBinary
 			// 
+			this.hlblBinary.ClipTextForChildControls = true;
 			this.hlblBinary.ControlReceivingFocusOnMnemonic = null;
 			this.hlblBinary.Controls.Add(this.btnBinary);
 			resources.ApplyResources(this.hlblBinary, "hlblBinary");
@@ -381,7 +365,9 @@ namespace SIL.Pa
 			// 
 			// paPanel1
 			// 
+			this.paPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.paPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.paPanel1.ClipTextForChildControls = true;
 			this.paPanel1.ControlReceivingFocusOnMnemonic = null;
 			this.paPanel1.Controls.Add(this.txtArticulatory);
 			this.paPanel1.Controls.Add(this.hlblArticulatory);
@@ -399,6 +385,7 @@ namespace SIL.Pa
 			// 
 			// hlblArticulatory
 			// 
+			this.hlblArticulatory.ClipTextForChildControls = true;
 			this.hlblArticulatory.ControlReceivingFocusOnMnemonic = null;
 			this.hlblArticulatory.Controls.Add(this.btnArticulatory);
 			resources.ApplyResources(this.hlblArticulatory, "hlblArticulatory");
@@ -432,14 +419,12 @@ namespace SIL.Pa
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddCharacterDlg";
-			//this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.groupBox1, 0);
 			this.Controls.SetChildIndex(this.groupBox2, 0);
 			this.Controls.SetChildIndex(this.grpSortOrder, 0);
 			this.Controls.SetChildIndex(this.groupBox4, 0);
 			this.Controls.SetChildIndex(this.groupBox5, 0);
 			this.Controls.SetChildIndex(this.grpFeatures, 0);
-			//this.pnlButtons.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

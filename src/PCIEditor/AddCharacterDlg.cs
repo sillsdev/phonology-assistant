@@ -28,7 +28,7 @@ namespace SIL.Pa
 		private const string kSubType = "SubType";
 		private const string kIgnoreType = "IgnoreType";
 		private const string kIsBase = "IsBase";
-		private const string kCanPrecedeBaseChar = "CanPrecedeBase";
+		private const string kCanPrecedeBaseChar = "CanPrecedeBaseChar";
 		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
 		private const string kMOA = "MOA";
 		private const string kPOA = "POA";
