@@ -50,7 +50,12 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2e_hierarchical_features.xsl" />
+					<document href="phonology_project_inventory_2e_feature_rules.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_2f_feature_rules.xsl" />
 				</input>
 			</xslt>
 			<xslt>

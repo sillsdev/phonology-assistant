@@ -1,6 +1,8 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<!-- phonology_project_inventory_5b_description.xsl 2010-04-09 -->
+	<!-- phonology_project_inventory_5b_description.xsl 2010-05-24 -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()">
@@ -18,6 +20,9 @@
 					<xsl:when test="position() = 1" />
 					<xsl:when test="@subclass = 'placeOfArticulation' and preceding-sibling::*[1][self::feature][@subclass = $subclass]">
 						<xsl:value-of select="'-'" />
+					</xsl:when>
+					<xsl:when test="(@subclass = 'height' or @subclass = 'backness' or @subclass = 'rounding') and preceding-sibling::*[1][self::feature][@subclass = $subclass]">
+						<xsl:value-of select="'-to-'" />
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="' '" />

@@ -1,7 +1,7 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2010-04-09 -->
-  <!-- For each sequence that contains two base characters, identify the primary base. -->
+  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2010-05-20 -->
+  <!-- For each sequence that contains multiple base characters, identify the primary base. -->
 	<!-- If any diacritics preceding the first base to follow it. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />

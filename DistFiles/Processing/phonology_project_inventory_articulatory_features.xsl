@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_articulatory_features.xsl 2010-04-09 -->
+  <!-- phonology_project_inventory_articulatory_features.xsl 2010-05-24 -->
   <!-- Provide classification and order of articulatory features. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -27,7 +27,16 @@
     <xsl:variable name="feature" select="$programArticulatoryFeatures/feature[name = $featureName]" />
     <xsl:copy>
 			<xsl:attribute name="class">
-				<xsl:variable name="featureClass" select="$feature/@class" />
+				<xsl:variable name="featureClass">
+					<xsl:choose>
+						<xsl:when test="@class">
+							<xsl:value-of select="@class" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$feature/@class" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
 				<xsl:choose>
 					<xsl:when test="$featureClass = 'col-row' and ../feature[. = 'Consonant']">
 						<xsl:value-of select="'col'" />
@@ -47,7 +56,11 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:copy-of select="$feature/@subclass" />
+			<!-- For Double Articulation, labial-velar, labial-palatal, nasal click. -->
 			<xsl:copy-of select="@primary" />
+			<!-- For descriptions of diphthongs. -->
+			<xsl:copy-of select="@position" />
+			<xsl:copy-of select="@marked" />
 			<xsl:copy-of select="$feature/@type" />
 			<xsl:attribute name="order">
 				<xsl:apply-templates select="$feature" mode="order" />

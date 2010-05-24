@@ -211,9 +211,79 @@
 		</feature>
 		<feature class="row-col" subclass="rounding">
 			<name>Unrounded</name>
+			<rule>
+				<for>
+					<this class="col" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="colgroup">Near-back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<this class="row" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="row">Near-back</articulatoryFeature>
+						<articulatoryFeature class="row">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
 		</feature>
 		<feature class="row-col" subclass="rounding">
 			<name>Rounded</name>
+			<rule>
+				<for>
+					<this class="col" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="colgroup">Front</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Near-front</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Central</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<this class="row" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="row">Front</articulatoryFeature>
+						<articulatoryFeature class="row">Near-front</articulatoryFeature>
+						<articulatoryFeature class="row">Central</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
 		</feature>
 		<feature class="row" subclass="rounding">
 			<name>More Rounded</name>
@@ -235,6 +305,9 @@
 		</feature>
 		<feature class="row" subclass="length">
 			<name>Extra-short</name>
+		</feature>
+		<feature class="row">
+			<name>Diphthong</name>
 		</feature>
 		<feature>
 			<name>Extra High Tone</name>
@@ -307,7 +380,7 @@
 		<feature class="major">
 			<name>cons</name>
 			<fullname>consonantal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Vowel</articulatoryFeature>
@@ -316,17 +389,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature>
 			<name>syll</name>
 			<fullname>syllabic</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -334,13 +407,13 @@
 					<articulatoryFeature>Syllabic</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -348,17 +421,17 @@
 					<articulatoryFeature>Non-syllabic</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="major">
 			<name>son</name>
 			<fullname>sonorant</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -374,17 +447,17 @@
 					</not>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature>
 			<name>approx</name>
 			<fullname>Approximant</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Trill</articulatoryFeature>
@@ -395,37 +468,37 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="laryngeal">
 			<name>voice</name>
 			<fullname>voiced</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<articulatoryFeature>Voiceless</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<if>
 					<articulatoryFeature>Voiced</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="laryngeal">
 			<name>spread</name>
 			<fullname>spread glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -436,17 +509,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="laryngeal">
 			<name>constr</name>
 			<fullname>constricted glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -458,17 +531,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>cont</name>
 			<fullname>continuant</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Trill</articulatoryFeature>
@@ -481,18 +554,18 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>delayed release</name>
 			<fullname>delayed release</fullname>
 			<!-- TO DO: Specified for Glottal? -->
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Plosive</articulatoryFeature>
@@ -506,17 +579,17 @@
 					<articulatoryFeature>Plosive</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>strid</name>
 			<fullname>strident</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Affricate</articulatoryFeature>
@@ -542,17 +615,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>nas</name>
 			<fullname>nasal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -561,19 +634,19 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>lat</name>
 			<fullname>lateral</fullname>
 			<!-- TO DO: Is lateral specified for all sounds? -->
 			<!-- TO DO: Is Lateral always a redundant feature for Lateral Fricative, Lateral Approximant, and so on? -->
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -581,55 +654,78 @@
 					<articulatoryFeature>Lateral</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>LAB</name>
 			<fullname>labial</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Bilabial</articulatoryFeature>
 						<articulatoryFeature>Labiodental</articulatoryFeature>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature class="col">Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>rnd</name>
 			<fullname>rounded</fullname>
-			<featureRule>
-				<!-- TO DO: Only for labial? What about vowels? -->
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<if>
+					<articulatoryFeature class="col">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<if>
+					<articulatoryFeature class="col">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>COR</name>
 			<fullname>coronal</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 					<not>
@@ -647,10 +743,10 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -666,15 +762,15 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>ant</name>
 			<fullname>anterior</fullname>
 			<!-- TO DO: For places of articulation corresponding to +COR, unspecified instead of -ant? -->
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 					<not>
@@ -695,13 +791,13 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -717,14 +813,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>distr</name>
 			<fullname>distributed</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Linguolabial</articulatoryFeature>
@@ -747,13 +843,13 @@
 					</not>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -769,14 +865,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>DORS</name>
 			<fullname>dorsal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
@@ -789,14 +885,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>high</name>
 			<fullname>high</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -808,22 +904,22 @@
 						<articulatoryFeature>Palatalized</articulatoryFeature>
 						<articulatoryFeature>Velar</articulatoryFeature>
 						<articulatoryFeature>Velarized</articulatoryFeature>
-						<articulatoryFeature>Close</articulatoryFeature>
-						<articulatoryFeature>Near-close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-close</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>low</name>
 			<fullname>low</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -834,22 +930,22 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
-						<articulatoryFeature>Near-open</articulatoryFeature>
-						<articulatoryFeature>Open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>back</name>
 			<fullname>back</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -863,47 +959,47 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
-						<articulatoryFeature>Central</articulatoryFeature>
-						<articulatoryFeature>Near-back</articulatoryFeature>
-						<articulatoryFeature>Back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Central</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Near-back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Back</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>tense</name>
 			<fullname>tense</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
 				<if>
 					<anyOf>
-						<articulatoryFeature>Close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close</articulatoryFeature>
 						<!-- Close-mid and Mid have the same binary features. -->
-						<articulatoryFeature>Close-mid</articulatoryFeature>
-						<articulatoryFeature>Mid</articulatoryFeature>
-						<articulatoryFeature>Near-open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close-mid</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Mid</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>ATR</name>
 			<fullname>Advanced Tongue Root</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -914,17 +1010,17 @@
 					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>RTR</name>
 			<fullname>Retracted Tongue Root</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -935,17 +1031,17 @@
 					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature>
 			<name>PHAR</name>
 			<fullname>Pharyngeal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
@@ -954,14 +1050,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="length">
 			<name>long</name>
 			<fullname>long</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -987,13 +1083,13 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -1006,19 +1102,19 @@
 					<articulatoryFeature>Long</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 	</binaryFeatures>
 	<hierarchicalFeatures>
 		<feature class="terminal" parent="root">
 			<name>cont</name>
 			<fullname>continuant</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1036,10 +1132,10 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1059,14 +1155,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="root">
 			<name>cons</name>
 			<fullname>consonantal</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1080,12 +1176,12 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="root">
 			<name>laryngeal</name>
@@ -1093,7 +1189,7 @@
 		<feature class="terminal" parent="laryngeal">
 			<name>constr</name>
 			<fullname>constricted glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -1105,17 +1201,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>spread</name>
 			<fullname>spread glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -1127,17 +1223,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>voice</name>
 			<fullname>voiced</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<articulatoryFeature>Voiceless</articulatoryFeature>
 					<not>
@@ -1145,43 +1241,43 @@
 					</not>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<if>
 					<articulatoryFeature>Voiced</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="root">
 			<name>supralaryngeal</name>
-			<featureRule>
+			<rule>
 				<if>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
 					</not>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="supralaryngeal">
 			<name>lat</name>
 			<fullname>lateral</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<articulatoryFeature>Lateral</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Affricate</articulatoryFeature>
 				</when>
@@ -1189,10 +1285,10 @@
 					<articulatoryFeature>Affricate</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Click</articulatoryFeature>
 				</when>
@@ -1200,10 +1296,10 @@
 					<articulatoryFeature>Click</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Fricative</articulatoryFeature>
 				</when>
@@ -1211,10 +1307,10 @@
 					<articulatoryFeature>Fricative</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 				</when>
@@ -1222,75 +1318,51 @@
 					<articulatoryFeature>Approximant</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="supralaryngeal">
 			<name>soft palate</name>
-			<!-- TO DO: Does it ever exist without dominating its terminal feature? -->
-			<featureRule>
+			<rule>
 				<if>
+					<articulatoryFeature>Nasal</articulatoryFeature>
+				</if>
+				<then>
+					<class />
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature subclass="mannerOfArticulation" />
+				</for>
+				<when>
 					<anyOf>
-						<articulatoryFeature>Nasal</articulatoryFeature>
 						<articulatoryFeature>Nasalized</articulatoryFeature>
 						<articulatoryFeature>Prenasalized</articulatoryFeature>
 					</anyOf>
-				</if>
+				</when>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
-			<!--
-			<featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
 				<when>
 					<articulatoryFeature>Nasalized</articulatoryFeature>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</when>
-				<for>
-					<articulatoryFeature>Vowel</articulatoryFeature>
-				</for>
-				<if>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-					</not>
-				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
-			-->
-			<!-- TO DO: When any phone with the same mannerOfArticulation is ever Nasalized or Prenasalized. -->
-			<!--
-			<featureRule>
-				<when>
-					<anyOf>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-						<articulatoryFeature>Prenasalized</articulatoryFeature>
-					</anyOf>
-					<articulatoryFeature subclass="mannerOfArticulation" />
-				</when>
-				<for>
-					<articulatoryFeature subclass="mannerOfArticulation" />
-				</for>
-				<if>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-					</not>
-					<not>
-						<articulatoryFeature>Prenasalized</articulatoryFeature>
-					</not>
-				</if>
-				<then>
-					<featureClass />
-				</then>
-			</featureRule>
-			-->
+			</rule>
 		</feature>
 		<feature class="terminal" parent="soft palate">
 			<name>nas</name>
 			<fullname>nasal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -1299,66 +1371,165 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
-			<!-- TO DO: if not anyOf? -->
-			<featureRule>
+			</rule>
+			<rule>
 				<if>
 					<not>
-						<articulatoryFeature>Nasal</articulatoryFeature>
-					</not>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
+						<anyOf>
+							<articulatoryFeature>Nasal</articulatoryFeature>
+							<articulatoryFeature>Nasalized</articulatoryFeature>
+						</anyOf>
 					</not>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="supralaryngeal">
 			<name>place</name>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>labial</name>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Bilabial</articulatoryFeature>
 						<articulatoryFeature>Labiodental</articulatoryFeature>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<anyOf>
+						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
+					</anyOf>
+				</when>
+				<if />
+				<then>
+					<class />
+				</then>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="labial">
 			<name>rnd</name>
 			<fullname>rounded</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" position="" />
+					</not>
+				</for>
+				<if>
+					<articulatoryFeature>Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="1">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="1">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="2">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="2">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>coronal</name>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -1373,14 +1544,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="coronal">
 			<name>ant</name>
 			<fullname>anterior</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Linguolabial</articulatoryFeature>
@@ -1389,17 +1560,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="coronal">
 			<name>distr</name>
 			<fullname>distributed</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Linguolabial</articulatoryFeature>
@@ -1412,16 +1583,16 @@
 					</not>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>dorsal</name>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
@@ -1434,57 +1605,174 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>high</name>
 			<fullname>high</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
 						<articulatoryFeature>Palatalized</articulatoryFeature>
 						<articulatoryFeature>Velar</articulatoryFeature>
 						<articulatoryFeature>Velarized</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="height" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Close</articulatoryFeature>
 						<articulatoryFeature>Near-close</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Close</articulatoryFeature>
+						<articulatoryFeature position="1">Near-close</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Close</articulatoryFeature>
+						<articulatoryFeature position="2">Near-close</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>low</name>
 			<fullname>low</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="backness" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Near-open</articulatoryFeature>
 						<articulatoryFeature>Open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="backness" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Near-open</articulatoryFeature>
+						<articulatoryFeature position="1">Open</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="backness" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Near-open</articulatoryFeature>
+						<articulatoryFeature position="2">Open</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>back</name>
 			<fullname>back</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Velar</articulatoryFeature>
@@ -1493,22 +1781,78 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="height" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Central</articulatoryFeature>
 						<articulatoryFeature>Near-back</articulatoryFeature>
 						<articulatoryFeature>Back</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Central</articulatoryFeature>
+						<articulatoryFeature position="1">Near-back</articulatoryFeature>
+						<articulatoryFeature position="1">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Central</articulatoryFeature>
+						<articulatoryFeature position="2">Near-back</articulatoryFeature>
+						<articulatoryFeature position="2">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="supralaryngeal">
 			<name>tongue root</name>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -1522,14 +1866,14 @@
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="tongue root">
 			<name>ATR</name>
 			<fullname>Advanced Tongue Root</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -1540,17 +1884,17 @@
 					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="tongue root">
 			<name>RTR</name>
 			<fullname>Retracted Tongue Root</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -1561,12 +1905,12 @@
 					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 	</hierarchicalFeatures>
 	<symbols>
@@ -9076,155 +9420,195 @@
 				</remove>
 			</symbol>
 		</pattern>
+		<pattern title="Vowel (primary) + Vowel: Diphthong.">
+			<symbol primary="true">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<add>
+					<feature>Diphthong</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<retain>
+					<feature class="row" subclass="height" />
+					<feature class="row" subclass="backness" />
+					<feature class="row" subclass="rounding" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Vowel + Vowel (primary): Diphthong.">
+			<symbol primary="false">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<retain>
+					<feature class="row" subclass="height" />
+					<feature class="row" subclass="backness" />
+					<feature class="row" subclass="rounding" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<add>
+					<feature>Diphthong</feature>
+				</add>
+			</symbol>
+		</pattern>
 	</sequencePatterns>
 	<descriptions>
 		<patterns>
 			<pattern type="Consonant">
-				<feature subclass="syllabicity" />
-				<feature>Rhoticity</feature>
-				<feature subclass="secondaryArticulation" />
-				<feature subclass="stateOfGlottis" />
-				<feature subclass="release" />
-				<feature subclass="coronalArticulator" />
-				<feature subclass="positionModification" />
-				<feature subclass="placeOfArticulation" />
-				<feature subclass="length" />
-				<feature subclass="nasalization" />
-				<feature>Ejective</feature>
-				<feature>Lateral</feature>
-				<feature subclass="mannerOfArticulation" />
+				<articulatoryFeature subclass="syllabicity" />
+				<articulatoryFeature>Rhoticity</articulatoryFeature>
+				<articulatoryFeature subclass="secondaryArticulation" />
+				<articulatoryFeature subclass="stateOfGlottis" />
+				<articulatoryFeature subclass="release" />
+				<articulatoryFeature subclass="coronalArticulator" />
+				<articulatoryFeature subclass="positionModification" />
+				<articulatoryFeature subclass="placeOfArticulation" />
+				<articulatoryFeature subclass="length" />
+				<articulatoryFeature subclass="nasalization" />
+				<articulatoryFeature>Ejective</articulatoryFeature>
+				<articulatoryFeature>Lateral</articulatoryFeature>
+				<articulatoryFeature subclass="mannerOfArticulation" />
 			</pattern>
 			<pattern type="Vowel">
-				<feature subclass="syllabicity" />
-				<feature>Rhoticity</feature>
-				<feature subclass="stateOfGlottis" />
-				<feature subclass="height" />
-				<feature subclass="backness" />
-				<feature subclass="rounding" />
-				<feature subclass="positionModification" />
-				<feature subclass="length" />
-				<feature subclass="nasalization" />
-				<feature>Vowel</feature>
-				<feature subclass="tongueRoot" />
+				<articulatoryFeature subclass="syllabicity" />
+				<articulatoryFeature>Rhoticity</articulatoryFeature>
+				<articulatoryFeature subclass="stateOfGlottis" />
+				<articulatoryFeature subclass="height" />
+				<articulatoryFeature subclass="backness" />
+				<articulatoryFeature subclass="rounding" />
+				<articulatoryFeature subclass="positionModification" />
+				<articulatoryFeature subclass="length" />
+				<articulatoryFeature subclass="nasalization" />
+				<articulatoryFeature>Vowel</articulatoryFeature>
+				<articulatoryFeature subclass="tongueRoot" />
 			</pattern>
 		</patterns>
 		<changes>
 			<change title="For glottal plosive, state of glottis is redundant.">
-				<if>
-					<feature>Glottal</feature>
-					<feature>Plosive</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Glottal</articulatoryFeature>
+					<articulatoryFeature>Plosive</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiceless</feature>
+					<articulatoryFeature>Voiceless</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For epiglottal plosive, state of glottis is redundant. IS THIS TRUE? See LM 60.">
-				<if>
-					<feature>Epiglottal</feature>
-					<feature>Plosive</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Epiglottal</articulatoryFeature>
+					<articulatoryFeature>Plosive</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For any vowel, voiced is omitted.">
-				<if>
-					<feature>Vowel</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For other states of glottis, voiced is redundant (or even incorrect).">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Breathy Voiced</feature>
-						<feature>Creaky Voiced</feature>
+						<articulatoryFeature>Breathy Voiced</articulatoryFeature>
+						<articulatoryFeature>Creaky Voiced</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For some manners of articulation, lateral is redundant.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Lateral Affricate</feature>
-						<feature>Lateral Fricative</feature>
-						<feature>Lateral Approximant</feature>
+						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
+						<articulatoryFeature>Lateral Fricative</articulatoryFeature>
+						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Lateral</feature>
+					<articulatoryFeature>Lateral</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="If a vowel has a more specific rounding feature, rounded is redundant.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>More Rounded</feature>
-						<feature>Less Rounded</feature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Rounded</feature>
+					<articulatoryFeature>Rounded</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For two central vowels, rounded is omitted.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Mid</feature>
-						<feature>Near-open</feature>
+						<articulatoryFeature>Mid</articulatoryFeature>
+						<articulatoryFeature>Near-open</articulatoryFeature>
 					</anyOf>
-					<feature>Central</feature>
-				</if>
+					<articulatoryFeature>Central</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Rounded</feature>
+					<articulatoryFeature>Rounded</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="Replace rhoticity with r-colored.">
 				<find>
-					<feature>Rhoticity</feature>
+					<articulatoryFeature>Rhoticity</articulatoryFeature>
 				</find>
 				<replace>
 					<text>R-colored</text>
 				</replace>
 			</change>
 			<change title="In place of articulation pairs for clicks, do not replace bilabial with labial.">
-				<if>
-					<feature subclass="placeOfArticulation" count="2" />
-					<feature>Click</feature>
-				</if>
+				<for>
+					<articulatoryFeature subclass="placeOfArticulation" count="2" />
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Bilabial</feature>
+					<articulatoryFeature>Bilabial</articulatoryFeature>
 				</find>
 				<replace>
 					<feature subclass="placeOfArticulation">Bilabial</feature>
 				</replace>
 			</change>
 			<change title="In place of articulation pairs, replace bilabial with labial.">
-				<if>
-					<feature subclass="placeOfArticulation" count="2" />
-				</if>
+				<for>
+					<articulatoryFeature subclass="placeOfArticulation" count="2" />
+				</for>
 				<find>
-					<feature>Bilabial</feature>
+					<articulatoryFeature>Bilabial</articulatoryFeature>
 				</find>
 				<replace>
 					<feature subclass="placeOfArticulation">Labial</feature>
 				</replace>
 			</change>
 			<change title="In secondary articulation pairs, replace labialized with labial.">
-				<if>
-					<feature subclass="secondaryArticulation" count="2" />
-				</if>
+				<for>
+					<articulatoryFeature subclass="secondaryArticulation" count="2" />
+				</for>
 				<find>
-					<feature>Labialized</feature>
+					<articulatoryFeature>Labialized</articulatoryFeature>
 				</find>
 				<replace>
 					<feature subclass="secondaryArticulation">Labial</feature>
@@ -9232,7 +9616,7 @@
 			</change>
 			<change title="Replace no audible release with unreleased (preceding the manner of articulation).">
 				<find>
-					<feature>No Audible Release</feature>
+					<articulatoryFeature>No Audible Release</articulatoryFeature>
 				</find>
 				<replace>
 					<text>unreleased</text>
@@ -9240,7 +9624,7 @@
 			</change>
 			<change title="Insert with preceding advanced/retracted tongue root">
 				<find>
-					<feature subclass="tongueRoot" />
+					<articulatoryFeature subclass="tongueRoot" />
 				</find>
 				<replace>
 					<text>with</text>
@@ -9248,19 +9632,41 @@
 				</replace>
 			</change>
 			<change title="Name of click does not include dorsal place of articulation">
-				<if>
-					<feature>Click</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Velar</feature>
+					<articulatoryFeature>Velar</articulatoryFeature>
 				</find>
 			</change>
 			<change title="Name of click does not include dorsal place of articulation">
-				<if>
-					<feature>Click</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Uvular</feature>
+					<articulatoryFeature>Uvular</articulatoryFeature>
+				</find>
+			</change>
+			<change title="Diphthong supersedes vowel">
+				<for>
+					<articulatoryFeature>Diphthong</articulatoryFeature>
+				</for>
+				<find>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</find>
+				<replace>
+					<feature>Diphthong</feature>
+				</replace>
+			</change>
+			<change title="Diphthong omits rounding if neither value is marked">
+				<for>
+					<articulatoryFeature>Diphthong</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" marked="true" />
+					</not>
+				</for>
+				<find>
+					<articulatoryFeature subclass="rounding" />
 				</find>
 			</change>
 		</changes>

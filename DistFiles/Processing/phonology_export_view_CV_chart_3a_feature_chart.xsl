@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2010-04-20 -->
+	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2010-05-24 -->
   <!-- From consonant or vowel chart, make charts of binary features, or hierarchical features, or both. -->
 	<!-- For development, highlight differences between project phones and program symbols. -->
 
@@ -263,26 +263,26 @@ exclude-result-prefixes="xhtml"
 			<xsl:variable name="name" select="name" />
 			<xsl:choose>
 				<!-- If Front/Near-Front, or Back/Near-back column groups were merged in the vowel chart, merge them in the feature chart by backness. -->
-				<xsl:when test="$name = 'Front' and $units/unit[articulatoryFeatures/feature[. = $name]] and $units/unit[articulatoryFeatures/feature[. = 'Near-front']]">
+				<xsl:when test="$name = 'Front' and $units/unit[articulatoryFeatures/feature[@class = $class][. = $name]] and $units/unit[articulatoryFeatures/feature[@class = $class][. = 'Near-front']]">
 					<colgroup xmlns="http://www.w3.org/1999/xhtml">
-						<xsl:for-each select="$units/unit[articulatoryFeatures/feature[. = $name] or articulatoryFeatures/feature[. = 'Near-front']]">
+						<xsl:for-each select="$units/unit[articulatoryFeatures/feature[@class = $class][. = $name or . = 'Near-front']]">
 							<col />
 						</xsl:for-each>
 					</colgroup>
 				</xsl:when>
-				<xsl:when test="$name = 'Near-front' and $units/unit[articulatoryFeatures/feature[. = $name]] and $units/unit[articulatoryFeatures/feature[. = 'Front']]" />
-				<xsl:when test="$name = 'Back' and $units/unit[articulatoryFeatures/feature[. = $name]] and $units/unit[articulatoryFeatures/feature[. = 'Near-back']]">
+				<xsl:when test="$name = 'Near-front' and $units/unit[articulatoryFeatures/feature[@class = $class][. = $name]] and $units/unit[articulatoryFeatures/feature[@class = $class][. = 'Front']]" />
+				<xsl:when test="$name = 'Back' and $units/unit[articulatoryFeatures/feature[@class = $class][. = $name]] and $units/unit[articulatoryFeatures/feature[@class = $class][. = 'Near-back']]">
 					<colgroup xmlns="http://www.w3.org/1999/xhtml">
-						<xsl:for-each select="$units/unit[articulatoryFeatures/feature[. = $name] or articulatoryFeatures/feature[. = 'Near-back']]">
+						<xsl:for-each select="$units/unit[articulatoryFeatures/feature[@class = $class][. = $name or . = 'Near-back']]">
 							<col />
 						</xsl:for-each>
 					</colgroup>
 				</xsl:when>
-				<xsl:when test="$name = 'Near-back' and $units/unit[articulatoryFeatures/feature[. = $name]] and $units/unit[articulatoryFeatures/feature[. = 'Back']]" />
+				<xsl:when test="$name = 'Near-back' and $units/unit[articulatoryFeatures/feature[@class = $class][. = $name]] and $units/unit[articulatoryFeatures/feature[@class = $class][. = 'Back']]" />
 				<xsl:otherwise>
-					<xsl:if test="$units/unit[articulatoryFeatures/feature[. = $name]]">
+					<xsl:if test="$units/unit[articulatoryFeatures/feature[@class = $class][. = $name]]">
 						<colgroup xmlns="http://www.w3.org/1999/xhtml">
-							<xsl:for-each select="$units/unit[articulatoryFeatures/feature[. = $name]]">
+							<xsl:for-each select="$units/unit[articulatoryFeatures/feature[@class = $class][. = $name]]">
 								<col />
 							</xsl:for-each>
 						</colgroup>
@@ -332,10 +332,12 @@ exclude-result-prefixes="xhtml"
 		<xsl:choose>
 			<xsl:when test="$feature">
 				<xsl:variable name="featureName" select="$feature/name" />
-				<xsl:variable name="projectValue">
+				<td xmlns="http://www.w3.org/1999/xhtml">
 					<xsl:choose>
+						<!-- Hierarchical terminal features can have both binary values. -->
+						<!-- For example, an affricate has [=cont][+cont], a prenasalized consonant has [+nas][-nas]. -->
 						<xsl:when test="$feature/@class = 'terminal'">
-							<xsl:apply-templates select="$unit/hierarchicalFeatures/feature[substring(., 2) = $featureName]" mode="terminal" />
+							<xsl:apply-templates select="$unit/hierarchicalFeatures/feature[substring(., 2) = $featureName]" mode="bivalent" />
 						</xsl:when>
 						<xsl:when test="$feature/@class = 'nonTerminal'">
 							<xsl:if test="$unit/hierarchicalFeatures/feature[. = $featureName]">
@@ -348,59 +350,9 @@ exclude-result-prefixes="xhtml"
 							</xsl:if>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="substring($unit/binaryFeatures/feature[substring(., 2) = $featureName], 1, 1)" />
+							<xsl:apply-templates select="$unit/binaryFeatures/feature[substring(., 2) = $featureName]" mode="bivalent" />
 						</xsl:otherwise>
 					</xsl:choose>
-				</xsl:variable>
-				<td xmlns="http://www.w3.org/1999/xhtml">
-					<xsl:if test="$differences = 'true'">
-						<xsl:if test="string-length($literal) = 1">
-							<xsl:variable name="symbol" select="$symbols/symbol[@literal = $literal]" />
-							<xsl:if test="$symbol">
-								<xsl:variable name="programValue" select="substring($symbol/binaryFeatures/feature[substring(., 2) = $featureName], 1, 1)" />
-								<xsl:if test="$projectValue != $programValue">
-									<xsl:attribute name="class">
-										<xsl:value-of select="'different'" />
-									</xsl:attribute>
-								</xsl:if>
-							</xsl:if>
-						</xsl:if>
-					</xsl:if>
-					<xsl:choose>
-						<xsl:when test="$projectValue = '-'">
-							<xsl:value-of select="'&#x2013;'" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="$projectValue" />
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:if test="$differences = 'true'">
-						<xsl:if test="string-length($literal) = 1">
-							<xsl:variable name="symbol" select="$symbols/symbol[@literal = $literal]" />
-							<xsl:if test="$symbol">
-								<xsl:variable name="programValue" select="substring($symbol/binaryFeatures/feature[substring(., 2) = $featureName], 1, 1)" />
-								<xsl:if test="$projectValue != $programValue">
-									<xsl:if test="string-length($projectValue) = 0">
-										<xsl:value-of select="'&#x2022;'" />
-									</xsl:if>
-									<span class="different">
-										<xsl:value-of select="'/'" />
-										<xsl:choose>
-											<xsl:when test="string-length($programValue) = 0">
-												<xsl:value-of select="'&#x2022;'" />
-											</xsl:when>
-											<xsl:when test="$programValue = '-'">
-												<xsl:value-of select="'&#x2013;'" />
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="$programValue" />
-											</xsl:otherwise>
-										</xsl:choose>
-									</span>
-								</xsl:if>
-							</xsl:if>
-						</xsl:if>
-					</xsl:if>
 				</td>
 			</xsl:when>
 			<xsl:otherwise>
@@ -412,10 +364,38 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:template>
 
-	<!-- Hierarchical terminal features can have both binary values. -->
-	<!-- For example, an affricate has [=cont][+cont], a prenasalized consonant has [+nas][-nas]. -->
-	<xsl:template match="feature" mode="terminal">
-		<xsl:value-of select="substring(., 1, 1)" />
+	<xsl:template match="feature" mode="bivalent">
+		<xsl:variable name="featureValue" select="substring(., 1, 1)" />
+		<xsl:variable name="chartValue">
+			<xsl:choose>
+				<xsl:when test="$featureValue = '-'">
+					<xsl:value-of select="'&#x2013;'" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$featureValue" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="@marked">
+				<span xmlns="http://www.w3.org/1999/xhtml">
+					<xsl:attribute name="class">
+						<xsl:choose>
+							<xsl:when test="@marked = 'true'">
+								<xsl:value-of select="'marked'" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="'unmarked'" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:value-of select="$chartValue" />
+				</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$chartValue" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 </xsl:stylesheet>

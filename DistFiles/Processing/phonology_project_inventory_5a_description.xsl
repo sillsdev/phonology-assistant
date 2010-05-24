@@ -1,6 +1,10 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_5a_description.xsl 2010-04-09 -->
+  <!-- phonology_project_inventory_5a_description.xsl 2010-05-24 -->
+
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
+
+	<xsl:include href="phonology_project_inventory_boolean_conditions.xsl" />
 
 	<xsl:variable name="metadata" select="//div[@id = 'metadata']" />
 	<xsl:variable name="settings" select="$metadata/ul[@class = 'settings']" />
@@ -24,8 +28,8 @@
 			<xsl:apply-templates select="@*" />
 			<description>
 				<xsl:variable name="type" select="articulatoryFeatures/feature[@class = 'type']" />
-				<xsl:apply-templates select="$descriptions/patterns/pattern[@type = $type]/feature" mode="description">
-					<xsl:with-param name="articulatoryFeatures" select="articulatoryFeatures" />
+				<xsl:apply-templates select="$descriptions/patterns/pattern[@type = $type]/*" mode="description">
+					<xsl:with-param name="unit" select="." />
 				</xsl:apply-templates>
 			</description>
 			<xsl:apply-templates />
@@ -33,50 +37,50 @@
 	</xsl:template>
 
 	<!-- Select the literal feature if the phone has it. -->
-	<xsl:template match="pattern/feature" mode="description">
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:variable name="feature" select="." />
-		<xsl:apply-templates select="$articulatoryFeatures/feature[. = $feature]" mode="description">
-			<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+	<xsl:template match="pattern/articulatoryFeature" mode="description">
+		<xsl:param name="unit" />
+		<xsl:variable name="text" select="." />
+		<xsl:apply-templates select="$unit/articulatoryFeatures/feature[. = $text]" mode="description">
+			<xsl:with-param name="unit" select="$unit" />
 		</xsl:apply-templates>
 	</xsl:template>
 
 	<!-- Select any features that have the subclass. -->
-	<xsl:template match="pattern/feature[@subclass]" mode="description">
-		<xsl:param name="articulatoryFeatures" />
+	<xsl:template match="pattern/articulatoryFeature[@subclass]" mode="description">
+		<xsl:param name="unit" />
 		<xsl:variable name="subclass" select="@subclass" />
 		<xsl:choose>
 			<xsl:when test="@subclass = 'placeOfArticulation'">
 				<!-- Regardless of which is primary, in order by place (for example, labial-veiar, corono-velar). -->
 				<xsl:for-each select="$programArticulatoryFeatures/feature[@subclass = $subclass]">
-					<xsl:variable name="feature" select="name" />
-					<xsl:if test="$articulatoryFeatures/feature[. = $feature]">
-						<xsl:apply-templates select="$articulatoryFeatures/feature[. = $feature]" mode="description">
-							<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-						</xsl:apply-templates>
-					</xsl:if>
+					<xsl:variable name="name" select="name" />
+					<xsl:apply-templates select="$unit/articulatoryFeatures/feature[. = $name]" mode="description">
+						<xsl:with-param name="unit" select="$unit" />
+					</xsl:apply-templates>
 				</xsl:for-each>
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- Any non-primary precedes the primary feature (for example, nasal click). -->
-				<xsl:apply-templates select="$articulatoryFeatures/feature[@subclass = $subclass][@primary = 'false']" mode="description">
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+				<xsl:apply-templates select="$unit/articulatoryFeatures/feature[@subclass = $subclass][@primary = 'false']" mode="description">
+					<xsl:with-param name="unit" select="$unit" />
 				</xsl:apply-templates>
-				<xsl:apply-templates select="$articulatoryFeatures/feature[@subclass = $subclass][not(@primary = 'false')]" mode="description">
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+				<xsl:apply-templates select="$unit/articulatoryFeatures/feature[@subclass = $subclass][not(@primary = 'false')]" mode="description">
+					<!-- In a diphthong, order by position (not by primary/non-primary). -->
+					<xsl:sort select="@position" data-type="number" />
+					<xsl:with-param name="unit" select="$unit" />
 				</xsl:apply-templates>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
-	<!-- If there are any rules, apply them; otherwise just copy the feature. -->
-	<xsl:template match="articulatoryFeatures/feature" mode="description">
-		<xsl:param name="articulatoryFeatures" />
+	<!-- If there are any changes, apply them; otherwise just copy the feature. -->
+	<xsl:template match="unit/articulatoryFeatures/feature" mode="description">
+		<xsl:param name="unit" />
 		<xsl:choose>
 			<xsl:when test="$descriptions/changes/change">
 				<xsl:apply-templates select="$descriptions/changes/change[1]" mode="description">
 					<xsl:with-param name="feature" select="." />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+					<xsl:with-param name="unit" select="$unit" />
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:otherwise>
@@ -85,314 +89,94 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<!-- Process a potential change. -->
+	<!-- Make a change if it applies to this feature of the unit. -->
 	<xsl:template match="change" mode="description">
 		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
+		<xsl:param name="unit" />
+		<xsl:variable name="booleanFind">
+			<xsl:call-template name="booleanAnd">
+				<xsl:with-param name="booleanSequence">
+					<xsl:apply-templates select="find/*" mode="find">
+						<xsl:with-param name="feature" select="$feature" />
+					</xsl:apply-templates>
+				</xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="boolean">
+			<xsl:call-template name="booleanAnd">
+				<xsl:with-param name="booleanSequence">
+					<xsl:value-of select="$booleanFind" />
+					<xsl:if test="contains($booleanFind, 'true') and for">
+						<xsl:apply-templates select="for/*" mode="boolean">
+							<xsl:with-param name="unit" select="$unit" />
+						</xsl:apply-templates>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
 		<xsl:choose>
-			<!-- If this change has a well-formed find condition, test it. -->
-			<xsl:when test="count(find) = 1 and count(find/feature) = 1">
-				<xsl:apply-templates select="find/feature[1]" mode="description">
+			<!-- This change applies, so make it. -->
+			<xsl:when test="contains($boolean, 'true')">
+				<xsl:apply-templates select="replace/*" mode="replace">
 					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
 				</xsl:apply-templates>
 			</xsl:when>
-			<!-- If there are any more changes, process the next change. -->
+			<!-- If there are any more changes, go to the next change. -->
 			<xsl:when test="following-sibling::change">
 				<xsl:apply-templates select="following-sibling::change[1]" mode="description">
 					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
+					<xsl:with-param name="unit" select="$unit" />
 				</xsl:apply-templates>
 			</xsl:when>
-			<!-- Because there was no change, copy the feature. -->
+			<!-- Because no change applies, copy the feature. -->
 			<xsl:otherwise>
 				<xsl:copy-of select="$feature" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<!-- find -->
 
-	<!-- Test a find condition: feature name. -->
-	<xsl:template match="find/feature" mode="description">
+	<!-- Is this the feature? -->
+	<xsl:template match="find/articulatoryFeature" mode="find">
 		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
+		<xsl:variable name="text" select="." />
 		<xsl:choose>
-			<xsl:when test=". = $feature">
-				<xsl:call-template name="findTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
+			<xsl:when test="$feature = $text">
+				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:call-template name="findFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
+				<xsl:value-of select="'false'" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
-	<!-- Test a find condition: feature subclass. -->
-	<xsl:template match="find/feature[@subclass]" mode="description">
+	<!-- Does this feature have the subclass? -->
+	<xsl:template match="find/articulatoryFeature[@subclass]" mode="find">
 		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<xsl:when test="@subclass = $feature/@subclass">
-				<xsl:call-template name="findTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="findFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template name="findTrue">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If this change has a well-formed if condition, test it. -->
-			<!-- count(ancestor::change[1]/if) = 1 and ancestor::change[1]/if/* -->
-			<xsl:when test="count(ancestor::change[1]/if) = 1 and ancestor::change[1]/if/*">
-				<xsl:apply-templates select="ancestor::change[1]/if/*[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Replace the feature. -->
-			<xsl:otherwise>
-				<xsl:apply-templates select="ancestor::change[1]/replace" mode="description" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!-- TO DO: Rename findFalse/ifFalse as "change does not apply"? -->
-	<xsl:template name="findFalse">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there are any more rules. -->
-			<xsl:when test="ancestor::change[1]/following-sibling::change">
-				<xsl:apply-templates select="ancestor::change[1]/following-sibling::change[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Because no rules applied, copy the feature. -->
-			<xsl:otherwise>
-				<xsl:copy-of select="$feature" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<!-- if -->
-
-	<xsl:template name="ifTrue">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there is another if condition, test it. -->
-			<xsl:when test="following-sibling::*">
-				<xsl:apply-templates select="following-sibling::*[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Replace the feature. -->
-			<xsl:otherwise>
-				<xsl:apply-templates select="ancestor::change[1]/replace" mode="description" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!-- TO DO: Rename findFalse/ifFalse as "change does not apply"? -->
-	<xsl:template name="ifFalse">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there are any more rules. -->
-			<xsl:when test="ancestor::change[1]/following-sibling::change">
-				<xsl:apply-templates select="ancestor::change[1]/following-sibling::change[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Because no rules applied, copy the feature. -->
-			<xsl:otherwise>
-				<xsl:copy-of select="$feature" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="if/feature" mode="description">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:variable name="this" select="." />
-		<xsl:choose>
-			<xsl:when test="$articulatoryFeatures/feature[. = $this]">
-				<xsl:call-template name="ifTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="ifFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="if/feature[@subclass]" mode="description">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
 		<xsl:variable name="subclass" select="@subclass" />
 		<xsl:choose>
-			<xsl:when test="$articulatoryFeatures/feature[@subclass = $subclass]">
-				<xsl:call-template name="ifTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
+			<xsl:when test="$feature/@subclass = $subclass">
+				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:call-template name="ifFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="if/feature[@subclass][@count]" mode="description">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:variable name="subclass" select="@subclass" />
-		<xsl:variable name="count" select="@count" />
-		<xsl:choose>
-			<xsl:when test="count($articulatoryFeatures/feature[@subclass = $subclass]) = $count">
-				<xsl:call-template name="ifTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="ifFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<!-- anyOf -->
-
-	<xsl:template match="if/anyOf" mode="description">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there is at least one alternative, test it. -->
-			<xsl:when test="*">
-				<xsl:apply-templates select="*[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="anyOfTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="if/anyOf/feature" mode="description">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:variable name="this" select="." />
-		<xsl:choose>
-			<xsl:when test="$articulatoryFeatures/feature[. = $this]">
-				<xsl:call-template name="anyOfTrue">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="anyOfFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template name="anyOfTrue">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there is another if condition, test it. -->
-			<xsl:when test="ancestor::anyOf[1]/following-sibling::*">
-				<xsl:apply-templates select="ancestor::anyOf[1]/following-sibling::*[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Replace the feature. -->
-			<xsl:otherwise>
-				<xsl:apply-templates select="ancestor::change[1]/replace" mode="description" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template name="anyOfFalse">
-		<xsl:param name="feature" />
-		<xsl:param name="articulatoryFeatures" />
-		<xsl:choose>
-			<!-- If there are any more anyOf. -->
-			<xsl:when test="following-sibling::*">
-				<xsl:apply-templates select="following-sibling::*[1]" mode="description">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:apply-templates>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- TO DO: Rename findFalse/ifFalse as "change does not apply"? -->
-				<xsl:call-template name="ifFalse">
-					<xsl:with-param name="feature" select="$feature" />
-					<xsl:with-param name="articulatoryFeatures" select="$articulatoryFeatures" />
-				</xsl:call-template>
+				<xsl:value-of select="'false'" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
 	<!-- replace -->
 
-	<xsl:template match="replace" mode="description">
-		<xsl:param name="feature" />
-		<xsl:apply-templates mode="description">
-			<xsl:with-param name="feature" select="$feature" />
-		</xsl:apply-templates>
-	</xsl:template>
-
-	<xsl:template match="replace/feature" mode="description">
+	<xsl:template match="replace/feature[not(node())]" mode="replace">
 		<xsl:param name="feature" />
 		<xsl:copy-of select="$feature" />
 	</xsl:template>
 
-	<xsl:template match="replace/feature[text()]" mode="description">
-		<xsl:param name="feature" />
+	<xsl:template match="replace/feature[text()]" mode="replace">
 		<xsl:copy-of select="." />
 	</xsl:template>
 
-	<xsl:template match="replace/text" mode="description">
-		<xsl:param name="feature" />
+	<xsl:template match="replace/text" mode="replace">
 		<xsl:copy-of select="." />
 	</xsl:template>
 

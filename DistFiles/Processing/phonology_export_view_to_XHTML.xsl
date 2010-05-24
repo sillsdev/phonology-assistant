@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2010-05-13 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2010-05-21 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
@@ -26,6 +26,7 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="interactiveWebPage" select="$options/xhtml:li[@class = 'interactiveWebPage']" />
+	<xsl:variable name="genericStylesheetForCSS3" select="$options/xhtml:li[@class = 'genericStylesheetForCSS3']" />
 	<xsl:variable name="genericStylesheetForIE7" select="$options/xhtml:li[@class = 'genericStylesheetForIE7']" />
 	<xsl:variable name="genericStylesheetForIE6" select="$options/xhtml:li[@class = 'genericStylesheetForIE6']" />
 	<xsl:variable name="tableOfDetails" select="$options/xhtml:li[@class = 'tableOfDetails']" />
@@ -48,6 +49,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:param name="X-UA-Compatible" select="'IE=edge'" />
 	<xsl:param name="genericStylesheetFile" select="'phonology.css'" />
 	<xsl:param name="genericStylesheetFilePrint" select="'phonology_print.css'" />
+	<xsl:param name="genericStylesheetFileCSS3" select="'phonology_CSS3.css'" />
 	<xsl:param name="genericStylesheetFileIE7" select="'phonology_IE7.css'" />
 	<xsl:param name="genericStylesheetFileIE6" select="'phonology_IE6.css'" />
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
@@ -87,6 +89,17 @@ exclude-result-prefixes="xhtml"
 				</xsl:if>
 				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFile)}" media="all" />
 				<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFilePrint)}" media="print" />
+				<xsl:if test="$genericStylesheetForCSS3 = 'true'">
+					<!-- Internet Explorer 9 is expected to support rounded borders. -->
+					<!-- The comments hide the script from Internet Explorer 8 and earlier. -->
+					<xsl:comment>
+						<xsl:value-of select="'[if gt IE 8]&gt;&lt;!'" />
+					</xsl:comment>
+					<link rel="stylesheet" type="text/css" href="{concat($genericRelativePath, $genericStylesheetFileCSS3)}" media="all" />
+					<xsl:comment>
+						<xsl:value-of select="'&lt;![endif]'" />
+					</xsl:comment>
+				</xsl:if>
 				<xsl:if test="$genericStylesheetForIE7 = 'true'">
 					<!-- Here is an example of a conditional comment containing a style sheet: -->
 					<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="../phonology_IE7.css" /><![endif]-->

@@ -1,7 +1,5 @@
-﻿/* phonology.css 2010-05-14 */
+﻿/* phonology.css 2010-05-24 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
-
-@import url('phonology_CSS3.css'); /* For border-radius and rgba. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
 
@@ -694,7 +692,8 @@ div.collapsed h1,
 div.collapsed h2,
 div.collapsed h3,
 div.collapsed h4,
-table.list tbody.collapsed *
+table.list tbody.collapsed *,
+table.feature .unmarked
 {
 color: #999999; /* text collapsed */
 }
@@ -885,15 +884,18 @@ th, td /* default color, but not all cells actually have borders. */
 border-color: #999999; /* border */
 }
 
-table.list tbody th,
+table.list tbody th
+{
+border-bottom-color: transparent; /* not active */
+}
+
 table.list tbody td,
 table.features td
 {
 border-color: transparent; /* not active */
 }
 
-table.features tbody + tbody tr:first-child td,
-table.list tr.heading th
+table.features tbody + tbody tr:first-child td
 {
 border-top-color: #999999; /* border */
 }
