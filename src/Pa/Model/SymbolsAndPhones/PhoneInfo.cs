@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
@@ -69,7 +70,10 @@ namespace SIL.Pa.Model
 			IsUndefined = isUndefined;
 
 			if (!string.IsNullOrEmpty(phone))
+			{
 				InitializeFeatureMasks(phone);
+				InitializeBaseChar(phone);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,10 +81,8 @@ namespace SIL.Pa.Model
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeFeatureMasks(string phone)
+		private void InitializeFeatureMasks(IEnumerable<char> phone)
 		{
-			bool phoneIsAmbiguous = CheckIfAmbiguous(phone);
-	
 			m_aMask = DefaultAMask = App.AFeatureCache.GetEmptyMask();
 			m_bMask = DefaultBMask = App.BFeatureCache.GetEmptyMask();
 
@@ -88,22 +90,60 @@ namespace SIL.Pa.Model
 			foreach (char c in phone)
 			{
 				IPASymbol charInfo = App.IPASymbolCache[c];
-				if (charInfo == null)
-					continue;
-
-				// This will make the final base char in the phone the one that determines
-				// what type of phone this is. If the phone is an ambiguous sequence, then
-				// it has already had it's character type and base character specified.
-				if (!phoneIsAmbiguous && charInfo.IsBase)
+				if (charInfo != null)
 				{
-					CharType = charInfo.Type;
-					m_baseChar = c;
+					m_aMask |= charInfo.AMask;
+					m_bMask |= charInfo.BMask;
+					DefaultAMask |= charInfo.AMask;
+					DefaultBMask |= charInfo.BMask;
 				}
+			}
+		}
 
-				m_aMask |= charInfo.AMask;
-				m_bMask |= charInfo.BMask;
-				DefaultAMask |= charInfo.AMask;
-				DefaultBMask |= charInfo.BMask;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InitializeBaseChar(string phone)
+		{
+			if (CheckIfAmbiguous(phone))
+				return;
+
+			var bldr = new StringBuilder();
+			IPASymbol firstChar = null;
+			IPASymbol lastChar = null;
+
+			foreach (char c in phone)
+			{
+				var charInfo = App.IPASymbolCache[c];
+				if (charInfo != null && charInfo.IsBase)
+				{
+					if (charInfo.Type == IPASymbolType.Consonant)
+						bldr.Append('c');
+					else if (charInfo.Type == IPASymbolType.Vowel)
+						bldr.Append('v');
+
+					if (firstChar == null)
+						firstChar = charInfo;
+
+					lastChar = charInfo;
+				}
+			}
+
+			if (bldr.Replace("c", string.Empty).Length == 0)
+			{
+				// When the sequence of base char. symbols are all consonants,
+				// then use the last symbol as the base character.
+				m_baseChar = lastChar.Literal[0];
+				CharType = IPASymbolType.Consonant;
+			}
+			else
+			{
+				// The sequence of base char. symbols are not all consonants,
+				// so use the first symbol as the base character.
+				m_baseChar = firstChar.Literal[0];
+				CharType = IPASymbolType.Vowel;
 			}
 		}
 

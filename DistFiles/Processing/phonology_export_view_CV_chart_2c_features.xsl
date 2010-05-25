@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2c_features.xsl 2010-04-20 -->
+  <!-- phonology_export_view_CV_chart_2c_features.xsl 2010-05-24 -->
 	<!-- Remove empty tbody elements (that is, if they contains no features that distinguish units). -->
 	<!-- In hierarchical features table: Add colgroup elements and colspan attributes. -->
 
@@ -12,9 +12,11 @@ exclude-result-prefixes="xhtml"
   <!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
 		<xsl:param name="colspanTotal" />
-    <xsl:copy>
+		<xsl:param name="colspanDelta" />
+		<xsl:copy>
 			<xsl:apply-templates select="@* | node()">
 				<xsl:with-param name="colspanTotal" select="$colspanTotal" />
+				<xsl:with-param name="colspanDelta" select="$colspanDelta" />
 			</xsl:apply-templates>
     </xsl:copy>
   </xsl:template>
@@ -39,7 +41,7 @@ exclude-result-prefixes="xhtml"
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:variable>
-		<xsl:variable name="colspanTotal">
+		<xsl:variable name="colspanMax">
 			<xsl:choose>
 				<xsl:when test="$colspanUnivalentMax &gt; $colspanBivalentMax">
 					<xsl:value-of select="$colspanUnivalentMax" />
@@ -49,6 +51,17 @@ exclude-result-prefixes="xhtml"
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="colspanDelta">
+			<xsl:choose>
+				<xsl:when test="xhtml:tbody/xhtml:tr[1]/xhtml:td[1]/@colspan">
+					<xsl:value-of select="number(xhtml:tbody/xhtml:tr[1]/xhtml:td[1]/@colspan)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="0" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="colspanTotal" select="$colspanMax - $colspanDelta" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<xsl:call-template name="colgroup">
@@ -59,6 +72,7 @@ exclude-result-prefixes="xhtml"
 			</colgroup>
 			<xsl:apply-templates>
 				<xsl:with-param name="colspanTotal" select="$colspanTotal" />
+				<xsl:with-param name="colspanDelta" select="$colspanDelta" />
 			</xsl:apply-templates>
 		</xsl:copy>
 	</xsl:template>
@@ -87,12 +101,28 @@ exclude-result-prefixes="xhtml"
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'univalent']">
+		<xsl:param name="colspanTotal" select="1" />
+		<xsl:param name="colspanDelta" select="0" />
+		<xsl:variable name="colspan" select="xhtml:td[1]/@colspan" />
+		<xsl:variable name="feature" select="xhtml:td[@class = 'name']" />
+		<xsl:if test="following-sibling::xhtml:tr[1][@class = 'bivalent'] or following-sibling::xhtml:tr[1]/xhtml:td[1]/@colspan != $colspan or (../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $feature]] and ../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][not(xhtml:li[. = $feature])])">
+			<xsl:copy>
+				<xsl:apply-templates select="@* | node()">
+					<xsl:with-param name="colspanTotal" select="$colspanTotal" />
+					<xsl:with-param name="colspanDelta" select="$colspanDelta" />
+				</xsl:apply-templates>
+			</xsl:copy>
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr/xhtml:td[@class = 'name']">
 		<xsl:param name="colspanTotal" select="1" />
+		<xsl:param name="colspanDelta" select="0" />
 		<xsl:variable name="colspanPreceding">
 			<xsl:choose>
 				<xsl:when test="preceding-sibling::xhtml:td[@colspan]">
-					<xsl:value-of select="number(preceding-sibling::xhtml:td[@colspan]/@colspan)" />
+					<xsl:value-of select="number(preceding-sibling::xhtml:td[@colspan]/@colspan) - $colspanDelta" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="0" />
@@ -120,8 +150,9 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Replace colspan with corresponding number of empty cells. -->
 	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr/xhtml:td[1][@colspan]">
+		<xsl:param name="colspanDelta" select="0" />
 		<xsl:call-template name="colspan">
-			<xsl:with-param name="colspan" select="@colspan" />
+			<xsl:with-param name="colspan" select="number(@colspan) - $colspanDelta" />
 		</xsl:call-template>
 	</xsl:template>
 

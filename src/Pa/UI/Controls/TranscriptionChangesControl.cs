@@ -125,14 +125,13 @@ namespace SIL.Pa.UI.Controls
 			m_grid.ColumnHeadersHeightSizeMode =
 				DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			m_grid.RowHeadersVisible = false;
-			m_grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.WindowText;
-			m_grid.RowsDefaultCellStyle.SelectionBackColor = ColorHelper.LightHighlight;
 			m_grid.RowsRemoved += m_grid_RowsRemoved;
 			m_grid.CellEndEdit += m_grid_CellEndEdit;
 			m_grid.CellBeginEdit += m_grid_CellBeginEdit;
 			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			m_grid.CellPainting += m_grid_CellPainting;
 			m_grid.ColumnWidthChanged += m_grid_ColumnWidthChanged;
+			m_grid.CellFormatting += App.HandleFormattingSelectedGridCell;
 
 			// The sequence-to-convert column.
 			DataGridViewColumn col = new RadioButtonColumn("col0", false, true);

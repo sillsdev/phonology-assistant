@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2b_features.xsl 2010-04-20 -->
+  <!-- phonology_export_view_CV_chart_2b_features.xsl 2010-05-24 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
 	<!-- Keep the features that distinguish units in the CV chart. -->
 
@@ -48,9 +48,6 @@ exclude-result-prefixes="xhtml"
 		<xsl:variable name="featureMinus" select="concat('-', $featureName)" />
 		<xsl:variable name="countPlus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][xhtml:li[. = $featurePlus]])" />
 		<xsl:variable name="countMinus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][xhtml:li[. = $featureMinus]])" />
-		<!--
-		<xsl:variable name="countUnspecified" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][not(xhtml:li[. = $featurePlus or . = $featureMinus])])" />
-		-->
 		<xsl:choose>
 			<!-- Remove the feature if no unit has either value. -->
 			<xsl:when test="$countPlus = 0 and $countMinus = 0" />
@@ -104,20 +101,18 @@ exclude-result-prefixes="xhtml"
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Keep a bivalent hierarchical feature if at least one unit has a value. -->
+	<!-- Keep a bivalent hierarchical feature only if at least one of its values distinguishes units. -->
 	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:tbody/xhtml:tr[@class = 'bivalent']">
 		<xsl:variable name="featureName" select="xhtml:td[@class = 'name']" />
 		<xsl:variable name="featurePlus" select="concat('+', $featureName)" />
 		<!-- Important: Although cells for minus values might contain en-dash, list items have minus. -->
 		<xsl:variable name="featureMinus" select="concat('-', $featureName)" />
-		<xsl:variable name="countPlus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featurePlus]])" />
-		<xsl:variable name="countMinus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featureMinus]])" />
-		<xsl:if test="$countPlus != 0 or $countMinus != 0">
+		<xsl:if test="(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featurePlus]] and ../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][not(xhtml:li[. = $featurePlus])]) or (../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featureMinus]] and ../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][not(xhtml:li[. = $featureMinus])])">
 			<xsl:copy>
 				<xsl:apply-templates select="@*" />
 				<xsl:apply-templates select="xhtml:td">
-					<xsl:with-param name="countPlus" select="$countPlus" />
-					<xsl:with-param name="countMinus" select="$countMinus" />
+					<xsl:with-param name="countPlus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featurePlus]])" />
+					<xsl:with-param name="countMinus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featureMinus]])" />
 				</xsl:apply-templates>
 			</xsl:copy>
 		</xsl:if>

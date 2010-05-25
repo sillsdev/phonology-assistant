@@ -86,19 +86,26 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public void InitializeForm(Form frm)
 		{
-			if (Bounds.Height <= 0 || DPI != m_currDpi)
-			{
-				frm.StartPosition = FormStartPosition.CenterScreen;
-				DPI = m_currDpi;
-			}
-			else
-			{
-				frm.StartPosition = FormStartPosition.Manual;
-				frm.Bounds = Bounds;
+			if (frm == null)
+				return;
 
-				if (frm.WindowState != State)
-					frm.WindowState = State;
+			try
+			{
+				if (Bounds.Height <= 0 || DPI != m_currDpi)
+				{
+					frm.StartPosition = FormStartPosition.CenterScreen;
+					DPI = m_currDpi;
+				}
+				else
+				{
+					frm.StartPosition = FormStartPosition.Manual;
+					frm.Bounds = Bounds;
+
+					if (frm.WindowState != State)
+						frm.WindowState = State;
+				}
 			}
+			catch { }
 
 			frm.ResizeEnd += HandleFormResizeEnd;
 			frm.LocationChanged += HandleFormLocationChanged;

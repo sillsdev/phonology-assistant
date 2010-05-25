@@ -73,12 +73,19 @@ namespace SilUtils
 		{
 			foreach (var col in Columns)
 			{
+				if (!grid.Columns.Contains(col.Id))
+					continue;
+
 				grid.Columns[col.Id].Visible = col.Visible;
 
 				if (col.Width >= 0)
 					grid.Columns[col.Id].Width = col.Width;
 
-				if (col.DisplayIndex >= 0)
+				if (col.DisplayIndex < 0)
+					grid.Columns[col.Id].DisplayIndex = 0;
+				else if (col.DisplayIndex >= grid.ColumnCount)
+					grid.Columns[col.Id].DisplayIndex = grid.ColumnCount - 1;
+				else
 					grid.Columns[col.Id].DisplayIndex = col.DisplayIndex;
 			}
 

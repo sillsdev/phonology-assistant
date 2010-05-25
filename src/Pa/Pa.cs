@@ -1028,6 +1028,30 @@ namespace SIL.Pa
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void HandleFormattingSelectedGridCell(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			var grid = sender as DataGridView;
+
+			if (grid.CurrentCellAddress.Y == e.RowIndex)
+			{
+				if (grid.CurrentCellAddress.X == e.ColumnIndex)
+				{
+					e.CellStyle.SelectionBackColor = SelectedWordListCellBackColor;
+					e.CellStyle.SelectionForeColor = SelectedWordListCellForeColor;
+				}
+				else
+				{
+					e.CellStyle.SelectionBackColor = SelectedFocusedWordListRowBackColor;
+					e.CellStyle.SelectionForeColor = SelectedFocusedWordListRowForeColor;
+				}
+			}
+		}
+
 		#region Options Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

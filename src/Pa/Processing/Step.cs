@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
@@ -45,8 +46,10 @@ namespace SIL.Pa.Processing
 				// TO DO: If you enable the document() function, restrict the resources that can be accessed
 				// by passing an XmlSecureResolver object to the Transform method.
 				// The XmlResolver used to resolve any style sheets referenced in XSLT import and include elements.
-				XsltSettings settings = new XsltSettings(true, false);
-				xslt.Load(xsltFilePath, settings, null);
+				var settings = new XsltSettings(true, false);
+				var resolver = new XmlUrlResolver();
+				resolver.Credentials = CredentialCache.DefaultCredentials;
+				xslt.Load(xsltFilePath, settings, resolver);
 			}
 			catch (Exception e)
 			{

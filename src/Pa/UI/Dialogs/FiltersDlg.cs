@@ -441,6 +441,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{
+			App.HandleFormattingSelectedGridCell(sender, e);
+
 			if (e.ColumnIndex == 2)
 			{
 				string fieldName = m_grid[kFieldCol, e.RowIndex].Value as string;

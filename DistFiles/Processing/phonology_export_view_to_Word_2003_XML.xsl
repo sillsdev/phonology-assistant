@@ -11,7 +11,7 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-05-13 -->
+  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-05-24 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
@@ -24,7 +24,7 @@ exclude-result-prefixes="xhtml"
   <xsl:param name="cantSplit" select="$heading-rows-repeat = 'true'" />
   <xsl:param name="allow-rows-to-break-across-pages" select="'true'" />
   <xsl:param name="tblHeader" select="$allow-rows-to-break-across-pages = 'true'" />
-  <xsl:param name="tc-tcPr-vAlign" select="'center'" />
+  <xsl:param name="tc-tcPr-vAlign" select="'top'" />
   <xsl:param name="tc-tcPr-tcBorders-sz-thin" select="4" />
   <xsl:param name="tc-tcPr-tcBorders-sz-thick" select="12" />
   <xsl:param name="tc-tcPr-tcBorders-color" select="999999" />
@@ -626,7 +626,10 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         <w:r>
           <xsl:variable name="rStyle-val">
             <xsl:choose>
-              <xsl:when test="not(@class)">
+							<xsl:when test="self::xhtml:th and ../../self::xhtml:tbody and ../../../@class = 'CV chart'">
+								<xsl:value-of select="'Phonetic'" />
+							</xsl:when>
+							<xsl:when test="not(@class)">
                 <xsl:value-of select="''" />
               </xsl:when>
               <xsl:when test="starts-with(@class, 'Phonetic')">
@@ -812,7 +815,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </w:tblCellMar>
       </w:tblPr>
       <w:tcPr>
-        <w:vAlign w:val="center" />
+        <w:vAlign w:val="top" />
       </w:tcPr>
       <w:tblStylePr w:type="firstRow">
         <w:pPr>
@@ -926,7 +929,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </w:tblCellMar>
       </w:tblPr>
       <w:tcPr>
-        <w:vAlign w:val="center" />
+        <w:vAlign w:val="top" />
       </w:tcPr>
       <w:tblStylePr w:type="firstRow">
         <w:pPr>
@@ -963,7 +966,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </w:tblCellMar>
       </w:tblPr>
       <w:tcPr>
-        <w:vAlign w:val="center" />
+        <w:vAlign w:val="top" />
       </w:tcPr>
     </w:style>
   </xsl:template>

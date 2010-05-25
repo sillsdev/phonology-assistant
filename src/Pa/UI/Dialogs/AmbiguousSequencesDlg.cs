@@ -37,7 +37,6 @@ namespace SIL.Pa.UI.Dialogs
 			BuildGrid();
 			LoadGrid();
 			
-			m_grid.Font = FontHelper.UIFont;
 			m_grid.Columns["seq"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			m_grid.Columns["seq"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			m_grid.Columns["base"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
@@ -133,6 +132,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			m_grid.Font = FontHelper.UIFont;
+			m_grid.CellFormatting += App.HandleFormattingSelectedGridCell;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
 			col.Width = 90;
