@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_to_CV_chart_2.xsl 2010-04-20 -->
+  <!-- phonology_project_to_CV_chart_2.xsl 2010-05-26 -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
@@ -62,11 +62,17 @@
 		<!--
 		<Heading text="{$featureName}" SubHeadingsVisible="false" Group="{$group}">
 		-->
-		<Heading text="{$featureName}" Group="{$group}">
-			<xsl:for-each select="row">
-				<SubHeading />
-			</xsl:for-each>
-		</Heading>
+		<!-- If a researcher explicitly selects multiple rowgroup features for a phone, -->
+		<!-- a rowgroup feature might lack row children. -->
+		<!-- TO DO: User interface to identify the primary (versus secondary) colgroup and rowgroup features? -->
+		<!-- That is, place or manner of articulation for consonant, backness or height for vowel diphthong. -->
+		<xsl:if test="row">
+			<Heading text="{$featureName}" Group="{$group}">
+				<xsl:for-each select="row">
+					<SubHeading />
+				</xsl:for-each>
+			</Heading>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="units/unit">
